@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
 
+import 'package:ffi/ffi.dart';
+
 const int _kMaxSmi64 = (1 << 62) - 1;
 const int _kMaxSmi32 = (1 << 30) - 1;
 final int _maxSize = sizeOf<IntPtr>() == 8 ? _kMaxSmi64 : _kMaxSmi32;
@@ -54,7 +56,7 @@ class Utf8 extends Struct<Utf8> {
   static Pointer<Utf8> toUtf8(String string) {
     final units = utf8.encode(string);
     final Pointer<Uint8> result =
-        Pointer<Uint8>.allocate(count: units.length + 1);
+        allocate<Uint8>(count: units.length + 1);
     final Uint8List nativeString =
         result.asExternalTypedData(count: units.length + 1);
     nativeString.setAll(0, units);

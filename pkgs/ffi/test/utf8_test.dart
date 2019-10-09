@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 import 'package:ffi/ffi.dart';
 
 Pointer<Uint8> _bytesFromList(List<int> ints) {
-  final Pointer<Uint8> ptr = Pointer.allocate(count: ints.length);
+  final Pointer<Uint8> ptr = allocate(count: ints.length);
   final Uint8List list = ptr.asExternalTypedData(count: ints.length);
   list.setAll(0, ints);
   return ptr;
@@ -24,7 +24,7 @@ main() {
     final matcher =
         equals([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0]);
     expect(end, matcher);
-    converted.free();
+    free(converted);
   });
 
   test("fromUtf8 ASCII", () {
@@ -43,7 +43,7 @@ main() {
     final matcher =
         equals([240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0]);
     expect(end, matcher);
-    converted.free();
+    free(converted);
   });
 
   test("formUtf8 emoji", () {
@@ -60,7 +60,7 @@ main() {
     final Uint8List end =
         converted.cast<Uint8>().asExternalTypedData(count: length + 1);
     expect(end, equals([237, 160, 128, 225, 128, 128, 0]));
-    converted.free();
+    free(converted);
   });
 
   test("fromUtf8 unpaired surrogate", () {

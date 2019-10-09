@@ -16,7 +16,7 @@ main() {
         converted.asExternalTypedData(count: start.codeUnits.length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
-    converted.free();
+    free(converted);
   });
 
   test("toUtf16 emoji", () {
@@ -27,6 +27,6 @@ main() {
         converted.cast<Uint16>().asExternalTypedData(count: length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
-    converted.free();
+    free(converted);
   });
 }

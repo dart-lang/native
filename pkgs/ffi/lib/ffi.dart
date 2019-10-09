@@ -4,3 +4,4 @@
 
 export 'src/utf8.dart';
 export 'src/utf16.dart';
+export 'src/allocation.dart' show allocate, free;

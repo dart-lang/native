@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
 
+import 'package:ffi/ffi.dart';
+
 /// [Utf16] implements conversion between Dart strings and null-terminated
 /// Utf6-encoded "char*" strings in C.
 ///
@@ -21,8 +23,7 @@ class Utf16 extends Struct<Utf16> {
   /// Returns a malloc-allocated pointer to the result.
   static Pointer<Utf16> toUtf16(String s) {
     final units = s.codeUnits;
-    final Pointer<Uint16> result =
-        Pointer<Uint16>.allocate(count: units.length + 1);
+    final Pointer<Uint16> result = allocate<Uint16>(count: units.length + 1);
     final Uint16List nativeString =
         result.asExternalTypedData(count: units.length + 1);
     nativeString.setAll(0, units);
