@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1+1
+
+* Fix documentation link
+
 ## 0.1.1
 
 * Add basic Utf16 support

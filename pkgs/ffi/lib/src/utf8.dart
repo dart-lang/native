@@ -55,8 +55,7 @@ class Utf8 extends Struct<Utf8> {
   /// Returns a malloc-allocated pointer to the result.
   static Pointer<Utf8> toUtf8(String string) {
     final units = utf8.encode(string);
-    final Pointer<Uint8> result =
-        allocate<Uint8>(count: units.length + 1);
+    final Pointer<Uint8> result = allocate<Uint8>(count: units.length + 1);
     final Uint8List nativeString =
         result.asExternalTypedData(count: units.length + 1);
     nativeString.setAll(0, units);
