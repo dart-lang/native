@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1+2
+
+* Expand readme
+
 ## 0.1.1+1
 
 * Fix documentation link
