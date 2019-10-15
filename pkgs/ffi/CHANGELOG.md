@@ -2,7 +2,7 @@
 
 ## 0.1.3-dev.2
 
-Incorporate struct API changes (drop type argument of structs).
+Incorporate struct API changes, drop type argument of structs.
 
 ## 0.1.3-dev.1
 
