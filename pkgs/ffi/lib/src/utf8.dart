@@ -19,13 +19,13 @@ final int _maxSize = sizeOf<IntPtr>() == 8 ? _kMaxSmi64 : _kMaxSmi32;
 /// native function signatures.
 //
 // TODO(https://github.com/dart-lang/ffi/issues/4): No need to use
-// 'asExternalTypedData' when Pointer operations are performant.
+// 'asTypedList' when Pointer operations are performant.
 class Utf8 extends Struct {
   /// Returns the length of a null-terminated string -- the number of (one-byte)
   /// characters before the first null byte.
   static int strlen(Pointer<Utf8> string) {
     final Pointer<Uint8> array = string.cast<Uint8>();
-    final Uint8List nativeString = array.asExternalTypedData(count: _maxSize);
+    final Uint8List nativeString = array.asTypedList(_maxSize);
     return nativeString.indexWhere((char) => char == 0);
   }
 
@@ -41,9 +41,7 @@ class Utf8 extends Struct {
   static String fromUtf8(Pointer<Utf8> string) {
     final int length = strlen(string);
     return utf8.decode(Uint8List.view(
-        string.cast<Uint8>().asExternalTypedData(count: length).buffer,
-        0,
-        length));
+        string.cast<Uint8>().asTypedList(length).buffer, 0, length));
   }
 
   /// Convert a [String] to a Utf8-encoded null-terminated C string.
@@ -56,8 +54,7 @@ class Utf8 extends Struct {
   static Pointer<Utf8> toUtf8(String string) {
     final units = utf8.encode(string);
     final Pointer<Uint8> result = allocate<Uint8>(count: units.length + 1);
-    final Uint8List nativeString =
-        result.asExternalTypedData(count: units.length + 1);
+    final Uint8List nativeString = result.asTypedList(units.length + 1);
     nativeString.setAll(0, units);
     nativeString[units.length] = 0;
     return result.cast();

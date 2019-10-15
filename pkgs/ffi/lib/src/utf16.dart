@@ -24,8 +24,7 @@ class Utf16 extends Struct {
   static Pointer<Utf16> toUtf16(String s) {
     final units = s.codeUnits;
     final Pointer<Uint16> result = allocate<Uint16>(count: units.length + 1);
-    final Uint16List nativeString =
-        result.asExternalTypedData(count: units.length + 1);
+    final Uint16List nativeString = result.asTypedList(units.length + 1);
     nativeString.setAll(0, units);
     nativeString[units.length] = 0;
     return result.cast();
