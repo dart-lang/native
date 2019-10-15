@@ -20,7 +20,7 @@ final int _maxSize = sizeOf<IntPtr>() == 8 ? _kMaxSmi64 : _kMaxSmi32;
 //
 // TODO(https://github.com/dart-lang/ffi/issues/4): No need to use
 // 'asExternalTypedData' when Pointer operations are performant.
-class Utf8 extends Struct<Utf8> {
+class Utf8 extends Struct {
   /// Returns the length of a null-terminated string -- the number of (one-byte)
   /// characters before the first null byte.
   static int strlen(Pointer<Utf8> string) {

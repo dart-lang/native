@@ -13,7 +13,7 @@ import 'package:ffi/ffi.dart';
 ///
 /// [Utf16] is respresented as a struct so that `Pointer<Utf16>` can be used in
 /// native function signatures.
-class Utf16 extends Struct<Utf16> {
+class Utf16 extends Struct {
   /// Convert a [String] to a Utf16-encoded null-terminated C string.
   ///
   /// If 'string' contains NULL bytes, the converted string will be truncated
