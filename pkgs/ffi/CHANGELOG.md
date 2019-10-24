@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+Bump SDK constraint to `>= 2.6.0-dev.8.2` which contains the new API of `dart:ffi`.
+
 ## 0.1.3-dev.3
 
 Replace use of deprecated `asExternalTypedData` with `asTypedList`.
