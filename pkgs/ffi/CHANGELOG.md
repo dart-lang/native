@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+Stable release incorporating all the previous dev release changes.
+
+Bump SDK constraint to `>= 2.6.0`.
+
 ## 0.1.3-dev.4
 
 Bump SDK constraint to `>= 2.6.0-dev.8.2` which contains the new API of `dart:ffi`.
