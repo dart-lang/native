@@ -9,7 +9,7 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 
 /// [Utf16] implements conversion between Dart strings and null-terminated
-/// Utf6-encoded "char*" strings in C.
+/// UTF-16 encoded "char*" strings in C.
 ///
 /// [Utf16] is respresented as a struct so that `Pointer<Utf16>` can be used in
 /// native function signatures.
