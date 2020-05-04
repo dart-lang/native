@@ -51,22 +51,6 @@ main() {
     expect(end, "😎👿💬");
   });
 
-  test("toUtf8 unpaired surrogate", () {
-    final String start = String.fromCharCodes([0xD800, 0x1000]);
-    final Pointer<Utf8> converted = Utf8.toUtf8(start).cast();
-    final int length = Utf8.strlen(converted);
-    final Uint8List end = converted.cast<Uint8>().asTypedList(length + 1);
-    expect(end, equals([237, 160, 128, 225, 128, 128, 0]));
-    free(converted);
-  });
-
-  test("fromUtf8 unpaired surrogate", () {
-    final Pointer<Utf8> utf8 =
-        _bytesFromList([237, 160, 128, 225, 128, 128, 0]).cast();
-    final String end = Utf8.fromUtf8(utf8);
-    expect(end, equals(String.fromCharCodes([0xD800, 0x1000])));
-  });
-
   test("fromUtf8 invalid", () {
     final Pointer<Utf8> utf8 = _bytesFromList([0x80, 0x00]).cast();
     expect(() => Utf8.fromUtf8(utf8), throwsA(isFormatException));
