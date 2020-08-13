@@ -32,10 +32,8 @@ class Utf8 extends Struct {
   /// Creates a [String] containing the characters UTF-8 encoded in [string].
   ///
   /// The [string] must be a zero-terminated byte sequence of valid UTF-8
-  /// encodings of Unicode code points. It may also contain UTF-8 encodings of
-  /// unpaired surrogate code points, which is not otherwise valid UTF-8, but
-  /// which may be created when encoding a Dart string containing an unpaired
-  /// surrogate. See [Utf8Decoder] for details on decoding.
+  /// encodings of Unicode scalar values. A [FormatException] is thrown if the
+  /// input is malformed. See [Utf8Decoder] for details on decoding.
   ///
   /// Returns a Dart string containing the decoded code points.
   static String fromUtf8(Pointer<Utf8> string) {
@@ -47,7 +45,8 @@ class Utf8 extends Struct {
   /// Convert a [String] to a Utf8-encoded null-terminated C string.
   ///
   /// If 'string' contains NULL bytes, the converted string will be truncated
-  /// prematurely. Unpaired surrogate code points in [string] will be preserved
+  /// prematurely. Unpaired surrogate code points in [string] will be encoded
+  /// as replacement characters (U+FFFD, encoded as the bytes 0xEF 0xBF 0xBD)
   /// in the UTF-8 encoded result. See [Utf8Encoder] for details on encoding.
   ///
   /// Returns a malloc-allocated pointer to the result.
