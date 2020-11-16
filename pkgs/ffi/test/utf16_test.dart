@@ -5,12 +5,12 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import 'package:test/test.dart';
 import 'package:ffi/ffi.dart';
+import 'package:test/test.dart';
 
-main() {
-  test("toUtf16 ASCII", () {
-    final String start = "Hello World!\n";
+void main() {
+  test('toUtf16 ASCII', () {
+    final String start = 'Hello World!\n';
     final Pointer<Uint16> converted = Utf16.toUtf16(start).cast();
     final Uint16List end = converted.asTypedList(start.codeUnits.length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
@@ -18,8 +18,8 @@ main() {
     free(converted);
   });
 
-  test("toUtf16 emoji", () {
-    final String start = "😎";
+  test('toUtf16 emoji', () {
+    final String start = '😎';
     final Pointer<Utf16> converted = Utf16.toUtf16(start).cast();
     final int length = start.codeUnits.length;
     final Uint16List end = converted.cast<Uint16>().asTypedList(length + 1);

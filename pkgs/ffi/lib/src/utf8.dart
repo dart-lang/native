@@ -59,5 +59,6 @@ class Utf8 extends Struct {
     return result.cast();
   }
 
+  @override
   String toString() => fromUtf8(addressOf);
 }
