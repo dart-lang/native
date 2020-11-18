@@ -31,15 +31,20 @@ class Utf8 extends Struct {
 
   /// Creates a [String] containing the characters UTF-8 encoded in [string].
   ///
-  /// The [string] must be a zero-terminated byte sequence of valid UTF-8
-  /// encodings of Unicode scalar values. A [FormatException] is thrown if the
-  /// input is malformed. See [Utf8Decoder] for details on decoding.
+  /// Either the [string] must be zero-terminated or its [length] &mdash; the
+  /// number of bytes &mdash; must be specified as a non-negative value. The
+  /// byte sequence must be valid UTF-8 encodings of Unicode scalar values. A
+  /// [FormatException] is thrown if the input is malformed. See [Utf8Decoder]
+  /// for details on decoding.
   ///
   /// Returns a Dart string containing the decoded code points.
-  static String fromUtf8(Pointer<Utf8> string) {
-    final int length = strlen(string);
-    return utf8.decode(Uint8List.view(
-        string.cast<Uint8>().asTypedList(length).buffer, 0, length));
+  static String fromUtf8(Pointer<Utf8> string, {int? length}) {
+    if (length != null) {
+      RangeError.checkNotNegative(length, 'length');
+    } else {
+      length = strlen(string);
+    }
+    return utf8.decode(string.cast<Uint8>().asTypedList(length));
   }
 
   /// Convert a [String] to a UTF-8 encoded zero-terminated C string.
