@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0-nullsafety.1
+
+Adds an optional named `length` argument to `Utf8.fromUtf8()`.
+
 ## 0.2.0-nullsafety.0
 
 Pre-release (non-stable) release supporting null safety.
