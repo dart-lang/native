@@ -9,7 +9,7 @@ void main() {
   print(pointer.value);
   free(pointer);
 
-  // Use the Utf8 helper to encode null-terminated Utf8 strings in native memory.
+  // Use the Utf8 helper to encode zero-terminated UTF-8 strings in native memory.
   final String myString = '😎👿💬';
   final Pointer<Utf8> charPointer = Utf8.toUtf8(myString);
   print('First byte is: ${charPointer.cast<Uint8>().value}');

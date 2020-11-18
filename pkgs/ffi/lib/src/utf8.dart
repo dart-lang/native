@@ -12,17 +12,17 @@ const int _kMaxSmi64 = (1 << 62) - 1;
 const int _kMaxSmi32 = (1 << 30) - 1;
 final int _maxSize = sizeOf<IntPtr>() == 8 ? _kMaxSmi64 : _kMaxSmi32;
 
-/// [Utf8] implements conversion between Dart strings and null-terminated
-/// Utf8-encoded "char*" strings in C.
+/// [Utf8] implements conversion between Dart strings and zero-terminated
+/// UTF-8 encoded "char*" strings in C.
 ///
-/// [Utf8] is respresented as a struct so that `Pointer<Utf8>` can be used in
+/// [Utf8] is represented as a struct so that `Pointer<Utf8>` can be used in
 /// native function signatures.
 //
 // TODO(https://github.com/dart-lang/ffi/issues/4): No need to use
 // 'asTypedList' when Pointer operations are performant.
 class Utf8 extends Struct {
-  /// Returns the length of a null-terminated string -- the number of (one-byte)
-  /// characters before the first null byte.
+  /// Returns the length of a zero-terminated string &mdash; the number of
+  /// bytes before the first zero byte.
   static int strlen(Pointer<Utf8> string) {
     final Pointer<Uint8> array = string.cast<Uint8>();
     final Uint8List nativeString = array.asTypedList(_maxSize);
@@ -42,9 +42,9 @@ class Utf8 extends Struct {
         string.cast<Uint8>().asTypedList(length).buffer, 0, length));
   }
 
-  /// Convert a [String] to a Utf8-encoded null-terminated C string.
+  /// Convert a [String] to a UTF-8 encoded zero-terminated C string.
   ///
-  /// If 'string' contains NULL bytes, the converted string will be truncated
+  /// If [string] contains NULL characters, the converted string will be truncated
   /// prematurely. Unpaired surrogate code points in [string] will be encoded
   /// as replacement characters (U+FFFD, encoded as the bytes 0xEF 0xBF 0xBD)
   /// in the UTF-8 encoded result. See [Utf8Encoder] for details on encoding.
