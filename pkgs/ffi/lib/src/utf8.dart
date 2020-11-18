@@ -26,7 +26,7 @@ class Utf8 extends Struct {
   static int strlen(Pointer<Utf8> string) {
     final Pointer<Uint8> array = string.cast<Uint8>();
     final Uint8List nativeString = array.asTypedList(_maxSize);
-    return nativeString.indexWhere((char) => char == 0);
+    return nativeString.indexOf(0);
   }
 
   /// Creates a [String] containing the characters UTF-8 encoded in [string].
