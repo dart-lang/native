@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dart-lang/ffi.svg?branch=master)](https://travis-ci.org/dart-lang/ffi)
+[![Build Status](https://github.com/dart-lang/ffi/workflows/Dart%20CI/badge.svg)](https://github.com/dart-lang/ffi/actions?query=workflow%3A"Dart+CI")
 
 Utilities for working with Foreign Function Interface (FFI) code, incl.
 converting between Dart strings and C strings encoded with UTF-8 and UTF-16.
