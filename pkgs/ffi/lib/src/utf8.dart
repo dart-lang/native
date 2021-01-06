@@ -20,7 +20,7 @@ final int _maxSize = sizeOf<IntPtr>() == 8 ? _kMaxSmi64 : _kMaxSmi32;
 //
 // TODO(https://github.com/dart-lang/ffi/issues/4): No need to use
 // 'asTypedList' when Pointer operations are performant.
-class Utf8 extends Struct {
+class Utf8 extends Opaque {
   /// Returns the length of a zero-terminated string &mdash; the number of
   /// bytes before the first zero byte.
   static int strlen(Pointer<Utf8> string) {
@@ -63,7 +63,4 @@ class Utf8 extends Struct {
     nativeString[units.length] = 0;
     return result.cast();
   }
-
-  @override
-  String toString() => fromUtf8(addressOf);
 }
