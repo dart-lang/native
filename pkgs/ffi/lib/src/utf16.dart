@@ -12,17 +12,17 @@ import 'package:ffi/ffi.dart';
 ///
 /// [Utf16] is represented as a struct so that `Pointer<Utf16>` can be used in
 /// native function signatures.
-class Utf16 extends Struct {
+class Utf16 extends Opaque {
   /// Convert a [String] to a UTF-16 encoded zero-terminated C string.
   ///
   /// If [string] contains NULL characters, the converted string will be truncated
   /// prematurely. Unpaired surrogate code points in [string] will be preserved
   /// in the UTF-16 encoded result. See [Utf16Encoder] for details on encoding.
   ///
-  /// Returns a malloc-allocated pointer to the result.
-  static Pointer<Utf16> toUtf16(String string) {
+  /// Returns a [allocator]-allocated pointer to the result.
+  static Pointer<Utf16> toUtf16(String string, {Allocator allocator = calloc}) {
     final units = string.codeUnits;
-    final Pointer<Uint16> result = allocate<Uint16>(count: units.length + 1);
+    final Pointer<Uint16> result = allocator<Uint16>(units.length + 1);
     final Uint16List nativeString = result.asTypedList(units.length + 1);
     nativeString.setAll(0, units);
     nativeString[units.length] = 0;

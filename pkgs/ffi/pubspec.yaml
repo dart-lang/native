@@ -1,10 +1,10 @@
 name: ffi
-version: 0.2.0-nullsafety.1
+version: 0.3.0-nullsafety.0
 homepage: https://github.com/dart-lang/ffi
 description: Utilities for working with Foreign Function Interface (FFI) code.
 
 environment:
-  sdk: '>=2.12.0-0 <3.0.0'
+  sdk: '>=2.12.0-265.0.dev <3.0.0'
 
 # dependencies:
 

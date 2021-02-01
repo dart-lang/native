@@ -15,7 +15,7 @@ void main() {
     final Uint16List end = converted.asTypedList(start.codeUnits.length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
-    free(converted);
+    calloc.free(converted);
   });
 
   test('toUtf16 emoji', () {
@@ -25,6 +25,6 @@ void main() {
     final Uint16List end = converted.cast<Uint16>().asTypedList(length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
-    free(converted);
+    calloc.free(converted);
   });
 }

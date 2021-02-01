@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0-nullsafety.0
+
+Changes `Utf8` and `Utf16` to extend `Opaque` instead of `Struct`.
+This means `.ref` is no longer available and `Pointer<Utf(..)>` should be used.
+See [breaking change #44622](https://github.com/dart-lang/sdk/issues/44622) for more info.
+
+Removes `allocate` and `free`.
+Instead, introduces `calloc` which implements the new `Allocator` interface.
+See [breaking change #44621](https://github.com/dart-lang/sdk/issues/44621) for more info.
+
+This pre-release requires Dart `2.12.0-265.0.dev` or greater.
+
 ## 0.2.0-nullsafety.1
 
 Adds an optional named `length` argument to `Utf8.fromUtf8()`.
