@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0-nullsafety.1
+
+This pre-release requires Dart `2.12.0-259.8.beta` or greater.
+
+Note that this pre-release does _not_ work in Flutter versions containing Dart
+`2.12.0-260.0.dev` - `2.12.0-264.0.dev`.
+Using `Allocator.call` throws a `NoSuchMethodError` in these versions.
+See [Flutter Engine #23954](https://github.com/flutter/engine/pull/23954) for more info.
+
 ## 0.3.0-nullsafety.0
 
 Changes `Utf8` and `Utf16` to extend `Opaque` instead of `Struct`.
