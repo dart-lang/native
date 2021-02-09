@@ -8,10 +8,6 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 
-const int _kMaxSmi64 = (1 << 62) - 1;
-const int _kMaxSmi32 = (1 << 30) - 1;
-final int _maxSize = sizeOf<IntPtr>() == 8 ? _kMaxSmi64 : _kMaxSmi32;
-
 /// [Utf8] implements conversion between Dart strings and zero-terminated
 /// UTF-8 encoded "char*" strings in C.
 ///
@@ -25,8 +21,11 @@ class Utf8 extends Opaque {
   /// bytes before the first zero byte.
   static int strlen(Pointer<Utf8> string) {
     final Pointer<Uint8> array = string.cast<Uint8>();
-    final Uint8List nativeString = array.asTypedList(_maxSize);
-    return nativeString.indexOf(0);
+    int length = 0;
+    while (array[length] != 0) {
+      length++;
+    }
+    return length;
   }
 
   /// Creates a [String] containing the characters UTF-8 encoded in [string].
