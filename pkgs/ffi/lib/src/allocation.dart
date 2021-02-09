@@ -52,6 +52,7 @@ const int HEAP_ZERO_MEMORY = 8;
 /// Throws an ArgumentError on failure to allocate.
 @Deprecated('Use calloc() instead.')
 Pointer<T> allocate<T extends NativeType>({int count = 1}) {
+  // ignore: non_constant_type_argument_warning
   final int totalSize = count * sizeOf<T>();
   return calloc.allocate(totalSize);
 }
