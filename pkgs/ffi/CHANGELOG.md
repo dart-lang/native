@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0-nullsafety.2
+## 0.3.0-nullsafety.3
 
 Adds back in deprecated `allocate` and `free` to ease migration.
 These will be removed in the next release.
