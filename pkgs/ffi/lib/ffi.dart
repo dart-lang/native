@@ -4,5 +4,4 @@
 
 export 'src/utf8.dart';
 export 'src/utf16.dart';
-// ignore: deprecated_member_use_from_same_package
-export 'src/allocation.dart' show allocate, free, calloc, malloc;
+export 'src/allocation.dart' show calloc, malloc;

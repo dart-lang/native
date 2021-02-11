@@ -13,42 +13,7 @@ import 'package:ffi/ffi.dart';
 /// The Utf8 type itself has no functionality, it's only intended to be used
 /// through a `Pointer<Utf8>` representing the entire array. This pointer is
 /// the equivalent of a char pointer (`const char*`) in C code.
-class Utf8 extends Opaque {
-  /// The number of UTF-8 code units in this zero-terminated UTF-8 string.
-  ///
-  /// The UTF-8 code units of the strings are the non-zero bytes up to the
-  /// first zero byte.
-  @Deprecated('Use Utf8Pointer.length instead.')
-  static int strlen(Pointer<Utf8> string) {
-    return string.length;
-  }
-
-  /// Converts the UTF-8 encoded [string] to a Dart string.
-  ///
-  /// Decodes the UTF-8 code units of this zero-terminated byte array as
-  /// Unicode code points and creates a Dart string containing those code
-  /// points.
-  ///
-  /// If [length] is provided, zero-termination is ignored and the result can
-  /// contain NUL characters.
-  @Deprecated('Use Utf8Pointer.toDartString instead.')
-  static String fromUtf8(Pointer<Utf8> string, {int? length}) {
-    return string.toDartString(length: length);
-  }
-
-  /// Creates a zero-terminated [Utf8] code-unit array from [string].
-  ///
-  /// If [string] contains NUL characters, the converted string will be truncated
-  /// prematurely. Unpaired surrogate code points in [string] will be encoded
-  /// as replacement characters (U+FFFD, encoded as the bytes 0xEF 0xBF 0xBD)
-  /// in the UTF-8 encoded result. See [Utf8Encoder] for details on encoding.
-  ///
-  /// Returns an [allocator]-allocated pointer to the result.
-  @Deprecated('Use StringUtf8Pointer.toNativeUtf8 instead.')
-  static Pointer<Utf8> toUtf8(String string, {Allocator allocator = calloc}) {
-    return string.toNativeUtf8(allocator: allocator);
-  }
-}
+class Utf8 extends Opaque {}
 
 /// Extension method for converting a`Pointer<Utf8>` to a [String].
 extension Utf8Pointer on Pointer<Utf8> {

@@ -13,18 +13,7 @@ import 'package:ffi/ffi.dart';
 /// through a `Pointer<Utf16>` representing the entire array. This pointer is
 /// the equivalent of a char pointer (`const wchar_t*`) in C code. The
 /// individual UTF-16 code units are stored in native byte order.
-class Utf16 extends Opaque {
-  /// Creates a zero-terminated [Utf16] code-unit array from [string].
-  ///
-  /// If [string] contains NUL characters, the converted string will be truncated
-  /// prematurely.
-  ///
-  /// Returns an [allocator]-allocated pointer to the result.
-  @Deprecated('Use StringUtf16Pointer.toNativeUtf16 instead.')
-  static Pointer<Utf16> toUtf16(String string, {Allocator allocator = calloc}) {
-    return string.toNativeUtf16(allocator: allocator);
-  }
-}
+class Utf16 extends Opaque {}
 
 /// Extension method for converting a`Pointer<Utf16>` to a [String].
 extension Utf16Pointer on Pointer<Utf16> {
