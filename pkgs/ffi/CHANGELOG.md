@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1-nullsafety.0
+
+Deprecates the static methods on `Utf8` and `Utf16` and introduces
+extension methods to replace them.
+
 ## 0.3.0-nullsafety.3
 
 Adds back in deprecated `allocate` and `free` to ease migration.

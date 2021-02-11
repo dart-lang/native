@@ -11,8 +11,8 @@ void main() {
 
   // Use the Utf8 helper to encode zero-terminated UTF-8 strings in native memory.
   final String myString = '😎👿💬';
-  final Pointer<Utf8> charPointer = Utf8.toUtf8(myString);
+  final Pointer<Utf8> charPointer = myString.toNativeUtf8();
   print('First byte is: ${charPointer.cast<Uint8>().value}');
-  print(Utf8.fromUtf8(charPointer));
+  print(charPointer.toDartString());
   calloc.free(charPointer);
 }
