@@ -41,6 +41,7 @@ typedef WinHeapFree = int Function(Pointer heap, int flags, Pointer memory);
 final WinHeapFree winHeapFree =
     stdlib.lookupFunction<WinHeapFreeNative, WinHeapFree>('HeapFree');
 
+// ignore: constant_identifier_names
 const int HEAP_ZERO_MEMORY = 8;
 
 /// Manages memory on the native heap.
