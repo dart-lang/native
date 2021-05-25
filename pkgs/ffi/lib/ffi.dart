@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+export 'src/allocation.dart' show calloc, malloc;
+export 'src/arena.dart';
 export 'src/utf8.dart';
 export 'src/utf16.dart';
-export 'src/allocation.dart' show calloc, malloc;

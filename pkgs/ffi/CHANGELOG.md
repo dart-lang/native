@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+Adds the `arena` allocator.
+
 ## 1.0.0
 
 Bumping the version of this package to `1.0.0`.
