@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+Adds a sanity check to `Pointer<Utf8>` and `Pointer<Utf16>` extension methods
+that receiver is not `nullptr`.
+
 ## 1.1.0
 
 Adds the `arena` allocator.

@@ -60,7 +60,29 @@ void main() {
   });
 
   test('fromUtf8 with negative length', () {
-    final Pointer<Utf16> utf16 = Pointer.fromAddress(0);
+    final string = 'Hello';
+    final utf16 = string.toNativeUtf16();
     expect(() => utf16.toDartString(length: -1), throwsRangeError);
+    calloc.free(utf16);
+  });
+
+  test('nullptr.toDartString()', () {
+    final Pointer<Utf16> utf16 = nullptr;
+    try {
+      utf16.toDartString();
+    } on UnsupportedError {
+      return;
+    }
+    fail('Expected an error.');
+  });
+
+  test('nullptr.length', () {
+    final Pointer<Utf16> utf16 = nullptr;
+    try {
+      utf16.length;
+    } on UnsupportedError {
+      return;
+    }
+    fail('Expected an error.');
   });
 }

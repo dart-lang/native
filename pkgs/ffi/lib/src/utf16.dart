@@ -22,12 +22,9 @@ extension Utf16Pointer on Pointer<Utf16> {
   /// The UTF-16 code units of the strings are the non-zero code units up to
   /// the first zero code unit.
   int get length {
-    final Pointer<Uint16> array = cast<Uint16>();
-    int length = 0;
-    while (array[length] != 0) {
-      length++;
-    }
-    return length;
+    _ensureNotNullptr('length');
+    final codeUnits = cast<Uint16>();
+    return _length(codeUnits);
   }
 
   /// Converts this UTF-16 encoded string to a Dart string.
@@ -38,12 +35,17 @@ extension Utf16Pointer on Pointer<Utf16> {
   ///
   /// If [length] is provided, zero-termination is ignored and the result can
   /// contain NUL characters.
+  ///
+  /// If [length] is not provided, the returned string is the string up til
+  /// but not including  the first NUL character.
   String toDartString({int? length}) {
+    _ensureNotNullptr('toDartString');
+    final codeUnits = cast<Uint16>();
     if (length == null) {
-      return _toUnknownLengthString(cast<Uint16>());
+      return _toUnknownLengthString(codeUnits);
     } else {
       RangeError.checkNotNegative(length, 'length');
-      return _toKnownLengthString(cast<Uint16>(), length);
+      return _toKnownLengthString(codeUnits, length);
     }
   }
 
@@ -60,6 +62,21 @@ extension Utf16Pointer on Pointer<Utf16> {
       }
       buffer.writeCharCode(char);
       i++;
+    }
+  }
+
+  static int _length(Pointer<Uint16> codeUnits) {
+    var length = 0;
+    while (codeUnits[length] != 0) {
+      length++;
+    }
+    return length;
+  }
+
+  void _ensureNotNullptr(String operation) {
+    if (this == nullptr) {
+      throw UnsupportedError(
+          "Operation '$operation' not allowed on a 'nullptr'.");
     }
   }
 }
