@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+Fixed unhandled exception in `withZoneArena` (#107).
+
 ## 1.1.1
 
 Adds a sanity check to `Pointer<Utf8>` and `Pointer<Utf16>` extension methods

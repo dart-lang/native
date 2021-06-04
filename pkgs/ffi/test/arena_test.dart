@@ -163,6 +163,30 @@ void main() async {
     expect(freed.single, 1234);
   });
 
+  test('zone future error', () async {
+    bool caughtError = false;
+    bool uncaughtError = false;
+
+    Future<int> asyncFunction() async {
+      throw Exception('Exception 4');
+    }
+
+    final future = runZonedGuarded(() {
+      return withZoneArena(asyncFunction).catchError((error) {
+        caughtError = true;
+        return 5;
+      });
+    }, (error, stackTrace) {
+      uncaughtError = true;
+    });
+
+    final result = (await Future.wait([future!])).single;
+
+    expect(result, 5);
+    expect(caughtError, true);
+    expect(uncaughtError, false);
+  });
+
   test('allocate during releaseAll', () {
     final countingAllocator = CountingAllocator();
     final arena = Arena(countingAllocator);

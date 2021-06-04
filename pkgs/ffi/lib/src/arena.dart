@@ -150,7 +150,9 @@ R withZoneArena<R>(R Function() computation,
       final result = computation();
       if (result is Future) {
         isAsync = true;
-        result.whenComplete(arena.releaseAll);
+        return result.whenComplete(() {
+          arena.releaseAll();
+        }) as R;
       }
       return result;
     }, zoneValues: {#_arena: arenaHolder});
