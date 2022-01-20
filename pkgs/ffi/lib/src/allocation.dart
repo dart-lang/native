@@ -85,8 +85,6 @@ class _MallocAllocator implements Allocator {
   /// Throws an [ArgumentError] if the memory pointed to by [pointer] cannot be
   /// freed.
   ///
-  // TODO(dartbug.com/36855): Once we have a ffi.Bool type we can use it instead
-  // of testing the return integer to be non-zero.
   @override
   void free(Pointer pointer) {
     if (Platform.isWindows) {
@@ -151,8 +149,6 @@ class _CallocAllocator implements Allocator {
   /// Throws an [ArgumentError] if the memory pointed to by [pointer] cannot be
   /// freed.
   ///
-  // TODO(dartbug.com/36855): Once we have a ffi.Bool type we can use it instead
-  // of testing the return integer to be non-zero.
   @override
   void free(Pointer pointer) {
     if (Platform.isWindows) {

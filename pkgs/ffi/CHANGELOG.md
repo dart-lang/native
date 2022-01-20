@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0-dev.0
+
+Added common C integer types as ABI-specific integers. These common C integer
+types will make their way into `dart:ffi` in 2.17 and be deprecated from this
+package. Having them in this package enables using them in Dart 2.16.
+
+This pre-release requires Dart `2.16.0-118.0.dev` or greater. 
+
 ## 1.1.2
 
 Fixed unhandled exception in `withZoneArena` (#107).
