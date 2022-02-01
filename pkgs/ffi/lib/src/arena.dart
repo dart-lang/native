@@ -174,7 +174,7 @@ R withZoneArena<R>(R Function() computation,
 /// The current arena must not be accessed by code which is not running inside
 /// a zone created by [withZoneArena].
 Arena get zoneArena {
-  final List<Arena>? arenaHolder = Zone.current[#_arena];
+  final arenaHolder = Zone.current[#_arena] as List<Arena>?;
   if (arenaHolder == null) {
     throw StateError('Not inside a zone created by `useArena`');
   }
