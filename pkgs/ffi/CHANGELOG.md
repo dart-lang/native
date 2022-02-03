@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+This release requires Dart `2.16.0` or greater. 
+
 ## 1.2.0-dev.0
 
 Added common C integer types as ABI-specific integers. These common C integer

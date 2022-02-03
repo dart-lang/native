@@ -37,7 +37,7 @@ import 'dart:ffi';
   Abi.iosArm64: Int8(),
   Abi.iosX64: Int8(),
   Abi.linuxArm: Uint8(),
-  Abi.linuxArm64: Int8(),
+  Abi.linuxArm64: Uint8(),
   Abi.linuxIA32: Int8(),
   Abi.linuxX64: Int8(),
   Abi.macosArm64: Int8(),
