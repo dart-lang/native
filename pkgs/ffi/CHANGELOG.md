@@ -1,6 +1,11 @@
 # Changelog
 
-## 1.2.0
+## 1.2.1
+
+Revert added common C integer types as ABI-specific integers.
+Instead, these are available in Dart 2.17.
+
+## 1.2.0 (retracted)
 
 This release requires Dart `2.16.0` or greater. 
 
