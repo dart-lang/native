@@ -5,9 +5,9 @@
 import 'dart:ffi';
 import 'dart:io';
 
-// Note that kernel32.dll is the correct name in both 32-bit and 64-bit.
+// Note that ole32.dll is the correct name in both 32-bit and 64-bit.
 final DynamicLibrary stdlib = Platform.isWindows
-    ? DynamicLibrary.open('kernel32.dll')
+    ? DynamicLibrary.open('ole32.dll')
     : DynamicLibrary.process();
 
 typedef PosixMallocNative = Pointer Function(IntPtr);
@@ -25,24 +25,16 @@ typedef PosixFree = void Function(Pointer);
 final PosixFree posixFree =
     stdlib.lookupFunction<PosixFreeNative, PosixFree>('free');
 
-typedef WinGetProcessHeapFn = Pointer Function();
-final WinGetProcessHeapFn winGetProcessHeap = stdlib
-    .lookupFunction<WinGetProcessHeapFn, WinGetProcessHeapFn>('GetProcessHeap');
-final Pointer processHeap = winGetProcessHeap();
+typedef WinCoTaskMemAllocNative = Pointer Function(Size cb);
+typedef WinCoTaskMemAlloc = Pointer Function(int cb);
+final WinCoTaskMemAlloc winCoTaskMemAlloc =
+    stdlib.lookupFunction<WinCoTaskMemAllocNative, WinCoTaskMemAlloc>(
+        'CoTaskMemAlloc');
 
-typedef WinHeapAllocNative = Pointer Function(Pointer, Uint32, IntPtr);
-typedef WinHeapAlloc = Pointer Function(Pointer, int, int);
-final WinHeapAlloc winHeapAlloc =
-    stdlib.lookupFunction<WinHeapAllocNative, WinHeapAlloc>('HeapAlloc');
-
-typedef WinHeapFreeNative = Int32 Function(
-    Pointer heap, Uint32 flags, Pointer memory);
-typedef WinHeapFree = int Function(Pointer heap, int flags, Pointer memory);
-final WinHeapFree winHeapFree =
-    stdlib.lookupFunction<WinHeapFreeNative, WinHeapFree>('HeapFree');
-
-// ignore: constant_identifier_names
-const int HEAP_ZERO_MEMORY = 8;
+typedef WinCoTaskMemFreeNative = Void Function(Pointer pv);
+typedef WinCoTaskMemFree = void Function(Pointer pv);
+final WinCoTaskMemFree winCoTaskMemFree = stdlib
+    .lookupFunction<WinCoTaskMemFreeNative, WinCoTaskMemFree>('CoTaskMemFree');
 
 /// Manages memory on the native heap.
 ///
@@ -50,14 +42,14 @@ const int HEAP_ZERO_MEMORY = 8;
 /// for zero-initialized memory on allocation.
 ///
 /// For POSIX-based systems, this uses `malloc` and `free`. On Windows, it uses
-/// `HeapAlloc` and `HeapFree` against the default public heap.
+/// `CoTaskMemAlloc`.
 class _MallocAllocator implements Allocator {
   const _MallocAllocator();
 
   /// Allocates [byteCount] bytes of of unitialized memory on the native heap.
   ///
   /// For POSIX-based systems, this uses `malloc`. On Windows, it uses
-  /// `HeapAlloc` against the default public heap.
+  /// `CoTaskMemAlloc`.
   ///
   /// Throws an [ArgumentError] if the number of bytes or alignment cannot be
   /// satisfied.
@@ -66,7 +58,7 @@ class _MallocAllocator implements Allocator {
   Pointer<T> allocate<T extends NativeType>(int byteCount, {int? alignment}) {
     Pointer<T> result;
     if (Platform.isWindows) {
-      result = winHeapAlloc(processHeap, /*flags=*/ 0, byteCount).cast();
+      result = winCoTaskMemAlloc(byteCount).cast();
     } else {
       result = posixMalloc(byteCount).cast();
     }
@@ -78,19 +70,13 @@ class _MallocAllocator implements Allocator {
 
   /// Releases memory allocated on the native heap.
   ///
-  /// For POSIX-based systems, this uses `free`. On Windows, it uses `HeapFree`
-  /// against the default public heap. It may only be used against pointers
-  /// allocated in a manner equivalent to [allocate].
-  ///
-  /// Throws an [ArgumentError] if the memory pointed to by [pointer] cannot be
-  /// freed.
-  ///
+  /// For POSIX-based systems, this uses `free`. On Windows, it uses
+  /// `CoTaskMemFree`. It may only be used against pointers allocated in a
+  /// manner equivalent to [allocate].
   @override
   void free(Pointer pointer) {
     if (Platform.isWindows) {
-      if (winHeapFree(processHeap, /*flags=*/ 0, pointer) == 0) {
-        throw ArgumentError('Could not free $pointer.');
-      }
+      winCoTaskMemFree(pointer);
     } else {
       posixFree(pointer);
     }
@@ -103,7 +89,7 @@ class _MallocAllocator implements Allocator {
 /// zero-initialized memory allocation.
 ///
 /// For POSIX-based systems, this uses `malloc` and `free`. On Windows, it uses
-/// `HeapAlloc` and `HeapFree` against the default public heap.
+/// `CoTaskMemAlloc` and `CoTaskMemFree`.
 const Allocator malloc = _MallocAllocator();
 
 /// Manages memory on the native heap.
@@ -111,16 +97,28 @@ const Allocator malloc = _MallocAllocator();
 /// Initializes newly allocated memory to zero.
 ///
 /// For POSIX-based systems, this uses `calloc` and `free`. On Windows, it uses
-/// `HeapAlloc` with [HEAP_ZERO_MEMORY] and `HeapFree` against the default
-/// public heap.
+/// `CoTaskMemAlloc` and `CoTaskMemFree`.
 class _CallocAllocator implements Allocator {
   const _CallocAllocator();
+
+  /// Fills a block of memory with a specified value.
+  void _fillMemory(Pointer destination, int length, int fill) {
+    final ptr = destination.cast<Uint8>();
+    for (var i = 0; i < length; i++) {
+      ptr[i] = fill;
+    }
+  }
+
+  /// Fills a block of memory with zeros.
+  ///
+  void _zeroMemory(Pointer destination, int length) =>
+      _fillMemory(destination, length, 0);
 
   /// Allocates [byteCount] bytes of zero-initialized of memory on the native
   /// heap.
   ///
   /// For POSIX-based systems, this uses `malloc`. On Windows, it uses
-  /// `HeapAlloc` against the default public heap.
+  /// `CoTaskMemAlloc`.
   ///
   /// Throws an [ArgumentError] if the number of bytes or alignment cannot be
   /// satisfied.
@@ -129,8 +127,8 @@ class _CallocAllocator implements Allocator {
   Pointer<T> allocate<T extends NativeType>(int byteCount, {int? alignment}) {
     Pointer<T> result;
     if (Platform.isWindows) {
-      result = winHeapAlloc(processHeap, /*flags=*/ HEAP_ZERO_MEMORY, byteCount)
-          .cast();
+      result = winCoTaskMemAlloc(byteCount).cast();
+      _zeroMemory(result, byteCount);
     } else {
       result = posixCalloc(byteCount, 1).cast();
     }
@@ -142,19 +140,13 @@ class _CallocAllocator implements Allocator {
 
   /// Releases memory allocated on the native heap.
   ///
-  /// For POSIX-based systems, this uses `free`. On Windows, it uses `HeapFree`
-  /// against the default public heap. It may only be used against pointers
-  /// allocated in a manner equivalent to [allocate].
-  ///
-  /// Throws an [ArgumentError] if the memory pointed to by [pointer] cannot be
-  /// freed.
-  ///
+  /// For POSIX-based systems, this uses `free`. On Windows, it uses
+  /// `CoTaskMemFree`. It may only be used against pointers allocated in a
+  /// manner equivalent to [allocate].
   @override
   void free(Pointer pointer) {
     if (Platform.isWindows) {
-      if (winHeapFree(processHeap, /*flags=*/ 0, pointer) == 0) {
-        throw ArgumentError('Could not free $pointer.');
-      }
+      winCoTaskMemFree(pointer);
     } else {
       posixFree(pointer);
     }
@@ -167,6 +159,5 @@ class _CallocAllocator implements Allocator {
 /// memory allocation.
 ///
 /// For POSIX-based systems, this uses `calloc` and `free`. On Windows, it uses
-/// `HeapAlloc` with [HEAP_ZERO_MEMORY] and `HeapFree` against the default
-/// public heap.
+/// `CoTaskMemAlloc` and `CoTaskMemFree`.
 const Allocator calloc = _CallocAllocator();

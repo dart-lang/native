@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0
+
+Switch Windows memory allocation to use `CoTaskMemAlloc` and `CoTaskMemFree`,
+which will enable support for `NativeFinalizer`. This release requires Dart
+2.17.0 or greater.
+
 ## 1.2.1
 
 Revert added common C integer types as ABI-specific integers.
@@ -7,7 +13,7 @@ Instead, these are available in Dart 2.17.
 
 ## 1.2.0 (retracted)
 
-This release requires Dart `2.16.0` or greater. 
+This release requires Dart `2.16.0` or greater.
 
 ## 1.2.0-dev.0
 
@@ -15,7 +21,7 @@ Added common C integer types as ABI-specific integers. These common C integer
 types will make their way into `dart:ffi` in 2.17 and be deprecated from this
 package. Having them in this package enables using them in Dart 2.16.
 
-This pre-release requires Dart `2.16.0-118.0.dev` or greater. 
+This pre-release requires Dart `2.16.0-118.0.dev` or greater.
 
 ## 1.1.2
 
