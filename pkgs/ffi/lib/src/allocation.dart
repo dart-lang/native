@@ -128,12 +128,14 @@ class _CallocAllocator implements Allocator {
     Pointer<T> result;
     if (Platform.isWindows) {
       result = winCoTaskMemAlloc(byteCount).cast();
-      _zeroMemory(result, byteCount);
     } else {
       result = posixCalloc(byteCount, 1).cast();
     }
     if (result.address == 0) {
       throw ArgumentError('Could not allocate $byteCount bytes.');
+    }
+    if (Platform.isWindows) {
+      _zeroMemory(result, byteCount);
     }
     return result;
   }

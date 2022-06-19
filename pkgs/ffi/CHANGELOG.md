@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1
+
+Only zero out memory on successful allocation on Windows.
+Upgrade test dev dependency.
+
 ## 2.0.0
 
 Switch Windows memory allocation to use `CoTaskMemAlloc` and `CoTaskMemFree`,
