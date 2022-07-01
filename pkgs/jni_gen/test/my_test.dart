@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:test/test.dart';
-import 'package:jnigen/jnigen.dart';
+import 'package:jni_gen/jni_gen.dart';
 
 void main() {
   test('dummy test', () {

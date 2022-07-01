@@ -19,8 +19,11 @@ env:
 jobs:
   # Check code formatting and static analysis on a single OS (linux)
   # against Dart stable.
-  analyze:
+  analyze_jni_gen:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_gen
     strategy:
       fail-fast: false
       matrix:
@@ -40,9 +43,12 @@ jobs:
         run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
 
-  test:
-    needs: analyze
+  test_jni_gen:
+    needs: analyze_jni_gen
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_gen
     strategy:
       fail-fast: false
       matrix:
@@ -58,10 +64,12 @@ jobs:
         run: dart pub get
       - name: Run VM tests
         run: dart test --platform vm
+      - name: Install coverage
+        run: dart pub global activate coverage
       - name: Collect coverage
-        run: ./tool/coverage.sh
+        run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
         uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: lcov.info
+          path-to-lcov: ./pkgs/jni_gen/coverage/lcov.info
