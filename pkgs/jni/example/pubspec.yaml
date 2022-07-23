@@ -30,6 +30,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  ffi: ^2.0.0
+
   jni:
     # When depending on this package from a real application you should use:
     #   jni: ^x.y.z
@@ -44,6 +46,8 @@ dependencies:
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to

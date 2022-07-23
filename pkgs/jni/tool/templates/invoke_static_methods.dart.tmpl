@@ -1,0 +1,29 @@
+  {TARGET_TYPE} invoke{PTYPE}Method(String className, String methodName, String signature, List<dynamic> args) {
+	return using((Arena arena) {
+		final env = getEnv();
+		final classNameChars = className.toNativeChars(arena);
+		final methodNameChars = methodName.toNativeChars(arena);
+		final signatureChars = signature.toNativeChars(arena);
+		final cls = _bindings.LoadClass(classNameChars);
+		if (cls == nullptr) {
+			env.checkException();
+		}
+		final methodID = env.GetStaticMethodID(cls, methodNameChars, signatureChars);
+		if (methodID == nullptr) {
+			try {
+				env.checkException();
+			} catch (e) {
+				env.DeleteLocalRef(cls);
+				rethrow;
+			}
+		}
+		final jvArgs = JValueArgs(args, env, arena);
+		final result = env.CallStatic{TYPE}MethodA(cls, methodID, jvArgs.values);
+		jvArgs.disposeIn(env);
+		{CLS_REF_DEL}
+		{STR_REF_DEL}
+		env.checkException();
+		{INVOKE_RESULT};
+	});
+  }
+

@@ -1,131 +1,66 @@
+// Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
-import 'dart:isolate';
-
-import 'jni_bindings_generated.dart';
-
-/// A very short-lived native function.
+/// Package jni provides dart bindings for the Java Native Interface (JNI) on
+/// Android and desktop platforms.
 ///
-/// For very short-lived functions, it is fine to call them on the main isolate.
-/// They will block the Dart execution while running the native function, so
-/// only do this for native functions which are guaranteed to be short-lived.
-int sum(int a, int b) => _bindings.sum(a, b);
-
-/// A longer lived native function, which occupies the thread calling it.
+/// It's intended as a supplement to the (planned) jnigen tool, a Java wrapper
+/// generator using JNI. The goal is to provide sufficiently complete
+/// and ergonomic access to underlying JNI APIs.
 ///
-/// Do not call these kind of native functions in the main isolate. They will
-/// block Dart execution. This will cause dropped frames in Flutter applications.
-/// Instead, call these native functions on a separate isolate.
+/// Therefore, some understanding of JNI is required to use this module.
 ///
-/// Modify this to suit your own use case. Example use cases:
+/// __Java VM:__
+/// On Android, the existing JVM is used, a new JVM needs to be spawned on
+/// flutter desktop & standalone targets.
 ///
-/// 1. Reuse a single isolate for various different kinds of requests.
-/// 2. Use multiple helper isolates for parallel execution.
-Future<int> sumAsync(int a, int b) async {
-  final SendPort helperIsolateSendPort = await _helperIsolateSendPort;
-  final int requestId = _nextSumRequestId++;
-  final _SumRequest request = _SumRequest(requestId, a, b);
-  final Completer<int> completer = Completer<int>();
-  _sumRequests[requestId] = completer;
-  helperIsolateSendPort.send(request);
-  return completer.future;
-}
-
-const String _libName = 'jni';
-
-/// The dynamic library in which the symbols for [JniBindings] can be found.
-final DynamicLibrary _dylib = () {
-  if (Platform.isMacOS || Platform.isIOS) {
-    return DynamicLibrary.open('$_libName.framework/$_libName');
-  }
-  if (Platform.isAndroid || Platform.isLinux) {
-    return DynamicLibrary.open('lib$_libName.so');
-  }
-  if (Platform.isWindows) {
-    return DynamicLibrary.open('$_libName.dll');
-  }
-  throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
-}();
-
-/// The bindings to the native functions in [_dylib].
-final JniBindings _bindings = JniBindings(_dylib);
-
-
-/// A request to compute `sum`.
+/// ```dart
+/// if (!Platform.isAndroid) {
+///   // Spin up a JVM instance with custom classpath etc..
+///   Jni.spawn(/* options */);
+/// }
+/// Jni jni = Jni.getInstance();
+/// ```
 ///
-/// Typically sent from one isolate to another.
-class _SumRequest {
-  final int id;
-  final int a;
-  final int b;
-
-  const _SumRequest(this.id, this.a, this.b);
-}
-
-/// A response with the result of `sum`.
+/// __Dart standalone support:__
+/// On dart standalone target, we unfortunately have no mechanism to bundle
+/// the wrapper libraries with the executable. Thus it needs to be explicitly
+/// placed in a accessible directory and provided as an argument to Jni.spawn.
 ///
-/// Typically sent from one isolate to another.
-class _SumResponse {
-  final int id;
-  final int result;
+/// This module depends on a shared library written in C. Therefore on dart
+/// standalone:
+///
+///  * Build the library `libdartjni.so` in src/ directory of this plugin.
+///  * Bundle it appropriately with dart application.
+///  * Pass the path to library as a parameter to `Jni.spawn()`.
+///
+/// __JNIEnv:__
+/// The types `JNIEnv` and `JavaVM` in JNI are available as `JniEnv` and
+/// `JavaVM` respectively, with extension methods to conveniently invoke the
+/// function pointer members. Therefore the calling syntax will be similar to
+/// JNI in C++. The first `JniEnv *` parameter is implicit.
+///
+/// __Debugging__:
+/// Debugging JNI errors hard in general.
+///
+/// * On desktop platforms you can use JniEnv.ExceptionDescribe to print any
+/// pending exception to stdout.
+/// * On Android, things are slightly easier since CheckJNI is usually enabled
+/// in debug builds. If you are not getting clear stack traces on JNI errors,
+/// check the Android NDK page on how to enable CheckJNI using ADB.
+/// * As a rule of thumb, when there's a NoClassDefFound / NoMethodFound error,
+/// first check your class and method signatures for typos.
+///
 
-  const _SumResponse(this.id, this.result);
-}
+/// This file exports the minimum foundations of JNI.
+///
+/// For a higher level API, import `'package:jni/jni_object.dart'`.
+library jni;
 
-/// Counter to identify [_SumRequest]s and [_SumResponse]s.
-int _nextSumRequestId = 0;
-
-/// Mapping from [_SumRequest] `id`s to the completers corresponding to the correct future of the pending request.
-final Map<int, Completer<int>> _sumRequests = <int, Completer<int>>{};
-
-/// The SendPort belonging to the helper isolate.
-Future<SendPort> _helperIsolateSendPort = () async {
-  // The helper isolate is going to send us back a SendPort, which we want to
-  // wait for.
-  final Completer<SendPort> completer = Completer<SendPort>();
-
-  // Receive port on the main isolate to receive messages from the helper.
-  // We receive two types of messages:
-  // 1. A port to send messages on.
-  // 2. Responses to requests we sent.
-  final ReceivePort receivePort = ReceivePort()
-    ..listen((dynamic data) {
-      if (data is SendPort) {
-        // The helper isolate sent us the port on which we can sent it requests.
-        completer.complete(data);
-        return;
-      }
-      if (data is _SumResponse) {
-        // The helper isolate sent us a response to a request we sent.
-        final Completer<int> completer = _sumRequests[data.id]!;
-        _sumRequests.remove(data.id);
-        completer.complete(data.result);
-        return;
-      }
-      throw UnsupportedError('Unsupported message type: ${data.runtimeType}');
-    });
-
-  // Start the helper isolate.
-  await Isolate.spawn((SendPort sendPort) async {
-    final ReceivePort helperReceivePort = ReceivePort()
-      ..listen((dynamic data) {
-        // On the helper isolate listen to requests and respond to them.
-        if (data is _SumRequest) {
-          final int result = _bindings.sum_long_running(data.a, data.b);
-          final _SumResponse response = _SumResponse(data.id, result);
-          sendPort.send(response);
-          return;
-        }
-        throw UnsupportedError('Unsupported message type: ${data.runtimeType}');
-      });
-
-    // Send the the port to the main isolate on which we can receive requests.
-    sendPort.send(helperReceivePort.sendPort);
-  }, receivePort.sendPort);
-
-  // Wait until the helper isolate has sent us back the SendPort on which we
-  // can start sending requests.
-  return completer.future;
-}();
+export 'src/third_party/jni_bindings_generated.dart' hide JNI_LOG_TAG;
+export 'src/jni.dart';
+export 'src/jvalues.dart' hide JValueArgs, toJValues;
+export 'src/extensions.dart'
+    show StringMethodsForJni, CharPtrMethodsForJni, AdditionalJniEnvMethods;
+export 'src/jni_exceptions.dart';
