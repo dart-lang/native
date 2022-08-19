@@ -136,7 +136,7 @@ R using<R>(R Function(Arena) computation,
 
 /// Creates a zoned [Arena] to manage native resources.
 ///
-/// The arena is availabe through [zoneArena].
+/// The arena is available through [zoneArena].
 ///
 /// If the isolate is shut down, through `Isolate.kill()`, resources are _not_
 /// cleaned up.
