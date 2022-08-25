@@ -3,3 +3,15 @@
 # BSD-style license that can be found in the LICENSE file.
 
 include: package:lints/recommended.yaml
+
+analyzer:
+  exclude: [build/**]
+  language:
+    strict-raw-types: true
+    strict-inference: true
+
+linter:
+  rules:
+    - prefer_final_locals
+    - prefer_const_declarations
+

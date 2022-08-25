@@ -13,6 +13,11 @@ class UseAfterFreeException implements Exception {
   }
 }
 
+class NullJlStringException implements Exception {
+  @override
+  String toString() => 'toDartString called on null JlString reference';
+}
+
 class DoubleFreeException implements Exception {
   dynamic object;
   Pointer<Void> ptr;

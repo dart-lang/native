@@ -64,3 +64,4 @@ export 'src/jvalues.dart' hide JValueArgs, toJValues;
 export 'src/extensions.dart'
     show StringMethodsForJni, CharPtrMethodsForJni, AdditionalJniEnvMethods;
 export 'src/jni_exceptions.dart';
+export 'src/jl_object.dart';

@@ -1,0 +1,5 @@
+build/
+*.class
+test_lib/
+test_src/
+

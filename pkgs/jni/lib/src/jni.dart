@@ -7,10 +7,10 @@ import 'package:path/path.dart';
 import 'third_party/jni_bindings_generated.dart';
 import 'extensions.dart';
 import 'jvalues.dart';
-import 'jni_exceptions.dart';
 
 import 'jni_object.dart';
 import 'jni_class.dart';
+import 'jni_exceptions.dart';
 
 part 'direct_methods_generated.dart';
 
@@ -52,9 +52,15 @@ DynamicLibrary _loadJniHelpersLibrary(
 class Jni {
   final JniBindings _bindings;
 
-  Jni._(this._bindings);
+  Jni._(DynamicLibrary library, [this._helperDir])
+      : _bindings = JniBindings(library),
+        _getJniEnvFn = library.lookup<Void>('GetJniEnv'),
+        _getJniContextFn = library.lookup<Void>('GetJniContext');
 
   static Jni? _instance;
+
+  /// Stores helperDir if any was used.
+  final String? _helperDir;
 
   /// Returns the existing Jni object.
   ///
@@ -63,9 +69,12 @@ class Jni {
   ///
   /// On Dart standalone, when calling for the first time from
   /// a new isolate, make sure to pass the library path.
+  final Pointer<Void> _getJniEnvFn, _getJniContextFn;
+
   static Jni getInstance() {
     if (_instance == null) {
-      final inst = Jni._(JniBindings(_loadJniHelpersLibrary()));
+      final dylib = _loadJniHelpersLibrary();
+      final inst = Jni._(dylib);
       if (inst.getJavaVM() == nullptr) {
         throw StateError("Fatal: No JVM associated with this process!"
             " Did you call Jni.spawn?");
@@ -88,7 +97,7 @@ class Jni {
     if (_instance != null) {
       throw StateError('Fatal: a JNI instance already exists in this isolate');
     }
-    final inst = Jni._(JniBindings(_loadJniHelpersLibrary(dir: helperDir)));
+    final inst = Jni._(_loadJniHelpersLibrary(dir: helperDir), helperDir);
     if (inst.getJavaVM() == nullptr) {
       throw StateError("Fatal: No JVM associated with this process");
     }
@@ -117,7 +126,7 @@ class Jni {
       throw UnsupportedError("Currently only 1 VM is supported.");
     }
     final dylib = _loadJniHelpersLibrary(dir: helperDir);
-    final inst = Jni._(JniBindings(dylib));
+    final inst = Jni._(dylib, helperDir);
     _instance = inst;
     inst._bindings.SetJNILogging(logLevel);
     final jArgs = _createVMArgs(
@@ -256,6 +265,21 @@ class Jni {
     return JniClass.of(getEnv(), cls);
   }
 
+  Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
+      String name) {
+    var path = _getLibraryFileName(name);
+    if (_helperDir != null) {
+      path = join(_helperDir!, path);
+    }
+    final dl = DynamicLibrary.open(path);
+    final setJniGetters =
+        dl.lookupFunction<SetJniGettersNativeType, SetJniGettersDartType>(
+            'setJniGetters');
+    setJniGetters(_getJniContextFn, _getJniEnvFn);
+    final lookup = dl.lookup;
+    return lookup;
+  }
+
   /// Converts passed arguments to JValue array
   /// for use in methods that take arguments.
   ///
@@ -266,4 +290,14 @@ class Jni {
       {Allocator allocator = calloc}) {
     return toJValues(args, allocator: allocator);
   }
+
+  // Temporarily for JlString.
+  // A future idea is to unify JlObject and JniObject, and use global refs
+  // everywhere for simplicity.
+  late final toJavaString = _bindings.ToJavaString;
+  late final getJavaStringChars = _bindings.GetJavaStringChars;
+  late final releaseJavaStringChars = _bindings.ReleaseJavaStringChars;
 }
+
+typedef SetJniGettersNativeType = Void Function(Pointer<Void>, Pointer<Void>);
+typedef SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);

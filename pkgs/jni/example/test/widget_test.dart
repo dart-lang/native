@@ -14,7 +14,7 @@ import 'package:jni_example/main.dart';
 
 void main() {
   if (!Platform.isAndroid) {
-    Jni.spawn(helperDir: "../src/build");
+    Jni.spawn(helperDir: "build/jni_libs");
   }
   final jni = Jni.getInstance();
   testWidgets("simple toString example", (tester) async {

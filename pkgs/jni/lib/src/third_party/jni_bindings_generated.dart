@@ -207,6 +207,51 @@ class JniBindings {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>('SetJNILogging');
   late final _SetJNILogging =
       _SetJNILoggingPtr.asFunction<void Function(int)>();
+
+  JString ToJavaString(
+    ffi.Pointer<ffi.Char> str,
+  ) {
+    return _ToJavaString(
+      str,
+    );
+  }
+
+  late final _ToJavaStringPtr =
+      _lookup<ffi.NativeFunction<JString Function(ffi.Pointer<ffi.Char>)>>(
+          'ToJavaString');
+  late final _ToJavaString =
+      _ToJavaStringPtr.asFunction<JString Function(ffi.Pointer<ffi.Char>)>();
+
+  ffi.Pointer<ffi.Char> GetJavaStringChars(
+    JString jstr,
+  ) {
+    return _GetJavaStringChars(
+      jstr,
+    );
+  }
+
+  late final _GetJavaStringCharsPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(JString)>>(
+          'GetJavaStringChars');
+  late final _GetJavaStringChars = _GetJavaStringCharsPtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(JString)>();
+
+  void ReleaseJavaStringChars(
+    JString jstr,
+    ffi.Pointer<ffi.Char> buf,
+  ) {
+    return _ReleaseJavaStringChars(
+      jstr,
+      buf,
+    );
+  }
+
+  late final _ReleaseJavaStringCharsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              JString, ffi.Pointer<ffi.Char>)>>('ReleaseJavaStringChars');
+  late final _ReleaseJavaStringChars = _ReleaseJavaStringCharsPtr.asFunction<
+      void Function(JString, ffi.Pointer<ffi.Char>)>();
 }
 
 class jfieldID_ extends ffi.Opaque {}

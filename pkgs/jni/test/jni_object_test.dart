@@ -10,7 +10,7 @@ import 'package:jni/jni_object.dart';
 void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
-    Jni.spawn(helperDir: "src/build");
+    Jni.spawn(helperDir: "build/jni_libs");
   }
 
   final jni = Jni.getInstance();
@@ -210,7 +210,7 @@ void doSomeWorkInIsolate(Void? _) {
   // when doing getInstance first time in a new isolate.
   //
   // otherwise getInstance will throw a "library not found" exception.
-  Jni.load(helperDir: "src/build");
+  Jni.load(helperDir: "build/jni_libs");
   final jni = Jni.getInstance();
   final random = jni.newInstance("java/util/Random", "()V", []);
   // final r = random.callIntMethodByName("nextInt", "(I)I", [256]);

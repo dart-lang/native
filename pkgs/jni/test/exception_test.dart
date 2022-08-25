@@ -15,7 +15,7 @@ void main() {
       Jni.spawn(helperDir: "wrong_dir");
     } on HelperNotFoundException catch (_) {
       // stderr.write("\n$_\n");
-      Jni.spawn(helperDir: "src/build");
+      Jni.spawn(helperDir: "build/jni_libs");
       caught = true;
     }
     if (!caught) {

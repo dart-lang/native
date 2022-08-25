@@ -5,9 +5,26 @@ import 'package:package_config/package_config.dart';
 
 const _buildDir = "build-dir";
 const _srcDir = "source-dir";
+const _packageName = 'package-name';
 const _verbose = "verbose";
 const _cmakeArgs = "cmake-args";
 const _clean = "clean";
+
+const _cmakeTemporaryFiles = [
+  'CMakeCache.txt',
+  'CMakeFiles/',
+  'cmake_install.cmake',
+  'Makefile'
+];
+
+void deleteCMakeTemps(Uri buildDir) async {
+  for (var filename in _cmakeTemporaryFiles) {
+    if (options.verbose) {
+      stderr.writeln('remove $filename');
+    }
+    await File(buildDir.resolve(filename).toFilePath()).delete(recursive: true);
+  }
+}
 
 // Sets up input output channels and maintains state.
 class CommandRunner {
@@ -25,7 +42,7 @@ class CommandRunner {
     }
     final process = await Process.start(exec, args,
         workingDirectory: workingDir,
-        runInShell: Platform.isWindows,
+        runInShell: true,
         mode: ProcessStartMode.inheritStdio);
     final exitCode = await process.exitCode;
     if (exitCode != 0) {
@@ -39,11 +56,14 @@ class Options {
   Options(ArgResults arg)
       : buildDir = arg[_buildDir],
         srcDir = arg[_srcDir],
+        packageName = arg[_packageName] ?? 'jni',
         cmakeArgs = arg[_cmakeArgs],
         verbose = arg[_verbose] ?? false,
         clean = arg[_clean] ?? false;
 
-  String? buildDir, srcDir, cmakeArgs;
+  String? buildDir, srcDir;
+  String packageName;
+  List<String> cmakeArgs;
   bool verbose, clean;
 }
 
@@ -63,7 +83,7 @@ Future<String?> findSources() async {
   }
   final packages = packageConfig.packages;
   for (var package in packages) {
-    if (package.name == 'jni') {
+    if (package.name == options.packageName) {
       return package.root.resolve("src/").toFilePath();
     }
   }
@@ -76,14 +96,18 @@ void main(List<String> arguments) async {
         abbr: 'B', help: 'Directory to place built artifacts')
     ..addOption(_srcDir,
         abbr: 'S', help: 'alternative path to package:jni sources')
+    ..addOption(_packageName,
+        abbr: 'p',
+        help: 'package for which native'
+            'library should be built',
+        defaultsTo: 'jni')
     ..addFlag(_verbose, abbr: 'v', help: 'Enable verbose output')
     ..addFlag(_clean,
         negatable: false,
         abbr: 'C',
         help: 'Clear built artifacts instead of running a build')
-    ..addOption(_cmakeArgs,
-        abbr: 'm',
-        help: 'additional space separated arguments to pass to CMake');
+    ..addMultiOption(_cmakeArgs,
+        abbr: 'm', help: 'additional argument to pass to CMake');
   final cli = parser.parse(arguments);
   options = Options(cli);
   final rest = cli.rest;
@@ -114,7 +138,7 @@ void main(List<String> arguments) async {
 
   final currentDirUri = Uri.file(".");
   final buildPath =
-      options.buildDir ?? currentDirUri.resolve("src/build").toFilePath();
+      options.buildDir ?? currentDirUri.resolve("build/jni_libs").toFilePath();
   final buildDir = Directory(buildPath);
   await buildDir.create(recursive: true);
   log("buildPath: $buildPath");
@@ -136,15 +160,15 @@ void main(List<String> arguments) async {
 Future<void> build(Options options, String srcPath, String buildPath) async {
   final runner = CommandRunner(printCmds: true);
   final cmakeArgs = <String>[];
-  if (options.cmakeArgs != null) {
-    cmakeArgs.addAll(options.cmakeArgs!.split(" "));
-  }
+  cmakeArgs.addAll(options.cmakeArgs);
   cmakeArgs.add(srcPath);
   await runner.run("cmake", cmakeArgs, buildPath);
   await runner.run("cmake", ["--build", "."], buildPath);
   if (Platform.isWindows) {
     await runner.run("move", ["Debug\\dartjni.dll", "."], buildPath);
   }
+  // delete cmakeTemporaryArtifacts
+  deleteCMakeTemps(Uri.directory(buildPath));
 }
 
 Future<void> cleanup(Options options, String srcPath, String buildPath) async {

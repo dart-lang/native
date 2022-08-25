@@ -6,6 +6,9 @@
 build/
 pubspec.lock
 
+# created by maven
+/target/
+
 # Directory created by dartdoc.
 doc/api/
 
@@ -33,3 +36,7 @@ compile_commands.json
 
 # Mac
 .DS_Store
+
+# Vim
+.*.swp
+

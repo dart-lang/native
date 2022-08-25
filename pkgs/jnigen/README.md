@@ -2,7 +2,7 @@
 
 ## jni_gen
 
-This project intends to provide 2 packages to enable JNI interop from Dart & Flutter.
+This project intends to provide 2 packages to enable JNI interop from Dart & Flutter. Currently this package is highly experimental.
 
 | Package | Description |
 | ------- | --------- |

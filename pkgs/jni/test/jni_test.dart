@@ -18,7 +18,7 @@ void main() {
   // You have to manually pass the path to the `dartjni` dynamic library.
 
   if (!Platform.isAndroid) {
-    Jni.spawn(helperDir: "src/build");
+    Jni.spawn(helperDir: "build/jni_libs");
   }
 
   final jni = Jni.getInstance();
