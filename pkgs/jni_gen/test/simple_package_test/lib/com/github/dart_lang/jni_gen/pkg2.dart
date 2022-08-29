@@ -11,22 +11,22 @@ import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
 
-import "../../init.dart" show jlookup;
+import "../../../../init.dart" show jlookup;
 
-/// from: dev.dart.pkg2.C2
+/// from: com.github.dart_lang.jni_gen.pkg2.C2
 class C2 extends jni.JlObject {
   C2.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CONSTANT =
       jlookup<ffi.NativeFunction<ffi.Int32 Function()>>(
-              "get_dev_dart_pkg2_C2_CONSTANT")
+              "get_com_github_dart_lang_jni_gen_pkg2_C2_CONSTANT")
           .asFunction<int Function()>();
 
   /// from: static public int CONSTANT
   static int get CONSTANT => _get_CONSTANT();
   static final _set_CONSTANT =
       jlookup<ffi.NativeFunction<ffi.Void Function(ffi.Int32)>>(
-              "set_dev_dart_pkg2_C2_CONSTANT")
+              "set_com_github_dart_lang_jni_gen_pkg2_C2_CONSTANT")
           .asFunction<void Function(int)>();
 
   /// from: static public int CONSTANT
@@ -34,7 +34,7 @@ class C2 extends jni.JlObject {
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "dev_dart_pkg2_C2_ctor")
+              "com_github_dart_lang_jni_gen_pkg2_C2_ctor")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
 
   /// from: public void <init>()

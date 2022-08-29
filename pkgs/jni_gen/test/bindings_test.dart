@@ -16,8 +16,8 @@ import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
 // ignore_for_file: avoid_relative_lib_imports
-import 'simple_package_test/lib/dev/dart/simple_package.dart';
-import 'simple_package_test/lib/dev/dart/pkg2.dart';
+import 'simple_package_test/lib/com/github/dart_lang/jni_gen/simple_package.dart';
+import 'simple_package_test/lib/com/github/dart_lang/jni_gen/pkg2.dart';
 import 'jackson_core_test/third_party/lib/com/fasterxml/jackson/core.dart';
 
 import 'test_util/test_util.dart';

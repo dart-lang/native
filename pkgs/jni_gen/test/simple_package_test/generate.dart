@@ -13,7 +13,12 @@ const testName = 'simple_package_test';
 final testRoot = join('test', testName);
 final javaPath = join(testRoot, 'java');
 
-var javaFiles = ['dev/dart/$testName/Example.java', 'dev/dart/pkg2/C2.java'];
+var javaPrefix = join('com', 'github', 'dart_lang', 'jni_gen');
+
+var javaFiles = [
+  join(javaPrefix, 'simple_package', 'Example.java'),
+  join(javaPrefix, 'pkg2', 'C2.java'),
+];
 
 Future<void> compileJavaSources(String workingDir, List<String> files) async {
   await runCmd('javac', files, workingDirectory: workingDir);
@@ -33,7 +38,10 @@ Future<void> generateSources(String lib, String src) async {
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
-    classes: ['dev.dart.simple_package', 'dev.dart.pkg2'],
+    classes: [
+      'com.github.dart_lang.jni_gen.simple_package',
+      'com.github.dart_lang.jni_gen.pkg2',
+    ],
     cRoot: cWrapperDir,
     dartRoot: dartWrappersRoot,
     libraryName: 'simple_package',

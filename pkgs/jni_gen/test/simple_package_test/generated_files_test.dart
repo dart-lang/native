@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:test/test.dart';
 import 'package:path/path.dart' hide equals;
 
@@ -15,4 +17,10 @@ void main() async {
     compareDirs(join(testRoot, 'lib'), join(testRoot, 'test_lib'));
     compareDirs(join(testRoot, 'src'), join(testRoot, 'test_src'));
   });
+  for (var path in ['test_lib', 'test_src']) {
+    final folder = Directory(path);
+    if (await folder.exists()) {
+      await folder.delete(recursive: true);
+    }
+  }
 }

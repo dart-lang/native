@@ -1,4 +1,4 @@
-package dev.dart.simple_package;
+package com.github.dart_lang.jni_gen.simple_package;
 
 public class Example {
   public static final int ON = 1;
