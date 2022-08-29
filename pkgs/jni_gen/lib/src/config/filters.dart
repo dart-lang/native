@@ -4,6 +4,11 @@
 
 import 'package:jni_gen/src/elements/elements.dart';
 
+bool _matchesCompletely(String string, Pattern pattern) {
+  final match = pattern.matchAsPrefix(string);
+  return match != null && match.group(0) == string;
+}
+
 /// A filter which tells if bindings for given [ClassDecl] are generated.
 abstract class ClassFilter {
   bool included(ClassDecl decl);
@@ -17,11 +22,6 @@ class CustomClassFilter implements ClassFilter {
   bool included(ClassDecl decl) {
     return predicate(decl);
   }
-}
-
-bool _matchesCompletely(String string, Pattern pattern) {
-  final match = pattern.matchAsPrefix(string);
-  return match != null && match.group(0) == string;
 }
 
 /// Filter to include / exclude classes by matching on the binary name.
@@ -45,6 +45,7 @@ abstract class MemberFilter<T extends ClassMember> {
   bool included(ClassDecl classDecl, T member);
 }
 
+/// Filter that excludes or includes members based on class and member name.
 class MemberNameFilter<T extends ClassMember> implements MemberFilter<T> {
   MemberNameFilter.include(this.classPattern, this.namePattern)
       : onMatch = true;
@@ -60,6 +61,7 @@ class MemberNameFilter<T extends ClassMember> implements MemberFilter<T> {
   }
 }
 
+/// Filter that includes or excludes a member based on a custom callback.
 class CustomMemberFilter<T extends ClassMember> implements MemberFilter<T> {
   CustomMemberFilter(this.predicate);
   bool Function(ClassDecl, T) predicate;
@@ -67,6 +69,7 @@ class CustomMemberFilter<T extends ClassMember> implements MemberFilter<T> {
   bool included(ClassDecl classDecl, T member) => predicate(classDecl, member);
 }
 
+/// Filter which excludes classes excluded by any one filter in [filters].
 class CombinedClassFilter implements ClassFilter {
   CombinedClassFilter.all(this.filters);
   final List<ClassFilter> filters;
@@ -74,6 +77,7 @@ class CombinedClassFilter implements ClassFilter {
   bool included(ClassDecl decl) => filters.every((f) => f.included(decl));
 }
 
+/// Filter which excludes members excluded by any one filter in [filters].
 class CombinedMemberFilter<T extends ClassMember> implements MemberFilter<T> {
   CombinedMemberFilter(this.filters);
 
@@ -111,38 +115,4 @@ typedef CombinedMethodFilter = CombinedMemberFilter<Method>;
 MemberFilter<T> excludeAll<T extends ClassMember>(List<List<Pattern>> names) {
   return CombinedMemberFilter<T>(
       names.map((p) => MemberNameFilter<T>.exclude(p[0], p[1])).toList());
-}
-
-/// Options that affect the semantics of the generated code.
-class WrapperOptions {
-  const WrapperOptions({
-    this.classFilter,
-    this.fieldFilter,
-    this.methodFilter,
-    this.classTransformer,
-    this.methodTransformer,
-    this.fieldTransformer,
-    this.importPaths = const {},
-  });
-
-  /// Mapping from java package names to dart packages.
-  /// A mapping `a.b` -> `package:a_b/' means that
-  /// any import `a.b.C` will be resolved as `package:a_b/a/b.dart` in dart.
-  /// Note that dart bindings use the same hierarchy as the java packages.
-  final Map<String, String> importPaths;
-
-  /// [ClassFilter] to decide if bindings for a class should be generated.
-  final ClassFilter? classFilter;
-
-  /// [FieldFilter] to decide if bindings for a field should be generated.
-  final FieldFilter? fieldFilter;
-
-  /// [MethodFilter] to decide if bindings for a method should be generated.
-  final MethodFilter? methodFilter;
-
-  // TODO(#26): This allows us to implement flexible renaming and more customization
-  // via the dart API.
-  final ClassDecl? Function(ClassDecl decl)? classTransformer;
-  final Method? Function(Method method)? methodTransformer;
-  final Field? Function(Field field)? fieldTransformer;
 }

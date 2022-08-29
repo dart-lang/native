@@ -5,25 +5,22 @@
 import 'dart:io';
 
 import 'package:jni_gen/src/elements/elements.dart';
-import 'package:jni_gen/src/config/wrapper_options.dart';
+import 'package:jni_gen/src/config/config.dart';
 import 'package:jni_gen/src/util/rename_conflict.dart';
 import 'common.dart';
 
 /// Preprocessor which fills information needed by both Dart and C generators.
 class ApiPreprocessor {
-  ApiPreprocessor(this.classes, this.options);
-  final Map<String, ClassDecl> classes;
-  final WrapperOptions options;
-
-  void preprocessAll() {
+  static void preprocessAll(Map<String, ClassDecl> classes, Config config) {
     for (var c in classes.values) {
-      _preprocess(c);
+      _preprocess(c, classes, config);
     }
   }
 
-  void _preprocess(ClassDecl decl) {
+  static void _preprocess(
+      ClassDecl decl, Map<String, ClassDecl> classes, Config config) {
     if (decl.isPreprocessed) return;
-    if (!_isClassIncluded(decl)) {
+    if (!_isClassIncluded(decl, config)) {
       decl.isIncluded = false;
       stdout.writeln('exclude class ${decl.binaryName}');
       decl.isPreprocessed = true;
@@ -32,7 +29,7 @@ class ApiPreprocessor {
     ClassDecl? superclass;
     if (decl.superclass != null && classes.containsKey(decl.superclass?.name)) {
       superclass = classes[decl.superclass!.name]!;
-      _preprocess(superclass);
+      _preprocess(superclass, classes, config);
       // again, un-consider superclass if it was excluded through config
       if (!superclass.isIncluded) {
         superclass = null;
@@ -42,7 +39,7 @@ class ApiPreprocessor {
     }
 
     for (var field in decl.fields) {
-      if (!_isFieldIncluded(decl, field)) {
+      if (!_isFieldIncluded(decl, field, config)) {
         field.isIncluded = false;
         stderr.writeln('exclude ${decl.binaryName}#${field.name}');
         continue;
@@ -51,7 +48,7 @@ class ApiPreprocessor {
     }
 
     for (var method in decl.methods) {
-      if (!_isMethodIncluded(decl, method)) {
+      if (!_isMethodIncluded(decl, method, config)) {
         method.isIncluded = false;
         stderr.writeln('exclude method ${decl.binaryName}#${method.name}');
         continue;
@@ -81,10 +78,12 @@ class ApiPreprocessor {
     decl.isPreprocessed = true;
   }
 
-  bool _isFieldIncluded(ClassDecl decl, Field field) =>
-      options.fieldFilter?.included(decl, field) != false;
-  bool _isMethodIncluded(ClassDecl decl, Method method) =>
-      options.methodFilter?.included(decl, method) != false;
-  bool _isClassIncluded(ClassDecl decl) =>
-      options.classFilter?.included(decl) != false;
+  static bool _isFieldIncluded(ClassDecl decl, Field field, Config config) =>
+      !field.name.startsWith('_') &&
+      config.exclude?.fields?.included(decl, field) != false;
+  static bool _isMethodIncluded(ClassDecl decl, Method method, Config config) =>
+      !method.name.startsWith('_') &&
+      config.exclude?.methods?.included(decl, method) != false;
+  static bool _isClassIncluded(ClassDecl decl, Config config) =>
+      config.exclude?.classes?.included(decl) != false;
 }

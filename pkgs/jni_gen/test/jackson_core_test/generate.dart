@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jni_gen/jni_gen.dart';
-import '../test_util/test_util.dart';
+import 'package:path/path.dart' hide equals;
 
 const jacksonPreamble = '// Generated from jackson-core which is licensed under'
     ' the Apache License 2.0.\n'
@@ -23,18 +23,27 @@ const jacksonPreamble = '// Generated from jackson-core which is licensed under'
     '// See the License for the specific language governing permissions and\n'
     '// limitations under the License.\n';
 
-Future<void> generate(
+const testName = 'jackson_core_test';
+final thirdParty = join('test', testName, 'third_party');
+const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.3'];
+
+Config getConfig(
     {bool isTest = false,
     bool generateFullVersion = false,
-    bool useAsm = false}) async {
-  final deps = ['com.fasterxml.jackson.core:jackson-core:2.13.3'];
-  await generateBindings(
-    testName: 'jackson_core_test',
-    sourceDepNames: deps,
-    jarDepNames: deps,
-    useAsmBackend: useAsm,
+    bool useAsm = false}) {
+  final config = Config(
+    mavenDownloads: MavenDownloads(
+      sourceDeps: deps,
+      sourceDir: join(thirdParty, 'java'),
+      jarDir: join(thirdParty, 'jar'),
+    ),
+    summarizerOptions: SummarizerOptions(
+      backend: useAsm ? 'asm' : null,
+    ),
     preamble: jacksonPreamble,
-    isThirdParty: true,
+    libraryName: testName,
+    cRoot: Uri.directory(join(thirdParty, isTest ? 'test_src' : 'src')),
+    dartRoot: Uri.directory(join(thirdParty, isTest ? 'test_lib' : 'lib')),
     classes: (generateFullVersion)
         ? ['com.fasterxml.jackson.core']
         : [
@@ -42,20 +51,25 @@ Future<void> generate(
             'com.fasterxml.jackson.core.JsonParser',
             'com.fasterxml.jackson.core.JsonToken',
           ],
-    isGeneratedFileTest: isTest,
-    options: WrapperOptions(
-        fieldFilter: CombinedFieldFilter([
-          excludeAll<Field>([
-            ['com.fasterxml.jackson.core.JsonFactory', 'DEFAULT_QUOTE_CHAR'],
-            ['com.fasterxml.jackson.core.Base64Variant', 'PADDING_CHAR_NONE'],
-            ['com.fasterxml.jackson.core.base.ParserMinimalBase', 'CHAR_NULL'],
-            ['com.fasterxml.jackson.core.io.UTF32Reader', 'NC'],
-          ]),
-          CustomFieldFilter((decl, field) => !field.name.startsWith("_")),
-        ]),
-        methodFilter:
-            CustomMethodFilter((decl, method) => !method.name.startsWith('_'))),
+    exclude: BindingExclusions(
+      fields: excludeAll<Field>([
+        ['com.fasterxml.jackson.core.JsonFactory', 'DEFAULT_QUOTE_CHAR'],
+        ['com.fasterxml.jackson.core.Base64Variant', 'PADDING_CHAR_NONE'],
+        ['com.fasterxml.jackson.core.base.ParserMinimalBase', 'CHAR_NULL'],
+        ['com.fasterxml.jackson.core.io.UTF32Reader', 'NC'],
+      ]),
+    ),
   );
+  return config;
+}
+
+Future<void> generate(
+    {bool isTest = false,
+    bool generateFullVersion = false,
+    bool useAsm = false}) async {
+  final config = getConfig(
+      isTest: isTest, generateFullVersion: generateFullVersion, useAsm: useAsm);
+  await generateJniBindings(config);
 }
 
 void main() => generate(isTest: false);

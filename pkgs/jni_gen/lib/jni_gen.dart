@@ -9,4 +9,5 @@ library jni_gen;
 
 export 'src/elements/elements.dart';
 export 'src/config/config.dart';
-export 'src/writers/writers.dart';
+export 'src/config/filters.dart';
+export 'src/generate_bindings.dart';

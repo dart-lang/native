@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jni_gen/src/elements/elements.dart';
-import 'package:jni_gen/src/config/wrapper_options.dart';
+import 'package:jni_gen/src/config/config.dart';
 
 import 'common.dart';
 
@@ -28,8 +28,8 @@ class CBindingGenerator {
   String _cParamRename(String paramName) =>
       _cTypeKeywords.contains(paramName) ? '${paramName}0' : paramName;
 
-  CBindingGenerator(this.options);
-  WrapperOptions options;
+  CBindingGenerator(this.config);
+  Config config;
 
   String generateBinding(ClassDecl c) {
     return _class(c);

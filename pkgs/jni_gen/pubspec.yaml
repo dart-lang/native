@@ -13,7 +13,9 @@ environment:
 dependencies:
   json_annotation: ^4.6.0
   package_config: ^2.1.0
-  path:
+  path: ^1.8.0
+  args: ^2.3.0
+  yaml: ^3.1.0
 
 dev_dependencies:
   lints: ^2.0.0

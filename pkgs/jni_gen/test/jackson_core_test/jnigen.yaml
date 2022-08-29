@@ -1,0 +1,36 @@
+maven_downloads:
+  source_deps:
+    - 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+  source_dir: test/jackson_core_test/third_party/java
+  jar_dir: test/jackson_core_test/third_party/jar
+
+dart_root: test/jackson_core_test/third_party/lib
+c_root: test/jackson_core_test/third_party/src
+library_name: jackson_core_test
+classes:
+  - 'com.fasterxml.jackson.core.JsonFactory'
+  - 'com.fasterxml.jackson.core.JsonParser'
+  - 'com.fasterxml.jackson.core.JsonToken'
+
+exclude:
+  fields:
+    - 'com.fasterxml.jackson.core.JsonFactory#DEFAULT_QUOTE_CHAR'
+
+preamble: |
+  // Generated from jackson-core which is licensed under the Apache License 2.0.
+  // The following copyright from the original authors applies.
+  // See https://github.com/FasterXML/jackson-core/blob/2.14/LICENSE
+  //
+  // Copyright (c) 2007 - The Jackson Project Authors
+  // Licensed under the Apache License, Version 2.0 (the "License")
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+

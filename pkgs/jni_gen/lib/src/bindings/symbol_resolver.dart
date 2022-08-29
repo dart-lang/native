@@ -14,8 +14,6 @@ abstract class SymbolResolver {
   List<String> getImportStrings();
 }
 
-// TODO(#24): resolve all included classes without requiring import mappings.
-
 class PackagePathResolver implements SymbolResolver {
   PackagePathResolver(this.packages, this.currentPackage, this.inputClassNames,
       {this.predefined = const {}});

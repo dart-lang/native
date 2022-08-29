@@ -61,7 +61,7 @@ class JsonFactory extends jni.JlObject {
   /// (and returned by \#getFormatName()
   static const FORMAT_NAME_JSON = "JSON";
 
-  static final _getDEFAULT_FACTORY_FEATURE_FLAGS = jlookup<
+  static final _get_DEFAULT_FACTORY_FEATURE_FLAGS = jlookup<
               ffi.NativeFunction<ffi.Int32 Function()>>(
           "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_FACTORY_FEATURE_FLAGS")
       .asFunction<int Function()>();
@@ -70,9 +70,9 @@ class JsonFactory extends jni.JlObject {
   ///
   /// Bitfield (set of flags) of all factory features that are enabled by default.
   static int get DEFAULT_FACTORY_FEATURE_FLAGS =>
-      _getDEFAULT_FACTORY_FEATURE_FLAGS();
+      _get_DEFAULT_FACTORY_FEATURE_FLAGS();
 
-  static final _getDEFAULT_PARSER_FEATURE_FLAGS = jlookup<
+  static final _get_DEFAULT_PARSER_FEATURE_FLAGS = jlookup<
               ffi.NativeFunction<ffi.Int32 Function()>>(
           "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_PARSER_FEATURE_FLAGS")
       .asFunction<int Function()>();
@@ -82,9 +82,9 @@ class JsonFactory extends jni.JlObject {
   /// Bitfield (set of flags) of all parser features that are enabled
   /// by default.
   static int get DEFAULT_PARSER_FEATURE_FLAGS =>
-      _getDEFAULT_PARSER_FEATURE_FLAGS();
+      _get_DEFAULT_PARSER_FEATURE_FLAGS();
 
-  static final _getDEFAULT_GENERATOR_FEATURE_FLAGS = jlookup<
+  static final _get_DEFAULT_GENERATOR_FEATURE_FLAGS = jlookup<
               ffi.NativeFunction<ffi.Int32 Function()>>(
           "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_GENERATOR_FEATURE_FLAGS")
       .asFunction<int Function()>();
@@ -94,9 +94,9 @@ class JsonFactory extends jni.JlObject {
   /// Bitfield (set of flags) of all generator features that are enabled
   /// by default.
   static int get DEFAULT_GENERATOR_FEATURE_FLAGS =>
-      _getDEFAULT_GENERATOR_FEATURE_FLAGS();
+      _get_DEFAULT_GENERATOR_FEATURE_FLAGS();
 
-  static final _getDEFAULT_ROOT_VALUE_SEPARATOR = jlookup<
+  static final _get_DEFAULT_ROOT_VALUE_SEPARATOR = jlookup<
               ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
           "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_ROOT_VALUE_SEPARATOR")
       .asFunction<ffi.Pointer<ffi.Void> Function()>();
@@ -104,7 +104,7 @@ class JsonFactory extends jni.JlObject {
   /// from: static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static jni.JlObject get DEFAULT_ROOT_VALUE_SEPARATOR =>
-      jni.JlObject.fromRef(_getDEFAULT_ROOT_VALUE_SEPARATOR());
+      jni.JlObject.fromRef(_get_DEFAULT_ROOT_VALUE_SEPARATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -1682,7 +1682,7 @@ class JsonParser extends jni.JlObject {
   /// from: private static final int MAX_SHORT_I
   static const MAX_SHORT_I = 32767;
 
-  static final _getDEFAULT_READ_CAPABILITIES = jlookup<
+  static final _get_DEFAULT_READ_CAPABILITIES = jlookup<
               ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
           "get_com_fasterxml_jackson_core_JsonParser_DEFAULT_READ_CAPABILITIES")
       .asFunction<ffi.Pointer<ffi.Void> Function()>();
@@ -1695,7 +1695,7 @@ class JsonParser extends jni.JlObject {
   /// set needs to be passed).
   ///@since 2.12
   static jni.JlObject get DEFAULT_READ_CAPABILITIES =>
-      jni.JlObject.fromRef(_getDEFAULT_READ_CAPABILITIES());
+      jni.JlObject.fromRef(_get_DEFAULT_READ_CAPABILITIES());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
