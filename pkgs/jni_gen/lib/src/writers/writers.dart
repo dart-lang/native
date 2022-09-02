@@ -63,8 +63,9 @@ class FilesWriter extends BindingsWriter {
     final initFile = await File.fromUri(initFileUri).create(recursive: true);
     await initFile.writeAsString(DartPreludes.initFile(config.libraryName),
         flush: true);
-
-    final cFile = await File.fromUri(cRoot.resolve('$libraryName.c'))
+    final subdir = config.cSubdir ?? '.';
+    final cFileRelativePath = '$subdir/$libraryName.c';
+    final cFile = await File.fromUri(cRoot.resolve(cFileRelativePath))
         .create(recursive: true);
     final cFileStream = cFile.openWrite();
     if (preamble != null) {
@@ -116,10 +117,14 @@ class FilesWriter extends BindingsWriter {
 
     stderr.writeln('Copying auxiliary files...');
     await _copyFileFromPackage(
-        'jni', 'src/dartjni.h', cRoot.resolve('dartjni.h'));
+        'jni', 'src/dartjni.h', cRoot.resolve('$subdir/dartjni.h'));
     await _copyFileFromPackage(
         'jni_gen', 'cmake/CMakeLists.txt.tmpl', cRoot.resolve('CMakeLists.txt'),
-        transform: (s) => s.replaceAll('{{LIBRARY_NAME}}', libraryName));
+        transform: (s) {
+      return s
+          .replaceAll('{{LIBRARY_NAME}}', libraryName)
+          .replaceAll('{{SUBDIR}}', subdir);
+    });
     stderr.writeln('Completed.');
   }
 

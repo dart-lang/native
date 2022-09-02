@@ -11,6 +11,9 @@ import 'package:jni/jni.dart';
 import 'package:jni/jni_object.dart';
 import 'package:jni_example/main.dart';
 
+// TODO(#38): This test is skipped because it broke for unknown reason in
+// in flutter 3.3.0
+
 // This test exists just to verify that
 // when everything is correct, JNI actually runs
 // However it's also kind of meaningless, because test environment

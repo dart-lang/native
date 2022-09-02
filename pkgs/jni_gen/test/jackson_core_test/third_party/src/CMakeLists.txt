@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.10)
 project(jackson_core_test VERSION 0.0.1 LANGUAGES C)
 
 add_library(jackson_core_test SHARED
-  "jackson_core_test.c"
+  "./jackson_core_test.c"
 )
 
 set_target_properties(jackson_core_test PROPERTIES

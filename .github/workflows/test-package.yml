@@ -117,6 +117,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
@@ -157,6 +159,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
@@ -167,7 +171,6 @@ jobs:
       - run: flutter config --enable-linux-desktop
       - run: flutter pub get
       - run: dart run jni:setup
-      - run: flutter test
       - run: flutter build linux
 
   build_jni_example_windows:
@@ -180,6 +183,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
@@ -202,9 +207,36 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - run: flutter pub get
       - run: flutter build apk
-      - run: flutter build appbundle
+
+  build_in_app_java_example:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_gen/examples/in_app_java
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter build apk
+      - name: re-generate bindings
+        run: flutter pub run jni_gen -Ddart_root=_dart -Dc_root=_c --config jnigen.yaml
+      - name: compare generated dart bindings
+        run: diff -qr lib/android_utils _dart
+      - name: compare generated C bindings
+        run: diff -qr src/android_utils _c
 
   coveralls_finish:
     needs: [test_jni_gen, test_jni]
@@ -215,4 +247,51 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
+
+  run_pdfbox_example_linux:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni_gen/examples/pdfbox_plugin
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+      - run: flutter config --enable-linux-desktop
+      - run: dart pub get
+      - name: Generate bindings
+        run: |
+          dart run jni_gen -Dc_root=_c -Ddart_root=_dart --config jnigen.yaml
+      - name: Compare generated bindings
+        run: |
+          diff -qr _c src/
+          diff -qr _dart lib/third_party
+      - name: Generate full bindings
+        run: dart run jni_gen --config jnigen_full.yaml
+      - name: Analyze generated bindings
+        run: |
+          flutter pub get # dart-analyze errors on flutter example
+          flutter analyze
+      - name: Run standalone example
+        run: |
+          dart pub get
+          dart run jni:setup && dart run jni:setup -p pdfbox_plugin
+          wget 'https://dart.dev/guides/language/specifications/DartLangSpec-v2.2.pdf'
+          dart run bin/pdf_info.dart DartLangSpec-v2.2.pdf
+        working-directory: ./pkgs/jni_gen/examples/pdfbox_plugin/dart_example
+      - name: Build flutter example for pdfbox_plugin
+        run: |
+          flutter pub get
+          flutter build linux
+        working-directory: ./pkgs/jni_gen/examples/pdfbox_plugin/example
 

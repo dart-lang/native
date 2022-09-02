@@ -15,19 +15,20 @@ abstract class SymbolResolver {
 }
 
 class PackagePathResolver implements SymbolResolver {
-  PackagePathResolver(this.packages, this.currentPackage, this.inputClassNames,
+  PackagePathResolver(this.importMap, this.currentPackage, this.inputClassNames,
       {this.predefined = const {}});
 
   final String currentPackage;
-  final Map<String, String> packages;
+  final Map<String, String> importMap;
   final Map<String, String> predefined;
   final Set<String> inputClassNames;
 
   final List<String> importStrings = [];
 
+  final Set<String> relativeImportedPackages = {};
+
   final Map<String, String> _importedNameToPackage = {};
   final Map<String, String> _packageToImportedName = {};
-
   // return null if type's package cannot be resolved
   // else return the fully qualified name of type
   @override
@@ -46,8 +47,13 @@ class PackagePathResolver implements SymbolResolver {
 
     if (_packageToImportedName.containsKey(package)) {
       // This package was already resolved
-      final importedName = _packageToImportedName[package];
-      return '$importedName.$simpleTypeName';
+      // but we still need to check if it was a relative import, in which case
+      // the class not in inputClassNames cannot be mapped here.
+      if (!relativeImportedPackages.contains(package) ||
+          inputClassNames.contains(binaryName)) {
+        final importedName = _packageToImportedName[package];
+        return '$importedName.$simpleTypeName';
+      }
     }
 
     final packageImport = getImport(package, binaryName);
@@ -102,6 +108,7 @@ class PackagePathResolver implements SymbolResolver {
         pathToCommon = '../' * (src.length - common);
       }
       final pathToPackage = dest.skip(max(common - 1, 0)).join('/');
+      relativeImportedPackages.add(packageToResolve);
       return '$pathToCommon$pathToPackage.dart';
     }
 
@@ -110,9 +117,9 @@ class PackagePathResolver implements SymbolResolver {
       final left = split[0];
       right.add(split[1]);
       // eg: packages[org.apache.pdfbox]/org/apache/pdfbox.dart
-      if (packages.containsKey(prefix)) {
+      if (importMap.containsKey(prefix)) {
         final sub = packageToResolve.replaceAll('.', '/');
-        final pkg = _suffix(packages[prefix]!, '/');
+        final pkg = _suffix(importMap[prefix]!, '/');
         return '$pkg$sub.dart';
       }
       prefix = left;

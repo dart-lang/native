@@ -35,6 +35,12 @@ Future<void> setupDylibsAndClasses() async {
   await runCmd('javac',
       ['dev/dart/simple_package/Example.java', 'dev/dart/pkg2/C2.java'],
       workingDirectory: simplePackageJavaPath);
+  await runCmd('dart', [
+    'run',
+    'jni_gen:download_maven_jars',
+    '--config',
+    join(jacksonCorePath, 'jnigen.yaml')
+  ]);
 
   final jacksonJars = await getJarPaths(join(jacksonCorePath, 'third_party'));
 

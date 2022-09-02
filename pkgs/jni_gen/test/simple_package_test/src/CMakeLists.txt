@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.10)
 project(simple_package VERSION 0.0.1 LANGUAGES C)
 
 add_library(simple_package SHARED
-  "simple_package.c"
+  "./simple_package.c"
 )
 
 set_target_properties(simple_package PROPERTIES

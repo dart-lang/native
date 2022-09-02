@@ -89,7 +89,7 @@ class YamlReader {
       }
       throw ConfigError('expected boolean value for $property, got $v');
     }
-    return null;
+    return getYamlValue<bool>(property);
   }
 
   String? getString(String property) {

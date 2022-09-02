@@ -41,18 +41,35 @@ class MavenDownloads {
 /// The SDK directories for platform stub JARs and sources are searched in the
 /// same order in which [versions] are specified.
 ///
-/// If [sdkRoot] is not provided, an attempt is made to discover it
-/// using the environment variable `ANDROID_SDK_ROOT`, which will fail if the
-/// environment variable is not set.
-///
 /// If [includeSources] is true, `jni_gen` searches for Android SDK sources
 /// as well in the SDK directory and adds them to the source path.
+///
+/// If [addGradleDeps] is true, a gradle stub is run in order to collect the
+/// actual compile classpath of the `android/` subproject.
+/// This will fail if there was no previous build of the project, or if a
+/// `clean` task was run either through flutter or gradle wrapper. In such case,
+/// it's required to run `flutter build apk` & retry running `jni_gen`.
+///
+/// A configuration is invalid if [versions] is unspecified or empty, and
+/// [addGradleDeps] is also false. If [sdkRoot] is not specified but versions is
+/// specified, an attempt is made to find out SDK installation directory using
+/// environment variable `ANDROID_SDK_ROOT` if it's defined, else an error
+/// will be thrown.
 class AndroidSdkConfig {
   AndroidSdkConfig(
-      {required this.versions, this.sdkRoot, this.includeSources = false});
-  List<int> versions;
+      {this.versions,
+      this.sdkRoot,
+      this.includeSources = false,
+      this.addGradleDeps = false}) {
+    if (versions == null && !addGradleDeps) {
+      throw ArgumentError('Neither any SDK versions nor `addGradleDeps` '
+          'is specified. Unable to find Android libraries.');
+    }
+  }
+  List<int>? versions;
   String? sdkRoot;
   bool includeSources;
+  bool addGradleDeps;
 }
 
 /// Additional options to pass to the summary generator component.
@@ -87,6 +104,7 @@ class Config {
     required this.libraryName,
     required this.cRoot,
     required this.dartRoot,
+    this.cSubdir,
     this.exclude,
     this.sourcePath,
     this.classPath,
@@ -113,10 +131,18 @@ class Config {
   String libraryName;
 
   /// Directory to write JNI C Bindings.
+  ///
+  /// Strictly speaking, this is the root to place the `CMakeLists.txt` file
+  /// for the generated C bindings. It may be desirable to use the [cSubdir]
+  /// options to write C files to a subdirectory of [cRoot]. For instance,
+  /// when generated code is required to be in `third_party` directory.
   Uri cRoot;
 
   /// Directory to write Dart bindings.
   Uri dartRoot;
+
+  /// Subdirectory relative to [cRoot] to write generated C code.
+  String? cSubdir;
 
   /// Methods and fields to be excluded from generated bindings.
   BindingExclusions? exclude;
@@ -159,7 +185,6 @@ class Config {
 
   static Config parseArgs(List<String> args) {
     final prov = YamlReader.parseArgs(args);
-
     final List<String> missingValues = [];
     T must<T>(T? Function(String) f, T ifNull, String property) {
       final res = f(property);
@@ -214,6 +239,7 @@ class Config {
       ),
       cRoot: Uri.directory(must(prov.getString, '', _Props.cRoot)),
       dartRoot: Uri.directory(must(prov.getString, '', _Props.dartRoot)),
+      cSubdir: prov.getString(_Props.cSubdir),
       preamble: prov.getString(_Props.preamble),
       libraryName: must(prov.getString, '', _Props.libraryName),
       importMap: prov.getStringMap(_Props.importMap),
@@ -229,13 +255,14 @@ class Config {
           : null,
       androidSdkConfig: prov.hasValue(_Props.androidSdkConfig)
           ? AndroidSdkConfig(
-              versions: must<List<String>>(
-                      prov.getStringList, [], _Props.androidSdkVersions)
-                  .map(int.parse)
+              versions: prov
+                  .getStringList(_Props.androidSdkVersions)
+                  ?.map(int.parse)
                   .toList(),
               sdkRoot: getSdkRoot(),
               includeSources:
                   prov.getBool(_Props.includeAndroidSources) ?? false,
+              addGradleDeps: prov.getBool(_Props.addGradleDeps) ?? false,
             )
           : null,
     );
@@ -272,6 +299,7 @@ class _Props {
 
   static const importMap = 'import_map';
   static const cRoot = 'c_root';
+  static const cSubdir = 'c_subdir';
   static const dartRoot = 'dart_root';
   static const preamble = 'preamble';
   static const libraryName = 'library_name';
@@ -286,4 +314,5 @@ class _Props {
   static const androidSdkRoot = '$androidSdkConfig.sdk_root';
   static const androidSdkVersions = '$androidSdkConfig.versions';
   static const includeAndroidSources = '$androidSdkConfig.include_sources';
+  static const addGradleDeps = '$androidSdkConfig.add_gradle_deps';
 }

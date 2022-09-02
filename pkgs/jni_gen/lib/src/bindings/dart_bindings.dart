@@ -159,7 +159,7 @@ class DartBindingsGenerator {
     final name = f.finalName;
     final s = StringBuffer();
 
-    void _writeDocs({bool writeDeleteInstruction = true}) {
+    void writeDocs({bool writeDeleteInstruction = true}) {
       s.write('$_indent/// from: ${_originalFieldDecl(f)}\n');
       if (!isPrimitive(f.type) && writeDeleteInstruction) {
         s.write(_deleteInstruction);
@@ -168,7 +168,7 @@ class DartBindingsGenerator {
     }
 
     if (isStaticField(f) && isFinalField(f) && f.defaultValue != null) {
-      _writeDocs(writeDeleteInstruction: false);
+      writeDocs(writeDeleteInstruction: false);
       s.write('${_indent}static const $name = ${_literal(f.defaultValue)};\n');
       return s.toString();
     }
@@ -183,7 +183,7 @@ class DartBindingsGenerator {
           '<${ffi}NativeFunction<$ffiSig>>("${symPrefix}_$cName")\n'
           '.asFunction<$dartSig>();\n');
       // write original type
-      _writeDocs();
+      writeDocs();
       s.write(_indent);
       if (isStaticField(f)) s.write('static ');
       if (isSetter) {

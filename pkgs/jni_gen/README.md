@@ -28,4 +28,5 @@ The following properties must be specified in yaml.
 The generated C file has to be linked to JNI libraries. Therefore a CMake configuration is always generated which builds the generated code as shared library. The `init.dart` in generated dart code loads the library on first time a method is accessed. On dart standalone, it will be loaded from the same directory specified in `Jni.spawn` call.
 
 ## Examples
-See [jackson_core_test](test/jackson_core_test) folder for an example how bindings are generated. Runnable examples will be added soon.
+Few runnable examples are provided in [examples/](examples/) directory. These directories do not include generated code. Generate the bindings by running `dart run jni_gen --config jnigen.yaml` in the example project root. See the respective READMEs for more details.
+

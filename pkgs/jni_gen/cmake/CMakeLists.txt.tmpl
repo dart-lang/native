@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.10)
 project({{LIBRARY_NAME}} VERSION 0.0.1 LANGUAGES C)
 
 add_library({{LIBRARY_NAME}} SHARED
-  "{{LIBRARY_NAME}}.c"
+  "{{SUBDIR}}/{{LIBRARY_NAME}}.c"
 )
 
 set_target_properties({{LIBRARY_NAME}} PROPERTIES
