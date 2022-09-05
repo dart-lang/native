@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:jnigen/src/logging/logging.dart';
+
 /// This class provides some utility methods to download a sources / jars
 /// using maven along with transitive dependencies.
 class MavenTools {
@@ -11,19 +13,10 @@ class MavenTools {
   static const _tempClassPath = '__temp_classpath.xml';
   static const _tempTarget = '__mvn_target';
 
-  static bool _verbose = false;
-  static void setVerbose(bool enabled) => _verbose = enabled;
-
-  static void _verboseLog(Object? value) {
-    if (_verbose) {
-      stderr.writeln(value);
-    }
-  }
-
   /// Helper method since we can't pass inheritStdio option to [Process.run].
   static Future<int> _runCmd(String exec, List<String> args,
       [String? workingDirectory]) async {
-    _verboseLog('[exec] $exec ${args.join(" ")}');
+    log.info('execute $exec ${args.join(" ")}');
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory,
         mode: ProcessStartMode.inheritStdio);
@@ -33,7 +26,7 @@ class MavenTools {
   static Future<void> _runMavenCommand(
       List<MavenDependency> deps, List<String> mvnArgs) async {
     final pom = _getStubPom(deps);
-    _verboseLog('using POM stub:\n$pom');
+    log.finer('using POM stub:\n$pom');
     await File(_tempPom).writeAsString(pom);
     await Directory(_tempTarget).create();
     await _runCmd('mvn', ['-f', _tempPom, ...mvnArgs]);

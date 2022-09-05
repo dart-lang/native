@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:jnigen/src/elements/elements.dart';
 import 'package:jnigen/src/config/config.dart';
+import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/rename_conflict.dart';
 
 import 'symbol_resolver.dart';
@@ -41,7 +40,9 @@ class DartBindingsGenerator {
     if (!decl.isIncluded) {
       return '';
     }
-    return _class(decl);
+    final bindings = _class(decl);
+    log.finest('generated bindings for class ${decl.binaryName}');
+    return bindings;
   }
 
   String _class(ClassDecl decl) {
@@ -72,7 +73,7 @@ class DartBindingsGenerator {
         s.write(_field(decl, field));
         s.writeln();
       } on SkipException catch (e) {
-        stderr.writeln('skip field ${decl.binaryName}#${field.name}: '
+        log.info('skip field ${decl.binaryName}#${field.name}: '
             '${e.message}');
       }
     }
@@ -85,7 +86,7 @@ class DartBindingsGenerator {
         s.write(_method(decl, method));
         s.writeln();
       } on SkipException catch (e) {
-        stderr.writeln('skip field ${decl.binaryName}#${method.name}: '
+        log.info('skip field ${decl.binaryName}#${method.name}: '
             '${e.message}');
       }
     }

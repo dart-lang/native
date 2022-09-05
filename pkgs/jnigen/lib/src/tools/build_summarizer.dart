@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 
 import 'package:jnigen/src/util/find_package.dart';
+import 'package:jnigen/src/logging/logging.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');
@@ -16,23 +17,21 @@ final targetJarFile = join(mvnTargetDir, 'ApiSummarizer.jar');
 Future<void> buildApiSummarizer() async {
   final pkg = await findPackageRoot('jnigen');
   if (pkg == null) {
-    stderr.writeln('package jnigen not found!');
-    exitCode = 2;
+    log.fatal('package jnigen not found!');
     return;
   }
   final pom = pkg.resolve('java/pom.xml');
   await Directory(toolPath).create(recursive: true);
-  final mvnProc = await Process.start(
-      'mvn',
-      [
-        '--batch-mode',
-        '--update-snapshots',
-        '-f',
-        pom.toFilePath(),
-        'assembly:assembly'
-      ],
-      workingDirectory: toolPath,
-      mode: ProcessStartMode.inheritStdio);
+  final mvnArgs = [
+    '--batch-mode',
+    '--update-snapshots',
+    '-f',
+    pom.toFilePath(),
+    'assembly:assembly'
+  ];
+  log.info('execute mvn $mvnArgs');
+  final mvnProc = await Process.start('mvn', mvnArgs,
+      workingDirectory: toolPath, mode: ProcessStartMode.inheritStdio);
   await mvnProc.exitCode;
   File(targetJarFile).renameSync(jarFile);
   Directory(mvnTargetDir).deleteSync(recursive: true);
@@ -44,17 +43,17 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
       await isPackageModifiedAfter(
           'jnigen', await File(jarFile).lastModified(), 'java/');
   if (isJarStale) {
-    stderr.writeln('Rebuilding ApiSummarizer component since sources '
+    log.info('Rebuilding ApiSummarizer component since sources '
         'have changed. This might take some time.');
   }
   if (!jarExists) {
-    stderr.write('Building ApiSummarizer component. '
+    log.info('Building ApiSummarizer component. '
         'This might take some time. \n'
         'The build will be cached for subsequent runs\n');
   }
   if (!jarExists || isJarStale || force) {
     await buildApiSummarizer();
   } else {
-    stderr.writeln('ApiSummarizer.jar exists. Skipping build..');
+    log.info('ApiSummarizer.jar exists. Skipping build..');
   }
 }

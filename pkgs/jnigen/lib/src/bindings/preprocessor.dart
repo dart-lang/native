@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:jnigen/src/elements/elements.dart';
 import 'package:jnigen/src/config/config.dart';
+import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/rename_conflict.dart';
+
 import 'common.dart';
 
 /// Preprocessor which fills information needed by both Dart and C generators.
@@ -22,7 +22,7 @@ class ApiPreprocessor {
     if (decl.isPreprocessed) return;
     if (!_isClassIncluded(decl, config)) {
       decl.isIncluded = false;
-      stdout.writeln('exclude class ${decl.binaryName}');
+      log.info('exclude class ${decl.binaryName}');
       decl.isPreprocessed = true;
       return;
     }
@@ -37,11 +37,12 @@ class ApiPreprocessor {
         decl.nameCounts.addAll(superclass.nameCounts);
       }
     }
-
+    log.finest('Superclass of ${decl.binaryName} resolved to '
+        '${superclass?.binaryName}');
     for (var field in decl.fields) {
       if (!_isFieldIncluded(decl, field, config)) {
         field.isIncluded = false;
-        stderr.writeln('exclude ${decl.binaryName}#${field.name}');
+        log.info('exclude ${decl.binaryName}#${field.name}');
         continue;
       }
       field.finalName = renameConflict(decl.nameCounts, field.name);
@@ -50,7 +51,7 @@ class ApiPreprocessor {
     for (var method in decl.methods) {
       if (!_isMethodIncluded(decl, method, config)) {
         method.isIncluded = false;
-        stderr.writeln('exclude method ${decl.binaryName}#${method.name}');
+        log.info('exclude method ${decl.binaryName}#${method.name}');
         continue;
       }
       var realName = method.name;
@@ -76,6 +77,7 @@ class ApiPreprocessor {
       }
     }
     decl.isPreprocessed = true;
+    log.finest('preprocessed ${decl.binaryName}');
   }
 
   static bool _isFieldIncluded(ClassDecl decl, Field field, Config config) =>

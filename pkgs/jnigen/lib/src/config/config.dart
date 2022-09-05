@@ -9,6 +9,8 @@ import 'package:jnigen/src/elements/elements.dart';
 import 'yaml_reader.dart';
 import 'filters.dart';
 
+import 'package:logging/logging.dart';
+
 /// Configuration for dependencies to be downloaded using maven.
 ///
 /// Dependency names should be listed in groupId:artifactId:version format.
@@ -142,6 +144,7 @@ class Config {
     this.androidSdkConfig,
     this.mavenDownloads,
     this.summarizerOptions,
+    this.logLevel = Level.INFO,
     this.dumpJsonTo,
   });
 
@@ -205,8 +208,15 @@ class Config {
   /// Additional options for the summarizer component
   SummarizerOptions? summarizerOptions;
 
+  /// Log verbosity. The possible values in decreasing order of verbosity
+  /// are verbose > debug > info > warning > error. Defaults to [LogLevel.info]
+  Level logLevel = Level.INFO;
+
+  /// File to which JSON summary is written before binding generation.
   String? dumpJsonTo;
 
+  static final _levels = Map.fromEntries(
+      Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)));
   static Uri? _toDirUri(String? path) =>
       path != null ? Uri.directory(path) : null;
   static List<Uri>? _toUris(List<String>? paths) =>
@@ -231,7 +241,7 @@ class Config {
       for (var exclusion in exclusions) {
         final split = exclusion.split('#');
         if (split.length != 2) {
-          throw FormatException('Error parsing exclusion: "$exclusion"; '
+          throw FormatException('Error parsing exclusion: "$exclusion": '
               'expected to be in binaryName#member format.');
         }
         filters.add(MemberNameFilter<T>.exclude(
@@ -250,6 +260,15 @@ class Config {
         return '?';
       }
       return root;
+    }
+
+    Level logLevelFromString(String? levelName) {
+      if (levelName == null) return Level.INFO;
+      final level = _levels[levelName.toLowerCase()];
+      if (level == null) {
+        throw ConfigError('Not a valid logging level: $levelName');
+      }
+      return level;
     }
 
     final config = Config(
@@ -295,6 +314,12 @@ class Config {
               androidExample: prov.getString(_Props.androidExample),
             )
           : null,
+      logLevel: logLevelFromString(
+        prov.getOneOf(
+          _Props.logLevel,
+          {'error', 'warning', 'info', 'debug', 'verbose'},
+        ),
+      ),
     );
     if (missingValues.isNotEmpty) {
       stderr.write('Following config values are required but not provided\n'
@@ -333,6 +358,7 @@ class _Props {
   static const dartRoot = 'dart_root';
   static const preamble = 'preamble';
   static const libraryName = 'library_name';
+  static const logLevel = 'log_level';
 
   static const mavenDownloads = 'maven_downloads';
   static const sourceDeps = '$mavenDownloads.source_deps';

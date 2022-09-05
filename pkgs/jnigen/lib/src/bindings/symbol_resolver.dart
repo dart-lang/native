@@ -6,6 +6,9 @@
 // a locally meaningful name, when creating dart bindings
 
 import 'dart:math';
+
+import 'package:jnigen/src/logging/logging.dart';
+
 import 'package:jnigen/src/util/name_utils.dart';
 
 abstract class SymbolResolver {
@@ -29,8 +32,9 @@ class PackagePathResolver implements SymbolResolver {
 
   final Map<String, String> _importedNameToPackage = {};
   final Map<String, String> _packageToImportedName = {};
-  // return null if type's package cannot be resolved
-  // else return the fully qualified name of type
+
+  /// Returns the dart name of the [binaryName] in current translation context,
+  /// or `null` if the name cannot be resolved.
   @override
   String? resolve(String binaryName) {
     if (predefined.containsKey(binaryName)) {
@@ -57,6 +61,7 @@ class PackagePathResolver implements SymbolResolver {
     }
 
     final packageImport = getImport(package, binaryName);
+    log.finest('$package resolved to $packageImport for $binaryName');
     if (packageImport == null) {
       return null;
     }
@@ -67,6 +72,8 @@ class PackagePathResolver implements SymbolResolver {
           'qualified binaryName');
     }
 
+    // We always name imports with an underscore suffix, so that they can be
+    // never shadowed by a parameter or local variable.
     var importedName = '${pkgName}_';
     int suffix = 0;
     while (_importedNameToPackage.containsKey(importedName)) {

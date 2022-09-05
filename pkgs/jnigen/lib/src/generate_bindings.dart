@@ -10,8 +10,11 @@ import 'summary/summary.dart';
 import 'config/config.dart';
 import 'tools/tools.dart';
 import 'writers/writers.dart';
+import 'logging/logging.dart';
 
 Future<void> generateJniBindings(Config config) async {
+  setLoggingLevel(config.logLevel);
+
   await buildSummarizerIfNotExists();
 
   final summarizer = SummarizerCommand(
@@ -72,7 +75,7 @@ Future<void> generateJniBindings(Config config) async {
   try {
     input = await summarizer.getInputStream();
   } on Exception catch (e) {
-    stderr.writeln('error obtaining API summary: $e');
+    log.fatal('Cannot obtain API summary: $e');
     return;
   }
   final stream = JsonDecoder().bind(Utf8Decoder().bind(input));
@@ -80,11 +83,11 @@ Future<void> generateJniBindings(Config config) async {
   try {
     json = await stream.single;
   } on Exception catch (e) {
-    stderr.writeln('error while parsing summary: $e');
+    log.fatal('Cannot parse summary: $e');
     return;
   }
   if (json == null) {
-    stderr.writeln('error: expected JSON element from summarizer.');
+    log.fatal('Expected JSON element from summarizer.');
     return;
   }
   final list = json as List;
@@ -93,6 +96,6 @@ Future<void> generateJniBindings(Config config) async {
     await outputWriter.writeBindings(list.map((c) => ClassDecl.fromJson(c)));
   } on Exception catch (e, trace) {
     stderr.writeln(trace);
-    stderr.writeln('error writing bindings: $e');
+    log.fatal('Error while writing bindings: $e');
   }
 }

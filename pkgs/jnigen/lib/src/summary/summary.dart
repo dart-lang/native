@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/command_output.dart';
 
 /// A command based summary source which calls the ApiSummarizer command.
@@ -79,7 +80,7 @@ class SummarizerCommand {
     args.addAll(extraArgs);
     args.addAll(classes);
 
-    stderr.writeln('[exec] $exec ${args.join(' ')}');
+    log.info('execute $exec ${args.join(' ')}');
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory?.toFilePath() ?? '.');
     prefixedCommandOutputStream('[ApiSummarizer]', proc.stderr)
