@@ -67,7 +67,7 @@ extension AdditionalJniEnvMethods on Pointer<JniEnv> {
       // TODO: Doing this every time is expensive.
       // Should lookup and cache method reference,
       // and keep it alive by keeping a reference to Exception class.
-      // IssueRef: https://github.com/dart-lang/jni_gen/issues/13
+      // IssueRef: https://github.com/dart-lang/jnigen/issues/13
       final ecls = GetObjectClass(exc);
       final toStr = GetMethodID(ecls, _toString, _toStringSig);
       final jstr = CallObjectMethod(exc, toStr);

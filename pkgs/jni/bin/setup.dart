@@ -37,7 +37,7 @@ class CommandRunner {
   int? time;
   // TODO: time commands
   // TODO: Run all commands in single shell instance
-  // IssueRef: https://github.com/dart-lang/jni_gen/issues/14
+  // IssueRef: https://github.com/dart-lang/jnigen/issues/14
   Future<CommandRunner> run(
       String exec, List<String> args, String workingDir) async {
     if (printCmds) {
