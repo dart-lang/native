@@ -56,20 +56,49 @@ class MavenDownloads {
 /// environment variable `ANDROID_SDK_ROOT` if it's defined, else an error
 /// will be thrown.
 class AndroidSdkConfig {
-  AndroidSdkConfig(
-      {this.versions,
-      this.sdkRoot,
-      this.includeSources = false,
-      this.addGradleDeps = false}) {
+  AndroidSdkConfig({
+    this.versions,
+    this.sdkRoot,
+    this.includeSources = false,
+    this.addGradleDeps = false,
+    this.androidExample,
+  }) {
     if (versions == null && !addGradleDeps) {
       throw ArgumentError('Neither any SDK versions nor `addGradleDeps` '
           'is specified. Unable to find Android libraries.');
     }
   }
+
+  /// Versions of android SDK to search for, in decreasing order of preference.
   List<int>? versions;
+
+  /// Root of Android SDK installation, this should be normally given on
+  /// command line or by setting `ANDROID_SDK_ROOT`, since this varies from
+  /// system to system.
   String? sdkRoot;
+
+  /// Include downloaded android SDK sources in source path.
   bool includeSources;
+
+  /// Attempt to determine exact compile time dependencies by running a gradle
+  /// stub in android subproject of this project.
+  ///
+  /// An Android build must have happened before we are able to obtain classpath
+  /// of Gradle dependencies. Run `flutter build apk` before running a jni_gen
+  /// script with this option.
+  ///
+  /// For the same reason, if the flutter project is a plugin instead of
+  /// application, it's not possible to determine the build classpath directly.
+  /// Please provide [androidExample] pointing to an example application in
+  /// that case.
   bool addGradleDeps;
+
+  /// Relative path to example application which will be used to determine
+  /// compile time classpath using a gradle stub. For most Android plugin
+  /// packages, 'example' will be the name of example application created inside
+  /// the package. This example should be built once before using this option,
+  /// so that gradle would have resolved all the dependencies.
+  String? androidExample;
 }
 
 /// Additional options to pass to the summary generator component.
@@ -263,6 +292,7 @@ class Config {
               includeSources:
                   prov.getBool(_Props.includeAndroidSources) ?? false,
               addGradleDeps: prov.getBool(_Props.addGradleDeps) ?? false,
+              androidExample: prov.getString(_Props.androidExample),
             )
           : null,
     );
@@ -315,4 +345,5 @@ class _Props {
   static const androidSdkVersions = '$androidSdkConfig.versions';
   static const includeAndroidSources = '$androidSdkConfig.include_sources';
   static const addGradleDeps = '$androidSdkConfig.add_gradle_deps';
+  static const androidExample = '$androidSdkConfig.android_example';
 }

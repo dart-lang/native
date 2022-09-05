@@ -1,3 +1,7 @@
+// Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'package:jni_gen/jni_gen.dart';
 
 const preamble = '''
@@ -31,7 +35,9 @@ void main(List<String> arguments) async {
     ),
     classes: ['org.apache.pdfbox.pdmodel', 'org.apache.pdfbox.text'],
     cRoot: Uri.directory('src/'),
-    dartRoot: Uri.directory('lib/'),
+    cSubdir: 'third_party',
+    preamble: preamble,
+    dartRoot: Uri.directory('lib/third_party'),
     libraryName: 'pdfbox_plugin',
   );
   await generateJniBindings(config);

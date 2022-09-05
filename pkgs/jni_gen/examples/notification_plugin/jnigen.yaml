@@ -1,0 +1,17 @@
+android_sdk_config:
+  add_gradle_deps: true
+  android_example: 'example/'
+
+preamble: |
+  // Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+
+library_name: notification_plugin
+source_path:
+  - 'android/src/main/java'
+classes:
+  - 'com.example.notification_plugin.Notifications'
+c_root: src/
+dart_root: lib/
+

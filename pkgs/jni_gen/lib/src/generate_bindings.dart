@@ -45,7 +45,8 @@ Future<void> generateJniBindings(Config config) async {
 
   final androidConfig = config.androidSdkConfig;
   if (androidConfig != null && androidConfig.addGradleDeps) {
-    final deps = AndroidSdkTools.getGradleClasspaths();
+    final deps = AndroidSdkTools.getGradleClasspaths(
+        androidConfig.androidExample ?? '.');
     extraJars.addAll(deps.map(Uri.file));
   }
   if (androidConfig != null && androidConfig.versions != null) {
