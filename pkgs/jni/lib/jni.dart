@@ -5,13 +5,13 @@
 /// Package jni provides dart bindings for the Java Native Interface (JNI) on
 /// Android and desktop platforms.
 ///
-/// It's intended as a supplement to the (planned) jnigen tool, a Java wrapper
-/// generator using JNI. The goal is to provide sufficiently complete
+/// It's intended as a supplement to the jnigen tool, a Java wrapper generator
+/// using JNI. The goal of this package is to provide sufficiently complete
 /// and ergonomic access to underlying JNI APIs.
 ///
 /// Therefore, some understanding of JNI is required to use this module.
 ///
-/// __Java VM:__
+/// ## Java VM
 /// On Android, the existing JVM is used, a new JVM needs to be spawned on
 /// flutter desktop & standalone targets.
 ///
@@ -20,10 +20,9 @@
 ///   // Spin up a JVM instance with custom classpath etc..
 ///   Jni.spawn(/* options */);
 /// }
-/// Jni jni = Jni.getInstance();
 /// ```
 ///
-/// __Dart standalone support:__
+/// ## Dart standalone support
 /// On dart standalone target, we unfortunately have no mechanism to bundle
 /// the wrapper libraries with the executable. Thus it needs to be explicitly
 /// placed in a accessible directory and provided as an argument to Jni.spawn.
@@ -31,17 +30,21 @@
 /// This module depends on a shared library written in C. Therefore on dart
 /// standalone:
 ///
-///  * Build the library `libdartjni.so` in src/ directory of this plugin.
-///  * Bundle it appropriately with dart application.
-///  * Pass the path to library as a parameter to `Jni.spawn()`.
+/// * Run `dart run jni:setup` to build the shared library. The default output
+/// directory is build/jni_libs, which can be changed using `-B` switch.
 ///
-/// __JNIEnv:__
-/// The types `JNIEnv` and `JavaVM` in JNI are available as `JniEnv` and
-/// `JavaVM` respectively, with extension methods to conveniently invoke the
-/// function pointer members. Therefore the calling syntax will be similar to
-/// JNI in C++. The first `JniEnv *` parameter is implicit.
+/// * Provide the location of library to `Jni.spawn` call.
 ///
-/// __Debugging__:
+/// * If there are generated libraries (using jnigen), also build them using
+/// the command: `dart run jni:setup -p package_name` in the same directory.
+///
+/// ## JNIEnv
+/// `GlobalJniEnv` type provides a thin wrapper over `JNIEnv*` which can be used
+/// from across threads, and always returns JNI global references. This is
+/// needed because Dart doesn't make guarantees about even the straight-line
+/// code being scheduled on the same thread.
+///
+/// ## Debugging
 /// Debugging JNI errors hard in general.
 ///
 /// * On desktop platforms you can use JniEnv.ExceptionDescribe to print any
@@ -50,18 +53,20 @@
 /// in debug builds. If you are not getting clear stack traces on JNI errors,
 /// check the Android NDK page on how to enable CheckJNI using ADB.
 /// * As a rule of thumb, when there's a NoClassDefFound / NoMethodFound error,
-/// first check your class and method signatures for typos.
-///
+/// first check your class and method signatures for typos. Another common
+/// reason for NoClassDefFound error is missing classes in classpath.
 
-/// This file exports the minimum foundations of JNI.
-///
-/// For a higher level API, import `'package:jni/jni_object.dart'`.
+/// This library provides classes and functions for JNI interop from Dart.
 library jni;
 
-export 'src/third_party/jni_bindings_generated.dart' hide JNI_LOG_TAG;
-export 'src/jni.dart';
+export 'src/third_party/jni_bindings_generated.dart'
+    hide JNI_LOG_TAG, JniBindings, JniEnv, JniEnv1;
+export 'src/jni.dart' hide ProtectedJniExtensions;
 export 'src/jvalues.dart' hide JValueArgs, toJValues;
-export 'src/extensions.dart'
-    show StringMethodsForJni, CharPtrMethodsForJni, AdditionalJniEnvMethods;
+export 'src/env_extensions.dart'
+    show StringMethodsForJni, CharPtrMethodsForJni, AdditionalEnvMethods;
 export 'src/jni_exceptions.dart';
-export 'src/jl_object.dart';
+export 'src/jni_object.dart' hide JniReference;
+
+export 'package:ffi/ffi.dart' show using, Arena;
+export 'dart:ffi' show nullptr;

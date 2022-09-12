@@ -1,7 +1,7 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  exclude: [build/**]
+  exclude: [build/**, third_party/**]
   language:
     strict-raw-types: true
 

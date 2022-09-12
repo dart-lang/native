@@ -35,9 +35,6 @@ class CommandRunner {
   CommandRunner({this.printCmds = false});
   bool printCmds = false;
   int? time;
-  // TODO: time commands
-  // TODO: Run all commands in single shell instance
-  // IssueRef: https://github.com/dart-lang/jnigen/issues/14
   Future<CommandRunner> run(
       String exec, List<String> args, String workingDir) async {
     if (printCmds) {
@@ -168,8 +165,17 @@ Future<void> build(Options options, String srcPath, String buildPath) async {
   cmakeArgs.add(srcPath);
   await runner.run("cmake", cmakeArgs, buildPath);
   await runner.run("cmake", ["--build", "."], buildPath);
+  final buildPathUri = Uri.directory(buildPath);
   if (Platform.isWindows) {
-    await runner.run("move", ["Debug\\dartjni.dll", "."], buildPath);
+    final debugDir = buildPathUri.resolve('Debug');
+    for (var entry in Directory.fromUri(debugDir).listSync()) {
+      if (entry.path.endsWith('.dll')) {
+        final fileName = entry.uri.pathSegments.last;
+        final target = entry.parent.parent.uri.resolve(fileName);
+        log('rename ${entry.path} -> ${target.toFilePath()}');
+        entry.rename(target.toFilePath());
+      }
+    }
   }
   // delete cmakeTemporaryArtifacts
   deleteCMakeTemps(Uri.directory(buildPath));

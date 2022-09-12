@@ -32,8 +32,13 @@ Future<void> setupDylibsAndClasses() async {
       'dart', ['run', 'jni:setup', '-S', join(simplePackagePath, 'src')]);
   await runCmd('dart',
       ['run', 'jni:setup', '-S', join(jacksonCorePath, 'third_party', 'src')]);
-  await runCmd('javac',
-      ['dev/dart/simple_package/Example.java', 'dev/dart/pkg2/C2.java'],
+  final group = join('com', 'github', 'dart_lang', 'jnigen');
+  await runCmd(
+      'javac',
+      [
+        join(group, 'simple_package', 'Example.java'),
+        join(group, 'pkg2', 'C2.java')
+      ],
       workingDirectory: simplePackageJavaPath);
   await runCmd('dart', [
     'run',
@@ -46,7 +51,7 @@ Future<void> setupDylibsAndClasses() async {
 
   if (!Platform.isAndroid) {
     Jni.spawn(
-        helperDir: 'build/jni_libs',
+        dylibDir: 'build/jni_libs',
         classPath: [simplePackageJavaPath, ...jacksonJars]);
   }
 }
@@ -81,20 +86,30 @@ void main() async {
     aux.delete();
     ex.delete();
   });
+  test('exceptions', () {
+    expect(() => Example.throwException(), throwsA(isA<JniException>()));
+  });
   test('simple json parsing test', () {
-    final json = JlString.fromString('[1, true, false, 2, 4]');
+    final json = JniString.fromString('[1, true, false, 2, 4]');
     final factory = JsonFactory();
     final parser = factory.createParser6(json);
     final values = <bool>[];
     while (!parser.isClosed()) {
       final next = parser.nextToken();
+      if (next.isNull) continue;
       values.add(next.isNumeric());
       next.delete();
     }
-    expect(
-        values, equals([false, true, false, false, true, true, false, false]));
-    parser.delete();
-    factory.delete();
-    json.delete();
+    expect(values, equals([false, true, false, false, true, true, false]));
+    Jni.deleteAll([factory, parser, json]);
+  });
+  test("parsing invalid JSON throws JniException", () {
+    using((arena) {
+      final factory = JsonFactory()..deletedIn(arena);
+      final erroneous = factory
+          .createParser6("<html>".jniString()..deletedIn(arena))
+        ..deletedIn(arena);
+      expect(() => erroneous.nextToken(), throwsA(isA<JniException>()));
+    });
   });
 }

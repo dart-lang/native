@@ -36,7 +36,7 @@ class CallbackWriter implements BindingsWriter {
 /// Example:
 /// `android.os` -> `$dartWrappersRoot`/`android/os.dart`
 class FilesWriter extends BindingsWriter {
-  static const _initFileName = 'init.dart';
+  static const _initFileName = '_init.dart';
 
   FilesWriter(this.config);
   Config config;
@@ -62,8 +62,11 @@ class FilesWriter extends BindingsWriter {
     log.info('Creating dart init file ...');
     final initFileUri = dartRoot.resolve(_initFileName);
     final initFile = await File.fromUri(initFileUri).create(recursive: true);
-    await initFile.writeAsString(DartPreludes.initFile(config.libraryName),
-        flush: true);
+    var initCode = DartPreludes.initFile(config.libraryName);
+    if (preamble != null) {
+      initCode = '$preamble\n$initCode';
+    }
+    await initFile.writeAsString(initCode, flush: true);
     final subdir = config.cSubdir ?? '.';
     final cFileRelativePath = '$subdir/$libraryName.c';
     final cFile = await File.fromUri(cRoot.resolve(cFileRelativePath))
@@ -81,7 +84,7 @@ class FilesWriter extends BindingsWriter {
       final dartFile = await File.fromUri(dartFileUri).create(recursive: true);
       final resolver = PackagePathResolver(
           config.importMap ?? const {}, packageName, classNames,
-          predefined: {'java.lang.String': 'jni.JlString'});
+          predefined: {'java.lang.String': 'jni.JniString'});
       final cgen = CBindingGenerator(config);
       final dgen = DartBindingsGenerator(config, resolver);
 
@@ -101,7 +104,7 @@ class FilesWriter extends BindingsWriter {
       dartFileStream
         ..write(DartPreludes.bindingFileHeaders)
         ..write(resolver.getImportStrings().join('\n'))
-        ..write('import "$initImportPath" show jlookup;\n\n');
+        ..write('import "$initImportPath" show jniLookup;\n\n');
       // write dart bindings only after all imports are figured out
       dartBindings.forEach(dartFileStream.write);
       cBindings.forEach(cFileStream.write);

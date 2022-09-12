@@ -87,12 +87,15 @@ class CBindingGenerator {
     final classVar = '${_classVarPrefix}_$cClassName';
     final signature = _signature(m);
 
+    final ifError = '($cReturnType)0';
+
     s.write(_loadEnvCall);
-    s.write(_loadClassCall(classVar, _internalName(c.binaryName)));
+    s.write(_loadClassCall(classVar, _internalName(c.binaryName), ifError));
 
     final ifStatic = isStatic ? 'static_' : '';
     s.write('${_indent}load_${ifStatic}method($classVar, '
         '&$methodVar, "${m.name}", "$signature");\n');
+    s.write('${_indent}if ($methodVar == NULL) return $ifError;\n');
 
     s.write(_initParams(m));
 
@@ -152,7 +155,7 @@ class CBindingGenerator {
       s.write(formalArgs.join(', '));
       s.write(') {\n');
       s.write(_loadEnvCall);
-      s.write(_loadClassCall(classVar, _internalName(c.binaryName)));
+      s.write(_loadClassCall(classVar, _internalName(c.binaryName), '($ct)0'));
 
       var ifStatic = isStatic ? 'static_' : '';
       s.write(
@@ -185,9 +188,10 @@ class CBindingGenerator {
 
   final String _loadEnvCall = '${_indent}load_env();\n';
 
-  String _loadClassCall(String classVar, String internalName) {
+  String _loadClassCall(String classVar, String internalName, String ifError) {
     return '${_indent}load_class_gr(&$classVar, '
-        '"$internalName");\n';
+        '"$internalName");\n'
+        '${_indent}if ($classVar == NULL) return $ifError;\n';
   }
 
   String _formalArgs(Method m) {
@@ -345,12 +349,11 @@ class CPreludes {
       '#include "dartjni.h"\n'
       '\n';
   static const defines = 'thread_local JNIEnv *jniEnv;\n'
-      'struct jni_context jni;\n\n'
-      'struct jni_context (*context_getter)(void);\n'
+      'JniContext jni;\n\n'
+      'JniContext (*context_getter)(void);\n'
       'JNIEnv *(*env_getter)(void);\n'
       '\n';
-  static const initializers =
-      'void setJniGetters(struct jni_context (*cg)(void),\n'
+  static const initializers = 'void setJniGetters(JniContext (*cg)(void),\n'
       '        JNIEnv *(*eg)(void)) {\n'
       '    context_getter = cg;\n'
       '    env_getter = eg;\n'

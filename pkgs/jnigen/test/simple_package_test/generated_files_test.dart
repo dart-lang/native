@@ -17,10 +17,12 @@ void main() async {
     compareDirs(join(testRoot, 'lib'), join(testRoot, 'test_lib'));
     compareDirs(join(testRoot, 'src'), join(testRoot, 'test_src'));
   });
-  for (var path in ['test_lib', 'test_src']) {
-    final folder = Directory(path);
-    if (await folder.exists()) {
-      await folder.delete(recursive: true);
+  tearDownAll(() async {
+    for (var path in ['test_lib', 'test_src']) {
+      final folder = Directory(join(testRoot, path));
+      if (await folder.exists()) {
+        await folder.delete(recursive: true);
+      }
     }
-  }
+  });
 }

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+#pragma once
+
 #include <jni.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -38,17 +40,17 @@
 #define __ENVP_CAST (void **)
 #endif
 
-struct jni_context {
+typedef struct JniContext {
 	JavaVM *jvm;
 	jobject classLoader;
 	jmethodID loadClassMethod;
 	jobject currentActivity;
 	jobject appContext;
-};
+} JniContext;
 
 extern thread_local JNIEnv *jniEnv;
 
-extern struct jni_context jni;
+extern JniContext jni;
 
 enum DartJniLogLevel {
 	JNI_VERBOSE = 2,
@@ -58,9 +60,24 @@ enum DartJniLogLevel {
 	JNI_ERROR
 };
 
-FFI_PLUGIN_EXPORT struct jni_context GetJniContext();
+enum JniType {
+	boolType = 0,
+	byteType = 1,
+	shortType = 2,
+	charType = 3,
+	intType = 4,
+	longType = 5,
+	floatType = 6,
+	doubleType = 7,
+	objectType = 8,
+	voidType = 9,
+};
+
+FFI_PLUGIN_EXPORT JniContext GetJniContext();
 
 FFI_PLUGIN_EXPORT JavaVM *GetJavaVM(void);
+
+FFI_PLUGIN_EXPORT int DestroyJavaVM();
 
 FFI_PLUGIN_EXPORT JNIEnv *GetJniEnv(void);
 
@@ -74,26 +91,16 @@ FFI_PLUGIN_EXPORT jobject GetApplicationContext(void);
 
 FFI_PLUGIN_EXPORT jobject GetCurrentActivity(void);
 
-FFI_PLUGIN_EXPORT void SetJNILogging(int level);
+/// For use by jni_gen's generated code
+/// don't use these.
 
-FFI_PLUGIN_EXPORT jstring ToJavaString(char *str);
-
-FFI_PLUGIN_EXPORT const char *GetJavaStringChars(jstring jstr);
-
-FFI_PLUGIN_EXPORT void ReleaseJavaStringChars(jstring jstr, const char *buf);
-
-// These 2 are the function pointer variables defined and exported by
-// the generated C files.
-//
-// initGeneratedLibrary function in Jni class will set these to
-// corresponding functions to the implementations from `dartjni` base library
-// which initializes and manages the JNI.
-extern struct jni_context (*context_getter)(void);
+// these 2 fn ptr vars will be defined by generated code library
+extern JniContext (*context_getter)(void);
 extern JNIEnv *(*env_getter)(void);
 
-// This function will be exported by generated code library and will set the
-// above 2 variables.
-FFI_PLUGIN_EXPORT void setJniGetters(struct jni_context (*cg)(void),
+// this function will be exported by generated code library
+// it will set above 2 variables.
+FFI_PLUGIN_EXPORT void setJniGetters(struct JniContext (*cg)(void),
 		JNIEnv *(*eg)(void));
 
 // `static inline` because `inline` doesn't work, it may still not
@@ -101,6 +108,7 @@ FFI_PLUGIN_EXPORT void setJniGetters(struct jni_context (*cg)(void),
 //
 // There has to be a better way to do this. Either to force inlining on target
 // platforms, or just leave it as normal function.
+
 static inline void __load_class_into(jclass *cls, const char *name) {
 #ifdef __ANDROID__
 	jstring className = (*jniEnv)->NewStringUTF(jniEnv, name);

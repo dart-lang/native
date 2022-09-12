@@ -9,104 +9,98 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
 import 'package:jni/jni.dart';
-import 'package:jni/jni_object.dart';
 
-late Jni jni;
+// An example of calling JNI methods using low level primitives.
+// GlobalJniEnv is a thin abstraction over JNIEnv in JNI C API.
+// For a more ergonomic API for common use cases of calling methods and
+// accessing fields, see next examples using JniObject and JniClass.
+String toJavaStringUsingEnv(int n) => using((arena) {
+      final env = Jni.env;
+      final cls = env.FindClass("java/lang/String".toNativeChars(arena));
+      final mId = env.GetStaticMethodID(cls, "valueOf".toNativeChars(),
+          "(I)Ljava/lang/String;".toNativeChars(arena));
+      final i = arena<JValue>();
+      i.ref.i = n;
+      final res = env.CallStaticObjectMethodA(cls, mId, i);
+      final str = env.asDartString(res);
+      env.deleteAllRefs([res, cls]);
+      return str;
+    });
 
-String localToJavaString(int n) {
-  final jniEnv = jni.getEnv();
-  final arena = Arena();
-  final cls = jniEnv.FindClass("java/lang/String".toNativeChars(arena));
-  final mId = jniEnv.GetStaticMethodID(cls, "valueOf".toNativeChars(),
-      "(I)Ljava/lang/String;".toNativeChars(arena));
-  final i = arena<JValue>();
-  i.ref.i = n;
-  final res = jniEnv.CallStaticObjectMethodA(cls, mId, i);
-  final str = jniEnv.asDartString(res);
-  jniEnv.deleteAllLocalRefs([res, cls]);
-  arena.releaseAll();
-  return str;
-}
-
-int random(int n) {
-  final arena = Arena();
-  final jniEnv = jni.getEnv();
-  final randomCls = jniEnv.FindClass("java/util/Random".toNativeChars(arena));
-  final ctor = jniEnv.GetMethodID(
-      randomCls, "<init>".toNativeChars(arena), "()V".toNativeChars(arena));
-  final random = jniEnv.NewObject(randomCls, ctor);
-  final nextInt = jniEnv.GetMethodID(
-      randomCls, "nextInt".toNativeChars(arena), "(I)I".toNativeChars(arena));
-  final res = jniEnv.CallIntMethodA(random, nextInt, Jni.jvalues([n]));
-  jniEnv.deleteAllLocalRefs([randomCls, random]);
-  return res;
-}
-
+int randomUsingEnv(int n) => using((arena) {
+      final env = Jni.env;
+      final randomCls = env.FindClass("java/util/Random".toNativeChars(arena));
+      final ctor = env.GetMethodID(
+          randomCls, "<init>".toNativeChars(arena), "()V".toNativeChars(arena));
+      final random = env.NewObject(randomCls, ctor);
+      final nextInt = env.GetMethodID(randomCls, "nextInt".toNativeChars(arena),
+          "(I)I".toNativeChars(arena));
+      final res = env.CallIntMethodA(random, nextInt, Jni.jvalues([n]));
+      env.deleteAllRefs([randomCls, random]);
+      return res;
+    });
 double randomDouble() {
-  final math = jni.findJniClass("java/lang/Math");
-  final random = math.callStaticDoubleMethodByName("random", "()D", []);
+  final math = Jni.findJniClass("java/lang/Math");
+  final random = math.callStaticMethodByName<double>("random", "()D", []);
   math.delete();
   return random;
 }
 
 int uptime() {
-  final systemClock = jni.findJniClass("android/os/SystemClock");
-  final uptime =
-      systemClock.callStaticLongMethodByName("uptimeMillis", "()J", []);
-  systemClock.delete();
-  return uptime;
+  return Jni.findJniClass("android/os/SystemClock").use(
+    (systemClock) => systemClock.callStaticMethodByName<int>(
+        "uptimeMillis", "()J", [], JniType.longType),
+  );
 }
 
 void quit() {
-  jni
-      .wrap(jni.getCurrentActivity())
-      .use((ac) => ac.callVoidMethodByName("finish", "()V", []));
+  JniObject.fromRef(Jni.getCurrentActivity())
+      .use((ac) => ac.callMethodByName<void>("finish", "()V", []));
 }
 
 void showToast(String text) {
-  // This is example for calling you app's custom java code.
-  // You place the AnyToast class in you app's android/ source
-  // Folder, with a Keep annotation or appropriate proguard rules
-  // to retain the class in release mode.
-  // In this example, AnyToast class is just a type of `Toast` that
+  // This is example for calling your app's custom java code.
+  // Place the Toaster class in the app's android/ source Folder, with a Keep
+  // annotation or appropriate proguard rules to retain classes in release mode.
+  //
+  // In this example, Toaster class wraps android.widget.Toast so that it
   // can be called from any thread. See
-  // android/app/src/main/java/dev/dart/jni_example/AnyToast.java
-  jni.invokeObjectMethod(
-      "dev/dart/jni_example/AnyToast",
+  // android/app/src/main/java/com/github/dart_lang/jni_example/Toaster.java
+  Jni.invokeStaticMethod<JniObject>(
+      "com/github/dart_lang/jni_example/Toaster",
       "makeText",
       "(Landroid/app/Activity;Landroid/content/Context;"
           "Ljava/lang/CharSequence;I)"
-          "Ldev/dart/jni_example/AnyToast;",
+          "Lcom/github/dart_lang/jni_example/Toaster;",
       [
-        jni.getCurrentActivity(),
-        jni.getCachedApplicationContext(),
-        ":-)",
-        0
-      ]).callVoidMethodByName("show", "()V", []);
+        Jni.getCurrentActivity(),
+        Jni.getCachedApplicationContext(),
+        "😀",
+        0,
+      ]).use((toast) => toast.callMethodByName("show", "()V", []));
 }
 
 void main() {
   if (!Platform.isAndroid) {
     Jni.spawn();
   }
-  jni = Jni.getInstance();
   final examples = [
-    Example("String.valueOf(1332)", () => localToJavaString(1332)),
-    Example("Generate random number", () => random(180), runInitially: false),
+    Example("String.valueOf(1332)", () => toJavaStringUsingEnv(1332)),
+    Example("Generate random number", () => randomUsingEnv(180),
+        runInitially: false),
     Example("Math.random()", () => randomDouble(), runInitially: false),
     if (Platform.isAndroid) ...[
       Example("Minutes of usage since reboot",
           () => (uptime() / (60 * 1000)).floor()),
       Example(
           "Device name",
-          () => jni.retrieveStringField(
+          () => Jni.retrieveStaticField<String>(
               "android/os/Build", "DEVICE", "Ljava/lang/String;")),
       Example(
         "Package name",
-        () => jni.wrap(jni.getCurrentActivity()).use((activity) => activity
-            .callStringMethodByName(
+        () => JniObject.fromRef(Jni.getCurrentActivity()).use((activity) =>
+            activity.callMethodByName<String>(
                 "getPackageName", "()Ljava/lang/String;", [])),
       ),
       Example("Show toast", () => showToast("Hello from JNI!"),

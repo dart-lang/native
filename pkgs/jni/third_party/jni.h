@@ -155,7 +155,6 @@ struct JNINativeInterface {
     void*       reserved3;
 
     jint        (*GetVersion)(JNIEnv *env);
-
     jclass      (*DefineClass)(JNIEnv *env, const char* name, jobject loader, const jbyte* buf,
                         jsize bufLen);
     jclass      (*FindClass)(JNIEnv* env, const char* name);

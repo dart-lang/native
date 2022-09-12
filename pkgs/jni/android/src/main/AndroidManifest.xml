@@ -1,3 +1,3 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="dev.dart.jni">
+  package="com.github.dart_lang.jni">
 </manifest>

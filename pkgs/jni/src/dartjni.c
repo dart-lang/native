@@ -7,38 +7,26 @@
 
 #include "dartjni.h"
 
-struct jni_context jni = {NULL, NULL, NULL, NULL, NULL};
+JniContext jni = {NULL, NULL, NULL, NULL, NULL};
 
 thread_local JNIEnv *jniEnv = NULL;
 
-int jni_log_level = JNI_INFO;
-
-FFI_PLUGIN_EXPORT
-void SetJNILogging(int level) {
-	jni_log_level = level;
-}
-
-void jni_log(int level, const char *format, ...) {
-	// TODO(#16): This is not working.
-	if (level >= jni_log_level) {
-		va_list args;
-        va_start(args, format);
-#ifdef __ANDROID__
-		__android_log_print(level, JNI_LOG_TAG, format, args);
-#else
-		// fprintf(stderr, "%s: ", JNI_LOG_TAG);
-		vfprintf(stderr, format, args);
-#endif
-        va_end(args);
-	}
-}
-
-FFI_PLUGIN_EXPORT struct jni_context GetJniContext() { return jni; }
+FFI_PLUGIN_EXPORT JniContext GetJniContext() { return jni; }
 
 /// Get JVM associated with current process.
 /// Returns NULL if no JVM is running.
 FFI_PLUGIN_EXPORT
 JavaVM *GetJavaVM() { return jni.jvm; }
+
+/// Destroys the JVM.
+///
+/// Returns 0 on success and appropriate error code on failure.
+FFI_PLUGIN_EXPORT
+int DestroyJavaVM() {
+	int result = (*jni.jvm)->DestroyJavaVM(jni.jvm);
+	jni.jvm = NULL;
+	return result;
+}
 
 /// Returns Application classLoader (on Android), 
 /// which can be used to load application and platform classes.
@@ -50,9 +38,8 @@ jobject GetClassLoader() {
 	return (*jniEnv)->NewLocalRef(jniEnv, jni.classLoader);
 }
 
-
-/// Load class through platform-specific mechanism
-/// ...
+/// Load class through platform-specific mechanism.
+///
 /// Currently uses application classloader on android,
 /// and JNIEnv->FindClass on other platforms.
 FFI_PLUGIN_EXPORT
@@ -60,7 +47,7 @@ jclass LoadClass(const char *name) {
 	jclass cls = NULL;
 	attach_thread();
 	load_class(&cls, name);
-	return cls;
+	return to_global_ref(cls);
 };
 
 FFI_PLUGIN_EXPORT
@@ -77,42 +64,19 @@ JNIEnv *GetJniEnv() {
 /// On other platforms, NULL is returned.
 FFI_PLUGIN_EXPORT
 jobject GetApplicationContext() {
-	// Any publicly callable method
-	// can be called from an unattached thread.
-	// I Learned this the hard way.
 	attach_thread();
-	return (*jniEnv)->NewLocalRef(jniEnv, jni.appContext);
+	return (*jniEnv)->NewGlobalRef(jniEnv, jni.appContext);
 }
 
 /// Returns current activity of the app
 FFI_PLUGIN_EXPORT
 jobject GetCurrentActivity() {
 	attach_thread();
-	return (*jniEnv)->NewLocalRef(jniEnv, jni.currentActivity);
-}
-
-FFI_PLUGIN_EXPORT
-jstring ToJavaString(char *str) {
-	attach_thread();
-	jstring s = (*jniEnv)->NewStringUTF(jniEnv, str);
-	jstring g = (*jniEnv)->NewGlobalRef(jniEnv, s);
-	(*jniEnv)->DeleteLocalRef(jniEnv, s);
-	return g;
-}
-
-FFI_PLUGIN_EXPORT
-const char *GetJavaStringChars(jstring jstr) {
-	const char *buf = (*jniEnv)->GetStringUTFChars(jniEnv, jstr, NULL);
-	return buf;
-}
-
-FFI_PLUGIN_EXPORT
-void ReleaseJavaStringChars(jstring jstr, const char *buf) {
-	(*jniEnv)->ReleaseStringUTFChars(jniEnv, jstr, buf);
+	return (*jniEnv)->NewGlobalRef(jniEnv, jni.currentActivity);
 }
 
 #ifdef __ANDROID__
-JNIEXPORT void JNICALL Java_dev_dart_jni_JniPlugin_initializeJni(
+JNIEXPORT void JNICALL Java_com_github_dart_1lang_jni_JniPlugin_initializeJni(
     JNIEnv *env, jobject obj, jobject appContext, jobject classLoader) {
 	jniEnv = env;
 	(*env)->GetJavaVM(env, &jni.jvm);
@@ -124,7 +88,7 @@ JNIEXPORT void JNICALL Java_dev_dart_jni_JniPlugin_initializeJni(
 	                        "(Ljava/lang/String;)Ljava/lang/Class;");
 }
 
-JNIEXPORT void JNICALL Java_dev_dart_jni_JniPlugin_setJniActivity(JNIEnv *env, jobject obj, jobject activity, jobject context) {
+JNIEXPORT void JNICALL Java_com_github_dart_1lang_jni_JniPlugin_setJniActivity(JNIEnv *env, jobject obj, jobject activity, jobject context) {
 	jniEnv = env;
 	if (jni.currentActivity != NULL) {
 		(*env)->DeleteGlobalRef(env, jni.currentActivity);
@@ -152,7 +116,6 @@ JNIEnv *SpawnJvm(JavaVMInitArgs *initArgs) {
 		vmArgs.ignoreUnrecognized = JNI_TRUE;
 		initArgs = &vmArgs;
 	}
-	jni_log(JNI_DEBUG, "JNI Version: %d\n", initArgs->version);
 	const long flag =
 	    JNI_CreateJavaVM(&jni.jvm, __ENVP_CAST &jniEnv, initArgs);
 	if (flag == JNI_ERR) {

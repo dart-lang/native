@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.dart.jni_example">
+    package="com.github.dart_lang.jni_example">
    <application
         android:label="jni_example"
         android:name="${applicationName}"

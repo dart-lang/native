@@ -36,9 +36,11 @@ jobs:
         sdk: [stable]
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.0
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: ${{ matrix.sdk }}
+          channel: ${{ matrix.sdk }}
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -60,12 +62,14 @@ jobs:
       matrix:
         # Add macos-latest and/or windows-latest if relevant for this package.
         os: [ubuntu-latest]
-        sdk: [2.17.0, dev]
+        sdk: [stable, beta]
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.0
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: stable
+          channel: ${{ matrix.sdk }}
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
@@ -87,9 +91,8 @@ jobs:
           parallel: true
           path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
 
-  ## TODO: More minimal test on windows after fixing dev dependency.
+  ## TODO(#15): More minimal test on windows after fixing dev dependency.
   ## i.e do not rerun analyze and format steps, and do not require flutter.
-  ## IssueRef: https://github.com/dart-lang/jnigen/issues/15
 
   test_summarizer:
     runs-on: ubuntu-latest
@@ -125,7 +128,7 @@ jobs:
           java-version: '11'
       - run: |
           sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev
+          sudo apt-get install -y ninja-build libgtk-3-dev libclang-dev
       - run: dart pub get
       - run: dart run bin/setup.dart
       - run: flutter pub get
@@ -148,6 +151,11 @@ jobs:
           flag-name: jni_tests
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
+      - name: regenerate & compare ffigen bindings
+        run: |
+          cp lib/src/third_party/jni_bindings_generated.dart __old_bindings
+          dart run ffigen --config ffigen.yaml
+          diff lib/src/third_party/jni_bindings_generated.dart __old_bindings
 
   build_jni_example_linux:
     runs-on: ubuntu-latest
@@ -216,7 +224,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./pkgs/jnigen/examples/notification_plugin
+        working-directory: ./pkgs/jnigen/example/notification_plugin
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -231,7 +239,7 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter build apk
-        working-directory: ./pkgs/jnigen/examples/notification_plugin/example
+        working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: re-generate bindings
         run: flutter pub run jnigen -Ddart_root=_dart -Dc_root=_c --config jnigen.yaml
       - name: compare generated dart bindings
@@ -243,7 +251,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./pkgs/jnigen/examples/in_app_java
+        working-directory: ./pkgs/jnigen/example/in_app_java
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v2
@@ -279,7 +287,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./pkgs/jnigen/examples/pdfbox_plugin
+        working-directory: ./pkgs/jnigen/example/pdfbox_plugin
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
@@ -315,10 +323,10 @@ jobs:
           dart run jni:setup && dart run jni:setup -p pdfbox_plugin
           wget 'https://dart.dev/guides/language/specifications/DartLangSpec-v2.2.pdf'
           dart run bin/pdf_info.dart DartLangSpec-v2.2.pdf
-        working-directory: ./pkgs/jnigen/examples/pdfbox_plugin/dart_example
+        working-directory: ./pkgs/jnigen/example/pdfbox_plugin/dart_example
       - name: Build flutter example for pdfbox_plugin
         run: |
           flutter pub get
           flutter build linux
-        working-directory: ./pkgs/jnigen/examples/pdfbox_plugin/example
+        working-directory: ./pkgs/jnigen/example/pdfbox_plugin/example
 

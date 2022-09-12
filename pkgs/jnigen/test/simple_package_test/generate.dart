@@ -13,6 +13,13 @@ const testName = 'simple_package_test';
 final testRoot = join('test', testName);
 final javaPath = join(testRoot, 'java');
 
+const preamble = '''
+// Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+''';
+
 var javaPrefix = join('com', 'github', 'dart_lang', 'jnigen');
 
 var javaFiles = [
@@ -42,6 +49,7 @@ Future<void> generateSources(String lib, String src) async {
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',
     ],
+    preamble: preamble,
     cRoot: cWrapperDir,
     dartRoot: dartWrappersRoot,
     libraryName: 'simple_package',

@@ -9,14 +9,10 @@ import 'package:ffi/ffi.dart';
 import 'package:path/path.dart';
 
 import 'third_party/jni_bindings_generated.dart';
-import 'extensions.dart';
+import 'env_extensions.dart';
 import 'jvalues.dart';
-
-import 'jni_object.dart';
-import 'jni_class.dart';
 import 'jni_exceptions.dart';
-
-part 'direct_methods_generated.dart';
+import 'jni_object.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
@@ -34,8 +30,7 @@ String _getLibraryFileName(String base) {
 ///
 /// If path is provided, it's used to load the library.
 /// Else just the platform-specific filename is passed to DynamicLibrary.open
-DynamicLibrary _loadJniHelpersLibrary(
-    {String? dir, String baseName = "dartjni"}) {
+DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = "dartjni"}) {
   final fileName = _getLibraryFileName(baseName);
   final libPath = (dir != null) ? join(dir, fileName) : fileName;
   try {
@@ -46,123 +41,81 @@ DynamicLibrary _loadJniHelpersLibrary(
   }
 }
 
-/// Jni represents a single running JNI instance.
-///
-/// It provides convenience functions for looking up and invoking functions
-/// without several FFI conversions.
-///
-/// You can also get access to instance of underlying JavaVM and JniEnv, and
-/// then use them in a way similar to JNI C++ API.
-class Jni {
-  final JniBindings _bindings;
+/// Utilities to spawn and manage JNI.
+abstract class Jni {
+  static final DynamicLibrary _dylib = _loadDartJniLibrary(dir: _dylibDir);
+  static final JniBindings _bindings = JniBindings(_dylib);
+  static final _getJniEnvFn = _dylib.lookup<Void>('GetJniEnv');
+  static final _getJniContextFn = _dylib.lookup<Void>('GetJniContext');
 
-  Jni._(DynamicLibrary library, [this._helperDir])
-      : _bindings = JniBindings(library),
-        _getJniEnvFn = library.lookup<Void>('GetJniEnv'),
-        _getJniContextFn = library.lookup<Void>('GetJniContext');
+  /// Store dylibDir if any was used.
+  static String? _dylibDir;
 
-  static Jni? _instance;
-
-  /// Stores helperDir if any was used.
-  final String? _helperDir;
-
-  /// Returns the existing Jni object.
-  ///
-  /// If not running on Android and no Jni is spawned
-  /// using Jni.spawn(), throws an exception.
-  ///
-  /// On Dart standalone, when calling for the first time from
-  /// a new isolate, make sure to pass the library path.
-  final Pointer<Void> _getJniEnvFn, _getJniContextFn;
-
-  static Jni getInstance() {
-    if (_instance == null) {
-      final dylib = _loadJniHelpersLibrary();
-      final inst = Jni._(dylib);
-      if (inst.getJavaVM() == nullptr) {
-        throw StateError("Fatal: No JVM associated with this process!"
-            " Did you call Jni.spawn?");
-      }
-      // If no error, save this singleton.
-      _instance = inst;
-    }
-    return _instance!;
-  }
-
-  /// Initialize instance from custom helper library path.
-  ///
-  /// On dart standalone, call this in new isolate before
-  /// doing getInstance().
+  /// Sets the directory where dynamic libraries are looked for.
+  /// On dart standalone, call this in new isolate before doing
+  /// any JNI operation.
   ///
   /// (The reason is that dylibs need to be loaded in every isolate.
   /// On flutter it's done by library. On dart standalone we don't
   /// know the library path.)
-  static void load({required String helperDir}) {
-    if (_instance != null) {
-      throw StateError('Fatal: a JNI instance already exists in this isolate');
-    }
-    final inst = Jni._(_loadJniHelpersLibrary(dir: helperDir), helperDir);
-    if (inst.getJavaVM() == nullptr) {
-      throw StateError("Fatal: No JVM associated with this process");
-    }
-    _instance = inst;
+  static void setDylibDir({required String dylibDir}) {
+    _dylibDir = dylibDir;
   }
 
-  /// Spawn an instance of JVM using JNI.
-  /// This instance will be returned by future calls to [getInstance]
+  /// Spawn an instance of JVM using JNI. This method should be called at the
+  /// beginning of the program with appropriate options, before other isolates
+  /// are spawned.
   ///
-  /// [helperDir] is path of the directory where the wrapper library is found.
+  /// [dylibDir] is path of the directory where the wrapper library is found.
   /// This parameter needs to be passed manually on __Dart standalone target__,
   /// since we have no reliable way to bundle it with the package.
   ///
   /// [jvmOptions], [ignoreUnrecognized], & [jniVersion] are passed to the JVM.
   /// Strings in [classPath], if any, are used to construct an additional
   /// JVM option of the form "-Djava.class.path={paths}".
-  static Jni spawn({
-    String? helperDir,
-    int logLevel = JniLogLevel.JNI_INFO,
+  static void spawn({
+    String? dylibDir,
     List<String> jvmOptions = const [],
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
     int jniVersion = JNI_VERSION_1_6,
-  }) {
-    if (_instance != null) {
-      throw UnsupportedError("Currently only 1 VM is supported.");
-    }
-    final dylib = _loadJniHelpersLibrary(dir: helperDir);
-    final inst = Jni._(dylib, helperDir);
-    _instance = inst;
-    inst._bindings.SetJNILogging(logLevel);
-    final jArgs = _createVMArgs(
-      options: jvmOptions,
-      classPath: classPath,
-      version: jniVersion,
-      ignoreUnrecognized: ignoreUnrecognized,
-    );
-    inst._bindings.SpawnJvm(jArgs);
-    _freeVMArgs(jArgs);
-    return inst;
-  }
+  }) =>
+      using((arena) {
+        _dylibDir = dylibDir;
+        final existVm = _bindings.GetJavaVM();
+        if (existVm != nullptr) {
+          throw JvmExistsException();
+        }
+        final jvmArgs = _createVMArgs(
+          options: jvmOptions,
+          classPath: classPath,
+          version: jniVersion,
+          ignoreUnrecognized: ignoreUnrecognized,
+          allocator: arena,
+        );
+        _bindings.SpawnJvm(jvmArgs);
+      });
 
   static Pointer<JavaVMInitArgs> _createVMArgs({
     List<String> options = const [],
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
     int version = JNI_VERSION_1_6,
+    required Allocator allocator,
   }) {
-    final args = calloc<JavaVMInitArgs>();
+    final args = allocator<JavaVMInitArgs>();
     if (options.isNotEmpty || classPath.isNotEmpty) {
       final count = options.length + (classPath.isNotEmpty ? 1 : 0);
-
-      final optsPtr = (count != 0) ? calloc<JavaVMOption>(count) : nullptr;
+      final optsPtr = (count != 0) ? allocator<JavaVMOption>(count) : nullptr;
       args.ref.options = optsPtr;
       for (int i = 0; i < options.length; i++) {
-        optsPtr.elementAt(i).ref.optionString = options[i].toNativeChars();
+        optsPtr.elementAt(i).ref.optionString =
+            options[i].toNativeChars(allocator);
       }
       if (classPath.isNotEmpty) {
         final classPathString = classPath.join(Platform.isWindows ? ';' : ":");
         optsPtr.elementAt(count - 1).ref.optionString =
-            "-Djava.class.path=$classPathString".toNativeChars();
+            "-Djava.class.path=$classPathString".toNativeChars(allocator);
       }
       args.ref.nOptions = count;
     }
@@ -171,137 +124,140 @@ class Jni {
     return args;
   }
 
-  static void _freeVMArgs(Pointer<JavaVMInitArgs> argPtr) {
-    final nOptions = argPtr.ref.nOptions;
-    final options = argPtr.ref.options;
-    if (nOptions != 0) {
-      for (var i = 0; i < nOptions; i++) {
-        calloc.free(options.elementAt(i).ref.optionString);
-      }
-      calloc.free(argPtr.ref.options);
-    }
-    calloc.free(argPtr);
-  }
-
   /// Returns pointer to current JNI JavaVM instance
   Pointer<JavaVM> getJavaVM() {
     return _bindings.GetJavaVM();
   }
 
-  /// Returns JniEnv* associated with current thread.
-  ///
-  /// Do not reuse JniEnv between threads, it's only valid
-  /// in the thread it is obtained.
-  Pointer<JniEnv> getEnv() {
-    return _bindings.GetJniEnv();
+  /// Returns the instance of [GlobalJniEnv], which is an abstraction over JNIEnv
+  /// without the same-thread restriction.
+  static Pointer<GlobalJniEnv> _fetchGlobalEnv() {
+    final env = _bindings.GetGlobalEnv();
+    if (env == nullptr) {
+      throw NoJvmInstanceException();
+    }
+    return env;
   }
 
-  void setJniLogging(int loggingLevel) {
-    _bindings.SetJNILogging(loggingLevel);
+  static Pointer<GlobalJniEnv>? _env;
+
+  /// Points to a process-wide shared instance of [GlobalJniEnv].
+  ///
+  /// It provides an indirection over [JniEnv] so that it can be used from
+  /// any thread, and always returns global object references.
+  static Pointer<GlobalJniEnv> get env {
+    _env ??= _fetchGlobalEnv();
+    return _env!;
   }
 
   /// Returns current application context on Android.
-  JObject getCachedApplicationContext() {
+  static JObject getCachedApplicationContext() {
     return _bindings.GetApplicationContext();
   }
 
   /// Returns current activity
-  JObject getCurrentActivity() {
-    return _bindings.GetCurrentActivity();
-  }
+  static JObject getCurrentActivity() => _bindings.GetCurrentActivity();
 
   /// Get the initial classLoader of the application.
   ///
   /// This is especially useful on Android, where
   /// JNI threads cannot access application classes using
   /// the usual `JniEnv.FindClass` method.
-  JObject getApplicationClassLoader() {
-    return _bindings.GetClassLoader();
-  }
+  static JObject getApplicationClassLoader() => _bindings.GetClassLoader();
 
   /// Returns class reference found through system-specific mechanism
-  JClass findClass(String qualifiedName) {
-    final nameChars = qualifiedName.toNativeChars();
-    final cls = _bindings.LoadClass(nameChars);
-    calloc.free(nameChars);
-    if (cls == nullptr) {
-      getEnv().checkException();
-    }
-    return cls;
-  }
+  static JClass findClass(String qualifiedName) => using((arena) {
+        final nameChars = qualifiedName.toNativeChars(arena);
+        final cls = _bindings.LoadClass(nameChars);
+        if (cls == nullptr) {
+          env.checkException();
+        }
+        return cls;
+      });
 
   /// Returns class for [qualifiedName] found by platform-specific mechanism,
-  /// wrapped in a `JniClass`.
-  JniClass findJniClass(String qualifiedName) {
-    return JniClass.of(getEnv(), findClass(qualifiedName));
-  }
+  /// wrapped in a [JniClass].
+  static JniClass findJniClass(String qualifiedName) =>
+      JniClass.fromRef(findClass(qualifiedName));
 
-  /// Constructs an instance of class with given args.
+  /// Constructs an instance of class with given arguments.
   ///
-  /// Use it when you only need one instance, but not the actual class
-  /// nor any constructor / static methods.
-  JniObject newInstance(
+  /// Use it when one instance is needed, but the constructor or class aren't
+  /// required themselves.
+  static JniObject newInstance(
       String qualifiedName, String ctorSignature, List<dynamic> args) {
     final cls = findJniClass(qualifiedName);
-    final ctor = cls.getMethodID("<init>", ctorSignature);
-    final obj = cls.newObject(ctor, args);
+    final ctor = cls.getCtorID(ctorSignature);
+    final obj = cls.newInstance(ctor, args);
     cls.delete();
     return obj;
   }
 
-  /// Wraps a JObject ref in a JniObject.
-  /// The original ref is stored in JniObject, and
-  /// deleted with the latter's [delete] method.
-  ///
-  /// It takes the ownership of the jobject so that it can be used like this:
-  ///
-  /// ```dart
-  /// final result = jni.wrap(long_expr_returning_jobject)
-  /// ```
-  JniObject wrap(JObject obj) {
-    return JniObject.of(getEnv(), obj, nullptr);
-  }
-
-  /// Wraps a JObject ref in a JniObject.
-  /// The original ref is stored in JniObject, and
-  /// deleted with the latter's [delete] method.
-  JniClass wrapClass(JClass cls) {
-    return JniClass.of(getEnv(), cls);
-  }
-
-  Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
-      String name) {
-    var path = _getLibraryFileName(name);
-    if (_helperDir != null) {
-      path = join(_helperDir!, path);
-    }
-    final dl = DynamicLibrary.open(path);
-    final setJniGetters =
-        dl.lookupFunction<SetJniGettersNativeType, SetJniGettersDartType>(
-            'setJniGetters');
-    setJniGetters(_getJniContextFn, _getJniEnvFn);
-    final lookup = dl.lookup;
-    return lookup;
-  }
-
-  /// Converts passed arguments to JValue array
-  /// for use in methods that take arguments.
+  /// Converts passed arguments to JValue array.
   ///
   /// int, bool, double and JObject types are converted out of the box.
-  /// wrap values in types such as [JValueLong]
-  /// to convert to other primitive types instead.
+  /// Wrap values in types such as [JValueLong] to convert to other primitive
+  /// types such as `long`, `short` and `char`.
   static Pointer<JValue> jvalues(List<dynamic> args,
       {Allocator allocator = calloc}) {
     return toJValues(args, allocator: allocator);
   }
 
-  // Temporarily for JlString.
-  // A future idea is to unify JlObject and JniObject, and use global refs
-  // everywhere for simplicity.
-  late final toJavaString = _bindings.ToJavaString;
-  late final getJavaStringChars = _bindings.GetJavaStringChars;
-  late final releaseJavaStringChars = _bindings.ReleaseJavaStringChars;
+  /// Returns the value of static field identified by [fieldName] & [signature].
+  ///
+  /// See [JniObject.getField] for more explanations about [callType] and [T].
+  static T retrieveStaticField<T>(
+      String className, String fieldName, String signature,
+      [int? callType]) {
+    final cls = findJniClass(className);
+    final result = cls.getStaticFieldByName<T>(fieldName, signature, callType);
+    cls.delete();
+    return result;
+  }
+
+  /// Calls static method identified by [methodName] and [signature]
+  /// on [className] with [args] as and [callType].
+  ///
+  /// For more explanation on [args] and [callType], see [JniObject.getField]
+  /// and [JniObject.callMethod] respectively.
+  static T invokeStaticMethod<T>(
+      String className, String methodName, String signature, List<dynamic> args,
+      [int? callType]) {
+    final cls = findJniClass(className);
+    final result =
+        cls.callStaticMethodByName<T>(methodName, signature, args, callType);
+    cls.delete();
+    return result;
+  }
+
+  /// Delete all references in [objects].
+  static void deleteAll(List<JniReference> objects) {
+    for (var object in objects) {
+      object.delete();
+    }
+  }
 }
 
-typedef SetJniGettersNativeType = Void Function(Pointer<Void>, Pointer<Void>);
-typedef SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
+typedef _SetJniGettersNativeType = Void Function(Pointer<Void>, Pointer<Void>);
+typedef _SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
+
+/// Extensions for use by `jnigen` generated code.
+extension ProtectedJniExtensions on Jni {
+  static Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
+      String name) {
+    var path = _getLibraryFileName(name);
+    if (Jni._dylibDir != null) {
+      path = join(Jni._dylibDir!, path);
+    }
+    final dl = DynamicLibrary.open(path);
+    final setJniGetters =
+        dl.lookupFunction<_SetJniGettersNativeType, _SetJniGettersDartType>(
+            'setJniGetters');
+    setJniGetters(Jni._getJniContextFn, Jni._getJniEnvFn);
+    final lookup = dl.lookup;
+    return lookup;
+  }
+
+  /// Checks for and rethrows any pending exception in JNI as a [JniException].
+  static void checkException() => Jni.env.checkException();
+}
