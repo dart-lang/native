@@ -31,10 +31,12 @@ Future<void> buildApiSummarizer() async {
   ];
   log.info('execute mvn $mvnArgs');
   final mvnProc = await Process.start('mvn', mvnArgs,
-      workingDirectory: toolPath, mode: ProcessStartMode.inheritStdio);
+      workingDirectory: toolPath,
+      runInShell: true,
+      mode: ProcessStartMode.inheritStdio);
   await mvnProc.exitCode;
-  File(targetJarFile).renameSync(jarFile);
-  Directory(mvnTargetDir).deleteSync(recursive: true);
+  await File(targetJarFile).rename(jarFile);
+  await Directory(mvnTargetDir).delete(recursive: true);
 }
 
 Future<void> buildSummarizerIfNotExists({bool force = false}) async {

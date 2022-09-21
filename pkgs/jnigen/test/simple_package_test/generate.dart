@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:jnigen/jnigen.dart';
 
@@ -52,6 +53,7 @@ Future<void> generateSources(String lib, String src) async {
     preamble: preamble,
     cRoot: cWrapperDir,
     dartRoot: dartWrappersRoot,
+    logLevel: Level.WARNING,
     libraryName: 'simple_package',
   );
   await generateJniBindings(config);

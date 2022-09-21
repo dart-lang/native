@@ -14,4 +14,5 @@ linter:
   rules:
     - prefer_final_locals
     - prefer_const_declarations
+    - unawaited_futures
 

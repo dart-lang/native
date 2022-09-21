@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:io';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/command_output.dart';
@@ -83,6 +84,7 @@ class SummarizerCommand {
     log.info('execute $exec ${args.join(' ')}');
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory?.toFilePath() ?? '.');
+    // ignore: unawaited_futures
     prefixedCommandOutputStream('[ApiSummarizer]', proc.stderr)
         .forEach(stderr.writeln);
     return proc.stdout;

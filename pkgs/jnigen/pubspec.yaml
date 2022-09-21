@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: jnigen
-version: 0.1.0
+version: 0.1.1
 description: Experimental generator for FFI+JNI bindings.
 repository: https://github.com/dart-lang/jnigen/tree/main/jnigen
 

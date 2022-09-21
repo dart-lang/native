@@ -31,12 +31,12 @@ Future<void> generateJniBindings(Config config) async {
   final mavenDl = config.mavenDownloads;
   if (mavenDl != null) {
     final sourcePath = mavenDl.sourceDir;
-    Directory(sourcePath).create(recursive: true);
+    await Directory(sourcePath).create(recursive: true);
     await MavenTools.downloadMavenSources(
         MavenTools.deps(mavenDl.sourceDeps), sourcePath);
     extraSources.add(Uri.directory(sourcePath));
     final jarPath = mavenDl.jarDir;
-    Directory(jarPath).create(recursive: true);
+    await Directory(jarPath).create(recursive: true);
     await MavenTools.downloadMavenJars(
         MavenTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath);
     extraJars.addAll(await Directory(jarPath)
@@ -45,7 +45,6 @@ Future<void> generateJniBindings(Config config) async {
         .map((entry) => entry.uri)
         .toList());
   }
-
   final androidConfig = config.androidSdkConfig;
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(

@@ -17,5 +17,5 @@ void main(List<String> args) async {
       force = true;
     }
   }
-  buildSummarizerIfNotExists(force: force);
+  await buildSummarizerIfNotExists(force: force);
 }

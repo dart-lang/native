@@ -52,7 +52,7 @@ jobs:
         if: always() && steps.install.outcome == 'success'
 
   test_jnigen:
-    needs: analyze_jnigen
+    needs: [analyze_jnigen]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -60,7 +60,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Add macos-latest and/or windows-latest if relevant for this package.
         os: [ubuntu-latest]
         sdk: [stable, beta]
     steps:
@@ -90,9 +89,7 @@ jobs:
           flag-name: jnigen_tests
           parallel: true
           path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
-
-  ## TODO(#15): More minimal test on windows after fixing dev dependency.
-  ## i.e do not rerun analyze and format steps, and do not require flutter.
+        if: ${{ matrix.sdk == 'stable' }}
 
   test_summarizer:
     runs-on: ubuntu-latest
@@ -108,15 +105,36 @@ jobs:
       - name: run tests using maven surefire
         run: mvn surefire:test
 
-  test_jni:
+  analyze_jni:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@v3
-      ## Requires flutter to analyze example.
-      ## Using dart alone doesn't work.
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - run: flutter pub get
+      - name: Check formatting
+        run: flutter format --output=none --set-exit-if-changed .
+      - name: Run lints
+        run: flutter analyze --fatal-infos
+
+  test_jni:
+    runs-on: ubuntu-latest
+    needs: [analyze_jni]
+    defaults:
+      run:
+        working-directory: ./pkgs/jni
+    steps:
+      - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
@@ -130,12 +148,7 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev libclang-dev
       - run: dart pub get
-      - run: dart run bin/setup.dart
-      - run: flutter pub get
-      - name: Check formatting
-        run: flutter format --output=none --set-exit-if-changed .
-      - name: Run lints
-        run: flutter analyze --fatal-infos
+      - run: dart run jni:setup
       - name: Get dependencies
         run: dart pub get
       - name: Run tests
@@ -156,6 +169,53 @@ jobs:
           cp lib/src/third_party/jni_bindings_generated.dart __old_bindings
           dart run ffigen --config ffigen.yaml
           diff lib/src/third_party/jni_bindings_generated.dart __old_bindings
+
+  ## Run tests for package:jni on windows, just to confirm it works.
+  ## Do not, for example, collect coverage or check formatting.
+  test_jni_windows_minimal:
+    needs: [analyze_jni]
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
+      - run: dart pub get
+      - run: dart run jni:setup
+      - run: dart test
+
+  test_jnigen_windows_minimal:
+    needs: [analyze_jnigen]
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jnigen
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - run: git config --global core.autocrlf true
+      - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
+      - run: dart pub get
+      - run: dart run jnigen:setup
+      - run: dart test
 
   build_jni_example_linux:
     runs-on: ubuntu-latest
@@ -273,16 +333,6 @@ jobs:
       - name: compare generated C bindings
         run: diff -qr src/android_utils _c
 
-  coveralls_finish:
-    needs: [test_jnigen, test_jni]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true
-
   run_pdfbox_example_linux:
     runs-on: ubuntu-latest
     defaults:
@@ -330,3 +380,12 @@ jobs:
           flutter build linux
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin/example
 
+  coveralls_finish:
+    needs: [test_jnigen, test_jni]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true

@@ -949,6 +949,7 @@ jobject com_fasterxml_jackson_core_JsonFactory_createJsonGenerator2(jobject self
 }
 
 jfieldID _f_com_fasterxml_jackson_core_JsonFactory_DEFAULT_FACTORY_FEATURE_FLAGS = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_FACTORY_FEATURE_FLAGS() {
     load_env();
     load_class_gr(&_c_com_fasterxml_jackson_core_JsonFactory, "com/fasterxml/jackson/core/JsonFactory");
@@ -959,6 +960,7 @@ int32_t get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_FACTORY_FEATURE_FLAGS
 
 
 jfieldID _f_com_fasterxml_jackson_core_JsonFactory_DEFAULT_PARSER_FEATURE_FLAGS = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_PARSER_FEATURE_FLAGS() {
     load_env();
     load_class_gr(&_c_com_fasterxml_jackson_core_JsonFactory, "com/fasterxml/jackson/core/JsonFactory");
@@ -969,6 +971,7 @@ int32_t get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_PARSER_FEATURE_FLAGS(
 
 
 jfieldID _f_com_fasterxml_jackson_core_JsonFactory_DEFAULT_GENERATOR_FEATURE_FLAGS = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_GENERATOR_FEATURE_FLAGS() {
     load_env();
     load_class_gr(&_c_com_fasterxml_jackson_core_JsonFactory, "com/fasterxml/jackson/core/JsonFactory");
@@ -979,6 +982,7 @@ int32_t get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_GENERATOR_FEATURE_FLA
 
 
 jfieldID _f_com_fasterxml_jackson_core_JsonFactory_DEFAULT_ROOT_VALUE_SEPARATOR = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_ROOT_VALUE_SEPARATOR() {
     load_env();
     load_class_gr(&_c_com_fasterxml_jackson_core_JsonFactory, "com/fasterxml/jackson/core/JsonFactory");
@@ -2352,6 +2356,7 @@ jobject com_fasterxml_jackson_core_JsonParser_readValueAsTree(jobject self_) {
 }
 
 jfieldID _f_com_fasterxml_jackson_core_JsonParser_DEFAULT_READ_CAPABILITIES = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_com_fasterxml_jackson_core_JsonParser_DEFAULT_READ_CAPABILITIES() {
     load_env();
     load_class_gr(&_c_com_fasterxml_jackson_core_JsonParser, "com/fasterxml/jackson/core/JsonParser");

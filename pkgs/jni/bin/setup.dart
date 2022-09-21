@@ -154,7 +154,23 @@ void main(List<String> arguments) async {
   } else {
     // pass srcDir absolute path because it will be passed to CMake as arg
     // which will be running in different directory
-    await build(options, srcDir.absolute.path, buildDir.path);
+    final jniDirUri = Uri.directory(".dart_tool").resolve("jni");
+    final jniDir = Directory.fromUri(jniDirUri);
+    await jniDir.create(recursive: true);
+    final tempDir = await jniDir.createTemp("jni_native_build_");
+    await build(options, srcDir.absolute.path, tempDir.path);
+    final dllDirUri =
+        Platform.isWindows ? tempDir.uri.resolve("Debug") : tempDir.uri;
+    final dllDir = Directory.fromUri(dllDirUri);
+    for (var entry in dllDir.listSync()) {
+      final dllSuffix = Platform.isWindows ? "dll" : "so";
+      if (entry.path.endsWith(dllSuffix)) {
+        final dllName = entry.uri.pathSegments.last;
+        final target = buildDir.uri.resolve(dllName);
+        entry.renameSync(target.toFilePath());
+      }
+    }
+    await tempDir.delete(recursive: true);
   }
 }
 
@@ -165,20 +181,6 @@ Future<void> build(Options options, String srcPath, String buildPath) async {
   cmakeArgs.add(srcPath);
   await runner.run("cmake", cmakeArgs, buildPath);
   await runner.run("cmake", ["--build", "."], buildPath);
-  final buildPathUri = Uri.directory(buildPath);
-  if (Platform.isWindows) {
-    final debugDir = buildPathUri.resolve('Debug');
-    for (var entry in Directory.fromUri(debugDir).listSync()) {
-      if (entry.path.endsWith('.dll')) {
-        final fileName = entry.uri.pathSegments.last;
-        final target = entry.parent.parent.uri.resolve(fileName);
-        log('rename ${entry.path} -> ${target.toFilePath()}');
-        entry.rename(target.toFilePath());
-      }
-    }
-  }
-  // delete cmakeTemporaryArtifacts
-  deleteCMakeTemps(Uri.directory(buildPath));
 }
 
 Future<void> cleanup(Options options, String srcPath, String buildPath) async {

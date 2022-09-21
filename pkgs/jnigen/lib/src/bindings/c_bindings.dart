@@ -147,6 +147,7 @@ class CBindingGenerator {
       final ct = isSetter ? 'void' : cType(f.type.name);
       // Getter
       final prefix = isSetter ? 'set' : 'get';
+      s.write('FFI_PLUGIN_EXPORT\n');
       s.write('$ct ${prefix}_${memberNameInC(c, fieldName)}(');
       final formalArgs = <String>[
         if (!isStatic) 'jobject self_',

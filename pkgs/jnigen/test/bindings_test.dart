@@ -83,6 +83,7 @@ void main() async {
     expect(aux.getValue(), equals(true));
     aux.setValue(false);
     expect(aux.getValue(), equals(false));
+    aux.setValue(true);
     aux.delete();
     ex.delete();
   });

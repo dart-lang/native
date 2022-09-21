@@ -5,6 +5,7 @@
 import 'package:jnigen/src/config/config.dart';
 import 'package:test/test.dart';
 import 'package:path/path.dart' hide equals;
+import 'package:path/path.dart' as path show equals;
 
 import 'jackson_core_test/generate.dart';
 
@@ -13,8 +14,8 @@ final jacksonCoreTests = join(packageTests, 'jackson_core_test');
 final thirdParty = join(jacksonCoreTests, 'third_party');
 final lib = join(thirdParty, 'lib');
 final src = join(thirdParty, 'src');
-final testLib = join(thirdParty, 'test_lib');
-final testSrc = join(thirdParty, 'test_src');
+final testLib = join(thirdParty, 'test_', 'lib');
+final testSrc = join(thirdParty, 'test_', 'src');
 
 /// Compares 2 [Config] objects using [expect] to give useful errors when
 /// two fields are not equal.
@@ -32,9 +33,9 @@ void expectConfigsAreEqual(Config a, Config b) {
   if (am != null) {
     expect(bm, isNotNull);
     expect(am.sourceDeps, bm!.sourceDeps);
-    expect(am.sourceDir, bm.sourceDir);
+    expect(path.equals(am.sourceDir, bm.sourceDir), isTrue);
     expect(am.jarOnlyDeps, bm.jarOnlyDeps);
-    expect(am.jarDir, bm.jarDir);
+    expect(path.equals(am.jarDir, bm.jarDir), isTrue);
   } else {
     expect(bm, isNull);
   }
@@ -69,6 +70,6 @@ void main() {
   ]);
 
   test('compare configuration values', () {
-    expectConfigsAreEqual(config, getConfig(isTest: true));
+    expectConfigsAreEqual(config, getConfig(root: join(thirdParty, 'test_')));
   });
 }

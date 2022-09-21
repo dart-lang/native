@@ -863,6 +863,7 @@ void org_apache_pdfbox_pdmodel_PDDocument_setResourceCache(jobject self_, jobjec
 }
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_RESERVE_BYTE_RANGE = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_RESERVE_BYTE_RANGE() {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -873,6 +874,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_RESERVE_BYTE_RANGE() {
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_LOG = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_LOG() {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -883,6 +885,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_LOG() {
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_document = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_document(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -893,6 +896,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_document(jobject self_) {
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_documentInformation = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_documentInformation(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -901,6 +905,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_documentInformation(jobject sel
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_documentInformation));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_documentInformation(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -911,6 +916,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_documentInformation(jobject self_,
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -919,6 +925,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog(jobject self_) 
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -929,6 +936,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog(jobject self_, job
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_encryption = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_encryption(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -937,6 +945,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_encryption(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_encryption));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_encryption(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -947,6 +956,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_encryption(jobject self_, jobject 
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -955,6 +965,7 @@ uint8_t get_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved(jobject 
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -965,6 +976,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved(jobject sel
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_documentId = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_documentId(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -973,6 +985,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_documentId(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_documentId));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_documentId(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -983,6 +996,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_documentId(jobject self_, jobject 
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_pdfSource = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_pdfSource(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -993,6 +1007,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_pdfSource(jobject self_) {
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_accessPermission = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_accessPermission(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1001,6 +1016,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_accessPermission(jobject self_)
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_accessPermission));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_accessPermission(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1011,6 +1027,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_accessPermission(jobject self_, jo
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_fontsToSubset = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_fontsToSubset(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1021,6 +1038,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_fontsToSubset(jobject self_) {
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_fontsToClose = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_fontsToClose(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1031,6 +1049,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_fontsToClose(jobject self_) {
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_signInterface = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_signInterface(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1039,6 +1058,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_signInterface(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_signInterface));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_signInterface(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1049,6 +1069,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_signInterface(jobject self_, jobje
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_signingSupport = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_signingSupport(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1057,6 +1078,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_signingSupport(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_signingSupport));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_signingSupport(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1067,6 +1089,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_signingSupport(jobject self_, jobj
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_resourceCache = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocument_resourceCache(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1075,6 +1098,7 @@ jobject get_org_apache_pdfbox_pdmodel_PDDocument_resourceCache(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_resourceCache));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_resourceCache(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1085,6 +1109,7 @@ void set_org_apache_pdfbox_pdmodel_PDDocument_resourceCache(jobject self_, jobje
 
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocument_signatureAdded = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_org_apache_pdfbox_pdmodel_PDDocument_signatureAdded(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1093,6 +1118,7 @@ uint8_t get_org_apache_pdfbox_pdmodel_PDDocument_signatureAdded(jobject self_) {
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_org_apache_pdfbox_pdmodel_PDDocument_signatureAdded));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_pdmodel_PDDocument_signatureAdded(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
@@ -1396,6 +1422,7 @@ void org_apache_pdfbox_pdmodel_PDDocumentInformation_setTrapped(jobject self_, j
 }
 
 jfieldID _f_org_apache_pdfbox_pdmodel_PDDocumentInformation_info = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_pdmodel_PDDocumentInformation_info(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_pdmodel_PDDocumentInformation, "org/apache/pdfbox/pdmodel/PDDocumentInformation");
@@ -2381,6 +2408,7 @@ jobject org_apache_pdfbox_text_PDFTextStripper_normalizeAdd(jobject self_, jobje
 }
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_defaultIndentThreshold = NULL;
+FFI_PLUGIN_EXPORT
 float get_org_apache_pdfbox_text_PDFTextStripper_defaultIndentThreshold() {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2389,6 +2417,7 @@ float get_org_apache_pdfbox_text_PDFTextStripper_defaultIndentThreshold() {
     return ((*jniEnv)->GetStaticFloatField(jniEnv, _c_org_apache_pdfbox_text_PDFTextStripper, _f_org_apache_pdfbox_text_PDFTextStripper_defaultIndentThreshold));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_defaultIndentThreshold(float value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2399,6 +2428,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_defaultIndentThreshold(float val
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_defaultDropThreshold = NULL;
+FFI_PLUGIN_EXPORT
 float get_org_apache_pdfbox_text_PDFTextStripper_defaultDropThreshold() {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2407,6 +2437,7 @@ float get_org_apache_pdfbox_text_PDFTextStripper_defaultDropThreshold() {
     return ((*jniEnv)->GetStaticFloatField(jniEnv, _c_org_apache_pdfbox_text_PDFTextStripper, _f_org_apache_pdfbox_text_PDFTextStripper_defaultDropThreshold));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_defaultDropThreshold(float value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2417,6 +2448,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_defaultDropThreshold(float value
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_LOG = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_LOG() {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2427,6 +2459,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_LOG() {
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_LINE_SEPARATOR = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_LINE_SEPARATOR(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2437,6 +2470,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_LINE_SEPARATOR(jobject self_)
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_lineSeparator = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_lineSeparator(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2445,6 +2479,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_lineSeparator(jobject self_) 
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_lineSeparator));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_lineSeparator(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2455,6 +2490,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_lineSeparator(jobject self_, job
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_wordSeparator = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_wordSeparator(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2463,6 +2499,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_wordSeparator(jobject self_) 
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_wordSeparator));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_wordSeparator(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2473,6 +2510,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_wordSeparator(jobject self_, job
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_paragraphStart = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_paragraphStart(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2481,6 +2519,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_paragraphStart(jobject self_)
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_paragraphStart));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_paragraphStart(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2491,6 +2530,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_paragraphStart(jobject self_, jo
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_paragraphEnd = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_paragraphEnd(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2499,6 +2539,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_paragraphEnd(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_paragraphEnd));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_paragraphEnd(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2509,6 +2550,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_paragraphEnd(jobject self_, jobj
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_pageStart = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_pageStart(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2517,6 +2559,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_pageStart(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_pageStart));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_pageStart(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2527,6 +2570,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_pageStart(jobject self_, jobject
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_pageEnd = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_pageEnd(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2535,6 +2579,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_pageEnd(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_pageEnd));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_pageEnd(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2545,6 +2590,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_pageEnd(jobject self_, jobject v
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_articleStart = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_articleStart(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2553,6 +2599,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_articleStart(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_articleStart));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_articleStart(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2563,6 +2610,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_articleStart(jobject self_, jobj
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_articleEnd = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_articleEnd(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2571,6 +2619,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_articleEnd(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_articleEnd));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_articleEnd(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2581,6 +2630,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_articleEnd(jobject self_, jobjec
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_currentPageNo = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_org_apache_pdfbox_text_PDFTextStripper_currentPageNo(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2589,6 +2639,7 @@ int32_t get_org_apache_pdfbox_text_PDFTextStripper_currentPageNo(jobject self_) 
     return ((*jniEnv)->GetIntField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_currentPageNo));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_currentPageNo(jobject self_, int32_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2599,6 +2650,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_currentPageNo(jobject self_, int
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_startPage = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_org_apache_pdfbox_text_PDFTextStripper_startPage(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2607,6 +2659,7 @@ int32_t get_org_apache_pdfbox_text_PDFTextStripper_startPage(jobject self_) {
     return ((*jniEnv)->GetIntField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_startPage));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_startPage(jobject self_, int32_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2617,6 +2670,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_startPage(jobject self_, int32_t
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_endPage = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_org_apache_pdfbox_text_PDFTextStripper_endPage(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2625,6 +2679,7 @@ int32_t get_org_apache_pdfbox_text_PDFTextStripper_endPage(jobject self_) {
     return ((*jniEnv)->GetIntField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_endPage));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_endPage(jobject self_, int32_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2635,6 +2690,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_endPage(jobject self_, int32_t v
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_startBookmark = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_startBookmark(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2643,6 +2699,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_startBookmark(jobject self_) 
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_startBookmark));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_startBookmark(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2653,6 +2710,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_startBookmark(jobject self_, job
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_startBookmarkPageNumber = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_org_apache_pdfbox_text_PDFTextStripper_startBookmarkPageNumber(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2661,6 +2719,7 @@ int32_t get_org_apache_pdfbox_text_PDFTextStripper_startBookmarkPageNumber(jobje
     return ((*jniEnv)->GetIntField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_startBookmarkPageNumber));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_startBookmarkPageNumber(jobject self_, int32_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2671,6 +2730,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_startBookmarkPageNumber(jobject 
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_endBookmarkPageNumber = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_org_apache_pdfbox_text_PDFTextStripper_endBookmarkPageNumber(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2679,6 +2739,7 @@ int32_t get_org_apache_pdfbox_text_PDFTextStripper_endBookmarkPageNumber(jobject
     return ((*jniEnv)->GetIntField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_endBookmarkPageNumber));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_endBookmarkPageNumber(jobject self_, int32_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2689,6 +2750,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_endBookmarkPageNumber(jobject se
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_endBookmark = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_endBookmark(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2697,6 +2759,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_endBookmark(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_endBookmark));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_endBookmark(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2707,6 +2770,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_endBookmark(jobject self_, jobje
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_suppressDuplicateOverlappingText = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_org_apache_pdfbox_text_PDFTextStripper_suppressDuplicateOverlappingText(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2715,6 +2779,7 @@ uint8_t get_org_apache_pdfbox_text_PDFTextStripper_suppressDuplicateOverlappingT
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_suppressDuplicateOverlappingText));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_suppressDuplicateOverlappingText(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2725,6 +2790,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_suppressDuplicateOverlappingText
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_shouldSeparateByBeads = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_org_apache_pdfbox_text_PDFTextStripper_shouldSeparateByBeads(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2733,6 +2799,7 @@ uint8_t get_org_apache_pdfbox_text_PDFTextStripper_shouldSeparateByBeads(jobject
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_shouldSeparateByBeads));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_shouldSeparateByBeads(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2743,6 +2810,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_shouldSeparateByBeads(jobject se
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_sortByPosition = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_org_apache_pdfbox_text_PDFTextStripper_sortByPosition(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2751,6 +2819,7 @@ uint8_t get_org_apache_pdfbox_text_PDFTextStripper_sortByPosition(jobject self_)
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_sortByPosition));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_sortByPosition(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2761,6 +2830,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_sortByPosition(jobject self_, ui
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_addMoreFormatting = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_org_apache_pdfbox_text_PDFTextStripper_addMoreFormatting(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2769,6 +2839,7 @@ uint8_t get_org_apache_pdfbox_text_PDFTextStripper_addMoreFormatting(jobject sel
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_addMoreFormatting));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_addMoreFormatting(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2779,6 +2850,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_addMoreFormatting(jobject self_,
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_indentThreshold = NULL;
+FFI_PLUGIN_EXPORT
 float get_org_apache_pdfbox_text_PDFTextStripper_indentThreshold(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2787,6 +2859,7 @@ float get_org_apache_pdfbox_text_PDFTextStripper_indentThreshold(jobject self_) 
     return ((*jniEnv)->GetFloatField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_indentThreshold));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_indentThreshold(jobject self_, float value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2797,6 +2870,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_indentThreshold(jobject self_, f
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_dropThreshold = NULL;
+FFI_PLUGIN_EXPORT
 float get_org_apache_pdfbox_text_PDFTextStripper_dropThreshold(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2805,6 +2879,7 @@ float get_org_apache_pdfbox_text_PDFTextStripper_dropThreshold(jobject self_) {
     return ((*jniEnv)->GetFloatField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_dropThreshold));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_dropThreshold(jobject self_, float value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2815,6 +2890,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_dropThreshold(jobject self_, flo
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_spacingTolerance = NULL;
+FFI_PLUGIN_EXPORT
 float get_org_apache_pdfbox_text_PDFTextStripper_spacingTolerance(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2823,6 +2899,7 @@ float get_org_apache_pdfbox_text_PDFTextStripper_spacingTolerance(jobject self_)
     return ((*jniEnv)->GetFloatField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_spacingTolerance));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_spacingTolerance(jobject self_, float value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2833,6 +2910,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_spacingTolerance(jobject self_, 
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_averageCharTolerance = NULL;
+FFI_PLUGIN_EXPORT
 float get_org_apache_pdfbox_text_PDFTextStripper_averageCharTolerance(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2841,6 +2919,7 @@ float get_org_apache_pdfbox_text_PDFTextStripper_averageCharTolerance(jobject se
     return ((*jniEnv)->GetFloatField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_averageCharTolerance));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_averageCharTolerance(jobject self_, float value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2851,6 +2930,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_averageCharTolerance(jobject sel
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_beadRectangles = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_beadRectangles(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2859,6 +2939,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_beadRectangles(jobject self_)
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_beadRectangles));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_beadRectangles(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2869,6 +2950,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_beadRectangles(jobject self_, jo
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_charactersByArticle = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_charactersByArticle(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2877,6 +2959,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_charactersByArticle(jobject s
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_charactersByArticle));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_charactersByArticle(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2887,6 +2970,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_charactersByArticle(jobject self
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_characterListMapping = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_characterListMapping(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2895,6 +2979,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_characterListMapping(jobject 
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_characterListMapping));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_characterListMapping(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2905,6 +2990,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_characterListMapping(jobject sel
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_document = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_document(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2913,6 +2999,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_document(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_document));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_document(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2923,6 +3010,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_document(jobject self_, jobject 
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_output = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_output(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2931,6 +3019,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_output(jobject self_) {
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_output));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_output(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2941,6 +3030,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_output(jobject self_, jobject va
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_inParagraph = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_org_apache_pdfbox_text_PDFTextStripper_inParagraph(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2949,6 +3039,7 @@ uint8_t get_org_apache_pdfbox_text_PDFTextStripper_inParagraph(jobject self_) {
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_inParagraph));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_inParagraph(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2959,6 +3050,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_inParagraph(jobject self_, uint8
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_LIST_ITEM_EXPRESSIONS = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_LIST_ITEM_EXPRESSIONS() {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2969,6 +3061,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_LIST_ITEM_EXPRESSIONS() {
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_listOfPatterns = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_listOfPatterns(jobject self_) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2977,6 +3070,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_listOfPatterns(jobject self_)
     return to_global_ref((*jniEnv)->GetObjectField(jniEnv, self_, _f_org_apache_pdfbox_text_PDFTextStripper_listOfPatterns));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_listOfPatterns(jobject self_, jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2987,6 +3081,7 @@ void set_org_apache_pdfbox_text_PDFTextStripper_listOfPatterns(jobject self_, jo
 
 
 jfieldID _f_org_apache_pdfbox_text_PDFTextStripper_MIRRORING_CHAR_MAP = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_org_apache_pdfbox_text_PDFTextStripper_MIRRORING_CHAR_MAP() {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
@@ -2995,6 +3090,7 @@ jobject get_org_apache_pdfbox_text_PDFTextStripper_MIRRORING_CHAR_MAP() {
     return to_global_ref((*jniEnv)->GetStaticObjectField(jniEnv, _c_org_apache_pdfbox_text_PDFTextStripper, _f_org_apache_pdfbox_text_PDFTextStripper_MIRRORING_CHAR_MAP));
 }
 
+FFI_PLUGIN_EXPORT
 void set_org_apache_pdfbox_text_PDFTextStripper_MIRRORING_CHAR_MAP(jobject value) {
     load_env();
     load_class_gr(&_c_org_apache_pdfbox_text_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");

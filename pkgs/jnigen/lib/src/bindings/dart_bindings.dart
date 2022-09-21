@@ -73,7 +73,7 @@ class DartBindingsGenerator {
         s.write(_field(decl, field));
         s.writeln();
       } on SkipException catch (e) {
-        log.info('skip field ${decl.binaryName}#${field.name}: '
+        log.fine('skip field ${decl.binaryName}#${field.name}: '
             '${e.message}');
       }
     }
@@ -86,7 +86,7 @@ class DartBindingsGenerator {
         s.write(_method(decl, method));
         s.writeln();
       } on SkipException catch (e) {
-        log.info('skip field ${decl.binaryName}#${method.name}: '
+        log.fine('skip field ${decl.binaryName}#${method.name}: '
             '${e.message}');
       }
     }

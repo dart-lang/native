@@ -13,23 +13,27 @@ import 'test_util/test_util.dart';
 
 void main() {
   final thirdParty = join('test', 'jackson_core_test', 'third_party');
-  final testLib = join(thirdParty, 'test_lib');
-  final testSrc = join(thirdParty, 'test_src');
+  final testLib = join(thirdParty, 'test_lib_yaml');
+  final testSrc = join(thirdParty, 'test_src_yaml');
   final lib = join(thirdParty, 'lib');
   final src = join(thirdParty, 'src');
   final config = join('test', 'jackson_core_test', 'jnigen.yaml');
-  test('generate and compare bindings using YAML config', () {
-    final jnigenProc = Process.runSync('dart', [
-      'run',
-      'jnigen',
-      '--config',
-      config,
-      '-Dc_root=$testSrc',
-      '-Ddart_root=$testLib'
-    ]);
-    expect(jnigenProc.exitCode, equals(0));
+  test('generate and compare bindings using YAML config', () async {
+    final jnigenProc = await Process.start(
+        'dart',
+        [
+          'run',
+          'jnigen',
+          '--config',
+          config,
+          '-Dc_root=$testSrc',
+          '-Ddart_root=$testLib'
+        ],
+        mode: ProcessStartMode.inheritStdio);
+    expect(await jnigenProc.exitCode, equals(0));
 
-    final analyzeProc = Process.runSync('dart', ['analyze', testLib]);
+    final analyzeProc =
+        Process.runSync('dart', ['analyze', testLib], runInShell: true);
     expect(analyzeProc.exitCode, equals(0));
 
     compareDirs(lib, testLib);

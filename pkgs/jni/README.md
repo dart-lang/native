@@ -16,6 +16,9 @@ This is intended for one-off / debugging uses of JNI, as well as providing a bas
 
 __To generate type-safe bindings from Java libraries, use `jnigen`.__
 
+## SDK Note
+Dart standalone is supported, but due to some current limitations of the `pubspec` format, `dart` command must be from Flutter SDK and not dart SDK. See dart-lang/pub#3563.
+
 ## Version note
 This library is at an early stage of development and we do not provide backwards compatibility of the API at this point.
 

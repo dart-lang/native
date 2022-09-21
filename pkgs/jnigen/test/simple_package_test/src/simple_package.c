@@ -107,6 +107,7 @@ void com_github_dart_lang_jnigen_simple_package_Example_throwException() {
 }
 
 jfieldID _f_com_github_dart_lang_jnigen_simple_package_Example_aux = NULL;
+FFI_PLUGIN_EXPORT
 jobject get_com_github_dart_lang_jnigen_simple_package_Example_aux() {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_simple_package_Example, "com/github/dart_lang/jnigen/simple_package/Example");
@@ -115,6 +116,7 @@ jobject get_com_github_dart_lang_jnigen_simple_package_Example_aux() {
     return to_global_ref((*jniEnv)->GetStaticObjectField(jniEnv, _c_com_github_dart_lang_jnigen_simple_package_Example, _f_com_github_dart_lang_jnigen_simple_package_Example_aux));
 }
 
+FFI_PLUGIN_EXPORT
 void set_com_github_dart_lang_jnigen_simple_package_Example_aux(jobject value) {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_simple_package_Example, "com/github/dart_lang/jnigen/simple_package/Example");
@@ -125,6 +127,7 @@ void set_com_github_dart_lang_jnigen_simple_package_Example_aux(jobject value) {
 
 
 jfieldID _f_com_github_dart_lang_jnigen_simple_package_Example_num = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_com_github_dart_lang_jnigen_simple_package_Example_num() {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_simple_package_Example, "com/github/dart_lang/jnigen/simple_package/Example");
@@ -133,6 +136,7 @@ int32_t get_com_github_dart_lang_jnigen_simple_package_Example_num() {
     return ((*jniEnv)->GetStaticIntField(jniEnv, _c_com_github_dart_lang_jnigen_simple_package_Example, _f_com_github_dart_lang_jnigen_simple_package_Example_num));
 }
 
+FFI_PLUGIN_EXPORT
 void set_com_github_dart_lang_jnigen_simple_package_Example_num(int32_t value) {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_simple_package_Example, "com/github/dart_lang/jnigen/simple_package/Example");
@@ -181,6 +185,7 @@ void com_github_dart_lang_jnigen_simple_package_Example__Aux_setValue(jobject se
 }
 
 jfieldID _f_com_github_dart_lang_jnigen_simple_package_Example__Aux_value = NULL;
+FFI_PLUGIN_EXPORT
 uint8_t get_com_github_dart_lang_jnigen_simple_package_Example__Aux_value(jobject self_) {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_simple_package_Example__Aux, "com/github/dart_lang/jnigen/simple_package/Example$Aux");
@@ -189,6 +194,7 @@ uint8_t get_com_github_dart_lang_jnigen_simple_package_Example__Aux_value(jobjec
     return ((*jniEnv)->GetBooleanField(jniEnv, self_, _f_com_github_dart_lang_jnigen_simple_package_Example__Aux_value));
 }
 
+FFI_PLUGIN_EXPORT
 void set_com_github_dart_lang_jnigen_simple_package_Example__Aux_value(jobject self_, uint8_t value) {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_simple_package_Example__Aux, "com/github/dart_lang/jnigen/simple_package/Example$Aux");
@@ -214,6 +220,7 @@ jobject com_github_dart_lang_jnigen_pkg2_C2_ctor() {
 }
 
 jfieldID _f_com_github_dart_lang_jnigen_pkg2_C2_CONSTANT = NULL;
+FFI_PLUGIN_EXPORT
 int32_t get_com_github_dart_lang_jnigen_pkg2_C2_CONSTANT() {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_pkg2_C2, "com/github/dart_lang/jnigen/pkg2/C2");
@@ -222,6 +229,7 @@ int32_t get_com_github_dart_lang_jnigen_pkg2_C2_CONSTANT() {
     return ((*jniEnv)->GetStaticIntField(jniEnv, _c_com_github_dart_lang_jnigen_pkg2_C2, _f_com_github_dart_lang_jnigen_pkg2_C2_CONSTANT));
 }
 
+FFI_PLUGIN_EXPORT
 void set_com_github_dart_lang_jnigen_pkg2_C2_CONSTANT(int32_t value) {
     load_env();
     load_class_gr(&_c_com_github_dart_lang_jnigen_pkg2_C2, "com/github/dart_lang/jnigen/pkg2/C2");

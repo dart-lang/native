@@ -27,7 +27,7 @@ class AndroidSdkTools {
 
   static Future<String?> getAndroidSourcesPath(
       {String? sdkRoot, required List<int> versionOrder}) async {
-    final dir = _getVersionDir('sources', sdkRoot, versionOrder);
+    final dir = await _getVersionDir('sources', sdkRoot, versionOrder);
     log.info('Found sources at $dir');
     return dir;
   }

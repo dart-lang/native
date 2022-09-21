@@ -15,17 +15,17 @@ const packageTestsDir = 'test';
 const testName = 'jackson_core_test';
 
 void main() async {
-  final generatedFilesRoot = join(packageTestsDir, testName, 'third_party');
-  await generate(isTest: true);
-  test("compare generated bindings for jackson_core", () {
-    compareDirs(
-        join(generatedFilesRoot, 'lib'), join(generatedFilesRoot, 'test_lib'));
-    compareDirs(
-        join(generatedFilesRoot, 'src'), join(generatedFilesRoot, 'test_src'));
+  final thirdParty = join(packageTestsDir, testName, 'third_party');
+  test("compare generated bindings for jackson_core", () async {
+    final tempDir = await Directory(thirdParty).createTemp("test_");
+    await generate(root: tempDir.path);
+
+    compareDirs(join(thirdParty, 'lib'), join(tempDir.path, "lib"));
+    compareDirs(join(thirdParty, 'src'), join(tempDir.path, "src"));
+    tempDir.deleteSync(recursive: true);
   });
-  Future<void> analyze() async {
-    final analyzeProc = await Process.start(
-        'dart', ['analyze', join('test', testName, 'third_party', 'test_lib')],
+  Future<void> analyze(String path) async {
+    final analyzeProc = await Process.start('dart', ['analyze', path],
         mode: ProcessStartMode.inheritStdio);
     final exitCode = await analyzeProc.exitCode;
     expect(exitCode, 0);
@@ -34,19 +34,15 @@ void main() async {
   test(
       'generate and analyze bindings for complete library, '
       'not just required classes', () async {
-    await generate(isTest: true, generateFullVersion: true);
-    await analyze();
+    final tempDir = await Directory(thirdParty).createTemp("test_");
+    await generate(root: tempDir.path, generateFullVersion: true);
+    await analyze(tempDir.path);
+    tempDir.deleteSync(recursive: true);
   }, timeout: Timeout(Duration(minutes: 2)));
   test('generate and analyze bindings using ASM', () async {
-    await generate(isTest: true, generateFullVersion: true, useAsm: true);
-    await analyze();
+    final tempDir = await Directory(thirdParty).createTemp("test_");
+    await generate(root: tempDir.path, generateFullVersion: true, useAsm: true);
+    await analyze(tempDir.path);
+    tempDir.deleteSync(recursive: true);
   }, timeout: Timeout(Duration(minutes: 2)));
-  tearDown(() async {
-    for (var dirName in ['test_lib', 'test_src']) {
-      final dir = Directory(join('test', testName, 'third_party', dirName));
-      if (await dir.exists()) {
-        await dir.delete(recursive: true);
-      }
-    }
-  });
 }

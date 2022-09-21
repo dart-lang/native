@@ -7,6 +7,7 @@ maven_downloads:
 dart_root: test/jackson_core_test/third_party/lib
 c_root: test/jackson_core_test/third_party/src
 library_name: jackson_core_test
+log_level: warning
 classes:
   - 'com.fasterxml.jackson.core.JsonFactory'
   - 'com.fasterxml.jackson.core.JsonParser'

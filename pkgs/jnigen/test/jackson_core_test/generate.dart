@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/jnigen.dart';
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' hide equals;
 
 const jacksonPreamble = '// Generated from jackson-core which is licensed under'
@@ -28,7 +29,7 @@ final thirdParty = join('test', testName, 'third_party');
 const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.3'];
 
 Config getConfig(
-    {bool isTest = false,
+    {required String root,
     bool generateFullVersion = false,
     bool useAsm = false}) {
   final config = Config(
@@ -42,8 +43,8 @@ Config getConfig(
     ),
     preamble: jacksonPreamble,
     libraryName: testName,
-    cRoot: Uri.directory(join(thirdParty, isTest ? 'test_src' : 'src')),
-    dartRoot: Uri.directory(join(thirdParty, isTest ? 'test_lib' : 'lib')),
+    cRoot: Uri.directory(join(root, 'src')),
+    dartRoot: Uri.directory(join(root, 'lib')),
     classes: (generateFullVersion)
         ? ['com.fasterxml.jackson.core']
         : [
@@ -51,6 +52,7 @@ Config getConfig(
             'com.fasterxml.jackson.core.JsonParser',
             'com.fasterxml.jackson.core.JsonToken',
           ],
+    logLevel: Level.WARNING,
     exclude: BindingExclusions(
       fields: excludeAll<Field>([
         ['com.fasterxml.jackson.core.JsonFactory', 'DEFAULT_QUOTE_CHAR'],
@@ -64,12 +66,12 @@ Config getConfig(
 }
 
 Future<void> generate(
-    {bool isTest = false,
+    {required String root,
     bool generateFullVersion = false,
     bool useAsm = false}) async {
   final config = getConfig(
-      isTest: isTest, generateFullVersion: generateFullVersion, useAsm: useAsm);
+      root: root, generateFullVersion: generateFullVersion, useAsm: useAsm);
   await generateJniBindings(config);
 }
 
-void main() => generate(isTest: false);
+void main() => generate(root: thirdParty);

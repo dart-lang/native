@@ -71,6 +71,8 @@ public class Main {
     if (options.addDependencies) {
       cli.add("--expand-requires=all");
     }
+    cli.addAll(List.of("-encoding", "utf8"));
+
     if (options.toolOptions != null) {
       cli.addAll(List.of(options.toolOptions.split(" ")));
     }
