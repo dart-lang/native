@@ -2,6 +2,11 @@
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
 
+# Note: There's a script under `jnigen/tool` which runs a subset of these
+# tests on local machine. It's a useful little script for checking the
+# code before making a PR. If you add a task here, you might want to add
+# the equivalent in that script as well.
+
 name: Dart CI
 
 on:
@@ -124,7 +129,7 @@ jobs:
       - name: install clang tools
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y clang-format
+          sudo apt-get install -y clang-format build-essential cmake
       - run: flutter pub get
       - name: Check formatting
         run: flutter format --output=none --set-exit-if-changed .
@@ -133,6 +138,10 @@ jobs:
       - name: Check C code formatting using clang-format
         run: clang-format --dry-run -Werror dartjni.c dartjni.h third_party/*.c third_party/*.h
         working-directory: ./pkgs/jni/src
+      - name: verify that tool/generate_ide_files.dart generates a file
+        run: |
+          dart run tool/generate_ide_files.dart
+          ls src/compile_commands.json
 
   test_jni:
     runs-on: ubuntu-latest

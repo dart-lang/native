@@ -14,7 +14,7 @@ void main() async {
     final lib = join(thirdPartyDir, 'lib');
     final src = join(thirdPartyDir, 'src');
     await generateAndCompareBindings(getConfig(), lib, src);
-  });
+  }, timeout: Timeout.factor(2));
 
   test(
       'generate and analyze bindings for complete library, '
