@@ -63,7 +63,7 @@ class YamlReader {
         stderr.writeln('cannot read $configFile: $e');
       }
     }
-    final regex = RegExp('([a-z-_.]+)=(.*)');
+    final regex = RegExp('([a-z-_.]+)=(.+)');
     final properties = <String, String>{};
     for (var prop in results['override']) {
       final match = regex.matchAsPrefix(prop as String);
@@ -98,7 +98,7 @@ class YamlReader {
   }
 
   List<String>? getStringList(String property) {
-    final configValue = cli[property]?.split(',') ??
+    final configValue = cli[property]?.split(';') ??
         getYamlValue<YamlList>(property)?.cast<String>();
     return configValue;
   }

@@ -11,9 +11,8 @@ class AndroidSdkTools {
   /// get path for android API sources
   static Future<String?> _getVersionDir(
       String relative, String? sdkRoot, List<int> versionOrder) async {
-    sdkRoot ??= Platform.environment['ANDROID_SDK_ROOT'];
     if (sdkRoot == null) {
-      throw ArgumentError('SDK Root not provided and ANDROID_SDK_ROOT not set');
+      throw ArgumentError('SDK Root not provided');
     }
     final parent = join(sdkRoot, relative);
     for (var version in versionOrder) {
@@ -84,11 +83,16 @@ task listDependencies(type: Copy) {
     log.finer('Writing temporary gradle script with stub function...');
     origBuild.writeAsStringSync('$script\n$_gradleListDepsFunction\n');
     log.finer('Running gradle wrapper...');
-    final procRes = Process.runSync('./gradlew', ['-q', 'listDependencies'],
-        workingDirectory: android);
-    log.finer('Restoring build scripts');
-    origBuild.writeAsStringSync(script);
-    File(buildGradleOld).deleteSync();
+    final gradleCommand = Platform.isWindows ? '.\\gradlew.bat' : './gradlew';
+    ProcessResult procRes;
+    try {
+      procRes = Process.runSync(gradleCommand, ['-q', 'listDependencies'],
+          workingDirectory: android, runInShell: true);
+    } finally {
+      log.finer('Restoring build scripts');
+      origBuild.writeAsStringSync(script);
+      File(buildGradleOld).deleteSync();
+    }
     if (procRes.exitCode != 0) {
       final inAndroidProject =
           (androidProject == '.') ? '' : ' in $androidProject';
@@ -96,7 +100,9 @@ task listDependencies(type: Copy) {
           'This can be related to a known issue with gradle. Please run '
           '`flutter build apk`$inAndroidProject and try again\n');
     }
-    final classpaths = (procRes.stdout as String).trim().split('\n');
+    final classpaths = (procRes.stdout as String)
+        .trim()
+        .split(Platform.isWindows ? '\r\n' : '\n');
     log.info('Found release build classpath with ${classpaths.length} entries');
     return classpaths;
   }

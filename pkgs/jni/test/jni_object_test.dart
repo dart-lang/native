@@ -122,7 +122,7 @@ void main() {
   });
 
   // One-off access of static field in single call.
-  test("retrieve_", () {
+  test("Get static field directly", () {
     final maxLong = Jni.retrieveStaticField<int>(
         "java/lang/Short", "MAX_VALUE", "S", JniType.shortType);
     expect(maxLong, equals(32767));
@@ -142,15 +142,18 @@ void main() {
   // you can also pass Dart strings, apart from range of types
   // allowed by Jni.jvalues
   // They will be converted automatically.
-  test("Passing strings in arguments", () {
-    final out = Jni.retrieveStaticField<JniObject>(
-        "java/lang/System", "out", "Ljava/io/PrintStream;");
-    // uncomment next line to see output
-    // (\n because test runner prints first char at end of the line)
-    //out.callMethodByName<Null>(
-    //    "println", "(Ljava/lang/Object;)V", ["\nWorks (Apparently)"]);
-    out.delete();
-  });
+  test(
+    "Passing strings in arguments",
+    () {
+      final out = Jni.retrieveStaticField<JniObject>(
+          "java/lang/System", "out", "Ljava/io/PrintStream;");
+      // uncomment next line to see output
+      // (\n because test runner prints first char at end of the line)
+      //out.callMethodByName<Null>(
+      //    "println", "(Ljava/lang/Object;)V", ["\nWorks (Apparently)"]);
+      out.delete();
+    },
+  );
 
   test("Passing strings in arguments 2", () {
     final twelve = Jni.invokeStaticMethod<int>("java/lang/Byte", "parseByte",
@@ -195,15 +198,15 @@ void main() {
 }
 
 void doSomeWorkInIsolate(Void? _) {
-  // On standalone target, make sure to call load
-  // when doing getInstance first time in a new isolate.
+  // On standalone target, make sure to call [setDylibDir] before accessing
+  // any JNI function.
   //
   // otherwise getInstance will throw a "library not found" exception.
   Jni.setDylibDir(dylibDir: "build/jni_libs");
   final random = Jni.newInstance("java/util/Random", "()V", []);
-  // final r = random.callIntMethodByName("nextInt", "(I)I", [256]);
+  // final r = random.callMethodByName<int>("nextInt", "(I)I", [256]);
   // expect(r, lessThan(256));
-  // Expect throws an OutsideTestException
+  // Expect throws an [OutsideTestException]
   // but you can uncomment below print and see it works
   // print("\n$r");
   random.delete();

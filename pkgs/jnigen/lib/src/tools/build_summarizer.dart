@@ -29,17 +29,28 @@ Future<void> buildApiSummarizer() async {
     pom.toFilePath(),
     'assembly:assembly'
   ];
-  log.info('execute mvn $mvnArgs');
-  final mvnProc = await Process.start('mvn', mvnArgs,
-      workingDirectory: toolPath,
-      runInShell: true,
-      mode: ProcessStartMode.inheritStdio);
-  await mvnProc.exitCode;
-  await File(targetJarFile).rename(jarFile);
-  await Directory(mvnTargetDir).delete(recursive: true);
+  log.info('execute mvn ${mvnArgs.join(" ")}');
+  try {
+    final mvnProc = await Process.run('mvn', mvnArgs,
+        workingDirectory: toolPath, runInShell: true);
+    final exitCode = mvnProc.exitCode;
+    if (exitCode == 0) {
+      await File(targetJarFile).rename(jarFile);
+    } else {
+      printError(mvnProc.stdout);
+      printError(mvnProc.stderr);
+      printError("maven exited with $exitCode");
+    }
+  } finally {
+    await Directory(mvnTargetDir).delete(recursive: true);
+  }
 }
 
 Future<void> buildSummarizerIfNotExists({bool force = false}) async {
+  // TODO(#43): This function cannot be invoked concurrently because 2 processes
+  // will start building summarizer at once. Introduce a locking mechnanism so
+  // that when one process is building summarizer JAR, other process waits using
+  // exponential backoff.
   final jarExists = await File(jarFile).exists();
   final isJarStale = jarExists &&
       await isPackageModifiedAfter(

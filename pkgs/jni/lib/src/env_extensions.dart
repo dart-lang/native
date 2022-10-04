@@ -47,26 +47,25 @@ extension AdditionalEnvMethods on Pointer<GlobalJniEnv> {
   ///
   /// If [describe] is true, a description is printed to screen.
   /// To access actual exception object, use `ExceptionOccurred`.
+  ///
+  /// TODO(#64): Do not keep reference to exception, store stack trace & error.
   void checkException({bool describe = false}) {
     final exc = ExceptionOccurred();
-    if (exc != nullptr) {
-      // TODO(#13): Doing this every time is expensive.
-      // Should lookup and cache method reference,
-      // and keep it alive by keeping a reference to Exception class.
-      final ecls = GetObjectClass(exc);
-      final toStr = GetMethodID(ecls, _toString, _toStringSig);
-      final jstr = CallObjectMethod(exc, toStr);
-      final dstr = asDartString(jstr);
-      for (final i in [jstr, ecls]) {
-        DeleteGlobalRef(i);
-      }
-      if (describe) {
-        ExceptionDescribe();
-      } else {
-        ExceptionClear();
-      }
-      throw JniException(exc, dstr);
+    throwException(exc);
+  }
+
+  /// Throw [exception] from JNI in Dart as a [JniException].
+  void throwException(JObject exception, {bool describe = false}) {
+    if (exception == nullptr) {
+      return;
     }
+    final exceptionClass = GetObjectClass(exception);
+    final toStringMethod = GetMethodID(exceptionClass, _toString, _toStringSig);
+    final javaDescription = CallObjectMethod(exception, toStringMethod);
+    final dartDescription = asDartString(javaDescription);
+    DeleteGlobalRef(javaDescription);
+    DeleteGlobalRef(exceptionClass);
+    throw JniException(exception, dartDescription);
   }
 
   /// Calls the printStackTrace on exception object

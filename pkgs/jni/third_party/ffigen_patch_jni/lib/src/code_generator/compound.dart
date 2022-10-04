@@ -15,7 +15,7 @@ const vtableClasses = {"JNIInvokeInterface": "JavaVM"};
 // Y is extension class if it contains function pointer fields which are
 // otherwise equivalent to normal functions, and just packed in a structure
 // for convenience.
-const extensionClasses = {'GlobalJniEnv', 'JniNativeExtensions'};
+const extensionClasses = {'GlobalJniEnv', 'JniAccessors'};
 
 const methodNameRenames = {"throw": "throwException"};
 
@@ -139,6 +139,8 @@ abstract class Compound extends BindingType {
     if (dartDoc != null) {
       s.write(makeDartDoc(dartDoc!));
     }
+    final voidPointer =
+        "${w.ffiLibraryPrefix}.Pointer<${w.ffiLibraryPrefix}.Void>";
 
     /// Adding [enclosingClassName] because dart doesn't allow class member
     /// to have the same name as the class.
@@ -186,8 +188,7 @@ abstract class Compound extends BindingType {
           final fnType = nf.type as FunctionType;
 
           if (hasVarArgListParam) {
-            s.write(
-                '${depth}external ${m.type.getDartType(w)} _${m.name};\n\n');
+            s.write('${depth}external $voidPointer _${m.name};\n\n');
             continue;
           }
 
@@ -228,7 +229,9 @@ abstract class Compound extends BindingType {
           es.write(");\n$depth}\n\n");
         } else {
           final memberName = hasVarArgListParam ? '_${m.name}' : m.name;
-          s.write('${depth}external ${m.type.getDartType(w)} $memberName;\n\n');
+          final memberType =
+              hasVarArgListParam ? voidPointer : m.type.getDartType(w);
+          s.write('${depth}external $memberType $memberName;\n\n');
         }
       }
     }

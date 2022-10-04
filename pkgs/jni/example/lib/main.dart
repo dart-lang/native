@@ -13,6 +13,7 @@ import 'package:jni/jni.dart';
 
 // An example of calling JNI methods using low level primitives.
 // GlobalJniEnv is a thin abstraction over JNIEnv in JNI C API.
+//
 // For a more ergonomic API for common use cases of calling methods and
 // accessing fields, see next examples using JniObject and JniClass.
 String toJavaStringUsingEnv(int n) => using((arena) {
@@ -78,7 +79,7 @@ void showToast(String text) {
         Jni.getCachedApplicationContext(),
         "😀",
         0,
-      ]).use((toast) => toast.callMethodByName("show", "()V", []));
+      ]).callMethodByName<void>("show", "()V", []);
 }
 
 void main() {

@@ -121,11 +121,18 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+      - name: install clang tools
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y clang-format
       - run: flutter pub get
       - name: Check formatting
         run: flutter format --output=none --set-exit-if-changed .
       - name: Run lints
         run: flutter analyze --fatal-infos
+      - name: Check C code formatting using clang-format
+        run: clang-format --dry-run -Werror dartjni.c dartjni.h third_party/*.c third_party/*.h
+        working-directory: ./pkgs/jni/src
 
   test_jni:
     runs-on: ubuntu-latest
@@ -192,7 +199,9 @@ jobs:
       - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
       - run: dart pub get
       - run: dart run jni:setup
-      - run: dart test
+      ## TODO(#51): -j 1 is required to avoid a rare race condition which is caused by
+      ## all tests which spawn JVM being run in same process.
+      - run: dart test -j 1
 
   test_jnigen_windows_minimal:
     needs: [analyze_jnigen]
@@ -362,7 +371,7 @@ jobs:
           diff -qr _c src/
           diff -qr _dart lib/third_party
       - name: Generate full bindings
-        run: dart run jnigen --config jnigen_full.yaml
+        run: dart run jnigen --config jnigen.yaml --override classes="org.apache.pdfbox.pdmodel;org.apache.pdfbox.text"
       - name: Analyze generated bindings
         run: |
           flutter pub get # dart-analyze errors on flutter example

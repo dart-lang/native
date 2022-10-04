@@ -4,24 +4,26 @@
 
 import 'dart:io';
 
+import 'package:jnigen/jnigen.dart';
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
-Future<bool> hasNoFilesInDir(String path) async {
+Future<bool> isEmptyOrNotExistDir(String path) async {
   final dir = Directory(path);
   return (!await dir.exists()) || (await dir.list().length == 0);
 }
 
-Future<int> runCmd(String exec, List<String> args,
+/// Runs "$exec ${args...}" and returns exit code.
+/// Required because only Process.start provides inheritStdio argument
+Future<int> runCommand(String exec, List<String> args,
     {String? workingDirectory}) async {
   stderr.writeln('[exec] $exec ${args.join(" ")}');
   final proc = await Process.start(exec, args,
-      workingDirectory: workingDirectory,
-      runInShell: true,
-      mode: ProcessStartMode.inheritStdio);
-  return proc.exitCode;
+      workingDirectory: workingDirectory, mode: ProcessStartMode.inheritStdio);
+  return await proc.exitCode;
 }
 
+/// List all JAR files in [testRoot]/jar
 Future<List<String>> getJarPaths(String testRoot) async {
   final jarPath = join(testRoot, 'jar');
   if (!await Directory(jarPath).exists()) {
@@ -52,5 +54,40 @@ void compareDirs(String path1, String path2) {
     // one file may have CRLFs and other may have LFs.
     expect(a.readAsStringSync().replaceAll("\r\n", "\n"),
         equals(b.readAsStringSync().replaceAll("\r\n", "\n")));
+  }
+}
+
+Future<void> _generateTempBindings(Config config, Directory tempDir) async {
+  final tempSrc = tempDir.uri.resolve("src/");
+  final tempLib = tempDir.uri.resolve("lib/");
+  config.cRoot = tempSrc;
+  config.dartRoot = tempLib;
+  await generateJniBindings(config);
+}
+
+Future<void> generateAndCompareBindings(
+    Config config, String lib, String src) async {
+  final currentDir = Directory.current;
+  final tempDir = currentDir.createTempSync("jnigen_test_temp");
+  final tempSrc = tempDir.uri.resolve("src/");
+  final tempLib = tempDir.uri.resolve("lib/");
+  try {
+    await _generateTempBindings(config, tempDir);
+    compareDirs(lib, tempLib.toFilePath());
+    compareDirs(src, tempSrc.toFilePath());
+  } finally {
+    tempDir.deleteSync(recursive: true);
+  }
+}
+
+Future<void> generateAndAnalyzeBindings(Config config) async {
+  final tempDir = Directory.current.createTempSync("jnigen_test_temp");
+  try {
+    await _generateTempBindings(config, tempDir);
+    final analyzeResult = Process.runSync("dart", ["analyze", tempDir.path]);
+    expect(analyzeResult.exitCode, equals(0),
+        reason: "Analyzer exited with non-zero status");
+  } finally {
+    tempDir.deleteSync(recursive: true);
   }
 }

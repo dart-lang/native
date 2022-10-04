@@ -1,13 +1,12 @@
 maven_downloads:
   source_deps:
-    - 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+    - 'com.fasterxml.jackson.core:jackson-core:2.13.4'
   source_dir: test/jackson_core_test/third_party/java
   jar_dir: test/jackson_core_test/third_party/jar
-
 dart_root: test/jackson_core_test/third_party/lib
 c_root: test/jackson_core_test/third_party/src
 library_name: jackson_core_test
-log_level: warning
+log_level: info
 classes:
   - 'com.fasterxml.jackson.core.JsonFactory'
   - 'com.fasterxml.jackson.core.JsonParser'
@@ -16,6 +15,10 @@ classes:
 exclude:
   fields:
     - 'com.fasterxml.jackson.core.JsonFactory#DEFAULT_QUOTE_CHAR'
+    - 'com.fasterxml.jackson.core.Base64Variant#PADDING_CHAR_NONE'
+    - 'com.fasterxml.jackson.core.base.ParserMinimalBase#CHAR_NULL'
+    - 'com.fasterxml.jackson.core.io.UTF32Reader#NC'
+
 
 preamble: |
   // Generated from jackson-core which is licensed under the Apache License 2.0.

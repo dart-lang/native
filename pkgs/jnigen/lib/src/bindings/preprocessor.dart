@@ -10,9 +10,17 @@ import 'package:jnigen/src/util/rename_conflict.dart';
 import 'common.dart';
 
 /// Preprocessor which fills information needed by both Dart and C generators.
-class ApiPreprocessor {
-  static void preprocessAll(Map<String, ClassDecl> classes, Config config) {
+abstract class ApiPreprocessor {
+  static void preprocessAll(Map<String, ClassDecl> classes, Config config,
+      {bool renameClasses = false}) {
+    final Map<String, int> classNameCounts = {};
     for (var c in classes.values) {
+      final className = getSimplifiedClassName(c.binaryName);
+      if (renameClasses) {
+        c.finalName = renameConflict(classNameCounts, className);
+      } else {
+        c.finalName = className;
+      }
       _preprocess(c, classes, config);
     }
   }
@@ -22,7 +30,7 @@ class ApiPreprocessor {
     if (decl.isPreprocessed) return;
     if (!_isClassIncluded(decl, config)) {
       decl.isIncluded = false;
-      log.info('exclude class ${decl.binaryName}');
+      log.fine('exclude class ${decl.binaryName}');
       decl.isPreprocessed = true;
       return;
     }
@@ -42,7 +50,7 @@ class ApiPreprocessor {
     for (var field in decl.fields) {
       if (!_isFieldIncluded(decl, field, config)) {
         field.isIncluded = false;
-        log.info('exclude ${decl.binaryName}#${field.name}');
+        log.fine('exclude ${decl.binaryName}#${field.name}');
         continue;
       }
       field.finalName = renameConflict(decl.nameCounts, field.name);
@@ -51,7 +59,7 @@ class ApiPreprocessor {
     for (var method in decl.methods) {
       if (!_isMethodIncluded(decl, method, config)) {
         method.isIncluded = false;
-        log.info('exclude method ${decl.binaryName}#${method.name}');
+        log.fine('exclude method ${decl.binaryName}#${method.name}');
         continue;
       }
       var realName = method.name;
@@ -62,10 +70,10 @@ class ApiPreprocessor {
       // if method already in super class, assign its number, overriding it.
       final superNum = superclass?.methodNumsAfterRenaming[sig];
       if (superNum != null) {
-        // don't rename if superNum == 0
-        final superNumText = superNum == 0 ? '' : '$superNum';
-        // well, unless the method name is a keyword & superNum == 0.
         // TODO(#29): this logic would better live in a dedicated renamer class.
+        // don't rename if superNum == 0
+        // unless the method name is a keyword.
+        final superNumText = superNum == 0 ? '' : '$superNum';
         final methodName = superNum == 0 ? kwRename(realName) : realName;
         method.finalName = '$methodName$superNumText';
         decl.methodNumsAfterRenaming[sig] = superNum;
@@ -77,7 +85,7 @@ class ApiPreprocessor {
       }
     }
     decl.isPreprocessed = true;
-    log.finest('preprocessed ${decl.binaryName}');
+    log.fine('preprocessed ${decl.binaryName}');
   }
 
   static bool _isFieldIncluded(ClassDecl decl, Field field, Config config) =>

@@ -22,37 +22,37 @@ import 'jackson_core_test/third_party/lib/com/fasterxml/jackson/core.dart';
 
 import 'test_util/test_util.dart';
 
-final simplePackagePath = join('test', 'simple_package_test');
-final jacksonCorePath = join('test', 'jackson_core_test');
-final simplePackageJavaPath = join(simplePackagePath, 'java');
+final simplePackageTest = join('test', 'simple_package_test');
+final jacksonCoreTest = join('test', 'jackson_core_test');
+final simplePackageTestJava = join(simplePackageTest, 'java');
 
 Future<void> setupDylibsAndClasses() async {
-  await runCmd('dart', ['run', 'jni:setup']);
-  await runCmd(
-      'dart', ['run', 'jni:setup', '-S', join(simplePackagePath, 'src')]);
-  await runCmd('dart',
-      ['run', 'jni:setup', '-S', join(jacksonCorePath, 'third_party', 'src')]);
+  await runCommand('dart', ['run', 'jni:setup']);
+  await runCommand(
+      'dart', ['run', 'jni:setup', '-s', join(simplePackageTest, 'src')]);
+  await runCommand('dart',
+      ['run', 'jni:setup', '-s', join(jacksonCoreTest, 'third_party', 'src')]);
   final group = join('com', 'github', 'dart_lang', 'jnigen');
-  await runCmd(
+  await runCommand(
       'javac',
       [
         join(group, 'simple_package', 'Example.java'),
         join(group, 'pkg2', 'C2.java')
       ],
-      workingDirectory: simplePackageJavaPath);
-  await runCmd('dart', [
+      workingDirectory: simplePackageTestJava);
+  await runCommand('dart', [
     'run',
     'jnigen:download_maven_jars',
     '--config',
-    join(jacksonCorePath, 'jnigen.yaml')
+    join(jacksonCoreTest, 'jnigen.yaml')
   ]);
 
-  final jacksonJars = await getJarPaths(join(jacksonCorePath, 'third_party'));
+  final jacksonJars = await getJarPaths(join(jacksonCoreTest, 'third_party'));
 
   if (!Platform.isAndroid) {
     Jni.spawn(
-        dylibDir: 'build/jni_libs',
-        classPath: [simplePackageJavaPath, ...jacksonJars]);
+        dylibDir: join('build', 'jni_libs'),
+        classPath: [simplePackageTestJava, ...jacksonJars]);
   }
 }
 
@@ -87,12 +87,10 @@ void main() async {
     aux.delete();
     ex.delete();
   });
-  test('exceptions', () {
-    expect(() => Example.throwException(), throwsA(isA<JniException>()));
-  });
   test('simple json parsing test', () {
     final json = JniString.fromString('[1, true, false, 2, 4]');
-    final factory = JsonFactory();
+    JsonFactory factory;
+    factory = JsonFactory();
     final parser = factory.createParser6(json);
     final values = <bool>[];
     while (!parser.isClosed()) {
@@ -112,5 +110,8 @@ void main() async {
         ..deletedIn(arena);
       expect(() => erroneous.nextToken(), throwsA(isA<JniException>()));
     });
+  });
+  test('exceptions', () {
+    expect(() => Example.throwException(), throwsException);
   });
 }

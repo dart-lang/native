@@ -91,6 +91,8 @@ class ClassDecl {
       _$ClassDeclFromJson(json);
   Map<String, dynamic> toJson() => _$ClassDeclToJson(this);
 
+  String get internalName => binaryName.replaceAll(".", "/");
+
   // synthesized attributes
   @JsonKey(ignore: true)
   late String finalName;

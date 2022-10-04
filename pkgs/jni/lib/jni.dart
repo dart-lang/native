@@ -60,7 +60,7 @@
 library jni;
 
 export 'src/third_party/jni_bindings_generated.dart'
-    hide JNI_LOG_TAG, JniBindings, JniEnv, JniEnv1;
+    hide JniBindings, JniEnv, JniEnv1;
 export 'src/jni.dart' hide ProtectedJniExtensions;
 export 'src/jvalues.dart' hide JValueArgs, toJValues;
 export 'src/env_extensions.dart'

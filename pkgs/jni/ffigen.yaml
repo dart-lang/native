@@ -11,19 +11,17 @@ description: |
 output: 'lib/src/third_party/jni_bindings_generated.dart'
 headers:
   entry-points:
-    - 'src/global_jni_env.h'
+    - 'src/dartjni.h' # Exports majority of JNI functions
+    - 'src/third_party/global_jni_env.h' # Exports GlobalJniEnv type
   include-directives:
     - 'src/dartjni.h'
-    - 'src/global_jni_env.h'
-    - 'third_party/jni.h'
+    - 'src/third_party/global_jni_env.h'
+    - 'third_party/jni.h' # jni.h from Android NDK
 compiler-opts:
   - '-Ithird_party/'
 functions:
   exclude: # Exclude init functions supposed to be defined in loaded DLL, not JNI
-    - 'JNI_OnLoad'
-    - 'JNI_OnUnload'
-    - 'JNI_OnLoad_L'
-    - 'JNI_OnUnload_L'
+    - 'JNI_.*'
     - 'GetJniContext'
     - 'setJniGetters'
     - 'jni_log'
@@ -33,6 +31,7 @@ structs:
     - 'JNIEnv'
     - '_JNIEnv'
     - 'JNIInvokeInterface'
+    - '__va_list_tag'
   rename:
     ## opaque struct definitions, base types of jfieldID and jmethodID
     '_jfieldID': 'jfieldID_'
@@ -41,9 +40,6 @@ structs:
 unions:
   rename:
     'jvalue': 'JValue'
-enums:
-  rename:
-    'DartJniLogLevel': 'JniLogLevel'
 globals:
   exclude:
     - 'jni'
@@ -51,6 +47,8 @@ globals:
     - 'context_getter'
     - 'env_getter'
 typedefs:
+  exclude:
+    - 'va_list'
   rename:
     'JNI(.*)': 'Jni$1'
     'jint': 'JInt'

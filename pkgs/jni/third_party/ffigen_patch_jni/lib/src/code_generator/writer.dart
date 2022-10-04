@@ -239,7 +239,9 @@ class Writer {
 
     /// Write [noLookUpBindings].
     for (final b in noLookUpBindings) {
-      s.write(b.toBindingString(this).string);
+      if (b.name != '__va_list_tag') {
+        s.write(b.toBindingString(this).string);
+      }
     }
 
     // Write neccesary imports.

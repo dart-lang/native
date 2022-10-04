@@ -40,3 +40,7 @@ compile_commands.json
 # Vim
 .*.swp
 
+## Downloaded files and build artifacts
+*.jar
+*.class
+*.exe

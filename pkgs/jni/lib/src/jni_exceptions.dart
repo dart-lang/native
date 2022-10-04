@@ -45,7 +45,7 @@ class NoJvmInstanceException implements Exception {
 
 extension JniTypeNames on int {
   static const _names = {
-    JniType.boolType: 'bool',
+    JniType.booleanType: 'bool',
     JniType.byteType: 'byte',
     JniType.shortType: 'short',
     JniType.charType: 'char',
@@ -88,5 +88,6 @@ class HelperNotFoundException implements Exception {
   String toString() => "Lookup for helper library $path failed.\n"
       "Please ensure that `dartjni` shared library is built.\n"
       "Provided jni:setup script can be used to build the shared library."
-      "If the library is already built, double check the path.";
+      "If the library is already built, ensure that the JVM libraries can be "
+      "loaded from Dart.";
 }

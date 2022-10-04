@@ -11,3 +11,6 @@ Stream<String> commandOutputStream(
 Stream<String> prefixedCommandOutputStream(
         String prefix, Stream<List<int>> input) =>
     commandOutputStream((line) => '$prefix $line', input);
+
+void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
+    stream.transform(Utf8Decoder()).forEach(buffer.write);

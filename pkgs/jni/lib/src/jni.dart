@@ -13,6 +13,7 @@ import 'env_extensions.dart';
 import 'jvalues.dart';
 import 'jni_exceptions.dart';
 import 'jni_object.dart';
+import 'accessors.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
@@ -146,9 +147,10 @@ abstract class Jni {
   /// It provides an indirection over [JniEnv] so that it can be used from
   /// any thread, and always returns global object references.
   static Pointer<GlobalJniEnv> get env {
-    _env ??= _fetchGlobalEnv();
-    return _env!;
+    return _env ??= _fetchGlobalEnv();
   }
+
+  static Pointer<JniAccessors> get accessors => _bindings.GetAccessors();
 
   /// Returns current application context on Android.
   static JObject getCachedApplicationContext() {
@@ -167,12 +169,8 @@ abstract class Jni {
 
   /// Returns class reference found through system-specific mechanism
   static JClass findClass(String qualifiedName) => using((arena) {
-        final nameChars = qualifiedName.toNativeChars(arena);
-        final cls = _bindings.LoadClass(nameChars);
-        if (cls == nullptr) {
-          env.checkException();
-        }
-        return cls;
+        final cls = accessors.getClass(qualifiedName.toNativeChars(arena));
+        return cls.checkedClassRef;
       });
 
   /// Returns class for [qualifiedName] found by platform-specific mechanism,
@@ -257,7 +255,4 @@ extension ProtectedJniExtensions on Jni {
     final lookup = dl.lookup;
     return lookup;
   }
-
-  /// Checks for and rethrows any pending exception in JNI as a [JniException].
-  static void checkException() => Jni.env.checkException();
 }

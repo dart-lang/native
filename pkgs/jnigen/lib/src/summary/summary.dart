@@ -5,7 +5,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:jnigen/src/logging/logging.dart';
-import 'package:jnigen/src/util/command_output.dart';
 
 /// A command based summary source which calls the ApiSummarizer command.
 /// [sourcePaths] and [classPaths] can be provided for the summarizer to find
@@ -68,7 +67,7 @@ class SummarizerCommand {
     }
   }
 
-  Future<Stream<List<int>>> getInputStream() async {
+  Future<Process> runProcess() async {
     final commandSplit = command.split(" ");
     final exec = commandSplit[0];
     final List<String> args = commandSplit.sublist(1);
@@ -80,13 +79,9 @@ class SummarizerCommand {
     }
     args.addAll(extraArgs);
     args.addAll(classes);
-
     log.info('execute $exec ${args.join(' ')}');
     final proc = await Process.start(exec, args,
         workingDirectory: workingDirectory?.toFilePath() ?? '.');
-    // ignore: unawaited_futures
-    prefixedCommandOutputStream('[ApiSummarizer]', proc.stderr)
-        .forEach(stderr.writeln);
-    return proc.stdout;
+    return proc;
   }
 }

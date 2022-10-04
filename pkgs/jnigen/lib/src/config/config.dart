@@ -65,6 +65,10 @@ class AndroidSdkConfig {
     this.addGradleDeps = false,
     this.androidExample,
   }) {
+    if (versions != null && sdkRoot == null) {
+      throw ArgumentError("No SDK Root specified for finding Android SDK "
+          "from version priority list $versions");
+    }
     if (versions == null && !addGradleDeps) {
       throw ArgumentError('Neither any SDK versions nor `addGradleDeps` '
           'is specified. Unable to find Android libraries.');
@@ -128,13 +132,30 @@ class BindingExclusions {
   ClassFilter? classes;
 }
 
+enum BindingsType {
+  cBased, // C+Dart bindings
+  singleFile,
+  packageStructured,
+}
+
+BindingsType getBindingsType(String? type, BindingsType defaultType) {
+  const names = {
+    'c_based': BindingsType.cBased,
+    'single_file': BindingsType.singleFile,
+    'package_structured': BindingsType.packageStructured,
+  };
+  return names[type] ?? defaultType;
+}
+
 /// Configuration for jnigen binding generation.
 class Config {
   Config({
     required this.classes,
-    required this.libraryName,
-    required this.cRoot,
-    required this.dartRoot,
+    this.bindingsType = BindingsType.cBased,
+    this.outputPath,
+    this.libraryName,
+    this.cRoot,
+    this.dartRoot,
     this.cSubdir,
     this.exclude,
     this.sourcePath,
@@ -146,7 +167,16 @@ class Config {
     this.summarizerOptions,
     this.logLevel = Level.INFO,
     this.dumpJsonTo,
-  });
+  }) {
+    if (bindingsType == BindingsType.cBased) {
+      if (cRoot == null || dartRoot == null || libraryName == null) {
+        throw ArgumentError("In c_based mode these values must be specified: "
+            "c_root, dart_root, library_name");
+      }
+    } else {
+      throw UnimplementedError("BindingsType not yet supported: $bindingsType");
+    }
+  }
 
   /// List of classes or packages for which bindings have to be generated.
   ///
@@ -157,27 +187,33 @@ class Config {
   /// name suffix is `.class`.
   List<String> classes;
 
+  /// Type of bindings to generate.
+  final BindingsType bindingsType;
+
   /// Name of generated library in CMakeLists.txt configuration.
   ///
   /// This will also determine the name of shared object file.
-  String libraryName;
+  final String? libraryName;
 
-  /// Directory to write JNI C Bindings.
+  /// Directory to write JNI C Bindings, in C+Dart mode.
   ///
   /// Strictly speaking, this is the root to place the `CMakeLists.txt` file
   /// for the generated C bindings. It may be desirable to use the [cSubdir]
   /// options to write C files to a subdirectory of [cRoot]. For instance,
   /// when generated code is required to be in `third_party` directory.
-  Uri cRoot;
+  Uri? cRoot;
 
-  /// Directory to write Dart bindings.
-  Uri dartRoot;
+  /// Directory to write Dart bindings, in C + Dart mode.
+  Uri? dartRoot;
 
-  /// Subdirectory relative to [cRoot] to write generated C code.
+  /// Subfolder relative to [cRoot] to write generated C code.
   String? cSubdir;
 
+  /// Output file or folder in non-legacy modes
+  Uri? outputPath;
+
   /// Methods and fields to be excluded from generated bindings.
-  BindingExclusions? exclude;
+  final BindingExclusions? exclude;
 
   /// Paths to search for java source files.
   ///
@@ -193,32 +229,30 @@ class Config {
   List<Uri>? classPath;
 
   /// Common text to be pasted on top of generated C and Dart files.
-  String? preamble;
+  final String? preamble;
 
   /// Additional java package -> dart package mappings (Experimental).
-  Map<String, String>? importMap;
+  final Map<String, String>? importMap;
 
   /// Configuration to search for Android SDK libraries (Experimental).
-  AndroidSdkConfig? androidSdkConfig;
+  final AndroidSdkConfig? androidSdkConfig;
 
   /// Configuration for auto-downloading JAR / source packages using maven,
   /// along with their transitive dependencies.
-  MavenDownloads? mavenDownloads;
+  final MavenDownloads? mavenDownloads;
 
   /// Additional options for the summarizer component
-  SummarizerOptions? summarizerOptions;
+  final SummarizerOptions? summarizerOptions;
 
   /// Log verbosity. The possible values in decreasing order of verbosity
   /// are verbose > debug > info > warning > error. Defaults to [LogLevel.info]
   Level logLevel = Level.INFO;
 
   /// File to which JSON summary is written before binding generation.
-  String? dumpJsonTo;
+  final String? dumpJsonTo;
 
   static final _levels = Map.fromEntries(
       Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)));
-  static Uri? _toDirUri(String? path) =>
-      path != null ? Uri.directory(path) : null;
   static List<Uri>? _toUris(List<String>? paths) =>
       paths?.map(Uri.file).toList();
 
@@ -233,6 +267,10 @@ class Config {
       }
       return res;
     }
+
+    Uri? fileUri(String? path) => path != null ? Uri.file(path) : null;
+    Uri? directoryUri(String? path) =>
+        path != null ? Uri.directory(path) : null;
 
     MemberFilter<T>? regexFilter<T extends ClassMember>(String property) {
       final exclusions = prov.getStringList(property);
@@ -252,13 +290,9 @@ class Config {
       return CombinedMemberFilter<T>(filters);
     }
 
-    String getSdkRoot() {
+    String? getSdkRoot() {
       final root = prov.getString(_Props.androidSdkRoot) ??
           Platform.environment['ANDROID_SDK_ROOT'];
-      if (root == null) {
-        missingValues.add(_Props.androidSdkRoot);
-        return '?';
-      }
       return root;
     }
 
@@ -279,14 +313,17 @@ class Config {
         extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
         backend: prov.getString(_Props.backend),
         workingDirectory:
-            _toDirUri(prov.getString(_Props.summarizerWorkingDir)),
+            directoryUri(prov.getString(_Props.summarizerWorkingDir)),
       ),
       exclude: BindingExclusions(
         methods: regexFilter<Method>(_Props.excludeMethods),
         fields: regexFilter<Field>(_Props.excludeFields),
       ),
-      cRoot: Uri.directory(must(prov.getString, '', _Props.cRoot)),
-      dartRoot: Uri.directory(must(prov.getString, '', _Props.dartRoot)),
+      bindingsType: getBindingsType(
+          prov.getString(_Props.bindingsType), BindingsType.cBased),
+      cRoot: directoryUri(prov.getString(_Props.cRoot)),
+      dartRoot: directoryUri(prov.getString(_Props.dartRoot)),
+      outputPath: fileUri(prov.getString(_Props.outputPath)),
       cSubdir: prov.getString(_Props.cSubdir),
       preamble: prov.getString(_Props.preamble),
       libraryName: must(prov.getString, '', _Props.libraryName),
@@ -317,7 +354,7 @@ class Config {
       logLevel: logLevelFromString(
         prov.getOneOf(
           _Props.logLevel,
-          {'error', 'warning', 'info', 'debug', 'verbose'},
+          _levels.keys.toSet(),
         ),
       ),
     );
@@ -353,6 +390,8 @@ class _Props {
   static const excludeFields = '$exclude.fields';
 
   static const importMap = 'import_map';
+  static const outputPath = 'output_path';
+  static const bindingsType = 'bindings_type';
   static const cRoot = 'c_root';
   static const cSubdir = 'c_subdir';
   static const dartRoot = 'dart_root';

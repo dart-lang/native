@@ -4,8 +4,7 @@
 
 // End-to-end test confirming yaml config works as expected.
 
-import 'dart:io';
-
+import 'package:jnigen/jnigen.dart';
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
@@ -17,30 +16,15 @@ void main() {
   final testSrc = join(thirdParty, 'test_src_yaml');
   final lib = join(thirdParty, 'lib');
   final src = join(thirdParty, 'src');
-  final config = join('test', 'jackson_core_test', 'jnigen.yaml');
+  final configFile = join('test', 'jackson_core_test', 'jnigen.yaml');
   test('generate and compare bindings using YAML config', () async {
-    final jnigenProc = await Process.start(
-        'dart',
-        [
-          'run',
-          'jnigen',
-          '--config',
-          config,
-          '-Dc_root=$testSrc',
-          '-Ddart_root=$testLib'
-        ],
-        mode: ProcessStartMode.inheritStdio);
-    expect(await jnigenProc.exitCode, equals(0));
-
-    final analyzeProc =
-        Process.runSync('dart', ['analyze', testLib], runInShell: true);
-    expect(analyzeProc.exitCode, equals(0));
-
-    compareDirs(lib, testLib);
-    compareDirs(src, testSrc);
-
-    for (var dir in [testLib, testSrc]) {
-      Directory(dir).deleteSync(recursive: true);
-    }
+    final args = [
+      '--config',
+      configFile,
+      '-Dc_root=$testSrc',
+      '-Ddart_root=$testLib',
+    ];
+    final config = Config.parseArgs(args);
+    await generateAndCompareBindings(config, lib, src);
   }, timeout: Timeout.factor(4));
 }

@@ -2,6 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// This file contains mostly the same tests from package:jni's
+// test/jni_object_test.dart. This file can be run on android device using
+// flutter test integration_test/ and therefore useful for checking the
+// working of JNI on an Android device (or emulator).
+
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -78,6 +83,15 @@ void main() {
     final maxLong = Jni.retrieveStaticField<int>(
         "java/lang/Short", "MAX_VALUE", "S", JniType.shortType);
     expect(maxLong, equals(32767));
+  });
+
+  testWidgets("Call method with null argument, expect exception",
+      (tester) async {
+    final integerClass = Jni.findJniClass("java/lang/Integer");
+    expect(
+        () => integerClass.callStaticMethodByName<int>(
+            "parseInt", "(Ljava/lang/String;)I", [nullptr]),
+        throwsException);
   });
 
   testWidgets("callStaticStringMethod", (t) async {

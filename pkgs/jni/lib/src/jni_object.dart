@@ -10,6 +10,7 @@ import 'third_party/jni_bindings_generated.dart';
 import 'jni_exceptions.dart';
 import 'jni.dart';
 import 'env_extensions.dart';
+import 'accessors.dart';
 import 'jvalues.dart';
 
 // This typedef is needed because void is a keyword and cannot be used in
@@ -71,89 +72,23 @@ extension JniReferenceUseExtension<T extends JniReference> on T {
   }
 }
 
-class _CallGetMethods {
-  _CallGetMethods(this.getField, this.getStaticField, this.callMethod,
-      this.callStaticMethod);
-  Function(JObject, JFieldID) getField;
-  Function(JClass, JFieldID) getStaticField;
-  Function(JObject, JMethodID, Pointer<JValue>) callMethod;
-  Function(JClass, JMethodID, Pointer<JValue>) callStaticMethod;
-}
+final Pointer<JniAccessors> _accessors = Jni.accessors;
 
 final Pointer<GlobalJniEnv> _env = Jni.env;
 
-final Map<int, _CallGetMethods> _accessors = {
-  JniType.boolType: _CallGetMethods(
-    _env.GetBooleanField,
-    _env.GetStaticBooleanField,
-    _env.CallBooleanMethodA,
-    _env.CallStaticBooleanMethodA,
-  ),
-  JniType.byteType: _CallGetMethods(
-    _env.GetByteField,
-    _env.GetStaticByteField,
-    _env.CallByteMethodA,
-    _env.CallStaticByteMethodA,
-  ),
-  JniType.shortType: _CallGetMethods(
-    _env.GetShortField,
-    _env.GetStaticShortField,
-    _env.CallShortMethodA,
-    _env.CallStaticShortMethodA,
-  ),
-  JniType.charType: _CallGetMethods(
-    _env.GetCharField,
-    _env.GetStaticCharField,
-    _env.CallCharMethodA,
-    _env.CallStaticCharMethodA,
-  ),
-  JniType.intType: _CallGetMethods(
-    _env.GetIntField,
-    _env.GetStaticIntField,
-    _env.CallIntMethodA,
-    _env.CallStaticIntMethodA,
-  ),
-  JniType.longType: _CallGetMethods(
-    _env.GetLongField,
-    _env.GetStaticLongField,
-    _env.CallLongMethodA,
-    _env.CallStaticLongMethodA,
-  ),
-  JniType.floatType: _CallGetMethods(
-    _env.GetFloatField,
-    _env.GetStaticFloatField,
-    _env.CallFloatMethodA,
-    _env.CallStaticFloatMethodA,
-  ),
-  JniType.doubleType: _CallGetMethods(
-    _env.GetDoubleField,
-    _env.GetStaticDoubleField,
-    _env.CallDoubleMethodA,
-    _env.CallStaticDoubleMethodA,
-  ),
-  JniType.objectType: _CallGetMethods(
-    _env.GetObjectField,
-    _env.GetStaticObjectField,
-    _env.CallObjectMethodA,
-    _env.CallStaticObjectMethodA,
-  ),
-  JniType.voidType: _CallGetMethods(
-    (x, y) => throw ArgumentError('void passed as field type'),
-    (x, y) => throw ArgumentError('void passed as static field type'),
-    _env.CallVoidMethodA,
-    _env.CallStaticVoidMethodA,
-  ),
-};
-
-T _getID<T>(
-    T Function(Pointer<Void> ptr, Pointer<Char> name, Pointer<Char> sig) f,
+Pointer<T> _getID<T extends NativeType>(
+    JniPointerResult Function(
+            Pointer<Void> ptr, Pointer<Char> name, Pointer<Char> sig)
+        f,
     Pointer<Void> ptr,
     String name,
     String sig) {
   final result = using(
       (arena) => f(ptr, name.toNativeChars(arena), sig.toNativeChars(arena)));
-  _env.checkException();
-  return result;
+  if (result.exception != nullptr) {
+    env.throwException(result.exception);
+  }
+  return result.id.cast<T>();
 }
 
 int _getCallType(int? callType, int defaultType, Set<int> allowed) {
@@ -162,14 +97,14 @@ int _getCallType(int? callType, int defaultType, Set<int> allowed) {
   throw InvalidCallTypeException(callType, allowed);
 }
 
-T _callOrGet<T>(int? callType, Function(int) f) {
+T _callOrGet<T>(int? callType, JniResult Function(int) function) {
   final int finalCallType;
-  T result;
+  late T result;
   switch (T) {
     case bool:
       finalCallType =
-          _getCallType(callType, JniType.boolType, {JniType.boolType});
-      result = (f(finalCallType) as int != 0) as T;
+          _getCallType(callType, JniType.booleanType, {JniType.booleanType});
+      result = function(finalCallType).boolean as T;
       break;
     case int:
       finalCallType = _getCallType(callType, JniType.intType, {
@@ -179,22 +114,44 @@ T _callOrGet<T>(int? callType, Function(int) f) {
         JniType.intType,
         JniType.longType,
       });
-      result = f(finalCallType) as T;
+      final jniResult = function(finalCallType);
+      switch (finalCallType) {
+        case JniType.byteType:
+          result = jniResult.byte as T;
+          break;
+        case JniType.shortType:
+          result = jniResult.short as T;
+          break;
+        case JniType.charType:
+          result = jniResult.char as T;
+          break;
+        case JniType.intType:
+          result = jniResult.integer as T;
+          break;
+        case JniType.longType:
+          result = jniResult.long as T;
+          break;
+      }
       break;
     case double:
       finalCallType = _getCallType(callType, JniType.doubleType,
           {JniType.floatType, JniType.doubleType});
-      result = f(finalCallType) as T;
+      final jniResult = function(finalCallType);
+      switch (finalCallType) {
+        case JniType.floatType:
+          result = jniResult.float as T;
+          break;
+        case JniType.doubleType:
+          result = jniResult.doubleFloat as T;
+          break;
+      }
       break;
     case String:
     case JniObject:
     case JniString:
       finalCallType =
           _getCallType(callType, JniType.objectType, {JniType.objectType});
-      final ref = f(finalCallType) as JObject;
-      if (ref == nullptr) {
-        _env.checkException();
-      }
+      final ref = function(finalCallType).object;
       final ctor = T == String
           ? (ref) => _env.asDartString(ref, deleteOriginal: true)
           : (T == JniObject ? JniObject.fromRef : JniString.fromRef);
@@ -203,33 +160,27 @@ T _callOrGet<T>(int? callType, Function(int) f) {
     case _VoidType:
       finalCallType =
           _getCallType(callType, JniType.voidType, {JniType.voidType});
-      f(finalCallType);
+      function(finalCallType).check();
       result = null as T;
       break;
     case dynamic:
-      result = f(callType ?? JniType.voidType) as T;
-      break;
+      throw UnsupportedError("Return type not specified for JNI call");
     default:
       throw UnsupportedError('Unknown type $T');
   }
   return result;
 }
 
-T _callMethod<T>(
-        int? callType, List<dynamic> args, Function(int, Pointer<JValue>) f) =>
+T _callMethod<T>(int? callType, List<dynamic> args,
+        JniResult Function(int, Pointer<JValue>) f) =>
     using((arena) {
       final jArgs = JValueArgs(args, arena);
-      final result = _callOrGet<T>(callType, (ct) => f(ct, jArgs.values));
-      jArgs.dispose();
-      if (result == 0 || result == 0.0 || result == null) {
-        _env.checkException();
-      }
-      return result;
+      arena.onReleaseAll(jArgs.dispose);
+      return _callOrGet<T>(callType, (ct) => f(ct, jArgs.values));
     });
 
-T _getField<T>(int? callType, Function(int) f) {
+T _getField<T>(int? callType, JniResult Function(int) f) {
   final result = _callOrGet<T>(callType, f);
-  _env.checkException();
   return result;
 }
 
@@ -243,8 +194,7 @@ class JniObject extends JniReference {
   JniClass? _jniClass;
 
   JniClass get _class {
-    _jniClass ??= getClass();
-    return _jniClass!;
+    return _jniClass ??= getClass();
   }
 
   /// Deletes the JNI reference and marks this object as deleted. Any further
@@ -270,27 +220,29 @@ class JniObject extends JniReference {
   /// Get [JFieldID] of instance field identified by [fieldName] & [signature].
   JFieldID getFieldID(String fieldName, String signature) {
     _ensureNotDeleted();
-    return _getID(_env.GetFieldID, _class.reference, fieldName, signature);
+    return _getID(
+        _accessors.getFieldID, _class.reference, fieldName, signature);
   }
 
   /// Get [JFieldID] of static field identified by [fieldName] & [signature].
   JFieldID getStaticFieldID(String fieldName, String signature) {
     _ensureNotDeleted();
-    return _getID(
-        _env.GetStaticFieldID, _class.reference, fieldName, signature);
+    return _getID<jfieldID_>(
+        _accessors.getStaticFieldID, _class.reference, fieldName, signature);
   }
 
   /// Get [JMethodID] of instance method [methodName] with [signature].
   JMethodID getMethodID(String methodName, String signature) {
     _ensureNotDeleted();
-    return _getID(_env.GetMethodID, _class.reference, methodName, signature);
+    return _getID<jmethodID_>(
+        _accessors.getMethodID, _class.reference, methodName, signature);
   }
 
   /// Get [JMethodID] of static method [methodName] with [signature].
   JMethodID getStaticMethodID(String methodName, String signature) {
     _ensureNotDeleted();
-    return _getID(
-        _env.GetStaticMethodID, _class.reference, methodName, signature);
+    return _getID<jmethodID_>(
+        _accessors.getStaticMethodID, _class.reference, methodName, signature);
   }
 
   /// Retrieve the value of the field using [fieldID].
@@ -304,8 +256,11 @@ class JniObject extends JniReference {
   /// final value is returned.
   T getField<T>(JFieldID fieldID, [int? callType]) {
     _ensureNotDeleted();
+    if (callType == JniType.voidType) {
+      throw ArgumentError("void is not a valid field type.");
+    }
     return _getField<T>(
-        callType, (ct) => _accessors[ct]!.getField(reference, fieldID));
+        callType, (ct) => _accessors.getField(reference, fieldID, ct));
   }
 
   /// Get value of the field identified by [name] and [signature].
@@ -320,9 +275,12 @@ class JniObject extends JniReference {
   ///
   /// See [getField] for an explanation about [callType] parameter.
   T getStaticField<T>(JFieldID fieldID, [int? callType]) {
+    if (callType == JniType.voidType) {
+      throw ArgumentError("void is not a valid field type.");
+    }
     _ensureNotDeleted();
     return _getField<T>(callType,
-        (ct) => _accessors[ct]!.getStaticField(_class.reference, fieldID));
+        (ct) => _accessors.getStaticField(_class.reference, fieldID, ct));
   }
 
   /// Get value of the static field identified by [name] and [signature].
@@ -342,7 +300,7 @@ class JniObject extends JniReference {
   T callMethod<T>(JMethodID methodID, List<dynamic> args, [int? callType]) {
     _ensureNotDeleted();
     return _callMethod<T>(callType, args,
-        (ct, jvs) => _accessors[ct]!.callMethod(reference, methodID, jvs));
+        (ct, jvs) => _accessors.callMethod(reference, methodID, ct, jvs));
   }
 
   /// Call instance method identified by [name] and [signature].
@@ -359,11 +317,8 @@ class JniObject extends JniReference {
   T callStaticMethod<T>(JMethodID methodID, List<dynamic> args,
       [int? callType]) {
     _ensureNotDeleted();
-    return _callMethod<T>(
-        callType,
-        args,
-        (ct, jvs) =>
-            _accessors[ct]!.callStaticMethod(reference, methodID, jvs));
+    return _callMethod<T>(callType, args,
+        (ct, jvs) => _accessors.callStaticMethod(reference, methodID, ct, jvs));
   }
 
   /// Call static method identified by [name] and [signature].
@@ -384,25 +339,29 @@ class JniClass extends JniReference {
   /// Get [JFieldID] of static field [fieldName] with [signature].
   JFieldID getStaticFieldID(String fieldName, String signature) {
     _ensureNotDeleted();
-    return _getID(_env.GetStaticFieldID, reference, fieldName, signature);
+    return _getID<jfieldID_>(
+        _accessors.getStaticFieldID, reference, fieldName, signature);
   }
 
   /// Get [JMethodID] of static method [methodName] with [signature].
   JMethodID getStaticMethodID(String methodName, String signature) {
     _ensureNotDeleted();
-    return _getID(_env.GetStaticMethodID, reference, methodName, signature);
+    return _getID<jmethodID_>(
+        _accessors.getStaticMethodID, reference, methodName, signature);
   }
 
   /// Get [JFieldID] of field [fieldName] with [signature].
   JFieldID getFieldID(String fieldName, String signature) {
     _ensureNotDeleted();
-    return _getID(_env.GetFieldID, reference, fieldName, signature);
+    return _getID<jfieldID_>(
+        _accessors.getFieldID, reference, fieldName, signature);
   }
 
   /// Get [JMethodID] of method [methodName] with [signature].
   JMethodID getMethodID(String methodName, String signature) {
     _ensureNotDeleted();
-    return _getID(_env.GetMethodID, reference, methodName, signature);
+    return _getID<jmethodID_>(
+        _accessors.getMethodID, reference, methodName, signature);
   }
 
   /// Get [JMethodID] of constructor with [signature].
@@ -412,9 +371,12 @@ class JniClass extends JniReference {
   ///
   /// See [JniObject.getField] for more explanation about [callType].
   T getStaticField<T>(JFieldID fieldID, [int? callType]) {
+    if (callType == JniType.voidType) {
+      throw ArgumentError("void is not a valid field type.");
+    }
     _ensureNotDeleted();
     return _getField<T>(
-        callType, (ct) => _accessors[ct]!.getStaticField(reference, fieldID));
+        callType, (ct) => _accessors.getStaticField(reference, fieldID, ct));
   }
 
   /// Get the value of static field identified by [name] and [signature].
@@ -432,11 +394,8 @@ class JniClass extends JniReference {
   T callStaticMethod<T>(JMethodID methodID, List<dynamic> args,
       [int? callType]) {
     _ensureNotDeleted();
-    return _callMethod<T>(
-        callType,
-        args,
-        (ct, jvs) =>
-            _accessors[ct]!.callStaticMethod(reference, methodID, jvs));
+    return _callMethod<T>(callType, args,
+        (ct, jvs) => _accessors.callStaticMethod(reference, methodID, ct, jvs));
   }
 
   /// Call the static method identified by [name] and [signature].
@@ -452,11 +411,8 @@ class JniClass extends JniReference {
   JniObject newInstance(JMethodID ctor, List<dynamic> args) => using((arena) {
         _ensureNotDeleted();
         final jArgs = JValueArgs(args, arena);
-        final res = _env.NewObjectA(reference, ctor, jArgs.values);
-        jArgs.dispose();
-        if (res == nullptr) {
-          _env.checkException();
-        }
+        arena.onReleaseAll(jArgs.dispose);
+        final res = _accessors.newObject(reference, ctor, jArgs.values).object;
         return JniObject.fromRef(res);
       });
 }

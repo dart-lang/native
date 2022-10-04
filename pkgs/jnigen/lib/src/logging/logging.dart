@@ -21,6 +21,13 @@ void setLoggingLevel(Level level) {
   });
 }
 
+void printError(Object? message) {
+  if (stderr.supportsAnsiEscapes) {
+    message = '$_ansiRed$message$_ansiDefault';
+  }
+  stderr.writeln(message);
+}
+
 extension FatalErrors on Logger {
   void fatal(Object? message, {int exitCode = 2}) {
     message = '${_ansiRed}Fatal: $message$_ansiDefault';

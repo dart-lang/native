@@ -5,11 +5,13 @@
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:jnigen/src/util/command_output.dart';
+
 import 'elements/elements.dart';
 import 'summary/summary.dart';
 import 'config/config.dart';
 import 'tools/tools.dart';
-import 'writers/writers.dart';
+import 'writers/files_writer.dart';
 import 'logging/logging.dart';
 
 Future<void> generateJniBindings(Config config) async {
@@ -26,6 +28,7 @@ Future<void> generateJniBindings(Config config) async {
     backend: config.summarizerOptions?.backend,
   );
 
+  // Additional sources added using maven downloads and gradle trickery.
   final extraSources = <Uri>[];
   final extraJars = <Uri>[];
   final mavenDl = config.mavenDownloads;
@@ -70,18 +73,23 @@ Future<void> generateJniBindings(Config config) async {
   summarizer.addSourcePaths(extraSources);
   summarizer.addClassPaths(extraJars);
 
+  Process process;
   Stream<List<int>> input;
   try {
-    input = await summarizer.getInputStream();
+    process = await summarizer.runProcess();
+    input = process.stdout;
   } on Exception catch (e) {
     log.fatal('Cannot obtain API summary: $e');
     return;
   }
+  final errorLog = StringBuffer();
+  collectOutputStream(process.stderr, errorLog);
   final stream = JsonDecoder().bind(Utf8Decoder().bind(input));
   dynamic json;
   try {
     json = await stream.single;
   } on Exception catch (e) {
+    printError(errorLog);
     log.fatal('Cannot parse summary: $e');
     return;
   }

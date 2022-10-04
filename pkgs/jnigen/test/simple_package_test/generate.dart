@@ -8,8 +8,6 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:jnigen/jnigen.dart';
 
-import '../test_util/test_util.dart';
-
 const testName = 'simple_package_test';
 final testRoot = join('test', testName);
 final javaPath = join(testRoot, 'java');
@@ -28,21 +26,18 @@ var javaFiles = [
   join(javaPrefix, 'pkg2', 'C2.java'),
 ];
 
-Future<void> compileJavaSources(String workingDir, List<String> files) async {
-  await runCmd('javac', files, workingDirectory: workingDir);
+void compileJavaSources(String workingDir, List<String> files) async {
+  final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
+  if (procRes.exitCode != 0) {
+    throw "javac exited with ${procRes.exitCode}\n"
+        "$procRes.stderr";
+  }
 }
 
-Future<void> generateSources(String lib, String src) async {
-  await compileJavaSources(javaPath, javaFiles);
-  final cWrapperDir = Uri.directory(join(testRoot, src));
-  final dartWrappersRoot = Uri.directory(join(testRoot, lib));
-  final cDir = Directory.fromUri(cWrapperDir);
-  final dartDir = Directory.fromUri(dartWrappersRoot);
-  for (var dir in [cDir, dartDir]) {
-    if (await dir.exists()) {
-      await dir.delete(recursive: true);
-    }
-  }
+Config getConfig() {
+  compileJavaSources(javaPath, javaFiles);
+  final cWrapperDir = Uri.directory(join(testRoot, "src"));
+  final dartWrappersRoot = Uri.directory(join(testRoot, "lib"));
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
@@ -53,10 +48,10 @@ Future<void> generateSources(String lib, String src) async {
     preamble: preamble,
     cRoot: cWrapperDir,
     dartRoot: dartWrappersRoot,
-    logLevel: Level.WARNING,
+    logLevel: Level.INFO,
     libraryName: 'simple_package',
   );
-  await generateJniBindings(config);
+  return config;
 }
 
-void main() async => await generateSources('lib', 'src');
+void main() async => await generateJniBindings(getConfig());

@@ -62,64 +62,15 @@ class JniBindings {
           lookup)
       : _lookup = lookup;
 
-  /// VM initialization functions.
-  ///
-  /// Note these are the only symbols exported for JNI by the VM.
-  int JNI_GetDefaultJavaVMInitArgs(
-    ffi.Pointer<ffi.Void> arg0,
-  ) {
-    return _JNI_GetDefaultJavaVMInitArgs(
-      arg0,
-    );
+  ffi.Pointer<JniAccessors> GetAccessors() {
+    return _GetAccessors();
   }
 
-  late final _JNI_GetDefaultJavaVMInitArgsPtr =
-      _lookup<ffi.NativeFunction<JInt Function(ffi.Pointer<ffi.Void>)>>(
-          'JNI_GetDefaultJavaVMInitArgs');
-  late final _JNI_GetDefaultJavaVMInitArgs = _JNI_GetDefaultJavaVMInitArgsPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  int JNI_CreateJavaVM(
-    ffi.Pointer<ffi.Pointer<JavaVM>> arg0,
-    ffi.Pointer<ffi.Pointer<JniEnv>> arg1,
-    ffi.Pointer<ffi.Void> arg2,
-  ) {
-    return _JNI_CreateJavaVM(
-      arg0,
-      arg1,
-      arg2,
-    );
-  }
-
-  late final _JNI_CreateJavaVMPtr = _lookup<
-      ffi.NativeFunction<
-          JInt Function(
-              ffi.Pointer<ffi.Pointer<JavaVM>>,
-              ffi.Pointer<ffi.Pointer<JniEnv>>,
-              ffi.Pointer<ffi.Void>)>>('JNI_CreateJavaVM');
-  late final _JNI_CreateJavaVM = _JNI_CreateJavaVMPtr.asFunction<
-      int Function(ffi.Pointer<ffi.Pointer<JavaVM>>,
-          ffi.Pointer<ffi.Pointer<JniEnv>>, ffi.Pointer<ffi.Void>)>();
-
-  int JNI_GetCreatedJavaVMs(
-    ffi.Pointer<ffi.Pointer<JavaVM>> arg0,
-    int arg1,
-    ffi.Pointer<JSize> arg2,
-  ) {
-    return _JNI_GetCreatedJavaVMs(
-      arg0,
-      arg1,
-      arg2,
-    );
-  }
-
-  late final _JNI_GetCreatedJavaVMsPtr = _lookup<
-      ffi.NativeFunction<
-          JInt Function(ffi.Pointer<ffi.Pointer<JavaVM>>, JSize,
-              ffi.Pointer<JSize>)>>('JNI_GetCreatedJavaVMs');
-  late final _JNI_GetCreatedJavaVMs = _JNI_GetCreatedJavaVMsPtr.asFunction<
-      int Function(
-          ffi.Pointer<ffi.Pointer<JavaVM>>, int, ffi.Pointer<JSize>)>();
+  late final _GetAccessorsPtr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<JniAccessors> Function()>>(
+          'GetAccessors');
+  late final _GetAccessors =
+      _GetAccessorsPtr.asFunction<ffi.Pointer<JniAccessors> Function()>();
 
   ffi.Pointer<JavaVM> GetJavaVM() {
     return _GetJavaVM();
@@ -129,14 +80,6 @@ class JniBindings {
       _lookup<ffi.NativeFunction<ffi.Pointer<JavaVM> Function()>>('GetJavaVM');
   late final _GetJavaVM =
       _GetJavaVMPtr.asFunction<ffi.Pointer<JavaVM> Function()>();
-
-  int DestroyJavaVM() {
-    return _DestroyJavaVM();
-  }
-
-  late final _DestroyJavaVMPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function()>>('DestroyJavaVM');
-  late final _DestroyJavaVM = _DestroyJavaVMPtr.asFunction<int Function()>();
 
   ffi.Pointer<JniEnv> GetJniEnv() {
     return _GetJniEnv();
@@ -202,11 +145,6 @@ class JniBindings {
       _lookup<ffi.NativeFunction<JObject Function()>>('GetCurrentActivity');
   late final _GetCurrentActivity =
       _GetCurrentActivityPtr.asFunction<JObject Function()>();
-
-  late final ffi.Pointer<GlobalJniEnv> _globalEnv =
-      _lookup<GlobalJniEnv>('globalEnv');
-
-  GlobalJniEnv get globalEnv => _globalEnv.ref;
 
   ffi.Pointer<GlobalJniEnv> GetGlobalEnv() {
     return _GetGlobalEnv();
@@ -470,10 +408,7 @@ class JNINativeInterface extends ffi.Struct {
       ffi.NativeFunction<
           JObject Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>> NewObject;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObject Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _NewObjectV;
+  external ffi.Pointer<ffi.Void> _NewObjectV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -499,10 +434,7 @@ class JNINativeInterface extends ffi.Struct {
               JObject Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallObjectMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObject Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallObjectMethodV;
+  external ffi.Pointer<ffi.Void> _CallObjectMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -514,10 +446,7 @@ class JNINativeInterface extends ffi.Struct {
               JBoolean Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallBooleanMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JBoolean Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallBooleanMethodV;
+  external ffi.Pointer<ffi.Void> _CallBooleanMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -529,10 +458,7 @@ class JNINativeInterface extends ffi.Struct {
               JByte Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallByteMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JByte Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallByteMethodV;
+  external ffi.Pointer<ffi.Void> _CallByteMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -544,10 +470,7 @@ class JNINativeInterface extends ffi.Struct {
               JChar Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallCharMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JChar Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallCharMethodV;
+  external ffi.Pointer<ffi.Void> _CallCharMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -559,10 +482,7 @@ class JNINativeInterface extends ffi.Struct {
               JShort Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallShortMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JShort Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallShortMethodV;
+  external ffi.Pointer<ffi.Void> _CallShortMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -574,10 +494,7 @@ class JNINativeInterface extends ffi.Struct {
               JInt Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallIntMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JInt Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallIntMethodV;
+  external ffi.Pointer<ffi.Void> _CallIntMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -589,10 +506,7 @@ class JNINativeInterface extends ffi.Struct {
               JLong Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallLongMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JLong Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallLongMethodV;
+  external ffi.Pointer<ffi.Void> _CallLongMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -604,10 +518,7 @@ class JNINativeInterface extends ffi.Struct {
               JFloat Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallFloatMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JFloat Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallFloatMethodV;
+  external ffi.Pointer<ffi.Void> _CallFloatMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -619,10 +530,7 @@ class JNINativeInterface extends ffi.Struct {
               JDouble Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallDoubleMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JDouble Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallDoubleMethodV;
+  external ffi.Pointer<ffi.Void> _CallDoubleMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -634,10 +542,7 @@ class JNINativeInterface extends ffi.Struct {
               ffi.Void Function(ffi.Pointer<JniEnv1>, JObject, JMethodID)>>
       CallVoidMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv1>, JObject, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallVoidMethodV;
+  external ffi.Pointer<ffi.Void> _CallVoidMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -650,10 +555,7 @@ class JNINativeInterface extends ffi.Struct {
                   ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualObjectMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObject Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualObjectMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualObjectMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -666,10 +568,7 @@ class JNINativeInterface extends ffi.Struct {
                   ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualBooleanMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JBoolean Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualBooleanMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualBooleanMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -681,10 +580,7 @@ class JNINativeInterface extends ffi.Struct {
               JByte Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualByteMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JByte Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualByteMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualByteMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -696,10 +592,7 @@ class JNINativeInterface extends ffi.Struct {
               JChar Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualCharMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JChar Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualCharMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualCharMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -712,10 +605,7 @@ class JNINativeInterface extends ffi.Struct {
                   ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualShortMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JShort Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualShortMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualShortMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -727,10 +617,7 @@ class JNINativeInterface extends ffi.Struct {
               JInt Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualIntMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JInt Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualIntMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualIntMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -742,10 +629,7 @@ class JNINativeInterface extends ffi.Struct {
               JLong Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualLongMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JLong Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualLongMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualLongMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -758,10 +642,7 @@ class JNINativeInterface extends ffi.Struct {
                   ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualFloatMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JFloat Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualFloatMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualFloatMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -774,10 +655,7 @@ class JNINativeInterface extends ffi.Struct {
                   ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualDoubleMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JDouble Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualDoubleMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualDoubleMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -790,10 +668,7 @@ class JNINativeInterface extends ffi.Struct {
                   ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID)>>
       CallNonvirtualVoidMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv1>, JObject, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallNonvirtualVoidMethodV;
+  external ffi.Pointer<ffi.Void> _CallNonvirtualVoidMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -907,10 +782,7 @@ class JNINativeInterface extends ffi.Struct {
               JObject Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticObjectMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObject Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticObjectMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticObjectMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -922,10 +794,7 @@ class JNINativeInterface extends ffi.Struct {
               JBoolean Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticBooleanMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JBoolean Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticBooleanMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticBooleanMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -937,10 +806,7 @@ class JNINativeInterface extends ffi.Struct {
               JByte Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticByteMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JByte Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticByteMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticByteMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -952,10 +818,7 @@ class JNINativeInterface extends ffi.Struct {
               JChar Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticCharMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JChar Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticCharMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticCharMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -967,10 +830,7 @@ class JNINativeInterface extends ffi.Struct {
               JShort Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticShortMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JShort Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticShortMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticShortMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -982,10 +842,7 @@ class JNINativeInterface extends ffi.Struct {
               JInt Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticIntMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JInt Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticIntMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticIntMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -997,10 +854,7 @@ class JNINativeInterface extends ffi.Struct {
               JLong Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticLongMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JLong Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticLongMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticLongMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -1012,10 +866,7 @@ class JNINativeInterface extends ffi.Struct {
               JFloat Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticFloatMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JFloat Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticFloatMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticFloatMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -1027,10 +878,7 @@ class JNINativeInterface extends ffi.Struct {
               JDouble Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticDoubleMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JDouble Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticDoubleMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticDoubleMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -1042,10 +890,7 @@ class JNINativeInterface extends ffi.Struct {
               ffi.Void Function(ffi.Pointer<JniEnv1>, JClass, JMethodID)>>
       CallStaticVoidMethod;
 
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv1>, JClass, JMethodID,
-              ffi.Pointer<__va_list_tag>)>> _CallStaticVoidMethodV;
+  external ffi.Pointer<ffi.Void> _CallStaticVoidMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -1517,19 +1362,6 @@ typedef JSize = JInt;
 typedef JMethodID = ffi.Pointer<jmethodID_>;
 typedef JFieldID = ffi.Pointer<jfieldID_>;
 typedef JThrowable = JObject;
-
-class __va_list_tag extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int gp_offset;
-
-  @ffi.UnsignedInt()
-  external int fp_offset;
-
-  external ffi.Pointer<ffi.Void> overflow_arg_area;
-
-  external ffi.Pointer<ffi.Void> reg_save_area;
-}
-
 typedef JString = JObject;
 typedef JArray = JObject;
 typedef JObjectArray = JArray;
@@ -1577,16 +1409,9 @@ class JavaVMInitArgs extends ffi.Struct {
   external int ignoreUnrecognized;
 }
 
-abstract class JniLogLevel {
-  static const int JNI_VERBOSE = 2;
-  static const int JNI_DEBUG = 3;
-  static const int JNI_INFO = 4;
-  static const int JNI_WARN = 5;
-  static const int JNI_ERROR = 6;
-}
-
+/// Types used by JNI API to distinguish between primitive types.
 abstract class JniType {
-  static const int boolType = 0;
+  static const int booleanType = 0;
   static const int byteType = 1;
   static const int shortType = 2;
   static const int charType = 3;
@@ -1596,6 +1421,158 @@ abstract class JniType {
   static const int doubleType = 7;
   static const int objectType = 8;
   static const int voidType = 9;
+}
+
+/// Result type for use by JNI.
+///
+/// If [exception] is null, it means the result is valid.
+/// It's assumed that the caller knows the expected type in [result].
+class JniResult extends ffi.Struct {
+  external JValue result;
+
+  external JThrowable exception;
+}
+
+/// Similar to [JniResult] but for class lookups.
+class JniClassLookupResult extends ffi.Struct {
+  external JClass classRef;
+
+  external JThrowable exception;
+}
+
+/// Similar to [JniResult] but for method/field ID lookups.
+class JniPointerResult extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> id;
+
+  external JThrowable exception;
+}
+
+/// This struct contains functions which wrap method call / field access conveniently along with
+/// exception checking.
+///
+/// Flutter embedding checks for pending JNI exceptions before an FFI transition, which requires us
+/// to check for and clear the exception before returning to dart code, which requires these functions
+/// to return result types.
+class JniAccessors extends ffi.Struct {
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JniClassLookupResult Function(ffi.Pointer<ffi.Char>)>> getClass;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniPointerResult Function(
+                  JClass, ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>>
+      getFieldID;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniPointerResult Function(
+                  JClass, ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>>
+      getStaticFieldID;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniPointerResult Function(
+                  JClass, ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>>
+      getMethodID;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniPointerResult Function(
+                  JClass, ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>>
+      getStaticMethodID;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(JClass, JMethodID, ffi.Pointer<JValue>)>>
+      newObject;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JniResult Function(
+              JObject, JMethodID, ffi.Int, ffi.Pointer<JValue>)>> callMethod;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JniResult Function(
+                  JClass, JMethodID, ffi.Int, ffi.Pointer<JValue>)>>
+      callStaticMethod;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<JniResult Function(JObject, JFieldID, ffi.Int)>>
+      getField;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<JniResult Function(JClass, JFieldID, ffi.Int)>>
+      getStaticField;
+}
+
+extension JniAccessorsExtension on ffi.Pointer<JniAccessors> {
+  JniClassLookupResult getClass(ffi.Pointer<ffi.Char> internalName) {
+    return ref.getClass
+            .asFunction<JniClassLookupResult Function(ffi.Pointer<ffi.Char>)>()(
+        internalName);
+  }
+
+  JniPointerResult getFieldID(JClass cls, ffi.Pointer<ffi.Char> fieldName,
+      ffi.Pointer<ffi.Char> signature) {
+    return ref.getFieldID.asFunction<
+        JniPointerResult Function(JClass, ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Char>)>()(cls, fieldName, signature);
+  }
+
+  JniPointerResult getStaticFieldID(JClass cls, ffi.Pointer<ffi.Char> fieldName,
+      ffi.Pointer<ffi.Char> signature) {
+    return ref.getStaticFieldID.asFunction<
+        JniPointerResult Function(JClass, ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Char>)>()(cls, fieldName, signature);
+  }
+
+  JniPointerResult getMethodID(JClass cls, ffi.Pointer<ffi.Char> methodName,
+      ffi.Pointer<ffi.Char> signature) {
+    return ref.getMethodID.asFunction<
+        JniPointerResult Function(JClass, ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Char>)>()(cls, methodName, signature);
+  }
+
+  JniPointerResult getStaticMethodID(JClass cls,
+      ffi.Pointer<ffi.Char> methodName, ffi.Pointer<ffi.Char> signature) {
+    return ref.getStaticMethodID.asFunction<
+        JniPointerResult Function(JClass, ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Char>)>()(cls, methodName, signature);
+  }
+
+  JniResult newObject(JClass cls, JMethodID ctor, ffi.Pointer<JValue> args) {
+    return ref.newObject.asFunction<
+        JniResult Function(
+            JClass, JMethodID, ffi.Pointer<JValue>)>()(cls, ctor, args);
+  }
+
+  JniResult callMethod(
+      JObject obj, JMethodID methodID, int callType, ffi.Pointer<JValue> args) {
+    return ref.callMethod.asFunction<
+            JniResult Function(JObject, JMethodID, int, ffi.Pointer<JValue>)>()(
+        obj, methodID, callType, args);
+  }
+
+  JniResult callStaticMethod(
+      JClass cls, JMethodID methodID, int callType, ffi.Pointer<JValue> args) {
+    return ref.callStaticMethod.asFunction<
+            JniResult Function(JClass, JMethodID, int, ffi.Pointer<JValue>)>()(
+        cls, methodID, callType, args);
+  }
+
+  JniResult getField(JObject obj, JFieldID fieldID, int callType) {
+    return ref.getField
+            .asFunction<JniResult Function(JObject, JFieldID, int)>()(
+        obj, fieldID, callType);
+  }
+
+  JniResult getStaticField(JClass cls, JFieldID fieldID, int callType) {
+    return ref.getStaticField
+            .asFunction<JniResult Function(JClass, JFieldID, int)>()(
+        cls, fieldID, callType);
+  }
 }
 
 /// Wrapper over JNIEnv in the JNI API, which can be used from multiple Dart
@@ -3542,5 +3519,3 @@ const int JNI_EINVAL = -6;
 const int JNI_COMMIT = 1;
 
 const int JNI_ABORT = 2;
-
-const String JNI_LOG_TAG = 'Dart-JNI';

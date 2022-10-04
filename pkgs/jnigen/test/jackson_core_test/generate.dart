@@ -25,26 +25,25 @@ const jacksonPreamble = '// Generated from jackson-core which is licensed under'
     '// limitations under the License.\n';
 
 const testName = 'jackson_core_test';
-final thirdParty = join('test', testName, 'third_party');
-const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.3'];
+final thirdPartyDir = join('test', testName, 'third_party');
+const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.4'];
 
 Config getConfig(
-    {required String root,
-    bool generateFullVersion = false,
-    bool useAsm = false}) {
+    {String? root, bool generateFullVersion = false, bool useAsm = false}) {
+  final rootDir = root ?? thirdPartyDir;
   final config = Config(
     mavenDownloads: MavenDownloads(
       sourceDeps: deps,
-      sourceDir: join(thirdParty, 'java'),
-      jarDir: join(thirdParty, 'jar'),
+      sourceDir: join(thirdPartyDir, 'java'),
+      jarDir: join(thirdPartyDir, 'jar'),
     ),
     summarizerOptions: SummarizerOptions(
       backend: useAsm ? 'asm' : null,
     ),
     preamble: jacksonPreamble,
     libraryName: testName,
-    cRoot: Uri.directory(join(root, 'src')),
-    dartRoot: Uri.directory(join(root, 'lib')),
+    cRoot: Uri.directory(join(rootDir, 'src')),
+    dartRoot: Uri.directory(join(rootDir, 'lib')),
     classes: (generateFullVersion)
         ? ['com.fasterxml.jackson.core']
         : [
@@ -52,7 +51,7 @@ Config getConfig(
             'com.fasterxml.jackson.core.JsonParser',
             'com.fasterxml.jackson.core.JsonToken',
           ],
-    logLevel: Level.WARNING,
+    logLevel: Level.INFO,
     exclude: BindingExclusions(
       fields: excludeAll<Field>([
         ['com.fasterxml.jackson.core.JsonFactory', 'DEFAULT_QUOTE_CHAR'],
@@ -65,13 +64,4 @@ Config getConfig(
   return config;
 }
 
-Future<void> generate(
-    {required String root,
-    bool generateFullVersion = false,
-    bool useAsm = false}) async {
-  final config = getConfig(
-      root: root, generateFullVersion: generateFullVersion, useAsm: useAsm);
-  await generateJniBindings(config);
-}
-
-void main() => generate(root: thirdParty);
+void main() async => await generateJniBindings(getConfig());

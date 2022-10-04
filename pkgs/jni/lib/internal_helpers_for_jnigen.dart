@@ -8,3 +8,4 @@ library internal_helpers_for_jnigen;
 
 export 'src/jni.dart' show ProtectedJniExtensions;
 export 'src/jni_object.dart' show JniReference;
+export 'src/accessors.dart';

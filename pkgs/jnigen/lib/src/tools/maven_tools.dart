@@ -34,7 +34,7 @@ class MavenTools {
     log.finer('using POM stub:\n$pom');
     await File(tempPom).writeAsString(pom);
     await Directory(tempTarget).create();
-    await _runCmd('mvn', ['-f', tempPom, ...mvnArgs]);
+    await _runCmd('mvn', ['-q', '-f', tempPom, ...mvnArgs]);
     await File(tempPom).delete();
     await Directory(tempTarget).delete(recursive: true);
   }
