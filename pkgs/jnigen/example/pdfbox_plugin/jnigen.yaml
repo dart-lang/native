@@ -33,7 +33,7 @@ c_root: 'src/'
 c_subdir: 'third_party/'
 
 ## Root for generated Dart bindings.
-dart_root: 'lib/third_party/'
+dart_root: 'lib/src/third_party/'
 
 ## Classes / packages for which bindings need to be generated.
 classes:

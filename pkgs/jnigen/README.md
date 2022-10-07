@@ -16,6 +16,8 @@ Dart standalone target is supported, but due to some problems with pubspec, the 
 
 Along with JDK, maven (`mvn` command) is required. On Windows, it can be installed using a package manager such as `chocolatey` or `scoop`.
 
+It's recommended to have `clang-format` installed as well, to format the generated bindings. On Windows, it's part of the standard Clang install. On Linux, it can be installed through the package manager.
+
 On windows, you need to append the path of `jvm.dll` in your JDK installation to PATH.
 
 For example, on Powershell:

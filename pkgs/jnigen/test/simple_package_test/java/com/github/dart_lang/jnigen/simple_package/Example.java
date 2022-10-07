@@ -16,6 +16,10 @@ public class Example {
     num = 121;
   }
 
+  public int whichExample() {
+    return 0;
+  }
+
   public static Aux getAux() {
     return aux;
   }

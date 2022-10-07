@@ -60,11 +60,9 @@
 library jni;
 
 export 'src/third_party/jni_bindings_generated.dart'
-    hide JniBindings, JniEnv, JniEnv1;
+    hide JniBindings, JniEnv, JniEnv1, JniExceptionDetails;
 export 'src/jni.dart' hide ProtectedJniExtensions;
 export 'src/jvalues.dart' hide JValueArgs, toJValues;
-export 'src/env_extensions.dart'
-    show StringMethodsForJni, CharPtrMethodsForJni, AdditionalEnvMethods;
 export 'src/jni_exceptions.dart';
 export 'src/jni_object.dart' hide JniReference;
 

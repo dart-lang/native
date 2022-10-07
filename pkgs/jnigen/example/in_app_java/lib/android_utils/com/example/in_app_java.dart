@@ -8,6 +8,7 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../../_init.dart" show jniLookup;
@@ -16,29 +17,23 @@ import "../../_init.dart" show jniLookup;
 class AndroidUtils extends jni.JniObject {
   AndroidUtils.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_example_in_app_java_AndroidUtils_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "AndroidUtils__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  AndroidUtils() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  AndroidUtils() : super.fromRef(_ctor().object);
 
   static final _showToast = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("com_example_in_app_java_AndroidUtils_showToast")
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("AndroidUtils__showToast")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)
   static void showToast(
-      jni.JniObject mainActivity, jni.JniObject text, int duration) {
-    final result__ =
-        _showToast(mainActivity.reference, text.reference, duration);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject mainActivity, jni.JniObject text, int duration) =>
+      _showToast(mainActivity.reference, text.reference, duration).check();
 }

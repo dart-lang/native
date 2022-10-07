@@ -27,7 +27,13 @@ class BindingsGenerator {
 
   static const String ffiVoidType = '${ffi}Void';
 
+  static const String jobjectType = '${jni}JObject';
+
+  static const String jthrowableType = '${jni}JThrowable';
+
   static const String jniObjectType = '${jni}JniObject';
+
+  static const String jniResultType = '${jni}JniResult';
 
   /// Formal parameters list of the generated function.
   ///
@@ -53,12 +59,11 @@ class BindingsGenerator {
   String dartSigForField(Field f,
       {bool isSetter = false, required bool isFfiSig}) {
     final conv = isFfiSig ? dartFfiType : dartInnerType;
-    final voidType = isFfiSig ? ffiVoidType : 'void';
-    final ref = f.modifiers.contains('static') ? '' : '$voidPointer, ';
+    final ref = f.modifiers.contains('static') ? '' : '$jobjectType, ';
     if (isSetter) {
-      return '$voidType Function($ref${conv(f.type)})';
+      return '$jthrowableType Function($ref${conv(f.type)})';
     }
-    return '${conv(f.type)} Function($ref)';
+    return '$jniResultType Function($ref)';
   }
 
   String dartSigForMethod(Method m, {required bool isFfiSig}) {
@@ -67,8 +72,7 @@ class BindingsGenerator {
     for (var param in m.params) {
       argTypes.add(conv(param.type));
     }
-    final retType = isCtor(m) ? voidPointer : conv(m.returnType);
-    return '$retType Function (${argTypes.join(", ")})';
+    return '$jniResultType Function (${argTypes.join(", ")})';
   }
 
   String _dartType(TypeUsage t, {SymbolResolver? resolver}) {
@@ -146,6 +150,24 @@ class BindingsGenerator {
     throw SkipException('Not a constant of a known type.');
   }
 
+  String getJValueAccessor(TypeUsage type) {
+    const primitives = {
+      'boolean': 'boolean',
+      'byte': 'byte',
+      'short': 'short',
+      'char': 'char',
+      'int': 'integer',
+      'long': 'long',
+      'float': 'float',
+      'double': 'doubleFloat',
+      'void': 'check()',
+    };
+    if (isPrimitive(type)) {
+      return primitives[type.name]!;
+    }
+    return 'object';
+  }
+
   String originalFieldDecl(Field f) {
     final declStmt = '${f.type.shorthand} ${f.name}';
     return [...f.modifiers, declStmt].join(' ');
@@ -170,7 +192,7 @@ class BindingsGenerator {
 
   String toDartResult(String expr, TypeUsage type, String dartType) {
     if (isPrimitive(type)) {
-      return type.name == 'boolean' ? '$expr != 0' : expr;
+      return expr;
     }
     return '$dartType.fromRef($expr)';
   }
@@ -198,11 +220,15 @@ String breakDocComment(JavaDocComment? javadoc, {String depth = '    '}) {
 
 /// class name canonicalized for C bindings, by replacing "." with "_" and
 /// "$" with "__".
-String mangledClassName(ClassDecl decl) =>
-    decl.binaryName.replaceAll('.', '_').replaceAll('\$', '__');
+String getUniqueClassName(ClassDecl decl) {
+  if (!decl.isPreprocessed) {
+    throw StateError("class not preprocessed: ${decl.binaryName}");
+  }
+  return decl.uniqueName;
+}
 
 String memberNameInC(ClassDecl decl, String name) =>
-    "${mangledClassName(decl)}_$name";
+    "${getUniqueClassName(decl)}__$name";
 
 String getCType(String binaryName) {
   switch (binaryName) {
@@ -288,6 +314,8 @@ bool isFinalField(Field f) => f.modifiers.contains('final');
 bool isFinalMethod(Method m) => m.modifiers.contains('final');
 
 bool isCtor(Method m) => m.name == '<init>';
+
+// static methods & constructors do not have self param.
 bool hasSelfParam(Method m) => !isStaticMethod(m) && !isCtor(m);
 
 bool isObjectField(Field f) => !isPrimitive(f.type);

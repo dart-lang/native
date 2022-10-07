@@ -17,7 +17,7 @@ import 'package:test/test.dart';
 
 // ignore_for_file: avoid_relative_lib_imports
 import 'simple_package_test/lib/com/github/dart_lang/jnigen/simple_package.dart';
-import 'simple_package_test/lib/com/github/dart_lang/jnigen/pkg2.dart';
+import 'simple_package_test/lib/com/github/dart_lang/jnigen/pkg2.dart' as pkg2;
 import 'jackson_core_test/third_party/lib/com/fasterxml/jackson/core.dart';
 
 import 'test_util/test_util.dart';
@@ -37,7 +37,8 @@ Future<void> setupDylibsAndClasses() async {
       'javac',
       [
         join(group, 'simple_package', 'Example.java'),
-        join(group, 'pkg2', 'C2.java')
+        join(group, 'pkg2', 'C2.java'),
+        join(group, 'pkg2', 'Example.java'),
       ],
       workingDirectory: simplePackageTestJava);
   await runCommand('dart', [
@@ -69,7 +70,7 @@ void main() async {
     final aux = Example.aux;
     expect(aux.value, equals(true));
     aux.delete();
-    expect(C2.CONSTANT, equals(12));
+    expect(pkg2.C2.CONSTANT, equals(12));
   });
 
   test('static methods', () {
@@ -87,6 +88,12 @@ void main() async {
     aux.delete();
     ex.delete();
   });
+
+  test("Check bindings for same-named classes", () {
+    expect(Example().whichExample(), 0);
+    expect(pkg2.Example().whichExample(), 1);
+  });
+
   test('simple json parsing test', () {
     final json = JniString.fromString('[1, true, false, 2, 4]');
     JsonFactory factory;

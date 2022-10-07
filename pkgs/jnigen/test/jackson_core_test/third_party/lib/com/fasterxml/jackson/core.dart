@@ -25,6 +25,7 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../../../_init.dart" show jniLookup;
@@ -60,55 +61,54 @@ class JsonFactory extends jni.JniObject {
   /// (and returned by \#getFormatName()
   static const FORMAT_NAME_JSON = "JSON";
 
-  static final _get_DEFAULT_FACTORY_FEATURE_FLAGS = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function()>>(
-          "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_FACTORY_FEATURE_FLAGS")
-      .asFunction<int Function()>();
+  static final _get_DEFAULT_FACTORY_FEATURE_FLAGS =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JsonFactory__DEFAULT_FACTORY_FEATURE_FLAGS")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static protected final int DEFAULT_FACTORY_FEATURE_FLAGS
   ///
   /// Bitfield (set of flags) of all factory features that are enabled by default.
   static int get DEFAULT_FACTORY_FEATURE_FLAGS =>
-      _get_DEFAULT_FACTORY_FEATURE_FLAGS();
+      _get_DEFAULT_FACTORY_FEATURE_FLAGS().integer;
 
-  static final _get_DEFAULT_PARSER_FEATURE_FLAGS = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function()>>(
-          "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_PARSER_FEATURE_FLAGS")
-      .asFunction<int Function()>();
+  static final _get_DEFAULT_PARSER_FEATURE_FLAGS =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JsonFactory__DEFAULT_PARSER_FEATURE_FLAGS")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static protected final int DEFAULT_PARSER_FEATURE_FLAGS
   ///
   /// Bitfield (set of flags) of all parser features that are enabled
   /// by default.
   static int get DEFAULT_PARSER_FEATURE_FLAGS =>
-      _get_DEFAULT_PARSER_FEATURE_FLAGS();
+      _get_DEFAULT_PARSER_FEATURE_FLAGS().integer;
 
-  static final _get_DEFAULT_GENERATOR_FEATURE_FLAGS = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function()>>(
-          "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_GENERATOR_FEATURE_FLAGS")
-      .asFunction<int Function()>();
+  static final _get_DEFAULT_GENERATOR_FEATURE_FLAGS =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JsonFactory__DEFAULT_GENERATOR_FEATURE_FLAGS")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static protected final int DEFAULT_GENERATOR_FEATURE_FLAGS
   ///
   /// Bitfield (set of flags) of all generator features that are enabled
   /// by default.
   static int get DEFAULT_GENERATOR_FEATURE_FLAGS =>
-      _get_DEFAULT_GENERATOR_FEATURE_FLAGS();
+      _get_DEFAULT_GENERATOR_FEATURE_FLAGS().integer;
 
-  static final _get_DEFAULT_ROOT_VALUE_SEPARATOR = jniLookup<
-              ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-          "get_com_fasterxml_jackson_core_JsonFactory_DEFAULT_ROOT_VALUE_SEPARATOR")
-      .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _get_DEFAULT_ROOT_VALUE_SEPARATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JsonFactory__DEFAULT_ROOT_VALUE_SEPARATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static jni.JniObject get DEFAULT_ROOT_VALUE_SEPARATOR =>
-      jni.JniObject.fromRef(_get_DEFAULT_ROOT_VALUE_SEPARATOR());
+      jni.JniObject.fromRef(_get_DEFAULT_ROOT_VALUE_SEPARATOR().object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonFactory_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "JsonFactory__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   ///
@@ -120,28 +120,24 @@ class JsonFactory extends jni.JniObject {
   /// processing objects (such as symbol tables parsers use)
   /// and this reuse only works within context of a single
   /// factory instance.
-  JsonFactory() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  JsonFactory() : super.fromRef(_ctor().object);
 
   static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)
-  JsonFactory.ctor1(jni.JniObject oc) : super.fromRef(_ctor1(oc.reference)) {
-    jni.Jni.env.checkException();
-  }
+  JsonFactory.ctor1(jni.JniObject oc)
+      : super.fromRef(_ctor1(oc.reference).object);
 
   static final _ctor2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_ctor2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__ctor2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(com.fasterxml.jackson.core.JsonFactory src, com.fasterxml.jackson.core.ObjectCodec codec)
@@ -151,30 +147,27 @@ class JsonFactory extends jni.JniObject {
   ///@param codec Databinding-level codec to use, if any
   ///@since 2.2.1
   JsonFactory.ctor2(JsonFactory src, jni.JniObject codec)
-      : super.fromRef(_ctor2(src.reference, codec.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor2(src.reference, codec.reference).object);
 
   static final _ctor3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_ctor3")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__ctor3")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.fasterxml.jackson.core.JsonFactoryBuilder b)
   ///
   /// Constructor used by JsonFactoryBuilder for instantiation.
   ///@param b Builder that contains settings to use
   ///@since 2.10
-  JsonFactory.ctor3(jni.JniObject b) : super.fromRef(_ctor3(b.reference)) {
-    jni.Jni.env.checkException();
-  }
+  JsonFactory.ctor3(jni.JniObject b)
+      : super.fromRef(_ctor3(b.reference).object);
 
   static final _ctor4 = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Uint8)>>("com_fasterxml_jackson_core_JsonFactory_ctor4")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JsonFactory__ctor4")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: protected void <init>(com.fasterxml.jackson.core.TSFBuilder<?,?> b, boolean bogus)
   ///
@@ -184,15 +177,13 @@ class JsonFactory extends jni.JniObject {
   ///@param b Builder that contains settings to use
   ///@param bogus Argument only needed to separate constructor signature; ignored
   JsonFactory.ctor4(jni.JniObject b, bool bogus)
-      : super.fromRef(_ctor4(b.reference, bogus ? 1 : 0)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor4(b.reference, bogus ? 1 : 0).object);
 
   static final _rebuild = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_rebuild")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__rebuild")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.TSFBuilder<?,?> rebuild()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -201,16 +192,12 @@ class JsonFactory extends jni.JniObject {
   /// with settings of this factory.
   ///@return Builder instance to use
   ///@since 2.10
-  jni.JniObject rebuild() {
-    final result__ = jni.JniObject.fromRef(_rebuild(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject rebuild() => jni.JniObject.fromRef(_rebuild(reference).object);
 
   static final _builder =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonFactory_builder")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonFactory__builder")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.fasterxml.jackson.core.TSFBuilder<?,?> builder()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -223,17 +210,13 @@ class JsonFactory extends jni.JniObject {
   /// NOTE: signature unfortunately does not expose true implementation type; this
   /// will be fixed in 3.0.
   ///@return Builder instance to use
-  static jni.JniObject builder() {
-    final result__ = jni.JniObject.fromRef(_builder());
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static jni.JniObject builder() => jni.JniObject.fromRef(_builder().object);
 
   static final _copy = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_copy")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__copy")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory copy()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -250,17 +233,13 @@ class JsonFactory extends jni.JniObject {
   /// set codec after making the copy.
   ///@return Copy of this factory instance
   ///@since 2.1
-  JsonFactory copy() {
-    final result__ = JsonFactory.fromRef(_copy(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory copy() => JsonFactory.fromRef(_copy(reference).object);
 
   static final _readResolve = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_readResolve")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__readResolve")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.lang.Object readResolve()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -271,16 +250,14 @@ class JsonFactory extends jni.JniObject {
   ///
   /// Note: must be overridden by sub-classes as well.
   ///@return Newly constructed instance
-  jni.JniObject readResolve() {
-    final result__ = jni.JniObject.fromRef(_readResolve(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject readResolve() =>
+      jni.JniObject.fromRef(_readResolve(reference).object);
 
-  static final _requiresPropertyOrdering =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_requiresPropertyOrdering")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _requiresPropertyOrdering = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory__requiresPropertyOrdering")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean requiresPropertyOrdering()
   ///
@@ -298,16 +275,14 @@ class JsonFactory extends jni.JniObject {
   ///@return Whether format supported by this factory
   ///   requires Object properties to be ordered.
   ///@since 2.3
-  bool requiresPropertyOrdering() {
-    final result__ = _requiresPropertyOrdering(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool requiresPropertyOrdering() =>
+      _requiresPropertyOrdering(reference).boolean;
 
-  static final _canHandleBinaryNatively =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_canHandleBinaryNatively")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _canHandleBinaryNatively = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory__canHandleBinaryNatively")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canHandleBinaryNatively()
   ///
@@ -322,16 +297,13 @@ class JsonFactory extends jni.JniObject {
   ///@return Whether format supported by this factory
   ///    supports native binary content
   ///@since 2.3
-  bool canHandleBinaryNatively() {
-    final result__ = _canHandleBinaryNatively(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canHandleBinaryNatively() => _canHandleBinaryNatively(reference).boolean;
 
-  static final _canUseCharArrays =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_canUseCharArrays")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _canUseCharArrays = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__canUseCharArrays")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canUseCharArrays()
   ///
@@ -346,16 +318,13 @@ class JsonFactory extends jni.JniObject {
   ///@return Whether access to decoded textual content can be efficiently
   ///   accessed using parser method {@code getTextCharacters()}.
   ///@since 2.4
-  bool canUseCharArrays() {
-    final result__ = _canUseCharArrays(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canUseCharArrays() => _canUseCharArrays(reference).boolean;
 
-  static final _canParseAsync =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_canParseAsync")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _canParseAsync = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__canParseAsync")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canParseAsync()
   ///
@@ -366,48 +335,37 @@ class JsonFactory extends jni.JniObject {
   ///@return Whether this factory supports non-blocking ("async") parsing or
   ///    not (and consequently whether {@code createNonBlockingXxx()} method(s) work)
   ///@since 2.9
-  bool canParseAsync() {
-    final result__ = _canParseAsync(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canParseAsync() => _canParseAsync(reference).boolean;
 
   static final _getFormatReadFeatureType = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getFormatReadFeatureType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory__getFormatReadFeatureType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject getFormatReadFeatureType() {
-    final result__ =
-        jni.JniObject.fromRef(_getFormatReadFeatureType(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getFormatReadFeatureType() =>
+      jni.JniObject.fromRef(_getFormatReadFeatureType(reference).object);
 
   static final _getFormatWriteFeatureType = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getFormatWriteFeatureType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory__getFormatWriteFeatureType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject getFormatWriteFeatureType() {
-    final result__ =
-        jni.JniObject.fromRef(_getFormatWriteFeatureType(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getFormatWriteFeatureType() =>
+      jni.JniObject.fromRef(_getFormatWriteFeatureType(reference).object);
 
   static final _canUseSchema = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_canUseSchema")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__canUseSchema")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)
   ///
@@ -420,17 +378,14 @@ class JsonFactory extends jni.JniObject {
   ///@param schema Schema instance to check
   ///@return Whether parsers and generators constructed by this factory
   ///   can use specified format schema instance
-  bool canUseSchema(jni.JniObject schema) {
-    final result__ = _canUseSchema(reference, schema.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canUseSchema(jni.JniObject schema) =>
+      _canUseSchema(reference, schema.reference).boolean;
 
   static final _getFormatName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getFormatName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getFormatName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getFormatName()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -441,34 +396,27 @@ class JsonFactory extends jni.JniObject {
   /// Note: sub-classes should override this method; default
   /// implementation will return null for all sub-classes
   ///@return Name of the format handled by parsers, generators this factory creates
-  jni.JniString getFormatName() {
-    final result__ = jni.JniString.fromRef(_getFormatName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getFormatName() =>
+      jni.JniString.fromRef(_getFormatName(reference).object);
 
   static final _hasFormat = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_hasFormat")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__hasFormat")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.format.MatchStrength hasFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject hasFormat(jni.JniObject acc) {
-    final result__ =
-        jni.JniObject.fromRef(_hasFormat(reference, acc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject hasFormat(jni.JniObject acc) =>
+      jni.JniObject.fromRef(_hasFormat(reference, acc.reference).object);
 
-  static final _requiresCustomCodec =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_requiresCustomCodec")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _requiresCustomCodec = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__requiresCustomCodec")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean requiresCustomCodec()
   ///
@@ -481,51 +429,37 @@ class JsonFactory extends jni.JniObject {
   ///   generators created by this factory; false if a general
   ///   ObjectCodec is enough
   ///@since 2.1
-  bool requiresCustomCodec() {
-    final result__ = _requiresCustomCodec(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool requiresCustomCodec() => _requiresCustomCodec(reference).boolean;
 
   static final _hasJSONFormat = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_hasJSONFormat")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__hasJSONFormat")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected com.fasterxml.jackson.core.format.MatchStrength hasJSONFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject hasJSONFormat(jni.JniObject acc) {
-    final result__ =
-        jni.JniObject.fromRef(_hasJSONFormat(reference, acc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject hasJSONFormat(jni.JniObject acc) =>
+      jni.JniObject.fromRef(_hasJSONFormat(reference, acc.reference).object);
 
   static final _version = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_version")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__version")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.Version version()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject version() {
-    final result__ = jni.JniObject.fromRef(_version(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject version() => jni.JniObject.fromRef(_version(reference).object);
 
   static final _configure = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "com_fasterxml_jackson_core_JsonFactory_configure")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JsonFactory__configure")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonFactory.Feature f, boolean state)
@@ -537,20 +471,16 @@ class JsonFactory extends jni.JniObject {
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
-  JsonFactory configure(JsonFactory_Feature f, bool state) {
-    final result__ =
-        JsonFactory.fromRef(_configure(reference, f.reference, state ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory configure(JsonFactory_Feature f, bool state) =>
+      JsonFactory.fromRef(
+          _configure(reference, f.reference, state ? 1 : 0).object);
 
   static final _enable = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_enable")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__enable")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonFactory.Feature f)
@@ -561,19 +491,15 @@ class JsonFactory extends jni.JniObject {
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
-  JsonFactory enable(JsonFactory_Feature f) {
-    final result__ = JsonFactory.fromRef(_enable(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory enable(JsonFactory_Feature f) =>
+      JsonFactory.fromRef(_enable(reference, f.reference).object);
 
   static final _disable = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_disable")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__disable")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonFactory.Feature f)
@@ -584,85 +510,68 @@ class JsonFactory extends jni.JniObject {
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
-  JsonFactory disable(JsonFactory_Feature f) {
-    final result__ = JsonFactory.fromRef(_disable(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory disable(JsonFactory_Feature f) =>
+      JsonFactory.fromRef(_disable(reference, f.reference).object);
 
   static final _isEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_isEnabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__isEnabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonFactory.Feature f)
   ///
   /// Checked whether specified parser feature is enabled.
   ///@param f Feature to check
   ///@return True if the specified feature is enabled
-  bool isEnabled(JsonFactory_Feature f) {
-    final result__ = _isEnabled(reference, f.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled(JsonFactory_Feature f) =>
+      _isEnabled(reference, f.reference).boolean;
 
-  static final _getParserFeatures =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_getParserFeatures")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getParserFeatures = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getParserFeatures")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final int getParserFeatures()
-  int getParserFeatures() {
-    final result__ = _getParserFeatures(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getParserFeatures() => _getParserFeatures(reference).integer;
 
-  static final _getGeneratorFeatures =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_getGeneratorFeatures")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getGeneratorFeatures = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getGeneratorFeatures")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final int getGeneratorFeatures()
-  int getGeneratorFeatures() {
-    final result__ = _getGeneratorFeatures(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getGeneratorFeatures() => _getGeneratorFeatures(reference).integer;
 
-  static final _getFormatParserFeatures =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory_getFormatParserFeatures")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getFormatParserFeatures = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory__getFormatParserFeatures")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getFormatParserFeatures()
-  int getFormatParserFeatures() {
-    final result__ = _getFormatParserFeatures(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFormatParserFeatures() => _getFormatParserFeatures(reference).integer;
 
   static final _getFormatGeneratorFeatures = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getFormatGeneratorFeatures")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory__getFormatGeneratorFeatures")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getFormatGeneratorFeatures()
-  int getFormatGeneratorFeatures() {
-    final result__ = _getFormatGeneratorFeatures(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFormatGeneratorFeatures() =>
+      _getFormatGeneratorFeatures(reference).integer;
 
   static final _configure1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "com_fasterxml_jackson_core_JsonFactory_configure1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JsonFactory__configure1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)
@@ -673,20 +582,16 @@ class JsonFactory extends jni.JniObject {
   ///@param f Feature to enable/disable
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
-  JsonFactory configure1(JsonParser_Feature f, bool state) {
-    final result__ =
-        JsonFactory.fromRef(_configure1(reference, f.reference, state ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory configure1(JsonParser_Feature f, bool state) =>
+      JsonFactory.fromRef(
+          _configure1(reference, f.reference, state ? 1 : 0).object);
 
   static final _enable1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_enable1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__enable1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonParser.Feature f)
@@ -696,19 +601,15 @@ class JsonFactory extends jni.JniObject {
   /// (check JsonParser.Feature for list of features)
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory enable1(JsonParser_Feature f) {
-    final result__ = JsonFactory.fromRef(_enable1(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory enable1(JsonParser_Feature f) =>
+      JsonFactory.fromRef(_enable1(reference, f.reference).object);
 
   static final _disable1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_disable1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__disable1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonParser.Feature f)
@@ -718,36 +619,32 @@ class JsonFactory extends jni.JniObject {
   /// (check JsonParser.Feature for list of features)
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory disable1(JsonParser_Feature f) {
-    final result__ = JsonFactory.fromRef(_disable1(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory disable1(JsonParser_Feature f) =>
+      JsonFactory.fromRef(_disable1(reference, f.reference).object);
 
   static final _isEnabled1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_isEnabled1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__isEnabled1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)
   ///
   /// Method for checking if the specified parser feature is enabled.
   ///@param f Feature to check
   ///@return True if specified feature is enabled
-  bool isEnabled1(JsonParser_Feature f) {
-    final result__ = _isEnabled1(reference, f.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled1(JsonParser_Feature f) =>
+      _isEnabled1(reference, f.reference).boolean;
 
   static final _isEnabled2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_isEnabled2")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__isEnabled2")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)
   ///
@@ -755,17 +652,14 @@ class JsonFactory extends jni.JniObject {
   ///@param f Feature to check
   ///@return True if specified feature is enabled
   ///@since 2.10
-  bool isEnabled2(jni.JniObject f) {
-    final result__ = _isEnabled2(reference, f.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled2(jni.JniObject f) =>
+      _isEnabled2(reference, f.reference).boolean;
 
   static final _getInputDecorator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getInputDecorator")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getInputDecorator")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.io.InputDecorator getInputDecorator()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -773,19 +667,15 @@ class JsonFactory extends jni.JniObject {
   /// Method for getting currently configured input decorator (if any;
   /// there is no default decorator).
   ///@return InputDecorator configured, if any
-  jni.JniObject getInputDecorator() {
-    final result__ = jni.JniObject.fromRef(_getInputDecorator(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getInputDecorator() =>
+      jni.JniObject.fromRef(_getInputDecorator(reference).object);
 
   static final _setInputDecorator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_setInputDecorator")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__setInputDecorator")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setInputDecorator(com.fasterxml.jackson.core.io.InputDecorator d)
@@ -795,20 +685,15 @@ class JsonFactory extends jni.JniObject {
   ///@param d Decorator to configure for this factory, if any ({@code null} if none)
   ///@return This factory instance (to allow call chaining)
   ///@deprecated Since 2.10 use JsonFactoryBuilder\#inputDecorator(InputDecorator) instead
-  JsonFactory setInputDecorator(jni.JniObject d) {
-    final result__ =
-        JsonFactory.fromRef(_setInputDecorator(reference, d.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory setInputDecorator(jni.JniObject d) =>
+      JsonFactory.fromRef(_setInputDecorator(reference, d.reference).object);
 
   static final _configure2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "com_fasterxml_jackson_core_JsonFactory_configure2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JsonFactory__configure2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonGenerator.Feature f, boolean state)
@@ -819,20 +704,15 @@ class JsonFactory extends jni.JniObject {
   ///@param f Feature to enable/disable
   ///@param state Whether to enable or disable the feature
   ///@return This factory instance (to allow call chaining)
-  JsonFactory configure2(jni.JniObject f, bool state) {
-    final result__ =
-        JsonFactory.fromRef(_configure2(reference, f.reference, state ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory configure2(jni.JniObject f, bool state) => JsonFactory.fromRef(
+      _configure2(reference, f.reference, state ? 1 : 0).object);
 
   static final _enable2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_enable2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__enable2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
@@ -842,19 +722,15 @@ class JsonFactory extends jni.JniObject {
   /// (check JsonGenerator.Feature for list of features)
   ///@param f Feature to enable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory enable2(jni.JniObject f) {
-    final result__ = JsonFactory.fromRef(_enable2(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory enable2(jni.JniObject f) =>
+      JsonFactory.fromRef(_enable2(reference, f.reference).object);
 
   static final _disable2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_disable2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__disable2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
@@ -864,36 +740,32 @@ class JsonFactory extends jni.JniObject {
   /// (check JsonGenerator.Feature for list of features)
   ///@param f Feature to disable
   ///@return This factory instance (to allow call chaining)
-  JsonFactory disable2(jni.JniObject f) {
-    final result__ = JsonFactory.fromRef(_disable2(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory disable2(jni.JniObject f) =>
+      JsonFactory.fromRef(_disable2(reference, f.reference).object);
 
   static final _isEnabled3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_isEnabled3")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__isEnabled3")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonGenerator.Feature f)
   ///
   /// Check whether specified generator feature is enabled.
   ///@param f Feature to check
   ///@return Whether specified feature is enabled
-  bool isEnabled3(jni.JniObject f) {
-    final result__ = _isEnabled3(reference, f.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled3(jni.JniObject f) =>
+      _isEnabled3(reference, f.reference).boolean;
 
   static final _isEnabled4 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_isEnabled4")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__isEnabled4")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.StreamWriteFeature f)
   ///
@@ -901,17 +773,14 @@ class JsonFactory extends jni.JniObject {
   ///@param f Feature to check
   ///@return Whether specified feature is enabled
   ///@since 2.10
-  bool isEnabled4(jni.JniObject f) {
-    final result__ = _isEnabled4(reference, f.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled4(jni.JniObject f) =>
+      _isEnabled4(reference, f.reference).boolean;
 
   static final _getCharacterEscapes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getCharacterEscapes")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getCharacterEscapes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.io.CharacterEscapes getCharacterEscapes()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -919,19 +788,15 @@ class JsonFactory extends jni.JniObject {
   /// Method for accessing custom escapes factory uses for JsonGenerators
   /// it creates.
   ///@return Configured {@code CharacterEscapes}, if any; {@code null} if none
-  jni.JniObject getCharacterEscapes() {
-    final result__ = jni.JniObject.fromRef(_getCharacterEscapes(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCharacterEscapes() =>
+      jni.JniObject.fromRef(_getCharacterEscapes(reference).object);
 
   static final _setCharacterEscapes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_setCharacterEscapes")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__setCharacterEscapes")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCharacterEscapes(com.fasterxml.jackson.core.io.CharacterEscapes esc)
@@ -941,18 +806,14 @@ class JsonFactory extends jni.JniObject {
   /// it creates.
   ///@param esc CharaterEscapes to set (or {@code null} for "none")
   ///@return This factory instance (to allow call chaining)
-  JsonFactory setCharacterEscapes(jni.JniObject esc) {
-    final result__ =
-        JsonFactory.fromRef(_setCharacterEscapes(reference, esc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory setCharacterEscapes(jni.JniObject esc) => JsonFactory.fromRef(
+      _setCharacterEscapes(reference, esc.reference).object);
 
   static final _getOutputDecorator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getOutputDecorator")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getOutputDecorator")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.io.OutputDecorator getOutputDecorator()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -961,19 +822,15 @@ class JsonFactory extends jni.JniObject {
   /// there is no default decorator).
   ///@return OutputDecorator configured for generators factory creates, if any;
   ///    {@code null} if none.
-  jni.JniObject getOutputDecorator() {
-    final result__ = jni.JniObject.fromRef(_getOutputDecorator(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getOutputDecorator() =>
+      jni.JniObject.fromRef(_getOutputDecorator(reference).object);
 
   static final _setOutputDecorator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_setOutputDecorator")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__setOutputDecorator")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setOutputDecorator(com.fasterxml.jackson.core.io.OutputDecorator d)
@@ -983,20 +840,15 @@ class JsonFactory extends jni.JniObject {
   ///@return This factory instance (to allow call chaining)
   ///@param d Output decorator to use, if any
   ///@deprecated Since 2.10 use JsonFactoryBuilder\#outputDecorator(OutputDecorator) instead
-  JsonFactory setOutputDecorator(jni.JniObject d) {
-    final result__ =
-        JsonFactory.fromRef(_setOutputDecorator(reference, d.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory setOutputDecorator(jni.JniObject d) =>
+      JsonFactory.fromRef(_setOutputDecorator(reference, d.reference).object);
 
   static final _setRootValueSeparator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_setRootValueSeparator")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__setRootValueSeparator")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setRootValueSeparator(java.lang.String sep)
@@ -1007,36 +859,28 @@ class JsonFactory extends jni.JniObject {
   ///@param sep Separator to use, if any; null means that no separator is
   ///   automatically added
   ///@return This factory instance (to allow call chaining)
-  JsonFactory setRootValueSeparator(jni.JniString sep) {
-    final result__ =
-        JsonFactory.fromRef(_setRootValueSeparator(reference, sep.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory setRootValueSeparator(jni.JniString sep) => JsonFactory.fromRef(
+      _setRootValueSeparator(reference, sep.reference).object);
 
   static final _getRootValueSeparator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getRootValueSeparator")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getRootValueSeparator")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getRootValueSeparator()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @return Root value separator configured, if any
-  jni.JniString getRootValueSeparator() {
-    final result__ = jni.JniString.fromRef(_getRootValueSeparator(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getRootValueSeparator() =>
+      jni.JniString.fromRef(_getRootValueSeparator(reference).object);
 
   static final _setCodec = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_setCodec")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__setCodec")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCodec(com.fasterxml.jackson.core.ObjectCodec oc)
@@ -1049,33 +893,26 @@ class JsonFactory extends jni.JniObject {
   /// of JsonParser and JsonGenerator instances.
   ///@param oc Codec to use
   ///@return This factory instance (to allow call chaining)
-  JsonFactory setCodec(jni.JniObject oc) {
-    final result__ = JsonFactory.fromRef(_setCodec(reference, oc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonFactory setCodec(jni.JniObject oc) =>
+      JsonFactory.fromRef(_setCodec(reference, oc.reference).object);
 
   static final _getCodec = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_getCodec")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__getCodec")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.ObjectCodec getCodec()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject getCodec() {
-    final result__ = jni.JniObject.fromRef(_getCodec(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCodec() =>
+      jni.JniObject.fromRef(_getCodec(reference).object);
 
   static final _createParser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.File f)
@@ -1097,19 +934,15 @@ class JsonFactory extends jni.JniObject {
   /// the parser, since caller has no access to it.
   ///@param f File that contains JSON content to parse
   ///@since 2.1
-  JsonParser createParser(jni.JniObject f) {
-    final result__ = JsonParser.fromRef(_createParser(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser(jni.JniObject f) =>
+      JsonParser.fromRef(_createParser(reference, f.reference).object);
 
   static final _createParser1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.net.URL url)
@@ -1129,20 +962,15 @@ class JsonFactory extends jni.JniObject {
   /// the parser, since caller has no access to it.
   ///@param url URL pointing to resource that contains JSON content to parse
   ///@since 2.1
-  JsonParser createParser1(jni.JniObject url) {
-    final result__ =
-        JsonParser.fromRef(_createParser1(reference, url.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser1(jni.JniObject url) =>
+      JsonParser.fromRef(_createParser1(reference, url.reference).object);
 
   static final _createParser2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.InputStream in)
@@ -1165,20 +993,15 @@ class JsonFactory extends jni.JniObject {
   /// For other charsets use \#createParser(java.io.Reader).
   ///@param in InputStream to use for reading JSON content to parse
   ///@since 2.1
-  JsonParser createParser2(jni.JniObject in0) {
-    final result__ =
-        JsonParser.fromRef(_createParser2(reference, in0.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser2(jni.JniObject in0) =>
+      JsonParser.fromRef(_createParser2(reference, in0.reference).object);
 
   static final _createParser3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser3")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser3")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.Reader r)
@@ -1194,19 +1017,15 @@ class JsonFactory extends jni.JniObject {
   /// is enabled.
   ///@param r Reader to use for reading JSON content to parse
   ///@since 2.1
-  JsonParser createParser3(jni.JniObject r) {
-    final result__ = JsonParser.fromRef(_createParser3(reference, r.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser3(jni.JniObject r) =>
+      JsonParser.fromRef(_createParser3(reference, r.reference).object);
 
   static final _createParser4 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser4")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser4")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data)
@@ -1215,20 +1034,18 @@ class JsonFactory extends jni.JniObject {
   /// Method for constructing parser for parsing
   /// the contents of given byte array.
   ///@since 2.1
-  JsonParser createParser4(jni.JniObject data) {
-    final result__ =
-        JsonParser.fromRef(_createParser4(reference, data.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser4(jni.JniObject data) =>
+      JsonParser.fromRef(_createParser4(reference, data.reference).object);
 
   static final _createParser5 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser5")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("JsonFactory__createParser5")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data, int offset, int len)
@@ -1240,20 +1057,16 @@ class JsonFactory extends jni.JniObject {
   ///@param offset Offset of the first data byte within buffer
   ///@param len Length of contents to parse within buffer
   ///@since 2.1
-  JsonParser createParser5(jni.JniObject data, int offset, int len) {
-    final result__ = JsonParser.fromRef(
-        _createParser5(reference, data.reference, offset, len));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser5(jni.JniObject data, int offset, int len) =>
+      JsonParser.fromRef(
+          _createParser5(reference, data.reference, offset, len).object);
 
   static final _createParser6 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser6")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser6")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.lang.String content)
@@ -1262,20 +1075,15 @@ class JsonFactory extends jni.JniObject {
   /// Method for constructing parser for parsing
   /// contents of given String.
   ///@since 2.1
-  JsonParser createParser6(jni.JniString content) {
-    final result__ =
-        JsonParser.fromRef(_createParser6(reference, content.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser6(jni.JniString content) =>
+      JsonParser.fromRef(_createParser6(reference, content.reference).object);
 
   static final _createParser7 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser7")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser7")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content)
@@ -1284,20 +1092,18 @@ class JsonFactory extends jni.JniObject {
   /// Method for constructing parser for parsing
   /// contents of given char array.
   ///@since 2.4
-  JsonParser createParser7(jni.JniObject content) {
-    final result__ =
-        JsonParser.fromRef(_createParser7(reference, content.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser7(jni.JniObject content) =>
+      JsonParser.fromRef(_createParser7(reference, content.reference).object);
 
   static final _createParser8 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser8")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("JsonFactory__createParser8")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content, int offset, int len)
@@ -1305,20 +1111,16 @@ class JsonFactory extends jni.JniObject {
   ///
   /// Method for constructing parser for parsing contents of given char array.
   ///@since 2.4
-  JsonParser createParser8(jni.JniObject content, int offset, int len) {
-    final result__ = JsonParser.fromRef(
-        _createParser8(reference, content.reference, offset, len));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser8(jni.JniObject content, int offset, int len) =>
+      JsonParser.fromRef(
+          _createParser8(reference, content.reference, offset, len).object);
 
   static final _createParser9 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createParser9")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createParser9")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.DataInput in)
@@ -1330,18 +1132,14 @@ class JsonFactory extends jni.JniObject {
   /// If this factory does not support DataInput as source,
   /// will throw UnsupportedOperationException
   ///@since 2.8
-  JsonParser createParser9(jni.JniObject in0) {
-    final result__ =
-        JsonParser.fromRef(_createParser9(reference, in0.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createParser9(jni.JniObject in0) =>
+      JsonParser.fromRef(_createParser9(reference, in0.reference).object);
 
   static final _createNonBlockingByteArrayParser = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createNonBlockingByteArrayParser")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory__createNonBlockingByteArrayParser")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createNonBlockingByteArrayParser()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1359,21 +1157,18 @@ class JsonFactory extends jni.JniObject {
   /// (and US-ASCII since it is proper subset); other encodings are not supported
   /// at this point.
   ///@since 2.9
-  JsonParser createNonBlockingByteArrayParser() {
-    final result__ =
-        JsonParser.fromRef(_createNonBlockingByteArrayParser(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createNonBlockingByteArrayParser() =>
+      JsonParser.fromRef(_createNonBlockingByteArrayParser(reference).object);
 
   static final _createGenerator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createGenerator")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createGenerator")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1396,20 +1191,16 @@ class JsonFactory extends jni.JniObject {
   ///@param out OutputStream to use for writing JSON content
   ///@param enc Character encoding to use
   ///@since 2.1
-  jni.JniObject createGenerator(jni.JniObject out, jni.JniObject enc) {
-    final result__ = jni.JniObject.fromRef(
-        _createGenerator(reference, out.reference, enc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createGenerator(jni.JniObject out, jni.JniObject enc) =>
+      jni.JniObject.fromRef(
+          _createGenerator(reference, out.reference, enc.reference).object);
 
   static final _createGenerator1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createGenerator1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createGenerator1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out)
@@ -1420,20 +1211,15 @@ class JsonFactory extends jni.JniObject {
   ///
   /// Note: there are formats that use fixed encoding (like most binary data formats).
   ///@since 2.1
-  jni.JniObject createGenerator1(jni.JniObject out) {
-    final result__ =
-        jni.JniObject.fromRef(_createGenerator1(reference, out.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createGenerator1(jni.JniObject out) =>
+      jni.JniObject.fromRef(_createGenerator1(reference, out.reference).object);
 
   static final _createGenerator2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createGenerator2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createGenerator2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.Writer w)
@@ -1450,21 +1236,18 @@ class JsonFactory extends jni.JniObject {
   /// Using application needs to close it explicitly.
   ///@since 2.1
   ///@param w Writer to use for writing JSON content
-  jni.JniObject createGenerator2(jni.JniObject w) {
-    final result__ =
-        jni.JniObject.fromRef(_createGenerator2(reference, w.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createGenerator2(jni.JniObject w) =>
+      jni.JniObject.fromRef(_createGenerator2(reference, w.reference).object);
 
   static final _createGenerator3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createGenerator3")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createGenerator3")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.File f, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1481,21 +1264,19 @@ class JsonFactory extends jni.JniObject {
   ///@param f File to write contents to
   ///@param enc Character encoding to use
   ///@since 2.1
-  jni.JniObject createGenerator3(jni.JniObject f, jni.JniObject enc) {
-    final result__ = jni.JniObject.fromRef(
-        _createGenerator3(reference, f.reference, enc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createGenerator3(jni.JniObject f, jni.JniObject enc) =>
+      jni.JniObject.fromRef(
+          _createGenerator3(reference, f.reference, enc.reference).object);
 
   static final _createGenerator4 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createGenerator4")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createGenerator4")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1503,20 +1284,16 @@ class JsonFactory extends jni.JniObject {
   /// Method for constructing generator for writing content using specified
   /// DataOutput instance.
   ///@since 2.8
-  jni.JniObject createGenerator4(jni.JniObject out, jni.JniObject enc) {
-    final result__ = jni.JniObject.fromRef(
-        _createGenerator4(reference, out.reference, enc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createGenerator4(jni.JniObject out, jni.JniObject enc) =>
+      jni.JniObject.fromRef(
+          _createGenerator4(reference, out.reference, enc.reference).object);
 
   static final _createGenerator5 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createGenerator5")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createGenerator5")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out)
@@ -1527,20 +1304,15 @@ class JsonFactory extends jni.JniObject {
   ///
   /// Note: there are formats that use fixed encoding (like most binary data formats).
   ///@since 2.8
-  jni.JniObject createGenerator5(jni.JniObject out) {
-    final result__ =
-        jni.JniObject.fromRef(_createGenerator5(reference, out.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createGenerator5(jni.JniObject out) =>
+      jni.JniObject.fromRef(_createGenerator5(reference, out.reference).object);
 
   static final _createJsonParser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonParser")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonParser")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.File f)
@@ -1564,20 +1336,15 @@ class JsonFactory extends jni.JniObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(File) instead.
-  JsonParser createJsonParser(jni.JniObject f) {
-    final result__ =
-        JsonParser.fromRef(_createJsonParser(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createJsonParser(jni.JniObject f) =>
+      JsonParser.fromRef(_createJsonParser(reference, f.reference).object);
 
   static final _createJsonParser1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonParser1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonParser1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.net.URL url)
@@ -1600,20 +1367,15 @@ class JsonFactory extends jni.JniObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(URL) instead.
-  JsonParser createJsonParser1(jni.JniObject url) {
-    final result__ =
-        JsonParser.fromRef(_createJsonParser1(reference, url.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createJsonParser1(jni.JniObject url) =>
+      JsonParser.fromRef(_createJsonParser1(reference, url.reference).object);
 
   static final _createJsonParser2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonParser2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonParser2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.InputStream in)
@@ -1639,20 +1401,15 @@ class JsonFactory extends jni.JniObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(InputStream) instead.
-  JsonParser createJsonParser2(jni.JniObject in0) {
-    final result__ =
-        JsonParser.fromRef(_createJsonParser2(reference, in0.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createJsonParser2(jni.JniObject in0) =>
+      JsonParser.fromRef(_createJsonParser2(reference, in0.reference).object);
 
   static final _createJsonParser3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonParser3")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonParser3")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.Reader r)
@@ -1671,20 +1428,15 @@ class JsonFactory extends jni.JniObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(Reader) instead.
-  JsonParser createJsonParser3(jni.JniObject r) {
-    final result__ =
-        JsonParser.fromRef(_createJsonParser3(reference, r.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createJsonParser3(jni.JniObject r) =>
+      JsonParser.fromRef(_createJsonParser3(reference, r.reference).object);
 
   static final _createJsonParser4 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonParser4")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonParser4")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data)
@@ -1696,20 +1448,18 @@ class JsonFactory extends jni.JniObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[]) instead.
-  JsonParser createJsonParser4(jni.JniObject data) {
-    final result__ =
-        JsonParser.fromRef(_createJsonParser4(reference, data.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createJsonParser4(jni.JniObject data) =>
+      JsonParser.fromRef(_createJsonParser4(reference, data.reference).object);
 
   static final _createJsonParser5 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonParser5")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("JsonFactory__createJsonParser5")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data, int offset, int len)
@@ -1724,20 +1474,16 @@ class JsonFactory extends jni.JniObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(byte[],int,int) instead.
-  JsonParser createJsonParser5(jni.JniObject data, int offset, int len) {
-    final result__ = JsonParser.fromRef(
-        _createJsonParser5(reference, data.reference, offset, len));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createJsonParser5(jni.JniObject data, int offset, int len) =>
+      JsonParser.fromRef(
+          _createJsonParser5(reference, data.reference, offset, len).object);
 
   static final _createJsonParser6 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonParser6")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonParser6")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.lang.String content)
@@ -1750,21 +1496,18 @@ class JsonFactory extends jni.JniObject {
   ///@throws IOException if parser initialization fails due to I/O (read) problem
   ///@throws JsonParseException if parser initialization fails due to content decoding problem
   ///@deprecated Since 2.2, use \#createParser(String) instead.
-  JsonParser createJsonParser6(jni.JniString content) {
-    final result__ =
-        JsonParser.fromRef(_createJsonParser6(reference, content.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser createJsonParser6(jni.JniString content) => JsonParser.fromRef(
+      _createJsonParser6(reference, content.reference).object);
 
   static final _createJsonGenerator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonGenerator")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonGenerator")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1789,20 +1532,16 @@ class JsonFactory extends jni.JniObject {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(OutputStream, JsonEncoding) instead.
-  jni.JniObject createJsonGenerator(jni.JniObject out, jni.JniObject enc) {
-    final result__ = jni.JniObject.fromRef(
-        _createJsonGenerator(reference, out.reference, enc.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createJsonGenerator(jni.JniObject out, jni.JniObject enc) =>
+      jni.JniObject.fromRef(
+          _createJsonGenerator(reference, out.reference, enc.reference).object);
 
   static final _createJsonGenerator1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonGenerator1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonGenerator1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.Writer out)
@@ -1821,20 +1560,16 @@ class JsonFactory extends jni.JniObject {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(Writer) instead.
-  jni.JniObject createJsonGenerator1(jni.JniObject out) {
-    final result__ =
-        jni.JniObject.fromRef(_createJsonGenerator1(reference, out.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createJsonGenerator1(jni.JniObject out) =>
+      jni.JniObject.fromRef(
+          _createJsonGenerator1(reference, out.reference).object);
 
   static final _createJsonGenerator2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory_createJsonGenerator2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__createJsonGenerator2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out)
@@ -1848,12 +1583,9 @@ class JsonFactory extends jni.JniObject {
   ///@return Generator constructed
   ///@throws IOException if parser initialization fails due to I/O (write) problem
   ///@deprecated Since 2.2, use \#createGenerator(OutputStream) instead.
-  jni.JniObject createJsonGenerator2(jni.JniObject out) {
-    final result__ =
-        jni.JniObject.fromRef(_createJsonGenerator2(reference, out.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject createJsonGenerator2(jni.JniObject out) =>
+      jni.JniObject.fromRef(
+          _createJsonGenerator2(reference, out.reference).object);
 }
 
 /// from: com.fasterxml.jackson.core.JsonFactory$Feature
@@ -1864,95 +1596,72 @@ class JsonFactory_Feature extends jni.JniObject {
   JsonFactory_Feature.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _values =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonFactory__Feature_values")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonFactory_Feature__values")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JniObject values() {
-    final result__ = jni.JniObject.fromRef(_values());
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static jni.JniObject values() => jni.JniObject.fromRef(_values().object);
 
   static final _valueOf = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory__Feature_valueOf")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory_Feature__valueOf")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static JsonFactory_Feature valueOf(jni.JniString name) {
-    final result__ = JsonFactory_Feature.fromRef(_valueOf(name.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static JsonFactory_Feature valueOf(jni.JniString name) =>
+      JsonFactory_Feature.fromRef(_valueOf(name.reference).object);
 
   static final _collectDefaults =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function()>>(
-              "com_fasterxml_jackson_core_JsonFactory__Feature_collectDefaults")
-          .asFunction<int Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonFactory_Feature__collectDefaults")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public int collectDefaults()
   ///
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
   ///@return Bit field of features enabled by default
-  static int collectDefaults() {
-    final result__ = _collectDefaults();
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static int collectDefaults() => _collectDefaults().integer;
 
   static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Uint8)>>(
-              "com_fasterxml_jackson_core_JsonFactory__Feature_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function(int)>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Uint8)>>(
+              "JsonFactory_Feature__ctor")
+          .asFunction<jni.JniResult Function(int)>();
 
   /// from: private void <init>(boolean defaultState)
   JsonFactory_Feature(bool defaultState)
-      : super.fromRef(_ctor(defaultState ? 1 : 0)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(defaultState ? 1 : 0).object);
 
   static final _enabledByDefault = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonFactory__Feature_enabledByDefault")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonFactory_Feature__enabledByDefault")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean enabledByDefault()
-  bool enabledByDefault() {
-    final result__ = _enabledByDefault(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool enabledByDefault() => _enabledByDefault(reference).boolean;
 
   static final _enabledIn = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonFactory__Feature_enabledIn")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JsonFactory_Feature__enabledIn")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean enabledIn(int flags)
-  bool enabledIn(int flags) {
-    final result__ = _enabledIn(reference, flags) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool enabledIn(int flags) => _enabledIn(reference, flags).boolean;
 
-  static final _getMask =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonFactory__Feature_getMask")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMask = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory_Feature__getMask")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMask()
-  int getMask() {
-    final result__ = _getMask(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMask() => _getMask(reference).integer;
 }
 
 /// from: com.fasterxml.jackson.core.JsonParser
@@ -1976,10 +1685,10 @@ class JsonParser extends jni.JniObject {
   /// from: private static final int MAX_SHORT_I
   static const MAX_SHORT_I = 32767;
 
-  static final _get_DEFAULT_READ_CAPABILITIES = jniLookup<
-              ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-          "get_com_fasterxml_jackson_core_JsonParser_DEFAULT_READ_CAPABILITIES")
-      .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _get_DEFAULT_READ_CAPABILITIES =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JsonParser__DEFAULT_READ_CAPABILITIES")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1989,33 +1698,28 @@ class JsonParser extends jni.JniObject {
   /// set needs to be passed).
   ///@since 2.12
   static jni.JniObject get DEFAULT_READ_CAPABILITIES =>
-      jni.JniObject.fromRef(_get_DEFAULT_READ_CAPABILITIES());
+      jni.JniObject.fromRef(_get_DEFAULT_READ_CAPABILITIES().object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonParser_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "JsonParser__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: protected void <init>()
-  JsonParser() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  JsonParser() : super.fromRef(_ctor().object);
 
   static final _ctor1 =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int32)>>(
-              "com_fasterxml_jackson_core_JsonParser_ctor1")
-          .asFunction<ffi.Pointer<ffi.Void> Function(int)>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int32)>>(
+              "JsonParser__ctor1")
+          .asFunction<jni.JniResult Function(int)>();
 
   /// from: protected void <init>(int features)
-  JsonParser.ctor1(int features) : super.fromRef(_ctor1(features)) {
-    jni.Jni.env.checkException();
-  }
+  JsonParser.ctor1(int features) : super.fromRef(_ctor1(features).object);
 
   static final _getCodec = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getCodec")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getCodec")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.ObjectCodec getCodec()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2024,19 +1728,16 @@ class JsonParser extends jni.JniObject {
   /// parser, if any. Codec is used by \#readValueAs(Class)
   /// method (and its variants).
   ///@return Codec assigned to this parser, if any; {@code null} if none
-  jni.JniObject getCodec() {
-    final result__ = jni.JniObject.fromRef(_getCodec(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCodec() =>
+      jni.JniObject.fromRef(_getCodec(reference).object);
 
   static final _setCodec = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_setCodec")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__setCodec")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void setCodec(com.fasterxml.jackson.core.ObjectCodec oc)
   ///
@@ -2044,17 +1745,13 @@ class JsonParser extends jni.JniObject {
   /// parser, if any. Codec is used by \#readValueAs(Class)
   /// method (and its variants).
   ///@param oc Codec to assign, if any; {@code null} if none
-  void setCodec(jni.JniObject oc) {
-    final result__ = _setCodec(reference, oc.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setCodec(jni.JniObject oc) => _setCodec(reference, oc.reference).check();
 
   static final _getInputSource = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getInputSource")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getInputSource")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getInputSource()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2073,38 +1770,33 @@ class JsonParser extends jni.JniObject {
   /// In general use of this accessor should be considered as
   /// "last effort", i.e. only used if no other mechanism is applicable.
   ///@return Input source this parser was configured with
-  jni.JniObject getInputSource() {
-    final result__ = jni.JniObject.fromRef(_getInputSource(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getInputSource() =>
+      jni.JniObject.fromRef(_getInputSource(reference).object);
 
   static final _setRequestPayloadOnError = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_setRequestPayloadOnError")
+          "JsonParser__setRequestPayloadOnError")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setRequestPayloadOnError(com.fasterxml.jackson.core.util.RequestPayload payload)
   ///
   /// Sets the payload to be passed if JsonParseException is thrown.
   ///@param payload Payload to pass
   ///@since 2.8
-  void setRequestPayloadOnError(jni.JniObject payload) {
-    final result__ = _setRequestPayloadOnError(reference, payload.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setRequestPayloadOnError(jni.JniObject payload) =>
+      _setRequestPayloadOnError(reference, payload.reference).check();
 
   static final _setRequestPayloadOnError1 = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_setRequestPayloadOnError1")
+          "JsonParser__setRequestPayloadOnError1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setRequestPayloadOnError(byte[] payload, java.lang.String charset)
@@ -2113,39 +1805,36 @@ class JsonParser extends jni.JniObject {
   ///@param payload Payload to pass
   ///@param charset Character encoding for (lazily) decoding payload
   ///@since 2.8
-  void setRequestPayloadOnError1(jni.JniObject payload, jni.JniString charset) {
-    final result__ = _setRequestPayloadOnError1(
-        reference, payload.reference, charset.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setRequestPayloadOnError1(
+          jni.JniObject payload, jni.JniString charset) =>
+      _setRequestPayloadOnError1(
+              reference, payload.reference, charset.reference)
+          .check();
 
   static final _setRequestPayloadOnError2 = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_setRequestPayloadOnError2")
+          "JsonParser__setRequestPayloadOnError2")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setRequestPayloadOnError(java.lang.String payload)
   ///
   /// Sets the String request payload
   ///@param payload Payload to pass
   ///@since 2.8
-  void setRequestPayloadOnError2(jni.JniString payload) {
-    final result__ = _setRequestPayloadOnError2(reference, payload.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setRequestPayloadOnError2(jni.JniString payload) =>
+      _setRequestPayloadOnError2(reference, payload.reference).check();
 
   static final _setSchema = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_setSchema")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__setSchema")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSchema(com.fasterxml.jackson.core.FormatSchema schema)
   ///
@@ -2159,17 +1848,14 @@ class JsonParser extends jni.JniObject {
   /// is thrown.
   ///@param schema Schema to use
   ///@throws UnsupportedOperationException if parser does not support schema
-  void setSchema(jni.JniObject schema) {
-    final result__ = _setSchema(reference, schema.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setSchema(jni.JniObject schema) =>
+      _setSchema(reference, schema.reference).check();
 
   static final _getSchema = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getSchema")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getSchema")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.FormatSchema getSchema()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2178,18 +1864,16 @@ class JsonParser extends jni.JniObject {
   /// Default implementation returns null.
   ///@return Schema in use by this parser, if any; {@code null} if none
   ///@since 2.1
-  jni.JniObject getSchema() {
-    final result__ = jni.JniObject.fromRef(_getSchema(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getSchema() =>
+      jni.JniObject.fromRef(_getSchema(reference).object);
 
   static final _canUseSchema = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_canUseSchema")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__canUseSchema")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)
   ///
@@ -2197,16 +1881,14 @@ class JsonParser extends jni.JniObject {
   /// this parser (using \#setSchema).
   ///@param schema Schema to check
   ///@return True if this parser can use given schema; false if not
-  bool canUseSchema(jni.JniObject schema) {
-    final result__ = _canUseSchema(reference, schema.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canUseSchema(jni.JniObject schema) =>
+      _canUseSchema(reference, schema.reference).boolean;
 
-  static final _requiresCustomCodec =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_requiresCustomCodec")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _requiresCustomCodec = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__requiresCustomCodec")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean requiresCustomCodec()
   ///
@@ -2218,16 +1900,13 @@ class JsonParser extends jni.JniObject {
   ///@return True if format-specific codec is needed with this parser; false if a general
   ///   ObjectCodec is enough
   ///@since 2.1
-  bool requiresCustomCodec() {
-    final result__ = _requiresCustomCodec(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool requiresCustomCodec() => _requiresCustomCodec(reference).boolean;
 
-  static final _canParseAsync =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_canParseAsync")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _canParseAsync = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__canParseAsync")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canParseAsync()
   ///
@@ -2242,17 +1921,13 @@ class JsonParser extends jni.JniObject {
   /// input is read by blocking
   ///@return True if this is a non-blocking ("asynchronous") parser
   ///@since 2.9
-  bool canParseAsync() {
-    final result__ = _canParseAsync(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canParseAsync() => _canParseAsync(reference).boolean;
 
   static final _getNonBlockingInputFeeder = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getNonBlockingInputFeeder")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonParser__getNonBlockingInputFeeder")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.async.NonBlockingInputFeeder getNonBlockingInputFeeder()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2262,18 +1937,14 @@ class JsonParser extends jni.JniObject {
   /// parsers that use blocking I/O.
   ///@return Input feeder to use with non-blocking (async) parsing
   ///@since 2.9
-  jni.JniObject getNonBlockingInputFeeder() {
-    final result__ =
-        jni.JniObject.fromRef(_getNonBlockingInputFeeder(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getNonBlockingInputFeeder() =>
+      jni.JniObject.fromRef(_getNonBlockingInputFeeder(reference).object);
 
   static final _getReadCapabilities = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getReadCapabilities")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getReadCapabilities")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> getReadCapabilities()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2282,17 +1953,14 @@ class JsonParser extends jni.JniObject {
   /// underlying data format being read (directly or indirectly).
   ///@return Set of read capabilities for content to read via this parser
   ///@since 2.12
-  jni.JniObject getReadCapabilities() {
-    final result__ = jni.JniObject.fromRef(_getReadCapabilities(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getReadCapabilities() =>
+      jni.JniObject.fromRef(_getReadCapabilities(reference).object);
 
   static final _version = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_version")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__version")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.Version version()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2301,16 +1969,13 @@ class JsonParser extends jni.JniObject {
   /// Left for sub-classes to implement.
   ///@return Version of this generator (derived from version declared for
   ///   {@code jackson-core} jar that contains the class
-  jni.JniObject version() {
-    final result__ = jni.JniObject.fromRef(_version(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject version() => jni.JniObject.fromRef(_version(reference).object);
 
-  static final _close =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_close")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _close = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__close")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void close()
   ///
@@ -2328,16 +1993,13 @@ class JsonParser extends jni.JniObject {
   /// java.io.File or java.net.URL and creates
   /// stream or reader it does own them.
   ///@throws IOException if there is either an underlying I/O problem
-  void close() {
-    final result__ = _close(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void close() => _close(reference).check();
 
-  static final _isClosed =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_isClosed")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isClosed = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__isClosed")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean isClosed()
   ///
@@ -2348,17 +2010,13 @@ class JsonParser extends jni.JniObject {
   /// call to \#close or because parser has encountered
   /// end of input.
   ///@return {@code True} if this parser instance has been closed
-  bool isClosed() {
-    final result__ = _isClosed(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isClosed() => _isClosed(reference).boolean;
 
   static final _getParsingContext = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getParsingContext")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getParsingContext")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonStreamContext getParsingContext()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2372,17 +2030,14 @@ class JsonParser extends jni.JniObject {
   /// Contexts can also be used for simple xpath-like matching of
   /// input, if so desired.
   ///@return Stream input context (JsonStreamContext) associated with this parser
-  jni.JniObject getParsingContext() {
-    final result__ = jni.JniObject.fromRef(_getParsingContext(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getParsingContext() =>
+      jni.JniObject.fromRef(_getParsingContext(reference).object);
 
   static final _currentLocation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_currentLocation")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__currentLocation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonLocation currentLocation()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2399,17 +2054,14 @@ class JsonParser extends jni.JniObject {
   /// to other library)
   ///@return Location of the last processed input unit (byte or character)
   ///@since 2.13
-  jni.JniObject currentLocation() {
-    final result__ = jni.JniObject.fromRef(_currentLocation(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject currentLocation() =>
+      jni.JniObject.fromRef(_currentLocation(reference).object);
 
   static final _currentTokenLocation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_currentTokenLocation")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__currentTokenLocation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonLocation currentTokenLocation()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2426,17 +2078,14 @@ class JsonParser extends jni.JniObject {
   /// to other library)
   ///@return Starting location of the token parser currently points to
   ///@since 2.13 (will eventually replace \#getTokenLocation)
-  jni.JniObject currentTokenLocation() {
-    final result__ = jni.JniObject.fromRef(_currentTokenLocation(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject currentTokenLocation() =>
+      jni.JniObject.fromRef(_currentTokenLocation(reference).object);
 
   static final _getCurrentLocation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getCurrentLocation")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getCurrentLocation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonLocation getCurrentLocation()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2444,17 +2093,14 @@ class JsonParser extends jni.JniObject {
   /// Alias for \#currentLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
-  jni.JniObject getCurrentLocation() {
-    final result__ = jni.JniObject.fromRef(_getCurrentLocation(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCurrentLocation() =>
+      jni.JniObject.fromRef(_getCurrentLocation(reference).object);
 
   static final _getTokenLocation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getTokenLocation")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getTokenLocation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonLocation getTokenLocation()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2462,17 +2108,14 @@ class JsonParser extends jni.JniObject {
   /// Alias for \#currentTokenLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Starting location of the token parser currently points to
-  jni.JniObject getTokenLocation() {
-    final result__ = jni.JniObject.fromRef(_getTokenLocation(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTokenLocation() =>
+      jni.JniObject.fromRef(_getTokenLocation(reference).object);
 
   static final _currentValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_currentValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__currentValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object currentValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2488,19 +2131,16 @@ class JsonParser extends jni.JniObject {
   /// and gets passed through data-binding.
   ///@return "Current value" associated with the current input context (state) of this parser
   ///@since 2.13 (added as replacement for older \#getCurrentValue()
-  jni.JniObject currentValue() {
-    final result__ = jni.JniObject.fromRef(_currentValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject currentValue() =>
+      jni.JniObject.fromRef(_currentValue(reference).object);
 
   static final _assignCurrentValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_assignCurrentValue")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__assignCurrentValue")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void assignCurrentValue(java.lang.Object v)
   ///
@@ -2510,17 +2150,14 @@ class JsonParser extends jni.JniObject {
   ///</code>
   ///@param v Current value to assign for the current input context of this parser
   ///@since 2.13 (added as replacement for older \#setCurrentValue
-  void assignCurrentValue(jni.JniObject v) {
-    final result__ = _assignCurrentValue(reference, v.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void assignCurrentValue(jni.JniObject v) =>
+      _assignCurrentValue(reference, v.reference).check();
 
   static final _getCurrentValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getCurrentValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getCurrentValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getCurrentValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2528,37 +2165,32 @@ class JsonParser extends jni.JniObject {
   /// Alias for \#currentValue(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@return Location of the last processed input unit (byte or character)
-  jni.JniObject getCurrentValue() {
-    final result__ = jni.JniObject.fromRef(_getCurrentValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCurrentValue() =>
+      jni.JniObject.fromRef(_getCurrentValue(reference).object);
 
   static final _setCurrentValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_setCurrentValue")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__setCurrentValue")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCurrentValue(java.lang.Object v)
   ///
   /// Alias for \#assignCurrentValue, to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@param v Current value to assign for the current input context of this parser
-  void setCurrentValue(jni.JniObject v) {
-    final result__ = _setCurrentValue(reference, v.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setCurrentValue(jni.JniObject v) =>
+      _setCurrentValue(reference, v.reference).check();
 
   static final _releaseBuffered = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_releaseBuffered")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__releaseBuffered")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int releaseBuffered(java.io.OutputStream out)
   ///
@@ -2573,18 +2205,16 @@ class JsonParser extends jni.JniObject {
   ///    (that is, input can not be sent to OutputStream;
   ///    otherwise number of bytes released (0 if there was nothing to release)
   ///@throws IOException if write to stream threw exception
-  int releaseBuffered(jni.JniObject out) {
-    final result__ = _releaseBuffered(reference, out.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int releaseBuffered(jni.JniObject out) =>
+      _releaseBuffered(reference, out.reference).integer;
 
   static final _releaseBuffered1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_releaseBuffered1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__releaseBuffered1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int releaseBuffered(java.io.Writer w)
   ///
@@ -2600,19 +2230,15 @@ class JsonParser extends jni.JniObject {
   ///    (that is, input can not be sent to Writer;
   ///    otherwise number of chars released (0 if there was nothing to release)
   ///@throws IOException if write using Writer threw exception
-  int releaseBuffered1(jni.JniObject w) {
-    final result__ = _releaseBuffered1(reference, w.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int releaseBuffered1(jni.JniObject w) =>
+      _releaseBuffered1(reference, w.reference).integer;
 
   static final _enable = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_enable")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__enable")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser enable(com.fasterxml.jackson.core.JsonParser.Feature f)
@@ -2622,19 +2248,15 @@ class JsonParser extends jni.JniObject {
   /// (check Feature for list of features)
   ///@param f Feature to enable
   ///@return This parser, to allow call chaining
-  JsonParser enable(JsonParser_Feature f) {
-    final result__ = JsonParser.fromRef(_enable(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser enable(JsonParser_Feature f) =>
+      JsonParser.fromRef(_enable(reference, f.reference).object);
 
   static final _disable = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_disable")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__disable")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser disable(com.fasterxml.jackson.core.JsonParser.Feature f)
@@ -2644,19 +2266,15 @@ class JsonParser extends jni.JniObject {
   /// (check Feature for list of features)
   ///@param f Feature to disable
   ///@return This parser, to allow call chaining
-  JsonParser disable(JsonParser_Feature f) {
-    final result__ = JsonParser.fromRef(_disable(reference, f.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser disable(JsonParser_Feature f) =>
+      JsonParser.fromRef(_disable(reference, f.reference).object);
 
   static final _configure = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "com_fasterxml_jackson_core_JsonParser_configure")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JsonParser__configure")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)
@@ -2667,37 +2285,32 @@ class JsonParser extends jni.JniObject {
   ///@param f Feature to enable or disable
   ///@param state Whether to enable feature ({@code true}) or disable ({@code false})
   ///@return This parser, to allow call chaining
-  JsonParser configure(JsonParser_Feature f, bool state) {
-    final result__ =
-        JsonParser.fromRef(_configure(reference, f.reference, state ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser configure(JsonParser_Feature f, bool state) => JsonParser.fromRef(
+      _configure(reference, f.reference, state ? 1 : 0).object);
 
   static final _isEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_isEnabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__isEnabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)
   ///
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
   ///@return {@code True} if feature is enabled; {@code false} otherwise
-  bool isEnabled(JsonParser_Feature f) {
-    final result__ = _isEnabled(reference, f.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled(JsonParser_Feature f) =>
+      _isEnabled(reference, f.reference).boolean;
 
   static final _isEnabled1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_isEnabled1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__isEnabled1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)
   ///
@@ -2705,34 +2318,27 @@ class JsonParser extends jni.JniObject {
   ///@param f Feature to check
   ///@return {@code True} if feature is enabled; {@code false} otherwise
   ///@since 2.10
-  bool isEnabled1(jni.JniObject f) {
-    final result__ = _isEnabled1(reference, f.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled1(jni.JniObject f) =>
+      _isEnabled1(reference, f.reference).boolean;
 
-  static final _getFeatureMask =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getFeatureMask")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getFeatureMask = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getFeatureMask")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getFeatureMask()
   ///
   /// Bulk access method for getting state of all standard Features.
   ///@return Bit mask that defines current states of all standard Features.
   ///@since 2.3
-  int getFeatureMask() {
-    final result__ = _getFeatureMask(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFeatureMask() => _getFeatureMask(reference).integer;
 
   static final _setFeatureMask = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonParser_setFeatureMask")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JsonParser__setFeatureMask")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser setFeatureMask(int mask)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2742,19 +2348,14 @@ class JsonParser extends jni.JniObject {
   ///@return This parser, to allow call chaining
   ///@since 2.3
   ///@deprecated Since 2.7, use \#overrideStdFeatures(int, int) instead
-  JsonParser setFeatureMask(int mask) {
-    final result__ = JsonParser.fromRef(_setFeatureMask(reference, mask));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser setFeatureMask(int mask) =>
+      JsonParser.fromRef(_setFeatureMask(reference, mask).object);
 
   static final _overrideStdFeatures = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonParser_overrideStdFeatures")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("JsonParser__overrideStdFeatures")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser overrideStdFeatures(int values, int mask)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2771,17 +2372,14 @@ class JsonParser extends jni.JniObject {
   ///@param mask Bit mask of features to change
   ///@return This parser, to allow call chaining
   ///@since 2.6
-  JsonParser overrideStdFeatures(int values, int mask) {
-    final result__ =
-        JsonParser.fromRef(_overrideStdFeatures(reference, values, mask));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser overrideStdFeatures(int values, int mask) =>
+      JsonParser.fromRef(_overrideStdFeatures(reference, values, mask).object);
 
-  static final _getFormatFeatures =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getFormatFeatures")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getFormatFeatures = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getFormatFeatures")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getFormatFeatures()
   ///
@@ -2789,19 +2387,13 @@ class JsonParser extends jni.JniObject {
   /// on/off configuration settings.
   ///@return Bit mask that defines current states of all standard FormatFeatures.
   ///@since 2.6
-  int getFormatFeatures() {
-    final result__ = _getFormatFeatures(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFormatFeatures() => _getFormatFeatures(reference).integer;
 
   static final _overrideFormatFeatures = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonParser_overrideFormatFeatures")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("JsonParser__overrideFormatFeatures")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser overrideFormatFeatures(int values, int mask)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2816,18 +2408,14 @@ class JsonParser extends jni.JniObject {
   ///@param mask Bit mask of features to change
   ///@return This parser, to allow call chaining
   ///@since 2.6
-  JsonParser overrideFormatFeatures(int values, int mask) {
-    final result__ =
-        JsonParser.fromRef(_overrideFormatFeatures(reference, values, mask));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser overrideFormatFeatures(int values, int mask) => JsonParser.fromRef(
+      _overrideFormatFeatures(reference, values, mask).object);
 
   static final _nextToken = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextToken")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__nextToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken nextToken()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2840,17 +2428,13 @@ class JsonParser extends jni.JniObject {
   ///   to indicate end-of-input
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  JsonToken nextToken() {
-    final result__ = JsonToken.fromRef(_nextToken(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonToken nextToken() => JsonToken.fromRef(_nextToken(reference).object);
 
   static final _nextValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__nextValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken nextValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2871,18 +2455,15 @@ class JsonParser extends jni.JniObject {
   ///   available yet)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  JsonToken nextValue() {
-    final result__ = JsonToken.fromRef(_nextValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonToken nextValue() => JsonToken.fromRef(_nextValue(reference).object);
 
   static final _nextFieldName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextFieldName")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__nextFieldName")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean nextFieldName(com.fasterxml.jackson.core.SerializableString str)
   ///
@@ -2901,17 +2482,14 @@ class JsonParser extends jni.JniObject {
   ///    specified name; {@code false} otherwise (different token or non-matching name)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool nextFieldName(jni.JniObject str) {
-    final result__ = _nextFieldName(reference, str.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool nextFieldName(jni.JniObject str) =>
+      _nextFieldName(reference, str.reference).boolean;
 
   static final _nextFieldName1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextFieldName1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__nextFieldName1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String nextFieldName()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2924,17 +2502,14 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.5
-  jni.JniString nextFieldName1() {
-    final result__ = jni.JniString.fromRef(_nextFieldName1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString nextFieldName1() =>
+      jni.JniString.fromRef(_nextFieldName1(reference).object);
 
   static final _nextTextValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextTextValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__nextTextValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String nextTextValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2952,17 +2527,14 @@ class JsonParser extends jni.JniObject {
   ///   to; or {@code null} if next token is of some other type
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniString nextTextValue() {
-    final result__ = jni.JniString.fromRef(_nextTextValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString nextTextValue() =>
+      jni.JniString.fromRef(_nextTextValue(reference).object);
 
   static final _nextIntValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextIntValue")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JsonParser__nextIntValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int nextIntValue(int defaultValue)
   ///
@@ -2983,17 +2555,14 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@throws InputCoercionException if integer number does not fit in Java {@code int}
-  int nextIntValue(int defaultValue) {
-    final result__ = _nextIntValue(reference, defaultValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int nextIntValue(int defaultValue) =>
+      _nextIntValue(reference, defaultValue).integer;
 
   static final _nextLongValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextLongValue")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("JsonParser__nextLongValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public long nextLongValue(long defaultValue)
   ///
@@ -3014,17 +2583,14 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@throws InputCoercionException if integer number does not fit in Java {@code long}
-  int nextLongValue(int defaultValue) {
-    final result__ = _nextLongValue(reference, defaultValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int nextLongValue(int defaultValue) =>
+      _nextLongValue(reference, defaultValue).long;
 
   static final _nextBooleanValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_nextBooleanValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__nextBooleanValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Boolean nextBooleanValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3045,17 +2611,14 @@ class JsonParser extends jni.JniObject {
   ///   token parser advanced to; or {@code null} if next token is of some other type
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniObject nextBooleanValue() {
-    final result__ = jni.JniObject.fromRef(_nextBooleanValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject nextBooleanValue() =>
+      jni.JniObject.fromRef(_nextBooleanValue(reference).object);
 
   static final _skipChildren = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_skipChildren")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__skipChildren")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonParser skipChildren()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3075,16 +2638,14 @@ class JsonParser extends jni.JniObject {
   ///@return This parser, to allow call chaining
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  JsonParser skipChildren() {
-    final result__ = JsonParser.fromRef(_skipChildren(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser skipChildren() =>
+      JsonParser.fromRef(_skipChildren(reference).object);
 
-  static final _finishToken =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_finishToken")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _finishToken = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__finishToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void finishToken()
   ///
@@ -3101,17 +2662,13 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.8
-  void finishToken() {
-    final result__ = _finishToken(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void finishToken() => _finishToken(reference).check();
 
   static final _currentToken = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_currentToken")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__currentToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonToken currentToken()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3125,16 +2682,14 @@ class JsonParser extends jni.JniObject {
   ///   after end-of-input has been encountered, as well as
   ///   if the current token has been explicitly cleared.
   ///@since 2.8
-  JsonToken currentToken() {
-    final result__ = JsonToken.fromRef(_currentToken(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonToken currentToken() =>
+      JsonToken.fromRef(_currentToken(reference).object);
 
-  static final _currentTokenId =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_currentTokenId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _currentTokenId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__currentTokenId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int currentTokenId()
   ///
@@ -3147,17 +2702,13 @@ class JsonParser extends jni.JniObject {
   /// to profile performance before deciding to use this method.
   ///@since 2.8
   ///@return {@code int} matching one of constants from JsonTokenId.
-  int currentTokenId() {
-    final result__ = _currentTokenId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int currentTokenId() => _currentTokenId(reference).integer;
 
   static final _getCurrentToken = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getCurrentToken")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getCurrentToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken getCurrentToken()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3166,32 +2717,27 @@ class JsonParser extends jni.JniObject {
   /// Jackson 2.13 (will be removed from 3.0).
   ///@return Type of the token this parser currently points to,
   ///   if any: null before any tokens have been read, and
-  JsonToken getCurrentToken() {
-    final result__ = JsonToken.fromRef(_getCurrentToken(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonToken getCurrentToken() =>
+      JsonToken.fromRef(_getCurrentToken(reference).object);
 
-  static final _getCurrentTokenId =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getCurrentTokenId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getCurrentTokenId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getCurrentTokenId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract int getCurrentTokenId()
   ///
   /// Deprecated alias for \#currentTokenId().
   ///@return {@code int} matching one of constants from JsonTokenId.
   ///@deprecated Since 2.12 use \#currentTokenId instead
-  int getCurrentTokenId() {
-    final result__ = _getCurrentTokenId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getCurrentTokenId() => _getCurrentTokenId(reference).integer;
 
-  static final _hasCurrentToken =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_hasCurrentToken")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _hasCurrentToken = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__hasCurrentToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean hasCurrentToken()
   ///
@@ -3203,17 +2749,13 @@ class JsonParser extends jni.JniObject {
   ///   was just constructed, encountered end-of-input
   ///   and returned null from \#nextToken, or the token
   ///   has been consumed)
-  bool hasCurrentToken() {
-    final result__ = _hasCurrentToken(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasCurrentToken() => _hasCurrentToken(reference).boolean;
 
   static final _hasTokenId = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonParser_hasTokenId")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("JsonParser__hasTokenId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract boolean hasTokenId(int id)
   ///
@@ -3229,18 +2771,15 @@ class JsonParser extends jni.JniObject {
   ///@param id Token id to match (from (@link JsonTokenId})
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.5
-  bool hasTokenId(int id) {
-    final result__ = _hasTokenId(reference, id) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasTokenId(int id) => _hasTokenId(reference, id).boolean;
 
   static final _hasToken = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_hasToken")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__hasToken")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean hasToken(com.fasterxml.jackson.core.JsonToken t)
   ///
@@ -3256,16 +2795,13 @@ class JsonParser extends jni.JniObject {
   ///@param t Token to match
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.6
-  bool hasToken(JsonToken t) {
-    final result__ = _hasToken(reference, t.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasToken(JsonToken t) => _hasToken(reference, t.reference).boolean;
 
-  static final _isExpectedStartArrayToken =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_isExpectedStartArrayToken")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isExpectedStartArrayToken = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonParser__isExpectedStartArrayToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isExpectedStartArrayToken()
   ///
@@ -3285,16 +2821,14 @@ class JsonParser extends jni.JniObject {
   ///@return True if the current token can be considered as a
   ///   start-array marker (such JsonToken\#START_ARRAY);
   ///   {@code false} if not
-  bool isExpectedStartArrayToken() {
-    final result__ = _isExpectedStartArrayToken(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isExpectedStartArrayToken() =>
+      _isExpectedStartArrayToken(reference).boolean;
 
   static final _isExpectedStartObjectToken = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_isExpectedStartObjectToken")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonParser__isExpectedStartObjectToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isExpectedStartObjectToken()
   ///
@@ -3304,16 +2838,14 @@ class JsonParser extends jni.JniObject {
   ///   start-array marker (such JsonToken\#START_OBJECT);
   ///   {@code false} if not
   ///@since 2.5
-  bool isExpectedStartObjectToken() {
-    final result__ = _isExpectedStartObjectToken(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isExpectedStartObjectToken() =>
+      _isExpectedStartObjectToken(reference).boolean;
 
-  static final _isExpectedNumberIntToken =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_isExpectedNumberIntToken")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isExpectedNumberIntToken = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonParser__isExpectedNumberIntToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isExpectedNumberIntToken()
   ///
@@ -3326,16 +2858,14 @@ class JsonParser extends jni.JniObject {
   ///   start-array marker (such JsonToken\#VALUE_NUMBER_INT);
   ///   {@code false} if not
   ///@since 2.12
-  bool isExpectedNumberIntToken() {
-    final result__ = _isExpectedNumberIntToken(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isExpectedNumberIntToken() =>
+      _isExpectedNumberIntToken(reference).boolean;
 
-  static final _isNaN =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_isNaN")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isNaN = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__isNaN")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isNaN()
   ///
@@ -3351,16 +2881,13 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.9
-  bool isNaN() {
-    final result__ = _isNaN(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isNaN() => _isNaN(reference).boolean;
 
-  static final _clearCurrentToken =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_clearCurrentToken")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _clearCurrentToken = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__clearCurrentToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void clearCurrentToken()
   ///
@@ -3374,17 +2901,13 @@ class JsonParser extends jni.JniObject {
   /// Method was added to be used by the optional data binder, since
   /// it has to be able to consume last token used for binding (so that
   /// it will not be used again).
-  void clearCurrentToken() {
-    final result__ = _clearCurrentToken(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void clearCurrentToken() => _clearCurrentToken(reference).check();
 
   static final _getLastClearedToken = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getLastClearedToken")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getLastClearedToken")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken getLastClearedToken()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3395,19 +2918,16 @@ class JsonParser extends jni.JniObject {
   /// Will return null if no tokens have been cleared,
   /// or if parser has been closed.
   ///@return Last cleared token, if any; {@code null} otherwise
-  JsonToken getLastClearedToken() {
-    final result__ = JsonToken.fromRef(_getLastClearedToken(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonToken getLastClearedToken() =>
+      JsonToken.fromRef(_getLastClearedToken(reference).object);
 
   static final _overrideCurrentName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_overrideCurrentName")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__overrideCurrentName")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void overrideCurrentName(java.lang.String name)
   ///
@@ -3419,17 +2939,14 @@ class JsonParser extends jni.JniObject {
   /// Note that use of this method should only be done as sort of last
   /// resort, as it is a work-around for regular operation.
   ///@param name Name to use as the current name; may be null.
-  void overrideCurrentName(jni.JniString name) {
-    final result__ = _overrideCurrentName(reference, name.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void overrideCurrentName(jni.JniString name) =>
+      _overrideCurrentName(reference, name.reference).check();
 
   static final _getCurrentName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getCurrentName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getCurrentName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.lang.String getCurrentName()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3438,17 +2955,14 @@ class JsonParser extends jni.JniObject {
   ///@return Name of the current field in the parsing context
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniString getCurrentName() {
-    final result__ = jni.JniString.fromRef(_getCurrentName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getCurrentName() =>
+      jni.JniString.fromRef(_getCurrentName(reference).object);
 
   static final _currentName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_currentName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__currentName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String currentName()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3462,17 +2976,14 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.10
-  jni.JniString currentName() {
-    final result__ = jni.JniString.fromRef(_currentName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString currentName() =>
+      jni.JniString.fromRef(_currentName(reference).object);
 
   static final _getText = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getText")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getText")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.lang.String getText()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3485,18 +2996,15 @@ class JsonParser extends jni.JniObject {
   ///   by \#nextToken() or other iteration methods)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniString getText() {
-    final result__ = jni.JniString.fromRef(_getText(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getText() => jni.JniString.fromRef(_getText(reference).object);
 
   static final _getText1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getText1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getText1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getText(java.io.Writer writer)
   ///
@@ -3515,17 +3023,14 @@ class JsonParser extends jni.JniObject {
   ///   {@code writer}, or
   ///   JsonParseException for decoding problems
   ///@since 2.8
-  int getText1(jni.JniObject writer) {
-    final result__ = _getText1(reference, writer.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getText1(jni.JniObject writer) =>
+      _getText1(reference, writer.reference).integer;
 
   static final _getTextCharacters = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getTextCharacters")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getTextCharacters")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract char[] getTextCharacters()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3557,16 +3062,14 @@ class JsonParser extends jni.JniObject {
   ///    at offset 0, and not necessarily until the end of buffer)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniObject getTextCharacters() {
-    final result__ = jni.JniObject.fromRef(_getTextCharacters(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTextCharacters() =>
+      jni.JniObject.fromRef(_getTextCharacters(reference).object);
 
-  static final _getTextLength =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getTextLength")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTextLength = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getTextLength")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract int getTextLength()
   ///
@@ -3577,16 +3080,13 @@ class JsonParser extends jni.JniObject {
   ///   textual content of the current token.
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getTextLength() {
-    final result__ = _getTextLength(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTextLength() => _getTextLength(reference).integer;
 
-  static final _getTextOffset =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getTextOffset")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTextOffset = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getTextOffset")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract int getTextOffset()
   ///
@@ -3597,16 +3097,13 @@ class JsonParser extends jni.JniObject {
   ///   textual content of the current token.
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getTextOffset() {
-    final result__ = _getTextOffset(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTextOffset() => _getTextOffset(reference).integer;
 
-  static final _hasTextCharacters =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_hasTextCharacters")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _hasTextCharacters = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__hasTextCharacters")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean hasTextCharacters()
   ///
@@ -3624,17 +3121,13 @@ class JsonParser extends jni.JniObject {
   ///@return True if parser currently has character array that can
   ///   be efficiently returned via \#getTextCharacters; false
   ///   means that it may or may not exist
-  bool hasTextCharacters() {
-    final result__ = _hasTextCharacters(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasTextCharacters() => _hasTextCharacters(reference).boolean;
 
   static final _getNumberValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getNumberValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getNumberValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.lang.Number getNumberValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3649,17 +3142,14 @@ class JsonParser extends jni.JniObject {
   ///    the current token is not numeric, or if decoding of the value fails
   ///    (invalid format for numbers); plain IOException if underlying
   ///    content read fails (possible if values are extracted lazily)
-  jni.JniObject getNumberValue() {
-    final result__ = jni.JniObject.fromRef(_getNumberValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getNumberValue() =>
+      jni.JniObject.fromRef(_getNumberValue(reference).object);
 
   static final _getNumberValueExact = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getNumberValueExact")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getNumberValueExact")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Number getNumberValueExact()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3678,17 +3168,14 @@ class JsonParser extends jni.JniObject {
   ///    (invalid format for numbers); plain IOException if underlying
   ///    content read fails (possible if values are extracted lazily)
   ///@since 2.12
-  jni.JniObject getNumberValueExact() {
-    final result__ = jni.JniObject.fromRef(_getNumberValueExact(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getNumberValueExact() =>
+      jni.JniObject.fromRef(_getNumberValueExact(reference).object);
 
   static final _getNumberType = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getNumberType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getNumberType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonParser.NumberType getNumberType()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3700,16 +3187,14 @@ class JsonParser extends jni.JniObject {
   ///@return Type of current number, if parser points to numeric token; {@code null} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  JsonParser_NumberType getNumberType() {
-    final result__ = JsonParser_NumberType.fromRef(_getNumberType(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JsonParser_NumberType getNumberType() =>
+      JsonParser_NumberType.fromRef(_getNumberType(reference).object);
 
-  static final _getByteValue =
-      jniLookup<ffi.NativeFunction<ffi.Int8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getByteValue")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getByteValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getByteValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public byte getByteValue()
   ///
@@ -3734,16 +3219,13 @@ class JsonParser extends jni.JniObject {
   ///   range of {@code [-128, 255]}); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getByteValue() {
-    final result__ = _getByteValue(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getByteValue() => _getByteValue(reference).byte;
 
-  static final _getShortValue =
-      jniLookup<ffi.NativeFunction<ffi.Int16 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getShortValue")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getShortValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getShortValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public short getShortValue()
   ///
@@ -3762,16 +3244,13 @@ class JsonParser extends jni.JniObject {
   ///   Java 16-bit signed {@code short} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getShortValue() {
-    final result__ = _getShortValue(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getShortValue() => _getShortValue(reference).short;
 
-  static final _getIntValue =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getIntValue")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getIntValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getIntValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract int getIntValue()
   ///
@@ -3790,16 +3269,13 @@ class JsonParser extends jni.JniObject {
   ///   Java 32-bit signed {@code int} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getIntValue() {
-    final result__ = _getIntValue(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getIntValue() => _getIntValue(reference).integer;
 
-  static final _getLongValue =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getLongValue")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLongValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getLongValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract long getLongValue()
   ///
@@ -3818,17 +3294,13 @@ class JsonParser extends jni.JniObject {
   ///   Java 32-bit signed {@code long} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getLongValue() {
-    final result__ = _getLongValue(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLongValue() => _getLongValue(reference).long;
 
   static final _getBigIntegerValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getBigIntegerValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getBigIntegerValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.math.BigInteger getBigIntegerValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3844,16 +3316,14 @@ class JsonParser extends jni.JniObject {
   ///     otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniObject getBigIntegerValue() {
-    final result__ = jni.JniObject.fromRef(_getBigIntegerValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getBigIntegerValue() =>
+      jni.JniObject.fromRef(_getBigIntegerValue(reference).object);
 
-  static final _getFloatValue =
-      jniLookup<ffi.NativeFunction<ffi.Float Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getFloatValue")
-          .asFunction<double Function(ffi.Pointer<ffi.Void>)>();
+  static final _getFloatValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getFloatValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract float getFloatValue()
   ///
@@ -3872,16 +3342,13 @@ class JsonParser extends jni.JniObject {
   ///   Java {@code float} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double getFloatValue() {
-    final result__ = _getFloatValue(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getFloatValue() => _getFloatValue(reference).float;
 
-  static final _getDoubleValue =
-      jniLookup<ffi.NativeFunction<ffi.Double Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getDoubleValue")
-          .asFunction<double Function(ffi.Pointer<ffi.Void>)>();
+  static final _getDoubleValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getDoubleValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract double getDoubleValue()
   ///
@@ -3900,17 +3367,13 @@ class JsonParser extends jni.JniObject {
   ///   Java {@code double} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double getDoubleValue() {
-    final result__ = _getDoubleValue(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getDoubleValue() => _getDoubleValue(reference).doubleFloat;
 
   static final _getDecimalValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getDecimalValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getDecimalValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.math.BigDecimal getDecimalValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3923,16 +3386,14 @@ class JsonParser extends jni.JniObject {
   ///   otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniObject getDecimalValue() {
-    final result__ = jni.JniObject.fromRef(_getDecimalValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDecimalValue() =>
+      jni.JniObject.fromRef(_getDecimalValue(reference).object);
 
-  static final _getBooleanValue =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getBooleanValue")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getBooleanValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getBooleanValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getBooleanValue()
   ///
@@ -3947,17 +3408,13 @@ class JsonParser extends jni.JniObject {
   ///   otherwise throws JsonParseException
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool getBooleanValue() {
-    final result__ = _getBooleanValue(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getBooleanValue() => _getBooleanValue(reference).boolean;
 
   static final _getEmbeddedObject = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getEmbeddedObject")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getEmbeddedObject")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getEmbeddedObject()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3976,19 +3433,15 @@ class JsonParser extends jni.JniObject {
   ///   for the current token, if any; {@code null otherwise}
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniObject getEmbeddedObject() {
-    final result__ = jni.JniObject.fromRef(_getEmbeddedObject(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getEmbeddedObject() =>
+      jni.JniObject.fromRef(_getEmbeddedObject(reference).object);
 
   static final _getBinaryValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getBinaryValue")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getBinaryValue")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract byte[] getBinaryValue(com.fasterxml.jackson.core.Base64Variant bv)
@@ -4014,18 +3467,14 @@ class JsonParser extends jni.JniObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniObject getBinaryValue(jni.JniObject bv) {
-    final result__ =
-        jni.JniObject.fromRef(_getBinaryValue(reference, bv.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getBinaryValue(jni.JniObject bv) =>
+      jni.JniObject.fromRef(_getBinaryValue(reference, bv.reference).object);
 
   static final _getBinaryValue1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getBinaryValue1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getBinaryValue1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public byte[] getBinaryValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4036,18 +3485,16 @@ class JsonParser extends jni.JniObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JniObject getBinaryValue1() {
-    final result__ = jni.JniObject.fromRef(_getBinaryValue1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getBinaryValue1() =>
+      jni.JniObject.fromRef(_getBinaryValue1(reference).object);
 
   static final _readBinaryValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_readBinaryValue")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__readBinaryValue")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int readBinaryValue(java.io.OutputStream out)
   ///
@@ -4062,19 +3509,17 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  int readBinaryValue(jni.JniObject out) {
-    final result__ = _readBinaryValue(reference, out.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int readBinaryValue(jni.JniObject out) =>
+      _readBinaryValue(reference, out.reference).integer;
 
   static final _readBinaryValue1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_readBinaryValue1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__readBinaryValue1")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int readBinaryValue(com.fasterxml.jackson.core.Base64Variant bv, java.io.OutputStream out)
@@ -4087,16 +3532,14 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  int readBinaryValue1(jni.JniObject bv, jni.JniObject out) {
-    final result__ = _readBinaryValue1(reference, bv.reference, out.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int readBinaryValue1(jni.JniObject bv, jni.JniObject out) =>
+      _readBinaryValue1(reference, bv.reference, out.reference).integer;
 
-  static final _getValueAsInt =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getValueAsInt")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getValueAsInt = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getValueAsInt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getValueAsInt()
   ///
@@ -4113,17 +3556,13 @@ class JsonParser extends jni.JniObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getValueAsInt() {
-    final result__ = _getValueAsInt(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getValueAsInt() => _getValueAsInt(reference).integer;
 
   static final _getValueAsInt1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonParser_getValueAsInt1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JsonParser__getValueAsInt1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getValueAsInt(int def)
   ///
@@ -4140,16 +3579,13 @@ class JsonParser extends jni.JniObject {
   ///@return {@code int} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getValueAsInt1(int def) {
-    final result__ = _getValueAsInt1(reference, def);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getValueAsInt1(int def) => _getValueAsInt1(reference, def).integer;
 
-  static final _getValueAsLong =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getValueAsLong")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getValueAsLong = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getValueAsLong")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getValueAsLong()
   ///
@@ -4166,17 +3602,13 @@ class JsonParser extends jni.JniObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getValueAsLong() {
-    final result__ = _getValueAsLong(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getValueAsLong() => _getValueAsLong(reference).long;
 
   static final _getValueAsLong1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "com_fasterxml_jackson_core_JsonParser_getValueAsLong1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("JsonParser__getValueAsLong1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public long getValueAsLong(long def)
   ///
@@ -4193,16 +3625,13 @@ class JsonParser extends jni.JniObject {
   ///@return {@code long} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getValueAsLong1(int def) {
-    final result__ = _getValueAsLong1(reference, def);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getValueAsLong1(int def) => _getValueAsLong1(reference, def).long;
 
-  static final _getValueAsDouble =
-      jniLookup<ffi.NativeFunction<ffi.Double Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getValueAsDouble")
-          .asFunction<double Function(ffi.Pointer<ffi.Void>)>();
+  static final _getValueAsDouble = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getValueAsDouble")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public double getValueAsDouble()
   ///
@@ -4219,17 +3648,13 @@ class JsonParser extends jni.JniObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double getValueAsDouble() {
-    final result__ = _getValueAsDouble(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getValueAsDouble() => _getValueAsDouble(reference).doubleFloat;
 
   static final _getValueAsDouble1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Double Function(ffi.Pointer<ffi.Void>, ffi.Double)>>(
-          "com_fasterxml_jackson_core_JsonParser_getValueAsDouble1")
-      .asFunction<double Function(ffi.Pointer<ffi.Void>, double)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Double)>>("JsonParser__getValueAsDouble1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, double)>();
 
   /// from: public double getValueAsDouble(double def)
   ///
@@ -4246,16 +3671,14 @@ class JsonParser extends jni.JniObject {
   ///@return {@code double} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double getValueAsDouble1(double def) {
-    final result__ = _getValueAsDouble1(reference, def);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getValueAsDouble1(double def) =>
+      _getValueAsDouble1(reference, def).doubleFloat;
 
-  static final _getValueAsBoolean =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_getValueAsBoolean")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getValueAsBoolean = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getValueAsBoolean")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getValueAsBoolean()
   ///
@@ -4272,17 +3695,13 @@ class JsonParser extends jni.JniObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool getValueAsBoolean() {
-    final result__ = _getValueAsBoolean(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getValueAsBoolean() => _getValueAsBoolean(reference).boolean;
 
   static final _getValueAsBoolean1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "com_fasterxml_jackson_core_JsonParser_getValueAsBoolean1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JsonParser__getValueAsBoolean1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean getValueAsBoolean(boolean def)
   ///
@@ -4299,17 +3718,14 @@ class JsonParser extends jni.JniObject {
   ///@return {@code boolean} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool getValueAsBoolean1(bool def) {
-    final result__ = _getValueAsBoolean1(reference, def ? 1 : 0) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getValueAsBoolean1(bool def) =>
+      _getValueAsBoolean1(reference, def ? 1 : 0).boolean;
 
   static final _getValueAsString = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getValueAsString")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getValueAsString")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getValueAsString()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4325,19 +3741,15 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  jni.JniString getValueAsString() {
-    final result__ = jni.JniString.fromRef(_getValueAsString(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getValueAsString() =>
+      jni.JniString.fromRef(_getValueAsString(reference).object);
 
   static final _getValueAsString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getValueAsString1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getValueAsString1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.lang.String getValueAsString(java.lang.String def)
@@ -4355,17 +3767,14 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  jni.JniString getValueAsString1(jni.JniString def) {
-    final result__ =
-        jni.JniString.fromRef(_getValueAsString1(reference, def.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getValueAsString1(jni.JniString def) => jni.JniString.fromRef(
+      _getValueAsString1(reference, def.reference).object);
 
-  static final _canReadObjectId =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_canReadObjectId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _canReadObjectId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__canReadObjectId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canReadObjectId()
   ///
@@ -4380,16 +3789,13 @@ class JsonParser extends jni.JniObject {
   ///@return {@code True} if the format being read supports native Object Ids;
   ///    {@code false} if not
   ///@since 2.3
-  bool canReadObjectId() {
-    final result__ = _canReadObjectId(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canReadObjectId() => _canReadObjectId(reference).boolean;
 
-  static final _canReadTypeId =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser_canReadTypeId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _canReadTypeId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__canReadTypeId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canReadTypeId()
   ///
@@ -4404,17 +3810,13 @@ class JsonParser extends jni.JniObject {
   ///@return {@code True} if the format being read supports native Type Ids;
   ///    {@code false} if not
   ///@since 2.3
-  bool canReadTypeId() {
-    final result__ = _canReadTypeId(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool canReadTypeId() => _canReadTypeId(reference).boolean;
 
   static final _getObjectId = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getObjectId")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getObjectId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getObjectId()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4432,17 +3834,14 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.3
-  jni.JniObject getObjectId() {
-    final result__ = jni.JniObject.fromRef(_getObjectId(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getObjectId() =>
+      jni.JniObject.fromRef(_getObjectId(reference).object);
 
   static final _getTypeId = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_getTypeId")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__getTypeId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getTypeId()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4460,19 +3859,15 @@ class JsonParser extends jni.JniObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.3
-  jni.JniObject getTypeId() {
-    final result__ = jni.JniObject.fromRef(_getTypeId(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTypeId() =>
+      jni.JniObject.fromRef(_getTypeId(reference).object);
 
   static final _readValuesAs = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_readValuesAs")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__readValuesAs")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Iterator<T> readValuesAs(java.lang.Class<T> valueType)
@@ -4486,20 +3881,15 @@ class JsonParser extends jni.JniObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni.JniObject readValuesAs(jni.JniObject valueType) {
-    final result__ =
-        jni.JniObject.fromRef(_readValuesAs(reference, valueType.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject readValuesAs(jni.JniObject valueType) => jni.JniObject.fromRef(
+      _readValuesAs(reference, valueType.reference).object);
 
   static final _readValuesAs1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser_readValuesAs1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JsonParser__readValuesAs1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Iterator<T> readValuesAs(com.fasterxml.jackson.core.type.TypeReference<T> valueTypeRef)
@@ -4513,12 +3903,9 @@ class JsonParser extends jni.JniObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni.JniObject readValuesAs1(jni.JniObject valueTypeRef) {
-    final result__ = jni.JniObject.fromRef(
-        _readValuesAs1(reference, valueTypeRef.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject readValuesAs1(jni.JniObject valueTypeRef) =>
+      jni.JniObject.fromRef(
+          _readValuesAs1(reference, valueTypeRef.reference).object);
 }
 
 /// from: com.fasterxml.jackson.core.JsonParser$Feature
@@ -4528,95 +3915,72 @@ class JsonParser_Feature extends jni.JniObject {
   JsonParser_Feature.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _values =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonParser__Feature_values")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonParser_Feature__values")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.Feature[] values()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JniObject values() {
-    final result__ = jni.JniObject.fromRef(_values());
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static jni.JniObject values() => jni.JniObject.fromRef(_values().object);
 
   static final _valueOf = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser__Feature_valueOf")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser_Feature__valueOf")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static JsonParser_Feature valueOf(jni.JniString name) {
-    final result__ = JsonParser_Feature.fromRef(_valueOf(name.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static JsonParser_Feature valueOf(jni.JniString name) =>
+      JsonParser_Feature.fromRef(_valueOf(name.reference).object);
 
   static final _collectDefaults =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function()>>(
-              "com_fasterxml_jackson_core_JsonParser__Feature_collectDefaults")
-          .asFunction<int Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonParser_Feature__collectDefaults")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public int collectDefaults()
   ///
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
   ///@return Bit mask of all features that are enabled by default
-  static int collectDefaults() {
-    final result__ = _collectDefaults();
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static int collectDefaults() => _collectDefaults().integer;
 
   static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Uint8)>>(
-              "com_fasterxml_jackson_core_JsonParser__Feature_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function(int)>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Uint8)>>(
+              "JsonParser_Feature__ctor")
+          .asFunction<jni.JniResult Function(int)>();
 
   /// from: private void <init>(boolean defaultState)
   JsonParser_Feature(bool defaultState)
-      : super.fromRef(_ctor(defaultState ? 1 : 0)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(defaultState ? 1 : 0).object);
 
-  static final _enabledByDefault =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser__Feature_enabledByDefault")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _enabledByDefault = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JsonParser_Feature__enabledByDefault")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean enabledByDefault()
-  bool enabledByDefault() {
-    final result__ = _enabledByDefault(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool enabledByDefault() => _enabledByDefault(reference).boolean;
 
   static final _enabledIn = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "com_fasterxml_jackson_core_JsonParser__Feature_enabledIn")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JsonParser_Feature__enabledIn")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean enabledIn(int flags)
-  bool enabledIn(int flags) {
-    final result__ = _enabledIn(reference, flags) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool enabledIn(int flags) => _enabledIn(reference, flags).boolean;
 
-  static final _getMask =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonParser__Feature_getMask")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMask = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser_Feature__getMask")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMask()
-  int getMask() {
-    final result__ = _getMask(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMask() => _getMask(reference).integer;
 }
 
 /// from: com.fasterxml.jackson.core.JsonParser$NumberType
@@ -4627,41 +3991,31 @@ class JsonParser_NumberType extends jni.JniObject {
   JsonParser_NumberType.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _values =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonParser__NumberType_values")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonParser_NumberType__values")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JniObject values() {
-    final result__ = jni.JniObject.fromRef(_values());
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static jni.JniObject values() => jni.JniObject.fromRef(_values().object);
 
   static final _valueOf = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonParser__NumberType_valueOf")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonParser_NumberType__valueOf")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static JsonParser_NumberType valueOf(jni.JniString name) {
-    final result__ = JsonParser_NumberType.fromRef(_valueOf(name.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static JsonParser_NumberType valueOf(jni.JniString name) =>
+      JsonParser_NumberType.fromRef(_valueOf(name.reference).object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonParser__NumberType_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "JsonParser_NumberType__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: private void <init>()
-  JsonParser_NumberType() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  JsonParser_NumberType() : super.fromRef(_ctor().object);
 }
 
 /// from: com.fasterxml.jackson.core.JsonToken
@@ -4672,37 +4026,30 @@ class JsonToken extends jni.JniObject {
   JsonToken.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _values =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_fasterxml_jackson_core_JsonToken_values")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonToken__values")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JniObject values() {
-    final result__ = jni.JniObject.fromRef(_values());
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static jni.JniObject values() => jni.JniObject.fromRef(_values().object);
 
   static final _valueOf = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonToken_valueOf")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__valueOf")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static JsonToken valueOf(jni.JniString name) {
-    final result__ = JsonToken.fromRef(_valueOf(name.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static JsonToken valueOf(jni.JniString name) =>
+      JsonToken.fromRef(_valueOf(name.reference).object);
 
   static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("com_fasterxml_jackson_core_JsonToken_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("JsonToken__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: private void <init>(java.lang.String token, int id)
   ///
@@ -4710,83 +4057,66 @@ class JsonToken extends jni.JniObject {
   ///   single static representation; null otherwise
   ///@param id Numeric id from JsonTokenId
   JsonToken(jni.JniString token, int id)
-      : super.fromRef(_ctor(token.reference, id)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(token.reference, id).object);
 
-  static final _id =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonToken_id")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _id = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("JsonToken__id")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final int id()
-  int id() {
-    final result__ = _id(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int id() => _id(reference).integer;
 
   static final _asString = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonToken_asString")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__asString")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final java.lang.String asString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString asString() {
-    final result__ = jni.JniString.fromRef(_asString(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString asString() =>
+      jni.JniString.fromRef(_asString(reference).object);
 
   static final _asCharArray = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonToken_asCharArray")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__asCharArray")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final char[] asCharArray()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject asCharArray() {
-    final result__ = jni.JniObject.fromRef(_asCharArray(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject asCharArray() =>
+      jni.JniObject.fromRef(_asCharArray(reference).object);
 
   static final _asByteArray = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "com_fasterxml_jackson_core_JsonToken_asByteArray")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__asByteArray")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final byte[] asByteArray()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject asByteArray() {
-    final result__ = jni.JniObject.fromRef(_asByteArray(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject asByteArray() =>
+      jni.JniObject.fromRef(_asByteArray(reference).object);
 
-  static final _isNumeric =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonToken_isNumeric")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isNumeric = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__isNumeric")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isNumeric()
   ///
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
-  bool isNumeric() {
-    final result__ = _isNumeric(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isNumeric() => _isNumeric(reference).boolean;
 
-  static final _isStructStart =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonToken_isStructStart")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isStructStart = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__isStructStart")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isStructStart()
   ///
@@ -4797,16 +4127,13 @@ class JsonToken extends jni.JniObject {
   ///@return {@code True} if this token is {@code START_OBJECT} or {@code START_ARRAY},
   ///   {@code false} otherwise
   ///@since 2.3
-  bool isStructStart() {
-    final result__ = _isStructStart(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isStructStart() => _isStructStart(reference).boolean;
 
-  static final _isStructEnd =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonToken_isStructEnd")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isStructEnd = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__isStructEnd")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isStructEnd()
   ///
@@ -4817,16 +4144,13 @@ class JsonToken extends jni.JniObject {
   ///@return {@code True} if this token is {@code END_OBJECT} or {@code END_ARRAY},
   ///   {@code false} otherwise
   ///@since 2.3
-  bool isStructEnd() {
-    final result__ = _isStructEnd(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isStructEnd() => _isStructEnd(reference).boolean;
 
-  static final _isScalarValue =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonToken_isScalarValue")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isScalarValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__isScalarValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isScalarValue()
   ///
@@ -4836,24 +4160,17 @@ class JsonToken extends jni.JniObject {
   /// {@code FIELD_NAME}.
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
-  bool isScalarValue() {
-    final result__ = _isScalarValue(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isScalarValue() => _isScalarValue(reference).boolean;
 
-  static final _isBoolean =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "com_fasterxml_jackson_core_JsonToken_isBoolean")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isBoolean = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonToken__isBoolean")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isBoolean()
   ///
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
-  bool isBoolean() {
-    final result__ = _isBoolean(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isBoolean() => _isBoolean(reference).boolean;
 }

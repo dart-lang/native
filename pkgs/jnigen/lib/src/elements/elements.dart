@@ -58,8 +58,8 @@ class ClassDecl {
     this.modifiers = const {},
     required this.simpleName,
     required this.binaryName,
+    required this.packageName,
     this.parentName,
-    this.packageName,
     this.typeParams = const [],
     this.methods = const [],
     this.fields = const [],
@@ -75,7 +75,8 @@ class ClassDecl {
 
   Set<String> modifiers;
   String simpleName, binaryName;
-  String? parentName, packageName;
+  String? parentName;
+  String packageName;
   List<TypeParam> typeParams;
   List<Method> methods;
   List<Field> fields;
@@ -94,8 +95,17 @@ class ClassDecl {
   String get internalName => binaryName.replaceAll(".", "/");
 
   // synthesized attributes
+
+  /// Final name of this class
   @JsonKey(ignore: true)
   late String finalName;
+
+  /// Unique name obtained by renaming conflicting names with a number.
+  ///
+  /// This is used by C bindings instead of fully qualified name to reduce
+  /// the verbosity of generated bindings
+  @JsonKey(ignore: true)
+  late String uniqueName;
 
   @JsonKey(ignore: true)
   bool isPreprocessed = false;

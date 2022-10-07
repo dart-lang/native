@@ -1447,6 +1447,14 @@ class JniPointerResult extends ffi.Struct {
   external JThrowable exception;
 }
 
+/// JniExceptionDetails holds 2 jstring objects, one is the result of
+/// calling `toString` on exception object, other is stack trace;
+class JniExceptionDetails extends ffi.Struct {
+  external JString message;
+
+  external JString stacktrace;
+}
+
 /// This struct contains functions which wrap method call / field access conveniently along with
 /// exception checking.
 ///
@@ -1505,6 +1513,10 @@ class JniAccessors extends ffi.Struct {
   external ffi.Pointer<
           ffi.NativeFunction<JniResult Function(JClass, JFieldID, ffi.Int)>>
       getStaticField;
+
+  external ffi
+          .Pointer<ffi.NativeFunction<JniExceptionDetails Function(JThrowable)>>
+      getExceptionDetails;
 }
 
 extension JniAccessorsExtension on ffi.Pointer<JniAccessors> {
@@ -1572,6 +1584,11 @@ extension JniAccessorsExtension on ffi.Pointer<JniAccessors> {
     return ref.getStaticField
             .asFunction<JniResult Function(JClass, JFieldID, int)>()(
         cls, fieldID, callType);
+  }
+
+  JniExceptionDetails getExceptionDetails(JThrowable exception) {
+    return ref.getExceptionDetails
+        .asFunction<JniExceptionDetails Function(JThrowable)>()(exception);
   }
 }
 

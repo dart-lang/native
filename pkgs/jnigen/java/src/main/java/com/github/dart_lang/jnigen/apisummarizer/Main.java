@@ -14,9 +14,7 @@ import com.github.dart_lang.jnigen.apisummarizer.util.Log;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.tools.DocumentationTool;
 import javax.tools.ToolProvider;
@@ -123,6 +121,7 @@ public class Main {
       if (list == null) {
         throw new IllegalArgumentException();
       }
+      Arrays.sort(list);
       for (var path : list) {
         if (path.isDirectory()) {
           queue.add(path);

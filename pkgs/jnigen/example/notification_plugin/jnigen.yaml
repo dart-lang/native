@@ -14,4 +14,3 @@ classes:
   - 'com.example.notification_plugin.Notifications'
 c_root: src/
 dart_root: lib/
-

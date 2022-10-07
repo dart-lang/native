@@ -24,6 +24,7 @@ var javaPrefix = join('com', 'github', 'dart_lang', 'jnigen');
 var javaFiles = [
   join(javaPrefix, 'simple_package', 'Example.java'),
   join(javaPrefix, 'pkg2', 'C2.java'),
+  join(javaPrefix, 'pkg2', 'Example.java'),
 ];
 
 void compileJavaSources(String workingDir, List<String> files) async {

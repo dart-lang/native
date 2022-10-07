@@ -157,6 +157,7 @@ class Config {
     this.cRoot,
     this.dartRoot,
     this.cSubdir,
+    this.rootPackage,
     this.exclude,
     this.sourcePath,
     this.classPath,
@@ -209,6 +210,16 @@ class Config {
   /// Subfolder relative to [cRoot] to write generated C code.
   String? cSubdir;
 
+  /// Java package corresponding to the dart_root directory.
+  ///
+  /// By default, the complete java hierarchy is mirrored. For instance,
+  /// `org.apache.pdfbox.text` becomes `org/apache/pdfbox/text.dart`.
+  /// This is often undesirable, when all packages have a common package. In
+  /// such cases, a super-package name can be provided. This will be assumed as
+  /// the prefix of all packages and hierarchy will be created relative to this
+  /// package.
+  String? rootPackage;
+
   /// Output file or folder in non-legacy modes
   Uri? outputPath;
 
@@ -232,6 +243,15 @@ class Config {
   final String? preamble;
 
   /// Additional java package -> dart package mappings (Experimental).
+  ///
+  /// a mapping com.abc.package -> 'package:my_package.dart/my_import.dart'
+  /// in this configuration suggests that any reference to a type from
+  /// com.abc.package shall resolve to an import of 'package:my_package.dart'.
+  ///
+  /// This can be as granular
+  /// `com.abc.package.Class -> 'package:abc/abc.dart'`
+  /// or coarse
+  /// `com.abc.package` -> 'package:abc/abc.dart'`
   final Map<String, String>? importMap;
 
   /// Configuration to search for Android SDK libraries (Experimental).
@@ -325,6 +345,7 @@ class Config {
       dartRoot: directoryUri(prov.getString(_Props.dartRoot)),
       outputPath: fileUri(prov.getString(_Props.outputPath)),
       cSubdir: prov.getString(_Props.cSubdir),
+      rootPackage: prov.getString(_Props.rootPackage),
       preamble: prov.getString(_Props.preamble),
       libraryName: must(prov.getString, '', _Props.libraryName),
       importMap: prov.getStringMap(_Props.importMap),
@@ -392,9 +413,10 @@ class _Props {
   static const importMap = 'import_map';
   static const outputPath = 'output_path';
   static const bindingsType = 'bindings_type';
+  static const dartRoot = 'dart_root';
   static const cRoot = 'c_root';
   static const cSubdir = 'c_subdir';
-  static const dartRoot = 'dart_root';
+  static const rootPackage = 'root_package';
   static const preamble = 'preamble';
   static const libraryName = 'library_name';
   static const logLevel = 'log_level';

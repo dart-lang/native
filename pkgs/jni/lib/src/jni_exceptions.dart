@@ -22,6 +22,14 @@ class NullJniStringException implements Exception {
   String toString() => 'toDartString called on null JniString reference';
 }
 
+class InvalidJniStringException implements Exception {
+  Pointer<Void> reference;
+  InvalidJniStringException(this.reference);
+  @override
+  String toString() => 'Not a valid Java String: '
+      '0x${reference.address.toRadixString(16)}';
+}
+
 class DoubleFreeException implements Exception {
   dynamic object;
   Pointer<Void> ptr;
@@ -69,15 +77,16 @@ class InvalidCallTypeException implements Exception {
 }
 
 class JniException implements Exception {
-  /// Exception object pointer from JNI.
-  final JObject err;
+  /// Error message from Java exception.
+  final String message;
 
-  /// brief description, usually initialized with error message from Java.
-  final String msg;
-  JniException(this.err, this.msg);
+  /// Stack trace from Java.
+  final String stackTrace;
+  JniException(this.message, this.stackTrace);
 
   @override
-  String toString() => msg;
+  String toString() => 'Exception in Java code called through JNI: '
+      '$message\n\n$stackTrace\n';
 }
 
 class HelperNotFoundException implements Exception {

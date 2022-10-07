@@ -12,6 +12,7 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../../_init.dart" show jniLookup;
@@ -20,31 +21,28 @@ import "../../_init.dart" show jniLookup;
 class Notifications extends jni.JniObject {
   Notifications.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_example_notification_plugin_Notifications_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Notifications__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  Notifications() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  Notifications() : super.fromRef(_ctor().object);
 
   static final _showNotification = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "com_example_notification_plugin_Notifications_showNotification")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Notifications__showNotification")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)
   static void showNotification(jni.JniObject context, int notificationID,
-      jni.JniString title, jni.JniString text) {
-    final result__ = _showNotification(
-        context.reference, notificationID, title.reference, text.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString title, jni.JniString text) =>
+      _showNotification(context.reference, notificationID, title.reference,
+              text.reference)
+          .check();
 }

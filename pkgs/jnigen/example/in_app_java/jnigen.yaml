@@ -8,4 +8,4 @@ classes:
   - 'com.example.in_app_java.AndroidUtils'
 c_root: src/android_utils
 dart_root: lib/android_utils
-
+root_package: com.example

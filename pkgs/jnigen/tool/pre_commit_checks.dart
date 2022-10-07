@@ -189,7 +189,7 @@ void main() async {
       "-Dc_root=src_temp",
       "-Ddart_root=lib_temp",
     ])
-    ..chainCommand("diff", ["-qr", "lib/third_party/", "lib_temp/"])
+    ..chainCommand("diff", ["-qr", "lib/src/third_party/", "lib_temp/"])
     ..chainCommand("diff", ["-qr", "src/", "src_temp/"])
     ..chainCleanupCommand("rm", ["-r", "lib_temp", "src_temp"]);
   final compareNotificationPluginBindings = Runner(

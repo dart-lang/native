@@ -8,7 +8,6 @@ import 'package:ffi/ffi.dart';
 import 'third_party/jni_bindings_generated.dart';
 import 'jni.dart';
 import 'jni_object.dart';
-import 'env_extensions.dart';
 
 void _fillJValue(Pointer<JValue> pos, dynamic arg) {
   if (arg is JniObject) {

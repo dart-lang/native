@@ -9,13 +9,11 @@ import 'package:jni/src/jvalues.dart';
 
 import 'third_party/jni_bindings_generated.dart';
 import 'jni.dart';
-import 'env_extensions.dart';
-
-Pointer<GlobalJniEnv> env = Jni.env;
+import 'jni_exceptions.dart';
 
 void _check(JThrowable exception) {
   if (exception != nullptr) {
-    env.throwException(exception);
+    Jni.accessors.throwException(exception);
   }
 }
 
@@ -88,6 +86,21 @@ extension JniClassLookupResultMethods on JniClassLookupResult {
 }
 
 extension JniAccessorWrappers on Pointer<JniAccessors> {
+  /// Rethrows Java exception in Dart as [JniException].
+  ///
+  /// The original exception object is deleted by this method. The message
+  /// and Java stack trace are included in the exception.
+  void throwException(JThrowable exception) {
+    final details = getExceptionDetails(exception);
+    final env = Jni.env;
+    final message = env.asDartString(details.message);
+    final stacktrace = env.asDartString(details.stacktrace);
+    env.DeleteGlobalRef(exception);
+    env.DeleteGlobalRef(details.message);
+    env.DeleteGlobalRef(details.stacktrace);
+    throw JniException(message, stacktrace);
+  }
+
   // TODO(PR): How to name these methods? These only wrap toNativeChars()
   // so that generated bindings are less verbose.
   JClass getClassOf(String internalName) =>

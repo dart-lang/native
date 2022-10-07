@@ -9,7 +9,6 @@ import 'package:ffi/ffi.dart';
 import 'third_party/jni_bindings_generated.dart';
 import 'jni_exceptions.dart';
 import 'jni.dart';
-import 'env_extensions.dart';
 import 'accessors.dart';
 import 'jvalues.dart';
 
@@ -86,7 +85,7 @@ Pointer<T> _getID<T extends NativeType>(
   final result = using(
       (arena) => f(ptr, name.toNativeChars(arena), sig.toNativeChars(arena)));
   if (result.exception != nullptr) {
-    env.throwException(result.exception);
+    _accessors.throwException(result.exception);
   }
   return result.id.cast<T>();
 }
@@ -213,7 +212,9 @@ class JniObject extends JniReference {
   JniClass getClass() {
     _ensureNotDeleted();
     final classRef = _env.GetObjectClass(reference);
-    if (classRef == nullptr) _env.checkException();
+    if (classRef == nullptr) {
+      _accessors.throwException(_env.ExceptionOccurred());
+    }
     return JniClass.fromRef(classRef);
   }
 
@@ -425,7 +426,7 @@ class JniString extends JniObject {
         final chars = s.toNativeUtf8(allocator: arena).cast<Char>();
         final jstr = _env.NewStringUTF(chars);
         if (jstr == nullptr) {
-          _env.checkException();
+          throw 'Fatal: cannot convert string to Java string: $s';
         }
         return jstr;
       });

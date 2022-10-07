@@ -14,10 +14,17 @@ abstract class ApiPreprocessor {
   static void preprocessAll(Map<String, ClassDecl> classes, Config config,
       {bool renameClasses = false}) {
     final Map<String, int> classNameCounts = {};
+    final rootPackage = config.rootPackage;
     for (var c in classes.values) {
+      final packageName = c.packageName;
+      if (rootPackage != null && !packageName.startsWith('$rootPackage.')) {
+        throw ArgumentError("class ${c.binaryName} not in "
+            "root package $rootPackage");
+      }
       final className = getSimplifiedClassName(c.binaryName);
+      c.uniqueName = renameConflict(classNameCounts, className);
       if (renameClasses) {
-        c.finalName = renameConflict(classNameCounts, className);
+        c.finalName = c.uniqueName;
       } else {
         c.finalName = className;
       }

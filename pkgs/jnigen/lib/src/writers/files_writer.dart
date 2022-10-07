@@ -85,10 +85,19 @@ class PackagePathResolver implements SymbolResolver {
     return '$importedName.$simpleTypeName';
   }
 
-  /// Returns import string, or `null` if package not found.
+  /// Returns import string for [packageToResolve], or `null` if package not
+  /// found.
+  ///
+  /// [binaryName] is the class name trying to be resolved. This parameter is
+  /// requested so that classes included in current bindings can be resolved
+  /// using relative path.
   String? getImport(String packageToResolve, String binaryName) {
-    final right = <String>[];
     var prefix = packageToResolve;
+
+    // short circuit if the requested class is specified directly in import map.
+    if (importMap.containsKey(binaryName)) {
+      return importMap[binaryName]!;
+    }
 
     if (prefix.isEmpty) {
       throw UnsupportedError('unexpected: empty package name.');
@@ -96,23 +105,20 @@ class PackagePathResolver implements SymbolResolver {
 
     final dest = packageToResolve.split('.');
     final src = currentPackage.split('.');
+    // Use relative import when the required class is included in current set
+    // of bindings.
     if (inputClassNames.contains(binaryName)) {
       int common = 0;
-      for (int i = 0; i < src.length && i < dest.length; i++) {
+      // find the common prefix path directory of current package, and directory
+      // of target package
+      // src.length - 1 simply corresponds to directory of the package.
+      for (int i = 0; i < src.length - 1 && i < dest.length - 1; i++) {
         if (src[i] == dest[i]) {
           common++;
         }
       }
-      // a.b.c => a/b/c.dart
-      // from there
-      // a/b.dart => ../b.dart
-      // a.b.d => d.dart
-      // a.b.c.d => c/d.dart
-      var pathToCommon = '';
-      if (common < src.length) {
-        pathToCommon = '../' * (src.length - common);
-      }
-      final pathToPackage = dest.skip(max(common - 1, 0)).join('/');
+      final pathToCommon = '../' * ((src.length - 1) - common);
+      final pathToPackage = dest.sublist(max(common, 0)).join('/');
       relativeImportedPackages.add(packageToResolve);
       return '$pathToCommon$pathToPackage.dart';
     }
@@ -120,23 +126,12 @@ class PackagePathResolver implements SymbolResolver {
     while (prefix.isNotEmpty) {
       final split = cutFromLast(prefix, '.');
       final left = split[0];
-      right.add(split[1]);
-      // eg: packages[org.apache.pdfbox]/org/apache/pdfbox.dart
       if (importMap.containsKey(prefix)) {
-        final sub = packageToResolve.replaceAll('.', '/');
-        final pkg = _suffix(importMap[prefix]!, '/');
-        return '$pkg$sub.dart';
+        return importMap[prefix]!;
       }
       prefix = left;
     }
     return null;
-  }
-
-  String _suffix(String str, String suffix) {
-    if (str.endsWith(suffix)) {
-      return str;
-    }
-    return str + suffix;
   }
 
   @override
@@ -178,15 +173,10 @@ class FilesWriter extends BindingsWriter {
     final Map<String, ClassDecl> classesByName = {};
     for (var c in classes) {
       classesByName.putIfAbsent(c.binaryName, () => c);
-      packages.putIfAbsent(c.packageName!, () => <ClassDecl>[]);
-      packages[c.packageName!]!.add(c);
+      packages.putIfAbsent(c.packageName, () => <ClassDecl>[]);
+      packages[c.packageName]!.add(c);
     }
     final classNames = classesByName.keys.toSet();
-
-    if (config.bindingsType == BindingsType.packageStructured) {
-      throw UnimplementedError(
-          "Package structured bindings are not yet implemented");
-    }
 
     final cRoot = config.cRoot!;
     log.info("Using c root = $cRoot");
@@ -251,12 +241,24 @@ class FilesWriter extends BindingsWriter {
     await _copyFileFromPackage(
         'jni', 'src/dartjni.h', cRoot.resolve('$subdir/dartjni.h'));
     await _copyFileFromPackage(
+        'jni', 'src/.clang-format', cRoot.resolve('$subdir/.clang-format'));
+    await _copyFileFromPackage(
         'jnigen', 'cmake/CMakeLists.txt.tmpl', cRoot.resolve('CMakeLists.txt'),
         transform: (s) {
       return s
           .replaceAll('{{LIBRARY_NAME}}', libraryName)
           .replaceAll('{{SUBDIR}}', subdir);
     });
+    log.info('Running clang-format on C bindings');
+    try {
+      final clangFormat = Process.runSync('clang-format', ['-i', cFile.path]);
+      if (clangFormat.exitCode != 0) {
+        printError(clangFormat.stderr);
+        log.warning('clang-format exited with $exitCode');
+      }
+    } on ProcessException catch (e) {
+      log.warning('cannot run clang-format: $e');
+    }
     log.info('Completed.');
   }
 

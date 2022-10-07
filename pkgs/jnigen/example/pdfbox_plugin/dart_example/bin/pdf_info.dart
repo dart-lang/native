@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:jni/jni.dart';
 
-import 'package:pdfbox_plugin/third_party/org/apache/pdfbox/pdmodel.dart';
+import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 
 void writeInfo(String file) {
   final inputFile = Jni.newInstance(

@@ -21,7 +21,7 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
       simpleName: json['simpleName'] as String,
       binaryName: json['binaryName'] as String,
       parentName: json['parentName'] as String?,
-      packageName: json['packageName'] as String?,
+      packageName: json['packageName'] as String,
       typeParams: (json['typeParams'] as List<dynamic>?)
               ?.map((e) => TypeParam.fromJson(e as Map<String, dynamic>))
               .toList() ??

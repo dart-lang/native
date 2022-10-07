@@ -9,7 +9,6 @@ import 'package:ffi/ffi.dart';
 import 'package:path/path.dart';
 
 import 'third_party/jni_bindings_generated.dart';
-import 'env_extensions.dart';
 import 'jvalues.dart';
 import 'jni_exceptions.dart';
 import 'jni_object.dart';
@@ -254,5 +253,56 @@ extension ProtectedJniExtensions on Jni {
     setJniGetters(Jni._getJniContextFn, Jni._getJniEnvFn);
     final lookup = dl.lookup;
     return lookup;
+  }
+}
+
+extension AdditionalEnvMethods on Pointer<GlobalJniEnv> {
+  /// Convenience method for converting a [JString]
+  /// to dart string.
+  /// if [deleteOriginal] is specified, jstring passed will be deleted using
+  /// DeleteLocalRef.
+  String asDartString(JString jstring, {bool deleteOriginal = false}) {
+    if (jstring == nullptr) {
+      throw NullJniStringException();
+    }
+    final chars = GetStringUTFChars(jstring, nullptr);
+    if (chars == nullptr) {
+      throw InvalidJniStringException(jstring);
+    }
+    final result = chars.cast<Utf8>().toDartString();
+    ReleaseStringUTFChars(jstring, chars);
+    if (deleteOriginal) {
+      DeleteGlobalRef(jstring);
+    }
+    return result;
+  }
+
+  /// Return a new [JString] from contents of [s].
+  JString asJString(String s) => using((arena) {
+        final utf = s.toNativeUtf8().cast<Char>();
+        final result = NewStringUTF(utf);
+        malloc.free(utf);
+        return result;
+      });
+
+  /// Deletes all references in [refs].
+  void deleteAllRefs(List<JObject> refs) {
+    for (final ref in refs) {
+      DeleteGlobalRef(ref);
+    }
+  }
+}
+
+extension StringMethodsForJni on String {
+  /// Returns a Utf-8 encoded Pointer<Char> with contents same as this string.
+  Pointer<Char> toNativeChars([Allocator allocator = malloc]) {
+    return toNativeUtf8(allocator: allocator).cast<Char>();
+  }
+}
+
+extension CharPtrMethodsForJni on Pointer<Char> {
+  /// Same as calling `cast<Utf8>` followed by `toDartString`.
+  String toDartString() {
+    return cast<Utf8>().toDartString();
   }
 }

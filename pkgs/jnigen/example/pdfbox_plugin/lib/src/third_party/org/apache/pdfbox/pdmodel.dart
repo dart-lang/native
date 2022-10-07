@@ -26,6 +26,7 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../../../_init.dart" show jniLookup;
@@ -39,9 +40,9 @@ class PDDocument extends jni.JniObject {
   PDDocument.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_RESERVE_BYTE_RANGE =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_org_apache_pdfbox_pdmodel_PDDocument_RESERVE_BYTE_RANGE")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_PDDocument__RESERVE_BYTE_RANGE")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: private static final int[] RESERVE_BYTE_RANGE
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -53,52 +54,52 @@ class PDDocument extends jni.JniObject {
   /// \#saveIncrementalForExternalSigning(java.io.OutputStream) saveIncrementalForExternalSigning()
   /// twice.
   static jni.JniObject get RESERVE_BYTE_RANGE =>
-      jni.JniObject.fromRef(_get_RESERVE_BYTE_RANGE());
+      jni.JniObject.fromRef(_get_RESERVE_BYTE_RANGE().object);
 
   static final _get_LOG =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_org_apache_pdfbox_pdmodel_PDDocument_LOG")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_PDDocument__LOG")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: private static final org.apache.commons.logging.Log LOG
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JniObject get LOG => jni.JniObject.fromRef(_get_LOG());
+  static jni.JniObject get LOG => jni.JniObject.fromRef(_get_LOG().object);
 
   static final _get_document = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_document")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__document")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private final org.apache.pdfbox.cos.COSDocument document
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject get document => jni.JniObject.fromRef(_get_document(reference));
+  jni.JniObject get document =>
+      jni.JniObject.fromRef(_get_document(reference).object);
 
   static final _get_documentInformation = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_documentInformation")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__documentInformation")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private org.apache.pdfbox.pdmodel.PDDocumentInformation documentInformation
   /// The returned object must be deleted after use, by calling the `delete` method.
   PDDocumentInformation get documentInformation =>
-      PDDocumentInformation.fromRef(_get_documentInformation(reference));
+      PDDocumentInformation.fromRef(_get_documentInformation(reference).object);
   static final _set_documentInformation = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_documentInformation")
+                  jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>>(
+          "set_PDDocument__documentInformation")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.PDDocumentInformation documentInformation
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -107,25 +108,24 @@ class PDDocument extends jni.JniObject {
 
   static final _get_documentCatalog = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__documentCatalog")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private org.apache.pdfbox.pdmodel.PDDocumentCatalog documentCatalog
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get documentCatalog =>
-      jni.JniObject.fromRef(_get_documentCatalog(reference));
+      jni.JniObject.fromRef(_get_documentCatalog(reference).object);
   static final _set_documentCatalog = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_documentCatalog")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_PDDocument__documentCatalog")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.PDDocumentCatalog documentCatalog
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -134,25 +134,24 @@ class PDDocument extends jni.JniObject {
 
   static final _get_encryption = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_encryption")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__encryption")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get encryption =>
-      jni.JniObject.fromRef(_get_encryption(reference));
+      jni.JniObject.fromRef(_get_encryption(reference).object);
   static final _set_encryption = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_encryption")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_PDDocument__encryption")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -161,22 +160,22 @@ class PDDocument extends jni.JniObject {
 
   static final _get_allSecurityToBeRemoved = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__allSecurityToBeRemoved")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private boolean allSecurityToBeRemoved
   bool get allSecurityToBeRemoved =>
-      _get_allSecurityToBeRemoved(reference) != 0;
+      _get_allSecurityToBeRemoved(reference).boolean;
   static final _set_allSecurityToBeRemoved = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_allSecurityToBeRemoved")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Uint8)>>("set_PDDocument__allSecurityToBeRemoved")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: private boolean allSecurityToBeRemoved
   set allSecurityToBeRemoved(bool value) =>
@@ -184,25 +183,24 @@ class PDDocument extends jni.JniObject {
 
   static final _get_documentId = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_documentId")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__documentId")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private java.lang.Long documentId
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get documentId =>
-      jni.JniObject.fromRef(_get_documentId(reference));
+      jni.JniObject.fromRef(_get_documentId(reference).object);
   static final _set_documentId = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_documentId")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_PDDocument__documentId")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private java.lang.Long documentId
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -211,40 +209,39 @@ class PDDocument extends jni.JniObject {
 
   static final _get_pdfSource = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_pdfSource")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__pdfSource")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private final org.apache.pdfbox.io.RandomAccessRead pdfSource
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get pdfSource =>
-      jni.JniObject.fromRef(_get_pdfSource(reference));
+      jni.JniObject.fromRef(_get_pdfSource(reference).object);
 
   static final _get_accessPermission = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_accessPermission")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__accessPermission")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private org.apache.pdfbox.pdmodel.encryption.AccessPermission accessPermission
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get accessPermission =>
-      jni.JniObject.fromRef(_get_accessPermission(reference));
+      jni.JniObject.fromRef(_get_accessPermission(reference).object);
   static final _set_accessPermission = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_accessPermission")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_PDDocument__accessPermission")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.encryption.AccessPermission accessPermission
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -253,55 +250,54 @@ class PDDocument extends jni.JniObject {
 
   static final _get_fontsToSubset = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_fontsToSubset")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__fontsToSubset")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private final java.util.Set<org.apache.pdfbox.pdmodel.font.PDFont> fontsToSubset
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get fontsToSubset =>
-      jni.JniObject.fromRef(_get_fontsToSubset(reference));
+      jni.JniObject.fromRef(_get_fontsToSubset(reference).object);
 
   static final _get_fontsToClose = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_fontsToClose")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__fontsToClose")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private final java.util.Set<org.apache.fontbox.ttf.TrueTypeFont> fontsToClose
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get fontsToClose =>
-      jni.JniObject.fromRef(_get_fontsToClose(reference));
+      jni.JniObject.fromRef(_get_fontsToClose(reference).object);
 
   static final _get_signInterface = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_signInterface")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__signInterface")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signInterface
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get signInterface =>
-      jni.JniObject.fromRef(_get_signInterface(reference));
+      jni.JniObject.fromRef(_get_signInterface(reference).object);
   static final _set_signInterface = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_signInterface")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_PDDocument__signInterface")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signInterface
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -310,25 +306,24 @@ class PDDocument extends jni.JniObject {
 
   static final _get_signingSupport = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_signingSupport")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__signingSupport")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private org.apache.pdfbox.pdmodel.interactive.digitalsignature.SigningSupport signingSupport
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get signingSupport =>
-      jni.JniObject.fromRef(_get_signingSupport(reference));
+      jni.JniObject.fromRef(_get_signingSupport(reference).object);
   static final _set_signingSupport = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_signingSupport")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_PDDocument__signingSupport")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.interactive.digitalsignature.SigningSupport signingSupport
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -337,25 +332,24 @@ class PDDocument extends jni.JniObject {
 
   static final _get_resourceCache = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_resourceCache")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__resourceCache")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private org.apache.pdfbox.pdmodel.ResourceCache resourceCache
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JniObject get resourceCache =>
-      jni.JniObject.fromRef(_get_resourceCache(reference));
+      jni.JniObject.fromRef(_get_resourceCache(reference).object);
   static final _set_resourceCache = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_resourceCache")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_PDDocument__resourceCache")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.ResourceCache resourceCache
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -364,44 +358,41 @@ class PDDocument extends jni.JniObject {
 
   static final _get_signatureAdded = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocument_signatureAdded")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocument__signatureAdded")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private boolean signatureAdded
-  bool get signatureAdded => _get_signatureAdded(reference) != 0;
+  bool get signatureAdded => _get_signatureAdded(reference).boolean;
   static final _set_signatureAdded = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "set_org_apache_pdfbox_pdmodel_PDDocument_signatureAdded")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Uint8)>>("set_PDDocument__signatureAdded")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: private boolean signatureAdded
   set signatureAdded(bool value) =>
       _set_signatureAdded(reference, value ? 1 : 0);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "org_apache_pdfbox_pdmodel_PDDocument_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "PDDocument__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   ///
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
-  PDDocument() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  PDDocument() : super.fromRef(_ctor().object);
 
   static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
   ///
@@ -409,31 +400,27 @@ class PDDocument extends jni.JniObject {
   /// You need to add at least one page for the document to be valid.
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
   PDDocument.ctor1(jni.JniObject memUsageSetting)
-      : super.fromRef(_ctor1(memUsageSetting.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor1(memUsageSetting.reference).object);
 
   static final _ctor2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_ctor2")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__ctor2")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc)
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
-  PDDocument.ctor2(jni.JniObject doc) : super.fromRef(_ctor2(doc.reference)) {
-    jni.Jni.env.checkException();
-  }
+  PDDocument.ctor2(jni.JniObject doc)
+      : super.fromRef(_ctor2(doc.reference).object);
 
   static final _ctor3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_ctor3")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__ctor3")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)
@@ -442,18 +429,17 @@ class PDDocument extends jni.JniObject {
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
   PDDocument.ctor3(jni.JniObject doc, jni.JniObject source)
-      : super.fromRef(_ctor3(doc.reference, source.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor3(doc.reference, source.reference).object);
 
   static final _ctor4 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_ctor4")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__ctor4")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)
   ///
@@ -464,36 +450,32 @@ class PDDocument extends jni.JniObject {
   PDDocument.ctor4(
       jni.JniObject doc, jni.JniObject source, jni.JniObject permission)
       : super.fromRef(
-            _ctor4(doc.reference, source.reference, permission.reference)) {
-    jni.Jni.env.checkException();
-  }
+            _ctor4(doc.reference, source.reference, permission.reference)
+                .object);
 
   static final _addPage = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_addPage")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__addPage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addPage(org.apache.pdfbox.pdmodel.PDPage page)
   ///
   /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
   /// hierarchy and set the parent of the page to the root.
   ///@param page The page to add to the document.
-  void addPage(jni.JniObject page) {
-    final result__ = _addPage(reference, page.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void addPage(jni.JniObject page) =>
+      _addPage(reference, page.reference).check();
 
   static final _addSignature = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_addSignature")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__addSignature")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)
   ///
@@ -507,19 +489,17 @@ class PDDocument extends jni.JniObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature(jni.JniObject sigObject) {
-    final result__ = _addSignature(reference, sigObject.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void addSignature(jni.JniObject sigObject) =>
+      _addSignature(reference, sigObject.reference).check();
 
   static final _addSignature1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_addSignature1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__addSignature1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)
@@ -535,20 +515,17 @@ class PDDocument extends jni.JniObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature1(jni.JniObject sigObject, jni.JniObject options) {
-    final result__ =
-        _addSignature1(reference, sigObject.reference, options.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void addSignature1(jni.JniObject sigObject, jni.JniObject options) =>
+      _addSignature1(reference, sigObject.reference, options.reference).check();
 
   static final _addSignature2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_addSignature2")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__addSignature2")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)
@@ -564,23 +541,20 @@ class PDDocument extends jni.JniObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature2(
-      jni.JniObject sigObject, jni.JniObject signatureInterface) {
-    final result__ = _addSignature2(
-        reference, sigObject.reference, signatureInterface.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject sigObject, jni.JniObject signatureInterface) =>
+      _addSignature2(
+              reference, sigObject.reference, signatureInterface.reference)
+          .check();
 
   static final _addSignature3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_addSignature3")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__addSignature3")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)
@@ -599,21 +573,20 @@ class PDDocument extends jni.JniObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature3(jni.JniObject sigObject, jni.JniObject signatureInterface,
-      jni.JniObject options) {
-    final result__ = _addSignature3(reference, sigObject.reference,
-        signatureInterface.reference, options.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject options) =>
+      _addSignature3(reference, sigObject.reference,
+              signatureInterface.reference, options.reference)
+          .check();
 
   static final _findSignatureField = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_findSignatureField")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__findSignatureField")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: private org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField findSignatureField(java.util.Iterator<org.apache.pdfbox.pdmodel.interactive.form.PDField> fieldIterator, org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -623,20 +596,19 @@ class PDDocument extends jni.JniObject {
   ///@param sigObject signature object (the /V part).
   ///@return a signature field if found, or null if none was found.
   jni.JniObject findSignatureField(
-      jni.JniObject fieldIterator, jni.JniObject sigObject) {
-    final result__ = jni.JniObject.fromRef(_findSignatureField(
-        reference, fieldIterator.reference, sigObject.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject fieldIterator, jni.JniObject sigObject) =>
+      jni.JniObject.fromRef(_findSignatureField(
+              reference, fieldIterator.reference, sigObject.reference)
+          .object);
 
   static final _checkSignatureField = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_checkSignatureField")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__checkSignatureField")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: private boolean checkSignatureField(java.util.Iterator<org.apache.pdfbox.pdmodel.interactive.form.PDField> fieldIterator, org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField signatureField)
@@ -646,21 +618,18 @@ class PDDocument extends jni.JniObject {
   ///@param signatureField the signature field.
   ///@return true if the field already existed in the field list, false if not.
   bool checkSignatureField(
-      jni.JniObject fieldIterator, jni.JniObject signatureField) {
-    final result__ = _checkSignatureField(
-            reference, fieldIterator.reference, signatureField.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject fieldIterator, jni.JniObject signatureField) =>
+      _checkSignatureField(
+              reference, fieldIterator.reference, signatureField.reference)
+          .boolean;
 
   static final _checkSignatureAnnotation = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_checkSignatureAnnotation")
+          "PDDocument__checkSignatureAnnotation")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: private boolean checkSignatureAnnotation(java.util.List<org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation> annotations, org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget widget)
@@ -670,118 +639,100 @@ class PDDocument extends jni.JniObject {
   ///@param widget the annotation widget.
   ///@return true if the widget already existed in the annotation list, false if not.
   bool checkSignatureAnnotation(
-      jni.JniObject annotations, jni.JniObject widget) {
-    final result__ = _checkSignatureAnnotation(
-            reference, annotations.reference, widget.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject annotations, jni.JniObject widget) =>
+      _checkSignatureAnnotation(
+              reference, annotations.reference, widget.reference)
+          .boolean;
 
   static final _prepareVisibleSignature = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_prepareVisibleSignature")
+          "PDDocument__prepareVisibleSignature")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: private void prepareVisibleSignature(org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField signatureField, org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm acroForm, org.apache.pdfbox.cos.COSDocument visualSignature)
   void prepareVisibleSignature(jni.JniObject signatureField,
-      jni.JniObject acroForm, jni.JniObject visualSignature) {
-    final result__ = _prepareVisibleSignature(
-        reference,
-        signatureField.reference,
-        acroForm.reference,
-        visualSignature.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject acroForm, jni.JniObject visualSignature) =>
+      _prepareVisibleSignature(reference, signatureField.reference,
+              acroForm.reference, visualSignature.reference)
+          .check();
 
   static final _assignSignatureRectangle = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_assignSignatureRectangle")
+          "PDDocument__assignSignatureRectangle")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: private void assignSignatureRectangle(org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField signatureField, org.apache.pdfbox.cos.COSDictionary annotDict)
   void assignSignatureRectangle(
-      jni.JniObject signatureField, jni.JniObject annotDict) {
-    final result__ = _assignSignatureRectangle(
-        reference, signatureField.reference, annotDict.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject signatureField, jni.JniObject annotDict) =>
+      _assignSignatureRectangle(
+              reference, signatureField.reference, annotDict.reference)
+          .check();
 
   static final _assignAppearanceDictionary = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_assignAppearanceDictionary")
+          "PDDocument__assignAppearanceDictionary")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: private void assignAppearanceDictionary(org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField signatureField, org.apache.pdfbox.cos.COSDictionary apDict)
   void assignAppearanceDictionary(
-      jni.JniObject signatureField, jni.JniObject apDict) {
-    final result__ = _assignAppearanceDictionary(
-        reference, signatureField.reference, apDict.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject signatureField, jni.JniObject apDict) =>
+      _assignAppearanceDictionary(
+              reference, signatureField.reference, apDict.reference)
+          .check();
 
   static final _assignAcroFormDefaultResource = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_assignAcroFormDefaultResource")
+          "PDDocument__assignAcroFormDefaultResource")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: private void assignAcroFormDefaultResource(org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm acroForm, org.apache.pdfbox.cos.COSDictionary newDict)
   void assignAcroFormDefaultResource(
-      jni.JniObject acroForm, jni.JniObject newDict) {
-    final result__ = _assignAcroFormDefaultResource(
-        reference, acroForm.reference, newDict.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject acroForm, jni.JniObject newDict) =>
+      _assignAcroFormDefaultResource(
+              reference, acroForm.reference, newDict.reference)
+          .check();
 
   static final _prepareNonVisibleSignature = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_prepareNonVisibleSignature")
+          "PDDocument__prepareNonVisibleSignature")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: private void prepareNonVisibleSignature(org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField signatureField)
-  void prepareNonVisibleSignature(jni.JniObject signatureField) {
-    final result__ =
-        _prepareNonVisibleSignature(reference, signatureField.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void prepareNonVisibleSignature(jni.JniObject signatureField) =>
+      _prepareNonVisibleSignature(reference, signatureField.reference).check();
 
   static final _addSignatureField = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_addSignatureField")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__addSignatureField")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addSignatureField(java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)
@@ -795,54 +746,45 @@ class PDDocument extends jni.JniObject {
   ///@deprecated The method is misleading, because only one signature may be
   /// added in a document. The method will be removed in the future.
   void addSignatureField(jni.JniObject sigFields,
-      jni.JniObject signatureInterface, jni.JniObject options) {
-    final result__ = _addSignatureField(reference, sigFields.reference,
-        signatureInterface.reference, options.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject signatureInterface, jni.JniObject options) =>
+      _addSignatureField(reference, sigFields.reference,
+              signatureInterface.reference, options.reference)
+          .check();
 
   static final _removePage = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_removePage")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__removePage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void removePage(org.apache.pdfbox.pdmodel.PDPage page)
   ///
   /// Remove the page from the document.
   ///@param page The page to remove from the document.
-  void removePage(jni.JniObject page) {
-    final result__ = _removePage(reference, page.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void removePage(jni.JniObject page) =>
+      _removePage(reference, page.reference).check();
 
   static final _removePage1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_removePage1")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("PDDocument__removePage1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void removePage(int pageNumber)
   ///
   /// Remove the page from the document.
   ///@param pageNumber 0 based index to page number.
-  void removePage1(int pageNumber) {
-    final result__ = _removePage1(reference, pageNumber);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void removePage1(int pageNumber) =>
+      _removePage1(reference, pageNumber).check();
 
   static final _importPage = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_importPage")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__importPage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDPage importPage(org.apache.pdfbox.pdmodel.PDPage page)
@@ -869,35 +811,28 @@ class PDDocument extends jni.JniObject {
   ///@param page The page to import.
   ///@return The page that was imported.
   ///@throws IOException If there is an error copying the page.
-  jni.JniObject importPage(jni.JniObject page) {
-    final result__ =
-        jni.JniObject.fromRef(_importPage(reference, page.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject importPage(jni.JniObject page) =>
+      jni.JniObject.fromRef(_importPage(reference, page.reference).object);
 
   static final _getDocument = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getDocument")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getDocument")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.cos.COSDocument getDocument()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the low level document.
   ///@return The document that this layer sits on top of.
-  jni.JniObject getDocument() {
-    final result__ = jni.JniObject.fromRef(_getDocument(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDocument() =>
+      jni.JniObject.fromRef(_getDocument(reference).object);
 
   static final _getDocumentInformation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getDocumentInformation")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getDocumentInformation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -909,20 +844,16 @@ class PDDocument extends jni.JniObject {
   /// document level metadata, a metadata stream should be used instead, see
   /// PDDocumentCatalog\#getMetadata().
   ///@return The documents /Info dictionary, never null.
-  PDDocumentInformation getDocumentInformation() {
-    final result__ =
-        PDDocumentInformation.fromRef(_getDocumentInformation(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  PDDocumentInformation getDocumentInformation() =>
+      PDDocumentInformation.fromRef(_getDocumentInformation(reference).object);
 
   static final _setDocumentInformation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_setDocumentInformation")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__setDocumentInformation")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)
   ///
@@ -932,49 +863,40 @@ class PDDocument extends jni.JniObject {
   /// document level metadata, a metadata stream should be used instead, see
   /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
   ///@param info The updated document information.
-  void setDocumentInformation(PDDocumentInformation info) {
-    final result__ = _setDocumentInformation(reference, info.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setDocumentInformation(PDDocumentInformation info) =>
+      _setDocumentInformation(reference, info.reference).check();
 
   static final _getDocumentCatalog = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getDocumentCatalog")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getDocumentCatalog")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the document CATALOG. This is guaranteed to not return null.
   ///@return The documents /Root dictionary
-  jni.JniObject getDocumentCatalog() {
-    final result__ = jni.JniObject.fromRef(_getDocumentCatalog(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDocumentCatalog() =>
+      jni.JniObject.fromRef(_getDocumentCatalog(reference).object);
 
-  static final _isEncrypted =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "org_apache_pdfbox_pdmodel_PDDocument_isEncrypted")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isEncrypted = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__isEncrypted")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEncrypted()
   ///
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
-  bool isEncrypted() {
-    final result__ = _isEncrypted(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEncrypted() => _isEncrypted(reference).boolean;
 
   static final _getEncryption = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getEncryption")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getEncryption")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -984,36 +906,31 @@ class PDDocument extends jni.JniObject {
   /// but the only supported subclass at this time is a
   /// PDStandardEncryption object.
   ///@return The encryption dictionary(most likely a PDStandardEncryption object)
-  jni.JniObject getEncryption() {
-    final result__ = jni.JniObject.fromRef(_getEncryption(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getEncryption() =>
+      jni.JniObject.fromRef(_getEncryption(reference).object);
 
   static final _setEncryptionDictionary = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_setEncryptionDictionary")
+          "PDDocument__setEncryptionDictionary")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)
   ///
   /// This will set the encryption dictionary for this document.
   ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
   ///@throws IOException If there is an error determining which security handler to use.
-  void setEncryptionDictionary(jni.JniObject encryption) {
-    final result__ = _setEncryptionDictionary(reference, encryption.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setEncryptionDictionary(jni.JniObject encryption) =>
+      _setEncryptionDictionary(reference, encryption.reference).check();
 
   static final _getLastSignatureDictionary = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getLastSignatureDictionary")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocument__getLastSignatureDictionary")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1022,18 +939,14 @@ class PDDocument extends jni.JniObject {
   /// last in time when empty signature fields are created first but signed after other fields.
   ///@return the last signature as <code>PDSignatureField</code>.
   ///@throws IOException if no document catalog can be found.
-  jni.JniObject getLastSignatureDictionary() {
-    final result__ =
-        jni.JniObject.fromRef(_getLastSignatureDictionary(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getLastSignatureDictionary() =>
+      jni.JniObject.fromRef(_getLastSignatureDictionary(reference).object);
 
   static final _getSignatureFields = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getSignatureFields")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getSignatureFields")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1041,17 +954,14 @@ class PDDocument extends jni.JniObject {
   /// Retrieve all signature fields from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni.JniObject getSignatureFields() {
-    final result__ = jni.JniObject.fromRef(_getSignatureFields(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getSignatureFields() =>
+      jni.JniObject.fromRef(_getSignatureFields(reference).object);
 
   static final _getSignatureDictionaries = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getSignatureDictionaries")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocument__getSignatureDictionaries")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1059,20 +969,17 @@ class PDDocument extends jni.JniObject {
   /// Retrieve all signature dictionaries from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni.JniObject getSignatureDictionaries() {
-    final result__ =
-        jni.JniObject.fromRef(_getSignatureDictionaries(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getSignatureDictionaries() =>
+      jni.JniObject.fromRef(_getSignatureDictionaries(reference).object);
 
   static final _registerTrueTypeFontForClosing = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_registerTrueTypeFontForClosing")
+          "PDDocument__registerTrueTypeFontForClosing")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)
   ///
@@ -1080,33 +987,27 @@ class PDDocument extends jni.JniObject {
   /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
   /// method, it is done by the appropriate PDFont classes.
   ///@param ttf
-  void registerTrueTypeFontForClosing(jni.JniObject ttf) {
-    final result__ = _registerTrueTypeFontForClosing(reference, ttf.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void registerTrueTypeFontForClosing(jni.JniObject ttf) =>
+      _registerTrueTypeFontForClosing(reference, ttf.reference).check();
 
   static final _getFontsToSubset = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getFontsToSubset")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getFontsToSubset")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: java.util.Set<org.apache.pdfbox.pdmodel.font.PDFont> getFontsToSubset()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the list of fonts which will be subset before the document is saved.
-  jni.JniObject getFontsToSubset() {
-    final result__ = jni.JniObject.fromRef(_getFontsToSubset(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getFontsToSubset() =>
+      jni.JniObject.fromRef(_getFontsToSubset(reference).object);
 
   static final _load = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1116,19 +1017,15 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the file required a non-empty password.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load(jni.JniObject file) {
-    final result__ = PDDocument.fromRef(_load(file.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load(jni.JniObject file) =>
+      PDDocument.fromRef(_load(file.reference).object);
 
   static final _load1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
@@ -1140,20 +1037,16 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the file required a non-empty password.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load1(jni.JniObject file, jni.JniObject memUsageSetting) {
-    final result__ =
-        PDDocument.fromRef(_load1(file.reference, memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load1(jni.JniObject file, jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(
+          _load1(file.reference, memUsageSetting.reference).object);
 
   static final _load2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password)
@@ -1165,21 +1058,18 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load2(jni.JniObject file, jni.JniString password) {
-    final result__ =
-        PDDocument.fromRef(_load2(file.reference, password.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load2(jni.JniObject file, jni.JniString password) =>
+      PDDocument.fromRef(_load2(file.reference, password.reference).object);
 
   static final _load3 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load3")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load3")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1192,27 +1082,21 @@ class PDDocument extends jni.JniObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException in case of a file reading or parsing error
   static PDDocument load3(jni.JniObject file, jni.JniString password,
-      jni.JniObject memUsageSetting) {
-    final result__ = PDDocument.fromRef(
-        _load3(file.reference, password.reference, memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(
+          _load3(file.reference, password.reference, memUsageSetting.reference)
+              .object);
 
   static final _load4 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load4")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load4")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1225,24 +1109,21 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws IOException in case of a file reading or parsing error
   static PDDocument load4(jni.JniObject file, jni.JniString password,
-      jni.JniObject keyStore, jni.JniString alias) {
-    final result__ = PDDocument.fromRef(_load4(file.reference,
-        password.reference, keyStore.reference, alias.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject keyStore, jni.JniString alias) =>
+      PDDocument.fromRef(_load4(file.reference, password.reference,
+              keyStore.reference, alias.reference)
+          .object);
 
   static final _load5 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load5")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load5")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -1261,32 +1142,25 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws IOException in case of a file reading or parsing error
   static PDDocument load5(
-      jni.JniObject file,
-      jni.JniString password,
-      jni.JniObject keyStore,
-      jni.JniString alias,
-      jni.JniObject memUsageSetting) {
-    final result__ = PDDocument.fromRef(_load5(
-        file.reference,
-        password.reference,
-        keyStore.reference,
-        alias.reference,
-        memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject file,
+          jni.JniString password,
+          jni.JniObject keyStore,
+          jni.JniString alias,
+          jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(_load5(file.reference, password.reference,
+              keyStore.reference, alias.reference, memUsageSetting.reference)
+          .object);
 
   static final _load6 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load6")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load6")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -1296,26 +1170,20 @@ class PDDocument extends jni.JniObject {
   /// from: private static org.apache.pdfbox.pdmodel.PDDocument load(org.apache.pdfbox.io.RandomAccessBufferedFileInputStream raFile, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
   /// The returned object must be deleted after use, by calling the `delete` method.
   static PDDocument load6(
-      jni.JniObject raFile,
-      jni.JniString password,
-      jni.JniObject keyStore,
-      jni.JniString alias,
-      jni.JniObject memUsageSetting) {
-    final result__ = PDDocument.fromRef(_load6(
-        raFile.reference,
-        password.reference,
-        keyStore.reference,
-        alias.reference,
-        memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject raFile,
+          jni.JniString password,
+          jni.JniObject keyStore,
+          jni.JniString alias,
+          jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(_load6(raFile.reference, password.reference,
+              keyStore.reference, alias.reference, memUsageSetting.reference)
+          .object);
 
   static final _load7 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load7")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load7")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1326,19 +1194,15 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load7(jni.JniObject input) {
-    final result__ = PDDocument.fromRef(_load7(input.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load7(jni.JniObject input) =>
+      PDDocument.fromRef(_load7(input.reference).object);
 
   static final _load8 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load8")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load8")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
@@ -1351,20 +1215,16 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load8(jni.JniObject input, jni.JniObject memUsageSetting) {
-    final result__ =
-        PDDocument.fromRef(_load8(input.reference, memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load8(jni.JniObject input, jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(
+          _load8(input.reference, memUsageSetting.reference).object);
 
   static final _load9 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load9")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load9")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password)
@@ -1377,27 +1237,19 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load9(jni.JniObject input, jni.JniString password) {
-    final result__ =
-        PDDocument.fromRef(_load9(input.reference, password.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load9(jni.JniObject input, jni.JniString password) =>
+      PDDocument.fromRef(_load9(input.reference, password.reference).object);
 
   static final _load10 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load10")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load10")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1411,21 +1263,20 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load10(jni.JniObject input, jni.JniString password,
-      jni.JniObject keyStore, jni.JniString alias) {
-    final result__ = PDDocument.fromRef(_load10(input.reference,
-        password.reference, keyStore.reference, alias.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject keyStore, jni.JniString alias) =>
+      PDDocument.fromRef(_load10(input.reference, password.reference,
+              keyStore.reference, alias.reference)
+          .object);
 
   static final _load11 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load11")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load11")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1439,24 +1290,21 @@ class PDDocument extends jni.JniObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load11(jni.JniObject input, jni.JniString password,
-      jni.JniObject memUsageSetting) {
-    final result__ = PDDocument.fromRef(_load11(
-        input.reference, password.reference, memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(_load11(
+              input.reference, password.reference, memUsageSetting.reference)
+          .object);
 
   static final _load12 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load12")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load12")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -1477,26 +1325,20 @@ class PDDocument extends jni.JniObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load12(
-      jni.JniObject input,
-      jni.JniString password,
-      jni.JniObject keyStore,
-      jni.JniString alias,
-      jni.JniObject memUsageSetting) {
-    final result__ = PDDocument.fromRef(_load12(
-        input.reference,
-        password.reference,
-        keyStore.reference,
-        alias.reference,
-        memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject input,
+          jni.JniString password,
+          jni.JniObject keyStore,
+          jni.JniString alias,
+          jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(_load12(input.reference, password.reference,
+              keyStore.reference, alias.reference, memUsageSetting.reference)
+          .object);
 
   static final _load13 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load13")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load13")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1506,19 +1348,15 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load13(jni.JniObject input) {
-    final result__ = PDDocument.fromRef(_load13(input.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load13(jni.JniObject input) =>
+      PDDocument.fromRef(_load13(input.reference).object);
 
   static final _load14 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load14")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load14")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password)
@@ -1530,27 +1368,19 @@ class PDDocument extends jni.JniObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load14(jni.JniObject input, jni.JniString password) {
-    final result__ =
-        PDDocument.fromRef(_load14(input.reference, password.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static PDDocument load14(jni.JniObject input, jni.JniString password) =>
+      PDDocument.fromRef(_load14(input.reference, password.reference).object);
 
   static final _load15 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load15")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load15")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1564,24 +1394,21 @@ class PDDocument extends jni.JniObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load15(jni.JniObject input, jni.JniString password,
-      jni.JniObject keyStore, jni.JniString alias) {
-    final result__ = PDDocument.fromRef(_load15(input.reference,
-        password.reference, keyStore.reference, alias.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject keyStore, jni.JniString alias) =>
+      PDDocument.fromRef(_load15(input.reference, password.reference,
+              keyStore.reference, alias.reference)
+          .object);
 
   static final _load16 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_load16")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__load16")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -1601,28 +1428,22 @@ class PDDocument extends jni.JniObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load16(
-      jni.JniObject input,
-      jni.JniString password,
-      jni.JniObject keyStore,
-      jni.JniString alias,
-      jni.JniObject memUsageSetting) {
-    final result__ = PDDocument.fromRef(_load16(
-        input.reference,
-        password.reference,
-        keyStore.reference,
-        alias.reference,
-        memUsageSetting.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject input,
+          jni.JniString password,
+          jni.JniObject keyStore,
+          jni.JniString alias,
+          jni.JniObject memUsageSetting) =>
+      PDDocument.fromRef(_load16(input.reference, password.reference,
+              keyStore.reference, alias.reference, memUsageSetting.reference)
+          .object);
 
   static final _save = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_save")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__save")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void save(java.lang.String fileName)
   ///
@@ -1633,19 +1454,16 @@ class PDDocument extends jni.JniObject {
   /// do not use the document after saving because the contents are now encrypted.
   ///@param fileName The file to save as.
   ///@throws IOException if the output could not be written
-  void save(jni.JniString fileName) {
-    final result__ = _save(reference, fileName.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void save(jni.JniString fileName) =>
+      _save(reference, fileName.reference).check();
 
   static final _save1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_save1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__save1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void save(java.io.File file)
   ///
@@ -1656,19 +1474,15 @@ class PDDocument extends jni.JniObject {
   /// do not use the document after saving because the contents are now encrypted.
   ///@param file The file to save as.
   ///@throws IOException if the output could not be written
-  void save1(jni.JniObject file) {
-    final result__ = _save1(reference, file.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void save1(jni.JniObject file) => _save1(reference, file.reference).check();
 
   static final _save2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_save2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__save2")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void save(java.io.OutputStream output)
   ///
@@ -1680,19 +1494,16 @@ class PDDocument extends jni.JniObject {
   ///@param output The stream to write to. It will be closed when done. It is recommended to wrap
   /// it in a java.io.BufferedOutputStream, unless it is already buffered.
   ///@throws IOException if the output could not be written
-  void save2(jni.JniObject output) {
-    final result__ = _save2(reference, output.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void save2(jni.JniObject output) =>
+      _save2(reference, output.reference).check();
 
   static final _saveIncremental = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_saveIncremental")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__saveIncremental")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void saveIncremental(java.io.OutputStream output)
   ///
@@ -1709,19 +1520,17 @@ class PDDocument extends jni.JniObject {
   /// harmed!
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
-  void saveIncremental(jni.JniObject output) {
-    final result__ = _saveIncremental(reference, output.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void saveIncremental(jni.JniObject output) =>
+      _saveIncremental(reference, output.reference).check();
 
   static final _saveIncremental1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_saveIncremental1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__saveIncremental1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void saveIncremental(java.io.OutputStream output, java.util.Set<org.apache.pdfbox.cos.COSDictionary> objectsToWrite)
@@ -1744,20 +1553,17 @@ class PDDocument extends jni.JniObject {
   ///@param objectsToWrite objects that __must__ be part of the incremental saving.
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
-  void saveIncremental1(jni.JniObject output, jni.JniObject objectsToWrite) {
-    final result__ = _saveIncremental1(
-        reference, output.reference, objectsToWrite.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void saveIncremental1(jni.JniObject output, jni.JniObject objectsToWrite) =>
+      _saveIncremental1(reference, output.reference, objectsToWrite.reference)
+          .check();
 
   static final _saveIncrementalForExternalSigning = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_saveIncrementalForExternalSigning")
+          "PDDocument__saveIncrementalForExternalSigning")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.interactive.digitalsignature.ExternalSigningSupport saveIncrementalForExternalSigning(java.io.OutputStream output)
@@ -1800,18 +1606,16 @@ class PDDocument extends jni.JniObject {
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream or
   /// signature options were not set.
-  jni.JniObject saveIncrementalForExternalSigning(jni.JniObject output) {
-    final result__ = jni.JniObject.fromRef(
-        _saveIncrementalForExternalSigning(reference, output.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject saveIncrementalForExternalSigning(jni.JniObject output) =>
+      jni.JniObject.fromRef(
+          _saveIncrementalForExternalSigning(reference, output.reference)
+              .object);
 
   static final _getPage = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("org_apache_pdfbox_pdmodel_PDDocument_getPage")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("PDDocument__getPage")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDPage getPage(int pageIndex)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1823,66 +1627,54 @@ class PDDocument extends jni.JniObject {
   /// PDDocument\#getPages() instead.
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
-  jni.JniObject getPage(int pageIndex) {
-    final result__ = jni.JniObject.fromRef(_getPage(reference, pageIndex));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getPage(int pageIndex) =>
+      jni.JniObject.fromRef(_getPage(reference, pageIndex).object);
 
   static final _getPages = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getPages")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getPages")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDPageTree getPages()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the page tree.
   ///@return the page tree
-  jni.JniObject getPages() {
-    final result__ = jni.JniObject.fromRef(_getPages(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getPages() =>
+      jni.JniObject.fromRef(_getPages(reference).object);
 
-  static final _getNumberOfPages =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "org_apache_pdfbox_pdmodel_PDDocument_getNumberOfPages")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getNumberOfPages = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getNumberOfPages")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getNumberOfPages()
   ///
   /// This will return the total page count of the PDF document.
   ///@return The total number of pages in the PDF document.
-  int getNumberOfPages() {
-    final result__ = _getNumberOfPages(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getNumberOfPages() => _getNumberOfPages(reference).integer;
 
-  static final _close =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "org_apache_pdfbox_pdmodel_PDDocument_close")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _close = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__close")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void close()
   ///
   /// This will close the underlying COSDocument object.
   ///@throws IOException If there is an error releasing resources.
-  void close() {
-    final result__ = _close(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void close() => _close(reference).check();
 
   static final _protect = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_protect")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__protect")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy policy)
   ///
@@ -1896,17 +1688,14 @@ class PDDocument extends jni.JniObject {
   ///@see org.apache.pdfbox.pdmodel.encryption.PublicKeyProtectionPolicy
   ///@param policy The protection policy.
   ///@throws IOException if there isn't any suitable security handler.
-  void protect(jni.JniObject policy) {
-    final result__ = _protect(reference, policy.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void protect(jni.JniObject policy) =>
+      _protect(reference, policy.reference).check();
 
   static final _getCurrentAccessPermission = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getCurrentAccessPermission")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocument__getCurrentAccessPermission")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.encryption.AccessPermission getCurrentAccessPermission()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1916,145 +1705,117 @@ class PDDocument extends jni.JniObject {
   /// only mode so that permissions cannot be changed. Methods providing access to content should rely on this object
   /// to verify if the current user is allowed to proceed.
   ///@return the access permissions for the current user on the document.
-  jni.JniObject getCurrentAccessPermission() {
-    final result__ =
-        jni.JniObject.fromRef(_getCurrentAccessPermission(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCurrentAccessPermission() =>
+      jni.JniObject.fromRef(_getCurrentAccessPermission(reference).object);
 
-  static final _isAllSecurityToBeRemoved =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "org_apache_pdfbox_pdmodel_PDDocument_isAllSecurityToBeRemoved")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isAllSecurityToBeRemoved = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocument__isAllSecurityToBeRemoved")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isAllSecurityToBeRemoved()
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
-  bool isAllSecurityToBeRemoved() {
-    final result__ = _isAllSecurityToBeRemoved(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isAllSecurityToBeRemoved() =>
+      _isAllSecurityToBeRemoved(reference).boolean;
 
   static final _setAllSecurityToBeRemoved = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_setAllSecurityToBeRemoved")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("PDDocument__setAllSecurityToBeRemoved")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setAllSecurityToBeRemoved(boolean removeAllSecurity)
   ///
   /// Activates/Deactivates the removal of all security when writing the pdf.
   ///@param removeAllSecurity remove all security if set to true
-  void setAllSecurityToBeRemoved(bool removeAllSecurity) {
-    final result__ =
-        _setAllSecurityToBeRemoved(reference, removeAllSecurity ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setAllSecurityToBeRemoved(bool removeAllSecurity) =>
+      _setAllSecurityToBeRemoved(reference, removeAllSecurity ? 1 : 0).check();
 
   static final _getDocumentId = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getDocumentId")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getDocumentId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Long getDocumentId()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Provides the document ID.
   ///@return the document ID
-  jni.JniObject getDocumentId() {
-    final result__ = jni.JniObject.fromRef(_getDocumentId(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDocumentId() =>
+      jni.JniObject.fromRef(_getDocumentId(reference).object);
 
   static final _setDocumentId = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_setDocumentId")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__setDocumentId")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setDocumentId(java.lang.Long docId)
   ///
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
-  void setDocumentId(jni.JniObject docId) {
-    final result__ = _setDocumentId(reference, docId.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setDocumentId(jni.JniObject docId) =>
+      _setDocumentId(reference, docId.reference).check();
 
-  static final _getVersion =
-      jniLookup<ffi.NativeFunction<ffi.Float Function(ffi.Pointer<ffi.Void>)>>(
-              "org_apache_pdfbox_pdmodel_PDDocument_getVersion")
-          .asFunction<double Function(ffi.Pointer<ffi.Void>)>();
+  static final _getVersion = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getVersion")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public float getVersion()
   ///
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
-  double getVersion() {
-    final result__ = _getVersion(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getVersion() => _getVersion(reference).float;
 
   static final _setVersion = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Float)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_setVersion")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, double)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Float)>>("PDDocument__setVersion")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, double)>();
 
   /// from: public void setVersion(float newVersion)
   ///
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
-  void setVersion(double newVersion) {
-    final result__ = _setVersion(reference, newVersion);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setVersion(double newVersion) =>
+      _setVersion(reference, newVersion).check();
 
   static final _getResourceCache = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_getResourceCache")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__getResourceCache")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.ResourceCache getResourceCache()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the resource cache associated with this document, or null if there is none.
   ///@return the resource cache or null.
-  jni.JniObject getResourceCache() {
-    final result__ = jni.JniObject.fromRef(_getResourceCache(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getResourceCache() =>
+      jni.JniObject.fromRef(_getResourceCache(reference).object);
 
   static final _setResourceCache = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocument_setResourceCache")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__setResourceCache")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setResourceCache(org.apache.pdfbox.pdmodel.ResourceCache resourceCache)
   ///
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.
-  void setResourceCache(jni.JniObject resourceCache) {
-    final result__ = _setResourceCache(reference, resourceCache.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setResourceCache(jni.JniObject resourceCache) =>
+      _setResourceCache(reference, resourceCache.reference).check();
 }
 
 /// from: org.apache.pdfbox.pdmodel.PDDocumentInformation
@@ -2069,69 +1830,61 @@ class PDDocumentInformation extends jni.JniObject {
 
   static final _get_info = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_org_apache_pdfbox_pdmodel_PDDocumentInformation_info")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_PDDocumentInformation__info")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: private final org.apache.pdfbox.cos.COSDictionary info
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject get info => jni.JniObject.fromRef(_get_info(reference));
+  jni.JniObject get info => jni.JniObject.fromRef(_get_info(reference).object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "org_apache_pdfbox_pdmodel_PDDocumentInformation_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "PDDocumentInformation__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   ///
   /// Default Constructor.
-  PDDocumentInformation() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  PDDocumentInformation() : super.fromRef(_ctor().object);
 
   static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDictionary dic)
   ///
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
   PDDocumentInformation.ctor1(jni.JniObject dic)
-      : super.fromRef(_ctor1(dic.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor1(dic.reference).object);
 
   static final _getCOSObject = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getCOSObject")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getCOSObject")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.cos.COSDictionary getCOSObject()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
-  jni.JniObject getCOSObject() {
-    final result__ = jni.JniObject.fromRef(_getCOSObject(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCOSObject() =>
+      jni.JniObject.fromRef(_getCOSObject(reference).object);
 
   static final _getPropertyStringValue = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getPropertyStringValue")
+          "PDDocumentInformation__getPropertyStringValue")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getPropertyStringValue(java.lang.String propertyKey)
@@ -2145,298 +1898,249 @@ class PDDocumentInformation extends jni.JniObject {
   ///
   ///@param propertyKey the dictionaries key
   ///@return the properties value
-  jni.JniObject getPropertyStringValue(jni.JniString propertyKey) {
-    final result__ = jni.JniObject.fromRef(
-        _getPropertyStringValue(reference, propertyKey.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getPropertyStringValue(jni.JniString propertyKey) =>
+      jni.JniObject.fromRef(
+          _getPropertyStringValue(reference, propertyKey.reference).object);
 
   static final _getTitle = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getTitle")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getTitle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getTitle()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
-  jni.JniString getTitle() {
-    final result__ = jni.JniString.fromRef(_getTitle(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getTitle() =>
+      jni.JniString.fromRef(_getTitle(reference).object);
 
   static final _setTitle = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setTitle")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setTitle")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTitle(java.lang.String title)
   ///
   /// This will set the title of the document.
   ///@param title The new title for the document.
-  void setTitle(jni.JniString title) {
-    final result__ = _setTitle(reference, title.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setTitle(jni.JniString title) =>
+      _setTitle(reference, title.reference).check();
 
   static final _getAuthor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getAuthor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getAuthor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getAuthor()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the author of the document.  This will return null if no author exists.
   ///@return The author of the document.
-  jni.JniString getAuthor() {
-    final result__ = jni.JniString.fromRef(_getAuthor(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getAuthor() =>
+      jni.JniString.fromRef(_getAuthor(reference).object);
 
   static final _setAuthor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setAuthor")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setAuthor")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setAuthor(java.lang.String author)
   ///
   /// This will set the author of the document.
   ///@param author The new author for the document.
-  void setAuthor(jni.JniString author) {
-    final result__ = _setAuthor(reference, author.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setAuthor(jni.JniString author) =>
+      _setAuthor(reference, author.reference).check();
 
   static final _getSubject = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getSubject")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getSubject")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getSubject()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the subject of the document.  This will return null if no subject exists.
   ///@return The subject of the document.
-  jni.JniString getSubject() {
-    final result__ = jni.JniString.fromRef(_getSubject(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getSubject() =>
+      jni.JniString.fromRef(_getSubject(reference).object);
 
   static final _setSubject = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setSubject")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setSubject")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSubject(java.lang.String subject)
   ///
   /// This will set the subject of the document.
   ///@param subject The new subject for the document.
-  void setSubject(jni.JniString subject) {
-    final result__ = _setSubject(reference, subject.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setSubject(jni.JniString subject) =>
+      _setSubject(reference, subject.reference).check();
 
   static final _getKeywords = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getKeywords")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getKeywords")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getKeywords()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the keywords of the document.  This will return null if no keywords exists.
   ///@return The keywords of the document.
-  jni.JniString getKeywords() {
-    final result__ = jni.JniString.fromRef(_getKeywords(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getKeywords() =>
+      jni.JniString.fromRef(_getKeywords(reference).object);
 
   static final _setKeywords = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setKeywords")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setKeywords")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setKeywords(java.lang.String keywords)
   ///
   /// This will set the keywords of the document.
   ///@param keywords The new keywords for the document.
-  void setKeywords(jni.JniString keywords) {
-    final result__ = _setKeywords(reference, keywords.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setKeywords(jni.JniString keywords) =>
+      _setKeywords(reference, keywords.reference).check();
 
   static final _getCreator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getCreator")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getCreator")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCreator()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the creator of the document.  This will return null if no creator exists.
   ///@return The creator of the document.
-  jni.JniString getCreator() {
-    final result__ = jni.JniString.fromRef(_getCreator(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getCreator() =>
+      jni.JniString.fromRef(_getCreator(reference).object);
 
   static final _setCreator = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setCreator")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setCreator")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCreator(java.lang.String creator)
   ///
   /// This will set the creator of the document.
   ///@param creator The new creator for the document.
-  void setCreator(jni.JniString creator) {
-    final result__ = _setCreator(reference, creator.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setCreator(jni.JniString creator) =>
+      _setCreator(reference, creator.reference).check();
 
   static final _getProducer = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getProducer")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getProducer")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getProducer()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the producer of the document.  This will return null if no producer exists.
   ///@return The producer of the document.
-  jni.JniString getProducer() {
-    final result__ = jni.JniString.fromRef(_getProducer(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getProducer() =>
+      jni.JniString.fromRef(_getProducer(reference).object);
 
   static final _setProducer = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setProducer")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setProducer")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setProducer(java.lang.String producer)
   ///
   /// This will set the producer of the document.
   ///@param producer The new producer for the document.
-  void setProducer(jni.JniString producer) {
-    final result__ = _setProducer(reference, producer.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setProducer(jni.JniString producer) =>
+      _setProducer(reference, producer.reference).check();
 
   static final _getCreationDate = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getCreationDate")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getCreationDate")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Calendar getCreationDate()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
-  jni.JniObject getCreationDate() {
-    final result__ = jni.JniObject.fromRef(_getCreationDate(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCreationDate() =>
+      jni.JniObject.fromRef(_getCreationDate(reference).object);
 
   static final _setCreationDate = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setCreationDate")
+          "PDDocumentInformation__setCreationDate")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCreationDate(java.util.Calendar date)
   ///
   /// This will set the creation date of the document.
   ///@param date The new creation date for the document.
-  void setCreationDate(jni.JniObject date) {
-    final result__ = _setCreationDate(reference, date.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setCreationDate(jni.JniObject date) =>
+      _setCreationDate(reference, date.reference).check();
 
   static final _getModificationDate = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getModificationDate")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getModificationDate")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Calendar getModificationDate()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// This will get the modification date of the document.  This will return null if no modification date exists.
   ///@return The modification date of the document.
-  jni.JniObject getModificationDate() {
-    final result__ = jni.JniObject.fromRef(_getModificationDate(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getModificationDate() =>
+      jni.JniObject.fromRef(_getModificationDate(reference).object);
 
   static final _setModificationDate = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setModificationDate")
+          "PDDocumentInformation__setModificationDate")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setModificationDate(java.util.Calendar date)
   ///
   /// This will set the modification date of the document.
   ///@param date The new modification date for the document.
-  void setModificationDate(jni.JniObject date) {
-    final result__ = _setModificationDate(reference, date.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setModificationDate(jni.JniObject date) =>
+      _setModificationDate(reference, date.reference).check();
 
   static final _getTrapped = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getTrapped")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getTrapped")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getTrapped()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2444,17 +2148,14 @@ class PDDocumentInformation extends jni.JniObject {
   /// This will get the trapped value for the document.
   /// This will return null if one is not found.
   ///@return The trapped value for the document.
-  jni.JniString getTrapped() {
-    final result__ = jni.JniString.fromRef(_getTrapped(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getTrapped() =>
+      jni.JniString.fromRef(_getTrapped(reference).object);
 
   static final _getMetadataKeys = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getMetadataKeys")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getMetadataKeys")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set<java.lang.String> getMetadataKeys()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2462,19 +2163,16 @@ class PDDocumentInformation extends jni.JniObject {
   /// This will get the keys of all metadata information fields for the document.
   ///@return all metadata key strings.
   ///@since Apache PDFBox 1.3.0
-  jni.JniObject getMetadataKeys() {
-    final result__ = jni.JniObject.fromRef(_getMetadataKeys(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getMetadataKeys() =>
+      jni.JniObject.fromRef(_getMetadataKeys(reference).object);
 
   static final _getCustomMetadataValue = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_getCustomMetadataValue")
+          "PDDocumentInformation__getCustomMetadataValue")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCustomMetadataValue(java.lang.String fieldName)
@@ -2484,20 +2182,17 @@ class PDDocumentInformation extends jni.JniObject {
   ///  This will return null if one is not found.
   ///@param fieldName Name of custom metadata field from pdf document.
   ///@return String Value of metadata field
-  jni.JniString getCustomMetadataValue(jni.JniString fieldName) {
-    final result__ = jni.JniString.fromRef(
-        _getCustomMetadataValue(reference, fieldName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getCustomMetadataValue(jni.JniString fieldName) =>
+      jni.JniString.fromRef(
+          _getCustomMetadataValue(reference, fieldName.reference).object);
 
   static final _setCustomMetadataValue = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setCustomMetadataValue")
+          "PDDocumentInformation__setCustomMetadataValue")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCustomMetadataValue(java.lang.String fieldName, java.lang.String fieldValue)
@@ -2506,20 +2201,18 @@ class PDDocumentInformation extends jni.JniObject {
   ///@param fieldName The name of the custom metadata field.
   ///@param fieldValue The value to the custom metadata field.
   void setCustomMetadataValue(
-      jni.JniString fieldName, jni.JniString fieldValue) {
-    final result__ = _setCustomMetadataValue(
-        reference, fieldName.reference, fieldValue.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString fieldName, jni.JniString fieldValue) =>
+      _setCustomMetadataValue(
+              reference, fieldName.reference, fieldValue.reference)
+          .check();
 
   static final _setTrapped = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "org_apache_pdfbox_pdmodel_PDDocumentInformation_setTrapped")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setTrapped")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTrapped(java.lang.String value)
   ///
@@ -2527,9 +2220,6 @@ class PDDocumentInformation extends jni.JniObject {
   /// 'True', 'False', or 'Unknown'.
   ///@param value The new trapped value for the document.
   ///@throws IllegalArgumentException if the parameter is invalid.
-  void setTrapped(jni.JniString value) {
-    final result__ = _setTrapped(reference, value.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setTrapped(jni.JniString value) =>
+      _setTrapped(reference, value.reference).check();
 }

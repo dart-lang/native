@@ -89,6 +89,13 @@ typedef struct JniPointerResult {
   jthrowable exception;
 } JniPointerResult;
 
+/// JniExceptionDetails holds 2 jstring objects, one is the result of
+/// calling `toString` on exception object, other is stack trace;
+typedef struct JniExceptionDetails {
+  jstring message;
+  jstring stacktrace;
+} JniExceptionDetails;
+
 /// This struct contains functions which wrap method call / field access conveniently along with
 /// exception checking.
 ///
@@ -118,6 +125,7 @@ typedef struct JniAccessors {
                                 jvalue* args);
   JniResult (*getField)(jobject obj, jfieldID fieldID, int callType);
   JniResult (*getStaticField)(jclass cls, jfieldID fieldID, int callType);
+  JniExceptionDetails (*getExceptionDetails)(jthrowable exception);
 } JniAccessors;
 
 FFI_PLUGIN_EXPORT JniAccessors* GetAccessors();
@@ -239,4 +247,11 @@ static inline void load_env() {
     jni = context_getter();
     jniEnv = env_getter();
   }
+}
+
+static inline jthrowable check_exception() {
+  jthrowable exception = (*jniEnv)->ExceptionOccurred(jniEnv);
+  if (exception != NULL) (*jniEnv)->ExceptionClear(jniEnv);
+  if (exception == NULL) return NULL;
+  return to_global_ref(exception);
 }

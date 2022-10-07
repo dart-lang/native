@@ -12,6 +12,7 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../../../../_init.dart" show jniLookup;
@@ -21,27 +22,45 @@ class C2 extends jni.JniObject {
   C2.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CONSTANT =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function()>>(
-              "get_com_github_dart_lang_jnigen_pkg2_C2_CONSTANT")
-          .asFunction<int Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_C2__CONSTANT")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public int CONSTANT
-  static int get CONSTANT => _get_CONSTANT();
+  static int get CONSTANT => _get_CONSTANT().integer;
   static final _set_CONSTANT =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Int32)>>(
-              "set_com_github_dart_lang_jnigen_pkg2_C2_CONSTANT")
-          .asFunction<void Function(int)>();
+      jniLookup<ffi.NativeFunction<jni.JThrowable Function(ffi.Int32)>>(
+              "set_C2__CONSTANT")
+          .asFunction<jni.JThrowable Function(int)>();
 
   /// from: static public int CONSTANT
   static set CONSTANT(int value) => _set_CONSTANT(value);
 
   static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "com_github_dart_lang_jnigen_pkg2_C2_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("C2__ctor")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  C2() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  C2() : super.fromRef(_ctor().object);
+}
+
+/// from: com.github.dart_lang.jnigen.pkg2.Example
+class Example extends jni.JniObject {
+  Example.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example1__ctor")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  Example() : super.fromRef(_ctor().object);
+
+  static final _whichExample = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Example1__whichExample")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int whichExample()
+  int whichExample() => _whichExample(reference).integer;
 }

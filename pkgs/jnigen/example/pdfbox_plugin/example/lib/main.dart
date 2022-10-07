@@ -9,11 +9,7 @@ import 'dart:async';
 import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
-// Import the generated bindings.
-// Note: the structure generated bindings corresponds to Java package's
-// structure. Therefore, `org.apache.pdfbox.pdmodel` package becomes
-// `org/apache/pdfbox/pdmodel.dart`
-import 'package:pdfbox_plugin/third_party/org/apache/pdfbox/pdmodel.dart';
+import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 
 Stream<String> files(String dir) => Directory(dir).list().map((e) => e.path);
 

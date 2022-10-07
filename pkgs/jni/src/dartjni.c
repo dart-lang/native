@@ -8,10 +8,36 @@
 
 #include "dartjni.h"
 
+/// Stores class and method references for obtaining exception details
+typedef struct JniExceptionMethods {
+  jclass objectClass, exceptionClass, printStreamClass;
+  jclass byteArrayOutputStreamClass;
+  jmethodID toStringMethod, printStackTraceMethod;
+  jmethodID byteArrayOutputStreamCtor, printStreamCtor;
+} JniExceptionMethods;
+
 // Context and shared global state. Initialized once or if thread-local, initialized once in a thread.
 JniContext jni = {NULL, NULL, NULL, NULL, NULL};
 
 thread_local JNIEnv* jniEnv = NULL;
+
+JniExceptionMethods exceptionMethods;
+
+void initializeExceptionMethods(JniExceptionMethods* methods) {
+  methods->objectClass = LoadClass("java/lang/Object");
+  methods->exceptionClass = LoadClass("java/lang/Exception");
+  methods->printStreamClass = LoadClass("java/io/PrintStream");
+  methods->byteArrayOutputStreamClass =
+      LoadClass("java/io/ByteArrayOutputStream");
+  load_method(methods->objectClass, &methods->toStringMethod, "toString",
+              "()Ljava/lang/String;");
+  load_method(methods->exceptionClass, &methods->printStackTraceMethod,
+              "printStackTrace", "(Ljava/io/PrintStream;)V");
+  load_method(methods->byteArrayOutputStreamClass,
+              &methods->byteArrayOutputStreamCtor, "<init>", "()V");
+  load_method(methods->printStreamClass, &methods->printStreamCtor, "<init>",
+              "(Ljava/io/OutputStream;)V");
+}
 
 /// Get JVM associated with current process.
 /// Returns NULL if no JVM is running.
@@ -76,6 +102,7 @@ Java_com_github_dart_1lang_jni_JniPlugin_initializeJni(JNIEnv* env,
   jni.loadClassMethod =
       (*env)->GetMethodID(env, classLoaderClass, "loadClass",
                           "(Ljava/lang/String;)Ljava/lang/Class;");
+  initializeExceptionMethods(&exceptionMethods);
 }
 
 JNIEXPORT void JNICALL
@@ -114,6 +141,7 @@ JNIEnv* SpawnJvm(JavaVMInitArgs* initArgs) {
   if (flag == JNI_ERR) {
     return NULL;
   }
+  initializeExceptionMethods(&exceptionMethods);
   return jniEnv;
 }
 #endif
@@ -121,17 +149,10 @@ JNIEnv* SpawnJvm(JavaVMInitArgs* initArgs) {
 // accessors - a bunch of functions which are directly called by jnigen generated bindings
 // and also package:jni reflective method access.
 
-jthrowable exceptionCheck() {
-  jthrowable exception = (*jniEnv)->ExceptionOccurred(jniEnv);
-  if (exception != NULL) (*jniEnv)->ExceptionClear(jniEnv);
-  if (exception == NULL) return NULL;
-  return to_global_ref(exception);
-}
-
 JniClassLookupResult getClass(char* internalName) {
   JniClassLookupResult result = {NULL, NULL};
   result.classRef = LoadClass(internalName);
-  result.exception = exceptionCheck();
+  result.exception = check_exception();
   return result;
 }
 
@@ -143,7 +164,7 @@ static inline JniPointerResult _getId(
   JniPointerResult result = {NULL, NULL};
   attach_thread();
   result.id = getter(jniEnv, cls, name, sig);
-  result.exception = exceptionCheck();
+  result.exception = check_exception();
   return result;
 }
 
@@ -203,7 +224,7 @@ JniResult callMethod(jobject obj,
       break;
   }
   JniResult jniResult = {.result = result, .exception = NULL};
-  jniResult.exception = exceptionCheck();
+  jniResult.exception = check_exception();
   return jniResult;
 }
 
@@ -250,7 +271,7 @@ JniResult callStaticMethod(jclass cls,
       break;
   }
   JniResult jniResult = {.result = result, .exception = NULL};
-  jniResult.exception = exceptionCheck();
+  jniResult.exception = check_exception();
   return jniResult;
 }
 
@@ -290,7 +311,7 @@ JniResult getField(jobject obj, jfieldID fieldID, int callType) {
       break;
   }
   JniResult jniResult = {.result = result, .exception = NULL};
-  jniResult.exception = exceptionCheck();
+  jniResult.exception = check_exception();
   return jniResult;
 }
 
@@ -334,7 +355,7 @@ JniResult getStaticField(jclass cls, jfieldID fieldID, int callType) {
       break;
   }
   JniResult jniResult = {.result = result, .exception = NULL};
-  jniResult.exception = exceptionCheck();
+  jniResult.exception = check_exception();
   return jniResult;
 }
 
@@ -343,8 +364,27 @@ JniResult newObject(jclass cls, jmethodID ctor, jvalue* args) {
   JniResult jniResult;
   jniResult.result.l =
       to_global_ref((*jniEnv)->NewObjectA(jniEnv, cls, ctor, args));
-  jniResult.exception = exceptionCheck();
+  jniResult.exception = check_exception();
   return jniResult;
+}
+
+JniExceptionDetails getExceptionDetails(jthrowable exception) {
+  JniExceptionDetails details;
+  details.message = (*jniEnv)->CallObjectMethod(
+      jniEnv, exception, exceptionMethods.toStringMethod);
+  jobject buffer =
+      (*jniEnv)->NewObject(jniEnv, exceptionMethods.byteArrayOutputStreamClass,
+                           exceptionMethods.byteArrayOutputStreamCtor);
+  jobject printStream =
+      (*jniEnv)->NewObject(jniEnv, exceptionMethods.printStreamClass,
+                           exceptionMethods.printStreamCtor, buffer);
+  (*jniEnv)->CallVoidMethod(
+      jniEnv, exception, exceptionMethods.printStackTraceMethod, printStream);
+  details.stacktrace = (*jniEnv)->CallObjectMethod(
+      jniEnv, buffer, exceptionMethods.toStringMethod);
+  details.message = to_global_ref(details.message);
+  details.stacktrace = to_global_ref(details.stacktrace);
+  return details;
 }
 
 JniAccessors accessors = {
@@ -358,6 +398,7 @@ JniAccessors accessors = {
     .callStaticMethod = callStaticMethod,
     .getField = getField,
     .getStaticField = getStaticField,
+    .getExceptionDetails = getExceptionDetails,
 };
 
 FFI_PLUGIN_EXPORT JniAccessors* GetAccessors() {

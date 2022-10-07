@@ -16,34 +16,41 @@ class ResolverTest {
 void main() {
   final resolver = PackagePathResolver(
       {
-        'org.apache.pdfbox': 'package:pdfbox',
-        'org.apache.fontbox': 'package:fontbox',
-        'java.lang': 'package:java_lang',
-        'java.util': 'package:java_util',
-        'org.me.package': 'package:my_package/src/',
+        'org.apache.pdfbox': 'package:pdfbox/pdfbox.dart',
+        'android.os.Process': 'package:android/os.dart',
       },
       'a.b',
-      {'a.b.C', 'a.b.c.D', 'a.b.c.d.E', 'a.X', 'a.g.Y'});
+      {
+        'a.b.C',
+        'a.b.c.D',
+        'a.b.c.d.E',
+        'a.X',
+        'e.f.G',
+        'e.F',
+        'a.g.Y',
+        'a.m.n.P'
+      });
 
   final tests = [
-    // Simple example
-    ResolverTest('org.apache.pdfbox.PDF',
-        'package:pdfbox/org/apache/pdfbox.dart', 'pdfbox_.PDF'),
-    // Nested classes
-    ResolverTest('org.apache.fontbox.Font\$FontFile',
-        'package:fontbox/org/apache/fontbox.dart', 'fontbox_.Font_FontFile'),
-    // slightly deeper package
-    ResolverTest('java.lang.ref.WeakReference',
-        'package:java_lang/java/lang/ref.dart', 'ref_.WeakReference'),
-    // Renaming
-    ResolverTest('java.util.U', 'package:java_util/java/util.dart', 'util_.U'),
-    ResolverTest('org.me.package.util.U',
-        'package:my_package/src/org/me/package/util.dart', 'util1_.U'),
+    // Absolute imports resolved using import map
+    ResolverTest(
+        'android.os.Process', 'package:android/os.dart', 'os_.Process'),
+    ResolverTest('org.apache.pdfbox.pdmodel.PDDocument',
+        'package:pdfbox/pdfbox.dart', 'pdmodel_.PDDocument'),
     // Relative imports
+    // inner package
     ResolverTest('a.b.c.D', 'b/c.dart', 'c_.D'),
+    // inner package, deeper
     ResolverTest('a.b.c.d.E', 'b/c/d.dart', 'd_.E'),
+    // parent package
     ResolverTest('a.X', '../a.dart', 'a_.X'),
-    ResolverTest('a.g.Y', '../a/g.dart', 'g_.Y'),
+    // unrelated package in same translation unit
+    ResolverTest('e.f.G', '../e/f.dart', 'f_.G'),
+    ResolverTest('e.F', '../e.dart', 'e_.F'),
+    // neighbour package
+    ResolverTest('a.g.Y', 'g.dart', 'g_.Y'),
+    // inner package of a neighbour package
+    ResolverTest('a.m.n.P', 'm/n.dart', 'n_.P'),
   ];
 
   for (var testCase in tests) {
