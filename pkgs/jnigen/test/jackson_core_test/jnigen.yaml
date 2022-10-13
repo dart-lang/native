@@ -3,10 +3,14 @@ maven_downloads:
     - 'com.fasterxml.jackson.core:jackson-core:2.13.4'
   source_dir: test/jackson_core_test/third_party/java
   jar_dir: test/jackson_core_test/third_party/jar
-dart_root: test/jackson_core_test/third_party/lib
-c_root: test/jackson_core_test/third_party/src
-library_name: jackson_core_test
-log_level: info
+
+output:
+  dart:
+    path: test/jackson_core_test/third_party/lib
+  c:
+    path: test/jackson_core_test/third_party/src
+    library_name: jackson_core_test
+
 classes:
   - 'com.fasterxml.jackson.core.JsonFactory'
   - 'com.fasterxml.jackson.core.JsonParser'

@@ -331,7 +331,7 @@ jobs:
       - run: flutter build apk
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: re-generate bindings
-        run: flutter pub run jnigen -Ddart_root=_dart -Dc_root=_c --config jnigen.yaml
+        run: flutter pub run jnigen -Doutput.dart.path=_dart -Doutput.c.path=_c --config jnigen.yaml
       - name: compare generated dart bindings
         run: diff -qr lib/ _dart
       - name: compare generated C bindings
@@ -361,7 +361,7 @@ jobs:
       - run: flutter analyze
       - run: flutter build apk
       - name: re-generate bindings
-        run: flutter pub run jnigen -Ddart_root=_dart -Dc_root=_c --config jnigen.yaml
+        run: flutter pub run jnigen -Doutput.dart.path=_dart -Doutput.c.path=_c --config jnigen.yaml
       - name: compare generated dart bindings
         run: diff -qr lib/android_utils _dart
       - name: compare generated C bindings
@@ -390,7 +390,7 @@ jobs:
       - run: dart pub get
       - name: Generate bindings
         run: |
-          dart run jnigen -Dc_root=_c -Ddart_root=_dart --config jnigen.yaml
+          dart run jnigen -Doutput.c.path=_c -Doutput.dart.path=_dart --config jnigen.yaml
       - name: Compare generated bindings
         run: |
           diff -qr _c src/

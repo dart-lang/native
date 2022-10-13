@@ -1,7 +1,3 @@
-## Name of the generated library, this is required and used as the name of
-## shared library which contains C bindings
-library_name: pdfbox_plugin
-
 ## String to be pasted verbatim into generated bindings
 preamble: |
   // Generated from Apache PDFBox library which is licensed under the Apache License 2.0.
@@ -22,18 +18,24 @@ preamble: |
   // See the License for the specific language governing permissions and
   // limitations under the License.
 
-## Root for generated C bindings.
-c_root: 'src/'
-
-## C files can be stored in a different sub-directory inside c_root.
-##
-## We have a guideline to keep all generated code in third_party/ since original
-## project's license applies to generated code. So we specify third_party/ as
-## c_subdir while keeping generated CMakeLists.txt in src/.
-c_subdir: 'third_party/'
-
-## Root for generated Dart bindings.
-dart_root: 'lib/src/third_party/'
+## Output configuration
+output:
+  c:
+    ## Path to write generated C bindings
+    path: 'src/'
+    ## C files can be stored in a different sub-directory inside root.
+    ##
+    ## We have a guideline to keep all generated code in third_party/ since original
+    ## project's license applies to generated code. So we specify third_party/ as
+    ## c_subdir while keeping generated CMakeLists.txt in src/.
+    subdir: 'third_party/'
+    ## Name of the generated library. This is a required parameter, and used for the name of the
+    ## shared library and CMake configuration.
+    library_name: 'pdfbox_plugin'
+  dart:
+    ## Generated dart bindings will be written to this path. They will follow the same folder hierarchy
+    ## as the original Java code.
+    path: 'lib/src/third_party/'
 
 ## Classes / packages for which bindings need to be generated.
 classes:

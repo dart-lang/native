@@ -1,11 +1,14 @@
 android_sdk_config:
   add_gradle_deps: true
 
-library_name: android_utils
+output:
+  c:
+    library_name: android_utils
+    path: src/android_utils
+  dart:
+    path: lib/android_utils
+
 source_path:
   - 'android/app/src/main/java'
 classes:
   - 'com.example.in_app_java.AndroidUtils'
-c_root: src/android_utils
-dart_root: lib/android_utils
-root_package: com.example

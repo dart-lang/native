@@ -173,8 +173,8 @@ void main() async {
       "jnigen",
       "--config",
       "jnigen.yaml",
-      "-Dc_root=src_temp",
-      "-Ddart_root=lib_temp",
+      "-Doutput.c.path=src_temp",
+      "-Doutput.dart.path=lib_temp",
     ])
     ..chainCommand("diff", ["-qr", "lib/android_utils/", "lib_temp/"])
     ..chainCommand("diff", ["-qr", "src/android_utils/", "src_temp/"])
@@ -186,8 +186,8 @@ void main() async {
       "jnigen",
       "--config",
       "jnigen.yaml",
-      "-Dc_root=src_temp",
-      "-Ddart_root=lib_temp",
+      "-Doutput.c.path=src_temp",
+      "-Doutput.dart.path=lib_temp",
     ])
     ..chainCommand("diff", ["-qr", "lib/src/third_party/", "lib_temp/"])
     ..chainCommand("diff", ["-qr", "src/", "src_temp/"])
@@ -200,8 +200,8 @@ void main() async {
       "jnigen",
       "--config",
       "jnigen.yaml",
-      "-Dc_root=src_temp",
-      "-Ddart_root=lib_temp",
+      "-Doutput.c.path=src_temp",
+      "-Doutput.dart.path=lib_temp",
     ])
     ..chainCommand("diff", ["-qr", "lib/", "lib_temp/"])
     ..chainCommand("diff", ["-qr", "src/", "src_temp/"])

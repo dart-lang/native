@@ -21,9 +21,13 @@ final testSrc = join(thirdParty, 'test_', 'src');
 /// two fields are not equal.
 void expectConfigsAreEqual(Config a, Config b) {
   expect(a.classes, equals(b.classes), reason: "classes");
-  expect(a.libraryName, equals(b.libraryName), reason: "libraryName");
-  expect(a.cRoot, equals(b.cRoot), reason: "cRoot");
-  expect(a.dartRoot, equals(b.dartRoot), reason: "dartRoot");
+  expect(a.outputConfig.cConfig.libraryName,
+      equals(b.outputConfig.cConfig.libraryName),
+      reason: "libraryName");
+  expect(a.outputConfig.cConfig.path, equals(b.outputConfig.cConfig.path),
+      reason: "cRoot");
+  expect(a.outputConfig.dartConfig.path, equals(b.outputConfig.dartConfig.path),
+      reason: "dartRoot");
   expect(a.sourcePath, equals(b.sourcePath), reason: "sourcePath");
   expect(a.classPath, equals(b.classPath), reason: "classPath");
   expect(a.preamble, equals(b.preamble), reason: "preamble");
@@ -71,8 +75,8 @@ void main() {
   final config = Config.parseArgs([
     '--config',
     join(jacksonCoreTests, 'jnigen.yaml'),
-    '-Dc_root=$testSrc',
-    '-Ddart_root=$testLib',
+    '-Doutput.c.path=$testSrc',
+    '-Doutput.dart.path=$testLib',
   ]);
 
   test('compare configuration values', () {

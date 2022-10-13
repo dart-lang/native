@@ -178,11 +178,11 @@ class FilesWriter extends BindingsWriter {
     }
     final classNames = classesByName.keys.toSet();
 
-    final cRoot = config.cRoot!;
+    final cRoot = config.outputConfig.cConfig.path;
     log.info("Using c root = $cRoot");
-    final dartRoot = config.dartRoot!;
+    final dartRoot = config.outputConfig.dartConfig.path;
     log.info("Using dart root = $dartRoot");
-    final libraryName = config.libraryName!;
+    final libraryName = config.outputConfig.cConfig.libraryName;
 
     log.info('Creating dart init file ...');
     final initFileUri = dartRoot.resolve(_initFileName);
@@ -192,7 +192,7 @@ class FilesWriter extends BindingsWriter {
       initCode = '$preamble\n$initCode';
     }
     await initFile.writeAsString(initCode, flush: true);
-    final subdir = config.cSubdir ?? '.';
+    final subdir = config.outputConfig.cConfig.subdir ?? '.';
     final cFileRelativePath = '$subdir/$libraryName.c';
     final cFile = await File.fromUri(cRoot.resolve(cFileRelativePath))
         .create(recursive: true);

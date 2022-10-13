@@ -125,6 +125,47 @@ enum SummarizerBackend {
   doclet,
 }
 
+class CCodeOutputConfig {
+  CCodeOutputConfig({
+    required this.path,
+    required this.libraryName,
+    this.subdir,
+  });
+
+  /// Directory to write JNI C Bindings, in C+Dart mode.
+  ///
+  /// Strictly speaking, this is the root to place the `CMakeLists.txt` file
+  /// for the generated C bindings. It may be desirable to use the [subdir]
+  /// options to write C files to a subdirectory of [path]. For instance,
+  /// when generated code is required to be in `third_party` directory.
+  Uri path;
+
+  /// Name of generated library in CMakeLists.txt configuration.
+  ///
+  /// This will also determine the name of shared object file.
+  String libraryName;
+
+  /// Subfolder relative to [path] to write generated C code.
+  String? subdir;
+}
+
+class DartCodeOutputConfig {
+  // TODO(#90): Support output_structure = single_file | package_structure.
+
+  DartCodeOutputConfig({required this.path});
+
+  /// Path to write generated Dart bindings.
+  Uri path;
+}
+
+class OutputConfig {
+  // TODO(#60): Add bindings_type = dart_only | c_based.
+
+  OutputConfig({required this.cConfig, required this.dartConfig});
+  DartCodeOutputConfig dartConfig;
+  CCodeOutputConfig cConfig;
+}
+
 class BindingExclusions {
   BindingExclusions({this.methods, this.fields, this.classes});
   MethodFilter? methods;
@@ -132,32 +173,11 @@ class BindingExclusions {
   ClassFilter? classes;
 }
 
-enum BindingsType {
-  cBased, // C+Dart bindings
-  singleFile,
-  packageStructured,
-}
-
-BindingsType getBindingsType(String? type, BindingsType defaultType) {
-  const names = {
-    'c_based': BindingsType.cBased,
-    'single_file': BindingsType.singleFile,
-    'package_structured': BindingsType.packageStructured,
-  };
-  return names[type] ?? defaultType;
-}
-
 /// Configuration for jnigen binding generation.
 class Config {
   Config({
+    required this.outputConfig,
     required this.classes,
-    this.bindingsType = BindingsType.cBased,
-    this.outputPath,
-    this.libraryName,
-    this.cRoot,
-    this.dartRoot,
-    this.cSubdir,
-    this.rootPackage,
     this.exclude,
     this.sourcePath,
     this.classPath,
@@ -168,16 +188,10 @@ class Config {
     this.summarizerOptions,
     this.logLevel = Level.INFO,
     this.dumpJsonTo,
-  }) {
-    if (bindingsType == BindingsType.cBased) {
-      if (cRoot == null || dartRoot == null || libraryName == null) {
-        throw ArgumentError("In c_based mode these values must be specified: "
-            "c_root, dart_root, library_name");
-      }
-    } else {
-      throw UnimplementedError("BindingsType not yet supported: $bindingsType");
-    }
-  }
+  });
+
+  /// Output configuration for generated bindings
+  OutputConfig outputConfig;
 
   /// List of classes or packages for which bindings have to be generated.
   ///
@@ -187,41 +201,6 @@ class Config {
   /// source paths. Same applies if ASM backend is used, except that the file
   /// name suffix is `.class`.
   List<String> classes;
-
-  /// Type of bindings to generate.
-  final BindingsType bindingsType;
-
-  /// Name of generated library in CMakeLists.txt configuration.
-  ///
-  /// This will also determine the name of shared object file.
-  final String? libraryName;
-
-  /// Directory to write JNI C Bindings, in C+Dart mode.
-  ///
-  /// Strictly speaking, this is the root to place the `CMakeLists.txt` file
-  /// for the generated C bindings. It may be desirable to use the [cSubdir]
-  /// options to write C files to a subdirectory of [cRoot]. For instance,
-  /// when generated code is required to be in `third_party` directory.
-  Uri? cRoot;
-
-  /// Directory to write Dart bindings, in C + Dart mode.
-  Uri? dartRoot;
-
-  /// Subfolder relative to [cRoot] to write generated C code.
-  String? cSubdir;
-
-  /// Java package corresponding to the dart_root directory.
-  ///
-  /// By default, the complete java hierarchy is mirrored. For instance,
-  /// `org.apache.pdfbox.text` becomes `org/apache/pdfbox/text.dart`.
-  /// This is often undesirable, when all packages have a common package. In
-  /// such cases, a super-package name can be provided. This will be assumed as
-  /// the prefix of all packages and hierarchy will be created relative to this
-  /// package.
-  String? rootPackage;
-
-  /// Output file or folder in non-legacy modes
-  Uri? outputPath;
 
   /// Methods and fields to be excluded from generated bindings.
   final BindingExclusions? exclude;
@@ -288,7 +267,6 @@ class Config {
       return res;
     }
 
-    Uri? fileUri(String? path) => path != null ? Uri.file(path) : null;
     Uri? directoryUri(String? path) =>
         path != null ? Uri.directory(path) : null;
 
@@ -339,15 +317,17 @@ class Config {
         methods: regexFilter<Method>(_Props.excludeMethods),
         fields: regexFilter<Field>(_Props.excludeFields),
       ),
-      bindingsType: getBindingsType(
-          prov.getString(_Props.bindingsType), BindingsType.cBased),
-      cRoot: directoryUri(prov.getString(_Props.cRoot)),
-      dartRoot: directoryUri(prov.getString(_Props.dartRoot)),
-      outputPath: fileUri(prov.getString(_Props.outputPath)),
-      cSubdir: prov.getString(_Props.cSubdir),
-      rootPackage: prov.getString(_Props.rootPackage),
+      outputConfig: OutputConfig(
+        cConfig: CCodeOutputConfig(
+          libraryName: must(prov.getString, '', _Props.libraryName),
+          path: Uri.directory(must(prov.getString, '.', _Props.cRoot)),
+          subdir: prov.getString(_Props.cSubdir),
+        ),
+        dartConfig: DartCodeOutputConfig(
+          path: Uri.directory(must(prov.getString, '.', _Props.dartRoot)),
+        ),
+      ),
       preamble: prov.getString(_Props.preamble),
-      libraryName: must(prov.getString, '', _Props.libraryName),
       importMap: prov.getStringMap(_Props.importMap),
       mavenDownloads: prov.hasValue(_Props.mavenDownloads)
           ? MavenDownloads(
@@ -411,14 +391,14 @@ class _Props {
   static const excludeFields = '$exclude.fields';
 
   static const importMap = 'import_map';
-  static const outputPath = 'output_path';
-  static const bindingsType = 'bindings_type';
-  static const dartRoot = 'dart_root';
-  static const cRoot = 'c_root';
-  static const cSubdir = 'c_subdir';
-  static const rootPackage = 'root_package';
+  static const outputConfig = 'output';
+  static const cCodeOutputConfig = '$outputConfig.c';
+  static const dartCodeOutputConfig = '$outputConfig.dart';
+  static const cRoot = '$cCodeOutputConfig.path';
+  static const cSubdir = '$cCodeOutputConfig.subdir';
+  static const dartRoot = '$dartCodeOutputConfig.path';
+  static const libraryName = '$cCodeOutputConfig.library_name';
   static const preamble = 'preamble';
-  static const libraryName = 'library_name';
   static const logLevel = 'log_level';
 
   static const mavenDownloads = 'maven_downloads';
