@@ -1,7 +1,7 @@
 ## Running
 After generating `pdfbox_plugin` bindings in the parent directory
 
-* setup native libraries: `dart run jni:setup && dart run jni:setup -p pdfbox_plugin`
+* setup native libraries: `dart run jni:setup`
 
 * `dart run bin/pdf_info.dart <Path_to_PDF_File>`
 

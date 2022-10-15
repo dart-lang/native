@@ -30,13 +30,14 @@
 /// This module depends on a shared library written in C. Therefore on dart
 /// standalone:
 ///
-/// * Run `dart run jni:setup` to build the shared library. The default output
-/// directory is build/jni_libs, which can be changed using `-B` switch.
+/// * Run `dart run jni:setup` to build the shared library. This command builds
+/// all dependency libraries with native code (package:jni and jnigen-generated)
+/// libraries if any.
+///
+/// The default output directory is build/jni_libs, which can be changed
+/// using `-B` switch.
 ///
 /// * Provide the location of library to `Jni.spawn` call.
-///
-/// * If there are generated libraries (using jnigen), also build them using
-/// the command: `dart run jni:setup -p package_name` in the same directory.
 ///
 /// ## JNIEnv
 /// `GlobalJniEnv` type provides a thin wrapper over `JNIEnv*` which can be used

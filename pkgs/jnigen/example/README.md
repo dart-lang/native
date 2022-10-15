@@ -20,7 +20,7 @@ Currently supported platforms are Linux (Standalone, Flutter), and Android (Flut
 * Generate JNI bindings by running `dart run jnigen --config jnigen.yaml`.
 
 * In the CLI project which uses this package, add this package, and `jni` as a dependency.
-* Run `dart run jni:setup && dart run jni:setup -p <generated_package_name>` to build native libraries for JNI base library and your package respectively.
+* Run `dart run jni:setup` to build native libraries for JNI base library and jnigen generated package.
 * Import the package. See [pdf_info.dart](pdfbox_plugin/dart_example/bin/pdf_info.dart) for how to use the JNI from dart standalone.
 
 ### Flutter FFI plugin

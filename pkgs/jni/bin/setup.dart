@@ -10,11 +10,14 @@ import 'package:package_config/package_config.dart';
 const ansiRed = '\x1b[31m';
 const ansiDefault = '\x1b[39;49m';
 
+const jniNativeBuildDirective =
+    '# jni_native_build (Build with jni:setup. Do not delete this line.)';
+
 const _defaultRelativeBuildPath = "build/jni_libs";
 
 const _buildPath = "build-path";
-const _srcPath = "source-path";
-const _packageName = 'package-name';
+const _srcPath = "add-source";
+const _packageName = 'add-package';
 const _verbose = "verbose";
 const _cmakeArgs = "cmake-args";
 
@@ -65,13 +68,14 @@ Future<void> runCommand(
 class Options {
   Options(ArgResults arg)
       : buildPath = arg[_buildPath],
-        srcPath = arg[_srcPath],
-        packageName = arg[_packageName] ?? 'jni',
+        sources = arg[_srcPath],
+        packages = arg[_packageName],
         cmakeArgs = arg[_cmakeArgs],
         verbose = arg[_verbose] ?? false;
 
-  String? buildPath, srcPath;
-  String packageName;
+  String? buildPath;
+  List<String> sources;
+  List<String> packages;
   List<String> cmakeArgs;
   bool verbose;
 }
@@ -88,16 +92,38 @@ void verboseLog(String msg) {
 ///
 /// It's assumed C FFI sources are in "src/" relative to package root.
 /// If package cannot be found, null is returned.
-Future<String?> findSources(String packageName) async {
+Future<String> findSources(String packageName) async {
   final packageConfig = await findPackageConfig(Directory.current);
   if (packageConfig == null) {
-    return null;
+    throw UnsupportedError("Please run from project root.");
   }
-  final package = packageConfig[options.packageName];
+  final package = packageConfig[packageName];
   if (package == null) {
-    return null;
+    throw UnsupportedError("Cannot find package: $packageName");
   }
   return package.root.resolve("src").toFilePath();
+}
+
+/// Return '/src' directories of all dependencies which has a CMakeLists.txt
+/// file.
+Future<Map<String, String>> findDependencySources() async {
+  final packageConfig = await findPackageConfig(Directory.current);
+  if (packageConfig == null) {
+    throw UnsupportedError("Please run the command from project root.");
+  }
+  final sources = <String, String>{};
+  for (var package in packageConfig.packages) {
+    final src = package.root.resolve("src/");
+    final cmakeLists = src.resolve("CMakeLists.txt");
+    final cmakeListsFile = File.fromUri(cmakeLists);
+    if (cmakeListsFile.existsSync()) {
+      final firstLine = cmakeListsFile.readAsLinesSync().first;
+      if (firstLine == jniNativeBuildDirective) {
+        sources[package.name] = src.toFilePath();
+      }
+    }
+  }
+  return sources;
 }
 
 /// Returns true if [artifact] does not exist, or any file in [sourceDir] is
@@ -129,13 +155,12 @@ void main(List<String> arguments) async {
   final parser = ArgParser()
     ..addOption(_buildPath,
         abbr: 'b', help: 'Directory to place built artifacts')
-    ..addOption(_srcPath,
+    ..addMultiOption(_srcPath,
         abbr: 's', help: 'alternative path to package:jni sources')
-    ..addOption(_packageName,
+    ..addMultiOption(_packageName,
         abbr: 'p',
         help: 'package for which native'
-            'library should be built',
-        defaultsTo: 'jni')
+            'library should be built')
     ..addFlag(_verbose, abbr: 'v', help: 'Enable verbose output')
     ..addMultiOption(_cmakeArgs,
         abbr: 'm', help: 'Pass additional argument to CMake');
@@ -151,69 +176,73 @@ void main(List<String> arguments) async {
     return;
   }
 
-  final srcPath = options.srcPath ?? await findSources(options.packageName);
-
-  if (srcPath == null) {
-    stderr.writeln("Cannot find sources for package ${options.packageName} "
-        "and no sources were manually specified.");
+  final sources = options.sources;
+  for (var packageName in options.packages) {
+    sources.add(await findSources(packageName));
+  }
+  if (sources.isEmpty) {
+    final dependencySources = await findDependencySources();
+    stderr.writeln("selecting source directories for dependencies: "
+        "${dependencySources.keys}");
+    sources.addAll(dependencySources.values);
+  } else {
+    stderr.writeln("selecting source directories: $sources");
+  }
+  if (sources.isEmpty) {
+    stderr.writeln('No source paths to build!');
     exitCode = 1;
     return;
   }
-
-  final srcDir = Directory(srcPath);
-  if (!srcDir.existsSync()) {
-    stderr.writeln('Directory $srcPath does not exist');
-    exitCode = 1;
-    return;
-  }
-
-  verboseLog("srcPath: $srcPath");
-
-  final currentDirUri = Uri.directory(".");
-  final buildPath = options.buildPath ??
-      currentDirUri.resolve(_defaultRelativeBuildPath).toFilePath();
-  final buildDir = Directory(buildPath);
-  await buildDir.create(recursive: true);
-  verboseLog("buildPath: $buildPath");
-
-  if (buildDir.absolute.uri == srcDir.absolute.uri) {
-    stderr.writeln("Please build in a directory different than source.");
-    exitCode = 1;
-    return;
-  }
-
-  final targetFileUri = buildDir.uri.resolve(getTargetName(srcDir));
-  final targetFile = File.fromUri(targetFileUri);
-  if (!needsBuild(targetFile, srcDir)) {
-    verboseLog("last modified of ${targetFile.path}: "
-        "${targetFile.lastModifiedSync()}");
-    stderr.writeln("target newer than source, skipping build");
-    return;
-  }
-
-  // Note: creating temp dir in .dart_tool/jni instead of SystemTemp
-  // because latter can fail tests on Windows CI, when system temp is on
-  // separate drive or something.
-  final jniDirUri = Uri.directory(".dart_tool").resolve("jni");
-  final jniDir = Directory.fromUri(jniDirUri);
-  await jniDir.create(recursive: true);
-  final tempDir = await jniDir.createTemp("jni_native_build_");
-  final cmakeArgs = <String>[];
-  cmakeArgs.addAll(options.cmakeArgs);
-  // Pass absolute path of srcDir because cmake command is run in temp dir
-  cmakeArgs.add(srcDir.absolute.path);
-  await runCommand("cmake", cmakeArgs, tempDir.path);
-  await runCommand("cmake", ["--build", "."], tempDir.path);
-  final dllDirUri =
-      Platform.isWindows ? tempDir.uri.resolve("Debug") : tempDir.uri;
-  final dllDir = Directory.fromUri(dllDirUri);
-  for (var entry in dllDir.listSync()) {
-    final dllSuffix = Platform.isWindows ? "dll" : "so";
-    if (entry.path.endsWith(dllSuffix)) {
-      final dllName = entry.uri.pathSegments.last;
-      final target = buildDir.uri.resolve(dllName);
-      entry.renameSync(target.toFilePath());
+  for (var srcPath in sources) {
+    final srcDir = Directory(srcPath);
+    if (!srcDir.existsSync()) {
+      stderr.writeln('Directory $srcPath does not exist');
+      exitCode = 1;
+      return;
     }
+
+    verboseLog("srcPath: $srcPath");
+
+    final currentDirUri = Uri.directory(".");
+    final buildPath = options.buildPath ??
+        currentDirUri.resolve(_defaultRelativeBuildPath).toFilePath();
+    final buildDir = Directory(buildPath);
+    await buildDir.create(recursive: true);
+    verboseLog("buildPath: $buildPath");
+
+    final targetFileUri = buildDir.uri.resolve(getTargetName(srcDir));
+    final targetFile = File.fromUri(targetFileUri);
+    if (!needsBuild(targetFile, srcDir)) {
+      verboseLog("last modified of ${targetFile.path}: "
+          "${targetFile.lastModifiedSync()}");
+      stderr.writeln("target newer than source, skipping build");
+      continue;
+    }
+
+    // Note: creating temp dir in .dart_tool/jni instead of SystemTemp
+    // because latter can fail tests on Windows CI, when system temp is on
+    // separate drive or something.
+    final jniDirUri = Uri.directory(".dart_tool").resolve("jni");
+    final jniDir = Directory.fromUri(jniDirUri);
+    await jniDir.create(recursive: true);
+    final tempDir = await jniDir.createTemp("jni_native_build_");
+    final cmakeArgs = <String>[];
+    cmakeArgs.addAll(options.cmakeArgs);
+    // Pass absolute path of srcDir because cmake command is run in temp dir
+    cmakeArgs.add(srcDir.absolute.path);
+    await runCommand("cmake", cmakeArgs, tempDir.path);
+    await runCommand("cmake", ["--build", "."], tempDir.path);
+    final dllDirUri =
+        Platform.isWindows ? tempDir.uri.resolve("Debug") : tempDir.uri;
+    final dllDir = Directory.fromUri(dllDirUri);
+    for (var entry in dllDir.listSync()) {
+      final dllSuffix = Platform.isWindows ? "dll" : "so";
+      if (entry.path.endsWith(dllSuffix)) {
+        final dllName = entry.uri.pathSegments.last;
+        final target = buildDir.uri.resolve(dllName);
+        entry.renameSync(target.toFilePath());
+      }
+    }
+    await tempDir.delete(recursive: true);
   }
-  await tempDir.delete(recursive: true);
 }

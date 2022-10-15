@@ -404,7 +404,7 @@ jobs:
       - name: Run standalone example
         run: |
           dart pub get
-          dart run jni:setup && dart run jni:setup -p pdfbox_plugin
+          dart run jni:setup
           wget 'https://dart.dev/guides/language/specifications/DartLangSpec-v2.2.pdf'
           dart run bin/pdf_info.dart DartLangSpec-v2.2.pdf
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin/dart_example

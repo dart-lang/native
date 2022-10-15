@@ -27,11 +27,16 @@ final jacksonCoreTest = join('test', 'jackson_core_test');
 final simplePackageTestJava = join(simplePackageTest, 'java');
 
 Future<void> setupDylibsAndClasses() async {
-  await runCommand('dart', ['run', 'jni:setup']);
-  await runCommand(
-      'dart', ['run', 'jni:setup', '-s', join(simplePackageTest, 'src')]);
-  await runCommand('dart',
-      ['run', 'jni:setup', '-s', join(jacksonCoreTest, 'third_party', 'src')]);
+  await runCommand('dart', [
+    'run',
+    'jni:setup',
+    '-p',
+    'jni',
+    '-s',
+    join(simplePackageTest, 'src'),
+    '-s',
+    join(jacksonCoreTest, 'third_party', 'src')
+  ]);
   final group = join('com', 'github', 'dart_lang', 'jnigen');
   await runCommand(
       'javac',
