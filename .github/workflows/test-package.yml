@@ -331,11 +331,11 @@ jobs:
       - run: flutter build apk
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: re-generate bindings
-        run: flutter pub run jnigen -Doutput.dart.path=_dart -Doutput.c.path=_c --config jnigen.yaml
+        run: flutter pub run jnigen -Doutput.dart.path=_temp.dart -Doutput.c.path=_c/ --config jnigen.yaml
       - name: compare generated dart bindings
-        run: diff -qr lib/ _dart
+        run: diff lib/notifications.dart _temp.dart
       - name: compare generated C bindings
-        run: diff -qr src/ _c
+        run: diff -r src/ _c
 
   build_in_app_java_example:
     runs-on: ubuntu-latest
@@ -361,11 +361,11 @@ jobs:
       - run: flutter analyze
       - run: flutter build apk
       - name: re-generate bindings
-        run: flutter pub run jnigen -Doutput.dart.path=_dart -Doutput.c.path=_c --config jnigen.yaml
+        run: flutter pub run jnigen -Doutput.dart.path=_temp.dart -Doutput.c.path=_c/ --config jnigen.yaml
       - name: compare generated dart bindings
-        run: diff -qr lib/android_utils _dart
+        run: diff lib/android_utils.dart _temp.dart
       - name: compare generated C bindings
-        run: diff -qr src/android_utils _c
+        run: diff -r src/android_utils _c
 
   run_pdfbox_example_linux:
     runs-on: ubuntu-latest
@@ -390,13 +390,13 @@ jobs:
       - run: dart pub get
       - name: Generate bindings
         run: |
-          dart run jnigen -Doutput.c.path=_c -Doutput.dart.path=_dart --config jnigen.yaml
+          dart run jnigen -Doutput.c.path=_c/ -Doutput.dart.path=_dart/ --config jnigen.yaml
       - name: Compare generated bindings
         run: |
-          diff -qr _c src/
-          diff -qr _dart lib/src/third_party
+          diff -r _c src/
+          diff -r _dart lib/src/third_party
       - name: Generate full bindings
-        run: dart run jnigen --config jnigen.yaml --override classes="org.apache.pdfbox.pdmodel;org.apache.pdfbox.text"
+        run: dart run jnigen --config jnigen.yaml --override classes="org.apache.pdfbox"
       - name: Analyze generated bindings
         run: |
           flutter pub get # dart-analyze errors on flutter example

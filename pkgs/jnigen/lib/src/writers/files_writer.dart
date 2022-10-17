@@ -9,27 +9,45 @@ import 'package:jnigen/src/bindings/bindings.dart';
 import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/elements/elements.dart';
 import 'package:jnigen/src/config/config.dart';
-import 'package:jnigen/src/util/find_package.dart';
 import 'package:jnigen/src/util/name_utils.dart';
 import 'package:jnigen/src/writers/bindings_writer.dart';
 
+String getFileClassName(String binaryName) {
+  final dollarSign = binaryName.indexOf('\$');
+  if (dollarSign != -1) {
+    return binaryName.substring(0, dollarSign);
+  }
+  return binaryName;
+}
+
 /// Resolver for file-per-package mapping, in which the java package hierarchy
 /// is mirrored.
-class PackagePathResolver implements SymbolResolver {
-  PackagePathResolver(this.importMap, this.currentPackage, this.inputClassNames,
-      {this.predefined = const {}});
+class FilePathResolver implements SymbolResolver {
+  FilePathResolver(
+    this.importMap,
+    this.currentClass,
+    this.inputClassNames,
+  );
 
-  final String currentPackage;
+  static const Map<String, String> predefined = {
+    'java.lang.String': 'jni.JniString',
+  };
+
+  /// Class corresponding to currently writing file.
+  final String currentClass;
+
+  /// Explicit import mappings.
   final Map<String, String> importMap;
-  final Map<String, String> predefined;
+
+  /// Names of all classes in input.
   final Set<String> inputClassNames;
 
   final List<String> importStrings = [];
 
-  final Set<String> relativeImportedPackages = {};
+  final Set<String> _relativeImportedClasses = {};
 
-  final Map<String, String> _importedNameToPackage = {};
-  final Map<String, String> _packageToImportedName = {};
+  final Map<String, String> _importedNameToClass = {};
+  final Map<String, String> _classToImportedName = {};
 
   /// Returns the dart name of the [binaryName] in current translation context,
   /// or `null` if the name cannot be resolved.
@@ -38,33 +56,33 @@ class PackagePathResolver implements SymbolResolver {
     if (predefined.containsKey(binaryName)) {
       return predefined[binaryName];
     }
+    final target = getFileClassName(binaryName);
     final parts = cutFromLast(binaryName, '.');
-    final package = parts[0];
     final typename = parts[1];
     final simpleTypeName = typename.replaceAll('\$', '_');
 
-    if (package == currentPackage && inputClassNames.contains(binaryName)) {
+    if (target == currentClass && inputClassNames.contains(binaryName)) {
       return simpleTypeName;
     }
 
-    if (_packageToImportedName.containsKey(package)) {
+    if (_classToImportedName.containsKey(target)) {
       // This package was already resolved
       // but we still need to check if it was a relative import, in which case
       // the class not in inputClassNames cannot be mapped here.
-      if (!relativeImportedPackages.contains(package) ||
+      if (!_relativeImportedClasses.contains(target) ||
           inputClassNames.contains(binaryName)) {
-        final importedName = _packageToImportedName[package];
+        final importedName = _classToImportedName[target];
         return '$importedName.$simpleTypeName';
       }
     }
 
-    final packageImport = getImport(package, binaryName);
-    log.finest('$package resolved to $packageImport for $binaryName');
-    if (packageImport == null) {
+    final classImport = getImport(target, binaryName);
+    log.finest('$target resolved to $classImport for $binaryName');
+    if (classImport == null) {
       return null;
     }
 
-    final pkgName = cutFromLast(package, '.')[1];
+    final pkgName = cutFromLast(target, '.')[1].toLowerCase();
     if (pkgName.isEmpty) {
       throw UnsupportedError('No package could be deduced from '
           'qualified binaryName');
@@ -74,25 +92,25 @@ class PackagePathResolver implements SymbolResolver {
     // never shadowed by a parameter or local variable.
     var importedName = '${pkgName}_';
     int suffix = 0;
-    while (_importedNameToPackage.containsKey(importedName)) {
+    while (_importedNameToClass.containsKey(importedName)) {
       suffix++;
       importedName = '$pkgName${suffix}_';
     }
 
-    _importedNameToPackage[importedName] = package;
-    _packageToImportedName[package] = importedName;
-    importStrings.add('import "$packageImport" as $importedName;\n');
+    _importedNameToClass[importedName] = target;
+    _classToImportedName[target] = importedName;
+    importStrings.add('import "$classImport" as $importedName;\n');
     return '$importedName.$simpleTypeName';
   }
 
-  /// Returns import string for [packageToResolve], or `null` if package not
+  /// Returns import string for [classToResolve], or `null` if the class is not
   /// found.
   ///
   /// [binaryName] is the class name trying to be resolved. This parameter is
   /// requested so that classes included in current bindings can be resolved
   /// using relative path.
-  String? getImport(String packageToResolve, String binaryName) {
-    var prefix = packageToResolve;
+  String? getImport(String classToResolve, String binaryName) {
+    var prefix = classToResolve;
 
     // short circuit if the requested class is specified directly in import map.
     if (importMap.containsKey(binaryName)) {
@@ -103,8 +121,8 @@ class PackagePathResolver implements SymbolResolver {
       throw UnsupportedError('unexpected: empty package name.');
     }
 
-    final dest = packageToResolve.split('.');
-    final src = currentPackage.split('.');
+    final dest = classToResolve.split('.');
+    final src = currentClass.split('.');
     // Use relative import when the required class is included in current set
     // of bindings.
     if (inputClassNames.contains(binaryName)) {
@@ -115,12 +133,14 @@ class PackagePathResolver implements SymbolResolver {
       for (int i = 0; i < src.length - 1 && i < dest.length - 1; i++) {
         if (src[i] == dest[i]) {
           common++;
+        } else {
+          break;
         }
       }
       final pathToCommon = '../' * ((src.length - 1) - common);
-      final pathToPackage = dest.sublist(max(common, 0)).join('/');
-      relativeImportedPackages.add(packageToResolve);
-      return '$pathToCommon$pathToPackage.dart';
+      final pathToClass = dest.sublist(max(common, 0)).join('/');
+      _relativeImportedClasses.add(classToResolve);
+      return '$pathToCommon$pathToClass.dart';
     }
 
     while (prefix.isNotEmpty) {
@@ -167,115 +187,92 @@ class FilesWriter extends BindingsWriter {
   Config config;
 
   @override
-  Future<void> writeBindings(Iterable<ClassDecl> classes) async {
+  Future<void> writeBindings(List<ClassDecl> classes) async {
     final preamble = config.preamble;
-    final Map<String, List<ClassDecl>> packages = {};
+    final Map<String, List<ClassDecl>> files = {};
     final Map<String, ClassDecl> classesByName = {};
+    final Map<String, Set<String>> packages = {};
     for (var c in classes) {
       classesByName.putIfAbsent(c.binaryName, () => c);
-      packages.putIfAbsent(c.packageName, () => <ClassDecl>[]);
-      packages[c.packageName]!.add(c);
-    }
-    final classNames = classesByName.keys.toSet();
+      final fileClass = getFileClassName(c.binaryName);
 
-    final cRoot = config.outputConfig.cConfig.path;
-    log.info("Using c root = $cRoot");
+      files.putIfAbsent(fileClass, () => <ClassDecl>[]);
+      files[fileClass]!.add(c);
+
+      packages.putIfAbsent(c.packageName, () => {});
+      // TODO(PR): Is the order deterministic in Set<T>?
+      packages[c.packageName]!.add(fileClass.split('.').last);
+    }
+
+    final classNames = classesByName.keys.toSet();
+    ApiPreprocessor.preprocessAll(classesByName, config);
+
     final dartRoot = config.outputConfig.dartConfig.path;
     log.info("Using dart root = $dartRoot");
-    final libraryName = config.outputConfig.cConfig.libraryName;
+    final generator = CBasedDartBindingsGenerator(config);
 
-    log.info('Creating dart init file ...');
-    final initFileUri = dartRoot.resolve(_initFileName);
-    final initFile = await File.fromUri(initFileUri).create(recursive: true);
-    var initCode = DartBindingsGenerator.initFile(libraryName);
-    if (preamble != null) {
-      initCode = '$preamble\n$initCode';
+    await writeCBindings(config, classes);
+
+    // Write init file
+    final initFileUri = dartRoot.resolve("_init.dart");
+    var initCode = generator.getInitFileContents();
+    if (initCode.isNotEmpty) {
+      if (preamble != null) {
+        initCode = '$preamble\n$initCode';
+      }
+      final initFile = File.fromUri(initFileUri);
+      await initFile.create(recursive: true);
+      await initFile.writeAsString(initCode);
     }
-    await initFile.writeAsString(initCode, flush: true);
-    final subdir = config.outputConfig.cConfig.subdir ?? '.';
-    final cFileRelativePath = '$subdir/$libraryName.c';
-    final cFile = await File.fromUri(cRoot.resolve(cFileRelativePath))
-        .create(recursive: true);
-    final cFileStream = cFile.openWrite();
-    if (preamble != null) {
-      cFileStream.writeln(preamble);
-    }
-    cFileStream.write(CPreludes.prelude);
-    ApiPreprocessor.preprocessAll(classesByName, config);
-    for (var packageName in packages.keys) {
-      final relativeFileName = '${packageName.replaceAll('.', '/')}.dart';
+
+    for (var fileClassName in files.keys) {
+      final relativeFileName = '${fileClassName.replaceAll('.', '/')}.dart';
       final dartFileUri = dartRoot.resolve(relativeFileName);
-      log.fine('Writing bindings for $packageName...');
       final dartFile = await File.fromUri(dartFileUri).create(recursive: true);
-      final resolver = PackagePathResolver(
-          config.importMap ?? const {}, packageName, classNames,
-          predefined: {'java.lang.String': 'jni.JniString'});
-      final cgen = CBindingGenerator(config);
-      final dgen = DartBindingsGenerator(config, resolver);
+      log.fine('$fileClassName -> ${dartFile.path}');
+      final resolver = FilePathResolver(
+        config.importMap ?? const {},
+        fileClassName,
+        classNames,
+      );
 
-      final package = packages[packageName]!;
-      final cBindings = package.map(cgen.generateBinding).toList();
-      final dartBindings = package.map(dgen.generateBinding).toList();
-      // write imports from bindings
+      final classesInFile = files[fileClassName]!;
+      final dartBindings = classesInFile
+          .map((decl) => generator.generateBindings(decl, resolver))
+          .toList();
       final dartFileStream = dartFile.openWrite();
-      final initImportPath = ('../' *
+      if (preamble != null) {
+        dartFileStream.writeln(preamble);
+      }
+
+      final initFilePath = ('../' *
               relativeFileName.codeUnits
                   .where((cu) => '/'.codeUnitAt(0) == cu)
                   .length) +
           _initFileName;
-      if (preamble != null) {
-        dartFileStream.writeln(preamble);
-      }
+
       dartFileStream
-        ..write(DartBindingsGenerator.bindingFileHeaders)
+        ..write(generator.getPreImportBoilerplate(initFilePath))
         ..write(resolver.getImportStrings().join('\n'))
-        ..write('import "$initImportPath" show jniLookup;\n\n');
+        ..write(generator.getPostImportBoilerplate(initFilePath));
+
       // write dart bindings only after all imports are figured out
       dartBindings.forEach(dartFileStream.write);
-      cBindings.forEach(cFileStream.write);
       await dartFileStream.close();
     }
-    await cFileStream.close();
-    await BindingsWriter.runDartFormat(dartRoot.toFilePath());
-    log.info('Copying auxiliary files...');
-    await _copyFileFromPackage(
-        'jni', 'src/dartjni.h', cRoot.resolve('$subdir/dartjni.h'));
-    await _copyFileFromPackage(
-        'jni', 'src/.clang-format', cRoot.resolve('$subdir/.clang-format'));
-    await _copyFileFromPackage(
-        'jnigen', 'cmake/CMakeLists.txt.tmpl', cRoot.resolve('CMakeLists.txt'),
-        transform: (s) {
-      return s
-          .replaceAll('{{LIBRARY_NAME}}', libraryName)
-          .replaceAll('{{SUBDIR}}', subdir);
-    });
-    log.info('Running clang-format on C bindings');
-    try {
-      final clangFormat = Process.runSync('clang-format', ['-i', cFile.path]);
-      if (clangFormat.exitCode != 0) {
-        printError(clangFormat.stderr);
-        log.warning('clang-format exited with $exitCode');
-      }
-    } on ProcessException catch (e) {
-      log.warning('cannot run clang-format: $e');
-    }
-    log.info('Completed.');
-  }
 
-  Future<void> _copyFileFromPackage(String package, String relPath, Uri target,
-      {String Function(String)? transform}) async {
-    final packagePath = await findPackageRoot(package);
-    if (packagePath != null) {
-      final sourceFile = File.fromUri(packagePath.resolve(relPath));
-      final targetFile = await File.fromUri(target).create(recursive: true);
-      var source = await sourceFile.readAsString();
-      if (transform != null) {
-        source = transform(source);
-      }
-      await targetFile.writeAsString(source);
-    } else {
-      log.warning('package $package not found! '
-          'skipped copying ${target.toFilePath()}');
+    // write _package.dart export files
+    for (var package in packages.keys) {
+      final dirUri = dartRoot.resolve('${package.replaceAll('.', '/')}/');
+      final exportFileUri = dirUri.resolve("_package.dart");
+      final exportFile = File.fromUri(exportFileUri);
+      exportFile.createSync(recursive: true);
+      final exports =
+          packages[package]!.map((cls) => 'export "$cls.dart";').join('\n');
+      exportFile.writeAsStringSync(exports);
     }
+
+    await runDartFormat(dartRoot.toFilePath());
+    log.info('Completed.');
   }
 }

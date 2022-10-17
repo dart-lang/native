@@ -75,8 +75,8 @@ void main() {
   final config = Config.parseArgs([
     '--config',
     join(jacksonCoreTests, 'jnigen.yaml'),
-    '-Doutput.c.path=$testSrc',
-    '-Doutput.dart.path=$testLib',
+    '-Doutput.c.path=$testSrc/',
+    '-Doutput.dart.path=$testLib/',
   ]);
 
   test('compare configuration values', () {

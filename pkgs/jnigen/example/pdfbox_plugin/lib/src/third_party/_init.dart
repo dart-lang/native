@@ -16,8 +16,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import "dart:ffi";
+import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 
-final Pointer<T> Function<T extends NativeType>(String sym) jniLookup =
+// Auto-generated initialization code.
+
+final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
     ProtectedJniExtensions.initGeneratedLibrary("pdfbox_plugin");

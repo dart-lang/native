@@ -43,6 +43,11 @@ classes:
   - 'org.apache.pdfbox.pdmodel.PDDocumentInformation'
   - 'org.apache.pdfbox.text.PDFTextStripper'
 
+## Exclude a problematic field
+exclude:
+  fields:
+    - 'org.apache.pdfbox.contentstream.operator.OperatorName#SHOW_TEXT_LINE_AND_SPACE'
+
 ## Dependencies to be downloaded using Maven (Invokes `mvn` command). These
 ## dependencies are always downloaded along with their transitive dependencies.
 ##

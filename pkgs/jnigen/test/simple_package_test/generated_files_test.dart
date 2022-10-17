@@ -12,7 +12,7 @@ void main() async {
   test("Generate and compare bindings for simple_package", () async {
     await generateAndCompareBindings(
       getConfig(),
-      join(testRoot, "lib"),
+      join(testRoot, "lib", "simple_package.dart"),
       join(testRoot, "src"),
     );
   }); // test if generated file == expected file

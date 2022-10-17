@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 
 // The hierarchy created in generated code will mirror the java package
-// structure. This is an implementation convenience and we may allow
-// more customization in future.
-import 'android_utils/com/example/in_app_java.dart';
+// structure.
+import 'android_utils.dart';
 
 JniObject activity = JniObject.fromRef(Jni.getCurrentActivity());
 

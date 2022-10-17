@@ -17,4 +17,8 @@ output:
     path: 'src/'
     library_name: notification_plugin
   dart:
-    path: 'lib/'
+    path: 'lib/notifications.dart'
+    ## Output to single file instead of recreating source's file structure.
+    ## This will be useful to reduce clutter when binding a small number of
+    ## classes.
+    structure: 'single_file'

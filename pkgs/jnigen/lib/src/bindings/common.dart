@@ -7,14 +7,13 @@ import 'package:jnigen/src/util/rename_conflict.dart';
 
 import 'symbol_resolver.dart';
 
-/// Implements the methods used by both Pure dart & C+Dart generators.
+/// Base class of both C based and Dart-only binding generators. Implements
+/// Many methods used commonly by both of them.
 ///
 /// These methods are in a superclass since they usually require access
 /// to resolver, or for consistency with similar methods which require
 /// the resolver.
-class BindingsGenerator {
-  SymbolResolver resolver;
-  BindingsGenerator(this.resolver);
+abstract class BindingsGenerator {
   // Name for reference in base class.
   static const selfPointer = 'reference';
   static final indent = ' ' * 2;
@@ -35,13 +34,40 @@ class BindingsGenerator {
 
   static const String jniResultType = '${jni}JniResult';
 
-  /// Formal parameters list of the generated function.
+  /// Generate bindings string for given class declaration.
+  String generateBindings(ClassDecl decl, SymbolResolver resolver);
+
+  /// Get common initialization code for bindings.
+  ///
+  /// if this method returns an empty String, no init file is created.
+  String getInitFileContents();
+
+  /// Get boilerplate to be pasted on a file before any imports.
+  ///
+  /// [initFilePath], if provided, shall point to the _init.dart file where
+  /// initialization code is stored. If this is null, the method should provide
+  /// standalone boilerplate which doesn't need an init file.
+  ///
+  /// This method should return an empty string if no such boilerplate is
+  /// required.
+  String getPreImportBoilerplate([String? initFilePath]);
+
+  /// Get boilerplate to be pasted on a file before any imports.
+  ///
+  /// See [getPreImportBoilerplate] for an explanation of [initFilePath].
+  ///
+  /// This method should return an empty String if no such boilerplate is
+  /// required.
+  String getPostImportBoilerplate([String? initFilePath]);
+
+  /// Returns the formal parameters list of the generated function.
   ///
   /// This is the signature seen by the user.
-  String formalArgs(Method m) {
+  String formalArgs(Method m, SymbolResolver resolver) {
     final List<String> args = [];
     for (var param in m.params) {
-      args.add('${dartOuterType(param.type)} ${kwRename(param.name)}');
+      args.add(
+          '${getDartOuterType(param.type, resolver)} ${kwRename(param.name)}');
     }
     return args.join(', ');
   }
@@ -58,7 +84,7 @@ class BindingsGenerator {
 
   String dartSigForField(Field f,
       {bool isSetter = false, required bool isFfiSig}) {
-    final conv = isFfiSig ? dartFfiType : dartInnerType;
+    final conv = isFfiSig ? getDartFfiType : getDartInnerType;
     final ref = f.modifiers.contains('static') ? '' : '$jobjectType, ';
     if (isSetter) {
       return '$jthrowableType Function($ref${conv(f.type)})';
@@ -67,7 +93,7 @@ class BindingsGenerator {
   }
 
   String dartSigForMethod(Method m, {required bool isFfiSig}) {
-    final conv = isFfiSig ? dartFfiType : dartInnerType;
+    final conv = isFfiSig ? getDartFfiType : getDartInnerType;
     final argTypes = [if (hasSelfParam(m)) voidPointer];
     for (var param in m.params) {
       argTypes.add(conv(param.type));
@@ -110,8 +136,8 @@ class BindingsGenerator {
     }
   }
 
-  // Type for FFI Function signature
-  String dartFfiType(TypeUsage t) {
+  // Get corresponding Dart FFI type of Java type.
+  String getDartFfiType(TypeUsage t) {
     const primitives = {
       'byte': 'Int8',
       'short': 'Int16',
@@ -136,10 +162,11 @@ class BindingsGenerator {
     }
   }
 
-  String dartInnerType(TypeUsage t) => _dartType(t);
-  String dartOuterType(TypeUsage t) => _dartType(t, resolver: resolver);
+  String getDartInnerType(TypeUsage t) => _dartType(t);
+  String getDartOuterType(TypeUsage t, SymbolResolver resolver) =>
+      _dartType(t, resolver: resolver);
 
-  String literal(dynamic value) {
+  String getDartLiteral(dynamic value) {
     if (value is String) {
       // TODO(#31): escape string literal.
       return '"$value"';
@@ -168,12 +195,12 @@ class BindingsGenerator {
     return 'object';
   }
 
-  String originalFieldDecl(Field f) {
+  String getOriginalFieldDecl(Field f) {
     final declStmt = '${f.type.shorthand} ${f.name}';
     return [...f.modifiers, declStmt].join(' ');
   }
 
-  String originalMethodHeader(Method m) {
+  String getOriginalMethodHeader(Method m) {
     final args = <String>[];
     for (var p in m.params) {
       args.add('${p.type.shorthand} ${p.name}');
@@ -227,7 +254,7 @@ String getUniqueClassName(ClassDecl decl) {
   return decl.uniqueName;
 }
 
-String memberNameInC(ClassDecl decl, String name) =>
+String getMemberNameInC(ClassDecl decl, String name) =>
     "${getUniqueClassName(decl)}__$name";
 
 String getCType(String binaryName) {
@@ -280,7 +307,8 @@ String getInternalName(String binaryName) {
   }
 }
 
-String getInternalNameOfUsage(TypeUsage usage) {
+String getInternalNameOfUsage(TypeUsage usage,
+    {bool escapeDollarSign = false}) {
   switch (usage.kind) {
     case Kind.declared:
       return getInternalName((usage.type as DeclaredType).binaryName);
@@ -371,7 +399,7 @@ String getResultGetterName(TypeUsage returnType) {
 }
 
 /// Returns the JNI signature of the method.
-String getJniSignature(Method m) {
+String getJniSignatureForMethod(Method m) {
   final s = StringBuffer();
   s.write('(');
   for (var param in m.params) {

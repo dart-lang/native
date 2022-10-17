@@ -71,17 +71,17 @@ class CBindingGenerator {
 
     final s = StringBuffer();
     final name = m.finalName;
-    final functionName = memberNameInC(c, name);
+    final functionName = getMemberNameInC(c, name);
     final methodID = '${methodVarPrefix}_$functionName';
     s.write('jmethodID $methodID = NULL;\n');
 
-    final cMethodName = memberNameInC(c, name);
+    final cMethodName = getMemberNameInC(c, name);
     final cParams = _formalArgs(m);
     s.write('FFI_PLUGIN_EXPORT\n');
     s.write('$jniResultType $cMethodName($cParams) {\n');
 
     final classVar = '${classVarPrefix}_$classNameInC';
-    final jniSignature = getJniSignature(m);
+    final jniSignature = getJniSignatureForMethod(m);
 
     s.write(_loadEnvCall);
     s.write(_loadClassCall(classVar, getInternalName(c.binaryName)));
@@ -125,7 +125,7 @@ class CBindingGenerator {
     final s = StringBuffer();
 
     final fieldName = f.finalName;
-    final fieldNameInC = memberNameInC(c, fieldName);
+    final fieldNameInC = getMemberNameInC(c, fieldName);
     final fieldVar = "${fieldVarPrefix}_$fieldNameInC";
     s.write('jfieldID $fieldVar = NULL;\n');
     final classVar = '${classVarPrefix}_$cClassName';

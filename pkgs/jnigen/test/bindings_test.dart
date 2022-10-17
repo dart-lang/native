@@ -16,9 +16,8 @@ import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
 // ignore_for_file: avoid_relative_lib_imports
-import 'simple_package_test/lib/com/github/dart_lang/jnigen/simple_package.dart';
-import 'simple_package_test/lib/com/github/dart_lang/jnigen/pkg2.dart' as pkg2;
-import 'jackson_core_test/third_party/lib/com/fasterxml/jackson/core.dart';
+import 'simple_package_test/lib/simple_package.dart';
+import 'jackson_core_test/third_party/lib/com/fasterxml/jackson/core/_package.dart';
 
 import 'test_util/test_util.dart';
 
@@ -75,7 +74,7 @@ void main() async {
     final aux = Example.aux;
     expect(aux.value, equals(true));
     aux.delete();
-    expect(pkg2.C2.CONSTANT, equals(12));
+    expect(C2.CONSTANT, equals(12));
   });
 
   test('static methods', () {
@@ -96,7 +95,7 @@ void main() async {
 
   test("Check bindings for same-named classes", () {
     expect(Example().whichExample(), 0);
-    expect(pkg2.Example().whichExample(), 1);
+    expect(Example1().whichExample(), 1);
   });
 
   test('simple json parsing test', () {

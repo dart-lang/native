@@ -6,9 +6,9 @@ maven_downloads:
 
 output:
   dart:
-    path: test/jackson_core_test/third_party/lib
+    path: test/jackson_core_test/third_party/lib/
   c:
-    path: test/jackson_core_test/third_party/src
+    path: test/jackson_core_test/third_party/src/
     library_name: jackson_core_test
 
 classes:

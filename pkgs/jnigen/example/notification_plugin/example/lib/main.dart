@@ -8,7 +8,7 @@ import 'package:jni/jni.dart';
 // The hierarchy created in generated code will mirror the java package
 // structure. This is an implementation convenience and we may allow
 // more customization in future.
-import 'package:notification_plugin/com/example/notification_plugin.dart';
+import 'package:notification_plugin/notifications.dart';
 
 JniObject activity = JniObject.fromRef(Jni.getCurrentActivity());
 

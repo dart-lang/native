@@ -11,7 +11,7 @@ import 'elements/elements.dart';
 import 'summary/summary.dart';
 import 'config/config.dart';
 import 'tools/tools.dart';
-import 'writers/files_writer.dart';
+import 'writers/writers.dart';
 import 'logging/logging.dart';
 
 Future<void> generateJniBindings(Config config) async {
@@ -98,9 +98,16 @@ Future<void> generateJniBindings(Config config) async {
     return;
   }
   final list = json as List;
-  final outputWriter = FilesWriter(config);
+  final outputStructure = config.outputConfig.dartConfig.structure;
+  BindingsWriter outputWriter;
+  if (outputStructure == OutputStructure.packageStructure) {
+    outputWriter = FilesWriter(config);
+  } else {
+    outputWriter = SingleFileWriter(config);
+  }
   try {
-    await outputWriter.writeBindings(list.map((c) => ClassDecl.fromJson(c)));
+    await outputWriter
+        .writeBindings(list.map((c) => ClassDecl.fromJson(c)).toList());
   } on Exception catch (e, trace) {
     stderr.writeln(trace);
     log.fatal('Error while writing bindings: $e');

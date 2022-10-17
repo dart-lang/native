@@ -36,8 +36,18 @@ Future<List<String>> getJarPaths(String testRoot) async {
       .toList();
 }
 
+/// Read file normalizing CRLF to LF.
+String readFile(File file) => file.readAsStringSync().replaceAll('\r\n', '\n');
+
 /// compares 2 hierarchies, with and without prefix 'test_'
-void compareDirs(String path1, String path2) {
+void comparePaths(String path1, String path2) {
+  if (File(path1).existsSync()) {
+    expect(
+      readFile(File(path1)),
+      readFile(File(path2)),
+    );
+    return;
+  }
   final list1 = Directory(path1).listSync(recursive: true);
   final list2 = Directory(path2).listSync(recursive: true);
   expect(list1.length, equals(list2.length));
@@ -50,31 +60,36 @@ void compareDirs(String path1, String path2) {
     }
     final a = File(list1[i].path);
     final b = File(list2[i].path);
-    // Some windows problems: Depending on your working tree and git config
-    // one file may have CRLFs and other may have LFs.
-    expect(a.readAsStringSync().replaceAll("\r\n", "\n"),
-        equals(b.readAsStringSync().replaceAll("\r\n", "\n")));
+    expect(readFile(a), readFile(b));
   }
 }
 
 Future<void> _generateTempBindings(Config config, Directory tempDir) async {
   final tempSrc = tempDir.uri.resolve("src/");
-  final tempLib = tempDir.uri.resolve("lib/");
+  final singleFile =
+      config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+  final tempLib = singleFile
+      ? tempDir.uri.resolve("generated.dart")
+      : tempDir.uri.resolve("lib/");
   config.outputConfig.cConfig.path = tempSrc;
   config.outputConfig.dartConfig.path = tempLib;
   await generateJniBindings(config);
 }
 
 Future<void> generateAndCompareBindings(
-    Config config, String lib, String src) async {
+    Config config, String dartPath, String cPath) async {
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync("jnigen_test_temp");
   final tempSrc = tempDir.uri.resolve("src/");
-  final tempLib = tempDir.uri.resolve("lib/");
+  final singleFile =
+      config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+  final tempLib = singleFile
+      ? tempDir.uri.resolve("generated.dart")
+      : tempDir.uri.resolve("lib/");
   try {
     await _generateTempBindings(config, tempDir);
-    compareDirs(lib, tempLib.toFilePath());
-    compareDirs(src, tempSrc.toFilePath());
+    comparePaths(dartPath, tempLib.toFilePath());
+    comparePaths(cPath, tempSrc.toFilePath());
   } finally {
     tempDir.deleteSync(recursive: true);
   }
