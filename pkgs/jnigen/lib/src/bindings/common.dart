@@ -63,7 +63,7 @@ abstract class BindingsGenerator {
   /// Returns the formal parameters list of the generated function.
   ///
   /// This is the signature seen by the user.
-  String formalArgs(Method m, SymbolResolver resolver) {
+  String getFormalArgs(Method m, SymbolResolver resolver) {
     final List<String> args = [];
     for (var param in m.params) {
       args.add(
@@ -254,6 +254,7 @@ String getUniqueClassName(ClassDecl decl) {
   return decl.uniqueName;
 }
 
+/// Returns the name of the class member as referred to by C bindings
 String getMemberNameInC(ClassDecl decl, String name) =>
     "${getUniqueClassName(decl)}__$name";
 

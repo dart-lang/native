@@ -40,8 +40,8 @@ class CBindingGenerator {
 
     // global variable in C that holds the reference to class
     final classVar = '${classVarPrefix}_$classNameInC';
-    s.write('// ${c.binaryName}\n');
-    s.write('jclass $classVar = NULL;\n\n');
+    s.write('// ${c.binaryName}\n'
+        'jclass $classVar = NULL;\n\n');
 
     for (var m in c.methods) {
       if (!m.isIncluded) {
@@ -72,50 +72,52 @@ class CBindingGenerator {
     final s = StringBuffer();
     final name = m.finalName;
     final functionName = getMemberNameInC(c, name);
+    final classRef = '${classVarPrefix}_$classNameInC';
     final methodID = '${methodVarPrefix}_$functionName';
-    s.write('jmethodID $methodID = NULL;\n');
-
     final cMethodName = getMemberNameInC(c, name);
-    final cParams = _formalArgs(m);
-    s.write('FFI_PLUGIN_EXPORT\n');
-    s.write('$jniResultType $cMethodName($cParams) {\n');
-
-    final classVar = '${classVarPrefix}_$classNameInC';
+    final cMethodParams = _formalArgs(m);
     final jniSignature = getJniSignatureForMethod(m);
+    final ifStaticMethodID = isStatic ? 'static_' : '';
 
-    s.write(_loadEnvCall);
-    s.write(_loadClassCall(classVar, getInternalName(c.binaryName)));
-
-    final ifStatic = isStatic ? 'static_' : '';
-    s.write('${indent}load_${ifStatic}method($classVar, '
-        '&$methodID, "${m.name}", "$jniSignature");\n');
-    s.write('${indent}if ($methodID == NULL) return $ifError;\n');
-
-    var returnTypeName = m.returnType.name;
+    var javaReturnType = m.returnType.name;
     if (isACtor) {
-      returnTypeName = c.binaryName;
-    }
-
-    s.write(indent);
-    if (returnTypeName != 'void') {
-      s.write('${getCType(returnTypeName)} _result = ');
+      javaReturnType = c.binaryName;
     }
     final callType = _typeNameAtCallSite(m.returnType);
-    final callArgs = _callArgs(m, classVar, methodID);
-    if (isACtor) {
-      s.write('(*jniEnv)->NewObject($callArgs);\n');
-    } else {
-      final ifStatic = isStatic ? 'Static' : '';
-      s.write('(*jniEnv)->Call$ifStatic${callType}Method($callArgs);\n');
+    final callArgs = _callArgs(m, classRef, methodID);
+
+    var ifAssignResult = '';
+    if (javaReturnType != 'void') {
+      ifAssignResult = '${getCType(javaReturnType)} _result = ';
     }
-    s.write(_result(m));
-    s.write('}\n');
+
+    final ifStaticCall = isStatic ? 'Static' : '';
+    final envMethod =
+        isACtor ? 'NewObject' : 'Call$ifStaticCall${callType}Method';
+    final returnResultIfAny = _result(m);
+    s.write('''
+jmethodID $methodID = NULL;
+FFI_PLUGIN_EXPORT
+$jniResultType $cMethodName($cMethodParams) {
+    $_loadEnvCall
+    ${_loadClassCall(classRef, getInternalName(c.binaryName))}
+    load_${ifStaticMethodID}method($classRef,
+      &$methodID, "${m.name}", "$jniSignature");
+    if ($methodID == NULL) return $ifError;
+    $ifAssignResult(*jniEnv)->$envMethod($callArgs);
+    $returnResultIfAny
+}\n''');
     return s.toString();
   }
 
   String _field(ClassDecl c, Field f) {
     final cClassName = getUniqueClassName(c);
     final isStatic = isStaticField(f);
+
+    final fieldName = f.finalName;
+    final fieldNameInC = getMemberNameInC(c, fieldName);
+    final fieldVar = "${fieldVarPrefix}_$fieldNameInC";
+
     // If the field is final and default is assigned, then no need to wrap
     // this field. It should then be a constant in dart code.
     if (isStatic && isFinalField(f) && f.defaultValue != null) {
@@ -124,51 +126,49 @@ class CBindingGenerator {
 
     final s = StringBuffer();
 
-    final fieldName = f.finalName;
-    final fieldNameInC = getMemberNameInC(c, fieldName);
-    final fieldVar = "${fieldVarPrefix}_$fieldNameInC";
     s.write('jfieldID $fieldVar = NULL;\n');
-    final classVar = '${classVarPrefix}_$cClassName';
 
+    final classVar = '${classVarPrefix}_$cClassName';
     void writeAccessor({bool isSetter = false}) {
-      final prefix = isSetter ? 'set' : 'get';
-      s.write('FFI_PLUGIN_EXPORT\n');
       const cReturnType = jniResultType;
-      s.write('$cReturnType ${prefix}_$fieldNameInC(');
+      final cMethodPrefix = isSetter ? 'set' : 'get';
       final formalArgs = <String>[
         if (!isStatic) 'jobject self_',
         if (isSetter) '${getCType(f.type.name)} value',
-      ];
-      s.write(formalArgs.join(', '));
-      s.write(') {\n');
-      s.write(_loadEnvCall);
-      s.write(_loadClassCall(classVar, getInternalName(c.binaryName)));
-
-      var ifStatic = isStatic ? 'static_' : '';
-      s.write(
-          '${indent}load_${ifStatic}field($classVar, &$fieldVar, "$fieldName",'
-          '"${_fieldSignature(f)}");\n');
-
-      ifStatic = isStatic ? 'Static' : '';
-      final self = isStatic ? classVar : 'self_';
+      ].join(', ');
+      final ifStaticField = isStatic ? 'static_' : '';
+      final ifStaticCall = isStatic ? 'Static' : '';
       final callType = _typeNameAtCallSite(f.type);
+      final objectArgument = isStatic ? classVar : 'self_';
+
+      String accessorStatements;
       if (isSetter) {
-        s.write('$indent(*jniEnv)->Set$ifStatic${callType}Field(jniEnv, '
-            '$self, $fieldVar, value);\n');
-        s.write('${indent}return $ifError;\n');
+        accessorStatements =
+            '$indent(*jniEnv)->Set$ifStaticCall${callType}Field(jniEnv, '
+            '$objectArgument, $fieldVar, value);\n'
+            '${indent}return $ifError;';
       } else {
-        var getterExpr = '(*jniEnv)->Get$ifStatic${callType}Field(jniEnv, '
-            '$self, $fieldVar)';
+        var getterExpr = '(*jniEnv)->Get$ifStaticCall${callType}Field(jniEnv, '
+            '$objectArgument, $fieldVar)';
         if (!isPrimitive(f.type)) {
           getterExpr = 'to_global_ref($getterExpr)';
         }
         final cResultType = getCType(f.type.name);
-        s.write('$indent$cResultType _result = $getterExpr;\n');
         final unionField = getJValueField(f.type);
-        s.write('${indent}return (JniResult){.result = '
-            '{.$unionField = _result}, .exception = check_exception()};\n');
+        accessorStatements = '$indent$cResultType _result = $getterExpr;\n'
+            '${indent}return (JniResult){.result = '
+            '{.$unionField = _result}, .exception = check_exception()};';
       }
-      s.write('}\n\n');
+
+      s.write('''
+FFI_PLUGIN_EXPORT
+$cReturnType ${cMethodPrefix}_$fieldNameInC($formalArgs) {
+    $_loadEnvCall
+    ${_loadClassCall(classVar, getInternalName(c.binaryName))}
+    load_${ifStaticField}field($classVar, &$fieldVar, "$fieldName",
+      "${_fieldSignature(f)}");
+$accessorStatements
+}\n\n''');
     }
 
     writeAccessor(isSetter: false);
@@ -179,12 +179,11 @@ class CBindingGenerator {
     return s.toString();
   }
 
-  final String _loadEnvCall = '${indent}load_env();\n';
+  final String _loadEnvCall = '${indent}load_env();';
 
   String _loadClassCall(String classVar, String internalName) {
-    return '${indent}load_class_gr(&$classVar, '
-        '"$internalName");\n'
-        '${indent}if ($classVar == NULL) return $ifError;\n';
+    return '${indent}load_class_gr(&$classVar, "$internalName");\n'
+        '${indent}if ($classVar == NULL) return $ifError;';
   }
 
   String _formalArgs(Method m) {
@@ -253,7 +252,8 @@ class CBindingGenerator {
       valuePart = '_result';
     }
     const exceptionPart = 'check_exception()';
-    return '${indent}return (JniResult){.result = {.$unionField = $valuePart}, .exception = $exceptionPart};\n';
+    return '${indent}return (JniResult){.result = {.$unionField = $valuePart}, '
+        '.exception = $exceptionPart};';
   }
 
   String _fieldSignature(Field f) {

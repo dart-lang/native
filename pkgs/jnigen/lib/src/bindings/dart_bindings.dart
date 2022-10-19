@@ -58,11 +58,8 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
           jniObjectType;
     }
 
-    s.write('class $name extends $superName {\n');
-    s.write('$indent$name.fromRef($voidPointer ref) : '
-        'super.fromRef(ref);\n');
-
-    s.writeln();
+    s.write('class $name extends $superName {\n'
+        '$indent$name.fromRef($voidPointer ref) : super.fromRef(ref);\n\n');
 
     for (var field in decl.fields) {
       if (!field.isIncluded) {
@@ -100,12 +97,15 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
     final sym = '_$name';
     final ffiSig = dartSigForMethod(m, isFfiSig: true);
     final dartSig = dartSigForMethod(m, isFfiSig: false);
+    final returnType = getDartOuterType(m.returnType, resolver);
+    final ifStaticMethod = isStaticMethod(m) ? 'static' : '';
+
+    // Load corresponding C method.
     s.write('${indent}static final $sym = $lookup'
         '<${ffi}NativeFunction<$ffiSig>>("$cName")\n'
         '.asFunction<$dartSig>();\n');
     // Different logic for constructor and method;
     // For constructor, we want return type to be new object.
-    final returnType = getDartOuterType(m.returnType, resolver);
     s.write('$indent/// from: ${getOriginalMethodHeader(m)}\n');
     if (!isPrimitive(m.returnType)) {
       s.write(BindingsGenerator.deleteInstruction);
@@ -113,15 +113,11 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
     s.write(breakDocComment(m.javadoc));
     s.write(indent);
 
-    if (isStaticMethod(m)) {
-      s.write('static ');
-    }
-
     if (isCtor(m)) {
-      final wrapperExpr = '$sym(${actualArgs(m)})';
       final className = c.finalName;
       final ctorFnName = name == 'ctor' ? className : '$className.$name';
-      s.write('$ctorFnName(${formalArgs(m, resolver)}) : '
+      final wrapperExpr = '$sym(${actualArgs(m)})';
+      s.write('$ctorFnName(${getFormalArgs(m, resolver)}) : '
           'super.fromRef($wrapperExpr.object);\n');
       return s.toString();
     }
@@ -129,8 +125,9 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
     final resultGetter = getJValueAccessor(m.returnType);
     var wrapperExpr = '$sym(${actualArgs(m)}).$resultGetter';
     wrapperExpr = toDartResult(wrapperExpr, m.returnType, returnType);
-    s.write('$returnType $name(${formalArgs(m, resolver)}) => ');
-    s.write('$wrapperExpr;\n');
+    final params = getFormalArgs(m, resolver);
+    s.write('$indent$ifStaticMethod $returnType $name($params) '
+        '=> $wrapperExpr;\n');
     return s.toString();
   }
 
@@ -148,10 +145,11 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
 
     if (isStaticField(f) && isFinalField(f) && f.defaultValue != null) {
       writeDocs(writeDeleteInstruction: false);
-      s.write(
-          '${indent}static const $name = ${getDartLiteral(f.defaultValue)};\n');
+      s.write('${indent}static const $name = '
+          '${getDartLiteral(f.defaultValue)};\n');
       return s.toString();
     }
+
     final cName = getMemberNameInC(c, name);
 
     void writeAccessor({bool isSetter = false}) {
@@ -162,31 +160,30 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
       s.write('${indent}static final $sym = $lookup'
           '<${ffi}NativeFunction<$ffiSig>>("${symPrefix}_$cName")\n'
           '.asFunction<$dartSig>();\n');
-      // write original type
       writeDocs();
-      s.write(indent);
-      if (isStaticField(f)) s.write('static ');
+      final ifStatic = isStaticField(f) ? 'static' : '';
       if (isSetter) {
-        s.write(
-            'set $name(${getDartOuterType(f.type, resolver)} value) => $sym(');
-        if (!isStaticField(f)) {
-          s.write('$selfPointer, ');
-        }
-        s.write(toNativeArg('value', f.type));
-        s.write(');\n');
+        final args = [
+          if (!isStaticField(f)) selfPointer,
+          toNativeArg('value', f.type),
+        ].join(', ');
+        final valueOuterType = getDartOuterType(f.type, resolver);
+        s.write('$indent$ifStatic set $name($valueOuterType value) => '
+            '$sym($args);\n');
       } else {
         // getter
         final self = isStaticField(f) ? '' : selfPointer;
-        final outer = getDartOuterType(f.type, resolver);
+        final outerType = getDartOuterType(f.type, resolver);
         final resultGetter = getJValueAccessor(f.type);
         final callExpr = '$sym($self).$resultGetter';
-        final resultExpr = toDartResult(callExpr, f.type, outer);
-        s.write('$outer get $name => $resultExpr;\n');
+        final resultExpr = toDartResult(callExpr, f.type, outerType);
+        s.write('$indent$ifStatic $outerType get $name => $resultExpr;\n');
       }
     }
 
     writeAccessor(isSetter: false);
     if (!isFinalField(f)) writeAccessor(isSetter: true);
+    s.writeln();
     return s.toString();
   }
 
