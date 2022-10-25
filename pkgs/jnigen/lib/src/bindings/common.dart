@@ -308,28 +308,52 @@ String getInternalName(String binaryName) {
   }
 }
 
-String getInternalNameOfUsage(TypeUsage usage,
-    {bool escapeDollarSign = false}) {
+String getSignature(String binaryName) {
+  switch (binaryName) {
+    case "void":
+      return "V";
+    case "byte":
+      return "B";
+    case "char":
+      return "C";
+    case "double":
+      return "D";
+    case "float":
+      return "F";
+    case "int":
+      return "I";
+    case "long":
+      return "J";
+    case "short":
+      return "S";
+    case "boolean":
+      return "Z";
+    default:
+      return 'L${binaryName.replaceAll(".", "/")};';
+  }
+}
+
+String getDescriptor(TypeUsage usage, {bool escapeDollarSign = false}) {
   switch (usage.kind) {
     case Kind.declared:
-      return getInternalName((usage.type as DeclaredType).binaryName);
+      return getSignature((usage.type as DeclaredType).binaryName);
     case Kind.primitive:
-      return getInternalName((usage.type as PrimitiveType).name);
+      return getSignature((usage.type as PrimitiveType).name);
     case Kind.typeVariable:
       // It should be possible to compute the erasure of a type
       // in parser itself.
       // TODO(#23): Use erasure of the type variable here.
       // This is just a (wrong) placeholder
-      return "java/lang/Object";
+      return "Ljava/lang/Object;";
     case Kind.array:
-      final inner = getInternalNameOfUsage((usage.type as ArrayType).type);
+      final inner = getDescriptor((usage.type as ArrayType).type);
       return "[$inner";
     case Kind.wildcard:
       final extendsBound = (usage.type as Wildcard).extendsBound;
       if (extendsBound != null) {
-        return getInternalNameOfUsage(extendsBound);
+        return getDescriptor(extendsBound);
       }
-      return 'java/lang/Object';
+      return 'Ljava/lang/Object;';
   }
 }
 
@@ -404,19 +428,11 @@ String getJniSignatureForMethod(Method m) {
   final s = StringBuffer();
   s.write('(');
   for (var param in m.params) {
-    final type = getInternalNameOfUsage(param.type);
-    s.write(type.length == 1 ? type : 'L$type;');
+    final type = getDescriptor(param.type);
+    s.write(type);
   }
   s.write(')');
-  final returnType = getInternalNameOfUsage(m.returnType);
-  s.write(returnType.length == 1 ? returnType : 'L$returnType;');
+  final returnType = getDescriptor(m.returnType);
+  s.write(returnType);
   return s.toString();
-}
-
-String getJniSignatureForField(Field f) {
-  final internalName = getInternalNameOfUsage(f.type);
-  if (internalName.length == 1) {
-    return internalName;
-  }
-  return 'L$internalName;';
 }

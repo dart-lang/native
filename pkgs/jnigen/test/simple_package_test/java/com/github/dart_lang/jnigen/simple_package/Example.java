@@ -4,6 +4,8 @@
 
 package com.github.dart_lang.jnigen.simple_package;
 
+import java.util.Arrays;
+
 public class Example {
   public static final int ON = 1;
   public static final int OFF = 0;
@@ -26,6 +28,14 @@ public class Example {
 
   public static int addInts(int a, int b) {
     return a + b;
+  }
+
+  public static Integer[] getArr() {
+    return new Integer[] {1, 2, 3};
+  }
+
+  public static int addAll(Integer[] arr) {
+    return Arrays.stream(arr).mapToInt(val -> val).sum();
   }
 
   public Example getSelf() {

@@ -951,7 +951,7 @@ JniResult JsonFactory__createParser4(jobject self_, jobject data) {
   if (_c_JsonFactory == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonFactory, &_m_JsonFactory__createParser4, "createParser",
-              "(L[B;)Lcom/fasterxml/jackson/core/JsonParser;");
+              "([B)Lcom/fasterxml/jackson/core/JsonParser;");
   if (_m_JsonFactory__createParser4 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -971,7 +971,7 @@ JniResult JsonFactory__createParser5(jobject self_,
   if (_c_JsonFactory == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonFactory, &_m_JsonFactory__createParser5, "createParser",
-              "(L[B;II)Lcom/fasterxml/jackson/core/JsonParser;");
+              "([BII)Lcom/fasterxml/jackson/core/JsonParser;");
   if (_m_JsonFactory__createParser5 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -1005,7 +1005,7 @@ JniResult JsonFactory__createParser7(jobject self_, jobject content) {
   if (_c_JsonFactory == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonFactory, &_m_JsonFactory__createParser7, "createParser",
-              "(L[C;)Lcom/fasterxml/jackson/core/JsonParser;");
+              "([C)Lcom/fasterxml/jackson/core/JsonParser;");
   if (_m_JsonFactory__createParser7 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -1025,7 +1025,7 @@ JniResult JsonFactory__createParser8(jobject self_,
   if (_c_JsonFactory == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonFactory, &_m_JsonFactory__createParser8, "createParser",
-              "(L[C;II)Lcom/fasterxml/jackson/core/JsonParser;");
+              "([CII)Lcom/fasterxml/jackson/core/JsonParser;");
   if (_m_JsonFactory__createParser8 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -1265,7 +1265,7 @@ JniResult JsonFactory__createJsonParser4(jobject self_, jobject data) {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonFactory, &_m_JsonFactory__createJsonParser4,
               "createJsonParser",
-              "(L[B;)Lcom/fasterxml/jackson/core/JsonParser;");
+              "([B)Lcom/fasterxml/jackson/core/JsonParser;");
   if (_m_JsonFactory__createJsonParser4 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -1286,7 +1286,7 @@ JniResult JsonFactory__createJsonParser5(jobject self_,
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonFactory, &_m_JsonFactory__createJsonParser5,
               "createJsonParser",
-              "(L[B;II)Lcom/fasterxml/jackson/core/JsonParser;");
+              "([BII)Lcom/fasterxml/jackson/core/JsonParser;");
   if (_m_JsonFactory__createJsonParser5 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -1445,7 +1445,7 @@ JniResult JsonFactory_Feature__values() {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__values,
                      "values",
-                     "()L[com/fasterxml/jackson/core/JsonFactory$Feature;");
+                     "()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
   if (_m_JsonFactory_Feature__values == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
@@ -1672,7 +1672,7 @@ JniResult JsonParser__setRequestPayloadOnError1(jobject self_,
   if (_c_JsonParser == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonParser, &_m_JsonParser__setRequestPayloadOnError1,
-              "setRequestPayloadOnError", "(L[B;Ljava/lang/String;)V");
+              "setRequestPayloadOnError", "([BLjava/lang/String;)V");
   if (_m_JsonParser__setRequestPayloadOnError1 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   (*jniEnv)->CallVoidMethod(jniEnv, self_,
@@ -2685,7 +2685,7 @@ JniResult JsonParser__getTextCharacters(jobject self_) {
   if (_c_JsonParser == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonParser, &_m_JsonParser__getTextCharacters,
-              "getTextCharacters", "()L[C;");
+              "getTextCharacters", "()[C");
   if (_m_JsonParser__getTextCharacters == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -2963,7 +2963,7 @@ JniResult JsonParser__getBinaryValue(jobject self_, jobject bv) {
   if (_c_JsonParser == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonParser, &_m_JsonParser__getBinaryValue, "getBinaryValue",
-              "(Lcom/fasterxml/jackson/core/Base64Variant;)L[B;");
+              "(Lcom/fasterxml/jackson/core/Base64Variant;)[B");
   if (_m_JsonParser__getBinaryValue == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
@@ -2980,7 +2980,7 @@ JniResult JsonParser__getBinaryValue1(jobject self_) {
   if (_c_JsonParser == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonParser, &_m_JsonParser__getBinaryValue1, "getBinaryValue",
-              "()L[B;");
+              "()[B");
   if (_m_JsonParser__getBinaryValue1 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(jniEnv, self_,
@@ -3365,7 +3365,7 @@ JniResult JsonParser_Feature__values() {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__values,
                      "values",
-                     "()L[com/fasterxml/jackson/core/JsonParser$Feature;");
+                     "()[Lcom/fasterxml/jackson/core/JsonParser$Feature;");
   if (_m_JsonParser_Feature__values == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
@@ -3493,7 +3493,7 @@ JniResult JsonParser_NumberType__values() {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(_c_JsonParser_NumberType,
                      &_m_JsonParser_NumberType__values, "values",
-                     "()L[com/fasterxml/jackson/core/JsonParser$NumberType;");
+                     "()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
   if (_m_JsonParser_NumberType__values == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
@@ -3551,7 +3551,7 @@ JniResult JsonToken__values() {
   if (_c_JsonToken == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(_c_JsonToken, &_m_JsonToken__values, "values",
-                     "()L[com/fasterxml/jackson/core/JsonToken;");
+                     "()[Lcom/fasterxml/jackson/core/JsonToken;");
   if (_m_JsonToken__values == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_JsonToken,
@@ -3633,8 +3633,7 @@ JniResult JsonToken__asCharArray(jobject self_) {
   load_class_gr(&_c_JsonToken, "com/fasterxml/jackson/core/JsonToken");
   if (_c_JsonToken == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonToken, &_m_JsonToken__asCharArray, "asCharArray",
-              "()L[C;");
+  load_method(_c_JsonToken, &_m_JsonToken__asCharArray, "asCharArray", "()[C");
   if (_m_JsonToken__asCharArray == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result =
@@ -3650,8 +3649,7 @@ JniResult JsonToken__asByteArray(jobject self_) {
   load_class_gr(&_c_JsonToken, "com/fasterxml/jackson/core/JsonToken");
   if (_c_JsonToken == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonToken, &_m_JsonToken__asByteArray, "asByteArray",
-              "()L[B;");
+  load_method(_c_JsonToken, &_m_JsonToken__asByteArray, "asByteArray", "()[B");
   if (_m_JsonToken__asByteArray == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result =

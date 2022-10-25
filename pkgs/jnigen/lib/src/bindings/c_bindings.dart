@@ -166,7 +166,7 @@ $cReturnType ${cMethodPrefix}_$fieldNameInC($formalArgs) {
     $_loadEnvCall
     ${_loadClassCall(classVar, getInternalName(c.binaryName))}
     load_${ifStaticField}field($classVar, &$fieldVar, "$fieldName",
-      "${_fieldSignature(f)}");
+      "${getDescriptor(f.type)}");
 $accessorStatements
 }\n\n''');
     }
@@ -254,14 +254,6 @@ $accessorStatements
     const exceptionPart = 'check_exception()';
     return '${indent}return (JniResult){.result = {.$unionField = $valuePart}, '
         '.exception = $exceptionPart};';
-  }
-
-  String _fieldSignature(Field f) {
-    final internalName = getInternalNameOfUsage(f.type);
-    if (internalName.length == 1) {
-      return internalName;
-    }
-    return 'L$internalName;';
   }
 
   /// Returns capitalized java type name to be used as in call${type}Method

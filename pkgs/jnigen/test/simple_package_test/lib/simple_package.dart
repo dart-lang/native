@@ -97,6 +97,22 @@ class Example extends jni.JniObject {
   /// from: static public int addInts(int a, int b)
   static int addInts(int a, int b) => _addInts(a, b).integer;
 
+  static final _getArr =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example__getArr")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public java.lang.Integer[] getArr()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JniObject getArr() => jni.JniObject.fromRef(_getArr().object);
+
+  static final _addAll = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Example__addAll")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: static public int addAll(java.lang.Integer[] arr)
+  static int addAll(jni.JniObject arr) => _addAll(arr.reference).integer;
+
   static final _getSelf = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(

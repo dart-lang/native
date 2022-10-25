@@ -947,7 +947,7 @@ JniResult PDDocument__load13(jobject input) {
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(_c_PDDocument, &_m_PDDocument__load13, "load",
-                     "(L[B;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
+                     "([B)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load13 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
@@ -965,7 +965,7 @@ JniResult PDDocument__load14(jobject input, jobject password) {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(
       _c_PDDocument, &_m_PDDocument__load14, "load",
-      "(L[B;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
+      "([BLjava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load14 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
@@ -985,7 +985,7 @@ JniResult PDDocument__load15(jobject input,
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(_c_PDDocument, &_m_PDDocument__load15, "load",
-                     "(L[B;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/"
+                     "([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/"
                      "String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load15 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
@@ -1007,10 +1007,10 @@ JniResult PDDocument__load16(jobject input,
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_PDDocument, &_m_PDDocument__load16, "load",
-                     "(L[B;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/"
-                     "String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/"
-                     "apache/pdfbox/pdmodel/PDDocument;");
+  load_static_method(
+      _c_PDDocument, &_m_PDDocument__load16, "load",
+      "([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/"
+      "pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load16 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
@@ -1355,7 +1355,7 @@ JniResult get_PDDocument__RESERVE_BYTE_RANGE() {
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_PDDocument, &_f_PDDocument__RESERVE_BYTE_RANGE,
-                    "RESERVE_BYTE_RANGE", "L[I;");
+                    "RESERVE_BYTE_RANGE", "[I");
   jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
       jniEnv, _c_PDDocument, _f_PDDocument__RESERVE_BYTE_RANGE));
   return (JniResult){.result = {.l = _result}, .exception = check_exception()};
@@ -4527,7 +4527,7 @@ JniResult get_PDFTextStripper__LIST_ITEM_EXPRESSIONS() {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_PDFTextStripper,
                     &_f_PDFTextStripper__LIST_ITEM_EXPRESSIONS,
-                    "LIST_ITEM_EXPRESSIONS", "L[java/lang/String;");
+                    "LIST_ITEM_EXPRESSIONS", "[Ljava/lang/String;");
   jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
       jniEnv, _c_PDFTextStripper, _f_PDFTextStripper__LIST_ITEM_EXPRESSIONS));
   return (JniResult){.result = {.l = _result}, .exception = check_exception()};
