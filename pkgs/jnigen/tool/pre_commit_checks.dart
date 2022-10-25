@@ -16,115 +16,26 @@
 import 'dart:async';
 import 'dart:io';
 
-const ansiRed = '\x1b[31m';
-const ansiDefault = '\x1b[39;49m';
-
-void printError(Object? message) {
-  if (stderr.supportsAnsiEscapes) {
-    message = '$ansiRed$message$ansiDefault';
-  }
-  stderr.writeln(message);
-}
-
-class StepFailure implements Exception {
-  StepFailure(this.name);
-  String name;
-  @override
-  String toString() => 'step failed: $name';
-}
-
-abstract class Step {
-  /// Runs this step, raises an exception if something fails.
-  Future<void> run();
-}
-
-class Callback implements Step {
-  Callback(this.name, this.function);
-  String name;
-  Future<void> Function() function;
-  @override
-  Future<void> run() => function();
-}
-
-class Command implements Step {
-  Command(this.exec, this.args, this.workingDirectory);
-  final String exec;
-  final List<String> args;
-  final String workingDirectory;
-
-  @override
-  Future<void> run() async {
-    final result =
-        await Process.run(exec, args, workingDirectory: workingDirectory);
-    if (result.exitCode != 0) {
-      printError(result.stdout);
-      printError(result.stderr);
-      final commandString = "$exec ${args.join(" ")}";
-      stderr.writeln("failure executing command: $commandString");
-      throw StepFailure(commandString);
-    }
-  }
-}
-
-class Runner {
-  static final gitRoot = getRepositoryRoot();
-  Runner(this.name, this.defaultWorkingDir);
-  String name;
-  String defaultWorkingDir;
-  final steps = <Step>[];
-  final cleanupSteps = <Step>[];
-
-  void chainCommand(String exec, List<String> args,
-          {String? workingDirectory}) =>
-      _addCommand(steps, exec, args, workingDirectory: workingDirectory);
-
-  void chainCleanupCommand(String exec, List<String> args,
-          {String? workingDirectory}) =>
-      _addCommand(cleanupSteps, exec, args, workingDirectory: workingDirectory);
-
-  void _addCommand(List<Step> list, String exec, List<String> args,
-      {String? workingDirectory}) {
-    final resolvedWorkingDirectory =
-        gitRoot.resolve(workingDirectory ?? defaultWorkingDir);
-    list.add(Command(exec, args, resolvedWorkingDirectory.toFilePath()));
-  }
-
-  void chainCallback(String name, Future<void> Function() callback) {
-    steps.add(Callback(name, callback));
-  }
-
-  Future<void> run() async {
-    stderr.writeln("started: $name");
-    var error = false;
-    for (var step in steps) {
-      try {
-        await step.run();
-      } on StepFailure catch (e) {
-        stderr.writeln(e);
-        error = true;
-        exitCode = 1;
-        break;
-      }
-    }
-    stderr.writeln('${error ? "failed" : "complete"}: $name');
-    for (var step in cleanupSteps) {
-      try {
-        await step.run();
-      } on Exception catch (e) {
-        printError("ERROR: $e");
-      }
-    }
-  }
-}
-
-Uri getRepositoryRoot() {
-  final gitCommand = Process.runSync("git", ["rev-parse", "--show-toplevel"]);
-  final output = gitCommand.stdout as String;
-  return Uri.directory(output.trim());
-}
+import 'command_runner.dart';
 
 void main() async {
-  final jniAnalyze = Runner("Analyze JNI", "jni");
+  final gitRoot = getRepositoryRoot();
+
+  // change to project root
+  Directory.current = gitRoot.toFilePath();
+
+  final tempDir = Directory.current.createTempSync('jnigen_checks_clone_');
+  final tempJniPath = tempDir.uri.resolve("jni/");
+  final tempJnigenPath = tempDir.uri.resolve("jnigen/");
+  final gitClone = Runner("Clone jni", Directory.current.uri)
+    ..chainCommand('git', ['clone', '.', tempDir.path])
+    ..chainCommand("flutter", ["pub", "get", "--offline"],
+        workingDirectory: tempJniPath)
+    ..chainCommand("dart", ["pub", "get", "--offline"],
+        workingDirectory: tempJnigenPath);
+  await gitClone.run();
+
+  final jniAnalyze = Runner("Analyze JNI", tempJniPath);
   jniAnalyze
     ..chainCommand("dart", ["analyze", "--fatal-infos"])
     ..chainCommand(
@@ -139,35 +50,44 @@ void main() async {
           "third_party/global_jni_env.c",
           "third_party/global_jni_env.h",
         ],
-        workingDirectory: "jni/src");
-  final jniTest = Runner("Test JNI", "jni")
+        workingDirectory: tempJniPath.resolve("src/"));
+  final jniTest = Runner("Test JNI", tempJniPath)
     ..chainCommand("dart", ["run", "jni:setup"])
     ..chainCommand("dart", ["test", "-j", "1"]);
   unawaited(jniAnalyze.run().then((f) => jniTest.run()));
+
   final ffigenBindingsPath = getRepositoryRoot()
       .resolve("jni/lib/src/third_party/jni_bindings_generated.dart");
   final ffigenBindings = File.fromUri(ffigenBindingsPath);
   final oldBindingsText = ffigenBindings.readAsStringSync();
-  final ffigenCompare = Runner("Generate & Compare FFIGEN bindings", "jni")
-    ..chainCommand("dart", ["run", "ffigen", "--config", "ffigen.yaml"])
-    ..chainCallback("compare bindings", () async {
-      final newBindingsText = await ffigenBindings.readAsString();
-      if (newBindingsText != oldBindingsText) {
-        await ffigenBindings.writeAsString(oldBindingsText);
-        throw "new JNI.h bindings differ from old bindings";
-      }
-    });
+  final ffigenCompare =
+      Runner("Generate & Compare FFIGEN bindings", tempJniPath)
+        ..chainCommand("dart", ["run", "ffigen", "--config", "ffigen.yaml"])
+        ..chainCallback("compare bindings", () async {
+          final newBindingsText = await ffigenBindings.readAsString();
+          if (newBindingsText != oldBindingsText) {
+            await ffigenBindings.writeAsString(oldBindingsText);
+            throw "new JNI.h bindings differ from old bindings";
+          }
+        });
   unawaited(ffigenCompare.run());
 
-  final jnigenAnalyze = Runner("Analyze jnigen", "jnigen")
+  final jnigenAnalyze = Runner("Analyze jnigen", tempJnigenPath)
     ..chainCommand("dart", ["analyze", "--fatal-infos"])
     ..chainCommand(
         "dart", ["format", "--output=none", "--set-exit-if-changed", "."])
     ..chainCommand("dart", ["run", "jnigen:setup"]);
-  final jnigenTest = Runner("Test jnigen", "jnigen")
-    ..chainCommand("dart", ["test"]);
+
+  // Tests may need more time when running on systems with less cores.
+  // So '--timeout 2x' is specified.
+  final jnigenTest = Runner("Test jnigen", gitRoot.resolve("jnigen/"))
+    ..chainCommand("dart", ["test", "--timeout", "2x"]);
+
+  // Note: Running in_app_java and notification_plugin checks on source dir
+  // itself, because running flutter build in cloned dir will take time.
   final compareInAppJavaBindings = Runner(
-      "Generate & compare InAppJava bindings", "jnigen/example/in_app_java")
+      "Generate & compare InAppJava bindings",
+      gitRoot.resolve("jnigen/example/in_app_java"))
     ..chainCommand("dart", [
       "run",
       "jnigen",
@@ -179,8 +99,9 @@ void main() async {
     ..chainCommand("diff", ["lib/android_utils.dart", "_temp.dart"])
     ..chainCommand("diff", ["-qr", "src/android_utils/", "src_temp/"])
     ..chainCleanupCommand("rm", ["-r", "_temp.dart", "src_temp"]);
-  final comparePdfboxBindings = Runner(
-      "Generate & compare PdfBox Bindings", "jnigen/example/pdfbox_plugin")
+
+  final comparePdfboxBindings = Runner("Generate & compare PdfBox Bindings",
+      gitRoot.resolve("jnigen/example/pdfbox_plugin"))
     ..chainCommand("dart", [
       "run",
       "jnigen",
@@ -192,9 +113,10 @@ void main() async {
     ..chainCommand("diff", ["-qr", "lib/src/third_party/", "lib_temp/"])
     ..chainCommand("diff", ["-qr", "src/", "src_temp/"])
     ..chainCleanupCommand("rm", ["-r", "lib_temp", "src_temp"]);
+
   final compareNotificationPluginBindings = Runner(
       "Generate & compare NotificationPlugin Bindings",
-      "jnigen/example/notification_plugin")
+      gitRoot.resolve("jnigen/example/notification_plugin"))
     ..chainCommand("dart", [
       "run",
       "jnigen",
@@ -206,10 +128,14 @@ void main() async {
     ..chainCommand("diff", ["lib/notifications.dart", "_temp.dart"])
     ..chainCommand("diff", ["-qr", "src/", "src_temp/"])
     ..chainCleanupCommand("rm", ["-r", "_temp.dart", "src_temp"]);
+
   unawaited(jnigenAnalyze.run().then((_) {
-    jnigenTest.run();
-    compareInAppJavaBindings.run();
-    comparePdfboxBindings.run();
-    compareNotificationPluginBindings.run();
+    final test = jnigenTest.run();
+    final inAppJava = compareInAppJavaBindings.run();
+    final pdfBox = comparePdfboxBindings.run();
+    final notificationPlugin = compareNotificationPluginBindings.run();
+    return Future.wait([test, inAppJava, pdfBox, notificationPlugin]);
+  }).then((_) {
+    tempDir.deleteSync(recursive: true);
   }));
 }
