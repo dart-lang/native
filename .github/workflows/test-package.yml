@@ -247,6 +247,55 @@ jobs:
       - run: dart run jnigen:setup
       - run: dart test
 
+  test_jni_macos_minimal:
+    needs: [analyze_jni]
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jni
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - run: dart pub get
+      - run: dart run jni:setup
+      ## TODO(#51): -j 1 is required to avoid a rare race condition which is caused by
+      ## all tests which spawn JVM being run in same process.
+      - run: dart test -j 1
+
+  test_jnigen_macos_minimal:
+    needs: [analyze_jnigen]
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./pkgs/jnigen
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup clang format
+        uses: ConorMacBride/install-package@v1
+        with:
+          brew: clang-format
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - run: git config --global core.autocrlf true
+      - run: dart pub get
+      - run: dart run jnigen:setup
+      - run: dart test
+
   build_jni_example_linux:
     runs-on: ubuntu-latest
     defaults:

@@ -5,6 +5,8 @@
 .packages
 build/
 pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
 
 # created by maven
 /target/

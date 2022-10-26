@@ -236,7 +236,12 @@ void main(List<String> arguments) async {
         Platform.isWindows ? tempDir.uri.resolve("Debug") : tempDir.uri;
     final dllDir = Directory.fromUri(dllDirUri);
     for (var entry in dllDir.listSync()) {
-      final dllSuffix = Platform.isWindows ? "dll" : "so";
+      verboseLog(entry.toString());
+      final dllSuffix = Platform.isWindows
+          ? "dll"
+          : Platform.isMacOS
+              ? "dylib"
+              : "so";
       if (entry.path.endsWith(dllSuffix)) {
         final dllName = entry.uri.pathSegments.last;
         final target = buildDir.uri.resolve(dllName);

@@ -20,7 +20,7 @@ String _getLibraryFileName(String base) {
   } else if (Platform.isWindows) {
     return "$base.dll";
   } else if (Platform.isMacOS) {
-    return "$base.framework/$base";
+    return "lib$base.dylib";
   } else {
     throw UnsupportedError("cannot derive library name: unsupported platform");
   }

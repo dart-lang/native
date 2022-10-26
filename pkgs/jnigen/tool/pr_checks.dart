@@ -16,26 +16,46 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:args/args.dart';
+
 import 'command_runner.dart';
 
-void main() async {
+// Flags
+const _clone = 'clone';
+
+void main(List<String> arguments) async {
+  final parser = ArgParser()
+    ..addFlag(
+      _clone,
+      help: 'Run checks in a cloned copy of the project.',
+      defaultsTo: true,
+      negatable: true,
+    );
+  final argResults = parser.parse(arguments);
+  final shouldClone = argResults[_clone] as bool;
   final gitRoot = getRepositoryRoot();
 
   // change to project root
   Directory.current = gitRoot.toFilePath();
 
-  final tempDir = Directory.current.createTempSync('jnigen_checks_clone_');
-  final tempJniPath = tempDir.uri.resolve("jni/");
-  final tempJnigenPath = tempDir.uri.resolve("jnigen/");
-  final gitClone = Runner("Clone jni", Directory.current.uri)
-    ..chainCommand('git', ['clone', '.', tempDir.path])
-    ..chainCommand("flutter", ["pub", "get", "--offline"],
-        workingDirectory: tempJniPath)
-    ..chainCommand("dart", ["pub", "get", "--offline"],
-        workingDirectory: tempJnigenPath);
-  await gitClone.run();
+  var tempDir = Directory.current;
+  if (shouldClone) {
+    tempDir = Directory.current.createTempSync('jnigen_checks_clone_');
+    final gitClone = Runner("Clone jni", Directory.current.uri)
+      ..chainCommand('git', ['clone', '.', tempDir.path]);
+    await gitClone.run();
+  }
 
-  final jniAnalyze = Runner("Analyze JNI", tempJniPath);
+  final jniPath = tempDir.uri.resolve("jni/");
+  final jnigenPath = tempDir.uri.resolve("jnigen/");
+  final pubGet = Runner("Pub get", tempDir.uri)
+    ..chainCommand("flutter", ["pub", "get", "--offline"],
+        workingDirectory: jniPath)
+    ..chainCommand("dart", ["pub", "get", "--offline"],
+        workingDirectory: jnigenPath);
+  await pubGet.run();
+
+  final jniAnalyze = Runner("Analyze JNI", jniPath);
   jniAnalyze
     ..chainCommand("dart", ["analyze", "--fatal-infos"])
     ..chainCommand(
@@ -50,8 +70,8 @@ void main() async {
           "third_party/global_jni_env.c",
           "third_party/global_jni_env.h",
         ],
-        workingDirectory: tempJniPath.resolve("src/"));
-  final jniTest = Runner("Test JNI", tempJniPath)
+        workingDirectory: jniPath.resolve("src/"));
+  final jniTest = Runner("Test JNI", jniPath)
     ..chainCommand("dart", ["run", "jni:setup"])
     ..chainCommand("dart", ["test", "-j", "1"]);
   unawaited(jniAnalyze.run().then((f) => jniTest.run()));
@@ -60,19 +80,18 @@ void main() async {
       .resolve("jni/lib/src/third_party/jni_bindings_generated.dart");
   final ffigenBindings = File.fromUri(ffigenBindingsPath);
   final oldBindingsText = ffigenBindings.readAsStringSync();
-  final ffigenCompare =
-      Runner("Generate & Compare FFIGEN bindings", tempJniPath)
-        ..chainCommand("dart", ["run", "ffigen", "--config", "ffigen.yaml"])
-        ..chainCallback("compare bindings", () async {
-          final newBindingsText = await ffigenBindings.readAsString();
-          if (newBindingsText != oldBindingsText) {
-            await ffigenBindings.writeAsString(oldBindingsText);
-            throw "new JNI.h bindings differ from old bindings";
-          }
-        });
+  final ffigenCompare = Runner("Generate & Compare FFIGEN bindings", jniPath)
+    ..chainCommand("dart", ["run", "ffigen", "--config", "ffigen.yaml"])
+    ..chainCallback("compare bindings", () async {
+      final newBindingsText = await ffigenBindings.readAsString();
+      if (newBindingsText != oldBindingsText) {
+        await ffigenBindings.writeAsString(oldBindingsText);
+        throw "new JNI.h bindings differ from old bindings";
+      }
+    });
   unawaited(ffigenCompare.run());
 
-  final jnigenAnalyze = Runner("Analyze jnigen", tempJnigenPath)
+  final jnigenAnalyze = Runner("Analyze jnigen", jnigenPath)
     ..chainCommand("dart", ["analyze", "--fatal-infos"])
     ..chainCommand(
         "dart", ["format", "--output=none", "--set-exit-if-changed", "."])
@@ -136,6 +155,8 @@ void main() async {
     final notificationPlugin = compareNotificationPluginBindings.run();
     return Future.wait([test, inAppJava, pdfBox, notificationPlugin]);
   }).then((_) {
-    tempDir.deleteSync(recursive: true);
+    if (shouldClone) {
+      tempDir.deleteSync(recursive: true);
+    }
   }));
 }

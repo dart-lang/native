@@ -49,6 +49,7 @@ globals:
 typedefs:
   exclude:
     - 'va_list'
+    - '__builtin_va_list'
   rename:
     'JNI(.*)': 'Jni$1'
     'jint': 'JInt'
