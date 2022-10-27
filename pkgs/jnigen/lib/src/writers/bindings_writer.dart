@@ -44,13 +44,14 @@ Future<void> _copyFileFromPackage(String package, String relPath, Uri target,
 
 Future<void> writeCBindings(Config config, List<ClassDecl> classes) async {
   // write C file and init file
-  final cRoot = config.outputConfig.cConfig.path;
+  final cConfig = config.outputConfig.cConfig!;
+  final cRoot = cConfig.path;
   final preamble = config.preamble;
   log.info("Using c root = $cRoot");
-  final libraryName = config.outputConfig.cConfig.libraryName;
+  final libraryName = cConfig.libraryName;
   log.info('Creating dart init file ...');
   // Create C file
-  final subdir = config.outputConfig.cConfig.subdir ?? '.';
+  final subdir = cConfig.subdir ?? '.';
   final cFileRelativePath = '$subdir/$libraryName.c';
   final cFile = await File.fromUri(cRoot.resolve(cFileRelativePath))
       .create(recursive: true);

@@ -73,8 +73,8 @@ abstract class BindingsGenerator {
   }
 
   /// Actual arguments passed to native call.
-  String actualArgs(Method m) {
-    final List<String> args = [if (hasSelfParam(m)) selfPointer];
+  String actualArgs(Method m, {bool addSelf = true}) {
+    final List<String> args = [if (hasSelfParam(m) && addSelf) selfPointer];
     for (var param in m.params) {
       final paramName = kwRename(param.name);
       args.add(toNativeArg(paramName, param.type));
@@ -169,7 +169,7 @@ abstract class BindingsGenerator {
   String getDartLiteral(dynamic value) {
     if (value is String) {
       // TODO(#31): escape string literal.
-      return '"$value"';
+      return '"$value"'.replaceAll('\\', '\\\\');
     }
     if (value is int || value is double || value is bool) {
       return value.toString();
@@ -210,9 +210,12 @@ abstract class BindingsGenerator {
     return [...m.modifiers, declStmt].join(' ');
   }
 
-  String toNativeArg(String name, TypeUsage type) {
+  String toNativeArg(String name, TypeUsage type,
+      {bool convertBooleanToInt = true}) {
     if (isPrimitive(type)) {
-      return type.name == 'boolean' ? '$name ? 1 : 0' : name;
+      return (type.name == 'boolean' && convertBooleanToInt)
+          ? '$name ? 1 : 0'
+          : name;
     }
     return '$name.$selfPointer';
   }

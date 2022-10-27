@@ -5,11 +5,9 @@ maven_downloads:
   jar_dir: test/jackson_core_test/third_party/jar
 
 output:
+  bindings_type: dart_only
   dart:
     path: test/jackson_core_test/third_party/lib/
-  c:
-    path: test/jackson_core_test/third_party/src/
-    library_name: jackson_core_test
 
 classes:
   - 'com.fasterxml.jackson.core.JsonFactory'
@@ -42,3 +40,4 @@ preamble: |
   // See the License for the specific language governing permissions and
   // limitations under the License.
 
+log_level: warning

@@ -42,10 +42,7 @@ Config getConfig(
     ),
     preamble: jacksonPreamble,
     outputConfig: OutputConfig(
-      cConfig: CCodeOutputConfig(
-        libraryName: testName,
-        path: Uri.directory(join(rootDir, 'src')),
-      ),
+      bindingsType: BindingsType.dartOnly,
       dartConfig: DartCodeOutputConfig(
         path: Uri.directory(join(rootDir, 'lib')),
       ),

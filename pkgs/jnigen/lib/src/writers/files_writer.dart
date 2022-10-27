@@ -188,6 +188,7 @@ class FilesWriter extends BindingsWriter {
 
   @override
   Future<void> writeBindings(List<ClassDecl> classes) async {
+    final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
     final preamble = config.preamble;
     final Map<String, List<ClassDecl>> files = {};
     final Map<String, ClassDecl> classesByName = {};
@@ -200,7 +201,6 @@ class FilesWriter extends BindingsWriter {
       files[fileClass]!.add(c);
 
       packages.putIfAbsent(c.packageName, () => {});
-      // TODO(PR): Is the order deterministic in Set<T>?
       packages[c.packageName]!.add(fileClass.split('.').last);
     }
 
@@ -209,9 +209,13 @@ class FilesWriter extends BindingsWriter {
 
     final dartRoot = config.outputConfig.dartConfig.path;
     log.info("Using dart root = $dartRoot");
-    final generator = CBasedDartBindingsGenerator(config);
+    final generator = cBased
+        ? CBasedDartBindingsGenerator(config)
+        : PureDartBindingsGenerator(config);
 
-    await writeCBindings(config, classes);
+    if (cBased) {
+      await writeCBindings(config, classes);
+    }
 
     // Write init file
     final initFileUri = dartRoot.resolve("_init.dart");

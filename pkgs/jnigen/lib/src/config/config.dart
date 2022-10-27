@@ -150,6 +150,16 @@ OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
   return _getEnumValueFromString(values, name, defaultVal);
 }
 
+enum BindingsType { cBased, dartOnly }
+
+BindingsType getBindingsType(String? name, BindingsType defaultVal) {
+  const values = {
+    'c_based': BindingsType.cBased,
+    'dart_only': BindingsType.dartOnly,
+  };
+  return _getEnumValueFromString(values, name, defaultVal);
+}
+
 class CCodeOutputConfig {
   CCodeOutputConfig({
     required this.path,
@@ -180,8 +190,6 @@ class CCodeOutputConfig {
 }
 
 class DartCodeOutputConfig {
-  // TODO(#90): Support output_structure = single_file | package_structure.
-
   DartCodeOutputConfig({
     required this.path,
     this.structure = OutputStructure.packageStructure,
@@ -204,11 +212,18 @@ class DartCodeOutputConfig {
 }
 
 class OutputConfig {
-  // TODO(#60): Add bindings_type = dart_only | c_based.
-
-  OutputConfig({required this.cConfig, required this.dartConfig});
+  OutputConfig({
+    this.bindingsType = BindingsType.cBased,
+    this.cConfig,
+    required this.dartConfig,
+  }) {
+    if (bindingsType == BindingsType.cBased && cConfig == null) {
+      throw ArgumentError("C output config must be provided!");
+    }
+  }
+  BindingsType bindingsType;
   DartCodeOutputConfig dartConfig;
-  CCodeOutputConfig cConfig;
+  CCodeOutputConfig? cConfig;
 }
 
 class BindingExclusions {
@@ -363,11 +378,17 @@ class Config {
         fields: regexFilter<Field>(_Props.excludeFields),
       ),
       outputConfig: OutputConfig(
-        cConfig: CCodeOutputConfig(
-          libraryName: must(prov.getString, '', _Props.libraryName),
-          path: Uri.file(must(prov.getString, '.', _Props.cRoot)),
-          subdir: prov.getString(_Props.cSubdir),
+        bindingsType: getBindingsType(
+          prov.getString(_Props.bindingsType),
+          BindingsType.cBased,
         ),
+        cConfig: prov.hasValue(_Props.cCodeOutputConfig)
+            ? CCodeOutputConfig(
+                libraryName: must(prov.getString, '', _Props.libraryName),
+                path: Uri.file(must(prov.getString, '.', _Props.cRoot)),
+                subdir: prov.getString(_Props.cSubdir),
+              )
+            : null,
         dartConfig: DartCodeOutputConfig(
           path: Uri.file(must(prov.getString, '.', _Props.dartRoot)),
           structure: getOutputStructure(
@@ -441,6 +462,7 @@ class _Props {
 
   static const importMap = 'import_map';
   static const outputConfig = 'output';
+  static const bindingsType = '$outputConfig.bindings_type';
   static const cCodeOutputConfig = '$outputConfig.c';
   static const dartCodeOutputConfig = '$outputConfig.dart';
   static const cRoot = '$cCodeOutputConfig.path';

@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:path/path.dart' hide equals;
-
 import 'package:test/test.dart';
+
+import 'package:jnigen/jnigen.dart';
 
 import '../test_util/test_util.dart';
 import 'generate.dart';
@@ -26,4 +27,9 @@ void main() async {
     final config = getConfig(generateFullVersion: true, useAsm: true);
     await generateAndAnalyzeBindings(config);
   }, timeout: Timeout(Duration(minutes: 2)));
+  test('Generate and analyze pure dart bindings', () async {
+    final config = getConfig(generateFullVersion: true);
+    config.outputConfig.bindingsType = BindingsType.dartOnly;
+    await generateAndAnalyzeBindings(config);
+  }, timeout: Timeout.factor(2));
 }

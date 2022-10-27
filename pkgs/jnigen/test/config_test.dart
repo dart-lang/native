@@ -21,10 +21,10 @@ final testSrc = join(thirdParty, 'test_', 'src');
 /// two fields are not equal.
 void expectConfigsAreEqual(Config a, Config b) {
   expect(a.classes, equals(b.classes), reason: "classes");
-  expect(a.outputConfig.cConfig.libraryName,
-      equals(b.outputConfig.cConfig.libraryName),
+  expect(a.outputConfig.cConfig?.libraryName,
+      equals(b.outputConfig.cConfig?.libraryName),
       reason: "libraryName");
-  expect(a.outputConfig.cConfig.path, equals(b.outputConfig.cConfig.path),
+  expect(a.outputConfig.cConfig?.path, equals(b.outputConfig.cConfig?.path),
       reason: "cRoot");
   expect(a.outputConfig.dartConfig.path, equals(b.outputConfig.dartConfig.path),
       reason: "dartRoot");

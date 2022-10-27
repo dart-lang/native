@@ -33,6 +33,7 @@ class SingleFileWriter extends BindingsWriter {
   Config config;
   @override
   Future<void> writeBindings(List<ClassDecl> classes) async {
+    final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
     final preamble = config.preamble;
     final Map<String, List<ClassDecl>> packages = {};
     final Map<String, ClassDecl> classesByName = {};
@@ -44,8 +45,14 @@ class SingleFileWriter extends BindingsWriter {
     }
 
     ApiPreprocessor.preprocessAll(classesByName, config, renameClasses: true);
-    await writeCBindings(config, classes);
-    final generator = CBasedDartBindingsGenerator(config);
+
+    if (cBased) {
+      await writeCBindings(config, classes);
+    }
+    log.info("Generating ${cBased ? "C + Dart" : "Pure Dart"} Bindings");
+    final generator = cBased
+        ? CBasedDartBindingsGenerator(config)
+        : PureDartBindingsGenerator(config);
     final file = File.fromUri(config.outputConfig.dartConfig.path);
     await file.create(recursive: true);
     final fileStream = file.openWrite();
@@ -57,6 +64,7 @@ class SingleFileWriter extends BindingsWriter {
         .map((decl) => generator.generateBindings(decl, resolver))
         .join("\n");
 
+    log.info("Writing Dart bindings to file: ${file.path}");
     fileStream
       ..writeln(preamble ?? '')
       ..writeln(generator.getPreImportBoilerplate())

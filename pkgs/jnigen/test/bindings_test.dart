@@ -33,8 +33,6 @@ Future<void> setupDylibsAndClasses() async {
     'jni',
     '-s',
     join(simplePackageTest, 'src'),
-    '-s',
-    join(jacksonCoreTest, 'third_party', 'src')
   ]);
   final group = join('com', 'github', 'dart_lang', 'jnigen');
   await runCommand(
