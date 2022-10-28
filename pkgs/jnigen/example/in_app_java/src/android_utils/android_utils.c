@@ -52,3 +52,439 @@ JniResult AndroidUtils__showToast(jobject mainActivity,
                                   text, duration);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
+
+// android.os.Build
+jclass _c_Build = NULL;
+
+jmethodID _m_Build__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build__ctor() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build, &_m_Build__ctor, "<init>", "()V");
+  if (_m_Build__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build, _m_Build__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_Build__getSerial = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build__getSerial() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_Build, &_m_Build__getSerial, "getSerial",
+                     "()Ljava/lang/String;");
+  if (_m_Build__getSerial == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_Build, _m_Build__getSerial);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_Build__getFingerprintedPartitions = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build__getFingerprintedPartitions() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_Build, &_m_Build__getFingerprintedPartitions,
+                     "getFingerprintedPartitions", "()Ljava/util/List;");
+  if (_m_Build__getFingerprintedPartitions == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_Build, _m_Build__getFingerprintedPartitions);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_Build__getRadioVersion = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build__getRadioVersion() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_Build, &_m_Build__getRadioVersion, "getRadioVersion",
+                     "()Ljava/lang/String;");
+  if (_m_Build__getRadioVersion == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_Build, _m_Build__getRadioVersion);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jfieldID _f_Build__BOARD = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__BOARD() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__BOARD, "BOARD", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BOARD));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__BOOTLOADER = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__BOOTLOADER() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__BOOTLOADER, "BOOTLOADER",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BOOTLOADER));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__BRAND = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__BRAND() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__BRAND, "BRAND", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BRAND));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__CPU_ABI = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__CPU_ABI() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__CPU_ABI, "CPU_ABI",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__CPU_ABI));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__CPU_ABI2 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__CPU_ABI2() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__CPU_ABI2, "CPU_ABI2",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__CPU_ABI2));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__DEVICE = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__DEVICE() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__DEVICE, "DEVICE",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__DEVICE));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__DISPLAY = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__DISPLAY() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__DISPLAY, "DISPLAY",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__DISPLAY));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__FINGERPRINT = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__FINGERPRINT() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__FINGERPRINT, "FINGERPRINT",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__FINGERPRINT));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__HARDWARE = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__HARDWARE() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__HARDWARE, "HARDWARE",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__HARDWARE));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__HOST = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__HOST() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__HOST, "HOST", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__HOST));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__ID = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__ID() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__ID, "ID", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__ID));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__MANUFACTURER = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__MANUFACTURER() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__MANUFACTURER, "MANUFACTURER",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build, _f_Build__MANUFACTURER));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__MODEL = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__MODEL() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__MODEL, "MODEL", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__MODEL));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__ODM_SKU = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__ODM_SKU() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__ODM_SKU, "ODM_SKU",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__ODM_SKU));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__PRODUCT = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__PRODUCT() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__PRODUCT, "PRODUCT",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__PRODUCT));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__RADIO = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__RADIO() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__RADIO, "RADIO", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__RADIO));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__SERIAL = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__SERIAL() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__SERIAL, "SERIAL",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SERIAL));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__SKU = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__SKU() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__SKU, "SKU", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SKU));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__SOC_MANUFACTURER = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__SOC_MANUFACTURER() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__SOC_MANUFACTURER, "SOC_MANUFACTURER",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build, _f_Build__SOC_MANUFACTURER));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__SOC_MODEL = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__SOC_MODEL() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__SOC_MODEL, "SOC_MODEL",
+                    "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SOC_MODEL));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__SUPPORTED_32_BIT_ABIS = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__SUPPORTED_32_BIT_ABIS() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__SUPPORTED_32_BIT_ABIS,
+                    "SUPPORTED_32_BIT_ABIS", "[Ljava/lang/String;");
+  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build, _f_Build__SUPPORTED_32_BIT_ABIS));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__SUPPORTED_64_BIT_ABIS = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__SUPPORTED_64_BIT_ABIS() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__SUPPORTED_64_BIT_ABIS,
+                    "SUPPORTED_64_BIT_ABIS", "[Ljava/lang/String;");
+  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build, _f_Build__SUPPORTED_64_BIT_ABIS));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__SUPPORTED_ABIS = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__SUPPORTED_ABIS() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__SUPPORTED_ABIS, "SUPPORTED_ABIS",
+                    "[Ljava/lang/String;");
+  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build, _f_Build__SUPPORTED_ABIS));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__TAGS = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__TAGS() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__TAGS, "TAGS", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__TAGS));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__TIME = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__TIME() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__TIME, "TIME", "J");
+  int64_t _result =
+      (*jniEnv)->GetStaticLongField(jniEnv, _c_Build, _f_Build__TIME);
+  return (JniResult){.result = {.j = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__TYPE = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__TYPE() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__TYPE, "TYPE", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__TYPE));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build__USER = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__USER() {
+  load_env();
+  load_class_gr(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__USER, "USER", "Ljava/lang/String;");
+  jobject _result = to_global_ref(
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__USER));
+  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
+}

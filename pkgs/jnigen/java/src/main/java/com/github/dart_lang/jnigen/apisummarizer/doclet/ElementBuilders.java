@@ -109,8 +109,6 @@ public class ElementBuilders {
     if (tree == null) {
       return null;
     }
-    // Leave it as is, for now
-    // tree.accept(new TreeScanner(), j);
     return new JavaDocComment(tree.toString());
   }
 

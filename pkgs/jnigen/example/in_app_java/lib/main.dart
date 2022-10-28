@@ -11,8 +11,9 @@ import 'android_utils.dart';
 
 JniObject activity = JniObject.fromRef(Jni.getCurrentActivity());
 
-void showToast(String text) {
-  AndroidUtils.showToast(activity, text.jniString(), 0);
+/// Display device model number as Toast
+void showToast() {
+  AndroidUtils.showToast(activity, Build.MODEL, 0);
 }
 
 void main() {
@@ -50,8 +51,8 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              child: const Text('Show toast'),
-              onPressed: () => showToast('😀'),
+              child: const Text('Show Device Model'),
+              onPressed: () => showToast(),
             ),
           ],
         ),

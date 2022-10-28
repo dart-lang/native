@@ -1,0 +1,139 @@
+[ {
+  "declKind" : "CLASS",
+  "modifiers" : [ "public" ],
+  "simpleName" : "Example",
+  "binaryName" : "com.example.Example",
+  "packageName" : "com.example",
+  "methods" : [ {
+    "name" : "<init>",
+    "params" : [ {
+      "name" : "instanceField",
+      "type" : {
+        "shorthand" : "int",
+        "kind" : "PRIMITIVE",
+        "type" : {
+          "name" : "int"
+        }
+      }
+    } ],
+    "returnType" : {
+      "shorthand" : "void",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "void"
+      }
+    }
+  }, {
+    "modifiers" : [ "static" ],
+    "name" : "getStaticField",
+    "returnType" : {
+      "shorthand" : "java.lang.String",
+      "kind" : "DECLARED",
+      "type" : {
+        "binaryName" : "java.lang.String",
+        "simpleName" : "String"
+      }
+    }
+  }, {
+    "name" : "getInstanceField",
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  } ],
+  "fields" : [ {
+    "modifiers" : [ "static", "final" ],
+    "name" : "staticFinalField",
+    "type" : {
+      "shorthand" : "boolean",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "boolean"
+      }
+    },
+    "defaultValue" : true
+  }, {
+    "modifiers" : [ "static" ],
+    "name" : "staticField",
+    "type" : {
+      "shorthand" : "java.lang.String",
+      "kind" : "DECLARED",
+      "type" : {
+        "binaryName" : "java.lang.String",
+        "simpleName" : "String"
+      }
+    }
+  }, {
+    "name" : "instanceField",
+    "type" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  } ],
+  "superclass" : {
+    "shorthand" : "java.lang.Object",
+    "kind" : "DECLARED",
+    "type" : {
+      "binaryName" : "java.lang.Object",
+      "simpleName" : "Object"
+    }
+  },
+  "hasStaticInit" : false,
+  "hasInstanceInit" : false
+}, {
+  "declKind" : "CLASS",
+  "modifiers" : [ "static", "public" ],
+  "simpleName" : "Aux",
+  "binaryName" : "com.example.Example$Aux",
+  "parentName" : "com.example.Example",
+  "packageName" : "com.example",
+  "methods" : [ {
+    "modifiers" : [ "public" ],
+    "name" : "<init>",
+    "returnType" : {
+      "shorthand" : "void",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "void"
+      }
+    }
+  }, {
+    "modifiers" : [ "static" ],
+    "name" : "getAnExample",
+    "returnType" : {
+      "shorthand" : "com.example.Example",
+      "kind" : "DECLARED",
+      "type" : {
+        "binaryName" : "com.example.Example",
+        "simpleName" : "Example"
+      }
+    }
+  } ],
+  "fields" : [ {
+    "modifiers" : [ "static" ],
+    "name" : "nothing",
+    "type" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  } ],
+  "superclass" : {
+    "shorthand" : "com.example.Example",
+    "kind" : "DECLARED",
+    "type" : {
+      "binaryName" : "com.example.Example",
+      "simpleName" : "Example"
+    }
+  },
+  "hasStaticInit" : false,
+  "hasInstanceInit" : false
+} ]

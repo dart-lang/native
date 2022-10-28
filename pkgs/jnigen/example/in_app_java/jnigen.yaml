@@ -12,4 +12,5 @@ output:
 source_path:
   - 'android/app/src/main/java'
 classes:
-  - 'com.example.in_app_java.AndroidUtils'
+  - 'com.example.in_app_java.AndroidUtils' # from source_path
+  - 'android.os.Build' # from gradle's compile classpath

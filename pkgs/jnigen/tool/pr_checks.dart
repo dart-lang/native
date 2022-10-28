@@ -76,6 +76,18 @@ void main(List<String> arguments) async {
     ..chainCommand("dart", ["test", "-j", "1"]);
   unawaited(jniAnalyze.run().then((f) => jniTest.run()));
 
+  final javaFiles = Directory.fromUri(jnigenPath.resolve("java/"))
+      .listSync(recursive: true)
+      .where((file) => file.path.endsWith(".java"))
+      .map((file) => file.path)
+      .toList();
+
+  final checkJavaFormat = Runner("Check java format", jnigenPath)
+    ..chainCommand(
+        "google-java-format", ["-n", "--set-exit-if-changed", ...javaFiles]);
+
+  unawaited(checkJavaFormat.run());
+
   final ffigenBindingsPath = getRepositoryRoot()
       .resolve("jni/lib/src/third_party/jni_bindings_generated.dart");
   final ffigenBindings = File.fromUri(ffigenBindingsPath);
