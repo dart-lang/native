@@ -18,22 +18,6 @@ void setJniGetters(JniContext (*cg)(void), JNIEnv* (*eg)(void)) {
 // com.example.in_app_java.AndroidUtils
 jclass _c_AndroidUtils = NULL;
 
-jmethodID _m_AndroidUtils__ctor = NULL;
-FFI_PLUGIN_EXPORT
-JniResult AndroidUtils__ctor() {
-  load_env();
-  load_class_gr(&_c_AndroidUtils, "com/example/in_app_java/AndroidUtils");
-  if (_c_AndroidUtils == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_AndroidUtils, &_m_AndroidUtils__ctor, "<init>", "()V");
-  if (_m_AndroidUtils__ctor == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_AndroidUtils, _m_AndroidUtils__ctor);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
 jmethodID _m_AndroidUtils__showToast = NULL;
 FFI_PLUGIN_EXPORT
 JniResult AndroidUtils__showToast(jobject mainActivity,

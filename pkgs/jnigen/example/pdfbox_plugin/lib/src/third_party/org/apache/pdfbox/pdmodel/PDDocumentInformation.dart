@@ -43,20 +43,6 @@ import "../../../../_init.dart" show jniLookup;
 class PDDocumentInformation extends jni.JniObject {
   PDDocumentInformation.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _get_info = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-    jni.JObject,
-  )>>("get_PDDocumentInformation__info")
-      .asFunction<
-          jni.JniResult Function(
-    jni.JObject,
-  )>();
-
-  /// from: private final org.apache.pdfbox.cos.COSDictionary info
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject get info => jni.JniObject.fromRef(_get_info(reference).object);
-
   static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "PDDocumentInformation__ctor")
       .asFunction<jni.JniResult Function()>();

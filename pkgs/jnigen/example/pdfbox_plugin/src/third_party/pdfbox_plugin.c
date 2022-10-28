@@ -217,176 +217,6 @@ JniResult PDDocument__addSignature3(jobject self_,
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jmethodID _m_PDDocument__findSignatureField = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__findSignatureField(jobject self_,
-                                         jobject fieldIterator,
-                                         jobject sigObject) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__findSignatureField,
-              "findSignatureField",
-              "(Ljava/util/Iterator;Lorg/apache/pdfbox/pdmodel/interactive/"
-              "digitalsignature/PDSignature;)Lorg/apache/pdfbox/pdmodel/"
-              "interactive/form/PDSignatureField;");
-  if (_m_PDDocument__findSignatureField == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDDocument__findSignatureField, fieldIterator,
-      sigObject);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__checkSignatureField = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__checkSignatureField(jobject self_,
-                                          jobject fieldIterator,
-                                          jobject signatureField) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__checkSignatureField,
-              "checkSignatureField",
-              "(Ljava/util/Iterator;Lorg/apache/pdfbox/pdmodel/interactive/"
-              "form/PDSignatureField;)Z");
-  if (_m_PDDocument__checkSignatureField == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_PDDocument__checkSignatureField, fieldIterator,
-      signatureField);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__checkSignatureAnnotation = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__checkSignatureAnnotation(jobject self_,
-                                               jobject annotations,
-                                               jobject widget) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__checkSignatureAnnotation,
-              "checkSignatureAnnotation",
-              "(Ljava/util/List;Lorg/apache/pdfbox/pdmodel/interactive/"
-              "annotation/PDAnnotationWidget;)Z");
-  if (_m_PDDocument__checkSignatureAnnotation == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_PDDocument__checkSignatureAnnotation, annotations,
-      widget);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__prepareVisibleSignature = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__prepareVisibleSignature(jobject self_,
-                                              jobject signatureField,
-                                              jobject acroForm,
-                                              jobject visualSignature) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__prepareVisibleSignature,
-              "prepareVisibleSignature",
-              "(Lorg/apache/pdfbox/pdmodel/interactive/form/"
-              "PDSignatureField;Lorg/apache/pdfbox/pdmodel/interactive/form/"
-              "PDAcroForm;Lorg/apache/pdfbox/cos/COSDocument;)V");
-  if (_m_PDDocument__prepareVisibleSignature == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_,
-                            _m_PDDocument__prepareVisibleSignature,
-                            signatureField, acroForm, visualSignature);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__assignSignatureRectangle = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__assignSignatureRectangle(jobject self_,
-                                               jobject signatureField,
-                                               jobject annotDict) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__assignSignatureRectangle,
-              "assignSignatureRectangle",
-              "(Lorg/apache/pdfbox/pdmodel/interactive/form/"
-              "PDSignatureField;Lorg/apache/pdfbox/cos/COSDictionary;)V");
-  if (_m_PDDocument__assignSignatureRectangle == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_,
-                            _m_PDDocument__assignSignatureRectangle,
-                            signatureField, annotDict);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__assignAppearanceDictionary = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__assignAppearanceDictionary(jobject self_,
-                                                 jobject signatureField,
-                                                 jobject apDict) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__assignAppearanceDictionary,
-              "assignAppearanceDictionary",
-              "(Lorg/apache/pdfbox/pdmodel/interactive/form/"
-              "PDSignatureField;Lorg/apache/pdfbox/cos/COSDictionary;)V");
-  if (_m_PDDocument__assignAppearanceDictionary == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_,
-                            _m_PDDocument__assignAppearanceDictionary,
-                            signatureField, apDict);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__assignAcroFormDefaultResource = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__assignAcroFormDefaultResource(jobject self_,
-                                                    jobject acroForm,
-                                                    jobject newDict) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__assignAcroFormDefaultResource,
-              "assignAcroFormDefaultResource",
-              "(Lorg/apache/pdfbox/pdmodel/interactive/form/PDAcroForm;Lorg/"
-              "apache/pdfbox/cos/COSDictionary;)V");
-  if (_m_PDDocument__assignAcroFormDefaultResource == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_,
-                            _m_PDDocument__assignAcroFormDefaultResource,
-                            acroForm, newDict);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__prepareNonVisibleSignature = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__prepareNonVisibleSignature(jobject self_,
-                                                 jobject signatureField) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(
-      _c_PDDocument, &_m_PDDocument__prepareNonVisibleSignature,
-      "prepareNonVisibleSignature",
-      "(Lorg/apache/pdfbox/pdmodel/interactive/form/PDSignatureField;)V");
-  if (_m_PDDocument__prepareNonVisibleSignature == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(
-      jniEnv, self_, _m_PDDocument__prepareNonVisibleSignature, signatureField);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
 jmethodID _m_PDDocument__addSignatureField = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PDDocument__addSignatureField(jobject self_,
@@ -648,23 +478,6 @@ JniResult PDDocument__registerTrueTypeFontForClosing(jobject self_,
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jmethodID _m_PDDocument__getFontsToSubset = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__getFontsToSubset(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__getFontsToSubset,
-              "getFontsToSubset", "()Ljava/util/Set;");
-  if (_m_PDDocument__getFontsToSubset == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDDocument__getFontsToSubset);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
 jmethodID _m_PDDocument__load = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PDDocument__load(jobject file) {
@@ -791,80 +604,78 @@ JniResult PDDocument__load5(jobject file,
 
 jmethodID _m_PDDocument__load6 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__load6(jobject raFile,
-                            jobject password,
-                            jobject keyStore,
-                            jobject alias,
-                            jobject memUsageSetting) {
+JniResult PDDocument__load6(jobject input) {
   load_env();
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(
       _c_PDDocument, &_m_PDDocument__load6, "load",
-      "(Lorg/apache/pdfbox/io/RandomAccessBufferedFileInputStream;Ljava/lang/"
-      "String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/"
-      "MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
+      "(Ljava/io/InputStream;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load6 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load6, raFile, password, keyStore,
-      alias, memUsageSetting);
+      jniEnv, _c_PDDocument, _m_PDDocument__load6, input);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
 jmethodID _m_PDDocument__load7 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__load7(jobject input) {
+JniResult PDDocument__load7(jobject input, jobject memUsageSetting) {
   load_env();
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(
       _c_PDDocument, &_m_PDDocument__load7, "load",
-      "(Ljava/io/InputStream;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
+      "(Ljava/io/InputStream;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/"
+      "apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load7 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load7, input);
+      jniEnv, _c_PDDocument, _m_PDDocument__load7, input, memUsageSetting);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
 jmethodID _m_PDDocument__load8 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__load8(jobject input, jobject memUsageSetting) {
+JniResult PDDocument__load8(jobject input, jobject password) {
   load_env();
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(
-      _c_PDDocument, &_m_PDDocument__load8, "load",
-      "(Ljava/io/InputStream;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/"
-      "apache/pdfbox/pdmodel/PDDocument;");
+  load_static_method(_c_PDDocument, &_m_PDDocument__load8, "load",
+                     "(Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/"
+                     "pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load8 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load8, input, memUsageSetting);
+      jniEnv, _c_PDDocument, _m_PDDocument__load8, input, password);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
 jmethodID _m_PDDocument__load9 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__load9(jobject input, jobject password) {
+JniResult PDDocument__load9(jobject input,
+                            jobject password,
+                            jobject keyStore,
+                            jobject alias) {
   load_env();
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_PDDocument, &_m_PDDocument__load9, "load",
-                     "(Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/"
-                     "pdfbox/pdmodel/PDDocument;");
+  load_static_method(
+      _c_PDDocument, &_m_PDDocument__load9, "load",
+      "(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/"
+      "String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load9 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load9, input, password);
+      jniEnv, _c_PDDocument, _m_PDDocument__load9, input, password, keyStore,
+      alias);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
@@ -873,21 +684,20 @@ jmethodID _m_PDDocument__load10 = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PDDocument__load10(jobject input,
                              jobject password,
-                             jobject keyStore,
-                             jobject alias) {
+                             jobject memUsageSetting) {
   load_env();
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(
       _c_PDDocument, &_m_PDDocument__load10, "load",
-      "(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/"
-      "String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
+      "(Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/"
+      "MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load10 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load10, input, password, keyStore,
-      alias);
+      jniEnv, _c_PDDocument, _m_PDDocument__load10, input, password,
+      memUsageSetting);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
@@ -895,28 +705,6 @@ JniResult PDDocument__load10(jobject input,
 jmethodID _m_PDDocument__load11 = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PDDocument__load11(jobject input,
-                             jobject password,
-                             jobject memUsageSetting) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(
-      _c_PDDocument, &_m_PDDocument__load11, "load",
-      "(Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/"
-      "MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
-  if (_m_PDDocument__load11 == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load11, input, password,
-      memUsageSetting);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__load12 = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__load12(jobject input,
                              jobject password,
                              jobject keyStore,
                              jobject alias,
@@ -926,50 +714,72 @@ JniResult PDDocument__load12(jobject input,
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(
-      _c_PDDocument, &_m_PDDocument__load12, "load",
+      _c_PDDocument, &_m_PDDocument__load11, "load",
       "(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/"
       "String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/"
       "pdmodel/PDDocument;");
+  if (_m_PDDocument__load11 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_PDDocument, _m_PDDocument__load11, input, password, keyStore,
+      alias, memUsageSetting);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_PDDocument__load12 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult PDDocument__load12(jobject input) {
+  load_env();
+  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
+  if (_c_PDDocument == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_PDDocument, &_m_PDDocument__load12, "load",
+                     "([B)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load12 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load12, input, password, keyStore,
-      alias, memUsageSetting);
+      jniEnv, _c_PDDocument, _m_PDDocument__load12, input);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
 jmethodID _m_PDDocument__load13 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__load13(jobject input) {
+JniResult PDDocument__load13(jobject input, jobject password) {
   load_env();
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_PDDocument, &_m_PDDocument__load13, "load",
-                     "([B)Lorg/apache/pdfbox/pdmodel/PDDocument;");
+  load_static_method(
+      _c_PDDocument, &_m_PDDocument__load13, "load",
+      "([BLjava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load13 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load13, input);
+      jniEnv, _c_PDDocument, _m_PDDocument__load13, input, password);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
 jmethodID _m_PDDocument__load14 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__load14(jobject input, jobject password) {
+JniResult PDDocument__load14(jobject input,
+                             jobject password,
+                             jobject keyStore,
+                             jobject alias) {
   load_env();
   load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(
-      _c_PDDocument, &_m_PDDocument__load14, "load",
-      "([BLjava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
+  load_static_method(_c_PDDocument, &_m_PDDocument__load14, "load",
+                     "([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/"
+                     "String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
   if (_m_PDDocument__load14 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load14, input, password);
+      jniEnv, _c_PDDocument, _m_PDDocument__load14, input, password, keyStore,
+      alias);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
@@ -979,28 +789,6 @@ FFI_PLUGIN_EXPORT
 JniResult PDDocument__load15(jobject input,
                              jobject password,
                              jobject keyStore,
-                             jobject alias) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_PDDocument, &_m_PDDocument__load15, "load",
-                     "([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/"
-                     "String;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
-  if (_m_PDDocument__load15 == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load15, input, password, keyStore,
-      alias);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDDocument__load16 = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDDocument__load16(jobject input,
-                             jobject password,
-                             jobject keyStore,
                              jobject alias,
                              jobject memUsageSetting) {
   load_env();
@@ -1008,13 +796,13 @@ JniResult PDDocument__load16(jobject input,
   if (_c_PDDocument == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   load_static_method(
-      _c_PDDocument, &_m_PDDocument__load16, "load",
+      _c_PDDocument, &_m_PDDocument__load15, "load",
       "([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/"
       "pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;");
-  if (_m_PDDocument__load16 == NULL)
+  if (_m_PDDocument__load15 == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_PDDocument, _m_PDDocument__load16, input, password, keyStore,
+      jniEnv, _c_PDDocument, _m_PDDocument__load15, input, password, keyStore,
       alias, memUsageSetting);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
@@ -1344,364 +1132,6 @@ JniResult PDDocument__setResourceCache(jobject self_, jobject resourceCache) {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDDocument__setResourceCache,
                             resourceCache);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__RESERVE_BYTE_RANGE = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__RESERVE_BYTE_RANGE() {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDDocument, &_f_PDDocument__RESERVE_BYTE_RANGE,
-                    "RESERVE_BYTE_RANGE", "[I");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_PDDocument, _f_PDDocument__RESERVE_BYTE_RANGE));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__LOG = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__LOG() {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDDocument, &_f_PDDocument__LOG, "LOG",
-                    "Lorg/apache/commons/logging/Log;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_PDDocument, _f_PDDocument__LOG));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__document = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__document(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__document, "document",
-             "Lorg/apache/pdfbox/cos/COSDocument;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__document));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__documentInformation = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__documentInformation(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__documentInformation,
-             "documentInformation",
-             "Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDDocument__documentInformation));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__documentInformation(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__documentInformation,
-             "documentInformation",
-             "Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__documentInformation,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__documentCatalog = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__documentCatalog(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__documentCatalog, "documentCatalog",
-             "Lorg/apache/pdfbox/pdmodel/PDDocumentCatalog;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__documentCatalog));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__documentCatalog(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__documentCatalog, "documentCatalog",
-             "Lorg/apache/pdfbox/pdmodel/PDDocumentCatalog;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__documentCatalog,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__encryption = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__encryption(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__encryption, "encryption",
-             "Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__encryption));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__encryption(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__encryption, "encryption",
-             "Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__encryption, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__allSecurityToBeRemoved = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__allSecurityToBeRemoved(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__allSecurityToBeRemoved,
-             "allSecurityToBeRemoved", "Z");
-  uint8_t _result = (*jniEnv)->GetBooleanField(
-      jniEnv, self_, _f_PDDocument__allSecurityToBeRemoved);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__allSecurityToBeRemoved(jobject self_, uint8_t value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__allSecurityToBeRemoved,
-             "allSecurityToBeRemoved", "Z");
-  (*jniEnv)->SetBooleanField(jniEnv, self_,
-                             _f_PDDocument__allSecurityToBeRemoved, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__documentId = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__documentId(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__documentId, "documentId",
-             "Ljava/lang/Long;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__documentId));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__documentId(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__documentId, "documentId",
-             "Ljava/lang/Long;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__documentId, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__pdfSource = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__pdfSource(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__pdfSource, "pdfSource",
-             "Lorg/apache/pdfbox/io/RandomAccessRead;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__pdfSource));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__accessPermission = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__accessPermission(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__accessPermission,
-             "accessPermission",
-             "Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDDocument__accessPermission));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__accessPermission(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__accessPermission,
-             "accessPermission",
-             "Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__accessPermission,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__fontsToSubset = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__fontsToSubset(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__fontsToSubset, "fontsToSubset",
-             "Ljava/util/Set;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__fontsToSubset));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__fontsToClose = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__fontsToClose(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__fontsToClose, "fontsToClose",
-             "Ljava/util/Set;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__fontsToClose));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__signInterface = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__signInterface(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__signInterface, "signInterface",
-             "Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/"
-             "SignatureInterface;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__signInterface));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__signInterface(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__signInterface, "signInterface",
-             "Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/"
-             "SignatureInterface;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__signInterface, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__signingSupport = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__signingSupport(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__signingSupport, "signingSupport",
-             "Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/"
-             "SigningSupport;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__signingSupport));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__signingSupport(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__signingSupport, "signingSupport",
-             "Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/"
-             "SigningSupport;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__signingSupport,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__resourceCache = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__resourceCache(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__resourceCache, "resourceCache",
-             "Lorg/apache/pdfbox/pdmodel/ResourceCache;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocument__resourceCache));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__resourceCache(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__resourceCache, "resourceCache",
-             "Lorg/apache/pdfbox/pdmodel/ResourceCache;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDDocument__resourceCache, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDDocument__signatureAdded = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocument__signatureAdded(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__signatureAdded, "signatureAdded",
-             "Z");
-  uint8_t _result =
-      (*jniEnv)->GetBooleanField(jniEnv, self_, _f_PDDocument__signatureAdded);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDDocument__signatureAdded(jobject self_, uint8_t value) {
-  load_env();
-  load_class_gr(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
-  if (_c_PDDocument == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocument, &_f_PDDocument__signatureAdded, "signatureAdded",
-             "Z");
-  (*jniEnv)->SetBooleanField(jniEnv, self_, _f_PDDocument__signatureAdded,
-                             value);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
@@ -2167,21 +1597,6 @@ JniResult PDDocumentInformation__setTrapped(jobject self_, jobject value) {
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jfieldID _f_PDDocumentInformation__info = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDDocumentInformation__info(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDDocumentInformation,
-                "org/apache/pdfbox/pdmodel/PDDocumentInformation");
-  if (_c_PDDocumentInformation == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDDocumentInformation, &_f_PDDocumentInformation__info, "info",
-             "Lorg/apache/pdfbox/cos/COSDictionary;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDDocumentInformation__info));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
 // org.apache.pdfbox.text.PDFTextStripper
 jclass _c_PDFTextStripper = NULL;
 
@@ -2216,21 +1631,6 @@ JniResult PDFTextStripper__getText(jobject self_, jobject doc) {
       jniEnv, self_, _m_PDFTextStripper__getText, doc);
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__resetEngine = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__resetEngine(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__resetEngine,
-              "resetEngine", "()V");
-  if (_m_PDFTextStripper__resetEngine == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__resetEngine);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
 jmethodID _m_PDFTextStripper__writeText = NULL;
@@ -2315,22 +1715,6 @@ JniResult PDFTextStripper__processPage(jobject self_, jobject page) {
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jmethodID _m_PDFTextStripper__fillBeadRectangles = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__fillBeadRectangles(jobject self_, jobject page) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__fillBeadRectangles,
-              "fillBeadRectangles", "(Lorg/apache/pdfbox/pdmodel/PDPage;)V");
-  if (_m_PDFTextStripper__fillBeadRectangles == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_,
-                            _m_PDFTextStripper__fillBeadRectangles, page);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
 jmethodID _m_PDFTextStripper__startArticle = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PDFTextStripper__startArticle(jobject self_) {
@@ -2377,34 +1761,33 @@ JniResult PDFTextStripper__endArticle(jobject self_) {
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jmethodID _m_PDFTextStripper__startPage1 = NULL;
+jmethodID _m_PDFTextStripper__startPage = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__startPage1(jobject self_, jobject page) {
+JniResult PDFTextStripper__startPage(jobject self_, jobject page) {
   load_env();
   load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
   if (_c_PDFTextStripper == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__startPage1, "startPage",
+  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__startPage, "startPage",
               "(Lorg/apache/pdfbox/pdmodel/PDPage;)V");
-  if (_m_PDFTextStripper__startPage1 == NULL)
+  if (_m_PDFTextStripper__startPage == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__startPage1,
-                            page);
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__startPage, page);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jmethodID _m_PDFTextStripper__endPage1 = NULL;
+jmethodID _m_PDFTextStripper__endPage = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__endPage1(jobject self_, jobject page) {
+JniResult PDFTextStripper__endPage(jobject self_, jobject page) {
   load_env();
   load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
   if (_c_PDFTextStripper == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__endPage1, "endPage",
+  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__endPage, "endPage",
               "(Lorg/apache/pdfbox/pdmodel/PDPage;)V");
-  if (_m_PDFTextStripper__endPage1 == NULL)
+  if (_m_PDFTextStripper__endPage == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__endPage1, page);
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__endPage, page);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
@@ -2421,26 +1804,6 @@ JniResult PDFTextStripper__writePage(jobject self_) {
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__writePage);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__overlap = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__overlap(jobject self_,
-                                   float y1,
-                                   float height1,
-                                   float y2,
-                                   float height2) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__overlap, "overlap",
-              "(FFFF)Z");
-  if (_m_PDFTextStripper__overlap == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_PDFTextStripper__overlap, y1, height1, y2, height2);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
 }
 
 jmethodID _m_PDFTextStripper__writeLineSeparator = NULL;
@@ -2523,25 +1886,6 @@ JniResult PDFTextStripper__writeString1(jobject self_, jobject text) {
   (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__writeString1,
                             text);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__within = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__within(jobject self_,
-                                  float first,
-                                  float second,
-                                  float variance) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__within, "within",
-              "(FFF)Z");
-  if (_m_PDFTextStripper__within == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_PDFTextStripper__within, first, second, variance);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
 }
 
 jmethodID _m_PDFTextStripper__processTextPosition = NULL;
@@ -3291,74 +2635,6 @@ JniResult PDFTextStripper__setArticleEnd(jobject self_,
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jmethodID _m_PDFTextStripper__handleLineSeparation = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__handleLineSeparation(jobject self_,
-                                                jobject current,
-                                                jobject lastPosition,
-                                                jobject lastLineStartPosition,
-                                                float maxHeightForLine) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__handleLineSeparation,
-              "handleLineSeparation",
-              "(Lorg/apache/pdfbox/text/PDFTextStripper$PositionWrapper;Lorg/"
-              "apache/pdfbox/text/PDFTextStripper$PositionWrapper;Lorg/apache/"
-              "pdfbox/text/PDFTextStripper$PositionWrapper;F)Lorg/apache/"
-              "pdfbox/text/PDFTextStripper$PositionWrapper;");
-  if (_m_PDFTextStripper__handleLineSeparation == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDFTextStripper__handleLineSeparation, current,
-      lastPosition, lastLineStartPosition, maxHeightForLine);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__isParagraphSeparation = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__isParagraphSeparation(jobject self_,
-                                                 jobject position,
-                                                 jobject lastPosition,
-                                                 jobject lastLineStartPosition,
-                                                 float maxHeightForLine) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__isParagraphSeparation,
-              "isParagraphSeparation",
-              "(Lorg/apache/pdfbox/text/PDFTextStripper$PositionWrapper;Lorg/"
-              "apache/pdfbox/text/PDFTextStripper$PositionWrapper;Lorg/apache/"
-              "pdfbox/text/PDFTextStripper$PositionWrapper;F)V");
-  if (_m_PDFTextStripper__isParagraphSeparation == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(
-      jniEnv, self_, _m_PDFTextStripper__isParagraphSeparation, position,
-      lastPosition, lastLineStartPosition, maxHeightForLine);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__multiplyFloat = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__multiplyFloat(jobject self_,
-                                         float value1,
-                                         float value2) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__multiplyFloat,
-              "multiplyFloat", "(FF)F");
-  if (_m_PDFTextStripper__multiplyFloat == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  float _result = (*jniEnv)->CallFloatMethod(
-      jniEnv, self_, _m_PDFTextStripper__multiplyFloat, value1, value2);
-  return (JniResult){.result = {.f = _result}, .exception = check_exception()};
-}
-
 jmethodID _m_PDFTextStripper__writeParagraphSeparator = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PDFTextStripper__writeParagraphSeparator(jobject self_) {
@@ -3437,25 +2713,6 @@ JniResult PDFTextStripper__writePageEnd(jobject self_) {
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
-jmethodID _m_PDFTextStripper__matchListItemPattern = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__matchListItemPattern(jobject self_, jobject pw) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__matchListItemPattern,
-              "matchListItemPattern",
-              "(Lorg/apache/pdfbox/text/PDFTextStripper$PositionWrapper;)Ljava/"
-              "util/regex/Pattern;");
-  if (_m_PDFTextStripper__matchListItemPattern == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDFTextStripper__matchListItemPattern, pw);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
 jmethodID _m_PDFTextStripper__setListItemPatterns = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PDFTextStripper__setListItemPatterns(jobject self_,
@@ -3509,207 +2766,6 @@ JniResult PDFTextStripper__matchPattern(jobject string, jobject patterns) {
                      .exception = check_exception()};
 }
 
-jmethodID _m_PDFTextStripper__writeLine = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__writeLine(jobject self_, jobject line) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__writeLine, "writeLine",
-              "(Ljava/util/List;)V");
-  if (_m_PDFTextStripper__writeLine == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_PDFTextStripper__writeLine, line);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__normalize = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__normalize(jobject self_, jobject line) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__normalize, "normalize",
-              "(Ljava/util/List;)Ljava/util/List;");
-  if (_m_PDFTextStripper__normalize == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDFTextStripper__normalize, line);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__handleDirection = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__handleDirection(jobject self_, jobject word) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__handleDirection,
-              "handleDirection", "(Ljava/lang/String;)Ljava/lang/String;");
-  if (_m_PDFTextStripper__handleDirection == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDFTextStripper__handleDirection, word);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__parseBidiFile = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__parseBidiFile(jobject inputStream) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_PDFTextStripper, &_m_PDFTextStripper__parseBidiFile,
-                     "parseBidiFile", "(Ljava/io/InputStream;)V");
-  if (_m_PDFTextStripper__parseBidiFile == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  (*jniEnv)->CallStaticVoidMethod(jniEnv, _c_PDFTextStripper,
-                                  _m_PDFTextStripper__parseBidiFile,
-                                  inputStream);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__createWord = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__createWord(jobject self_,
-                                      jobject word,
-                                      jobject wordPositions) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__createWord, "createWord",
-              "(Ljava/lang/String;Ljava/util/List;)Lorg/apache/pdfbox/text/"
-              "PDFTextStripper$WordWithTextPositions;");
-  if (_m_PDFTextStripper__createWord == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDFTextStripper__createWord, word, wordPositions);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__normalizeWord = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__normalizeWord(jobject self_, jobject word) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__normalizeWord,
-              "normalizeWord", "(Ljava/lang/String;)Ljava/lang/String;");
-  if (_m_PDFTextStripper__normalizeWord == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDFTextStripper__normalizeWord, word);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jmethodID _m_PDFTextStripper__normalizeAdd = NULL;
-FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__normalizeAdd(jobject self_,
-                                        jobject normalized,
-                                        jobject lineBuilder,
-                                        jobject wordPositions,
-                                        jobject item) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_method(
-      _c_PDFTextStripper, &_m_PDFTextStripper__normalizeAdd, "normalizeAdd",
-      "(Ljava/util/List;Ljava/lang/StringBuilder;Ljava/util/List;Lorg/apache/"
-      "pdfbox/text/PDFTextStripper$LineItem;)Ljava/lang/StringBuilder;");
-  if (_m_PDFTextStripper__normalizeAdd == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallObjectMethod(
-      jniEnv, self_, _m_PDFTextStripper__normalizeAdd, normalized, lineBuilder,
-      wordPositions, item);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__defaultIndentThreshold = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__defaultIndentThreshold() {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper,
-                    &_f_PDFTextStripper__defaultIndentThreshold,
-                    "defaultIndentThreshold", "F");
-  float _result = (*jniEnv)->GetStaticFloatField(
-      jniEnv, _c_PDFTextStripper, _f_PDFTextStripper__defaultIndentThreshold);
-  return (JniResult){.result = {.f = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__defaultIndentThreshold(float value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper,
-                    &_f_PDFTextStripper__defaultIndentThreshold,
-                    "defaultIndentThreshold", "F");
-  (*jniEnv)->SetStaticFloatField(jniEnv, _c_PDFTextStripper,
-                                 _f_PDFTextStripper__defaultIndentThreshold,
-                                 value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__defaultDropThreshold = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__defaultDropThreshold() {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper,
-                    &_f_PDFTextStripper__defaultDropThreshold,
-                    "defaultDropThreshold", "F");
-  float _result = (*jniEnv)->GetStaticFloatField(
-      jniEnv, _c_PDFTextStripper, _f_PDFTextStripper__defaultDropThreshold);
-  return (JniResult){.result = {.f = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__defaultDropThreshold(float value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper,
-                    &_f_PDFTextStripper__defaultDropThreshold,
-                    "defaultDropThreshold", "F");
-  (*jniEnv)->SetStaticFloatField(jniEnv, _c_PDFTextStripper,
-                                 _f_PDFTextStripper__defaultDropThreshold,
-                                 value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__LOG = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__LOG() {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper, &_f_PDFTextStripper__LOG, "LOG",
-                    "Lorg/apache/commons/logging/Log;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_PDFTextStripper, _f_PDFTextStripper__LOG));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
 jfieldID _f_PDFTextStripper__LINE_SEPARATOR = NULL;
 FFI_PLUGIN_EXPORT
 JniResult get_PDFTextStripper__LINE_SEPARATOR(jobject self_) {
@@ -3722,665 +2778,6 @@ JniResult get_PDFTextStripper__LINE_SEPARATOR(jobject self_) {
   jobject _result = to_global_ref((*jniEnv)->GetObjectField(
       jniEnv, self_, _f_PDFTextStripper__LINE_SEPARATOR));
   return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__lineSeparator = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__lineSeparator(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__lineSeparator,
-             "lineSeparator", "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__lineSeparator));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__lineSeparator(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__lineSeparator,
-             "lineSeparator", "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__lineSeparator,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__wordSeparator = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__wordSeparator(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__wordSeparator,
-             "wordSeparator", "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__wordSeparator));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__wordSeparator(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__wordSeparator,
-             "wordSeparator", "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__wordSeparator,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__paragraphStart = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__paragraphStart(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__paragraphStart,
-             "paragraphStart", "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__paragraphStart));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__paragraphStart(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__paragraphStart,
-             "paragraphStart", "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__paragraphStart,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__paragraphEnd = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__paragraphEnd(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__paragraphEnd,
-             "paragraphEnd", "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__paragraphEnd));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__paragraphEnd(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__paragraphEnd,
-             "paragraphEnd", "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__paragraphEnd,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__pageStart = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__pageStart(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__pageStart, "pageStart",
-             "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDFTextStripper__pageStart));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__pageStart(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__pageStart, "pageStart",
-             "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__pageStart,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__pageEnd = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__pageEnd(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__pageEnd, "pageEnd",
-             "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDFTextStripper__pageEnd));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__pageEnd(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__pageEnd, "pageEnd",
-             "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__pageEnd, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__articleStart = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__articleStart(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__articleStart,
-             "articleStart", "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__articleStart));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__articleStart(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__articleStart,
-             "articleStart", "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__articleStart,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__articleEnd = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__articleEnd(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__articleEnd, "articleEnd",
-             "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDFTextStripper__articleEnd));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__articleEnd(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__articleEnd, "articleEnd",
-             "Ljava/lang/String;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__articleEnd,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__currentPageNo = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__currentPageNo(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__currentPageNo,
-             "currentPageNo", "I");
-  int32_t _result =
-      (*jniEnv)->GetIntField(jniEnv, self_, _f_PDFTextStripper__currentPageNo);
-  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__currentPageNo(jobject self_, int32_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__currentPageNo,
-             "currentPageNo", "I");
-  (*jniEnv)->SetIntField(jniEnv, self_, _f_PDFTextStripper__currentPageNo,
-                         value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__startPage = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__startPage(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__startPage, "startPage",
-             "I");
-  int32_t _result =
-      (*jniEnv)->GetIntField(jniEnv, self_, _f_PDFTextStripper__startPage);
-  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__startPage(jobject self_, int32_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__startPage, "startPage",
-             "I");
-  (*jniEnv)->SetIntField(jniEnv, self_, _f_PDFTextStripper__startPage, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__endPage = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__endPage(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__endPage, "endPage", "I");
-  int32_t _result =
-      (*jniEnv)->GetIntField(jniEnv, self_, _f_PDFTextStripper__endPage);
-  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__endPage(jobject self_, int32_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__endPage, "endPage", "I");
-  (*jniEnv)->SetIntField(jniEnv, self_, _f_PDFTextStripper__endPage, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__startBookmark = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__startBookmark(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__startBookmark,
-             "startBookmark",
-             "Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/"
-             "outline/PDOutlineItem;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__startBookmark));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__startBookmark(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__startBookmark,
-             "startBookmark",
-             "Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/"
-             "outline/PDOutlineItem;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__startBookmark,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__startBookmarkPageNumber = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__startBookmarkPageNumber(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__startBookmarkPageNumber,
-             "startBookmarkPageNumber", "I");
-  int32_t _result = (*jniEnv)->GetIntField(
-      jniEnv, self_, _f_PDFTextStripper__startBookmarkPageNumber);
-  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__startBookmarkPageNumber(jobject self_,
-                                                       int32_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__startBookmarkPageNumber,
-             "startBookmarkPageNumber", "I");
-  (*jniEnv)->SetIntField(jniEnv, self_,
-                         _f_PDFTextStripper__startBookmarkPageNumber, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__endBookmarkPageNumber = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__endBookmarkPageNumber(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__endBookmarkPageNumber,
-             "endBookmarkPageNumber", "I");
-  int32_t _result = (*jniEnv)->GetIntField(
-      jniEnv, self_, _f_PDFTextStripper__endBookmarkPageNumber);
-  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__endBookmarkPageNumber(jobject self_,
-                                                     int32_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__endBookmarkPageNumber,
-             "endBookmarkPageNumber", "I");
-  (*jniEnv)->SetIntField(jniEnv, self_,
-                         _f_PDFTextStripper__endBookmarkPageNumber, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__endBookmark = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__endBookmark(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__endBookmark,
-             "endBookmark",
-             "Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/"
-             "outline/PDOutlineItem;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__endBookmark));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__endBookmark(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__endBookmark,
-             "endBookmark",
-             "Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/"
-             "outline/PDOutlineItem;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__endBookmark,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__suppressDuplicateOverlappingText = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__suppressDuplicateOverlappingText(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper,
-             &_f_PDFTextStripper__suppressDuplicateOverlappingText,
-             "suppressDuplicateOverlappingText", "Z");
-  uint8_t _result = (*jniEnv)->GetBooleanField(
-      jniEnv, self_, _f_PDFTextStripper__suppressDuplicateOverlappingText);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__suppressDuplicateOverlappingText(jobject self_,
-                                                                uint8_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper,
-             &_f_PDFTextStripper__suppressDuplicateOverlappingText,
-             "suppressDuplicateOverlappingText", "Z");
-  (*jniEnv)->SetBooleanField(
-      jniEnv, self_, _f_PDFTextStripper__suppressDuplicateOverlappingText,
-      value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__shouldSeparateByBeads = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__shouldSeparateByBeads(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__shouldSeparateByBeads,
-             "shouldSeparateByBeads", "Z");
-  uint8_t _result = (*jniEnv)->GetBooleanField(
-      jniEnv, self_, _f_PDFTextStripper__shouldSeparateByBeads);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__shouldSeparateByBeads(jobject self_,
-                                                     uint8_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__shouldSeparateByBeads,
-             "shouldSeparateByBeads", "Z");
-  (*jniEnv)->SetBooleanField(jniEnv, self_,
-                             _f_PDFTextStripper__shouldSeparateByBeads, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__sortByPosition = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__sortByPosition(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__sortByPosition,
-             "sortByPosition", "Z");
-  uint8_t _result = (*jniEnv)->GetBooleanField(
-      jniEnv, self_, _f_PDFTextStripper__sortByPosition);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__sortByPosition(jobject self_, uint8_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__sortByPosition,
-             "sortByPosition", "Z");
-  (*jniEnv)->SetBooleanField(jniEnv, self_, _f_PDFTextStripper__sortByPosition,
-                             value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__addMoreFormatting = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__addMoreFormatting(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__addMoreFormatting,
-             "addMoreFormatting", "Z");
-  uint8_t _result = (*jniEnv)->GetBooleanField(
-      jniEnv, self_, _f_PDFTextStripper__addMoreFormatting);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__addMoreFormatting(jobject self_, uint8_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__addMoreFormatting,
-             "addMoreFormatting", "Z");
-  (*jniEnv)->SetBooleanField(jniEnv, self_,
-                             _f_PDFTextStripper__addMoreFormatting, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__indentThreshold = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__indentThreshold(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__indentThreshold,
-             "indentThreshold", "F");
-  float _result = (*jniEnv)->GetFloatField(jniEnv, self_,
-                                           _f_PDFTextStripper__indentThreshold);
-  return (JniResult){.result = {.f = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__indentThreshold(jobject self_, float value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__indentThreshold,
-             "indentThreshold", "F");
-  (*jniEnv)->SetFloatField(jniEnv, self_, _f_PDFTextStripper__indentThreshold,
-                           value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__dropThreshold = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__dropThreshold(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__dropThreshold,
-             "dropThreshold", "F");
-  float _result = (*jniEnv)->GetFloatField(jniEnv, self_,
-                                           _f_PDFTextStripper__dropThreshold);
-  return (JniResult){.result = {.f = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__dropThreshold(jobject self_, float value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__dropThreshold,
-             "dropThreshold", "F");
-  (*jniEnv)->SetFloatField(jniEnv, self_, _f_PDFTextStripper__dropThreshold,
-                           value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__spacingTolerance = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__spacingTolerance(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__spacingTolerance,
-             "spacingTolerance", "F");
-  float _result = (*jniEnv)->GetFloatField(
-      jniEnv, self_, _f_PDFTextStripper__spacingTolerance);
-  return (JniResult){.result = {.f = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__spacingTolerance(jobject self_, float value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__spacingTolerance,
-             "spacingTolerance", "F");
-  (*jniEnv)->SetFloatField(jniEnv, self_, _f_PDFTextStripper__spacingTolerance,
-                           value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__averageCharTolerance = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__averageCharTolerance(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__averageCharTolerance,
-             "averageCharTolerance", "F");
-  float _result = (*jniEnv)->GetFloatField(
-      jniEnv, self_, _f_PDFTextStripper__averageCharTolerance);
-  return (JniResult){.result = {.f = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__averageCharTolerance(jobject self_,
-                                                    float value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__averageCharTolerance,
-             "averageCharTolerance", "F");
-  (*jniEnv)->SetFloatField(jniEnv, self_,
-                           _f_PDFTextStripper__averageCharTolerance, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__beadRectangles = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__beadRectangles(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__beadRectangles,
-             "beadRectangles", "Ljava/util/List;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__beadRectangles));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__beadRectangles(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__beadRectangles,
-             "beadRectangles", "Ljava/util/List;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__beadRectangles,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
 jfieldID _f_PDFTextStripper__charactersByArticle = NULL;
@@ -4408,34 +2805,6 @@ JniResult set_PDFTextStripper__charactersByArticle(jobject self_,
              "charactersByArticle", "Ljava/util/ArrayList;");
   (*jniEnv)->SetObjectField(jniEnv, self_,
                             _f_PDFTextStripper__charactersByArticle, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__characterListMapping = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__characterListMapping(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__characterListMapping,
-             "characterListMapping", "Ljava/util/Map;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__characterListMapping));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__characterListMapping(jobject self_,
-                                                    jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__characterListMapping,
-             "characterListMapping", "Ljava/util/Map;");
-  (*jniEnv)->SetObjectField(jniEnv, self_,
-                            _f_PDFTextStripper__characterListMapping, value);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
@@ -4488,102 +2857,5 @@ JniResult set_PDFTextStripper__output(jobject self_, jobject value) {
   load_field(_c_PDFTextStripper, &_f_PDFTextStripper__output, "output",
              "Ljava/io/Writer;");
   (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__output, value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__inParagraph = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__inParagraph(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__inParagraph,
-             "inParagraph", "Z");
-  uint8_t _result = (*jniEnv)->GetBooleanField(jniEnv, self_,
-                                               _f_PDFTextStripper__inParagraph);
-  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__inParagraph(jobject self_, uint8_t value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__inParagraph,
-             "inParagraph", "Z");
-  (*jniEnv)->SetBooleanField(jniEnv, self_, _f_PDFTextStripper__inParagraph,
-                             value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__LIST_ITEM_EXPRESSIONS = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__LIST_ITEM_EXPRESSIONS() {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper,
-                    &_f_PDFTextStripper__LIST_ITEM_EXPRESSIONS,
-                    "LIST_ITEM_EXPRESSIONS", "[Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_PDFTextStripper, _f_PDFTextStripper__LIST_ITEM_EXPRESSIONS));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__listOfPatterns = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__listOfPatterns(jobject self_) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__listOfPatterns,
-             "listOfPatterns", "Ljava/util/List;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__listOfPatterns));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__listOfPatterns(jobject self_, jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_field(_c_PDFTextStripper, &_f_PDFTextStripper__listOfPatterns,
-             "listOfPatterns", "Ljava/util/List;");
-  (*jniEnv)->SetObjectField(jniEnv, self_, _f_PDFTextStripper__listOfPatterns,
-                            value);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-}
-
-jfieldID _f_PDFTextStripper__MIRRORING_CHAR_MAP = NULL;
-FFI_PLUGIN_EXPORT
-JniResult get_PDFTextStripper__MIRRORING_CHAR_MAP() {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper, &_f_PDFTextStripper__MIRRORING_CHAR_MAP,
-                    "MIRRORING_CHAR_MAP", "Ljava/util/Map;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_PDFTextStripper, _f_PDFTextStripper__MIRRORING_CHAR_MAP));
-  return (JniResult){.result = {.l = _result}, .exception = check_exception()};
-}
-
-FFI_PLUGIN_EXPORT
-JniResult set_PDFTextStripper__MIRRORING_CHAR_MAP(jobject value) {
-  load_env();
-  load_class_gr(&_c_PDFTextStripper, "org/apache/pdfbox/text/PDFTextStripper");
-  if (_c_PDFTextStripper == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_field(_c_PDFTextStripper, &_f_PDFTextStripper__MIRRORING_CHAR_MAP,
-                    "MIRRORING_CHAR_MAP", "Ljava/util/Map;");
-  (*jniEnv)->SetStaticObjectField(jniEnv, _c_PDFTextStripper,
-                                  _f_PDFTextStripper__MIRRORING_CHAR_MAP,
-                                  value);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }

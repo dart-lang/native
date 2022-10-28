@@ -22,13 +22,6 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
 class AndroidUtils extends jni.JniObject {
   AndroidUtils.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "AndroidUtils__ctor")
-      .asFunction<jni.JniResult Function()>();
-
-  /// from: public void <init>()
-  AndroidUtils() : super.fromRef(_ctor().object);
-
   static final _showToast = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>,
@@ -37,7 +30,7 @@ class AndroidUtils extends jni.JniObject {
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: static void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)
+  /// from: static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)
   static void showToast(
           jni.JniObject mainActivity, jni.JniObject text, int duration) =>
       _showToast(mainActivity.reference, text.reference, duration).check();

@@ -89,12 +89,18 @@ abstract class ApiPreprocessor {
     log.fine('preprocessed ${decl.binaryName}');
   }
 
+  static bool _isPublicOrProtected(Set<String> modifiers) =>
+      modifiers.contains("public") || modifiers.contains("protected");
+
   static bool _isFieldIncluded(ClassDecl decl, Field field, Config config) =>
+      _isPublicOrProtected(field.modifiers) &&
       !field.name.startsWith('_') &&
       config.exclude?.fields?.included(decl, field) != false;
   static bool _isMethodIncluded(ClassDecl decl, Method method, Config config) =>
+      _isPublicOrProtected(method.modifiers) &&
       !method.name.startsWith('_') &&
       config.exclude?.methods?.included(decl, method) != false;
   static bool _isClassIncluded(ClassDecl decl, Config config) =>
+      _isPublicOrProtected(decl.modifiers) &&
       config.exclude?.classes?.included(decl) != false;
 }

@@ -76,11 +76,17 @@ void main(List<String> arguments) async {
     ..chainCommand("dart", ["test", "-j", "1"]);
   unawaited(jniAnalyze.run().then((f) => jniTest.run()));
 
-  final javaFiles = Directory.fromUri(jnigenPath.resolve("java/"))
-      .listSync(recursive: true)
-      .where((file) => file.path.endsWith(".java"))
-      .map((file) => file.path)
-      .toList();
+  List<String> getJavaFiles(String relativePath) =>
+      Directory.fromUri(jnigenPath.resolve(relativePath))
+          .listSync(recursive: true)
+          .where((file) => file.path.endsWith(".java"))
+          .map((file) => file.path)
+          .toList();
+
+  final javaFiles = getJavaFiles("java/") +
+      getJavaFiles("test/simple_package_test") +
+      getJavaFiles("example/in_app_java") +
+      getJavaFiles("example/notification_plugin");
 
   final checkJavaFormat = Runner("Check java format", jnigenPath)
     ..chainCommand(

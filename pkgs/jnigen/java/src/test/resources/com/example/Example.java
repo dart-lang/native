@@ -5,28 +5,34 @@
 package com.example;
 
 public class Example {
-  static final boolean staticFinalField = true;
+  public static final boolean staticFinalField = true;
 
-  Example(int instanceField) {
+  public Example(int instanceField) {
     this.instanceField = instanceField;
   }
 
-  static String staticField = "hello";
+  public static String staticField = "hello";
 
-  static String getStaticField() {
+  public static String getStaticField() {
     return staticField;
   }
 
-  int instanceField;
+  public int instanceField;
 
-  int getInstanceField() {
+  public int getInstanceField() {
     return instanceField;
   }
 
-  public static class Aux extends Example {
-    static int nothing = 0;
+  protected int overrideableMethod(int x, int y) {}
 
-    static Example getAnExample() {
+  int defaultAccessNotVisible();
+
+  private int privateAccessNotVisible();
+
+  public static class Aux extends Example {
+    public static int nothing = 0;
+
+    public static Example getAnExample() {
       return new Example();
     }
   }

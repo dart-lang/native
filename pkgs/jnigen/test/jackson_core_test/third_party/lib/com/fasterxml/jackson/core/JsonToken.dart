@@ -61,19 +61,6 @@ class JsonToken extends jni.JniObject {
       JsonToken.fromRef(jniAccessors.callStaticMethodWithArgs(_classRef,
           _id_valueOf, jni.JniType.objectType, [name.reference]).object);
 
-  static final _id_ctor =
-      jniAccessors.getMethodIDOf(_classRef, "<init>", "(Ljava/lang/String;I)V");
-
-  /// from: private void <init>(java.lang.String token, int id)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// @param token representation for this token, if there is a
-  ///   single static representation; null otherwise
-  ///@param id Numeric id from JsonTokenId
-  JsonToken(jni.JniString token, int id)
-      : super.fromRef(jniAccessors.newObjectWithArgs(
-            _classRef, _id_ctor, [token.reference, id]).object);
-
   static final _id_id = jniAccessors.getMethodIDOf(_classRef, "id", "()I");
 
   /// from: public final int id()

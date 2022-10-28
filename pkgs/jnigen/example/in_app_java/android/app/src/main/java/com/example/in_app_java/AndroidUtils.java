@@ -9,8 +9,11 @@ import android.widget.Toast;
 import androidx.annotation.Keep;
 
 @Keep
-public class AndroidUtils {
-  static void showToast(Activity mainActivity, CharSequence text, int duration) {
+public abstract class AndroidUtils {
+  // Hide constructor
+  private AndroidUtils() {}
+
+  public static void showToast(Activity mainActivity, CharSequence text, int duration) {
     mainActivity.runOnUiThread(() -> Toast.makeText(mainActivity, text, duration).show());
   }
 }

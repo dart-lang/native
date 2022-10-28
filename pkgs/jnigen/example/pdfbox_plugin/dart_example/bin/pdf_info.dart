@@ -12,7 +12,7 @@ import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 void writeInfo(String file) {
   final inputFile = Jni.newInstance(
       "java/io/FileInputStream", "(Ljava/lang/String;)V", [file]);
-  final pdDoc = PDDocument.load7(inputFile);
+  final pdDoc = PDDocument.load6(inputFile);
   int pages = pdDoc.getNumberOfPages();
   final info = pdDoc.getDocumentInformation();
   final title = info.getTitle();

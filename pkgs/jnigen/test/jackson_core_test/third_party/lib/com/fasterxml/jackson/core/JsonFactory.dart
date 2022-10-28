@@ -59,9 +59,6 @@ class JsonFactory extends jni.JniObject {
       jniAccessors.getClassOf("com/fasterxml/jackson/core/JsonFactory");
   JsonFactory.fromRef(jni.JObject ref) : super.fromRef(ref);
 
-  /// from: private static final long serialVersionUID
-  static const serialVersionUID = 2;
-
   /// from: static public final java.lang.String FORMAT_NAME_JSON
   ///
   /// Name used to identify JSON format
@@ -1497,15 +1494,6 @@ class JsonFactory_Feature extends jni.JniObject {
   ///@return Bit field of features enabled by default
   static int collectDefaults() => jniAccessors.callStaticMethodWithArgs(
       _classRef, _id_collectDefaults, jni.JniType.intType, []).integer;
-
-  static final _id_ctor =
-      jniAccessors.getMethodIDOf(_classRef, "<init>", "(Z)V");
-
-  /// from: private void <init>(boolean defaultState)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  JsonFactory_Feature(bool defaultState)
-      : super.fromRef(jniAccessors
-            .newObjectWithArgs(_classRef, _id_ctor, [defaultState]).object);
 
   static final _id_enabledByDefault =
       jniAccessors.getMethodIDOf(_classRef, "enabledByDefault", "()Z");

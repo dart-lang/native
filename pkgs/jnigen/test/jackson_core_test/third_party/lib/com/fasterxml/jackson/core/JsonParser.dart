@@ -46,18 +46,6 @@ class JsonParser extends jni.JniObject {
       jniAccessors.getClassOf("com/fasterxml/jackson/core/JsonParser");
   JsonParser.fromRef(jni.JObject ref) : super.fromRef(ref);
 
-  /// from: private static final int MIN_BYTE_I
-  static const MIN_BYTE_I = -128;
-
-  /// from: private static final int MAX_BYTE_I
-  static const MAX_BYTE_I = 255;
-
-  /// from: private static final int MIN_SHORT_I
-  static const MIN_SHORT_I = -32768;
-
-  /// from: private static final int MAX_SHORT_I
-  static const MAX_SHORT_I = 32767;
-
   static final _id_DEFAULT_READ_CAPABILITIES = jniAccessors.getStaticFieldIDOf(
       _classRef,
       "DEFAULT_READ_CAPABILITIES",
@@ -2114,15 +2102,6 @@ class JsonParser_Feature extends jni.JniObject {
   static int collectDefaults() => jniAccessors.callStaticMethodWithArgs(
       _classRef, _id_collectDefaults, jni.JniType.intType, []).integer;
 
-  static final _id_ctor =
-      jniAccessors.getMethodIDOf(_classRef, "<init>", "(Z)V");
-
-  /// from: private void <init>(boolean defaultState)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  JsonParser_Feature(bool defaultState)
-      : super.fromRef(jniAccessors
-            .newObjectWithArgs(_classRef, _id_ctor, [defaultState]).object);
-
   static final _id_enabledByDefault =
       jniAccessors.getMethodIDOf(_classRef, "enabledByDefault", "()Z");
 
@@ -2176,13 +2155,4 @@ class JsonParser_NumberType extends jni.JniObject {
           _id_valueOf,
           jni.JniType.objectType,
           [name.reference]).object);
-
-  static final _id_ctor =
-      jniAccessors.getMethodIDOf(_classRef, "<init>", "()V");
-
-  /// from: private void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  JsonParser_NumberType()
-      : super.fromRef(
-            jniAccessors.newObjectWithArgs(_classRef, _id_ctor, []).object);
 }

@@ -63,7 +63,7 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
   @Override
   public FieldVisitor visitField(
       int access, String name, String descriptor, String signature, Object value) {
-    if (name.contains("$") || isPrivate(access)) {
+    if (name.contains("$")) {
       return null;
     }
     var field = new Field();
@@ -79,7 +79,7 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
   public MethodVisitor visitMethod(
       int access, String name, String descriptor, String signature, String[] exceptions) {
     var method = new Method();
-    if (name.contains("$") || isPrivate(access)) {
+    if (name.contains("$")) {
       return null;
     }
     method.name = name;

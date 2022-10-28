@@ -5,6 +5,7 @@
   "binaryName" : "com.example.Example",
   "packageName" : "com.example",
   "methods" : [ {
+    "modifiers" : [ "public" ],
     "name" : "<init>",
     "params" : [ {
       "name" : "instanceField",
@@ -24,7 +25,7 @@
       }
     }
   }, {
-    "modifiers" : [ "static" ],
+    "modifiers" : [ "static", "public" ],
     "name" : "getStaticField",
     "returnType" : {
       "shorthand" : "java.lang.String",
@@ -35,7 +36,56 @@
       }
     }
   }, {
+    "modifiers" : [ "public" ],
     "name" : "getInstanceField",
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  }, {
+    "modifiers" : [ "protected" ],
+    "name" : "overrideableMethod",
+    "params" : [ {
+      "name" : "x",
+      "type" : {
+        "shorthand" : "int",
+        "kind" : "PRIMITIVE",
+        "type" : {
+          "name" : "int"
+        }
+      }
+    }, {
+      "name" : "y",
+      "type" : {
+        "shorthand" : "int",
+        "kind" : "PRIMITIVE",
+        "type" : {
+          "name" : "int"
+        }
+      }
+    } ],
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  }, {
+    "name" : "defaultAccessNotVisible",
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  }, {
+    "modifiers" : [ "private" ],
+    "name" : "privateAccessNotVisible",
     "returnType" : {
       "shorthand" : "int",
       "kind" : "PRIMITIVE",
@@ -45,7 +95,7 @@
     }
   } ],
   "fields" : [ {
-    "modifiers" : [ "static", "final" ],
+    "modifiers" : [ "static", "public", "final" ],
     "name" : "staticFinalField",
     "type" : {
       "shorthand" : "boolean",
@@ -56,7 +106,7 @@
     },
     "defaultValue" : true
   }, {
-    "modifiers" : [ "static" ],
+    "modifiers" : [ "static", "public" ],
     "name" : "staticField",
     "type" : {
       "shorthand" : "java.lang.String",
@@ -67,6 +117,7 @@
       }
     }
   }, {
+    "modifiers" : [ "public" ],
     "name" : "instanceField",
     "type" : {
       "shorthand" : "int",
@@ -104,7 +155,7 @@
       }
     }
   }, {
-    "modifiers" : [ "static" ],
+    "modifiers" : [ "static", "public" ],
     "name" : "getAnExample",
     "returnType" : {
       "shorthand" : "com.example.Example",
@@ -116,7 +167,7 @@
     }
   } ],
   "fields" : [ {
-    "modifiers" : [ "static" ],
+    "modifiers" : [ "static", "public" ],
     "name" : "nothing",
     "type" : {
       "shorthand" : "int",
