@@ -80,7 +80,13 @@ void main() async {
   });
 
   test('static methods arrays', () {
-    expect(Example.addAll(Example.getArr()), 6);
+    final array = Example.getArr();
+    expect(array[0], 1);
+    expect(array[1], 2);
+    expect(array[2], 3);
+    expect(Example.addAll(array), 6);
+    array[0] = 4;
+    expect(Example.addAll(array), 9);
   });
 
   test('instance methods', () {
@@ -93,6 +99,22 @@ void main() async {
     aux.setValue(true);
     aux.delete();
     ex.delete();
+  });
+
+  test('array of the class', () {
+    final ex1 = Example();
+    final ex2 = Example();
+    ex1.setInternal(1);
+    ex2.setInternal(2);
+    final array = JniArray(Example.type, 2);
+    array[0] = ex1;
+    array[1] = ex2;
+    print(array[0].getInternal());
+    expect(array[0].getInternal(), 1);
+    expect(array[1].getInternal(), 2);
+    array.delete();
+    ex1.delete();
+    ex2.delete();
   });
 
   test("Check bindings for same-named classes", () {

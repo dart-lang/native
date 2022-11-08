@@ -97,8 +97,7 @@ JniResult Example__getArr() {
                 "com/github/dart_lang/jnigen/simple_package/Example");
   if (_c_Example == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_Example, &_m_Example__getArr, "getArr",
-                     "()[Ljava/lang/Integer;");
+  load_static_method(_c_Example, &_m_Example__getArr, "getArr", "()[I");
   if (_m_Example__getArr == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   jobject _result =
@@ -115,8 +114,7 @@ JniResult Example__addAll(jobject arr) {
                 "com/github/dart_lang/jnigen/simple_package/Example");
   if (_c_Example == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_Example, &_m_Example__addAll, "addAll",
-                     "([Ljava/lang/Integer;)I");
+  load_static_method(_c_Example, &_m_Example__addAll, "addAll", "([I)I");
   if (_m_Example__addAll == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   int32_t _result = (*jniEnv)->CallStaticIntMethod(jniEnv, _c_Example,
@@ -169,6 +167,37 @@ JniResult Example__setNum(jobject self_, int32_t num) {
   if (_m_Example__setNum == NULL)
     return (JniResult){.result = {.j = 0}, .exception = check_exception()};
   (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_Example__setNum, num);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_Example__getInternal = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Example__getInternal(jobject self_) {
+  load_env();
+  load_class_gr(&_c_Example,
+                "com/github/dart_lang/jnigen/simple_package/Example");
+  if (_c_Example == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Example, &_m_Example__getInternal, "getInternal", "()I");
+  if (_m_Example__getInternal == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  int32_t _result =
+      (*jniEnv)->CallIntMethod(jniEnv, self_, _m_Example__getInternal);
+  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_Example__setInternal = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Example__setInternal(jobject self_, int32_t internal) {
+  load_env();
+  load_class_gr(&_c_Example,
+                "com/github/dart_lang/jnigen/simple_package/Example");
+  if (_c_Example == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Example, &_m_Example__setInternal, "setInternal", "(I)V");
+  if (_m_Example__setInternal == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_Example__setInternal, internal);
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 

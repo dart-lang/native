@@ -47,9 +47,9 @@ void main() {
 
   test("void fieldType throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
-    expect(
-        () => r.getField<void>(nullptr, JniType.voidType), throwsArgumentError);
-    expect(() => r.getStaticField<void>(nullptr, JniType.voidType),
+    expect(() => r.getField<void>(nullptr, JniCallType.voidType),
+        throwsArgumentError);
+    expect(() => r.getStaticField<void>(nullptr, JniCallType.voidType),
         throwsArgumentError);
   });
 
@@ -57,7 +57,7 @@ void main() {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     expect(
         () => r.callMethodByName<int>(
-            "nextInt", "(I)I", [256], JniType.doubleType),
+            "nextInt", "(I)I", [256], JniCallType.doubleType),
         throwsA(isA<InvalidCallTypeException>()));
   });
 

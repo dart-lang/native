@@ -32,6 +32,14 @@ abstract class BindingsGenerator {
 
   static const String jniObjectType = '${jni}JniObject';
 
+  static const String jniArrayType = '${jni}JniArray';
+
+  static const String jniCallType = '${jni}JniCallType';
+
+  static const String jniTypeType = '${jni}JniType';
+  static const String typeClassSuffix = 'Type';
+  static const String typeClassPrefix = '_\$';
+
   static const String jniResultType = '${jni}JniResult';
 
   /// Generate bindings string for given class declaration.
@@ -92,6 +100,36 @@ abstract class BindingsGenerator {
     return '$jniResultType Function($ref)';
   }
 
+  String dartArrayExtension(ClassDecl decl) {
+    final name = decl.finalName;
+    return '\nextension \$${name}JniArray on $jniArrayType<$name> {\n'
+        '$indent$name operator [](int index) {\n'
+        '${indent * 2}return $name.fromRef(elementAt(index, ${jni}JniCallType.objectType).object);\n'
+        '$indent}\n\n'
+        '${indent}void operator []=(int index, $name value) {\n'
+        '${indent * 2}(this as $jniArrayType<$jniObjectType>)[index] = value;\n'
+        '$indent}\n'
+        '}\n';
+  }
+
+  String dartTypeClass(ClassDecl decl) {
+    final name = decl.finalName;
+    final signature = getSignature(decl.binaryName);
+    final typeClassName = '$typeClassPrefix$name$typeClassSuffix';
+    return '\nclass $typeClassName extends $jniTypeType<$name> {\n'
+        '${indent}const $typeClassName();\n\n'
+        '$indent@override\n'
+        '${indent}String get signature => r"$signature";\n'
+        '}\n';
+  }
+
+  String dartStaticTypeGetter(ClassDecl decl) {
+    final name = decl.finalName;
+    final typeClassName = '$typeClassPrefix$name$typeClassSuffix';
+    return '\n$indent/// The type which includes information such as the signature of this class.\n'
+        '${indent}static const $jniTypeType<$name> type = $typeClassName();\n';
+  }
+
   String dartSigForMethod(Method m, {required bool isFfiSig}) {
     final conv = isFfiSig ? getDartFfiType : getDartInnerType;
     final argTypes = [if (hasSelfParam(m)) voidPointer];
@@ -115,6 +153,16 @@ abstract class BindingsGenerator {
       'void': 'void',
       'boolean': 'bool',
     };
+    const jniTypes = {
+      'byte': 'JByte',
+      'short': 'JShort',
+      'char': 'JChar',
+      'int': 'JInt',
+      'long': 'JLong',
+      'float': 'JFloat',
+      'double': 'JDouble',
+      'boolean': 'JBoolean',
+    };
     switch (t.kind) {
       case Kind.primitive:
         if (t.name == 'boolean' && resolver == null) return 'int';
@@ -124,7 +172,11 @@ abstract class BindingsGenerator {
         throw SkipException('Not supported: generics');
       case Kind.array:
         if (resolver != null) {
-          return jniObjectType;
+          final innerType = (t.type as ArrayType).type;
+          final dartType = innerType.kind == Kind.primitive
+              ? jni + jniTypes[(innerType.type as PrimitiveType).name]!
+              : _dartType(innerType, resolver: resolver);
+          return '$jniArrayType<$dartType>';
         }
         return voidPointer;
       case Kind.declared:
@@ -136,12 +188,12 @@ abstract class BindingsGenerator {
     }
   }
 
-  // Get corresponding Dart FFI type of Java type.
+  /// Get corresponding Dart FFI type of Java type.
   String getDartFfiType(TypeUsage t) {
     const primitives = {
       'byte': 'Int8',
       'short': 'Int16',
-      'char': 'Int16',
+      'char': 'Uint16',
       'int': 'Int32',
       'long': 'Int64',
       'float': 'Float',
@@ -230,6 +282,12 @@ abstract class BindingsGenerator {
   static final deleteInstruction =
       '$indent/// The returned object must be deleted after use, '
       'by calling the `delete` method.\n';
+  String getCallType(TypeUsage returnType) {
+    if (isPrimitive(returnType)) {
+      return "$jniCallType.${returnType.name}Type";
+    }
+    return "$jniCallType.objectType";
+  }
 }
 
 String breakDocComment(JavaDocComment? javadoc, {String depth = '    '}) {
@@ -402,13 +460,6 @@ String getTypeNameAtCallSite(TypeUsage t) {
     return t.name.substring(0, 1).toUpperCase() + t.name.substring(1);
   }
   return "Object";
-}
-
-String getCallType(TypeUsage returnType) {
-  if (isPrimitive(returnType)) {
-    return "jni.JniType.${returnType.name}Type";
-  }
-  return "jni.JniType.objectType";
 }
 
 String getResultGetterName(TypeUsage returnType) {

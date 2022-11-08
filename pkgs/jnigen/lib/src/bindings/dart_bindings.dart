@@ -60,7 +60,7 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
 
     s.write('class $name extends $superName {\n'
         '$indent$name.fromRef($voidPointer ref) : super.fromRef(ref);\n\n');
-
+    s.write(dartStaticTypeGetter(decl));
     for (var field in decl.fields) {
       if (!field.isIncluded) {
         continue;
@@ -87,6 +87,8 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
       }
     }
     s.write("}\n");
+    s.write(dartTypeClass(decl));
+    s.write(dartArrayExtension(decl));
     return s.toString();
   }
 
@@ -207,11 +209,13 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
       'import "package:jni/jni.dart" as jni;\n\n';
   static const defaultLintSuppressions =
       '// ignore_for_file: annotate_overrides\n'
+      '// ignore_for_file: camel_case_extensions\n'
       '// ignore_for_file: camel_case_types\n'
       '// ignore_for_file: constant_identifier_names\n'
       '// ignore_for_file: file_names\n'
       '// ignore_for_file: no_leading_underscores_for_local_identifiers\n'
       '// ignore_for_file: non_constant_identifier_names\n'
+      '// ignore_for_file: unnecessary_cast\n'
       '// ignore_for_file: unused_element\n'
       '// ignore_for_file: unused_import\n'
       '\n';

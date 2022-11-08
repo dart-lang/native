@@ -76,6 +76,11 @@ extension JniIdLookupResultMethods on JniPointerResult {
     _check(exception);
     return id.cast<jfieldID_>();
   }
+
+  Pointer<Void> get checkedRef {
+    _check(exception);
+    return id;
+  }
 }
 
 extension JniClassLookupResultMethods on JniClassLookupResult {

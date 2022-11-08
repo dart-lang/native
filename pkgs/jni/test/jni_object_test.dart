@@ -124,7 +124,7 @@ void main() {
   // One-off access of static field in single call.
   test("Get static field directly", () {
     final maxLong = Jni.retrieveStaticField<int>(
-        "java/lang/Short", "MAX_VALUE", "S", JniType.shortType);
+        "java/lang/Short", "MAX_VALUE", "S", JniCallType.shortType);
     expect(maxLong, equals(32767));
   });
 
@@ -157,7 +157,7 @@ void main() {
 
   test("Passing strings in arguments 2", () {
     final twelve = Jni.invokeStaticMethod<int>("java/lang/Byte", "parseByte",
-        "(Ljava/lang/String;)B", ["12"], JniType.byteType);
+        "(Ljava/lang/String;)B", ["12"], JniCallType.byteType);
     expect(twelve, equals(12));
   });
 

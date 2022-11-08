@@ -53,16 +53,16 @@ class NoJvmInstanceException implements Exception {
 
 extension JniTypeNames on int {
   static const _names = {
-    JniType.booleanType: 'bool',
-    JniType.byteType: 'byte',
-    JniType.shortType: 'short',
-    JniType.charType: 'char',
-    JniType.intType: 'int',
-    JniType.longType: 'long',
-    JniType.floatType: 'float',
-    JniType.doubleType: 'double',
-    JniType.objectType: 'object',
-    JniType.voidType: 'void',
+    JniCallType.booleanType: 'bool',
+    JniCallType.byteType: 'byte',
+    JniCallType.shortType: 'short',
+    JniCallType.charType: 'char',
+    JniCallType.intType: 'int',
+    JniCallType.longType: 'long',
+    JniCallType.floatType: 'float',
+    JniCallType.doubleType: 'double',
+    JniCallType.objectType: 'object',
+    JniCallType.voidType: 'void',
   };
   String str() => _names[this]!;
 }

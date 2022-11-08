@@ -51,7 +51,7 @@ double randomDouble() {
 int uptime() {
   return Jni.findJniClass("android/os/SystemClock").use(
     (systemClock) => systemClock.callStaticMethodByName<int>(
-        "uptimeMillis", "()J", [], JniType.longType),
+        "uptimeMillis", "()J", [], JniCallType.longType),
   );
 }
 

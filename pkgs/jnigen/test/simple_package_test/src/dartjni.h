@@ -115,6 +115,11 @@ typedef struct JniAccessors {
                                         char* methodName,
                                         char* signature);
   JniResult (*newObject)(jclass cls, jmethodID ctor, jvalue* args);
+  JniPointerResult (*newPrimitiveArray)(jsize length, int type);
+  JniPointerResult (*newObjectArray)(jsize length,
+                                     jclass elementClass,
+                                     jobject initialElement);
+  JniResult (*getArrayElement)(jarray array, int index, int type);
   JniResult (*callMethod)(jobject obj,
                           jmethodID methodID,
                           int callType,

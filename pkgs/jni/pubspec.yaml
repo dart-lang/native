@@ -8,6 +8,7 @@ environment:
   flutter: ">=2.11.0"
 
 dependencies:
+  collection: ^1.0.0
   plugin_platform_interface: ^2.0.2
   ffi: ^2.0.0
   path: ^1.8.0

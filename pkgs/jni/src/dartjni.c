@@ -368,6 +368,100 @@ JniResult newObject(jclass cls, jmethodID ctor, jvalue* args) {
   return jniResult;
 }
 
+JniPointerResult newPrimitiveArray(jsize length, int type) {
+  attach_thread();
+  void* pointer;
+  switch (type) {
+    case booleanType:
+      pointer = (*jniEnv)->NewBooleanArray(jniEnv, length);
+      break;
+    case byteType:
+      pointer = (*jniEnv)->NewByteArray(jniEnv, length);
+      break;
+    case shortType:
+      pointer = (*jniEnv)->NewShortArray(jniEnv, length);
+      break;
+    case charType:
+      pointer = (*jniEnv)->NewCharArray(jniEnv, length);
+      break;
+    case intType:
+      pointer = (*jniEnv)->NewIntArray(jniEnv, length);
+      break;
+    case longType:
+      pointer = (*jniEnv)->NewLongArray(jniEnv, length);
+      break;
+    case floatType:
+      pointer = (*jniEnv)->NewFloatArray(jniEnv, length);
+      break;
+    case doubleType:
+      pointer = (*jniEnv)->NewDoubleArray(jniEnv, length);
+      break;
+    case objectType:
+    case voidType:
+      // This error should have been handled in dart.
+      // is there a way to mark this as unreachable?
+      // or throw exception in Dart using Dart's C API.
+      break;
+  }
+  JniPointerResult result = {.id = to_global_ref(pointer), .exception = NULL};
+  result.exception = check_exception();
+  return result;
+}
+
+JniPointerResult newObjectArray(jsize length,
+                                jclass elementClass,
+                                jobject initialElement) {
+  attach_thread();
+  jarray array = to_global_ref(
+      (*jniEnv)->NewObjectArray(jniEnv, length, elementClass, initialElement));
+  JniPointerResult result = {.id = array, .exception = NULL};
+  result.exception = check_exception();
+  return result;
+}
+
+JniResult getArrayElement(jarray array, int index, int type) {
+  JniResult result = {NULL, NULL};
+  attach_thread();
+  jvalue value;
+  switch (type) {
+    case booleanType:
+      (*jniEnv)->GetBooleanArrayRegion(jniEnv, array, index, 1, &value.z);
+      break;
+    case byteType:
+      (*jniEnv)->GetByteArrayRegion(jniEnv, array, index, 1, &value.b);
+      break;
+    case shortType:
+      (*jniEnv)->GetShortArrayRegion(jniEnv, array, index, 1, &value.s);
+      break;
+    case charType:
+      (*jniEnv)->GetCharArrayRegion(jniEnv, array, index, 1, &value.c);
+      break;
+    case intType:
+      (*jniEnv)->GetIntArrayRegion(jniEnv, array, index, 1, &value.i);
+      break;
+    case longType:
+      (*jniEnv)->GetLongArrayRegion(jniEnv, array, index, 1, &value.j);
+      break;
+    case floatType:
+      (*jniEnv)->GetFloatArrayRegion(jniEnv, array, index, 1, &value.f);
+      break;
+    case doubleType:
+      (*jniEnv)->GetDoubleArrayRegion(jniEnv, array, index, 1, &value.d);
+      break;
+    case objectType:
+      value.l =
+          to_global_ref((*jniEnv)->GetObjectArrayElement(jniEnv, array, index));
+    case voidType:
+      // This error should have been handled in dart.
+      // is there a way to mark this as unreachable?
+      // or throw exception in Dart using Dart's C API.
+      break;
+  }
+  result.result = value;
+  result.exception = check_exception();
+  return result;
+}
+
 JniExceptionDetails getExceptionDetails(jthrowable exception) {
   JniExceptionDetails details;
   details.message = (*jniEnv)->CallObjectMethod(
@@ -394,6 +488,9 @@ JniAccessors accessors = {
     .getMethodID = getMethodID,
     .getStaticMethodID = getStaticMethodID,
     .newObject = newObject,
+    .newPrimitiveArray = newPrimitiveArray,
+    .newObjectArray = newObjectArray,
+    .getArrayElement = getArrayElement,
     .callMethod = callMethod,
     .callStaticMethod = callStaticMethod,
     .getField = getField,

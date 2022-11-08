@@ -19,6 +19,9 @@ headers:
     - 'third_party/jni.h' # jni.h from Android NDK
 compiler-opts:
   - '-Ithird_party/'
+enums:
+  rename:
+    'JniType': 'JniCallType'
 functions:
   exclude: # Exclude init functions supposed to be defined in loaded DLL, not JNI
     - 'JNI_.*'

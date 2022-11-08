@@ -13,6 +13,8 @@ public class Example {
   public static Aux aux;
   public static int num;
 
+  private int internal = 0;
+
   static {
     aux = new Aux(true);
     num = 121;
@@ -30,12 +32,12 @@ public class Example {
     return a + b;
   }
 
-  public static Integer[] getArr() {
-    return new Integer[] {1, 2, 3};
+  public static int[] getArr() {
+    return new int[] {1, 2, 3};
   }
 
-  public static int addAll(Integer[] arr) {
-    return Arrays.stream(arr).mapToInt(val -> val).sum();
+  public static int addAll(int[] arr) {
+    return Arrays.stream(arr).sum();
   }
 
   public Example getSelf() {
@@ -48,6 +50,14 @@ public class Example {
 
   public void setNum(int num) {
     this.num = num;
+  }
+
+  public int getInternal() {
+    return internal;
+  }
+
+  public void setInternal(int internal) {
+    this.internal = internal;
   }
 
   public static void throwException() {

@@ -1410,7 +1410,7 @@ class JavaVMInitArgs extends ffi.Struct {
 }
 
 /// Types used by JNI API to distinguish between primitive types.
-abstract class JniType {
+abstract class JniCallType {
   static const int booleanType = 0;
   static const int byteType = 1;
   static const int shortType = 2;
@@ -1496,6 +1496,18 @@ class JniAccessors extends ffi.Struct {
       newObject;
 
   external ffi.Pointer<
+          ffi.NativeFunction<JniPointerResult Function(JSize, ffi.Int)>>
+      newPrimitiveArray;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<JniPointerResult Function(JSize, JClass, JObject)>>
+      newObjectArray;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<JniResult Function(JArray, ffi.Int, ffi.Int)>>
+      getArrayElement;
+
+  external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
               JObject, JMethodID, ffi.Int, ffi.Pointer<JValue>)>> callMethod;
@@ -1558,6 +1570,23 @@ extension JniAccessorsExtension on ffi.Pointer<JniAccessors> {
     return ref.newObject.asFunction<
         JniResult Function(
             JClass, JMethodID, ffi.Pointer<JValue>)>()(cls, ctor, args);
+  }
+
+  JniPointerResult newPrimitiveArray(int length, int type) {
+    return ref.newPrimitiveArray
+        .asFunction<JniPointerResult Function(int, int)>()(length, type);
+  }
+
+  JniPointerResult newObjectArray(
+      int length, JClass elementClass, JObject initialElement) {
+    return ref.newObjectArray
+            .asFunction<JniPointerResult Function(int, JClass, JObject)>()(
+        length, elementClass, initialElement);
+  }
+
+  JniResult getArrayElement(JArray array, int index, int type) {
+    return ref.getArrayElement
+        .asFunction<JniResult Function(JArray, int, int)>()(array, index, type);
   }
 
   JniResult callMethod(

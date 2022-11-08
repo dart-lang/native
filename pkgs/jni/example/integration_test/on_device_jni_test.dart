@@ -75,13 +75,13 @@ void main() {
   // Actually it's not even required to get a reference to class
   testWidgets("invoke_", (t) async {
     final m = Jni.invokeStaticMethod<int>("java/lang/Long", "min", "(JJ)J",
-        [JValueLong(1234), JValueLong(1324)], JniType.longType);
+        [JValueLong(1234), JValueLong(1324)], JniCallType.longType);
     expect(m, equals(1234));
   });
 
   testWidgets("retrieve_", (t) async {
     final maxLong = Jni.retrieveStaticField<int>(
-        "java/lang/Short", "MAX_VALUE", "S", JniType.shortType);
+        "java/lang/Short", "MAX_VALUE", "S", JniCallType.shortType);
     expect(maxLong, equals(32767));
   });
 
@@ -105,7 +105,7 @@ void main() {
 
   testWidgets("Passing strings in arguments", (t) async {
     final twelve = Jni.invokeStaticMethod<int>("java/lang/Byte", "parseByte",
-        "(Ljava/lang/String;)B", ["12"], JniType.byteType);
+        "(Ljava/lang/String;)B", ["12"], JniCallType.byteType);
     expect(twelve, equals(12));
   });
 
