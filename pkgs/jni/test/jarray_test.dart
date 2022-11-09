@@ -199,9 +199,9 @@ void main() {
       array[0] = "حس".toJString()..deletedIn(arena);
       array[1] = "\$".toJString()..deletedIn(arena);
       array[2] = "33".toJString()..deletedIn(arena);
-      expect(array[0].toDartString(), "حس");
-      expect(array[1].toDartString(), "\$");
-      expect(array[2].toDartString(), "33");
+      expect(array[0].toDartString(deleteOriginal: true), "حس");
+      expect(array[1].toDartString(deleteOriginal: true), "\$");
+      expect(array[2].toDartString(deleteOriginal: true), "33");
       array.setRange(
         0,
         3,
@@ -213,9 +213,9 @@ void main() {
         ],
         1,
       );
-      expect(array[0].toDartString(), "55");
-      expect(array[1].toDartString(), "66");
-      expect(array[2].toDartString(), "77");
+      expect(array[0].toDartString(deleteOriginal: true), "55");
+      expect(array[1].toDartString(deleteOriginal: true), "66");
+      expect(array[2].toDartString(deleteOriginal: true), "77");
       expect(() {
         final _ = array[-1];
       }, throwsRangeError);
@@ -254,6 +254,23 @@ void main() {
       }
       twoDimArray[2][2] = 4;
       expect(twoDimArray[2][2], 4);
+    });
+  });
+  test("JArray.filled", () {
+    using((arena) {
+      final string = "abc".toJString()..deletedIn(arena);
+      final array = JArray.filled(3, string)..deletedIn(arena);
+      expect(
+        () {
+          final _ = JArray.filled(3, JString.fromRef(nullptr))
+            ..deletedIn(arena);
+        },
+        throwsA(isA<AssertionError>()),
+      );
+      expect(array.length, 3);
+      expect(array[0].toDartString(deleteOriginal: true), "abc");
+      expect(array[1].toDartString(deleteOriginal: true), "abc");
+      expect(array[2].toDartString(deleteOriginal: true), "abc");
     });
   });
 }

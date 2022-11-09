@@ -22,17 +22,38 @@ class JArray<E> extends JObject {
   /// Construct a new [JArray] with [reference] as its underlying reference.
   JArray.fromRef(JArrayPtr reference) : super.fromRef(reference);
 
-  JArray(JType<E> typeClass, int length)
-      : super.fromRef(
-          (typeClass._type == JniCallType.objectType)
-              ? _accessors
-                  .newObjectArray(
-                      length, typeClass._getClass().reference, nullptr)
-                  .checkedRef
-              : _accessors
-                  .newPrimitiveArray(length, typeClass._type)
-                  .checkedRef,
-        );
+  /// Creates a [JArray] of the given length from the given [type].
+  ///
+  /// The [length] must be a non-negative integer.
+  factory JArray(JType<E> type, int length) {
+    if (type._type == JniCallType.objectType) {
+      final clazz = type._getClass();
+      final array = JArray<E>.fromRef(
+        _accessors.newObjectArray(length, clazz.reference, nullptr).checkedRef,
+      );
+      clazz.delete();
+      return array;
+    }
+    return JArray.fromRef(
+      _accessors.newPrimitiveArray(length, type._type).checkedRef,
+    );
+  }
+
+  /// Creates a [JArray] of the given length with [fill] at each position.
+  ///
+  /// The [length] must be a non-negative integer.
+  /// The [fill] must be a non-null [JObject].
+  static JArray<E> filled<E extends JObject>(int length, E fill) {
+    assert(!fill.isNull, "fill must not be null.");
+    final clazz = fill.getClass();
+    final array = JArray<E>.fromRef(
+      _accessors
+          .newObjectArray(length, clazz.reference, fill.reference)
+          .checkedRef,
+    );
+    clazz.delete();
+    return array;
+  }
 
   int? _length;
 
