@@ -25,11 +25,11 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
     ProtectedJniExtensions.initGeneratedLibrary("notification_plugin");
 
 /// from: com.example.notification_plugin.Notifications
-class Notifications extends jni.JniObject {
+class Notifications extends jni.JObject {
   Notifications.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// The type which includes information such as the signature of this class.
-  static const jni.JniType<Notifications> type = _$NotificationsType();
+  static const jni.JType<Notifications> type = _$NotificationsType();
   static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "Notifications__ctor")
       .asFunction<jni.JniResult Function()>();
@@ -49,27 +49,27 @@ class Notifications extends jni.JniObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)
-  static void showNotification(jni.JniObject context, int notificationID,
-          jni.JniString title, jni.JniString text) =>
+  static void showNotification(jni.JObject context, int notificationID,
+          jni.JString title, jni.JString text) =>
       _showNotification(context.reference, notificationID, title.reference,
               text.reference)
           .check();
 }
 
-class _$NotificationsType extends jni.JniType<Notifications> {
+class _$NotificationsType extends jni.JType<Notifications> {
   const _$NotificationsType();
 
   @override
   String get signature => r"Lcom/example/notification_plugin/Notifications;";
 }
 
-extension $NotificationsJniArray on jni.JniArray<Notifications> {
+extension $NotificationsArray on jni.JArray<Notifications> {
   Notifications operator [](int index) {
     return Notifications.fromRef(
         elementAt(index, jni.JniCallType.objectType).object);
   }
 
   void operator []=(int index, Notifications value) {
-    (this as jni.JniArray<jni.JniObject>)[index] = value;
+    (this as jni.JArray<jni.JObject>)[index] = value;
   }
 }

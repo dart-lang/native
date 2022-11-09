@@ -9,7 +9,7 @@ import 'package:jni/jni.dart';
 // structure.
 import 'android_utils.dart';
 
-JniObject activity = JniObject.fromRef(Jni.getCurrentActivity());
+JObject activity = JObject.fromRef(Jni.getCurrentActivity());
 
 /// Display device model number as Toast
 void showToast() {

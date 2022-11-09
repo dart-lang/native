@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
+part of 'types.dart';
 
-import 'third_party/jni_bindings_generated.dart';
+abstract class JException implements Exception {}
 
-class UseAfterFreeException implements Exception {
+class UseAfterFreeException implements JException {
   dynamic object;
   Pointer<Void> ptr;
   UseAfterFreeException(this.object, this.ptr);
@@ -17,20 +17,20 @@ class UseAfterFreeException implements Exception {
   }
 }
 
-class NullJniStringException implements Exception {
+class NullJStringException implements JException {
   @override
-  String toString() => 'toDartString called on null JniString reference';
+  String toString() => 'toDartString called on null JString reference';
 }
 
-class InvalidJniStringException implements Exception {
+class InvalidJStringException implements JException {
   Pointer<Void> reference;
-  InvalidJniStringException(this.reference);
+  InvalidJStringException(this.reference);
   @override
   String toString() => 'Not a valid Java String: '
       '0x${reference.address.toRadixString(16)}';
 }
 
-class DoubleFreeException implements Exception {
+class DoubleFreeException implements JException {
   dynamic object;
   Pointer<Void> ptr;
   DoubleFreeException(this.object, this.ptr);
@@ -41,12 +41,12 @@ class DoubleFreeException implements Exception {
   }
 }
 
-class JvmExistsException implements Exception {
+class JvmExistsException implements JException {
   @override
   String toString() => 'A JVM already exists';
 }
 
-class NoJvmInstanceException implements Exception {
+class NoJvmInstanceException implements JException {
   @override
   String toString() => 'No JNI instance is available';
 }
@@ -67,7 +67,7 @@ extension JniTypeNames on int {
   String str() => _names[this]!;
 }
 
-class InvalidCallTypeException implements Exception {
+class InvalidCallTypeException implements JException {
   int type;
   Set<int> allowed;
   InvalidCallTypeException(this.type, this.allowed);
@@ -76,7 +76,7 @@ class InvalidCallTypeException implements Exception {
       'Allowed types are ${allowed.map((t) => t.str()).toSet()}';
 }
 
-class JniException implements Exception {
+class JniException implements JException {
   /// Error message from Java exception.
   final String message;
 
@@ -89,7 +89,7 @@ class JniException implements Exception {
       '$message\n\n$stackTrace\n';
 }
 
-class HelperNotFoundException implements Exception {
+class HelperNotFoundException implements JException {
   HelperNotFoundException(this.path);
   final String path;
 

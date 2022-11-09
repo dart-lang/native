@@ -9,9 +9,9 @@ import 'package:jni/src/jvalues.dart';
 
 import 'third_party/jni_bindings_generated.dart';
 import 'jni.dart';
-import 'jni_exceptions.dart';
+import 'types.dart';
 
-void _check(JThrowable exception) {
+void _check(JThrowablePtr exception) {
   if (exception != nullptr) {
     Jni.accessors.throwException(exception);
   }
@@ -55,7 +55,7 @@ extension JniResultMethods on JniResult {
     return result.d;
   }
 
-  JObject get object {
+  JObjectPtr get object {
     check();
     return result.l;
   }
@@ -67,12 +67,12 @@ extension JniResultMethods on JniResult {
 }
 
 extension JniIdLookupResultMethods on JniPointerResult {
-  JMethodID get methodID {
+  JMethodIDPtr get methodID {
     _check(exception);
     return id.cast<jmethodID_>();
   }
 
-  JFieldID get fieldID {
+  JFieldIDPtr get fieldID {
     _check(exception);
     return id.cast<jfieldID_>();
   }
@@ -84,7 +84,7 @@ extension JniIdLookupResultMethods on JniPointerResult {
 }
 
 extension JniClassLookupResultMethods on JniClassLookupResult {
-  JClass get checkedClassRef {
+  JClassPtr get checkedClassRef {
     _check(exception);
     return classRef;
   }
@@ -95,7 +95,7 @@ extension JniAccessorWrappers on Pointer<JniAccessors> {
   ///
   /// The original exception object is deleted by this method. The message
   /// and Java stack trace are included in the exception.
-  void throwException(JThrowable exception) {
+  void throwException(JThrowablePtr exception) {
     final details = getExceptionDetails(exception);
     final env = Jni.env;
     final message = env.asDartString(details.message);
@@ -108,42 +108,45 @@ extension JniAccessorWrappers on Pointer<JniAccessors> {
 
   // TODO(PR): How to name these methods? These only wrap toNativeChars()
   // so that generated bindings are less verbose.
-  JClass getClassOf(String internalName) =>
+  JClassPtr getClassOf(String internalName) =>
       using((arena) => getClass(internalName.toNativeChars(arena)))
           .checkedClassRef;
 
-  JMethodID getMethodIDOf(JClass cls, String name, String signature) =>
+  JMethodIDPtr getMethodIDOf(JClassPtr cls, String name, String signature) =>
       using((arena) => getMethodID(
               cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
           .methodID;
 
-  JMethodID getStaticMethodIDOf(JClass cls, String name, String signature) =>
+  JMethodIDPtr getStaticMethodIDOf(
+          JClassPtr cls, String name, String signature) =>
       using((arena) => getStaticMethodID(
               cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
           .methodID;
 
-  JFieldID getFieldIDOf(JClass cls, String name, String signature) =>
+  JFieldIDPtr getFieldIDOf(JClassPtr cls, String name, String signature) =>
       using((arena) => getFieldID(
               cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
           .fieldID;
 
-  JFieldID getStaticFieldIDOf(JClass cls, String name, String signature) =>
+  JFieldIDPtr getStaticFieldIDOf(
+          JClassPtr cls, String name, String signature) =>
       using((arena) => getStaticFieldID(
               cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
           .fieldID;
 
-  JniResult newObjectWithArgs(JClass cls, JMethodID ctor, List<dynamic> args) =>
+  JniResult newObjectWithArgs(
+          JClassPtr cls, JMethodIDPtr ctor, List<dynamic> args) =>
       using((arena) {
         return newObject(cls, ctor, toJValues(args, allocator: arena));
       });
 
   JniResult callMethodWithArgs(
-          JObject obj, JMethodID id, int callType, List<dynamic> args) =>
+          JObjectPtr obj, JMethodIDPtr id, int callType, List<dynamic> args) =>
       using((arena) =>
           callMethod(obj, id, callType, toJValues(args, allocator: arena)));
 
   JniResult callStaticMethodWithArgs(
-          JClass cls, JMethodID id, int callType, List<dynamic> args) =>
+          JClassPtr cls, JMethodIDPtr id, int callType, List<dynamic> args) =>
       using((arena) => callStaticMethod(
           cls, id, callType, toJValues(args, allocator: arena)));
 }

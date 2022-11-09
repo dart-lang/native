@@ -22,7 +22,7 @@ void main() {
     }
   }
 
-  testWidgets("Long.intValue() using JniObject", (t) async {
+  testWidgets("Long.intValue() using JObject", (t) async {
     final longClass = Jni.findJniClass("java/lang/Long");
 
     final longCtor = longClass.getCtorID("(J)V");
@@ -38,7 +38,7 @@ void main() {
 
   testWidgets("call a static method using JniClass APIs", (t) async {
     final integerClass = JniClass.fromRef(Jni.findClass("java/lang/Integer"));
-    final result = integerClass.callStaticMethodByName<JniString>(
+    final result = integerClass.callStaticMethodByName<JString>(
         "toHexString", "(I)Ljava/lang/String;", [31]);
 
     final resultString = result.toDartString();
@@ -116,7 +116,7 @@ void main() {
   });
 
   testWidgets("enums", (t) async {
-    final ordinal = Jni.retrieveStaticField<JniObject>(
+    final ordinal = Jni.retrieveStaticField<JObject>(
             "java/net/Proxy\$Type", "HTTP", "Ljava/net/Proxy\$Type;")
         .use((f) => f.callMethodByName<int>("ordinal", "()I", []));
     expect(ordinal, equals(1));

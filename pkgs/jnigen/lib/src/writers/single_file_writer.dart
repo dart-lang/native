@@ -12,7 +12,7 @@ import 'package:jnigen/src/writers/bindings_writer.dart';
 /// Resolver for single-file mapping of input classes.
 class SingleFileResolver implements SymbolResolver {
   static const predefined = {
-    'java.lang.String': 'jni.JniString',
+    'java.lang.String': 'jni.JString',
   };
   Map<String, ClassDecl> inputClasses;
   SingleFileResolver(this.inputClasses);

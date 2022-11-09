@@ -26,17 +26,17 @@ abstract class BindingsGenerator {
 
   static const String ffiVoidType = '${ffi}Void';
 
-  static const String jobjectType = '${jni}JObject';
+  static const String jobjectType = '${jni}JObjectPtr';
 
-  static const String jthrowableType = '${jni}JThrowable';
+  static const String jthrowableType = '${jni}JThrowablePtr';
 
-  static const String jniObjectType = '${jni}JniObject';
+  static const String jniObjectType = '${jni}JObject';
 
-  static const String jniArrayType = '${jni}JniArray';
+  static const String jniArrayType = '${jni}JArray';
 
   static const String jniCallType = '${jni}JniCallType';
 
-  static const String jniTypeType = '${jni}JniType';
+  static const String jniTypeType = '${jni}JType';
   static const String typeClassSuffix = 'Type';
   static const String typeClassPrefix = '_\$';
 
@@ -102,7 +102,7 @@ abstract class BindingsGenerator {
 
   String dartArrayExtension(ClassDecl decl) {
     final name = decl.finalName;
-    return '\nextension \$${name}JniArray on $jniArrayType<$name> {\n'
+    return '\nextension \$${name}Array on $jniArrayType<$name> {\n'
         '$indent$name operator [](int index) {\n'
         '${indent * 2}return $name.fromRef(elementAt(index, ${jni}JniCallType.objectType).object);\n'
         '$indent}\n\n'

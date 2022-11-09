@@ -106,7 +106,7 @@ void main() async {
     final ex2 = Example();
     ex1.setInternal(1);
     ex2.setInternal(2);
-    final array = JniArray(Example.type, 2);
+    final array = JArray(Example.type, 2);
     array[0] = ex1;
     array[1] = ex2;
     print(array[0].getInternal());
@@ -123,7 +123,7 @@ void main() async {
   });
 
   test('simple json parsing test', () {
-    final json = JniString.fromString('[1, true, false, 2, 4]');
+    final json = JString.fromString('[1, true, false, 2, 4]');
     JsonFactory factory;
     factory = JsonFactory();
     final parser = factory.createParser6(json);
@@ -141,7 +141,7 @@ void main() async {
     using((arena) {
       final factory = JsonFactory()..deletedIn(arena);
       final erroneous = factory
-          .createParser6("<html>".jniString()..deletedIn(arena))
+          .createParser6("<html>".toJString()..deletedIn(arena))
         ..deletedIn(arena);
       expect(() => erroneous.nextToken(), throwsA(isA<JniException>()));
     });

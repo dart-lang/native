@@ -26,7 +26,7 @@ enum DeclKind {
 
 @JsonSerializable(explicitToJson: true)
 class ClassDecl {
-  /// Methods & properties already defined by dart JniObject base class.
+  /// Methods & properties already defined by dart JObject base class.
   static const Map<String, int> _definedSyms = {
     'equals': 1,
     'toString': 1,

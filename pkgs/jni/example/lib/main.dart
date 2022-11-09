@@ -15,7 +15,7 @@ import 'package:jni/jni.dart';
 // GlobalJniEnv is a thin abstraction over JNIEnv in JNI C API.
 //
 // For a more ergonomic API for common use cases of calling methods and
-// accessing fields, see next examples using JniObject and JniClass.
+// accessing fields, see next examples using JObject and JniClass.
 String toJavaStringUsingEnv(int n) => using((arena) {
       final env = Jni.env;
       final cls = env.FindClass("java/lang/String".toNativeChars(arena));
@@ -56,7 +56,7 @@ int uptime() {
 }
 
 void quit() {
-  JniObject.fromRef(Jni.getCurrentActivity())
+  JObject.fromRef(Jni.getCurrentActivity())
       .use((ac) => ac.callMethodByName<void>("finish", "()V", []));
 }
 
@@ -68,7 +68,7 @@ void showToast(String text) {
   // In this example, Toaster class wraps android.widget.Toast so that it
   // can be called from any thread. See
   // android/app/src/main/java/com/github/dart_lang/jni_example/Toaster.java
-  Jni.invokeStaticMethod<JniObject>(
+  Jni.invokeStaticMethod<JObject>(
       "com/github/dart_lang/jni_example/Toaster",
       "makeText",
       "(Landroid/app/Activity;Landroid/content/Context;"
@@ -100,7 +100,7 @@ void main() {
               "android/os/Build", "DEVICE", "Ljava/lang/String;")),
       Example(
         "Package name",
-        () => JniObject.fromRef(Jni.getCurrentActivity()).use((activity) =>
+        () => JObject.fromRef(Jni.getCurrentActivity()).use((activity) =>
             activity.callMethodByName<String>(
                 "getPackageName", "()Ljava/lang/String;", [])),
       ),

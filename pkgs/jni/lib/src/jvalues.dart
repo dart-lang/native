@@ -7,10 +7,10 @@ import 'package:ffi/ffi.dart';
 
 import 'third_party/jni_bindings_generated.dart';
 import 'jni.dart';
-import 'jni_object.dart';
+import 'types.dart';
 
 void _fillJValue(Pointer<JValue> pos, dynamic arg) {
-  if (arg is JniObject) {
+  if (arg is JObject) {
     pos.ref.l = arg.reference;
     return;
   }
@@ -117,7 +117,7 @@ class JValueChar {
 /// But default allocator may be used for string conversions.
 class JValueArgs {
   late Pointer<JValue> values;
-  final List<JObject> createdRefs = [];
+  final List<JObjectPtr> createdRefs = [];
   final _env = Jni.env;
 
   JValueArgs(List<dynamic> args, [Allocator allocator = malloc]) {
@@ -135,7 +135,7 @@ class JValueArgs {
     }
   }
 
-  /// Deletes temporary references such as [JString]s.
+  /// Deletes temporary references such as [JStringPtr]s.
   void dispose() {
     for (var ref in createdRefs) {
       _env.DeleteGlobalRef(ref);

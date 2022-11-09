@@ -30,7 +30,7 @@ class FilePathResolver implements SymbolResolver {
   );
 
   static const Map<String, String> predefined = {
-    'java.lang.String': 'jni.JniString',
+    'java.lang.String': 'jni.JString',
   };
 
   /// Class corresponding to currently writing file.

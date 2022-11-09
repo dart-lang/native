@@ -10,8 +10,7 @@ import 'package:path/path.dart';
 
 import 'third_party/jni_bindings_generated.dart';
 import 'jvalues.dart';
-import 'jni_exceptions.dart';
-import 'jni_object.dart';
+import 'types.dart';
 import 'accessors.dart';
 
 String _getLibraryFileName(String base) {
@@ -152,22 +151,22 @@ abstract class Jni {
   static Pointer<JniAccessors> get accessors => _bindings.GetAccessors();
 
   /// Returns current application context on Android.
-  static JObject getCachedApplicationContext() {
+  static JObjectPtr getCachedApplicationContext() {
     return _bindings.GetApplicationContext();
   }
 
   /// Returns current activity
-  static JObject getCurrentActivity() => _bindings.GetCurrentActivity();
+  static JObjectPtr getCurrentActivity() => _bindings.GetCurrentActivity();
 
   /// Get the initial classLoader of the application.
   ///
   /// This is especially useful on Android, where
   /// JNI threads cannot access application classes using
   /// the usual `JniEnv.FindClass` method.
-  static JObject getApplicationClassLoader() => _bindings.GetClassLoader();
+  static JObjectPtr getApplicationClassLoader() => _bindings.GetClassLoader();
 
   /// Returns class reference found through system-specific mechanism
-  static JClass findClass(String qualifiedName) => using((arena) {
+  static JClassPtr findClass(String qualifiedName) => using((arena) {
         final cls = accessors.getClass(qualifiedName.toNativeChars(arena));
         return cls.checkedClassRef;
       });
@@ -181,7 +180,7 @@ abstract class Jni {
   ///
   /// Use it when one instance is needed, but the constructor or class aren't
   /// required themselves.
-  static JniObject newInstance(
+  static JObject newInstance(
       String qualifiedName, String ctorSignature, List<dynamic> args) {
     final cls = findJniClass(qualifiedName);
     final ctor = cls.getCtorID(ctorSignature);
@@ -202,7 +201,7 @@ abstract class Jni {
 
   /// Returns the value of static field identified by [fieldName] & [signature].
   ///
-  /// See [JniObject.getField] for more explanations about [callType] and [T].
+  /// See [JObject.getField] for more explanations about [callType] and [T].
   static T retrieveStaticField<T>(
       String className, String fieldName, String signature,
       [int? callType]) {
@@ -215,8 +214,8 @@ abstract class Jni {
   /// Calls static method identified by [methodName] and [signature]
   /// on [className] with [args] as and [callType].
   ///
-  /// For more explanation on [args] and [callType], see [JniObject.getField]
-  /// and [JniObject.callMethod] respectively.
+  /// For more explanation on [args] and [callType], see [JObject.getField]
+  /// and [JObject.callMethod] respectively.
   static T invokeStaticMethod<T>(
       String className, String methodName, String signature, List<dynamic> args,
       [int? callType]) {
@@ -228,7 +227,7 @@ abstract class Jni {
   }
 
   /// Delete all references in [objects].
-  static void deleteAll(List<JniReference> objects) {
+  static void deleteAll(List<JReference> objects) {
     for (var object in objects) {
       object.delete();
     }
@@ -257,28 +256,28 @@ extension ProtectedJniExtensions on Jni {
 }
 
 extension AdditionalEnvMethods on Pointer<GlobalJniEnv> {
-  /// Convenience method for converting a [JString]
+  /// Convenience method for converting a [JStringPtr]
   /// to dart string.
   /// if [deleteOriginal] is specified, jstring passed will be deleted using
   /// DeleteLocalRef.
-  String asDartString(JString jstring, {bool deleteOriginal = false}) {
-    if (jstring == nullptr) {
-      throw NullJniStringException();
+  String asDartString(JStringPtr jstringPtr, {bool deleteOriginal = false}) {
+    if (jstringPtr == nullptr) {
+      throw NullJStringException();
     }
-    final chars = GetStringUTFChars(jstring, nullptr);
+    final chars = GetStringUTFChars(jstringPtr, nullptr);
     if (chars == nullptr) {
-      throw InvalidJniStringException(jstring);
+      throw InvalidJStringException(jstringPtr);
     }
     final result = chars.cast<Utf8>().toDartString();
-    ReleaseStringUTFChars(jstring, chars);
+    ReleaseStringUTFChars(jstringPtr, chars);
     if (deleteOriginal) {
-      DeleteGlobalRef(jstring);
+      DeleteGlobalRef(jstringPtr);
     }
     return result;
   }
 
-  /// Return a new [JString] from contents of [s].
-  JString asJString(String s) => using((arena) {
+  /// Return a new [JStringPtr] from contents of [s].
+  JStringPtr asJString(String s) => using((arena) {
         final utf = s.toNativeUtf8().cast<Char>();
         final result = NewStringUTF(utf);
         malloc.free(utf);
@@ -286,7 +285,7 @@ extension AdditionalEnvMethods on Pointer<GlobalJniEnv> {
       });
 
   /// Deletes all references in [refs].
-  void deleteAllRefs(List<JObject> refs) {
+  void deleteAllRefs(List<JObjectPtr> refs) {
     for (final ref in refs) {
       DeleteGlobalRef(ref);
     }

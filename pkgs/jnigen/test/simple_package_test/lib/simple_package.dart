@@ -25,11 +25,11 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
     ProtectedJniExtensions.initGeneratedLibrary("simple_package");
 
 /// from: com.github.dart_lang.jnigen.simple_package.Example
-class Example extends jni.JniObject {
+class Example extends jni.JObject {
   Example.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// The type which includes information such as the signature of this class.
-  static const jni.JniType<Example> type = _$ExampleType();
+  static const jni.JType<Example> type = _$ExampleType();
 
   /// from: static public final int ON
   static const ON = 1;
@@ -47,9 +47,9 @@ class Example extends jni.JniObject {
   static Example_Aux get aux => Example_Aux.fromRef(_get_aux().object);
   static final _set_aux = jniLookup<
           ffi.NativeFunction<
-              jni.JThrowable Function(
+              jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>)>>("set_Example__aux")
-      .asFunction<jni.JThrowable Function(ffi.Pointer<ffi.Void>)>();
+      .asFunction<jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.simple_package.Example.Aux aux
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -63,9 +63,9 @@ class Example extends jni.JniObject {
   /// from: static public int num
   static int get num => _get_num().integer;
   static final _set_num =
-      jniLookup<ffi.NativeFunction<jni.JThrowable Function(ffi.Int32)>>(
+      jniLookup<ffi.NativeFunction<jni.JThrowablePtr Function(ffi.Int32)>>(
               "set_Example__num")
-          .asFunction<jni.JThrowable Function(int)>();
+          .asFunction<jni.JThrowablePtr Function(int)>();
 
   /// from: static public int num
   static set num(int value) => _set_num(value);
@@ -108,8 +108,8 @@ class Example extends jni.JniObject {
 
   /// from: static public int[] getArr()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JniArray<jni.JInt> getArr() =>
-      jni.JniArray<jni.JInt>.fromRef(_getArr().object);
+  static jni.JArray<jni.JInt> getArr() =>
+      jni.JArray<jni.JInt>.fromRef(_getArr().object);
 
   static final _addAll = jniLookup<
           ffi.NativeFunction<
@@ -117,8 +117,7 @@ class Example extends jni.JniObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public int addAll(int[] arr)
-  static int addAll(jni.JniArray<jni.JInt> arr) =>
-      _addAll(arr.reference).integer;
+  static int addAll(jni.JArray<jni.JInt> arr) => _addAll(arr.reference).integer;
 
   static final _getSelf = jniLookup<
           ffi.NativeFunction<
@@ -174,7 +173,7 @@ class Example extends jni.JniObject {
   static void throwException() => _throwException().check();
 }
 
-class _$ExampleType extends jni.JniType<Example> {
+class _$ExampleType extends jni.JType<Example> {
   const _$ExampleType();
 
   @override
@@ -182,39 +181,39 @@ class _$ExampleType extends jni.JniType<Example> {
       r"Lcom/github/dart_lang/jnigen/simple_package/Example;";
 }
 
-extension $ExampleJniArray on jni.JniArray<Example> {
+extension $ExampleArray on jni.JArray<Example> {
   Example operator [](int index) {
     return Example.fromRef(elementAt(index, jni.JniCallType.objectType).object);
   }
 
   void operator []=(int index, Example value) {
-    (this as jni.JniArray<jni.JniObject>)[index] = value;
+    (this as jni.JArray<jni.JObject>)[index] = value;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.simple_package.Example$Aux
-class Example_Aux extends jni.JniObject {
+class Example_Aux extends jni.JObject {
   Example_Aux.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// The type which includes information such as the signature of this class.
-  static const jni.JniType<Example_Aux> type = _$Example_AuxType();
+  static const jni.JType<Example_Aux> type = _$Example_AuxType();
   static final _get_value = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
-    jni.JObject,
+    jni.JObjectPtr,
   )>>("get_Example_Aux__value")
       .asFunction<
           jni.JniResult Function(
-    jni.JObject,
+    jni.JObjectPtr,
   )>();
 
   /// from: public boolean value
   bool get value => _get_value(reference).boolean;
   static final _set_value = jniLookup<
           ffi.NativeFunction<
-              jni.JThrowable Function(
-                  jni.JObject, ffi.Uint8)>>("set_Example_Aux__value")
-      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
+              jni.JThrowablePtr Function(
+                  jni.JObjectPtr, ffi.Uint8)>>("set_Example_Aux__value")
+      .asFunction<jni.JThrowablePtr Function(jni.JObjectPtr, int)>();
 
   /// from: public boolean value
   set value(bool value) => _set_value(reference, value ? 1 : 0);
@@ -246,7 +245,7 @@ class Example_Aux extends jni.JniObject {
   void setValue(bool value) => _setValue(reference, value ? 1 : 0).check();
 }
 
-class _$Example_AuxType extends jni.JniType<Example_Aux> {
+class _$Example_AuxType extends jni.JType<Example_Aux> {
   const _$Example_AuxType();
 
   @override
@@ -254,23 +253,23 @@ class _$Example_AuxType extends jni.JniType<Example_Aux> {
       r"Lcom/github/dart_lang/jnigen/simple_package/Example$Aux;";
 }
 
-extension $Example_AuxJniArray on jni.JniArray<Example_Aux> {
+extension $Example_AuxArray on jni.JArray<Example_Aux> {
   Example_Aux operator [](int index) {
     return Example_Aux.fromRef(
         elementAt(index, jni.JniCallType.objectType).object);
   }
 
   void operator []=(int index, Example_Aux value) {
-    (this as jni.JniArray<jni.JniObject>)[index] = value;
+    (this as jni.JArray<jni.JObject>)[index] = value;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.pkg2.C2
-class C2 extends jni.JniObject {
+class C2 extends jni.JObject {
   C2.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// The type which includes information such as the signature of this class.
-  static const jni.JniType<C2> type = _$C2Type();
+  static const jni.JType<C2> type = _$C2Type();
   static final _get_CONSTANT =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
               "get_C2__CONSTANT")
@@ -279,9 +278,9 @@ class C2 extends jni.JniObject {
   /// from: static public int CONSTANT
   static int get CONSTANT => _get_CONSTANT().integer;
   static final _set_CONSTANT =
-      jniLookup<ffi.NativeFunction<jni.JThrowable Function(ffi.Int32)>>(
+      jniLookup<ffi.NativeFunction<jni.JThrowablePtr Function(ffi.Int32)>>(
               "set_C2__CONSTANT")
-          .asFunction<jni.JThrowable Function(int)>();
+          .asFunction<jni.JThrowablePtr Function(int)>();
 
   /// from: static public int CONSTANT
   static set CONSTANT(int value) => _set_CONSTANT(value);
@@ -294,29 +293,29 @@ class C2 extends jni.JniObject {
   C2() : super.fromRef(_ctor().object);
 }
 
-class _$C2Type extends jni.JniType<C2> {
+class _$C2Type extends jni.JType<C2> {
   const _$C2Type();
 
   @override
   String get signature => r"Lcom/github/dart_lang/jnigen/pkg2/C2;";
 }
 
-extension $C2JniArray on jni.JniArray<C2> {
+extension $C2Array on jni.JArray<C2> {
   C2 operator [](int index) {
     return C2.fromRef(elementAt(index, jni.JniCallType.objectType).object);
   }
 
   void operator []=(int index, C2 value) {
-    (this as jni.JniArray<jni.JniObject>)[index] = value;
+    (this as jni.JArray<jni.JObject>)[index] = value;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.pkg2.Example
-class Example1 extends jni.JniObject {
+class Example1 extends jni.JObject {
   Example1.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// The type which includes information such as the signature of this class.
-  static const jni.JniType<Example1> type = _$Example1Type();
+  static const jni.JType<Example1> type = _$Example1Type();
   static final _ctor =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example1__ctor")
           .asFunction<jni.JniResult Function()>();
@@ -334,20 +333,20 @@ class Example1 extends jni.JniObject {
   int whichExample() => _whichExample(reference).integer;
 }
 
-class _$Example1Type extends jni.JniType<Example1> {
+class _$Example1Type extends jni.JType<Example1> {
   const _$Example1Type();
 
   @override
   String get signature => r"Lcom/github/dart_lang/jnigen/pkg2/Example;";
 }
 
-extension $Example1JniArray on jni.JniArray<Example1> {
+extension $Example1Array on jni.JArray<Example1> {
   Example1 operator [](int index) {
     return Example1.fromRef(
         elementAt(index, jni.JniCallType.objectType).object);
   }
 
   void operator []=(int index, Example1 value) {
-    (this as jni.JniArray<jni.JniObject>)[index] = value;
+    (this as jni.JArray<jni.JObject>)[index] = value;
   }
 }

@@ -10,14 +10,14 @@ import 'package:jni/jni.dart';
 // more customization in future.
 import 'package:notification_plugin/notifications.dart';
 
-JniObject activity = JniObject.fromRef(Jni.getCurrentActivity());
+JObject activity = JObject.fromRef(Jni.getCurrentActivity());
 
 int i = 0;
 
 void showNotification(String title, String text) {
   i = i + 1;
-  var jTitle = JniString.fromString(title);
-  var jText = JniString.fromString(text);
+  var jTitle = JString.fromString(title);
+  var jText = JString.fromString(text);
   Notifications.showNotification(activity, i, jTitle, jText);
   jTitle.delete();
   jText.delete();

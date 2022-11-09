@@ -26,6 +26,7 @@ class PureDartBindingsGenerator extends BindingsGenerator {
   static const voidPointer = BindingsGenerator.voidPointer;
   static const ffiVoidType = BindingsGenerator.ffiVoidType;
   static const jniObjectType = BindingsGenerator.jniObjectType;
+  static const jobjectType = BindingsGenerator.jobjectType;
 
   static final _deleteInstruction = BindingsGenerator.deleteInstruction;
 
@@ -65,7 +66,7 @@ class PureDartBindingsGenerator extends BindingsGenerator {
     final internalName = escapeDollarSign(getInternalName(decl.binaryName));
     s.write('class $name extends $superName {\n'
         '  static final $classRef = $accessors.getClassOf("$internalName");\n'
-        '  $indent$name.fromRef(${jni}JObject ref) : super.fromRef(ref);\n'
+        '  $indent$name.fromRef($jobjectType ref) : super.fromRef(ref);\n'
         '\n');
     s.write(dartStaticTypeGetter(decl));
     for (var field in decl.fields) {
