@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// coverage:ignore-file
+
 import 'dart:io';
 import 'package:logging/logging.dart';
 
@@ -16,11 +18,9 @@ String _colorize(String message, String colorCode) {
   return message;
 }
 
-Logger log = Logger('jnigen');
-
-/// Set logging level to [level] and initialize the logger.
-void setLoggingLevel(Level level) {
-  Logger.root.level = level;
+Logger log = () {
+  final jnigenLogger = Logger('jnigen');
+  Logger.root.level = Level.INFO;
   Logger.root.onRecord.listen((r) {
     var message = '(${r.loggerName}) ${r.level.name}: ${r.message}';
     if ((r.level == Level.SHOUT || r.level == Level.SEVERE)) {
@@ -30,6 +30,15 @@ void setLoggingLevel(Level level) {
     }
     stderr.writeln(message);
   });
+  return jnigenLogger;
+}();
+
+/// Set logging level to [level].
+void setLoggingLevel(Level level) {
+  /// This initializes `log` as a side effect, so that level setting we apply
+  /// is always the last one applied.
+  log.fine('Set log level: $level');
+  Logger.root.level = level;
 }
 
 /// Prints [message] without logging information.
@@ -40,7 +49,7 @@ void printError(Object? message) {
 }
 
 extension FatalErrors on Logger {
-  void fatal(Object? message, {int exitCode = 2}) {
+  void fatal(Object? message, {int exitCode = 1}) {
     message = _colorize('Fatal: $message', _ansiRed);
     stderr.writeln(message);
     exit(exitCode);

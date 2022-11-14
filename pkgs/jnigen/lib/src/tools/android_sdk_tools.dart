@@ -7,13 +7,34 @@ import 'package:path/path.dart';
 
 import 'package:jnigen/src/logging/logging.dart';
 
+class _AndroidToolsException implements Exception {
+  _AndroidToolsException(this.message);
+  String message;
+  @override
+  String toString() => message;
+}
+
+class SdkNotFoundException extends _AndroidToolsException {
+  SdkNotFoundException(String message) : super(message);
+}
+
+class GradleException extends _AndroidToolsException {
+  GradleException(String message) : super(message);
+}
+
 class AndroidSdkTools {
-  /// get path for android API sources
-  static Future<String?> _getVersionDir(
-      String relative, String? sdkRoot, List<int> versionOrder) async {
-    if (sdkRoot == null) {
-      throw ArgumentError('SDK Root not provided');
+  static String getAndroidSdkRoot() {
+    final envVar = Platform.environment['ANDROID_SDK_ROOT'];
+    if (envVar == null) {
+      throw SdkNotFoundException('Android SDK not found. Please set '
+          'ANDROID_SDK_ROOT environment variable or specify through command '
+          'line override.');
     }
+    return envVar;
+  }
+
+  static Future<String?> _getVersionDir(
+      String relative, String sdkRoot, List<int> versionOrder) async {
     final parent = join(sdkRoot, relative);
     for (var version in versionOrder) {
       final dir = Directory(join(parent, 'android-$version'));
@@ -24,15 +45,8 @@ class AndroidSdkTools {
     return null;
   }
 
-  static Future<String?> getAndroidSourcesPath(
-      {String? sdkRoot, required List<int> versionOrder}) async {
-    final dir = await _getVersionDir('sources', sdkRoot, versionOrder);
-    log.info('Found sources at $dir');
-    return dir;
-  }
-
-  static Future<String?> _getFile(String relative, String file, String? sdkRoot,
-      List<int> versionOrder) async {
+  static Future<String?> _getFile(String sdkRoot, String relative,
+      List<int> versionOrder, String file) async {
     final platform = await _getVersionDir(relative, sdkRoot, versionOrder);
     if (platform == null) return null;
     final filePath = join(platform, file);
@@ -44,8 +58,8 @@ class AndroidSdkTools {
   }
 
   static Future<String?> getAndroidJarPath(
-          {String? sdkRoot, required List<int> versionOrder}) async =>
-      await _getFile('platforms', 'android.jar', sdkRoot, versionOrder);
+          {required String sdkRoot, required List<int> versionOrder}) async =>
+      await _getFile(sdkRoot, 'platforms', versionOrder, 'android.jar');
 
   static const _gradleListDepsFunction = '''
 task listDependencies(type: Copy) {
@@ -71,8 +85,12 @@ task listDependencies(type: Copy) {
   ///
   /// If current project is not directly buildable by gradle, eg: a plugin,
   /// a relative path to other project can be specified using [androidProject].
-  static List<String> getGradleClasspaths([String androidProject = '.']) {
+  static List<String> getGradleClasspaths(
+      {Uri? configRoot, String androidProject = '.'}) {
     log.info('trying to obtain gradle classpaths...');
+    if (configRoot != null) {
+      androidProject = join(configRoot.toFilePath(), androidProject);
+    }
     final android = join(androidProject, 'android');
     final buildGradle = join(android, 'build.gradle');
     final buildGradleOld = join(android, 'build.gradle.old');
@@ -96,9 +114,10 @@ task listDependencies(type: Copy) {
     if (procRes.exitCode != 0) {
       final inAndroidProject =
           (androidProject == '.') ? '' : ' in $androidProject';
-      throw Exception('\n\ngradle exited with exit code ${procRes.exitCode}\n'
-          'This can be related to a known issue with gradle. Please run '
-          '`flutter build apk`$inAndroidProject and try again\n');
+      throw GradleException('\n\ngradle exited with exit code '
+          '${procRes.exitCode}\n. This can be related to a known issue with '
+          'gradle. Please run `flutter build apk`$inAndroidProject and try '
+          'again\n');
     }
     final classpaths = (procRes.stdout as String)
         .trim()

@@ -76,8 +76,15 @@ Future<void> _generateTempBindings(Config config, Directory tempDir) async {
   await generateJniBindings(config);
 }
 
-Future<void> generateAndCompareBindings(
-    Config config, String dartPath, String cPath) async {
+/// Generates and compares bindings with reference bindings.
+///
+/// [dartReferenceBindings] can be directory or file depending on output
+/// configuration.
+///
+/// If the config generates C code, [cReferenceBindings] must be a non-null
+/// directory path.
+Future<void> generateAndCompareBindings(Config config,
+    String dartReferenceBindings, String? cReferenceBindings) async {
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync("jnigen_test_temp");
   final tempSrc = tempDir.uri.resolve("src/");
@@ -88,9 +95,9 @@ Future<void> generateAndCompareBindings(
       : tempDir.uri.resolve("lib/");
   try {
     await _generateTempBindings(config, tempDir);
-    comparePaths(dartPath, tempLib.toFilePath());
+    comparePaths(dartReferenceBindings, tempLib.toFilePath());
     if (config.outputConfig.bindingsType == BindingsType.cBased) {
-      comparePaths(cPath, tempSrc.toFilePath());
+      comparePaths(cReferenceBindings!, tempSrc.toFilePath());
     }
   } finally {
     tempDir.deleteSync(recursive: true);

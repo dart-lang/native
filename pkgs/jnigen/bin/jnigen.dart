@@ -3,8 +3,15 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/logging/logging.dart';
 
 void main(List<String> args) async {
-  final config = Config.parseArgs(args);
+  Config config;
+  try {
+    config = Config.parseArgs(args);
+  } on ConfigException catch (e) {
+    log.fatal(e);
+    return;
+  }
   await generateJniBindings(config);
 }

@@ -87,6 +87,12 @@ jobs:
           sudo apt-get install -y clang-format
       - name: Install dependencies
         run: dart pub get
+      - name: build in_app_java APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/in_app_java
+      - name: build notification_plugin example APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Run VM tests
         run: dart test --platform vm
       - name: Install coverage
@@ -245,6 +251,12 @@ jobs:
       - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
       - run: dart pub get
       - run: dart run jnigen:setup
+      - name: build in_app_java APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/in_app_java
+      - name: build notification_plugin example APK
+        run: flutter build apk --target-platform=android-arm64
+        working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - run: dart test
 
   test_jni_macos_minimal:
@@ -358,63 +370,6 @@ jobs:
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
       - run: flutter pub get
       - run: flutter build apk
-
-  build_notification_plugin_example:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./pkgs/jnigen/example/notification_plugin
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter build apk
-        working-directory: ./pkgs/jnigen/example/notification_plugin/example
-      - name: re-generate bindings
-        run: flutter pub run jnigen -Doutput.dart.path=_temp.dart -Doutput.c.path=_c/ --config jnigen.yaml
-      - name: compare generated dart bindings
-        run: diff lib/notifications.dart _temp.dart
-      - name: compare generated C bindings
-        run: diff -r src/ _c
-
-  build_in_app_java_example:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./pkgs/jnigen/example/in_app_java
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - name: install clang tools
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y clang-format
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter build apk
-      - name: re-generate bindings
-        run: flutter pub run jnigen -Doutput.dart.path=_temp.dart -Doutput.c.path=_c/ --config jnigen.yaml
-      - name: compare generated dart bindings
-        run: diff lib/android_utils.dart _temp.dart
-      - name: compare generated C bindings
-        run: diff -r src/android_utils _c
 
   run_pdfbox_example_linux:
     runs-on: ubuntu-latest

@@ -11,7 +11,7 @@ environment:
   sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
-  json_annotation: ^4.6.0
+  json_annotation: ^4.7.0
   package_config: ^2.1.0
   path: ^1.8.0
   args: ^2.3.0
@@ -24,5 +24,5 @@ dev_dependencies:
     path: ../jni
   test: ^1.17.5
   build_runner: ^2.2.0
-  json_serializable: ^6.3.1
+  json_serializable: ^6.5.4
 

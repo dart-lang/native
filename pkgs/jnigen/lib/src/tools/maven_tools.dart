@@ -75,24 +75,6 @@ class MavenTools {
     await tempDir.delete(recursive: true);
   }
 
-  /// Get classpath string using JARs in maven's local repository.
-  static Future<String> getMavenClassPath(List<MavenDependency> deps) async {
-    final tempDir = await currentDir.createTemp("maven_temp_");
-    final tempClassPath = join(tempDir.path, "maven_classpath");
-    await _runMavenCommand(
-        deps,
-        [
-          'dependency:build-classpath',
-          '-Dmdep.outputFile=$tempClassPath',
-        ],
-        tempDir);
-    final classPathFile = File(tempClassPath);
-    final classpath = await classPathFile.readAsString();
-    await classPathFile.delete();
-    await tempDir.delete(recursive: true);
-    return classpath;
-  }
-
   static String _getStubPom(List<MavenDependency> deps,
       {String javaVersion = '11'}) {
     final depDecls = <String>[];

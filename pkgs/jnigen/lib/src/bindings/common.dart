@@ -207,7 +207,7 @@ abstract class BindingsGenerator {
       case Kind.typeVariable:
       case Kind.wildcard:
         throw SkipException(
-            'Generic type parameters are not supported', t.toJson());
+            'Generic type parameters are not supported', t.name);
       case Kind.array:
       case Kind.declared:
         return voidPointer;

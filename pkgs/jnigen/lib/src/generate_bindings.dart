@@ -51,22 +51,19 @@ Future<void> generateJniBindings(Config config) async {
   final androidConfig = config.androidSdkConfig;
   if (androidConfig != null && androidConfig.addGradleDeps) {
     final deps = AndroidSdkTools.getGradleClasspaths(
-        androidConfig.androidExample ?? '.');
+      configRoot: config.configRoot,
+      androidProject: androidConfig.androidExample ?? '.',
+    );
     extraJars.addAll(deps.map(Uri.file));
   }
   if (androidConfig != null && androidConfig.versions != null) {
     final versions = androidConfig.versions!;
+    final androidSdkRoot =
+        androidConfig.sdkRoot ?? AndroidSdkTools.getAndroidSdkRoot();
     final androidJar = await AndroidSdkTools.getAndroidJarPath(
-        sdkRoot: androidConfig.sdkRoot, versionOrder: versions);
+        sdkRoot: androidSdkRoot, versionOrder: versions);
     if (androidJar != null) {
       extraJars.add(Uri.directory(androidJar));
-    }
-    if (androidConfig.includeSources) {
-      final androidSources = await AndroidSdkTools.getAndroidSourcesPath(
-          sdkRoot: androidConfig.sdkRoot, versionOrder: versions);
-      if (androidSources != null) {
-        extraSources.add(Uri.directory(androidSources));
-      }
     }
   }
 

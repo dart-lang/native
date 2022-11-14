@@ -7,20 +7,14 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
 
-class ConfigError extends Error {
-  ConfigError(this.message);
-  final String message;
-  @override
-  String toString() => message;
-}
+import 'config_exception.dart';
 
 /// YAML Reader which enables to override specific values from command line.
 class YamlReader {
-  YamlReader.of(this.cli, this.yaml);
-  YamlReader.fromYaml(this.yaml) : cli = const {};
-  YamlReader.fromMap(this.cli) : yaml = const {};
+  YamlReader.of(this.cli, this.yaml, this.yamlFile);
   Map<String, String> cli;
   Map<dynamic, dynamic> yaml;
+  File? yamlFile;
 
   /// Parses the provided command line arguments and returns a [YamlReader].
   ///
@@ -57,7 +51,7 @@ class YamlReader {
         if (yamlInput is Map) {
           yamlMap = yamlInput;
         } else {
-          throw ConfigError('YAML config must be set of key value pairs');
+          throw ConfigException('YAML config must be set of key value pairs');
         }
       } on Exception catch (e) {
         stderr.writeln('cannot read $configFile: $e');
@@ -72,10 +66,11 @@ class YamlReader {
         final propertyValue = match.group(2);
         properties[propertyName!] = propertyValue!;
       } else {
-        throw ConfigError('override does not match expected pattern');
+        throw ConfigException('override does not match expected pattern');
       }
     }
-    return YamlReader.of(properties, yamlMap);
+    return YamlReader.of(
+        properties, yamlMap, configFile != null ? File(configFile) : null);
   }
 
   bool? getBool(String property) {
@@ -87,7 +82,7 @@ class YamlReader {
       if (v == 'false') {
         return false;
       }
-      throw ConfigError('expected boolean value for $property, got $v');
+      throw ConfigException('expected boolean value for $property, got $v');
     }
     return getYamlValue<bool>(property);
   }
@@ -97,10 +92,35 @@ class YamlReader {
     return configValue;
   }
 
+  /// Same as [getString] but path is resolved relative to YAML config if it's
+  /// from YAML config.
+  String? getPath(String property) {
+    final cliOverride = cli[property];
+    if (cliOverride != null) return cliOverride;
+    final path = getYamlValue<String>(property);
+    if (path == null) return null;
+    // In (very unlikely) case YAML config didn't come from a file,
+    // do not try to resolve anything.
+    if (yamlFile == null) return path;
+    final yamlDir = yamlFile!.parent;
+    return yamlDir.uri.resolve(path).toFilePath();
+  }
+
   List<String>? getStringList(String property) {
     final configValue = cli[property]?.split(';') ??
         getYamlValue<YamlList>(property)?.cast<String>();
     return configValue;
+  }
+
+  List<String>? getPathList(String property) {
+    final cliOverride = cli[property]?.split(';');
+    if (cliOverride != null) return cliOverride;
+    final paths = getYamlValue<YamlList>(property)?.cast<String>();
+    if (paths == null) return null;
+    // In (very unlikely) case YAML config didn't come from a file.
+    if (yamlFile == null) return paths;
+    final yamlDir = yamlFile!.parent;
+    return paths.map((path) => yamlDir.uri.resolve(path).toFilePath()).toList();
   }
 
   String? getOneOf(String property, Set<String> values) {
@@ -108,7 +128,7 @@ class YamlReader {
     if (value == null || values.contains(value)) {
       return value;
     }
-    throw ConfigError('expected one of $values for $property');
+    throw ConfigException('expected one of $values for $property');
   }
 
   Map<String, String>? getStringMap(String property) {
@@ -126,7 +146,7 @@ class YamlReader {
       if (cursor is YamlMap || cursor is Map) {
         cursor = cursor[i];
       } else {
-        throw ConfigError('expected $current to be a YAML map');
+        throw ConfigException('expected $current to be a YAML map');
       }
       current = [if (current != '') current, i].join('.');
       if (cursor == null) {
@@ -134,8 +154,12 @@ class YamlReader {
       }
     }
     if (cursor is! T) {
-      throw ConfigError('expected $T for $property, got ${cursor.runtimeType}');
+      throw ConfigException(
+          'expected $T for $property, got ${cursor.runtimeType}');
     }
     return cursor;
   }
+
+  /// Returns URI of the directory containing YAML config.
+  Uri? getConfigRoot() => yamlFile?.parent.uri;
 }

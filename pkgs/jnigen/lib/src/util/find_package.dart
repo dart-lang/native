@@ -44,5 +44,3 @@ Future<bool> isPackageModifiedAfter(String packageName, DateTime time,
   }
   return false;
 }
-
-Future<Uri?> findPackageJni() => findPackageRoot('jni');
