@@ -25,16 +25,16 @@ output:
     path: 'src/'
     ## C files can be stored in a different sub-directory inside root.
     ##
-    ## We have a guideline to keep all generated code in third_party/ since original
-    ## project's license applies to generated code. So we specify third_party/ as
-    ## c_subdir while keeping generated CMakeLists.txt in src/.
+    ## We have a guideline to keep all generated code in third_party/ since the
+    ## original project's license applies to generated code. So we specify
+    ## third_party/ as c_subdir while keeping generated CMakeLists.txt in src/.
     subdir: 'third_party/'
-    ## Name of the generated library. This is a required parameter, and used for the name of the
-    ## shared library and CMake configuration.
+    ## Name of the generated library. This is a required parameter, and used
+    ## for the name of the shared library and CMake configuration.
     library_name: 'pdfbox_plugin'
   dart:
-    ## Generated dart bindings will be written to this path. They will follow the same folder hierarchy
-    ## as the original Java code.
+    ## Generated dart bindings will be written to this path. They will follow
+    ## the same folder hierarchy as the original Java code.
     path: 'lib/src/third_party/'
 
 ## Classes / packages for which bindings need to be generated.
@@ -43,7 +43,16 @@ classes:
   - 'org.apache.pdfbox.pdmodel.PDDocumentInformation'
   - 'org.apache.pdfbox.text.PDFTextStripper'
 
-## Exclude a problematic field
+## Exclude a problematic static field. Static fields are usually converted
+## directly to dart static fields. In the current implementation some string
+## escaping problems may occur.
+##
+## See issue #31 (https://github.com/dart-lang/jnigen/issues/31) for details.
+## (This field does not appear in bindings unless full package bindings are
+## generated using a `-Dclasses` override.)
+##
+## TODO(#31): For string fields, it may be better to generate a field getter
+## than a direct literal.
 exclude:
   fields:
     - 'org.apache.pdfbox.contentstream.operator.OperatorName#SHOW_TEXT_LINE_AND_SPACE'
@@ -57,7 +66,7 @@ exclude:
 ## sourcepath and classpath.
 ##
 ## Note that when maven based tooling is used, the first run often has to fetch
-## all the dependencies and might take some time. However, maven caches most
+## all the dependencies and might take some time. However, maven caches the
 ## artifacts in local repository, thus subsequent runs will be faster.
 maven_downloads:
   ## For these dependencies, both source and JARs are downloaded.
