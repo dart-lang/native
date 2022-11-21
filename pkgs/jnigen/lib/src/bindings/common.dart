@@ -30,15 +30,25 @@ abstract class BindingsGenerator {
 
   static const String jthrowableType = '${jni}JThrowablePtr';
 
+  static const String jniStringType = '${jni}JString';
+  static const String jniStringTypeClass = '${jni}JString$typeClassSuffix';
+
   static const String jniObjectType = '${jni}JObject';
+  static const String jniObjectTypeClass = '${jni}JObject$typeClassSuffix';
 
   static const String jniArrayType = '${jni}JArray';
+  static const String jniArrayTypeClass = '${jni}JArray$typeClassSuffix';
 
   static const String jniCallType = '${jni}JniCallType';
 
-  static const String jniTypeType = '${jni}JType';
+  static const String jniTypeType = '${jni}JObjType';
   static const String typeClassSuffix = 'Type';
-  static const String typeClassPrefix = '_\$';
+  // TODO(#143): this is a temporary fix for the name collision.
+  static const String typeClassPrefix = '\$';
+
+  static const String instanceTypeGetter = '\$type';
+
+  static const String typeParamPrefix = '\$';
 
   static const String jniResultType = '${jni}JniResult';
 
@@ -71,9 +81,19 @@ abstract class BindingsGenerator {
   /// Returns the formal parameters list of the generated function.
   ///
   /// This is the signature seen by the user.
-  String getFormalArgs(Method m, SymbolResolver resolver) {
+  String getFormalArgs(ClassDecl c, Method m, SymbolResolver resolver) {
     final List<String> args = [];
-    for (var param in m.params) {
+    // Prepending the parameters with type parameters
+    if (isCtor(m)) {
+      for (final typeParam in c.allTypeParams) {
+        args.add('this.$typeParamPrefix${typeParam.name}');
+      }
+    }
+    for (final typeParam in m.typeParams) {
+      args.add(
+          '$jniTypeType<${typeParam.name}> $typeParamPrefix${typeParam.name}');
+    }
+    for (final param in m.params) {
       args.add(
           '${getDartOuterType(param.type, resolver)} ${kwRename(param.name)}');
     }
@@ -90,44 +110,154 @@ abstract class BindingsGenerator {
     return args.join(', ');
   }
 
+  String _dartTypeClassName(String className) {
+    return '$typeClassPrefix$className$typeClassSuffix';
+  }
+
+  String dartTypeParams(List<TypeParam> typeParams,
+      {required bool includeExtends}) {
+    if (typeParams.isEmpty) return '';
+    // TODO(#144): resolve the actual type being extended, if any.
+    final ifExtendsIncluded = includeExtends ? ' extends $jniObjectType' : '';
+    final args =
+        typeParams.map((e) => '${e.name}$ifExtendsIncluded').join(' ,');
+    return '<$args>';
+  }
+
+  String dartClassDefinition(ClassDecl decl, SymbolResolver resolver) {
+    final name = decl.finalName;
+    var superName = jniObjectType;
+    if (decl.superclass != null) {
+      superName = _dartType(decl.superclass!, resolver: resolver);
+    }
+    final typeParamsWithExtend =
+        dartTypeParams(decl.allTypeParams, includeExtends: true);
+    final ifSomeArgs =
+        decl.allTypeParams.isNotEmpty ? '(${_typeParamArgs(decl)})' : '';
+    return 'class $name$typeParamsWithExtend extends $superName {\n'
+        'late final $jniTypeType? _$instanceTypeGetter;\n'
+        '@override\n'
+        '$jniTypeType get $instanceTypeGetter => '
+        '_$instanceTypeGetter ??= type$ifSomeArgs;\n\n'
+        '${_typeParamDefs(decl)}\n'
+        '$indent$name.fromRef(\n'
+        '${_typeParamCtorArgs(decl)}'
+        '$jobjectType ref,'
+        '): super.fromRef(${dartSuperArgs(decl, resolver)}ref);\n\n';
+  }
+
   String dartSigForField(Field f,
       {bool isSetter = false, required bool isFfiSig}) {
-    final conv = isFfiSig ? getDartFfiType : getDartInnerType;
     final ref = f.modifiers.contains('static') ? '' : '$jobjectType, ';
+    final conv = isFfiSig ? getDartFfiType : getDartInnerType;
     if (isSetter) {
       return '$jthrowableType Function($ref${conv(f.type)})';
     }
     return '$jniResultType Function($ref)';
   }
 
+  String dartSuperArgs(ClassDecl decl, SymbolResolver resolver) {
+    if (decl.superclass == null ||
+        resolver.resolve((decl.superclass!.type as DeclaredType).binaryName) ==
+            null) {
+      return '';
+    }
+    return (decl.superclass!.type as DeclaredType)
+        .params
+        .map((param) => '${getDartTypeClass(param, resolver)},')
+        .join();
+  }
+
   String dartArrayExtension(ClassDecl decl) {
     final name = decl.finalName;
-    return '\nextension \$${name}Array on $jniArrayType<$name> {\n'
-        '$indent$name operator [](int index) {\n'
-        '${indent * 2}return $name.fromRef(elementAt(index, ${jni}JniCallType.objectType).object);\n'
+    final typeParamsWithExtend =
+        dartTypeParams(decl.allTypeParams, includeExtends: true);
+    final typeParams =
+        dartTypeParams(decl.allTypeParams, includeExtends: false);
+    final typeClassName = _dartTypeClassName(name);
+    return '\nextension \$${name}Array$typeParamsWithExtend on $jniArrayType<$name$typeParams> {\n'
+        '$indent$name$typeParams operator [](int index) {\n'
+        '${indent * 2}return (elementType as $typeClassName$typeParams)'
+        '.fromRef(elementAt(index, ${jni}JniCallType.objectType).object);\n'
         '$indent}\n\n'
-        '${indent}void operator []=(int index, $name value) {\n'
+        '${indent}void operator []=(int index, $name$typeParams value) {\n'
         '${indent * 2}(this as $jniArrayType<$jniObjectType>)[index] = value;\n'
         '$indent}\n'
         '}\n';
   }
 
+  String _typeParamDefs(ClassDecl decl) {
+    return decl.allTypeParams
+        .map((e) =>
+            '${indent}final $jniTypeType<${e.name}> $typeParamPrefix${e.name};\n')
+        .join();
+  }
+
+  String _typeParamCtorArgs(ClassDecl decl) {
+    return decl.allTypeParams
+        .map((e) => '${indent * 2}this.$typeParamPrefix${e.name},\n')
+        .join();
+  }
+
+  String _typeParamArgs(ClassDecl decl) {
+    return decl.allTypeParams.map((e) => '$typeParamPrefix${e.name}, ').join();
+  }
+
   String dartTypeClass(ClassDecl decl) {
     final name = decl.finalName;
     final signature = getSignature(decl.binaryName);
-    final typeClassName = '$typeClassPrefix$name$typeClassSuffix';
-    return '\nclass $typeClassName extends $jniTypeType<$name> {\n'
-        '${indent}const $typeClassName();\n\n'
+    final typeClassName = _dartTypeClassName(name);
+    final typeParamsWithExtend =
+        dartTypeParams(decl.allTypeParams, includeExtends: true);
+    final typeParams =
+        dartTypeParams(decl.allTypeParams, includeExtends: false);
+
+    return '\nclass $typeClassName$typeParamsWithExtend extends $jniTypeType<$name$typeParams> {\n'
+        '${_typeParamDefs(decl)}\n'
+        '${indent}const $typeClassName(\n'
+        '${_typeParamCtorArgs(decl)}'
+        '$indent);\n\n'
         '$indent@override\n'
-        '${indent}String get signature => r"$signature";\n'
+        '${indent}String get signature => r"$signature";\n\n'
+        '$indent@override\n'
+        '$indent$name$typeParams fromRef($jobjectType ref) => $name.fromRef(${_typeParamArgs(decl)}ref);\n'
         '}\n';
   }
 
+  String dartInitType(ClassDecl decl) {
+    final typeClassName = _dartTypeClassName(decl.finalName);
+    final args =
+        decl.allTypeParams.map((e) => '$typeParamPrefix${e.name},').join();
+    return '$instanceTypeGetter = $typeClassName($args)';
+  }
+
   String dartStaticTypeGetter(ClassDecl decl) {
-    final name = decl.finalName;
-    final typeClassName = '$typeClassPrefix$name$typeClassSuffix';
-    return '\n$indent/// The type which includes information such as the signature of this class.\n'
-        '${indent}static const $jniTypeType<$name> type = $typeClassName();\n';
+    final typeClassName = _dartTypeClassName(decl.finalName);
+    const docs =
+        '/// The type which includes information such as the signature of this class.';
+    if (decl.allTypeParams.isEmpty) {
+      return '$indent$docs\n'
+          '${indent}static const type = $typeClassName();\n\n';
+    }
+    final typeParamsWithExtend =
+        dartTypeParams(decl.allTypeParams, includeExtends: true);
+    final typeParams =
+        dartTypeParams(decl.allTypeParams, includeExtends: false);
+    final methodArgs = decl.allTypeParams
+        .map((e) =>
+            '${indent * 2}$jniTypeType<${e.name}> $typeParamPrefix${e.name},\n')
+        .join();
+    final ctorArgs = decl.allTypeParams
+        .map((e) => '${indent * 3}$typeParamPrefix${e.name},\n')
+        .join();
+    return '$indent$docs\n'
+        '${indent}static $typeClassName$typeParams type$typeParamsWithExtend(\n'
+        '$methodArgs'
+        '$indent) {\n'
+        '${indent * 2}return $typeClassName(\n'
+        '$ctorArgs'
+        '${indent * 2});\n'
+        '$indent}\n\n';
   }
 
   String dartSigForMethod(Method m, {required bool isFfiSig}) {
@@ -139,7 +269,10 @@ abstract class BindingsGenerator {
     return '$jniResultType Function (${argTypes.join(", ")})';
   }
 
-  String _dartType(TypeUsage t, {SymbolResolver? resolver}) {
+  String _dartType(
+    TypeUsage t, {
+    SymbolResolver? resolver,
+  }) {
     // if resolver == null, looking for inner fn type, type of fn reference
     // else looking for outer fn type, that's what user of the library sees.
     const primitives = {
@@ -168,8 +301,12 @@ abstract class BindingsGenerator {
         if (t.name == 'boolean' && resolver == null) return 'int';
         return primitives[(t.type as PrimitiveType).name]!;
       case Kind.typeVariable:
+        if (resolver != null) {
+          return t.name;
+        }
+        return voidPointer;
       case Kind.wildcard:
-        throw SkipException('Not supported: generics');
+        throw SkipException('Wildcards are not yet supported');
       case Kind.array:
         if (resolver != null) {
           final innerType = (t.type as ArrayType).type;
@@ -181,10 +318,136 @@ abstract class BindingsGenerator {
         return voidPointer;
       case Kind.declared:
         if (resolver != null) {
-          return resolver.resolve((t.type as DeclaredType).binaryName) ??
-              jniObjectType;
+          final type = t.type as DeclaredType;
+          final resolved = resolver.resolve(type.binaryName);
+          if (resolved == null) {
+            return jniObjectType;
+          }
+
+          // All type parameters of this type
+          final allTypeParams =
+              (resolver.resolveClass(type.binaryName)?.allTypeParams ?? [])
+                  .map((param) => param.name)
+                  .toList();
+
+          // The ones that are declared.
+          final paramTypeClasses =
+              type.params.map((param) => _dartType(param, resolver: resolver));
+
+          // Replacing the declared ones. They come at the end.
+          if (allTypeParams.length >= type.params.length) {
+            allTypeParams.replaceRange(
+              allTypeParams.length - type.params.length,
+              allTypeParams.length,
+              paramTypeClasses,
+            );
+          }
+
+          final args = allTypeParams.join(',');
+          final ifArgs = args.isNotEmpty ? '<$args>' : '';
+          return '$resolved$ifArgs';
         }
         return voidPointer;
+    }
+  }
+
+  String getDartTypeClass(
+    TypeUsage t,
+    SymbolResolver resolver,
+  ) {
+    return _getDartTypeClass(t, resolver, addConst: true).name;
+  }
+
+  _TypeClass _getDartTypeClass(
+    TypeUsage t,
+    SymbolResolver resolver, {
+    required bool addConst,
+  }) {
+    const primitives = {
+      'byte': 'JByteType',
+      'short': 'JShortType',
+      'char': 'JCharType',
+      'int': 'JIntType',
+      'long': 'JLongType',
+      'float': 'JFloatType',
+      'double': 'JDoubleType',
+      'boolean': 'JBooleanType',
+      'void': 'JVoidType', // This will never be in the generated code.
+    };
+    switch (t.kind) {
+      case Kind.primitive:
+        final ifConst = addConst ? 'const ' : '';
+        return _TypeClass(
+          '$ifConst$jni${primitives[(t.type as PrimitiveType).name]}()',
+          true,
+        );
+      case Kind.typeVariable:
+        return _TypeClass(
+          '$typeParamPrefix${(t.type as TypeVar).name}',
+          false,
+        );
+      case Kind.wildcard:
+        throw SkipException('Wildcards are not yet supported');
+      case Kind.array:
+        final innerType = (t.type as ArrayType).type;
+        final innerTypeClass = _getDartTypeClass(
+          innerType,
+          resolver,
+          addConst: false,
+        );
+        final ifConst = addConst && innerTypeClass.canBeConst ? 'const ' : '';
+        return _TypeClass(
+          '$ifConst$jniArrayTypeClass(${innerTypeClass.name})',
+          innerTypeClass.canBeConst,
+        );
+      case Kind.declared:
+        final type = (t.type as DeclaredType);
+        final resolved = resolver.resolve(type.binaryName);
+        final resolvedClass = resolver.resolveClass(type.binaryName);
+
+        // All type params of this type
+        final allTypeParams = resolvedClass?.allTypeParams
+                .map((param) => '$typeParamPrefix${param.name}')
+                .toList() ??
+            [];
+
+        // The ones that are declared.
+        final paramTypeClasses = type.params.map(
+            (param) => _getDartTypeClass(param, resolver, addConst: false));
+
+        // Replacing the declared ones. They come at the end.
+        if (allTypeParams.length >= type.params.length) {
+          allTypeParams.replaceRange(
+            allTypeParams.length - type.params.length,
+            allTypeParams.length,
+            paramTypeClasses.map((param) => param.name),
+          );
+        }
+
+        final args = allTypeParams.join(',');
+
+        final canBeConst = allTypeParams.length == paramTypeClasses.length &&
+            paramTypeClasses.every((e) => e.canBeConst);
+        final ifConst = addConst && canBeConst ? 'const ' : '';
+
+        if (resolved == null || resolved == jniObjectType) {
+          return _TypeClass('$ifConst$jniObjectTypeClass()', true);
+        } else if (resolved == jniStringType) {
+          return _TypeClass('$ifConst$jniStringTypeClass()', true);
+        } else if (resolved.contains('.')) {
+          // It is in form of jni.SomeClass which should be converted to jni.$SomeClassType
+          final dotIndex = resolved.indexOf('.');
+          final module = resolved.substring(0, dotIndex);
+          final clazz = resolved.substring(dotIndex + 1);
+          return _TypeClass(
+            '$ifConst$module.${_dartTypeClassName(clazz)}($args)',
+            canBeConst,
+          );
+        }
+        return _TypeClass(
+          '$ifConst${_dartTypeClassName(resolved)}($args)',
+          canBeConst,
+        );
     }
   }
 
@@ -204,10 +467,9 @@ abstract class BindingsGenerator {
     switch (t.kind) {
       case Kind.primitive:
         return ffi + primitives[(t.type as PrimitiveType).name]!;
-      case Kind.typeVariable:
       case Kind.wildcard:
-        throw SkipException(
-            'Generic type parameters are not supported', t.name);
+        throw SkipException('Wildcards are not yet supported');
+      case Kind.typeVariable:
       case Kind.array:
       case Kind.declared:
         return voidPointer;
@@ -272,11 +534,11 @@ abstract class BindingsGenerator {
     return '$name.$selfPointer';
   }
 
-  String toDartResult(String expr, TypeUsage type, String dartType) {
+  String toDartResult(String expr, TypeUsage type, String dartTypeClass) {
     if (isPrimitive(type)) {
       return expr;
     }
-    return '$dartType.fromRef($expr)';
+    return '$dartTypeClass.fromRef($expr)';
   }
 
   static final deleteInstruction =
@@ -489,4 +751,11 @@ String getJniSignatureForMethod(Method m) {
   final returnType = getDescriptor(m.returnType);
   s.write(returnType);
   return s.toString();
+}
+
+class _TypeClass {
+  final String name;
+  final bool canBeConst;
+
+  _TypeClass(this.name, this.canBeConst);
 }

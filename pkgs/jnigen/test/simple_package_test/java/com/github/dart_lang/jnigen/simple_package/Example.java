@@ -15,6 +15,12 @@ public class Example {
 
   private int internal = 0;
 
+  public Example() {}
+
+  public Example(int internal) {
+    this.internal = internal;
+  }
+
   static {
     aux = new Aux(true);
     num = 121;

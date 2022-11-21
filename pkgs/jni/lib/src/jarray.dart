@@ -6,21 +6,31 @@
 
 part of 'types.dart';
 
-class _JArrayType<T> extends JType<JArray<T>> {
+class JArrayType<T> extends JObjType<JArray<T>> {
   final JType<T> elementType;
 
-  const _JArrayType(this.elementType);
+  const JArrayType(this.elementType);
 
   @override
   String get signature => '[${elementType.signature}';
+
+  @override
+  JArray<T> fromRef(Pointer<Void> ref) => JArray.fromRef(elementType, ref);
 }
 
 class JArray<E> extends JObject {
+  final JType<E> elementType;
+
+  @override
+  JArrayType<E> get $type => (_$type ??= type(elementType)) as JArrayType<E>;
+
   /// The type which includes information such as the signature of this class.
-  static JType<JArray<T>> type<T>(JType<T> innerType) => _JArrayType(innerType);
+  static JObjType<JArray<T>> type<T>(JType<T> innerType) =>
+      JArrayType(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
-  JArray.fromRef(JArrayPtr reference) : super.fromRef(reference);
+  JArray.fromRef(this.elementType, JArrayPtr reference)
+      : super.fromRef(reference);
 
   /// Creates a [JArray] of the given length from the given [type].
   ///
@@ -29,12 +39,14 @@ class JArray<E> extends JObject {
     if (type._type == JniCallType.objectType) {
       final clazz = type._getClass();
       final array = JArray<E>.fromRef(
+        type,
         _accessors.newObjectArray(length, clazz.reference, nullptr).checkedRef,
       );
       clazz.delete();
       return array;
     }
     return JArray.fromRef(
+      type,
       _accessors.newPrimitiveArray(length, type._type).checkedRef,
     );
   }
@@ -47,6 +59,7 @@ class JArray<E> extends JObject {
     assert(!fill.isNull, "fill must not be null.");
     final clazz = fill.getClass();
     final array = JArray<E>.fromRef(
+      fill.$type as JObjType<E>,
       _accessors
           .newObjectArray(length, clazz.reference, fill.reference)
           .checkedRef,
@@ -321,7 +334,10 @@ extension ObjectArray<T extends JObject> on JArray<T> {
 
 extension ArrayArray<T> on JArray<JArray<T>> {
   JArray<T> operator [](int index) {
-    return JArray<T>.fromRef(elementAt(index, JniCallType.objectType).object);
+    return JArray<T>.fromRef(
+      (elementType as JArrayType<T>).elementType,
+      elementAt(index, JniCallType.objectType).object,
+    );
   }
 
   void operator []=(int index, JArray<T> value) {

@@ -26,6 +26,11 @@ class SingleFileResolver implements SymbolResolver {
     if (predefined.containsKey(binaryName)) return predefined[binaryName];
     return inputClasses[binaryName]?.finalName;
   }
+
+  @override
+  ClassDecl? resolveClass(String binaryName) {
+    return inputClasses[binaryName];
+  }
 }
 
 class SingleFileWriter extends BindingsWriter {

@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:jnigen/jnigen.dart';
 
@@ -24,6 +25,12 @@ var javaFiles = [
   join(javaPrefix, 'simple_package', 'Example.java'),
   join(javaPrefix, 'pkg2', 'C2.java'),
   join(javaPrefix, 'pkg2', 'Example.java'),
+  join(javaPrefix, 'generics', 'MyStack.java'),
+  join(javaPrefix, 'generics', 'MyMap.java'),
+  join(javaPrefix, 'generics', 'GrandParent.java'),
+  join(javaPrefix, 'generics', 'StringStack.java'),
+  join(javaPrefix, 'generics', 'StringValuedMap.java'),
+  join(javaPrefix, 'generics', 'StringKeyedMap.java'),
 ];
 
 void compileJavaSources(String workingDir, List<String> files) async {
@@ -34,7 +41,7 @@ void compileJavaSources(String workingDir, List<String> files) async {
   }
 }
 
-Config getConfig() {
+Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
   compileJavaSources(javaPath, javaFiles);
   final cWrapperDir = Uri.directory(join(testRoot, "src"));
   final dartWrappersRoot = Uri.directory(join(testRoot, "lib"));
@@ -44,8 +51,11 @@ Config getConfig() {
     classes: [
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',
+      'com.github.dart_lang.jnigen.generics',
     ],
+    logLevel: Level.INFO,
     outputConfig: OutputConfig(
+      bindingsType: bindingsType,
       cConfig: CCodeOutputConfig(
         path: cWrapperDir,
         libraryName: 'simple_package',

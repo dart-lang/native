@@ -25,14 +25,18 @@ abstract class JReference implements Finalizable {
   /// Returns whether this object is deleted.
   bool get isDeleted => _deleted;
 
-  /// Deletes the underlying JNI reference. Further uses will throw
-  /// [UseAfterFreeException].
-  void delete() {
+  void _setAsDeleted() {
     if (_deleted) {
       throw DoubleFreeException(this, reference);
     }
     _deleted = true;
     _finalizer.detach(this);
+  }
+
+  /// Deletes the underlying JNI reference. Further uses will throw
+  /// [UseAfterFreeException].
+  void delete() {
+    _setAsDeleted();
     _env.DeleteGlobalRef(reference);
   }
 

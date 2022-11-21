@@ -39,6 +39,12 @@ Future<void> setupDylibsAndClasses() async {
       'javac',
       [
         join(group, 'simple_package', 'Example.java'),
+        join(group, 'generics', 'MyMap.java'),
+        join(group, 'generics', 'MyStack.java'),
+        join(group, 'generics', 'GrandParent.java'),
+        join(group, 'generics', 'StringStack.java'),
+        join(group, 'generics', 'StringValuedMap.java'),
+        join(group, 'generics', 'StringKeyedMap.java'),
         join(group, 'pkg2', 'C2.java'),
         join(group, 'pkg2', 'Example.java'),
       ],
@@ -148,5 +154,123 @@ void main() async {
   });
   test('exceptions', () {
     expect(() => Example.throwException(), throwsException);
+  });
+  group('generics', () {
+    test('MyStack<T>', () {
+      using((arena) {
+        final stack = MyStack(JString.type)..deletedIn(arena);
+        stack.push('Hello'.toJString()..deletedIn(arena));
+        stack.push('World'.toJString()..deletedIn(arena));
+        expect(stack.pop().toDartString(deleteOriginal: true), 'World');
+        expect(stack.pop().toDartString(deleteOriginal: true), 'Hello');
+      });
+    });
+    test('MyMap<K, V>', () {
+      using((arena) {
+        final map = MyMap(JString.type, Example.type)..deletedIn(arena);
+        final helloExample = Example.ctor1(1)..deletedIn(arena);
+        final worldExample = Example.ctor1(2)..deletedIn(arena);
+        map.put('Hello'.toJString()..deletedIn(arena), helloExample);
+        map.put('World'.toJString()..deletedIn(arena), worldExample);
+        expect(
+          (map.get0('Hello'.toJString()..deletedIn(arena))..deletedIn(arena))
+              .getInternal(),
+          1,
+        );
+        expect(
+          (map.get0('World'.toJString()..deletedIn(arena))..deletedIn(arena))
+              .getInternal(),
+          2,
+        );
+        expect(
+          ((map.entryStack()..deletedIn(arena)).pop()..deletedIn(arena))
+              .key
+              .toDartString(deleteOriginal: true),
+          anyOf('Hello', 'World'),
+        );
+      });
+    });
+    group('classes extending generics', () {
+      test('StringStack', () {
+        using((arena) {
+          final stringStack = StringStack()..deletedIn(arena);
+          stringStack.push('Hello'.toJString()..deletedIn(arena));
+          expect(stringStack.pop().toDartString(deleteOriginal: true), 'Hello');
+        });
+      });
+      test('StringKeyedMap', () {
+        using((arena) {
+          final map = StringKeyedMap(Example.type)..deletedIn(arena);
+          final example = Example()..deletedIn(arena);
+          map.put('Hello'.toJString()..deletedIn(arena), example);
+          expect(
+            (map.get0('Hello'.toJString()..deletedIn(arena))..deletedIn(arena))
+                .getInternal(),
+            0,
+          );
+        });
+      });
+      test('StringValuedMap', () {
+        using((arena) {
+          final map = StringValuedMap(Example.type)..deletedIn(arena);
+          final example = Example()..deletedIn(arena);
+          map.put(example, 'Hello'.toJString()..deletedIn(arena));
+          expect(
+            map.get0(example).toDartString(deleteOriginal: true),
+            'Hello',
+          );
+        });
+      });
+    });
+    test('nested generics', () {
+      using((arena) {
+        final grandParent =
+            GrandParent(JString.type, "!".toJString()..deletedIn(arena))
+              ..deletedIn(arena);
+        expect(
+          grandParent.value.toDartString(deleteOriginal: true),
+          "!",
+        );
+
+        final strStaticParent = GrandParent.stringStaticParent()
+          ..deletedIn(arena);
+        expect(
+          strStaticParent.value.toDartString(deleteOriginal: true),
+          "Hello",
+        );
+
+        final exampleStaticParent = GrandParent.varStaticParent(
+            Example.type, Example()..deletedIn(arena))
+          ..deletedIn(arena);
+        expect(
+          (exampleStaticParent.value..deletedIn(arena)).getInternal(),
+          0,
+        );
+
+        final strParent = grandParent.stringParent()..deletedIn(arena);
+        expect(
+          strParent.parentValue.toDartString(deleteOriginal: true),
+          "!",
+        );
+        expect(
+          strParent.value.toDartString(deleteOriginal: true),
+          "Hello",
+        );
+
+        final exampleParent = grandParent.varParent(
+            Example.type, Example()..deletedIn(arena))
+          ..deletedIn(arena);
+        expect(
+          exampleParent.parentValue.toDartString(deleteOriginal: true),
+          "!",
+        );
+        expect(
+          (exampleParent.value..deletedIn(arena)).getInternal(),
+          0,
+        );
+        // TODO(#139): test constructing Child, currently does not work due
+        // to a problem with C-bindings.
+      });
+    });
   });
 }

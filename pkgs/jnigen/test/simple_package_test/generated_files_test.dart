@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:jnigen/jnigen.dart';
 import 'package:test/test.dart';
 import 'package:path/path.dart' hide equals;
 
@@ -14,6 +15,12 @@ void main() async {
       getConfig(),
       join(testRoot, "lib", "simple_package.dart"),
       join(testRoot, "src"),
+    );
+  }); // test if generated file == expected file
+  test("Generate and analyze bindings for simple_package - pure dart",
+      () async {
+    await generateAndAnalyzeBindings(
+      getConfig(BindingsType.dartOnly),
     );
   }); // test if generated file == expected file
 }

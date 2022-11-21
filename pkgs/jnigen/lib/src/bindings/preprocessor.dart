@@ -13,8 +13,8 @@ import 'common.dart';
 abstract class ApiPreprocessor {
   static void preprocessAll(Map<String, ClassDecl> classes, Config config,
       {bool renameClasses = false}) {
-    final Map<String, int> classNameCounts = {};
-    for (var c in classes.values) {
+    final classNameCounts = <String, int>{};
+    for (final c in classes.values) {
       final className = getSimplifiedClassName(c.binaryName);
       c.uniqueName = renameConflict(classNameCounts, className);
       if (renameClasses) {
@@ -23,6 +23,11 @@ abstract class ApiPreprocessor {
         c.finalName = className;
       }
       _preprocess(c, classes, config);
+    }
+    // Adding type params of outer classes to the nested classes
+    final visited = <ClassDecl>{};
+    for (final c in classes.values) {
+      _traverseAddTypeParams(visited, c);
     }
   }
 
@@ -34,6 +39,9 @@ abstract class ApiPreprocessor {
       log.fine('exclude class ${decl.binaryName}');
       decl.isPreprocessed = true;
       return;
+    }
+    if (decl.parentName != null && classes.containsKey(decl.parentName!)) {
+      decl.parent = classes[decl.parentName];
     }
     ClassDecl? superclass;
     if (decl.superclass != null && classes.containsKey(decl.superclass?.name)) {
@@ -87,6 +95,36 @@ abstract class ApiPreprocessor {
     }
     decl.isPreprocessed = true;
     log.fine('preprocessed ${decl.binaryName}');
+  }
+
+  /// Gathers all the type params from ancestors of a [ClassDecl] and store
+  /// them in [allTypeParams].
+  ///
+  /// Class A is a parent of Class B when B is nested inside A.
+  static void _traverseAddTypeParams(Set<ClassDecl> visited, ClassDecl decl) {
+    if (visited.contains(decl)) {
+      // The type params of its ancestors have already been added.
+      return;
+    }
+    final allTypeParams = <TypeParam>[];
+    if (decl.parent != null) {
+      // Adding all type params of parent's ancestors to the parent.
+      if (!visited.contains(decl.parent) && decl.parent != decl) {
+        _traverseAddTypeParams(visited, decl.parent!);
+      }
+      // Adding the type params of ancestors if the class is not static.
+      if (!decl.modifiers.contains('static')) {
+        for (final typeParam in decl.parent!.allTypeParams) {
+          if (!decl.allTypeParams.contains(typeParam)) {
+            // Add only if it's not shadowing another type param.
+            allTypeParams.add(typeParam);
+          }
+        }
+      }
+    }
+    allTypeParams.addAll(decl.typeParams);
+    decl.allTypeParams = allTypeParams;
+    visited.add(decl);
   }
 
   static bool _isPublicOrProtected(Set<String> modifiers) =>

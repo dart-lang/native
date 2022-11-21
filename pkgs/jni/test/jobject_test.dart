@@ -191,6 +191,18 @@ void main() {
         .use((f) => f.callMethodByName<int>("ordinal", "()I", []));
     expect(ordinal, equals(1));
   });
+  test("casting", () {
+    using((arena) {
+      final str = "hello".toJString()..deletedIn(arena);
+      final obj = str.castTo(JObject.type)..deletedIn(arena);
+      final backToStr = obj.castTo(JString.type);
+      expect(backToStr.toDartString(), str.toDartString());
+      final _ = backToStr.castTo(JObject.type, deleteOriginal: true)
+        ..deletedIn(arena);
+      expect(backToStr.toDartString, throwsA(isA<UseAfterFreeException>()));
+      expect(backToStr.delete, throwsA(isA<DoubleFreeException>()));
+    });
+  });
 
   test("Isolate", () {
     Isolate.spawn(doSomeWorkInIsolate, null);

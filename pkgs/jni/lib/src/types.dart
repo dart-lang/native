@@ -28,9 +28,19 @@ typedef _VoidType = void;
 abstract class JType<T> {
   const JType();
 
-  int get _type => JniCallType.objectType;
+  int get _type;
 
   String get signature;
 
   JniClass _getClass() => Jni.findJniClass(signature);
+}
+
+abstract class JObjType<T extends JObject> extends JType<T> {
+  const JObjType();
+
+  @override
+  int get _type => JniCallType.objectType;
+
+  /// Creates an object from this type using the reference.
+  T fromRef(Pointer<Void> ref);
 }

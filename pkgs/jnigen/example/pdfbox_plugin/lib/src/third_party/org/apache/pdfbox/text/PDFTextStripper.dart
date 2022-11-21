@@ -25,6 +25,7 @@
 // ignore_for_file: file_names
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: non_constant_identifier_names
+// ignore_for_file: overridden_fields
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_import
@@ -46,10 +47,17 @@ import "../../../../_init.dart" show jniLookup;
 /// smaller and smaller chunks of the page. Eventually, we fully process each page and then print it.
 ///@author Ben Litchfield
 class PDFTextStripper extends jni.JObject {
-  PDFTextStripper.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+  late final jni.JObjType? _$type;
+  @override
+  jni.JObjType get $type => _$type ??= type;
+
+  PDFTextStripper.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
 
   /// The type which includes information such as the signature of this class.
-  static const jni.JType<PDFTextStripper> type = _$PDFTextStripperType();
+  static const type = $PDFTextStripperType();
+
   static final _get_LINE_SEPARATOR = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
@@ -65,7 +73,7 @@ class PDFTextStripper extends jni.JObject {
   ///
   /// The platform's line separator.
   jni.JString get LINE_SEPARATOR =>
-      jni.JString.fromRef(_get_LINE_SEPARATOR(reference).object);
+      const jni.JStringType().fromRef(_get_LINE_SEPARATOR(reference).object);
 
   static final _get_charactersByArticle = jniLookup<
           ffi.NativeFunction<
@@ -93,7 +101,7 @@ class PDFTextStripper extends jni.JObject {
   ///
   /// Most PDFs won't have any beads, so charactersByArticle will contain a single entry.
   jni.JObject get charactersByArticle =>
-      jni.JObject.fromRef(_get_charactersByArticle(reference).object);
+      jni.JObjectType().fromRef(_get_charactersByArticle(reference).object);
   static final _set_charactersByArticle = jniLookup<
               ffi.NativeFunction<
                   jni.JThrowablePtr Function(
@@ -132,8 +140,8 @@ class PDFTextStripper extends jni.JObject {
 
   /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
   /// The returned object must be deleted after use, by calling the `delete` method.
-  pddocument_.PDDocument get document =>
-      pddocument_.PDDocument.fromRef(_get_document(reference).object);
+  pddocument_.PDDocument get document => const pddocument_.$PDDocumentType()
+      .fromRef(_get_document(reference).object);
   static final _set_document = jniLookup<
           ffi.NativeFunction<
               jni.JThrowablePtr Function(jni.JObjectPtr,
@@ -158,7 +166,8 @@ class PDFTextStripper extends jni.JObject {
 
   /// from: protected java.io.Writer output
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JObject get output => jni.JObject.fromRef(_get_output(reference).object);
+  jni.JObject get output =>
+      const jni.JObjectType().fromRef(_get_output(reference).object);
   static final _set_output = jniLookup<
           ffi.NativeFunction<
               jni.JThrowablePtr Function(jni.JObjectPtr,
@@ -201,8 +210,8 @@ class PDFTextStripper extends jni.JObject {
   ///@param doc The document to get the text from.
   ///@return The text of the PDF document.
   ///@throws IOException if the doc state is invalid or it is encrypted.
-  jni.JString getText(pddocument_.PDDocument doc) =>
-      jni.JString.fromRef(_getText(reference, doc.reference).object);
+  jni.JString getText(pddocument_.PDDocument doc) => const jni.JStringType()
+      .fromRef(_getText(reference, doc.reference).object);
 
   static final _writeText = jniLookup<
           ffi.NativeFunction<
@@ -549,7 +558,7 @@ class PDFTextStripper extends jni.JObject {
   /// This will get the line separator.
   ///@return The desired line separator string.
   jni.JString getLineSeparator() =>
-      jni.JString.fromRef(_getLineSeparator(reference).object);
+      const jni.JStringType().fromRef(_getLineSeparator(reference).object);
 
   static final _getWordSeparator = jniLookup<
           ffi.NativeFunction<
@@ -563,7 +572,7 @@ class PDFTextStripper extends jni.JObject {
   /// This will get the word separator.
   ///@return The desired word separator string.
   jni.JString getWordSeparator() =>
-      jni.JString.fromRef(_getWordSeparator(reference).object);
+      const jni.JStringType().fromRef(_getWordSeparator(reference).object);
 
   static final _setWordSeparator = jniLookup<
           ffi.NativeFunction<
@@ -618,7 +627,8 @@ class PDFTextStripper extends jni.JObject {
   ///
   /// The output stream that is being written to.
   ///@return The stream that output is being written to.
-  jni.JObject getOutput() => jni.JObject.fromRef(_getOutput(reference).object);
+  jni.JObject getOutput() =>
+      const jni.JObjectType().fromRef(_getOutput(reference).object);
 
   static final _getCharactersByArticle = jniLookup<
               ffi.NativeFunction<
@@ -633,7 +643,7 @@ class PDFTextStripper extends jni.JObject {
   /// returns a List that contains List objects, the inner lists will contain TextPosition objects.
   ///@return A double List of TextPositions for all text strings on the page.
   jni.JObject getCharactersByArticle() =>
-      jni.JObject.fromRef(_getCharactersByArticle(reference).object);
+      jni.JObjectType().fromRef(_getCharactersByArticle(reference).object);
 
   static final _setSuppressDuplicateOverlappingText = jniLookup<
               ffi.NativeFunction<
@@ -691,7 +701,7 @@ class PDFTextStripper extends jni.JObject {
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
   ///@return The ending bookmark.
   jni.JObject getEndBookmark() =>
-      jni.JObject.fromRef(_getEndBookmark(reference).object);
+      const jni.JObjectType().fromRef(_getEndBookmark(reference).object);
 
   static final _setEndBookmark = jniLookup<
           ffi.NativeFunction<
@@ -720,7 +730,7 @@ class PDFTextStripper extends jni.JObject {
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
   ///@return The starting bookmark.
   jni.JObject getStartBookmark() =>
-      jni.JObject.fromRef(_getStartBookmark(reference).object);
+      const jni.JObjectType().fromRef(_getStartBookmark(reference).object);
 
   static final _setStartBookmark = jniLookup<
           ffi.NativeFunction<
@@ -917,7 +927,7 @@ class PDFTextStripper extends jni.JObject {
   /// Returns the string which will be used at the beginning of a paragraph.
   ///@return the paragraph start string
   jni.JString getParagraphStart() =>
-      jni.JString.fromRef(_getParagraphStart(reference).object);
+      const jni.JStringType().fromRef(_getParagraphStart(reference).object);
 
   static final _setParagraphStart = jniLookup<
           ffi.NativeFunction<
@@ -946,7 +956,7 @@ class PDFTextStripper extends jni.JObject {
   /// Returns the string which will be used at the end of a paragraph.
   ///@return the paragraph end string
   jni.JString getParagraphEnd() =>
-      jni.JString.fromRef(_getParagraphEnd(reference).object);
+      const jni.JStringType().fromRef(_getParagraphEnd(reference).object);
 
   static final _setParagraphEnd = jniLookup<
           ffi.NativeFunction<
@@ -975,7 +985,7 @@ class PDFTextStripper extends jni.JObject {
   /// Returns the string which will be used at the beginning of a page.
   ///@return the page start string
   jni.JString getPageStart() =>
-      jni.JString.fromRef(_getPageStart(reference).object);
+      const jni.JStringType().fromRef(_getPageStart(reference).object);
 
   static final _setPageStart = jniLookup<
           ffi.NativeFunction<
@@ -1004,7 +1014,7 @@ class PDFTextStripper extends jni.JObject {
   /// Returns the string which will be used at the end of a page.
   ///@return the page end string
   jni.JString getPageEnd() =>
-      jni.JString.fromRef(_getPageEnd(reference).object);
+      const jni.JStringType().fromRef(_getPageEnd(reference).object);
 
   static final _setPageEnd = jniLookup<
           ffi.NativeFunction<
@@ -1033,7 +1043,7 @@ class PDFTextStripper extends jni.JObject {
   /// Returns the string which will be used at the beginning of an article.
   ///@return the article start string
   jni.JString getArticleStart() =>
-      jni.JString.fromRef(_getArticleStart(reference).object);
+      const jni.JStringType().fromRef(_getArticleStart(reference).object);
 
   static final _setArticleStart = jniLookup<
           ffi.NativeFunction<
@@ -1062,7 +1072,7 @@ class PDFTextStripper extends jni.JObject {
   /// Returns the string which will be used at the end of an article.
   ///@return the article end string
   jni.JString getArticleEnd() =>
-      jni.JString.fromRef(_getArticleEnd(reference).object);
+      const jni.JStringType().fromRef(_getArticleEnd(reference).object);
 
   static final _setArticleEnd = jniLookup<
           ffi.NativeFunction<
@@ -1181,7 +1191,7 @@ class PDFTextStripper extends jni.JObject {
   /// This method returns a list of such regular expression Patterns.
   ///@return a list of Pattern objects.
   jni.JObject getListItemPatterns() =>
-      jni.JObject.fromRef(_getListItemPatterns(reference).object);
+      jni.JObjectType().fromRef(_getListItemPatterns(reference).object);
 
   static final _matchPattern = jniLookup<
           ffi.NativeFunction<
@@ -1205,21 +1215,24 @@ class PDFTextStripper extends jni.JObject {
   ///@param patterns list of patterns
   ///@return matching pattern
   static jni.JObject matchPattern(jni.JString string, jni.JObject patterns) =>
-      jni.JObject.fromRef(
-          _matchPattern(string.reference, patterns.reference).object);
+      const jni.JObjectType()
+          .fromRef(_matchPattern(string.reference, patterns.reference).object);
 }
 
-class _$PDFTextStripperType extends jni.JType<PDFTextStripper> {
-  const _$PDFTextStripperType();
+class $PDFTextStripperType extends jni.JObjType<PDFTextStripper> {
+  const $PDFTextStripperType();
 
   @override
   String get signature => r"Lorg/apache/pdfbox/text/PDFTextStripper;";
+
+  @override
+  PDFTextStripper fromRef(jni.JObjectPtr ref) => PDFTextStripper.fromRef(ref);
 }
 
 extension $PDFTextStripperArray on jni.JArray<PDFTextStripper> {
   PDFTextStripper operator [](int index) {
-    return PDFTextStripper.fromRef(
-        elementAt(index, jni.JniCallType.objectType).object);
+    return (elementType as $PDFTextStripperType)
+        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
   }
 
   void operator []=(int index, PDFTextStripper value) {

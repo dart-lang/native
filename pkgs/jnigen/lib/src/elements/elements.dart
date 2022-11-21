@@ -99,6 +99,14 @@ class ClassDecl {
   @JsonKey(ignore: true)
   late String finalName;
 
+  /// Parent's [ClassDecl] obtained from [parentName]
+  @JsonKey(ignore: true)
+  ClassDecl? parent;
+
+  /// Type parameters including the ones from its ancestors
+  @JsonKey(ignore: true)
+  List<TypeParam> allTypeParams = const [];
+
   /// Unique name obtained by renaming conflicting names with a number.
   ///
   /// This is used by C bindings instead of fully qualified name to reduce

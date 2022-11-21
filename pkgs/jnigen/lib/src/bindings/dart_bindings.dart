@@ -28,7 +28,8 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
   static const jniObjectType = BindingsGenerator.jniObjectType;
 
   CBasedDartBindingsGenerator(this.config);
-  Config config;
+
+  final Config config;
 
   @override
   String generateBindings(ClassDecl decl, SymbolResolver resolver) {
@@ -49,17 +50,8 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
 
     s.write('/// from: ${decl.binaryName}\n');
     s.write(breakDocComment(decl.javadoc, depth: ''));
-    final name = decl.finalName;
 
-    var superName = jniObjectType;
-    if (decl.superclass != null) {
-      superName = resolver
-              .resolve((decl.superclass!.type as DeclaredType).binaryName) ??
-          jniObjectType;
-    }
-
-    s.write('class $name extends $superName {\n'
-        '$indent$name.fromRef($voidPointer ref) : super.fromRef(ref);\n\n');
+    s.write(dartClassDefinition(decl, resolver));
     s.write(dartStaticTypeGetter(decl));
     for (var field in decl.fields) {
       if (!field.isIncluded) {
@@ -100,6 +92,7 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
     final ffiSig = dartSigForMethod(m, isFfiSig: true);
     final dartSig = dartSigForMethod(m, isFfiSig: false);
     final returnType = getDartOuterType(m.returnType, resolver);
+    final returnTypeClass = getDartTypeClass(m.returnType, resolver);
     final ifStaticMethod = isStaticMethod(m) ? 'static' : '';
 
     // Load corresponding C method.
@@ -119,16 +112,21 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
       final className = c.finalName;
       final ctorFnName = name == 'ctor' ? className : '$className.$name';
       final wrapperExpr = '$sym(${actualArgs(m)})';
-      s.write('$ctorFnName(${getFormalArgs(m, resolver)}) : '
-          'super.fromRef($wrapperExpr.object);\n');
+      s.write(
+        '$ctorFnName(${getFormalArgs(c, m, resolver)}) : '
+        'super.fromRef(${dartSuperArgs(c, resolver)}$wrapperExpr.object);\n',
+      );
       return s.toString();
     }
 
     final resultGetter = getJValueAccessor(m.returnType);
     var wrapperExpr = '$sym(${actualArgs(m)}).$resultGetter';
-    wrapperExpr = toDartResult(wrapperExpr, m.returnType, returnType);
-    final params = getFormalArgs(m, resolver);
-    s.write('$indent$ifStaticMethod $returnType $name($params) '
+    wrapperExpr = toDartResult(wrapperExpr, m.returnType, returnTypeClass);
+    final typeParamsWithExtend =
+        dartTypeParams(m.typeParams, includeExtends: true);
+    final params = getFormalArgs(c, m, resolver);
+    s.write(
+        '$indent$ifStaticMethod $returnType $name$typeParamsWithExtend($params) '
         '=> $wrapperExpr;\n');
     return s.toString();
   }
@@ -176,9 +174,10 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
         // getter
         final self = isStaticField(f) ? '' : selfPointer;
         final outerType = getDartOuterType(f.type, resolver);
+        final outerTypeClass = getDartTypeClass(f.type, resolver);
         final resultGetter = getJValueAccessor(f.type);
         final callExpr = '$sym($self).$resultGetter';
-        final resultExpr = toDartResult(callExpr, f.type, outerType);
+        final resultExpr = toDartResult(callExpr, f.type, outerTypeClass);
         s.write('$indent$ifStatic $outerType get $name => $resultExpr;\n');
       }
     }
@@ -215,6 +214,7 @@ class CBasedDartBindingsGenerator extends BindingsGenerator {
       '// ignore_for_file: file_names\n'
       '// ignore_for_file: no_leading_underscores_for_local_identifiers\n'
       '// ignore_for_file: non_constant_identifier_names\n'
+      '// ignore_for_file: overridden_fields\n'
       '// ignore_for_file: unnecessary_cast\n'
       '// ignore_for_file: unused_element\n'
       '// ignore_for_file: unused_import\n'

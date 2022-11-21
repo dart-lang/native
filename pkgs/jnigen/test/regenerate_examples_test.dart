@@ -22,7 +22,8 @@ final notificationPluginYaml = join(notificationPlugin, 'jnigen.yaml');
 ///
 /// [dartOutput] and [cOutput] are relative paths from example project dir.
 void testExample(String exampleName, String dartOutput, String? cOutput) {
-  test('Generate and compare bindings for $exampleName', () async {
+  test('Generate and compare bindings for $exampleName',
+      timeout: Timeout.factor(2), () async {
     final examplePath = join('example', exampleName);
     final configPath = join(examplePath, 'jnigen.yaml');
 

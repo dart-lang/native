@@ -11,6 +11,7 @@
 // ignore_for_file: file_names
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: non_constant_identifier_names
+// ignore_for_file: overridden_fields
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_import
@@ -26,10 +27,17 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
 
 /// from: com.example.notification_plugin.Notifications
 class Notifications extends jni.JObject {
-  Notifications.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+  late final jni.JObjType? _$type;
+  @override
+  jni.JObjType get $type => _$type ??= type;
+
+  Notifications.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
 
   /// The type which includes information such as the signature of this class.
-  static const jni.JType<Notifications> type = _$NotificationsType();
+  static const type = $NotificationsType();
+
   static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "Notifications__ctor")
       .asFunction<jni.JniResult Function()>();
@@ -56,17 +64,20 @@ class Notifications extends jni.JObject {
           .check();
 }
 
-class _$NotificationsType extends jni.JType<Notifications> {
-  const _$NotificationsType();
+class $NotificationsType extends jni.JObjType<Notifications> {
+  const $NotificationsType();
 
   @override
   String get signature => r"Lcom/example/notification_plugin/Notifications;";
+
+  @override
+  Notifications fromRef(jni.JObjectPtr ref) => Notifications.fromRef(ref);
 }
 
 extension $NotificationsArray on jni.JArray<Notifications> {
   Notifications operator [](int index) {
-    return Notifications.fromRef(
-        elementAt(index, jni.JniCallType.objectType).object);
+    return (elementType as $NotificationsType)
+        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
   }
 
   void operator []=(int index, Notifications value) {

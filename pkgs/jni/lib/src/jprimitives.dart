@@ -7,11 +7,11 @@ part of 'types.dart';
 abstract class JPrimitive {}
 
 abstract class JByte extends JPrimitive {
-  static const JType<JByte> type = _JByteTypeClass();
+  static const type = JByteType();
 }
 
-class _JByteTypeClass extends JType<JByte> {
-  const _JByteTypeClass();
+class JByteType extends JType<JByte> {
+  const JByteType();
 
   @override
   int get _type => JniCallType.byteType;
@@ -21,11 +21,11 @@ class _JByteTypeClass extends JType<JByte> {
 }
 
 abstract class JBoolean extends JPrimitive {
-  static const JType<JBoolean> type = _JBooleanType();
+  static const type = JBooleanType();
 }
 
-class _JBooleanType extends JType<JBoolean> {
-  const _JBooleanType();
+class JBooleanType extends JType<JBoolean> {
+  const JBooleanType();
 
   @override
   int get _type => JniCallType.booleanType;
@@ -35,11 +35,11 @@ class _JBooleanType extends JType<JBoolean> {
 }
 
 abstract class JChar extends JPrimitive {
-  static const JType<JChar> type = _JCharType();
+  static const type = JCharType();
 }
 
-class _JCharType extends JType<JChar> {
-  const _JCharType();
+class JCharType extends JType<JChar> {
+  const JCharType();
 
   @override
   int get _type => JniCallType.charType;
@@ -49,11 +49,11 @@ class _JCharType extends JType<JChar> {
 }
 
 abstract class JShort extends JPrimitive {
-  static const JType<JShort> type = _JShortType();
+  static const type = JShortType();
 }
 
-class _JShortType extends JType<JShort> {
-  const _JShortType();
+class JShortType extends JType<JShort> {
+  const JShortType();
 
   @override
   int get _type => JniCallType.shortType;
@@ -63,11 +63,11 @@ class _JShortType extends JType<JShort> {
 }
 
 abstract class JInt extends JPrimitive {
-  static const JType<JInt> type = _JIntType();
+  static const type = JIntType();
 }
 
-class _JIntType extends JType<JInt> {
-  const _JIntType();
+class JIntType extends JType<JInt> {
+  const JIntType();
 
   @override
   int get _type => JniCallType.intType;
@@ -77,11 +77,11 @@ class _JIntType extends JType<JInt> {
 }
 
 abstract class JLong extends JPrimitive {
-  static const JType<JLong> type = _JLongType();
+  static const type = JLongType();
 }
 
-class _JLongType extends JType<JLong> {
-  const _JLongType();
+class JLongType extends JType<JLong> {
+  const JLongType();
 
   @override
   int get _type => JniCallType.longType;
@@ -91,11 +91,11 @@ class _JLongType extends JType<JLong> {
 }
 
 abstract class JFloat extends JPrimitive {
-  static const JType<JFloat> type = _JFloatType();
+  static const type = JFloatType();
 }
 
-class _JFloatType extends JType<JFloat> {
-  const _JFloatType();
+class JFloatType extends JType<JFloat> {
+  const JFloatType();
 
   @override
   int get _type => JniCallType.floatType;
@@ -105,11 +105,11 @@ class _JFloatType extends JType<JFloat> {
 }
 
 abstract class JDouble extends JPrimitive {
-  static const JType<JDouble> type = _JDoubleType();
+  static const type = JDoubleType();
 }
 
-class _JDoubleType extends JType<JDouble> {
-  const _JDoubleType();
+class JDoubleType extends JType<JDouble> {
+  const JDoubleType();
 
   @override
   int get _type => JniCallType.doubleType;
