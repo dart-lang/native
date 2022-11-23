@@ -35,7 +35,7 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
     ProtectedJniExtensions.initGeneratedLibrary("android_utils");
 
 /// from: com.example.in_app_java.AndroidUtils
-class AndroidUtils extends jni.JniObject {
+class AndroidUtils extends jni.JObject {
   AndroidUtils.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _showToast = jniLookup<
@@ -48,7 +48,7 @@ class AndroidUtils extends jni.JniObject {
 
   /// from: static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)
   static void showToast(
-          jni.JniObject mainActivity, jni.JniObject text, int duration) =>
+          jni.JObject mainActivity, jni.JObject text, int duration) =>
       _showToast(mainActivity.reference, text.reference, duration).check();
 }
 ```
