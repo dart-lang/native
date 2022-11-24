@@ -13,8 +13,8 @@ public class JavaAnnotation {
   public Map<String, Object> properties = new HashMap<>();
 
   public static class EnumVal {
-    String enumClass;
-    String value;
+    public String enumClass;
+    public String value;
 
     public EnumVal(String enumClass, String value) {
       this.enumClass = enumClass;

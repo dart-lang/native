@@ -31,6 +31,8 @@ var javaFiles = [
   join(javaPrefix, 'generics', 'StringStack.java'),
   join(javaPrefix, 'generics', 'StringValuedMap.java'),
   join(javaPrefix, 'generics', 'StringKeyedMap.java'),
+  join(javaPrefix, 'annotations', 'JsonSerializable.java'),
+  join(javaPrefix, 'annotations', 'MyDataClass.java'),
 ];
 
 void compileJavaSources(String workingDir, List<String> files) async {
@@ -52,6 +54,7 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',
       'com.github.dart_lang.jnigen.generics',
+      'com.github.dart_lang.jnigen.annotations',
     ],
     logLevel: Level.INFO,
     outputConfig: OutputConfig(

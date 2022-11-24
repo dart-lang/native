@@ -95,11 +95,10 @@ public class ElementBuilders {
       var val = values.get(key);
       var obj = val.getValue();
       // TODO(#23): Accurately represent more complex annotation values
-      if (obj instanceof String || obj instanceof Number) {
+      if (obj instanceof Number) {
         annotation.properties.put(key.getSimpleName().toString(), obj);
       } else {
-        annotation.properties.put(
-            key.getSimpleName().toString(), val.accept(new AnnotationVisitor(this), null));
+        annotation.properties.put(key.getSimpleName().toString(), obj.toString());
       }
     }
     return annotation;

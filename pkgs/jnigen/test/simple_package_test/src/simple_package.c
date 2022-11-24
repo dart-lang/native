@@ -1190,3 +1190,68 @@ JniResult StringValuedMap__ctor() {
   return (JniResult){.result = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
+
+// com.github.dart_lang.jnigen.annotations.JsonSerializable$Case
+jclass _c_JsonSerializable_Case = NULL;
+
+jmethodID _m_JsonSerializable_Case__values = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonSerializable_Case__values() {
+  load_env();
+  load_class_gr(
+      &_c_JsonSerializable_Case,
+      "com/github/dart_lang/jnigen/annotations/JsonSerializable$Case");
+  if (_c_JsonSerializable_Case == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(
+      _c_JsonSerializable_Case, &_m_JsonSerializable_Case__values, "values",
+      "()[Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;");
+  if (_m_JsonSerializable_Case__values == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_JsonSerializable_Case, _m_JsonSerializable_Case__values);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_JsonSerializable_Case__valueOf = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonSerializable_Case__valueOf(jobject name) {
+  load_env();
+  load_class_gr(
+      &_c_JsonSerializable_Case,
+      "com/github/dart_lang/jnigen/annotations/JsonSerializable$Case");
+  if (_c_JsonSerializable_Case == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_JsonSerializable_Case,
+                     &_m_JsonSerializable_Case__valueOf, "valueOf",
+                     "(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/"
+                     "annotations/JsonSerializable$Case;");
+  if (_m_JsonSerializable_Case__valueOf == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_JsonSerializable_Case, _m_JsonSerializable_Case__valueOf,
+      name);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// com.github.dart_lang.jnigen.annotations.MyDataClass
+jclass _c_MyDataClass = NULL;
+
+jmethodID _m_MyDataClass__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult MyDataClass__ctor() {
+  load_env();
+  load_class_gr(&_c_MyDataClass,
+                "com/github/dart_lang/jnigen/annotations/MyDataClass");
+  if (_c_MyDataClass == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_MyDataClass, &_m_MyDataClass__ctor, "<init>", "()V");
+  if (_m_MyDataClass__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_MyDataClass, _m_MyDataClass__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}

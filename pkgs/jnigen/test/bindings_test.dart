@@ -45,6 +45,8 @@ Future<void> setupDylibsAndClasses() async {
         join(group, 'generics', 'StringStack.java'),
         join(group, 'generics', 'StringValuedMap.java'),
         join(group, 'generics', 'StringKeyedMap.java'),
+        join(group, 'annotations', 'JsonSerializable.java'),
+        join(group, 'annotations', 'MyDataClass.java'),
         join(group, 'pkg2', 'C2.java'),
         join(group, 'pkg2', 'Example.java'),
       ],

@@ -1525,3 +1525,106 @@ extension $StringValuedMapArray<K extends jni.JObject>
     (this as jni.JArray<jni.JObject>)[index] = value;
   }
 }
+
+/// from: com.github.dart_lang.jnigen.annotations.JsonSerializable$Case
+class JsonSerializable_Case extends jni.JObject {
+  late final jni.JObjType? _$type;
+  @override
+  jni.JObjType get $type => _$type ??= type;
+
+  JsonSerializable_Case.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $JsonSerializable_CaseType();
+
+  static final _values =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JsonSerializable_Case__values")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case[] values()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JArray<JsonSerializable_Case> values() =>
+      const jni.JArrayType($JsonSerializable_CaseType())
+          .fromRef(_values().object);
+
+  static final _valueOf = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JsonSerializable_Case__valueOf")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case valueOf(java.lang.String name)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static JsonSerializable_Case valueOf(jni.JString name) =>
+      const $JsonSerializable_CaseType()
+          .fromRef(_valueOf(name.reference).object);
+}
+
+class $JsonSerializable_CaseType extends jni.JObjType<JsonSerializable_Case> {
+  const $JsonSerializable_CaseType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;";
+
+  @override
+  JsonSerializable_Case fromRef(jni.JObjectPtr ref) =>
+      JsonSerializable_Case.fromRef(ref);
+}
+
+extension $JsonSerializable_CaseArray on jni.JArray<JsonSerializable_Case> {
+  JsonSerializable_Case operator [](int index) {
+    return (elementType as $JsonSerializable_CaseType)
+        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
+  }
+
+  void operator []=(int index, JsonSerializable_Case value) {
+    (this as jni.JArray<jni.JObject>)[index] = value;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.annotations.MyDataClass
+class MyDataClass extends jni.JObject {
+  late final jni.JObjType? _$type;
+  @override
+  jni.JObjType get $type => _$type ??= type;
+
+  MyDataClass.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $MyDataClassType();
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "MyDataClass__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  MyDataClass() : super.fromRef(_ctor().object);
+}
+
+class $MyDataClassType extends jni.JObjType<MyDataClass> {
+  const $MyDataClassType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/annotations/MyDataClass;";
+
+  @override
+  MyDataClass fromRef(jni.JObjectPtr ref) => MyDataClass.fromRef(ref);
+}
+
+extension $MyDataClassArray on jni.JArray<MyDataClass> {
+  MyDataClass operator [](int index) {
+    return (elementType as $MyDataClassType)
+        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
+  }
+
+  void operator []=(int index, MyDataClass value) {
+    (this as jni.JArray<jni.JObject>)[index] = value;
+  }
+}
