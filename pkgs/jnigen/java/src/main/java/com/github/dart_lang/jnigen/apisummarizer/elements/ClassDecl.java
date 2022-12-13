@@ -32,11 +32,11 @@ public class ClassDecl {
 
   public String parentName;
   public String packageName;
-  public List<TypeParam> typeParams;
+  public List<TypeParam> typeParams = new ArrayList<>();
   public List<Method> methods = new ArrayList<>();
   public List<Field> fields = new ArrayList<>();
   public TypeUsage superclass;
-  public List<TypeUsage> interfaces;
+  public List<TypeUsage> interfaces = new ArrayList<>();
   public boolean hasStaticInit;
   public boolean hasInstanceInit;
   public JavaDocComment javadoc;

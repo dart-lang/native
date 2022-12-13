@@ -472,3 +472,472 @@ JniResult get_Build__USER() {
       (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__USER));
   return (JniResult){.result = {.l = _result}, .exception = check_exception()};
 }
+
+// java.util.HashMap
+jclass _c_HashMap = NULL;
+
+jmethodID _m_HashMap__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__ctor(int32_t i, float f) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__ctor, "<init>", "(IF)V");
+  if (_m_HashMap__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor, i, f);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__ctor1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__ctor1(int32_t i) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__ctor1, "<init>", "(I)V");
+  if (_m_HashMap__ctor1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor1, i);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__ctor2 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__ctor2() {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__ctor2, "<init>", "()V");
+  if (_m_HashMap__ctor2 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor2);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__ctor3 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__ctor3(jobject map) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__ctor3, "<init>", "(Ljava/util/Map;)V");
+  if (_m_HashMap__ctor3 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor3, map);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__size = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__size(jobject self_) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__size, "size", "()I");
+  if (_m_HashMap__size == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  int32_t _result = (*jniEnv)->CallIntMethod(jniEnv, self_, _m_HashMap__size);
+  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__isEmpty = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__isEmpty(jobject self_) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__isEmpty, "isEmpty", "()Z");
+  if (_m_HashMap__isEmpty == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result =
+      (*jniEnv)->CallBooleanMethod(jniEnv, self_, _m_HashMap__isEmpty);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__get0 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__get0(jobject self_, jobject object) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__get0, "get",
+              "(Ljava/lang/Object;)Ljava/lang/Object;");
+  if (_m_HashMap__get0 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__get0, object);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__containsKey = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__containsKey(jobject self_, jobject object) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__containsKey, "containsKey",
+              "(Ljava/lang/Object;)Z");
+  if (_m_HashMap__containsKey == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_HashMap__containsKey, object);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__put = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__put(jobject self_, jobject object, jobject object1) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__put, "put",
+              "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+  if (_m_HashMap__put == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__put,
+                                                object, object1);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__putAll = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__putAll(jobject self_, jobject map) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__putAll, "putAll", "(Ljava/util/Map;)V");
+  if (_m_HashMap__putAll == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_HashMap__putAll, map);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__remove = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__remove(jobject self_, jobject object) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__remove, "remove",
+              "(Ljava/lang/Object;)Ljava/lang/Object;");
+  if (_m_HashMap__remove == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__remove, object);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__clear = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__clear(jobject self_) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__clear, "clear", "()V");
+  if (_m_HashMap__clear == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_HashMap__clear);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__containsValue = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__containsValue(jobject self_, jobject object) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__containsValue, "containsValue",
+              "(Ljava/lang/Object;)Z");
+  if (_m_HashMap__containsValue == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_HashMap__containsValue, object);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__keySet = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__keySet(jobject self_) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__keySet, "keySet", "()Ljava/util/Set;");
+  if (_m_HashMap__keySet == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__keySet);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__values = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__values(jobject self_) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__values, "values",
+              "()Ljava/util/Collection;");
+  if (_m_HashMap__values == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__values);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__entrySet = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__entrySet(jobject self_) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__entrySet, "entrySet",
+              "()Ljava/util/Set;");
+  if (_m_HashMap__entrySet == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__entrySet);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__getOrDefault = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__getOrDefault(jobject self_,
+                                jobject object,
+                                jobject object1) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__getOrDefault, "getOrDefault",
+              "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+  if (_m_HashMap__getOrDefault == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_HashMap__getOrDefault, object, object1);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__putIfAbsent = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__putIfAbsent(jobject self_, jobject object, jobject object1) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__putIfAbsent, "putIfAbsent",
+              "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+  if (_m_HashMap__putIfAbsent == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_HashMap__putIfAbsent, object, object1);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__remove1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__remove1(jobject self_, jobject object, jobject object1) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__remove1, "remove",
+              "(Ljava/lang/Object;Ljava/lang/Object;)Z");
+  if (_m_HashMap__remove1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_HashMap__remove1, object, object1);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__replace = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__replace(jobject self_,
+                           jobject object,
+                           jobject object1,
+                           jobject object2) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__replace, "replace",
+              "(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z");
+  if (_m_HashMap__replace == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_HashMap__replace, object, object1, object2);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__replace1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__replace1(jobject self_, jobject object, jobject object1) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__replace1, "replace",
+              "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+  if (_m_HashMap__replace1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_HashMap__replace1, object, object1);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__computeIfAbsent = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__computeIfAbsent(jobject self_,
+                                   jobject object,
+                                   jobject function) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_HashMap, &_m_HashMap__computeIfAbsent, "computeIfAbsent",
+      "(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;");
+  if (_m_HashMap__computeIfAbsent == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_HashMap__computeIfAbsent, object, function);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__computeIfPresent = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__computeIfPresent(jobject self_,
+                                    jobject object,
+                                    jobject biFunction) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_HashMap, &_m_HashMap__computeIfPresent, "computeIfPresent",
+      "(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;");
+  if (_m_HashMap__computeIfPresent == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_HashMap__computeIfPresent, object, biFunction);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__compute = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__compute(jobject self_, jobject object, jobject biFunction) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_HashMap, &_m_HashMap__compute, "compute",
+      "(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;");
+  if (_m_HashMap__compute == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_HashMap__compute, object, biFunction);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__merge = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__merge(jobject self_,
+                         jobject object,
+                         jobject object1,
+                         jobject biFunction) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__merge, "merge",
+              "(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/"
+              "BiFunction;)Ljava/lang/Object;");
+  if (_m_HashMap__merge == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_HashMap__merge, object, object1, biFunction);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__forEach = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__forEach(jobject self_, jobject biConsumer) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__forEach, "forEach",
+              "(Ljava/util/function/BiConsumer;)V");
+  if (_m_HashMap__forEach == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_HashMap__forEach, biConsumer);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__replaceAll = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__replaceAll(jobject self_, jobject biFunction) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__replaceAll, "replaceAll",
+              "(Ljava/util/function/BiFunction;)V");
+  if (_m_HashMap__replaceAll == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_HashMap__replaceAll, biFunction);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_HashMap__clone = NULL;
+FFI_PLUGIN_EXPORT
+JniResult HashMap__clone(jobject self_) {
+  load_env();
+  load_class_gr(&_c_HashMap, "java/util/HashMap");
+  if (_c_HashMap == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_HashMap, &_m_HashMap__clone, "clone", "()Ljava/lang/Object;");
+  if (_m_HashMap__clone == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__clone);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}

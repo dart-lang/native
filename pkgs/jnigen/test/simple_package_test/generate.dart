@@ -39,7 +39,7 @@ void compileJavaSources(String workingDir, List<String> files) async {
   final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
   if (procRes.exitCode != 0) {
     throw "javac exited with ${procRes.exitCode}\n"
-        "$procRes.stderr";
+        "${procRes.stderr}";
   }
 }
 

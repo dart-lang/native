@@ -14,3 +14,4 @@ source_path:
 classes:
   - 'com.example.in_app_java.AndroidUtils' # from source_path
   - 'android.os.Build' # from gradle's compile classpath
+  - 'java.util.HashMap' # from gradle's compile classpath

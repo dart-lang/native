@@ -100,8 +100,8 @@ class PDFTextStripper extends jni.JObject {
   /// text after second article
   ///
   /// Most PDFs won't have any beads, so charactersByArticle will contain a single entry.
-  jni.JObject get charactersByArticle =>
-      jni.JObjectType().fromRef(_get_charactersByArticle(reference).object);
+  jni.JObject get charactersByArticle => const jni.JObjectType()
+      .fromRef(_get_charactersByArticle(reference).object);
   static final _set_charactersByArticle = jniLookup<
               ffi.NativeFunction<
                   jni.JThrowablePtr Function(
@@ -642,8 +642,8 @@ class PDFTextStripper extends jni.JObject {
   /// Character strings are grouped by articles. It is quite common that there will only be a single article. This
   /// returns a List that contains List objects, the inner lists will contain TextPosition objects.
   ///@return A double List of TextPositions for all text strings on the page.
-  jni.JObject getCharactersByArticle() =>
-      jni.JObjectType().fromRef(_getCharactersByArticle(reference).object);
+  jni.JObject getCharactersByArticle() => const jni.JObjectType()
+      .fromRef(_getCharactersByArticle(reference).object);
 
   static final _setSuppressDuplicateOverlappingText = jniLookup<
               ffi.NativeFunction<
@@ -1191,7 +1191,7 @@ class PDFTextStripper extends jni.JObject {
   /// This method returns a list of such regular expression Patterns.
   ///@return a list of Pattern objects.
   jni.JObject getListItemPatterns() =>
-      jni.JObjectType().fromRef(_getListItemPatterns(reference).object);
+      const jni.JObjectType().fromRef(_getListItemPatterns(reference).object);
 
   static final _matchPattern = jniLookup<
           ffi.NativeFunction<

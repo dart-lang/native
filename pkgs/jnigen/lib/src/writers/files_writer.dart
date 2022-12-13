@@ -34,6 +34,16 @@ class FilePathResolver implements SymbolResolver {
     'java.lang.String': 'jni.JString',
   };
 
+  static final predefinedClasses = {
+    'java.lang.String': ClassDecl(
+      binaryName: 'java.lang.String',
+      packageName: 'java.lang',
+      simpleName: 'String',
+    )
+      ..isIncluded = true
+      ..isPreprocessed = true,
+  };
+
   /// A map of all classes by their names
   final Map<String, ClassDecl> classes;
 
@@ -165,6 +175,9 @@ class FilePathResolver implements SymbolResolver {
 
   @override
   ClassDecl? resolveClass(String binaryName) {
+    if (predefinedClasses.containsKey(binaryName)) {
+      return predefinedClasses[binaryName];
+    }
     return classes[binaryName];
   }
 }

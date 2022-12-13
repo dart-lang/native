@@ -12,6 +12,7 @@ import com.github.dart_lang.jnigen.apisummarizer.util.SkipException;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
 import java.util.*;
 import org.objectweb.asm.*;
+import org.objectweb.asm.signature.SignatureReader;
 
 public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElementVisitor {
   private static Param param(
@@ -53,6 +54,10 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     current.superclass = TypeUtils.typeUsage(Type.getObjectType(superName), null);
     current.interfaces =
         StreamUtil.map(interfaces, i -> TypeUtils.typeUsage(Type.getObjectType(i), null));
+    if (signature != null) {
+      var reader = new SignatureReader(signature);
+      reader.accept(new AsmClassSignatureVisitor(current));
+    }
     super.visit(version, access, name, signature, superName, interfaces);
   }
 
@@ -66,11 +71,16 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     if (name.contains("$")) {
       return null;
     }
+
     var field = new Field();
     field.name = name;
     field.type = TypeUtils.typeUsage(Type.getType(descriptor), signature);
     field.defaultValue = value;
     field.modifiers = TypeUtils.access(access);
+    if (signature != null) {
+      var reader = new SignatureReader(signature);
+      reader.accept(new AsmTypeUsageSignatureVisitor(field.type));
+    }
     peekVisiting().fields.add(field);
     return new AsmFieldVisitor(field);
   }
@@ -101,6 +111,10 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     method.returnType = TypeUtils.typeUsage(type.getReturnType(), signature);
     method.modifiers = TypeUtils.access(access);
     method.params = params;
+    if (signature != null) {
+      var reader = new SignatureReader(signature);
+      reader.accept(new AsmMethodSignatureVisitor(method));
+    }
     peekVisiting().methods.add(method);
     return new AsmMethodVisitor(method);
   }

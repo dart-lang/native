@@ -205,7 +205,7 @@ class JsonFactory extends jni.JObject {
   ///@return Builder instance to use
   ///@since 2.10
   jni.JObject rebuild() =>
-      jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
+      const jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
           reference, _id_rebuild, jni.JniCallType.objectType, []).object);
 
   static final _id_builder = jniAccessors.getStaticMethodIDOf(
@@ -223,7 +223,7 @@ class JsonFactory extends jni.JObject {
   /// will be fixed in 3.0.
   ///@return Builder instance to use
   static jni.JObject builder() =>
-      jni.JObjectType().fromRef(jniAccessors.callStaticMethodWithArgs(
+      const jni.JObjectType().fromRef(jniAccessors.callStaticMethodWithArgs(
           _classRef, _id_builder, jni.JniCallType.objectType, []).object);
 
   static final _id_copy = jniAccessors.getMethodIDOf(
@@ -345,7 +345,7 @@ class JsonFactory extends jni.JObject {
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JObject getFormatReadFeatureType() =>
-      jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(reference,
+      const jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(reference,
           _id_getFormatReadFeatureType, jni.JniCallType.objectType, []).object);
 
   static final _id_getFormatWriteFeatureType = jniAccessors.getMethodIDOf(
@@ -354,7 +354,7 @@ class JsonFactory extends jni.JObject {
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()
   /// The returned object must be deleted after use, by calling the `delete` method.
   jni.JObject getFormatWriteFeatureType() =>
-      jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
+      const jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
           reference,
           _id_getFormatWriteFeatureType,
           jni.JniCallType.objectType, []).object);

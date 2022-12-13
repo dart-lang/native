@@ -4,9 +4,10 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TypeParam {
   public String name;
-  public List<TypeUsage> bounds;
+  public List<TypeUsage> bounds = new ArrayList<>();
 }

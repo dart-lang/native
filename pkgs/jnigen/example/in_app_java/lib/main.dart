@@ -11,9 +11,24 @@ import 'android_utils.dart';
 
 JObject activity = JObject.fromRef(Jni.getCurrentActivity());
 
-/// Display device model number as Toast
+final hashmap = HashMap.ctor2(JString.type, JString.type);
+
+extension IntX on int {
+  JString toJString() {
+    return toString().toJString();
+  }
+}
+
+/// Display device model number and the number of times this was called
+/// as Toast.
 void showToast() {
-  AndroidUtils.showToast(activity, Build.MODEL, 0);
+  final toastCount =
+      hashmap.getOrDefault("toastCount".toJString(), 0.toJString());
+  final newToastCount = (int.parse(toastCount.toDartString()) + 1).toJString();
+  hashmap.put("toastCount".toJString(), newToastCount);
+  final message =
+      '${newToastCount.toDartString()} - ${Build.MODEL.toDartString()}';
+  AndroidUtils.showToast(activity, message.toJString(), 0);
 }
 
 void main() {

@@ -14,6 +14,15 @@ class SingleFileResolver implements SymbolResolver {
   static const predefined = {
     'java.lang.String': 'jni.JString',
   };
+  static final predefinedClasses = {
+    'java.lang.String': ClassDecl(
+      binaryName: 'java.lang.String',
+      packageName: 'java.lang',
+      simpleName: 'String',
+    )
+      ..isIncluded = true
+      ..isPreprocessed = true,
+  };
   Map<String, ClassDecl> inputClasses;
   SingleFileResolver(this.inputClasses);
   @override
@@ -29,6 +38,9 @@ class SingleFileResolver implements SymbolResolver {
 
   @override
   ClassDecl? resolveClass(String binaryName) {
+    if (predefinedClasses.containsKey(binaryName)) {
+      return predefinedClasses[binaryName];
+    }
     return inputClasses[binaryName];
   }
 }

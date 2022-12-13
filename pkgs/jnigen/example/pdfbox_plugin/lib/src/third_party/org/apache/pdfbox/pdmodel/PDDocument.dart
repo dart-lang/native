@@ -484,7 +484,7 @@ class PDDocument extends jni.JObject {
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
   jni.JObject getSignatureFields() =>
-      jni.JObjectType().fromRef(_getSignatureFields(reference).object);
+      const jni.JObjectType().fromRef(_getSignatureFields(reference).object);
 
   static final _getSignatureDictionaries = jniLookup<
               ffi.NativeFunction<
@@ -498,8 +498,8 @@ class PDDocument extends jni.JObject {
   /// Retrieve all signature dictionaries from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni.JObject getSignatureDictionaries() =>
-      jni.JObjectType().fromRef(_getSignatureDictionaries(reference).object);
+  jni.JObject getSignatureDictionaries() => const jni.JObjectType()
+      .fromRef(_getSignatureDictionaries(reference).object);
 
   static final _registerTrueTypeFontForClosing = jniLookup<
               ffi.NativeFunction<

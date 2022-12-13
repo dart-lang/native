@@ -377,7 +377,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return all metadata key strings.
   ///@since Apache PDFBox 1.3.0
   jni.JObject getMetadataKeys() =>
-      jni.JObjectType().fromRef(_getMetadataKeys(reference).object);
+      const jni.JObjectType().fromRef(_getMetadataKeys(reference).object);
 
   static final _getCustomMetadataValue = jniLookup<
               ffi.NativeFunction<

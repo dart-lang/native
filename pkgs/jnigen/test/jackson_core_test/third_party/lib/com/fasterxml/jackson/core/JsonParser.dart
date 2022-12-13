@@ -72,7 +72,7 @@ class JsonParser extends jni.JObject {
   /// set needs to be passed).
   ///@since 2.12
   static jni.JObject get DEFAULT_READ_CAPABILITIES =>
-      jni.JObjectType().fromRef(jniAccessors
+      const jni.JObjectType().fromRef(jniAccessors
           .getStaticField(_classRef, _id_DEFAULT_READ_CAPABILITIES,
               jni.JniCallType.objectType)
           .object);
@@ -305,7 +305,7 @@ class JsonParser extends jni.JObject {
   ///@return Set of read capabilities for content to read via this parser
   ///@since 2.12
   jni.JObject getReadCapabilities() =>
-      jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(reference,
+      const jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(reference,
           _id_getReadCapabilities, jni.JniCallType.objectType, []).object);
 
   static final _id_version = jniAccessors.getMethodIDOf(
@@ -2144,7 +2144,7 @@ class JsonParser extends jni.JObject {
   ///    issue at format layer
   jni.JObject readValuesAs<T extends jni.JObject>(
           jni.JObjType<T> $T, jni.JObject valueType) =>
-      jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
+      const jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
           reference,
           _id_readValuesAs,
           jni.JniCallType.objectType,
@@ -2168,7 +2168,7 @@ class JsonParser extends jni.JObject {
   ///    issue at format layer
   jni.JObject readValuesAs1<T extends jni.JObject>(
           jni.JObjType<T> $T, jni.JObject valueTypeRef) =>
-      jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
+      const jni.JObjectType().fromRef(jniAccessors.callMethodWithArgs(
           reference,
           _id_readValuesAs1,
           jni.JniCallType.objectType,

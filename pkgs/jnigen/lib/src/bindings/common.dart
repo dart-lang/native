@@ -320,15 +320,16 @@ abstract class BindingsGenerator {
         if (resolver != null) {
           final type = t.type as DeclaredType;
           final resolved = resolver.resolve(type.binaryName);
-          if (resolved == null) {
+          final resolvedClass = resolver.resolveClass(type.binaryName);
+          if (resolved == null ||
+              resolvedClass == null ||
+              !resolvedClass.isIncluded) {
             return jniObjectType;
           }
 
           // All type parameters of this type
           final allTypeParams =
-              (resolver.resolveClass(type.binaryName)?.allTypeParams ?? [])
-                  .map((param) => param.name)
-                  .toList();
+              resolvedClass.allTypeParams.map((param) => param.name).toList();
 
           // The ones that are declared.
           final paramTypeClasses =
@@ -405,11 +406,19 @@ abstract class BindingsGenerator {
         final resolved = resolver.resolve(type.binaryName);
         final resolvedClass = resolver.resolveClass(type.binaryName);
 
+        if (resolved == null ||
+            resolvedClass == null ||
+            !resolvedClass.isIncluded) {
+          return _TypeClass(
+            '${addConst ? 'const ' : ''}$jniObjectTypeClass()',
+            true,
+          );
+        }
+
         // All type params of this type
-        final allTypeParams = resolvedClass?.allTypeParams
-                .map((param) => '$typeParamPrefix${param.name}')
-                .toList() ??
-            [];
+        final allTypeParams = resolvedClass.allTypeParams
+            .map((param) => '$typeParamPrefix${param.name}')
+            .toList();
 
         // The ones that are declared.
         final paramTypeClasses = type.params.map(
@@ -426,11 +435,12 @@ abstract class BindingsGenerator {
 
         final args = allTypeParams.join(',');
 
-        final canBeConst = allTypeParams.length == paramTypeClasses.length &&
-            paramTypeClasses.every((e) => e.canBeConst);
+        final canBeConst = (allTypeParams.length == paramTypeClasses.length &&
+                paramTypeClasses.every((e) => e.canBeConst)) ||
+            allTypeParams.isEmpty;
         final ifConst = addConst && canBeConst ? 'const ' : '';
 
-        if (resolved == null || resolved == jniObjectType) {
+        if (resolved == jniObjectType) {
           return _TypeClass('$ifConst$jniObjectTypeClass()', true);
         } else if (resolved == jniStringType) {
           return _TypeClass('$ifConst$jniStringTypeClass()', true);
