@@ -38,6 +38,13 @@ abstract class ApiPreprocessor {
       decl.isIncluded = false;
       log.fine('exclude class ${decl.binaryName}');
       decl.isPreprocessed = true;
+      // Excluding all the class's methods and fields
+      for (final method in decl.methods) {
+        method.isIncluded = false;
+      }
+      for (final field in decl.fields) {
+        field.isIncluded = false;
+      }
       return;
     }
     if (decl.parentName != null && classes.containsKey(decl.parentName!)) {
