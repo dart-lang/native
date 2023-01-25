@@ -96,36 +96,36 @@ class ClassDecl {
   // synthesized attributes
 
   /// Final name of this class
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late String finalName;
 
   /// Parent's [ClassDecl] obtained from [parentName]
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   ClassDecl? parent;
 
   /// Type parameters including the ones from its ancestors
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   List<TypeParam> allTypeParams = const [];
 
   /// Unique name obtained by renaming conflicting names with a number.
   ///
   /// This is used by C bindings instead of fully qualified name to reduce
   /// the verbosity of generated bindings
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late String uniqueName;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   bool isPreprocessed = false;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   bool isIncluded = true;
 
   /// Contains number with which certain overload of a method is renamed to,
   /// so the overriding method in subclass can be renamed to same final name.
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   Map<String, int> methodNumsAfterRenaming = {};
 
   /// Name counts map, it's a field so that it can be later used by subclasses.
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   Map<String, int> nameCounts = {..._definedSyms};
 
   @override
@@ -158,7 +158,7 @@ class TypeUsage {
 
   String shorthand;
   Kind kind;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late ReferredType type;
   @JsonKey(name: "type")
   Map<String, dynamic> typeJson;
@@ -282,14 +282,14 @@ class Method implements ClassMember {
   List<Param> params;
   TypeUsage returnType;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late String finalName;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late bool isOverridden;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   bool isIncluded = true;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late String javaSig = _javaSig();
 
   String _javaSig() {
@@ -337,9 +337,9 @@ class Field implements ClassMember {
   TypeUsage type;
   Object? defaultValue;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late String finalName;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   bool isIncluded = true;
 
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
@@ -351,7 +351,7 @@ class TypeParam {
   String name;
   List<TypeUsage> bounds;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late String erasure;
 
   factory TypeParam.fromJson(Map<String, dynamic> json) =>
@@ -363,7 +363,7 @@ class JavaDocComment {
   JavaDocComment({String? comment}) : comment = comment ?? '';
   String comment;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false)
   late String dartDoc;
 
   factory JavaDocComment.fromJson(Map<String, dynamic> json) =>
