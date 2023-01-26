@@ -1,3 +1,6 @@
+## 0.2.1
+* Added `.clang-format` to pub.
+
 ## 0.2.0
 * Added array support
 * Added generic support
