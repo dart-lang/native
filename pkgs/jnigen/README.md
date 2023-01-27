@@ -134,7 +134,7 @@ There are 2 ways to use `jnigen`:
 * Run as command line tool with a YAML config.
 * Import `package:jnigen/jnigen.dart` from a script in `tool/` directory of your project.
 
-Both approaches are almost identical. When using YAML, it's possible to selectively override configuration properties with command line, using `-Dproperty_name=value` syntax. We usually use YAML in our [examples][jnigen/examples/]. See the [YAML Reference](#yaml-configuration-reference) at the end of this document for a tabular description of configuration properties.
+Both approaches are almost identical. When using YAML, it's possible to selectively override configuration properties with command line, using `-Dproperty_name=value` syntax. We usually use YAML in our [examples](jnigen/example/). See the [YAML Reference](#yaml-configuration-reference) at the end of this document for a tabular description of configuration properties.
 
 ## Java features support
 Currently basic features of the Java language are supported in the bindings. Each Java class is mapped to a Dart class. Bindings are generated for methods, constructors and fields. Exceptions thrown in Java are rethrown in Dart with stack trace from Java.
