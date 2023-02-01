@@ -234,7 +234,7 @@ jobs:
     steps:
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
       - name: Setup clang
-        uses: egor-tensin/setup-clang@01d437c0618e76d3c44e7d58f5d175c75cb37bac
+        uses: egor-tensin/setup-clang@ef434b41eb33a70396fb336b1bae39c76d740c3d
         with:
           version: latest
           platform: x64
