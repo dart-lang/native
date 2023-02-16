@@ -18,9 +18,9 @@ Future<bool> isEmptyOrNotExistDir(String path) async {
 
 /// Runs command, and prints output only if the exit status is non-zero.
 Future<int> runCommand(String exec, List<String> args,
-    {String? workingDirectory}) async {
-  final proc =
-      await Process.run(exec, args, workingDirectory: workingDirectory);
+    {String? workingDirectory, bool runInShell = false}) async {
+  final proc = await Process.run(exec, args,
+      workingDirectory: workingDirectory, runInShell: runInShell);
   if (proc.exitCode != 0) {
     printError('command exited with exit status ${proc.exitCode}:\n'
         '$exec ${args.join(" ")}\n');

@@ -13,12 +13,14 @@ import 'command_runner.dart';
 const scripts = [
   "test/jackson_core_test/generate.dart",
   "test/simple_package_test/generate.dart",
+  "test/kotlin_test/generate.dart",
 ];
 
 const yamlBasedExamples = [
   "example/in_app_java",
   "example/pdfbox_plugin",
   "example/notification_plugin",
+  "example/kotlin_plugin",
 ];
 
 void main() async {

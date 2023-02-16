@@ -23,11 +23,14 @@ enums:
   rename:
     'JniType': 'JniCallType'
 functions:
-  exclude: # Exclude init functions supposed to be defined in loaded DLL, not JNI
+  exclude:
+    # Exclude init functions supposed to be defined in loaded DLL, not JNI
     - 'JNI_.*'
     - 'GetJniContext'
     - 'setJniGetters'
     - 'jni_log'
+    # This is a native function in Java. No need to call it from Dart.
+    - 'Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith'
 structs:
   exclude:
     - 'JniContext'

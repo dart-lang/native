@@ -35,9 +35,11 @@ class CBindingGenerator {
   String generateBinding(ClassDecl c) => _class(c);
 
   String _class(ClassDecl c) {
+    if (!c.isIncluded) {
+      return '';
+    }
     final s = StringBuffer();
     final classNameInC = getUniqueClassName(c);
-
     // global variable in C that holds the reference to class
     final classVar = '${classVarPrefix}_$classNameInC';
     s.write('// ${c.binaryName}\n'

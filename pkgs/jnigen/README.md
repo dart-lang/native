@@ -196,6 +196,7 @@ A `*` denotes required configuration.
 | `source_path`          | List of directory paths | Directories to search for source files. Note: source_path for dependencies downloaded using `maven_downloads` configuration is added automatically without the need to specify here. |
 | `class_path`           | List of directory / JAR paths | Classpath for API summary generation. This should include any JAR dependencies of the source files in `source_path`. |
 | `classes` *            | List of qualified class / package names | List of qualified class / package names. `source_path` will be scanned assuming the sources follow standard java-ish hierarchy. That is a.b.c either maps to a directory `a/b/c` or a class file `a/b/c.java`.  |
+| `suspend_fun_to_async` | True/False | Converting Kotlin's suspend functions to Dart's async functions. Defaults to False.  |
 | `output:`              | (Subsection) | This subsection will contain configuration related to output files. |
 | `output:` >> `bindings_type` | `c_based` (default) or `dart_only` | Binding generation strategy. [Trade-offs](#pure-dart-bindings) are explained at the end of this document. |
 | `output:` >> `c:`      | (Subsection) | This subsection specified C output configuration. Required if `bindings_type` is `c_based`. |

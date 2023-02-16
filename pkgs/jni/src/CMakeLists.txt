@@ -10,6 +10,7 @@ project(jni_library VERSION 0.0.1 LANGUAGES C)
 add_library(jni SHARED
   "dartjni.c"
   "third_party/global_jni_env.c"
+	"include/dart_api_dl.c"
 )
 
 set_target_properties(jni PROPERTIES

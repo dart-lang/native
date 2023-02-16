@@ -147,6 +147,34 @@ class JniBindings {
   late final _GetCurrentActivity =
       _GetCurrentActivityPtr.asFunction<JObjectPtr Function()>();
 
+  int InitDartApiDL(
+    ffi.Pointer<ffi.Void> data,
+  ) {
+    return _InitDartApiDL(
+      data,
+    );
+  }
+
+  late final _InitDartApiDLPtr =
+      _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>(
+          'InitDartApiDL');
+  late final _InitDartApiDL =
+      _InitDartApiDLPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+
+  JniResult PortContinuation__ctor(
+    int j,
+  ) {
+    return _PortContinuation__ctor(
+      j,
+    );
+  }
+
+  late final _PortContinuation__ctorPtr =
+      _lookup<ffi.NativeFunction<JniResult Function(ffi.Int64)>>(
+          'PortContinuation__ctor');
+  late final _PortContinuation__ctor =
+      _PortContinuation__ctorPtr.asFunction<JniResult Function(int)>();
+
   ffi.Pointer<GlobalJniEnv> GetGlobalEnv() {
     return _GetGlobalEnv();
   }

@@ -4,6 +4,7 @@
 
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:path/path.dart';
@@ -61,6 +62,12 @@ abstract class Jni {
     _dylibDir = dylibDir;
   }
 
+  static void initDLApi() {
+    // Initializing DartApiDL used for Continuations.
+    final result = _bindings.InitDartApiDL(NativeApi.initializeApiDLData);
+    assert(result == 0);
+  }
+
   /// Spawn an instance of JVM using JNI. This method should be called at the
   /// beginning of the program with appropriate options, before other isolates
   /// are spawned.
@@ -89,6 +96,7 @@ abstract class Jni {
           options: jvmOptions,
           classPath: classPath,
           version: jniVersion,
+          dylibPath: dylibDir,
           ignoreUnrecognized: ignoreUnrecognized,
           allocator: arena,
         );
@@ -98,18 +106,28 @@ abstract class Jni {
   static Pointer<JavaVMInitArgs> _createVMArgs({
     List<String> options = const [],
     List<String> classPath = const [],
+    String? dylibPath,
     bool ignoreUnrecognized = false,
     int version = JNI_VERSION_1_6,
     required Allocator allocator,
   }) {
     final args = allocator<JavaVMInitArgs>();
     if (options.isNotEmpty || classPath.isNotEmpty) {
-      final count = options.length + (classPath.isNotEmpty ? 1 : 0);
+      final count = options.length +
+          (dylibPath != null ? 1 : 0) +
+          (classPath.isNotEmpty ? 1 : 0);
       final optsPtr = (count != 0) ? allocator<JavaVMOption>(count) : nullptr;
       args.ref.options = optsPtr;
       for (int i = 0; i < options.length; i++) {
         optsPtr.elementAt(i).ref.optionString =
             options[i].toNativeChars(allocator);
+      }
+      if (dylibPath != null) {
+        optsPtr
+                .elementAt(count - 1 - (classPath.isNotEmpty ? 1 : 0))
+                .ref
+                .optionString =
+            "-Djava.library.path=$dylibPath".toNativeChars(allocator);
       }
       if (classPath.isNotEmpty) {
         final classPathString = classPath.join(Platform.isWindows ? ';' : ":");
@@ -149,6 +167,11 @@ abstract class Jni {
   }
 
   static Pointer<JniAccessors> get accessors => _bindings.GetAccessors();
+
+  /// Returns a new PortContinuation.
+  static JObjectPtr newPortContinuation(ReceivePort port) {
+    return _bindings.PortContinuation__ctor(port.sendPort.nativePort).object;
+  }
 
   /// Returns current application context on Android.
   static JObjectPtr getCachedApplicationContext() {

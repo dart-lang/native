@@ -31,6 +31,8 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_shown_name
 
+import "dart:isolate" show ReceivePort;
+
 import "package:jni/jni.dart" as jni;
 
 import "package:jni/internal_helpers_for_jnigen.dart";

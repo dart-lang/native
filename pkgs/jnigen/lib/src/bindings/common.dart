@@ -97,6 +97,10 @@ abstract class BindingsGenerator {
       args.add(
           '${getDartOuterType(param.type, resolver)} ${kwRename(param.name)}');
     }
+    if (m.asyncReturnType != null) {
+      // Remove the continuation object in async methods.
+      args.removeLast();
+    }
     return args.join(', ');
   }
 
@@ -106,6 +110,10 @@ abstract class BindingsGenerator {
     for (var param in m.params) {
       final paramName = kwRename(param.name);
       args.add(toNativeArg(paramName, param.type));
+    }
+    if (m.asyncReturnType != null) {
+      // Change the continuation object in async methods.
+      args.last = '\$c';
     }
     return args.join(', ');
   }
@@ -336,7 +344,16 @@ abstract class BindingsGenerator {
               type.params.map((param) => _dartType(param, resolver: resolver));
 
           // Replacing the declared ones. They come at the end.
+          // The rest will be JObject.
           if (allTypeParams.length >= type.params.length) {
+            allTypeParams.replaceRange(
+              0,
+              allTypeParams.length - type.params.length,
+              List.filled(
+                allTypeParams.length - type.params.length,
+                jniObjectType,
+              ),
+            );
             allTypeParams.replaceRange(
               allTypeParams.length - type.params.length,
               allTypeParams.length,
@@ -425,7 +442,16 @@ abstract class BindingsGenerator {
             (param) => _getDartTypeClass(param, resolver, addConst: false));
 
         // Replacing the declared ones. They come at the end.
+        // The rest will be JObject.
         if (allTypeParams.length >= type.params.length) {
+          allTypeParams.replaceRange(
+            0,
+            allTypeParams.length - type.params.length,
+            List.filled(
+              allTypeParams.length - type.params.length,
+              'const $jniObjectTypeClass()',
+            ),
+          );
           allTypeParams.replaceRange(
             allTypeParams.length - type.params.length,
             allTypeParams.length,
@@ -688,6 +714,10 @@ String getDescriptor(TypeUsage usage, {bool escapeDollarSign = false}) {
       }
       return 'Ljava/lang/Object;';
   }
+}
+
+String toFuture(String type) {
+  return 'Future<$type>';
 }
 
 bool isPrimitive(TypeUsage t) => t.kind == Kind.primitive;

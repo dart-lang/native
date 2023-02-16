@@ -36,8 +36,8 @@ class JArray<E> extends JObject {
   ///
   /// The [length] must be a non-negative integer.
   factory JArray(JType<E> type, int length) {
-    if (type._type == JniCallType.objectType) {
-      final clazz = type._getClass();
+    if (type._type == JniCallType.objectType && type is JObjType) {
+      final clazz = (type as JObjType).getClass();
       final array = JArray<E>.fromRef(
         type,
         _accessors.newObjectArray(length, clazz.reference, nullptr).checkedRef,

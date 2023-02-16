@@ -1,0 +1,21 @@
+android_sdk_config:
+  add_gradle_deps: true
+  android_example: 'example/'
+
+summarizer:
+  backend: asm
+
+suspend_fun_to_async: true
+
+output:
+  c:
+    library_name: kotlin_plugin_bindings
+    path: src/
+  dart:
+    path: lib/kotlin_bindings.dart
+    structure: single_file
+
+log_level: all
+
+classes:
+  - 'Example'

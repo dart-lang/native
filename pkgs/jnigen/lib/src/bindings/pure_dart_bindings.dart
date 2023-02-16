@@ -23,10 +23,9 @@ class PureDartBindingsGenerator extends BindingsGenerator {
   static const ffi = BindingsGenerator.ffi;
   static const jni = BindingsGenerator.jni;
 
-  static const voidPointer = BindingsGenerator.voidPointer;
+  static const voidPointer = BindingsGenerator.jobjectType;
   static const ffiVoidType = BindingsGenerator.ffiVoidType;
   static const jniObjectType = BindingsGenerator.jniObjectType;
-  static const jobjectType = BindingsGenerator.jobjectType;
 
   static final _deleteInstruction = BindingsGenerator.deleteInstruction;
 
@@ -117,8 +116,15 @@ class PureDartBindingsGenerator extends BindingsGenerator {
 
     // Different logic for constructor and method;
     // For constructor, we want return type to be new object.
-    final returnType = getDartOuterType(m.returnType, resolver);
-    final returnTypeClass = getDartTypeClass(m.returnType, resolver);
+    var returnType = getDartOuterType(
+      m.asyncReturnType ?? m.returnType,
+      resolver,
+    );
+    if (m.asyncReturnType != null) {
+      returnType = toFuture(returnType);
+    }
+    final returnTypeClass =
+        getDartTypeClass(m.asyncReturnType ?? m.returnType, resolver);
     s.write('$indent/// from: ${getOriginalMethodHeader(m)}\n');
     if (!isPrimitive(m.returnType) || isCtor(m)) {
       s.write(_deleteInstruction);
@@ -148,9 +154,31 @@ class PureDartBindingsGenerator extends BindingsGenerator {
     var wrapperExpr = '$accessors.call${ifStatic}MethodWithArgs'
         '($selfArgument, $mID, $callType, [${actualArgs(m)}])'
         '.$resultGetter';
-    wrapperExpr = toDartResult(wrapperExpr, m.returnType, returnTypeClass);
     s.write(
-        '$returnType $name$typeParamsWithExtend(${getFormalArgs(c, m, resolver)}) => $wrapperExpr;\n');
+      '$returnType $name$typeParamsWithExtend(${getFormalArgs(c, m, resolver)}) ',
+    );
+    if (m.asyncReturnType == null) {
+      wrapperExpr = toDartResult(wrapperExpr, m.returnType, returnTypeClass);
+      s.write('=> $wrapperExpr;\n');
+    } else {
+      s.write(
+        'async {\n'
+        '${indent * 2}final \$p = ReceivePort();\n'
+        '${indent * 2}final \$c = ${jni}Jni.newPortContinuation(\$p);\n'
+        '${indent * 2}$wrapperExpr;\n'
+        '${indent * 2}final \$o = $voidPointer.fromAddress(await \$p.first);\n'
+        '${indent * 2}final \$k = $returnTypeClass.getClass().reference;\n'
+        '${indent * 2}if (${jni}Jni.env.IsInstanceOf(\$o, \$k) == 0) {\n'
+        '${indent * 3}throw "Failed";\n'
+        '${indent * 2}}\n'
+        '${indent * 2}return ${toDartResult(
+          '\$o',
+          m.returnType,
+          returnTypeClass,
+        )};\n'
+        '}\n',
+      );
+    }
     return s.toString();
   }
 
@@ -227,10 +255,11 @@ class PureDartBindingsGenerator extends BindingsGenerator {
       '// ignore_for_file: unused_shown_name\n'
       '\n';
 
+  static const dartImports = 'import "dart:isolate" show ReceivePort;\n\n';
   static const jniImport = 'import "package:jni/jni.dart" as jni;\n\n';
   static const internalHelpersImport =
       'import "package:jni/internal_helpers_for_jnigen.dart";\n\n';
-  static const defaultImports = jniImport + internalHelpersImport;
+  static const defaultImports = dartImports + jniImport + internalHelpersImport;
 
   static const initialization = 'final jniEnv = ${jni}Jni.env;\n'
       'final jniAccessors = ${jni}Jni.accessors;\n\n';

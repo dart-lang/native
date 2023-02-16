@@ -16,6 +16,7 @@ import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
 // ignore_for_file: avoid_relative_lib_imports
+import 'kotlin_test/lib/kotlin.dart';
 import 'simple_package_test/lib/simple_package.dart';
 import 'jackson_core_test/third_party/lib/com/fasterxml/jackson/core/_package.dart';
 
@@ -23,7 +24,11 @@ import 'test_util/test_util.dart';
 
 final simplePackageTest = join('test', 'simple_package_test');
 final jacksonCoreTest = join('test', 'jackson_core_test');
+final kotlinTest = join('test', 'kotlin_test');
+final jniJar = join(kotlinTest, 'jni.jar');
+
 final simplePackageTestJava = join(simplePackageTest, 'java');
+final kotlinTestKotlin = join(kotlinTest, 'kotlin');
 
 Future<void> setupDylibsAndClasses() async {
   await runCommand('dart', [
@@ -60,15 +65,38 @@ Future<void> setupDylibsAndClasses() async {
 
   final jacksonJars = await getJarPaths(join(jacksonCoreTest, 'third_party'));
 
+  await runCommand('dart', [
+    'run',
+    'jni:setup',
+    '-p',
+    'jni',
+    '-s',
+    join(kotlinTest, 'src'),
+  ]);
+  await runCommand(
+    'mvn',
+    ['package'],
+    workingDirectory: kotlinTestKotlin,
+    runInShell: true,
+  );
+  // Jar including Kotlin runtime and dependencies.
+  final kotlinTestJar =
+      join(kotlinTestKotlin, 'target', 'kotlin_test-jar-with-dependencies.jar');
+
   if (!Platform.isAndroid) {
-    Jni.spawn(
-        dylibDir: join('build', 'jni_libs'),
-        classPath: [simplePackageTestJava, ...jacksonJars]);
+    Jni.spawn(dylibDir: join('build', 'jni_libs'), classPath: [
+      jniJar,
+      simplePackageTestJava,
+      ...jacksonJars,
+      kotlinTestJar,
+    ]);
   }
+
+  Jni.initDLApi();
 }
 
 void main() async {
-  await setupDylibsAndClasses();
+  setUpAll(setupDylibsAndClasses);
 
   test('static final fields', () {
     expect(Example.ON, equals(1));
@@ -117,7 +145,6 @@ void main() async {
     final array = JArray(Example.type, 2);
     array[0] = ex1;
     array[1] = ex2;
-    print(array[0].getInternal());
     expect(array[0].getInternal(), 1);
     expect(array[1].getInternal(), 2);
     array.delete();
@@ -187,6 +214,7 @@ void main() async {
         expect(
           ((map.entryStack()..deletedIn(arena)).pop()..deletedIn(arena))
               .key
+              .castTo(JString.type, deleteOriginal: true)
               .toDartString(deleteOriginal: true),
           anyOf('Hello', 'World'),
         );
@@ -251,7 +279,9 @@ void main() async {
 
         final strParent = grandParent.stringParent()..deletedIn(arena);
         expect(
-          strParent.parentValue.toDartString(deleteOriginal: true),
+          strParent.parentValue
+              .castTo(JString.type, deleteOriginal: true)
+              .toDartString(deleteOriginal: true),
           "!",
         );
         expect(
@@ -263,7 +293,9 @@ void main() async {
             Example.type, Example()..deletedIn(arena))
           ..deletedIn(arena);
         expect(
-          exampleParent.parentValue.toDartString(deleteOriginal: true),
+          exampleParent.parentValue
+              .castTo(JString.type, deleteOriginal: true)
+              .toDartString(deleteOriginal: true),
           "!",
         );
         expect(
@@ -272,6 +304,19 @@ void main() async {
         );
         // TODO(#139): test constructing Child, currently does not work due
         // to a problem with C-bindings.
+      });
+    });
+  });
+  group('Kotlin support', () {
+    test('Suspend functions', () async {
+      await using((arena) async {
+        final suspendFun = SuspendFun()..deletedIn(arena);
+        final hello = await suspendFun.sayHello();
+        expect(hello.toDartString(deleteOriginal: true), "Hello!");
+        const name = "Bob";
+        final helloBob =
+            await suspendFun.sayHello1(name.toJString()..deletedIn(arena));
+        expect(helloBob.toDartString(deleteOriginal: true), "Hello $name!");
       });
     });
   });

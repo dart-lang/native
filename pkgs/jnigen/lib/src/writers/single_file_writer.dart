@@ -64,7 +64,7 @@ class SingleFileWriter extends BindingsWriter {
     ApiPreprocessor.preprocessAll(classesByName, config, renameClasses: true);
 
     if (cBased) {
-      await writeCBindings(config, classes);
+      await writeCBindings(config, classesByName.values.toList());
     }
     log.info("Generating ${cBased ? "C + Dart" : "Pure Dart"} Bindings");
     final generator = cBased

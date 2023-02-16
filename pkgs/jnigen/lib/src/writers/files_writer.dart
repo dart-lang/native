@@ -236,7 +236,7 @@ class FilesWriter extends BindingsWriter {
         : PureDartBindingsGenerator(config);
 
     if (cBased) {
-      await writeCBindings(config, classes);
+      await writeCBindings(config, classesByName.values.toList());
     }
 
     // Write init file

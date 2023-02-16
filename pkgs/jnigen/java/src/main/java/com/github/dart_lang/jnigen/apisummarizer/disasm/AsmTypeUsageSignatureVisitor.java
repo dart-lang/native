@@ -78,7 +78,7 @@ public class AsmTypeUsageSignatureVisitor extends SignatureVisitor {
     typeUsage.shorthand = name.substring(0, name.length()).replace('/', '.');
     var components = name.split("[/$]");
     var simpleName = components[components.length - 1];
-    typeUsage.type = new TypeUsage.DeclaredType(name, simpleName, new ArrayList<>());
+    typeUsage.type = new TypeUsage.DeclaredType(typeUsage.shorthand, simpleName, new ArrayList<>());
   }
 
   @Override
