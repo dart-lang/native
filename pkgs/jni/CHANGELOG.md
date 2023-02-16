@@ -1,3 +1,7 @@
+## 0.3.0
+* Added `PortContinuation` used for `suspend fun` in Kotlin.
+* `dartjni` now depends on `dart_api_dl.h`.
+
 ## 0.2.1
 * Added `.clang-format` to pub.
 
