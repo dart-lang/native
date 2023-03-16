@@ -4,8 +4,9 @@
 
 import 'dart:io';
 
-import 'package:jnigen/src/logging/logging.dart';
 import 'package:path/path.dart';
+
+import '../logging/logging.dart';
 
 /// This class provides some utility methods to download a sources / jars
 /// using maven along with transitive dependencies.

@@ -13,8 +13,8 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-import 'package:jnigen/src/util/find_package.dart';
-import 'package:jnigen/src/logging/logging.dart';
+import '../logging/logging.dart';
+import '../util/find_package.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');

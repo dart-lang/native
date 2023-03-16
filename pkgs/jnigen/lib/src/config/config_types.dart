@@ -4,13 +4,12 @@
 
 import 'dart:io';
 
-import 'package:jnigen/src/elements/elements.dart';
-
-import 'yaml_reader.dart';
-import 'filters.dart';
-import 'config_exception.dart';
-
 import 'package:logging/logging.dart';
+
+import '../elements/elements.dart';
+import 'config_exception.dart';
+import 'filters.dart';
+import 'yaml_reader.dart';
 
 /// Configuration for dependencies to be downloaded using maven.
 ///

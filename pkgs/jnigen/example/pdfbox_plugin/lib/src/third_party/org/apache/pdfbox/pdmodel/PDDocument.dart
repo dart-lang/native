@@ -28,7 +28,9 @@
 // ignore_for_file: overridden_fields
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
+// ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
 import "dart:ffi" as ffi;
@@ -36,7 +38,7 @@ import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "PDDocumentInformation.dart" as pddocumentinformation_;
-import "../../../../_init.dart" show jniLookup;
+import "../../../../_init.dart";
 
 /// from: org.apache.pdfbox.pdmodel.PDDocument
 ///
@@ -54,12 +56,12 @@ class PDDocument extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentType();
-
   static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "PDDocument__ctor")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
@@ -72,6 +74,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
@@ -86,6 +89,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
@@ -101,6 +105,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
@@ -119,6 +124,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.

@@ -10,7 +10,9 @@
 // ignore_for_file: overridden_fields
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
+// ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
 import "dart:ffi" as ffi;
@@ -34,7 +36,6 @@ class AndroidUtils extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $AndroidUtilsType();
-
   static final _showToast = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>,
@@ -82,7 +83,6 @@ class Build extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $BuildType();
-
   static final _get_BOARD =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
               "get_Build__BOARD")
@@ -339,7 +339,7 @@ class Build extends jni.JObject {
       const jni.JStringType().fromRef(_get_TYPE().object);
 
   /// from: static public final java.lang.String UNKNOWN
-  static const UNKNOWN = "unknown";
+  static const UNKNOWN = r"""unknown""";
 
   static final _get_USER =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__USER")
@@ -355,6 +355,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
   Build() : super.fromRef(_ctor().object);
 
   static final _getSerial =
@@ -414,10 +415,7 @@ class HashMap<K extends jni.JObject, V extends jni.JObject>
     extends jni.JObject {
   late final jni.JObjType? _$type;
   @override
-  jni.JObjType get $type => _$type ??= type(
-        $K,
-        $V,
-      );
+  jni.JObjType get $type => _$type ??= type($K, $V);
 
   final jni.JObjType<K> $K;
   final jni.JObjType<V> $V;
@@ -445,6 +443,7 @@ class HashMap<K extends jni.JObject, V extends jni.JObject>
       .asFunction<jni.JniResult Function(int, double)>();
 
   /// from: public void <init>(int i, float f)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   HashMap(this.$K, this.$V, int i, double f)
       : super.fromRef(_ctor(i, f).object);
 
@@ -454,6 +453,7 @@ class HashMap<K extends jni.JObject, V extends jni.JObject>
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: public void <init>(int i)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   HashMap.ctor1(this.$K, this.$V, int i) : super.fromRef(_ctor1(i).object);
 
   static final _ctor2 =
@@ -461,6 +461,7 @@ class HashMap<K extends jni.JObject, V extends jni.JObject>
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
   HashMap.ctor2(this.$K, this.$V) : super.fromRef(_ctor2().object);
 
   static final _ctor3 = jniLookup<
@@ -469,6 +470,7 @@ class HashMap<K extends jni.JObject, V extends jni.JObject>
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.util.Map map)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   HashMap.ctor3(this.$K, this.$V, jni.JObject map)
       : super.fromRef(_ctor3(map.reference).object);
 

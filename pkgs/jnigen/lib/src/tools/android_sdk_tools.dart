@@ -3,9 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+
 import 'package:path/path.dart';
 
-import 'package:jnigen/src/logging/logging.dart';
+import '../logging/logging.dart';
 
 class _AndroidToolsException implements Exception {
   _AndroidToolsException(this.message);

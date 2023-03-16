@@ -15,21 +15,21 @@ void main() async {
     final lib = join(thirdPartyDir, 'lib');
     final src = join(thirdPartyDir, 'src');
     await generateAndCompareBindings(getConfig(), lib, src);
-  }, timeout: Timeout.factor(2));
+  }, timeout: const Timeout.factor(2));
 
   test(
       'generate and analyze bindings for complete library, '
       'not just required classes', () async {
     final config = getConfig(generateFullVersion: true);
     await generateAndAnalyzeBindings(config);
-  }, timeout: Timeout(Duration(minutes: 2)));
+  }, timeout: const Timeout(Duration(minutes: 2)));
   test('generate and analyze bindings using ASM', () async {
     final config = getConfig(generateFullVersion: true, useAsm: true);
     await generateAndAnalyzeBindings(config);
-  }, timeout: Timeout(Duration(minutes: 2)));
+  }, timeout: const Timeout(Duration(minutes: 2)));
   test('Generate and analyze pure dart bindings', () async {
     final config = getConfig(generateFullVersion: true);
     config.outputConfig.bindingsType = BindingsType.dartOnly;
     await generateAndAnalyzeBindings(config);
-  }, timeout: Timeout.factor(2));
+  }, timeout: const Timeout.factor(2));
 }

@@ -26,5 +26,5 @@ void main() {
     ];
     final config = Config.parseArgs(args);
     await generateAndCompareBindings(config, lib, src);
-  }, timeout: Timeout.factor(4));
+  }, timeout: const Timeout.factor(4));
 }

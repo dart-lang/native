@@ -14,7 +14,9 @@
 // ignore_for_file: overridden_fields
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
+// ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
 import "dart:ffi" as ffi;
@@ -38,12 +40,12 @@ class Notifications extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $NotificationsType();
-
   static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "Notifications__ctor")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
   Notifications() : super.fromRef(_ctor().object);
 
   static final _showNotification = jniLookup<

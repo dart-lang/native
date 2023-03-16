@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:jnigen/src/writers/files_writer.dart';
+import 'package:jnigen/src/bindings/resolver.dart';
 import 'package:test/test.dart';
 
 class ResolverTest {
@@ -13,7 +13,7 @@ class ResolverTest {
 }
 
 void main() {
-  final resolver = FilePathResolver(
+  final resolver = Resolver(
       importMap: {
         'org.apache.pdfbox': 'package:pdfbox/pdfbox.dart',
         'android.os.Process': 'package:android/os.dart',
@@ -32,29 +32,28 @@ void main() {
 
   final tests = [
     // Absolute imports resolved using import map
-    ResolverTest(
-        'android.os.Process', 'package:android/os.dart', 'process_.Process'),
+    ResolverTest('android.os.Process', 'package:android/os.dart', 'process_.'),
     ResolverTest('org.apache.pdfbox.pdmodel.PDDocument',
-        'package:pdfbox/pdfbox.dart', 'pddocument_.PDDocument'),
+        'package:pdfbox/pdfbox.dart', 'pddocument_.'),
     // Relative imports
     // inner package
-    ResolverTest('a.b.c.D', 'c/D.dart', 'd_.D'),
+    ResolverTest('a.b.c.D', 'c/D.dart', 'd_.'),
     // inner package, deeper
-    ResolverTest('a.b.c.d.E', 'c/d/E.dart', 'e_.E'),
+    ResolverTest('a.b.c.d.E', 'c/d/E.dart', 'e_.'),
     // parent package
-    ResolverTest('a.X', '../X.dart', 'x_.X'),
+    ResolverTest('a.X', '../X.dart', 'x_.'),
     // unrelated package in same translation unit
-    ResolverTest('e.f.G', '../../e/f/G.dart', 'g_.G'),
-    ResolverTest('e.F', '../../e/F.dart', 'f_.F'),
+    ResolverTest('e.f.G', '../../e/f/G.dart', 'g_.'),
+    ResolverTest('e.F', '../../e/F.dart', 'f_.'),
     // neighbour package
-    ResolverTest('a.g.Y', '../g/Y.dart', 'y_.Y'),
+    ResolverTest('a.g.Y', '../g/Y.dart', 'y_.'),
     // inner package of a neighbour package
-    ResolverTest('a.m.n.P', '../m/n/P.dart', 'p_.P'),
+    ResolverTest('a.m.n.P', '../m/n/P.dart', 'p_.'),
   ];
 
   for (var testCase in tests) {
     final binaryName = testCase.binaryName;
-    final packageName = getFileClassName(binaryName);
+    final packageName = Resolver.getFileClassName(binaryName);
     test(
         'getImport $binaryName',
         () => expect(resolver.getImport(packageName, binaryName),
@@ -62,6 +61,6 @@ void main() {
     test(
         'resolve $binaryName',
         () => expect(
-            resolver.resolve(binaryName), equals(testCase.expectedName)));
+            resolver.resolvePrefix(binaryName), equals(testCase.expectedName)));
   }
 }

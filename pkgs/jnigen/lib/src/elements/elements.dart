@@ -2,11 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// Types to describe java API elements
-
 import 'package:json_annotation/json_annotation.dart';
 
+// Types to describe java API elements
+
+import '../bindings/visitor.dart';
+
 part 'elements.g.dart';
+
+abstract class Element<T extends Element<T>> {
+  const Element();
+
+  R accept<R>(Visitor<T, R> v);
+}
 
 @JsonEnum()
 
@@ -20,38 +28,32 @@ enum DeclKind {
   enumKind,
 }
 
+class Classes implements Element<Classes> {
+  const Classes._(this.decls);
+
+  final Map<String, ClassDecl> decls;
+
+  factory Classes.fromJson(List<dynamic> json) {
+    final decls = <String, ClassDecl>{};
+    for (final declJson in json) {
+      final classDecl = ClassDecl.fromJson(declJson);
+      decls[classDecl.binaryName] = classDecl;
+    }
+    return Classes._(decls);
+  }
+
+  @override
+  R accept<R>(Visitor<Classes, R> v) {
+    return v.visit(this);
+  }
+}
+
 // Note: We give default values in constructor, if the field is nullable in
 // JSON. this allows us to reduce JSON size by providing Include.NON_NULL
 // option in java.
 
 @JsonSerializable(createToJson: false)
-class ClassDecl {
-  /// Methods & properties already defined by dart JObject base class.
-  static const Map<String, int> _definedSyms = {
-    'equals': 1,
-    'toString': 1,
-    'hashCode': 1,
-    'runtimeType': 1,
-    'noSuchMethod': 1,
-    'reference': 1,
-    'isDeleted': 1,
-    'isNull': 1,
-    'use': 1,
-    'delete': 1,
-    'getFieldID': 1,
-    'getStaticFieldID': 1,
-    'getMethodID': 1,
-    'getStaticMethodID': 1,
-    'getField': 1,
-    'getFieldByName': 1,
-    'getStaticField': 1,
-    'getStaticFieldByName': 1,
-    'callMethod': 1,
-    'callMethodByName': 1,
-    'callStaticMethod': 1,
-    'callStaticMethodByName': 1,
-  };
-
+class ClassDecl extends ClassMember implements Element<ClassDecl> {
   ClassDecl({
     this.annotations = const [],
     this.javadoc,
@@ -70,68 +72,96 @@ class ClassDecl {
     this.values,
   });
 
-  List<Annotation> annotations;
-  JavaDocComment? javadoc;
+  @override
+  final Set<String> modifiers;
 
-  Set<String> modifiers;
-  String simpleName, binaryName;
-  String? parentName;
-  String packageName;
+  final List<Annotation> annotations;
+  final JavaDocComment? javadoc;
+  final String simpleName;
+  final String binaryName;
+  final String? parentName;
+  final String packageName;
   List<TypeParam> typeParams;
   List<Method> methods;
   List<Field> fields;
+  final List<TypeUsage> interfaces;
+  final bool hasStaticInit;
+  final bool hasInstanceInit;
+
+  /// Will default to java.lang.Object if null by [Linker].
   TypeUsage? superclass;
-  List<TypeUsage> interfaces;
-  bool hasStaticInit, hasInstanceInit;
 
-  // Contains enum constant names if class is an enum,
-  // as obtained by `.values()` method in Java.
-  List<String>? values;
-
-  factory ClassDecl.fromJson(Map<String, dynamic> json) =>
-      _$ClassDeclFromJson(json);
+  /// Contains enum constant names if class is an enum,
+  /// as obtained by `.values()` method in Java.
+  final List<String>? values;
 
   String get internalName => binaryName.replaceAll(".", "/");
 
-  // synthesized attributes
-
-  /// Final name of this class
+  /// Parent's [ClassDecl] obtained from [parentName].
+  ///
+  /// Will be populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late String finalName;
+  late final ClassDecl? parent;
 
-  /// Parent's [ClassDecl] obtained from [parentName]
+  /// Final name of this class.
+  ///
+  /// Will be populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  ClassDecl? parent;
-
-  /// Type parameters including the ones from its ancestors
-  @JsonKey(includeFromJson: false)
-  List<TypeParam> allTypeParams = const [];
+  late final String finalName;
 
   /// Unique name obtained by renaming conflicting names with a number.
   ///
   /// This is used by C bindings instead of fully qualified name to reduce
-  /// the verbosity of generated bindings
+  /// the verbosity of generated bindings.
+  ///
+  /// Will be populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  late String uniqueName;
+  late final String uniqueName;
 
+  /// Type parameters including the ones from its ancestors
+  ///
+  /// Will be populated by [Linker].
   @JsonKey(includeFromJson: false)
-  bool isPreprocessed = false;
-  @JsonKey(includeFromJson: false)
-  bool isIncluded = true;
-
-  /// Contains number with which certain overload of a method is renamed to,
-  /// so the overriding method in subclass can be renamed to same final name.
-  @JsonKey(includeFromJson: false)
-  Map<String, int> methodNumsAfterRenaming = {};
-
-  /// Name counts map, it's a field so that it can be later used by subclasses.
-  @JsonKey(includeFromJson: false)
-  Map<String, int> nameCounts = {..._definedSyms};
+  List<TypeParam> allTypeParams = const [];
 
   @override
   String toString() {
     return 'Java class declaration for $binaryName';
   }
+
+  String get signature => 'L$internalName;';
+
+  static final object = ClassDecl(
+    binaryName: 'java.lang.Object',
+    packageName: 'java.lang',
+    simpleName: 'Object',
+  )..finalName = 'JObject';
+
+  static final string = ClassDecl(
+    superclass: TypeUsage.object,
+    binaryName: 'java.lang.String',
+    packageName: 'java.lang',
+    simpleName: 'String',
+  )..finalName = 'JString';
+
+  static final predefined = {
+    'java.lang.Object': object,
+    'java.lang.String': string,
+  };
+
+  factory ClassDecl.fromJson(Map<String, dynamic> json) =>
+      _$ClassDeclFromJson(json);
+
+  @override
+  R accept<R>(Visitor<ClassDecl, R> v) {
+    return v.visit(this);
+  }
+
+  @override
+  ClassDecl get classDecl => this;
+
+  @override
+  String get name => finalName;
 }
 
 @JsonEnum()
@@ -156,18 +186,25 @@ class TypeUsage {
     required this.typeJson,
   });
 
-  static TypeUsage object = TypeUsage.fromJson({
-    "shorthand": "java.lang.Object",
-    "kind": "DECLARED",
-    "type": {"binaryName": "java.lang.Object", "simpleName": "Object"}
-  });
+  static TypeUsage object = () {
+    final typeUsage = TypeUsage.fromJson({
+      "shorthand": "java.lang.Object",
+      "kind": "DECLARED",
+      "type": {"binaryName": "java.lang.Object", "simpleName": "Object"}
+    });
+    (typeUsage.type as DeclaredType).classDecl = ClassDecl.object;
+    return typeUsage;
+  }();
 
-  String shorthand;
-  Kind kind;
-  @JsonKey(includeFromJson: false)
-  late ReferredType type;
+  final String shorthand;
+  final Kind kind;
+
   @JsonKey(name: "type")
-  Map<String, dynamic> typeJson;
+  final Map<String, dynamic> typeJson;
+
+  /// Will be populated in [TypeUsage.fromJson].
+  @JsonKey(includeFromJson: false)
+  late final ReferredType type;
 
   String get name => type.name;
 
@@ -195,52 +232,168 @@ class TypeUsage {
     }
     return t;
   }
+
+  R accept<R>(TypeVisitor<R> v) {
+    return type.accept(v);
+  }
 }
 
 abstract class ReferredType {
+  const ReferredType();
   String get name;
+
+  R accept<R>(TypeVisitor<R> v);
 }
 
-@JsonSerializable(createToJson: false)
-class PrimitiveType implements ReferredType {
-  PrimitiveType({required this.name});
+class PrimitiveType extends ReferredType {
+  static const _primitives = {
+    'byte': PrimitiveType._(
+      name: 'byte',
+      signature: 'B',
+      dartType: 'int',
+      jniType: 'JByte',
+      cType: 'int8_t',
+      ffiType: 'Int8',
+    ),
+    'short': PrimitiveType._(
+      name: 'short',
+      signature: 'S',
+      dartType: 'int',
+      jniType: 'JShort',
+      cType: 'int16_t',
+      ffiType: 'Int16',
+    ),
+    'char': PrimitiveType._(
+      name: 'char',
+      signature: 'C',
+      dartType: 'int',
+      jniType: 'JChar',
+      cType: 'char',
+      ffiType: 'Uint16',
+    ),
+    'int': PrimitiveType._(
+      name: 'int',
+      signature: 'I',
+      dartType: 'int',
+      jniType: 'JInt',
+      cType: 'int32_t',
+      ffiType: 'Int32',
+    ),
+    'long': PrimitiveType._(
+      name: 'long',
+      signature: 'J',
+      dartType: 'int',
+      jniType: 'JLong',
+      cType: 'int64_t',
+      ffiType: 'Int64',
+    ),
+    'float': PrimitiveType._(
+      name: 'float',
+      signature: 'F',
+      dartType: 'double',
+      jniType: 'JFloat',
+      cType: 'float',
+      ffiType: 'Float',
+    ),
+    'double': PrimitiveType._(
+      name: 'double',
+      signature: 'D',
+      dartType: 'double',
+      jniType: 'JDouble',
+      cType: 'double',
+      ffiType: 'Double',
+    ),
+    'boolean': PrimitiveType._(
+      name: 'boolean',
+      signature: 'Z',
+      dartType: 'bool',
+      jniType: 'JBoolean',
+      cType: 'uint8_t',
+      ffiType: 'Uint8',
+    ),
+    'void': PrimitiveType._(
+      name: 'void',
+      signature: 'V',
+      dartType: 'void',
+      jniType: 'JVoid', // Never used
+      cType: 'void',
+      ffiType: 'Void',
+    ),
+  };
+
+  const PrimitiveType._({
+    required this.name,
+    required this.signature,
+    required this.dartType,
+    required this.jniType,
+    required this.cType,
+    required this.ffiType,
+  });
 
   @override
-  String name;
+  final String name;
 
-  factory PrimitiveType.fromJson(Map<String, dynamic> json) =>
-      _$PrimitiveTypeFromJson(json);
+  final String signature;
+  final String dartType;
+  final String jniType;
+  final String cType;
+  final String ffiType;
+
+  factory PrimitiveType.fromJson(Map<String, dynamic> json) {
+    return _primitives[json['name']]!;
+  }
+
+  @override
+  R accept<R>(TypeVisitor<R> v) {
+    return v.visitPrimitiveType(this);
+  }
 }
 
 @JsonSerializable(createToJson: false)
-class DeclaredType implements ReferredType {
+class DeclaredType extends ReferredType {
   DeclaredType({
     required this.binaryName,
     required this.simpleName,
     this.params = const [],
   });
-  String binaryName, simpleName;
-  List<TypeUsage> params;
+
+  final String binaryName;
+  final String simpleName;
+  final List<TypeUsage> params;
+
+  @JsonKey(includeFromJson: false)
+  late ClassDecl classDecl;
 
   @override
   String get name => binaryName;
 
   factory DeclaredType.fromJson(Map<String, dynamic> json) =>
       _$DeclaredTypeFromJson(json);
+
+  @override
+  R accept<R>(TypeVisitor<R> v) {
+    return v.visitDeclaredType(this);
+  }
 }
 
 @JsonSerializable(createToJson: false)
-class TypeVar implements ReferredType {
+class TypeVar extends ReferredType {
   TypeVar({required this.name});
+
   @override
   String name;
 
   factory TypeVar.fromJson(Map<String, dynamic> json) =>
       _$TypeVarFromJson(json);
+
+  @override
+  R accept<R>(TypeVisitor<R> v) {
+    return v.visitTypeVar(this);
+  }
 }
 
 @JsonSerializable(createToJson: false)
-class Wildcard implements ReferredType {
+class Wildcard extends ReferredType {
   Wildcard({this.extendsBound, this.superBound});
   TypeUsage? extendsBound, superBound;
 
@@ -249,10 +402,15 @@ class Wildcard implements ReferredType {
 
   factory Wildcard.fromJson(Map<String, dynamic> json) =>
       _$WildcardFromJson(json);
+
+  @override
+  R accept<R>(TypeVisitor<R> v) {
+    return v.visitWildcard(this);
+  }
 }
 
 @JsonSerializable(createToJson: false)
-class ArrayType implements ReferredType {
+class ArrayType extends ReferredType {
   ArrayType({required this.type});
   TypeUsage type;
 
@@ -261,35 +419,58 @@ class ArrayType implements ReferredType {
 
   factory ArrayType.fromJson(Map<String, dynamic> json) =>
       _$ArrayTypeFromJson(json);
+
+  @override
+  R accept<R>(TypeVisitor<R> v) {
+    return v.visitArrayType(this);
+  }
 }
 
 abstract class ClassMember {
   String get name;
+  ClassDecl get classDecl;
+  Set<String> get modifiers;
+
+  bool get isStatic => modifiers.contains('static');
+  bool get isFinal => modifiers.contains('final');
+  bool get isPublic => modifiers.contains('public');
+  bool get isProtected => modifiers.contains('protected');
 }
 
 @JsonSerializable(createToJson: false)
-class Method implements ClassMember {
-  Method(
-      {this.annotations = const [],
-      this.javadoc,
-      this.modifiers = const {},
-      required this.name,
-      this.typeParams = const [],
-      this.params = const [],
-      required this.returnType});
-  List<Annotation> annotations;
-  JavaDocComment? javadoc;
-  Set<String> modifiers;
+class Method extends ClassMember implements Element<Method> {
+  Method({
+    this.annotations = const [],
+    this.javadoc,
+    this.modifiers = const {},
+    required this.name,
+    this.typeParams = const [],
+    this.params = const [],
+    required this.returnType,
+  });
 
   @override
-  String name;
+  final String name;
+  @override
+  final Set<String> modifiers;
 
-  List<TypeParam> typeParams;
-  List<Param> params;
-  TypeUsage returnType;
+  final List<Annotation> annotations;
+  final JavaDocComment? javadoc;
+  final List<TypeParam> typeParams;
+  final List<Param> params;
+  final TypeUsage returnType;
 
+  /// The [ClassDecl] where this method is defined.
+  ///
+  /// Will be populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  @override
+  late ClassDecl classDecl;
+
+  /// Will be populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late String finalName;
+
   @JsonKey(includeFromJson: false)
   late bool isOverridden;
 
@@ -299,8 +480,6 @@ class Method implements ClassMember {
   /// and the method has a `kotlin.coroutines.Continuation` final argument.
   @JsonKey(includeFromJson: false)
   late TypeUsage? asyncReturnType;
-  @JsonKey(includeFromJson: false)
-  bool isIncluded = true;
 
   @JsonKey(includeFromJson: false)
   late String javaSig = _javaSig();
@@ -310,89 +489,136 @@ class Method implements ClassMember {
     return '${returnType.name} $name($paramNames)';
   }
 
+  bool get isCtor => name == '<init>';
+
   factory Method.fromJson(Map<String, dynamic> json) => _$MethodFromJson(json);
-}
-
-@JsonSerializable(createToJson: false)
-class Param {
-  Param(
-      {this.annotations = const [],
-      this.javadoc,
-      required this.name,
-      required this.type});
-  List<Annotation> annotations;
-  JavaDocComment? javadoc;
-
-  String name;
-  TypeUsage type;
-
-  factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
-}
-
-@JsonSerializable(createToJson: false)
-class Field implements ClassMember {
-  Field(
-      {this.annotations = const [],
-      this.javadoc,
-      this.modifiers = const {},
-      required this.name,
-      required this.type,
-      this.defaultValue});
-
-  List<Annotation> annotations;
-  JavaDocComment? javadoc;
-
-  Set<String> modifiers;
 
   @override
-  String name;
-
-  TypeUsage type;
-  Object? defaultValue;
-
-  @JsonKey(includeFromJson: false)
-  late String finalName;
-  @JsonKey(includeFromJson: false)
-  bool isIncluded = true;
-
-  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
+  R accept<R>(Visitor<Method, R> v) {
+    return v.visit(this);
+  }
 }
 
 @JsonSerializable(createToJson: false)
-class TypeParam {
+class Param implements Element<Param> {
+  Param({
+    this.annotations = const [],
+    this.javadoc,
+    required this.name,
+    required this.type,
+  });
+
+  final List<Annotation> annotations;
+  final JavaDocComment? javadoc;
+  final String name;
+  final TypeUsage type;
+
+  /// Will be populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late String finalName;
+
+  factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
+
+  @override
+  R accept<R>(Visitor<Param, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class Field extends ClassMember implements Element<Field> {
+  Field({
+    this.annotations = const [],
+    this.javadoc,
+    this.modifiers = const {},
+    required this.name,
+    required this.type,
+    this.defaultValue,
+  });
+
+  @override
+  final String name;
+  @override
+  final Set<String> modifiers;
+
+  final List<Annotation> annotations;
+  final JavaDocComment? javadoc;
+  final TypeUsage type;
+  final Object? defaultValue;
+
+  /// The [ClassDecl] where this field is defined.
+  ///
+  /// Will be populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  @override
+  late final ClassDecl classDecl;
+
+  /// Will be populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late final String finalName;
+
+  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
+
+  @override
+  R accept<R>(Visitor<Field, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class TypeParam implements Element<TypeParam> {
   TypeParam({required this.name, this.bounds = const []});
-  String name;
-  List<TypeUsage> bounds;
+
+  final String name;
+  final List<TypeUsage> bounds;
 
   @JsonKey(includeFromJson: false)
-  late String erasure;
+  late final String erasure;
 
   factory TypeParam.fromJson(Map<String, dynamic> json) =>
       _$TypeParamFromJson(json);
+
+  @override
+  R accept<R>(Visitor<TypeParam, R> v) {
+    return v.visit(this);
+  }
 }
 
 @JsonSerializable(createToJson: false)
-class JavaDocComment {
-  JavaDocComment({String? comment}) : comment = comment ?? '';
-  String comment;
+class JavaDocComment implements Element<JavaDocComment> {
+  JavaDocComment({this.comment = ''});
+
+  final String comment;
 
   @JsonKey(includeFromJson: false)
-  late String dartDoc;
+  late final String dartDoc;
 
   factory JavaDocComment.fromJson(Map<String, dynamic> json) =>
       _$JavaDocCommentFromJson(json);
+
+  @override
+  R accept<R>(Visitor<JavaDocComment, R> v) {
+    return v.visit(this);
+  }
 }
 
 @JsonSerializable(createToJson: false)
-class Annotation {
-  Annotation(
-      {required this.simpleName,
-      required this.binaryName,
-      this.properties = const {}});
-  String simpleName;
-  String binaryName;
-  Map<String, Object> properties;
+class Annotation implements Element<Annotation> {
+  Annotation({
+    required this.simpleName,
+    required this.binaryName,
+    this.properties = const {},
+  });
+
+  final String simpleName;
+  final String binaryName;
+  final Map<String, Object> properties;
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>
       _$AnnotationFromJson(json);
+
+  @override
+  R accept<R>(Visitor<Annotation, R> v) {
+    return v.visit(this);
+  }
 }

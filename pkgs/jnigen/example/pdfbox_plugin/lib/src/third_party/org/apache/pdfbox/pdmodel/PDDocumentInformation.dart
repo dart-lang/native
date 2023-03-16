@@ -28,14 +28,16 @@
 // ignore_for_file: overridden_fields
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
+// ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
 import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../../../_init.dart" show jniLookup;
+import "../../../../_init.dart";
 
 /// from: org.apache.pdfbox.pdmodel.PDDocumentInformation
 ///
@@ -55,12 +57,12 @@ class PDDocumentInformation extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentInformationType();
-
   static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "PDDocumentInformation__ctor")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Default Constructor.
   PDDocumentInformation() : super.fromRef(_ctor().object);
@@ -72,6 +74,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDictionary dic)
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.

@@ -4,7 +4,8 @@
 
 import 'dart:async';
 import 'dart:io';
-import 'package:jnigen/src/logging/logging.dart';
+
+import '../logging/logging.dart';
 
 /// A command based summary source which calls the ApiSummarizer command.
 /// [sourcePaths] and [classPaths] can be provided for the summarizer to find

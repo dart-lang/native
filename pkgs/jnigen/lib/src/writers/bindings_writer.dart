@@ -4,14 +4,11 @@
 
 import 'dart:io';
 
-import 'package:jnigen/jnigen.dart';
-import 'package:jnigen/src/logging/logging.dart';
-import 'package:jnigen/src/util/find_package.dart';
-import 'package:jnigen/src/bindings/c_bindings.dart';
-
-abstract class BindingsWriter {
-  Future<void> writeBindings(List<ClassDecl> classes);
-}
+import '../bindings/c_bindings.dart';
+import '../config/config.dart';
+import '../elements/elements.dart';
+import '../logging/logging.dart';
+import '../util/find_package.dart';
 
 /// Run dart format command on [path].
 Future<void> runDartFormat(String path) async {

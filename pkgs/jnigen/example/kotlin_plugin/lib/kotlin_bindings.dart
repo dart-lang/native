@@ -10,7 +10,9 @@
 // ignore_for_file: overridden_fields
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
+// ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
 import "dart:ffi" as ffi;
@@ -34,12 +36,12 @@ class Example extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
-
   static final _ctor =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example__ctor")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
   Example() : super.fromRef(_ctor().object);
 
   static final _thinkBeforeAnswering = jniLookup<
@@ -54,8 +56,8 @@ class Example extends jni.JObject {
   /// The returned object must be deleted after use, by calling the `delete` method.
   Future<jni.JString> thinkBeforeAnswering() async {
     final $p = ReceivePort();
-    final $c = jni.Jni.newPortContinuation($p);
-    _thinkBeforeAnswering(reference, $c).object;
+    final $c = jni.JObject.fromRef(jni.Jni.newPortContinuation($p));
+    _thinkBeforeAnswering(reference, $c.reference).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
     final $k = const jni.JStringType().getClass().reference;
     if (jni.Jni.env.IsInstanceOf($o, $k) == 0) {

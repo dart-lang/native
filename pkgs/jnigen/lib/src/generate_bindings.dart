@@ -5,15 +5,19 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:jnigen/src/util/command_output.dart';
-
+import 'bindings/dart_generator.dart';
+import 'bindings/excluder.dart';
+import 'bindings/linker.dart';
+import 'bindings/renamer.dart';
 import 'elements/elements.dart';
 import 'summary/summary.dart';
 import 'config/config.dart';
 import 'tools/tools.dart';
-import 'writers/writers.dart';
+import 'writers/bindings_writer.dart';
 import 'logging/logging.dart';
 
+void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
+    stream.transform(const Utf8Decoder()).forEach(buffer.write);
 Future<void> generateJniBindings(Config config) async {
   setLoggingLevel(config.logLevel);
 
@@ -81,7 +85,7 @@ Future<void> generateJniBindings(Config config) async {
   }
   final errorLog = StringBuffer();
   collectOutputStream(process.stderr, errorLog);
-  final stream = JsonDecoder().bind(Utf8Decoder().bind(input));
+  final stream = const JsonDecoder().bind(const Utf8Decoder().bind(input));
   dynamic json;
   try {
     json = await stream.single;
@@ -95,16 +99,20 @@ Future<void> generateJniBindings(Config config) async {
     return;
   }
   final list = json as List;
-  final outputStructure = config.outputConfig.dartConfig.structure;
-  BindingsWriter outputWriter;
-  if (outputStructure == OutputStructure.packageStructure) {
-    outputWriter = FilesWriter(config);
-  } else {
-    outputWriter = SingleFileWriter(config);
+  final classes = Classes.fromJson(list);
+  final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
+  classes
+    ..accept(Excluder(config))
+    ..accept(Linker(config))
+    ..accept(Renamer(config));
+
+  if (cBased) {
+    await writeCBindings(config, classes.decls.values.toList());
   }
+
   try {
-    await outputWriter
-        .writeBindings(list.map((c) => ClassDecl.fromJson(c)).toList());
+    await classes.accept(DartGenerator(config));
+    log.info('Completed');
   } on Exception catch (e, trace) {
     stderr.writeln(trace);
     log.fatal('Error while writing bindings: $e');

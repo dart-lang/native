@@ -20,7 +20,7 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
           const {},
       simpleName: json['simpleName'] as String,
       binaryName: json['binaryName'] as String,
-      packageName: (json['packageName'] as String?) ?? '',
+      packageName: json['packageName'] as String? ?? '',
       parentName: json['parentName'] as String?,
       typeParams: (json['typeParams'] as List<dynamic>?)
               ?.map((e) => TypeParam.fromJson(e as Map<String, dynamic>))
@@ -60,11 +60,6 @@ const _$KindEnumMap = {
   Kind.declared: 'DECLARED',
   Kind.array: 'ARRAY',
 };
-
-PrimitiveType _$PrimitiveTypeFromJson(Map<String, dynamic> json) =>
-    PrimitiveType(
-      name: json['name'] as String,
-    );
 
 DeclaredType _$DeclaredTypeFromJson(Map<String, dynamic> json) => DeclaredType(
       binaryName: json['binaryName'] as String,
@@ -156,7 +151,7 @@ TypeParam _$TypeParamFromJson(Map<String, dynamic> json) => TypeParam(
 
 JavaDocComment _$JavaDocCommentFromJson(Map<String, dynamic> json) =>
     JavaDocComment(
-      comment: json['comment'] as String?,
+      comment: json['comment'] as String? ?? '',
     );
 
 Annotation _$AnnotationFromJson(Map<String, dynamic> json) => Annotation(
