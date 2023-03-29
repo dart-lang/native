@@ -41,7 +41,7 @@ void main() {
   test("Use after free throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     r.delete();
-    expect(() => r.callMethodByName<int>("nextInt", "(I)I", [256]),
+    expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(256)]),
         throwsA(isA<UseAfterFreeException>()));
   });
 
@@ -57,13 +57,13 @@ void main() {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     expect(
         () => r.callMethodByName<int>(
-            "nextInt", "(I)I", [256], JniCallType.doubleType),
+            "nextInt", "(I)I", [JValueInt(256)], JniCallType.doubleType),
         throwsA(isA<InvalidCallTypeException>()));
   });
 
   test("An exception in JNI throws JniException in Dart", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
-    expect(() => r.callMethodByName<int>("nextInt", "(I)I", [-1]),
+    expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(-1)]),
         throwsA(isA<JniException>()));
   });
 }

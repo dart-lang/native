@@ -214,9 +214,9 @@ abstract class Jni {
 
   /// Converts passed arguments to JValue array.
   ///
-  /// int, bool, double and JObject types are converted out of the box.
-  /// Wrap values in types such as [JValueLong] to convert to other primitive
-  /// types such as `long`, `short` and `char`.
+  /// long, bool, double and JObject types are converted out of the box.
+  /// Wrap values in types such as [JValueInt] to convert to other primitive
+  /// types such as `int`, `short` and `char`.
   static Pointer<JValue> jvalues(List<dynamic> args,
       {Allocator allocator = calloc}) {
     return toJValues(args, allocator: allocator);

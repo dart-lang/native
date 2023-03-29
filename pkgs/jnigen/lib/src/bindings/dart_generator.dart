@@ -925,13 +925,15 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String cCtor(Method node) {
     final name = node.finalName;
-    final params = node.params.accept(const _ParamCall()).join(', ');
+    final params =
+        node.params.accept(const _ParamCall(isCBased: true)).join(', ');
     return '_$name($params)';
   }
 
   String dartOnlyCtor(Method node) {
     final name = node.finalName;
-    final params = node.params.accept(const _ParamCall()).join(', ');
+    final params =
+        node.params.accept(const _ParamCall(isCBased: false)).join(', ');
     return '$_accessors.newObjectWithArgs($_classRef, _id_$name, [$params])';
   }
 
@@ -939,7 +941,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     final name = node.finalName;
     final params = [
       if (!node.isStatic) _selfPointer,
-      ...node.params.accept(const _ParamCall()),
+      ...node.params.accept(const _ParamCall(isCBased: true)),
     ].join(', ');
     final resultGetter = node.returnType.accept(const _JniResultGetter());
     return '_$name($params).$resultGetter';
@@ -950,7 +952,8 @@ class _MethodGenerator extends Visitor<Method, void> {
     final ifStatic = node.isStatic ? 'Static' : '';
     final self = node.isStatic ? _classRef : _selfPointer;
     final callType = node.returnType.accept(const _CallType());
-    final params = node.params.accept(const _ParamCall()).join(', ');
+    final params =
+        node.params.accept(const _ParamCall(isCBased: false)).join(', ');
     final resultGetter = node.returnType.accept(const _JniResultGetter());
     return '$_accessors.call${ifStatic}MethodWithArgs($self, _id_$name, $callType, [$params]).$resultGetter';
   }
@@ -1105,11 +1108,43 @@ class _ParamDef extends Visitor<Param, String> {
 /// void bar(Foo foo) => _bar(foo.reference);
 /// ```
 class _ParamCall extends Visitor<Param, String> {
-  const _ParamCall();
+  final bool isCBased;
+
+  const _ParamCall({required this.isCBased});
 
   @override
   String visit(Param node) {
     final nativeSuffix = node.type.accept(const _ToNativeSuffix());
-    return '${node.finalName}$nativeSuffix';
+    final paramCall = '${node.finalName}$nativeSuffix';
+    if (!isCBased) {
+      // We need to wrap [paramCall] in the appropriate wrapper class.
+      return node.type.accept(_JValueWrapper(paramCall));
+    }
+    return paramCall;
+  }
+}
+
+/// Wraps the parameter in the appropriate JValue wrapper class.
+///
+/// For instance, `int` in Dart can be mapped to `long` or `int` or ... in Java.
+/// The wrapper class is how we identify the type in pure dart bindings.
+class _JValueWrapper extends TypeVisitor<String> {
+  final String param;
+
+  _JValueWrapper(this.param);
+
+  @override
+  String visitNonPrimitiveType(ReferredType node) {
+    return param;
+  }
+
+  @override
+  String visitPrimitiveType(PrimitiveType node) {
+    if (node.name == 'long' ||
+        node.name == 'double' ||
+        node.name == 'boolean') {
+      return param;
+    }
+    return '$_jni.JValue${node.name.capitalize()}($param)';
   }
 }

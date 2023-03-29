@@ -49,26 +49,26 @@ void main() {
   });
 
   test(
-      'Manually lookup & call Long.toHexString',
+      'Manually lookup & call Integer.toHexString',
       () => using((arena) {
             // Method names on JniEnv* from C JNI API are capitalized
             // like in original, while other extension methods
             // follow Dart naming conventions.
-            final longClass =
-                env.FindClass("java/lang/Long".toNativeChars(arena));
+            final integerClass =
+                env.FindClass("java/lang/Integer".toNativeChars(arena));
             // Refer JNI spec on how to construct method signatures
             // Passing wrong signature leads to a segfault
             final hexMethod = env.GetStaticMethodID(
-                longClass,
+                integerClass,
                 "toHexString".toNativeChars(arena),
-                "(J)Ljava/lang/String;".toNativeChars(arena));
+                "(I)Ljava/lang/String;".toNativeChars(arena));
 
-            for (var i in [1, 80, 13, 76, 1134453224145]) {
+            for (var i in [1, 80, 13, 76, 11344]) {
               // if your argument is int, bool, or JObject (`Pointer<Void>`)
               // it can be directly placed in the list. To convert into different primitive
               // types, use JValue<Type> wrappers.
-              final jres = env.CallStaticObjectMethodA(longClass, hexMethod,
-                  Jni.jvalues([JValueLong(i)], allocator: arena));
+              final jres = env.CallStaticObjectMethodA(integerClass, hexMethod,
+                  Jni.jvalues([JValueInt(i)], allocator: arena));
 
               // use asDartString extension method on Pointer<JniEnv>
               // to convert a String jobject result to string
@@ -82,7 +82,7 @@ void main() {
               // java class exists.
               env.DeleteGlobalRef(jres);
             }
-            env.DeleteGlobalRef(longClass);
+            env.DeleteGlobalRef(integerClass);
           }));
 
   test("asJString extension method", () {

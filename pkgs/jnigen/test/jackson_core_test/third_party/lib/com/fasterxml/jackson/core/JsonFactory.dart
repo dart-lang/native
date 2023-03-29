@@ -1018,10 +1018,11 @@ class JsonFactory extends jni.JObject {
           jni.JArray<jni.JByte> data, int offset, int len) =>
       const jsonparser_.$JsonParserType().fromRef(jniAccessors
           .callMethodWithArgs(
-              reference,
-              _id_createParser5,
-              jni.JniCallType.objectType,
-              [data.reference, offset, len]).object);
+              reference, _id_createParser5, jni.JniCallType.objectType, [
+        data.reference,
+        jni.JValueInt(offset),
+        jni.JValueInt(len)
+      ]).object);
 
   static final _id_createParser6 = jniAccessors.getMethodIDOf(
       _classRef,
@@ -1065,10 +1066,11 @@ class JsonFactory extends jni.JObject {
           jni.JArray<jni.JChar> content, int offset, int len) =>
       const jsonparser_.$JsonParserType().fromRef(jniAccessors
           .callMethodWithArgs(
-              reference,
-              _id_createParser8,
-              jni.JniCallType.objectType,
-              [content.reference, offset, len]).object);
+              reference, _id_createParser8, jni.JniCallType.objectType, [
+        content.reference,
+        jni.JValueInt(offset),
+        jni.JValueInt(len)
+      ]).object);
 
   static final _id_createParser9 = jniAccessors.getMethodIDOf(
       _classRef,
@@ -1414,10 +1416,11 @@ class JsonFactory extends jni.JObject {
           jni.JArray<jni.JByte> data, int offset, int len) =>
       const jsonparser_.$JsonParserType().fromRef(jniAccessors
           .callMethodWithArgs(
-              reference,
-              _id_createJsonParser5,
-              jni.JniCallType.objectType,
-              [data.reference, offset, len]).object);
+              reference, _id_createJsonParser5, jni.JniCallType.objectType, [
+        data.reference,
+        jni.JValueInt(offset),
+        jni.JValueInt(len)
+      ]).object);
 
   static final _id_createJsonParser6 = jniAccessors.getMethodIDOf(
       _classRef,
@@ -1610,7 +1613,10 @@ class JsonFactory_Feature extends jni.JObject {
 
   /// from: public boolean enabledIn(int flags)
   bool enabledIn(int flags) => jniAccessors.callMethodWithArgs(
-      reference, _id_enabledIn, jni.JniCallType.booleanType, [flags]).boolean;
+      reference,
+      _id_enabledIn,
+      jni.JniCallType.booleanType,
+      [jni.JValueInt(flags)]).boolean;
 
   static final _id_getMask =
       jniAccessors.getMethodIDOf(_classRef, r"getMask", r"()I");

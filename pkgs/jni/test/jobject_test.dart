@@ -54,7 +54,7 @@ void main() {
   test("call a static method using JniClass APIs", () {
     final integerClass = Jni.findJniClass("java/lang/Integer");
     final result = integerClass.callStaticMethodByName<JString>(
-        "toHexString", "(I)Ljava/lang/String;", [31]);
+        "toHexString", "(I)Ljava/lang/String;", [JValueInt(31)]);
 
     // if the object is supposed to be a Java string
     // you can call toDartString on it.
@@ -95,10 +95,9 @@ void main() {
     final nextIntMethod = random.getMethodID("nextInt", "(I)I");
 
     for (int i = 0; i < 100; i++) {
-      int r = random.callMethod<int>(nextIntMethod, [256 * 256]);
+      int r = random.callMethod<int>(nextIntMethod, [JValueInt(256 * 256)]);
       int bits = 0;
-      final jbc =
-          longClass.callStaticMethod<int>(bitCountMethod, [JValueLong(r)]);
+      final jbc = longClass.callStaticMethod<int>(bitCountMethod, [r]);
       while (r != 0) {
         bits += r % 2;
         r = (r / 2).floor();
@@ -133,7 +132,7 @@ void main() {
     final longClass = Jni.findJniClass("java/lang/Long");
     const n = 1223334444;
     final strFromJava = longClass.callStaticMethodByName<String>(
-        "toOctalString", "(J)Ljava/lang/String;", [JValueLong(n)]);
+        "toOctalString", "(J)Ljava/lang/String;", [n]);
     expect(strFromJava, equals(n.toRadixString(8)));
     longClass.delete();
   });
@@ -163,8 +162,9 @@ void main() {
 
   // You can use() method on JObject for using once and deleting.
   test("use() method", () {
-    final randomInt = Jni.newInstance("java/util/Random", "()V", [])
-        .use((random) => random.callMethodByName<int>("nextInt", "(I)I", [15]));
+    final randomInt = Jni.newInstance("java/util/Random", "()V", []).use(
+        (random) =>
+            random.callMethodByName<int>("nextInt", "(I)I", [JValueInt(15)]));
     expect(randomInt, lessThan(15));
   });
 

@@ -17,7 +17,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
 
   switch (arg.runtimeType) {
     case int:
-      pos.ref.i = arg;
+      pos.ref.j = arg;
       break;
     case bool:
       pos.ref.z = arg ? 1 : 0;
@@ -32,8 +32,8 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
     case JValueFloat:
       pos.ref.f = (arg as JValueFloat).value;
       break;
-    case JValueLong:
-      pos.ref.j = (arg as JValueLong).value;
+    case JValueInt:
+      pos.ref.i = (arg as JValueInt).value;
       break;
     case JValueShort:
       pos.ref.s = (arg as JValueShort).value;
@@ -66,10 +66,10 @@ Pointer<JValue> toJValues(List<dynamic> args, {Allocator allocator = calloc}) {
 }
 
 /// Use this class as wrapper to convert an integer
-/// to Java `long` in jvalues method.
-class JValueLong {
+/// to Java `int` in jvalues method.
+class JValueInt {
   int value;
-  JValueLong(this.value);
+  JValueInt(this.value);
 }
 
 /// Use this class as wrapper to convert an integer

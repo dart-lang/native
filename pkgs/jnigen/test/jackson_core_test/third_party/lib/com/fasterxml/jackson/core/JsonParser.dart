@@ -93,8 +93,8 @@ class JsonParser extends jni.JObject {
   /// from: protected void <init>(int features)
   /// The returned object must be deleted after use, by calling the `delete` method.
   JsonParser.ctor1(int features)
-      : super.fromRef(jniAccessors
-            .newObjectWithArgs(_classRef, _id_ctor1, [features]).object);
+      : super.fromRef(jniAccessors.newObjectWithArgs(
+            _classRef, _id_ctor1, [jni.JValueInt(features)]).object);
 
   static final _id_getCodec = jniAccessors.getMethodIDOf(
       _classRef, r"getCodec", r"()Lcom/fasterxml/jackson/core/ObjectCodec;");
@@ -658,8 +658,11 @@ class JsonParser extends jni.JObject {
   ///@since 2.3
   ///@deprecated Since 2.7, use \#overrideStdFeatures(int, int) instead
   JsonParser setFeatureMask(int mask) =>
-      const $JsonParserType().fromRef(jniAccessors.callMethodWithArgs(reference,
-          _id_setFeatureMask, jni.JniCallType.objectType, [mask]).object);
+      const $JsonParserType().fromRef(jniAccessors.callMethodWithArgs(
+          reference,
+          _id_setFeatureMask,
+          jni.JniCallType.objectType,
+          [jni.JValueInt(mask)]).object);
 
   static final _id_overrideStdFeatures = jniAccessors.getMethodIDOf(_classRef,
       r"overrideStdFeatures", r"(II)Lcom/fasterxml/jackson/core/JsonParser;");
@@ -684,7 +687,7 @@ class JsonParser extends jni.JObject {
           reference,
           _id_overrideStdFeatures,
           jni.JniCallType.objectType,
-          [values, mask]).object);
+          [jni.JValueInt(values), jni.JValueInt(mask)]).object);
 
   static final _id_getFormatFeatures =
       jniAccessors.getMethodIDOf(_classRef, r"getFormatFeatures", r"()I");
@@ -721,7 +724,7 @@ class JsonParser extends jni.JObject {
           reference,
           _id_overrideFormatFeatures,
           jni.JniCallType.objectType,
-          [values, mask]).object);
+          [jni.JValueInt(values), jni.JValueInt(mask)]).object);
 
   static final _id_nextToken = jniAccessors.getMethodIDOf(
       _classRef, r"nextToken", r"()Lcom/fasterxml/jackson/core/JsonToken;");
@@ -860,7 +863,7 @@ class JsonParser extends jni.JObject {
       reference,
       _id_nextIntValue,
       jni.JniCallType.intType,
-      [defaultValue]).integer;
+      [jni.JValueInt(defaultValue)]).integer;
 
   static final _id_nextLongValue =
       jniAccessors.getMethodIDOf(_classRef, r"nextLongValue", r"(J)J");
@@ -1058,8 +1061,8 @@ class JsonParser extends jni.JObject {
   ///@param id Token id to match (from (@link JsonTokenId})
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.5
-  bool hasTokenId(int id) => jniAccessors.callMethodWithArgs(
-      reference, _id_hasTokenId, jni.JniCallType.booleanType, [id]).boolean;
+  bool hasTokenId(int id) => jniAccessors.callMethodWithArgs(reference,
+      _id_hasTokenId, jni.JniCallType.booleanType, [jni.JValueInt(id)]).boolean;
 
   static final _id_hasToken = jniAccessors.getMethodIDOf(
       _classRef, r"hasToken", r"(Lcom/fasterxml/jackson/core/JsonToken;)Z");
@@ -1798,7 +1801,10 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   int getValueAsInt1(int def) => jniAccessors.callMethodWithArgs(
-      reference, _id_getValueAsInt1, jni.JniCallType.intType, [def]).integer;
+      reference,
+      _id_getValueAsInt1,
+      jni.JniCallType.intType,
+      [jni.JValueInt(def)]).integer;
 
   static final _id_getValueAsLong =
       jniAccessors.getMethodIDOf(_classRef, r"getValueAsLong", r"()J");
@@ -2282,7 +2288,10 @@ class JsonParser_Feature extends jni.JObject {
 
   /// from: public boolean enabledIn(int flags)
   bool enabledIn(int flags) => jniAccessors.callMethodWithArgs(
-      reference, _id_enabledIn, jni.JniCallType.booleanType, [flags]).boolean;
+      reference,
+      _id_enabledIn,
+      jni.JniCallType.booleanType,
+      [jni.JValueInt(flags)]).boolean;
 
   static final _id_getMask =
       jniAccessors.getMethodIDOf(_classRef, r"getMask", r"()I");

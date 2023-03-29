@@ -39,7 +39,7 @@ void main() {
   testWidgets("call a static method using JniClass APIs", (t) async {
     final integerClass = JniClass.fromRef(Jni.findClass("java/lang/Integer"));
     final result = integerClass.callStaticMethodByName<JString>(
-        "toHexString", "(I)Ljava/lang/String;", [31]);
+        "toHexString", "(I)Ljava/lang/String;", [JValueInt(31)]);
 
     final resultString = result.toDartString();
 
@@ -58,10 +58,9 @@ void main() {
     final nextIntMethod = random.getMethodID("nextInt", "(I)I");
 
     for (int i = 0; i < 100; i++) {
-      int r = random.callMethod<int>(nextIntMethod, [256 * 256]);
+      int r = random.callMethod<int>(nextIntMethod, [JValueInt(256 * 256)]);
       int bits = 0;
-      final jbc =
-          longClass.callStaticMethod<int>(bitCountMethod, [JValueLong(r)]);
+      final jbc = longClass.callStaticMethod<int>(bitCountMethod, [r]);
       while (r != 0) {
         bits += r % 2;
         r = (r / 2).floor();
@@ -74,8 +73,8 @@ void main() {
 
   // Actually it's not even required to get a reference to class
   testWidgets("invoke_", (t) async {
-    final m = Jni.invokeStaticMethod<int>("java/lang/Long", "min", "(JJ)J",
-        [JValueLong(1234), JValueLong(1324)], JniCallType.longType);
+    final m = Jni.invokeStaticMethod<int>(
+        "java/lang/Long", "min", "(JJ)J", [1234, 1324], JniCallType.longType);
     expect(m, equals(1234));
   });
 
@@ -98,7 +97,7 @@ void main() {
     final longClass = Jni.findJniClass("java/lang/Long");
     const n = 1223334444;
     final strFromJava = longClass.callStaticMethodByName<String>(
-        "toOctalString", "(J)Ljava/lang/String;", [JValueLong(n)]);
+        "toOctalString", "(J)Ljava/lang/String;", [n]);
     expect(strFromJava, equals(n.toRadixString(8)));
     longClass.delete();
   });
@@ -110,8 +109,9 @@ void main() {
   });
 
   testWidgets("use() method", (t) async {
-    final randomInt = Jni.newInstance("java/util/Random", "()V", [])
-        .use((random) => random.callMethodByName<int>("nextInt", "(I)I", [15]));
+    final randomInt = Jni.newInstance("java/util/Random", "()V", []).use(
+        (random) =>
+            random.callMethodByName<int>("nextInt", "(I)I", [JValueInt(15)]));
     expect(randomInt, lessThan(15));
   });
 
