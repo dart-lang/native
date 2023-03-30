@@ -5,8 +5,10 @@ bundling.
 
 ## Packages
 
-| Package | Description | Version |
-| --- | --- | --- |
+| Package                                      | Description                                                                                 | Version |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------- | ------- |
+| [c_compiler](pkgs/c_compiler/)               | A library to invoke the native C compiler installed on the host machine.                    |         |
+| [native_assets_cli](pkgs/native_assets_cli/) | A library that contains the argument and file formats for implementing a native assets CLI. |         |
 
 <!-- ## Publishing automation
 
