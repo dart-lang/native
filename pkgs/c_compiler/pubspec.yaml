@@ -1,6 +1,6 @@
 name: c_compiler
 description: A library to invoke the native C compiler installed on the host machine.
-version: 0.1.0
+version: 0.1.0-dev
 repository: https://github.com/dart-lang/native/c_compiler
 
 environment:
