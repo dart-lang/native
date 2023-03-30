@@ -312,17 +312,17 @@ extension DoubleArray on JArray<JDouble> {
 }
 
 extension ObjectArray<T extends JObject> on JArray<T> {
-  JObject operator [](int index) {
-    return JObject.fromRef(elementAt(index, JniCallType.objectType).object);
+  T operator [](int index) {
+    return (elementType as JObjType<T>)
+        .fromRef(elementAt(index, JniCallType.objectType).object);
   }
 
-  void operator []=(int index, JObject value) {
+  void operator []=(int index, T value) {
     RangeError.checkValidIndex(index, this);
     _env.SetObjectArrayElement(reference, index, value.reference);
   }
 
-  void setRange(int start, int end, Iterable<JObject> iterable,
-      [int skipCount = 0]) {
+  void setRange(int start, int end, Iterable<T> iterable, [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
     final size = end - start;
     final it = iterable.skip(skipCount).take(size);
@@ -341,16 +341,6 @@ extension ArrayArray<T> on JArray<JArray<T>> {
   }
 
   void operator []=(int index, JArray<T> value) {
-    (this as JArray<JObject>)[index] = value;
-  }
-}
-
-extension StringArray on JArray<JString> {
-  JString operator [](int index) {
-    return JString.fromRef(elementAt(index, JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JString value) {
     (this as JArray<JObject>)[index] = value;
   }
 }

@@ -2215,17 +2215,6 @@ class $JsonParserType extends jni.JObjType<JsonParser> {
   JsonParser fromRef(jni.JObjectPtr ref) => JsonParser.fromRef(ref);
 }
 
-extension $JsonParserArray on jni.JArray<JsonParser> {
-  JsonParser operator [](int index) {
-    return (elementType as $JsonParserType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JsonParser value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.fasterxml.jackson.core.JsonParser$Feature
 ///
 /// Enumeration that defines all on/off features for parsers.
@@ -2312,17 +2301,6 @@ class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
       JsonParser_Feature.fromRef(ref);
 }
 
-extension $JsonParser_FeatureArray on jni.JArray<JsonParser_Feature> {
-  JsonParser_Feature operator [](int index) {
-    return (elementType as $JsonParser_FeatureType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JsonParser_Feature value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.fasterxml.jackson.core.JsonParser$NumberType
 ///
 /// Enumeration of possible "native" (optimal) types that can be
@@ -2373,15 +2351,4 @@ class $JsonParser_NumberTypeType extends jni.JObjType<JsonParser_NumberType> {
   @override
   JsonParser_NumberType fromRef(jni.JObjectPtr ref) =>
       JsonParser_NumberType.fromRef(ref);
-}
-
-extension $JsonParser_NumberTypeArray on jni.JArray<JsonParser_NumberType> {
-  JsonParser_NumberType operator [](int index) {
-    return (elementType as $JsonParser_NumberTypeType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JsonParser_NumberType value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }

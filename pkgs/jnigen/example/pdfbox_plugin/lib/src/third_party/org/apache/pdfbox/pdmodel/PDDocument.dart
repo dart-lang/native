@@ -1332,14 +1332,3 @@ class $PDDocumentType extends jni.JObjType<PDDocument> {
   @override
   PDDocument fromRef(jni.JObjectPtr ref) => PDDocument.fromRef(ref);
 }
-
-extension $PDDocumentArray on jni.JArray<PDDocument> {
-  PDDocument operator [](int index) {
-    return (elementType as $PDDocumentType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, PDDocument value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}

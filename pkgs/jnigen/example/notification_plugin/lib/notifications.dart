@@ -76,14 +76,3 @@ class $NotificationsType extends jni.JObjType<Notifications> {
   @override
   Notifications fromRef(jni.JObjectPtr ref) => Notifications.fromRef(ref);
 }
-
-extension $NotificationsArray on jni.JArray<Notifications> {
-  Notifications operator [](int index) {
-    return (elementType as $NotificationsType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, Notifications value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}

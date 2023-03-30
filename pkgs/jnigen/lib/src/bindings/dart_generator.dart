@@ -256,9 +256,6 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
   static const staticTypeGetter = 'type';
   static const instanceTypeGetter = '\$$staticTypeGetter';
 
-  static const arrayExtensionPrefix = '\$';
-  static const arrayExtensionSuffix = 'Array';
-
   @override
   void visit(ClassDecl node) {
     final isDartOnly =
@@ -388,20 +385,6 @@ class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
   );
 }
 
-''');
-
-    // Array extension
-    s.write('''
-extension $arrayExtensionPrefix$name$arrayExtensionSuffix$typeParamsDef on $_jArray<$name$typeParamsCall> {
-  $name$typeParamsCall operator [](int index) {
-    return (elementType as $typeClassName$typeParamsCall)
-        .fromRef(elementAt(index, $_jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, $name$typeParamsCall value) {
-    (this as $_jArray<$_jObject>)[index] = value;
-  }
-}
 ''');
     log.finest('Generated bindings for class ${node.binaryName}');
   }

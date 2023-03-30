@@ -187,14 +187,3 @@ class $JsonTokenType extends jni.JObjType<JsonToken> {
   @override
   JsonToken fromRef(jni.JObjectPtr ref) => JsonToken.fromRef(ref);
 }
-
-extension $JsonTokenArray on jni.JArray<JsonToken> {
-  JsonToken operator [](int index) {
-    return (elementType as $JsonTokenType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JsonToken value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}

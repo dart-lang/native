@@ -60,17 +60,6 @@ class $AndroidUtilsType extends jni.JObjType<AndroidUtils> {
   AndroidUtils fromRef(jni.JObjectPtr ref) => AndroidUtils.fromRef(ref);
 }
 
-extension $AndroidUtilsArray on jni.JArray<AndroidUtils> {
-  AndroidUtils operator [](int index) {
-    return (elementType as $AndroidUtilsType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, AndroidUtils value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: android.os.Build
 class Build extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -397,17 +386,6 @@ class $BuildType extends jni.JObjType<Build> {
 
   @override
   Build fromRef(jni.JObjectPtr ref) => Build.fromRef(ref);
-}
-
-extension $BuildArray on jni.JArray<Build> {
-  Build operator [](int index) {
-    return (elementType as $BuildType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, Build value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }
 
 /// from: java.util.HashMap
@@ -794,16 +772,4 @@ class $HashMapType<K extends jni.JObject, V extends jni.JObject>
 
   @override
   HashMap<K, V> fromRef(jni.JObjectPtr ref) => HashMap.fromRef($K, $V, ref);
-}
-
-extension $HashMapArray<K extends jni.JObject, V extends jni.JObject>
-    on jni.JArray<HashMap<K, V>> {
-  HashMap<K, V> operator [](int index) {
-    return (elementType as $HashMapType<K, V>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, HashMap<K, V> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }

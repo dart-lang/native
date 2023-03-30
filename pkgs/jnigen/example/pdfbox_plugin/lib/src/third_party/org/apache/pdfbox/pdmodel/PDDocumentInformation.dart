@@ -450,14 +450,3 @@ class $PDDocumentInformationType extends jni.JObjType<PDDocumentInformation> {
   PDDocumentInformation fromRef(jni.JObjectPtr ref) =>
       PDDocumentInformation.fromRef(ref);
 }
-
-extension $PDDocumentInformationArray on jni.JArray<PDDocumentInformation> {
-  PDDocumentInformation operator [](int index) {
-    return (elementType as $PDDocumentInformationType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, PDDocumentInformation value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}

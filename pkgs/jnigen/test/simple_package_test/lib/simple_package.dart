@@ -208,17 +208,6 @@ class $ExampleType extends jni.JObjType<Example> {
   Example fromRef(jni.JObjectPtr ref) => Example.fromRef(ref);
 }
 
-extension $ExampleArray on jni.JArray<Example> {
-  Example operator [](int index) {
-    return (elementType as $ExampleType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, Example value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.simple_package.Example$Aux
 class Example_Aux extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -292,17 +281,6 @@ class $Example_AuxType extends jni.JObjType<Example_Aux> {
   Example_Aux fromRef(jni.JObjectPtr ref) => Example_Aux.fromRef(ref);
 }
 
-extension $Example_AuxArray on jni.JArray<Example_Aux> {
-  Example_Aux operator [](int index) {
-    return (elementType as $Example_AuxType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, Example_Aux value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.pkg2.C2
 class C2 extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -350,17 +328,6 @@ class $C2Type extends jni.JObjType<C2> {
   C2 fromRef(jni.JObjectPtr ref) => C2.fromRef(ref);
 }
 
-extension $C2Array on jni.JArray<C2> {
-  C2 operator [](int index) {
-    return (elementType as $C2Type)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, C2 value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.pkg2.Example
 class Example1 extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -399,17 +366,6 @@ class $Example1Type extends jni.JObjType<Example1> {
 
   @override
   Example1 fromRef(jni.JObjectPtr ref) => Example1.fromRef(ref);
-}
-
-extension $Example1Array on jni.JArray<Example1> {
-  Example1 operator [](int index) {
-    return (elementType as $Example1Type)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, Example1 value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.GrandParent
@@ -548,18 +504,6 @@ class $GrandParentType<T extends jni.JObject>
   GrandParent<T> fromRef(jni.JObjectPtr ref) => GrandParent.fromRef($T, ref);
 }
 
-extension $GrandParentArray<T extends jni.JObject>
-    on jni.JArray<GrandParent<T>> {
-  GrandParent<T> operator [](int index) {
-    return (elementType as $GrandParentType<T>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, GrandParent<T> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent
 class GrandParent_Parent<T extends jni.JObject, S extends jni.JObject>
     extends jni.JObject {
@@ -670,18 +614,6 @@ class $GrandParent_ParentType<T extends jni.JObject, S extends jni.JObject>
   @override
   GrandParent_Parent<T, S> fromRef(jni.JObjectPtr ref) =>
       GrandParent_Parent.fromRef($T, $S, ref);
-}
-
-extension $GrandParent_ParentArray<T extends jni.JObject, S extends jni.JObject>
-    on jni.JArray<GrandParent_Parent<T, S>> {
-  GrandParent_Parent<T, S> operator [](int index) {
-    return (elementType as $GrandParent_ParentType<T, S>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, GrandParent_Parent<T, S> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child
@@ -836,20 +768,6 @@ class $GrandParent_Parent_ChildType<T extends jni.JObject,
       GrandParent_Parent_Child.fromRef($T, $S, $U, ref);
 }
 
-extension $GrandParent_Parent_ChildArray<
-    T extends jni.JObject,
-    S extends jni.JObject,
-    U extends jni.JObject> on jni.JArray<GrandParent_Parent_Child<T, S, U>> {
-  GrandParent_Parent_Child<T, S, U> operator [](int index) {
-    return (elementType as $GrandParent_Parent_ChildType<T, S, U>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, GrandParent_Parent_Child<T, S, U> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent
 class GrandParent_StaticParent<S extends jni.JObject> extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -925,18 +843,6 @@ class $GrandParent_StaticParentType<S extends jni.JObject>
   @override
   GrandParent_StaticParent<S> fromRef(jni.JObjectPtr ref) =>
       GrandParent_StaticParent.fromRef($S, ref);
-}
-
-extension $GrandParent_StaticParentArray<S extends jni.JObject>
-    on jni.JArray<GrandParent_StaticParent<S>> {
-  GrandParent_StaticParent<S> operator [](int index) {
-    return (elementType as $GrandParent_StaticParentType<S>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, GrandParent_StaticParent<S> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child
@@ -1054,18 +960,6 @@ class $GrandParent_StaticParent_ChildType<S extends jni.JObject,
       GrandParent_StaticParent_Child.fromRef($S, $U, ref);
 }
 
-extension $GrandParent_StaticParent_ChildArray<S extends jni.JObject,
-    U extends jni.JObject> on jni.JArray<GrandParent_StaticParent_Child<S, U>> {
-  GrandParent_StaticParent_Child<S, U> operator [](int index) {
-    return (elementType as $GrandParent_StaticParent_ChildType<S, U>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, GrandParent_StaticParent_Child<S, U> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.generics.MyMap
 class MyMap<K extends jni.JObject, V extends jni.JObject> extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -1154,18 +1048,6 @@ class $MyMapType<K extends jni.JObject, V extends jni.JObject>
 
   @override
   MyMap<K, V> fromRef(jni.JObjectPtr ref) => MyMap.fromRef($K, $V, ref);
-}
-
-extension $MyMapArray<K extends jni.JObject, V extends jni.JObject>
-    on jni.JArray<MyMap<K, V>> {
-  MyMap<K, V> operator [](int index) {
-    return (elementType as $MyMapType<K, V>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, MyMap<K, V> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.MyMap$MyEntry
@@ -1279,18 +1161,6 @@ class $MyMap_MyEntryType<K extends jni.JObject, V extends jni.JObject>
       MyMap_MyEntry.fromRef($K, $V, ref);
 }
 
-extension $MyMap_MyEntryArray<K extends jni.JObject, V extends jni.JObject>
-    on jni.JArray<MyMap_MyEntry<K, V>> {
-  MyMap_MyEntry<K, V> operator [](int index) {
-    return (elementType as $MyMap_MyEntryType<K, V>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, MyMap_MyEntry<K, V> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.generics.MyStack
 class MyStack<T extends jni.JObject> extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -1356,17 +1226,6 @@ class $MyStackType<T extends jni.JObject> extends jni.JObjType<MyStack<T>> {
   MyStack<T> fromRef(jni.JObjectPtr ref) => MyStack.fromRef($T, ref);
 }
 
-extension $MyStackArray<T extends jni.JObject> on jni.JArray<MyStack<T>> {
-  MyStack<T> operator [](int index) {
-    return (elementType as $MyStackType<T>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, MyStack<T> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.generics.StringKeyedMap
 class StringKeyedMap<V extends jni.JObject> extends MyMap<jni.JString, V> {
   late final jni.JObjType? _$type;
@@ -1416,18 +1275,6 @@ class $StringKeyedMapType<V extends jni.JObject>
       StringKeyedMap.fromRef($V, ref);
 }
 
-extension $StringKeyedMapArray<V extends jni.JObject>
-    on jni.JArray<StringKeyedMap<V>> {
-  StringKeyedMap<V> operator [](int index) {
-    return (elementType as $StringKeyedMapType<V>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, StringKeyedMap<V> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.generics.StringStack
 class StringStack extends MyStack<jni.JString> {
   late final jni.JObjType? _$type;
@@ -1457,17 +1304,6 @@ class $StringStackType extends jni.JObjType<StringStack> {
 
   @override
   StringStack fromRef(jni.JObjectPtr ref) => StringStack.fromRef(ref);
-}
-
-extension $StringStackArray on jni.JArray<StringStack> {
-  StringStack operator [](int index) {
-    return (elementType as $StringStackType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, StringStack value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.StringValuedMap
@@ -1519,18 +1355,6 @@ class $StringValuedMapType<K extends jni.JObject>
       StringValuedMap.fromRef($K, ref);
 }
 
-extension $StringValuedMapArray<K extends jni.JObject>
-    on jni.JArray<StringValuedMap<K>> {
-  StringValuedMap<K> operator [](int index) {
-    return (elementType as $StringValuedMapType<K>)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, StringValuedMap<K> value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.annotations.JsonSerializable$Case
 class JsonSerializable_Case extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -1579,17 +1403,6 @@ class $JsonSerializable_CaseType extends jni.JObjType<JsonSerializable_Case> {
       JsonSerializable_Case.fromRef(ref);
 }
 
-extension $JsonSerializable_CaseArray on jni.JArray<JsonSerializable_Case> {
-  JsonSerializable_Case operator [](int index) {
-    return (elementType as $JsonSerializable_CaseType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JsonSerializable_Case value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.annotations.MyDataClass
 class MyDataClass extends jni.JObject {
   late final jni.JObjType? _$type;
@@ -1620,15 +1433,4 @@ class $MyDataClassType extends jni.JObjType<MyDataClass> {
 
   @override
   MyDataClass fromRef(jni.JObjectPtr ref) => MyDataClass.fromRef(ref);
-}
-
-extension $MyDataClassArray on jni.JArray<MyDataClass> {
-  MyDataClass operator [](int index) {
-    return (elementType as $MyDataClassType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, MyDataClass value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }

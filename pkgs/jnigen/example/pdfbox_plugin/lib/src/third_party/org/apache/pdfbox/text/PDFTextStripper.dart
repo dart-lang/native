@@ -1234,14 +1234,3 @@ class $PDFTextStripperType extends jni.JObjType<PDFTextStripper> {
   @override
   PDFTextStripper fromRef(jni.JObjectPtr ref) => PDFTextStripper.fromRef(ref);
 }
-
-extension $PDFTextStripperArray on jni.JArray<PDFTextStripper> {
-  PDFTextStripper operator [](int index) {
-    return (elementType as $PDFTextStripperType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, PDFTextStripper value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}

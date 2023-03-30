@@ -104,14 +104,3 @@ class $SuspendFunType extends jni.JObjType<SuspendFun> {
   @override
   SuspendFun fromRef(jni.JObjectPtr ref) => SuspendFun.fromRef(ref);
 }
-
-extension $SuspendFunArray on jni.JArray<SuspendFun> {
-  SuspendFun operator [](int index) {
-    return (elementType as $SuspendFunType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, SuspendFun value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}

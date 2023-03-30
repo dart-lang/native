@@ -1539,17 +1539,6 @@ class $JsonFactoryType extends jni.JObjType<JsonFactory> {
   JsonFactory fromRef(jni.JObjectPtr ref) => JsonFactory.fromRef(ref);
 }
 
-extension $JsonFactoryArray on jni.JArray<JsonFactory> {
-  JsonFactory operator [](int index) {
-    return (elementType as $JsonFactoryType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JsonFactory value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
-
 /// from: com.fasterxml.jackson.core.JsonFactory$Feature
 ///
 /// Enumeration that defines all on/off features that can only be
@@ -1635,15 +1624,4 @@ class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
   @override
   JsonFactory_Feature fromRef(jni.JObjectPtr ref) =>
       JsonFactory_Feature.fromRef(ref);
-}
-
-extension $JsonFactory_FeatureArray on jni.JArray<JsonFactory_Feature> {
-  JsonFactory_Feature operator [](int index) {
-    return (elementType as $JsonFactory_FeatureType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, JsonFactory_Feature value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
 }

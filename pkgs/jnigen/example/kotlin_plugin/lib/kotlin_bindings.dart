@@ -76,14 +76,3 @@ class $ExampleType extends jni.JObjType<Example> {
   @override
   Example fromRef(jni.JObjectPtr ref) => Example.fromRef(ref);
 }
-
-extension $ExampleArray on jni.JArray<Example> {
-  Example operator [](int index) {
-    return (elementType as $ExampleType)
-        .fromRef(elementAt(index, jni.JniCallType.objectType).object);
-  }
-
-  void operator []=(int index, Example value) {
-    (this as jni.JArray<jni.JObject>)[index] = value;
-  }
-}
