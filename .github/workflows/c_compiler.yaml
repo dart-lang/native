@@ -55,3 +55,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: c_compiler
           path-to-lcov: ./pkgs/c_compiler/coverage/lcov.info
+        if: ${{ matrix.sdk == 'stable' }}

@@ -55,3 +55,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: native_assets_cli
           path-to-lcov: ./pkgs/native_assets_cli/coverage/lcov.info
+        if: ${{ matrix.sdk == 'stable' }}
