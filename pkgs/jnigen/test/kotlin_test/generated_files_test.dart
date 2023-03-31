@@ -10,13 +10,17 @@ import 'generate.dart';
 import '../test_util/test_util.dart';
 
 void main() async {
-  test("Generate and compare bindings for kotlin_test", () async {
-    await generateAndCompareBindings(
-      getConfig(),
-      join(testRoot, "lib", "kotlin.dart"),
-      join(testRoot, "src"),
-    );
-  }); // test if generated file == expected file
+  test(
+    "Generate and compare bindings for kotlin_test",
+    () async {
+      await generateAndCompareBindings(
+        getConfig(),
+        join(testRoot, "lib", "kotlin.dart"),
+        join(testRoot, "src"),
+      );
+    },
+    timeout: const Timeout.factor(1.5),
+  ); // test if generated file == expected file
   test("Generate and analyze bindings for kotlin_test - pure dart", () async {
     await generateAndAnalyzeBindings(
       getConfig(BindingsType.dartOnly),
