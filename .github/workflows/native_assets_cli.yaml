@@ -1,0 +1,58 @@
+name: package:native_assets_cli
+permissions: read-all
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_assets_cli.yml"
+      - "pkgs/native_assets_cli/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_assets_cli.yml"
+      - "pkgs/native_assets_cli/**"
+  schedule:
+    - cron: "0 0 * * 0" # weekly
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pkgs/native_assets_cli
+    strategy:
+      matrix:
+        sdk: [stable, dev] # {pkgs.versions}
+        include:
+          - sdk: stable
+            run-tests: true
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+        with:
+          sdk: ${{matrix.sdk}}
+
+      - run: dart pub get
+
+      - run: dart analyze --fatal-infos
+
+      - run: dart format --output=none --set-exit-if-changed .
+        if: ${{matrix.run-tests}}
+
+      - run: dart test
+        if: ${{matrix.run-tests}}
+
+      - name: Install coverage
+        run: dart pub global activate coverage
+        if: ${{ matrix.sdk == 'stable' }}
+      - name: Collect coverage
+        run: dart pub global run coverage:test_with_coverage
+        if: ${{ matrix.sdk == 'stable' }}
+      - name: Upload coverage
+        uses: coverallsapp/github-action@50c33ad324a9902697adbf2f92c22cf5023eacf1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: native_assets_cli
+          path-to-lcov: ./pkgs/native_assets_cli/coverage/lcov.info
+        if: ${{ matrix.sdk == 'stable' }}
