@@ -32,6 +32,9 @@ jobs:
       - uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
         with:
           sdk: ${{matrix.sdk}}
+      - uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r25b
 
       - run: dart pub get
 
@@ -39,6 +42,9 @@ jobs:
 
       - run: dart format --output=none --set-exit-if-changed .
         if: ${{matrix.run-tests}}
+
+      - name: Install native toolchains
+        run: sudo apt-get install clang-14 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
 
       - run: dart test
         if: ${{matrix.run-tests}}
