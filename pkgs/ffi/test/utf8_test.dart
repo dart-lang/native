@@ -116,4 +116,12 @@ void main() {
     }
     fail('Expected an error.');
   });
+
+  test('zero terminated', () {
+    final string = 'Hello';
+    final utf8Pointer = string.toNativeUtf8();
+    final charPointer = utf8Pointer.cast<Char>();
+    expect(charPointer[utf8Pointer.length], 0);
+    calloc.free(utf8Pointer);
+  });
 }
