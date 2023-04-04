@@ -11,10 +11,8 @@ void main(List<String> args) async {
     config = Config.parseArgs(args);
   } on ConfigException catch (e) {
     log.fatal(e);
-    return;
   } on FormatException catch (e) {
     log.fatal(e);
-    return;
   }
   await generateJniBindings(config);
 }

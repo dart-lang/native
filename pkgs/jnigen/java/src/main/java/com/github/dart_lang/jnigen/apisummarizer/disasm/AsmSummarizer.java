@@ -7,23 +7,23 @@ package com.github.dart_lang.jnigen.apisummarizer.disasm;
 import static com.github.dart_lang.jnigen.apisummarizer.util.ExceptionUtil.wrapCheckedException;
 
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
-import java.io.InputStream;
+import com.github.dart_lang.jnigen.apisummarizer.util.InputStreamProvider;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.objectweb.asm.ClassReader;
 
 public class AsmSummarizer {
 
-  public static List<ClassDecl> run(ArrayList<InputStream> inputs) {
-    return inputs.stream()
-        .map(input -> wrapCheckedException(ClassReader::new, input))
-        .flatMap(
-            reader -> {
-              var visitor = new AsmClassVisitor();
-              reader.accept(visitor, 0);
-              return visitor.getVisited().stream();
-            })
-        .collect(Collectors.toList());
+  public static List<ClassDecl> run(List<InputStreamProvider> inputProviders) {
+    List<ClassDecl> parsed = new ArrayList<>();
+    for (var provider : inputProviders) {
+      var inputStream = provider.getInputStream();
+      var classReader = wrapCheckedException(ClassReader::new, inputStream);
+      var visitor = new AsmClassVisitor();
+      classReader.accept(visitor, 0);
+      parsed.addAll(visitor.getVisited());
+      provider.close();
+    }
+    return parsed;
   }
 }

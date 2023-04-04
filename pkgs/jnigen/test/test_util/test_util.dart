@@ -11,6 +11,12 @@ import 'package:logging/logging.dart' show Level;
 
 import 'package:jnigen/src/logging/logging.dart' show printError;
 
+final _currentDirectory = Directory(".");
+
+Directory getTempDir(String prefix) {
+  return _currentDirectory.createTempSync(prefix);
+}
+
 Future<bool> isEmptyOrNotExistDir(String path) async {
   final dir = Directory(path);
   return (!await dir.exists()) || (await dir.list().length == 0);

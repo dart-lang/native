@@ -25,7 +25,6 @@ Future<void> buildApiSummarizer() async {
   final pkg = await findPackageRoot('jnigen');
   if (pkg == null) {
     log.fatal('package jnigen not found!');
-    return;
   }
   final pom = pkg.resolve('java/pom.xml');
   await Directory(toolPath).create(recursive: true);
