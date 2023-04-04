@@ -21,9 +21,13 @@ void main() async {
     },
     timeout: const Timeout.factor(1.5),
   ); // test if generated file == expected file
-  test("Generate and analyze bindings for kotlin_test - pure dart", () async {
-    await generateAndAnalyzeBindings(
-      getConfig(BindingsType.dartOnly),
-    );
-  }); // test if generated file == expected file
+  test(
+    "Generate and analyze bindings for kotlin_test - pure dart",
+    () async {
+      await generateAndAnalyzeBindings(
+        getConfig(BindingsType.dartOnly),
+      );
+    },
+    timeout: const Timeout.factor(1.5),
+  ); // test if generated file == expected file
 }
