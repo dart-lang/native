@@ -1,0 +1,22 @@
+publish_to: none
+
+name: native_add
+description: Sums two numbers with native code.
+version: 0.1.0
+repository: https://github.com/dcharkes/native_assets_cli
+
+environment:
+  sdk: ">=2.19.3 <4.0.0"
+
+dependencies:
+  c_compiler:
+    path: ../../../c_compiler/
+  cli_config: ^0.1.1
+  logging: ^1.1.1
+  native_assets_cli:
+    path: ../../
+
+dev_dependencies:
+  ffigen: ^7.2.8
+  lints: ^2.0.0
+  test: ^1.21.0
