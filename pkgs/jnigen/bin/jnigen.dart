@@ -12,6 +12,9 @@ void main(List<String> args) async {
   } on ConfigException catch (e) {
     log.fatal(e);
     return;
+  } on FormatException catch (e) {
+    log.fatal(e);
+    return;
   }
   await generateJniBindings(config);
 }

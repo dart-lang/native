@@ -17,6 +17,7 @@ dependencies:
   args: ^2.3.0
   yaml: ^3.1.0
   logging: ^1.0.2
+  cli_config: ^0.1.0
 
 dev_dependencies:
   lints: ^2.0.0
@@ -25,4 +26,3 @@ dev_dependencies:
   test: ^1.17.5
   build_runner: ^2.2.0
   json_serializable: ^6.6.0
-

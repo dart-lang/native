@@ -6,15 +6,17 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
+import 'package:cli_config/cli_config.dart' as cli_config;
 
 import 'config_exception.dart';
 
 /// YAML Reader which enables to override specific values from command line.
 class YamlReader {
-  YamlReader.of(this.cli, this.yaml, this.yamlFile);
-  Map<String, String> cli;
-  Map<dynamic, dynamic> yaml;
-  File? yamlFile;
+  final cli_config.Config _config;
+
+  final Uri? _configRoot;
+
+  YamlReader.of(this._config, this._configRoot);
 
   /// Parses the provided command line arguments and returns a [YamlReader].
   ///
@@ -42,19 +44,15 @@ class YamlReader {
       stderr.writeln(parser.usage);
       exit(1);
     }
-    final configFile = results['config'] as String?;
-    Map<dynamic, dynamic> yamlMap = {};
-    if (configFile != null) {
+    final configFilePath = results['config'] as String?;
+    String? configFileContents;
+    Uri? configFileUri;
+    if (configFilePath != null) {
       try {
-        final yamlInput = loadYaml(File(configFile).readAsStringSync(),
-            sourceUrl: Uri.file(configFile));
-        if (yamlInput is Map) {
-          yamlMap = yamlInput;
-        } else {
-          throw ConfigException('YAML config must be set of key value pairs');
-        }
+        configFileContents = File(configFilePath).readAsStringSync();
+        configFileUri = File(configFilePath).uri;
       } on Exception catch (e) {
-        stderr.writeln('cannot read $configFile: $e');
+        stderr.writeln('Cannot read $configFilePath: $e.');
       }
     }
     final regex = RegExp('([a-z-_.]+)=(.+)');
@@ -69,97 +67,53 @@ class YamlReader {
         throw ConfigException('override does not match expected pattern');
       }
     }
+    final config = cli_config.Config.fromConfigFileContents(
+      commandLineDefines: results['override'],
+      workingDirectory: Directory.current.uri,
+      environment: Platform.environment,
+      fileContents: configFileContents,
+      fileSourceUri: configFileUri,
+    );
     return YamlReader.of(
-        properties, yamlMap, configFile != null ? File(configFile) : null);
+      config,
+      configFileUri?.resolve('.'),
+    );
   }
 
-  bool? getBool(String property) {
-    if (cli.containsKey(property)) {
-      final v = cli[property]!;
-      if (v == 'true') {
-        return true;
-      }
-      if (v == 'false') {
-        return false;
-      }
-      throw ConfigException('expected boolean value for $property, got $v');
-    }
-    return getYamlValue<bool>(property);
-  }
+  bool? getBool(String property) => _config.optionalBool(property);
 
-  String? getString(String property) {
-    final configValue = cli[property] ?? getYamlValue<String>(property);
-    return configValue;
-  }
+  String? getString(String property) => _config.optionalString(property);
 
   /// Same as [getString] but path is resolved relative to YAML config if it's
   /// from YAML config.
-  String? getPath(String property) {
-    final cliOverride = cli[property];
-    if (cliOverride != null) return cliOverride;
-    final path = getYamlValue<String>(property);
-    if (path == null) return null;
-    // In (very unlikely) case YAML config didn't come from a file,
-    // do not try to resolve anything.
-    if (yamlFile == null) return path;
-    final yamlDir = yamlFile!.parent;
-    return yamlDir.uri.resolve(path).toFilePath();
-  }
+  String? getPath(String property) =>
+      _config.optionalPath(property)?.toFilePath();
 
-  List<String>? getStringList(String property) {
-    final configValue = cli[property]?.split(';') ??
-        getYamlValue<YamlList>(property)?.cast<String>();
-    return configValue;
-  }
+  List<String>? getStringList(String property) => _config.optionalStringList(
+        property,
+        splitCliPattern: ';',
+        combineAllConfigs: false,
+      );
 
   List<String>? getPathList(String property) {
-    final cliOverride = cli[property]?.split(';');
-    if (cliOverride != null) return cliOverride;
-    final paths = getYamlValue<YamlList>(property)?.cast<String>();
-    if (paths == null) return null;
-    // In (very unlikely) case YAML config didn't come from a file.
-    if (yamlFile == null) return paths;
-    final yamlDir = yamlFile!.parent;
-    return paths.map((path) => yamlDir.uri.resolve(path).toFilePath()).toList();
+    final configResult = _config.optionalPathList(
+      property,
+      combineAllConfigs: false,
+      splitCliPattern: ';',
+    );
+    return configResult?.map((e) => e.path).toList();
   }
 
-  String? getOneOf(String property, Set<String> values) {
-    final value = cli[property] ?? getYamlValue<String>(property);
-    if (value == null || values.contains(value)) {
-      return value;
-    }
-    throw ConfigException('expected one of $values for $property');
-  }
+  String? getOneOf(String property, Set<String> values) =>
+      _config.optionalString(property, validValues: values);
 
   Map<String, String>? getStringMap(String property) {
-    final value = getYamlValue<YamlMap>(property);
+    final value = _config.valueOf<YamlMap?>(property);
     return value?.cast<String, String>();
   }
 
-  bool hasValue(String property) => getYamlValue<dynamic>(property) != null;
-
-  T? getYamlValue<T>(String property) {
-    final path = property.split('.');
-    dynamic cursor = yaml;
-    String current = '';
-    for (var i in path) {
-      if (cursor is YamlMap || cursor is Map) {
-        cursor = cursor[i];
-      } else {
-        throw ConfigException('expected $current to be a YAML map');
-      }
-      current = [if (current != '') current, i].join('.');
-      if (cursor == null) {
-        return null;
-      }
-    }
-    if (cursor is! T) {
-      throw ConfigException(
-          'expected $T for $property, got ${cursor.runtimeType}');
-    }
-    return cursor;
-  }
+  bool hasValue(String property) => _config.valueOf<dynamic>(property) != null;
 
   /// Returns URI of the directory containing YAML config.
-  Uri? getConfigRoot() => yamlFile?.parent.uri;
+  Uri? getConfigRoot() => _configRoot;
 }
