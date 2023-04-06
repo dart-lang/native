@@ -101,6 +101,13 @@ class MavenTools {
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <repositories>
+      <repository>
+        <id>google-maven-repo</id>
+        <name>Google Maven Repository</name>
+        <url>https://maven.google.com</url>
+      </repository>
+    </repositories>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany.app</groupId>
     <artifactId>jnigen_maven_stub</artifactId>

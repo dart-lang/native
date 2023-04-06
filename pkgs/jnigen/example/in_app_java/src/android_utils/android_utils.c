@@ -37,6 +37,1351 @@ JniResult AndroidUtils__showToast(jobject mainActivity,
   return (JniResult){.result = {.j = 0}, .exception = check_exception()};
 }
 
+// androidx.emoji2.text.EmojiCompat
+jclass _c_EmojiCompat = NULL;
+
+jmethodID _m_EmojiCompat__init = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__init(jobject context) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(
+      _c_EmojiCompat, &_m_EmojiCompat__init, "init",
+      "(Landroid/content/Context;)Landroidx/emoji2/text/EmojiCompat;");
+  if (_m_EmojiCompat__init == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__init, context);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__init1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__init1(jobject context, jobject defaultFactory) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat, &_m_EmojiCompat__init1, "init",
+                     "(Landroid/content/Context;Landroidx/emoji2/text/"
+                     "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory;"
+                     ")Landroidx/emoji2/text/EmojiCompat;");
+  if (_m_EmojiCompat__init1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__init1, context, defaultFactory);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__init2 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__init2(jobject config) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat, &_m_EmojiCompat__init2, "init",
+                     "(Landroidx/emoji2/text/EmojiCompat$Config;)Landroidx/"
+                     "emoji2/text/EmojiCompat;");
+  if (_m_EmojiCompat__init2 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__init2, config);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__isConfigured = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__isConfigured() {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat, &_m_EmojiCompat__isConfigured,
+                     "isConfigured", "()Z");
+  if (_m_EmojiCompat__isConfigured == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallStaticBooleanMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__isConfigured);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__reset = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__reset(jobject config) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat, &_m_EmojiCompat__reset, "reset",
+                     "(Landroidx/emoji2/text/EmojiCompat$Config;)Landroidx/"
+                     "emoji2/text/EmojiCompat;");
+  if (_m_EmojiCompat__reset == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__reset, config);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__reset1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__reset1(jobject emojiCompat) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(
+      _c_EmojiCompat, &_m_EmojiCompat__reset1, "reset",
+      "(Landroidx/emoji2/text/EmojiCompat;)Landroidx/emoji2/text/EmojiCompat;");
+  if (_m_EmojiCompat__reset1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__reset1, emojiCompat);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__skipDefaultConfigurationLookup = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__skipDefaultConfigurationLookup(uint8_t shouldSkip) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat,
+                     &_m_EmojiCompat__skipDefaultConfigurationLookup,
+                     "skipDefaultConfigurationLookup", "(Z)V");
+  if (_m_EmojiCompat__skipDefaultConfigurationLookup == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallStaticVoidMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__skipDefaultConfigurationLookup,
+      shouldSkip);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__get0 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__get0() {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat, &_m_EmojiCompat__get0, "get",
+                     "()Landroidx/emoji2/text/EmojiCompat;");
+  if (_m_EmojiCompat__get0 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_EmojiCompat,
+                                                      _m_EmojiCompat__get0);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__load = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__load(jobject self_) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__load, "load", "()V");
+  if (_m_EmojiCompat__load == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_EmojiCompat__load);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__registerInitCallback = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__registerInitCallback(jobject self_,
+                                            jobject initCallback) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__registerInitCallback,
+              "registerInitCallback",
+              "(Landroidx/emoji2/text/EmojiCompat$InitCallback;)V");
+  if (_m_EmojiCompat__registerInitCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_EmojiCompat__registerInitCallback,
+                            initCallback);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__unregisterInitCallback = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__unregisterInitCallback(jobject self_,
+                                              jobject initCallback) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__unregisterInitCallback,
+              "unregisterInitCallback",
+              "(Landroidx/emoji2/text/EmojiCompat$InitCallback;)V");
+  if (_m_EmojiCompat__unregisterInitCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(
+      jniEnv, self_, _m_EmojiCompat__unregisterInitCallback, initCallback);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__getLoadState = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__getLoadState(jobject self_) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__getLoadState, "getLoadState",
+              "()I");
+  if (_m_EmojiCompat__getLoadState == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  int32_t _result =
+      (*jniEnv)->CallIntMethod(jniEnv, self_, _m_EmojiCompat__getLoadState);
+  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__isEmojiSpanIndicatorEnabled = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__isEmojiSpanIndicatorEnabled(jobject self_) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__isEmojiSpanIndicatorEnabled,
+              "isEmojiSpanIndicatorEnabled", "()Z");
+  if (_m_EmojiCompat__isEmojiSpanIndicatorEnabled == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_EmojiCompat__isEmojiSpanIndicatorEnabled);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__getEmojiSpanIndicatorColor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__getEmojiSpanIndicatorColor(jobject self_) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__getEmojiSpanIndicatorColor,
+              "getEmojiSpanIndicatorColor", "()I");
+  if (_m_EmojiCompat__getEmojiSpanIndicatorColor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  int32_t _result = (*jniEnv)->CallIntMethod(
+      jniEnv, self_, _m_EmojiCompat__getEmojiSpanIndicatorColor);
+  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__getEmojiStart = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__getEmojiStart(jobject self_,
+                                     jobject charSequence,
+                                     int32_t offset) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__getEmojiStart, "getEmojiStart",
+              "(Ljava/lang/CharSequence;I)I");
+  if (_m_EmojiCompat__getEmojiStart == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  int32_t _result = (*jniEnv)->CallIntMethod(
+      jniEnv, self_, _m_EmojiCompat__getEmojiStart, charSequence, offset);
+  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__getEmojiEnd = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__getEmojiEnd(jobject self_,
+                                   jobject charSequence,
+                                   int32_t offset) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__getEmojiEnd, "getEmojiEnd",
+              "(Ljava/lang/CharSequence;I)I");
+  if (_m_EmojiCompat__getEmojiEnd == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  int32_t _result = (*jniEnv)->CallIntMethod(
+      jniEnv, self_, _m_EmojiCompat__getEmojiEnd, charSequence, offset);
+  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__handleOnKeyDown = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__handleOnKeyDown(jobject editable,
+                                       int32_t keyCode,
+                                       jobject event) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat, &_m_EmojiCompat__handleOnKeyDown,
+                     "handleOnKeyDown",
+                     "(Landroid/text/Editable;ILandroid/view/KeyEvent;)Z");
+  if (_m_EmojiCompat__handleOnKeyDown == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallStaticBooleanMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__handleOnKeyDown, editable,
+      keyCode, event);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__handleDeleteSurroundingText = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__handleDeleteSurroundingText(jobject inputConnection,
+                                                   jobject editable,
+                                                   int32_t beforeLength,
+                                                   int32_t afterLength,
+                                                   uint8_t inCodePoints) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_EmojiCompat,
+                     &_m_EmojiCompat__handleDeleteSurroundingText,
+                     "handleDeleteSurroundingText",
+                     "(Landroid/view/inputmethod/InputConnection;Landroid/text/"
+                     "Editable;IIZ)Z");
+  if (_m_EmojiCompat__handleDeleteSurroundingText == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallStaticBooleanMethod(
+      jniEnv, _c_EmojiCompat, _m_EmojiCompat__handleDeleteSurroundingText,
+      inputConnection, editable, beforeLength, afterLength, inCodePoints);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__hasEmojiGlyph = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__hasEmojiGlyph(jobject self_, jobject sequence) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__hasEmojiGlyph, "hasEmojiGlyph",
+              "(Ljava/lang/CharSequence;)Z");
+  if (_m_EmojiCompat__hasEmojiGlyph == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_EmojiCompat__hasEmojiGlyph, sequence);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__hasEmojiGlyph1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__hasEmojiGlyph1(jobject self_,
+                                      jobject sequence,
+                                      int32_t metadataVersion) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__hasEmojiGlyph1, "hasEmojiGlyph",
+              "(Ljava/lang/CharSequence;I)Z");
+  if (_m_EmojiCompat__hasEmojiGlyph1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_EmojiCompat__hasEmojiGlyph1, sequence, metadataVersion);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__getEmojiMatch = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__getEmojiMatch(jobject self_,
+                                     jobject sequence,
+                                     int32_t metadataVersion) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__getEmojiMatch, "getEmojiMatch",
+              "(Ljava/lang/CharSequence;I)I");
+  if (_m_EmojiCompat__getEmojiMatch == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  int32_t _result = (*jniEnv)->CallIntMethod(
+      jniEnv, self_, _m_EmojiCompat__getEmojiMatch, sequence, metadataVersion);
+  return (JniResult){.result = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__process = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__process(jobject self_, jobject charSequence) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__process, "process",
+              "(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;");
+  if (_m_EmojiCompat__process == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat__process, charSequence);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__process1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__process1(jobject self_,
+                                jobject charSequence,
+                                int32_t start,
+                                int32_t end) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__process1, "process",
+              "(Ljava/lang/CharSequence;II)Ljava/lang/CharSequence;");
+  if (_m_EmojiCompat__process1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat__process1, charSequence, start, end);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__process2 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__process2(jobject self_,
+                                jobject charSequence,
+                                int32_t start,
+                                int32_t end,
+                                int32_t maxEmojiCount) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__process2, "process",
+              "(Ljava/lang/CharSequence;III)Ljava/lang/CharSequence;");
+  if (_m_EmojiCompat__process2 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_EmojiCompat__process2,
+                                  charSequence, start, end, maxEmojiCount);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__process3 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__process3(jobject self_,
+                                jobject charSequence,
+                                int32_t start,
+                                int32_t end,
+                                int32_t maxEmojiCount,
+                                int32_t replaceStrategy) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__process3, "process",
+              "(Ljava/lang/CharSequence;IIII)Ljava/lang/CharSequence;");
+  if (_m_EmojiCompat__process3 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat__process3, charSequence, start, end,
+      maxEmojiCount, replaceStrategy);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__getAssetSignature = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__getAssetSignature(jobject self_) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__getAssetSignature,
+              "getAssetSignature", "()Ljava/lang/String;");
+  if (_m_EmojiCompat__getAssetSignature == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat__getAssetSignature);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat__updateEditorInfo = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat__updateEditorInfo(jobject self_, jobject outAttrs) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat, &_m_EmojiCompat__updateEditorInfo,
+              "updateEditorInfo", "(Landroid/view/inputmethod/EditorInfo;)V");
+  if (_m_EmojiCompat__updateEditorInfo == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_EmojiCompat__updateEditorInfo,
+                            outAttrs);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+// androidx.emoji2.text.EmojiCompat$Config
+jclass _c_EmojiCompat_Config = NULL;
+
+jmethodID _m_EmojiCompat_Config__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__ctor(jobject metadataLoader) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config, &_m_EmojiCompat_Config__ctor, "<init>",
+              "(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;)V");
+  if (_m_EmojiCompat_Config__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_Config,
+                           _m_EmojiCompat_Config__ctor, metadataLoader);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__registerInitCallback = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__registerInitCallback(jobject self_,
+                                                   jobject initCallback) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__registerInitCallback,
+              "registerInitCallback",
+              "(Landroidx/emoji2/text/EmojiCompat$InitCallback;)Landroidx/"
+              "emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__registerInitCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__registerInitCallback, initCallback);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__unregisterInitCallback = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__unregisterInitCallback(jobject self_,
+                                                     jobject initCallback) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__unregisterInitCallback,
+              "unregisterInitCallback",
+              "(Landroidx/emoji2/text/EmojiCompat$InitCallback;)Landroidx/"
+              "emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__unregisterInitCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__unregisterInitCallback,
+      initCallback);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setReplaceAll = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setReplaceAll(jobject self_, uint8_t replaceAll) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config, &_m_EmojiCompat_Config__setReplaceAll,
+              "setReplaceAll", "(Z)Landroidx/emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setReplaceAll == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setReplaceAll, replaceAll);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setUseEmojiAsDefaultStyle(
+    jobject self_,
+    uint8_t useEmojiAsDefaultStyle) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__setUseEmojiAsDefaultStyle,
+              "setUseEmojiAsDefaultStyle",
+              "(Z)Landroidx/emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setUseEmojiAsDefaultStyle == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle,
+      useEmojiAsDefaultStyle);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setUseEmojiAsDefaultStyle1(
+    jobject self_,
+    uint8_t useEmojiAsDefaultStyle,
+    jobject emojiAsDefaultStyleExceptions) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__setUseEmojiAsDefaultStyle1,
+              "setUseEmojiAsDefaultStyle",
+              "(ZLjava/util/List;)Landroidx/emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setUseEmojiAsDefaultStyle1 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle1,
+      useEmojiAsDefaultStyle, emojiAsDefaultStyleExceptions);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setEmojiSpanIndicatorEnabled = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setEmojiSpanIndicatorEnabled(
+    jobject self_,
+    uint8_t emojiSpanIndicatorEnabled) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__setEmojiSpanIndicatorEnabled,
+              "setEmojiSpanIndicatorEnabled",
+              "(Z)Landroidx/emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setEmojiSpanIndicatorEnabled == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setEmojiSpanIndicatorEnabled,
+      emojiSpanIndicatorEnabled);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setEmojiSpanIndicatorColor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setEmojiSpanIndicatorColor(jobject self_,
+                                                         int32_t color) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__setEmojiSpanIndicatorColor,
+              "setEmojiSpanIndicatorColor",
+              "(I)Landroidx/emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setEmojiSpanIndicatorColor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setEmojiSpanIndicatorColor, color);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setMetadataLoadStrategy = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setMetadataLoadStrategy(jobject self_,
+                                                      int32_t strategy) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__setMetadataLoadStrategy,
+              "setMetadataLoadStrategy",
+              "(I)Landroidx/emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setMetadataLoadStrategy == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setMetadataLoadStrategy, strategy);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setSpanFactory = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setSpanFactory(jobject self_, jobject factory) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config, &_m_EmojiCompat_Config__setSpanFactory,
+              "setSpanFactory",
+              "(Landroidx/emoji2/text/EmojiCompat$SpanFactory;)Landroidx/"
+              "emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setSpanFactory == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setSpanFactory, factory);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__setGlyphChecker = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__setGlyphChecker(jobject self_,
+                                              jobject glyphChecker) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config, &_m_EmojiCompat_Config__setGlyphChecker,
+              "setGlyphChecker",
+              "(Landroidx/emoji2/text/EmojiCompat$GlyphChecker;)Landroidx/"
+              "emoji2/text/EmojiCompat$Config;");
+  if (_m_EmojiCompat_Config__setGlyphChecker == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__setGlyphChecker, glyphChecker);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_Config__getMetadataRepoLoader = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_Config__getMetadataRepoLoader(jobject self_) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_Config,
+                "androidx/emoji2/text/EmojiCompat$Config");
+  if (_c_EmojiCompat_Config == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_Config,
+              &_m_EmojiCompat_Config__getMetadataRepoLoader,
+              "getMetadataRepoLoader",
+              "()Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;");
+  if (_m_EmojiCompat_Config__getMetadataRepoLoader == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_Config__getMetadataRepoLoader);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback
+jclass _c_EmojiCompat_MetadataRepoLoaderCallback = NULL;
+
+jmethodID _m_EmojiCompat_MetadataRepoLoaderCallback__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_MetadataRepoLoaderCallback__ctor() {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_MetadataRepoLoaderCallback,
+                "androidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback");
+  if (_c_EmojiCompat_MetadataRepoLoaderCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_MetadataRepoLoaderCallback,
+              &_m_EmojiCompat_MetadataRepoLoaderCallback__ctor, "<init>",
+              "()V");
+  if (_m_EmojiCompat_MetadataRepoLoaderCallback__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_MetadataRepoLoaderCallback,
+                           _m_EmojiCompat_MetadataRepoLoaderCallback__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_MetadataRepoLoaderCallback__onLoaded = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_MetadataRepoLoaderCallback__onLoaded(
+    jobject self_,
+    jobject metadataRepo) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_MetadataRepoLoaderCallback,
+                "androidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback");
+  if (_c_EmojiCompat_MetadataRepoLoaderCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_MetadataRepoLoaderCallback,
+              &_m_EmojiCompat_MetadataRepoLoaderCallback__onLoaded, "onLoaded",
+              "(Landroidx/emoji2/text/MetadataRepo;)V");
+  if (_m_EmojiCompat_MetadataRepoLoaderCallback__onLoaded == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_,
+                            _m_EmojiCompat_MetadataRepoLoaderCallback__onLoaded,
+                            metadataRepo);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_MetadataRepoLoaderCallback__onFailed = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_MetadataRepoLoaderCallback__onFailed(jobject self_,
+                                                           jobject throwable) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_MetadataRepoLoaderCallback,
+                "androidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback");
+  if (_c_EmojiCompat_MetadataRepoLoaderCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_MetadataRepoLoaderCallback,
+              &_m_EmojiCompat_MetadataRepoLoaderCallback__onFailed, "onFailed",
+              "(Ljava/lang/Throwable;)V");
+  if (_m_EmojiCompat_MetadataRepoLoaderCallback__onFailed == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_,
+                            _m_EmojiCompat_MetadataRepoLoaderCallback__onFailed,
+                            throwable);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+// androidx.emoji2.text.EmojiCompat$GlyphChecker
+jclass _c_EmojiCompat_GlyphChecker = NULL;
+
+jmethodID _m_EmojiCompat_GlyphChecker__hasGlyph = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_GlyphChecker__hasGlyph(jobject self_,
+                                             jobject charSequence,
+                                             int32_t start,
+                                             int32_t end,
+                                             int32_t sdkAdded) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_GlyphChecker,
+                "androidx/emoji2/text/EmojiCompat$GlyphChecker");
+  if (_c_EmojiCompat_GlyphChecker == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_GlyphChecker,
+              &_m_EmojiCompat_GlyphChecker__hasGlyph, "hasGlyph",
+              "(Ljava/lang/CharSequence;III)Z");
+  if (_m_EmojiCompat_GlyphChecker__hasGlyph == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_EmojiCompat_GlyphChecker__hasGlyph, charSequence, start,
+      end, sdkAdded);
+  return (JniResult){.result = {.z = _result}, .exception = check_exception()};
+}
+
+// androidx.emoji2.text.EmojiCompat$MetadataRepoLoader
+jclass _c_EmojiCompat_MetadataRepoLoader = NULL;
+
+jmethodID _m_EmojiCompat_MetadataRepoLoader__load = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_MetadataRepoLoader__load(jobject self_,
+                                               jobject loaderCallback) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_MetadataRepoLoader,
+                "androidx/emoji2/text/EmojiCompat$MetadataRepoLoader");
+  if (_c_EmojiCompat_MetadataRepoLoader == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_EmojiCompat_MetadataRepoLoader,
+      &_m_EmojiCompat_MetadataRepoLoader__load, "load",
+      "(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V");
+  if (_m_EmojiCompat_MetadataRepoLoader__load == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(
+      jniEnv, self_, _m_EmojiCompat_MetadataRepoLoader__load, loaderCallback);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+// androidx.emoji2.text.EmojiCompat$InitCallback
+jclass _c_EmojiCompat_InitCallback = NULL;
+
+jmethodID _m_EmojiCompat_InitCallback__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_InitCallback__ctor() {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_InitCallback,
+                "androidx/emoji2/text/EmojiCompat$InitCallback");
+  if (_c_EmojiCompat_InitCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_InitCallback, &_m_EmojiCompat_InitCallback__ctor,
+              "<init>", "()V");
+  if (_m_EmojiCompat_InitCallback__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_InitCallback,
+                                         _m_EmojiCompat_InitCallback__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_InitCallback__onInitialized = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_InitCallback__onInitialized(jobject self_) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_InitCallback,
+                "androidx/emoji2/text/EmojiCompat$InitCallback");
+  if (_c_EmojiCompat_InitCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_InitCallback,
+              &_m_EmojiCompat_InitCallback__onInitialized, "onInitialized",
+              "()V");
+  if (_m_EmojiCompat_InitCallback__onInitialized == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_,
+                            _m_EmojiCompat_InitCallback__onInitialized);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_InitCallback__onFailed = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_InitCallback__onFailed(jobject self_, jobject throwable) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_InitCallback,
+                "androidx/emoji2/text/EmojiCompat$InitCallback");
+  if (_c_EmojiCompat_InitCallback == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_InitCallback,
+              &_m_EmojiCompat_InitCallback__onFailed, "onFailed",
+              "(Ljava/lang/Throwable;)V");
+  if (_m_EmojiCompat_InitCallback__onFailed == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_,
+                            _m_EmojiCompat_InitCallback__onFailed, throwable);
+  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+}
+
+// androidx.emoji2.text.EmojiCompat$DefaultSpanFactory
+jclass _c_EmojiCompat_DefaultSpanFactory = NULL;
+
+jmethodID _m_EmojiCompat_DefaultSpanFactory__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_DefaultSpanFactory__ctor() {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_DefaultSpanFactory,
+                "androidx/emoji2/text/EmojiCompat$DefaultSpanFactory");
+  if (_c_EmojiCompat_DefaultSpanFactory == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_DefaultSpanFactory,
+              &_m_EmojiCompat_DefaultSpanFactory__ctor, "<init>", "()V");
+  if (_m_EmojiCompat_DefaultSpanFactory__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_DefaultSpanFactory,
+                           _m_EmojiCompat_DefaultSpanFactory__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_EmojiCompat_DefaultSpanFactory__createSpan = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_DefaultSpanFactory__createSpan(jobject self_,
+                                                     jobject rasterizer) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_DefaultSpanFactory,
+                "androidx/emoji2/text/EmojiCompat$DefaultSpanFactory");
+  if (_c_EmojiCompat_DefaultSpanFactory == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_DefaultSpanFactory,
+              &_m_EmojiCompat_DefaultSpanFactory__createSpan, "createSpan",
+              "(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/"
+              "emoji2/text/EmojiSpan;");
+  if (_m_EmojiCompat_DefaultSpanFactory__createSpan == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_DefaultSpanFactory__createSpan, rasterizer);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// androidx.emoji2.text.EmojiCompat$SpanFactory
+jclass _c_EmojiCompat_SpanFactory = NULL;
+
+jmethodID _m_EmojiCompat_SpanFactory__createSpan = NULL;
+FFI_PLUGIN_EXPORT
+JniResult EmojiCompat_SpanFactory__createSpan(jobject self_,
+                                              jobject rasterizer) {
+  load_env();
+  load_class_gr(&_c_EmojiCompat_SpanFactory,
+                "androidx/emoji2/text/EmojiCompat$SpanFactory");
+  if (_c_EmojiCompat_SpanFactory == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_EmojiCompat_SpanFactory,
+              &_m_EmojiCompat_SpanFactory__createSpan, "createSpan",
+              "(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/"
+              "emoji2/text/EmojiSpan;");
+  if (_m_EmojiCompat_SpanFactory__createSpan == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_EmojiCompat_SpanFactory__createSpan, rasterizer);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// androidx.emoji2.text.DefaultEmojiCompatConfig
+jclass _c_DefaultEmojiCompatConfig = NULL;
+
+jmethodID _m_DefaultEmojiCompatConfig__create = NULL;
+FFI_PLUGIN_EXPORT
+JniResult DefaultEmojiCompatConfig__create(jobject context) {
+  load_env();
+  load_class_gr(&_c_DefaultEmojiCompatConfig,
+                "androidx/emoji2/text/DefaultEmojiCompatConfig");
+  if (_c_DefaultEmojiCompatConfig == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_DefaultEmojiCompatConfig,
+                     &_m_DefaultEmojiCompatConfig__create, "create",
+                     "(Landroid/content/Context;)Landroidx/emoji2/text/"
+                     "FontRequestEmojiCompatConfig;");
+  if (_m_DefaultEmojiCompatConfig__create == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_DefaultEmojiCompatConfig, _m_DefaultEmojiCompatConfig__create,
+      context);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28
+jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 = NULL;
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor() {
+  load_env();
+  load_class_gr(
+      &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
+      "androidx/emoji2/text/"
+      "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor,
+      "<init>", "()V");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(
+      jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatures1 =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatures1(
+    jobject self_,
+    jobject packageManager,
+    jobject providerPackage) {
+  load_env();
+  load_class_gr(
+      &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
+      "androidx/emoji2/text/"
+      "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatures1,
+      "getSigningSignatures",
+      "(Landroid/content/pm/PackageManager;Ljava/lang/String;)[Landroid/"
+      "content/pm/Signature;");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatures1 ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatures1,
+      packageManager, providerPackage);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
+jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 = NULL;
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor() {
+  load_env();
+  load_class_gr(
+      &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
+      "androidx/emoji2/text/"
+      "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor,
+      "<init>", "()V");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(
+      jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__queryIntentContentProviders =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__queryIntentContentProviders(
+    jobject self_,
+    jobject packageManager,
+    jobject intent,
+    int32_t flags) {
+  load_env();
+  load_class_gr(
+      &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
+      "androidx/emoji2/text/"
+      "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__queryIntentContentProviders,
+      "queryIntentContentProviders",
+      "(Landroid/content/pm/PackageManager;Landroid/content/Intent;I)Ljava/"
+      "util/List;");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__queryIntentContentProviders ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__queryIntentContentProviders,
+      packageManager, intent, flags);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo(
+    jobject self_,
+    jobject resolveInfo) {
+  load_env();
+  load_class_gr(
+      &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
+      "androidx/emoji2/text/"
+      "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo,
+      "getProviderInfo",
+      "(Landroid/content/pm/ResolveInfo;)Landroid/content/pm/ProviderInfo;");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo,
+      resolveInfo);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
+jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper = NULL;
+
+jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor =
+    NULL;
+FFI_PLUGIN_EXPORT
+JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor() {
+  load_env();
+  load_class_gr(&_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+                "androidx/emoji2/text/"
+                "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+              &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor,
+              "<init>", "()V");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(
+      jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getSigningSignatures =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getSigningSignatures(
+    jobject self_,
+    jobject packageManager,
+    jobject providerPackage) {
+  load_env();
+  load_class_gr(&_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+                "androidx/emoji2/text/"
+                "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getSigningSignatures,
+      "getSigningSignatures",
+      "(Landroid/content/pm/PackageManager;Ljava/lang/String;)[Landroid/"
+      "content/pm/Signature;");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getSigningSignatures ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getSigningSignatures,
+      packageManager, providerPackage);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__queryIntentContentProviders =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__queryIntentContentProviders(
+    jobject self_,
+    jobject packageManager,
+    jobject intent,
+    int32_t flags) {
+  load_env();
+  load_class_gr(&_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+                "androidx/emoji2/text/"
+                "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__queryIntentContentProviders,
+      "queryIntentContentProviders",
+      "(Landroid/content/pm/PackageManager;Landroid/content/Intent;I)Ljava/"
+      "util/List;");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__queryIntentContentProviders ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__queryIntentContentProviders,
+      packageManager, intent, flags);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo =
+        NULL;
+FFI_PLUGIN_EXPORT
+JniResult
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo(
+    jobject self_,
+    jobject resolveInfo) {
+  load_env();
+  load_class_gr(&_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+                "androidx/emoji2/text/"
+                "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo,
+      "getProviderInfo",
+      "(Landroid/content/pm/ResolveInfo;)Landroid/content/pm/ProviderInfo;");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo,
+      resolveInfo);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+// androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory
+jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory = NULL;
+
+jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor =
+    NULL;
+FFI_PLUGIN_EXPORT
+JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor(
+    jobject helper) {
+  load_env();
+  load_class_gr(&_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
+                "androidx/emoji2/text/"
+                "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor,
+      "<init>",
+      "(Landroidx/emoji2/text/"
+      "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;)V");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(
+      jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor,
+      helper);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
+jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create =
+    NULL;
+FFI_PLUGIN_EXPORT
+JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create(
+    jobject self_,
+    jobject context) {
+  load_env();
+  load_class_gr(&_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
+                "androidx/emoji2/text/"
+                "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory");
+  if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory == NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  load_method(
+      _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create,
+      "create",
+      "(Landroid/content/Context;)Landroidx/emoji2/text/EmojiCompat$Config;");
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create ==
+      NULL)
+    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create,
+      context);
+  return (JniResult){.result = {.l = to_global_ref(_result)},
+                     .exception = check_exception()};
+}
+
 // android.os.Build
 jclass _c_Build = NULL;
 

@@ -80,7 +80,7 @@ Future<void> writeCBindings(Config config, List<ClassDecl> classes) async {
     final clangFormat = Process.runSync('clang-format', ['-i', cFile.path]);
     if (clangFormat.exitCode != 0) {
       printError(clangFormat.stderr);
-      log.warning('clang-format exited with $exitCode');
+      log.warning('clang-format exited with ${clangFormat.exitCode}');
     }
   } on ProcessException catch (e) {
     log.warning('cannot run clang-format: $e');

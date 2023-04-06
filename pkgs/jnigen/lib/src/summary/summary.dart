@@ -131,6 +131,13 @@ Future<Classes> getSummary(Config config) async {
     );
     extraJars.addAll(deps.map(Uri.file));
   }
+  if (androidConfig != null && androidConfig.addGradleSources) {
+    final deps = AndroidSdkTools.getGradleSources(
+      configRoot: config.configRoot,
+      androidProject: androidConfig.androidExample ?? '.',
+    );
+    extraSources.addAll(deps.map(Uri.file));
+  }
   if (androidConfig != null && androidConfig.versions != null) {
     final versions = androidConfig.versions!;
     final androidSdkRoot =

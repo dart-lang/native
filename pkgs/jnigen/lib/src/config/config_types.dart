@@ -49,8 +49,8 @@ class MavenDownloads {
 /// `clean` task was run either through flutter or gradle wrapper. In such case,
 /// it's required to run `flutter build apk` & retry running `jnigen`.
 ///
-/// A configuration is invalid if [versions] is unspecified or empty, and
-/// [addGradleDeps] is also false. If [sdkRoot] is not specified but versions is
+/// A configuration is invalid if [versions] is unspecified or empty, and gradle
+/// options are also false. If [sdkRoot] is not specified but versions is
 /// specified, an attempt is made to find out SDK installation directory using
 /// environment variable `ANDROID_SDK_ROOT` if it's defined, else an error
 /// will be thrown.
@@ -59,13 +59,14 @@ class AndroidSdkConfig {
     this.versions,
     this.sdkRoot,
     this.addGradleDeps = false,
+    this.addGradleSources = false,
     this.androidExample,
   }) {
     if (versions != null && sdkRoot == null) {
       throw ConfigException("No SDK Root specified for finding Android SDK "
           "from version priority list $versions");
     }
-    if (versions == null && !addGradleDeps) {
+    if (versions == null && !addGradleDeps && !addGradleSources) {
       throw ConfigException('Neither any SDK versions nor `addGradleDeps` '
           'is specified. Unable to find Android libraries.');
     }
@@ -91,6 +92,14 @@ class AndroidSdkConfig {
   /// Please provide [androidExample] pointing to an example application in
   /// that case.
   bool addGradleDeps;
+
+  /// Similar to [addGradleDeps], runs a stub to obtain source dependencies of
+  /// the Android project.
+  ///
+  /// This may cause additional source JAR artifacts to be downloaded. Like the
+  /// [addGradleDeps] option, plugins cannot be built so an example should be
+  /// specified.
+  bool addGradleSources;
 
   /// Relative path to example application which will be used to determine
   /// compile time classpath using a gradle stub. For most Android plugin
@@ -430,6 +439,7 @@ class Config {
                   .toList(),
               sdkRoot: getSdkRoot(),
               addGradleDeps: prov.getBool(_Props.addGradleDeps) ?? false,
+              addGradleSources: prov.getBool(_Props.addGradleSources) ?? false,
               // Leaving this as getString instead of getPath, because
               // it's resolved later in android_sdk_tools.
               androidExample: prov.getString(_Props.androidExample),
@@ -499,5 +509,6 @@ class _Props {
   static const androidSdkRoot = '$androidSdkConfig.sdk_root';
   static const androidSdkVersions = '$androidSdkConfig.versions';
   static const addGradleDeps = '$androidSdkConfig.add_gradle_deps';
+  static const addGradleSources = '$androidSdkConfig.add_gradle_sources';
   static const androidExample = '$androidSdkConfig.android_example';
 }
