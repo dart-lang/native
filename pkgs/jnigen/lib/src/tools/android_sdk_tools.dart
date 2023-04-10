@@ -91,6 +91,7 @@ task $_gradleGetClasspathTaskName(type: Copy) {
     } catch (Exception e) {
       System.err.println("$_gradleCannotFindJars")
       System.err.println("$_leftOverStubWarning")
+      throw e
     }
   }
 }
