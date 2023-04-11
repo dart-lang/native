@@ -4,22 +4,21 @@
 
 import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/clang.dart';
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
-import 'target.dart';
 
 class CompilerResolver implements ToolResolver {
-  final Config config;
+  final BuildConfig buildConfig;
   final Logger? logger;
 
   CompilerResolver({
-    required this.config,
+    required this.buildConfig,
     required this.logger,
   });
 
@@ -46,7 +45,7 @@ class CompilerResolver implements ToolResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool selectCompiler() {
-    final target = config.optionalString('target') ?? Target.current();
+    final target = buildConfig.target;
     switch (target) {
       case Target.linuxArm:
         return armLinuxGnueabihfGcc;
@@ -73,7 +72,7 @@ class CompilerResolver implements ToolResolver {
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig(
       Tool tool, String configKey) async {
-    final configCcUri = config.optionalPath(_configKeyCC);
+    final configCcUri = buildConfig.cc;
     if (configCcUri != null) {
       if (await File.fromUri(configCcUri).exists()) {
         logger?.finer(

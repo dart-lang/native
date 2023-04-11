@@ -6,8 +6,8 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:c_compiler/c_compiler.dart';
-import 'package:cli_config/cli_config.dart';
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -23,11 +23,14 @@ void main() {
       }
       final executableRelativeUri = Uri.file('hello_world');
 
-      final config = Config(fileParsed: {
-        'out_dir': tempUri.path,
-      });
+      final buildConfig = BuildConfig(
+        outDir: tempUri,
+        packageRoot: tempUri,
+        target: Target.current,
+        packaging: PackagingPreference.dynamic, // Ignored by executables.
+      );
       final cbuilder = RunCBuilder(
-        config: config,
+        buildConfig: buildConfig,
         logger: logger,
         sources: [helloWorldCUri],
         executable: executableRelativeUri,
@@ -49,12 +52,15 @@ void main() {
           packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
       final dylibRelativeUri = Uri.file('libadd.so');
 
-      final config = Config(fileParsed: {
-        'out_dir': tempUri.path,
-      });
+      final buildConfig = BuildConfig(
+        outDir: tempUri,
+        packageRoot: tempUri,
+        target: Target.current,
+        packaging: PackagingPreference.dynamic,
+      );
 
       final cbuilder = RunCBuilder(
-        config: config,
+        buildConfig: buildConfig,
         logger: logger,
         sources: [addCUri],
         dynamicLibrary: dylibRelativeUri,

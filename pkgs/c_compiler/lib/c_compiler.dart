@@ -5,6 +5,7 @@
 /// A library to invoke the native C compiler installed on the host machine.
 library;
 
+export 'src/cbuilder/cbuilder.dart';
 export 'src/cbuilder/run_cbuilder.dart';
 export 'src/native_toolchain/android_ndk.dart' show androidNdk, androidNdkClang;
 export 'src/native_toolchain/clang.dart' show clang;

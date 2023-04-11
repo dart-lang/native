@@ -229,4 +229,20 @@ target_ios_sdk: iphoneos''';
     );
     config.toString();
   });
+
+  test('BuildConfig fromArgs', () async {
+    final buildConfig = BuildConfig(
+      outDir: tempUri.resolve('out2/'),
+      packageRoot: tempUri,
+      target: Target.androidArm64,
+      packaging: PackagingPreference.preferStatic,
+    );
+    final configFileContents = buildConfig.toYamlString();
+    final configUri = tempUri.resolve('config.yaml');
+    final configFile = File.fromUri(configUri);
+    await configFile.writeAsString(configFileContents);
+    final buildConfig2 =
+        await BuildConfig.fromArgs(['--config', configUri.toFilePath()]);
+    expect(buildConfig2, buildConfig);
+  });
 }

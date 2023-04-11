@@ -26,11 +26,14 @@ class BuildOutput {
   final Metadata metadata;
 
   BuildOutput({
-    required DateTime timestamp,
-    this.assets = const [],
-    this.dependencies = const Dependencies([]),
-    this.metadata = const Metadata({}),
-  }) : timestamp = timestamp.roundDownToSeconds();
+    DateTime? timestamp,
+    List<Asset>? assets,
+    Dependencies? dependencies,
+    Metadata? metadata,
+  })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
+        assets = assets ?? [],
+        dependencies = dependencies ?? Dependencies([]),
+        metadata = metadata ?? Metadata({});
 
   static const _assetsKey = 'assets';
   static const _dependenciesKey = 'dependencies';

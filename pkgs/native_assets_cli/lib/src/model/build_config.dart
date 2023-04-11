@@ -101,6 +101,11 @@ class BuildConfig {
     return result;
   }
 
+  static Future<BuildConfig> fromArgs(List<String> args) async {
+    final config = await Config.fromArgs(args: args);
+    return BuildConfig.fromConfig(config);
+  }
+
   static const outDirConfigKey = 'out_dir';
   static const packageRootConfigKey = 'package_root';
   static const ccConfigKey = 'cc';

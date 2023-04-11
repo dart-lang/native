@@ -2,15 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:cli_config/cli_config.dart';
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
-import 'target.dart';
 
 class RunCBuilder {
-  final Config config;
+  final BuildConfig buildConfig;
   final Logger logger;
   final List<Uri> sources;
   final List<Uri> includePaths;
@@ -18,18 +17,18 @@ class RunCBuilder {
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
   final Uri outDir;
-  final String target;
+  final Target target;
 
   RunCBuilder({
-    required this.config,
+    required this.buildConfig,
     required this.logger,
     this.sources = const [],
     this.includePaths = const [],
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
-  })  : outDir = config.path('out_dir'),
-        target = config.optionalString('target') ?? Target.current() {
+  })  : outDir = buildConfig.outDir,
+        target = buildConfig.target {
     if ([executable, dynamicLibrary, staticLibrary].whereType<Uri>().length !=
         1) {
       throw ArgumentError(
@@ -43,7 +42,7 @@ class RunCBuilder {
     if (_compilerCached != null) {
       return _compilerCached!;
     }
-    final resolver = CompilerResolver(config: config, logger: logger);
+    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
     _compilerCached = (await resolver.resolve()).first.uri;
     return _compilerCached!;
   }
@@ -55,7 +54,7 @@ class RunCBuilder {
       return _archiverCached!;
     }
     final compiler_ = await compiler();
-    final resolver = CompilerResolver(config: config, logger: logger);
+    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
     _linkerCached = await resolver.resolveArchiver(
       compiler_,
     );
@@ -69,7 +68,7 @@ class RunCBuilder {
       return _linkerCached!;
     }
     final compiler_ = await compiler();
-    final resolver = CompilerResolver(config: config, logger: logger);
+    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
     _linkerCached = await resolver.resolveLinker(
       compiler_,
     );
@@ -87,7 +86,7 @@ class RunCBuilder {
     await RunProcess(
       executable: compiler_.path,
       arguments: [
-        if (target.startsWith('android')) ...[
+        if (target.os == OS.android) ...[
           // TODO(dacoharkes): How to solve linking issues?
           // Workaround:
           '-nostartfiles',

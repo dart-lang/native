@@ -5,9 +5,8 @@
 import 'dart:io';
 
 import 'package:c_compiler/c_compiler.dart';
-import 'package:c_compiler/src/cbuilder/target.dart';
-import 'package:cli_config/cli_config.dart';
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -27,7 +26,7 @@ void main() {
     Target.androidX64: 'Advanced Micro Devices X86-64',
   };
 
-  for (final packaging in ['dynamic', 'static']) {
+  for (final packaging in Packaging.values) {
     for (final target in targets) {
       test('Cbuilder $packaging library $target', () async {
         await inTempDir((tempUri) async {
@@ -35,23 +34,29 @@ void main() {
           final addCUri =
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
           final Uri libRelativeUri;
-          if (packaging == 'dynamic') {
+          if (packaging == Packaging.dynamic) {
             libRelativeUri = Uri.file('libadd.so');
           } else {
             libRelativeUri = Uri.file('libadd.a');
           }
 
-          final config = Config(fileParsed: {
-            'out_dir': tempUri.path,
-            'target': target,
-          });
+          final buildConfig = BuildConfig(
+            outDir: tempUri,
+            packageRoot: tempUri,
+            target: target,
+            packaging: packaging == Packaging.dynamic
+                ? PackagingPreference.dynamic
+                : PackagingPreference.static,
+          );
 
           final cbuilder = RunCBuilder(
-            config: config,
+            buildConfig: buildConfig,
             logger: logger,
             sources: [addCUri],
-            dynamicLibrary: packaging == 'dynamic' ? libRelativeUri : null,
-            staticLibrary: packaging == 'static' ? libRelativeUri : null,
+            dynamicLibrary:
+                packaging == Packaging.dynamic ? libRelativeUri : null,
+            staticLibrary:
+                packaging == Packaging.static ? libRelativeUri : null,
           );
           await cbuilder.run();
 
