@@ -6,7 +6,6 @@
 library;
 
 export 'src/cbuilder/cbuilder.dart';
-export 'src/cbuilder/run_cbuilder.dart';
 export 'src/native_toolchain/android_ndk.dart' show androidNdk, androidNdkClang;
 export 'src/native_toolchain/clang.dart' show clang;
 export 'src/tool/tool.dart';

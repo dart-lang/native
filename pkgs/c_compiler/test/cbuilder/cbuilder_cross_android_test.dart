@@ -9,36 +9,33 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() {
   final logger = Logger('')..level = Level.ALL;
 
   const targets = [
-    Target.linuxArm,
-    Target.linuxArm64,
-    Target.linuxIA32,
-    Target.linuxX64
+    Target.androidArm,
+    Target.androidArm64,
+    Target.androidIA32,
+    Target.androidX64,
   ];
 
   const readElfMachine = {
-    Target.linuxArm: 'ARM',
-    Target.linuxArm64: 'AArch64',
-    Target.linuxIA32: 'Intel 80386',
-    Target.linuxX64: 'Advanced Micro Devices X86-64',
+    Target.androidArm: 'ARM',
+    Target.androidArm64: 'AArch64',
+    Target.androidIA32: 'Intel 80386',
+    Target.androidX64: 'Advanced Micro Devices X86-64',
   };
 
   for (final packaging in Packaging.values) {
     for (final target in targets) {
-      test('Cbuilder $packaging library linux $target', () async {
+      test('Cbuilder $packaging library $target', () async {
         await inTempDir((tempUri) async {
           final packageUri = Directory.current.uri;
           final addCUri =
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-          final Uri libRelativeUri;
-          if (packaging == Packaging.dynamic) {
-            libRelativeUri = Uri.file('libadd.so');
-          } else {
-            libRelativeUri = Uri.file('libadd.a');
-          }
+          const name = 'add';
 
           final buildConfig = BuildConfig(
             outDir: tempUri,
@@ -48,19 +45,21 @@ void main() {
                 ? PackagingPreference.dynamic
                 : PackagingPreference.static,
           );
+          final buildOutput = BuildOutput();
 
-          final cbuilder = RunCBuilder(
-            buildConfig: buildConfig,
-            logger: logger,
-            sources: [addCUri],
-            dynamicLibrary:
-                packaging == Packaging.dynamic ? libRelativeUri : null,
-            staticLibrary:
-                packaging == Packaging.static ? libRelativeUri : null,
+          final cbuilder = CBuilder.library(
+            name: 'add',
+            assetName: 'add',
+            sources: [addCUri.toFilePath()],
           );
-          await cbuilder.run();
+          await cbuilder.run(
+            buildConfig: buildConfig,
+            buildOutput: buildOutput,
+            logger: logger,
+          );
 
-          final libUri = tempUri.resolveUri(libRelativeUri);
+          final libUri =
+              tempUri.resolve(target.os.libraryFileName(name, packaging));
           final result = await Process.run('readelf', ['-h', libUri.path]);
           expect(result.exitCode, 0);
           final machine = (result.stdout as String)
@@ -70,23 +69,6 @@ void main() {
           expect(result.exitCode, 0);
         });
       });
-    }
-  }
-}
-
-const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
-
-Future<void> inTempDir(
-  Future<void> Function(Uri tempUri) fun, {
-  String? prefix,
-}) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
-  try {
-    await fun(tempDir.uri);
-  } finally {
-    if (!Platform.environment.containsKey(keepTempKey) ||
-        Platform.environment[keepTempKey]!.isEmpty) {
-      await tempDir.delete(recursive: true);
     }
   }
 }

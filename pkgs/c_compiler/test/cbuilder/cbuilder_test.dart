@@ -10,6 +10,8 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() {
   final logger = Logger('')..level = Level.ALL;
 
@@ -21,7 +23,7 @@ void main() {
       if (!await File.fromUri(helloWorldCUri).exists()) {
         throw Exception('Run the test from the root directory.');
       }
-      final executableRelativeUri = Uri.file('hello_world');
+      const name = 'hello_world';
 
       final buildConfig = BuildConfig(
         outDir: tempUri,
@@ -29,15 +31,19 @@ void main() {
         target: Target.current,
         packaging: PackagingPreference.dynamic, // Ignored by executables.
       );
-      final cbuilder = RunCBuilder(
-        buildConfig: buildConfig,
-        logger: logger,
-        sources: [helloWorldCUri],
-        executable: executableRelativeUri,
+      final buildOutput = BuildOutput();
+      final cbuilder = CBuilder.executable(
+        name: name,
+        sources: [helloWorldCUri.toFilePath()],
       );
-      await cbuilder.run();
+      await cbuilder.run(
+        buildConfig: buildConfig,
+        buildOutput: buildOutput,
+        logger: logger,
+      );
 
-      final executableUri = tempUri.resolveUri(executableRelativeUri);
+      final executableUri =
+          tempUri.resolve(Target.current.os.executableFileName(name));
       expect(await File.fromUri(executableUri).exists(), true);
       final result = await Process.run(executableUri.path, []);
       expect(result.exitCode, 0);
@@ -50,7 +56,7 @@ void main() {
       final packageUri = Directory.current.uri;
       final addCUri =
           packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-      final dylibRelativeUri = Uri.file('libadd.so');
+      const name = 'add';
 
       final buildConfig = BuildConfig(
         outDir: tempUri,
@@ -58,37 +64,24 @@ void main() {
         target: Target.current,
         packaging: PackagingPreference.dynamic,
       );
+      final buildOutput = BuildOutput();
 
-      final cbuilder = RunCBuilder(
-        buildConfig: buildConfig,
-        logger: logger,
-        sources: [addCUri],
-        dynamicLibrary: dylibRelativeUri,
+      final cbuilder = CBuilder.library(
+        sources: [addCUri.toFilePath()],
+        name: name,
+        assetName: name,
       );
-      await cbuilder.run();
+      await cbuilder.run(
+        buildConfig: buildConfig,
+        buildOutput: buildOutput,
+        logger: logger,
+      );
 
-      final dylibUri = tempUri.resolveUri(dylibRelativeUri);
+      final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
       final dylib = DynamicLibrary.open(dylibUri.path);
       final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
           int Function(int, int)>('add');
       expect(add(1, 2), 3);
     });
   });
-}
-
-const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
-
-Future<void> inTempDir(
-  Future<void> Function(Uri tempUri) fun, {
-  String? prefix,
-}) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
-  try {
-    await fun(tempDir.uri);
-  } finally {
-    if (!Platform.environment.containsKey(keepTempKey) ||
-        Platform.environment[keepTempKey]!.isEmpty) {
-      await tempDir.delete(recursive: true);
-    }
-  }
 }
