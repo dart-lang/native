@@ -9,7 +9,7 @@ import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 import 'target.dart';
 
-class CBuilder {
+class RunCBuilder {
   final Config config;
   final Logger logger;
   final List<Uri> sources;
@@ -20,7 +20,7 @@ class CBuilder {
   final Uri outDir;
   final String target;
 
-  CBuilder({
+  RunCBuilder({
     required this.config,
     required this.logger,
     this.sources = const [],

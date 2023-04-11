@@ -26,7 +26,7 @@ void main() {
       final config = Config(fileParsed: {
         'out_dir': tempUri.path,
       });
-      final cbuilder = CBuilder(
+      final cbuilder = RunCBuilder(
         config: config,
         logger: logger,
         sources: [helloWorldCUri],
@@ -53,7 +53,7 @@ void main() {
         'out_dir': tempUri.path,
       });
 
-      final cbuilder = CBuilder(
+      final cbuilder = RunCBuilder(
         config: config,
         logger: logger,
         sources: [addCUri],

@@ -14,22 +14,22 @@ void main() {
   final logger = Logger('')..level = Level.ALL;
 
   const targets = [
-    Target.androidArm,
-    Target.androidArm64,
-    Target.androidIA32,
-    Target.androidX64,
+    Target.linuxArm,
+    Target.linuxArm64,
+    Target.linuxIA32,
+    Target.linuxX64
   ];
 
   const readElfMachine = {
-    Target.androidArm: 'ARM',
-    Target.androidArm64: 'AArch64',
-    Target.androidIA32: 'Intel 80386',
-    Target.androidX64: 'Advanced Micro Devices X86-64',
+    Target.linuxArm: 'ARM',
+    Target.linuxArm64: 'AArch64',
+    Target.linuxIA32: 'Intel 80386',
+    Target.linuxX64: 'Advanced Micro Devices X86-64',
   };
 
   for (final packaging in ['dynamic', 'static']) {
     for (final target in targets) {
-      test('Cbuilder $packaging library $target', () async {
+      test('Cbuilder $packaging library linux $target', () async {
         await inTempDir((tempUri) async {
           final packageUri = Directory.current.uri;
           final addCUri =
@@ -46,7 +46,7 @@ void main() {
             'target': target,
           });
 
-          final cbuilder = CBuilder(
+          final cbuilder = RunCBuilder(
             config: config,
             logger: logger,
             sources: [addCUri],

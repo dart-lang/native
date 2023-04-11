@@ -28,7 +28,7 @@ void main(List<String> args) async {
       nativeAssetsConfig.target.os.libraryFileName(packageName, packaging));
   final sources = [for (final path in sourcePaths) packageRoot.resolve(path)];
 
-  final task = CBuilder(
+  final task = RunCBuilder(
     config: config,
     logger: logger,
     sources: sources,
