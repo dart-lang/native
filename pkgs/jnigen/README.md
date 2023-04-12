@@ -4,10 +4,26 @@
 ## Introduction
 Experimental bindings generator for Java bindings through dart:ffi and JNI.
 
-It generates C and Dart bindings which enable calling Java libraries from Dart. C bindings call the Java code through JNI, Dart bindings in turn call these C bindings through FFI.
+`jnigen` scans compiled JAR files or Java source code to generate a description of the API, then uses it to generate Dart annd C bindings. The Dart bindings call the C bindings, which in-turn call the Java functions through JNI. Shared functionality and base classes are provided through the support library, `package:jni`.
+
+The configuration for binding generation is usually provided through YAML.
+
+Three configuration details are needed to generate the bindings. Everything else is optional:
+
+* _Inputs_: input can be Java source files (`source_path`), or compiled classes / JARs (`class_path`). Some maven / gradle based tooling is also provided to simplify obtaining dependencies.
+
+* _Outputs_: Output can be generated in package-structured (one file per class) or single file bindings. Target path to write C and Dart bindings needs to be specified.
+
+* _Classes_: Specify which classes or packages you need bindings for. Specifying a package includes all classes inside it recursively.
+
+Check out the [examples](jnigen/example/) to see some sample configurations.
+
+C code is always generated into a directory with it's own build configuration. It's built as a separate dynamic library.
+
+Lastly, [dart_only bindings](#pure-dart-bindings) mode is also available as a proof-of-concept. It does not need intermediate C bindings, only a dependency on the support library `package:jni`.
 
 ## Example
-It's possible to generate bindings for libraries, or any Java source files.
+It's possible to generate bindings for JAR libraries, or Java source files.
 
 Here's a simple example Java file, in a Flutter Android app.
 
@@ -29,7 +45,10 @@ public abstract class AndroidUtils {
 }
 ```
 
-This produces the following Dart bindings:
+This produces the following boilerplate:
+
+#### Dart Bindings:
+
 ```dart
 /// Some boilerplate is omitted for clarity.
 final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
@@ -53,6 +72,8 @@ class AndroidUtils extends jni.JObject {
       _showToast(mainActivity.reference, text.reference, duration).check();
 }
 ```
+
+#### C Bindings:
 
 ```c
 // Some boilerplate is omitted for clarity.
@@ -100,9 +121,7 @@ classes:
   - 'com.example.in_app_java.AndroidUtils'
 ```
 
-The complete example can be found in [jnigen/example/in_app_java](jnigen/example/in_app_java). The complete example adds one more class to the configuration to demonstrate using JAR files instead of sources.
-
-More examples can be found in [jnigen/example/](jnigen/example/).
+The complete example can be found in [jnigen/example/in_app_java](jnigen/example/in_app_java), which adds few more classes to demonstrate using classes from gradle JAR and source dependencies.
 
 ## Supported platforms
 | Platform | Dart Standalone | Flutter       |
@@ -114,35 +133,12 @@ More examples can be found in [jnigen/example/](jnigen/example/).
 
 On Android, the flutter application runs embedded in Android JVM. On other platforms, a JVM needs to be explicitly spawned using `Jni.spawn`. `package:jni` provides the infrastructure for initializing and managing the JNI on both Android and Non-Android platforms.
 
-## `package:jnigen` and `package:jni`
-This repository contains two packages: `package:jni` (support library) and `package:jnigen` (code generator).
-
-`package:jnigen` generates C bindings which call Java methods through JNI, and Dart bindings which call these C wrappers through FFI.
-
-The generated code relies on common infrastructure provided by `package:jni` support library.
-
-For building a description of Java API, `jnigen` needs complete source code or JAR files of the corresponding library. `jnigen` can use either complete sources or compiled classes from JAR files to build this API description. These are to be provided in the configuration as `class_path` and `source_path` respectively.
-
-It's possible to generate Java code mirroring source layout with each class having a separate dart file, or all classes into a same dart file.
-
-C code is always generated into a directory with it's own build configuration. It's built as a separate dynamic library.
-
-As a proof-of-concept, [pure dart bindings](#pure-dart-bindings) which do not require C code (apart from `package:jni` dependency) are supported.
-
-## Usage
-There are 2 ways to use `jnigen`:
-
-* Run as command line tool with a YAML config.
-* Import `package:jnigen/jnigen.dart` from a script in `tool/` directory of your project.
-
-Both approaches are almost identical. When using YAML, it's possible to selectively override configuration properties with command line, using `-Dproperty_name=value` syntax. We usually use YAML in our [examples](jnigen/example/). See the [YAML Reference](#yaml-configuration-reference) at the end of this document for a tabular description of configuration properties.
-
 ## Java features support
 Currently basic features of the Java language are supported in the bindings. Each Java class is mapped to a Dart class. Bindings are generated for methods, constructors and fields. Exceptions thrown in Java are rethrown in Dart with stack trace from Java.
 
-More advanced features are not supported yet. Support for these features is tracked in the [issue tracker](https://github.com/dart-lang/jnigen/issues).
+More advanced features such as callbacks are not supported yet. Support for these features is tracked in the [issue tracker](https://github.com/dart-lang/jnigen/issues).
 
-### Note on Dart (standalone) target
+## Note on Dart (standalone) target
 `package:jni` is an FFI plugin containing native code, and any bindings generated from jnigen contains native code too.
 
 On Flutter targets, native libraries are built automatically and bundled. On standalone platforms, no such infrastructure exists yet. As a stopgap solution, running `dart run jni:setup` in a target directory builds all JNI native dependencies of the package into `build/jni_libs`. 
@@ -168,15 +164,32 @@ For example, on Powershell:
 $env:Path += ";${env:JAVA_HOME}\bin\server".
 ```
 
-(If JAVA_HOME not set, find the `java.exe` executable and set the environment variable in Control Panel). If java is installed through a package manager, there may be a more automatic way to do this. (Eg: `scoop reset`).
+If JAVA_HOME not set, find the `java.exe` executable and set the environment variable in Control Panel. If java is installed through a package manager, there may be a more automatic way to do this. (Eg: `scoop reset`).
 
 ### C/C++ tooling
 CMake and a standard C toolchain are required to build `package:jni` and C bindings generated by `jnigen`.
 
 It's recommended to have `clang-format` installed for formatting the generated C bindings. On Windows, it's part of LLVM installation. On most Linux distributions it is available as a separate package. On MacOS, it can be installed using Homebrew.
 
-## Contributing
-See the wiki for architecture-related documents.
+## FAQs
+
+#### I am getting ClassNotFoundError at runtime.
+`jnigen` does not handle getting the classes into application. It has to be done by target-specific mechanism. Such as adding a gradle dependency on Android, or manually providing classpath to `Jni.spawn` on desktop / standalone targets.
+
+On Android, `proguard` prunes classes which it deems inaccessible. Since JNI class lookup happens in runtime, this leads to ClassNotFound errors in release mode even if the dependency is included in gradle. [in_app_java example](jnigen/example/in_app_java/) discusses two mechanisms to prevent this: using `Keep` annotation (`androidx.annotation.Keep`) for the code written in the application itself, and [proguard-rules file](jnigen/example/in_app_java/android/app/proguard-rules.pro) for external libraries.
+
+Lastly, some libraries such as `java.awt` do not exist in android. Attempting to use libraries which depend on them can also lead to ClassNotFound errors.
+
+#### `jnigen` is not finding classes.
+Ensure you are providing correct source and class paths, and they follow standard directory structure. If your class name is `com.abc.MyClass`, `MyClass` must be in `com/abc/MyClass.java` relative to one of the source paths, or `com/abc/MyClass.class` relative to one of the class paths specified in YAML.
+
+If the classes are in JAR file, make sure to provide path to JAR file itself, and not the containing directory.
+
+#### `jnigen` is unable to parse sources.
+If the errors are similar to `symbol not found`, ensure all dependencies of the source are available. If such dependency is compiled, it can be included in `class_path`.
+
+#### Should I use `jnigen` over Method channels?
+This is currently an experimental package. Many features are missing, and it's rough around the edges. You're welcome to try it and give feedback.
 
 ## YAML Configuration Reference
 Keys ending with a colon (`:`) denote subsections.
@@ -209,7 +222,7 @@ A `*` denotes required configuration.
 | `output:` >> `dart:` >> `path` * | Directory path or File path | Path to write Dart bindings. Should end in `.dart` for `single_file` configurations, and end in `/` for `package_structure` (default) configuration. |
 | `maven_downloads:`     | (Subsection) | This subsection will contain configuration for automatically downloading Java dependencies (source and JAR) through maven. |
 | `maven_downloads:` >> `source_deps` | List of maven package coordinates | Source packages to download and unpack using maven. The names should be valid maven artifact coordinates. (Eg: `org.apache.pdfbox:pdfbox:2.0.26`). The downloads do not include transitive dependencies. |
-| `maven_downloads"` >> `source_dir` | Path | Directory in which maven sources are extracted. Defaults to `mvn_java`. It's not required to list this explicitly in source_path. |
+| `maven_downloads:` >> `source_dir` | Path | Directory in which maven sources are extracted. Defaults to `mvn_java`. It's not required to list this explicitly in source_path. |
 | `maven_downloads:` >> `jar_only_deps` | List of maven package coordinates | JAR dependencies to download which are not mandatory transitive dependencies of `source_deps`. Often, it's required to find and include optional dependencies so that entire source is valid for further processing. |
 | `maven_downloads:` >> `jar_dir` | Path | Directory to store downloaded JARs. Defaults to `mvn_jar`. |
 | `log_level`            | Logging level | Configure logging level. Defaults to `info`.                            |
@@ -255,4 +268,7 @@ However there are 2 caveats to this caveat.
 * The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be used instead.
 
 The JAR files (`$SDK_ROOT/platforms/android-$VERSION/android.jar`) can be used instead. But compiled JARs do not include JavaDoc and method parameter names. This JAR is automatically included by Gradle when `android_sdk_config` >> `add_gradle_deps` is specified.
+
+## Contributing
+See the wiki for architecture-related documents.
 
