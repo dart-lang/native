@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:c_compiler/src/native_toolchain/clang.dart';
+import 'package:c_compiler/src/tool/tool_instance.dart';
 import 'package:c_compiler/src/tool/tool_requirement.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
@@ -10,11 +11,22 @@ import 'package:test/test.dart';
 void main() {
   test('clang smoke test', () async {
     final requirement =
-        ToolRequirement(clang, minimumVersion: Version(14, 0, 0));
+        ToolRequirement(clang, minimumVersion: Version(14, 0, 0, pre: '0'));
     final resolved = await clang.defaultResolver!.resolve();
     expect(resolved.isNotEmpty, true);
-    print(resolved);
     final satisfied = requirement.satisfy(resolved);
+    expect(satisfied?.length, 1);
+  });
+
+  test('clang versions', () {
+    final clangInstance = ToolInstance(
+      tool: clang,
+      uri: Uri.file('some/path'),
+      version: Version.parse('14.0.0-1'),
+    );
+    final requirement =
+        ToolRequirement(clang, minimumVersion: Version(14, 0, 0, pre: '0'));
+    final satisfied = requirement.satisfy([clangInstance]);
     expect(satisfied?.length, 1);
   });
 }
