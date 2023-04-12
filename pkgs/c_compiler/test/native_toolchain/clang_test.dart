@@ -12,6 +12,8 @@ void main() {
     final requirement =
         ToolRequirement(clang, minimumVersion: Version(14, 0, 0));
     final resolved = await clang.defaultResolver!.resolve();
+    expect(resolved.isNotEmpty, true);
+    print(resolved);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
   });
