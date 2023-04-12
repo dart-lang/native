@@ -55,6 +55,12 @@ class BuildConfig {
   Map<String, Metadata>? get dependencyMetadata => _dependencyMetadata;
   late final Map<String, Metadata>? _dependencyMetadata;
 
+  /// The underlying config.
+  ///
+  /// Can be used for easier access to values on [dependencyMetadata].
+  Config get config => _config;
+  late final Config _config;
+
   factory BuildConfig({
     required Uri outDir,
     required Uri packageRoot,
@@ -115,6 +121,7 @@ class BuildConfig {
   List<void Function(Config)> _readFieldsFromConfig() {
     var targetSet = false;
     return [
+      (config) => _config = config,
       (config) => _outDir = config.path(outDirConfigKey),
       (config) => _packageRoot = config.path(packageRootConfigKey),
       (config) {
@@ -209,17 +216,17 @@ class BuildConfig {
     return true;
   }
 
-  // Ordering of fields doesn't matter.
   @override
-  int get hashCode =>
-      _outDir.hashCode ^
-      _packageRoot.hashCode ^
-      _target.hashCode ^
-      _targetIOSSdk.hashCode ^
-      _cc.hashCode ^
-      _ld.hashCode ^
-      _packaging.hashCode ^
-      DeepCollectionEquality().hash(_dependencyMetadata);
+  int get hashCode => Object.hash(
+        _outDir,
+        _packageRoot,
+        _target,
+        _targetIOSSdk,
+        _cc,
+        _ld,
+        _packaging,
+        DeepCollectionEquality().hash(_dependencyMetadata),
+      );
 
   @override
   String toString() => 'BuildConfig(${toYaml()})';

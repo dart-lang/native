@@ -124,6 +124,9 @@ class RunProcess {
   Future<void> run({Logger? logger}) async {
     final workingDirectoryString = workingDirectory?.toFilePath();
 
+    final stdoutBuffer = <String>[];
+    final stderrBuffer = <String>[];
+
     logger?.info('Running `$commandString`.');
     final process = await Process.start(
       executable,
@@ -133,18 +136,21 @@ class RunProcess {
       environment: environment,
       includeParentEnvironment: includeParentEnvironment,
     ).then((process) {
-      process.stdout
-          .transform(utf8.decoder)
-          .forEach((s) => logger?.fine('  $s'));
-      process.stderr
-          .transform(utf8.decoder)
-          .forEach((s) => logger?.severe('  $s'));
+      process.stdout.transform(utf8.decoder).forEach((s) {
+        logger?.fine('  $s');
+        stdoutBuffer.add(s);
+      });
+      process.stderr.transform(utf8.decoder).forEach((s) {
+        logger?.severe('  $s');
+        stderrBuffer.add(s);
+      });
       return process;
     });
     final exitCode = await process.exitCode;
     if (exitCode != 0) {
       final message =
-          'Command `$commandString` failed with exit code $exitCode.';
+          'Command `$commandString` failed with exit code $exitCode. '
+          'stderr: ${stderrBuffer.join('\n')}';
       logger?.severe(message);
       if (throwOnFailure) {
         throw Exception(message);

@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
+
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
 Future<void> inTempDir(
@@ -19,4 +21,17 @@ Future<void> inTempDir(
       await tempDir.delete(recursive: true);
     }
   }
+}
+
+Logger createLogger({bool verbose = false}) {
+  final logger = Logger('');
+  if (verbose) {
+    logger.level = Level.ALL;
+  } else {
+    logger.level = Level.WARNING;
+  }
+  logger.onRecord.listen((record) {
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
+  return logger;
 }

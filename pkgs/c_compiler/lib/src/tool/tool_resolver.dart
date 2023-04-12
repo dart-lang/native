@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/run_process.dart';
@@ -38,13 +39,8 @@ class PathToolResolver extends ToolResolver {
     ];
   }
 
-  String get executableName {
-    final executableName = toolName.toLowerCase();
-    if (Platform.isWindows) {
-      return '$executableName.exe';
-    }
-    return executableName;
-  }
+  String get executableName =>
+      Target.current.os.executableFileName(toolName.toLowerCase());
 
   static String get which => Platform.isWindows ? 'where' : 'which';
 
@@ -59,12 +55,9 @@ class PathToolResolver extends ToolResolver {
       final uri = File(await file.resolveSymbolicLinks()).uri;
       return uri;
     }
-    if (process.exitCode == 1) {
-      // The exit code for executable not being on the `PATH`.
-      return null;
-    }
-    throw ToolError('`$which $executableName` returned unexpected exit code: '
-        '${process.exitCode}.');
+    // The exit code for executable not being on the `PATH`.
+    assert(process.exitCode == 1);
+    return null;
   }
 }
 
@@ -172,9 +165,7 @@ class InstallLocationResolver implements ToolResolver {
   Future<List<Uri>> tryResolvePath(String path) async {
     if (path.startsWith(home)) {
       final homeDir_ = homeDir;
-      if (homeDir_ == null) {
-        return [];
-      }
+      assert(homeDir_ != null);
       path = path.replaceAll('$home/', homeDir!.path);
     }
 

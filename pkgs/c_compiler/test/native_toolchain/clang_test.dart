@@ -13,6 +13,6 @@ void main() {
         ToolRequirement(clang, minimumVersion: Version(14, 0, 0));
     final resolved = await clang.defaultResolver!.resolve();
     final satisfied = requirement.satisfy(resolved);
-    print(satisfied);
+    expect(satisfied?.length, 1);
   });
 }

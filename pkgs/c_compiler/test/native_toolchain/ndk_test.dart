@@ -14,6 +14,6 @@ void main() {
     ]);
     final resolved = await androidNdk.defaultResolver!.resolve();
     final satisfied = requirement.satisfy(resolved);
-    print(satisfied);
+    expect(satisfied?.length, 2);
   });
 }

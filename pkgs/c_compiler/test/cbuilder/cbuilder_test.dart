@@ -6,14 +6,13 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:c_compiler/c_compiler.dart';
-import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
 void main() {
-  final logger = Logger('')..level = Level.ALL;
+  final logger = createLogger();
 
   test('Cbuilder executable', () async {
     await inTempDir((tempUri) async {

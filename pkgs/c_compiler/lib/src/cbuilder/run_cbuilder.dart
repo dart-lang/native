@@ -88,10 +88,10 @@ class RunCBuilder {
       arguments: [
         if (target.os == OS.android) ...[
           // TODO(dacoharkes): How to solve linking issues?
-          // Workaround:
-          '-nostartfiles',
           // Non-working fix: --sysroot=$NDKPATH/toolchains/llvm/prebuilt/linux-x86_64/sysroot.
           // The sysroot should be discovered automatically after NDK 22.
+          // Workaround:
+          if (dynamicLibrary != null) '-nostartfiles',
           '--target=${androidNdkClangTargetFlags[target]!}',
         ],
         ...sources.map((e) => e.path),

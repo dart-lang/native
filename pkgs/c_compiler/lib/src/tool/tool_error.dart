@@ -6,7 +6,9 @@
 /// host system.
 class ToolError extends Error {
   final String message;
+
   ToolError(this.message);
+
   @override
   String toString() => 'System not configured correctly: $message';
 }

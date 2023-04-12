@@ -51,7 +51,7 @@ class ToolRequirement implements Requirement {
       return null;
     }
     candidates.sort();
-    return [candidates.last];
+    return [candidates.first];
   }
 }
 

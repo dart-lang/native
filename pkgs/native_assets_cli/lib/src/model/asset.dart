@@ -60,7 +60,7 @@ class AssetAbsolutePath implements AssetPath {
   List<String> toDartConst() => [_pathTypeValue, uri.toFilePath()];
 
   @override
-  int get hashCode => uri.hashCode ^ 5;
+  int get hashCode => Object.hash(uri, 133711);
 
   @override
   bool operator ==(Object other) {
@@ -95,7 +95,7 @@ class AssetRelativePath implements AssetPath {
   List<String> toDartConst() => [_pathTypeValue, uri.toFilePath()];
 
   @override
-  int get hashCode => uri.hashCode ^ 39;
+  int get hashCode => Object.hash(uri, 133717);
 
   @override
   bool operator ==(Object other) {
@@ -129,7 +129,7 @@ class AssetSystemPath implements AssetPath {
   List<String> toDartConst() => [_pathTypeValue, uri.toFilePath()];
 
   @override
-  int get hashCode => uri.hashCode ^ 13;
+  int get hashCode => Object.hash(uri, 133723);
 
   @override
   bool operator ==(Object other) {
@@ -250,8 +250,7 @@ class Asset {
   }
 
   @override
-  int get hashCode =>
-      name.hashCode ^ packaging.hashCode ^ target.hashCode ^ path.hashCode;
+  int get hashCode => Object.hash(name, packaging, target, path);
 
   Map<String, Object> toYaml() => {
         _nameKey: name,

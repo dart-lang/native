@@ -18,5 +18,5 @@ class Tool {
   bool operator ==(Object other) => other is Tool && name == other.name;
 
   @override
-  int get hashCode => name.hashCode * 41;
+  int get hashCode => Object.hash(name, 133709);
 }

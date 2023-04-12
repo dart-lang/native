@@ -10,16 +10,16 @@ import '../tool/tool_resolver.dart';
 
 final androidNdk = Tool(
   name: 'Android NDK',
-  defaultResolver: AndroidNdkResolver(),
+  defaultResolver: _AndroidNdkResolver(),
 );
 
 /// A clang that knows how to target Android.
 final androidNdkClang = Tool(
   name: 'Android NDK Clang',
-  defaultResolver: AndroidNdkResolver(),
+  defaultResolver: _AndroidNdkResolver(),
 );
 
-class AndroidNdkResolver implements ToolResolver {
+class _AndroidNdkResolver implements ToolResolver {
   final installLocationResolver = PathVersionResolver(
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(

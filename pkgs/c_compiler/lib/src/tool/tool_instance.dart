@@ -33,14 +33,12 @@ class ToolInstance implements Comparable<ToolInstance> {
   @override
   String toString() => 'ToolInstance(${tool.name}, $version, $uri)';
 
-  /// The path of this native tool.
+  /// Compares this tool instance to [other].
   ///
-  /// We use forward slashes on also on Windows because that's easier with
-  /// escaping when passing as command line arguments.
-  /// Using this because `windows: false` puts a `/` in front of `C:/`.
-  String get path =>
-      uri.toFilePath().replaceAll(r'\', r'/').replaceAll(' ', '\\ ');
-
+  /// When used in sorting, orders [ToolInstance]s according to:
+  /// 1. [tool] name, alphabetically; then
+  /// 2. [version], newest first and preferring having a version; then
+  /// 3. [uri], alphabetically.
   @override
   int compareTo(ToolInstance other) {
     final nameCompare = tool.name.compareTo(other.tool.name);
@@ -48,16 +46,18 @@ class ToolInstance implements Comparable<ToolInstance> {
       return nameCompare;
     }
     final version = this.version;
-    if (version == null) {
-      return -1;
-    }
     final otherVersion = other.version;
-    if (otherVersion == null) {
-      return 1;
-    }
-    final versionCompare = version.compareTo(otherVersion);
-    if (versionCompare != 0) {
-      return versionCompare;
+    if (version != null || otherVersion != null) {
+      if (version == null) {
+        return 1;
+      }
+      if (otherVersion == null) {
+        return -1;
+      }
+      final versionCompare = version.compareTo(otherVersion);
+      if (versionCompare != 0) {
+        return -versionCompare;
+      }
     }
     return uri.toFilePath().compareTo(other.uri.toFilePath());
   }
@@ -70,5 +70,5 @@ class ToolInstance implements Comparable<ToolInstance> {
       version == other.version;
 
   @override
-  int get hashCode => tool.hashCode ^ uri.hashCode ^ version.hashCode;
+  int get hashCode => Object.hash(tool, uri, version);
 }

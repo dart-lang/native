@@ -9,7 +9,9 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/clang.dart';
+import '../native_toolchain/gcc.dart';
 import '../tool/tool.dart';
+import '../tool/tool_error.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
 
@@ -25,12 +27,25 @@ class CompilerResolver implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve() async {
     final tool = selectCompiler();
-    ToolInstance? result;
-    result ??= await _tryLoadCompilerFromConfig(tool, _configKeyCC);
+
+    // First, check if the launcher provided a direct path to the compiler.
+    var result = await _tryLoadCompilerFromConfig(
+        tool, BuildConfig.ccConfigKey, (buildConfig) => buildConfig.cc);
+
+    // Then, check if this package itself provided metadata.
+    final depsToolKey = [
+      BuildConfig.dependencyMetadataConfigKey,
+      ' c_compiler',
+      tool.name
+    ].join('.');
     result ??= await _tryLoadCompilerFromConfig(
       tool,
-      _configKeyNativeToolchainClang,
+      depsToolKey,
+      (buildConfig) =>
+          buildConfig.config.optionalPath(depsToolKey, mustExist: true),
     );
+
+    // Lastly, try to detect on the host machine.
     result ??= await _tryLoadCompilerFromNativeToolchain(
       tool,
     );
@@ -38,6 +53,7 @@ class CompilerResolver implements ToolResolver {
     if (result != null) {
       return [result];
     }
+
     const errorMessage = 'No C compiler found.';
     logger?.severe(errorMessage);
     throw Exception(errorMessage);
@@ -45,6 +61,7 @@ class CompilerResolver implements ToolResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool selectCompiler() {
+    final host = Target.current;
     final target = buildConfig.target;
     switch (target) {
       case Target.linuxArm:
@@ -61,26 +78,20 @@ class CompilerResolver implements ToolResolver {
       case Target.androidX64:
         return androidNdkClang;
     }
-    throw Exception('No tool available for target: $target.');
+    throw ToolError("No tool available on host '$host' for target: '$target'.");
   }
 
-  /// Provided by launchers.
-  static const _configKeyCC = 'cc';
-
-  /// Provided by package:native_toolchain.
-  static const _configKeyNativeToolchainClang = 'deps.native_toolchain.clang';
-
   Future<ToolInstance?> _tryLoadCompilerFromConfig(
-      Tool tool, String configKey) async {
-    final configCcUri = buildConfig.cc;
+      Tool tool, String configKey, Uri? Function(BuildConfig) getter) async {
+    final configCcUri = getter(buildConfig);
     if (configCcUri != null) {
       if (await File.fromUri(configCcUri).exists()) {
-        logger?.finer(
-            'Using compiler ${configCcUri.path} from config[$_configKeyCC].');
+        logger?.finer('Using compiler ${configCcUri.path} '
+            'from config[${BuildConfig.ccConfigKey}].');
         return ToolInstance(tool: tool, uri: configCcUri);
       } else {
-        logger?.warning(
-            'Compiler ${configCcUri.path} from config[$_configKeyCC] does not '
+        logger?.warning('Compiler ${configCcUri.path} from '
+            'config[${BuildConfig.ccConfigKey}] does not '
             'exist.');
       }
     }
@@ -97,7 +108,7 @@ class CompilerResolver implements ToolResolver {
       logger?.warning('Clang could not be found by package:native_toolchain.');
       return null;
     }
-    return resolved.last;
+    return resolved.first;
   }
 
   Future<Uri> resolveLinker(
@@ -138,25 +149,3 @@ class CompilerResolver implements ToolResolver {
     throw Exception(errorMessage);
   }
 }
-
-final i686LinuxGnuGcc = Tool(
-  name: 'i686-linux-gnu-gcc',
-  defaultResolver: PathToolResolver(toolName: 'i686-linux-gnu-gcc'),
-);
-
-final armLinuxGnueabihfGcc = Tool(
-  name: 'arm-linux-gnueabihf-gcc',
-  defaultResolver: PathToolResolver(toolName: 'arm-linux-gnueabihf-gcc'),
-);
-
-final aarch64LinuxGnuGcc = Tool(
-  name: 'aarch64-linux-gnu-gcc',
-  defaultResolver: PathToolResolver(toolName: 'aarch64-linux-gnu-gcc'),
-);
-
-final clangLike = [
-  clang,
-  i686LinuxGnuGcc,
-  armLinuxGnueabihfGcc,
-  aarch64LinuxGnuGcc,
-];
