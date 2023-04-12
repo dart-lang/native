@@ -47,9 +47,8 @@ import "../../../../_init.dart";
 ///@author Ben Litchfield
 ///@author Gerardo Ortiz
 class PDDocumentInformation extends jni.JObject {
-  late final jni.JObjType? _$type;
   @override
-  jni.JObjType get $type => _$type ??= type;
+  late final jni.JObjType $type = type;
 
   PDDocumentInformation.fromRef(
     jni.JObjectPtr ref,
@@ -65,7 +64,9 @@ class PDDocumentInformation extends jni.JObject {
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Default Constructor.
-  PDDocumentInformation() : super.fromRef(_ctor().object);
+  factory PDDocumentInformation() {
+    return PDDocumentInformation.fromRef(_ctor().object);
+  }
 
   static final _ctor1 = jniLookup<
           ffi.NativeFunction<
@@ -78,8 +79,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
-  PDDocumentInformation.ctor1(jni.JObject dic)
-      : super.fromRef(_ctor1(dic.reference).object);
+  factory PDDocumentInformation.ctor1(
+    jni.JObject dic,
+  ) {
+    return PDDocumentInformation.fromRef(_ctor1(dic.reference).object);
+  }
 
   static final _getCOSObject = jniLookup<
               ffi.NativeFunction<
@@ -92,8 +96,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
-  jni.JObject getCOSObject() =>
-      const jni.JObjectType().fromRef(_getCOSObject(reference).object);
+  jni.JObject getCOSObject() {
+    return const jni.JObjectType().fromRef(_getCOSObject(reference).object);
+  }
 
   static final _getPropertyStringValue = jniLookup<
               ffi.NativeFunction<
@@ -115,9 +120,12 @@ class PDDocumentInformation extends jni.JObject {
   ///
   ///@param propertyKey the dictionaries key
   ///@return the properties value
-  jni.JObject getPropertyStringValue(jni.JString propertyKey) =>
-      const jni.JObjectType().fromRef(
-          _getPropertyStringValue(reference, propertyKey.reference).object);
+  jni.JObject getPropertyStringValue(
+    jni.JString propertyKey,
+  ) {
+    return const jni.JObjectType().fromRef(
+        _getPropertyStringValue(reference, propertyKey.reference).object);
+  }
 
   static final _getTitle = jniLookup<
           ffi.NativeFunction<
@@ -130,8 +138,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
-  jni.JString getTitle() =>
-      const jni.JStringType().fromRef(_getTitle(reference).object);
+  jni.JString getTitle() {
+    return const jni.JStringType().fromRef(_getTitle(reference).object);
+  }
 
   static final _setTitle = jniLookup<
           ffi.NativeFunction<
@@ -145,8 +154,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the title of the document.
   ///@param title The new title for the document.
-  void setTitle(jni.JString title) =>
-      _setTitle(reference, title.reference).check();
+  void setTitle(
+    jni.JString title,
+  ) {
+    return _setTitle(reference, title.reference).check();
+  }
 
   static final _getAuthor = jniLookup<
           ffi.NativeFunction<
@@ -159,8 +171,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the author of the document.  This will return null if no author exists.
   ///@return The author of the document.
-  jni.JString getAuthor() =>
-      const jni.JStringType().fromRef(_getAuthor(reference).object);
+  jni.JString getAuthor() {
+    return const jni.JStringType().fromRef(_getAuthor(reference).object);
+  }
 
   static final _setAuthor = jniLookup<
           ffi.NativeFunction<
@@ -174,8 +187,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the author of the document.
   ///@param author The new author for the document.
-  void setAuthor(jni.JString author) =>
-      _setAuthor(reference, author.reference).check();
+  void setAuthor(
+    jni.JString author,
+  ) {
+    return _setAuthor(reference, author.reference).check();
+  }
 
   static final _getSubject = jniLookup<
           ffi.NativeFunction<
@@ -188,8 +204,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the subject of the document.  This will return null if no subject exists.
   ///@return The subject of the document.
-  jni.JString getSubject() =>
-      const jni.JStringType().fromRef(_getSubject(reference).object);
+  jni.JString getSubject() {
+    return const jni.JStringType().fromRef(_getSubject(reference).object);
+  }
 
   static final _setSubject = jniLookup<
           ffi.NativeFunction<
@@ -203,8 +220,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the subject of the document.
   ///@param subject The new subject for the document.
-  void setSubject(jni.JString subject) =>
-      _setSubject(reference, subject.reference).check();
+  void setSubject(
+    jni.JString subject,
+  ) {
+    return _setSubject(reference, subject.reference).check();
+  }
 
   static final _getKeywords = jniLookup<
           ffi.NativeFunction<
@@ -217,8 +237,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the keywords of the document.  This will return null if no keywords exists.
   ///@return The keywords of the document.
-  jni.JString getKeywords() =>
-      const jni.JStringType().fromRef(_getKeywords(reference).object);
+  jni.JString getKeywords() {
+    return const jni.JStringType().fromRef(_getKeywords(reference).object);
+  }
 
   static final _setKeywords = jniLookup<
           ffi.NativeFunction<
@@ -232,8 +253,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the keywords of the document.
   ///@param keywords The new keywords for the document.
-  void setKeywords(jni.JString keywords) =>
-      _setKeywords(reference, keywords.reference).check();
+  void setKeywords(
+    jni.JString keywords,
+  ) {
+    return _setKeywords(reference, keywords.reference).check();
+  }
 
   static final _getCreator = jniLookup<
           ffi.NativeFunction<
@@ -246,8 +270,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the creator of the document.  This will return null if no creator exists.
   ///@return The creator of the document.
-  jni.JString getCreator() =>
-      const jni.JStringType().fromRef(_getCreator(reference).object);
+  jni.JString getCreator() {
+    return const jni.JStringType().fromRef(_getCreator(reference).object);
+  }
 
   static final _setCreator = jniLookup<
           ffi.NativeFunction<
@@ -261,8 +286,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the creator of the document.
   ///@param creator The new creator for the document.
-  void setCreator(jni.JString creator) =>
-      _setCreator(reference, creator.reference).check();
+  void setCreator(
+    jni.JString creator,
+  ) {
+    return _setCreator(reference, creator.reference).check();
+  }
 
   static final _getProducer = jniLookup<
           ffi.NativeFunction<
@@ -275,8 +303,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the producer of the document.  This will return null if no producer exists.
   ///@return The producer of the document.
-  jni.JString getProducer() =>
-      const jni.JStringType().fromRef(_getProducer(reference).object);
+  jni.JString getProducer() {
+    return const jni.JStringType().fromRef(_getProducer(reference).object);
+  }
 
   static final _setProducer = jniLookup<
           ffi.NativeFunction<
@@ -290,8 +319,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the producer of the document.
   ///@param producer The new producer for the document.
-  void setProducer(jni.JString producer) =>
-      _setProducer(reference, producer.reference).check();
+  void setProducer(
+    jni.JString producer,
+  ) {
+    return _setProducer(reference, producer.reference).check();
+  }
 
   static final _getCreationDate = jniLookup<
               ffi.NativeFunction<
@@ -304,8 +336,9 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
-  jni.JObject getCreationDate() =>
-      const jni.JObjectType().fromRef(_getCreationDate(reference).object);
+  jni.JObject getCreationDate() {
+    return const jni.JObjectType().fromRef(_getCreationDate(reference).object);
+  }
 
   static final _setCreationDate = jniLookup<
               ffi.NativeFunction<
@@ -320,8 +353,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the creation date of the document.
   ///@param date The new creation date for the document.
-  void setCreationDate(jni.JObject date) =>
-      _setCreationDate(reference, date.reference).check();
+  void setCreationDate(
+    jni.JObject date,
+  ) {
+    return _setCreationDate(reference, date.reference).check();
+  }
 
   static final _getModificationDate = jniLookup<
               ffi.NativeFunction<
@@ -334,8 +370,10 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will get the modification date of the document.  This will return null if no modification date exists.
   ///@return The modification date of the document.
-  jni.JObject getModificationDate() =>
-      const jni.JObjectType().fromRef(_getModificationDate(reference).object);
+  jni.JObject getModificationDate() {
+    return const jni.JObjectType()
+        .fromRef(_getModificationDate(reference).object);
+  }
 
   static final _setModificationDate = jniLookup<
               ffi.NativeFunction<
@@ -350,8 +388,11 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// This will set the modification date of the document.
   ///@param date The new modification date for the document.
-  void setModificationDate(jni.JObject date) =>
-      _setModificationDate(reference, date.reference).check();
+  void setModificationDate(
+    jni.JObject date,
+  ) {
+    return _setModificationDate(reference, date.reference).check();
+  }
 
   static final _getTrapped = jniLookup<
           ffi.NativeFunction<
@@ -365,8 +406,9 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the trapped value for the document.
   /// This will return null if one is not found.
   ///@return The trapped value for the document.
-  jni.JString getTrapped() =>
-      const jni.JStringType().fromRef(_getTrapped(reference).object);
+  jni.JString getTrapped() {
+    return const jni.JStringType().fromRef(_getTrapped(reference).object);
+  }
 
   static final _getMetadataKeys = jniLookup<
               ffi.NativeFunction<
@@ -380,8 +422,9 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the keys of all metadata information fields for the document.
   ///@return all metadata key strings.
   ///@since Apache PDFBox 1.3.0
-  jni.JObject getMetadataKeys() =>
-      const jni.JObjectType().fromRef(_getMetadataKeys(reference).object);
+  jni.JObject getMetadataKeys() {
+    return const jni.JObjectType().fromRef(_getMetadataKeys(reference).object);
+  }
 
   static final _getCustomMetadataValue = jniLookup<
               ffi.NativeFunction<
@@ -399,9 +442,12 @@ class PDDocumentInformation extends jni.JObject {
   ///  This will return null if one is not found.
   ///@param fieldName Name of custom metadata field from pdf document.
   ///@return String Value of metadata field
-  jni.JString getCustomMetadataValue(jni.JString fieldName) =>
-      const jni.JStringType().fromRef(
-          _getCustomMetadataValue(reference, fieldName.reference).object);
+  jni.JString getCustomMetadataValue(
+    jni.JString fieldName,
+  ) {
+    return const jni.JStringType().fromRef(
+        _getCustomMetadataValue(reference, fieldName.reference).object);
+  }
 
   static final _setCustomMetadataValue = jniLookup<
               ffi.NativeFunction<
@@ -417,10 +463,14 @@ class PDDocumentInformation extends jni.JObject {
   /// Set the custom metadata value.
   ///@param fieldName The name of the custom metadata field.
   ///@param fieldValue The value to the custom metadata field.
-  void setCustomMetadataValue(jni.JString fieldName, jni.JString fieldValue) =>
-      _setCustomMetadataValue(
-              reference, fieldName.reference, fieldValue.reference)
-          .check();
+  void setCustomMetadataValue(
+    jni.JString fieldName,
+    jni.JString fieldValue,
+  ) {
+    return _setCustomMetadataValue(
+            reference, fieldName.reference, fieldValue.reference)
+        .check();
+  }
 
   static final _setTrapped = jniLookup<
           ffi.NativeFunction<
@@ -436,8 +486,11 @@ class PDDocumentInformation extends jni.JObject {
   /// 'True', 'False', or 'Unknown'.
   ///@param value The new trapped value for the document.
   ///@throws IllegalArgumentException if the parameter is invalid.
-  void setTrapped(jni.JString value) =>
-      _setTrapped(reference, value.reference).check();
+  void setTrapped(
+    jni.JString value,
+  ) {
+    return _setTrapped(reference, value.reference).check();
+  }
 }
 
 class $PDDocumentInformationType extends jni.JObjType<PDDocumentInformation> {
@@ -449,4 +502,19 @@ class $PDDocumentInformationType extends jni.JObjType<PDDocumentInformation> {
   @override
   PDDocumentInformation fromRef(jni.JObjectPtr ref) =>
       PDDocumentInformation.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($PDDocumentInformationType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $PDDocumentInformationType &&
+        other is $PDDocumentInformationType;
+  }
 }

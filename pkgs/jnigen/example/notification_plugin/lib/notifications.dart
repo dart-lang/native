@@ -30,9 +30,8 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
 
 /// from: com.example.notification_plugin.Notifications
 class Notifications extends jni.JObject {
-  late final jni.JObjType? _$type;
   @override
-  jni.JObjType get $type => _$type ??= type;
+  late final jni.JObjType $type = type;
 
   Notifications.fromRef(
     jni.JObjectPtr ref,
@@ -46,7 +45,9 @@ class Notifications extends jni.JObject {
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  Notifications() : super.fromRef(_ctor().object);
+  factory Notifications() {
+    return Notifications.fromRef(_ctor().object);
+  }
 
   static final _showNotification = jniLookup<
           ffi.NativeFunction<
@@ -60,11 +61,16 @@ class Notifications extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)
-  static void showNotification(jni.JObject context, int notificationID,
-          jni.JString title, jni.JString text) =>
-      _showNotification(context.reference, notificationID, title.reference,
-              text.reference)
-          .check();
+  static void showNotification(
+    jni.JObject context,
+    int notificationID,
+    jni.JString title,
+    jni.JString text,
+  ) {
+    return _showNotification(
+            context.reference, notificationID, title.reference, text.reference)
+        .check();
+  }
 }
 
 class $NotificationsType extends jni.JObjType<Notifications> {
@@ -75,4 +81,19 @@ class $NotificationsType extends jni.JObjType<Notifications> {
 
   @override
   Notifications fromRef(jni.JObjectPtr ref) => Notifications.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($NotificationsType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $NotificationsType &&
+        other is $NotificationsType;
+  }
 }

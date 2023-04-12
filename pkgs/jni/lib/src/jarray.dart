@@ -16,6 +16,22 @@ class JArrayType<T> extends JObjType<JArray<T>> {
 
   @override
   JArray<T> fromRef(Pointer<Void> ref) => JArray.fromRef(elementType, ref);
+
+  @override
+  JObjType get superType => const JObjectType();
+
+  @override
+  final int superCount = 1;
+
+  @override
+  int get hashCode => Object.hash(JArrayType, elementType);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JArrayType &&
+        other is JArrayType &&
+        elementType == other.elementType;
+  }
 }
 
 class JArray<E> extends JObject {

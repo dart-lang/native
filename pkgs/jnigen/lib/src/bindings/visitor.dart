@@ -22,18 +22,21 @@ abstract class TypeVisitor<R> {
 }
 
 extension MultiVisitor<T extends Element<T>> on Iterable<Element<T>> {
+  /// Accepts all lazily. Remember to call `.toList()` or similar methods!
   Iterable<R> accept<R>(Visitor<T, R> v) {
     return map((e) => e.accept(v));
   }
 }
 
 extension MultiTypeVisitor<T extends ReferredType> on Iterable<T> {
+  /// Accepts all lazily. Remember to call `.toList()` or similar methods!
   Iterable<R> accept<R>(TypeVisitor<R> v) {
     return map((e) => e.accept(v));
   }
 }
 
 extension MultiTypeUsageVisitor on Iterable<TypeUsage> {
+  /// Accepts all lazily. Remember to call `.toList()` or similar methods!
   Iterable<R> accept<R>(TypeVisitor<R> v) {
     return map((e) => e.type.accept(v));
   }

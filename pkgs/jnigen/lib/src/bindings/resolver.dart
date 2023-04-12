@@ -7,12 +7,6 @@ import 'dart:math';
 import '../logging/logging.dart';
 
 class Resolver {
-  Resolver({
-    required this.importMap,
-    required this.currentClass,
-    this.inputClassNames = const {},
-  });
-
   static const Map<String, String> predefined = {
     'java.lang.String': 'jni.',
   };
@@ -31,6 +25,12 @@ class Resolver {
   final Set<String> _relativeImportedClasses = {};
   final Map<String, String> _importedNameToClass = {};
   final Map<String, String> _classToImportedName = {};
+
+  Resolver({
+    required this.importMap,
+    required this.currentClass,
+    this.inputClassNames = const {},
+  });
 
   static String getFileClassName(String binaryName) {
     final dollarSign = binaryName.indexOf('\$');

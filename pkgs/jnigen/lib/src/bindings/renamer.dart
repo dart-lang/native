@@ -119,8 +119,9 @@ String _renameConflict(Map<String, int> counts, String name) {
 }
 
 class Renamer implements Visitor<Classes, void> {
-  Renamer(this.config);
   final Config config;
+
+  Renamer(this.config);
 
   @override
   void visit(Classes node) {
@@ -133,10 +134,6 @@ class Renamer implements Visitor<Classes, void> {
 }
 
 class _ClassRenamer implements Visitor<ClassDecl, void> {
-  _ClassRenamer(
-    this.config,
-  );
-
   final Config config;
   final Map<String, int> classNameCounts = {};
   final Set<ClassDecl> renamed = {...ClassDecl.predefined.values};
@@ -146,6 +143,10 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     }
   };
   final Map<ClassDecl, Map<String, int>> methodNumsAfterRenaming = {};
+
+  _ClassRenamer(
+    this.config,
+  );
 
   /// Returns class name as useful in dart.
   ///

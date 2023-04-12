@@ -12,15 +12,33 @@ class JObjectType extends JObjType<JObject> {
 
   @override
   JObject fromRef(Pointer<Void> ref) => JObject.fromRef(ref);
+
+  @override
+  JObjType get superType => const JObjectType();
+
+  // TODO(#70): Once interface implementation lands, other than [superType],
+  // we should have a list of implemented interfaces.
+
+  @override
+  final int superCount = 0;
+
+  @override
+  int get hashCode => (JObjectType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JObjectType && other is JObjectType;
+  }
 }
 
 Pointer<T> _getID<T extends NativeType>(
-    JniPointerResult Function(
-            Pointer<Void> ptr, Pointer<Char> name, Pointer<Char> sig)
-        f,
-    Pointer<Void> ptr,
-    String name,
-    String sig) {
+  JniPointerResult Function(
+          Pointer<Void> ptr, Pointer<Char> name, Pointer<Char> sig)
+      f,
+  Pointer<Void> ptr,
+  String name,
+  String sig,
+) {
   final result = using(
       (arena) => f(ptr, name.toNativeChars(arena), sig.toNativeChars(arena)));
   if (result.exception != nullptr) {

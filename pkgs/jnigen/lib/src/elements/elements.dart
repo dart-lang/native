@@ -97,15 +97,21 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
 
   String get internalName => binaryName.replaceAll(".", "/");
 
+  /// The number of super classes this type has.
+  ///
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final int superCount;
+
   /// Parent's [ClassDecl] obtained from [parentName].
   ///
-  /// Will be populated by [Linker].
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
   late final ClassDecl? parent;
 
   /// Final name of this class.
   ///
-  /// Will be populated by [Renamer].
+  /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late final String finalName;
 
@@ -114,13 +120,13 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   /// This is used by C bindings instead of fully qualified name to reduce
   /// the verbosity of generated bindings.
   ///
-  /// Will be populated by [Renamer].
+  /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late final String uniqueName;
 
   /// Type parameters including the ones from its ancestors
   ///
-  /// Will be populated by [Linker].
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
   List<TypeParam> allTypeParams = const [];
 
@@ -135,14 +141,18 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
     binaryName: 'java.lang.Object',
     packageName: 'java.lang',
     simpleName: 'Object',
-  )..finalName = 'JObject';
+  )
+    ..finalName = 'JObject'
+    ..superCount = 0;
 
   static final string = ClassDecl(
     superclass: TypeUsage.object,
     binaryName: 'java.lang.String',
     packageName: 'java.lang',
     simpleName: 'String',
-  )..finalName = 'JString';
+  )
+    ..finalName = 'JString'
+    ..superCount = 1;
 
   static final predefined = {
     'java.lang.Object': object,
@@ -202,7 +212,7 @@ class TypeUsage {
   @JsonKey(name: "type")
   final Map<String, dynamic> typeJson;
 
-  /// Will be populated in [TypeUsage.fromJson].
+  /// Populated by in [TypeUsage.fromJson].
   @JsonKey(includeFromJson: false)
   late final ReferredType type;
 
@@ -462,12 +472,12 @@ class Method extends ClassMember implements Element<Method> {
 
   /// The [ClassDecl] where this method is defined.
   ///
-  /// Will be populated by [Linker].
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
   @override
   late ClassDecl classDecl;
 
-  /// Will be populated by [Renamer].
+  /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late String finalName;
 
@@ -513,7 +523,7 @@ class Param implements Element<Param> {
   final String name;
   final TypeUsage type;
 
-  /// Will be populated by [Renamer].
+  /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late String finalName;
 
@@ -548,12 +558,12 @@ class Field extends ClassMember implements Element<Field> {
 
   /// The [ClassDecl] where this field is defined.
   ///
-  /// Will be populated by [Linker].
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
   @override
   late final ClassDecl classDecl;
 
-  /// Will be populated by [Renamer].
+  /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late final String finalName;
 

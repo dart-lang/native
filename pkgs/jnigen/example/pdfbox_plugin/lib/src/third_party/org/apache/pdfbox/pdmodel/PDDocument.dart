@@ -46,9 +46,8 @@ import "../../../../_init.dart";
 /// The \#close() method must be called once the document is no longer needed.
 ///@author Ben Litchfield
 class PDDocument extends jni.JObject {
-  late final jni.JObjType? _$type;
   @override
-  jni.JObjType get $type => _$type ??= type;
+  late final jni.JObjType $type = type;
 
   PDDocument.fromRef(
     jni.JObjectPtr ref,
@@ -65,7 +64,9 @@ class PDDocument extends jni.JObject {
   ///
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
-  PDDocument() : super.fromRef(_ctor().object);
+  factory PDDocument() {
+    return PDDocument.fromRef(_ctor().object);
+  }
 
   static final _ctor1 = jniLookup<
           ffi.NativeFunction<
@@ -79,8 +80,11 @@ class PDDocument extends jni.JObject {
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
-  PDDocument.ctor1(jni.JObject memUsageSetting)
-      : super.fromRef(_ctor1(memUsageSetting.reference).object);
+  factory PDDocument.ctor1(
+    jni.JObject memUsageSetting,
+  ) {
+    return PDDocument.fromRef(_ctor1(memUsageSetting.reference).object);
+  }
 
   static final _ctor2 = jniLookup<
           ffi.NativeFunction<
@@ -93,8 +97,11 @@ class PDDocument extends jni.JObject {
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
-  PDDocument.ctor2(jni.JObject doc)
-      : super.fromRef(_ctor2(doc.reference).object);
+  factory PDDocument.ctor2(
+    jni.JObject doc,
+  ) {
+    return PDDocument.fromRef(_ctor2(doc.reference).object);
+  }
 
   static final _ctor3 = jniLookup<
           ffi.NativeFunction<
@@ -110,8 +117,12 @@ class PDDocument extends jni.JObject {
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
-  PDDocument.ctor3(jni.JObject doc, jni.JObject source)
-      : super.fromRef(_ctor3(doc.reference, source.reference).object);
+  factory PDDocument.ctor3(
+    jni.JObject doc,
+    jni.JObject source,
+  ) {
+    return PDDocument.fromRef(_ctor3(doc.reference, source.reference).object);
+  }
 
   static final _ctor4 = jniLookup<
           ffi.NativeFunction<
@@ -130,10 +141,14 @@ class PDDocument extends jni.JObject {
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
   ///@param permission he access permissions of the pdf
-  PDDocument.ctor4(jni.JObject doc, jni.JObject source, jni.JObject permission)
-      : super.fromRef(
-            _ctor4(doc.reference, source.reference, permission.reference)
-                .object);
+  factory PDDocument.ctor4(
+    jni.JObject doc,
+    jni.JObject source,
+    jni.JObject permission,
+  ) {
+    return PDDocument.fromRef(
+        _ctor4(doc.reference, source.reference, permission.reference).object);
+  }
 
   static final _addPage = jniLookup<
           ffi.NativeFunction<
@@ -148,7 +163,11 @@ class PDDocument extends jni.JObject {
   /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
   /// hierarchy and set the parent of the page to the root.
   ///@param page The page to add to the document.
-  void addPage(jni.JObject page) => _addPage(reference, page.reference).check();
+  void addPage(
+    jni.JObject page,
+  ) {
+    return _addPage(reference, page.reference).check();
+  }
 
   static final _addSignature = jniLookup<
           ffi.NativeFunction<
@@ -170,8 +189,11 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature(jni.JObject sigObject) =>
-      _addSignature(reference, sigObject.reference).check();
+  void addSignature(
+    jni.JObject sigObject,
+  ) {
+    return _addSignature(reference, sigObject.reference).check();
+  }
 
   static final _addSignature1 = jniLookup<
           ffi.NativeFunction<
@@ -196,8 +218,13 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature1(jni.JObject sigObject, jni.JObject options) =>
-      _addSignature1(reference, sigObject.reference, options.reference).check();
+  void addSignature1(
+    jni.JObject sigObject,
+    jni.JObject options,
+  ) {
+    return _addSignature1(reference, sigObject.reference, options.reference)
+        .check();
+  }
 
   static final _addSignature2 = jniLookup<
           ffi.NativeFunction<
@@ -221,10 +248,14 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature2(jni.JObject sigObject, jni.JObject signatureInterface) =>
-      _addSignature2(
-              reference, sigObject.reference, signatureInterface.reference)
-          .check();
+  void addSignature2(
+    jni.JObject sigObject,
+    jni.JObject signatureInterface,
+  ) {
+    return _addSignature2(
+            reference, sigObject.reference, signatureInterface.reference)
+        .check();
+  }
 
   static final _addSignature3 = jniLookup<
           ffi.NativeFunction<
@@ -252,11 +283,15 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature3(jni.JObject sigObject, jni.JObject signatureInterface,
-          jni.JObject options) =>
-      _addSignature3(reference, sigObject.reference,
-              signatureInterface.reference, options.reference)
-          .check();
+  void addSignature3(
+    jni.JObject sigObject,
+    jni.JObject signatureInterface,
+    jni.JObject options,
+  ) {
+    return _addSignature3(reference, sigObject.reference,
+            signatureInterface.reference, options.reference)
+        .check();
+  }
 
   static final _addSignatureField = jniLookup<
           ffi.NativeFunction<
@@ -279,11 +314,15 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if there is an error creating required fields
   ///@deprecated The method is misleading, because only one signature may be
   /// added in a document. The method will be removed in the future.
-  void addSignatureField(jni.JObject sigFields, jni.JObject signatureInterface,
-          jni.JObject options) =>
-      _addSignatureField(reference, sigFields.reference,
-              signatureInterface.reference, options.reference)
-          .check();
+  void addSignatureField(
+    jni.JObject sigFields,
+    jni.JObject signatureInterface,
+    jni.JObject options,
+  ) {
+    return _addSignatureField(reference, sigFields.reference,
+            signatureInterface.reference, options.reference)
+        .check();
+  }
 
   static final _removePage = jniLookup<
           ffi.NativeFunction<
@@ -297,8 +336,11 @@ class PDDocument extends jni.JObject {
   ///
   /// Remove the page from the document.
   ///@param page The page to remove from the document.
-  void removePage(jni.JObject page) =>
-      _removePage(reference, page.reference).check();
+  void removePage(
+    jni.JObject page,
+  ) {
+    return _removePage(reference, page.reference).check();
+  }
 
   static final _removePage1 = jniLookup<
           ffi.NativeFunction<
@@ -310,8 +352,11 @@ class PDDocument extends jni.JObject {
   ///
   /// Remove the page from the document.
   ///@param pageNumber 0 based index to page number.
-  void removePage1(int pageNumber) =>
-      _removePage1(reference, pageNumber).check();
+  void removePage1(
+    int pageNumber,
+  ) {
+    return _removePage1(reference, pageNumber).check();
+  }
 
   static final _importPage = jniLookup<
           ffi.NativeFunction<
@@ -345,8 +390,12 @@ class PDDocument extends jni.JObject {
   ///@param page The page to import.
   ///@return The page that was imported.
   ///@throws IOException If there is an error copying the page.
-  jni.JObject importPage(jni.JObject page) => const jni.JObjectType()
-      .fromRef(_importPage(reference, page.reference).object);
+  jni.JObject importPage(
+    jni.JObject page,
+  ) {
+    return const jni.JObjectType()
+        .fromRef(_importPage(reference, page.reference).object);
+  }
 
   static final _getDocument = jniLookup<
           ffi.NativeFunction<
@@ -359,8 +408,9 @@ class PDDocument extends jni.JObject {
   ///
   /// This will get the low level document.
   ///@return The document that this layer sits on top of.
-  jni.JObject getDocument() =>
-      const jni.JObjectType().fromRef(_getDocument(reference).object);
+  jni.JObject getDocument() {
+    return const jni.JObjectType().fromRef(_getDocument(reference).object);
+  }
 
   static final _getDocumentInformation = jniLookup<
           ffi.NativeFunction<
@@ -378,9 +428,10 @@ class PDDocument extends jni.JObject {
   /// document level metadata, a metadata stream should be used instead, see
   /// PDDocumentCatalog\#getMetadata().
   ///@return The documents /Info dictionary, never null.
-  pddocumentinformation_.PDDocumentInformation getDocumentInformation() =>
-      const pddocumentinformation_.$PDDocumentInformationType()
-          .fromRef(_getDocumentInformation(reference).object);
+  pddocumentinformation_.PDDocumentInformation getDocumentInformation() {
+    return const pddocumentinformation_.$PDDocumentInformationType()
+        .fromRef(_getDocumentInformation(reference).object);
+  }
 
   static final _setDocumentInformation = jniLookup<
           ffi.NativeFunction<
@@ -399,8 +450,10 @@ class PDDocument extends jni.JObject {
   /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
   ///@param info The updated document information.
   void setDocumentInformation(
-          pddocumentinformation_.PDDocumentInformation info) =>
-      _setDocumentInformation(reference, info.reference).check();
+    pddocumentinformation_.PDDocumentInformation info,
+  ) {
+    return _setDocumentInformation(reference, info.reference).check();
+  }
 
   static final _getDocumentCatalog = jniLookup<
           ffi.NativeFunction<
@@ -413,8 +466,10 @@ class PDDocument extends jni.JObject {
   ///
   /// This will get the document CATALOG. This is guaranteed to not return null.
   ///@return The documents /Root dictionary
-  jni.JObject getDocumentCatalog() =>
-      const jni.JObjectType().fromRef(_getDocumentCatalog(reference).object);
+  jni.JObject getDocumentCatalog() {
+    return const jni.JObjectType()
+        .fromRef(_getDocumentCatalog(reference).object);
+  }
 
   static final _isEncrypted = jniLookup<
           ffi.NativeFunction<
@@ -426,7 +481,9 @@ class PDDocument extends jni.JObject {
   ///
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
-  bool isEncrypted() => _isEncrypted(reference).boolean;
+  bool isEncrypted() {
+    return _isEncrypted(reference).boolean;
+  }
 
   static final _getEncryption = jniLookup<
           ffi.NativeFunction<
@@ -442,8 +499,9 @@ class PDDocument extends jni.JObject {
   /// but the only supported subclass at this time is a
   /// PDStandardEncryption object.
   ///@return The encryption dictionary(most likely a PDStandardEncryption object)
-  jni.JObject getEncryption() =>
-      const jni.JObjectType().fromRef(_getEncryption(reference).object);
+  jni.JObject getEncryption() {
+    return const jni.JObjectType().fromRef(_getEncryption(reference).object);
+  }
 
   static final _setEncryptionDictionary = jniLookup<
               ffi.NativeFunction<
@@ -459,8 +517,11 @@ class PDDocument extends jni.JObject {
   /// This will set the encryption dictionary for this document.
   ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
   ///@throws IOException If there is an error determining which security handler to use.
-  void setEncryptionDictionary(jni.JObject encryption) =>
-      _setEncryptionDictionary(reference, encryption.reference).check();
+  void setEncryptionDictionary(
+    jni.JObject encryption,
+  ) {
+    return _setEncryptionDictionary(reference, encryption.reference).check();
+  }
 
   static final _getLastSignatureDictionary = jniLookup<
               ffi.NativeFunction<
@@ -475,8 +536,10 @@ class PDDocument extends jni.JObject {
   /// last in time when empty signature fields are created first but signed after other fields.
   ///@return the last signature as <code>PDSignatureField</code>.
   ///@throws IOException if no document catalog can be found.
-  jni.JObject getLastSignatureDictionary() => const jni.JObjectType()
-      .fromRef(_getLastSignatureDictionary(reference).object);
+  jni.JObject getLastSignatureDictionary() {
+    return const jni.JObjectType()
+        .fromRef(_getLastSignatureDictionary(reference).object);
+  }
 
   static final _getSignatureFields = jniLookup<
           ffi.NativeFunction<
@@ -490,8 +553,10 @@ class PDDocument extends jni.JObject {
   /// Retrieve all signature fields from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni.JObject getSignatureFields() =>
-      const jni.JObjectType().fromRef(_getSignatureFields(reference).object);
+  jni.JObject getSignatureFields() {
+    return const jni.JObjectType()
+        .fromRef(_getSignatureFields(reference).object);
+  }
 
   static final _getSignatureDictionaries = jniLookup<
               ffi.NativeFunction<
@@ -505,8 +570,10 @@ class PDDocument extends jni.JObject {
   /// Retrieve all signature dictionaries from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni.JObject getSignatureDictionaries() => const jni.JObjectType()
-      .fromRef(_getSignatureDictionaries(reference).object);
+  jni.JObject getSignatureDictionaries() {
+    return const jni.JObjectType()
+        .fromRef(_getSignatureDictionaries(reference).object);
+  }
 
   static final _registerTrueTypeFontForClosing = jniLookup<
               ffi.NativeFunction<
@@ -523,8 +590,11 @@ class PDDocument extends jni.JObject {
   /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
   /// method, it is done by the appropriate PDFont classes.
   ///@param ttf
-  void registerTrueTypeFontForClosing(jni.JObject ttf) =>
-      _registerTrueTypeFontForClosing(reference, ttf.reference).check();
+  void registerTrueTypeFontForClosing(
+    jni.JObject ttf,
+  ) {
+    return _registerTrueTypeFontForClosing(reference, ttf.reference).check();
+  }
 
   static final _load = jniLookup<
           ffi.NativeFunction<
@@ -540,8 +610,11 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the file required a non-empty password.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load(jni.JObject file) =>
-      const $PDDocumentType().fromRef(_load(file.reference).object);
+  static PDDocument load(
+    jni.JObject file,
+  ) {
+    return const $PDDocumentType().fromRef(_load(file.reference).object);
+  }
 
   static final _load1 = jniLookup<
           ffi.NativeFunction<
@@ -560,9 +633,13 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the file required a non-empty password.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load1(jni.JObject file, jni.JObject memUsageSetting) =>
-      const $PDDocumentType()
-          .fromRef(_load1(file.reference, memUsageSetting.reference).object);
+  static PDDocument load1(
+    jni.JObject file,
+    jni.JObject memUsageSetting,
+  ) {
+    return const $PDDocumentType()
+        .fromRef(_load1(file.reference, memUsageSetting.reference).object);
+  }
 
   static final _load2 = jniLookup<
           ffi.NativeFunction<
@@ -581,9 +658,13 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load2(jni.JObject file, jni.JString password) =>
-      const $PDDocumentType()
-          .fromRef(_load2(file.reference, password.reference).object);
+  static PDDocument load2(
+    jni.JObject file,
+    jni.JString password,
+  ) {
+    return const $PDDocumentType()
+        .fromRef(_load2(file.reference, password.reference).object);
+  }
 
   static final _load3 = jniLookup<
           ffi.NativeFunction<
@@ -605,11 +686,15 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load3(jni.JObject file, jni.JString password,
-          jni.JObject memUsageSetting) =>
-      const $PDDocumentType().fromRef(
-          _load3(file.reference, password.reference, memUsageSetting.reference)
-              .object);
+  static PDDocument load3(
+    jni.JObject file,
+    jni.JString password,
+    jni.JObject memUsageSetting,
+  ) {
+    return const $PDDocumentType().fromRef(
+        _load3(file.reference, password.reference, memUsageSetting.reference)
+            .object);
+  }
 
   static final _load4 = jniLookup<
           ffi.NativeFunction<
@@ -632,11 +717,16 @@ class PDDocument extends jni.JObject {
   ///@param alias alias to be used for decryption when using public key security
   ///@return loaded document
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument load4(jni.JObject file, jni.JString password,
-          jni.JObject keyStore, jni.JString alias) =>
-      const $PDDocumentType().fromRef(_load4(file.reference, password.reference,
-              keyStore.reference, alias.reference)
-          .object);
+  static PDDocument load4(
+    jni.JObject file,
+    jni.JString password,
+    jni.JObject keyStore,
+    jni.JString alias,
+  ) {
+    return const $PDDocumentType().fromRef(_load4(file.reference,
+            password.reference, keyStore.reference, alias.reference)
+        .object);
+  }
 
   static final _load5 = jniLookup<
           ffi.NativeFunction<
@@ -666,14 +756,20 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws IOException in case of a file reading or parsing error
   static PDDocument load5(
-          jni.JObject file,
-          jni.JString password,
-          jni.JObject keyStore,
-          jni.JString alias,
-          jni.JObject memUsageSetting) =>
-      const $PDDocumentType().fromRef(_load5(file.reference, password.reference,
-              keyStore.reference, alias.reference, memUsageSetting.reference)
-          .object);
+    jni.JObject file,
+    jni.JString password,
+    jni.JObject keyStore,
+    jni.JString alias,
+    jni.JObject memUsageSetting,
+  ) {
+    return const $PDDocumentType().fromRef(_load5(
+            file.reference,
+            password.reference,
+            keyStore.reference,
+            alias.reference,
+            memUsageSetting.reference)
+        .object);
+  }
 
   static final _load6 = jniLookup<
           ffi.NativeFunction<
@@ -690,8 +786,11 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load6(jni.JObject input) =>
-      const $PDDocumentType().fromRef(_load6(input.reference).object);
+  static PDDocument load6(
+    jni.JObject input,
+  ) {
+    return const $PDDocumentType().fromRef(_load6(input.reference).object);
+  }
 
   static final _load7 = jniLookup<
           ffi.NativeFunction<
@@ -711,9 +810,13 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load7(jni.JObject input, jni.JObject memUsageSetting) =>
-      const $PDDocumentType()
-          .fromRef(_load7(input.reference, memUsageSetting.reference).object);
+  static PDDocument load7(
+    jni.JObject input,
+    jni.JObject memUsageSetting,
+  ) {
+    return const $PDDocumentType()
+        .fromRef(_load7(input.reference, memUsageSetting.reference).object);
+  }
 
   static final _load8 = jniLookup<
           ffi.NativeFunction<
@@ -733,9 +836,13 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load8(jni.JObject input, jni.JString password) =>
-      const $PDDocumentType()
-          .fromRef(_load8(input.reference, password.reference).object);
+  static PDDocument load8(
+    jni.JObject input,
+    jni.JString password,
+  ) {
+    return const $PDDocumentType()
+        .fromRef(_load8(input.reference, password.reference).object);
+  }
 
   static final _load9 = jniLookup<
           ffi.NativeFunction<
@@ -759,11 +866,16 @@ class PDDocument extends jni.JObject {
   ///@param alias alias to be used for decryption when using public key security
   ///@return loaded document
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load9(jni.JObject input, jni.JString password,
-          jni.JObject keyStore, jni.JString alias) =>
-      const $PDDocumentType().fromRef(_load9(input.reference,
-              password.reference, keyStore.reference, alias.reference)
-          .object);
+  static PDDocument load9(
+    jni.JObject input,
+    jni.JString password,
+    jni.JObject keyStore,
+    jni.JString alias,
+  ) {
+    return const $PDDocumentType().fromRef(_load9(input.reference,
+            password.reference, keyStore.reference, alias.reference)
+        .object);
+  }
 
   static final _load10 = jniLookup<
           ffi.NativeFunction<
@@ -786,11 +898,15 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load10(jni.JObject input, jni.JString password,
-          jni.JObject memUsageSetting) =>
-      const $PDDocumentType().fromRef(_load10(
-              input.reference, password.reference, memUsageSetting.reference)
-          .object);
+  static PDDocument load10(
+    jni.JObject input,
+    jni.JString password,
+    jni.JObject memUsageSetting,
+  ) {
+    return const $PDDocumentType().fromRef(
+        _load10(input.reference, password.reference, memUsageSetting.reference)
+            .object);
+  }
 
   static final _load11 = jniLookup<
           ffi.NativeFunction<
@@ -822,18 +938,20 @@ class PDDocument extends jni.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load11(
-          jni.JObject input,
-          jni.JString password,
-          jni.JObject keyStore,
-          jni.JString alias,
-          jni.JObject memUsageSetting) =>
-      const $PDDocumentType().fromRef(_load11(
-              input.reference,
-              password.reference,
-              keyStore.reference,
-              alias.reference,
-              memUsageSetting.reference)
-          .object);
+    jni.JObject input,
+    jni.JString password,
+    jni.JObject keyStore,
+    jni.JString alias,
+    jni.JObject memUsageSetting,
+  ) {
+    return const $PDDocumentType().fromRef(_load11(
+            input.reference,
+            password.reference,
+            keyStore.reference,
+            alias.reference,
+            memUsageSetting.reference)
+        .object);
+  }
 
   static final _load12 = jniLookup<
           ffi.NativeFunction<
@@ -849,8 +967,11 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load12(jni.JArray<jni.JByte> input) =>
-      const $PDDocumentType().fromRef(_load12(input.reference).object);
+  static PDDocument load12(
+    jni.JArray<jni.JByte> input,
+  ) {
+    return const $PDDocumentType().fromRef(_load12(input.reference).object);
+  }
 
   static final _load13 = jniLookup<
           ffi.NativeFunction<
@@ -869,9 +990,13 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load13(jni.JArray<jni.JByte> input, jni.JString password) =>
-      const $PDDocumentType()
-          .fromRef(_load13(input.reference, password.reference).object);
+  static PDDocument load13(
+    jni.JArray<jni.JByte> input,
+    jni.JString password,
+  ) {
+    return const $PDDocumentType()
+        .fromRef(_load13(input.reference, password.reference).object);
+  }
 
   static final _load14 = jniLookup<
           ffi.NativeFunction<
@@ -895,11 +1020,16 @@ class PDDocument extends jni.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument load14(jni.JArray<jni.JByte> input, jni.JString password,
-          jni.JObject keyStore, jni.JString alias) =>
-      const $PDDocumentType().fromRef(_load14(input.reference,
-              password.reference, keyStore.reference, alias.reference)
-          .object);
+  static PDDocument load14(
+    jni.JArray<jni.JByte> input,
+    jni.JString password,
+    jni.JObject keyStore,
+    jni.JString alias,
+  ) {
+    return const $PDDocumentType().fromRef(_load14(input.reference,
+            password.reference, keyStore.reference, alias.reference)
+        .object);
+  }
 
   static final _load15 = jniLookup<
           ffi.NativeFunction<
@@ -930,18 +1060,20 @@ class PDDocument extends jni.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load15(
-          jni.JArray<jni.JByte> input,
-          jni.JString password,
-          jni.JObject keyStore,
-          jni.JString alias,
-          jni.JObject memUsageSetting) =>
-      const $PDDocumentType().fromRef(_load15(
-              input.reference,
-              password.reference,
-              keyStore.reference,
-              alias.reference,
-              memUsageSetting.reference)
-          .object);
+    jni.JArray<jni.JByte> input,
+    jni.JString password,
+    jni.JObject keyStore,
+    jni.JString alias,
+    jni.JObject memUsageSetting,
+  ) {
+    return const $PDDocumentType().fromRef(_load15(
+            input.reference,
+            password.reference,
+            keyStore.reference,
+            alias.reference,
+            memUsageSetting.reference)
+        .object);
+  }
 
   static final _save = jniLookup<
           ffi.NativeFunction<
@@ -960,8 +1092,11 @@ class PDDocument extends jni.JObject {
   /// do not use the document after saving because the contents are now encrypted.
   ///@param fileName The file to save as.
   ///@throws IOException if the output could not be written
-  void save(jni.JString fileName) =>
-      _save(reference, fileName.reference).check();
+  void save(
+    jni.JString fileName,
+  ) {
+    return _save(reference, fileName.reference).check();
+  }
 
   static final _save1 = jniLookup<
           ffi.NativeFunction<
@@ -980,7 +1115,11 @@ class PDDocument extends jni.JObject {
   /// do not use the document after saving because the contents are now encrypted.
   ///@param file The file to save as.
   ///@throws IOException if the output could not be written
-  void save1(jni.JObject file) => _save1(reference, file.reference).check();
+  void save1(
+    jni.JObject file,
+  ) {
+    return _save1(reference, file.reference).check();
+  }
 
   static final _save2 = jniLookup<
           ffi.NativeFunction<
@@ -1000,7 +1139,11 @@ class PDDocument extends jni.JObject {
   ///@param output The stream to write to. It will be closed when done. It is recommended to wrap
   /// it in a java.io.BufferedOutputStream, unless it is already buffered.
   ///@throws IOException if the output could not be written
-  void save2(jni.JObject output) => _save2(reference, output.reference).check();
+  void save2(
+    jni.JObject output,
+  ) {
+    return _save2(reference, output.reference).check();
+  }
 
   static final _saveIncremental = jniLookup<
           ffi.NativeFunction<
@@ -1025,8 +1168,11 @@ class PDDocument extends jni.JObject {
   /// harmed!
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
-  void saveIncremental(jni.JObject output) =>
-      _saveIncremental(reference, output.reference).check();
+  void saveIncremental(
+    jni.JObject output,
+  ) {
+    return _saveIncremental(reference, output.reference).check();
+  }
 
   static final _saveIncremental1 = jniLookup<
           ffi.NativeFunction<
@@ -1058,9 +1204,14 @@ class PDDocument extends jni.JObject {
   ///@param objectsToWrite objects that __must__ be part of the incremental saving.
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
-  void saveIncremental1(jni.JObject output, jni.JObject objectsToWrite) =>
-      _saveIncremental1(reference, output.reference, objectsToWrite.reference)
-          .check();
+  void saveIncremental1(
+    jni.JObject output,
+    jni.JObject objectsToWrite,
+  ) {
+    return _saveIncremental1(
+            reference, output.reference, objectsToWrite.reference)
+        .check();
+  }
 
   static final _saveIncrementalForExternalSigning = jniLookup<
               ffi.NativeFunction<
@@ -1111,10 +1262,12 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream or
   /// signature options were not set.
-  jni.JObject saveIncrementalForExternalSigning(jni.JObject output) =>
-      const jni.JObjectType().fromRef(
-          _saveIncrementalForExternalSigning(reference, output.reference)
-              .object);
+  jni.JObject saveIncrementalForExternalSigning(
+    jni.JObject output,
+  ) {
+    return const jni.JObjectType().fromRef(
+        _saveIncrementalForExternalSigning(reference, output.reference).object);
+  }
 
   static final _getPage = jniLookup<
           ffi.NativeFunction<
@@ -1132,8 +1285,12 @@ class PDDocument extends jni.JObject {
   /// PDDocument\#getPages() instead.
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
-  jni.JObject getPage(int pageIndex) =>
-      const jni.JObjectType().fromRef(_getPage(reference, pageIndex).object);
+  jni.JObject getPage(
+    int pageIndex,
+  ) {
+    return const jni.JObjectType()
+        .fromRef(_getPage(reference, pageIndex).object);
+  }
 
   static final _getPages = jniLookup<
           ffi.NativeFunction<
@@ -1146,8 +1303,9 @@ class PDDocument extends jni.JObject {
   ///
   /// Returns the page tree.
   ///@return the page tree
-  jni.JObject getPages() =>
-      const jni.JObjectType().fromRef(_getPages(reference).object);
+  jni.JObject getPages() {
+    return const jni.JObjectType().fromRef(_getPages(reference).object);
+  }
 
   static final _getNumberOfPages = jniLookup<
           ffi.NativeFunction<
@@ -1159,7 +1317,9 @@ class PDDocument extends jni.JObject {
   ///
   /// This will return the total page count of the PDF document.
   ///@return The total number of pages in the PDF document.
-  int getNumberOfPages() => _getNumberOfPages(reference).integer;
+  int getNumberOfPages() {
+    return _getNumberOfPages(reference).integer;
+  }
 
   static final _close = jniLookup<
           ffi.NativeFunction<
@@ -1171,7 +1331,9 @@ class PDDocument extends jni.JObject {
   ///
   /// This will close the underlying COSDocument object.
   ///@throws IOException If there is an error releasing resources.
-  void close() => _close(reference).check();
+  void close() {
+    return _close(reference).check();
+  }
 
   static final _protect = jniLookup<
           ffi.NativeFunction<
@@ -1193,8 +1355,11 @@ class PDDocument extends jni.JObject {
   ///@see org.apache.pdfbox.pdmodel.encryption.PublicKeyProtectionPolicy
   ///@param policy The protection policy.
   ///@throws IOException if there isn't any suitable security handler.
-  void protect(jni.JObject policy) =>
-      _protect(reference, policy.reference).check();
+  void protect(
+    jni.JObject policy,
+  ) {
+    return _protect(reference, policy.reference).check();
+  }
 
   static final _getCurrentAccessPermission = jniLookup<
               ffi.NativeFunction<
@@ -1210,8 +1375,10 @@ class PDDocument extends jni.JObject {
   /// only mode so that permissions cannot be changed. Methods providing access to content should rely on this object
   /// to verify if the current user is allowed to proceed.
   ///@return the access permissions for the current user on the document.
-  jni.JObject getCurrentAccessPermission() => const jni.JObjectType()
-      .fromRef(_getCurrentAccessPermission(reference).object);
+  jni.JObject getCurrentAccessPermission() {
+    return const jni.JObjectType()
+        .fromRef(_getCurrentAccessPermission(reference).object);
+  }
 
   static final _isAllSecurityToBeRemoved = jniLookup<
               ffi.NativeFunction<
@@ -1223,8 +1390,9 @@ class PDDocument extends jni.JObject {
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
-  bool isAllSecurityToBeRemoved() =>
-      _isAllSecurityToBeRemoved(reference).boolean;
+  bool isAllSecurityToBeRemoved() {
+    return _isAllSecurityToBeRemoved(reference).boolean;
+  }
 
   static final _setAllSecurityToBeRemoved = jniLookup<
           ffi.NativeFunction<
@@ -1236,8 +1404,12 @@ class PDDocument extends jni.JObject {
   ///
   /// Activates/Deactivates the removal of all security when writing the pdf.
   ///@param removeAllSecurity remove all security if set to true
-  void setAllSecurityToBeRemoved(bool removeAllSecurity) =>
-      _setAllSecurityToBeRemoved(reference, removeAllSecurity ? 1 : 0).check();
+  void setAllSecurityToBeRemoved(
+    bool removeAllSecurity,
+  ) {
+    return _setAllSecurityToBeRemoved(reference, removeAllSecurity ? 1 : 0)
+        .check();
+  }
 
   static final _getDocumentId = jniLookup<
           ffi.NativeFunction<
@@ -1250,8 +1422,9 @@ class PDDocument extends jni.JObject {
   ///
   /// Provides the document ID.
   ///@return the document ID
-  jni.JObject getDocumentId() =>
-      const jni.JObjectType().fromRef(_getDocumentId(reference).object);
+  jni.JObject getDocumentId() {
+    return const jni.JObjectType().fromRef(_getDocumentId(reference).object);
+  }
 
   static final _setDocumentId = jniLookup<
           ffi.NativeFunction<
@@ -1265,8 +1438,11 @@ class PDDocument extends jni.JObject {
   ///
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
-  void setDocumentId(jni.JObject docId) =>
-      _setDocumentId(reference, docId.reference).check();
+  void setDocumentId(
+    jni.JObject docId,
+  ) {
+    return _setDocumentId(reference, docId.reference).check();
+  }
 
   static final _getVersion = jniLookup<
           ffi.NativeFunction<
@@ -1278,7 +1454,9 @@ class PDDocument extends jni.JObject {
   ///
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
-  double getVersion() => _getVersion(reference).float;
+  double getVersion() {
+    return _getVersion(reference).float;
+  }
 
   static final _setVersion = jniLookup<
           ffi.NativeFunction<
@@ -1290,8 +1468,11 @@ class PDDocument extends jni.JObject {
   ///
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
-  void setVersion(double newVersion) =>
-      _setVersion(reference, newVersion).check();
+  void setVersion(
+    double newVersion,
+  ) {
+    return _setVersion(reference, newVersion).check();
+  }
 
   static final _getResourceCache = jniLookup<
           ffi.NativeFunction<
@@ -1304,8 +1485,9 @@ class PDDocument extends jni.JObject {
   ///
   /// Returns the resource cache associated with this document, or null if there is none.
   ///@return the resource cache or null.
-  jni.JObject getResourceCache() =>
-      const jni.JObjectType().fromRef(_getResourceCache(reference).object);
+  jni.JObject getResourceCache() {
+    return const jni.JObjectType().fromRef(_getResourceCache(reference).object);
+  }
 
   static final _setResourceCache = jniLookup<
           ffi.NativeFunction<
@@ -1319,8 +1501,11 @@ class PDDocument extends jni.JObject {
   ///
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.
-  void setResourceCache(jni.JObject resourceCache) =>
-      _setResourceCache(reference, resourceCache.reference).check();
+  void setResourceCache(
+    jni.JObject resourceCache,
+  ) {
+    return _setResourceCache(reference, resourceCache.reference).check();
+  }
 }
 
 class $PDDocumentType extends jni.JObjType<PDDocument> {
@@ -1331,4 +1516,18 @@ class $PDDocumentType extends jni.JObjType<PDDocument> {
 
   @override
   PDDocument fromRef(jni.JObjectPtr ref) => PDDocument.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($PDDocumentType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $PDDocumentType && other is $PDDocumentType;
+  }
 }

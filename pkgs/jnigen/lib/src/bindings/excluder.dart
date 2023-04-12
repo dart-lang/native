@@ -11,9 +11,9 @@ bool _isPrivate(ClassMember classMember) =>
     !classMember.isPublic && !classMember.isProtected;
 
 class Excluder extends Visitor<Classes, void> {
-  const Excluder(this.config);
-
   final Config config;
+
+  const Excluder(this.config);
 
   @override
   void visit(Classes node) {
@@ -33,9 +33,9 @@ class Excluder extends Visitor<Classes, void> {
 }
 
 class _ClassExcluder extends Visitor<ClassDecl, void> {
-  _ClassExcluder(this.config);
-
   final Config config;
+
+  _ClassExcluder(this.config);
 
   @override
   void visit(ClassDecl node) {

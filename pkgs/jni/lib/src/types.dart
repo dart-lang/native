@@ -34,6 +34,11 @@ abstract class JType<T> {
 }
 
 abstract class JObjType<T extends JObject> extends JType<T> {
+  /// Number of super types. Distance to the root type.
+  int get superCount;
+
+  JObjType get superType;
+
   const JObjType();
 
   @override
@@ -48,4 +53,23 @@ abstract class JObjType<T extends JObject> extends JType<T> {
     }
     return Jni.findJniClass(signature);
   }
+}
+
+/// Lowest common ancestor of two types in the inheritance tree.
+JObjType _lowestCommonAncestor(JObjType a, JObjType b) {
+  while (a.superCount > b.superCount) {
+    a = a.superType;
+  }
+  while (b.superCount > a.superCount) {
+    b = b.superType;
+  }
+  while (a != b) {
+    a = a.superType;
+    b = b.superType;
+  }
+  return a;
+}
+
+JObjType lowestCommonSuperType(List<JObjType> types) {
+  return types.reduce(_lowestCommonAncestor);
 }

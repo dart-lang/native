@@ -1,3 +1,10 @@
+## 0.4.0-dev
+* **Breaking Change** ([#145](https://github.com/dart-lang/jnigen/issues/145)): Type arguments are now named instead of positional.
+* Type parameters can now be inferred when possible.
+* Fixed a bug where passing a `long` argument truncated it to `int` in pure dart bindings.
+* Removed array extensions from the generated code.
+* Added the ability to use source dependencies from Gradle.
+
 ## 0.3.0
 * Added the option to convert Kotlin `suspend fun` to Dart async methods. Add `suspend_fun_to_async: true` to `jnigen.yaml`.
 

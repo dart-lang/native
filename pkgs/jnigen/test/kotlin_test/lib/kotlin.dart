@@ -30,9 +30,8 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
 
 /// from: com.github.dart_lang.jnigen.SuspendFun
 class SuspendFun extends jni.JObject {
-  late final jni.JObjType? _$type;
   @override
-  jni.JObjType get $type => _$type ??= type;
+  late final jni.JObjType $type = type;
 
   SuspendFun.fromRef(
     jni.JObjectPtr ref,
@@ -46,7 +45,9 @@ class SuspendFun extends jni.JObject {
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  SuspendFun() : super.fromRef(_ctor().object);
+  factory SuspendFun() {
+    return SuspendFun.fromRef(_ctor().object);
+  }
 
   static final _sayHello = jniLookup<
           ffi.NativeFunction<
@@ -82,7 +83,9 @@ class SuspendFun extends jni.JObject {
 
   /// from: public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  Future<jni.JString> sayHello1(jni.JString string) async {
+  Future<jni.JString> sayHello1(
+    jni.JString string,
+  ) async {
     final $p = ReceivePort();
     final $c = jni.JObject.fromRef(jni.Jni.newPortContinuation($p));
     _sayHello1(reference, string.reference, $c.reference).object;
@@ -103,4 +106,18 @@ class $SuspendFunType extends jni.JObjType<SuspendFun> {
 
   @override
   SuspendFun fromRef(jni.JObjectPtr ref) => SuspendFun.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($SuspendFunType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == $SuspendFunType && other is $SuspendFunType;
+  }
 }
