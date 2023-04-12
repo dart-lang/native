@@ -11,8 +11,6 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  final logger = createLogger();
-
   const targets = [
     Target.linuxArm,
     Target.linuxArm64,

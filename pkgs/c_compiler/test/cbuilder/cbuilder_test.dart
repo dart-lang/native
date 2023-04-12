@@ -12,8 +12,6 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  final logger = createLogger();
-
   test('Cbuilder executable', () async {
     await inTempDir((tempUri) async {
       final packageUri = Directory.current.uri;

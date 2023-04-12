@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:test/test.dart';
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -23,15 +24,8 @@ Future<void> inTempDir(
   }
 }
 
-Logger createLogger({bool verbose = false}) {
-  final logger = Logger('');
-  if (verbose) {
-    logger.level = Level.ALL;
-  } else {
-    logger.level = Level.WARNING;
-  }
-  logger.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
+final logger = Logger('')
+  ..level = Level.ALL
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
   });
-  return logger;
-}
