@@ -71,7 +71,6 @@ void main() {
       await cbuilder.run(
         buildConfig: buildConfig,
         buildOutput: buildOutput,
-        logger: logger,
       );
 
       final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));

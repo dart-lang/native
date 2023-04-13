@@ -15,40 +15,45 @@ import '../tool/tool.dart';
 import '../tool/tool_error.dart';
 import '../tool/tool_instance.dart';
 
+// TODO(dacoharkes): This should support alternatives.
+// For example use Clang or MSVC on Windows.
 class CompilerResolver {
   final BuildConfig buildConfig;
   final Logger? logger;
+  final Target host;
 
   CompilerResolver({
     required this.buildConfig,
     required this.logger,
-  });
+    Target? host, // Only visible for testing.
+  }) : host = host ?? Target.current;
 
   Future<ToolInstance> resolveCompiler() async {
-    final tool = _selectCompiler();
-
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadCompilerFromConfig(
-      tool,
       BuildConfig.ccConfigKey,
       (buildConfig) => buildConfig.cc,
     );
 
     // Then, try to detect on the host machine.
-    result ??= await _tryLoadToolFromNativeToolchain(tool);
+    final tool = _selectCompiler();
+    if (tool != null) {
+      result ??= await _tryLoadToolFromNativeToolchain(tool);
+    }
 
     if (result != null) {
       return result;
     }
 
-    const errorMessage = 'No C compiler found.';
+    final target = buildConfig.target;
+    final errorMessage =
+        "No tools configured on host '$host' with target '$target'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right compiler for cross compiling to the specified target.
-  Tool _selectCompiler() {
-    final host = Target.current;
+  Tool? _selectCompiler() {
     final target = buildConfig.target;
 
     if (target == host) return clang;
@@ -64,24 +69,18 @@ class CompilerResolver {
       }
     }
 
-    throw ToolError(
-        "No tools configured on host '$host' with target '$target'.");
+    return null;
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig(
-      Tool tool, String configKey, Uri? Function(BuildConfig) getter) async {
+      String configKey, Uri? Function(BuildConfig) getter) async {
     final configCcUri = getter(buildConfig);
     if (configCcUri != null) {
-      if (await File.fromUri(configCcUri).exists()) {
-        logger?.finer('Using compiler ${configCcUri.path} '
-            'from config[${BuildConfig.ccConfigKey}].');
-        return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
-            .first;
-      } else {
-        logger?.warning('Compiler ${configCcUri.path} from '
-            'config[${BuildConfig.ccConfigKey}] does not '
-            'exist.');
-      }
+      assert(await File.fromUri(configCcUri).exists());
+      logger?.finer('Using compiler ${configCcUri.path} '
+          'from config[${BuildConfig.ccConfigKey}].');
+      return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
+          .first;
     }
     return null;
   }
@@ -95,30 +94,31 @@ class CompilerResolver {
   }
 
   Future<ToolInstance> resolveArchiver() async {
-    final tool = _selectArchiver();
-
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadArchiverFromConfig(
-      tool,
       BuildConfig.arConfigKey,
       (buildConfig) => buildConfig.ar,
     );
 
     // Then, try to detect on the host machine.
-    result ??= await _tryLoadToolFromNativeToolchain(tool);
+    final tool = _selectArchiver();
+    if (tool != null) {
+      result ??= await _tryLoadToolFromNativeToolchain(tool);
+    }
 
     if (result != null) {
       return result;
     }
 
-    const errorMessage = 'No C archiver found.';
+    final target = buildConfig.target;
+    final errorMessage =
+        "No tools configured on host '$host' with target '$target'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right compiler for cross compiling to the specified target.
-  Tool _selectArchiver() {
-    final host = Target.current;
+  Tool? _selectArchiver() {
     final target = buildConfig.target;
 
     if (target == host) return llvmAr;
@@ -134,24 +134,18 @@ class CompilerResolver {
       }
     }
 
-    throw ToolError(
-        "No tools configured on host '$host' with target '$target'.");
+    return null;
   }
 
   Future<ToolInstance?> _tryLoadArchiverFromConfig(
-      Tool tool, String configKey, Uri? Function(BuildConfig) getter) async {
+      String configKey, Uri? Function(BuildConfig) getter) async {
     final configCcUri = getter(buildConfig);
     if (configCcUri != null) {
-      if (await File.fromUri(configCcUri).exists()) {
-        logger?.finer('Using archiver ${configCcUri.path} '
-            'from config[${BuildConfig.ccConfigKey}].');
-        return (await ArchiverRecognizer(configCcUri).resolve(logger: logger))
-            .first;
-      } else {
-        logger?.warning('Archiver ${configCcUri.path} from '
-            'config[${BuildConfig.ccConfigKey}] does not '
-            'exist.');
-      }
+      assert(await File.fromUri(configCcUri).exists());
+      logger?.finer('Using archiver ${configCcUri.path} '
+          'from config[${BuildConfig.ccConfigKey}].');
+      return (await ArchiverRecognizer(configCcUri).resolve(logger: logger))
+          .first;
     }
     return null;
   }
