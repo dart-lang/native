@@ -10,12 +10,12 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
+import '../native_toolchain/recognizer.dart';
 import '../tool/tool.dart';
 import '../tool/tool_error.dart';
 import '../tool/tool_instance.dart';
-import '../tool/tool_resolver.dart';
 
-class CompilerResolver implements ToolResolver {
+class CompilerResolver {
   final BuildConfig buildConfig;
   final Logger? logger;
 
@@ -24,62 +24,48 @@ class CompilerResolver implements ToolResolver {
     required this.logger,
   });
 
-  @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
-    final tool = selectCompiler();
+  Future<ToolInstance> resolveCompiler() async {
+    final tool = _selectCompiler();
 
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadCompilerFromConfig(
-        tool, BuildConfig.ccConfigKey, (buildConfig) => buildConfig.cc);
-
-    // Then, check if this package itself provided metadata.
-    final depsToolKey = [
-      BuildConfig.dependencyMetadataConfigKey,
-      ' c_compiler',
-      tool.name
-    ].join('.');
-    result ??= await _tryLoadCompilerFromConfig(
       tool,
-      depsToolKey,
-      (buildConfig) =>
-          buildConfig.config.optionalPath(depsToolKey, mustExist: true),
+      BuildConfig.ccConfigKey,
+      (buildConfig) => buildConfig.cc,
     );
 
-    // Lastly, try to detect on the host machine.
-    result ??= await _tryLoadCompilerFromNativeToolchain(
-      tool,
-    );
+    // Then, try to detect on the host machine.
+    result ??= await _tryLoadToolFromNativeToolchain(tool);
 
     if (result != null) {
-      return [result];
+      return result;
     }
 
     const errorMessage = 'No C compiler found.';
     logger?.severe(errorMessage);
-    throw Exception(errorMessage);
+    throw ToolError(errorMessage);
   }
 
   /// Select the right compiler for cross compiling to the specified target.
-  Tool selectCompiler() {
+  Tool _selectCompiler() {
     final host = Target.current;
     final target = buildConfig.target;
-    switch (target) {
-      case Target.linuxArm:
-        return armLinuxGnueabihfGcc;
-      case Target.linuxArm64:
-        return aarch64LinuxGnuGcc;
-      case Target.linuxIA32:
-        return i686LinuxGnuGcc;
-      case Target.linuxX64:
-        return clang;
-      case Target.androidArm:
-      case Target.androidArm64:
-      case Target.androidIA32:
-      case Target.androidX64:
-        return androidNdkClang;
+
+    if (target == host) return clang;
+    if (target.os == OS.android) return androidNdkClang;
+    if (host.os == OS.linux) {
+      switch (target) {
+        case Target.linuxArm:
+          return armLinuxGnueabihfGcc;
+        case Target.linuxArm64:
+          return aarch64LinuxGnuGcc;
+        case Target.linuxIA32:
+          return i686LinuxGnuGcc;
+      }
     }
+
     throw ToolError(
-        "No tool configured on host '$host' for target: '$target'.");
+        "No tools configured on host '$host' with target '$target'.");
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig(
@@ -89,7 +75,8 @@ class CompilerResolver implements ToolResolver {
       if (await File.fromUri(configCcUri).exists()) {
         logger?.finer('Using compiler ${configCcUri.path} '
             'from config[${BuildConfig.ccConfigKey}].');
-        return ToolInstance(tool: tool, uri: configCcUri);
+        return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
+            .first;
       } else {
         logger?.warning('Compiler ${configCcUri.path} from '
             'config[${BuildConfig.ccConfigKey}] does not '
@@ -99,8 +86,7 @@ class CompilerResolver implements ToolResolver {
     return null;
   }
 
-  /// If a build is invoked
-  Future<ToolInstance?> _tryLoadCompilerFromNativeToolchain(Tool tool) async {
+  Future<ToolInstance?> _tryLoadToolFromNativeToolchain(Tool tool) async {
     final resolved = (await tool.defaultResolver!.resolve(logger: logger))
         .where((i) => i.tool == tool)
         .toList()
@@ -108,41 +94,65 @@ class CompilerResolver implements ToolResolver {
     return resolved.isEmpty ? null : resolved.first;
   }
 
-  Future<Uri> resolveLinker(
-    Uri compiler,
-  ) async {
-    if (compiler.pathSegments.last == 'clang') {
-      final lld = compiler.resolve('lld');
-      if (await File.fromUri(lld).exists()) {
-        return lld;
-      }
+  Future<ToolInstance> resolveArchiver() async {
+    final tool = _selectArchiver();
+
+    // First, check if the launcher provided a direct path to the compiler.
+    var result = await _tryLoadArchiverFromConfig(
+      tool,
+      BuildConfig.arConfigKey,
+      (buildConfig) => buildConfig.ar,
+    );
+
+    // Then, try to detect on the host machine.
+    result ??= await _tryLoadToolFromNativeToolchain(tool);
+
+    if (result != null) {
+      return result;
     }
-    const errorMessage = 'No native linker found.';
+
+    const errorMessage = 'No C archiver found.';
     logger?.severe(errorMessage);
-    throw Exception(errorMessage);
+    throw ToolError(errorMessage);
   }
 
-  Future<Uri> resolveArchiver(
-    Uri compiler,
-  ) async {
-    final compilerExecutable = compiler.pathSegments.last;
-    if (compilerExecutable == 'clang') {
-      final ar = compiler.resolve('llvm-ar');
-      if (await File.fromUri(ar).exists()) {
-        return ar;
-      }
-    } else if (compilerExecutable.contains('-gcc')) {
-      final ar =
-          compiler.resolve(compilerExecutable.replaceAll('-gcc', '-gcc-ar'));
-      if (await File.fromUri(ar).exists()) {
-        return ar;
-      } else {
-        print(ar);
+  /// Select the right compiler for cross compiling to the specified target.
+  Tool _selectArchiver() {
+    final host = Target.current;
+    final target = buildConfig.target;
+
+    if (target == host) return llvmAr;
+    if (target.os == OS.android) return androidNdkLlvmAr;
+    if (host.os == OS.linux) {
+      switch (target) {
+        case Target.linuxArm:
+          return armLinuxGnueabihfGccAr;
+        case Target.linuxArm64:
+          return aarch64LinuxGnuGccAr;
+        case Target.linuxIA32:
+          return i686LinuxGnuGccAr;
       }
     }
-    final errorMessage =
-        'No native linker found for compiler: $compilerExecutable $compiler.';
-    logger?.severe(errorMessage);
-    throw Exception(errorMessage);
+
+    throw ToolError(
+        "No tools configured on host '$host' with target '$target'.");
+  }
+
+  Future<ToolInstance?> _tryLoadArchiverFromConfig(
+      Tool tool, String configKey, Uri? Function(BuildConfig) getter) async {
+    final configCcUri = getter(buildConfig);
+    if (configCcUri != null) {
+      if (await File.fromUri(configCcUri).exists()) {
+        logger?.finer('Using archiver ${configCcUri.path} '
+            'from config[${BuildConfig.ccConfigKey}].');
+        return (await ArchiverRecognizer(configCcUri).resolve(logger: logger))
+            .first;
+      } else {
+        logger?.warning('Archiver ${configCcUri.path} from '
+            'config[${BuildConfig.ccConfigKey}] does not '
+            'exist.');
+      }
+    }
+    return null;
   }
 }

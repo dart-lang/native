@@ -36,43 +36,14 @@ class RunCBuilder {
     }
   }
 
-  Uri? _compilerCached;
-
   Future<Uri> compiler() async {
-    if (_compilerCached != null) {
-      return _compilerCached!;
-    }
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    _compilerCached = (await resolver.resolve(logger: logger)).first.uri;
-    return _compilerCached!;
+    return (await resolver.resolveCompiler()).uri;
   }
-
-  Uri? _archiverCached;
 
   Future<Uri> archiver() async {
-    if (_archiverCached != null) {
-      return _archiverCached!;
-    }
-    final compiler_ = await compiler();
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    _linkerCached = await resolver.resolveArchiver(
-      compiler_,
-    );
-    return _linkerCached!;
-  }
-
-  Uri? _linkerCached;
-
-  Future<Uri> linker() async {
-    if (_linkerCached != null) {
-      return _linkerCached!;
-    }
-    final compiler_ = await compiler();
-    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    _linkerCached = await resolver.resolveLinker(
-      compiler_,
-    );
-    return _linkerCached!;
+    return (await resolver.resolveArchiver()).uri;
   }
 
   Future<void> run() async {

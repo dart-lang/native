@@ -43,6 +43,10 @@ class BuildConfig {
   Uri? get ld => _ld;
   late final Uri? _ld;
 
+  /// Path to a native archiver.
+  Uri? get ar => _ar;
+  late final Uri? _ar;
+
   /// Preferred packaging method for library.
   PackagingPreference get packaging => _packaging;
   late final PackagingPreference _packaging;
@@ -66,6 +70,7 @@ class BuildConfig {
     required Uri packageRoot,
     required Target target,
     IOSSdk? targetIOSSdk,
+    Uri? ar,
     Uri? cc,
     Uri? ld,
     required PackagingPreference packaging,
@@ -76,6 +81,7 @@ class BuildConfig {
       .._packageRoot = packageRoot
       .._target = target
       .._targetIOSSdk = targetIOSSdk
+      .._ar = ar
       .._cc = cc
       .._ld = ld
       .._packaging = packaging
@@ -114,6 +120,7 @@ class BuildConfig {
 
   static const outDirConfigKey = 'out_dir';
   static const packageRootConfigKey = 'package_root';
+  static const arConfigKey = 'ar';
   static const ccConfigKey = 'cc';
   static const ldConfigKey = 'ld';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
@@ -141,6 +148,7 @@ class BuildConfig {
               ),
             )
           : null,
+      (config) => _ar = config.optionalPath(arConfigKey, mustExist: true),
       (config) => _cc = config.optionalPath(ccConfigKey, mustExist: true),
       (config) => _ld = config.optionalPath(ldConfigKey, mustExist: true),
       (config) => _packaging = PackagingPreference.fromString(
@@ -187,6 +195,7 @@ class BuildConfig {
         packageRootConfigKey: _packageRoot.path,
         Target.configKey: _target.toString(),
         if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
+        if (_ar != null) arConfigKey: _ar!.path,
         if (_cc != null) ccConfigKey: _cc!.path,
         if (_ld != null) ldConfigKey: _ld!.path,
         PackagingPreference.configKey: _packaging.toString(),
