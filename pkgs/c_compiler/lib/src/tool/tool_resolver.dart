@@ -29,7 +29,13 @@ class PathToolResolver extends ToolResolver {
   /// The [Tool.name] of the [Tool] to find on the `PATH`.
   final String toolName;
 
-  PathToolResolver({required this.toolName});
+  final String executableName;
+
+  PathToolResolver({
+    required this.toolName,
+    String? executableName,
+  }) : executableName = executableName ??
+            Target.current.os.executableFileName(toolName.toLowerCase());
 
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
@@ -45,9 +51,6 @@ class PathToolResolver extends ToolResolver {
     logger?.fine('Found ${toolInstances.single}.');
     return toolInstances;
   }
-
-  String get executableName =>
-      Target.current.os.executableFileName(toolName.toLowerCase());
 
   static String get which => Platform.isWindows ? 'where' : 'which';
 

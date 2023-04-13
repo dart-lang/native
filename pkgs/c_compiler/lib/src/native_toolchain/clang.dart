@@ -5,6 +5,9 @@
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
 
+/// The Clang compiler.
+///
+/// https://clang.llvm.org/
 final Tool clang = Tool(
   name: 'Clang',
   defaultResolver: CliVersionResolver(
@@ -14,12 +17,15 @@ final Tool clang = Tool(
   ),
 );
 
+/// The LLVM archiver.
+///
+/// https://llvm.org/docs/CommandGuide/llvm-ar.html
 final Tool llvmAr = Tool(
-  name: 'llvm-ar',
+  name: 'LLVM archiver',
   defaultResolver: CliVersionResolver(
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
-        toolName: 'llvm-ar',
+        toolName: 'LLVM archiver',
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file('llvm-ar'),
       ),
@@ -27,12 +33,15 @@ final Tool llvmAr = Tool(
   ),
 );
 
+/// The LLVM Linker.
+///
+/// https://lld.llvm.org/
 final Tool lld = Tool(
-  name: 'ld.lld',
+  name: 'LLD',
   defaultResolver: CliVersionResolver(
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
-        toolName: 'ld.lld',
+        toolName: 'LLD',
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file('ld.lld'),
       ),

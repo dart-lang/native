@@ -2,64 +2,81 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:native_assets_cli/native_assets_cli.dart';
+
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
 
-final i686LinuxGnuGcc = Tool(
-  name: 'i686-linux-gnu-gcc',
-  defaultResolver: CliVersionResolver(
-    wrappedResolver: PathToolResolver(toolName: 'i686-linux-gnu-gcc'),
-  ),
-);
+/// The GNU Compiler Collection.
+///
+/// https://gcc.gnu.org/
+final gcc = Tool(name: 'GCC');
 
-final i686LinuxGnuGccAr = _gccArchiver(i686LinuxGnuGcc);
+/// The GNU GCC archiver.
+final gnuArchiver = Tool(name: 'GNU archiver');
 
-final i686LinuxGnuGccLd = _gccLinker(i686LinuxGnuGcc);
+/// The GNU linker.
+///
+/// https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/ld.html
+final gnuLinker = Tool(name: 'GNU linker');
 
-final armLinuxGnueabihfGcc = Tool(
-  name: 'arm-linux-gnueabihf-gcc',
-  defaultResolver: CliVersionResolver(
-    wrappedResolver: PathToolResolver(toolName: 'arm-linux-gnueabihf-gcc'),
-  ),
-);
+/// [gcc] with [Tool.defaultResolver] for [Architecture.ia32].
+final i686LinuxGnuGcc = _gcc('i686-linux-gnu');
 
-final armLinuxGnueabihfGccAr = _gccArchiver(armLinuxGnueabihfGcc);
+/// [gnuArchiver] with [Tool.defaultResolver] for [Architecture.ia32].
+final i686LinuxGnuGccAr = _gnuArchiver('i686-linux-gnu');
 
-final armLinuxGnueabihfGccLd = _gccLinker(armLinuxGnueabihfGcc);
+/// [gnuLinker] with [Tool.defaultResolver] for [Architecture.ia32].
+final i686LinuxGnuLd = _gnuLinker('i686-linux-gnu');
 
-final aarch64LinuxGnuGcc = Tool(
-  name: 'aarch64-linux-gnu-gcc',
-  defaultResolver: CliVersionResolver(
-    wrappedResolver: PathToolResolver(toolName: 'aarch64-linux-gnu-gcc'),
-  ),
-);
+/// [gcc] with [Tool.defaultResolver] for [Architecture.arm].
+final armLinuxGnueabihfGcc = _gcc('arm-linux-gnueabihf');
 
-final aarch64LinuxGnuGccAr = _gccArchiver(aarch64LinuxGnuGcc);
+/// [gnuArchiver] with [Tool.defaultResolver] for [Architecture.arm].
+final armLinuxGnueabihfGccAr = _gnuArchiver('arm-linux-gnueabihf');
 
-final aarch64LinuxGnuGccLd = _gccLinker(aarch64LinuxGnuGcc);
+/// [gnuLinker] with [Tool.defaultResolver] for [Architecture.arm].
+final armLinuxGnueabihfLd = _gnuLinker('arm-linux-gnueabihf');
 
-/// Finds the `ar` belonging to that GCC.
-Tool _gccArchiver(Tool gcc) {
-  final arName = gcc.name.replaceAll('-gcc', '-gcc-ar');
+/// [gcc] with [Tool.defaultResolver] for [Architecture.arm64].
+final aarch64LinuxGnuGcc = _gcc('aarch64-linux-gnu');
+
+/// [gnuArchiver] with [Tool.defaultResolver] for [Architecture.arm64].
+final aarch64LinuxGnuGccAr = _gnuArchiver('aarch64-linux-gnu');
+
+/// [gnuLinker] with [Tool.defaultResolver] for [Architecture.arm64].
+final aarch64LinuxGnuLd = _gnuLinker('aarch64-linux-gnu');
+
+Tool _gcc(String prefix) => Tool(
+      name: gcc.name,
+      defaultResolver: CliVersionResolver(
+        wrappedResolver: PathToolResolver(
+          toolName: gcc.name,
+          executableName: '$prefix-gcc',
+        ),
+      ),
+    );
+
+Tool _gnuArchiver(String prefix) {
+  final gcc = _gcc(prefix);
   return Tool(
-    name: arName,
+    name: gnuArchiver.name,
     defaultResolver: RelativeToolResolver(
-      toolName: arName,
+      toolName: gnuArchiver.name,
       wrappedResolver: gcc.defaultResolver!,
-      relativePath: Uri.file(arName),
+      relativePath: Uri.file('$prefix-gcc-ar'),
     ),
   );
 }
 
-/// Finds the `ld` belonging to that GCC.
-Tool _gccLinker(Tool gcc) {
-  final arName = gcc.name.replaceAll('-gcc', '-gcc-ld');
+Tool _gnuLinker(String prefix) {
+  final gcc = _gcc(prefix);
   return Tool(
-    name: arName,
+    name: gnuLinker.name,
     defaultResolver: RelativeToolResolver(
-      toolName: arName,
+      toolName: gnuLinker.name,
       wrappedResolver: gcc.defaultResolver!,
-      relativePath: Uri.file(arName),
+      relativePath: Uri.file('$prefix-ld'),
     ),
   );
 }

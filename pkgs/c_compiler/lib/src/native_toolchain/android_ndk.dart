@@ -5,29 +5,33 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
+import 'clang.dart';
 
 final androidNdk = Tool(
   name: 'Android NDK',
   defaultResolver: _AndroidNdkResolver(),
 );
 
-/// A clang that knows how to target Android.
+/// [clang] with [Tool.defaultResolver] for the [OS.android] NDK.
 final androidNdkClang = Tool(
-  name: 'Android NDK Clang',
+  name: clang.name,
   defaultResolver: _AndroidNdkResolver(),
 );
 
-final androidNdkClangAr = Tool(
-  name: 'Android NDK Clang Archiver',
+/// [llvmAr] with [Tool.defaultResolver] for the [OS.android] NDK.
+final androidNdkLlvmAr = Tool(
+  name: llvmAr.name,
   defaultResolver: _AndroidNdkResolver(),
 );
 
-final androidNdkClangLd = Tool(
-  name: 'Android NDK Clang Linker',
+/// [lld] with [Tool.defaultResolver] for the [OS.android] NDK.
+final androidNdkLld = Tool(
+  name: lld.name,
   defaultResolver: _AndroidNdkResolver(),
 );
 
@@ -82,14 +86,14 @@ class _AndroidNdkResolver implements ToolResolver {
       final arUri = hostArchDir.uri.resolve('bin/llvm-ar');
       if (await File.fromUri(arUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(ToolInstance(
-          tool: androidNdkClangAr,
+          tool: androidNdkLlvmAr,
           uri: arUri,
         )));
       }
       final ldUri = hostArchDir.uri.resolve('bin/ld.lld');
       if (await File.fromUri(arUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(ToolInstance(
-          tool: androidNdkClangLd,
+          tool: androidNdkLld,
           uri: ldUri,
         )));
       }

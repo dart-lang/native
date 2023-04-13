@@ -19,4 +19,7 @@ class Tool {
 
   @override
   int get hashCode => Object.hash(name, 133709);
+
+  @override
+  String toString() => 'Tool($name)';
 }

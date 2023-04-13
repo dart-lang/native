@@ -13,8 +13,8 @@ void main() {
     final requirement = RequireAll([
       ToolRequirement(androidNdk),
       ToolRequirement(androidNdkClang),
-      ToolRequirement(androidNdkClangAr),
-      ToolRequirement(androidNdkClangLd),
+      ToolRequirement(androidNdkLlvmAr),
+      ToolRequirement(androidNdkLld),
     ]);
     final resolved = await androidNdk.defaultResolver!.resolve(logger: logger);
     final satisfied = requirement.satisfy(resolved);
