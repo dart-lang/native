@@ -6,6 +6,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:c_compiler/c_compiler.dart';
+import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
@@ -42,7 +43,7 @@ void main() {
       final executableUri =
           tempUri.resolve(Target.current.os.executableFileName(name));
       expect(await File.fromUri(executableUri).exists(), true);
-      final result = await Process.run(executableUri.path, []);
+      final result = await runProcess(executable: executableUri);
       expect(result.exitCode, 0);
       expect(result.stdout, 'Hello world.\n');
     });

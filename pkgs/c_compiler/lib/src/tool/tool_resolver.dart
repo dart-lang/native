@@ -40,7 +40,7 @@ class PathToolResolver extends ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
     logger?.finer('Looking for $toolName on PATH.');
-    final uri = await runWhich();
+    final uri = await runWhich(logger: logger);
     if (uri == null) {
       logger?.fine('Did not find  $toolName on PATH.');
       return [];
@@ -52,13 +52,13 @@ class PathToolResolver extends ToolResolver {
     return toolInstances;
   }
 
-  static String get which => Platform.isWindows ? 'where' : 'which';
+  static Uri get which => Uri.file(Platform.isWindows ? 'where' : 'which');
 
-  Future<Uri?> runWhich() async {
+  Future<Uri?> runWhich({Logger? logger}) async {
     final process = await runProcess(
       executable: which,
       arguments: [executableName],
-      throwOnFailure: false,
+      logger: logger,
     );
     if (process.exitCode == 0) {
       final file = File(LineSplitter.split(process.stdout).first);
@@ -91,7 +91,7 @@ class CliVersionResolver implements ToolResolver {
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Looking up version with --version for $toolInstance.');
-    final version = await executableVersion(toolInstance.uri);
+    final version = await executableVersion(toolInstance.uri, logger: logger);
     final result = toolInstance.copyWith(version: version);
     logger?.fine('Found version for $result.');
     return result;
@@ -101,14 +101,15 @@ class CliVersionResolver implements ToolResolver {
     Uri executable, {
     String argument = '--version',
     int expectedExitCode = 0,
+    Logger? logger,
   }) async {
-    final executablePath = executable.toFilePath();
     final process = await runProcess(
-      executable: executablePath,
+      executable: executable,
       arguments: [argument],
-      throwOnFailure: expectedExitCode == 0,
+      logger: logger,
     );
     if (process.exitCode != expectedExitCode) {
+      final executablePath = executable.toFilePath();
       throw ToolError(
           '`$executablePath $argument` returned unexpected exit code: '
           '${process.exitCode}.');

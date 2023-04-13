@@ -8,33 +8,57 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 
-/// Runs a process async and captures the exit code and standard out.
+/// Runs a [Process].
+///
+/// If [logger] is provided, stream stdout and stderr to it.
+///
+/// If [captureOutput], captures stdout and stderr.
 Future<RunProcessResult> runProcess({
-  required String executable,
-  required List<String> arguments,
+  required Uri executable,
+  List<String> arguments = const [],
   Uri? workingDirectory,
   Map<String, String>? environment,
-  bool throwOnFailure = true,
+  bool includeParentEnvironment = true,
+  Logger? logger,
+  bool captureOutput = true,
 }) async {
+  final printWorkingDir =
+      workingDirectory != null && workingDirectory != Directory.current.uri;
+  final commandString = [
+    if (printWorkingDir) '(cd ${workingDirectory.path};',
+    ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
+    executable,
+    ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
+    if (printWorkingDir) ')',
+  ].join(' ');
+  logger?.info('Running `$commandString`.');
+
   final stdoutBuffer = <String>[];
   final stderrBuffer = <String>[];
   final stdoutCompleter = Completer<Object?>();
   final stderrCompleter = Completer<Object?>();
   final process = await Process.start(
-    executable,
+    executable.toFilePath(),
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
+    includeParentEnvironment: includeParentEnvironment,
   );
 
   process.stdout.transform(utf8.decoder).listen(
-        stdoutBuffer.add,
-        onDone: stdoutCompleter.complete,
-      );
+    (s) {
+      logger?.fine('  $s');
+      if (captureOutput) stdoutBuffer.add(s);
+    },
+    onDone: stdoutCompleter.complete,
+  );
   process.stderr.transform(utf8.decoder).listen(
-        stderrBuffer.add,
-        onDone: stderrCompleter.complete,
-      );
+    (s) {
+      logger?.severe('  $s');
+      if (captureOutput) stderrBuffer.add(s);
+    },
+    onDone: stderrCompleter.complete,
+  );
 
   final exitCode = await process.exitCode;
   await stdoutCompleter.future;
@@ -43,14 +67,11 @@ Future<RunProcessResult> runProcess({
   final stderr = stderrBuffer.join();
   final result = RunProcessResult(
     pid: process.pid,
-    command: '$executable ${arguments.join(' ')}',
+    command: commandString,
     exitCode: exitCode,
     stdout: stdout,
     stderr: stderr,
   );
-  if (throwOnFailure && result.exitCode != 0) {
-    throw Exception(result);
-  }
   return result;
 }
 
@@ -89,73 +110,4 @@ class RunProcessResult extends ProcessResult {
 exitCode: $exitCode
 stdout: $stdout
 stderr: $stderr''';
-}
-
-/// A task that when run executes a process.
-class RunProcess {
-  final String executable;
-  final List<String> arguments;
-  final Uri? workingDirectory;
-  final Map<String, String>? environment;
-  final bool includeParentEnvironment;
-  final bool throwOnFailure;
-
-  RunProcess({
-    required this.executable,
-    this.arguments = const [],
-    this.workingDirectory,
-    this.environment,
-    this.includeParentEnvironment = true,
-    this.throwOnFailure = true,
-  });
-
-  String get commandString {
-    final printWorkingDir =
-        workingDirectory != null && workingDirectory != Directory.current.uri;
-    return [
-      if (printWorkingDir) '(cd ${workingDirectory!.path};',
-      ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
-      executable,
-      ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
-      if (printWorkingDir) ')',
-    ].join(' ');
-  }
-
-  Future<void> run({Logger? logger}) async {
-    final workingDirectoryString = workingDirectory?.toFilePath();
-
-    final stdoutBuffer = <String>[];
-    final stderrBuffer = <String>[];
-
-    logger?.info('Running `$commandString`.');
-    final process = await Process.start(
-      executable,
-      arguments,
-      runInShell: true,
-      workingDirectory: workingDirectoryString,
-      environment: environment,
-      includeParentEnvironment: includeParentEnvironment,
-    ).then((process) {
-      process.stdout.transform(utf8.decoder).forEach((s) {
-        logger?.fine('  $s');
-        stdoutBuffer.add(s);
-      });
-      process.stderr.transform(utf8.decoder).forEach((s) {
-        logger?.severe('  $s');
-        stderrBuffer.add(s);
-      });
-      return process;
-    });
-    final exitCode = await process.exitCode;
-    if (exitCode != 0) {
-      final message =
-          'Command `$commandString` failed with exit code $exitCode. '
-          'stderr: ${stderrBuffer.join('\n')}';
-      logger?.severe(message);
-      if (throwOnFailure) {
-        throw Exception(message);
-      }
-    }
-    logger?.fine('Command `$commandString` done.');
-  }
 }

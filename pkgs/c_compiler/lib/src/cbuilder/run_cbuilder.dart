@@ -52,8 +52,8 @@ class RunCBuilder {
       archiver_ = await archiver();
     }
 
-    await RunProcess(
-      executable: compiler_.path,
+    await runProcess(
+      executable: compiler_,
       arguments: [
         if (target.os == OS.android) ...[
           // TODO(dacoharkes): How to solve linking issues?
@@ -78,16 +78,20 @@ class RunCBuilder {
           outDir.resolve('out.o').path,
         ],
       ],
-    ).run(logger: logger);
+      logger: logger,
+      captureOutput: false,
+    );
     if (staticLibrary != null) {
-      await RunProcess(
-        executable: archiver_!.path,
+      await runProcess(
+        executable: archiver_!,
         arguments: [
           'rc',
           outDir.resolveUri(staticLibrary!).path,
           outDir.resolve('out.o').path,
         ],
-      ).run(logger: logger);
+        logger: logger,
+        captureOutput: false,
+      );
     }
   }
 

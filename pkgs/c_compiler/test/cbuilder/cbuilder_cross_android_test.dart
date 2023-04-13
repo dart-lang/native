@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:c_compiler/c_compiler.dart';
+import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
@@ -57,9 +58,13 @@ void main() {
 
           final libUri =
               tempUri.resolve(target.os.libraryFileName(name, packaging));
-          final result = await Process.run('readelf', ['-h', libUri.path]);
+          final result = await runProcess(
+            executable: Uri.file('readelf'),
+            arguments: ['-h', libUri.path],
+            logger: logger,
+          );
           expect(result.exitCode, 0);
-          final machine = (result.stdout as String)
+          final machine = result.stdout
               .split('\n')
               .firstWhere((e) => e.contains('Machine:'));
           expect(machine, contains(readElfMachine[target]));
