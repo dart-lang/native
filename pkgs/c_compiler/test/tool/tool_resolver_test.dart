@@ -16,7 +16,7 @@ import '../helpers.dart';
 
 void main() {
   test('CliVersionResolver.executableVersion', () async {
-    final clangInstances = await clang.defaultResolver!.resolve();
+    final clangInstances = await clang.defaultResolver!.resolve(logger: logger);
     expect(clangInstances.isNotEmpty, true);
     final version =
         await CliVersionResolver.executableVersion(clangInstances.first.uri);
@@ -51,11 +51,31 @@ void main() {
         wrappedResolver: barResolver,
         relativePath: Uri(path: bazExeName),
       );
-      final resolvedBazInstances = await bazResolver.resolve();
+      final resolvedBazInstances = await bazResolver.resolve(logger: logger);
       expect(
         resolvedBazInstances,
         [ToolInstance(tool: Tool(name: 'baz'), uri: bazExeUri)],
       );
+    });
+  });
+
+  test('logger', () async {
+    await inTempDir((tempUri) async {
+      final barExeUri =
+          tempUri.resolve(Target.current.os.executableFileName('bar'));
+      final bazExeName = Target.current.os.executableFileName('baz');
+      final bazExeUri = tempUri.resolve(bazExeName);
+      await File.fromUri(barExeUri).writeAsString('dummy');
+      final barResolver = InstallLocationResolver(
+          toolName: 'bar', paths: [barExeUri.toFilePath()]);
+      final bazResolver = InstallLocationResolver(
+          toolName: 'baz', paths: [bazExeUri.toFilePath()]);
+      final barLogs = <String>[];
+      final bazLogs = <String>[];
+      await barResolver.resolve(logger: createCapturingLogger(barLogs));
+      await bazResolver.resolve(logger: createCapturingLogger(bazLogs));
+      expect(barLogs.join('\n'), contains('Found [ToolInstance(bar'));
+      expect(bazLogs.join('\n'), contains('Found no baz'));
     });
   });
 }

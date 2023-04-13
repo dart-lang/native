@@ -25,7 +25,7 @@ class CompilerResolver implements ToolResolver {
   });
 
   @override
-  Future<List<ToolInstance>> resolve() async {
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
     final tool = selectCompiler();
 
     // First, check if the launcher provided a direct path to the compiler.
@@ -78,7 +78,8 @@ class CompilerResolver implements ToolResolver {
       case Target.androidX64:
         return androidNdkClang;
     }
-    throw ToolError("No tool available on host '$host' for target: '$target'.");
+    throw ToolError(
+        "No tool configured on host '$host' for target: '$target'.");
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig(
@@ -100,15 +101,11 @@ class CompilerResolver implements ToolResolver {
 
   /// If a build is invoked
   Future<ToolInstance?> _tryLoadCompilerFromNativeToolchain(Tool tool) async {
-    final resolved = (await tool.defaultResolver!.resolve())
+    final resolved = (await tool.defaultResolver!.resolve(logger: logger))
         .where((i) => i.tool == tool)
         .toList()
       ..sort();
-    if (resolved.isEmpty) {
-      logger?.warning('Clang could not be found by package:native_toolchain.');
-      return null;
-    }
-    return resolved.first;
+    return resolved.isEmpty ? null : resolved.first;
   }
 
   Future<Uri> resolveLinker(

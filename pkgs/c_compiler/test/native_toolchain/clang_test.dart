@@ -8,11 +8,13 @@ import 'package:c_compiler/src/tool/tool_requirement.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() {
   test('clang smoke test', () async {
     final requirement =
         ToolRequirement(clang, minimumVersion: Version(14, 0, 0, pre: '0'));
-    final resolved = await clang.defaultResolver!.resolve();
+    final resolved = await clang.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
@@ -27,6 +29,13 @@ void main() {
     final requirement =
         ToolRequirement(clang, minimumVersion: Version(14, 0, 0, pre: '0'));
     final satisfied = requirement.satisfy([clangInstance]);
+    expect(satisfied?.length, 1);
+  });
+  test('llvm-ar smoke test', () async {
+    final requirement = ToolRequirement(llvmAr);
+    final resolved = await llvmAr.defaultResolver!.resolve(logger: logger);
+    expect(resolved.isNotEmpty, true);
+    final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
   });
 }

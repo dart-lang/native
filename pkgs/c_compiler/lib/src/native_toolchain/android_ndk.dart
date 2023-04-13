@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
+
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
@@ -16,6 +18,12 @@ final androidNdk = Tool(
 /// A clang that knows how to target Android.
 final androidNdkClang = Tool(
   name: 'Android NDK Clang',
+  defaultResolver: _AndroidNdkResolver(),
+);
+
+/// A clang that knows how to target Android.
+final androidNdkClangAr = Tool(
+  name: 'Android NDK Clang Archiver',
   defaultResolver: _AndroidNdkResolver(),
 );
 
@@ -40,8 +48,8 @@ class _AndroidNdkResolver implements ToolResolver {
   );
 
   @override
-  Future<List<ToolInstance>> resolve() async {
-    final ndkInstances = await installLocationResolver.resolve();
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    final ndkInstances = await installLocationResolver.resolve(logger: logger);
 
     return [
       for (final ndkInstance in ndkInstances) ...[
@@ -65,6 +73,13 @@ class _AndroidNdkResolver implements ToolResolver {
         result.add(await CliVersionResolver.lookupVersion(ToolInstance(
           tool: androidNdkClang,
           uri: clangUri,
+        )));
+      }
+      final arUri = hostArchDir.uri.resolve('bin/llvm-ar');
+      if (await File.fromUri(arUri).exists()) {
+        result.add(await CliVersionResolver.lookupVersion(ToolInstance(
+          tool: androidNdkClangAr,
+          uri: arUri,
         )));
       }
     }

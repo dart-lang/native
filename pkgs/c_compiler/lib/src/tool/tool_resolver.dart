@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
+import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:pub_semver/pub_semver.dart';
 
@@ -18,7 +19,7 @@ import 'tool_instance.dart';
 
 abstract class ToolResolver {
   /// Resolves tools on the host system.
-  Future<List<ToolInstance>> resolve();
+  Future<List<ToolInstance>> resolve({Logger? logger});
 }
 
 /// Tries to resolve a tool on the `PATH`.
@@ -31,12 +32,18 @@ class PathToolResolver extends ToolResolver {
   PathToolResolver({required this.toolName});
 
   @override
-  Future<List<ToolInstance>> resolve() async {
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    logger?.finer('Looking for $toolName on PATH.');
     final uri = await runWhich();
-
-    return [
-      if (uri != null) ToolInstance(tool: Tool(name: toolName), uri: uri),
+    if (uri == null) {
+      logger?.fine('Did not find  $toolName on PATH.');
+      return [];
+    }
+    final toolInstances = [
+      ToolInstance(tool: Tool(name: toolName), uri: uri),
     ];
+    logger?.fine('Found ${toolInstances.single}.');
+    return toolInstances;
   }
 
   String get executableName =>
@@ -67,22 +74,24 @@ class CliVersionResolver implements ToolResolver {
   CliVersionResolver({required this.wrappedResolver});
 
   @override
-  Future<List<ToolInstance>> resolve() async {
-    final toolInstances = await wrappedResolver.resolve();
-
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    final toolInstances = await wrappedResolver.resolve(logger: logger);
     return [
       for (final toolInstance in toolInstances)
-        await lookupVersion(toolInstance)
+        await lookupVersion(toolInstance, logger: logger)
     ];
   }
 
-  static Future<ToolInstance> lookupVersion(ToolInstance toolInstance) async {
-    if (toolInstance.version != null) {
-      return toolInstance;
-    }
-    return toolInstance.copyWith(
-      version: await executableVersion(toolInstance.uri),
-    );
+  static Future<ToolInstance> lookupVersion(
+    ToolInstance toolInstance, {
+    Logger? logger,
+  }) async {
+    if (toolInstance.version != null) return toolInstance;
+    logger?.finer('Looking up version with --version for $toolInstance.');
+    final version = await executableVersion(toolInstance.uri);
+    final result = toolInstance.copyWith(version: version);
+    logger?.fine('Found version for $result.');
+    return result;
   }
 
   static Future<Version> executableVersion(
@@ -111,8 +120,8 @@ class PathVersionResolver implements ToolResolver {
   PathVersionResolver({required this.wrappedResolver});
 
   @override
-  Future<List<ToolInstance>> resolve() async {
-    final toolInstances = await wrappedResolver.resolve();
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    final toolInstances = await wrappedResolver.resolve(logger: logger);
 
     return [
       for (final toolInstance in toolInstances) lookupVersion(toolInstance)
@@ -135,14 +144,17 @@ class PathVersionResolver implements ToolResolver {
   }
 }
 
+/// A resolver which invokes all [resolvers] tools.
 class ToolResolvers implements ToolResolver {
   final List<ToolResolver> resolvers;
 
   ToolResolvers(this.resolvers);
 
   @override
-  Future<List<ToolInstance>> resolve() async =>
-      [for (final resolver in resolvers) ...await resolver.resolve()];
+  Future<List<ToolInstance>> resolve({Logger? logger}) async => [
+        for (final resolver in resolvers)
+          ...await resolver.resolve(logger: logger)
+      ];
 }
 
 class InstallLocationResolver implements ToolResolver {
@@ -157,10 +169,22 @@ class InstallLocationResolver implements ToolResolver {
   static const home = '\$HOME';
 
   @override
-  Future<List<ToolInstance>> resolve() async =>
-      [for (final path in paths) ...await tryResolvePath(path)]
-          .map((uri) => ToolInstance(tool: Tool(name: toolName), uri: uri))
-          .toList();
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    logger?.finer('Looking for $toolName in $paths.');
+    final resolvedPaths = [
+      for (final path in paths) ...await tryResolvePath(path)
+    ];
+    final toolInstances = [
+      for (final uri in resolvedPaths)
+        ToolInstance(tool: Tool(name: toolName), uri: uri),
+    ];
+    if (toolInstances.isNotEmpty) {
+      logger?.fine('Found $toolInstances.');
+    } else {
+      logger?.finer('Found no $toolName in $paths.');
+    }
+    return toolInstances;
+  }
 
   Future<List<Uri>> tryResolvePath(String path) async {
     if (path.startsWith(home)) {
@@ -199,14 +223,23 @@ class RelativeToolResolver implements ToolResolver {
   });
 
   @override
-  Future<List<ToolInstance>> resolve() async {
-    final otherToolInstances = await wrappedResolver.resolve();
-    return [
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    final otherToolInstances = await wrappedResolver.resolve(logger: logger);
+
+    logger?.finer('Looking for $toolName relative to $otherToolInstances '
+        'with $relativePath.');
+    final result = [
       for (final toolInstance in otherToolInstances)
         ToolInstance(
           tool: Tool(name: toolName),
           uri: toolInstance.uri.resolveUri(relativePath),
         ),
     ];
+    if (result.isNotEmpty) {
+      logger?.fine('Found $result.');
+    } else {
+      logger?.finer('Found no $toolName relative to $otherToolInstances.');
+    }
+    return result;
   }
 }

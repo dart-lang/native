@@ -6,14 +6,17 @@ import 'package:c_compiler/src/native_toolchain/android_ndk.dart';
 import 'package:c_compiler/src/tool/tool_requirement.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() {
   test('NDK smoke test', () async {
     final requirement = RequireAll([
       ToolRequirement(androidNdk),
       ToolRequirement(androidNdkClang),
+      ToolRequirement(androidNdkClangAr),
     ]);
-    final resolved = await androidNdk.defaultResolver!.resolve();
+    final resolved = await androidNdk.defaultResolver!.resolve(logger: logger);
     final satisfied = requirement.satisfy(resolved);
-    expect(satisfied?.length, 2);
+    expect(satisfied?.length, 3);
   });
 }

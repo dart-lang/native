@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -24,8 +25,16 @@ Future<void> inTempDir(
   }
 }
 
+/// Logger that outputs the full trace when a test fails.
 final logger = Logger('')
   ..level = Level.ALL
   ..onRecord.listen((record) {
     printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+  });
+
+Logger createCapturingLogger(List<String> capturedMessages) => Logger('')
+  ..level = Level.ALL
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    capturedMessages.add(record.message);
   });

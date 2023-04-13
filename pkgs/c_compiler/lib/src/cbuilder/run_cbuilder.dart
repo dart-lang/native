@@ -43,7 +43,7 @@ class RunCBuilder {
       return _compilerCached!;
     }
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    _compilerCached = (await resolver.resolve()).first.uri;
+    _compilerCached = (await resolver.resolve(logger: logger)).first.uri;
     return _compilerCached!;
   }
 

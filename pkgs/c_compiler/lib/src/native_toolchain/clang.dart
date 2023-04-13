@@ -6,9 +6,23 @@ import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
 
 final Tool clang = Tool(
-    name: 'Clang',
-    defaultResolver: CliVersionResolver(
-      wrappedResolver: ToolResolvers([
-        PathToolResolver(toolName: 'Clang'),
-      ]),
-    ));
+  name: 'Clang',
+  defaultResolver: CliVersionResolver(
+    wrappedResolver: ToolResolvers([
+      PathToolResolver(toolName: 'Clang'),
+    ]),
+  ),
+);
+
+final Tool llvmAr = Tool(
+  name: 'llvm-ar',
+  defaultResolver: CliVersionResolver(
+    wrappedResolver: ToolResolvers([
+      RelativeToolResolver(
+        toolName: 'llvm-ar',
+        wrappedResolver: clang.defaultResolver!,
+        relativePath: Uri.file('llvm-ar'),
+      ),
+    ]),
+  ),
+);
