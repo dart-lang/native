@@ -14,9 +14,10 @@ void main() {
       ToolRequirement(androidNdk),
       ToolRequirement(androidNdkClang),
       ToolRequirement(androidNdkClangAr),
+      ToolRequirement(androidNdkClangLd),
     ]);
     final resolved = await androidNdk.defaultResolver!.resolve(logger: logger);
     final satisfied = requirement.satisfy(resolved);
-    expect(satisfied?.length, 3);
+    expect(satisfied?.length, 4);
   });
 }

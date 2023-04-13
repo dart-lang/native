@@ -21,9 +21,13 @@ final androidNdkClang = Tool(
   defaultResolver: _AndroidNdkResolver(),
 );
 
-/// A clang that knows how to target Android.
 final androidNdkClangAr = Tool(
   name: 'Android NDK Clang Archiver',
+  defaultResolver: _AndroidNdkResolver(),
+);
+
+final androidNdkClangLd = Tool(
+  name: 'Android NDK Clang Linker',
   defaultResolver: _AndroidNdkResolver(),
 );
 
@@ -80,6 +84,13 @@ class _AndroidNdkResolver implements ToolResolver {
         result.add(await CliVersionResolver.lookupVersion(ToolInstance(
           tool: androidNdkClangAr,
           uri: arUri,
+        )));
+      }
+      final ldUri = hostArchDir.uri.resolve('bin/ld.lld');
+      if (await File.fromUri(arUri).exists()) {
+        result.add(await CliVersionResolver.lookupVersion(ToolInstance(
+          tool: androidNdkClangLd,
+          uri: ldUri,
         )));
       }
     }

@@ -12,12 +12,15 @@ import '../helpers.dart';
 void main() {
   test('gcc cross compilation smoke test', () async {
     final tools = [
-      i686LinuxGnuGcc,
-      i686LinuxGnuGccAr,
-      armLinuxGnueabihfGcc,
-      armLinuxGnueabihfGccAr,
       aarch64LinuxGnuGcc,
       aarch64LinuxGnuGccAr,
+      aarch64LinuxGnuGccLd,
+      armLinuxGnueabihfGcc,
+      armLinuxGnueabihfGccAr,
+      armLinuxGnueabihfGccLd,
+      i686LinuxGnuGcc,
+      i686LinuxGnuGccAr,
+      i686LinuxGnuGccLd,
     ];
 
     final resolver = ToolResolvers([

@@ -26,3 +26,16 @@ final Tool llvmAr = Tool(
     ]),
   ),
 );
+
+final Tool lld = Tool(
+  name: 'ld.lld',
+  defaultResolver: CliVersionResolver(
+    wrappedResolver: ToolResolvers([
+      RelativeToolResolver(
+        toolName: 'ld.lld',
+        wrappedResolver: clang.defaultResolver!,
+        relativePath: Uri.file('ld.lld'),
+      ),
+    ]),
+  ),
+);

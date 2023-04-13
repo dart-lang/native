@@ -31,9 +31,18 @@ void main() {
     final satisfied = requirement.satisfy([clangInstance]);
     expect(satisfied?.length, 1);
   });
+
   test('llvm-ar smoke test', () async {
     final requirement = ToolRequirement(llvmAr);
     final resolved = await llvmAr.defaultResolver!.resolve(logger: logger);
+    expect(resolved.isNotEmpty, true);
+    final satisfied = requirement.satisfy(resolved);
+    expect(satisfied?.length, 1);
+  });
+
+  test('ld test', () async {
+    final requirement = ToolRequirement(lld);
+    final resolved = await lld.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
