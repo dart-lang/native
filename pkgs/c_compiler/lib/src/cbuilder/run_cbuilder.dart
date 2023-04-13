@@ -28,13 +28,11 @@ class RunCBuilder {
     this.dynamicLibrary,
     this.staticLibrary,
   })  : outDir = buildConfig.outDir,
-        target = buildConfig.target {
-    if ([executable, dynamicLibrary, staticLibrary].whereType<Uri>().length !=
-        1) {
-      throw ArgumentError(
-          'Provide one of executable, dynamicLibrary, or staticLibrary.');
-    }
-  }
+        target = buildConfig.target,
+        assert([executable, dynamicLibrary, staticLibrary]
+                .whereType<Uri>()
+                .length ==
+            1);
 
   Future<Uri> compiler() async {
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);

@@ -12,6 +12,7 @@ void main() async {
   late Uri tempUri;
   late Uri fakeClang;
   late Uri fakeLd;
+  late Uri fakeAr;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -19,6 +20,8 @@ void main() async {
     await File.fromUri(fakeClang).create();
     fakeLd = tempUri.resolve('fake_ld');
     await File.fromUri(fakeLd).create();
+    fakeAr = tempUri.resolve('fake_ar');
+    await File.fromUri(fakeAr).create();
   });
 
   tearDown(() async {
@@ -33,6 +36,7 @@ void main() async {
       targetIOSSdk: IOSSdk.iPhoneOs,
       cc: fakeClang,
       ld: fakeLd,
+      ar: fakeAr,
       packaging: PackagingPreference.preferStatic,
     );
 
@@ -51,12 +55,13 @@ void main() async {
     expect(config1.targetIOSSdk != config2.targetIOSSdk, true);
     expect(config1.cc != config2.cc, true);
     expect(config1.ld != config2.ld, true);
+    expect(config1.ar != config2.ar, true);
     expect(config1.packaging, config2.packaging);
     expect(config1.dependencyMetadata, config2.dependencyMetadata);
   });
 
   test('BuildConfig fromConfig', () {
-    final nativeAssetsCliConfig2 = BuildConfig(
+    final buildConfig2 = BuildConfig(
       outDir: tempUri.resolve('out2/'),
       packageRoot: tempUri.resolve('packageRoot/'),
       target: Target.androidArm64,
@@ -71,11 +76,11 @@ void main() async {
     });
 
     final fromConfig = BuildConfig.fromConfig(config);
-    expect(fromConfig, equals(nativeAssetsCliConfig2));
+    expect(fromConfig, equals(buildConfig2));
   });
 
   test('BuildConfig toYaml fromConfig', () {
-    final nativeAssetsCliConfig1 = BuildConfig(
+    final buildConfig1 = BuildConfig(
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri.resolve('packageRoot/'),
       target: Target.iOSArm64,
@@ -85,14 +90,14 @@ void main() async {
       packaging: PackagingPreference.preferStatic,
     );
 
-    final configFile = nativeAssetsCliConfig1.toYaml();
+    final configFile = buildConfig1.toYaml();
     final config = Config(fileParsed: configFile);
     final fromConfig = BuildConfig.fromConfig(config);
-    expect(fromConfig, equals(nativeAssetsCliConfig1));
+    expect(fromConfig, equals(buildConfig1));
   });
 
   test('BuildConfig == dependency metadata', () {
-    final nativeAssetsCliConfig1 = BuildConfig(
+    final buildConfig1 = BuildConfig(
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri,
       target: Target.androidArm64,
@@ -108,7 +113,7 @@ void main() async {
       },
     );
 
-    final nativeAssetsCliConfig2 = BuildConfig(
+    final buildConfig2 = BuildConfig(
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri,
       target: Target.androidArm64,
@@ -123,15 +128,14 @@ void main() async {
       },
     );
 
-    expect(nativeAssetsCliConfig1, equals(nativeAssetsCliConfig1));
-    expect(nativeAssetsCliConfig1 == nativeAssetsCliConfig2, false);
-    expect(nativeAssetsCliConfig1.hashCode == nativeAssetsCliConfig2.hashCode,
-        false);
+    expect(buildConfig1, equals(buildConfig1));
+    expect(buildConfig1 == buildConfig2, false);
+    expect(buildConfig1.hashCode == buildConfig2.hashCode, false);
   });
 
   test('BuildConfig toYaml fromYaml', () {
     final outDir = tempUri.resolve('out1/');
-    final nativeAssetsCliConfig1 = BuildConfig(
+    final buildConfig1 = BuildConfig(
       outDir: outDir,
       packageRoot: tempUri,
       target: Target.iOSArm64,
@@ -150,7 +154,7 @@ void main() async {
         }),
       },
     );
-    final yamlString = nativeAssetsCliConfig1.toYamlString();
+    final yamlString = buildConfig1.toYamlString();
     final expectedYamlString = '''cc: ${fakeClang.path}
 dependency_metadata:
   bar:
@@ -173,7 +177,7 @@ target_ios_sdk: iphoneos''';
         fileContents: yamlString,
       ),
     );
-    expect(buildConfig2, nativeAssetsCliConfig1);
+    expect(buildConfig2, buildConfig1);
   });
 
   test('BuildConfig FormatExceptions', () {
@@ -244,5 +248,29 @@ target_ios_sdk: iphoneos''';
     final buildConfig2 =
         await BuildConfig.fromArgs(['--config', configUri.toFilePath()]);
     expect(buildConfig2, buildConfig);
+  });
+
+  test('dependency metadata via config accessor', () {
+    final buildConfig1 = BuildConfig(
+      outDir: tempUri.resolve('out1/'),
+      packageRoot: tempUri,
+      target: Target.androidArm64,
+      packaging: PackagingPreference.preferStatic,
+      dependencyMetadata: {
+        'bar': Metadata({
+          'key': {'key2': 'value'},
+        }),
+      },
+    );
+    // Useful for doing `path(..., exists: true)`.
+    expect(
+      buildConfig1.config.string([
+        BuildConfig.dependencyMetadataConfigKey,
+        'bar',
+        'key',
+        'key2'
+      ].join('.')),
+      'value',
+    );
   });
 }

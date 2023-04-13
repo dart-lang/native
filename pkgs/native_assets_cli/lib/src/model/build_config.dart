@@ -217,6 +217,7 @@ class BuildConfig {
     if (other._packageRoot != _packageRoot) return false;
     if (other._target != _target) return false;
     if (other._targetIOSSdk != _targetIOSSdk) return false;
+    if (other._ar != _ar) return false;
     if (other._cc != _cc) return false;
     if (other._ld != _ld) return false;
     if (other._packaging != _packaging) return false;
@@ -231,6 +232,7 @@ class BuildConfig {
         _packageRoot,
         _target,
         _targetIOSSdk,
+        _ar,
         _cc,
         _ld,
         _packaging,
