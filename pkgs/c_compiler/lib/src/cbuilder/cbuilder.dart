@@ -44,13 +44,6 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.dependencies].
   final List<String> sources;
 
-  /// Sources to build the library or executable.
-  ///
-  /// Resolved against [BuildConfig.packageRoot].
-  ///
-  /// Used to output the [BuildOutput.dependencies].
-  final List<String> includePaths;
-
   /// The dart files involved in building this artifact.
   ///
   /// Resolved against [BuildConfig.packageRoot].
@@ -62,14 +55,12 @@ class CBuilder implements Builder {
     required this.name,
     required this.assetName,
     this.sources = const [],
-    this.includePaths = const [],
     this.dartBuildFiles = const ['build.dart'],
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
     required this.name,
     this.sources = const [],
-    this.includePaths = const [],
     this.dartBuildFiles = const ['build.dart'],
   })  : _type = _CBuilderType.executable,
         assetName = null;

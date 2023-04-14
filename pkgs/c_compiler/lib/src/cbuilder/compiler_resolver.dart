@@ -117,7 +117,7 @@ class CompilerResolver {
     throw ToolError(errorMessage);
   }
 
-  /// Select the right compiler for cross compiling to the specified target.
+  /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
     final target = buildConfig.target;
 

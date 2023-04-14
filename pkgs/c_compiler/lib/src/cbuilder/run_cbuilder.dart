@@ -12,7 +12,6 @@ class RunCBuilder {
   final BuildConfig buildConfig;
   final Logger logger;
   final List<Uri> sources;
-  final List<Uri> includePaths;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
@@ -23,7 +22,6 @@ class RunCBuilder {
     required this.buildConfig,
     required this.logger,
     this.sources = const [],
-    this.includePaths = const [],
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
