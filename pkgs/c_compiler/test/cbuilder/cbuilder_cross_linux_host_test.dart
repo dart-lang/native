@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
