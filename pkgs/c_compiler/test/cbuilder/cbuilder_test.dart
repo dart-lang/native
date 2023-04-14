@@ -15,7 +15,6 @@ import '../helpers.dart';
 void main() {
   test('Cbuilder executable', () async {
     await inTempDir((tempUri) async {
-      final packageUri = Directory.current.uri;
       final helloWorldCUri = packageUri
           .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
       if (!await File.fromUri(helloWorldCUri).exists()) {
@@ -51,7 +50,6 @@ void main() {
 
   test('Cbuilder dylib', () async {
     await inTempDir((tempUri) async {
-      final packageUri = Directory.current.uri;
       final addCUri =
           packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
       const name = 'add';

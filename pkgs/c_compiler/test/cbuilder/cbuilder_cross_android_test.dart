@@ -30,7 +30,6 @@ void main() {
     for (final target in targets) {
       test('Cbuilder $packaging library $target', () async {
         await inTempDir((tempUri) async {
-          final packageUri = Directory.current.uri;
           final addCUri =
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
           const name = 'add';

@@ -7,9 +7,10 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() async {
   late Uri tempUri;
-  final packageUri = Directory.current.uri;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;

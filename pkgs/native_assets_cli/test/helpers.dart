@@ -2,42 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:async';
 import 'dart:io';
-
-import 'package:logging/logging.dart';
-import 'package:test/test.dart';
-
-const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
-
-Future<void> inTempDir(
-  Future<void> Function(Uri tempUri) fun, {
-  String? prefix,
-}) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
-  try {
-    await fun(tempDir.uri);
-  } finally {
-    if (!Platform.environment.containsKey(keepTempKey) ||
-        Platform.environment[keepTempKey]!.isEmpty) {
-      await tempDir.delete(recursive: true);
-    }
-  }
-}
-
-/// Logger that outputs the full trace when a test fails.
-final logger = Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
-  });
-
-Logger createCapturingLogger(List<String> capturedMessages) => Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
-    capturedMessages.add(record.message);
-  });
 
 /// Test files are run in a variety of ways, find this package root in all.
 ///
@@ -74,7 +39,7 @@ Uri findPackageRoot(String packageName) {
       "'${Directory.current.uri.toFilePath()}'.");
 }
 
-Uri packageUri = findPackageRoot('c_compiler');
+Uri packageUri = findPackageRoot('native_assets_cli');
 
 extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
