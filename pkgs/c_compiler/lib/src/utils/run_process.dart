@@ -33,8 +33,8 @@ Future<RunProcessResult> runProcess({
   ].join(' ');
   logger?.info('Running `$commandString`.');
 
-  final stdoutBuffer = <String>[];
-  final stderrBuffer = <String>[];
+  final stdoutBuffer = StringBuffer();
+  final stderrBuffer = StringBuffer();
   final stdoutCompleter = Completer<Object?>();
   final stderrCompleter = Completer<Object?>();
   final process = await Process.start(
@@ -48,29 +48,27 @@ Future<RunProcessResult> runProcess({
   process.stdout.transform(utf8.decoder).listen(
     (s) {
       logger?.fine('  $s');
-      if (captureOutput) stdoutBuffer.add(s);
+      if (captureOutput) stdoutBuffer.write(s);
     },
     onDone: stdoutCompleter.complete,
   );
   process.stderr.transform(utf8.decoder).listen(
     (s) {
       logger?.severe('  $s');
-      if (captureOutput) stderrBuffer.add(s);
+      if (captureOutput) stderrBuffer.write(s);
     },
     onDone: stderrCompleter.complete,
   );
 
   final exitCode = await process.exitCode;
   await stdoutCompleter.future;
-  final stdout = stdoutBuffer.join();
   await stderrCompleter.future;
-  final stderr = stderrBuffer.join();
   final result = RunProcessResult(
     pid: process.pid,
     command: commandString,
     exitCode: exitCode,
-    stdout: stdout,
-    stderr: stderr,
+    stdout: stdoutBuffer.toString(),
+    stderr: stderrBuffer.toString(),
   );
   return result;
 }

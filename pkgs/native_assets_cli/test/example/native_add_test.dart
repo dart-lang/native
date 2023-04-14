@@ -32,7 +32,7 @@ void main() async {
         'build.dart',
         '-Dout_dir=${tempUri.path}',
         '-Dpackage_root=${testPackageUri.path}',
-        '-Dtarget=linux_x64',
+        '-Dtarget=${Target.current}',
         '-Dpackaging=dynamic',
       ],
       workingDirectory: testPackageUri.path,
