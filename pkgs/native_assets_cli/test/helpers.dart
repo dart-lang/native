@@ -11,6 +11,8 @@ import 'dart:io';
 ///
 /// Test files can be run from dill from the root of package. `package:test`
 /// does this.
+///
+/// https://github.com/dart-lang/test/issues/110
 Uri findPackageRoot(String packageName) {
   final script = Platform.script;
   final fileName = script.name;
