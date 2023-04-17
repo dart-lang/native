@@ -4,6 +4,14 @@
 
 /// A library that contains the argument and file formats for implementing a
 /// native assets CLI.
-library;
+library native_assets_cli;
 
-export 'src/native_assets_cli_base.dart';
+export 'src/model/asset.dart';
+export 'src/model/build_config.dart';
+export 'src/model/build_output.dart';
+export 'src/model/dependencies.dart';
+export 'src/model/ios_sdk.dart';
+export 'src/model/metadata.dart';
+export 'src/model/packaging.dart';
+export 'src/model/packaging_preference.dart';
+export 'src/model/target.dart';
