@@ -82,6 +82,7 @@ class CompilerResolver {
       return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
           .first;
     }
+    logger?.finer('No compiler set in config[${BuildConfig.ccConfigKey}].');
     return null;
   }
 
@@ -139,14 +140,15 @@ class CompilerResolver {
 
   Future<ToolInstance?> _tryLoadArchiverFromConfig(
       String configKey, Uri? Function(BuildConfig) getter) async {
-    final configCcUri = getter(buildConfig);
-    if (configCcUri != null) {
-      assert(await File.fromUri(configCcUri).exists());
-      logger?.finer('Using archiver ${configCcUri.path} '
-          'from config[${BuildConfig.ccConfigKey}].');
-      return (await ArchiverRecognizer(configCcUri).resolve(logger: logger))
+    final configArUri = getter(buildConfig);
+    if (configArUri != null) {
+      assert(await File.fromUri(configArUri).exists());
+      logger?.finer('Using archiver ${configArUri.path} '
+          'from config[${BuildConfig.arConfigKey}].');
+      return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
           .first;
     }
+    logger?.finer('No archiver set in config[${BuildConfig.arConfigKey}].');
     return null;
   }
 }
