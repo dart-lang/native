@@ -27,6 +27,7 @@ void main() {
         packageRoot: tempUri,
         target: Target.current,
         packaging: PackagingPreference.dynamic, // Ignored by executables.
+        cc: cc,
       );
       final buildOutput = BuildOutput();
       final cbuilder = CBuilder.executable(
@@ -59,6 +60,7 @@ void main() {
         packageRoot: tempUri,
         target: Target.current,
         packaging: PackagingPreference.dynamic,
+        cc: cc,
       );
       final buildOutput = BuildOutput();
 
@@ -70,6 +72,7 @@ void main() {
       await cbuilder.run(
         buildConfig: buildConfig,
         buildOutput: buildOutput,
+        logger: logger,
       );
 
       final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));

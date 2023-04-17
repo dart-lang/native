@@ -35,6 +35,7 @@ void main() {
       expect(archiver.uri, buildConfig.ar);
     });
   });
+
   test('No compiler found', () async {
     await inTempDir((tempUri) async {
       final buildConfig = BuildConfig(

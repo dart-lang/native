@@ -34,6 +34,7 @@ void main() async {
         '-Dpackage_root=${testPackageUri.path}',
         '-Dtarget=${Target.current}',
         '-Dpackaging=dynamic',
+        if (cc != null) '-Dcc=${cc!.toFilePath()}',
       ],
       workingDirectory: testPackageUri.path,
     );

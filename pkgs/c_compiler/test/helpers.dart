@@ -81,3 +81,16 @@ Uri packageUri = findPackageRoot('c_compiler');
 extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
 }
+
+/// Archiver provided by the environment.
+final Uri? ar = Platform.environment['AR']?.asFileUri();
+
+/// Compiler provided by the environment.
+final Uri? cc = Platform.environment['CC']?.asFileUri();
+
+/// Linker provided by the environment.
+final Uri? ld = Platform.environment['LD']?.asFileUri();
+
+extension on String {
+  Uri asFileUri() => Uri.file(this);
+}
