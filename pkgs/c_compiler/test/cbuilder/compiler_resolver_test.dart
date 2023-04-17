@@ -13,11 +13,18 @@ import '../helpers.dart';
 void main() {
   test('Config provided compiler', () async {
     await inTempDir((tempUri) async {
-      final ar =
-          (await llvmAr.defaultResolver!.resolve(logger: logger)).first.uri;
-      final cc =
-          (await clang.defaultResolver!.resolve(logger: logger)).first.uri;
-      final ld = (await lld.defaultResolver!.resolve(logger: logger)).first.uri;
+      final ar = [
+        ...await appleAr.defaultResolver!.resolve(logger: logger),
+        ...await llvmAr.defaultResolver!.resolve(logger: logger),
+      ].first.uri;
+      final cc = [
+        ...await appleClang.defaultResolver!.resolve(logger: logger),
+        ...await clang.defaultResolver!.resolve(logger: logger),
+      ].first.uri;
+      final ld = [
+        ...await appleLd.defaultResolver!.resolve(logger: logger),
+        ...await lld.defaultResolver!.resolve(logger: logger),
+      ].first.uri;
       final buildConfig = BuildConfig(
         outDir: tempUri,
         packageRoot: tempUri,

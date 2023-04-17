@@ -2,6 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// TODO(dacoharkes): Make a MacOS cross compilation test.
+// Or make this test cross compilation on any host.
+@TestOn('linux')
+library;
+
 import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';

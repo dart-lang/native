@@ -50,6 +50,9 @@ class _AndroidNdkResolver implements ToolResolver {
             '\$HOME/Android/Sdk/ndk/*/',
             '\$HOME/Android/Sdk/ndk-bundle/',
           ],
+          if (Platform.isMacOS) ...[
+            '\$HOME/Library/Android/sdk/ndk/*/',
+          ],
         ],
       ),
     ]),

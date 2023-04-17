@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
@@ -22,6 +24,13 @@ void main() {
     Target.androidArm64: 'AArch64',
     Target.androidIA32: 'Intel 80386',
     Target.androidX64: 'Advanced Micro Devices X86-64',
+  };
+
+  const objdumpFileFormat = {
+    Target.androidArm: 'elf32-littlearm',
+    Target.androidArm64: 'elf64-littleaarch64',
+    Target.androidIA32: 'elf32-i386',
+    Target.androidX64: 'elf64-x86-64',
   };
 
   for (final packaging in Packaging.values) {
@@ -55,17 +64,29 @@ void main() {
 
           final libUri =
               tempUri.resolve(target.os.libraryFileName(name, packaging));
-          final result = await runProcess(
-            executable: Uri.file('readelf'),
-            arguments: ['-h', libUri.path],
-            logger: logger,
-          );
-          expect(result.exitCode, 0);
-          final machine = result.stdout
-              .split('\n')
-              .firstWhere((e) => e.contains('Machine:'));
-          expect(machine, contains(readElfMachine[target]));
-          expect(result.exitCode, 0);
+          if (Platform.isLinux) {
+            final result = await runProcess(
+              executable: Uri.file('readelf'),
+              arguments: ['-h', libUri.path],
+              logger: logger,
+            );
+            expect(result.exitCode, 0);
+            final machine = result.stdout
+                .split('\n')
+                .firstWhere((e) => e.contains('Machine:'));
+            expect(machine, contains(readElfMachine[target]));
+          } else if (Platform.isMacOS) {
+            final result = await runProcess(
+              executable: Uri.file('objdump'),
+              arguments: ['-T', libUri.path],
+              logger: logger,
+            );
+            expect(result.exitCode, 0);
+            final machine = result.stdout
+                .split('\n')
+                .firstWhere((e) => e.contains('file format'));
+            expect(machine, contains(objdumpFileFormat[target]));
+          }
         });
       });
     }

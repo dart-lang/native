@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
 import '../tool/tool_resolver.dart';
+import 'apple_clang.dart';
 import 'clang.dart';
 import 'gcc.dart';
 
@@ -22,8 +23,14 @@ class CompilerRecognizer implements ToolResolver {
     Tool? tool;
     if (filePath.contains('-gcc')) {
       tool = gcc;
-    } else if (filePath.contains('clang')) {
-      tool = clang;
+    } else if (filePath.endsWith('clang')) {
+      final stdout = await CliFilter.executeCli(uri,
+          arguments: ['--version'], logger: logger);
+      if (stdout.contains('Apple clang')) {
+        tool = appleClang;
+      } else {
+        tool = clang;
+      }
     }
 
     if (tool != null) {
@@ -54,8 +61,10 @@ class LinkerRecognizer implements ToolResolver {
     Tool? tool;
     if (filePath.contains('-ld')) {
       tool = gnuLinker;
-    } else if (filePath.contains('ld.lld')) {
+    } else if (filePath.endsWith('ld.lld')) {
       tool = lld;
+    } else if (filePath.endsWith('ld')) {
+      tool = appleLd;
     }
 
     if (tool != null) {
@@ -89,8 +98,10 @@ class ArchiverRecognizer implements ToolResolver {
     Tool? tool;
     if (filePath.contains('-gcc-ar')) {
       tool = gnuArchiver;
-    } else if (filePath.contains('llvm-ar')) {
+    } else if (filePath.endsWith('llvm-ar')) {
       tool = llvmAr;
+    } else if (filePath.endsWith('ar')) {
+      tool = appleAr;
     }
 
     if (tool != null) {

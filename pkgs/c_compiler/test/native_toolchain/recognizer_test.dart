@@ -3,33 +3,48 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:c_compiler/src/native_toolchain/android_ndk.dart';
+import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
 import 'package:c_compiler/src/native_toolchain/clang.dart';
 import 'package:c_compiler/src/native_toolchain/gcc.dart';
 import 'package:c_compiler/src/native_toolchain/recognizer.dart';
 import 'package:c_compiler/src/tool/tool.dart';
 import 'package:c_compiler/src/tool/tool_instance.dart';
+import 'package:c_compiler/src/tool/tool_resolver.dart';
+import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
-void main() {
-  void recognizeCompilerTest(String name, Tool tool) {
-    test('recognize compiler $name', () async {
-      final toolInstance = (await tool.defaultResolver!.resolve(logger: logger))
-          .where((element) => element.tool == tool)
-          .first;
-      final recognizer = CompilerRecognizer(toolInstance.uri);
-      final toolInstanceAgain =
-          (await recognizer.resolve(logger: logger)).first;
-      expect(toolInstanceAgain, toolInstance);
-    });
+void main() async {
+  // TODO(dacoharkes): Add apple tools.
+  final tests = [
+    RecognizerTest(appleAr, ArchiverRecognizer.new),
+    RecognizerTest(appleClang, CompilerRecognizer.new),
+    RecognizerTest(appleLd, LinkerRecognizer.new),
+    RecognizerTest(aarch64LinuxGnuGcc, CompilerRecognizer.new),
+    RecognizerTest(aarch64LinuxGnuGccAr, ArchiverRecognizer.new),
+    RecognizerTest(aarch64LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(androidNdkClang, CompilerRecognizer.new),
+    RecognizerTest(androidNdkLld, LinkerRecognizer.new),
+    RecognizerTest(androidNdkLlvmAr, ArchiverRecognizer.new),
+    RecognizerTest(armLinuxGnueabihfGcc, CompilerRecognizer.new),
+    RecognizerTest(armLinuxGnueabihfGccAr, ArchiverRecognizer.new),
+    RecognizerTest(armLinuxGnueabihfLd, LinkerRecognizer.new),
+    RecognizerTest(clang, CompilerRecognizer.new),
+    RecognizerTest(i686LinuxGnuGcc, CompilerRecognizer.new),
+    RecognizerTest(i686LinuxGnuGccAr, ArchiverRecognizer.new),
+    RecognizerTest(i686LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(lld, LinkerRecognizer.new),
+    RecognizerTest(llvmAr, ArchiverRecognizer.new),
+  ];
+
+  for (final test in tests) {
+    await test.setUp();
   }
 
-  recognizeCompilerTest('aarch64LinuxGnuGcc', aarch64LinuxGnuGcc);
-  recognizeCompilerTest('androidNdkClang', androidNdkClang);
-  recognizeCompilerTest('armLinuxGnueabihfGcc', armLinuxGnueabihfGcc);
-  recognizeCompilerTest('clang', clang);
-  recognizeCompilerTest('i686LinuxGnuGcc', i686LinuxGnuGcc);
+  for (final test in tests) {
+    test.addTest();
+  }
 
   test('compiler does not exist', () async {
     await inTempDir((tempUri) async {
@@ -39,24 +54,6 @@ void main() {
     });
   });
 
-  void recognizeLinkerTest(String name, Tool tool) {
-    test('recognize compiler $name', () async {
-      final toolInstance = (await tool.defaultResolver!.resolve(logger: logger))
-          .where((element) => element.tool == tool)
-          .first;
-      final recognizer = LinkerRecognizer(toolInstance.uri);
-      final toolInstanceAgain =
-          (await recognizer.resolve(logger: logger)).first;
-      expect(toolInstanceAgain, toolInstance);
-    });
-  }
-
-  recognizeLinkerTest('aarch64LinuxGnuLd', aarch64LinuxGnuLd);
-  recognizeLinkerTest('androidNdkLld', androidNdkLld);
-  recognizeLinkerTest('armLinuxGnueabihfLd', armLinuxGnueabihfLd);
-  recognizeLinkerTest('i686LinuxGnuLd', i686LinuxGnuLd);
-  recognizeLinkerTest('lld', lld);
-
   test('linker does not exist', () async {
     await inTempDir((tempUri) async {
       final recognizer = LinkerRecognizer(tempUri.resolve('asdf'));
@@ -65,24 +62,6 @@ void main() {
     });
   });
 
-  void recognizeArchiverTest(String name, Tool tool) {
-    test('recognize compiler $name', () async {
-      final toolInstance = (await tool.defaultResolver!.resolve(logger: logger))
-          .where((element) => element.tool == tool)
-          .first;
-      final recognizer = ArchiverRecognizer(toolInstance.uri);
-      final toolInstanceAgain =
-          (await recognizer.resolve(logger: logger)).first;
-      expect(toolInstanceAgain, toolInstance);
-    });
-  }
-
-  recognizeArchiverTest('aarch64LinuxGnuGccAr', aarch64LinuxGnuGccAr);
-  recognizeArchiverTest('androidNdkLlvmAr', androidNdkLlvmAr);
-  recognizeArchiverTest('armLinuxGnueabihfGccAr', armLinuxGnueabihfGccAr);
-  recognizeArchiverTest('i686LinuxGnuGccAr', i686LinuxGnuGccAr);
-  recognizeArchiverTest('llvmAr', llvmAr);
-
   test('archiver does not exist', () async {
     await inTempDir((tempUri) async {
       final recognizer = ArchiverRecognizer(tempUri.resolve('asdf'));
@@ -90,4 +69,37 @@ void main() {
       expect(result, <ToolInstance>[]);
     });
   });
+}
+
+class RecognizerTest {
+  final Tool tool;
+  final ToolResolver Function(Uri) recognizer;
+  late final ToolInstance? toolInstance;
+
+  RecognizerTest(this.tool, this.recognizer);
+
+  Future<void> setUp() async {
+    toolInstance = (await tool.defaultResolver!.resolve())
+        .where((element) => element.tool == tool)
+        .firstOrNull;
+  }
+
+  void addTest() {
+    if (toolInstance == null) {
+      // We only want to test if we would recognize the tool again if it exists
+      // on the host. Skipping pollutes the stdout, so just don't run the test
+      // at all.
+      return;
+    }
+
+    test(
+      'recognize ${tool.name}',
+      () async {
+        final recognizer_ = recognizer(toolInstance!.uri);
+        final toolInstanceAgain =
+            (await recognizer_.resolve(logger: logger)).first;
+        expect(toolInstanceAgain, toolInstance);
+      },
+    );
+  }
 }

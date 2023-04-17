@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
+import '../../c_compiler.dart';
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
@@ -56,7 +57,9 @@ class CompilerResolver {
   Tool? _selectCompiler() {
     final target = buildConfig.target;
 
-    if (target == host) return clang;
+    // TODO(dacoharkes): Support falling back on other tools.
+    if (target == host && host.os == OS.linux) return clang;
+    if (target == host && host.os == OS.macOS) return appleClang;
     if (target.os == OS.android) return androidNdkClang;
     if (host.os == OS.linux) {
       switch (target) {
@@ -122,7 +125,9 @@ class CompilerResolver {
   Tool? _selectArchiver() {
     final target = buildConfig.target;
 
-    if (target == host) return llvmAr;
+    // TODO(dacoharkes): Support falling back on other tools.
+    if (target == host && host.os == OS.linux) return llvmAr;
+    if (target == host && host.os == OS.macOS) return appleLd;
     if (target.os == OS.android) return androidNdkLlvmAr;
     if (host.os == OS.linux) {
       switch (target) {

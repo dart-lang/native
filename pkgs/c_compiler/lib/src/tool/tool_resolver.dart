@@ -247,3 +247,65 @@ class RelativeToolResolver implements ToolResolver {
     return result;
   }
 }
+
+class CliFilter implements ToolResolver {
+  final ToolResolver wrappedResolver;
+  final List<String> cliArguments;
+  final bool Function({required String stdout}) keepIf;
+
+  CliFilter({
+    required this.wrappedResolver,
+    required this.cliArguments,
+    required this.keepIf,
+  });
+
+  @override
+  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    final toolInstances = await wrappedResolver.resolve(logger: logger);
+    return [
+      for (final toolInstance in toolInstances)
+        await filter(toolInstance, logger: logger)
+    ].whereType<ToolInstance>().toList();
+  }
+
+  Future<ToolInstance?> filter(
+    ToolInstance toolInstance, {
+    Logger? logger,
+  }) async {
+    if (toolInstance.version != null) return toolInstance;
+    logger?.finer('Checking if $toolInstance satisfies CLI filter.');
+    final stdout = await executeCli(
+      toolInstance.uri,
+      arguments: cliArguments,
+      logger: logger,
+    );
+    final doKeep = keepIf(stdout: stdout);
+    if (doKeep) {
+      logger?.fine('$toolInstance satisfies CLI filter.');
+      return toolInstance;
+    }
+    logger?.fine('$toolInstance does not satisfy CLI filter.');
+    return null;
+  }
+
+  static Future<String> executeCli(
+    Uri executable, {
+    required List<String> arguments,
+    int expectedExitCode = 0,
+    Logger? logger,
+  }) async {
+    final process = await runProcess(
+      executable: executable,
+      arguments: arguments,
+      logger: logger,
+    );
+    final exitCode = process.exitCode;
+    if (exitCode != expectedExitCode) {
+      final executablePath = executable.toFilePath();
+      final invocationString = [executablePath, ...arguments].join(' ');
+      throw ToolError('`$invocationString` returned unexpected exit code: '
+          '$exitCode.');
+    }
+    return process.stdout;
+  }
+}

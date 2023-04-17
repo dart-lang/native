@@ -11,9 +11,14 @@ import '../tool/tool_resolver.dart';
 final Tool clang = Tool(
   name: 'Clang',
   defaultResolver: CliVersionResolver(
-    wrappedResolver: ToolResolvers([
-      PathToolResolver(toolName: 'Clang'),
-    ]),
+    wrappedResolver: CliFilter(
+      cliArguments: ['--version'],
+      keepIf: ({required String stdout}) => !stdout.contains('Apple clang'),
+      wrappedResolver: PathToolResolver(
+        toolName: 'Clang',
+        executableName: 'clang',
+      ),
+    ),
   ),
 );
 
