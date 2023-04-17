@@ -113,8 +113,28 @@ class BuildConfig {
     return result;
   }
 
-  static Future<BuildConfig> fromArgs(List<String> args) async {
-    final config = await Config.fromArgs(args: args);
+  /// Constructs a config by parsing CLI arguments and loading the config file.
+  ///
+  /// The [args] must be commandline arguments.
+  ///
+  /// If provided, [environment] must be a map containing environment variables.
+  /// If not provided, [environment] defaults to [Platform.environment].
+  ///
+  /// If provided, [workingDirectory] is used to resolves paths inside
+  /// [environment].
+  /// If not provided, [workingDirectory] defaults to [Directory.current].
+  ///
+  /// This async constructor is intended to be used directly in CLI files.
+  static Future<BuildConfig> fromArgs(
+    List<String> args, {
+    Map<String, String>? environment,
+    Uri? workingDirectory,
+  }) async {
+    final config = await Config.fromArgs(
+      args: args,
+      environment: environment,
+      workingDirectory: workingDirectory,
+    );
     return BuildConfig.fromConfig(config);
   }
 
