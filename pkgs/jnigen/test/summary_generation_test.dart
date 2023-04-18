@@ -48,12 +48,17 @@ List<String> findFiles(Directory dir, String suffix) {
       .toList();
 }
 
-Future<void> createJar(List<String> paths, String target) async {
-  final relativeTarget = relative(target, from: simplePackagePath);
+/// Packs files indicated by [artifacts], each relative to [artifactDir] into
+/// a JAR file at [jarPath].
+Future<void> createJar({
+  required String artifactDir,
+  required List<String> artifacts,
+  required String jarPath,
+}) async {
   final status = await runCommand(
     'jar',
-    ['cf', relativeTarget, ...paths],
-    workingDirectory: simplePackagePath,
+    ['cf', relative(jarPath, from: artifactDir), ...artifacts],
+    workingDirectory: artifactDir,
   );
   if (status != 0) {
     throw ArgumentError('Cannot create JAR from provided arguments');
@@ -112,18 +117,22 @@ void main() {
     final targetDir = tempDir.createTempSync("compiled_jar_test_");
     await compileJavaFiles(javaFiles, targetDir);
     final classFiles = findFiles(targetDir, '.class');
-    final jarFilePath = join(targetDir.absolute.path, 'classes.jar');
-    await createJar(classFiles, jarFilePath);
-    final config = getConfig(classPath: [jarFilePath]);
+    final jarPath = join(targetDir.absolute.path, 'classes.jar');
+    await createJar(
+        artifactDir: targetDir.path, artifacts: classFiles, jarPath: jarPath);
+    final config = getConfig(classPath: [jarPath]);
     final summaryClasses = await getSummary(config);
     expectNonEmptySummary(summaryClasses);
   });
 
   test('Test summary generation from source JAR', () async {
     final targetDir = tempDir.createTempSync("source_jar_test_");
-    final jarFilePath = join(targetDir.path, 'sources.jar');
-    await createJar(javaFiles, jarFilePath);
-    final config = getConfig(sourcePath: [jarFilePath]);
+    final jarPath = join(targetDir.path, 'sources.jar');
+    await createJar(
+        artifactDir: simplePackageDir.path,
+        artifacts: javaFiles,
+        jarPath: jarPath);
+    final config = getConfig(sourcePath: [jarPath]);
     final summaryClasses = await getSummary(config);
     expectNonEmptySummary(summaryClasses);
   });
@@ -150,12 +159,20 @@ void main() {
     final sourceFiles = javaFiles.toList();
     sourceFiles.removeLast();
     final sourceJarPath = join(targetDir.path, 'sources.jar');
-    await createJar(sourceFiles, sourceJarPath);
+    await createJar(
+      artifactDir: simplePackageDir.path,
+      artifacts: sourceFiles,
+      jarPath: sourceJarPath,
+    );
 
     await compileJavaFiles(javaFiles, targetDir);
     final classFiles = findFiles(targetDir, '.class');
     final classesJarPath = join(targetDir.path, 'classes.jar');
-    await createJar(classFiles, classesJarPath);
+    await createJar(
+      artifactDir: targetDir.path,
+      artifacts: classFiles,
+      jarPath: classesJarPath,
+    );
     final config = getConfig(
       classPath: [classesJarPath],
       sourcePath: [sourceJarPath],
