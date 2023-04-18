@@ -182,10 +182,10 @@ jobs:
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
       - name: regenerate & compare ffigen bindings
+        ## Use git to verify no source files have changed
         run: |
-          cp lib/src/third_party/jni_bindings_generated.dart __old_bindings
-          dart run ffigen --config ffigen.yaml
-          diff lib/src/third_party/jni_bindings_generated.dart __old_bindings
+          dart run tool/generate_ffi_bindings.dart
+          git diff --exit-code -- lib/src/third_party src/third_party
 
   ## Run tests for package:jni on windows, just to confirm it works.
   ## Do not, for example, collect coverage or check formatting.

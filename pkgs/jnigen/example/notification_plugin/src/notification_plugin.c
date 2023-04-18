@@ -9,12 +9,12 @@
 #include "jni.h"
 
 thread_local JNIEnv* jniEnv;
-JniContext jni;
+JniContext* jni;
 
-JniContext (*context_getter)(void);
+JniContext* (*context_getter)(void);
 JNIEnv* (*env_getter)(void);
 
-void setJniGetters(JniContext (*cg)(void), JNIEnv* (*eg)(void)) {
+void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
   context_getter = cg;
   env_getter = eg;
 }
@@ -26,16 +26,16 @@ jmethodID _m_Notifications__ctor = NULL;
 FFI_PLUGIN_EXPORT
 JniResult Notifications__ctor() {
   load_env();
-  load_class_gr(&_c_Notifications,
-                "com/example/notification_plugin/Notifications");
+  load_class_global_ref(&_c_Notifications,
+                        "com/example/notification_plugin/Notifications");
   if (_c_Notifications == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_Notifications, &_m_Notifications__ctor, "<init>", "()V");
   if (_m_Notifications__ctor == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_Notifications, _m_Notifications__ctor);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
+  return (JniResult){.value = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
@@ -46,17 +46,17 @@ JniResult Notifications__showNotification(jobject context,
                                           jobject title,
                                           jobject text) {
   load_env();
-  load_class_gr(&_c_Notifications,
-                "com/example/notification_plugin/Notifications");
+  load_class_global_ref(&_c_Notifications,
+                        "com/example/notification_plugin/Notifications");
   if (_c_Notifications == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_method(
       _c_Notifications, &_m_Notifications__showNotification, "showNotification",
       "(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)V");
   if (_m_Notifications__showNotification == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   (*jniEnv)->CallStaticVoidMethod(jniEnv, _c_Notifications,
                                   _m_Notifications__showNotification, context,
                                   notificationID, title, text);
-  return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+  return (JniResult){.value = {.j = 0}, .exception = check_exception()};
 }

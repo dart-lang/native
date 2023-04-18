@@ -7,7 +7,8 @@ part of 'types.dart';
 /// A class which holds one or more JNI references, and has a `delete` operation
 /// which disposes the reference(s).
 abstract class JReference implements Finalizable {
-  static final _finalizer = NativeFinalizer(_env.ref.DeleteGlobalRef);
+  //TODO(PR): Is it safe to cast void *f (void *) to void f (void *)?
+  static final _finalizer = NativeFinalizer(_env.ref.DeleteGlobalRef.cast());
 
   JReference.fromRef(this.reference) {
     _finalizer.attach(this, reference, detach: this);

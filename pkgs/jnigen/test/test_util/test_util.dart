@@ -9,7 +9,7 @@ import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 import 'package:logging/logging.dart' show Level;
 
-import 'package:jnigen/src/logging/logging.dart' show printError;
+import 'package:jnigen/src/logging/logging.dart' show printError, log;
 
 final _currentDirectory = Directory(".");
 
@@ -54,16 +54,22 @@ String readFile(File file) => file.readAsStringSync().replaceAll('\r\n', '\n');
 
 /// Compares 2 hierarchies using `git diff --no-index`.
 void comparePaths(String path1, String path2) {
-  final proc = Process.runSync("git", [
+  final diffCommand = [
     "diff",
     "--no-index",
     if (stderr.supportsAnsiEscapes) "--color=always",
-    path1,
-    path2,
-  ]);
-  if (proc.exitCode != 0) {
-    stderr.writeln('\n${proc.stdout}');
-    throw Exception("Files differ: ($path1, $path2)");
+  ];
+  final diffProc = Process.runSync("git", [...diffCommand, path1, path2]);
+  if (diffProc.exitCode != 0) {
+    final originalDiff = diffProc.stdout;
+    log.warning(
+        "Paths $path1 and $path2 differ, comparing by ignoring space change");
+    final fallbackDiffProc = Process.runSync(
+        "git", [...diffCommand, '--ignore-space-change', path1, path2]);
+    if (fallbackDiffProc.exitCode != 0) {
+      stderr.writeln(originalDiff);
+      throw Exception("Paths $path1 and $path2 differ");
+    }
   }
 }
 

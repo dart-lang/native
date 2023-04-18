@@ -43,7 +43,24 @@ class DoubleFreeException implements JException {
 
 class JvmExistsException implements JException {
   @override
-  String toString() => 'A JVM already exists';
+  String toString() => 'A JVM is already spawned';
+}
+
+/// Represents spawn errors that might be returned by JNI_CreateJavaVM
+class SpawnException implements JException {
+  static const _errors = {
+    JniErrorCode.JNI_ERR: 'Generic JNI error',
+    JniErrorCode.JNI_EDETACHED: 'Thread detached from VM',
+    JniErrorCode.JNI_EVERSION: 'JNI version error',
+    JniErrorCode.JNI_ENOMEM: 'Out of memory',
+    JniErrorCode.JNI_EEXIST: 'VM Already created',
+    JniErrorCode.JNI_EINVAL: 'Invalid arguments',
+  };
+  int status;
+  SpawnException.of(this.status);
+
+  @override
+  String toString() => _errors[status] ?? 'Unknown status code: $status';
 }
 
 class NoJvmInstanceException implements JException {

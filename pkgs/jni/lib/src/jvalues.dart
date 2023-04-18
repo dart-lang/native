@@ -5,7 +5,7 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
-import 'third_party/jni_bindings_generated.dart';
+import 'third_party/generated_bindings.dart';
 import 'jni.dart';
 import 'types.dart';
 
@@ -120,23 +120,24 @@ class JValueArgs {
   final List<JObjectPtr> createdRefs = [];
   final _env = Jni.env;
 
-  JValueArgs(List<dynamic> args, [Allocator allocator = malloc]) {
-    values = allocator<JValue>(args.length);
+  JValueArgs(List<dynamic> args, Arena arena) {
+    values = arena<JValue>(args.length);
     for (int i = 0; i < args.length; i++) {
       final arg = args[i];
       final ptr = values.elementAt(i);
       if (arg is String) {
-        final jstr = _env.asJString(arg);
+        final jstr = _env.toJStringPtr(arg);
         ptr.ref.l = jstr;
         createdRefs.add(jstr);
       } else {
         _fillJValue(ptr, arg);
       }
+      arena.onReleaseAll(_dispose);
     }
   }
 
   /// Deletes temporary references such as [JStringPtr]s.
-  void dispose() {
+  void _dispose() {
     for (var ref in createdRefs) {
       _env.DeleteGlobalRef(ref);
     }

@@ -67,8 +67,8 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   }
   if (!jarExists) {
     log.info('Building ApiSummarizer component. '
-        'This might take some time. \n'
-        'The build will be cached for subsequent runs\n');
+        'This might take some time. '
+        'The build will be cached for subsequent runs.');
   }
   if (!jarExists || isJarStale || force) {
     await buildApiSummarizer();

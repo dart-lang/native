@@ -1119,7 +1119,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     $callExpr;
     final \$o = $_jPointer.fromAddress(await \$p.first);
     final \$k = $returnTypeClass.getClass().reference;
-    if ($_jni.Jni.env.IsInstanceOf(\$o, \$k) == 0) {
+    if (!$_jni.Jni.env.IsInstanceOf(\$o, \$k)) {
       throw "Failed";
     }
     return $returning;

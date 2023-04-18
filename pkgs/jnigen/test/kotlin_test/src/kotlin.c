@@ -9,12 +9,12 @@
 #include "jni.h"
 
 thread_local JNIEnv* jniEnv;
-JniContext jni;
+JniContext* jni;
 
-JniContext (*context_getter)(void);
+JniContext* (*context_getter)(void);
 JNIEnv* (*env_getter)(void);
 
-void setJniGetters(JniContext (*cg)(void), JNIEnv* (*eg)(void)) {
+void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
   context_getter = cg;
   env_getter = eg;
 }
@@ -26,15 +26,16 @@ jmethodID _m_SuspendFun__ctor = NULL;
 FFI_PLUGIN_EXPORT
 JniResult SuspendFun__ctor() {
   load_env();
-  load_class_gr(&_c_SuspendFun, "com/github/dart_lang/jnigen/SuspendFun");
+  load_class_global_ref(&_c_SuspendFun,
+                        "com/github/dart_lang/jnigen/SuspendFun");
   if (_c_SuspendFun == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_SuspendFun, &_m_SuspendFun__ctor, "<init>", "()V");
   if (_m_SuspendFun__ctor == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_SuspendFun, _m_SuspendFun__ctor);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
+  return (JniResult){.value = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
@@ -42,16 +43,17 @@ jmethodID _m_SuspendFun__sayHello = NULL;
 FFI_PLUGIN_EXPORT
 JniResult SuspendFun__sayHello(jobject self_, jobject continuation) {
   load_env();
-  load_class_gr(&_c_SuspendFun, "com/github/dart_lang/jnigen/SuspendFun");
+  load_class_global_ref(&_c_SuspendFun,
+                        "com/github/dart_lang/jnigen/SuspendFun");
   if (_c_SuspendFun == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_SuspendFun, &_m_SuspendFun__sayHello, "sayHello",
               "(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
   if (_m_SuspendFun__sayHello == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_SuspendFun__sayHello, continuation);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
+  return (JniResult){.value = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }
 
@@ -61,16 +63,17 @@ JniResult SuspendFun__sayHello1(jobject self_,
                                 jobject string,
                                 jobject continuation) {
   load_env();
-  load_class_gr(&_c_SuspendFun, "com/github/dart_lang/jnigen/SuspendFun");
+  load_class_global_ref(&_c_SuspendFun,
+                        "com/github/dart_lang/jnigen/SuspendFun");
   if (_c_SuspendFun == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(
       _c_SuspendFun, &_m_SuspendFun__sayHello1, "sayHello",
       "(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
   if (_m_SuspendFun__sayHello1 == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_SuspendFun__sayHello1, string, continuation);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
+  return (JniResult){.value = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }

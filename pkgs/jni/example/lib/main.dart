@@ -15,7 +15,7 @@ import 'package:jni/jni.dart';
 // GlobalJniEnv is a thin abstraction over JNIEnv in JNI C API.
 //
 // For a more ergonomic API for common use cases of calling methods and
-// accessing fields, see next examples using JObject and JniClass.
+// accessing fields, see next examples using JObject and JClass.
 String toJavaStringUsingEnv(int n) => using((arena) {
       final env = Jni.env;
       final cls = env.FindClass("java/lang/String".toNativeChars(arena));
@@ -24,7 +24,7 @@ String toJavaStringUsingEnv(int n) => using((arena) {
       final i = arena<JValue>();
       i.ref.i = n;
       final res = env.CallStaticObjectMethodA(cls, mId, i);
-      final str = env.asDartString(res);
+      final str = env.toDartString(res);
       env.deleteAllRefs([res, cls]);
       return str;
     });
@@ -42,14 +42,14 @@ int randomUsingEnv(int n) => using((arena) {
       return res;
     });
 double randomDouble() {
-  final math = Jni.findJniClass("java/lang/Math");
+  final math = Jni.findJClass("java/lang/Math");
   final random = math.callStaticMethodByName<double>("random", "()D", []);
   math.delete();
   return random;
 }
 
 int uptime() {
-  return Jni.findJniClass("android/os/SystemClock").use(
+  return Jni.findJClass("android/os/SystemClock").use(
     (systemClock) => systemClock.callStaticMethodByName<int>(
         "uptimeMillis", "()J", [], JniCallType.longType),
   );

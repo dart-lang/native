@@ -61,7 +61,7 @@ class Example extends jni.JObject {
     _thinkBeforeAnswering(reference, $c.reference).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
     final $k = const jni.JStringType().getClass().reference;
-    if (jni.Jni.env.IsInstanceOf($o, $k) == 0) {
+    if (!jni.Jni.env.IsInstanceOf($o, $k)) {
       throw "Failed";
     }
     return const jni.JStringType().fromRef($o);

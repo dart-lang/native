@@ -10,6 +10,12 @@
 
 #include "include/dart_api_dl.h"
 
+void initAllLocks(JniLocks* locks) {
+  init_lock(&locks->classLoadingLock);
+  init_lock(&locks->fieldLoadingLock);
+  init_lock(&locks->methodLoadingLock);
+}
+
 /// Stores class and method references for obtaining exception details
 typedef struct JniExceptionMethods {
   jclass objectClass, exceptionClass, printStreamClass;
@@ -19,18 +25,26 @@ typedef struct JniExceptionMethods {
 } JniExceptionMethods;
 
 // Context and shared global state. Initialized once or if thread-local, initialized once in a thread.
-JniContext jni = {NULL, NULL, NULL, NULL, NULL};
+JniContext jni_context = {
+    .jvm = NULL,
+    .classLoader = NULL,
+    .loadClassMethod = NULL,
+    .appContext = NULL,
+    .currentActivity = NULL,
+};
+
+JniContext* jni = &jni_context;
 
 thread_local JNIEnv* jniEnv = NULL;
 
 JniExceptionMethods exceptionMethods;
 
-void initializeExceptionMethods(JniExceptionMethods* methods) {
-  methods->objectClass = LoadClass("java/lang/Object");
-  methods->exceptionClass = LoadClass("java/lang/Exception");
-  methods->printStreamClass = LoadClass("java/io/PrintStream");
+void initExceptionHandling(JniExceptionMethods* methods) {
+  methods->objectClass = FindClass("java/lang/Object");
+  methods->exceptionClass = FindClass("java/lang/Exception");
+  methods->printStreamClass = FindClass("java/io/PrintStream");
   methods->byteArrayOutputStreamClass =
-      LoadClass("java/io/ByteArrayOutputStream");
+      FindClass("java/io/ByteArrayOutputStream");
   load_method(methods->objectClass, &methods->toStringMethod, "toString",
               "()Ljava/lang/String;");
   load_method(methods->exceptionClass, &methods->printStackTraceMethod,
@@ -45,47 +59,35 @@ void initializeExceptionMethods(JniExceptionMethods* methods) {
 /// Returns NULL if no JVM is running.
 FFI_PLUGIN_EXPORT
 JavaVM* GetJavaVM() {
-  return jni.jvm;
+  return jni_context.jvm;
 }
 
-/// Load class through platform-specific mechanism.
-///
-/// Currently uses application classloader on android,
-/// and JNIEnv->FindClass on other platforms.
 FFI_PLUGIN_EXPORT
-jclass LoadClass(const char* name) {
+jclass FindClass(const char* name) {
   jclass cls = NULL;
   attach_thread();
-  load_class(&cls, name);
-  return to_global_ref(cls);
+  load_class_global_ref(&cls, name);
+  return cls;
 };
 
 // Android specifics
 
-/// Returns Application classLoader (on Android),
-/// which can be used to load application and platform classes.
-/// ...
-/// On other platforms, NULL is returned.
 FFI_PLUGIN_EXPORT
 jobject GetClassLoader() {
   attach_thread();
-  return (*jniEnv)->NewGlobalRef(jniEnv, jni.classLoader);
+  return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.classLoader);
 }
 
-/// Returns application context on Android.
-///
-/// On other platforms, NULL is returned.
 FFI_PLUGIN_EXPORT
 jobject GetApplicationContext() {
   attach_thread();
-  return (*jniEnv)->NewGlobalRef(jniEnv, jni.appContext);
+  return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.appContext);
 }
 
-/// Returns current activity of the app
 FFI_PLUGIN_EXPORT
 jobject GetCurrentActivity() {
   attach_thread();
-  return (*jniEnv)->NewGlobalRef(jniEnv, jni.currentActivity);
+  return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.currentActivity);
 }
 
 // JNI Initialization
@@ -97,14 +99,15 @@ Java_com_github_dart_1lang_jni_JniPlugin_initializeJni(JNIEnv* env,
                                                        jobject appContext,
                                                        jobject classLoader) {
   jniEnv = env;
-  (*env)->GetJavaVM(env, &jni.jvm);
-  jni.classLoader = (*env)->NewGlobalRef(env, classLoader);
-  jni.appContext = (*env)->NewGlobalRef(env, appContext);
+  (*env)->GetJavaVM(env, &jni_context.jvm);
+  jni_context.classLoader = (*env)->NewGlobalRef(env, classLoader);
+  jni_context.appContext = (*env)->NewGlobalRef(env, appContext);
   jclass classLoaderClass = (*env)->GetObjectClass(env, classLoader);
-  jni.loadClassMethod =
+  jni_context.loadClassMethod =
       (*env)->GetMethodID(env, classLoaderClass, "loadClass",
                           "(Ljava/lang/String;)Ljava/lang/Class;");
-  initializeExceptionMethods(&exceptionMethods);
+  initAllLocks(&jni_context.locks);
+  initExceptionHandling(&exceptionMethods);
 }
 
 JNIEXPORT void JNICALL
@@ -113,21 +116,24 @@ Java_com_github_dart_1lang_jni_JniPlugin_setJniActivity(JNIEnv* env,
                                                         jobject activity,
                                                         jobject context) {
   jniEnv = env;
-  if (jni.currentActivity != NULL) {
-    (*env)->DeleteGlobalRef(env, jni.currentActivity);
+  if (jni_context.currentActivity != NULL) {
+    (*env)->DeleteGlobalRef(env, jni_context.currentActivity);
   }
-  jni.currentActivity = (*env)->NewGlobalRef(env, activity);
-  if (jni.appContext != NULL) {
-    (*env)->DeleteGlobalRef(env, jni.appContext);
+  jni_context.currentActivity = (*env)->NewGlobalRef(env, activity);
+  if (jni_context.appContext != NULL) {
+    (*env)->DeleteGlobalRef(env, jni_context.appContext);
   }
-  jni.appContext = (*env)->NewGlobalRef(env, context);
+  jni_context.appContext = (*env)->NewGlobalRef(env, context);
 }
 
 // Sometimes you may get linker error trying to link JNI_CreateJavaVM APIs
 // on Android NDK. So IFDEF is required.
 #else
 FFI_PLUGIN_EXPORT
-JNIEnv* SpawnJvm(JavaVMInitArgs* initArgs) {
+int SpawnJvm(JavaVMInitArgs* initArgs) {
+  if (jni_context.jvm != NULL) {
+    return DART_JNI_SINGLETON_EXISTS;
+  }
   JavaVMOption jvmopt[1];
   char class_path[] = "-Djava.class.path=.";
   jvmopt[0].optionString = class_path;
@@ -139,12 +145,14 @@ JNIEnv* SpawnJvm(JavaVMInitArgs* initArgs) {
     vmArgs.ignoreUnrecognized = JNI_TRUE;
     initArgs = &vmArgs;
   }
-  const long flag = JNI_CreateJavaVM(&jni.jvm, __ENVP_CAST & jniEnv, initArgs);
-  if (flag == JNI_ERR) {
-    return NULL;
+  const long flag =
+      JNI_CreateJavaVM(&jni_context.jvm, __ENVP_CAST & jniEnv, initArgs);
+  if (flag != JNI_OK) {
+    return flag;
   }
-  initializeExceptionMethods(&exceptionMethods);
-  return jniEnv;
+  initAllLocks(&jni_context.locks);
+  initExceptionHandling(&exceptionMethods);
+  return JNI_OK;
 }
 #endif
 
@@ -153,37 +161,41 @@ JNIEnv* SpawnJvm(JavaVMInitArgs* initArgs) {
 
 JniClassLookupResult getClass(char* internalName) {
   JniClassLookupResult result = {NULL, NULL};
-  result.classRef = LoadClass(internalName);
+  result.value = FindClass(internalName);
   result.exception = check_exception();
   return result;
 }
 
-static inline JniPointerResult _getId(
-    void* (*getter)(JNIEnv*, jclass, char*, char*),
-    jclass cls,
-    char* name,
-    char* sig) {
+typedef void* (*MemberGetter)(JNIEnv* env,
+                              jclass* clazz,
+                              char* name,
+                              char* sig);
+
+static inline JniPointerResult _getId(MemberGetter getter,
+                                      jclass cls,
+                                      char* name,
+                                      char* sig) {
   JniPointerResult result = {NULL, NULL};
   attach_thread();
-  result.id = getter(jniEnv, cls, name, sig);
+  result.value = getter(jniEnv, cls, name, sig);
   result.exception = check_exception();
   return result;
 }
 
 JniPointerResult getMethodID(jclass cls, char* name, char* sig) {
-  return _getId((*jniEnv)->GetMethodID, cls, name, sig);
+  return _getId((MemberGetter)(*jniEnv)->GetMethodID, cls, name, sig);
 }
 
 JniPointerResult getStaticMethodID(jclass cls, char* name, char* sig) {
-  return _getId((*jniEnv)->GetStaticMethodID, cls, name, sig);
+  return _getId((MemberGetter)(*jniEnv)->GetStaticMethodID, cls, name, sig);
 }
 
 JniPointerResult getFieldID(jclass cls, char* name, char* sig) {
-  return _getId((*jniEnv)->GetFieldID, cls, name, sig);
+  return _getId((MemberGetter)(*jniEnv)->GetFieldID, cls, name, sig);
 }
 
 JniPointerResult getStaticFieldID(jclass cls, char* name, char* sig) {
-  return _getId((*jniEnv)->GetStaticFieldID, cls, name, sig);
+  return _getId((MemberGetter)(*jniEnv)->GetStaticFieldID, cls, name, sig);
 }
 
 JniResult callMethod(jobject obj,
@@ -225,7 +237,7 @@ JniResult callMethod(jobject obj,
       (*jniEnv)->CallVoidMethodA(jniEnv, obj, fieldID, args);
       break;
   }
-  JniResult jniResult = {.result = result, .exception = NULL};
+  JniResult jniResult = {.value = result, .exception = NULL};
   jniResult.exception = check_exception();
   return jniResult;
 }
@@ -272,7 +284,7 @@ JniResult callStaticMethod(jclass cls,
       (*jniEnv)->CallStaticVoidMethodA(jniEnv, cls, methodID, args);
       break;
   }
-  JniResult jniResult = {.result = result, .exception = NULL};
+  JniResult jniResult = {.value = result, .exception = NULL};
   jniResult.exception = check_exception();
   return jniResult;
 }
@@ -312,7 +324,7 @@ JniResult getField(jobject obj, jfieldID fieldID, int callType) {
       // This error should have been handled in Dart.
       break;
   }
-  JniResult jniResult = {.result = result, .exception = NULL};
+  JniResult jniResult = {.value = result, .exception = NULL};
   jniResult.exception = check_exception();
   return jniResult;
 }
@@ -356,7 +368,7 @@ JniResult getStaticField(jclass cls, jfieldID fieldID, int callType) {
       // or throw exception in Dart using Dart's C API.
       break;
   }
-  JniResult jniResult = {.result = result, .exception = NULL};
+  JniResult jniResult = {.value = result, .exception = NULL};
   jniResult.exception = check_exception();
   return jniResult;
 }
@@ -364,7 +376,7 @@ JniResult getStaticField(jclass cls, jfieldID fieldID, int callType) {
 JniResult newObject(jclass cls, jmethodID ctor, jvalue* args) {
   attach_thread();
   JniResult jniResult;
-  jniResult.result.l =
+  jniResult.value.l =
       to_global_ref((*jniEnv)->NewObjectA(jniEnv, cls, ctor, args));
   jniResult.exception = check_exception();
   return jniResult;
@@ -405,7 +417,8 @@ JniPointerResult newPrimitiveArray(jsize length, int type) {
       // or throw exception in Dart using Dart's C API.
       break;
   }
-  JniPointerResult result = {.id = to_global_ref(pointer), .exception = NULL};
+  JniPointerResult result = {.value = to_global_ref(pointer),
+                             .exception = NULL};
   result.exception = check_exception();
   return result;
 }
@@ -416,13 +429,13 @@ JniPointerResult newObjectArray(jsize length,
   attach_thread();
   jarray array = to_global_ref(
       (*jniEnv)->NewObjectArray(jniEnv, length, elementClass, initialElement));
-  JniPointerResult result = {.id = array, .exception = NULL};
+  JniPointerResult result = {.value = array, .exception = NULL};
   result.exception = check_exception();
   return result;
 }
 
 JniResult getArrayElement(jarray array, int index, int type) {
-  JniResult result = {NULL, NULL};
+  JniResult result = {{.l = NULL}, NULL};
   attach_thread();
   jvalue value;
   switch (type) {
@@ -459,7 +472,7 @@ JniResult getArrayElement(jarray array, int index, int type) {
       // or throw exception in Dart using Dart's C API.
       break;
   }
-  result.result = value;
+  result.value = value;
   result.exception = check_exception();
   return result;
 }
@@ -505,12 +518,12 @@ FFI_PLUGIN_EXPORT JniAccessors* GetAccessors() {
 }
 
 // These will not be required after migrating to Dart-only bindings.
-FFI_PLUGIN_EXPORT JniContext GetJniContext() {
+FFI_PLUGIN_EXPORT JniContext* GetJniContextPtr() {
   return jni;
 }
 
 FFI_PLUGIN_EXPORT JNIEnv* GetJniEnv() {
-  if (jni.jvm == NULL) {
+  if (jni_context.jvm == NULL) {
     return NULL;
   }
   attach_thread();
@@ -538,16 +551,16 @@ jclass _c_PortContinuation = NULL;
 jmethodID _m_PortContinuation__ctor = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PortContinuation__ctor(int64_t j) {
-  load_class_gr(&_c_PortContinuation,
-                "com/github/dart_lang/jni/PortContinuation");
+  load_class_global_ref(&_c_PortContinuation,
+                        "com/github/dart_lang/jni/PortContinuation");
   if (_c_PortContinuation == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_PortContinuation, &_m_PortContinuation__ctor, "<init>",
               "(J)V");
   if (_m_PortContinuation__ctor == NULL)
-    return (JniResult){.result = {.j = 0}, .exception = check_exception()};
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PortContinuation,
                                          _m_PortContinuation__ctor, j);
-  return (JniResult){.result = {.l = to_global_ref(_result)},
+  return (JniResult){.value = {.l = to_global_ref(_result)},
                      .exception = check_exception()};
 }

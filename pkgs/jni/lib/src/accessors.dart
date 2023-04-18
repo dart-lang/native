@@ -7,7 +7,7 @@ import 'package:ffi/ffi.dart' show using;
 
 import 'package:jni/src/jvalues.dart';
 
-import 'third_party/jni_bindings_generated.dart';
+import 'third_party/generated_bindings.dart';
 import 'jni.dart';
 import 'types.dart';
 
@@ -22,71 +22,81 @@ extension JniResultMethods on JniResult {
 
   int get byte {
     check();
-    return result.b;
+    return value.b;
   }
 
   int get short {
     check();
-    return result.s;
+    return value.s;
   }
 
   int get char {
     check();
-    return result.c;
+    return value.c;
   }
 
   int get integer {
     check();
-    return result.i;
+    return value.i;
   }
 
   int get long {
     check();
-    return result.j;
+    return value.j;
   }
 
   double get float {
     check();
-    return result.f;
+    return value.f;
   }
 
   double get doubleFloat {
     check();
-    return result.d;
+    return value.d;
   }
 
   JObjectPtr get object {
     check();
-    return result.l;
+    return value.l;
   }
 
   bool get boolean {
     check();
-    return result.z != 0;
+    return value.z != 0;
   }
 }
 
 extension JniIdLookupResultMethods on JniPointerResult {
   JMethodIDPtr get methodID {
     _check(exception);
-    return id.cast<jmethodID_>();
+    return value.cast<jmethodID_>();
   }
 
   JFieldIDPtr get fieldID {
     _check(exception);
-    return id.cast<jfieldID_>();
+    return value.cast<jfieldID_>();
   }
 
   Pointer<Void> get checkedRef {
     _check(exception);
-    return id;
+    return value;
+  }
+
+  Pointer<T> getPointer<T extends NativeType>() {
+    return value.cast<T>();
   }
 }
 
 extension JniClassLookupResultMethods on JniClassLookupResult {
   JClassPtr get checkedClassRef {
     _check(exception);
-    return classRef;
+    return value;
+  }
+}
+
+extension JThrowableCheckMethod on JThrowablePtr {
+  void check() {
+    _check(this);
   }
 }
 
@@ -98,8 +108,8 @@ extension JniAccessorWrappers on Pointer<JniAccessors> {
   void throwException(JThrowablePtr exception) {
     final details = getExceptionDetails(exception);
     final env = Jni.env;
-    final message = env.asDartString(details.message);
-    final stacktrace = env.asDartString(details.stacktrace);
+    final message = env.toDartString(details.message);
+    final stacktrace = env.toDartString(details.stacktrace);
     env.DeleteGlobalRef(exception);
     env.DeleteGlobalRef(details.message);
     env.DeleteGlobalRef(details.stacktrace);

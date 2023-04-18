@@ -9,7 +9,7 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:path/path.dart';
 
-import 'third_party/jni_bindings_generated.dart';
+import 'third_party/generated_bindings.dart';
 import 'jvalues.dart';
 import 'types.dart';
 import 'accessors.dart';
@@ -46,7 +46,7 @@ abstract class Jni {
   static final DynamicLibrary _dylib = _loadDartJniLibrary(dir: _dylibDir);
   static final JniBindings _bindings = JniBindings(_dylib);
   static final _getJniEnvFn = _dylib.lookup<Void>('GetJniEnv');
-  static final _getJniContextFn = _dylib.lookup<Void>('GetJniContext');
+  static final _getJniContextFn = _dylib.lookup<Void>('GetJniContextPtr');
 
   /// Store dylibDir if any was used.
   static String? _dylibDir;
@@ -84,7 +84,7 @@ abstract class Jni {
     List<String> jvmOptions = const [],
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
-    int jniVersion = JNI_VERSION_1_6,
+    int jniVersion = JniVersions.JNI_VERSION_1_6,
   }) =>
       using((arena) {
         _dylibDir = dylibDir;
@@ -100,7 +100,17 @@ abstract class Jni {
           ignoreUnrecognized: ignoreUnrecognized,
           allocator: arena,
         );
-        _bindings.SpawnJvm(jvmArgs);
+        final status = _bindings.SpawnJvm(jvmArgs);
+        if (status == JniErrorCode.JNI_OK) {
+          return;
+        } else if (status == DART_JNI_SINGLETON_EXISTS) {
+          throw JvmExistsException();
+        } else if (status == JniErrorCode.JNI_EEXIST) {
+          sleep(const Duration(seconds: 1));
+          throw JvmExistsException();
+        } else {
+          throw SpawnException.of(status);
+        }
       });
 
   static Pointer<JavaVMInitArgs> _createVMArgs({
@@ -108,7 +118,7 @@ abstract class Jni {
     List<String> classPath = const [],
     String? dylibPath,
     bool ignoreUnrecognized = false,
-    int version = JNI_VERSION_1_6,
+    int version = JniVersions.JNI_VERSION_1_6,
     required Allocator allocator,
   }) {
     final args = allocator<JavaVMInitArgs>();
@@ -195,9 +205,9 @@ abstract class Jni {
       });
 
   /// Returns class for [qualifiedName] found by platform-specific mechanism,
-  /// wrapped in a [JniClass].
-  static JniClass findJniClass(String qualifiedName) =>
-      JniClass.fromRef(findClass(qualifiedName));
+  /// wrapped in a [JClass].
+  static JClass findJClass(String qualifiedName) =>
+      JClass.fromRef(findClass(qualifiedName));
 
   /// Constructs an instance of class with given arguments.
   ///
@@ -205,7 +215,7 @@ abstract class Jni {
   /// required themselves.
   static JObject newInstance(
       String qualifiedName, String ctorSignature, List<dynamic> args) {
-    final cls = findJniClass(qualifiedName);
+    final cls = findJClass(qualifiedName);
     final ctor = cls.getCtorID(ctorSignature);
     final obj = cls.newInstance(ctor, args);
     cls.delete();
@@ -228,7 +238,7 @@ abstract class Jni {
   static T retrieveStaticField<T>(
       String className, String fieldName, String signature,
       [int? callType]) {
-    final cls = findJniClass(className);
+    final cls = findJClass(className);
     final result = cls.getStaticFieldByName<T>(fieldName, signature, callType);
     cls.delete();
     return result;
@@ -242,7 +252,7 @@ abstract class Jni {
   static T invokeStaticMethod<T>(
       String className, String methodName, String signature, List<dynamic> args,
       [int? callType]) {
-    final cls = findJniClass(className);
+    final cls = findJClass(className);
     final result =
         cls.callStaticMethodByName<T>(methodName, signature, args, callType);
     cls.delete();
@@ -283,7 +293,7 @@ extension AdditionalEnvMethods on Pointer<GlobalJniEnv> {
   /// to dart string.
   /// if [deleteOriginal] is specified, jstring passed will be deleted using
   /// DeleteLocalRef.
-  String asDartString(JStringPtr jstringPtr, {bool deleteOriginal = false}) {
+  String toDartString(JStringPtr jstringPtr, {bool deleteOriginal = false}) {
     if (jstringPtr == nullptr) {
       throw NullJStringException();
     }
@@ -300,7 +310,7 @@ extension AdditionalEnvMethods on Pointer<GlobalJniEnv> {
   }
 
   /// Return a new [JStringPtr] from contents of [s].
-  JStringPtr asJString(String s) => using((arena) {
+  JStringPtr toJStringPtr(String s) => using((arena) {
         final utf = s.toNativeUtf8().cast<Char>();
         final result = NewStringUTF(utf);
         malloc.free(utf);

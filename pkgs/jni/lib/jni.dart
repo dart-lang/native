@@ -60,7 +60,7 @@
 /// This library provides classes and functions for JNI interop from Dart.
 library jni;
 
-export 'src/third_party/jni_bindings_generated.dart'
+export 'src/third_party/generated_bindings.dart'
     hide JniBindings, JniEnv, JniEnv1, JniExceptionDetails;
 export 'src/jni.dart' hide ProtectedJniExtensions;
 export 'src/jvalues.dart' hide JValueArgs, toJValues;

@@ -7,6 +7,8 @@ import 'dart:io';
 import 'package:test/test.dart';
 import 'package:jni/jni.dart';
 
+import 'test_util/test_util.dart';
+
 void main() {
   if (!Platform.isAndroid) {
     bool caught = false;
@@ -31,21 +33,24 @@ void main() {
           "Read exception_test.dart for details.";
     }
   }
+  run(testRunner: test);
+}
 
-  test("double free throws exception", () {
+void run({required TestRunnerCallback testRunner}) {
+  testRunner("double free throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     r.delete();
     expect(r.delete, throwsA(isA<DoubleFreeException>()));
   });
 
-  test("Use after free throws exception", () {
+  testRunner("Use after free throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     r.delete();
     expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(256)]),
         throwsA(isA<UseAfterFreeException>()));
   });
 
-  test("void fieldType throws exception", () {
+  testRunner("void fieldType throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     expect(() => r.getField<void>(nullptr, JniCallType.voidType),
         throwsArgumentError);
@@ -53,7 +58,7 @@ void main() {
         throwsArgumentError);
   });
 
-  test("Wrong callType throws exception", () {
+  testRunner("Wrong callType throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     expect(
         () => r.callMethodByName<int>(
@@ -61,7 +66,7 @@ void main() {
         throwsA(isA<InvalidCallTypeException>()));
   });
 
-  test("An exception in JNI throws JniException in Dart", () {
+  testRunner("An exception in JNI throws JniException in Dart", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(-1)]),
         throwsA(isA<JniException>()));

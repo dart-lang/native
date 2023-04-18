@@ -4,24 +4,23 @@ version: 0.3.0
 repository: https://github.com/dart-lang/jnigen/tree/main/jni
 
 environment:
-  sdk: ">=2.17.1 <4.0.0"
-  flutter: ">=2.11.0"
+  sdk: '>=2.17.1 <4.0.0'
+  flutter: '>=2.11.0'
 
 dependencies:
   collection: ^1.0.0
   plugin_platform_interface: ^2.0.2
-  ffi: ^2.0.0
+  ffi: ^2.0.1
   path: ^1.8.0
   package_config: ^2.1.0
   args: ^2.3.1
 
 dev_dependencies:
-  ## After running `dart run ffigen --config ffigen.yaml` there
-  ## should be no changes.
-  ffigen:
-    path: third_party/ffigen_patch_jni
+  ## Pin ffigen version because we are depending on internal APIs.
+  ffigen: 7.2.10
   flutter_lints: ^2.0.0
   test: ^1.21.1
+  logging: ^1.1.1
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -37,4 +36,3 @@ flutter:
         ffiPlugin: true
         package: com.github.dart_lang.jni
         pluginClass: JniPlugin
-

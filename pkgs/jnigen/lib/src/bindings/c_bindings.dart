@@ -13,7 +13,7 @@ class CBindingGenerator {
   static final indent = ' ' * 4;
   static const jniResultType = 'JniResult';
   static const ifError =
-      '(JniResult){.result = {.j = 0}, .exception = check_exception()}';
+      '(JniResult){.value = {.j = 0}, .exception = check_exception()}';
 
   // These should be avoided in parameter names.
   static const _cTypeKeywords = {
@@ -171,7 +171,7 @@ $jniResultType $cMethodName($cMethodParams) {
         final cResultType = getCType(f.type.name);
         final unionField = getJValueField(f.type);
         accessorStatements = '$indent$cResultType _result = $getterExpr;\n'
-            '${indent}return (JniResult){.result = '
+            '${indent}return (JniResult){.value = '
             '{.$unionField = _result}, .exception = check_exception()};';
       }
 
@@ -197,7 +197,7 @@ $accessorStatements
   final String _loadEnvCall = '${indent}load_env();';
 
   String _loadClassCall(String classVar, String internalName) {
-    return '${indent}load_class_gr(&$classVar, "$internalName");\n'
+    return '${indent}load_class_global_ref(&$classVar, "$internalName");\n'
         '${indent}if ($classVar == NULL) return $ifError;';
   }
 
@@ -267,7 +267,7 @@ $accessorStatements
       valuePart = '_result';
     }
     const exceptionPart = 'check_exception()';
-    return '${indent}return (JniResult){.result = {.$unionField = $valuePart}, '
+    return '${indent}return (JniResult){.value = {.$unionField = $valuePart}, '
         '.exception = $exceptionPart};';
   }
 
@@ -289,11 +289,11 @@ class CPreludes {
       '#include "dartjni.h"\n'
       '\n';
   static const defines = 'thread_local JNIEnv *jniEnv;\n'
-      'JniContext jni;\n\n'
-      'JniContext (*context_getter)(void);\n'
+      'JniContext *jni;\n\n'
+      'JniContext *(*context_getter)(void);\n'
       'JNIEnv *(*env_getter)(void);\n'
       '\n';
-  static const initializers = 'void setJniGetters(JniContext (*cg)(void),\n'
+  static const initializers = 'void setJniGetters(JniContext *(*cg)(void),\n'
       '        JNIEnv *(*eg)(void)) {\n'
       '    context_getter = cg;\n'
       '    env_getter = eg;\n'

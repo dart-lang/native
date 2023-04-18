@@ -7,6 +7,8 @@ import 'dart:io';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
+import 'test_util/test_util.dart';
+
 void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
@@ -16,7 +18,11 @@ void main() {
       // TODO(#51): Support destroying and reinstantiating JVM.
     }
   }
-  test("Java boolean array", () {
+  run(testRunner: test);
+}
+
+void run({required TestRunnerCallback testRunner}) {
+  testRunner("Java boolean array", () {
     using((arena) {
       final array = JArray(JBoolean.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -41,7 +47,7 @@ void main() {
       }, throwsRangeError);
     });
   });
-  test("Java char array", () {
+  testRunner("Java char array", () {
     using((arena) {
       final array = JArray(JChar.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -66,7 +72,7 @@ void main() {
       }, throwsRangeError);
     });
   });
-  test("Java byte array", () {
+  testRunner("Java byte array", () {
     using((arena) {
       final array = JArray(JByte.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -91,7 +97,7 @@ void main() {
       }, throwsRangeError);
     });
   });
-  test("Java short array", () {
+  testRunner("Java short array", () {
     using((arena) {
       final array = JArray(JShort.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -116,7 +122,7 @@ void main() {
       }, throwsRangeError);
     });
   });
-  test("Java int array", () {
+  testRunner("Java int array", () {
     using((arena) {
       final array = JArray(JInt.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -142,7 +148,7 @@ void main() {
     });
   });
   const epsilon = 1e-6;
-  test("Java float array", () {
+  testRunner("Java float array", () {
     using((arena) {
       final array = JArray(JFloat.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -167,7 +173,7 @@ void main() {
       }, throwsRangeError);
     });
   });
-  test("Java double array", () {
+  testRunner("Java double array", () {
     using((arena) {
       final array = JArray(JDouble.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -192,7 +198,7 @@ void main() {
       }, throwsRangeError);
     });
   });
-  test("Java string array", () {
+  testRunner("Java string array", () {
     using((arena) {
       final array = JArray(JString.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -227,7 +233,7 @@ void main() {
       }, throwsRangeError);
     });
   });
-  test("Java object array", () {
+  testRunner("Java object array", () {
     using((arena) {
       final array = JArray(JObject.type, 3)..deletedIn(arena);
       expect(array.length, 3);
@@ -236,7 +242,7 @@ void main() {
       expect(array[2].reference, nullptr);
     });
   });
-  test("Java 2d array", () {
+  testRunner("Java 2d array", () {
     using((arena) {
       final array = JArray(JInt.type, 3)..deletedIn(arena);
       array[0] = 1;
@@ -256,7 +262,7 @@ void main() {
       expect(twoDimArray[2][2], 4);
     });
   });
-  test("JArray.filled", () {
+  testRunner("JArray.filled", () {
     using((arena) {
       final string = "abc".toJString()..deletedIn(arena);
       final array = JArray.filled(3, string)..deletedIn(arena);

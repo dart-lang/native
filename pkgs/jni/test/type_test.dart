@@ -8,6 +8,8 @@ import 'dart:io';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
+import 'test_util/test_util.dart';
+
 // Mocking this type tree:
 //   JObject
 //      |  \
@@ -209,8 +211,11 @@ void main() {
       // TODO(#51): Support destroying and reinstantiating JVM.
     }
   }
+  run(testRunner: test);
+}
 
-  test('lowestCommonSuperType', () {
+void run({required TestRunnerCallback testRunner}) {
+  testRunner('lowestCommonSuperType', () {
     expect(lowestCommonSuperType([JObject.type]), JObject.type);
     expect(lowestCommonSuperType([JString.type]), JString.type);
     expect(lowestCommonSuperType([JObject.type, JObject.type]), JObject.type);
@@ -219,7 +224,7 @@ void main() {
         JObject.type);
   });
 
-  test('Mocked type tree', () {
+  testRunner('Mocked type tree', () {
     // As a reminder, this is how the type tree looks like:
     //   JObject
     //      |  \
