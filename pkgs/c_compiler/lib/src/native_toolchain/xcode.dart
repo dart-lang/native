@@ -41,24 +41,22 @@ class _XCodeSdkResolver implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
     final xcrunInstances = await xcrun.defaultResolver!.resolve(logger: logger);
-    final xcrunInstance = xcrunInstances.firstOrNull;
-    if (xcrunInstance == null) {
-      return [];
-    }
 
     return [
-      ...await tryResolveSdk(
-        xcrunInstance: xcrunInstance,
-        sdk: 'iphoneos',
-        tool: iPhoneOSSdk,
-        logger: logger,
-      ),
-      ...await tryResolveSdk(
-        xcrunInstance: xcrunInstance,
-        sdk: 'iphonesimulator',
-        tool: iPhoneSimulatorSdk,
-        logger: logger,
-      ),
+      for (final xcrunInstance in xcrunInstances) ...[
+        ...await tryResolveSdk(
+          xcrunInstance: xcrunInstance,
+          sdk: 'iphoneos',
+          tool: iPhoneOSSdk,
+          logger: logger,
+        ),
+        ...await tryResolveSdk(
+          xcrunInstance: xcrunInstance,
+          sdk: 'iphonesimulator',
+          tool: iPhoneSimulatorSdk,
+          logger: logger,
+        ),
+      ],
     ];
   }
 
