@@ -59,7 +59,7 @@ class CompilerResolver {
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (target == host && host.os == OS.linux) return clang;
-    if (target == host && host.os == OS.macOS) return appleClang;
+    if (host.os == OS.macOS) return appleClang;
     if (target.os == OS.android) return androidNdkClang;
     if (host.os == OS.linux) {
       switch (target) {
@@ -127,7 +127,7 @@ class CompilerResolver {
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (target == host && host.os == OS.linux) return llvmAr;
-    if (target == host && host.os == OS.macOS) return appleLd;
+    if (target.os == OS.macOS) return appleAr;
     if (target.os == OS.android) return androidNdkLlvmAr;
     if (host.os == OS.linux) {
       switch (target) {

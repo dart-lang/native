@@ -61,6 +61,7 @@ class RunCBuilder {
           if (dynamicLibrary != null) '-nostartfiles',
           '--target=${androidNdkClangTargetFlags[target]!}',
         ],
+        if (target.os == OS.macOS) '--target=${appleClangTargetFlags[target]!}',
         ...sources.map((e) => e.path),
         if (executable != null) ...[
           '-o',
@@ -98,5 +99,17 @@ class RunCBuilder {
     Target.androidArm64: 'aarch64-linux-android',
     Target.androidIA32: 'i686-linux-android',
     Target.androidX64: 'x86_64-linux-android',
+  };
+
+  static const appleClangArchFlags = {
+    Architecture.arm: 'arm',
+    Architecture.arm64: 'arm64',
+    Architecture.ia32: 'x86',
+    Architecture.x64: 'x86-64',
+  };
+
+  static const appleClangTargetFlags = {
+    Target.macOSArm64: 'arm64-apple-darwin',
+    Target.macOSX64: 'x86_64-apple-darwin',
   };
 }
