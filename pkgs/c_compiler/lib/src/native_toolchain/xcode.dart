@@ -30,7 +30,7 @@ final Tool iPhoneOSSdk = Tool(
   defaultResolver: _XCodeSdkResolver(),
 );
 
-/// The iPhoneOS SDK.
+/// The iPhoneSimulator SDK.
 final Tool iPhoneSimulatorSdk = Tool(
   name: 'iPhoneSimulator SDK',
   defaultResolver: _XCodeSdkResolver(),

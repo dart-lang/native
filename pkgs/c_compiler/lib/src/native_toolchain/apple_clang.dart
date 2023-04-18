@@ -34,7 +34,7 @@ final Tool appleAr = Tool(
   ]),
 );
 
-/// The archiver belonging to [appleClang].
+/// The linker belonging to [appleClang].
 final Tool appleLd = Tool(
   name: 'Apple linker',
   defaultResolver: ToolResolvers([
