@@ -16,7 +16,6 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() async {
-  // TODO(dacoharkes): Add apple tools.
   final tests = [
     RecognizerTest(appleAr, ArchiverRecognizer.new),
     RecognizerTest(appleClang, CompilerRecognizer.new),

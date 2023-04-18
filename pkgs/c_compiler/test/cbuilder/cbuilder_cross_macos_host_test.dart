@@ -25,7 +25,7 @@ void main() {
 
   for (final packaging in Packaging.values) {
     for (final target in targets) {
-      test('Cbuilder $packaging library linux $target', () async {
+      test('Cbuilder $packaging library $target', () async {
         await inTempDir((tempUri) async {
           final addCUri =
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');

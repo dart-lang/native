@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
+import '../native_toolchain/xcode.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 
@@ -42,6 +43,18 @@ class RunCBuilder {
     return (await resolver.resolveArchiver()).uri;
   }
 
+  Future<Uri> iosSdk(IOSSdk iosSdk, {Logger? logger}) async {
+    if (iosSdk == IOSSdk.iPhoneOs) {
+      return (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
+          .first
+          .uri;
+    }
+    assert(iosSdk == IOSSdk.iPhoneSimulator);
+    return (await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger))
+        .first
+        .uri;
+  }
+
   Future<void> run() async {
     final compiler_ = await compiler();
     final isStaticLib = staticLibrary != null;
@@ -61,7 +74,13 @@ class RunCBuilder {
           if (dynamicLibrary != null) '-nostartfiles',
           '--target=${androidNdkClangTargetFlags[target]!}',
         ],
-        if (target.os == OS.macOS) '--target=${appleClangTargetFlags[target]!}',
+        if (target.os == OS.macOS || target.os == OS.iOS)
+          '--target=${appleClangTargetFlags[target]!}',
+        if (target.os == OS.iOS) ...[
+          '-isysroot',
+          (await iosSdk(buildConfig.targetIOSSdk!, logger: logger))
+              .toFilePath(),
+        ],
         ...sources.map((e) => e.path),
         if (executable != null) ...[
           '-o',
@@ -101,14 +120,8 @@ class RunCBuilder {
     Target.androidX64: 'x86_64-linux-android',
   };
 
-  static const appleClangArchFlags = {
-    Architecture.arm: 'arm',
-    Architecture.arm64: 'arm64',
-    Architecture.ia32: 'x86',
-    Architecture.x64: 'x86-64',
-  };
-
   static const appleClangTargetFlags = {
+    Target.iOSArm64: 'arm64-apple-ios',
     Target.macOSArm64: 'arm64-apple-darwin',
     Target.macOSX64: 'x86_64-apple-darwin',
   };
