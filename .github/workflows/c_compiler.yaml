@@ -16,7 +16,7 @@ on:
     - cron: "0 0 * * 0" # weekly
 
 jobs:
-  build:
+  c_compiler:
     strategy:
       matrix:
         os: [ubuntu-lastest, macos-latest]
@@ -27,12 +27,15 @@ jobs:
         working-directory: pkgs/c_compiler
     steps:
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+
       - uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
         with:
           sdk: ${{ matrix.sdk }}
+
       - uses: nttld/setup-ndk@deccd078bf3db957dbdee9862f51955b35ac81dd
         with:
           ndk-version: r25b
+        if: ${{ matrix.sdk == 'stable' }}
 
       - run: dart pub get
 
