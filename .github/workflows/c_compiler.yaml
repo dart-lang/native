@@ -74,5 +74,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: c_compiler-${{ matrix.os }}
+          parallel: true
           path-to-lcov: ./pkgs/c_compiler/coverage/lcov.info
         if: ${{ matrix.sdk == 'stable' }}
