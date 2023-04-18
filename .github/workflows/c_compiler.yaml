@@ -7,16 +7,18 @@ on:
     paths:
       - ".github/workflows/c_compiler.yml"
       - "pkgs/c_compiler/**"
+      - "pkgs/native_assets_cli/**" # Direct import.
   push:
     branches: [main]
     paths:
       - ".github/workflows/c_compiler.yml"
       - "pkgs/c_compiler/**"
+      - "pkgs/native_assets_cli/**" # Direct import.
   schedule:
     - cron: "0 0 * * 0" # weekly
 
 jobs:
-  c_compiler:
+  build:
     strategy:
       matrix:
         os: [ubuntu-lastest, macos-latest]

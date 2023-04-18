@@ -6,17 +6,19 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/native_assets_cli.yml"
+      - "pkgs/c_compiler/**" # Direct import of example.
       - "pkgs/native_assets_cli/**"
   push:
     branches: [main]
     paths:
       - ".github/workflows/native_assets_cli.yml"
+      - "pkgs/c_compiler/**" # Direct import of example.
       - "pkgs/native_assets_cli/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
 
 jobs:
-  native_assets_cli:
+  build:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
