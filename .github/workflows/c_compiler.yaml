@@ -72,7 +72,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
         with:
-          base-path: pkgs/c_compiler/
           flag-name: c_compiler-${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
