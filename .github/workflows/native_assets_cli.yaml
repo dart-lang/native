@@ -74,8 +74,20 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          base-path: pkgs/native_assets_cli/
           flag-name: native_assets_cli-${{ matrix.os }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/native_assets_cli/coverage/lcov.info
+        if: ${{ matrix.sdk == 'stable' }}
+
+  coverage-finished:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload coverage
+        uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
         if: ${{ matrix.sdk == 'stable' }}
