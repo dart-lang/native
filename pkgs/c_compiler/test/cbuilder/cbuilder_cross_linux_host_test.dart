@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// TODO(dacoharkes): Make a MacOS cross compilation test.
-// Or make this test cross compilation on any host.
 @TestOn('linux')
 library;
 
