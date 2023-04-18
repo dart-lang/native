@@ -70,13 +70,8 @@ class _XCodeSdkResolver implements ToolResolver {
       arguments: ['--sdk', sdk, '--show-sdk-path'],
     );
     final uri = Uri.directory(result.stdout.trim());
-    final directory = Directory.fromUri(uri);
-    if (await directory.exists()) {
-      logger?.fine('Found $sdk at ${uri.toFilePath()}}');
-      return [ToolInstance(tool: tool, uri: uri)];
-    }
-    logger?.severe(
-        '$sdk at ${uri.toFilePath()} reported by xcrun does not exist.');
-    return [];
+    assert(await Directory.fromUri(uri).exists());
+    logger?.fine('Found $sdk at ${uri.toFilePath()}}');
+    return [ToolInstance(tool: tool, uri: uri)];
   }
 }

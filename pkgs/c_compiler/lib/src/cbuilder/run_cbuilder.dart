@@ -11,7 +11,7 @@ import 'compiler_resolver.dart';
 
 class RunCBuilder {
   final BuildConfig buildConfig;
-  final Logger logger;
+  final Logger? logger;
   final List<Uri> sources;
   final Uri? executable;
   final Uri? dynamicLibrary;
@@ -21,7 +21,7 @@ class RunCBuilder {
 
   RunCBuilder({
     required this.buildConfig,
-    required this.logger,
+    this.logger,
     this.sources = const [],
     this.executable,
     this.dynamicLibrary,

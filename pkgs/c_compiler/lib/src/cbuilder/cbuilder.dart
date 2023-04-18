@@ -71,7 +71,6 @@ class CBuilder implements Builder {
     required BuildOutput buildOutput,
     Logger? logger,
   }) async {
-    logger ??= Logger('');
     final outDir = buildConfig.outDir;
     final packageRoot = buildConfig.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);

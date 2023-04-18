@@ -300,12 +300,7 @@ class CliFilter implements ToolResolver {
       logger: logger,
     );
     final exitCode = process.exitCode;
-    if (exitCode != expectedExitCode) {
-      final executablePath = executable.toFilePath();
-      final invocationString = [executablePath, ...arguments].join(' ');
-      throw ToolError('`$invocationString` returned unexpected exit code: '
-          '$exitCode.');
-    }
+    assert(exitCode == expectedExitCode);
     return process.stdout;
   }
 }

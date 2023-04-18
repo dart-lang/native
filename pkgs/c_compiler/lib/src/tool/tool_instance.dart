@@ -24,7 +24,11 @@ class ToolInstance implements Comparable<ToolInstance> {
     this.version,
   });
 
-  ToolInstance copyWith({Uri? uri, Version? version}) => ToolInstance(
+  ToolInstance copyWith({
+    Uri? uri,
+    Version? version,
+  }) =>
+      ToolInstance(
         tool: tool,
         uri: uri ?? this.uri,
         version: version ?? this.version,
