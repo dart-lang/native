@@ -81,14 +81,15 @@ class _XCodeSdkResolver implements ToolResolver {
     final result = await runProcess(
       executable: xcrunInstance.uri,
       arguments: ['--sdk', sdk, '--show-sdk-path'],
+      logger: logger,
     );
     final uriSymbolic = Uri.directory(result.stdout.trim());
+    logger?.fine('Found $sdk at ${uriSymbolic.toFilePath()}}');
     final uri = Uri.directory(
         await Directory.fromUri(uriSymbolic).resolveSymbolicLinks());
     if (uriSymbolic != uri) {
-      logger?.fine('Found $sdk at ${uriSymbolic.toFilePath()}}');
+      logger?.fine('Found $sdk at ${uri.toFilePath()}}');
     }
-    logger?.fine('Found $sdk at ${uri.toFilePath()}}');
     assert(await Directory.fromUri(uri).exists());
     return [ToolInstance(tool: tool, uri: uri)];
   }
