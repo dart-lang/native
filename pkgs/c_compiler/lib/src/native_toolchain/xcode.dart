@@ -24,6 +24,12 @@ final Tool xcrun = Tool(
   ),
 );
 
+/// The MacOSX SDK.
+final Tool macosxSdk = Tool(
+  name: 'MacOSX SDK',
+  defaultResolver: _XCodeSdkResolver(),
+);
+
 /// The iPhoneOS SDK.
 final Tool iPhoneOSSdk = Tool(
   name: 'iPhoneOS SDK',
@@ -45,6 +51,12 @@ class _XCodeSdkResolver implements ToolResolver {
       for (final xcrunInstance in xcrunInstances) ...[
         ...await tryResolveSdk(
           xcrunInstance: xcrunInstance,
+          sdk: 'macosx',
+          tool: macosxSdk,
+          logger: logger,
+        ),
+        ...await tryResolveSdk(
+          xcrunInstance: xcrunInstance,
           sdk: 'iphoneos',
           tool: iPhoneOSSdk,
           logger: logger,
@@ -56,6 +68,7 @@ class _XCodeSdkResolver implements ToolResolver {
           logger: logger,
         ),
       ],
+      // xcrun --sdk macosx --show-sdk-path)
     ];
   }
 

@@ -55,6 +55,9 @@ class RunCBuilder {
         .uri;
   }
 
+  Future<Uri> macosSdk({Logger? logger}) async =>
+      (await macosxSdk.defaultResolver!.resolve(logger: logger)).first.uri;
+
   Future<void> run() async {
     final compiler_ = await compiler();
     final isStaticLib = staticLibrary != null;
@@ -80,6 +83,10 @@ class RunCBuilder {
           '-isysroot',
           (await iosSdk(buildConfig.targetIOSSdk!, logger: logger))
               .toFilePath(),
+        ],
+        if (target.os == OS.macOS) ...[
+          '-isysroot',
+          (await macosSdk(logger: logger)).toFilePath(),
         ],
         ...sources.map((e) => e.path),
         if (executable != null) ...[

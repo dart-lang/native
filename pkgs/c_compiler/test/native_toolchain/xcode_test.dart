@@ -23,6 +23,11 @@ void main() {
     expect(resolved.isNotEmpty, true);
   });
 
+  test('macosxSdk', () async {
+    final resolved = await macosxSdk.defaultResolver!.resolve(logger: logger);
+    expect(resolved.isNotEmpty, true);
+  });
+
   test('iPhoneOSSdk', () async {
     final resolved = await iPhoneOSSdk.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);
