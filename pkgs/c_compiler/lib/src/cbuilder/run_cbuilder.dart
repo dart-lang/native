@@ -46,17 +46,22 @@ class RunCBuilder {
   Future<Uri> iosSdk(IOSSdk iosSdk, {Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOs) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
+          .where((i) => i.tool == iPhoneOSSdk)
           .first
           .uri;
     }
     assert(iosSdk == IOSSdk.iPhoneSimulator);
     return (await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger))
+        .where((i) => i.tool == iPhoneSimulatorSdk)
         .first
         .uri;
   }
 
   Future<Uri> macosSdk({Logger? logger}) async =>
-      (await macosxSdk.defaultResolver!.resolve(logger: logger)).first.uri;
+      (await macosxSdk.defaultResolver!.resolve(logger: logger))
+          .where((i) => i.tool == macosxSdk)
+          .first
+          .uri;
 
   Future<void> run() async {
     final compiler_ = await compiler();
