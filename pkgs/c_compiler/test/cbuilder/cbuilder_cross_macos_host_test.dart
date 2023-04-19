@@ -18,9 +18,10 @@ void main() {
     Target.macOSX64,
   ];
 
+  // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
-    Target.macOSArm64: 'mach-o arm64',
-    Target.macOSX64: 'mach-o 64-bit x86-64',
+    Target.macOSArm64: 'arm64',
+    Target.macOSX64: '64-bit x86-64',
   };
 
   for (final packaging in Packaging.values) {

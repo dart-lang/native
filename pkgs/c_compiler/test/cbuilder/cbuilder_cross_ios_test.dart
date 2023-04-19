@@ -17,8 +17,9 @@ void main() {
     Target.iOSArm64,
   ];
 
+  // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
-    Target.iOSArm64: 'mach-o arm64',
+    Target.iOSArm64: 'arm64',
   };
 
   for (final packaging in Packaging.values) {
