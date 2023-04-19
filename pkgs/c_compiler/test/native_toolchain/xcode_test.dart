@@ -21,23 +21,28 @@ void main() {
   }
 
   test('xcrun', () async {
-    final resolved = await xcrun.defaultResolver!.resolve(logger: logger);
+    final resolved = (await xcrun.defaultResolver!.resolve(logger: logger))
+        .where((i) => i.tool == xcrun);
     expect(resolved.isNotEmpty, true);
   });
 
   test('macosxSdk', () async {
-    final resolved = await macosxSdk.defaultResolver!.resolve(logger: logger);
+    final resolved = (await macosxSdk.defaultResolver!.resolve(logger: logger))
+        .where((i) => i.tool == macosxSdk);
     expect(resolved.isNotEmpty, true);
   });
 
   test('iPhoneOSSdk', () async {
-    final resolved = await iPhoneOSSdk.defaultResolver!.resolve(logger: logger);
+    final resolved =
+        (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
+            .where((i) => i.tool == iPhoneOSSdk);
     expect(resolved.isNotEmpty, true);
   });
 
   test('iPhoneSimulatorSdk', () async {
     final resolved =
-        await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger);
+        (await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger))
+            .where((i) => i.tool == iPhoneSimulatorSdk);
     expect(resolved.isNotEmpty, true);
   });
 

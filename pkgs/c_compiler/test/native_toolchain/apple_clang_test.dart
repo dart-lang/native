@@ -21,7 +21,7 @@ void main() {
 
   test('smoke test', () async {
     final requirement = ToolRequirement(appleClang,
-        minimumVersion: Version(14, 0, 0, pre: '0'));
+        minimumVersion: Version(12, 0, 0, pre: '0'));
     final resolved = await appleClang.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
