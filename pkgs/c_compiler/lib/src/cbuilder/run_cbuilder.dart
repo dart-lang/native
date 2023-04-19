@@ -5,12 +5,13 @@
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
+import '../native_toolchain/xcode.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 
 class RunCBuilder {
   final BuildConfig buildConfig;
-  final Logger logger;
+  final Logger? logger;
   final List<Uri> sources;
   final Uri? executable;
   final Uri? dynamicLibrary;
@@ -20,7 +21,7 @@ class RunCBuilder {
 
   RunCBuilder({
     required this.buildConfig,
-    required this.logger,
+    this.logger,
     this.sources = const [],
     this.executable,
     this.dynamicLibrary,
@@ -42,6 +43,26 @@ class RunCBuilder {
     return (await resolver.resolveArchiver()).uri;
   }
 
+  Future<Uri> iosSdk(IOSSdk iosSdk, {Logger? logger}) async {
+    if (iosSdk == IOSSdk.iPhoneOs) {
+      return (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
+          .where((i) => i.tool == iPhoneOSSdk)
+          .first
+          .uri;
+    }
+    assert(iosSdk == IOSSdk.iPhoneSimulator);
+    return (await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger))
+        .where((i) => i.tool == iPhoneSimulatorSdk)
+        .first
+        .uri;
+  }
+
+  Future<Uri> macosSdk({Logger? logger}) async =>
+      (await macosxSdk.defaultResolver!.resolve(logger: logger))
+          .where((i) => i.tool == macosxSdk)
+          .first
+          .uri;
+
   Future<void> run() async {
     final compiler_ = await compiler();
     final isStaticLib = staticLibrary != null;
@@ -60,6 +81,17 @@ class RunCBuilder {
           // Workaround:
           if (dynamicLibrary != null) '-nostartfiles',
           '--target=${androidNdkClangTargetFlags[target]!}',
+        ],
+        if (target.os == OS.macOS || target.os == OS.iOS)
+          '--target=${appleClangTargetFlags[target]!}',
+        if (target.os == OS.iOS) ...[
+          '-isysroot',
+          (await iosSdk(buildConfig.targetIOSSdk!, logger: logger))
+              .toFilePath(),
+        ],
+        if (target.os == OS.macOS) ...[
+          '-isysroot',
+          (await macosSdk(logger: logger)).toFilePath(),
         ],
         ...sources.map((e) => e.path),
         if (executable != null) ...[
@@ -98,5 +130,11 @@ class RunCBuilder {
     Target.androidArm64: 'aarch64-linux-android',
     Target.androidIA32: 'i686-linux-android',
     Target.androidX64: 'x86_64-linux-android',
+  };
+
+  static const appleClangTargetFlags = {
+    Target.iOSArm64: 'arm64-apple-ios',
+    Target.macOSArm64: 'arm64-apple-darwin',
+    Target.macOSX64: 'x86_64-apple-darwin',
   };
 }

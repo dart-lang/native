@@ -6,61 +6,86 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/native_assets_cli.yml"
+      - "pkgs/c_compiler/**" # Direct import of example.
       - "pkgs/native_assets_cli/**"
   push:
     branches: [main]
     paths:
       - ".github/workflows/native_assets_cli.yml"
+      - "pkgs/c_compiler/**" # Direct import of example.
       - "pkgs/native_assets_cli/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu, macos]
+        sdk: [stable, dev]
+        exclude:
+          # Only run analyze against dev on one host.
+          - os: macos
+            sdk: dev
+
+    runs-on: ${{ matrix.os }}-latest
+
     defaults:
       run:
         working-directory: pkgs/native_assets_cli
-    strategy:
-      matrix:
-        sdk: [stable, dev] # {pkgs.versions}
-        include:
-          - sdk: stable
-            run-tests: true
+
     steps:
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+
       - uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
         with:
-          sdk: ${{matrix.sdk}}
+          sdk: ${{ matrix.sdk }}
+
       - uses: nttld/setup-ndk@deccd078bf3db957dbdee9862f51955b35ac81dd
         with:
           ndk-version: r25b
+        if: ${{ matrix.sdk == 'stable' }}
 
       - run: dart pub get
       - run: dart pub get
         working-directory: pkgs/native_assets_cli/example/native_add/
 
       - run: dart analyze --fatal-infos
+        # Run on dev to ensure we're not depending on deprecated SDK things.
 
       - run: dart format --output=none --set-exit-if-changed .
-        if: ${{matrix.run-tests}}
+        if: ${{ matrix.sdk == 'stable' }}
 
       - name: Install native toolchains
         run: sudo apt-get install clang-14 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+        if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
 
       - run: dart test
-        if: ${{matrix.run-tests}}
+        if: ${{ matrix.sdk == 'stable' }}
 
       - name: Install coverage
         run: dart pub global activate coverage
         if: ${{ matrix.sdk == 'stable' }}
+
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
         if: ${{ matrix.sdk == 'stable' }}
+
+      - name: Upload coverage
+        uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
+        with:
+          flag-name: native_assets_cli-${{ matrix.os }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          path-to-lcov: ./pkgs/native_assets_cli/coverage/lcov.info
+        if: ${{ matrix.sdk == 'stable' }}
+
+  coverage-finished:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
       - name: Upload coverage
         uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: native_assets_cli
-          path-to-lcov: ./pkgs/native_assets_cli/coverage/lcov.info
-        if: ${{ matrix.sdk == 'stable' }}
+          parallel-finished: true

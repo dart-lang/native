@@ -73,4 +73,15 @@ void main() {
     expect(instance.toString(), contains('1.0.0'));
     expect(instance.toString(), contains('path/to/bar'));
   });
+
+  test('copyWith', () {
+    final instance = ToolInstance(
+      tool: Tool(name: 'bar'),
+      version: Version(1, 0, 0),
+      uri: Uri.file('path/to/bar'),
+    );
+
+    expect(instance.copyWith(), instance);
+    expect(instance.copyWith(uri: Uri.file('foo/bar')) != instance, true);
+  });
 }

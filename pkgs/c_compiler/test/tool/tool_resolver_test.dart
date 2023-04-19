@@ -4,11 +4,8 @@
 
 import 'dart:io';
 
-import 'package:c_compiler/src/native_toolchain/clang.dart';
-import 'package:c_compiler/src/tool/tool.dart';
+import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/tool/tool_error.dart';
-import 'package:c_compiler/src/tool/tool_instance.dart';
-import 'package:c_compiler/src/tool/tool_resolver.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
@@ -16,7 +13,10 @@ import '../helpers.dart';
 
 void main() {
   test('CliVersionResolver.executableVersion', () async {
-    final clangInstances = await clang.defaultResolver!.resolve(logger: logger);
+    final clangInstances = [
+      ...await appleClang.defaultResolver!.resolve(logger: logger),
+      ...await clang.defaultResolver!.resolve(logger: logger),
+    ];
     expect(clangInstances.isNotEmpty, true);
     final version =
         await CliVersionResolver.executableVersion(clangInstances.first.uri);

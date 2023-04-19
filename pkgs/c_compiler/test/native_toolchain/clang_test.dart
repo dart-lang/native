@@ -2,6 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn('linux')
+library;
+
+import 'dart:io';
+
 import 'package:c_compiler/src/native_toolchain/clang.dart';
 import 'package:c_compiler/src/tool/tool_instance.dart';
 import 'package:c_compiler/src/tool/tool_requirement.dart';
@@ -11,6 +16,11 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
+  if (!Platform.isLinux) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
+  }
+
   test('clang smoke test', () async {
     final requirement =
         ToolRequirement(clang, minimumVersion: Version(14, 0, 0, pre: '0'));

@@ -2,6 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn('linux')
+library;
+
+import 'dart:io';
+
 import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
@@ -10,6 +15,11 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
+  if (!Platform.isLinux) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
+  }
+
   const targets = [
     Target.linuxArm,
     Target.linuxArm64,
@@ -26,7 +36,7 @@ void main() {
 
   for (final packaging in Packaging.values) {
     for (final target in targets) {
-      test('Cbuilder $packaging library linux $target', () async {
+      test('Cbuilder $packaging library $target', () async {
         await inTempDir((tempUri) async {
           final addCUri =
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
