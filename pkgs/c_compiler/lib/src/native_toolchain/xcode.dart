@@ -27,22 +27,22 @@ final Tool xcrun = Tool(
 /// The MacOSX SDK.
 final Tool macosxSdk = Tool(
   name: 'MacOSX SDK',
-  defaultResolver: _XCodeSdkResolver(),
+  defaultResolver: XCodeSdkResolver(),
 );
 
 /// The iPhoneOS SDK.
 final Tool iPhoneOSSdk = Tool(
   name: 'iPhoneOS SDK',
-  defaultResolver: _XCodeSdkResolver(),
+  defaultResolver: XCodeSdkResolver(),
 );
 
 /// The iPhoneSimulator SDK.
 final Tool iPhoneSimulatorSdk = Tool(
   name: 'iPhoneSimulator SDK',
-  defaultResolver: _XCodeSdkResolver(),
+  defaultResolver: XCodeSdkResolver(),
 );
 
-class _XCodeSdkResolver implements ToolResolver {
+class XCodeSdkResolver implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
     final xcrunInstances = await xcrun.defaultResolver!.resolve(logger: logger);
@@ -72,7 +72,7 @@ class _XCodeSdkResolver implements ToolResolver {
     ];
   }
 
-  Future<List<ToolInstance>> tryResolveSdk({
+  static Future<List<ToolInstance>> tryResolveSdk({
     required ToolInstance xcrunInstance,
     required String sdk,
     required Tool tool,
@@ -83,6 +83,12 @@ class _XCodeSdkResolver implements ToolResolver {
       arguments: ['--sdk', sdk, '--show-sdk-path'],
       logger: logger,
     );
+    if (result.exitCode == 1) {
+      assert(result.stderr.contains('cannot be located'));
+      logger?.warning('SDK $sdk not installed.');
+      return [];
+    }
+    assert(result.exitCode == 0);
     final uriSymbolic = Uri.directory(result.stdout.trim());
     logger?.fine('Found $sdk at ${uriSymbolic.toFilePath()}}');
     final uri = Uri.directory(

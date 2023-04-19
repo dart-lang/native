@@ -8,6 +8,8 @@ library;
 import 'dart:io';
 
 import 'package:c_compiler/src/native_toolchain/xcode.dart';
+import 'package:c_compiler/src/tool/tool.dart';
+import 'package:c_compiler/src/tool/tool_instance.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -37,5 +39,18 @@ void main() {
     final resolved =
         await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);
+  });
+
+  test('non-existing SDK', () async {
+    final xcrunInstance =
+        (await xcrun.defaultResolver!.resolve(logger: logger)).first;
+    final tool = Tool(name: 'non-tool');
+    final result = await XCodeSdkResolver.tryResolveSdk(
+      xcrunInstance: xcrunInstance,
+      sdk: 'doesnotexist',
+      tool: tool,
+      logger: logger,
+    );
+    expect(result, <ToolInstance>[]);
   });
 }
