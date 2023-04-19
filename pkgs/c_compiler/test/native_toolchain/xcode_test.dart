@@ -5,12 +5,19 @@
 @TestOn('mac-os')
 library;
 
+import 'dart:io';
+
 import 'package:c_compiler/src/native_toolchain/xcode.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
 void main() {
+  if (!Platform.isMacOS) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
+  }
+
   test('xcrun', () async {
     final resolved = await xcrun.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);

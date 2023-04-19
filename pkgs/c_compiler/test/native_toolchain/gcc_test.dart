@@ -5,6 +5,8 @@
 @TestOn('linux')
 library;
 
+import 'dart:io';
+
 import 'package:c_compiler/src/native_toolchain/gcc.dart';
 import 'package:c_compiler/src/tool/tool.dart';
 import 'package:c_compiler/src/tool/tool_requirement.dart';
@@ -14,6 +16,11 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
+  if (!Platform.isLinux) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
+  }
+
   void testToolSet(String name, List<Tool> tools) {
     test('gcc cross compilation $name smoke test', () async {
       final resolver = ToolResolvers([

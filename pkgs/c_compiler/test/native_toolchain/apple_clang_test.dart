@@ -5,6 +5,8 @@
 @TestOn('mac-os')
 library;
 
+import 'dart:io';
+
 import 'package:c_compiler/c_compiler.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
@@ -12,6 +14,11 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
+  if (!Platform.isMacOS) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
+  }
+
   test('smoke test', () async {
     final requirement = ToolRequirement(appleClang,
         minimumVersion: Version(14, 0, 0, pre: '0'));

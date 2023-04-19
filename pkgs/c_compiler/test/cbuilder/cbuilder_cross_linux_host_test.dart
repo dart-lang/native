@@ -5,6 +5,8 @@
 @TestOn('linux')
 library;
 
+import 'dart:io';
+
 import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
@@ -13,6 +15,11 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
+  if (!Platform.isLinux) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
+  }
+
   const targets = [
     Target.linuxArm,
     Target.linuxArm64,
