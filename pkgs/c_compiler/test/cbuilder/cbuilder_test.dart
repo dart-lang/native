@@ -43,7 +43,10 @@ void main() {
       final executableUri =
           tempUri.resolve(Target.current.os.executableFileName(name));
       expect(await File.fromUri(executableUri).exists(), true);
-      final result = await runProcess(executable: executableUri);
+      final result = await runProcess(
+        executable: executableUri,
+        logger: logger,
+      );
       expect(result.exitCode, 0);
       expect(result.stdout, 'Hello world.\n');
     });
