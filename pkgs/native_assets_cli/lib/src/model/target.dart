@@ -106,13 +106,6 @@ class OS {
     Abi.windowsX64: OS.windows,
   };
 
-  /// Whether the [OS] is a OS for mobile devices.
-  bool get isMobile => this == OS.android || this == OS.iOS;
-
-  /// Whether the [OS] is a OS for desktop devices.
-  bool get isDesktop =>
-      this == OS.linux || this == OS.macOS || this == OS.windows;
-
   /// Typical cross compilation between OSes.
   static const _osCrossCompilationDefault = {
     OS.macOS: [OS.macOS, OS.iOS, OS.android],
