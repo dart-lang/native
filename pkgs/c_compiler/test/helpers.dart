@@ -15,8 +15,11 @@ Future<void> inTempDir(
   String? prefix,
 }) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
+  // Deal with Windows temp folder aliases.
+  final tempUri =
+      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
   try {
-    await fun(tempDir.uri);
+    await fun(tempUri);
   } finally {
     if (!Platform.environment.containsKey(keepTempKey) ||
         Platform.environment[keepTempKey]!.isEmpty) {
