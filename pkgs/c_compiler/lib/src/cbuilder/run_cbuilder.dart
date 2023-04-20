@@ -96,16 +96,16 @@ class RunCBuilder {
         ...sources.map((e) => e.path),
         if (executable != null) ...[
           '-o',
-          outDir.resolveUri(executable!).path,
+          outDir.resolveUri(executable!).toFilePath(),
         ],
         if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
-          outDir.resolveUri(dynamicLibrary!).path,
+          outDir.resolveUri(dynamicLibrary!).toFilePath(),
         ] else if (staticLibrary != null) ...[
           '-c',
           '-o',
-          outDir.resolve('out.o').path,
+          outDir.resolve('out.o').toFilePath(),
         ],
       ],
       logger: logger,
@@ -116,8 +116,8 @@ class RunCBuilder {
         executable: archiver_!,
         arguments: [
           'rc',
-          outDir.resolveUri(staticLibrary!).path,
-          outDir.resolve('out.o').path,
+          outDir.resolveUri(staticLibrary!).toFilePath(),
+          outDir.resolve('out.o').toFilePath(),
         ],
         logger: logger,
         captureOutput: false,

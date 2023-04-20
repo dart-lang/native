@@ -69,8 +69,8 @@ void main() async {
     );
 
     final config = Config(fileParsed: {
-      'out_dir': tempUri.resolve('out2/').path,
-      'package_root': tempUri.resolve('packageRoot/').path,
+      'out_dir': tempUri.resolve('out2/').toFilePath(),
+      'package_root': tempUri.resolve('packageRoot/').toFilePath(),
       'target': 'android_arm64',
       'packaging': 'prefer-static',
     });
@@ -187,7 +187,7 @@ target_ios_sdk: iphoneos''';
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
-        'package_root': tempUri.resolve('packageRoot/').path,
+        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
         'target': 'android_arm64',
         'packaging': 'prefer-static',
       })),
@@ -195,8 +195,8 @@ target_ios_sdk: iphoneos''';
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
-        'out_dir': tempUri.resolve('out2/').path,
-        'package_root': tempUri.resolve('packageRoot/').path,
+        'out_dir': tempUri.resolve('out2/').toFilePath(),
+        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
         'target': 'android_arm64',
         'packaging': 'prefer-static',
         'dependency_metadata': {
@@ -211,8 +211,8 @@ target_ios_sdk: iphoneos''';
   test('FormatExceptions contain full stack trace of wrapped exception', () {
     try {
       BuildConfig.fromConfig(Config(fileParsed: {
-        'out_dir': tempUri.resolve('out2/').path,
-        'package_root': tempUri.resolve('packageRoot/').path,
+        'out_dir': tempUri.resolve('out2/').toFilePath(),
+        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
         'target': [1, 2, 3, 4, 5],
         'packaging': 'prefer-static',
       }));

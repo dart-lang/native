@@ -27,7 +27,7 @@ void main() async {
     final dartUri = Uri.file(Platform.resolvedExecutable);
 
     final processResult = await Process.run(
-      dartUri.path,
+      dartUri.toFilePath(),
       [
         'build.dart',
         '-Dout_dir=${tempUri.path}',
@@ -36,7 +36,7 @@ void main() async {
         '-Dpackaging=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',
       ],
-      workingDirectory: testPackageUri.path,
+      workingDirectory: testPackageUri.toFilePath(),
     );
     if (processResult.exitCode != 0) {
       print(processResult.stdout);
