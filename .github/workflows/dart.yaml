@@ -1,19 +1,17 @@
-name: package:c_compiler
+name: dart
 permissions: read-all
 
 on:
   pull_request:
     branches: [main]
     paths:
-      - ".github/workflows/c_compiler.yml"
-      - "pkgs/c_compiler/**"
-      - "pkgs/native_assets_cli/**" # Direct import.
+      - ".github/workflows/dart.yml"
+      - "pkgs/**"
   push:
     branches: [main]
     paths:
-      - ".github/workflows/c_compiler.yml"
-      - "pkgs/c_compiler/**"
-      - "pkgs/native_assets_cli/**" # Direct import.
+      - ".github/workflows/dart.yml"
+      - "pkgs/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
 
@@ -23,6 +21,7 @@ jobs:
       matrix:
         os: [ubuntu, macos]
         sdk: [stable, dev]
+        package: [c_compiler, native_assets_cli]
         exclude:
           # Only run analyze against dev on one host.
           - os: macos
@@ -32,7 +31,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: pkgs/c_compiler
+        working-directory: pkgs/${{ matrix.package }}
 
     steps:
       - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
@@ -47,6 +46,10 @@ jobs:
         if: ${{ matrix.sdk == 'stable' }}
 
       - run: dart pub get
+
+      - run: dart pub get
+        working-directory: pkgs/native_assets_cli/example/native_add/
+        if: ${{ matrix.package == 'native_assets_cli' }}
 
       - run: dart analyze --fatal-infos
         # Run on dev to ensure we're not depending on deprecated SDK things.
@@ -72,10 +75,10 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
         with:
-          flag-name: c_compiler-${{ matrix.os }}
+          flag-name: ${{ matrix.package }}-${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-          path-to-lcov: ./pkgs/c_compiler/coverage/lcov.info
+          path-to-lcov: ./pkgs/${{ matrix.package }}/coverage/lcov.info
         if: ${{ matrix.sdk == 'stable' }}
 
   coverage-finished:
