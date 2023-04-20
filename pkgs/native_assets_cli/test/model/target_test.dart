@@ -9,11 +9,6 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('OS accessors', () async {
-    expect(OS.android.isDesktop, false);
-    expect(OS.android.isMobile, true);
-  });
-
   test('OS naming conventions', () async {
     expect(OS.android.dylibFileName('foo'), 'libfoo.so');
     expect(OS.android.staticlibFileName('foo'), 'libfoo.a');
