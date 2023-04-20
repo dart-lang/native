@@ -5,12 +5,12 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - ".github/workflows/dart.yml"
+      - ".github/workflows/native_assets_cli.yaml"
       - "pkgs/**"
   push:
     branches: [main]
     paths:
-      - ".github/workflows/dart.yml"
+      - ".github/workflows/native_assets_cli.yaml"
       - "pkgs/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
