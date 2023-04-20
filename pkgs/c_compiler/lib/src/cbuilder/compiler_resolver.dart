@@ -80,7 +80,7 @@ class CompilerResolver {
     final configCcUri = getter(buildConfig);
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
-      logger?.finer('Using compiler ${configCcUri.path} '
+      logger?.finer('Using compiler ${configCcUri.toFilePath()} '
           'from config[${BuildConfig.ccConfigKey}].');
       return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
           .first;
@@ -148,7 +148,7 @@ class CompilerResolver {
     final configArUri = getter(buildConfig);
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
-      logger?.finer('Using archiver ${configArUri.path} '
+      logger?.finer('Using archiver ${configArUri.toFilePath()} '
           'from config[${BuildConfig.arConfigKey}].');
       return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
           .first;

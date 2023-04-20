@@ -30,8 +30,8 @@ void main() async {
       dartUri.toFilePath(),
       [
         'build.dart',
-        '-Dout_dir=${tempUri.path}',
-        '-Dpackage_root=${testPackageUri.path}',
+        '-Dout_dir=${tempUri.toFilePath()}',
+        '-Dpackage_root=${testPackageUri.toFilePath()}',
         '-Dtarget=${Target.current}',
         '-Dpackaging=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',

@@ -155,7 +155,7 @@ void main() async {
       },
     );
     final yamlString = buildConfig1.toYamlString();
-    final expectedYamlString = '''cc: ${fakeClang.path}
+    final expectedYamlString = '''cc: ${fakeClang.toFilePath()}
 dependency_metadata:
   bar:
     key: value
@@ -164,9 +164,9 @@ dependency_metadata:
     z:
       - z
       - a
-ld: ${fakeLd.path}
-out_dir: ${outDir.path}
-package_root: ${tempUri.path}
+ld: ${fakeLd.toFilePath()}
+out_dir: ${outDir.toFilePath()}
+package_root: ${tempUri.toFilePath()}
 packaging: prefer-static
 target: ios_arm64
 target_ios_sdk: iphoneos''';

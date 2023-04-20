@@ -25,7 +25,7 @@ Future<RunProcessResult> runProcess({
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
   final commandString = [
-    if (printWorkingDir) '(cd ${workingDirectory.path};',
+    if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),
     executable,
     ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
