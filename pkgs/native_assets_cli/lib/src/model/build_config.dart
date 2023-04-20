@@ -8,8 +8,8 @@ import 'package:collection/collection.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'ios_sdk.dart';
+import 'link_mode_preference.dart';
 import 'metadata.dart';
-import 'packaging_preference.dart';
 import 'target.dart';
 
 class BuildConfig {
@@ -47,9 +47,9 @@ class BuildConfig {
   Uri? get ar => _ar;
   late final Uri? _ar;
 
-  /// Preferred packaging method for library.
-  PackagingPreference get packaging => _packaging;
-  late final PackagingPreference _packaging;
+  /// Preferred linkMode method for library.
+  LinkModePreference get linkMode => _linkMode;
+  late final LinkModePreference _linkMode;
 
   /// Metadata from direct dependencies.
   ///
@@ -73,7 +73,7 @@ class BuildConfig {
     Uri? ar,
     Uri? cc,
     Uri? ld,
-    required PackagingPreference packaging,
+    required LinkModePreference linkMode,
     Map<String, Metadata>? dependencyMetadata,
   }) {
     final nonValidated = BuildConfig._()
@@ -84,7 +84,7 @@ class BuildConfig {
       .._ar = ar
       .._cc = cc
       .._ld = ld
-      .._packaging = packaging
+      .._linkMode = linkMode
       .._dependencyMetadata = dependencyMetadata;
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
@@ -171,10 +171,10 @@ class BuildConfig {
       (config) => _ar = config.optionalPath(arConfigKey, mustExist: true),
       (config) => _cc = config.optionalPath(ccConfigKey, mustExist: true),
       (config) => _ld = config.optionalPath(ldConfigKey, mustExist: true),
-      (config) => _packaging = PackagingPreference.fromString(
+      (config) => _linkMode = LinkModePreference.fromString(
             config.string(
-              PackagingPreference.configKey,
-              validValues: PackagingPreference.values.map((e) => '$e'),
+              LinkModePreference.configKey,
+              validValues: LinkModePreference.values.map((e) => '$e'),
             ),
           ),
       (config) =>
@@ -218,7 +218,7 @@ class BuildConfig {
         if (_ar != null) arConfigKey: _ar!.path,
         if (_cc != null) ccConfigKey: _cc!.path,
         if (_ld != null) ldConfigKey: _ld!.path,
-        PackagingPreference.configKey: _packaging.toString(),
+        LinkModePreference.configKey: _linkMode.toString(),
         if (_dependencyMetadata != null)
           dependencyMetadataConfigKey: {
             for (final entry in _dependencyMetadata!.entries)
@@ -240,7 +240,7 @@ class BuildConfig {
     if (other._ar != _ar) return false;
     if (other._cc != _cc) return false;
     if (other._ld != _ld) return false;
-    if (other._packaging != _packaging) return false;
+    if (other._linkMode != _linkMode) return false;
     if (!DeepCollectionEquality()
         .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
     return true;
@@ -255,7 +255,7 @@ class BuildConfig {
         _ar,
         _cc,
         _ld,
-        _packaging,
+        _linkMode,
         DeepCollectionEquality().hash(_dependencyMetadata),
       );
 

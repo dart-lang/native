@@ -33,9 +33,9 @@ void main() {
     Target.androidX64: 'elf64-x86-64',
   };
 
-  for (final packaging in Packaging.values) {
+  for (final linkMode in LinkMode.values) {
     for (final target in targets) {
-      test('Cbuilder $packaging library $target', () async {
+      test('Cbuilder $linkMode library $target', () async {
         await inTempDir((tempUri) async {
           final addCUri =
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
@@ -45,9 +45,9 @@ void main() {
             outDir: tempUri,
             packageRoot: tempUri,
             target: target,
-            packaging: packaging == Packaging.dynamic
-                ? PackagingPreference.dynamic
-                : PackagingPreference.static,
+            linkMode: linkMode == LinkMode.dynamic
+                ? LinkModePreference.dynamic
+                : LinkModePreference.static,
           );
           final buildOutput = BuildOutput();
 
@@ -63,7 +63,7 @@ void main() {
           );
 
           final libUri =
-              tempUri.resolve(target.os.libraryFileName(name, packaging));
+              tempUri.resolve(target.os.libraryFileName(name, linkMode));
           if (Platform.isLinux) {
             final result = await runProcess(
               executable: Uri.file('readelf'),

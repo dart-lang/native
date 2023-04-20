@@ -74,9 +74,9 @@ class CBuilder implements Builder {
     final outDir = buildConfig.outDir;
     final packageRoot = buildConfig.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final packaging = buildConfig.packaging.preferredPackaging.first;
+    final linkMode = buildConfig.linkMode.preferredLinkMode.first;
     final libUri =
-        outDir.resolve(buildConfig.target.os.libraryFileName(name, packaging));
+        outDir.resolve(buildConfig.target.os.libraryFileName(name, linkMode));
     final exeUri =
         outDir.resolve(buildConfig.target.os.executableFileName(name));
     final sources = [
@@ -91,11 +91,11 @@ class CBuilder implements Builder {
       logger: logger,
       sources: sources,
       dynamicLibrary:
-          _type == _CBuilderType.library && packaging == Packaging.dynamic
+          _type == _CBuilderType.library && linkMode == LinkMode.dynamic
               ? libUri
               : null,
       staticLibrary:
-          _type == _CBuilderType.library && packaging == Packaging.static
+          _type == _CBuilderType.library && linkMode == LinkMode.static
               ? libUri
               : null,
       executable: _type == _CBuilderType.executable ? exeUri : null,
@@ -105,7 +105,7 @@ class CBuilder implements Builder {
     if (assetName != null) {
       buildOutput.assets.add(Asset(
         name: assetName!,
-        packaging: packaging,
+        linkMode: linkMode,
         target: buildConfig.target,
         path: AssetAbsolutePath(libUri),
       ));

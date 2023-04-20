@@ -5,7 +5,7 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import 'packaging.dart';
+import 'link_mode.dart';
 
 /// The hardware architectures the Dart VM runs on.
 class Architecture {
@@ -134,11 +134,11 @@ class OS {
     return '$prefix$name.$extension';
   }
 
-  String libraryFileName(String name, Packaging packaging) {
-    if (packaging == Packaging.dynamic) {
+  String libraryFileName(String name, LinkMode linkMode) {
+    if (linkMode == LinkMode.dynamic) {
       return dylibFileName(name);
     }
-    assert(packaging == Packaging.static);
+    assert(linkMode == LinkMode.static);
     return staticlibFileName(name);
   }
 

@@ -18,9 +18,9 @@ void main() {
     expect(OS.android.dylibFileName('foo'), 'libfoo.so');
     expect(OS.android.staticlibFileName('foo'), 'libfoo.a');
     expect(OS.windows.dylibFileName('foo'), 'foo.dll');
-    expect(OS.windows.libraryFileName('foo', Packaging.dynamic), 'foo.dll');
+    expect(OS.windows.libraryFileName('foo', LinkMode.dynamic), 'foo.dll');
     expect(OS.windows.staticlibFileName('foo'), 'foo.lib');
-    expect(OS.windows.libraryFileName('foo', Packaging.static), 'foo.lib');
+    expect(OS.windows.libraryFileName('foo', LinkMode.static), 'foo.lib');
     expect(OS.windows.executableFileName('foo'), 'foo.exe');
   });
 

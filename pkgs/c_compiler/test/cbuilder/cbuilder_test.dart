@@ -26,7 +26,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
-        packaging: PackagingPreference.dynamic, // Ignored by executables.
+        linkMode: LinkModePreference.dynamic, // Ignored by executables.
         cc: cc,
       );
       final buildOutput = BuildOutput();
@@ -62,7 +62,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
-        packaging: PackagingPreference.dynamic,
+        linkMode: LinkModePreference.dynamic,
         cc: cc,
       );
       final buildOutput = BuildOutput();

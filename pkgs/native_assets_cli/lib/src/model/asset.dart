@@ -6,7 +6,7 @@ import 'package:yaml/yaml.dart';
 
 import '../utils/uri.dart';
 import '../utils/yaml.dart';
-import 'packaging.dart';
+import 'link_mode.dart';
 import 'target.dart';
 
 abstract class AssetPath {
@@ -76,7 +76,7 @@ class AssetAbsolutePath implements AssetPath {
 
 /// Asset is avaliable on a relative path.
 ///
-/// If [Packaging] of an [Asset] is [Packaging.dynamic],
+/// If [LinkMode] of an [Asset] is [LinkMode.dynamic],
 /// `Platform.script.resolve(uri)` will be used to load the asset at runtime.
 class AssetRelativePath implements AssetPath {
   final Uri uri;
@@ -190,14 +190,14 @@ class AssetInExecutable implements AssetPath {
 }
 
 class Asset {
-  final Packaging packaging;
+  final LinkMode linkMode;
   final String name;
   final Target target;
   final AssetPath path;
 
   Asset({
     required this.name,
-    required this.packaging,
+    required this.linkMode,
     required this.target,
     required this.path,
   });
@@ -206,7 +206,7 @@ class Asset {
         name: yamlMap[_nameKey] as String,
         path: AssetPath.fromYaml(yamlMap[_pathKey] as YamlMap),
         target: Target.fromString(yamlMap[_targetKey] as String),
-        packaging: Packaging.fromName(yamlMap[_packagingKey] as String),
+        linkMode: LinkMode.fromName(yamlMap[_linkModeKey] as String),
       );
 
   static List<Asset> listFromYamlString(String yaml) {
@@ -226,14 +226,14 @@ class Asset {
       ];
 
   Asset copyWith({
-    Packaging? packaging,
+    LinkMode? linkMode,
     String? name,
     Target? target,
     AssetPath? path,
   }) =>
       Asset(
         name: name ?? this.name,
-        packaging: packaging ?? this.packaging,
+        linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
       );
@@ -244,17 +244,17 @@ class Asset {
       return false;
     }
     return other.name == name &&
-        other.packaging == packaging &&
+        other.linkMode == linkMode &&
         other.target == target &&
         other.path == path;
   }
 
   @override
-  int get hashCode => Object.hash(name, packaging, target, path);
+  int get hashCode => Object.hash(name, linkMode, target, path);
 
   Map<String, Object> toYaml() => {
         _nameKey: name,
-        _packagingKey: packaging.name,
+        _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
       };
@@ -266,7 +266,7 @@ class Asset {
   String toYamlString() => yamlEncode(toYaml());
 
   static const _nameKey = 'name';
-  static const _packagingKey = 'packaging';
+  static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
 
@@ -281,8 +281,8 @@ extension AssetIterable on Iterable<Asset> {
 
   String toYamlString() => yamlEncode(toYaml());
 
-  Iterable<Asset> wherePackaging(Packaging packaging) =>
-      where((e) => e.packaging == packaging);
+  Iterable<Asset> whereLinkMode(LinkMode linkMode) =>
+      where((e) => e.linkMode == linkMode);
 
   Map<Target, List<Asset>> get assetsPerTarget {
     final result = <Target, List<Asset>>{};
