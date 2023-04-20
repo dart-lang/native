@@ -1,3 +1,6 @@
+[![dart](https://github.com/dart-lang/native/actions/workflows/dart.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/dart.yaml)
+[![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
+
 ## Overview
 
 This repository is home to Dart packages related to FFI and native assets
