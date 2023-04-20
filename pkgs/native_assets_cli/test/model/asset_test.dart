@@ -7,22 +7,27 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final fooUri = Uri.file('path/to/libfoo.so');
+  final foo2Uri = Uri.file('path/to/libfoo2.so');
+  final foo3Uri = Uri(path: 'libfoo3.so');
+  final barUri = Uri(path: 'path/to/libbar.a');
+  final blaUri = Uri(path: 'path/with spaces/bla.dll');
   final assets = [
     Asset(
       name: 'foo',
-      path: AssetAbsolutePath(Uri(path: 'path/to/libfoo.so')),
+      path: AssetAbsolutePath(fooUri),
       target: Target.androidX64,
       packaging: Packaging.dynamic,
     ),
     Asset(
       name: 'foo2',
-      path: AssetRelativePath(Uri(path: 'path/to/libfoo2.so')),
+      path: AssetRelativePath(foo2Uri),
       target: Target.androidX64,
       packaging: Packaging.dynamic,
     ),
     Asset(
       name: 'foo3',
-      path: AssetSystemPath(Uri(path: 'libfoo3.so')),
+      path: AssetSystemPath(foo3Uri),
       target: Target.androidX64,
       packaging: Packaging.dynamic,
     ),
@@ -40,35 +45,35 @@ void main() {
     ),
     Asset(
       name: 'bar',
-      path: AssetAbsolutePath(Uri(path: 'path/to/libbar.a')),
+      path: AssetAbsolutePath(barUri),
       target: Target.linuxArm64,
       packaging: Packaging.static,
     ),
     Asset(
       name: 'bla',
-      path: AssetAbsolutePath(Uri(path: 'path/with spaces/bla.dll')),
+      path: AssetAbsolutePath(blaUri),
       target: Target.windowsX64,
       packaging: Packaging.dynamic,
     ),
   ];
 
-  const assetsYamlEncoding = '''- name: foo
+  final assetsYamlEncoding = '''- name: foo
   packaging: dynamic
   path:
     path_type: absolute
-    uri: path/to/libfoo.so
+    uri: ${fooUri.toFilePath()}
   target: android_x64
 - name: foo2
   packaging: dynamic
   path:
     path_type: relative
-    uri: path/to/libfoo2.so
+    uri: ${foo2Uri.toFilePath()}
   target: android_x64
 - name: foo3
   packaging: dynamic
   path:
     path_type: system
-    uri: libfoo3.so
+    uri: ${foo3Uri.toFilePath()}
   target: android_x64
 - name: foo4
   packaging: dynamic
@@ -84,16 +89,16 @@ void main() {
   packaging: static
   path:
     path_type: absolute
-    uri: path/to/libbar.a
+    uri: ${barUri.toFilePath()}
   target: linux_arm64
 - name: bla
   packaging: dynamic
   path:
     path_type: absolute
-    uri: path/with spaces/bla.dll
+    uri: ${blaUri.toFilePath()}
   target: windows_x64''';
 
-  const assetsDartEncoding = '''format-version:
+  final assetsDartEncoding = '''format-version:
   - 1
   - 0
   - 0
@@ -101,13 +106,13 @@ native-assets:
   android_x64:
     foo:
       - absolute
-      - path/to/libfoo.so
+      - ${fooUri.toFilePath()}
     foo2:
       - relative
-      - path/to/libfoo2.so
+      - ${foo2Uri.toFilePath()}
     foo3:
       - system
-      - libfoo3.so
+      - ${foo3Uri.toFilePath()}
     foo4:
       - executable
     foo5:
@@ -115,14 +120,14 @@ native-assets:
   linux_arm64:
     bar:
       - absolute
-      - path/to/libbar.a
+      - ${barUri.toFilePath()}
   windows_x64:
     bla:
       - absolute
-      - path/with spaces/bla.dll''';
+      - ${blaUri.toFilePath()}''';
 
   test('asset yaml', () {
-    final yaml = assets.toYamlString().replaceAll('\\', '/');
+    final yaml = assets.toYamlString();
     expect(yaml, assetsYamlEncoding);
     final assets2 = Asset.listFromYamlString(yaml);
     expect(assets, assets2);
@@ -130,7 +135,7 @@ native-assets:
 
   test('asset yaml', () async {
     final fileContents = assets.toNativeAssetsFile();
-    expect(fileContents.replaceAll('\\', '/'), assetsDartEncoding);
+    expect(fileContents, assetsDartEncoding);
   });
 
   test('AssetPath factory', () async {
@@ -173,7 +178,7 @@ name: foo
 packaging: dynamic
 path:
   path_type: absolute
-  uri: path/to/libfoo.so
+  uri: ${fooUri.toFilePath()}
 target: android_x64
 '''
             .trim());
