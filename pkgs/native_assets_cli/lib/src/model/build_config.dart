@@ -48,8 +48,8 @@ class BuildConfig {
   late final Uri? _ar;
 
   /// Preferred linkMode method for library.
-  LinkModePreference get linkMode => _linkMode;
-  late final LinkModePreference _linkMode;
+  LinkModePreference get linkModePreference => _linkModePreference;
+  late final LinkModePreference _linkModePreference;
 
   /// Metadata from direct dependencies.
   ///
@@ -73,7 +73,7 @@ class BuildConfig {
     Uri? ar,
     Uri? cc,
     Uri? ld,
-    required LinkModePreference linkMode,
+    required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
   }) {
     final nonValidated = BuildConfig._()
@@ -84,7 +84,7 @@ class BuildConfig {
       .._ar = ar
       .._cc = cc
       .._ld = ld
-      .._linkMode = linkMode
+      .._linkModePreference = linkModePreference
       .._dependencyMetadata = dependencyMetadata;
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
@@ -171,7 +171,7 @@ class BuildConfig {
       (config) => _ar = config.optionalPath(arConfigKey, mustExist: true),
       (config) => _cc = config.optionalPath(ccConfigKey, mustExist: true),
       (config) => _ld = config.optionalPath(ldConfigKey, mustExist: true),
-      (config) => _linkMode = LinkModePreference.fromString(
+      (config) => _linkModePreference = LinkModePreference.fromString(
             config.string(
               LinkModePreference.configKey,
               validValues: LinkModePreference.values.map((e) => '$e'),
@@ -218,7 +218,7 @@ class BuildConfig {
         if (_ar != null) arConfigKey: _ar!.path,
         if (_cc != null) ccConfigKey: _cc!.path,
         if (_ld != null) ldConfigKey: _ld!.path,
-        LinkModePreference.configKey: _linkMode.toString(),
+        LinkModePreference.configKey: _linkModePreference.toString(),
         if (_dependencyMetadata != null)
           dependencyMetadataConfigKey: {
             for (final entry in _dependencyMetadata!.entries)
@@ -240,7 +240,7 @@ class BuildConfig {
     if (other._ar != _ar) return false;
     if (other._cc != _cc) return false;
     if (other._ld != _ld) return false;
-    if (other._linkMode != _linkMode) return false;
+    if (other._linkModePreference != _linkModePreference) return false;
     if (!DeepCollectionEquality()
         .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
     return true;
@@ -255,7 +255,7 @@ class BuildConfig {
         _ar,
         _cc,
         _ld,
-        _linkMode,
+        _linkModePreference,
         DeepCollectionEquality().hash(_dependencyMetadata),
       );
 

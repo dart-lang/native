@@ -30,7 +30,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
-        linkMode: LinkModePreference.dynamic,
+        linkModePreference: LinkModePreference.dynamic,
         ar: ar,
         cc: cc,
         ld: ld,
@@ -50,7 +50,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.windowsX64,
-        linkMode: LinkModePreference.dynamic,
+        linkModePreference: LinkModePreference.dynamic,
       );
       final resolver = CompilerResolver(
         buildConfig: buildConfig,

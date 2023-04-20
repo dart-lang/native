@@ -37,14 +37,14 @@ void main() async {
       cc: fakeClang,
       ld: fakeLd,
       ar: fakeAr,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config2 = BuildConfig(
       outDir: tempUri.resolve('out2/'),
       packageRoot: tempUri,
       target: Target.androidArm64,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     expect(config1, equals(config1));
@@ -56,7 +56,7 @@ void main() async {
     expect(config1.cc != config2.cc, true);
     expect(config1.ld != config2.ld, true);
     expect(config1.ar != config2.ar, true);
-    expect(config1.linkMode, config2.linkMode);
+    expect(config1.linkModePreference, config2.linkModePreference);
     expect(config1.dependencyMetadata, config2.dependencyMetadata);
   });
 
@@ -65,14 +65,14 @@ void main() async {
       outDir: tempUri.resolve('out2/'),
       packageRoot: tempUri.resolve('packageRoot/'),
       target: Target.androidArm64,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = Config(fileParsed: {
       'out_dir': tempUri.resolve('out2/').path,
       'package_root': tempUri.resolve('packageRoot/').path,
       'target': 'android_arm64',
-      'link_mode': 'prefer-static',
+      'link_mode_preference': 'prefer-static',
     });
 
     final fromConfig = BuildConfig.fromConfig(config);
@@ -87,7 +87,7 @@ void main() async {
       targetIOSSdk: IOSSdk.iPhoneOs,
       cc: fakeClang,
       ld: fakeLd,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final configFile = buildConfig1.toYaml();
@@ -101,7 +101,7 @@ void main() async {
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri,
       target: Target.androidArm64,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
           'key': 'value',
@@ -117,7 +117,7 @@ void main() async {
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri,
       target: Target.androidArm64,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
           'key': 'value',
@@ -142,7 +142,7 @@ void main() async {
       targetIOSSdk: IOSSdk.iPhoneOs,
       cc: fakeClang,
       ld: fakeLd,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
       // This map should be sorted on key for two layers.
       dependencyMetadata: {
         'foo': Metadata({
@@ -165,7 +165,7 @@ dependency_metadata:
       - z
       - a
 ld: ${fakeLd.path}
-link_mode: prefer-static
+link_mode_preference: prefer-static
 out_dir: ${outDir.path}
 package_root: ${tempUri.path}
 target: ios_arm64
@@ -189,7 +189,7 @@ target_ios_sdk: iphoneos''';
       () => BuildConfig.fromConfig(Config(fileParsed: {
         'package_root': tempUri.resolve('packageRoot/').path,
         'target': 'android_arm64',
-        'link_mode': 'prefer-static',
+        'link_mode_preference': 'prefer-static',
       })),
       throwsFormatException,
     );
@@ -198,7 +198,7 @@ target_ios_sdk: iphoneos''';
         'out_dir': tempUri.resolve('out2/').path,
         'package_root': tempUri.resolve('packageRoot/').path,
         'target': 'android_arm64',
-        'link_mode': 'prefer-static',
+        'link_mode_preference': 'prefer-static',
         'dependency_metadata': {
           'bar': {'key': 'value'},
           'foo': <int>[],
@@ -214,7 +214,7 @@ target_ios_sdk: iphoneos''';
         'out_dir': tempUri.resolve('out2/').path,
         'package_root': tempUri.resolve('packageRoot/').path,
         'target': [1, 2, 3, 4, 5],
-        'link_mode': 'prefer-static',
+        'link_mode_preference': 'prefer-static',
       }));
     } on FormatException catch (e) {
       expect(e.toString(), stringContainsInOrder(['Config.string']));
@@ -229,7 +229,7 @@ target_ios_sdk: iphoneos''';
       targetIOSSdk: IOSSdk.iPhoneOs,
       cc: fakeClang,
       ld: fakeLd,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
     config.toString();
   });
@@ -239,7 +239,7 @@ target_ios_sdk: iphoneos''';
       outDir: tempUri.resolve('out2/'),
       packageRoot: tempUri,
       target: Target.androidArm64,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
     );
     final configFileContents = buildConfig.toYamlString();
     final configUri = tempUri.resolve('config.yaml');
@@ -257,7 +257,7 @@ target_ios_sdk: iphoneos''';
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri,
       target: Target.androidArm64,
-      linkMode: LinkModePreference.preferStatic,
+      linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
           'key': {'key2': 'value'},

@@ -33,7 +33,7 @@ void main() async {
         '-Dout_dir=${tempUri.path}',
         '-Dpackage_root=${testPackageUri.path}',
         '-Dtarget=${Target.current}',
-        '-Dlink_mode=dynamic',
+        '-Dlink_mode_preference=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',
       ],
       workingDirectory: testPackageUri.path,

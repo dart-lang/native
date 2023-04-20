@@ -70,7 +70,7 @@ Mostly useful for testing the build scripts.''',
   ];
 
   /// The `package:config` key preferably used.
-  static const String configKey = 'link_mode';
+  static const String configKey = 'link_mode_preference';
 
   @override
   String toString() => name;
