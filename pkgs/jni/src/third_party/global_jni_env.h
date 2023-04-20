@@ -29,7 +29,7 @@
 #include <stdint.h>
 #include "../dartjni.h"
 
-typedef struct GlobalJniEnv {
+typedef struct GlobalJniEnvStruct {
   void* reserved0;
   void* reserved1;
   void* reserved2;
@@ -430,5 +430,5 @@ typedef struct GlobalJniEnv {
   JniPointerResult (*GetDirectBufferAddress)(jobject buf);
   JniResult (*GetDirectBufferCapacity)(jobject buf);
   JniResult (*GetObjectRefType)(jobject obj);
-} GlobalJniEnv;
-FFI_PLUGIN_EXPORT GlobalJniEnv* GetGlobalEnv();
+} GlobalJniEnvStruct;
+FFI_PLUGIN_EXPORT GlobalJniEnvStruct* GetGlobalEnv();

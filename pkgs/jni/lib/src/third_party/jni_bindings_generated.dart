@@ -63,15 +63,15 @@ class JniBindings {
           lookup)
       : _lookup = lookup;
 
-  ffi.Pointer<JniAccessors> GetAccessors() {
+  ffi.Pointer<JniAccessorsStruct> GetAccessors() {
     return _GetAccessors();
   }
 
   late final _GetAccessorsPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<JniAccessors> Function()>>(
+      _lookup<ffi.NativeFunction<ffi.Pointer<JniAccessorsStruct> Function()>>(
           'GetAccessors');
   late final _GetAccessors =
-      _GetAccessorsPtr.asFunction<ffi.Pointer<JniAccessors> Function()>();
+      _GetAccessorsPtr.asFunction<ffi.Pointer<JniAccessorsStruct> Function()>();
 
   ffi.Pointer<JavaVM> GetJavaVM() {
     return _GetJavaVM();
@@ -192,15 +192,15 @@ class JniBindings {
   late final _PortContinuation__ctor =
       _PortContinuation__ctorPtr.asFunction<JniResult Function(int)>();
 
-  ffi.Pointer<GlobalJniEnv> GetGlobalEnv() {
+  ffi.Pointer<GlobalJniEnvStruct> GetGlobalEnv() {
     return _GetGlobalEnv();
   }
 
   late final _GetGlobalEnvPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<GlobalJniEnv> Function()>>(
+      _lookup<ffi.NativeFunction<ffi.Pointer<GlobalJniEnvStruct> Function()>>(
           'GetGlobalEnv');
   late final _GetGlobalEnv =
-      _GetGlobalEnvPtr.asFunction<ffi.Pointer<GlobalJniEnv> Function()>();
+      _GetGlobalEnvPtr.asFunction<ffi.Pointer<GlobalJniEnvStruct> Function()>();
 }
 
 /// Types used by JNI API to distinguish between primitive types.
@@ -301,7 +301,7 @@ typedef JStringPtr = JObjectPtr;
 /// Flutter embedding checks for pending JNI exceptions before an FFI transition, which requires us
 /// to check for and clear the exception before returning to dart code, which requires these functions
 /// to return result types.
-class JniAccessors extends ffi.Struct {
+class JniAccessorsStruct extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JniClassLookupResult Function(
@@ -1936,7 +1936,7 @@ class JavaVMOption extends ffi.Struct {
   external ffi.Pointer<ffi.Void> extraInfo;
 }
 
-class GlobalJniEnv extends ffi.Struct {
+class GlobalJniEnvStruct extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;
 
   external ffi.Pointer<ffi.Void> reserved1;

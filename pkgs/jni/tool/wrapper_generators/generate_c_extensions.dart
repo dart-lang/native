@@ -29,7 +29,7 @@ const errorVar = '_exception';
 const envType = 'JNINativeInterface';
 
 /// Name of wrapper to JNIEnv
-const wrapperName = 'GlobalJniEnv';
+const wrapperName = 'GlobalJniEnvStruct';
 
 const wrapperIncludes = '''
 #include "global_jni_env.h"

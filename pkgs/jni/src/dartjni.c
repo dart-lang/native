@@ -129,9 +129,41 @@ Java_com_github_dart_1lang_jni_JniPlugin_setJniActivity(JNIEnv* env,
 // Sometimes you may get linker error trying to link JNI_CreateJavaVM APIs
 // on Android NDK. So IFDEF is required.
 #else
+#ifdef _WIN32
+// Pre-initialization of critical section on windows - this is required because
+// there's no coordination between multiple isolates calling Spawn.
+//
+// Taken from https://stackoverflow.com/a/12858955
+CRITICAL_SECTION spawnLock = {0};
+BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
+                    DWORD fdwReason,      // reason for calling function
+                    LPVOID lpReserved) {  // reserved
+  switch (fdwReason) {
+    case DLL_PROCESS_ATTACH:
+      // Initialize once for each new process.
+      // Return FALSE to fail DLL load.
+      InitializeCriticalSection(&spawnLock);
+      break;
+    case DLL_PROCESS_DETACH:
+      // Perform any necessary cleanup.
+      DeleteCriticalSection(&spawnLock);
+      break;
+  }
+  return TRUE;  // Successful DLL_PROCESS_ATTACH.
+}
+#else
+pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
+#endif
 FFI_PLUGIN_EXPORT
 int SpawnJvm(JavaVMInitArgs* initArgs) {
   if (jni_context.jvm != NULL) {
+    return DART_JNI_SINGLETON_EXISTS;
+  }
+
+  acquire_lock(&spawnLock);
+  // Init may have happened in the meanwhile.
+  if (jni_context.jvm != NULL) {
+    release_lock(&spawnLock);
     return DART_JNI_SINGLETON_EXISTS;
   }
   JavaVMOption jvmopt[1];
@@ -152,6 +184,8 @@ int SpawnJvm(JavaVMInitArgs* initArgs) {
   }
   initAllLocks(&jni_context.locks);
   initExceptionHandling(&exceptionMethods);
+  release_lock(&spawnLock);
+
   return JNI_OK;
 }
 #endif
@@ -496,7 +530,7 @@ JniExceptionDetails getExceptionDetails(jthrowable exception) {
   return details;
 }
 
-JniAccessors accessors = {
+JniAccessorsStruct accessors = {
     .getClass = getClass,
     .getFieldID = getFieldID,
     .getStaticFieldID = getStaticFieldID,
@@ -513,7 +547,7 @@ JniAccessors accessors = {
     .getExceptionDetails = getExceptionDetails,
 };
 
-FFI_PLUGIN_EXPORT JniAccessors* GetAccessors() {
+FFI_PLUGIN_EXPORT JniAccessorsStruct* GetAccessors() {
   return &accessors;
 }
 

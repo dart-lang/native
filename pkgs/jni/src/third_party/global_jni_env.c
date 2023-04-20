@@ -2269,7 +2269,7 @@ JniResult globalEnv_GetObjectRefType(jobject obj) {
   return (JniResult){.value = {.i = _result}, .exception = NULL};
 }
 
-GlobalJniEnv globalJniEnv = {
+GlobalJniEnvStruct globalJniEnv = {
     .reserved0 = NULL,
     .reserved1 = NULL,
     .reserved2 = NULL,
@@ -2505,7 +2505,7 @@ GlobalJniEnv globalJniEnv = {
     .GetObjectRefType = globalEnv_GetObjectRefType,
 };
 FFI_PLUGIN_EXPORT
-GlobalJniEnv* GetGlobalEnv() {
+GlobalJniEnvStruct* GetGlobalEnv() {
   if (jni->jvm == NULL) {
     return NULL;
   }

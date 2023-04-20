@@ -156,9 +156,9 @@ abstract class Jni {
     return _bindings.GetJavaVM();
   }
 
-  /// Returns the instance of [GlobalJniEnv], which is an abstraction over JNIEnv
+  /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over JNIEnv
   /// without the same-thread restriction.
-  static Pointer<GlobalJniEnv> _fetchGlobalEnv() {
+  static Pointer<GlobalJniEnvStruct> _fetchGlobalEnv() {
     final env = _bindings.GetGlobalEnv();
     if (env == nullptr) {
       throw NoJvmInstanceException();
@@ -166,17 +166,17 @@ abstract class Jni {
     return env;
   }
 
-  static Pointer<GlobalJniEnv>? _env;
+  static GlobalJniEnv? _env;
 
-  /// Points to a process-wide shared instance of [GlobalJniEnv].
+  /// Points to a process-wide shared instance of [GlobalJniEnvStruct].
   ///
   /// It provides an indirection over [JniEnv] so that it can be used from
   /// any thread, and always returns global object references.
-  static Pointer<GlobalJniEnv> get env {
-    return _env ??= _fetchGlobalEnv();
+  static GlobalJniEnv get env {
+    return _env ??= GlobalJniEnv(_fetchGlobalEnv());
   }
 
-  static Pointer<JniAccessors> get accessors => _bindings.GetAccessors();
+  static JniAccessors get accessors => JniAccessors(_bindings.GetAccessors());
 
   /// Returns a new PortContinuation.
   static JObjectPtr newPortContinuation(ReceivePort port) {
@@ -288,7 +288,7 @@ extension ProtectedJniExtensions on Jni {
   }
 }
 
-extension AdditionalEnvMethods on Pointer<GlobalJniEnv> {
+extension AdditionalEnvMethods on GlobalJniEnv {
   /// Convenience method for converting a [JStringPtr]
   /// to dart string.
   /// if [deleteOriginal] is specified, jstring passed will be deleted using

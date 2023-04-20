@@ -163,7 +163,7 @@ typedef struct JniExceptionDetails {
 /// Flutter embedding checks for pending JNI exceptions before an FFI transition, which requires us
 /// to check for and clear the exception before returning to dart code, which requires these functions
 /// to return result types.
-typedef struct JniAccessors {
+typedef struct JniAccessorsStruct {
   JniClassLookupResult (*getClass)(char* internalName);
   JniPointerResult (*getFieldID)(jclass cls, char* fieldName, char* signature);
   JniPointerResult (*getStaticFieldID)(jclass cls,
@@ -192,9 +192,9 @@ typedef struct JniAccessors {
   JniResult (*getField)(jobject obj, jfieldID fieldID, int callType);
   JniResult (*getStaticField)(jclass cls, jfieldID fieldID, int callType);
   JniExceptionDetails (*getExceptionDetails)(jthrowable exception);
-} JniAccessors;
+} JniAccessorsStruct;
 
-FFI_PLUGIN_EXPORT JniAccessors* GetAccessors();
+FFI_PLUGIN_EXPORT JniAccessorsStruct* GetAccessors();
 
 FFI_PLUGIN_EXPORT JavaVM* GetJavaVM(void);
 

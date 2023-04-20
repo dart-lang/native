@@ -169,7 +169,7 @@ jobs:
       - name: Get dependencies
         run: dart pub get
       - name: Run tests
-        run: dart test
+        run: dart test --test-randomize-ordering-seed random
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Collect coverage
@@ -209,9 +209,7 @@ jobs:
       - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
       - run: dart pub get
       - run: dart run jni:setup
-      ## TODO(#51): -j 1 is required to avoid a rare race condition which is caused by
-      ## all tests which spawn JVM being run in same process.
-      - run: dart test -j 1
+      - run: dart test --test-randomize-ordering-seed random
 
   test_jnigen_windows_minimal:
     needs: [analyze_jnigen]
@@ -266,9 +264,7 @@ jobs:
           java-version: '11'
       - run: dart pub get
       - run: dart run jni:setup
-      ## TODO(#51): -j 1 is required to avoid a rare race condition which is caused by
-      ## all tests which spawn JVM being run in same process.
-      - run: dart test -j 1
+      - run: dart test --test-randomize-ordering-seed random
 
   test_jnigen_macos_minimal:
     needs: [analyze_jnigen]

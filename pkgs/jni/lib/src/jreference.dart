@@ -8,7 +8,8 @@ part of 'types.dart';
 /// which disposes the reference(s).
 abstract class JReference implements Finalizable {
   //TODO(PR): Is it safe to cast void *f (void *) to void f (void *)?
-  static final _finalizer = NativeFinalizer(_env.ref.DeleteGlobalRef.cast());
+  static final _finalizer =
+      NativeFinalizer(_env.ptr.ref.DeleteGlobalRef.cast());
 
   JReference.fromRef(this.reference) {
     _finalizer.attach(this, reference, detach: this);

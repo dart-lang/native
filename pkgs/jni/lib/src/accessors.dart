@@ -100,7 +100,7 @@ extension JThrowableCheckMethod on JThrowablePtr {
   }
 }
 
-extension JniAccessorWrappers on Pointer<JniAccessors> {
+extension JniAccessorWrappers on JniAccessors {
   /// Rethrows Java exception in Dart as [JniException].
   ///
   /// The original exception object is deleted by this method. The message
