@@ -20,7 +20,11 @@ void main() {
 
   test('vswhere', () async {
     final instances = await vswhere.defaultResolver!.resolve(logger: logger);
-    print(instances);
-    // expect(1, 2);
+    expect(instances.isNotEmpty, true);
+  });
+
+  test('msvc', () async {
+    final instances = await msvc.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
   });
 }
