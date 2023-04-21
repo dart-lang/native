@@ -45,6 +45,7 @@ final Tool visualStudio = Tool(
   defaultResolver: VisualStudioResolver(),
 );
 
+/// The C/C++ Optimizing Compiler.
 final Tool msvc = Tool(
   name: 'MSVC',
   defaultResolver: PathVersionResolver(
@@ -52,6 +53,20 @@ final Tool msvc = Tool(
       toolName: 'MSVC',
       wrappedResolver: visualStudio.defaultResolver!,
       relativePath: Uri(path: './VC/Tools/MSVC/*/'),
+    ),
+  ),
+);
+
+/// The C/C++ Optimizing Compiler main executable.
+final Tool cl = Tool(
+  name: 'cl.exe',
+  defaultResolver: CliVersionResolver(
+    arguments: [],
+    expectedExitCode: 0,
+    wrappedResolver: RelativeToolResolver(
+      toolName: 'cl.exe',
+      wrappedResolver: msvc.defaultResolver!,
+      relativePath: Uri(path: 'bin/Hostx64/x64/cl.exe'),
     ),
   ),
 );

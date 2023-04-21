@@ -33,4 +33,9 @@ void main() {
     final instances = await msvc.defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
   });
+
+  test('cl', () async {
+    final instances = await cl.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+  });
 }

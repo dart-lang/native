@@ -72,13 +72,14 @@ class PathToolResolver extends ToolResolver {
 }
 
 class CliVersionResolver implements ToolResolver {
-  ToolResolver wrappedResolver;
-
-  List<String> arguments;
+  final ToolResolver wrappedResolver;
+  final List<String> arguments;
+  final int expectedExitCode;
 
   CliVersionResolver({
     required this.wrappedResolver,
     this.arguments = const ['--version'],
+    this.expectedExitCode = 0,
   });
 
   @override
@@ -86,13 +87,19 @@ class CliVersionResolver implements ToolResolver {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
     return [
       for (final toolInstance in toolInstances)
-        await lookupVersion(toolInstance, arguments: arguments, logger: logger)
+        await lookupVersion(
+          toolInstance,
+          arguments: arguments,
+          expectedExitCode: expectedExitCode,
+          logger: logger,
+        )
     ];
   }
 
   static Future<ToolInstance> lookupVersion(
     ToolInstance toolInstance, {
     List<String> arguments = const ['--version'],
+    int expectedExitCode = 0,
     Logger? logger,
   }) async {
     if (toolInstance.version != null) return toolInstance;
@@ -100,6 +107,7 @@ class CliVersionResolver implements ToolResolver {
     final version = await executableVersion(
       toolInstance.uri,
       arguments: arguments,
+      expectedExitCode: expectedExitCode,
       logger: logger,
     );
     final result = toolInstance.copyWith(version: version);
@@ -124,7 +132,8 @@ class CliVersionResolver implements ToolResolver {
           '`$executablePath ${arguments.join(' ')}` returned unexpected exit'
           ' code: ${process.exitCode}.');
     }
-    return versionFromString(process.stdout)!;
+    return versionFromString(process.stderr) ??
+        versionFromString(process.stdout)!;
   }
 }
 
