@@ -45,6 +45,17 @@ final Tool visualStudio = Tool(
   defaultResolver: VisualStudioResolver(),
 );
 
+final Tool msvc = Tool(
+  name: 'MSVC',
+  defaultResolver: PathVersionResolver(
+    wrappedResolver: RelativeToolResolver(
+      toolName: 'MSVC',
+      wrappedResolver: visualStudio.defaultResolver!,
+      relativePath: Uri(path: './VC/Tools/MSVC/*/'),
+    ),
+  ),
+);
+
 class VisualStudioResolver implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
