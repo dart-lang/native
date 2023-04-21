@@ -23,8 +23,9 @@ void main() {
     expect(instances.isNotEmpty, true);
   });
 
-  test('msvc', () async {
-    final instances = await msvc.defaultResolver!.resolve(logger: logger);
+  test('visualStudio', () async {
+    final instances =
+        await visualStudio.defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
   });
 }

@@ -40,7 +40,7 @@ final Tool vswhere = Tool(
 /// Visual Studio.
 ///
 /// https://visualstudio.microsoft.com/
-final Tool msvc = Tool(
+final Tool visualStudio = Tool(
   name: 'Visual Studio',
   defaultResolver: VisualStudioResolver(),
 );
@@ -64,7 +64,8 @@ class VisualStudioResolver implements ToolResolver {
         assert(await dir.exists());
         final uri = dir.uri;
         final version = versionFromString(toolInfoParsed['installationName']!);
-        final instance = ToolInstance(tool: msvc, uri: uri, version: version);
+        final instance =
+            ToolInstance(tool: visualStudio, uri: uri, version: version);
         logger?.fine('Found $instance.');
         result.add(instance);
       }
