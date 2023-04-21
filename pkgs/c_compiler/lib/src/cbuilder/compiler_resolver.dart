@@ -11,6 +11,7 @@ import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
+import '../native_toolchain/msvc.dart';
 import '../native_toolchain/recognizer.dart';
 import '../tool/tool.dart';
 import '../tool/tool_error.dart';
@@ -71,6 +72,7 @@ class CompilerResolver {
           return i686LinuxGnuGcc;
       }
     }
+    if (target.os == OS.windows && host.os == OS.windows) return cl;
 
     return null;
   }
