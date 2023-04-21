@@ -5,6 +5,8 @@
 import 'package:jnigen/src/bindings/resolver.dart';
 import 'package:test/test.dart';
 
+import 'test_util/test_util.dart';
+
 class ResolverTest {
   ResolverTest(this.binaryName, this.expectedImport, this.expectedName);
   String binaryName;
@@ -12,7 +14,8 @@ class ResolverTest {
   String expectedName;
 }
 
-void main() {
+void main() async {
+  await checkLocallyBuiltDependencies();
   final resolver = Resolver(
       importMap: {
         'org.apache.pdfbox': 'package:pdfbox/pdfbox.dart',

@@ -5,13 +5,19 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/util/find_package.dart';
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 import 'package:logging/logging.dart' show Level;
 
-import 'package:jnigen/src/logging/logging.dart' show printError, log;
+import 'package:jnigen/src/logging/logging.dart';
 
 final _currentDirectory = Directory(".");
+
+// If changing these constants, grep for these values. In some places, test
+// package expects string literals.
+const largeTestTag = 'large_test';
+const summarizerTestTag = 'summarizer_test';
 
 Directory getTempDir(String prefix) {
   return _currentDirectory.createTempSync(prefix);
@@ -126,4 +132,29 @@ Future<void> generateAndAnalyzeBindings(Config config) async {
   } finally {
     tempDir.deleteSync(recursive: true);
   }
+}
+
+final summarizerJar = join('.', '.dart_tool', 'jnigen', 'ApiSummarizer.jar');
+
+Future<void> failIfSummarizerNotBuilt() async {
+  final jarExists = await File(summarizerJar).exists();
+  if (!jarExists) {
+    stderr.writeln();
+    log.fatal('Please build summarizer by running '
+        '`dart run jnigen:setup` and try again');
+  }
+  final isJarStale = jarExists &&
+      await isPackageModifiedAfter(
+          'jnigen', await File(summarizerJar).lastModified(), 'java/');
+  if (isJarStale) {
+    stderr.writeln();
+    log.fatal('Summarizer is not rebuilt after recent changes. '
+        'Please run `dart run jnigen:setup` and try again.');
+  }
+}
+
+/// Verifies if locally built dependencies (currently `ApiSummarizer`)
+/// are up-to-date.
+Future<void> checkLocallyBuiltDependencies() async {
+  await failIfSummarizerNotBuilt();
 }

@@ -85,13 +85,33 @@ abstract class Jni {
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
     int jniVersion = JniVersions.JNI_VERSION_1_6,
+  }) {
+    final status = spawnIfNotExists(
+      dylibDir: dylibDir,
+      jvmOptions: jvmOptions,
+      classPath: classPath,
+      ignoreUnrecognized: ignoreUnrecognized,
+      jniVersion: jniVersion,
+    );
+    if (status == false) {
+      throw JvmExistsException();
+    }
+  }
+
+  /// Same as [spawn] but if a JVM exists, returns silently instead of
+  /// throwing [JvmExistsException].
+  ///
+  /// If the options are different than that of existing VM, the existing VM's
+  /// options will remain in effect.
+  static bool spawnIfNotExists({
+    String? dylibDir,
+    List<String> jvmOptions = const [],
+    List<String> classPath = const [],
+    bool ignoreUnrecognized = false,
+    int jniVersion = JniVersions.JNI_VERSION_1_6,
   }) =>
       using((arena) {
         _dylibDir = dylibDir;
-        final existVm = _bindings.GetJavaVM();
-        if (existVm != nullptr) {
-          throw JvmExistsException();
-        }
         final jvmArgs = _createVMArgs(
           options: jvmOptions,
           classPath: classPath,
@@ -102,12 +122,9 @@ abstract class Jni {
         );
         final status = _bindings.SpawnJvm(jvmArgs);
         if (status == JniErrorCode.JNI_OK) {
-          return;
+          return true;
         } else if (status == DART_JNI_SINGLETON_EXISTS) {
-          throw JvmExistsException();
-        } else if (status == JniErrorCode.JNI_EEXIST) {
-          sleep(const Duration(seconds: 1));
-          throw JvmExistsException();
+          return false;
         } else {
           throw SpawnException.of(status);
         }

@@ -5,7 +5,11 @@
 import 'package:jnigen/src/bindings/dart_generator.dart';
 import 'package:test/test.dart';
 
-void main() {
+import 'test_util/test_util.dart';
+
+void main() async {
+  await checkLocallyBuiltDependencies();
+
   test('OutsideInBuffer', () {
     final buffer = OutsideInBuffer();
     buffer.appendLeft('f(');

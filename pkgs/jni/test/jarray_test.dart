@@ -12,11 +12,8 @@ import 'test_util/test_util.dart';
 void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
-    try {
-      Jni.spawn(dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
-    } on JvmExistsException catch (_) {
-      // TODO(#51): Support destroying and reinstantiating JVM.
-    }
+    checkDylibIsUpToDate();
+    Jni.spawnIfNotExists(dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
   }
   run(testRunner: test);
 }

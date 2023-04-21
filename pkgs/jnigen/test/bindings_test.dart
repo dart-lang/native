@@ -97,6 +97,7 @@ Future<void> setupDylibsAndClasses() async {
 }
 
 void main() async {
+  await checkLocallyBuiltDependencies();
   setUpAll(setupDylibsAndClasses);
 
   test('static final fields', () {

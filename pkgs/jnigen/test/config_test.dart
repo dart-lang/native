@@ -10,6 +10,7 @@ import 'package:path/path.dart' hide equals;
 import 'package:path/path.dart' as path show equals;
 
 import 'jackson_core_test/generate.dart';
+import 'test_util/test_util.dart';
 
 const packageTests = 'test';
 final jacksonCoreTests = absolute(packageTests, 'jackson_core_test');
@@ -93,7 +94,8 @@ void testForErrorChecking<T extends Exception>(
   });
 }
 
-void main() {
+void main() async {
+  await checkLocallyBuiltDependencies();
   final config = Config.parseArgs([
     '--config',
     jnigenYaml,

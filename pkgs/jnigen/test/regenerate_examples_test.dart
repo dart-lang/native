@@ -23,42 +23,59 @@ final kotlinPluginYaml = join(kotlinPlugin, 'jnigen.yaml');
 /// them to provided reference outputs.
 ///
 /// [dartOutput] and [cOutput] are relative paths from example project dir.
-void testExample(String exampleName, String dartOutput, String? cOutput) {
-  test('Generate and compare bindings for $exampleName',
-      timeout: const Timeout.factor(2), () async {
-    final examplePath = join('example', exampleName);
-    final configPath = join(examplePath, 'jnigen.yaml');
+///
+/// Pass [isLargeTest] as true if the test will take considerable time.
+void testExample(String exampleName, String dartOutput, String? cOutput,
+    {bool isLargeTest = false}) {
+  test(
+    'Generate and compare bindings for $exampleName',
+    timeout: const Timeout.factor(2),
+    () async {
+      final examplePath = join('example', exampleName);
+      final configPath = join(examplePath, 'jnigen.yaml');
 
-    final dartBindingsPath = join(examplePath, dartOutput);
-    String? cBindingsPath;
-    if (cOutput != null) {
-      cBindingsPath = join(examplePath, cOutput);
-    }
+      final dartBindingsPath = join(examplePath, dartOutput);
+      String? cBindingsPath;
+      if (cOutput != null) {
+        cBindingsPath = join(examplePath, cOutput);
+      }
 
-    final config = Config.parseArgs(['--config', configPath]);
-    try {
-      await generateAndCompareBindings(config, dartBindingsPath, cBindingsPath);
-    } on GradleException catch (_) {
-      stderr.writeln('Skip: $exampleName');
-    }
-  });
+      final config = Config.parseArgs(['--config', configPath]);
+      try {
+        await generateAndCompareBindings(
+            config, dartBindingsPath, cBindingsPath);
+      } on GradleException catch (_) {
+        stderr.writeln('Skip: $exampleName');
+      }
+    },
+    tags: isLargeTest ? largeTestTag : null,
+  );
 }
 
-void main() {
+void main() async {
+  await checkLocallyBuiltDependencies();
   testExample(
     'in_app_java',
     join('lib', 'android_utils.dart'),
     join('src', 'android_utils'),
+    isLargeTest: true,
   );
-  testExample('pdfbox_plugin', join('lib', 'src', 'third_party'), 'src');
+  testExample(
+    'pdfbox_plugin',
+    join('lib', 'src', 'third_party'),
+    'src',
+    isLargeTest: false,
+  );
   testExample(
     'notification_plugin',
     join('lib', 'notifications.dart'),
     'src',
+    isLargeTest: true,
   );
   testExample(
     'kotlin_plugin',
     join('lib', 'kotlin_bindings.dart'),
     'src',
+    isLargeTest: true,
   );
 }

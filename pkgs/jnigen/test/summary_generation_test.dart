@@ -5,6 +5,8 @@
 // These tests validate summary generation in various scenarios.
 // Currently, no validation of the summary content itself is done.
 
+@Tags(['summarizer_test'])
+
 import 'dart:io';
 
 import 'package:jnigen/src/config/config.dart';
@@ -107,9 +109,10 @@ Config getConfig({List<String>? sourcePath, List<String>? classPath}) {
   );
 }
 
-void main() {
+void main() async {
+  await checkLocallyBuiltDependencies();
   late Directory tempDir;
-  setUpAll(() {
+  setUpAll(() async {
     tempDir = getTempDir("jnigen_summary_tests_");
   });
 

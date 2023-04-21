@@ -92,8 +92,10 @@ jobs:
       - name: Run summarizer tests
         run: mvn surefire:test
         working-directory: ./pkgs/jnigen/java
+      - name: Build summarizer
+        run: dart run jnigen:setup
       - name: Run VM tests
-        run: dart test --platform vm
+        run: dart test --test-randomize-ordering-seed random
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Collect coverage
@@ -243,7 +245,10 @@ jobs:
       - name: build notification_plugin example APK
         run: flutter build apk --target-platform=android-arm64
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
-      - run: dart test
+      - name: Build summarizer
+        run: dart run jnigen:setup
+      - name: Run tests
+        run: dart test --test-randomize-ordering-seed random
 
   test_jni_macos_minimal:
     needs: [analyze_jni]
@@ -290,7 +295,7 @@ jobs:
       - run: git config --global core.autocrlf true
       - run: dart pub get
       - run: dart run jnigen:setup
-      - run: dart test
+      - run: dart test --test-randomize-ordering-seed random
 
   build_jni_example_linux:
     runs-on: ubuntu-latest

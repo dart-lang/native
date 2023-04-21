@@ -7,12 +7,13 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:package_config/package_config.dart';
 
-const ansiRed = '\x1b[31m';
-const ansiDefault = '\x1b[39;49m';
+import 'package:jni/src/build_util/build_util.dart';
 
 const jniNativeBuildDirective =
     '# jni_native_build (Build with jni:setup. Do not delete this line.)';
 
+// When changing this constant here, also change corresponding path in
+// test/test_util.
 const _defaultRelativeBuildPath = "build/jni_libs";
 
 const _buildPath = "build-path";
@@ -124,19 +125,6 @@ Future<Map<String, String>> findDependencySources() async {
     }
   }
   return sources;
-}
-
-/// Returns true if [artifact] does not exist, or any file in [sourceDir] is
-/// newer than [artifact].
-bool needsBuild(File artifact, Directory sourceDir) {
-  if (!artifact.existsSync()) return true;
-  final fileLastModified = artifact.lastModifiedSync();
-  for (final entry in sourceDir.listSync(recursive: true)) {
-    if (entry.statSync().modified.isAfter(fileLastModified)) {
-      return true;
-    }
-  }
-  return false;
 }
 
 /// Returns the name of file built using sources in [cDir]

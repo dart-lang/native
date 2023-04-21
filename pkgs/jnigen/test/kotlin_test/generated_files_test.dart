@@ -10,6 +10,9 @@ import 'generate.dart';
 import '../test_util/test_util.dart';
 
 void main() async {
+  // This is not run in setupAll, because we want to exit with one line of
+  // error message, not throw a long exception.
+  await checkLocallyBuiltDependencies();
   test(
     "Generate and compare bindings for kotlin_test",
     () async {
@@ -29,5 +32,6 @@ void main() async {
       );
     },
     timeout: const Timeout.factor(1.5),
-  ); // test if generated file == expected file
+    tags: largeTestTag,
+  );
 }

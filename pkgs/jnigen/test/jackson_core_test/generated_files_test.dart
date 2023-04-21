@@ -11,6 +11,8 @@ import '../test_util/test_util.dart';
 import 'generate.dart';
 
 void main() async {
+  await checkLocallyBuiltDependencies();
+
   test("compare generated bindings for jackson_core", () async {
     final lib = join(thirdPartyDir, 'lib');
     final src = join(thirdPartyDir, 'src');
@@ -22,14 +24,16 @@ void main() async {
       'not just required classes', () async {
     final config = getConfig(generateFullVersion: true);
     await generateAndAnalyzeBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)));
+  }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
+
   test('generate and analyze bindings using ASM', () async {
     final config = getConfig(generateFullVersion: true, useAsm: true);
     await generateAndAnalyzeBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)));
+  }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
+
   test('Generate and analyze pure dart bindings', () async {
     final config = getConfig(generateFullVersion: true);
     config.outputConfig.bindingsType = BindingsType.dartOnly;
     await generateAndAnalyzeBindings(config);
-  }, timeout: const Timeout.factor(2));
+  }, timeout: const Timeout.factor(2), tags: largeTestTag);
 }
