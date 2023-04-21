@@ -74,24 +74,34 @@ class PathToolResolver extends ToolResolver {
 class CliVersionResolver implements ToolResolver {
   ToolResolver wrappedResolver;
 
-  CliVersionResolver({required this.wrappedResolver});
+  List<String> arguments;
+
+  CliVersionResolver({
+    required this.wrappedResolver,
+    this.arguments = const ['--version'],
+  });
 
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
     return [
       for (final toolInstance in toolInstances)
-        await lookupVersion(toolInstance, logger: logger)
+        await lookupVersion(toolInstance, arguments: arguments, logger: logger)
     ];
   }
 
   static Future<ToolInstance> lookupVersion(
     ToolInstance toolInstance, {
+    List<String> arguments = const ['--version'],
     Logger? logger,
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Looking up version with --version for $toolInstance.');
-    final version = await executableVersion(toolInstance.uri, logger: logger);
+    final version = await executableVersion(
+      toolInstance.uri,
+      arguments: arguments,
+      logger: logger,
+    );
     final result = toolInstance.copyWith(version: version);
     logger?.fine('Found version for $result.');
     return result;
@@ -99,20 +109,20 @@ class CliVersionResolver implements ToolResolver {
 
   static Future<Version> executableVersion(
     Uri executable, {
-    String argument = '--version',
+    List<String> arguments = const ['--version'],
     int expectedExitCode = 0,
     Logger? logger,
   }) async {
     final process = await runProcess(
       executable: executable,
-      arguments: [argument],
+      arguments: arguments,
       logger: logger,
     );
     if (process.exitCode != expectedExitCode) {
       final executablePath = executable.toFilePath();
       throw ToolError(
-          '`$executablePath $argument` returned unexpected exit code: '
-          '${process.exitCode}.');
+          '`$executablePath ${arguments.join(' ')}` returned unexpected exit'
+          ' code: ${process.exitCode}.');
     }
     return versionFromString(process.stdout)!;
   }
