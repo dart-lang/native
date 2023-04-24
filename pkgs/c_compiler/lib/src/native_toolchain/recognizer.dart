@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -10,6 +11,7 @@ import '../tool/tool_resolver.dart';
 import 'apple_clang.dart';
 import 'clang.dart';
 import 'gcc.dart';
+import 'msvc.dart';
 
 class CompilerRecognizer implements ToolResolver {
   final Uri uri;
@@ -18,12 +20,13 @@ class CompilerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    final os = Target.current.os;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
     if (filePath.contains('-gcc')) {
       tool = gcc;
-    } else if (filePath.endsWith('clang')) {
+    } else if (filePath.endsWith(os.executableFileName('clang'))) {
       final stdout = await CliFilter.executeCli(uri,
           arguments: ['--version'], logger: logger);
       if (stdout.contains('Apple clang')) {
@@ -31,6 +34,8 @@ class CompilerRecognizer implements ToolResolver {
       } else {
         tool = clang;
       }
+    } else if (filePath.endsWith('cl.exe')) {
+      tool = cl;
     }
 
     if (tool != null) {
@@ -40,6 +45,9 @@ class CompilerRecognizer implements ToolResolver {
         await CliVersionResolver.lookupVersion(
           toolInstance,
           logger: logger,
+          arguments: [
+            if (tool != cl) '--version',
+          ],
         ),
       ];
     }
@@ -56,14 +64,15 @@ class LinkerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
+    final os = Target.current.os;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
     if (filePath.contains('-ld')) {
       tool = gnuLinker;
-    } else if (filePath.endsWith('ld.lld')) {
+    } else if (filePath.endsWith(os.executableFileName('ld.lld'))) {
       tool = lld;
-    } else if (filePath.endsWith('ld')) {
+    } else if (filePath.endsWith(os.executableFileName('ld'))) {
       tool = appleLd;
     }
 
@@ -94,13 +103,14 @@ class ArchiverRecognizer implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
     logger?.finer('Trying to recognize $uri.');
+    final os = Target.current.os;
     final filePath = uri.toFilePath();
     Tool? tool;
     if (filePath.contains('-gcc-ar')) {
       tool = gnuArchiver;
-    } else if (filePath.endsWith('llvm-ar')) {
+    } else if (filePath.endsWith(os.executableFileName('llvm-ar'))) {
       tool = llvmAr;
-    } else if (filePath.endsWith('ar')) {
+    } else if (filePath.endsWith(os.executableFileName('ar'))) {
       tool = appleAr;
     }
 
