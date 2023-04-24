@@ -8,6 +8,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import '../../c_compiler.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/xcode.dart';
+import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 
@@ -73,7 +74,12 @@ class RunCBuilder {
       return;
     }
     assert(compilerTool == cl);
-    await runCl(compiler: compiler_.uri);
+    final vcvars =
+        (await vcvars64.defaultResolver!.resolve(logger: logger)).first;
+    await runCl(
+      compiler: compiler_.uri,
+      vcvars: vcvars.uri,
+    );
   }
 
   Future<void> runClangLike({required Uri compiler}) async {
@@ -137,7 +143,11 @@ class RunCBuilder {
     }
   }
 
-  Future<void> runCl({required Uri compiler}) async {
+  Future<void> runCl({
+    required Uri compiler,
+    required Uri vcvars,
+  }) async {
+    final environment = await envFromBat(vcvars);
     final result = await runProcess(
       executable: compiler,
       arguments: [
@@ -148,6 +158,7 @@ class RunCBuilder {
           outDir.resolveUri(dynamicLibrary!).toFilePath(),
         ]
       ],
+      environment: environment,
       logger: logger,
       captureOutput: false,
     );

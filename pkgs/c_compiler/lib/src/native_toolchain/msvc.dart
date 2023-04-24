@@ -57,6 +57,15 @@ final Tool msvc = Tool(
   ),
 );
 
+final Tool vcvars64 = Tool(
+  name: 'vcvars64.bat',
+  defaultResolver: RelativeToolResolver(
+    toolName: 'vcvars64.bat',
+    wrappedResolver: visualStudio.defaultResolver!,
+    relativePath: Uri(path: './VC/Auxiliary/Build/vcvars64.bat'),
+  ),
+);
+
 /// The C/C++ Optimizing Compiler main executable.
 final Tool cl = Tool(
   name: 'cl.exe',

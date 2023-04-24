@@ -9,7 +9,6 @@ import 'dart:io';
 
 import 'package:c_compiler/src/native_toolchain/msvc.dart';
 import 'package:c_compiler/src/utils/env_from_bat.dart';
-import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -42,7 +41,10 @@ void main() {
   });
 
   test('vsvars64', () async {
-    print(await envFromBat(Uri.file(
-        'C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvars64.bat')));
+    final instances = await vcvars64.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+    final instance = instances.first;
+    final env = await envFromBat(instance.uri);
+    expect(env['INCLUDE'] != null, true);
   });
 }
