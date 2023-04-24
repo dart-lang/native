@@ -151,15 +151,15 @@ class RunCBuilder {
     final result = await runProcess(
       executable: compiler,
       arguments: [
-        if (dynamicLibrary != null) '/LD',
         ...sources.map((e) => e.toFilePath()),
-        if (dynamicLibrary != null) ...[
-          '/Fe',
-          outDir.resolveUri(dynamicLibrary!).toFilePath(),
-        ],
         if (executable != null) ...[
           '/link',
           '/out:${outDir.resolveUri(executable!).toFilePath()}',
+        ],
+        if (dynamicLibrary != null) ...[
+          '/link',
+          '/DLL',
+          '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
         ],
       ],
       workingDirectory: outDir,

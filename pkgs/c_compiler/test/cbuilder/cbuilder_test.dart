@@ -79,6 +79,7 @@ void main() {
       );
 
       final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+      expect(await File.fromUri(dylibUri).exists(), true);
       final dylib = DynamicLibrary.open(dylibUri.path);
       final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
           int Function(int, int)>('add');
