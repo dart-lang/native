@@ -213,7 +213,10 @@ class InstallLocationResolver implements ToolResolver {
     if (path.startsWith(home)) {
       final homeDir_ = homeDir;
       assert(homeDir_ != null);
-      path = path.replaceAll('$home/', homeDir!.path);
+      path = path.replaceAll('$home/', homeDir!.toFilePath());
+    }
+    if (Platform.isWindows) {
+      path = path.replaceAll('\\', '/');
     }
 
     final result = <Uri>[];
