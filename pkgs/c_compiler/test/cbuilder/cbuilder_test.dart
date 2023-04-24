@@ -48,7 +48,7 @@ void main() {
         logger: logger,
       );
       expect(result.exitCode, 0);
-      expect(result.stdout, 'Hello world.\n');
+      expect(result.stdout.trim(), 'Hello world.');
     });
   });
 

@@ -40,11 +40,46 @@ void main() {
     expect(instances.isNotEmpty, true);
   });
 
-  test('vsvars64', () async {
+  test('vcvars32', () async {
+    final instances = await vcvars32.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+    final instance = instances.first;
+    final env = await envFromBat(instance.uri);
+    expect(env['INCLUDE'] != null, true);
+    expect(env['WindowsSdkDir'] != null, true); // stdio.h
+  });
+
+  test('vcvars64', () async {
     final instances = await vcvars64.defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     final env = await envFromBat(instance.uri);
     expect(env['INCLUDE'] != null, true);
+    expect(env['WindowsSdkDir'] != null, true); // stdio.h
+  });
+
+  test('vcvarsall', () async {
+    final instances = await vcvarsall.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+    final instance = instances.first;
+    final env = await envFromBat(
+      instance.uri,
+      arguments: [
+        'x64',
+        'uwp',
+        '10.0',
+      ],
+    );
+    expect(env['INCLUDE'] != null, true);
+    expect(env['WindowsSdkDir'] != null, true); // stdio.h
+  });
+
+  test('vsDevCmd', () async {
+    final instances = await vsDevCmd.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+    final instance = instances.first;
+    final env = await envFromBat(instance.uri);
+    expect(env['INCLUDE'] != null, true);
+    expect(env['WindowsSdkDir'] != null, true); // stdio.h
   });
 }

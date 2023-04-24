@@ -4,17 +4,18 @@
 
 import 'dart:io';
 
-Future<Map<String, String>> envFromBat(Uri batchFile) async {
+Future<Map<String, String>> envFromBat(
+  Uri batchFile, {
+  List<String> arguments = const [],
+}) async {
   final fileName = batchFile.pathSegments.last;
   final dir = batchFile.resolve('.');
   const separator = '=======';
   final processResult = await Process.run(
-    'set && echo $separator && $fileName > nul && set',
+    'set && echo $separator && $fileName ${arguments.join(' ')} > nul && set',
     [],
     runInShell: true,
-    environment: {
-      'PATH': dir.toFilePath(),
-    },
+    workingDirectory: dir.toFilePath(),
   );
   assert(processResult.exitCode == 0);
   final resultSplit = (processResult.stdout as String).split(separator);

@@ -66,6 +66,33 @@ final Tool vcvars64 = Tool(
   ),
 );
 
+final Tool vcvars32 = Tool(
+  name: 'vcvars32.bat',
+  defaultResolver: RelativeToolResolver(
+    toolName: 'vcvars32.bat',
+    wrappedResolver: visualStudio.defaultResolver!,
+    relativePath: Uri(path: './VC/Auxiliary/Build/vcvars32.bat'),
+  ),
+);
+
+final Tool vcvarsall = Tool(
+  name: 'vcvarsall.bat',
+  defaultResolver: RelativeToolResolver(
+    toolName: 'vcvars32.bat',
+    wrappedResolver: visualStudio.defaultResolver!,
+    relativePath: Uri(path: './VC/Auxiliary/Build/vcvarsall.bat'),
+  ),
+);
+
+final Tool vsDevCmd = Tool(
+  name: 'VsDevCmd.bat',
+  defaultResolver: RelativeToolResolver(
+    toolName: 'VsDevCmd.bat',
+    wrappedResolver: visualStudio.defaultResolver!,
+    relativePath: Uri(path: './Common7/Tools/VsDevCmd.bat'),
+  ),
+);
+
 /// The C/C++ Optimizing Compiler main executable.
 final Tool cl = Tool(
   name: 'cl.exe',
