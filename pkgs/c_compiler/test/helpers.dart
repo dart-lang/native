@@ -13,6 +13,7 @@ const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 Future<void> inTempDir(
   Future<void> Function(Uri tempUri) fun, {
   String? prefix,
+  bool keepTemp = false,
 }) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
@@ -21,8 +22,9 @@ Future<void> inTempDir(
   try {
     await fun(tempUri);
   } finally {
-    if (!Platform.environment.containsKey(keepTempKey) ||
-        Platform.environment[keepTempKey]!.isEmpty) {
+    if ((!Platform.environment.containsKey(keepTempKey) ||
+            Platform.environment[keepTempKey]!.isEmpty) &&
+        !keepTemp) {
       await tempDir.delete(recursive: true);
     }
   }
