@@ -40,7 +40,10 @@ class _AndroidNdkResolver implements ToolResolver {
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
         toolName: 'Android NDK',
-        wrappedResolver: PathToolResolver(toolName: 'ndk-build'),
+        wrappedResolver: PathToolResolver(
+          toolName: 'ndk-build',
+          executableName: Platform.isWindows ? 'ndk-build.cmd' : 'ndk-build',
+        ),
         relativePath: Uri(path: ''),
       ),
       InstallLocationResolver(
