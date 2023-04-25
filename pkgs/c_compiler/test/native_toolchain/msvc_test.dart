@@ -40,6 +40,11 @@ void main() {
     expect(instances.isNotEmpty, true);
   });
 
+  test('dumpbin', () async {
+    final instances = await dumpbin.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+  });
+
   test('vcvars32', () async {
     final instances = await vcvars32.defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);

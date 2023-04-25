@@ -107,6 +107,18 @@ final Tool cl = Tool(
   ),
 );
 
+final Tool dumpbin = Tool(
+  name: 'dumpbin.exe',
+  defaultResolver: CliVersionResolver(
+    expectedExitCode: 0,
+    wrappedResolver: RelativeToolResolver(
+      toolName: 'dumpbin.exe',
+      wrappedResolver: msvc.defaultResolver!,
+      relativePath: Uri(path: 'bin/Hostx64/x64/dumpbin.exe'),
+    ),
+  ),
+);
+
 class VisualStudioResolver implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
