@@ -19,12 +19,14 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu, macos]
+        os: [ubuntu, macos, windows]
         sdk: [stable, dev]
         package: [c_compiler, native_assets_cli]
         exclude:
           # Only run analyze against dev on one host.
           - os: macos
+            sdk: dev
+          - os: windows
             sdk: dev
 
     runs-on: ${{ matrix.os }}-latest
