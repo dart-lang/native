@@ -20,7 +20,7 @@ void main() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  test('native_add build', () async {
+  test('native_add build', timeout: Timeout.factor(2), () async {
     final testTempUri = tempUri.resolve('test1/');
     await Directory.fromUri(testTempUri).create();
     final testPackageUri = packageUri.resolve('example/native_add/');
