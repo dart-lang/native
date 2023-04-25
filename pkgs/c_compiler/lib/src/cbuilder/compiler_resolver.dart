@@ -72,7 +72,10 @@ class CompilerResolver {
           return i686LinuxGnuGcc;
       }
     }
-    if (target.os == OS.windows && host.os == OS.windows) return cl;
+    if (host == Target.windowsX64 && target == Target.windowsX64) return cl;
+    if (host == Target.windowsX64 && target == Target.windowsIA32) {
+      return clIA32;
+    }
 
     return null;
   }

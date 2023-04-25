@@ -76,8 +76,9 @@ class RunCBuilder {
       return;
     }
     assert(compilerTool == cl);
-    final vcvars =
-        (await vcvars64.defaultResolver!.resolve(logger: logger)).first;
+    final vcvars = target == Target.windowsX64
+        ? (await vcvars64.defaultResolver!.resolve(logger: logger)).first
+        : (await vcvars32.defaultResolver!.resolve(logger: logger)).first;
     await runCl(
       compiler: compiler_.uri,
       vcvars: vcvars.uri,

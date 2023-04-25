@@ -40,6 +40,11 @@ void main() {
     expect(instances.isNotEmpty, true);
   });
 
+  test('clIa32', () async {
+    final instances = await clIA32.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+  });
+
   test('dumpbin', () async {
     final instances = await dumpbin.defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);

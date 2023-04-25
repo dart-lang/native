@@ -94,6 +94,8 @@ final Tool vsDevCmd = Tool(
 );
 
 /// The C/C++ Optimizing Compiler main executable.
+///
+/// For targeting x64.
 final Tool cl = Tool(
   name: 'cl.exe',
   defaultResolver: CliVersionResolver(
@@ -103,6 +105,22 @@ final Tool cl = Tool(
       toolName: 'cl.exe',
       wrappedResolver: msvc.defaultResolver!,
       relativePath: Uri(path: 'bin/Hostx64/x64/cl.exe'),
+    ),
+  ),
+);
+
+/// The C/C++ Optimizing Compiler main executable.
+///
+/// For targeting ia32.
+final Tool clIA32 = Tool(
+  name: 'cl.exe',
+  defaultResolver: CliVersionResolver(
+    arguments: [],
+    expectedExitCode: 0,
+    wrappedResolver: RelativeToolResolver(
+      toolName: 'cl.exe',
+      wrappedResolver: msvc.defaultResolver!,
+      relativePath: Uri(path: 'bin/Hostx64/x86/cl.exe'),
     ),
   ),
 );
