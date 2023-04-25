@@ -252,14 +252,18 @@ class RelativeToolResolver implements ToolResolver {
 
     logger?.finer('Looking for $toolName relative to $otherToolInstances '
         'with $relativePath.');
-    final fileSystemEntities = [
+    final globs = [
       for (final toolInstance in otherToolInstances)
-        ...await Glob([
-          Glob.quote(toolInstance.uri.toFilePath().replaceAll('\\\\', '/')),
+        Glob([
+          Glob.quote(
+              toolInstance.uri.resolve('.').toFilePath().replaceAll('\\', '/')),
           relativePath.path
         ].join())
-            .list()
-            .toList(),
+    ];
+    // print(globs);
+    // exit(0);
+    final fileSystemEntities = [
+      for (final glob in globs) ...await glob.list().toList(),
     ];
 
     final result = [
