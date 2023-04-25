@@ -188,6 +188,14 @@ If the classes are in JAR file, make sure to provide path to JAR file itself, an
 #### `jnigen` is unable to parse sources.
 If the errors are similar to `symbol not found`, ensure all dependencies of the source are available. If such dependency is compiled, it can be included in `class_path`.
 
+#### How are classes mapped into bindings?
+Each Java class generates a subclass of `JObject` class, which wraps a `jobject` reference in JNI. Nested classes use `_` as separator, `Example.NestedClass` will be mapped to `Example_NestedClass`.
+
+#### Does `JObject` hold a local or global reference? Does it need to be manually deleted?
+Each Java object returned into Dart creates a JNI global reference. Reference deletion is taken care of by `NativeFinalizer` and that's usually sufficient.
+
+It's a good practice to keep the interface between languages sparse. However, if there's a need to create several references (Eg: in a loop), you can use FFI Arena mechanism (`using` function) and `deletedIn` method, or manually delete the object using `delete` method.
+
 #### Should I use `jnigen` over Method channels?
 This is currently an experimental package. Many features are missing, and it's rough around the edges. You're welcome to try it and give feedback.
 
