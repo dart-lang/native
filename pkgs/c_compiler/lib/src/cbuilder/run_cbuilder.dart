@@ -69,7 +69,9 @@ class RunCBuilder {
   Future<void> run() async {
     final compiler_ = await compiler();
     final compilerTool = compiler_.tool;
-    if (compilerTool == clang || compilerTool == gcc) {
+    if (compilerTool == appleClang ||
+        compilerTool == clang ||
+        compilerTool == gcc) {
       await runClangLike(compiler: compiler_.uri);
       return;
     }
