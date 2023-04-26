@@ -74,6 +74,7 @@ void main() {
 
           final libUri =
               tempUri.resolve(target.os.libraryFileName(name, packaging));
+          expect(await File.fromUri(libUri).exists(), true);
           final result = await runProcess(
             executable: dumpbinUri,
             arguments: ['/HEADERS', libUri.toFilePath()],

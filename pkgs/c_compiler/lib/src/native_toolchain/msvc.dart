@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -96,46 +97,86 @@ final Tool vsDevCmd = Tool(
 /// The C/C++ Optimizing Compiler main executable.
 ///
 /// For targeting x64.
-final Tool cl = Tool(
-  name: 'cl.exe',
-  defaultResolver: CliVersionResolver(
-    arguments: [],
-    expectedExitCode: 0,
-    wrappedResolver: RelativeToolResolver(
-      toolName: 'cl.exe',
-      wrappedResolver: msvc.defaultResolver!,
-      relativePath: Uri(path: 'bin/Hostx64/x64/cl.exe'),
-    ),
-  ),
+final Tool cl = _msvcTool(
+  name: 'cl',
+  versionArguments: [],
+  targetArchitecture: Architecture.x64,
+  hostArchitecture: Target.current.architecture,
 );
 
 /// The C/C++ Optimizing Compiler main executable.
 ///
 /// For targeting ia32.
-final Tool clIA32 = Tool(
-  name: 'cl.exe',
-  defaultResolver: CliVersionResolver(
-    arguments: [],
-    expectedExitCode: 0,
-    wrappedResolver: RelativeToolResolver(
-      toolName: 'cl.exe',
-      wrappedResolver: msvc.defaultResolver!,
-      relativePath: Uri(path: 'bin/Hostx64/x86/cl.exe'),
-    ),
-  ),
+final Tool clIA32 = _msvcTool(
+  name: 'cl',
+  versionArguments: [],
+  targetArchitecture: Architecture.ia32,
+  hostArchitecture: Target.current.architecture,
 );
 
-final Tool dumpbin = Tool(
-  name: 'dumpbin.exe',
-  defaultResolver: CliVersionResolver(
-    expectedExitCode: 0,
-    wrappedResolver: RelativeToolResolver(
-      toolName: 'dumpbin.exe',
-      wrappedResolver: msvc.defaultResolver!,
-      relativePath: Uri(path: 'bin/Hostx64/x64/dumpbin.exe'),
-    ),
-  ),
+final Tool lib = _msvcTool(
+  name: 'lib',
+  targetArchitecture: Architecture.x64,
+  hostArchitecture: Target.current.architecture,
 );
+
+final Tool libIA32 = _msvcTool(
+  name: 'lib',
+  targetArchitecture: Architecture.ia32,
+  hostArchitecture: Target.current.architecture,
+);
+
+final Tool link = _msvcTool(
+  name: 'link',
+  versionArguments: ['/help'],
+  versionExitCode: 1100,
+  targetArchitecture: Architecture.x64,
+  hostArchitecture: Target.current.architecture,
+);
+
+final Tool linkIA32 = _msvcTool(
+  name: 'link',
+  versionArguments: ['/help'],
+  versionExitCode: 1100,
+  targetArchitecture: Architecture.ia32,
+  hostArchitecture: Target.current.architecture,
+);
+
+final Tool dumpbin = _msvcTool(
+  name: 'dumpbin',
+  targetArchitecture: Architecture.x64,
+  hostArchitecture: Target.current.architecture,
+);
+
+const _msvcArchNames = {
+  Architecture.ia32: 'x86',
+  Architecture.x64: 'x64',
+};
+
+Tool _msvcTool({
+  required String name,
+  required Architecture targetArchitecture,
+  required Architecture hostArchitecture,
+  List<String> versionArguments = const ['--version'],
+  int versionExitCode = 0,
+}) {
+  final executableName = OS.windows.executableFileName(name);
+  return Tool(
+    name: executableName,
+    defaultResolver: CliVersionResolver(
+      expectedExitCode: versionExitCode,
+      arguments: versionArguments,
+      wrappedResolver: RelativeToolResolver(
+        toolName: executableName,
+        wrappedResolver: msvc.defaultResolver!,
+        relativePath: Uri(
+          path: 'bin/Host${_msvcArchNames[hostArchitecture]!}/'
+              '${_msvcArchNames[targetArchitecture]!}/$executableName',
+        ),
+      ),
+    ),
+  );
+}
 
 class VisualStudioResolver implements ToolResolver {
   @override

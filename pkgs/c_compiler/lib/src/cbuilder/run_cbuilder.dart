@@ -150,19 +150,30 @@ class RunCBuilder {
     required Uri compiler,
     required Uri vcvars,
   }) async {
+    final isStaticLib = staticLibrary != null;
+    Uri? archiver_;
+    if (isStaticLib) {
+      archiver_ = await archiver();
+    }
+
     final environment = await envFromBat(vcvars);
     final result = await runProcess(
       executable: compiler,
       arguments: [
-        ...sources.map((e) => e.toFilePath()),
         if (executable != null) ...[
+          ...sources.map((e) => e.toFilePath()),
           '/link',
           '/out:${outDir.resolveUri(executable!).toFilePath()}',
         ],
         if (dynamicLibrary != null) ...[
+          ...sources.map((e) => e.toFilePath()),
           '/link',
           '/DLL',
           '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
+        ],
+        if (staticLibrary != null) ...[
+          '/c',
+          ...sources.map((e) => e.toFilePath()),
         ],
       ],
       workingDirectory: outDir,
@@ -170,6 +181,21 @@ class RunCBuilder {
       logger: logger,
       captureOutput: false,
     );
+
+    if (staticLibrary != null) {
+      await runProcess(
+        executable: archiver_!,
+        arguments: [
+          '/out:${staticLibrary!.toFilePath()}',
+          '*.obj',
+        ],
+        workingDirectory: outDir,
+        environment: environment,
+        logger: logger,
+        captureOutput: false,
+      );
+    }
+
     assert(result.exitCode == 0);
   }
 

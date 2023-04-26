@@ -74,6 +74,8 @@ class LinkerRecognizer implements ToolResolver {
       tool = lld;
     } else if (filePath.endsWith(os.executableFileName('ld'))) {
       tool = appleLd;
+    } else if (filePath.endsWith('link.exe')) {
+      tool = link;
     }
 
     if (tool != null) {
@@ -84,6 +86,16 @@ class LinkerRecognizer implements ToolResolver {
           await CliVersionResolver.lookupVersion(
             toolInstance,
             logger: logger,
+          ),
+        ];
+      }
+      if (tool == link) {
+        return [
+          await CliVersionResolver.lookupVersion(
+            toolInstance,
+            logger: logger,
+            arguments: ['/help'],
+            expectedExitCode: 1100,
           ),
         ];
       }
@@ -112,12 +124,22 @@ class ArchiverRecognizer implements ToolResolver {
       tool = llvmAr;
     } else if (filePath.endsWith(os.executableFileName('ar'))) {
       tool = appleAr;
+    } else if (filePath.endsWith('lib.exe')) {
+      tool = lib;
     }
 
     if (tool != null) {
       logger?.fine('Tool instance $uri is likely $tool.');
       final toolInstance = ToolInstance(tool: tool, uri: uri);
       if (tool == llvmAr) {
+        return [
+          await CliVersionResolver.lookupVersion(
+            toolInstance,
+            logger: logger,
+          ),
+        ];
+      }
+      if (tool == lib) {
         return [
           await CliVersionResolver.lookupVersion(
             toolInstance,

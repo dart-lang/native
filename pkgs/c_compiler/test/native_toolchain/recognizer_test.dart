@@ -35,6 +35,8 @@ void main() async {
     RecognizerTest(i686LinuxGnuGcc, CompilerRecognizer.new),
     RecognizerTest(i686LinuxGnuGccAr, ArchiverRecognizer.new),
     RecognizerTest(i686LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(lib, ArchiverRecognizer.new),
+    RecognizerTest(link, LinkerRecognizer.new),
     RecognizerTest(lld, LinkerRecognizer.new),
     RecognizerTest(llvmAr, ArchiverRecognizer.new),
   ];

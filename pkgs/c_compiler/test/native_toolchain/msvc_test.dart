@@ -40,8 +40,28 @@ void main() {
     expect(instances.isNotEmpty, true);
   });
 
-  test('clIa32', () async {
+  test('clIA32', () async {
     final instances = await clIA32.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+  });
+
+  test('lib', () async {
+    final instances = await lib.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+  });
+
+  test('libIA32', () async {
+    final instances = await libIA32.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+  });
+
+  test('link', () async {
+    final instances = await link.defaultResolver!.resolve(logger: logger);
+    expect(instances.isNotEmpty, true);
+  });
+
+  test('linkIA32', () async {
+    final instances = await linkIA32.defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
   });
 

@@ -72,9 +72,14 @@ class CompilerResolver {
           return i686LinuxGnuGcc;
       }
     }
-    if (host == Target.windowsX64 && target == Target.windowsX64) return cl;
-    if (host == Target.windowsX64 && target == Target.windowsIA32) {
-      return clIA32;
+
+    if (host.os == OS.windows) {
+      switch (target) {
+        case Target.windowsIA32:
+          return clIA32;
+        case Target.windowsX64:
+          return cl;
+      }
     }
 
     return null;
@@ -142,6 +147,14 @@ class CompilerResolver {
           return aarch64LinuxGnuGccAr;
         case Target.linuxIA32:
           return i686LinuxGnuGccAr;
+      }
+    }
+    if (host.os == OS.windows) {
+      switch (target) {
+        case Target.windowsIA32:
+          return libIA32;
+        case Target.windowsX64:
+          return lib;
       }
     }
 
