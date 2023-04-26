@@ -6,7 +6,6 @@ import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/cbuilder/compiler_resolver.dart';
 import 'package:c_compiler/src/native_toolchain/msvc.dart';
 import 'package:c_compiler/src/tool/tool_error.dart';
-import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
@@ -17,17 +16,19 @@ void main() {
     await inTempDir((tempUri) async {
       final ar = [
         ...await appleAr.defaultResolver!.resolve(logger: logger),
+        ...await lib.defaultResolver!.resolve(logger: logger),
         ...await llvmAr.defaultResolver!.resolve(logger: logger),
-      ].firstOrNull?.uri;
+      ].first.uri;
       final cc = [
         ...await appleClang.defaultResolver!.resolve(logger: logger),
-        ...await clang.defaultResolver!.resolve(logger: logger),
         ...await cl.defaultResolver!.resolve(logger: logger),
+        ...await clang.defaultResolver!.resolve(logger: logger),
       ].first.uri;
       final ld = [
         ...await appleLd.defaultResolver!.resolve(logger: logger),
+        ...await lib.defaultResolver!.resolve(logger: logger),
         ...await lld.defaultResolver!.resolve(logger: logger),
-      ].firstOrNull?.uri;
+      ].first.uri;
       final buildConfig = BuildConfig(
         outDir: tempUri,
         packageRoot: tempUri,
@@ -40,9 +41,9 @@ void main() {
       final resolver =
           CompilerResolver(buildConfig: buildConfig, logger: logger);
       final compiler = await resolver.resolveCompiler();
-      final archiver = ar == null ? null : await resolver.resolveArchiver();
+      final archiver = await resolver.resolveArchiver();
       expect(compiler.uri, buildConfig.cc);
-      expect(archiver?.uri, buildConfig.ar);
+      expect(archiver.uri, buildConfig.ar);
     });
   });
 
