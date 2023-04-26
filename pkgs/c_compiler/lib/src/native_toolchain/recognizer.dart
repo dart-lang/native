@@ -139,14 +139,6 @@ class ArchiverRecognizer implements ToolResolver {
           ),
         ];
       }
-      if (tool == lib) {
-        return [
-          await CliVersionResolver.lookupVersion(
-            toolInstance,
-            logger: logger,
-          ),
-        ];
-      }
       return [toolInstance];
     }
 

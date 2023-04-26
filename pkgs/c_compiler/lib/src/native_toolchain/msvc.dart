@@ -118,12 +118,16 @@ final Tool lib = _msvcTool(
   name: 'lib',
   targetArchitecture: Architecture.x64,
   hostArchitecture: Target.current.architecture,
+  // https://github.com/dart-lang/native/issues/18
+  resolveVersion: false,
 );
 
 final Tool libIA32 = _msvcTool(
   name: 'lib',
   targetArchitecture: Architecture.ia32,
   hostArchitecture: Target.current.architecture,
+  // https://github.com/dart-lang/native/issues/18
+  resolveVersion: false,
 );
 
 final Tool link = _msvcTool(
@@ -159,22 +163,27 @@ Tool _msvcTool({
   required Architecture hostArchitecture,
   List<String> versionArguments = const ['--version'],
   int versionExitCode = 0,
+  bool resolveVersion = true,
 }) {
   final executableName = OS.windows.executableFileName(name);
-  return Tool(
-    name: executableName,
-    defaultResolver: CliVersionResolver(
+  ToolResolver resolver = RelativeToolResolver(
+    toolName: executableName,
+    wrappedResolver: msvc.defaultResolver!,
+    relativePath: Uri(
+      path: 'bin/Host${_msvcArchNames[hostArchitecture]!}/'
+          '${_msvcArchNames[targetArchitecture]!}/$executableName',
+    ),
+  );
+  if (resolveVersion) {
+    resolver = CliVersionResolver(
       expectedExitCode: versionExitCode,
       arguments: versionArguments,
-      wrappedResolver: RelativeToolResolver(
-        toolName: executableName,
-        wrappedResolver: msvc.defaultResolver!,
-        relativePath: Uri(
-          path: 'bin/Host${_msvcArchNames[hostArchitecture]!}/'
-              '${_msvcArchNames[targetArchitecture]!}/$executableName',
-        ),
-      ),
-    ),
+      wrappedResolver: resolver,
+    );
+  }
+  return Tool(
+    name: executableName,
+    defaultResolver: resolver,
   );
 }
 
