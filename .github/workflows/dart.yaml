@@ -80,7 +80,6 @@ jobs:
           flag-name: ${{ matrix.package }}-${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-          # path-to-lcov: ./pkgs/${{ matrix.package }}/coverage/lcov.info
         if: ${{ matrix.sdk == 'stable' }}
 
   coverage-finished:
