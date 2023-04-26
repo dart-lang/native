@@ -116,14 +116,12 @@ final Tool clIA32 = _msvcTool(
 
 final Tool lib = _msvcTool(
   name: 'lib',
-  versionArguments: ['/version'],
   targetArchitecture: Architecture.x64,
   hostArchitecture: Target.current.architecture,
 );
 
 final Tool libIA32 = _msvcTool(
   name: 'lib',
-  versionArguments: ['/version'],
   targetArchitecture: Architecture.ia32,
   hostArchitecture: Target.current.architecture,
 );

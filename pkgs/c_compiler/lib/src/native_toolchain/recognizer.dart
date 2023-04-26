@@ -144,7 +144,6 @@ class ArchiverRecognizer implements ToolResolver {
           await CliVersionResolver.lookupVersion(
             toolInstance,
             logger: logger,
-            arguments: ['/version'],
           ),
         ];
       }
