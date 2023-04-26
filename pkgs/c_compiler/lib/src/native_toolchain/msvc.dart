@@ -166,12 +166,19 @@ Tool _msvcTool({
   bool resolveVersion = true,
 }) {
   final executableName = OS.windows.executableFileName(name);
+  final hostArchName = _msvcArchNames[hostArchitecture];
+  final targetArchName = _msvcArchNames[targetArchitecture];
+  if (hostArchName == null || targetArchName == null) {
+    return Tool(
+      name: executableName,
+      defaultResolver: ToolResolvers([]),
+    );
+  }
   ToolResolver resolver = RelativeToolResolver(
     toolName: executableName,
     wrappedResolver: msvc.defaultResolver!,
     relativePath: Uri(
-      path: 'bin/Host${_msvcArchNames[hostArchitecture]!}/'
-          '${_msvcArchNames[targetArchitecture]!}/$executableName',
+      path: 'bin/Host$hostArchName/$targetArchName/$executableName',
     ),
   );
   if (resolveVersion) {
