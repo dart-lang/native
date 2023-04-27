@@ -58,6 +58,25 @@ final Tool msvc = Tool(
   ),
 );
 
+Tool vcvars(ToolInstance toolInstance) {
+  final tool = toolInstance.tool;
+  assert(tool == cl || tool == link || tool == lib);
+  final vcDir = toolInstance.uri.resolve('../../../../../../');
+  final fileName = toolInstance.uri.toFilePath().contains('x86')
+      ? 'vcvars32.bat'
+      : 'vcvars64.bat';
+  final batchScript = vcDir.resolve('Auxiliary/Build/$fileName');
+  return Tool(
+    name: fileName,
+    defaultResolver: InstallLocationResolver(
+      toolName: fileName,
+      paths: [
+        batchScript.toFilePath().replaceAll('\\', '/'),
+      ],
+    ),
+  );
+}
+
 final Tool vcvars64 = Tool(
   name: 'vcvars64.bat',
   defaultResolver: RelativeToolResolver(

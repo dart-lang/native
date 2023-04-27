@@ -71,7 +71,12 @@ void main() {
   });
 
   test('vcvars32', () async {
-    final instances = await vcvars32.defaultResolver!.resolve(logger: logger);
+    final clInstances = await clIA32.defaultResolver!.resolve(logger: logger);
+    expect(clInstances.isNotEmpty, true);
+
+    final instances = await vcvars(clInstances.first)
+        .defaultResolver!
+        .resolve(logger: logger);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     final env = await envFromBat(instance.uri);
@@ -80,7 +85,12 @@ void main() {
   });
 
   test('vcvars64', () async {
-    final instances = await vcvars64.defaultResolver!.resolve(logger: logger);
+    final clInstances = await cl.defaultResolver!.resolve(logger: logger);
+    expect(clInstances.isNotEmpty, true);
+
+    final instances = await vcvars(clInstances.first)
+        .defaultResolver!
+        .resolve(logger: logger);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     final env = await envFromBat(instance.uri);
