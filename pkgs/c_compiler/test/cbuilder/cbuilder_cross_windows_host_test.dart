@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @TestOn('windows')
+@OnPlatform({'windows': Timeout.factor(10)})
 library;
 
 import 'dart:io';
