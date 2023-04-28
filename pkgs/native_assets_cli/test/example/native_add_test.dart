@@ -35,6 +35,12 @@ void main() async {
         '-Dtarget=${Target.current}',
         '-Dpackaging=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',
+        if (toolchainEnvScript != null)
+          '-D${BuildConfig.toolchainEnvScriptConfigKey}='
+              '${toolchainEnvScript!.toFilePath()}',
+        if (toolchainEnvScriptArgs != null)
+          '-D${BuildConfig.toolchainEnvScriptArgsConfigKey}='
+              '${toolchainEnvScriptArgs!.join(' ')}',
       ],
       workingDirectory: testPackageUri.toFilePath(),
     );

@@ -56,6 +56,16 @@ final Uri? cc = Platform.environment['CC']?.asFileUri();
 /// Linker provided by the environment.
 final Uri? ld = Platform.environment['LD']?.asFileUri();
 
+/// Path to script that sets environment variables for [cc], [ld], and [ar].
+///
+/// Provided by environment.
+final Uri? toolchainEnvScript =
+    Platform.environment['ToolchainEnvScript']?.asFileUri();
+
+/// Arguments for [toolchainEnvScript] provided by environment.
+final List<String>? toolchainEnvScriptArgs =
+    Platform.environment['ToolchainEnvScriptArguments']?.split(' ');
+
 extension on String {
   Uri asFileUri() => Uri.file(this);
 }
