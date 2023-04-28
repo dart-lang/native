@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
 import 'package:c_compiler/src/native_toolchain/clang.dart';
+import 'package:c_compiler/src/native_toolchain/msvc.dart';
 import 'package:c_compiler/src/tool/tool.dart';
 import 'package:c_compiler/src/tool/tool_error.dart';
 import 'package:c_compiler/src/tool/tool_instance.dart';
@@ -17,23 +18,39 @@ import '../helpers.dart';
 
 void main() {
   test('CliVersionResolver.executableVersion', () async {
-    final clangInstances = [
+    final toolInstances = [
       ...await appleClang.defaultResolver!.resolve(logger: logger),
       ...await clang.defaultResolver!.resolve(logger: logger),
+      ...await cl.defaultResolver!.resolve(logger: logger),
     ];
-    expect(clangInstances.isNotEmpty, true);
-    final version =
-        await CliVersionResolver.executableVersion(clangInstances.first.uri);
+    expect(toolInstances.isNotEmpty, true);
+    final toolInstance = toolInstances.first;
+    final versionArguments = [
+      if (toolInstance.tool != cl) '--version',
+    ];
+    final version = await CliVersionResolver.executableVersion(
+      toolInstance.uri,
+      arguments: versionArguments,
+      logger: logger,
+    );
     expect(version.major > 5, true);
     expect(
-      () => CliVersionResolver.executableVersion(clangInstances.first.uri,
-          expectedExitCode: 9999),
+      () => CliVersionResolver.executableVersion(
+        toolInstances.first.uri,
+        arguments: versionArguments,
+        expectedExitCode: 9999,
+        logger: logger,
+      ),
       throwsA(isA<ToolError>()),
     );
 
     try {
-      await CliVersionResolver.executableVersion(clangInstances.first.uri,
-          expectedExitCode: 9999);
+      await CliVersionResolver.executableVersion(
+        toolInstances.first.uri,
+        arguments: versionArguments,
+        expectedExitCode: 9999,
+        logger: logger,
+      );
       // ignore: avoid_catching_errors
     } on ToolError catch (e) {
       expect(e.toString(), contains('returned unexpected exit code'));
@@ -48,12 +65,21 @@ void main() {
       final bazExeUri = tempUri.resolve(bazExeName);
       await File.fromUri(barExeUri).writeAsString('dummy');
       await File.fromUri(bazExeUri).writeAsString('dummy');
+      expect(await File.fromUri(barExeUri).exists(), true);
+      expect(await File.fromUri(bazExeUri).exists(), true);
       final barResolver = InstallLocationResolver(
-          toolName: 'bar', paths: [barExeUri.toFilePath()]);
+        toolName: 'bar',
+        paths: [barExeUri.toFilePath().replaceAll('\\', '/')],
+      );
       final bazResolver = RelativeToolResolver(
         toolName: 'baz',
         wrappedResolver: barResolver,
-        relativePath: Uri(path: bazExeName),
+        relativePath: Uri.file(bazExeName),
+      );
+      final resolvedBarInstances = await barResolver.resolve(logger: logger);
+      expect(
+        resolvedBarInstances,
+        [ToolInstance(tool: Tool(name: 'bar'), uri: barExeUri)],
       );
       final resolvedBazInstances = await bazResolver.resolve(logger: logger);
       expect(
@@ -71,9 +97,11 @@ void main() {
       final bazExeUri = tempUri.resolve(bazExeName);
       await File.fromUri(barExeUri).writeAsString('dummy');
       final barResolver = InstallLocationResolver(
-          toolName: 'bar', paths: [barExeUri.toFilePath()]);
+          toolName: 'bar',
+          paths: [barExeUri.toFilePath().replaceAll('\\', '/')]);
       final bazResolver = InstallLocationResolver(
-          toolName: 'baz', paths: [bazExeUri.toFilePath()]);
+          toolName: 'baz',
+          paths: [bazExeUri.toFilePath().replaceAll('\\', '/')]);
       final barLogs = <String>[];
       final bazLogs = <String>[];
       await barResolver.resolve(logger: createCapturingLogger(barLogs));

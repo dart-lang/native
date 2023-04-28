@@ -5,7 +5,13 @@
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
+import '../native_toolchain/apple_clang.dart';
+import '../native_toolchain/clang.dart';
+import '../native_toolchain/gcc.dart';
+import '../native_toolchain/msvc.dart';
 import '../native_toolchain/xcode.dart';
+import '../tool/tool_instance.dart';
+import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 
@@ -33,15 +39,12 @@ class RunCBuilder {
                 .length ==
             1);
 
-  Future<Uri> compiler() async {
-    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    return (await resolver.resolveCompiler()).uri;
-  }
+  late final _resolver =
+      CompilerResolver(buildConfig: buildConfig, logger: logger);
 
-  Future<Uri> archiver() async {
-    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    return (await resolver.resolveArchiver()).uri;
-  }
+  Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
+
+  Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
   Future<Uri> iosSdk(IOSSdk iosSdk, {Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOs) {
@@ -65,6 +68,18 @@ class RunCBuilder {
 
   Future<void> run() async {
     final compiler_ = await compiler();
+    final compilerTool = compiler_.tool;
+    if (compilerTool == appleClang ||
+        compilerTool == clang ||
+        compilerTool == gcc) {
+      await runClangLike(compiler: compiler_.uri);
+      return;
+    }
+    assert(compilerTool == cl);
+    await runCl(compiler: compiler_);
+  }
+
+  Future<void> runClangLike({required Uri compiler}) async {
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
     if (isStaticLib) {
@@ -72,7 +87,7 @@ class RunCBuilder {
     }
 
     await runProcess(
-      executable: compiler_,
+      executable: compiler,
       arguments: [
         if (target.os == OS.android) ...[
           // TODO(dacoharkes): How to solve linking issues?
@@ -93,19 +108,19 @@ class RunCBuilder {
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
-        ...sources.map((e) => e.path),
+        ...sources.map((e) => e.toFilePath()),
         if (executable != null) ...[
           '-o',
-          outDir.resolveUri(executable!).path,
+          outDir.resolveUri(executable!).toFilePath(),
         ],
         if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
-          outDir.resolveUri(dynamicLibrary!).path,
+          outDir.resolveUri(dynamicLibrary!).toFilePath(),
         ] else if (staticLibrary != null) ...[
           '-c',
           '-o',
-          outDir.resolve('out.o').path,
+          outDir.resolve('out.o').toFilePath(),
         ],
       ],
       logger: logger,
@@ -116,13 +131,66 @@ class RunCBuilder {
         executable: archiver_!,
         arguments: [
           'rc',
-          outDir.resolveUri(staticLibrary!).path,
-          outDir.resolve('out.o').path,
+          outDir.resolveUri(staticLibrary!).toFilePath(),
+          outDir.resolve('out.o').toFilePath(),
         ],
         logger: logger,
         captureOutput: false,
       );
     }
+  }
+
+  Future<void> runCl({required ToolInstance compiler}) async {
+    final vcvars = (await _resolver.toolchainEnvironmentScript(compiler))!;
+    final vcvarsArgs = _resolver.toolchainEnvironmentScriptArguments();
+    final environment = await envFromBat(vcvars, arguments: vcvarsArgs ?? []);
+
+    final isStaticLib = staticLibrary != null;
+    Uri? archiver_;
+    if (isStaticLib) {
+      archiver_ = await archiver();
+    }
+
+    final result = await runProcess(
+      executable: compiler.uri,
+      arguments: [
+        if (executable != null) ...[
+          ...sources.map((e) => e.toFilePath()),
+          '/link',
+          '/out:${outDir.resolveUri(executable!).toFilePath()}',
+        ],
+        if (dynamicLibrary != null) ...[
+          ...sources.map((e) => e.toFilePath()),
+          '/link',
+          '/DLL',
+          '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
+        ],
+        if (staticLibrary != null) ...[
+          '/c',
+          ...sources.map((e) => e.toFilePath()),
+        ],
+      ],
+      workingDirectory: outDir,
+      environment: environment,
+      logger: logger,
+      captureOutput: false,
+    );
+
+    if (staticLibrary != null) {
+      await runProcess(
+        executable: archiver_!,
+        arguments: [
+          '/out:${staticLibrary!.toFilePath()}',
+          '*.obj',
+        ],
+        workingDirectory: outDir,
+        environment: environment,
+        logger: logger,
+        captureOutput: false,
+      );
+    }
+
+    assert(result.exitCode == 0);
   }
 
   static const androidNdkClangTargetFlags = {

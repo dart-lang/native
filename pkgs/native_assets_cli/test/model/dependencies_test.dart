@@ -10,7 +10,10 @@ import 'package:test/test.dart';
 void main() {
   late Uri tempUri;
 
-  setUp(() async => tempUri = (await Directory.systemTemp.createTemp()).uri);
+  setUp(() async => tempUri = Directory(
+          await (await Directory.systemTemp.createTemp())
+              .resolveSymbolicLinks())
+      .uri);
 
   tearDown(
       () async => await Directory.fromUri(tempUri).delete(recursive: true));
@@ -54,6 +57,11 @@ void main() {
   });
 
   test('dependencies lastModified symlinks', () async {
+    if (Platform.isWindows) {
+      // Requires extra privilege, skip.
+      // "A required privilege is not held by the client"
+      return;
+    }
     final symlink = Link.fromUri(tempUri.resolve('my_link'));
     await symlink.create(tempUri.toFilePath());
 

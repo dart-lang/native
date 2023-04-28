@@ -72,26 +72,44 @@ class PathToolResolver extends ToolResolver {
 }
 
 class CliVersionResolver implements ToolResolver {
-  ToolResolver wrappedResolver;
+  final ToolResolver wrappedResolver;
+  final List<String> arguments;
+  final int expectedExitCode;
 
-  CliVersionResolver({required this.wrappedResolver});
+  CliVersionResolver({
+    required this.wrappedResolver,
+    this.arguments = const ['--version'],
+    this.expectedExitCode = 0,
+  });
 
   @override
   Future<List<ToolInstance>> resolve({Logger? logger}) async {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
     return [
       for (final toolInstance in toolInstances)
-        await lookupVersion(toolInstance, logger: logger)
+        await lookupVersion(
+          toolInstance,
+          arguments: arguments,
+          expectedExitCode: expectedExitCode,
+          logger: logger,
+        )
     ];
   }
 
   static Future<ToolInstance> lookupVersion(
     ToolInstance toolInstance, {
+    List<String> arguments = const ['--version'],
+    int expectedExitCode = 0,
     Logger? logger,
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Looking up version with --version for $toolInstance.');
-    final version = await executableVersion(toolInstance.uri, logger: logger);
+    final version = await executableVersion(
+      toolInstance.uri,
+      arguments: arguments,
+      expectedExitCode: expectedExitCode,
+      logger: logger,
+    );
     final result = toolInstance.copyWith(version: version);
     logger?.fine('Found version for $result.');
     return result;
@@ -99,22 +117,23 @@ class CliVersionResolver implements ToolResolver {
 
   static Future<Version> executableVersion(
     Uri executable, {
-    String argument = '--version',
+    List<String> arguments = const ['--version'],
     int expectedExitCode = 0,
     Logger? logger,
   }) async {
     final process = await runProcess(
       executable: executable,
-      arguments: [argument],
+      arguments: arguments,
       logger: logger,
     );
     if (process.exitCode != expectedExitCode) {
       final executablePath = executable.toFilePath();
       throw ToolError(
-          '`$executablePath $argument` returned unexpected exit code: '
-          '${process.exitCode}.');
+          '`$executablePath ${arguments.join(' ')}` returned unexpected exit'
+          ' code: ${process.exitCode}.');
     }
-    return versionFromString(process.stdout)!;
+    return versionFromString(process.stderr) ??
+        versionFromString(process.stdout)!;
   }
 }
 
@@ -194,7 +213,8 @@ class InstallLocationResolver implements ToolResolver {
     if (path.startsWith(home)) {
       final homeDir_ = homeDir;
       assert(homeDir_ != null);
-      path = path.replaceAll('$home/', homeDir!.path);
+      path = path.replaceAll(
+          '$home/', homeDir!.toFilePath().replaceAll('\\', '/'));
     }
 
     final result = <Uri>[];
@@ -232,13 +252,28 @@ class RelativeToolResolver implements ToolResolver {
 
     logger?.finer('Looking for $toolName relative to $otherToolInstances '
         'with $relativePath.');
-    final result = [
+    final globs = [
       for (final toolInstance in otherToolInstances)
+        Glob([
+          Glob.quote(
+              toolInstance.uri.resolve('.').toFilePath().replaceAll('\\', '/')),
+          relativePath.path
+        ].join())
+    ];
+    // print(globs);
+    // exit(0);
+    final fileSystemEntities = [
+      for (final glob in globs) ...await glob.list().toList(),
+    ];
+
+    final result = [
+      for (final fileSystemEntity in fileSystemEntities)
         ToolInstance(
           tool: Tool(name: toolName),
-          uri: toolInstance.uri.resolveUri(relativePath),
+          uri: fileSystemEntity.uri,
         ),
     ];
+
     if (result.isNotEmpty) {
       logger?.fine('Found $result.');
     } else {

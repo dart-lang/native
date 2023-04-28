@@ -13,6 +13,8 @@ void main() async {
   late Uri fakeClang;
   late Uri fakeLd;
   late Uri fakeAr;
+  late Uri fakeCl;
+  late Uri fakeVcVars;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -22,6 +24,10 @@ void main() async {
     await File.fromUri(fakeLd).create();
     fakeAr = tempUri.resolve('fake_ar');
     await File.fromUri(fakeAr).create();
+    fakeCl = tempUri.resolve('cl.exe');
+    await File.fromUri(fakeCl).create();
+    fakeVcVars = tempUri.resolve('vcvarsall.bat');
+    await File.fromUri(fakeVcVars).create();
   });
 
   tearDown(() async {
@@ -69,8 +75,8 @@ void main() async {
     );
 
     final config = Config(fileParsed: {
-      'out_dir': tempUri.resolve('out2/').path,
-      'package_root': tempUri.resolve('packageRoot/').path,
+      'out_dir': tempUri.resolve('out2/').toFilePath(),
+      'package_root': tempUri.resolve('packageRoot/').toFilePath(),
       'target': 'android_arm64',
       'link_mode_preference': 'prefer-static',
     });
@@ -155,7 +161,7 @@ void main() async {
       },
     );
     final yamlString = buildConfig1.toYamlString();
-    final expectedYamlString = '''cc: ${fakeClang.path}
+    final expectedYamlString = '''cc: ${fakeClang.toFilePath()}
 dependency_metadata:
   bar:
     key: value
@@ -164,10 +170,10 @@ dependency_metadata:
     z:
       - z
       - a
-ld: ${fakeLd.path}
+ld: ${fakeLd.toFilePath()}
 link_mode_preference: prefer-static
-out_dir: ${outDir.path}
-package_root: ${tempUri.path}
+out_dir: ${outDir.toFilePath()}
+package_root: ${tempUri.toFilePath()}
 target: ios_arm64
 target_ios_sdk: iphoneos''';
     expect(yamlString, equals(expectedYamlString));
@@ -187,7 +193,7 @@ target_ios_sdk: iphoneos''';
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
-        'package_root': tempUri.resolve('packageRoot/').path,
+        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
         'target': 'android_arm64',
         'link_mode_preference': 'prefer-static',
       })),
@@ -195,8 +201,8 @@ target_ios_sdk: iphoneos''';
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
-        'out_dir': tempUri.resolve('out2/').path,
-        'package_root': tempUri.resolve('packageRoot/').path,
+        'out_dir': tempUri.resolve('out2/').toFilePath(),
+        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
         'target': 'android_arm64',
         'link_mode_preference': 'prefer-static',
         'dependency_metadata': {
@@ -211,8 +217,8 @@ target_ios_sdk: iphoneos''';
   test('FormatExceptions contain full stack trace of wrapped exception', () {
     try {
       BuildConfig.fromConfig(Config(fileParsed: {
-        'out_dir': tempUri.resolve('out2/').path,
-        'package_root': tempUri.resolve('packageRoot/').path,
+        'out_dir': tempUri.resolve('out2/').toFilePath(),
+        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
         'target': [1, 2, 3, 4, 5],
         'link_mode_preference': 'prefer-static',
       }));
@@ -274,5 +280,22 @@ target_ios_sdk: iphoneos''';
       ].join('.')),
       'value',
     );
+  });
+
+  test('toolchainEnvScript', () {
+    final buildConfig1 = BuildConfig(
+      outDir: tempUri.resolve('out1/'),
+      packageRoot: tempUri.resolve('packageRoot/'),
+      target: Target.windowsX64,
+      cc: fakeCl,
+      toolchainEnvScript: fakeVcVars,
+      toolchainEnvScriptArgs: ['x64'],
+      linkModePreference: LinkModePreference.dynamic,
+    );
+
+    final configFile = buildConfig1.toYaml();
+    final config = Config(fileParsed: configFile);
+    final fromConfig = BuildConfig.fromConfig(config);
+    expect(fromConfig, equals(buildConfig1));
   });
 }

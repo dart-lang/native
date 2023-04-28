@@ -80,7 +80,8 @@ class CBuilder implements Builder {
     final exeUri =
         outDir.resolve(buildConfig.target.os.executableFileName(name));
     final sources = [
-      for (final source in this.sources) packageRoot.resolve(source),
+      for (final source in this.sources)
+        packageRoot.resolveUri(Uri.file(source)),
     ];
     final dartBuildFiles = [
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),

@@ -51,6 +51,14 @@ class BuildConfig {
   LinkModePreference get linkModePreference => _linkModePreference;
   late final LinkModePreference _linkModePreference;
 
+  /// Path to script that sets environment variables for [cc], [ld], and [ar].
+  Uri? get toolchainEnvScript => _toolchainEnvScript;
+  late final Uri? _toolchainEnvScript;
+
+  /// Arguments for [toolchainEnvScript].
+  List<String>? get toolchainEnvScriptArgs => _toolchainEnvScriptArgs;
+  late final List<String>? _toolchainEnvScriptArgs;
+
   /// Metadata from direct dependencies.
   ///
   /// The key in the map is the package name of the dependency.
@@ -73,6 +81,8 @@ class BuildConfig {
     Uri? ar,
     Uri? cc,
     Uri? ld,
+    Uri? toolchainEnvScript,
+    List<String>? toolchainEnvScriptArgs,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
   }) {
@@ -85,6 +95,8 @@ class BuildConfig {
       .._cc = cc
       .._ld = ld
       .._linkModePreference = linkModePreference
+      .._toolchainEnvScript = toolchainEnvScript
+      .._toolchainEnvScriptArgs = toolchainEnvScriptArgs
       .._dependencyMetadata = dependencyMetadata;
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
@@ -143,10 +155,14 @@ class BuildConfig {
   static const arConfigKey = 'ar';
   static const ccConfigKey = 'cc';
   static const ldConfigKey = 'ld';
+  static const toolchainEnvScriptConfigKey = 'toolchain_env_script';
+  static const toolchainEnvScriptArgsConfigKey =
+      'toolchain_env_script_arguments';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var targetSet = false;
+    var ccSet = false;
     return [
       (config) => _config = config,
       (config) => _outDir = config.path(outDirConfigKey),
@@ -169,8 +185,19 @@ class BuildConfig {
             )
           : null,
       (config) => _ar = config.optionalPath(arConfigKey, mustExist: true),
-      (config) => _cc = config.optionalPath(ccConfigKey, mustExist: true),
+      (config) {
+        _cc = config.optionalPath(ccConfigKey, mustExist: true);
+        ccSet = true;
+      },
       (config) => _ld = config.optionalPath(ldConfigKey, mustExist: true),
+      (config) => _toolchainEnvScript =
+          (ccSet && cc != null && cc!.toFilePath().endsWith('cl.exe'))
+              ? config.path(toolchainEnvScriptConfigKey, mustExist: true)
+              : null,
+      (config) => _toolchainEnvScriptArgs = config.optionalStringList(
+            toolchainEnvScriptArgsConfigKey,
+            splitEnvironmentPattern: ' ',
+          ),
       (config) => _linkModePreference = LinkModePreference.fromString(
             config.string(
               LinkModePreference.configKey,
@@ -211,13 +238,17 @@ class BuildConfig {
   }
 
   Map<String, Object> toYaml() => {
-        outDirConfigKey: _outDir.path,
-        packageRootConfigKey: _packageRoot.path,
+        outDirConfigKey: _outDir.toFilePath(),
+        packageRootConfigKey: _packageRoot.toFilePath(),
         Target.configKey: _target.toString(),
         if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
-        if (_ar != null) arConfigKey: _ar!.path,
-        if (_cc != null) ccConfigKey: _cc!.path,
-        if (_ld != null) ldConfigKey: _ld!.path,
+        if (_ar != null) arConfigKey: _ar!.toFilePath(),
+        if (_cc != null) ccConfigKey: _cc!.toFilePath(),
+        if (_ld != null) ldConfigKey: _ld!.toFilePath(),
+        if (_toolchainEnvScript != null)
+          toolchainEnvScriptConfigKey: _toolchainEnvScript!.toFilePath(),
+        if (_toolchainEnvScriptArgs != null)
+          toolchainEnvScriptArgsConfigKey: _toolchainEnvScriptArgs!,
         LinkModePreference.configKey: _linkModePreference.toString(),
         if (_dependencyMetadata != null)
           dependencyMetadataConfigKey: {
@@ -240,6 +271,9 @@ class BuildConfig {
     if (other._ar != _ar) return false;
     if (other._cc != _cc) return false;
     if (other._ld != _ld) return false;
+    if (other.toolchainEnvScript != toolchainEnvScript) return false;
+    if (!ListEquality<String>().equals(
+        other.toolchainEnvScriptArgs, toolchainEnvScriptArgs)) return false;
     if (other._linkModePreference != _linkModePreference) return false;
     if (!DeepCollectionEquality()
         .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
@@ -255,6 +289,8 @@ class BuildConfig {
         _ar,
         _cc,
         _ld,
+        _toolchainEnvScript,
+        ListEquality<String>().hash(toolchainEnvScriptArgs),
         _linkModePreference,
         DeepCollectionEquality().hash(_dependencyMetadata),
       );

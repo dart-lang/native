@@ -13,13 +13,18 @@ const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 Future<void> inTempDir(
   Future<void> Function(Uri tempUri) fun, {
   String? prefix,
+  bool keepTemp = false,
 }) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
+  // Deal with Windows temp folder aliases.
+  final tempUri =
+      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
   try {
-    await fun(tempDir.uri);
+    await fun(tempUri);
   } finally {
-    if (!Platform.environment.containsKey(keepTempKey) ||
-        Platform.environment[keepTempKey]!.isEmpty) {
+    if ((!Platform.environment.containsKey(keepTempKey) ||
+            Platform.environment[keepTempKey]!.isEmpty) &&
+        !keepTemp) {
       await tempDir.delete(recursive: true);
     }
   }
@@ -90,6 +95,16 @@ final Uri? cc = Platform.environment['CC']?.asFileUri();
 
 /// Linker provided by the environment.
 final Uri? ld = Platform.environment['LD']?.asFileUri();
+
+/// Path to script that sets environment variables for [cc], [ld], and [ar].
+///
+/// Provided by environment.
+final Uri? toolchainEnvScript =
+    Platform.environment['ToolchainEnvScript']?.asFileUri();
+
+/// Arguments for [toolchainEnvScript] provided by environment.
+final List<String>? toolchainEnvScriptArgs =
+    Platform.environment['ToolchainEnvScriptArguments']?.split(' ');
 
 extension on String {
   Uri asFileUri() => Uri.file(this);

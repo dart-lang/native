@@ -29,7 +29,7 @@ class Dependencies {
       ]);
 
   List<String> toYaml() => [
-        for (final dependency in dependencies) dependency.path,
+        for (final dependency in dependencies) dependency.toFilePath(),
       ];
 
   String toYamlString() => yamlEncode(toYaml());
