@@ -41,6 +41,7 @@ void main() async {
         if (toolchainEnvScriptArgs != null)
           '-D${BuildConfig.toolchainEnvScriptArgsConfigKey}='
               '${toolchainEnvScriptArgs!.join(' ')}',
+        '-Dversion=${BuildConfig.version}',
       ],
       workingDirectory: testPackageUri.toFilePath(),
     );

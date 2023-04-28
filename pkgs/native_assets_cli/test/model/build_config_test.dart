@@ -79,6 +79,7 @@ void main() async {
       'package_root': tempUri.resolve('packageRoot/').toFilePath(),
       'target': 'android_arm64',
       'link_mode_preference': 'prefer-static',
+      'version': BuildOutput.version.toString(),
     });
 
     final fromConfig = BuildConfig.fromConfig(config);
@@ -175,7 +176,8 @@ link_mode_preference: prefer-static
 out_dir: ${outDir.toFilePath()}
 package_root: ${tempUri.toFilePath()}
 target: ios_arm64
-target_ios_sdk: iphoneos''';
+target_ios_sdk: iphoneos
+version: ${BuildConfig.version}''';
     expect(yamlString, equals(expectedYamlString));
 
     final buildConfig2 = BuildConfig.fromConfig(
@@ -298,4 +300,18 @@ target_ios_sdk: iphoneos''';
     final fromConfig = BuildConfig.fromConfig(config);
     expect(fromConfig, equals(buildConfig1));
   });
+
+  for (final version in ['9001.0.0', '0.0.1']) {
+    test('BuildConfig version $version', () {
+      final outDir = tempUri.resolve('out1/');
+      final config = Config(fileParsed: {
+        'link_mode_preference': 'prefer-static',
+        'out_dir': outDir.toFilePath(),
+        'package_root': tempUri.toFilePath(),
+        'target': 'linux_x64',
+        'version': version,
+      });
+      expect(() => BuildConfig.fromConfig(config), throwsFormatException);
+    });
+  }
 }

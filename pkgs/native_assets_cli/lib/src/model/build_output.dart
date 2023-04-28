@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
 import '../utils/datetime.dart';
@@ -39,28 +40,58 @@ class BuildOutput {
   static const _dependenciesKey = 'dependencies';
   static const _metadataKey = 'metadata';
   static const _timestampKey = 'timestamp';
+  static const _versionKey = 'version';
 
   factory BuildOutput.fromYamlString(String yaml) {
     final yamlObject = loadYaml(yaml) as YamlMap;
     return BuildOutput.fromYaml(yamlObject);
   }
 
-  factory BuildOutput.fromYaml(YamlMap yamlMap) => BuildOutput(
-        timestamp: DateTime.parse(yamlMap[_timestampKey] as String),
-        assets: Asset.listFromYamlList(yamlMap[_assetsKey] as YamlList),
-        dependencies:
-            Dependencies.fromYaml(yamlMap[_dependenciesKey] as YamlList?),
-        metadata: Metadata.fromYaml(yamlMap[_metadataKey] as YamlMap?),
+  factory BuildOutput.fromYaml(YamlMap yamlMap) {
+    final outputVersion = Version.parse(yamlMap['version'] as String);
+    if (outputVersion.major > version.major) {
+      throw FormatException(
+        'The output version $outputVersion is newer than the '
+        'package:native_assets_cli config version $version in Dart or Flutter, '
+        'please update the Dart or Flutter SDK.',
       );
+    }
+    if (outputVersion.major < version.major) {
+      throw FormatException(
+        'The output version $outputVersion is newer than this '
+        'package:native_assets_cli config version $version in Dart or Flutter, '
+        'please update native_assets_cli.',
+      );
+    }
+
+    return BuildOutput(
+      timestamp: DateTime.parse(yamlMap[_timestampKey] as String),
+      assets: Asset.listFromYamlList(yamlMap[_assetsKey] as YamlList),
+      dependencies:
+          Dependencies.fromYaml(yamlMap[_dependenciesKey] as YamlList?),
+      metadata: Metadata.fromYaml(yamlMap[_metadataKey] as YamlMap?),
+    );
+  }
 
   Map<String, Object> toYaml() => {
         _timestampKey: timestamp.toString(),
         _assetsKey: assets.toYaml(),
         _dependenciesKey: dependencies.toYaml(),
         _metadataKey: metadata.toYaml(),
+        _versionKey: version.toString(),
       }..sortOnKey();
 
   String toYamlString() => yamlEncode(toYaml());
+
+  /// The version of [BuildOutput].
+  ///
+  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through `build.dart` invocations.
+  ///
+  /// If we ever were to make breaking changes, it would be useful to give
+  /// proper error messages rather than just fail to parse the YAML
+  /// representation in the protocol.
+  static Version version = Version(1, 0, 0);
 
   static const fileName = 'build_output.yaml';
 

@@ -42,7 +42,7 @@ void main() {
     }),
   );
 
-  const yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
+  final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -59,7 +59,8 @@ assets:
 dependencies:
   - path/to/file.ext
 metadata:
-  key: value''';
+  key: value
+version: ${BuildOutput.version}''';
 
   test('built info yaml', () {
     final yaml = buildOutput.toYamlString().replaceAll('\\', '/');
@@ -94,4 +95,13 @@ metadata:
     );
     expect(buildOutput3.timestamp, DateTime.parse('2022-11-10 13:25:01.000'));
   });
+
+  for (final version in ['9001.0.0', '0.0.1']) {
+    test('BuildOutput version $version', () {
+      expect(
+        () => BuildOutput.fromYamlString('version: $version'),
+        throwsFormatException,
+      );
+    });
+  }
 }
