@@ -47,13 +47,31 @@ class BuildOutput {
     return BuildOutput.fromYaml(yamlObject);
   }
 
-  factory BuildOutput.fromYaml(YamlMap yamlMap) => BuildOutput(
-        timestamp: DateTime.parse(yamlMap[_timestampKey] as String),
-        assets: Asset.listFromYamlList(yamlMap[_assetsKey] as YamlList),
-        dependencies:
-            Dependencies.fromYaml(yamlMap[_dependenciesKey] as YamlList?),
-        metadata: Metadata.fromYaml(yamlMap[_metadataKey] as YamlMap?),
+  factory BuildOutput.fromYaml(YamlMap yamlMap) {
+    final outputVersion = Version.parse(yamlMap['version'] as String);
+    if (outputVersion.major > version.major) {
+      throw FormatException(
+        'The output version $outputVersion is newer than the '
+        'package:native_assets_cli config version $version in Dart or Flutter, '
+        'please update the Dart or Flutter SDK.',
       );
+    }
+    if (outputVersion.major < version.major) {
+      throw FormatException(
+        'The output version $outputVersion is newer than this '
+        'package:native_assets_cli config version $version in Dart or Flutter, '
+        'please update native_assets_cli.',
+      );
+    }
+
+    return BuildOutput(
+      timestamp: DateTime.parse(yamlMap[_timestampKey] as String),
+      assets: Asset.listFromYamlList(yamlMap[_assetsKey] as YamlList),
+      dependencies:
+          Dependencies.fromYaml(yamlMap[_dependenciesKey] as YamlList?),
+      metadata: Metadata.fromYaml(yamlMap[_metadataKey] as YamlMap?),
+    );
+  }
 
   Map<String, Object> toYaml() => {
         _timestampKey: timestamp.toString(),

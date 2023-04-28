@@ -95,4 +95,13 @@ version: 1.0.0''';
     );
     expect(buildOutput3.timestamp, DateTime.parse('2022-11-10 13:25:01.000'));
   });
+
+  for (final version in ['9001.0.0', '0.0.1']) {
+    test('BuildOutput version $version', () {
+      expect(
+        () => BuildOutput.fromYamlString('version: $version'),
+        throwsFormatException,
+      );
+    });
+  }
 }
