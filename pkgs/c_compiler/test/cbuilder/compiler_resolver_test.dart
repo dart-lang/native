@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@OnPlatform({'windows': Timeout.factor(10)})
+library;
+
 import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/cbuilder/compiler_resolver.dart';
 import 'package:c_compiler/src/native_toolchain/msvc.dart';
