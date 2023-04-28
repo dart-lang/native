@@ -9,18 +9,13 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('OS accessors', () async {
-    expect(OS.android.isDesktop, false);
-    expect(OS.android.isMobile, true);
-  });
-
   test('OS naming conventions', () async {
     expect(OS.android.dylibFileName('foo'), 'libfoo.so');
     expect(OS.android.staticlibFileName('foo'), 'libfoo.a');
     expect(OS.windows.dylibFileName('foo'), 'foo.dll');
-    expect(OS.windows.libraryFileName('foo', Packaging.dynamic), 'foo.dll');
+    expect(OS.windows.libraryFileName('foo', LinkMode.dynamic), 'foo.dll');
     expect(OS.windows.staticlibFileName('foo'), 'foo.lib');
-    expect(OS.windows.libraryFileName('foo', Packaging.static), 'foo.lib');
+    expect(OS.windows.libraryFileName('foo', LinkMode.static), 'foo.lib');
     expect(OS.windows.executableFileName('foo'), 'foo.exe');
   });
 

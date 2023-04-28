@@ -8,8 +8,8 @@ import 'package:collection/collection.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'ios_sdk.dart';
+import 'link_mode_preference.dart';
 import 'metadata.dart';
-import 'packaging_preference.dart';
 import 'target.dart';
 
 class BuildConfig {
@@ -47,6 +47,10 @@ class BuildConfig {
   Uri? get ar => _ar;
   late final Uri? _ar;
 
+  /// Preferred linkMode method for library.
+  LinkModePreference get linkModePreference => _linkModePreference;
+  late final LinkModePreference _linkModePreference;
+
   /// Path to script that sets environment variables for [cc], [ld], and [ar].
   Uri? get toolchainEnvScript => _toolchainEnvScript;
   late final Uri? _toolchainEnvScript;
@@ -54,10 +58,6 @@ class BuildConfig {
   /// Arguments for [toolchainEnvScript].
   List<String>? get toolchainEnvScriptArgs => _toolchainEnvScriptArgs;
   late final List<String>? _toolchainEnvScriptArgs;
-
-  /// Preferred packaging method for library.
-  PackagingPreference get packaging => _packaging;
-  late final PackagingPreference _packaging;
 
   /// Metadata from direct dependencies.
   ///
@@ -83,7 +83,7 @@ class BuildConfig {
     Uri? ld,
     Uri? toolchainEnvScript,
     List<String>? toolchainEnvScriptArgs,
-    required PackagingPreference packaging,
+    required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
   }) {
     final nonValidated = BuildConfig._()
@@ -94,9 +94,9 @@ class BuildConfig {
       .._ar = ar
       .._cc = cc
       .._ld = ld
+      .._linkModePreference = linkModePreference
       .._toolchainEnvScript = toolchainEnvScript
       .._toolchainEnvScriptArgs = toolchainEnvScriptArgs
-      .._packaging = packaging
       .._dependencyMetadata = dependencyMetadata;
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
@@ -198,10 +198,10 @@ class BuildConfig {
             toolchainEnvScriptArgsConfigKey,
             splitEnvironmentPattern: ' ',
           ),
-      (config) => _packaging = PackagingPreference.fromString(
+      (config) => _linkModePreference = LinkModePreference.fromString(
             config.string(
-              PackagingPreference.configKey,
-              validValues: PackagingPreference.values.map((e) => '$e'),
+              LinkModePreference.configKey,
+              validValues: LinkModePreference.values.map((e) => '$e'),
             ),
           ),
       (config) =>
@@ -249,7 +249,7 @@ class BuildConfig {
           toolchainEnvScriptConfigKey: _toolchainEnvScript!.toFilePath(),
         if (_toolchainEnvScriptArgs != null)
           toolchainEnvScriptArgsConfigKey: _toolchainEnvScriptArgs!,
-        PackagingPreference.configKey: _packaging.toString(),
+        LinkModePreference.configKey: _linkModePreference.toString(),
         if (_dependencyMetadata != null)
           dependencyMetadataConfigKey: {
             for (final entry in _dependencyMetadata!.entries)
@@ -274,7 +274,7 @@ class BuildConfig {
     if (other.toolchainEnvScript != toolchainEnvScript) return false;
     if (!ListEquality<String>().equals(
         other.toolchainEnvScriptArgs, toolchainEnvScriptArgs)) return false;
-    if (other._packaging != _packaging) return false;
+    if (other._linkModePreference != _linkModePreference) return false;
     if (!DeepCollectionEquality()
         .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
     return true;
@@ -291,7 +291,7 @@ class BuildConfig {
         _ld,
         _toolchainEnvScript,
         ListEquality<String>().hash(toolchainEnvScriptArgs),
-        _packaging,
+        _linkModePreference,
         DeepCollectionEquality().hash(_dependencyMetadata),
       );
 

@@ -25,13 +25,13 @@ void main() {
         name: 'foo',
         path: AssetAbsolutePath(Uri(path: 'path/to/libfoo.so')),
         target: Target.androidX64,
-        packaging: Packaging.dynamic,
+        linkMode: LinkMode.dynamic,
       ),
       Asset(
         name: 'foo2',
         path: AssetRelativePath(Uri(path: 'path/to/libfoo2.so')),
         target: Target.androidX64,
-        packaging: Packaging.dynamic,
+        linkMode: LinkMode.dynamic,
       ),
     ],
     dependencies: Dependencies([
@@ -45,13 +45,13 @@ void main() {
   const yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
-    packaging: dynamic
+    link_mode: dynamic
     path:
       path_type: absolute
       uri: path/to/libfoo.so
     target: android_x64
   - name: foo2
-    packaging: dynamic
+    link_mode: dynamic
     path:
       path_type: relative
       uri: path/to/libfoo2.so

@@ -29,7 +29,8 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
-        packaging: PackagingPreference.dynamic, // Ignored by executables.
+        linkModePreference:
+            LinkModePreference.dynamic, // Ignored by executables.
         cc: cc,
         toolchainEnvScript: toolchainEnvScript,
         toolchainEnvScriptArgs: toolchainEnvScriptArgs,
@@ -70,7 +71,7 @@ void main() {
           outDir: tempUri,
           packageRoot: tempUri,
           target: Target.current,
-          packaging: PackagingPreference.dynamic,
+          linkModePreference: LinkModePreference.dynamic,
           cc: cc,
           toolchainEnvScript: toolchainEnvScript,
           toolchainEnvScriptArgs: toolchainEnvScriptArgs,

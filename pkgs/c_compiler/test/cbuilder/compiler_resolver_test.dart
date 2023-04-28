@@ -5,8 +5,9 @@
 @OnPlatform({'windows': Timeout.factor(10)})
 library;
 
-import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/cbuilder/compiler_resolver.dart';
+import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
+import 'package:c_compiler/src/native_toolchain/clang.dart';
 import 'package:c_compiler/src/native_toolchain/msvc.dart';
 import 'package:c_compiler/src/tool/tool_error.dart';
 import 'package:collection/collection.dart';
@@ -40,7 +41,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
-        packaging: PackagingPreference.dynamic,
+        linkModePreference: LinkModePreference.dynamic,
         ar: ar,
         cc: cc,
         ld: ld,
@@ -61,7 +62,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.windowsX64,
-        packaging: PackagingPreference.dynamic,
+        linkModePreference: LinkModePreference.dynamic,
       );
       final resolver = CompilerResolver(
         buildConfig: buildConfig,

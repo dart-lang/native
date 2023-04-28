@@ -29,10 +29,10 @@ void main() {
     Target.iOSArm64: 'arm64',
   };
 
-  for (final packaging in Packaging.values) {
+  for (final linkMode in LinkMode.values) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
-        test('Cbuilder $packaging library $targetIOSSdk $target', () async {
+        test('Cbuilder $linkMode library $targetIOSSdk $target', () async {
           await inTempDir((tempUri) async {
             final addCUri =
                 packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
@@ -42,9 +42,9 @@ void main() {
               outDir: tempUri,
               packageRoot: tempUri,
               target: target,
-              packaging: packaging == Packaging.dynamic
-                  ? PackagingPreference.dynamic
-                  : PackagingPreference.static,
+              linkModePreference: linkMode == LinkMode.dynamic
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
               targetIOSSdk: targetIOSSdk,
             );
             final buildOutput = BuildOutput();
@@ -61,7 +61,7 @@ void main() {
             );
 
             final libUri =
-                tempUri.resolve(target.os.libraryFileName(name, packaging));
+                tempUri.resolve(target.os.libraryFileName(name, linkMode));
             final result = await runProcess(
               executable: Uri.file('objdump'),
               arguments: ['-t', libUri.path],

@@ -33,7 +33,7 @@ void main() async {
         '-Dout_dir=${tempUri.toFilePath()}',
         '-Dpackage_root=${testPackageUri.toFilePath()}',
         '-Dtarget=${Target.current}',
-        '-Dpackaging=dynamic',
+        '-Dlink_mode_preference=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',
         if (toolchainEnvScript != null)
           '-D${BuildConfig.toolchainEnvScriptConfigKey}='

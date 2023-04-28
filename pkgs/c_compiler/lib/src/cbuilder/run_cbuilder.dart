@@ -5,9 +5,12 @@
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-import '../../c_compiler.dart';
+import '../native_toolchain/apple_clang.dart';
+import '../native_toolchain/clang.dart';
+import '../native_toolchain/gcc.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/xcode.dart';
+import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';

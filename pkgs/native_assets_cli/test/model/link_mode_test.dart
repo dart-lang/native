@@ -6,7 +6,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Packaging toString', () async {
-    Packaging.static.toString();
+  test('LinkMode toString', () async {
+    LinkMode.static.toString();
   });
 }

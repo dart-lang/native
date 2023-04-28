@@ -7,7 +7,8 @@ library;
 
 import 'dart:io';
 
-import 'package:c_compiler/c_compiler.dart';
+import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
+import 'package:c_compiler/src/tool/tool_requirement.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 

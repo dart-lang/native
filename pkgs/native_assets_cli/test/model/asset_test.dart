@@ -17,82 +17,82 @@ void main() {
       name: 'foo',
       path: AssetAbsolutePath(fooUri),
       target: Target.androidX64,
-      packaging: Packaging.dynamic,
+      linkMode: LinkMode.dynamic,
     ),
     Asset(
       name: 'foo2',
       path: AssetRelativePath(foo2Uri),
       target: Target.androidX64,
-      packaging: Packaging.dynamic,
+      linkMode: LinkMode.dynamic,
     ),
     Asset(
       name: 'foo3',
       path: AssetSystemPath(foo3Uri),
       target: Target.androidX64,
-      packaging: Packaging.dynamic,
+      linkMode: LinkMode.dynamic,
     ),
     Asset(
       name: 'foo4',
       path: AssetInExecutable(),
       target: Target.androidX64,
-      packaging: Packaging.dynamic,
+      linkMode: LinkMode.dynamic,
     ),
     Asset(
       name: 'foo5',
       path: AssetInProcess(),
       target: Target.androidX64,
-      packaging: Packaging.dynamic,
+      linkMode: LinkMode.dynamic,
     ),
     Asset(
       name: 'bar',
       path: AssetAbsolutePath(barUri),
       target: Target.linuxArm64,
-      packaging: Packaging.static,
+      linkMode: LinkMode.static,
     ),
     Asset(
       name: 'bla',
       path: AssetAbsolutePath(blaUri),
       target: Target.windowsX64,
-      packaging: Packaging.dynamic,
+      linkMode: LinkMode.dynamic,
     ),
   ];
 
   final assetsYamlEncoding = '''- name: foo
-  packaging: dynamic
+  link_mode: dynamic
   path:
     path_type: absolute
     uri: ${fooUri.toFilePath()}
   target: android_x64
 - name: foo2
-  packaging: dynamic
+  link_mode: dynamic
   path:
     path_type: relative
     uri: ${foo2Uri.toFilePath()}
   target: android_x64
 - name: foo3
-  packaging: dynamic
+  link_mode: dynamic
   path:
     path_type: system
     uri: ${foo3Uri.toFilePath()}
   target: android_x64
 - name: foo4
-  packaging: dynamic
+  link_mode: dynamic
   path:
     path_type: executable
   target: android_x64
 - name: foo5
-  packaging: dynamic
+  link_mode: dynamic
   path:
     path_type: process
   target: android_x64
 - name: bar
-  packaging: static
+  link_mode: static
   path:
     path_type: absolute
     uri: ${barUri.toFilePath()}
   target: linux_arm64
 - name: bla
-  packaging: dynamic
+  link_mode: dynamic
   path:
     path_type: absolute
     uri: ${blaUri.toFilePath()}
@@ -157,8 +157,8 @@ native-assets:
     expect(equality.hash(assets) != equality.hash(assets2), true);
   });
 
-  test('List<Asset> wherePackaging', () async {
-    final assets2 = assets.wherePackaging(Packaging.dynamic);
+  test('List<Asset> whereLinkMode', () async {
+    final assets2 = assets.whereLinkMode(LinkMode.dynamic);
     expect(assets2.length, 6);
   });
 
@@ -175,7 +175,7 @@ native-assets:
         assets.first.toYamlString(),
         '''
 name: foo
-packaging: dynamic
+link_mode: dynamic
 path:
   path_type: absolute
   uri: ${fooUri.toFilePath()}

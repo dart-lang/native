@@ -5,7 +5,7 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import 'packaging.dart';
+import 'link_mode.dart';
 
 /// The hardware architectures the Dart VM runs on.
 class Architecture {
@@ -106,13 +106,6 @@ class OS {
     Abi.windowsX64: OS.windows,
   };
 
-  /// Whether the [OS] is a OS for mobile devices.
-  bool get isMobile => this == OS.android || this == OS.iOS;
-
-  /// Whether the [OS] is a OS for desktop devices.
-  bool get isDesktop =>
-      this == OS.linux || this == OS.macOS || this == OS.windows;
-
   /// Typical cross compilation between OSes.
   static const _osCrossCompilationDefault = {
     OS.macOS: [OS.macOS, OS.iOS, OS.android],
@@ -134,11 +127,11 @@ class OS {
     return '$prefix$name.$extension';
   }
 
-  String libraryFileName(String name, Packaging packaging) {
-    if (packaging == Packaging.dynamic) {
+  String libraryFileName(String name, LinkMode linkMode) {
+    if (linkMode == LinkMode.dynamic) {
       return dylibFileName(name);
     }
-    assert(packaging == Packaging.static);
+    assert(linkMode == LinkMode.static);
     return staticlibFileName(name);
   }
 

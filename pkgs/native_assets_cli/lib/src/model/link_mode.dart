@@ -2,21 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class Packaging {
+class LinkMode {
   final String name;
 
-  const Packaging._(this.name);
+  const LinkMode._(this.name);
 
-  static const Packaging dynamic = Packaging._('dynamic');
-  static const Packaging static = Packaging._('static');
+  static const LinkMode dynamic = LinkMode._('dynamic');
+  static const LinkMode static = LinkMode._('static');
 
-  /// Known values for [Packaging].
-  static const List<Packaging> values = [
+  /// Known values for [LinkMode].
+  static const List<LinkMode> values = [
     dynamic,
     static,
   ];
 
-  factory Packaging.fromName(String name) =>
+  factory LinkMode.fromName(String name) =>
       values.where((element) => element.name == name).first;
 
   @override

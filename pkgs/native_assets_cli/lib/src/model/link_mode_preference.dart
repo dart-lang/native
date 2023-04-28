@@ -2,63 +2,59 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'packaging.dart';
+import 'link_mode.dart';
 
-class PackagingPreference {
+class LinkModePreference {
   final String name;
   final String description;
-  final List<Packaging> preferredPackaging;
-  final List<Packaging> potentialPackaging;
+  final LinkMode preferredLinkMode;
+  final List<LinkMode> potentialLinkMode;
 
-  const PackagingPreference(
+  const LinkModePreference(
     this.name,
     this.description, {
-    required this.preferredPackaging,
-    required this.potentialPackaging,
+    required this.preferredLinkMode,
+    required this.potentialLinkMode,
   });
 
-  factory PackagingPreference.fromString(String name) =>
+  factory LinkModePreference.fromString(String name) =>
       values.where((element) => element.name == name).first;
 
-  static const dynamic = PackagingPreference(
+  static const dynamic = LinkModePreference(
     'dynamic',
     '''Provide native assets as dynamic libraries.
 Fails if not all native assets can only be provided as static library.
 Required to run Dart in JIT mode.''',
-    preferredPackaging: [Packaging.dynamic],
-    potentialPackaging: [Packaging.dynamic],
+    preferredLinkMode: LinkMode.dynamic,
+    potentialLinkMode: [LinkMode.dynamic],
   );
-  static const static = PackagingPreference(
+
+  static const static = LinkModePreference(
     'static',
     '''Provide native assets as static libraries.
 Fails if not all native assets can only be provided as dynamic library.
 Required for potential link-time tree-shaking of native code.
 Therefore, preferred to in Dart AOT mode.''',
-    preferredPackaging: [Packaging.static],
-    potentialPackaging: [Packaging.static],
+    preferredLinkMode: LinkMode.static,
+    potentialLinkMode: [LinkMode.static],
   );
-  static const preferDynamic = PackagingPreference(
+
+  static const preferDynamic = LinkModePreference(
     'prefer-dynamic',
     '''Provide native assets as dynamic libraries, if possible.
 Otherwise, build native assets as static libraries.''',
-    preferredPackaging: [Packaging.dynamic],
-    potentialPackaging: Packaging.values,
+    preferredLinkMode: LinkMode.dynamic,
+    potentialLinkMode: LinkMode.values,
   );
-  static const preferStatic = PackagingPreference(
+
+  static const preferStatic = LinkModePreference(
     'prefer-static',
     '''Provide native assets as static libraries, if possible.
 Otherwise, build native assets as dynamic libraries.
 Preferred for AOT compilation, if there are any native assets which can only be
 provided as dynamic libraries.''',
-    preferredPackaging: [Packaging.static],
-    potentialPackaging: Packaging.values,
-  );
-  static const all = PackagingPreference(
-    'all',
-    '''Provide native assets as both dynamic and static libraries if supported.
-Mostly useful for testing the build scripts.''',
-    preferredPackaging: Packaging.values,
-    potentialPackaging: Packaging.values,
+    preferredLinkMode: LinkMode.static,
+    potentialLinkMode: LinkMode.values,
   );
 
   static const values = [
@@ -66,11 +62,10 @@ Mostly useful for testing the build scripts.''',
     static,
     preferDynamic,
     preferStatic,
-    all,
   ];
 
   /// The `package:config` key preferably used.
-  static const String configKey = 'packaging';
+  static const String configKey = 'link_mode_preference';
 
   @override
   String toString() => name;

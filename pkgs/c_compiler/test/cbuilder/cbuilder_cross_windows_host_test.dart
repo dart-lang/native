@@ -40,13 +40,13 @@ void main() {
   };
 
   const dumpbinFileType = {
-    Packaging.dynamic: 'DLL',
-    Packaging.static: 'LIBRARY',
+    LinkMode.dynamic: 'DLL',
+    LinkMode.static: 'LIBRARY',
   };
 
-  for (final packaging in Packaging.values) {
+  for (final linkMode in LinkMode.values) {
     for (final target in targets) {
-      test('Cbuilder $packaging library $target', timeout: Timeout.factor(2),
+      test('Cbuilder $linkMode library $target', timeout: Timeout.factor(2),
           () async {
         await inTempDir((tempUri) async {
           final addCUri =
@@ -57,9 +57,9 @@ void main() {
             outDir: tempUri,
             packageRoot: tempUri,
             target: target,
-            packaging: packaging == Packaging.dynamic
-                ? PackagingPreference.dynamic
-                : PackagingPreference.static,
+            linkModePreference: linkMode == LinkMode.dynamic
+                ? LinkModePreference.dynamic
+                : LinkModePreference.static,
           );
           final buildOutput = BuildOutput();
 
@@ -75,7 +75,7 @@ void main() {
           );
 
           final libUri =
-              tempUri.resolve(target.os.libraryFileName(name, packaging));
+              tempUri.resolve(target.os.libraryFileName(name, linkMode));
           expect(await File.fromUri(libUri).exists(), true);
           final result = await runProcess(
             executable: dumpbinUri,
@@ -90,7 +90,7 @@ void main() {
           final fileType = result.stdout
               .split('\n')
               .firstWhere((e) => e.contains('File Type'));
-          expect(fileType, contains(dumpbinFileType[packaging]));
+          expect(fileType, contains(dumpbinFileType[linkMode]));
         });
       });
     }
