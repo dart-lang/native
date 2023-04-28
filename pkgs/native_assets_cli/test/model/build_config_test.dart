@@ -175,7 +175,8 @@ link_mode_preference: prefer-static
 out_dir: ${outDir.toFilePath()}
 package_root: ${tempUri.toFilePath()}
 target: ios_arm64
-target_ios_sdk: iphoneos''';
+target_ios_sdk: iphoneos
+version: 1.0.0''';
     expect(yamlString, equals(expectedYamlString));
 
     final buildConfig2 = BuildConfig.fromConfig(

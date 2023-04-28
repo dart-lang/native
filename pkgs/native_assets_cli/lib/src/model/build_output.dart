@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
 import '../utils/datetime.dart';
@@ -39,6 +40,7 @@ class BuildOutput {
   static const _dependenciesKey = 'dependencies';
   static const _metadataKey = 'metadata';
   static const _timestampKey = 'timestamp';
+  static const _versionKey = 'version';
 
   factory BuildOutput.fromYamlString(String yaml) {
     final yamlObject = loadYaml(yaml) as YamlMap;
@@ -58,9 +60,20 @@ class BuildOutput {
         _assetsKey: assets.toYaml(),
         _dependenciesKey: dependencies.toYaml(),
         _metadataKey: metadata.toYaml(),
+        _versionKey: version.toString(),
       }..sortOnKey();
 
   String toYamlString() => yamlEncode(toYaml());
+
+  /// The version of [BuildOutput].
+  ///
+  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through `build.dart` invocations.
+  ///
+  /// If we ever were to make breaking changes, it would be useful to give
+  /// proper error messages rather than just fail to parse the YAML
+  /// representation in the protocol.
+  static Version version = Version(1, 0, 0);
 
   static const fileName = 'build_output.yaml';
 

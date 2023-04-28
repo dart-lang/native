@@ -4,6 +4,7 @@
 
 import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/map.dart';
 import '../utils/yaml.dart';
@@ -105,6 +106,16 @@ class BuildConfig {
 
   BuildConfig._();
 
+  /// The version of [BuildConfig].
+  ///
+  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through `build.dart` invocations.
+  ///
+  /// If we ever were to make breaking changes, it would be useful to give
+  /// proper error messages rather than just fail to parse the YAML
+  /// representation in the protocol.
+  static Version version = Version(1, 0, 0);
+
   factory BuildConfig.fromConfig(Config config) {
     final result = BuildConfig._();
     final configExceptions = <Object>[];
@@ -159,6 +170,7 @@ class BuildConfig {
   static const toolchainEnvScriptArgsConfigKey =
       'toolchain_env_script_arguments';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
+  static const _versionKey = 'version';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var targetSet = false;
@@ -255,6 +267,7 @@ class BuildConfig {
             for (final entry in _dependencyMetadata!.entries)
               entry.key: entry.value.toYaml(),
           },
+        _versionKey: version.toString(),
       }.sortOnKey();
 
   String toYamlString() => yamlEncode(toYaml());

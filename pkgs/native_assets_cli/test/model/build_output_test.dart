@@ -59,7 +59,8 @@ assets:
 dependencies:
   - path/to/file.ext
 metadata:
-  key: value''';
+  key: value
+version: 1.0.0''';
 
   test('built info yaml', () {
     final yaml = buildOutput.toYamlString().replaceAll('\\', '/');
