@@ -9,6 +9,7 @@ import 'package:c_compiler/c_compiler.dart';
 import 'package:c_compiler/src/cbuilder/compiler_resolver.dart';
 import 'package:c_compiler/src/native_toolchain/msvc.dart';
 import 'package:c_compiler/src/tool/tool_error.dart';
+import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
@@ -32,6 +33,9 @@ void main() {
         ...await lib.defaultResolver!.resolve(logger: logger),
         ...await lld.defaultResolver!.resolve(logger: logger),
       ].first.uri;
+      final toolchainEnvScript = [
+        ...await vcvars64.defaultResolver!.resolve(logger: logger)
+      ].firstOrNull?.uri;
       final buildConfig = BuildConfig(
         outDir: tempUri,
         packageRoot: tempUri,
@@ -40,6 +44,7 @@ void main() {
         ar: ar,
         cc: cc,
         ld: ld,
+        toolchainEnvScript: toolchainEnvScript,
       );
       final resolver =
           CompilerResolver(buildConfig: buildConfig, logger: logger);

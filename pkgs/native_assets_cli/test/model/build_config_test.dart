@@ -13,6 +13,8 @@ void main() async {
   late Uri fakeClang;
   late Uri fakeLd;
   late Uri fakeAr;
+  late Uri fakeCl;
+  late Uri fakeVcVars;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -22,6 +24,10 @@ void main() async {
     await File.fromUri(fakeLd).create();
     fakeAr = tempUri.resolve('fake_ar');
     await File.fromUri(fakeAr).create();
+    fakeCl = tempUri.resolve('cl.exe');
+    await File.fromUri(fakeCl).create();
+    fakeVcVars = tempUri.resolve('vcvarsall.bat');
+    await File.fromUri(fakeVcVars).create();
   });
 
   tearDown(() async {
@@ -274,5 +280,22 @@ target_ios_sdk: iphoneos''';
       ].join('.')),
       'value',
     );
+  });
+
+  test('toolchainEnvScript', () {
+    final buildConfig1 = BuildConfig(
+      outDir: tempUri.resolve('out1/'),
+      packageRoot: tempUri.resolve('packageRoot/'),
+      target: Target.windowsX64,
+      cc: fakeCl,
+      toolchainEnvScript: fakeVcVars,
+      toolchainEnvScriptArgs: ['x64'],
+      packaging: PackagingPreference.dynamic,
+    );
+
+    final configFile = buildConfig1.toYaml();
+    final config = Config(fileParsed: configFile);
+    final fromConfig = BuildConfig.fromConfig(config);
+    expect(fromConfig, equals(buildConfig1));
   });
 }

@@ -31,6 +31,8 @@ void main() {
         target: Target.current,
         packaging: PackagingPreference.dynamic, // Ignored by executables.
         cc: cc,
+        toolchainEnvScript: toolchainEnvScript,
+        toolchainEnvScriptArgs: toolchainEnvScriptArgs,
       );
       final buildOutput = BuildOutput();
       final cbuilder = CBuilder.executable(
@@ -70,6 +72,8 @@ void main() {
           target: Target.current,
           packaging: PackagingPreference.dynamic,
           cc: cc,
+          toolchainEnvScript: toolchainEnvScript,
+          toolchainEnvScriptArgs: toolchainEnvScriptArgs,
         );
         final buildOutput = BuildOutput();
 
