@@ -7,7 +7,7 @@ import 'link_mode.dart';
 class LinkModePreference {
   final String name;
   final String description;
-  final List<LinkMode> preferredLinkMode;
+  final LinkMode preferredLinkMode;
   final List<LinkMode> potentialLinkMode;
 
   const LinkModePreference(
@@ -25,39 +25,35 @@ class LinkModePreference {
     '''Provide native assets as dynamic libraries.
 Fails if not all native assets can only be provided as static library.
 Required to run Dart in JIT mode.''',
-    preferredLinkMode: [LinkMode.dynamic],
+    preferredLinkMode: LinkMode.dynamic,
     potentialLinkMode: [LinkMode.dynamic],
   );
+
   static const static = LinkModePreference(
     'static',
     '''Provide native assets as static libraries.
 Fails if not all native assets can only be provided as dynamic library.
 Required for potential link-time tree-shaking of native code.
 Therefore, preferred to in Dart AOT mode.''',
-    preferredLinkMode: [LinkMode.static],
+    preferredLinkMode: LinkMode.static,
     potentialLinkMode: [LinkMode.static],
   );
+
   static const preferDynamic = LinkModePreference(
     'prefer-dynamic',
     '''Provide native assets as dynamic libraries, if possible.
 Otherwise, build native assets as static libraries.''',
-    preferredLinkMode: [LinkMode.dynamic],
+    preferredLinkMode: LinkMode.dynamic,
     potentialLinkMode: LinkMode.values,
   );
+
   static const preferStatic = LinkModePreference(
     'prefer-static',
     '''Provide native assets as static libraries, if possible.
 Otherwise, build native assets as dynamic libraries.
 Preferred for AOT compilation, if there are any native assets which can only be
 provided as dynamic libraries.''',
-    preferredLinkMode: [LinkMode.static],
-    potentialLinkMode: LinkMode.values,
-  );
-  static const all = LinkModePreference(
-    'all',
-    '''Provide native assets as both dynamic and static libraries if supported.
-Mostly useful for testing the build scripts.''',
-    preferredLinkMode: LinkMode.values,
+    preferredLinkMode: LinkMode.static,
     potentialLinkMode: LinkMode.values,
   );
 
@@ -66,7 +62,6 @@ Mostly useful for testing the build scripts.''',
     static,
     preferDynamic,
     preferStatic,
-    all,
   ];
 
   /// The `package:config` key preferably used.
