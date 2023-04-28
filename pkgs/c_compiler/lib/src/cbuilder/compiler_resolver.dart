@@ -189,7 +189,7 @@ class CompilerResolver {
     return vcvarsScript.uri;
   }
 
-  List<String>? toolchainEnvironmentScriptArguments(ToolInstance compiler) {
+  List<String>? toolchainEnvironmentScriptArguments() {
     final fromConfig = buildConfig.toolchainEnvScriptArgs;
     if (fromConfig != null) {
       logger?.fine('Using toolchainEnvScriptArgs from config: $fromConfig');

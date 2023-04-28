@@ -139,7 +139,7 @@ class RunCBuilder {
 
   Future<void> runCl({required ToolInstance compiler}) async {
     final vcvars = (await _resolver.toolchainEnvironmentScript(compiler))!;
-    final vcvarsArgs = _resolver.toolchainEnvironmentScriptArguments(compiler);
+    final vcvarsArgs = _resolver.toolchainEnvironmentScriptArguments();
     final environment = await envFromBat(vcvars, arguments: vcvarsArgs ?? []);
 
     final isStaticLib = staticLibrary != null;
