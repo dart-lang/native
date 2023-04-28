@@ -6,6 +6,7 @@ import 'package:c_compiler/src/native_toolchain/android_ndk.dart';
 import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
 import 'package:c_compiler/src/native_toolchain/clang.dart';
 import 'package:c_compiler/src/native_toolchain/gcc.dart';
+import 'package:c_compiler/src/native_toolchain/msvc.dart';
 import 'package:c_compiler/src/native_toolchain/recognizer.dart';
 import 'package:c_compiler/src/tool/tool.dart';
 import 'package:c_compiler/src/tool/tool_instance.dart';
@@ -29,10 +30,13 @@ void main() async {
     RecognizerTest(armLinuxGnueabihfGcc, CompilerRecognizer.new),
     RecognizerTest(armLinuxGnueabihfGccAr, ArchiverRecognizer.new),
     RecognizerTest(armLinuxGnueabihfLd, LinkerRecognizer.new),
+    RecognizerTest(cl, CompilerRecognizer.new),
     RecognizerTest(clang, CompilerRecognizer.new),
     RecognizerTest(i686LinuxGnuGcc, CompilerRecognizer.new),
     RecognizerTest(i686LinuxGnuGccAr, ArchiverRecognizer.new),
     RecognizerTest(i686LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(lib, ArchiverRecognizer.new),
+    RecognizerTest(link, LinkerRecognizer.new),
     RecognizerTest(lld, LinkerRecognizer.new),
     RecognizerTest(llvmAr, ArchiverRecognizer.new),
   ];

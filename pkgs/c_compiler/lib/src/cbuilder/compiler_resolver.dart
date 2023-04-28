@@ -11,6 +11,7 @@ import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
+import '../native_toolchain/msvc.dart';
 import '../native_toolchain/recognizer.dart';
 import '../tool/tool.dart';
 import '../tool/tool_error.dart';
@@ -72,6 +73,15 @@ class CompilerResolver {
       }
     }
 
+    if (host.os == OS.windows) {
+      switch (target) {
+        case Target.windowsIA32:
+          return clIA32;
+        case Target.windowsX64:
+          return cl;
+      }
+    }
+
     return null;
   }
 
@@ -80,7 +90,7 @@ class CompilerResolver {
     final configCcUri = getter(buildConfig);
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
-      logger?.finer('Using compiler ${configCcUri.path} '
+      logger?.finer('Using compiler ${configCcUri.toFilePath()} '
           'from config[${BuildConfig.ccConfigKey}].');
       return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
           .first;
@@ -139,6 +149,14 @@ class CompilerResolver {
           return i686LinuxGnuGccAr;
       }
     }
+    if (host.os == OS.windows) {
+      switch (target) {
+        case Target.windowsIA32:
+          return libIA32;
+        case Target.windowsX64:
+          return lib;
+      }
+    }
 
     return null;
   }
@@ -148,7 +166,7 @@ class CompilerResolver {
     final configArUri = getter(buildConfig);
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
-      logger?.finer('Using archiver ${configArUri.path} '
+      logger?.finer('Using archiver ${configArUri.toFilePath()} '
           'from config[${BuildConfig.arConfigKey}].');
       return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
           .first;

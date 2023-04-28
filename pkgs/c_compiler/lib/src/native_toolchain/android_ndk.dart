@@ -40,8 +40,11 @@ class _AndroidNdkResolver implements ToolResolver {
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
         toolName: 'Android NDK',
-        wrappedResolver: PathToolResolver(toolName: 'ndk-build'),
-        relativePath: Uri(path: '.'),
+        wrappedResolver: PathToolResolver(
+          toolName: 'ndk-build',
+          executableName: Platform.isWindows ? 'ndk-build.cmd' : 'ndk-build',
+        ),
+        relativePath: Uri(path: ''),
       ),
       InstallLocationResolver(
         toolName: 'Android NDK',
@@ -52,6 +55,9 @@ class _AndroidNdkResolver implements ToolResolver {
           ],
           if (Platform.isMacOS) ...[
             '\$HOME/Library/Android/sdk/ndk/*/',
+          ],
+          if (Platform.isWindows) ...[
+            '\$HOME/AppData/Local/Android/Sdk/ndk/*/',
           ],
         ],
       ),
@@ -79,21 +85,27 @@ class _AndroidNdkResolver implements ToolResolver {
     final hostArchDirs =
         (await prebuiltDir.list().toList()).whereType<Directory>().toList();
     for (final hostArchDir in hostArchDirs) {
-      final clangUri = hostArchDir.uri.resolve('bin/clang');
+      final clangUri = hostArchDir.uri
+          .resolve('bin/')
+          .resolve(Target.current.os.executableFileName('clang'));
       if (await File.fromUri(clangUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(ToolInstance(
           tool: androidNdkClang,
           uri: clangUri,
         )));
       }
-      final arUri = hostArchDir.uri.resolve('bin/llvm-ar');
+      final arUri = hostArchDir.uri
+          .resolve('bin/')
+          .resolve(Target.current.os.executableFileName('llvm-ar'));
       if (await File.fromUri(arUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(ToolInstance(
           tool: androidNdkLlvmAr,
           uri: arUri,
         )));
       }
-      final ldUri = hostArchDir.uri.resolve('bin/ld.lld');
+      final ldUri = hostArchDir.uri
+          .resolve('bin/')
+          .resolve(Target.current.os.executableFileName('ld.lld'));
       if (await File.fromUri(arUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(ToolInstance(
           tool: androidNdkLld,

@@ -211,13 +211,13 @@ class BuildConfig {
   }
 
   Map<String, Object> toYaml() => {
-        outDirConfigKey: _outDir.path,
-        packageRootConfigKey: _packageRoot.path,
+        outDirConfigKey: _outDir.toFilePath(),
+        packageRootConfigKey: _packageRoot.toFilePath(),
         Target.configKey: _target.toString(),
         if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
-        if (_ar != null) arConfigKey: _ar!.path,
-        if (_cc != null) ccConfigKey: _cc!.path,
-        if (_ld != null) ldConfigKey: _ld!.path,
+        if (_ar != null) arConfigKey: _ar!.toFilePath(),
+        if (_cc != null) ccConfigKey: _cc!.toFilePath(),
+        if (_ld != null) ldConfigKey: _ld!.toFilePath(),
         PackagingPreference.configKey: _packaging.toString(),
         if (_dependencyMetadata != null)
           dependencyMetadataConfigKey: {

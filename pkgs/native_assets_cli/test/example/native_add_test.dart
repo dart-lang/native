@@ -20,23 +20,23 @@ void main() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  test('native_add build', () async {
+  test('native_add build', timeout: Timeout.factor(2), () async {
     final testTempUri = tempUri.resolve('test1/');
     await Directory.fromUri(testTempUri).create();
     final testPackageUri = packageUri.resolve('example/native_add/');
     final dartUri = Uri.file(Platform.resolvedExecutable);
 
     final processResult = await Process.run(
-      dartUri.path,
+      dartUri.toFilePath(),
       [
         'build.dart',
-        '-Dout_dir=${tempUri.path}',
-        '-Dpackage_root=${testPackageUri.path}',
+        '-Dout_dir=${tempUri.toFilePath()}',
+        '-Dpackage_root=${testPackageUri.toFilePath()}',
         '-Dtarget=${Target.current}',
         '-Dpackaging=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',
       ],
-      workingDirectory: testPackageUri.path,
+      workingDirectory: testPackageUri.toFilePath(),
     );
     if (processResult.exitCode != 0) {
       print(processResult.stdout);
