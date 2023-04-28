@@ -79,7 +79,7 @@ void main() async {
       'package_root': tempUri.resolve('packageRoot/').toFilePath(),
       'target': 'android_arm64',
       'link_mode_preference': 'prefer-static',
-      'version': '1.0.0',
+      'version': BuildOutput.version.toString(),
     });
 
     final fromConfig = BuildConfig.fromConfig(config);
@@ -177,7 +177,7 @@ out_dir: ${outDir.toFilePath()}
 package_root: ${tempUri.toFilePath()}
 target: ios_arm64
 target_ios_sdk: iphoneos
-version: 1.0.0''';
+version: ${BuildConfig.version}''';
     expect(yamlString, equals(expectedYamlString));
 
     final buildConfig2 = BuildConfig.fromConfig(

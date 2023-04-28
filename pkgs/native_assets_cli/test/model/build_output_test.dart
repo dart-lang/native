@@ -42,7 +42,7 @@ void main() {
     }),
   );
 
-  const yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
+  final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -60,7 +60,7 @@ dependencies:
   - path/to/file.ext
 metadata:
   key: value
-version: 1.0.0''';
+version: ${BuildOutput.version}''';
 
   test('built info yaml', () {
     final yaml = buildOutput.toYamlString().replaceAll('\\', '/');
