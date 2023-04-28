@@ -176,6 +176,23 @@ class BuildConfig {
     var targetSet = false;
     var ccSet = false;
     return [
+      (config) {
+        final configVersion = Version.parse(config.string('version'));
+        if (configVersion.major > version.major) {
+          throw FormatException(
+            'The config version $configVersion is newer than this '
+            'package:native_assets_cli config version $version, '
+            'please update native_assets_cli.',
+          );
+        }
+        if (configVersion.major < version.major) {
+          throw FormatException(
+            'The config version $configVersion is newer than this '
+            'package:native_assets_cli config version $version, '
+            'please update the Dart or Flutter SDK.',
+          );
+        }
+      },
       (config) => _config = config,
       (config) => _outDir = config.path(outDirConfigKey),
       (config) => _packageRoot = config.path(packageRootConfigKey),
