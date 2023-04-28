@@ -174,4 +174,29 @@ class CompilerResolver {
     logger?.finer('No archiver set in config[${BuildConfig.arConfigKey}].');
     return null;
   }
+
+  Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
+    final fromConfig = buildConfig.toolchainEnvScript;
+    if (fromConfig != null) {
+      logger?.fine('Using toolchainEnvScript from config: $fromConfig');
+      return fromConfig;
+    }
+
+    final compilerTool = compiler.tool;
+    assert(compilerTool == cl);
+    final vcvarsScript =
+        (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
+    return vcvarsScript.uri;
+  }
+
+  List<String>? toolchainEnvironmentScriptArguments(ToolInstance compiler) {
+    final fromConfig = buildConfig.toolchainEnvScriptArgs;
+    if (fromConfig != null) {
+      logger?.fine('Using toolchainEnvScriptArgs from config: $fromConfig');
+      return fromConfig;
+    }
+
+    // vcvars above already has x64 or x86 in the script name.
+    return null;
+  }
 }

@@ -36,15 +36,12 @@ class RunCBuilder {
                 .length ==
             1);
 
-  Future<ToolInstance> compiler() async {
-    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    return await resolver.resolveCompiler();
-  }
+  late final _resolver =
+      CompilerResolver(buildConfig: buildConfig, logger: logger);
 
-  Future<Uri> archiver() async {
-    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
-    return (await resolver.resolveArchiver()).uri;
-  }
+  Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
+
+  Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
   Future<Uri> iosSdk(IOSSdk iosSdk, {Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOs) {
@@ -76,13 +73,7 @@ class RunCBuilder {
       return;
     }
     assert(compilerTool == cl);
-    final vcvarsScript =
-        (await vcvars(compiler_).defaultResolver!.resolve(logger: logger))
-            .first;
-    await runCl(
-      compiler: compiler_.uri,
-      vcvars: vcvarsScript.uri,
-    );
+    await runCl(compiler: compiler_);
   }
 
   Future<void> runClangLike({required Uri compiler}) async {
@@ -146,19 +137,19 @@ class RunCBuilder {
     }
   }
 
-  Future<void> runCl({
-    required Uri compiler,
-    required Uri vcvars,
-  }) async {
+  Future<void> runCl({required ToolInstance compiler}) async {
+    final vcvars = (await _resolver.toolchainEnvironmentScript(compiler))!;
+    final vcvarsArgs = _resolver.toolchainEnvironmentScriptArguments(compiler);
+    final environment = await envFromBat(vcvars, arguments: vcvarsArgs ?? []);
+
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
     if (isStaticLib) {
       archiver_ = await archiver();
     }
 
-    final environment = await envFromBat(vcvars);
     final result = await runProcess(
-      executable: compiler,
+      executable: compiler.uri,
       arguments: [
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),

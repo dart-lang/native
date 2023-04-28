@@ -47,6 +47,14 @@ class BuildConfig {
   Uri? get ar => _ar;
   late final Uri? _ar;
 
+  /// Path to script that sets environment variables for [cc], [ld], and [ar].
+  Uri? get toolchainEnvScript => _toolchainEnvScript;
+  late final Uri? _toolchainEnvScript;
+
+  /// Arguments for [toolchainEnvScript].
+  List<String>? get toolchainEnvScriptArgs => _toolchainEnvScriptArgs;
+  late final List<String>? _toolchainEnvScriptArgs;
+
   /// Preferred packaging method for library.
   PackagingPreference get packaging => _packaging;
   late final PackagingPreference _packaging;
@@ -73,6 +81,8 @@ class BuildConfig {
     Uri? ar,
     Uri? cc,
     Uri? ld,
+    Uri? toolchainEnvScript,
+    List<String>? toolchainEnvScriptArgs,
     required PackagingPreference packaging,
     Map<String, Metadata>? dependencyMetadata,
   }) {
@@ -84,6 +94,8 @@ class BuildConfig {
       .._ar = ar
       .._cc = cc
       .._ld = ld
+      .._toolchainEnvScript = toolchainEnvScript
+      .._toolchainEnvScriptArgs = toolchainEnvScriptArgs
       .._packaging = packaging
       .._dependencyMetadata = dependencyMetadata;
     final parsedConfigFile = nonValidated.toYaml();
@@ -143,10 +155,14 @@ class BuildConfig {
   static const arConfigKey = 'ar';
   static const ccConfigKey = 'cc';
   static const ldConfigKey = 'ld';
+  static const toolchainEnvScriptConfigKey = 'toolchain_env_script';
+  static const toolchainEnvScriptArgsConfigKey =
+      'toolchain_env_script_arguments';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var targetSet = false;
+    var ccSet = false;
     return [
       (config) => _config = config,
       (config) => _outDir = config.path(outDirConfigKey),
@@ -169,8 +185,19 @@ class BuildConfig {
             )
           : null,
       (config) => _ar = config.optionalPath(arConfigKey, mustExist: true),
-      (config) => _cc = config.optionalPath(ccConfigKey, mustExist: true),
+      (config) {
+        _cc = config.optionalPath(ccConfigKey, mustExist: true);
+        ccSet = true;
+      },
       (config) => _ld = config.optionalPath(ldConfigKey, mustExist: true),
+      (config) => _toolchainEnvScript =
+          (ccSet && cc != null && cc!.toFilePath().endsWith('cl.exe'))
+              ? config.path(toolchainEnvScriptConfigKey, mustExist: true)
+              : null,
+      (config) => _toolchainEnvScriptArgs = config.optionalStringList(
+            toolchainEnvScriptArgsConfigKey,
+            splitEnvironmentPattern: ' ',
+          ),
       (config) => _packaging = PackagingPreference.fromString(
             config.string(
               PackagingPreference.configKey,
@@ -218,6 +245,10 @@ class BuildConfig {
         if (_ar != null) arConfigKey: _ar!.toFilePath(),
         if (_cc != null) ccConfigKey: _cc!.toFilePath(),
         if (_ld != null) ldConfigKey: _ld!.toFilePath(),
+        if (_toolchainEnvScript != null)
+          toolchainEnvScriptConfigKey: _toolchainEnvScript!.toFilePath(),
+        if (_toolchainEnvScriptArgs != null)
+          toolchainEnvScriptArgsConfigKey: _toolchainEnvScriptArgs!,
         PackagingPreference.configKey: _packaging.toString(),
         if (_dependencyMetadata != null)
           dependencyMetadataConfigKey: {
@@ -240,6 +271,9 @@ class BuildConfig {
     if (other._ar != _ar) return false;
     if (other._cc != _cc) return false;
     if (other._ld != _ld) return false;
+    if (other.toolchainEnvScript != toolchainEnvScript) return false;
+    if (!ListEquality<String>().equals(
+        other.toolchainEnvScriptArgs, toolchainEnvScriptArgs)) return false;
     if (other._packaging != _packaging) return false;
     if (!DeepCollectionEquality()
         .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
@@ -255,6 +289,8 @@ class BuildConfig {
         _ar,
         _cc,
         _ld,
+        _toolchainEnvScript,
+        ListEquality<String>().hash(toolchainEnvScriptArgs),
         _packaging,
         DeepCollectionEquality().hash(_dependencyMetadata),
       );
