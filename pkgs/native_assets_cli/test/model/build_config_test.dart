@@ -64,6 +64,10 @@ void main() async {
     expect(config1.cCompiler.cc != config2.cCompiler.cc, true);
     expect(config1.cCompiler.ld != config2.cCompiler.ld, true);
     expect(config1.cCompiler.ar != config2.cCompiler.ar, true);
+    expect(config1.cCompiler.envScript == config2.cCompiler.envScript, true);
+    expect(config1.cCompiler.envScriptArgs == config2.cCompiler.envScriptArgs,
+        true);
+    expect(config1.cCompiler != config2.cCompiler, true);
     expect(config1.linkModePreference, config2.linkModePreference);
     expect(config1.dependencyMetadata, config2.dependencyMetadata);
   });
