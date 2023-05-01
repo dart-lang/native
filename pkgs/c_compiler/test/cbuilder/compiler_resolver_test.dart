@@ -34,7 +34,7 @@ void main() {
         ...await lib.defaultResolver!.resolve(logger: logger),
         ...await lld.defaultResolver!.resolve(logger: logger),
       ].first.uri;
-      final toolchainEnvScript = [
+      final envScript = [
         ...await vcvars64.defaultResolver!.resolve(logger: logger)
       ].firstOrNull?.uri;
       final buildConfig = BuildConfig(
@@ -42,17 +42,19 @@ void main() {
         packageRoot: tempUri,
         target: Target.current,
         linkModePreference: LinkModePreference.dynamic,
-        ar: ar,
-        cc: cc,
-        ld: ld,
-        toolchainEnvScript: toolchainEnvScript,
+        cCompiler: CCompilerConfig(
+          ar: ar,
+          cc: cc,
+          ld: ld,
+          envScript: envScript,
+        ),
       );
       final resolver =
           CompilerResolver(buildConfig: buildConfig, logger: logger);
       final compiler = await resolver.resolveCompiler();
       final archiver = await resolver.resolveArchiver();
-      expect(compiler.uri, buildConfig.cc);
-      expect(archiver.uri, buildConfig.ar);
+      expect(compiler.uri, buildConfig.cCompiler.cc);
+      expect(archiver.uri, buildConfig.cCompiler.ar);
     });
   });
 

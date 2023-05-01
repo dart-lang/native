@@ -46,8 +46,7 @@ void main() {
 
   for (final linkMode in LinkMode.values) {
     for (final target in targets) {
-      test('Cbuilder $linkMode library $target', timeout: Timeout.factor(2),
-          () async {
+      test('Cbuilder $linkMode library $target', () async {
         await inTempDir((tempUri) async {
           final addCUri =
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');

@@ -33,8 +33,8 @@ class CompilerResolver {
   Future<ToolInstance> resolveCompiler() async {
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadCompilerFromConfig(
-      BuildConfig.ccConfigKey,
-      (buildConfig) => buildConfig.cc,
+      CCompilerConfig.ccConfigKeyFull,
+      (buildConfig) => buildConfig.cCompiler.cc,
     );
 
     // Then, try to detect on the host machine.
@@ -91,11 +91,12 @@ class CompilerResolver {
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
       logger?.finer('Using compiler ${configCcUri.toFilePath()} '
-          'from config[${BuildConfig.ccConfigKey}].');
+          'from config[${CCompilerConfig.ccConfigKeyFull}].');
       return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer('No compiler set in config[${BuildConfig.ccConfigKey}].');
+    logger?.finer(
+        'No compiler set in config[${CCompilerConfig.ccConfigKeyFull}].');
     return null;
   }
 
@@ -110,8 +111,8 @@ class CompilerResolver {
   Future<ToolInstance> resolveArchiver() async {
     // First, check if the launcher provided a direct path to the compiler.
     var result = await _tryLoadArchiverFromConfig(
-      BuildConfig.arConfigKey,
-      (buildConfig) => buildConfig.ar,
+      CCompilerConfig.arConfigKeyFull,
+      (buildConfig) => buildConfig.cCompiler.ar,
     );
 
     // Then, try to detect on the host machine.
@@ -167,18 +168,19 @@ class CompilerResolver {
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
       logger?.finer('Using archiver ${configArUri.toFilePath()} '
-          'from config[${BuildConfig.arConfigKey}].');
+          'from config[${CCompilerConfig.arConfigKeyFull}].');
       return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer('No archiver set in config[${BuildConfig.arConfigKey}].');
+    logger?.finer(
+        'No archiver set in config[${CCompilerConfig.arConfigKeyFull}].');
     return null;
   }
 
   Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = buildConfig.toolchainEnvScript;
+    final fromConfig = buildConfig.cCompiler.envScript;
     if (fromConfig != null) {
-      logger?.fine('Using toolchainEnvScript from config: $fromConfig');
+      logger?.fine('Using envScript from config: $fromConfig');
       return fromConfig;
     }
 
@@ -190,9 +192,9 @@ class CompilerResolver {
   }
 
   List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = buildConfig.toolchainEnvScriptArgs;
+    final fromConfig = buildConfig.cCompiler.envScriptArgs;
     if (fromConfig != null) {
-      logger?.fine('Using toolchainEnvScriptArgs from config: $fromConfig');
+      logger?.fine('Using envScriptArgs from config: $fromConfig');
       return fromConfig;
     }
 

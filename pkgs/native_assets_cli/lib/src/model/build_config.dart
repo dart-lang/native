@@ -36,29 +36,9 @@ class BuildConfig {
   IOSSdk? get targetIOSSdk => _targetIOSSdk;
   late final IOSSdk? _targetIOSSdk;
 
-  /// Path to a C compiler.
-  Uri? get cc => _cc;
-  late final Uri? _cc;
-
-  /// Path to a native linker.
-  Uri? get ld => _ld;
-  late final Uri? _ld;
-
-  /// Path to a native archiver.
-  Uri? get ar => _ar;
-  late final Uri? _ar;
-
   /// Preferred linkMode method for library.
   LinkModePreference get linkModePreference => _linkModePreference;
   late final LinkModePreference _linkModePreference;
-
-  /// Path to script that sets environment variables for [cc], [ld], and [ar].
-  Uri? get toolchainEnvScript => _toolchainEnvScript;
-  late final Uri? _toolchainEnvScript;
-
-  /// Arguments for [toolchainEnvScript].
-  List<String>? get toolchainEnvScriptArgs => _toolchainEnvScriptArgs;
-  late final List<String>? _toolchainEnvScriptArgs;
 
   /// Metadata from direct dependencies.
   ///
@@ -67,6 +47,10 @@ class BuildConfig {
   /// The key in the nested map is the key for the metadata from the dependency.
   Map<String, Metadata>? get dependencyMetadata => _dependencyMetadata;
   late final Map<String, Metadata>? _dependencyMetadata;
+
+  /// The configuration for invoking the C compiler.
+  CCompilerConfig get cCompiler => _cCompiler;
+  late final CCompilerConfig _cCompiler;
 
   /// The underlying config.
   ///
@@ -79,11 +63,7 @@ class BuildConfig {
     required Uri packageRoot,
     required Target target,
     IOSSdk? targetIOSSdk,
-    Uri? ar,
-    Uri? cc,
-    Uri? ld,
-    Uri? toolchainEnvScript,
-    List<String>? toolchainEnvScriptArgs,
+    CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
   }) {
@@ -92,12 +72,8 @@ class BuildConfig {
       .._packageRoot = packageRoot
       .._target = target
       .._targetIOSSdk = targetIOSSdk
-      .._ar = ar
-      .._cc = cc
-      .._ld = ld
+      .._cCompiler = cCompiler ?? CCompilerConfig()
       .._linkModePreference = linkModePreference
-      .._toolchainEnvScript = toolchainEnvScript
-      .._toolchainEnvScriptArgs = toolchainEnvScriptArgs
       .._dependencyMetadata = dependencyMetadata;
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
@@ -117,7 +93,7 @@ class BuildConfig {
   static Version version = Version(1, 0, 0);
 
   factory BuildConfig.fromConfig(Config config) {
-    final result = BuildConfig._();
+    final result = BuildConfig._().._cCompiler = CCompilerConfig._();
     final configExceptions = <Object>[];
     for (final f in result._readFieldsFromConfig()) {
       try {
@@ -163,12 +139,6 @@ class BuildConfig {
 
   static const outDirConfigKey = 'out_dir';
   static const packageRootConfigKey = 'package_root';
-  static const arConfigKey = 'ar';
-  static const ccConfigKey = 'cc';
-  static const ldConfigKey = 'ld';
-  static const toolchainEnvScriptConfigKey = 'toolchain_env_script';
-  static const toolchainEnvScriptArgsConfigKey =
-      'toolchain_env_script_arguments';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
   static const _versionKey = 'version';
 
@@ -213,18 +183,22 @@ class BuildConfig {
               ),
             )
           : null,
-      (config) => _ar = config.optionalPath(arConfigKey, mustExist: true),
+      (config) => cCompiler._ar =
+          config.optionalPath(CCompilerConfig.arConfigKeyFull, mustExist: true),
       (config) {
-        _cc = config.optionalPath(ccConfigKey, mustExist: true);
+        cCompiler._cc = config.optionalPath(CCompilerConfig.ccConfigKeyFull,
+            mustExist: true);
         ccSet = true;
       },
-      (config) => _ld = config.optionalPath(ldConfigKey, mustExist: true),
-      (config) => _toolchainEnvScript =
-          (ccSet && cc != null && cc!.toFilePath().endsWith('cl.exe'))
-              ? config.path(toolchainEnvScriptConfigKey, mustExist: true)
-              : null,
-      (config) => _toolchainEnvScriptArgs = config.optionalStringList(
-            toolchainEnvScriptArgsConfigKey,
+      (config) => cCompiler._ld =
+          config.optionalPath(CCompilerConfig.ldConfigKeyFull, mustExist: true),
+      (config) => cCompiler._envScript = (ccSet &&
+              cCompiler.cc != null &&
+              cCompiler.cc!.toFilePath().endsWith('cl.exe'))
+          ? config.path(CCompilerConfig.envScriptConfigKeyFull, mustExist: true)
+          : null,
+      (config) => cCompiler._envScriptArgs = config.optionalStringList(
+            CCompilerConfig.envScriptArgsConfigKeyFull,
             splitEnvironmentPattern: ' ',
           ),
       (config) => _linkModePreference = LinkModePreference.fromString(
@@ -266,26 +240,26 @@ class BuildConfig {
     return result.sortOnKey();
   }
 
-  Map<String, Object> toYaml() => {
-        outDirConfigKey: _outDir.toFilePath(),
-        packageRootConfigKey: _packageRoot.toFilePath(),
-        Target.configKey: _target.toString(),
-        if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
-        if (_ar != null) arConfigKey: _ar!.toFilePath(),
-        if (_cc != null) ccConfigKey: _cc!.toFilePath(),
-        if (_ld != null) ldConfigKey: _ld!.toFilePath(),
-        if (_toolchainEnvScript != null)
-          toolchainEnvScriptConfigKey: _toolchainEnvScript!.toFilePath(),
-        if (_toolchainEnvScriptArgs != null)
-          toolchainEnvScriptArgsConfigKey: _toolchainEnvScriptArgs!,
-        LinkModePreference.configKey: _linkModePreference.toString(),
-        if (_dependencyMetadata != null)
-          dependencyMetadataConfigKey: {
-            for (final entry in _dependencyMetadata!.entries)
-              entry.key: entry.value.toYaml(),
-          },
-        _versionKey: version.toString(),
-      }.sortOnKey();
+  Map<String, Object> toYaml() {
+    final cCompilerYaml = _cCompiler.toYaml();
+    // print(cCompilerYaml);
+    // print(cCompilerYaml.isNotEmpty);
+
+    return {
+      outDirConfigKey: _outDir.toFilePath(),
+      packageRootConfigKey: _packageRoot.toFilePath(),
+      Target.configKey: _target.toString(),
+      if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
+      if (cCompilerYaml.isNotEmpty) CCompilerConfig.configKey: cCompilerYaml,
+      LinkModePreference.configKey: _linkModePreference.toString(),
+      if (_dependencyMetadata != null)
+        dependencyMetadataConfigKey: {
+          for (final entry in _dependencyMetadata!.entries)
+            entry.key: entry.value.toYaml(),
+        },
+      _versionKey: version.toString(),
+    }.sortOnKey();
+  }
 
   String toYamlString() => yamlEncode(toYaml());
 
@@ -298,12 +272,7 @@ class BuildConfig {
     if (other._packageRoot != _packageRoot) return false;
     if (other._target != _target) return false;
     if (other._targetIOSSdk != _targetIOSSdk) return false;
-    if (other._ar != _ar) return false;
-    if (other._cc != _cc) return false;
-    if (other._ld != _ld) return false;
-    if (other.toolchainEnvScript != toolchainEnvScript) return false;
-    if (!ListEquality<String>().equals(
-        other.toolchainEnvScriptArgs, toolchainEnvScriptArgs)) return false;
+    if (other._cCompiler != _cCompiler) return false;
     if (other._linkModePreference != _linkModePreference) return false;
     if (!DeepCollectionEquality()
         .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
@@ -316,15 +285,94 @@ class BuildConfig {
         _packageRoot,
         _target,
         _targetIOSSdk,
-        _ar,
-        _cc,
-        _ld,
-        _toolchainEnvScript,
-        ListEquality<String>().hash(toolchainEnvScriptArgs),
+        _cCompiler,
         _linkModePreference,
         DeepCollectionEquality().hash(_dependencyMetadata),
       );
 
   @override
   String toString() => 'BuildConfig(${toYaml()})';
+}
+
+class CCompilerConfig {
+  /// Path to a C compiler.
+  Uri? get cc => _cc;
+  late final Uri? _cc;
+
+  /// Path to a native linker.
+  Uri? get ld => _ld;
+  late final Uri? _ld;
+
+  /// Path to a native archiver.
+  Uri? get ar => _ar;
+  late final Uri? _ar;
+
+  /// Path to script that sets environment variables for [cc], [ld], and [ar].
+  Uri? get envScript => _envScript;
+  late final Uri? _envScript;
+
+  /// Arguments for [envScript].
+  List<String>? get envScriptArgs => _envScriptArgs;
+  late final List<String>? _envScriptArgs;
+
+  factory CCompilerConfig({
+    Uri? ar,
+    Uri? cc,
+    Uri? ld,
+    Uri? envScript,
+    List<String>? envScriptArgs,
+  }) =>
+      CCompilerConfig._()
+        .._ar = ar
+        .._cc = cc
+        .._ld = ld
+        .._envScript = envScript
+        .._envScriptArgs = envScriptArgs;
+
+  CCompilerConfig._();
+
+  static const configKey = 'c_compiler';
+  static const arConfigKey = 'ar';
+  static const arConfigKeyFull = '$configKey.$arConfigKey';
+  static const ccConfigKey = 'cc';
+  static const ccConfigKeyFull = '$configKey.$ccConfigKey';
+  static const ldConfigKey = 'ld';
+  static const ldConfigKeyFull = '$configKey.$ldConfigKey';
+  static const envScriptConfigKey = 'env_script';
+  static const envScriptConfigKeyFull = '$configKey.$envScriptConfigKey';
+  static const envScriptArgsConfigKey = 'env_script_arguments';
+  static const envScriptArgsConfigKeyFull =
+      '$configKey.$envScriptArgsConfigKey';
+
+  Map<String, Object> toYaml() => {
+        if (_ar != null) arConfigKey: _ar!.toFilePath(),
+        if (_cc != null) ccConfigKey: _cc!.toFilePath(),
+        if (_ld != null) ldConfigKey: _ld!.toFilePath(),
+        if (_envScript != null) envScriptConfigKey: _envScript!.toFilePath(),
+        if (_envScriptArgs != null) envScriptArgsConfigKey: _envScriptArgs!,
+      }.sortOnKey();
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! CCompilerConfig) {
+      return false;
+    }
+    if (other._ar != _ar) return false;
+    if (other._cc != _cc) return false;
+    if (other._ld != _ld) return false;
+    if (other.envScript != envScript) return false;
+    if (!ListEquality<String>().equals(other.envScriptArgs, envScriptArgs)) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        _ar,
+        _cc,
+        _ld,
+        _envScript,
+        ListEquality<String>().hash(envScriptArgs),
+      );
 }

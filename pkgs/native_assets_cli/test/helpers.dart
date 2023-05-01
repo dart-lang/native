@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/src/model/build_config.dart';
+
 /// Test files are run in a variety of ways, find this package root in all.
 ///
 /// Test files can be run from source from any working directory. The Dart SDK
@@ -47,24 +49,34 @@ extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
 }
 
+String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
+
 /// Archiver provided by the environment.
-final Uri? ar = Platform.environment['AR']?.asFileUri();
+final Uri? ar = Platform
+    .environment[unparseKey(CCompilerConfig.arConfigKeyFull)]
+    ?.asFileUri();
 
 /// Compiler provided by the environment.
-final Uri? cc = Platform.environment['CC']?.asFileUri();
+final Uri? cc = Platform
+    .environment[unparseKey(CCompilerConfig.ccConfigKeyFull)]
+    ?.asFileUri();
 
 /// Linker provided by the environment.
-final Uri? ld = Platform.environment['LD']?.asFileUri();
+final Uri? ld = Platform
+    .environment[unparseKey(CCompilerConfig.ldConfigKeyFull)]
+    ?.asFileUri();
 
 /// Path to script that sets environment variables for [cc], [ld], and [ar].
 ///
 /// Provided by environment.
-final Uri? toolchainEnvScript =
-    Platform.environment['ToolchainEnvScript']?.asFileUri();
+final Uri? envScript = Platform
+    .environment[unparseKey(CCompilerConfig.envScriptConfigKeyFull)]
+    ?.asFileUri();
 
-/// Arguments for [toolchainEnvScript] provided by environment.
-final List<String>? toolchainEnvScriptArgs =
-    Platform.environment['ToolchainEnvScriptArguments']?.split(' ');
+/// Arguments for [envScript] provided by environment.
+final List<String>? envScriptArgs = Platform
+    .environment[unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull)]
+    ?.split(' ');
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
