@@ -48,22 +48,23 @@ extension on Uri {
 }
 
 /// Archiver provided by the environment.
-final Uri? ar = Platform.environment['AR']?.asFileUri();
+final Uri? ar = Platform.environment['C_COMPILER__AR']?.asFileUri();
 
 /// Compiler provided by the environment.
-final Uri? cc = Platform.environment['CC']?.asFileUri();
+final Uri? cc = Platform.environment['C_COMPILER__CC']?.asFileUri();
 
 /// Linker provided by the environment.
-final Uri? ld = Platform.environment['LD']?.asFileUri();
+final Uri? ld = Platform.environment['C_COMPILER__LD']?.asFileUri();
 
 /// Path to script that sets environment variables for [cc], [ld], and [ar].
 ///
 /// Provided by environment.
-final Uri? envScript = Platform.environment['ToolchainEnvScript']?.asFileUri();
+final Uri? envScript =
+    Platform.environment['C_COMPILER__ENV_SCRIPT']?.asFileUri();
 
 /// Arguments for [envScript] provided by environment.
 final List<String>? envScriptArgs =
-    Platform.environment['ToolchainEnvScriptArguments']?.split(' ');
+    Platform.environment['C_COMPILER__ENV_SCRIPT_ARGS']?.split(' ');
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
