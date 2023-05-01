@@ -293,15 +293,15 @@ version: ${BuildConfig.version}''';
     );
   });
 
-  test('toolchainEnvScript', () {
+  test('envScript', () {
     final buildConfig1 = BuildConfig(
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri.resolve('packageRoot/'),
       target: Target.windowsX64,
       cCompiler: CCompilerConfig(
         cc: fakeCl,
-        toolchainEnvScript: fakeVcVars,
-        toolchainEnvScriptArgs: ['x64'],
+        envScript: fakeVcVars,
+        envScriptArgs: ['x64'],
       ),
       linkModePreference: LinkModePreference.dynamic,
     );

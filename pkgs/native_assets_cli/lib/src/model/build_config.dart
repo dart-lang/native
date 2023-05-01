@@ -192,14 +192,13 @@ class BuildConfig {
       },
       (config) => cCompiler._ld =
           config.optionalPath(CCompilerConfig.ldConfigKeyFull, mustExist: true),
-      (config) => cCompiler._toolchainEnvScript = (ccSet &&
+      (config) => cCompiler._envScript = (ccSet &&
               cCompiler.cc != null &&
               cCompiler.cc!.toFilePath().endsWith('cl.exe'))
-          ? config.path(CCompilerConfig.toolchainEnvScriptConfigKeyFull,
-              mustExist: true)
+          ? config.path(CCompilerConfig.envScriptConfigKeyFull, mustExist: true)
           : null,
-      (config) => cCompiler._toolchainEnvScriptArgs = config.optionalStringList(
-            CCompilerConfig.toolchainEnvScriptArgsConfigKeyFull,
+      (config) => cCompiler._envScriptArgs = config.optionalStringList(
+            CCompilerConfig.envScriptArgsConfigKeyFull,
             splitEnvironmentPattern: ' ',
           ),
       (config) => _linkModePreference = LinkModePreference.fromString(
@@ -309,26 +308,26 @@ class CCompilerConfig {
   late final Uri? _ar;
 
   /// Path to script that sets environment variables for [cc], [ld], and [ar].
-  Uri? get toolchainEnvScript => _toolchainEnvScript;
-  late final Uri? _toolchainEnvScript;
+  Uri? get envScript => _envScript;
+  late final Uri? _envScript;
 
-  /// Arguments for [toolchainEnvScript].
-  List<String>? get toolchainEnvScriptArgs => _toolchainEnvScriptArgs;
-  late final List<String>? _toolchainEnvScriptArgs;
+  /// Arguments for [envScript].
+  List<String>? get envScriptArgs => _envScriptArgs;
+  late final List<String>? _envScriptArgs;
 
   factory CCompilerConfig({
     Uri? ar,
     Uri? cc,
     Uri? ld,
-    Uri? toolchainEnvScript,
-    List<String>? toolchainEnvScriptArgs,
+    Uri? envScript,
+    List<String>? envScriptArgs,
   }) =>
       CCompilerConfig._()
         .._ar = ar
         .._cc = cc
         .._ld = ld
-        .._toolchainEnvScript = toolchainEnvScript
-        .._toolchainEnvScriptArgs = toolchainEnvScriptArgs;
+        .._envScript = envScript
+        .._envScriptArgs = envScriptArgs;
 
   CCompilerConfig._();
 
@@ -339,22 +338,18 @@ class CCompilerConfig {
   static const ccConfigKeyFull = '$configKey.$ccConfigKey';
   static const ldConfigKey = 'ld';
   static const ldConfigKeyFull = '$configKey.$ldConfigKey';
-  static const toolchainEnvScriptConfigKey = 'toolchain_env_script';
-  static const toolchainEnvScriptConfigKeyFull =
-      '$configKey.$toolchainEnvScriptConfigKey';
-  static const toolchainEnvScriptArgsConfigKey =
-      'toolchain_env_script_arguments';
-  static const toolchainEnvScriptArgsConfigKeyFull =
-      '$configKey.$toolchainEnvScriptArgsConfigKey';
+  static const envScriptConfigKey = 'env_script';
+  static const envScriptConfigKeyFull = '$configKey.$envScriptConfigKey';
+  static const envScriptArgsConfigKey = 'env_script_arguments';
+  static const envScriptArgsConfigKeyFull =
+      '$configKey.$envScriptArgsConfigKey';
 
   Map<String, Object> toYaml() => {
         if (_ar != null) arConfigKey: _ar!.toFilePath(),
         if (_cc != null) ccConfigKey: _cc!.toFilePath(),
         if (_ld != null) ldConfigKey: _ld!.toFilePath(),
-        if (_toolchainEnvScript != null)
-          toolchainEnvScriptConfigKey: _toolchainEnvScript!.toFilePath(),
-        if (_toolchainEnvScriptArgs != null)
-          toolchainEnvScriptArgsConfigKey: _toolchainEnvScriptArgs!,
+        if (_envScript != null) envScriptConfigKey: _envScript!.toFilePath(),
+        if (_envScriptArgs != null) envScriptArgsConfigKey: _envScriptArgs!,
       }.sortOnKey();
 
   @override
@@ -365,9 +360,10 @@ class CCompilerConfig {
     if (other._ar != _ar) return false;
     if (other._cc != _cc) return false;
     if (other._ld != _ld) return false;
-    if (other.toolchainEnvScript != toolchainEnvScript) return false;
-    if (!ListEquality<String>().equals(
-        other.toolchainEnvScriptArgs, toolchainEnvScriptArgs)) return false;
+    if (other.envScript != envScript) return false;
+    if (!ListEquality<String>().equals(other.envScriptArgs, envScriptArgs)) {
+      return false;
+    }
     return true;
   }
 
@@ -376,7 +372,7 @@ class CCompilerConfig {
         _ar,
         _cc,
         _ld,
-        _toolchainEnvScript,
-        ListEquality<String>().hash(toolchainEnvScriptArgs),
+        _envScript,
+        ListEquality<String>().hash(envScriptArgs),
       );
 }

@@ -99,11 +99,10 @@ final Uri? ld = Platform.environment['LD']?.asFileUri();
 /// Path to script that sets environment variables for [cc], [ld], and [ar].
 ///
 /// Provided by environment.
-final Uri? toolchainEnvScript =
-    Platform.environment['ToolchainEnvScript']?.asFileUri();
+final Uri? envScript = Platform.environment['ToolchainEnvScript']?.asFileUri();
 
-/// Arguments for [toolchainEnvScript] provided by environment.
-final List<String>? toolchainEnvScriptArgs =
+/// Arguments for [envScript] provided by environment.
+final List<String>? envScriptArgs =
     Platform.environment['ToolchainEnvScriptArguments']?.split(' ');
 
 extension on String {

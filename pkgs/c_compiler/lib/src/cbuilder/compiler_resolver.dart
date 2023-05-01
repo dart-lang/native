@@ -178,9 +178,9 @@ class CompilerResolver {
   }
 
   Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = buildConfig.cCompiler.toolchainEnvScript;
+    final fromConfig = buildConfig.cCompiler.envScript;
     if (fromConfig != null) {
-      logger?.fine('Using toolchainEnvScript from config: $fromConfig');
+      logger?.fine('Using envScript from config: $fromConfig');
       return fromConfig;
     }
 
@@ -192,9 +192,9 @@ class CompilerResolver {
   }
 
   List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = buildConfig.cCompiler.toolchainEnvScriptArgs;
+    final fromConfig = buildConfig.cCompiler.envScriptArgs;
     if (fromConfig != null) {
-      logger?.fine('Using toolchainEnvScriptArgs from config: $fromConfig');
+      logger?.fine('Using envScriptArgs from config: $fromConfig');
       return fromConfig;
     }
 

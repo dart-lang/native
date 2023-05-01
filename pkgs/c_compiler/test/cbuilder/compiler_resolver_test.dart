@@ -34,7 +34,7 @@ void main() {
         ...await lib.defaultResolver!.resolve(logger: logger),
         ...await lld.defaultResolver!.resolve(logger: logger),
       ].first.uri;
-      final toolchainEnvScript = [
+      final envScript = [
         ...await vcvars64.defaultResolver!.resolve(logger: logger)
       ].firstOrNull?.uri;
       final buildConfig = BuildConfig(
@@ -46,7 +46,7 @@ void main() {
           ar: ar,
           cc: cc,
           ld: ld,
-          toolchainEnvScript: toolchainEnvScript,
+          envScript: envScript,
         ),
       );
       final resolver =

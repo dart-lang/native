@@ -33,8 +33,8 @@ void main() {
         linkModePreference: LinkModePreference.dynamic,
         cCompiler: CCompilerConfig(
           cc: cc,
-          toolchainEnvScript: toolchainEnvScript,
-          toolchainEnvScriptArgs: toolchainEnvScriptArgs,
+          envScript: envScript,
+          envScriptArgs: envScriptArgs,
         ),
       );
       final buildOutput = BuildOutput();
@@ -76,8 +76,8 @@ void main() {
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: CCompilerConfig(
             cc: cc,
-            toolchainEnvScript: toolchainEnvScript,
-            toolchainEnvScriptArgs: toolchainEnvScriptArgs,
+            envScript: envScript,
+            envScriptArgs: envScriptArgs,
           ),
         );
         final buildOutput = BuildOutput();

@@ -35,12 +35,12 @@ void main() async {
         '-Dtarget=${Target.current}',
         '-Dlink_mode_preference=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',
-        if (toolchainEnvScript != null)
-          '-D${CCompilerConfig.toolchainEnvScriptConfigKeyFull}='
-              '${toolchainEnvScript!.toFilePath()}',
-        if (toolchainEnvScriptArgs != null)
-          '-D${CCompilerConfig.toolchainEnvScriptArgsConfigKeyFull}='
-              '${toolchainEnvScriptArgs!.join(' ')}',
+        if (envScript != null)
+          '-D${CCompilerConfig.envScriptConfigKeyFull}='
+              '${envScript!.toFilePath()}',
+        if (envScriptArgs != null)
+          '-D${CCompilerConfig.envScriptArgsConfigKeyFull}='
+              '${envScriptArgs!.join(' ')}',
         '-Dversion=${BuildConfig.version}',
       ],
       workingDirectory: testPackageUri.toFilePath(),
