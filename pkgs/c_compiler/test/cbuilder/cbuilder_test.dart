@@ -29,11 +29,13 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
-        linkModePreference:
-            LinkModePreference.dynamic, // Ignored by executables.
-        cc: cc,
-        toolchainEnvScript: toolchainEnvScript,
-        toolchainEnvScriptArgs: toolchainEnvScriptArgs,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: CCompilerConfig(
+          cc: cc,
+          toolchainEnvScript: toolchainEnvScript,
+          toolchainEnvScriptArgs: toolchainEnvScriptArgs,
+        ),
       );
       final buildOutput = BuildOutput();
       final cbuilder = CBuilder.executable(
@@ -72,9 +74,11 @@ void main() {
           packageRoot: tempUri,
           target: Target.current,
           linkModePreference: LinkModePreference.dynamic,
-          cc: cc,
-          toolchainEnvScript: toolchainEnvScript,
-          toolchainEnvScriptArgs: toolchainEnvScriptArgs,
+          cCompiler: CCompilerConfig(
+            cc: cc,
+            toolchainEnvScript: toolchainEnvScript,
+            toolchainEnvScriptArgs: toolchainEnvScriptArgs,
+          ),
         );
         final buildOutput = BuildOutput();
 

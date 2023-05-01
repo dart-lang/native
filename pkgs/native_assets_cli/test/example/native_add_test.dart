@@ -36,10 +36,10 @@ void main() async {
         '-Dlink_mode_preference=dynamic',
         if (cc != null) '-Dcc=${cc!.toFilePath()}',
         if (toolchainEnvScript != null)
-          '-D${BuildConfig.toolchainEnvScriptConfigKey}='
+          '-D${CCompilerConfig.toolchainEnvScriptConfigKeyFull}='
               '${toolchainEnvScript!.toFilePath()}',
         if (toolchainEnvScriptArgs != null)
-          '-D${BuildConfig.toolchainEnvScriptArgsConfigKey}='
+          '-D${CCompilerConfig.toolchainEnvScriptArgsConfigKeyFull}='
               '${toolchainEnvScriptArgs!.join(' ')}',
         '-Dversion=${BuildConfig.version}',
       ],

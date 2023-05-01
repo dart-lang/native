@@ -40,9 +40,11 @@ void main() async {
       packageRoot: tempUri,
       target: Target.iOSArm64,
       targetIOSSdk: IOSSdk.iPhoneOs,
-      cc: fakeClang,
-      ld: fakeLd,
-      ar: fakeAr,
+      cCompiler: CCompilerConfig(
+        cc: fakeClang,
+        ld: fakeLd,
+        ar: fakeAr,
+      ),
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -59,9 +61,9 @@ void main() async {
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.target != config2.target, true);
     expect(config1.targetIOSSdk != config2.targetIOSSdk, true);
-    expect(config1.cc != config2.cc, true);
-    expect(config1.ld != config2.ld, true);
-    expect(config1.ar != config2.ar, true);
+    expect(config1.cCompiler.cc != config2.cCompiler.cc, true);
+    expect(config1.cCompiler.ld != config2.cCompiler.ld, true);
+    expect(config1.cCompiler.ar != config2.cCompiler.ar, true);
     expect(config1.linkModePreference, config2.linkModePreference);
     expect(config1.dependencyMetadata, config2.dependencyMetadata);
   });
@@ -92,8 +94,10 @@ void main() async {
       packageRoot: tempUri.resolve('packageRoot/'),
       target: Target.iOSArm64,
       targetIOSSdk: IOSSdk.iPhoneOs,
-      cc: fakeClang,
-      ld: fakeLd,
+      cCompiler: CCompilerConfig(
+        cc: fakeClang,
+        ld: fakeLd,
+      ),
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -147,8 +151,10 @@ void main() async {
       packageRoot: tempUri,
       target: Target.iOSArm64,
       targetIOSSdk: IOSSdk.iPhoneOs,
-      cc: fakeClang,
-      ld: fakeLd,
+      cCompiler: CCompilerConfig(
+        cc: fakeClang,
+        ld: fakeLd,
+      ),
       linkModePreference: LinkModePreference.preferStatic,
       // This map should be sorted on key for two layers.
       dependencyMetadata: {
@@ -162,7 +168,9 @@ void main() async {
       },
     );
     final yamlString = buildConfig1.toYamlString();
-    final expectedYamlString = '''cc: ${fakeClang.toFilePath()}
+    final expectedYamlString = '''c_compiler:
+  cc: ${fakeClang.toFilePath()}
+  ld: ${fakeLd.toFilePath()}
 dependency_metadata:
   bar:
     key: value
@@ -171,7 +179,6 @@ dependency_metadata:
     z:
       - z
       - a
-ld: ${fakeLd.toFilePath()}
 link_mode_preference: prefer-static
 out_dir: ${outDir.toFilePath()}
 package_root: ${tempUri.toFilePath()}
@@ -235,8 +242,10 @@ version: ${BuildConfig.version}''';
       packageRoot: tempUri,
       target: Target.iOSArm64,
       targetIOSSdk: IOSSdk.iPhoneOs,
-      cc: fakeClang,
-      ld: fakeLd,
+      cCompiler: CCompilerConfig(
+        cc: fakeClang,
+        ld: fakeLd,
+      ),
       linkModePreference: LinkModePreference.preferStatic,
     );
     config.toString();
@@ -289,9 +298,11 @@ version: ${BuildConfig.version}''';
       outDir: tempUri.resolve('out1/'),
       packageRoot: tempUri.resolve('packageRoot/'),
       target: Target.windowsX64,
-      cc: fakeCl,
-      toolchainEnvScript: fakeVcVars,
-      toolchainEnvScriptArgs: ['x64'],
+      cCompiler: CCompilerConfig(
+        cc: fakeCl,
+        toolchainEnvScript: fakeVcVars,
+        toolchainEnvScriptArgs: ['x64'],
+      ),
       linkModePreference: LinkModePreference.dynamic,
     );
 
