@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@OnPlatform({'windows': Timeout.factor(10)})
+library;
+
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
@@ -20,7 +23,7 @@ void main() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  test('native_add build', timeout: Timeout.factor(2), () async {
+  test('native_add build', () async {
     final testTempUri = tempUri.resolve('test1/');
     await Directory.fromUri(testTempUri).create();
     final testPackageUri = packageUri.resolve('example/native_add/');
