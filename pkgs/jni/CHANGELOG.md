@@ -1,3 +1,6 @@
+## 0.4.0
+* Type classes now have `superCount` and `superType` getters used for type inference.
+
 ## 0.3.0
 * Added `PortContinuation` used for `suspend fun` in Kotlin.
 * `dartjni` now depends on `dart_api_dl.h`.

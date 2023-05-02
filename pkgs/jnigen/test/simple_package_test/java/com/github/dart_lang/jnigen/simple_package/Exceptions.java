@@ -9,6 +9,7 @@ import java.util.*;
 
 public class Exceptions {
   public Exceptions() {}
+
   // constructor throwing exception
   public Exceptions(float x) {
     throw new IllegalArgumentException("Float is not a serious type");
