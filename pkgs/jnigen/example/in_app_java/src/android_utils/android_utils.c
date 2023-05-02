@@ -55,8 +55,7 @@ JniResult EmojiCompat__init(jobject context) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_EmojiCompat, _m_EmojiCompat__init, context);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__init1 = NULL;
@@ -74,8 +73,7 @@ JniResult EmojiCompat__init1(jobject context, jobject defaultFactory) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_EmojiCompat, _m_EmojiCompat__init1, context, defaultFactory);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__init2 = NULL;
@@ -92,8 +90,7 @@ JniResult EmojiCompat__init2(jobject config) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_EmojiCompat, _m_EmojiCompat__init2, config);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__isConfigured = NULL;
@@ -126,8 +123,7 @@ JniResult EmojiCompat__reset(jobject config) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_EmojiCompat, _m_EmojiCompat__reset, config);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__reset1 = NULL;
@@ -144,8 +140,7 @@ JniResult EmojiCompat__reset1(jobject emojiCompat) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_EmojiCompat, _m_EmojiCompat__reset1, emojiCompat);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__skipDefaultConfigurationLookup = NULL;
@@ -179,8 +174,7 @@ JniResult EmojiCompat__get0() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_EmojiCompat,
                                                       _m_EmojiCompat__get0);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__load = NULL;
@@ -426,8 +420,7 @@ JniResult EmojiCompat__process(jobject self_, jobject charSequence) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat__process, charSequence);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__process1 = NULL;
@@ -446,8 +439,7 @@ JniResult EmojiCompat__process1(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat__process1, charSequence, start, end);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__process2 = NULL;
@@ -468,8 +460,7 @@ JniResult EmojiCompat__process2(jobject self_,
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_EmojiCompat__process2,
                                   charSequence, start, end, maxEmojiCount);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__process3 = NULL;
@@ -491,8 +482,7 @@ JniResult EmojiCompat__process3(jobject self_,
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat__process3, charSequence, start, end,
       maxEmojiCount, replaceStrategy);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__getAssetSignature = NULL;
@@ -508,8 +498,7 @@ JniResult EmojiCompat__getAssetSignature(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat__getAssetSignature);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat__updateEditorInfo = NULL;
@@ -546,8 +535,7 @@ JniResult EmojiCompat_Config__ctor(jobject metadataLoader) {
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_Config,
                            _m_EmojiCompat_Config__ctor, metadataLoader);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__registerInitCallback = NULL;
@@ -568,8 +556,7 @@ JniResult EmojiCompat_Config__registerInitCallback(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__registerInitCallback, initCallback);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__unregisterInitCallback = NULL;
@@ -591,8 +578,7 @@ JniResult EmojiCompat_Config__unregisterInitCallback(jobject self_,
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__unregisterInitCallback,
       initCallback);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setReplaceAll = NULL;
@@ -609,8 +595,7 @@ JniResult EmojiCompat_Config__setReplaceAll(jobject self_, uint8_t replaceAll) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setReplaceAll, replaceAll);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle = NULL;
@@ -632,8 +617,7 @@ JniResult EmojiCompat_Config__setUseEmojiAsDefaultStyle(
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle,
       useEmojiAsDefaultStyle);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle1 = NULL;
@@ -656,8 +640,7 @@ JniResult EmojiCompat_Config__setUseEmojiAsDefaultStyle1(
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setUseEmojiAsDefaultStyle1,
       useEmojiAsDefaultStyle, emojiAsDefaultStyleExceptions);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setEmojiSpanIndicatorEnabled = NULL;
@@ -679,8 +662,7 @@ JniResult EmojiCompat_Config__setEmojiSpanIndicatorEnabled(
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setEmojiSpanIndicatorEnabled,
       emojiSpanIndicatorEnabled);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setEmojiSpanIndicatorColor = NULL;
@@ -700,8 +682,7 @@ JniResult EmojiCompat_Config__setEmojiSpanIndicatorColor(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setEmojiSpanIndicatorColor, color);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setMetadataLoadStrategy = NULL;
@@ -721,8 +702,7 @@ JniResult EmojiCompat_Config__setMetadataLoadStrategy(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setMetadataLoadStrategy, strategy);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setSpanFactory = NULL;
@@ -741,8 +721,7 @@ JniResult EmojiCompat_Config__setSpanFactory(jobject self_, jobject factory) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setSpanFactory, factory);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__setGlyphChecker = NULL;
@@ -762,8 +741,7 @@ JniResult EmojiCompat_Config__setGlyphChecker(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__setGlyphChecker, glyphChecker);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_Config__getMetadataRepoLoader = NULL;
@@ -782,8 +760,7 @@ JniResult EmojiCompat_Config__getMetadataRepoLoader(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_Config__getMetadataRepoLoader);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback
@@ -806,8 +783,7 @@ JniResult EmojiCompat_MetadataRepoLoaderCallback__ctor() {
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_MetadataRepoLoaderCallback,
                            _m_EmojiCompat_MetadataRepoLoaderCallback__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_MetadataRepoLoaderCallback__onLoaded = NULL;
@@ -919,8 +895,7 @@ JniResult EmojiCompat_InitCallback__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_InitCallback,
                                          _m_EmojiCompat_InitCallback__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_InitCallback__onInitialized = NULL;
@@ -977,8 +952,7 @@ JniResult EmojiCompat_DefaultSpanFactory__ctor() {
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_DefaultSpanFactory,
                            _m_EmojiCompat_DefaultSpanFactory__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_EmojiCompat_DefaultSpanFactory__createSpan = NULL;
@@ -998,8 +972,7 @@ JniResult EmojiCompat_DefaultSpanFactory__createSpan(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_DefaultSpanFactory__createSpan, rasterizer);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // androidx.emoji2.text.EmojiCompat$SpanFactory
@@ -1022,8 +995,7 @@ JniResult EmojiCompat_SpanFactory__createSpan(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_EmojiCompat_SpanFactory__createSpan, rasterizer);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // androidx.emoji2.text.DefaultEmojiCompatConfig
@@ -1046,8 +1018,7 @@ JniResult DefaultEmojiCompatConfig__create(jobject context) {
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_DefaultEmojiCompatConfig, _m_DefaultEmojiCompatConfig__create,
       context);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28
@@ -1076,8 +1047,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor() {
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID
@@ -1109,8 +1079,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatu
       jniEnv, self_,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatures1,
       packageManager, providerPackage);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
@@ -1139,8 +1108,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor() {
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID
@@ -1173,8 +1141,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__queryIntentConten
       jniEnv, self_,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__queryIntentContentProviders,
       packageManager, intent, flags);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID
@@ -1204,8 +1171,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo(
       jniEnv, self_,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo,
       resolveInfo);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
@@ -1230,8 +1196,7 @@ JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor() {
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID
@@ -1263,8 +1228,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getSigningSignatures(
       jniEnv, self_,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getSigningSignatures,
       packageManager, providerPackage);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID
@@ -1297,8 +1261,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__queryIntentContentProvi
       jniEnv, self_,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__queryIntentContentProviders,
       packageManager, intent, flags);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID
@@ -1328,8 +1291,7 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo(
       jniEnv, self_,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo,
       resolveInfo);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory
@@ -1359,8 +1321,7 @@ JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor,
       helper);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create =
@@ -1388,8 +1349,7 @@ JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create(
       jniEnv, self_,
       _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create,
       context);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 // android.os.Build
@@ -1406,8 +1366,7 @@ JniResult Build__ctor() {
   if (_m_Build__ctor == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build, _m_Build__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_Build__getSerial = NULL;
@@ -1423,8 +1382,7 @@ JniResult Build__getSerial() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_Build, _m_Build__getSerial);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_Build__getFingerprintedPartitions = NULL;
@@ -1440,8 +1398,7 @@ JniResult Build__getFingerprintedPartitions() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_Build, _m_Build__getFingerprintedPartitions);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_Build__getRadioVersion = NULL;
@@ -1457,8 +1414,7 @@ JniResult Build__getRadioVersion() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_Build, _m_Build__getRadioVersion);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__BOARD = NULL;
@@ -1469,9 +1425,9 @@ JniResult get_Build__BOARD() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__BOARD, "BOARD", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BOARD));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BOARD);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__BOOTLOADER = NULL;
@@ -1483,9 +1439,9 @@ JniResult get_Build__BOOTLOADER() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__BOOTLOADER, "BOOTLOADER",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BOOTLOADER));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BOOTLOADER);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__BRAND = NULL;
@@ -1496,9 +1452,9 @@ JniResult get_Build__BRAND() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__BRAND, "BRAND", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BRAND));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__BRAND);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__CPU_ABI = NULL;
@@ -1510,9 +1466,9 @@ JniResult get_Build__CPU_ABI() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__CPU_ABI, "CPU_ABI",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__CPU_ABI));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__CPU_ABI);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__CPU_ABI2 = NULL;
@@ -1524,9 +1480,9 @@ JniResult get_Build__CPU_ABI2() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__CPU_ABI2, "CPU_ABI2",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__CPU_ABI2));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__CPU_ABI2);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__DEVICE = NULL;
@@ -1538,9 +1494,9 @@ JniResult get_Build__DEVICE() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__DEVICE, "DEVICE",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__DEVICE));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__DEVICE);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__DISPLAY = NULL;
@@ -1552,9 +1508,9 @@ JniResult get_Build__DISPLAY() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__DISPLAY, "DISPLAY",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__DISPLAY));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__DISPLAY);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__FINGERPRINT = NULL;
@@ -1566,9 +1522,9 @@ JniResult get_Build__FINGERPRINT() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__FINGERPRINT, "FINGERPRINT",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__FINGERPRINT));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__FINGERPRINT);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__HARDWARE = NULL;
@@ -1580,9 +1536,9 @@ JniResult get_Build__HARDWARE() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__HARDWARE, "HARDWARE",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__HARDWARE));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__HARDWARE);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__HOST = NULL;
@@ -1593,9 +1549,9 @@ JniResult get_Build__HOST() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__HOST, "HOST", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__HOST));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__HOST);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__ID = NULL;
@@ -1606,9 +1562,9 @@ JniResult get_Build__ID() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__ID, "ID", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__ID));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__ID);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__MANUFACTURER = NULL;
@@ -1620,9 +1576,9 @@ JniResult get_Build__MANUFACTURER() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__MANUFACTURER, "MANUFACTURER",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_Build, _f_Build__MANUFACTURER));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__MANUFACTURER);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__MODEL = NULL;
@@ -1633,9 +1589,9 @@ JniResult get_Build__MODEL() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__MODEL, "MODEL", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__MODEL));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__MODEL);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__ODM_SKU = NULL;
@@ -1647,9 +1603,9 @@ JniResult get_Build__ODM_SKU() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__ODM_SKU, "ODM_SKU",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__ODM_SKU));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__ODM_SKU);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__PRODUCT = NULL;
@@ -1661,9 +1617,9 @@ JniResult get_Build__PRODUCT() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__PRODUCT, "PRODUCT",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__PRODUCT));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__PRODUCT);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__RADIO = NULL;
@@ -1674,9 +1630,9 @@ JniResult get_Build__RADIO() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__RADIO, "RADIO", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__RADIO));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__RADIO);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__SERIAL = NULL;
@@ -1688,9 +1644,9 @@ JniResult get_Build__SERIAL() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__SERIAL, "SERIAL",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SERIAL));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SERIAL);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__SKU = NULL;
@@ -1701,9 +1657,9 @@ JniResult get_Build__SKU() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__SKU, "SKU", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SKU));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SKU);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__SOC_MANUFACTURER = NULL;
@@ -1715,9 +1671,9 @@ JniResult get_Build__SOC_MANUFACTURER() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__SOC_MANUFACTURER, "SOC_MANUFACTURER",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_Build, _f_Build__SOC_MANUFACTURER));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build,
+                                                    _f_Build__SOC_MANUFACTURER);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__SOC_MODEL = NULL;
@@ -1729,9 +1685,9 @@ JniResult get_Build__SOC_MODEL() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__SOC_MODEL, "SOC_MODEL",
                     "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SOC_MODEL));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__SOC_MODEL);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__SUPPORTED_32_BIT_ABIS = NULL;
@@ -1743,9 +1699,9 @@ JniResult get_Build__SUPPORTED_32_BIT_ABIS() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__SUPPORTED_32_BIT_ABIS,
                     "SUPPORTED_32_BIT_ABIS", "[Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_Build, _f_Build__SUPPORTED_32_BIT_ABIS));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build, _f_Build__SUPPORTED_32_BIT_ABIS);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__SUPPORTED_64_BIT_ABIS = NULL;
@@ -1757,9 +1713,9 @@ JniResult get_Build__SUPPORTED_64_BIT_ABIS() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__SUPPORTED_64_BIT_ABIS,
                     "SUPPORTED_64_BIT_ABIS", "[Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_Build, _f_Build__SUPPORTED_64_BIT_ABIS));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build, _f_Build__SUPPORTED_64_BIT_ABIS);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__SUPPORTED_ABIS = NULL;
@@ -1771,9 +1727,9 @@ JniResult get_Build__SUPPORTED_ABIS() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__SUPPORTED_ABIS, "SUPPORTED_ABIS",
                     "[Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetStaticObjectField(
-      jniEnv, _c_Build, _f_Build__SUPPORTED_ABIS));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build,
+                                                    _f_Build__SUPPORTED_ABIS);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__TAGS = NULL;
@@ -1784,9 +1740,9 @@ JniResult get_Build__TAGS() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__TAGS, "TAGS", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__TAGS));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__TAGS);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__TIME = NULL;
@@ -1810,9 +1766,9 @@ JniResult get_Build__TYPE() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__TYPE, "TYPE", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__TYPE));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__TYPE);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_Build__USER = NULL;
@@ -1823,9 +1779,9 @@ JniResult get_Build__USER() {
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_field(_c_Build, &_f_Build__USER, "USER", "Ljava/lang/String;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__USER));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__USER);
+  return to_global_ref_result(_result);
 }
 
 // java.util.HashMap
@@ -1843,8 +1799,7 @@ JniResult HashMap__ctor(int32_t i, float f) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor, i, f);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__ctor1 = NULL;
@@ -1859,8 +1814,7 @@ JniResult HashMap__ctor1(int32_t i) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor1, i);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__ctor2 = NULL;
@@ -1874,8 +1828,7 @@ JniResult HashMap__ctor2() {
   if (_m_HashMap__ctor2 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor2);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__ctor3 = NULL;
@@ -1890,8 +1843,7 @@ JniResult HashMap__ctor3(jobject map) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor3, map);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__size = NULL;
@@ -1936,8 +1888,7 @@ JniResult HashMap__get0(jobject self_, jobject object) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__get0, object);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__containsKey = NULL;
@@ -1969,8 +1920,7 @@ JniResult HashMap__put(jobject self_, jobject object, jobject object1) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__put,
                                                 object, object1);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__putAll = NULL;
@@ -2000,8 +1950,7 @@ JniResult HashMap__remove(jobject self_, jobject object) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__remove, object);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__clear = NULL;
@@ -2046,8 +1995,7 @@ JniResult HashMap__keySet(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__keySet);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__values = NULL;
@@ -2063,8 +2011,7 @@ JniResult HashMap__values(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__values);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__entrySet = NULL;
@@ -2080,8 +2027,7 @@ JniResult HashMap__entrySet(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__entrySet);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__getOrDefault = NULL;
@@ -2099,8 +2045,7 @@ JniResult HashMap__getOrDefault(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_HashMap__getOrDefault, object, object1);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__putIfAbsent = NULL;
@@ -2116,8 +2061,7 @@ JniResult HashMap__putIfAbsent(jobject self_, jobject object, jobject object1) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_HashMap__putIfAbsent, object, object1);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__remove1 = NULL;
@@ -2168,8 +2112,7 @@ JniResult HashMap__replace1(jobject self_, jobject object, jobject object1) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_HashMap__replace1, object, object1);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__computeIfAbsent = NULL;
@@ -2188,8 +2131,7 @@ JniResult HashMap__computeIfAbsent(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_HashMap__computeIfAbsent, object, function);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__computeIfPresent = NULL;
@@ -2208,8 +2150,7 @@ JniResult HashMap__computeIfPresent(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_HashMap__computeIfPresent, object, biFunction);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__compute = NULL;
@@ -2226,8 +2167,7 @@ JniResult HashMap__compute(jobject self_, jobject object, jobject biFunction) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_HashMap__compute, object, biFunction);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__merge = NULL;
@@ -2247,8 +2187,7 @@ JniResult HashMap__merge(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_HashMap__merge, object, object1, biFunction);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_HashMap__forEach = NULL;
@@ -2293,6 +2232,5 @@ JniResult HashMap__clone(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_HashMap__clone);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }

@@ -156,6 +156,16 @@ OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
 
 enum BindingsType { cBased, dartOnly }
 
+extension GetConfigString on BindingsType {
+  static const _configStrings = {
+    BindingsType.cBased: 'c_based',
+    BindingsType.dartOnly: 'dart_only',
+  };
+  String getConfigString() {
+    return _configStrings[this]!;
+  }
+}
+
 BindingsType getBindingsType(String? name, BindingsType defaultVal) {
   const values = {
     'c_based': BindingsType.cBased,

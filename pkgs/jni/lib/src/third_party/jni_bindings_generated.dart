@@ -343,12 +343,12 @@ class JniAccessorsStruct extends ffi.Struct {
 
   external ffi.Pointer<
           ffi.NativeFunction<
-              JniPointerResult Function(JSizeMarker length, ffi.Int type)>>
+              JniResult Function(JSizeMarker length, ffi.Int type)>>
       newPrimitiveArray;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniPointerResult Function(JSizeMarker length, JClassPtr elementClass,
+          JniResult Function(JSizeMarker length, JClassPtr elementClass,
               JObjectPtr initialElement)>> newObjectArray;
 
   external ffi.Pointer<

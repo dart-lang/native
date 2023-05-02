@@ -28,9 +28,14 @@ const testName = 'jackson_core_test';
 final thirdPartyDir = join('test', testName, 'third_party');
 const deps = ['com.fasterxml.jackson.core:jackson-core:2.13.4'];
 
-Config getConfig(
-    {String? root, bool generateFullVersion = false, bool useAsm = false}) {
+Config getConfig({
+  String? root,
+  bool generateFullVersion = false,
+  bool useAsm = false,
+  BindingsType bindingsType = BindingsType.dartOnly,
+}) {
   final rootDir = root ?? thirdPartyDir;
+  final bindingTypeDir = bindingsType.getConfigString();
   final config = Config(
     mavenDownloads: MavenDownloads(
       sourceDeps: deps,
@@ -42,9 +47,17 @@ Config getConfig(
     ),
     preamble: jacksonPreamble,
     outputConfig: OutputConfig(
-      bindingsType: BindingsType.dartOnly,
+      bindingsType: bindingsType,
+      // Have to be judicious here, and ensure null when bindings type is
+      // dart-only, because config-test is also using this.
+      cConfig: bindingsType == BindingsType.cBased
+          ? CCodeOutputConfig(
+              libraryName: 'jackson_core',
+              path: Uri.directory(join(rootDir, bindingTypeDir, 'c_bindings')),
+            )
+          : null,
       dartConfig: DartCodeOutputConfig(
-        path: Uri.directory(join(rootDir, 'lib')),
+        path: Uri.directory(join(rootDir, bindingTypeDir, 'dart_bindings')),
       ),
     ),
     classes: (generateFullVersion)
@@ -71,4 +84,7 @@ Config getConfig(
   return config;
 }
 
-void main() async => await generateJniBindings(getConfig());
+void main() async {
+  await generateJniBindings(getConfig(bindingsType: BindingsType.cBased));
+  await generateJniBindings(getConfig(bindingsType: BindingsType.dartOnly));
+}

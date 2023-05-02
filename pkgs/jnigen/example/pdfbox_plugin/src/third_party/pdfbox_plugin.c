@@ -48,8 +48,7 @@ JniResult PDDocument__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_PDDocument, _m_PDDocument__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__ctor1 = NULL;
@@ -65,8 +64,7 @@ JniResult PDDocument__ctor1(jobject memUsageSetting) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocument,
                                          _m_PDDocument__ctor1, memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__ctor2 = NULL;
@@ -82,8 +80,7 @@ JniResult PDDocument__ctor2(jobject doc) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_PDDocument, _m_PDDocument__ctor2, doc);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__ctor3 = NULL;
@@ -100,8 +97,7 @@ JniResult PDDocument__ctor3(jobject doc, jobject source) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocument,
                                          _m_PDDocument__ctor3, doc, source);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__ctor4 = NULL;
@@ -119,8 +115,7 @@ JniResult PDDocument__ctor4(jobject doc, jobject source, jobject permission) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_PDDocument, _m_PDDocument__ctor4, doc, source, permission);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__addPage = NULL;
@@ -283,8 +278,7 @@ JniResult PDDocument__importPage(jobject self_, jobject page) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__importPage, page);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__getDocument = NULL;
@@ -300,8 +294,7 @@ JniResult PDDocument__getDocument(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_PDDocument__getDocument);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__getDocumentInformation = NULL;
@@ -318,8 +311,7 @@ JniResult PDDocument__getDocumentInformation(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getDocumentInformation);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__setDocumentInformation = NULL;
@@ -353,8 +345,7 @@ JniResult PDDocument__getDocumentCatalog(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getDocumentCatalog);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__isEncrypted = NULL;
@@ -385,8 +376,7 @@ JniResult PDDocument__getEncryption(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_PDDocument__getEncryption);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__setEncryptionDictionary = NULL;
@@ -422,8 +412,7 @@ JniResult PDDocument__getLastSignatureDictionary(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getLastSignatureDictionary);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__getSignatureFields = NULL;
@@ -439,8 +428,7 @@ JniResult PDDocument__getSignatureFields(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getSignatureFields);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__getSignatureDictionaries = NULL;
@@ -456,8 +444,7 @@ JniResult PDDocument__getSignatureDictionaries(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getSignatureDictionaries);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__registerTrueTypeFontForClosing = NULL;
@@ -491,8 +478,7 @@ JniResult PDDocument__load(jobject file) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load, file);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load1 = NULL;
@@ -510,8 +496,7 @@ JniResult PDDocument__load1(jobject file, jobject memUsageSetting) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load1, file, memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load2 = NULL;
@@ -528,8 +513,7 @@ JniResult PDDocument__load2(jobject file, jobject password) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load2, file, password);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load3 = NULL;
@@ -550,8 +534,7 @@ JniResult PDDocument__load3(jobject file,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load3, file, password,
       memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load4 = NULL;
@@ -573,8 +556,7 @@ JniResult PDDocument__load4(jobject file,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load4, file, password, keyStore,
       alias);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load5 = NULL;
@@ -598,8 +580,7 @@ JniResult PDDocument__load5(jobject file,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load5, file, password, keyStore,
       alias, memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load6 = NULL;
@@ -616,8 +597,7 @@ JniResult PDDocument__load6(jobject input) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load6, input);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load7 = NULL;
@@ -635,8 +615,7 @@ JniResult PDDocument__load7(jobject input, jobject memUsageSetting) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load7, input, memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load8 = NULL;
@@ -653,8 +632,7 @@ JniResult PDDocument__load8(jobject input, jobject password) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load8, input, password);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load9 = NULL;
@@ -676,8 +654,7 @@ JniResult PDDocument__load9(jobject input,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load9, input, password, keyStore,
       alias);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load10 = NULL;
@@ -698,8 +675,7 @@ JniResult PDDocument__load10(jobject input,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load10, input, password,
       memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load11 = NULL;
@@ -723,8 +699,7 @@ JniResult PDDocument__load11(jobject input,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load11, input, password, keyStore,
       alias, memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load12 = NULL;
@@ -740,8 +715,7 @@ JniResult PDDocument__load12(jobject input) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load12, input);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load13 = NULL;
@@ -758,8 +732,7 @@ JniResult PDDocument__load13(jobject input, jobject password) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load13, input, password);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load14 = NULL;
@@ -780,8 +753,7 @@ JniResult PDDocument__load14(jobject input,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load14, input, password, keyStore,
       alias);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__load15 = NULL;
@@ -804,8 +776,7 @@ JniResult PDDocument__load15(jobject input,
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDDocument, _m_PDDocument__load15, input, password, keyStore,
       alias, memUsageSetting);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__save = NULL;
@@ -903,8 +874,7 @@ JniResult PDDocument__saveIncrementalForExternalSigning(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__saveIncrementalForExternalSigning, output);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__getPage = NULL;
@@ -920,8 +890,7 @@ JniResult PDDocument__getPage(jobject self_, int32_t pageIndex) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getPage, pageIndex);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__getPages = NULL;
@@ -937,8 +906,7 @@ JniResult PDDocument__getPages(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_PDDocument__getPages);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__getNumberOfPages = NULL;
@@ -1000,8 +968,7 @@ JniResult PDDocument__getCurrentAccessPermission(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getCurrentAccessPermission);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__isAllSecurityToBeRemoved = NULL;
@@ -1051,8 +1018,7 @@ JniResult PDDocument__getDocumentId(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_PDDocument__getDocumentId);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__setDocumentId = NULL;
@@ -1114,8 +1080,7 @@ JniResult PDDocument__getResourceCache(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocument__getResourceCache);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocument__setResourceCache = NULL;
@@ -1152,8 +1117,7 @@ JniResult PDDocumentInformation__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocumentInformation,
                                          _m_PDDocumentInformation__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__ctor1 = NULL;
@@ -1170,8 +1134,7 @@ JniResult PDDocumentInformation__ctor1(jobject dic) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocumentInformation,
                                          _m_PDDocumentInformation__ctor1, dic);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__getCOSObject = NULL;
@@ -1188,8 +1151,7 @@ JniResult PDDocumentInformation__getCOSObject(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getCOSObject);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__getPropertyStringValue = NULL;
@@ -1210,8 +1172,7 @@ JniResult PDDocumentInformation__getPropertyStringValue(jobject self_,
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getPropertyStringValue,
       propertyKey);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__getTitle = NULL;
@@ -1228,8 +1189,7 @@ JniResult PDDocumentInformation__getTitle(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getTitle);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setTitle = NULL;
@@ -1263,8 +1223,7 @@ JniResult PDDocumentInformation__getAuthor(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getAuthor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setAuthor = NULL;
@@ -1298,8 +1257,7 @@ JniResult PDDocumentInformation__getSubject(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getSubject);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setSubject = NULL;
@@ -1333,8 +1291,7 @@ JniResult PDDocumentInformation__getKeywords(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getKeywords);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setKeywords = NULL;
@@ -1368,8 +1325,7 @@ JniResult PDDocumentInformation__getCreator(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getCreator);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setCreator = NULL;
@@ -1403,8 +1359,7 @@ JniResult PDDocumentInformation__getProducer(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getProducer);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setProducer = NULL;
@@ -1439,8 +1394,7 @@ JniResult PDDocumentInformation__getCreationDate(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getCreationDate);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setCreationDate = NULL;
@@ -1476,8 +1430,7 @@ JniResult PDDocumentInformation__getModificationDate(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getModificationDate);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setModificationDate = NULL;
@@ -1513,8 +1466,7 @@ JniResult PDDocumentInformation__getTrapped(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getTrapped);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__getMetadataKeys = NULL;
@@ -1532,8 +1484,7 @@ JniResult PDDocumentInformation__getMetadataKeys(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getMetadataKeys);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__getCustomMetadataValue = NULL;
@@ -1554,8 +1505,7 @@ JniResult PDDocumentInformation__getCustomMetadataValue(jobject self_,
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDDocumentInformation__getCustomMetadataValue,
       fieldName);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDDocumentInformation__setCustomMetadataValue = NULL;
@@ -1613,8 +1563,7 @@ JniResult PDFTextStripper__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDFTextStripper,
                                          _m_PDFTextStripper__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__getText = NULL;
@@ -1631,8 +1580,7 @@ JniResult PDFTextStripper__getText(jobject self_, jobject doc) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getText, doc);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__writeText = NULL;
@@ -2023,8 +1971,7 @@ JniResult PDFTextStripper__getLineSeparator(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getLineSeparator);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__getWordSeparator = NULL;
@@ -2041,8 +1988,7 @@ JniResult PDFTextStripper__getWordSeparator(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getWordSeparator);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setWordSeparator = NULL;
@@ -2111,8 +2057,7 @@ JniResult PDFTextStripper__getOutput(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_PDFTextStripper__getOutput);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__getCharactersByArticle = NULL;
@@ -2129,8 +2074,7 @@ JniResult PDFTextStripper__getCharactersByArticle(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getCharactersByArticle);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setSuppressDuplicateOverlappingText = NULL;
@@ -2207,8 +2151,7 @@ JniResult PDFTextStripper__getEndBookmark(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getEndBookmark);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setEndBookmark = NULL;
@@ -2246,8 +2189,7 @@ JniResult PDFTextStripper__getStartBookmark(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getStartBookmark);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setStartBookmark = NULL;
@@ -2499,8 +2441,7 @@ JniResult PDFTextStripper__getParagraphStart(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getParagraphStart);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setParagraphStart = NULL;
@@ -2534,8 +2475,7 @@ JniResult PDFTextStripper__getParagraphEnd(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getParagraphEnd);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setParagraphEnd = NULL;
@@ -2569,8 +2509,7 @@ JniResult PDFTextStripper__getPageStart(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getPageStart);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setPageStart = NULL;
@@ -2604,8 +2543,7 @@ JniResult PDFTextStripper__getPageEnd(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(jniEnv, self_,
                                                 _m_PDFTextStripper__getPageEnd);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setPageEnd = NULL;
@@ -2639,8 +2577,7 @@ JniResult PDFTextStripper__getArticleStart(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getArticleStart);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setArticleStart = NULL;
@@ -2675,8 +2612,7 @@ JniResult PDFTextStripper__getArticleEnd(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getArticleEnd);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__setArticleEnd = NULL;
@@ -2812,8 +2748,7 @@ JniResult PDFTextStripper__getListItemPatterns(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_PDFTextStripper__getListItemPatterns);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_PDFTextStripper__matchPattern = NULL;
@@ -2832,8 +2767,7 @@ JniResult PDFTextStripper__matchPattern(jobject string, jobject patterns) {
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PDFTextStripper, _m_PDFTextStripper__matchPattern, string,
       patterns);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_PDFTextStripper__LINE_SEPARATOR = NULL;
@@ -2846,9 +2780,9 @@ JniResult get_PDFTextStripper__LINE_SEPARATOR(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_field(_c_PDFTextStripper, &_f_PDFTextStripper__LINE_SEPARATOR,
              "LINE_SEPARATOR", "Ljava/lang/String;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__LINE_SEPARATOR));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->GetObjectField(
+      jniEnv, self_, _f_PDFTextStripper__LINE_SEPARATOR);
+  return to_global_ref_result(_result);
 }
 
 jfieldID _f_PDFTextStripper__charactersByArticle = NULL;
@@ -2861,9 +2795,9 @@ JniResult get_PDFTextStripper__charactersByArticle(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_field(_c_PDFTextStripper, &_f_PDFTextStripper__charactersByArticle,
              "charactersByArticle", "Ljava/util/ArrayList;");
-  jobject _result = to_global_ref((*jniEnv)->GetObjectField(
-      jniEnv, self_, _f_PDFTextStripper__charactersByArticle));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->GetObjectField(
+      jniEnv, self_, _f_PDFTextStripper__charactersByArticle);
+  return to_global_ref_result(_result);
 }
 
 FFI_PLUGIN_EXPORT
@@ -2891,9 +2825,9 @@ JniResult get_PDFTextStripper__document(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_field(_c_PDFTextStripper, &_f_PDFTextStripper__document, "document",
              "Lorg/apache/pdfbox/pdmodel/PDDocument;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDFTextStripper__document));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDFTextStripper__document);
+  return to_global_ref_result(_result);
 }
 
 FFI_PLUGIN_EXPORT
@@ -2919,9 +2853,9 @@ JniResult get_PDFTextStripper__output(jobject self_) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_field(_c_PDFTextStripper, &_f_PDFTextStripper__output, "output",
              "Ljava/io/Writer;");
-  jobject _result = to_global_ref(
-      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDFTextStripper__output));
-  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->GetObjectField(jniEnv, self_, _f_PDFTextStripper__output);
+  return to_global_ref_result(_result);
 }
 
 FFI_PLUGIN_EXPORT

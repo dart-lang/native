@@ -1467,14 +1467,14 @@ class JniAccessors {
       _newObject(cls, ctor, args);
 
   late final _newPrimitiveArray = ptr.ref.newPrimitiveArray
-      .asFunction<JniPointerResult Function(int length, int type)>();
-  JniPointerResult newPrimitiveArray(int length, int type) =>
+      .asFunction<JniResult Function(int length, int type)>();
+  JniResult newPrimitiveArray(int length, int type) =>
       _newPrimitiveArray(length, type);
 
   late final _newObjectArray = ptr.ref.newObjectArray.asFunction<
-      JniPointerResult Function(
+      JniResult Function(
           int length, JClassPtr elementClass, JObjectPtr initialElement)>();
-  JniPointerResult newObjectArray(
+  JniResult newObjectArray(
           int length, JClassPtr elementClass, JObjectPtr initialElement) =>
       _newObjectArray(length, elementClass, initialElement);
 

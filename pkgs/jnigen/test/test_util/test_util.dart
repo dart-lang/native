@@ -29,7 +29,7 @@ Future<bool> isEmptyOrNotExistDir(String path) async {
 }
 
 /// Runs command, and prints output only if the exit status is non-zero.
-Future<int> runCommand(String exec, List<String> args,
+Future<int> runCommandReturningStatus(String exec, List<String> args,
     {String? workingDirectory, bool runInShell = false}) async {
   final proc = await Process.run(exec, args,
       workingDirectory: workingDirectory, runInShell: runInShell);
@@ -40,6 +40,25 @@ Future<int> runCommand(String exec, List<String> args,
     printError(proc.stderr);
   }
   return proc.exitCode;
+}
+
+Future<void> runCommand(
+  String exec,
+  List<String> args, {
+  String? workingDirectory,
+  bool runInShell = false,
+  String? messageOnFailure,
+}) async {
+  final status = await runCommandReturningStatus(
+    exec,
+    args,
+    workingDirectory: workingDirectory,
+    runInShell: runInShell,
+  );
+  if (status != 0) {
+    final message = messageOnFailure ?? 'Failed to execute $exec';
+    throw Exception('$message: Command exited with return code $status');
+  }
 }
 
 /// List all JAR files in [testRoot]/jar
@@ -101,8 +120,10 @@ Future<void> _generateTempBindings(Config config, Directory tempDir) async {
 ///
 /// If the config generates C code, [cReferenceBindings] must be a non-null
 /// directory path.
-Future<void> generateAndCompareBindings(Config config,
-    String dartReferenceBindings, String? cReferenceBindings) async {
+Future<void> generateAndCompareBindings(Config config) async {
+  final dartReferenceBindings =
+      config.outputConfig.dartConfig.path.toFilePath();
+  final cReferenceBindings = config.outputConfig.cConfig?.path.toFilePath();
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync("jnigen_test_temp");
   final tempSrc = tempDir.uri.resolve("src/");
@@ -153,8 +174,74 @@ Future<void> failIfSummarizerNotBuilt() async {
   }
 }
 
+const bindingTests = [
+  'jackson_core_test',
+  'simple_package_test',
+  'kotlin_test',
+];
+
+const registrantName = 'runtime_test_registrant.dart';
+const replicaName = 'runtime_test_registrant_dartonly_generated.dart';
+
+void warnIfRuntimeTestsAreOutdated() {
+  final runtimeTests = join('test', 'generated_runtime_test.dart');
+  if (!File(runtimeTests).existsSync()) {
+    log.fatal('Runtime test files not found. To run binding '
+        'runtime tests, please generate them by running '
+        '`dart run tool/generate_runtime_tests.dart`');
+  }
+  const regenInstr = 'Please run `dart run tool/generate_runtime_tests.dart` '
+      'and try again.';
+  for (var testName in bindingTests) {
+    final registrant = File(join('test', testName, registrantName));
+    final replica = File(join('test', testName, replicaName));
+    if (!replica.existsSync()) {
+      log.fatal(
+        'One or more generated runtime tests do not exist. $regenInstr',
+      );
+    }
+    if (replica.lastModifiedSync().isBefore(registrant.lastModifiedSync())) {
+      log.fatal(
+        'One or more generated runtime tests are not up-to-date. $regenInstr',
+      );
+    }
+  }
+}
+
 /// Verifies if locally built dependencies (currently `ApiSummarizer`)
 /// are up-to-date.
 Future<void> checkLocallyBuiltDependencies() async {
   await failIfSummarizerNotBuilt();
+  warnIfRuntimeTestsAreOutdated();
+}
+
+void generateAndCompareBothModes(
+  String description,
+  Config cBasedConfig,
+  Config dartOnlyConfig,
+) {
+  test('$description (cBased)', () async {
+    await generateAndCompareBindings(cBasedConfig);
+  });
+  test('$description (dartOnly)', () async {
+    await generateAndCompareBindings(dartOnlyConfig);
+  });
+}
+
+List<String> findFilesWithSuffix(Directory dir, String suffix) {
+  return dir
+      .listSync(recursive: true)
+      .map((entry) => relative(entry.path, from: dir.path))
+      .where((path) => path.endsWith(suffix))
+      .toList();
+}
+
+Future<void> compileJavaFiles(Directory root, Directory target) async {
+  final javaFiles = findFilesWithSuffix(root, '.java');
+  await runCommand(
+    'javac',
+    ['-d', target.absolute.path, ...javaFiles],
+    workingDirectory: root.path,
+    messageOnFailure: 'Cannot compile java sources',
+  );
 }

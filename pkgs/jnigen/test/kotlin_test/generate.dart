@@ -37,8 +37,11 @@ void compileKotlinSources(String workingDir) async {
 
 Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
   compileKotlinSources(kotlinPath);
-  final cWrapperDir = Uri.directory(join(testRoot, "src"));
-  final dartWrappersRoot = Uri.directory(join(testRoot, "lib"));
+  final typeDir = bindingsType.getConfigString();
+  final cWrapperDir = Uri.directory(join(testRoot, typeDir, "c_bindings"));
+  final dartWrappersRoot = Uri.directory(
+    join(testRoot, typeDir, "dart_bindings"),
+  );
   final config = Config(
     classPath: [Uri.file(jarPath)],
     classes: [
@@ -67,4 +70,7 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
   return config;
 }
 
-void main() async => await generateJniBindings(getConfig());
+void main() async {
+  await generateJniBindings(getConfig(BindingsType.cBased));
+  await generateJniBindings(getConfig(BindingsType.dartOnly));
+}

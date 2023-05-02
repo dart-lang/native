@@ -200,10 +200,7 @@ JniClassLookupResult getClass(char* internalName) {
   return result;
 }
 
-typedef void* (*MemberGetter)(JNIEnv* env,
-                              jclass* clazz,
-                              char* name,
-                              char* sig);
+typedef void* (*MemberGetter)(JNIEnv* env, jclass clazz, char* name, char* sig);
 
 static inline JniPointerResult _getId(MemberGetter getter,
                                       jclass cls,
@@ -264,15 +261,17 @@ JniResult callMethod(jobject obj,
       result.d = (*jniEnv)->CallDoubleMethodA(jniEnv, obj, fieldID, args);
       break;
     case objectType:
-      result.l = to_global_ref(
-          (*jniEnv)->CallObjectMethodA(jniEnv, obj, fieldID, args));
+      result.l = (*jniEnv)->CallObjectMethodA(jniEnv, obj, fieldID, args);
       break;
     case voidType:
       (*jniEnv)->CallVoidMethodA(jniEnv, obj, fieldID, args);
       break;
   }
-  JniResult jniResult = {.value = result, .exception = NULL};
-  jniResult.exception = check_exception();
+  jthrowable exception = check_exception();
+  if (callType == objectType && exception == NULL) {
+    result.l = to_global_ref(result.l);
+  }
+  JniResult jniResult = {.value = result, .exception = exception};
   return jniResult;
 }
 
@@ -311,15 +310,18 @@ JniResult callStaticMethod(jclass cls,
           (*jniEnv)->CallStaticDoubleMethodA(jniEnv, cls, methodID, args);
       break;
     case objectType:
-      result.l = to_global_ref(
-          (*jniEnv)->CallStaticObjectMethodA(jniEnv, cls, methodID, args));
+      result.l =
+          (*jniEnv)->CallStaticObjectMethodA(jniEnv, cls, methodID, args);
       break;
     case voidType:
       (*jniEnv)->CallStaticVoidMethodA(jniEnv, cls, methodID, args);
       break;
   }
-  JniResult jniResult = {.value = result, .exception = NULL};
-  jniResult.exception = check_exception();
+  jthrowable exception = check_exception();
+  if (callType == objectType && exception == NULL) {
+    result.l = to_global_ref(result.l);
+  }
+  JniResult jniResult = {.value = result, .exception = exception};
   return jniResult;
 }
 
@@ -352,14 +354,17 @@ JniResult getField(jobject obj, jfieldID fieldID, int callType) {
       result.d = (*jniEnv)->GetDoubleField(jniEnv, obj, fieldID);
       break;
     case objectType:
-      result.l = to_global_ref((*jniEnv)->GetObjectField(jniEnv, obj, fieldID));
+      result.l = (*jniEnv)->GetObjectField(jniEnv, obj, fieldID);
       break;
     case voidType:
       // This error should have been handled in Dart.
       break;
   }
-  JniResult jniResult = {.value = result, .exception = NULL};
-  jniResult.exception = check_exception();
+  jthrowable exception = check_exception();
+  if (callType == objectType && exception == NULL) {
+    result.l = to_global_ref(result.l);
+  }
+  JniResult jniResult = {.value = result, .exception = exception};
   return jniResult;
 }
 
@@ -393,8 +398,7 @@ JniResult getStaticField(jclass cls, jfieldID fieldID, int callType) {
       result.d = (*jniEnv)->GetStaticDoubleField(jniEnv, cls, fieldID);
       break;
     case objectType:
-      result.l =
-          to_global_ref((*jniEnv)->GetStaticObjectField(jniEnv, cls, fieldID));
+      result.l = (*jniEnv)->GetStaticObjectField(jniEnv, cls, fieldID);
       break;
     case voidType:
       // This error should have been handled in dart.
@@ -402,47 +406,47 @@ JniResult getStaticField(jclass cls, jfieldID fieldID, int callType) {
       // or throw exception in Dart using Dart's C API.
       break;
   }
-  JniResult jniResult = {.value = result, .exception = NULL};
-  jniResult.exception = check_exception();
+  jthrowable exception = check_exception();
+  if (callType == objectType && exception == NULL) {
+    result.l = to_global_ref(result.l);
+  }
+  JniResult jniResult = {.value = result, .exception = exception};
   return jniResult;
 }
 
 JniResult newObject(jclass cls, jmethodID ctor, jvalue* args) {
   attach_thread();
-  JniResult jniResult;
-  jniResult.value.l =
-      to_global_ref((*jniEnv)->NewObjectA(jniEnv, cls, ctor, args));
-  jniResult.exception = check_exception();
-  return jniResult;
+  jobject result = (*jniEnv)->NewObjectA(jniEnv, cls, ctor, args);
+  return to_global_ref_result(result);
 }
 
-JniPointerResult newPrimitiveArray(jsize length, int type) {
+JniResult newPrimitiveArray(jsize length, int type) {
   attach_thread();
-  void* pointer;
+  jarray array;
   switch (type) {
     case booleanType:
-      pointer = (*jniEnv)->NewBooleanArray(jniEnv, length);
+      array = (*jniEnv)->NewBooleanArray(jniEnv, length);
       break;
     case byteType:
-      pointer = (*jniEnv)->NewByteArray(jniEnv, length);
+      array = (*jniEnv)->NewByteArray(jniEnv, length);
       break;
     case shortType:
-      pointer = (*jniEnv)->NewShortArray(jniEnv, length);
+      array = (*jniEnv)->NewShortArray(jniEnv, length);
       break;
     case charType:
-      pointer = (*jniEnv)->NewCharArray(jniEnv, length);
+      array = (*jniEnv)->NewCharArray(jniEnv, length);
       break;
     case intType:
-      pointer = (*jniEnv)->NewIntArray(jniEnv, length);
+      array = (*jniEnv)->NewIntArray(jniEnv, length);
       break;
     case longType:
-      pointer = (*jniEnv)->NewLongArray(jniEnv, length);
+      array = (*jniEnv)->NewLongArray(jniEnv, length);
       break;
     case floatType:
-      pointer = (*jniEnv)->NewFloatArray(jniEnv, length);
+      array = (*jniEnv)->NewFloatArray(jniEnv, length);
       break;
     case doubleType:
-      pointer = (*jniEnv)->NewDoubleArray(jniEnv, length);
+      array = (*jniEnv)->NewDoubleArray(jniEnv, length);
       break;
     case objectType:
     case voidType:
@@ -451,21 +455,16 @@ JniPointerResult newPrimitiveArray(jsize length, int type) {
       // or throw exception in Dart using Dart's C API.
       break;
   }
-  JniPointerResult result = {.value = to_global_ref(pointer),
-                             .exception = NULL};
-  result.exception = check_exception();
-  return result;
+  return to_global_ref_result(array);
 }
 
-JniPointerResult newObjectArray(jsize length,
-                                jclass elementClass,
-                                jobject initialElement) {
+JniResult newObjectArray(jsize length,
+                         jclass elementClass,
+                         jobject initialElement) {
   attach_thread();
-  jarray array = to_global_ref(
-      (*jniEnv)->NewObjectArray(jniEnv, length, elementClass, initialElement));
-  JniPointerResult result = {.value = array, .exception = NULL};
-  result.exception = check_exception();
-  return result;
+  jarray array =
+      (*jniEnv)->NewObjectArray(jniEnv, length, elementClass, initialElement);
+  return to_global_ref_result(array);
 }
 
 JniResult getArrayElement(jarray array, int index, int type) {
@@ -498,17 +497,19 @@ JniResult getArrayElement(jarray array, int index, int type) {
       (*jniEnv)->GetDoubleArrayRegion(jniEnv, array, index, 1, &value.d);
       break;
     case objectType:
-      value.l =
-          to_global_ref((*jniEnv)->GetObjectArrayElement(jniEnv, array, index));
+      value.l = (*jniEnv)->GetObjectArrayElement(jniEnv, array, index);
     case voidType:
       // This error should have been handled in dart.
       // is there a way to mark this as unreachable?
       // or throw exception in Dart using Dart's C API.
       break;
   }
-  result.value = value;
-  result.exception = check_exception();
-  return result;
+  jthrowable exception = check_exception();
+  if (type == objectType && exception == NULL) {
+    value.l = to_global_ref(value.l);
+  }
+  JniResult jniResult = {.value = value, .exception = exception};
+  return jniResult;
 }
 
 JniExceptionDetails getExceptionDetails(jthrowable exception) {
@@ -595,6 +596,9 @@ JniResult PortContinuation__ctor(int64_t j) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PortContinuation,
                                          _m_PortContinuation__ctor, j);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  jthrowable exception = check_exception();
+  if (exception == NULL) {
+    _result = to_global_ref(_result);
+  }
+  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
 }

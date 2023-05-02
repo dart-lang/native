@@ -63,7 +63,7 @@ class CBindingGenerator {
       case "byte":
         return "int8_t";
       case "char":
-        return "char";
+        return "uint16_t";
       case "double":
         return "double";
       case "float":
@@ -163,16 +163,20 @@ $jniResultType $cMethodName($cMethodParams) {
             '$objectArgument, $fieldVar, value);\n'
             '${indent}return $ifError;';
       } else {
-        var getterExpr = '(*jniEnv)->Get$ifStaticCall${callType}Field(jniEnv, '
+        final getterExpr =
+            '(*jniEnv)->Get$ifStaticCall${callType}Field(jniEnv, '
             '$objectArgument, $fieldVar)';
-        if (f.type.kind != Kind.primitive) {
-          getterExpr = 'to_global_ref($getterExpr)';
-        }
         final cResultType = getCType(f.type.name);
         final unionField = getJValueField(f.type);
+        final String returnExpr;
+        if (f.type.kind != Kind.primitive) {
+          returnExpr = 'to_global_ref_result(_result)';
+        } else {
+          returnExpr = '(JniResult){.value = '
+              '{.$unionField = _result}, .exception = check_exception()}';
+        }
         accessorStatements = '$indent$cResultType _result = $getterExpr;\n'
-            '${indent}return (JniResult){.value = '
-            '{.$unionField = _result}, .exception = check_exception()};';
+            '${indent}return $returnExpr;';
       }
 
       s.write('''
@@ -256,8 +260,7 @@ $accessorStatements
     String valuePart;
     String unionField;
     if (cReturnType == 'jobject' || m.isCtor) {
-      unionField = 'l';
-      valuePart = 'to_global_ref(_result)';
+      return '${indent}return to_global_ref_result(_result);';
     } else if (cReturnType == 'void') {
       // in case of void return, just write 0 in result part of JniResult
       unionField = 'j';

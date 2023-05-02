@@ -10,3 +10,5 @@ tags:
     timeout: 2x
   summarizer_test:
     timeout: 1x
+  runtime_test:
+    timeout: 1x

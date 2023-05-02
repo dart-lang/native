@@ -34,16 +34,9 @@ void testExample(String exampleName, String dartOutput, String? cOutput,
       final examplePath = join('example', exampleName);
       final configPath = join(examplePath, 'jnigen.yaml');
 
-      final dartBindingsPath = join(examplePath, dartOutput);
-      String? cBindingsPath;
-      if (cOutput != null) {
-        cBindingsPath = join(examplePath, cOutput);
-      }
-
       final config = Config.parseArgs(['--config', configPath]);
       try {
-        await generateAndCompareBindings(
-            config, dartBindingsPath, cBindingsPath);
+        await generateAndCompareBindings(config);
       } on GradleException catch (_) {
         stderr.writeln('Skip: $exampleName');
       }

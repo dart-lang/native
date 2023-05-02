@@ -35,7 +35,7 @@ Future<void> runCommand(
 
   final cmd = "$exec ${args.join(" ")}";
   stderr.writeln("+ [$workingDir] $cmd");
-  int exitCode;
+  int status;
   if (options.verbose) {
     final process = await Process.start(
       exec, args,
@@ -44,13 +44,17 @@ Future<void> runCommand(
       // without `runInShell`, sometimes cmake doesn't run on windows.
       runInShell: true,
     );
-    exitCode = await process.exitCode;
+    status = await process.exitCode;
+    if (status != 0) {
+      exitCode = status;
+    }
   } else {
     // ProcessStartMode.normal sometimes hangs on windows. No idea why.
     final process = await Process.run(exec, args,
         runInShell: true, workingDirectory: workingDir);
-    exitCode = process.exitCode;
-    if (exitCode != 0) {
+    status = process.exitCode;
+    if (status != 0) {
+      exitCode = status;
       var out = process.stdout;
       var err = process.stderr;
       if (stdout.supportsAnsiEscapes) {
@@ -61,8 +65,8 @@ Future<void> runCommand(
       stderr.writeln(err);
     }
   }
-  if (exitCode != 0) {
-    stderr.writeln("Command exited with $exitCode.");
+  if (status != 0) {
+    stderr.writeln('Command exited with status code $status');
   }
 }
 

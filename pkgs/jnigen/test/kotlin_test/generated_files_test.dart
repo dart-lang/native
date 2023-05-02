@@ -4,7 +4,6 @@
 
 import 'package:jnigen/jnigen.dart';
 import 'package:test/test.dart';
-import 'package:path/path.dart' hide equals;
 
 import 'generate.dart';
 import '../test_util/test_util.dart';
@@ -13,17 +12,11 @@ void main() async {
   // This is not run in setupAll, because we want to exit with one line of
   // error message, not throw a long exception.
   await checkLocallyBuiltDependencies();
-  test(
-    "Generate and compare bindings for kotlin_test",
-    () async {
-      await generateAndCompareBindings(
-        getConfig(),
-        join(testRoot, "lib", "kotlin.dart"),
-        join(testRoot, "src"),
-      );
-    },
-    timeout: const Timeout.factor(1.5),
-  ); // test if generated file == expected file
+  generateAndCompareBothModes(
+    'Generate and compare bindings for kotlin_test',
+    getConfig(BindingsType.cBased),
+    getConfig(BindingsType.dartOnly),
+  );
   test(
     "Generate and analyze bindings for kotlin_test - pure dart",
     () async {

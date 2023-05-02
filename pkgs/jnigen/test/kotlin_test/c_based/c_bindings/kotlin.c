@@ -35,8 +35,7 @@ JniResult SuspendFun__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_SuspendFun, _m_SuspendFun__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_SuspendFun__sayHello = NULL;
@@ -53,8 +52,7 @@ JniResult SuspendFun__sayHello(jobject self_, jobject continuation) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_SuspendFun__sayHello, continuation);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_SuspendFun__sayHello1 = NULL;
@@ -74,6 +72,5 @@ JniResult SuspendFun__sayHello1(jobject self_,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_SuspendFun__sayHello1, string, continuation);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }

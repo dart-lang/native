@@ -9,6 +9,7 @@ import '../../test/exception_test.dart' as exception_test;
 import '../../test/jobject_test.dart' as jobject_test;
 import '../../test/jarray_test.dart' as jarray_test;
 import '../../test/type_test.dart' as type_test;
+import '../../test/load_test.dart' as load_test;
 
 void integrationTestRunner(String description, void Function() testCallback) {
   testWidgets(description, (widgetTester) async => testCallback());
@@ -21,6 +22,7 @@ void main() {
     jobject_test.run,
     jarray_test.run,
     type_test.run,
+    load_test.run,
   ];
   for (var testSuite in testSuites) {
     testSuite(testRunner: integrationTestRunner);

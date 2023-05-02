@@ -35,8 +35,7 @@ JniResult Notifications__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_Notifications, _m_Notifications__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_Notifications__showNotification = NULL;

@@ -4,7 +4,6 @@
 
 import 'package:jnigen/jnigen.dart';
 import 'package:test/test.dart';
-import 'package:path/path.dart' hide equals;
 
 import 'generate.dart';
 import '../test_util/test_util.dart';
@@ -12,13 +11,12 @@ import '../test_util/test_util.dart';
 void main() async {
   await checkLocallyBuiltDependencies();
 
-  test("Generate and compare bindings for simple_package", () async {
-    await generateAndCompareBindings(
-      getConfig(),
-      join(testRoot, "lib", "simple_package.dart"),
-      join(testRoot, "src"),
-    );
-  }); // test if generated file == expected file
+  generateAndCompareBothModes(
+    'Generate and compare bindings for simple_package java files',
+    getConfig(BindingsType.cBased),
+    getConfig(BindingsType.dartOnly),
+  );
+
   test("Generate and analyze bindings for simple_package - pure dart",
       () async {
     await generateAndAnalyzeBindings(

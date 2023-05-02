@@ -176,10 +176,10 @@ typedef struct JniAccessorsStruct {
                                         char* methodName,
                                         char* signature);
   JniResult (*newObject)(jclass cls, jmethodID ctor, jvalue* args);
-  JniPointerResult (*newPrimitiveArray)(jsize length, int type);
-  JniPointerResult (*newObjectArray)(jsize length,
-                                     jclass elementClass,
-                                     jobject initialElement);
+  JniResult (*newPrimitiveArray)(jsize length, int type);
+  JniResult (*newObjectArray)(jsize length,
+                              jclass elementClass,
+                              jobject initialElement);
   JniResult (*getArrayElement)(jarray array, int index, int type);
   JniResult (*callMethod)(jobject obj,
                           jmethodID methodID,
@@ -261,8 +261,10 @@ static inline void load_class_global_ref(jclass* cls, const char* name) {
     acquire_lock(&jni->locks.classLoadingLock);
     if (*cls == NULL) {
       load_class_platform(&tmp, name);
-      *cls = (*jniEnv)->NewGlobalRef(jniEnv, tmp);
-      (*jniEnv)->DeleteLocalRef(jniEnv, tmp);
+      if (!(*jniEnv)->ExceptionCheck(jniEnv)) {
+        *cls = (*jniEnv)->NewGlobalRef(jniEnv, tmp);
+        (*jniEnv)->DeleteLocalRef(jniEnv, tmp);
+      }
     }
     release_lock(&jni->locks.classLoadingLock);
   }
@@ -354,6 +356,15 @@ static inline jthrowable check_exception() {
   if (exception != NULL) (*jniEnv)->ExceptionClear(jniEnv);
   if (exception == NULL) return NULL;
   return to_global_ref(exception);
+}
+
+static inline JniResult to_global_ref_result(jobject ref) {
+  JniResult result;
+  result.exception = check_exception();
+  if (result.exception == NULL) {
+    result.value.l = to_global_ref(ref);
+  }
+  return result;
 }
 
 FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data);

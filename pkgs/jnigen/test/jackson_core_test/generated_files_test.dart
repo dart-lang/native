@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
 import 'package:jnigen/jnigen.dart';
@@ -13,12 +12,11 @@ import 'generate.dart';
 void main() async {
   await checkLocallyBuiltDependencies();
 
-  test("compare generated bindings for jackson_core", () async {
-    final lib = join(thirdPartyDir, 'lib');
-    final src = join(thirdPartyDir, 'src');
-    await generateAndCompareBindings(getConfig(), lib, src);
-  }, timeout: const Timeout.factor(2));
-
+  generateAndCompareBothModes(
+    'Generate and compare bindings for jackson_core library',
+    getConfig(bindingsType: BindingsType.cBased),
+    getConfig(bindingsType: BindingsType.dartOnly),
+  );
   test(
       'generate and analyze bindings for complete library, '
       'not just required classes', () async {

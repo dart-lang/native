@@ -56,14 +56,14 @@ class JArray<E> extends JObject {
       final clazz = (type as JObjType).getClass();
       final array = JArray<E>.fromRef(
         type,
-        _accessors.newObjectArray(length, clazz.reference, nullptr).checkedRef,
+        _accessors.newObjectArray(length, clazz.reference, nullptr).object,
       );
       clazz.delete();
       return array;
     }
     return JArray.fromRef(
       type,
-      _accessors.newPrimitiveArray(length, type._type).checkedRef,
+      _accessors.newPrimitiveArray(length, type._type).object,
     );
   }
 
@@ -76,9 +76,7 @@ class JArray<E> extends JObject {
     final clazz = fill.getClass();
     final array = JArray<E>.fromRef(
       fill.$type as JObjType<E>,
-      _accessors
-          .newObjectArray(length, clazz.reference, fill.reference)
-          .checkedRef,
+      _accessors.newObjectArray(length, clazz.reference, fill.reference).object,
     );
     clazz.delete();
     return array;

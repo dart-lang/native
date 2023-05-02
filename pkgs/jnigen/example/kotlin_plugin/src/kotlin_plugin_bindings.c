@@ -29,8 +29,7 @@ JniResult Example__ctor() {
   if (_m_Example__ctor == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__ctor);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }
 
 jmethodID _m_Example__thinkBeforeAnswering = NULL;
@@ -47,6 +46,5 @@ JniResult Example__thinkBeforeAnswering(jobject self_, jobject continuation) {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(
       jniEnv, self_, _m_Example__thinkBeforeAnswering, continuation);
-  return (JniResult){.value = {.l = to_global_ref(_result)},
-                     .exception = check_exception()};
+  return to_global_ref_result(_result);
 }

@@ -15,10 +15,10 @@ import 'test_util/test_util.dart';
 const packageTests = 'test';
 final jacksonCoreTests = absolute(packageTests, 'jackson_core_test');
 final thirdParty = absolute(jacksonCoreTests, 'third_party');
-final lib = absolute(thirdParty, 'lib');
-final src = absolute(thirdParty, 'src');
-final testLib = absolute(thirdParty, 'test_', 'lib');
-final testSrc = absolute(thirdParty, 'test_', 'src');
+final lib = absolute(thirdParty, 'c_based', 'dart_bindings');
+final src = absolute(thirdParty, 'c_based', 'c_bindings');
+final testLib = absolute(thirdParty, 'test_', 'c_based', 'dart_bindings');
+final testSrc = absolute(thirdParty, 'test_', 'c_based', 'c_bindings');
 
 /// Compares 2 [Config] objects using [expect] to give useful errors when
 /// two fields are not equal.
@@ -104,7 +104,13 @@ void main() async {
   ]);
 
   test('compare configuration values', () {
-    expectConfigsAreEqual(config, getConfig(root: join(thirdParty, 'test_')));
+    expectConfigsAreEqual(
+      config,
+      getConfig(
+        root: join(thirdParty, 'test_'),
+        bindingsType: BindingsType.cBased,
+      ),
+    );
   });
 
   group('Test for config error checking', () {
