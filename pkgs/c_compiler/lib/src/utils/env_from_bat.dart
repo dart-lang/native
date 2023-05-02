@@ -33,10 +33,12 @@ Future<Map<String, String>> envFromBat(
   return result;
 }
 
+// Ensures it doesn't return empty keys.
 Map<String, String> parseDefines(String defines) {
   final result = <String, String>{};
-  final lines = defines.split('\r\n');
+  final lines = defines.trim().split('\r\n');
   for (final line in lines) {
+    if (line.isEmpty) continue;
     final lineSplit = line.split('=');
     final key = lineSplit.first;
     final value = lineSplit.skip(1).join('=');
