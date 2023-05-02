@@ -101,7 +101,7 @@ jobs:
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
-        uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
+        uses: coverallsapp/github-action@f350da2c033043742f89e8c0b7b5145a1616da6d
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: jnigen_tests
@@ -177,7 +177,7 @@ jobs:
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
-        uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
+        uses: coverallsapp/github-action@f350da2c033043742f89e8c0b7b5145a1616da6d
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: jni_tests
@@ -412,7 +412,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls finished
-        uses: coverallsapp/github-action@67662d24394fd74bffcf7b462d1b432814159afd
+        uses: coverallsapp/github-action@f350da2c033043742f89e8c0b7b5145a1616da6d
         with:
           github-token: ${{ secrets.github_token }}
           parallel-finished: true
