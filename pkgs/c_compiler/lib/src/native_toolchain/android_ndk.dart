@@ -65,19 +65,24 @@ class _AndroidNdkResolver implements ToolResolver {
   );
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final ndkInstances = await installLocationResolver.resolve(logger: logger);
 
     return [
       for (final ndkInstance in ndkInstances) ...[
         ndkInstance,
-        ...await tryResolveClang(ndkInstance)
+        ...await tryResolveClang(
+          ndkInstance,
+          logger: logger,
+        )
       ]
     ];
   }
 
   Future<List<ToolInstance>> tryResolveClang(
-      ToolInstance androidNdkInstance) async {
+    ToolInstance androidNdkInstance, {
+    required Logger? logger,
+  }) async {
     final result = <ToolInstance>[];
     final prebuiltUri =
         androidNdkInstance.uri.resolve('toolchains/llvm/prebuilt/');
@@ -89,28 +94,37 @@ class _AndroidNdkResolver implements ToolResolver {
           .resolve('bin/')
           .resolve(Target.current.os.executableFileName('clang'));
       if (await File.fromUri(clangUri).exists()) {
-        result.add(await CliVersionResolver.lookupVersion(ToolInstance(
-          tool: androidNdkClang,
-          uri: clangUri,
-        )));
+        result.add(await CliVersionResolver.lookupVersion(
+          ToolInstance(
+            tool: androidNdkClang,
+            uri: clangUri,
+          ),
+          logger: logger,
+        ));
       }
       final arUri = hostArchDir.uri
           .resolve('bin/')
           .resolve(Target.current.os.executableFileName('llvm-ar'));
       if (await File.fromUri(arUri).exists()) {
-        result.add(await CliVersionResolver.lookupVersion(ToolInstance(
-          tool: androidNdkLlvmAr,
-          uri: arUri,
-        )));
+        result.add(await CliVersionResolver.lookupVersion(
+          ToolInstance(
+            tool: androidNdkLlvmAr,
+            uri: arUri,
+          ),
+          logger: logger,
+        ));
       }
       final ldUri = hostArchDir.uri
           .resolve('bin/')
           .resolve(Target.current.os.executableFileName('ld.lld'));
       if (await File.fromUri(arUri).exists()) {
-        result.add(await CliVersionResolver.lookupVersion(ToolInstance(
-          tool: androidNdkLld,
-          uri: ldUri,
-        )));
+        result.add(await CliVersionResolver.lookupVersion(
+          ToolInstance(
+            tool: androidNdkLld,
+            uri: ldUri,
+          ),
+          logger: logger,
+        ));
       }
     }
     return result;

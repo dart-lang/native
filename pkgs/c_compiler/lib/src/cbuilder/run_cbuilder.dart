@@ -46,7 +46,7 @@ class RunCBuilder {
 
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
-  Future<Uri> iosSdk(IOSSdk iosSdk, {Logger? logger}) async {
+  Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOs) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
           .where((i) => i.tool == iPhoneOSSdk)
@@ -60,7 +60,7 @@ class RunCBuilder {
         .uri;
   }
 
-  Future<Uri> macosSdk({Logger? logger}) async =>
+  Future<Uri> macosSdk({required Logger? logger}) async =>
       (await macosxSdk.defaultResolver!.resolve(logger: logger))
           .where((i) => i.tool == macosxSdk)
           .first

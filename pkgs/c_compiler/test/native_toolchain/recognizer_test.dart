@@ -82,7 +82,9 @@ class RecognizerTest {
   RecognizerTest(this.tool, this.recognizer);
 
   Future<void> setUp() async {
-    toolInstance = (await tool.defaultResolver!.resolve())
+    toolInstance = (await tool.defaultResolver!.resolve(
+      logger: null /* no printOnFailure support in setup. */,
+    ))
         .where((element) => element.tool == tool)
         .firstOrNull;
   }

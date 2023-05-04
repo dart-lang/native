@@ -44,7 +44,7 @@ final Tool iPhoneSimulatorSdk = Tool(
 
 class XCodeSdkResolver implements ToolResolver {
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final xcrunInstances = await xcrun.defaultResolver!.resolve(logger: logger);
 
     return [
@@ -76,7 +76,7 @@ class XCodeSdkResolver implements ToolResolver {
     required ToolInstance xcrunInstance,
     required String sdk,
     required Tool tool,
-    Logger? logger,
+    required Logger? logger,
   }) async {
     final result = await runProcess(
       executable: xcrunInstance.uri,

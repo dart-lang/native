@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:c_compiler/c_compiler.dart';
+import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 const packageName = 'native_add';
@@ -18,6 +19,10 @@ void main(List<String> args) async {
       'src/$packageName.c',
     ],
   );
-  await cbuilder.run(buildConfig: buildConfig, buildOutput: buildOutput);
+  await cbuilder.run(
+    buildConfig: buildConfig,
+    buildOutput: buildOutput,
+    logger: Logger('')..onRecord.listen((record) => print(record.message)),
+  );
   await buildOutput.writeToFile(outDir: buildConfig.outDir);
 }
