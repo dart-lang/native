@@ -65,6 +65,9 @@ class CBuilder implements Builder {
   })  : _type = _CBuilderType.executable,
         assetName = null;
 
+  /// Runs the C Compiler with on this C build spec.
+  ///
+  /// Completes with an error if the build fails.
   @override
   Future<void> run({
     required BuildConfig buildConfig,
