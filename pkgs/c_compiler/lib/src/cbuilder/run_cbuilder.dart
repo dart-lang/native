@@ -125,6 +125,7 @@ class RunCBuilder {
       ],
       logger: logger,
       captureOutput: false,
+      throwOnUnexpectedExitCode: true,
     );
     if (staticLibrary != null) {
       await runProcess(
@@ -136,6 +137,7 @@ class RunCBuilder {
         ],
         logger: logger,
         captureOutput: false,
+        throwOnUnexpectedExitCode: true,
       );
     }
   }
@@ -174,6 +176,7 @@ class RunCBuilder {
       environment: environment,
       logger: logger,
       captureOutput: false,
+      throwOnUnexpectedExitCode: true,
     );
 
     if (staticLibrary != null) {
@@ -187,6 +190,7 @@ class RunCBuilder {
         environment: environment,
         logger: logger,
         captureOutput: false,
+        throwOnUnexpectedExitCode: true,
       );
     }
 

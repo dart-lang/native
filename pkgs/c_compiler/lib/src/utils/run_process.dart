@@ -21,6 +21,8 @@ Future<RunProcessResult> runProcess({
   bool includeParentEnvironment = true,
   Logger? logger,
   bool captureOutput = true,
+  int expectedExitCode = 0,
+  bool throwOnUnexpectedExitCode = false,
 }) async {
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
@@ -70,6 +72,14 @@ Future<RunProcessResult> runProcess({
     stdout: stdoutBuffer.toString(),
     stderr: stderrBuffer.toString(),
   );
+  if (throwOnUnexpectedExitCode && expectedExitCode != exitCode) {
+    throw ProcessException(
+      executable.toFilePath(),
+      arguments,
+      "Full command string: '$commandString'."
+      'For the output of the process check the logger output.',
+    );
+  }
   return result;
 }
 
