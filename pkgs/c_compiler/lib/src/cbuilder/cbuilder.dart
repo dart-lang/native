@@ -13,7 +13,7 @@ abstract class Builder {
   Future<void> run({
     required BuildConfig buildConfig,
     required BuildOutput buildOutput,
-    Logger? logger,
+    required Logger? logger,
   });
 }
 
@@ -72,7 +72,7 @@ class CBuilder implements Builder {
   Future<void> run({
     required BuildConfig buildConfig,
     required BuildOutput buildOutput,
-    Logger? logger,
+    required Logger? logger,
   }) async {
     final outDir = buildConfig.outDir;
     final packageRoot = buildConfig.packageRoot;

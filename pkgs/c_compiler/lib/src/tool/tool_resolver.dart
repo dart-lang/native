@@ -19,7 +19,7 @@ import 'tool_instance.dart';
 
 abstract class ToolResolver {
   /// Resolves tools on the host system.
-  Future<List<ToolInstance>> resolve({Logger? logger});
+  Future<List<ToolInstance>> resolve({required Logger? logger});
 }
 
 /// Tries to resolve a tool on the `PATH`.
@@ -38,7 +38,7 @@ class PathToolResolver extends ToolResolver {
             Target.current.os.executableFileName(toolName.toLowerCase());
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     logger?.finer('Looking for $toolName on PATH.');
     final uri = await runWhich(logger: logger);
     if (uri == null) {
@@ -54,7 +54,7 @@ class PathToolResolver extends ToolResolver {
 
   static Uri get which => Uri.file(Platform.isWindows ? 'where' : 'which');
 
-  Future<Uri?> runWhich({Logger? logger}) async {
+  Future<Uri?> runWhich({required Logger? logger}) async {
     final process = await runProcess(
       executable: which,
       arguments: [executableName],
@@ -83,7 +83,7 @@ class CliVersionResolver implements ToolResolver {
   });
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
     return [
       for (final toolInstance in toolInstances)
@@ -100,7 +100,7 @@ class CliVersionResolver implements ToolResolver {
     ToolInstance toolInstance, {
     List<String> arguments = const ['--version'],
     int expectedExitCode = 0,
-    Logger? logger,
+    required Logger? logger,
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Looking up version with --version for $toolInstance.');
@@ -119,7 +119,7 @@ class CliVersionResolver implements ToolResolver {
     Uri executable, {
     List<String> arguments = const ['--version'],
     int expectedExitCode = 0,
-    Logger? logger,
+    required Logger? logger,
   }) async {
     final process = await runProcess(
       executable: executable,
@@ -143,7 +143,7 @@ class PathVersionResolver implements ToolResolver {
   PathVersionResolver({required this.wrappedResolver});
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
 
     return [
@@ -174,7 +174,7 @@ class ToolResolvers implements ToolResolver {
   ToolResolvers(this.resolvers);
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async => [
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async => [
         for (final resolver in resolvers)
           ...await resolver.resolve(logger: logger)
       ];
@@ -192,7 +192,7 @@ class InstallLocationResolver implements ToolResolver {
   static const home = '\$HOME';
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     logger?.finer('Looking for $toolName in $paths.');
     final resolvedPaths = [
       for (final path in paths) ...await tryResolvePath(path)
@@ -247,7 +247,7 @@ class RelativeToolResolver implements ToolResolver {
   });
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final otherToolInstances = await wrappedResolver.resolve(logger: logger);
 
     logger?.finer('Looking for $toolName relative to $otherToolInstances '
@@ -295,7 +295,7 @@ class CliFilter implements ToolResolver {
   });
 
   @override
-  Future<List<ToolInstance>> resolve({Logger? logger}) async {
+  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
     return [
       for (final toolInstance in toolInstances)
@@ -305,7 +305,7 @@ class CliFilter implements ToolResolver {
 
   Future<ToolInstance?> filter(
     ToolInstance toolInstance, {
-    Logger? logger,
+    required Logger? logger,
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Checking if $toolInstance satisfies CLI filter.');
@@ -327,7 +327,7 @@ class CliFilter implements ToolResolver {
     Uri executable, {
     required List<String> arguments,
     int expectedExitCode = 0,
-    Logger? logger,
+    required Logger? logger,
   }) async {
     final process = await runProcess(
       executable: executable,

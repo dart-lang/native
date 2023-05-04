@@ -19,7 +19,7 @@ Future<RunProcessResult> runProcess({
   Uri? workingDirectory,
   Map<String, String>? environment,
   bool includeParentEnvironment = true,
-  Logger? logger,
+  required Logger? logger,
   bool captureOutput = true,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
