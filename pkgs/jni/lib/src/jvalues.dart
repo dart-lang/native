@@ -5,9 +5,9 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
+import 'jobject.dart';
 import 'third_party/generated_bindings.dart';
 import 'jni.dart';
-import 'types.dart';
 
 void _fillJValue(Pointer<JValue> pos, dynamic arg) {
   if (arg is JObject) {
@@ -118,7 +118,6 @@ class JValueChar {
 class JValueArgs {
   late Pointer<JValue> values;
   final List<JObjectPtr> createdRefs = [];
-  final _env = Jni.env;
 
   JValueArgs(List<dynamic> args, Arena arena) {
     values = arena<JValue>(args.length);
@@ -126,7 +125,7 @@ class JValueArgs {
       final arg = args[i];
       final ptr = values.elementAt(i);
       if (arg is String) {
-        final jstr = _env.toJStringPtr(arg);
+        final jstr = Jni.env.toJStringPtr(arg);
         ptr.ref.l = jstr;
         createdRefs.add(jstr);
       } else {
@@ -139,7 +138,7 @@ class JValueArgs {
   /// Deletes temporary references such as [JStringPtr]s.
   void _dispose() {
     for (var ref in createdRefs) {
-      _env.DeleteGlobalRef(ref);
+      Jni.env.DeleteGlobalRef(ref);
     }
   }
 }

@@ -23,44 +23,39 @@ import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-// Auto-generated initialization code.
-
-final jniEnv = jni.Jni.env;
-final jniAccessors = jni.Jni.accessors;
-
 /// from: com.github.dart_lang.jnigen.SuspendFun
 class SuspendFun extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<SuspendFun> $type = type;
 
   SuspendFun.fromRef(
     jni.JObjectPtr ref,
   ) : super.fromRef(ref);
 
-  static final _classRef =
-      jniAccessors.getClassOf(r"com/github/dart_lang/jnigen/SuspendFun");
+  static final _class =
+      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/SuspendFun");
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
   static final _id_ctor =
-      jniAccessors.getMethodIDOf(_classRef, r"<init>", r"()V");
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory SuspendFun() {
-    return SuspendFun.fromRef(
-        jniAccessors.newObjectWithArgs(_classRef, _id_ctor, []).object);
+    return SuspendFun.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
   }
 
-  static final _id_sayHello = jniAccessors.getMethodIDOf(_classRef, r"sayHello",
-      r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
+  static final _id_sayHello = jni.Jni.accessors.getMethodIDOf(_class.reference,
+      r"sayHello", r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
 
   /// from: public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)
   /// The returned object must be deleted after use, by calling the `delete` method.
   Future<jni.JString> sayHello() async {
     final $p = ReceivePort();
     final $c = jni.JObject.fromRef(jni.Jni.newPortContinuation($p));
-    jniAccessors.callMethodWithArgs(reference, _id_sayHello,
+    jni.Jni.accessors.callMethodWithArgs(reference, _id_sayHello,
         jni.JniCallType.objectType, [$c.reference]).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
     final $k = const jni.JStringType().getClass().reference;
@@ -70,8 +65,8 @@ class SuspendFun extends jni.JObject {
     return const jni.JStringType().fromRef($o);
   }
 
-  static final _id_sayHello1 = jniAccessors.getMethodIDOf(
-      _classRef,
+  static final _id_sayHello1 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
       r"sayHello",
       r"(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
 
@@ -82,7 +77,7 @@ class SuspendFun extends jni.JObject {
   ) async {
     final $p = ReceivePort();
     final $c = jni.JObject.fromRef(jni.Jni.newPortContinuation($p));
-    jniAccessors.callMethodWithArgs(reference, _id_sayHello1,
+    jni.Jni.accessors.callMethodWithArgs(reference, _id_sayHello1,
         jni.JniCallType.objectType, [string.reference, $c.reference]).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
     final $k = const jni.JStringType().getClass().reference;
@@ -113,6 +108,6 @@ class $SuspendFunType extends jni.JObjType<SuspendFun> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $SuspendFunType && other is $SuspendFunType;
+    return other.runtimeType == ($SuspendFunType) && other is $SuspendFunType;
   }
 }

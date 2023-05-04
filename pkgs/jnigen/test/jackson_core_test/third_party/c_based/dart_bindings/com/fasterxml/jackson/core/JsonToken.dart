@@ -44,7 +44,7 @@ import "../../../../_init.dart";
 /// of parsing JSON content.
 class JsonToken extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<JsonToken> $type = type;
 
   JsonToken.fromRef(
     jni.JObjectPtr ref,
@@ -107,8 +107,8 @@ class JsonToken extends jni.JObject {
 
   /// from: public final char[] asCharArray()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JArray<jni.JChar> asCharArray() {
-    return const jni.JArrayType(jni.JCharType())
+  jni.JArray<jni.jchar> asCharArray() {
+    return const jni.JArrayType(jni.jcharType())
         .fromRef(_asCharArray(reference).object);
   }
 
@@ -120,8 +120,8 @@ class JsonToken extends jni.JObject {
 
   /// from: public final byte[] asByteArray()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JArray<jni.JByte> asByteArray() {
-    return const jni.JArrayType(jni.JByteType())
+  jni.JArray<jni.jbyte> asByteArray() {
+    return const jni.JArrayType(jni.jbyteType())
         .fromRef(_asByteArray(reference).object);
   }
 
@@ -230,6 +230,6 @@ class $JsonTokenType extends jni.JObjType<JsonToken> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $JsonTokenType && other is $JsonTokenType;
+    return other.runtimeType == ($JsonTokenType) && other is $JsonTokenType;
   }
 }

@@ -31,7 +31,7 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
 /// from: com.github.dart_lang.jnigen.simple_package.Example
 class Example extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<Example> $type = type;
 
   Example.fromRef(
     jni.JObjectPtr ref,
@@ -471,8 +471,8 @@ class Example extends jni.JObject {
 
   /// from: static public int[] getArr()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JArray<jni.JInt> getArr() {
-    return const jni.JArrayType(jni.JIntType()).fromRef(_getArr().object);
+  static jni.JArray<jni.jint> getArr() {
+    return const jni.JArrayType(jni.jintType()).fromRef(_getArr().object);
   }
 
   static final _addAll = jniLookup<
@@ -482,7 +482,7 @@ class Example extends jni.JObject {
 
   /// from: static public int addAll(int[] arr)
   static int addAll(
-    jni.JArray<jni.JInt> arr,
+    jni.JArray<jni.jint> arr,
   ) {
     return _addAll(arr.reference).integer;
   }
@@ -531,14 +531,14 @@ class $ExampleType extends jni.JObjType<Example> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $ExampleType && other is $ExampleType;
+    return other.runtimeType == ($ExampleType) && other is $ExampleType;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.simple_package.Example$Nested
 class Example_Nested extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<Example_Nested> $type = type;
 
   Example_Nested.fromRef(
     jni.JObjectPtr ref,
@@ -605,7 +605,7 @@ class $Example_NestedType extends jni.JObjType<Example_Nested> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $Example_NestedType &&
+    return other.runtimeType == ($Example_NestedType) &&
         other is $Example_NestedType;
   }
 }
@@ -613,7 +613,7 @@ class $Example_NestedType extends jni.JObjType<Example_Nested> {
 /// from: com.github.dart_lang.jnigen.simple_package.Exceptions
 class Exceptions extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<Exceptions> $type = type;
 
   Exceptions.fromRef(
     jni.JObjectPtr ref,
@@ -703,8 +703,8 @@ class Exceptions extends jni.JObject {
 
   /// from: static public int[] staticIntArrayMethod()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JArray<jni.JInt> staticIntArrayMethod() {
-    return const jni.JArrayType(jni.JIntType())
+  static jni.JArray<jni.jint> staticIntArrayMethod() {
+    return const jni.JArrayType(jni.jintType())
         .fromRef(_staticIntArrayMethod().object);
   }
 
@@ -752,8 +752,8 @@ class Exceptions extends jni.JObject {
 
   /// from: public int[] intArrayMethod()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JArray<jni.JInt> intArrayMethod() {
-    return const jni.JArrayType(jni.JIntType())
+  jni.JArray<jni.jint> intArrayMethod() {
+    return const jni.JArrayType(jni.jintType())
         .fromRef(_intArrayMethod(reference).object);
   }
 
@@ -848,14 +848,14 @@ class $ExceptionsType extends jni.JObjType<Exceptions> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $ExceptionsType && other is $ExceptionsType;
+    return other.runtimeType == ($ExceptionsType) && other is $ExceptionsType;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.simple_package.Fields
 class Fields extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<Fields> $type = type;
 
   Fields.fromRef(
     jni.JObjectPtr ref,
@@ -1103,14 +1103,14 @@ class $FieldsType extends jni.JObjType<Fields> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $FieldsType && other is $FieldsType;
+    return other.runtimeType == ($FieldsType) && other is $FieldsType;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.simple_package.Fields$Nested
 class Fields_Nested extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<Fields_Nested> $type = type;
 
   Fields_Nested.fromRef(
     jni.JObjectPtr ref,
@@ -1193,7 +1193,7 @@ class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $Fields_NestedType &&
+    return other.runtimeType == ($Fields_NestedType) &&
         other is $Fields_NestedType;
   }
 }
@@ -1201,7 +1201,7 @@ class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
 /// from: com.github.dart_lang.jnigen.pkg2.C2
 class C2 extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<C2> $type = type;
 
   C2.fromRef(
     jni.JObjectPtr ref,
@@ -1256,14 +1256,14 @@ class $C2Type extends jni.JObjType<C2> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $C2Type && other is $C2Type;
+    return other.runtimeType == ($C2Type) && other is $C2Type;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.pkg2.Example
 class Example1 extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<Example1> $type = type;
 
   Example1.fromRef(
     jni.JObjectPtr ref,
@@ -1313,14 +1313,14 @@ class $Example1Type extends jni.JObjType<Example1> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $Example1Type && other is $Example1Type;
+    return other.runtimeType == ($Example1Type) && other is $Example1Type;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.GrandParent
 class GrandParent<$T extends jni.JObject> extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(T);
+  late final jni.JObjType<GrandParent<$T>> $type = type(T);
 
   final jni.JObjType<$T> T;
 
@@ -1485,8 +1485,8 @@ class $GrandParentType<$T extends jni.JObject>
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $GrandParentType &&
-        other is $GrandParentType &&
+    return other.runtimeType == ($GrandParentType<$T>) &&
+        other is $GrandParentType<$T> &&
         T == other.T;
   }
 }
@@ -1495,7 +1495,7 @@ class $GrandParentType<$T extends jni.JObject>
 class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(T, S);
+  late final jni.JObjType<GrandParent_Parent<$T, $S>> $type = type(T, S);
 
   final jni.JObjType<$T> T;
   final jni.JObjType<$S> S;
@@ -1626,8 +1626,8 @@ class $GrandParent_ParentType<$T extends jni.JObject, $S extends jni.JObject>
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $GrandParent_ParentType &&
-        other is $GrandParent_ParentType &&
+    return other.runtimeType == ($GrandParent_ParentType<$T, $S>) &&
+        other is $GrandParent_ParentType<$T, $S> &&
         T == other.T &&
         S == other.S;
   }
@@ -1637,7 +1637,8 @@ class $GrandParent_ParentType<$T extends jni.JObject, $S extends jni.JObject>
 class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
     $U extends jni.JObject> extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(T, S, U);
+  late final jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> $type =
+      type(T, S, U);
 
   final jni.JObjType<$T> T;
   final jni.JObjType<$S> S;
@@ -1815,8 +1816,8 @@ class $GrandParent_Parent_ChildType<$T extends jni.JObject,
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $GrandParent_Parent_ChildType &&
-        other is $GrandParent_Parent_ChildType &&
+    return other.runtimeType == ($GrandParent_Parent_ChildType<$T, $S, $U>) &&
+        other is $GrandParent_Parent_ChildType<$T, $S, $U> &&
         T == other.T &&
         S == other.S &&
         U == other.U;
@@ -1826,7 +1827,7 @@ class $GrandParent_Parent_ChildType<$T extends jni.JObject,
 /// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent
 class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(S);
+  late final jni.JObjType<GrandParent_StaticParent<$S>> $type = type(S);
 
   final jni.JObjType<$S> S;
 
@@ -1916,8 +1917,8 @@ class $GrandParent_StaticParentType<$S extends jni.JObject>
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $GrandParent_StaticParentType &&
-        other is $GrandParent_StaticParentType &&
+    return other.runtimeType == ($GrandParent_StaticParentType<$S>) &&
+        other is $GrandParent_StaticParentType<$S> &&
         S == other.S;
   }
 }
@@ -1926,7 +1927,8 @@ class $GrandParent_StaticParentType<$S extends jni.JObject>
 class GrandParent_StaticParent_Child<$S extends jni.JObject,
     $U extends jni.JObject> extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(S, U);
+  late final jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> $type =
+      type(S, U);
 
   final jni.JObjType<$S> S;
   final jni.JObjType<$U> U;
@@ -2060,8 +2062,8 @@ class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $GrandParent_StaticParent_ChildType &&
-        other is $GrandParent_StaticParent_ChildType &&
+    return other.runtimeType == ($GrandParent_StaticParent_ChildType<$S, $U>) &&
+        other is $GrandParent_StaticParent_ChildType<$S, $U> &&
         S == other.S &&
         U == other.U;
   }
@@ -2071,7 +2073,7 @@ class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
 class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(K, V);
+  late final jni.JObjType<MyMap<$K, $V>> $type = type(K, V);
 
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;
@@ -2182,8 +2184,8 @@ class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $MyMapType &&
-        other is $MyMapType &&
+    return other.runtimeType == ($MyMapType<$K, $V>) &&
+        other is $MyMapType<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -2193,7 +2195,7 @@ class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
 class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(K, V);
+  late final jni.JObjType<MyMap_MyEntry<$K, $V>> $type = type(K, V);
 
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;
@@ -2322,8 +2324,8 @@ class $MyMap_MyEntryType<$K extends jni.JObject, $V extends jni.JObject>
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $MyMap_MyEntryType &&
-        other is $MyMap_MyEntryType &&
+    return other.runtimeType == ($MyMap_MyEntryType<$K, $V>) &&
+        other is $MyMap_MyEntryType<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -2332,7 +2334,7 @@ class $MyMap_MyEntryType<$K extends jni.JObject, $V extends jni.JObject>
 /// from: com.github.dart_lang.jnigen.generics.MyStack
 class MyStack<$T extends jni.JObject> extends jni.JObject {
   @override
-  late final jni.JObjType $type = type(T);
+  late final jni.JObjType<MyStack<$T>> $type = type(T);
 
   final jni.JObjType<$T> T;
 
@@ -2514,8 +2516,8 @@ class $MyStackType<$T extends jni.JObject> extends jni.JObjType<MyStack<$T>> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $MyStackType &&
-        other is $MyStackType &&
+    return other.runtimeType == ($MyStackType<$T>) &&
+        other is $MyStackType<$T> &&
         T == other.T;
   }
 }
@@ -2523,7 +2525,7 @@ class $MyStackType<$T extends jni.JObject> extends jni.JObjType<MyStack<$T>> {
 /// from: com.github.dart_lang.jnigen.generics.StringKeyedMap
 class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
   @override
-  late final jni.JObjType $type = type(V);
+  late final jni.JObjType<StringKeyedMap<$V>> $type = type(V);
 
   final jni.JObjType<$V> V;
 
@@ -2581,8 +2583,8 @@ class $StringKeyedMapType<$V extends jni.JObject>
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $StringKeyedMapType &&
-        other is $StringKeyedMapType &&
+    return other.runtimeType == ($StringKeyedMapType<$V>) &&
+        other is $StringKeyedMapType<$V> &&
         V == other.V;
   }
 }
@@ -2590,7 +2592,7 @@ class $StringKeyedMapType<$V extends jni.JObject>
 /// from: com.github.dart_lang.jnigen.generics.StringMap
 class StringMap extends StringKeyedMap<jni.JString> {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<StringMap> $type = type;
 
   StringMap.fromRef(
     jni.JObjectPtr ref,
@@ -2629,14 +2631,14 @@ class $StringMapType extends jni.JObjType<StringMap> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $StringMapType && other is $StringMapType;
+    return other.runtimeType == ($StringMapType) && other is $StringMapType;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.StringStack
 class StringStack extends MyStack<jni.JString> {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<StringStack> $type = type;
 
   StringStack.fromRef(
     jni.JObjectPtr ref,
@@ -2675,14 +2677,14 @@ class $StringStackType extends jni.JObjType<StringStack> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $StringStackType && other is $StringStackType;
+    return other.runtimeType == ($StringStackType) && other is $StringStackType;
   }
 }
 
 /// from: com.github.dart_lang.jnigen.generics.StringValuedMap
 class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
   @override
-  late final jni.JObjType $type = type(K);
+  late final jni.JObjType<StringValuedMap<$K>> $type = type(K);
 
   final jni.JObjType<$K> K;
 
@@ -2740,8 +2742,8 @@ class $StringValuedMapType<$K extends jni.JObject>
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $StringValuedMapType &&
-        other is $StringValuedMapType &&
+    return other.runtimeType == ($StringValuedMapType<$K>) &&
+        other is $StringValuedMapType<$K> &&
         K == other.K;
   }
 }
@@ -2749,7 +2751,7 @@ class $StringValuedMapType<$K extends jni.JObject>
 /// from: com.github.dart_lang.jnigen.annotations.JsonSerializable$Case
 class JsonSerializable_Case extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<JsonSerializable_Case> $type = type;
 
   JsonSerializable_Case.fromRef(
     jni.JObjectPtr ref,
@@ -2807,7 +2809,7 @@ class $JsonSerializable_CaseType extends jni.JObjType<JsonSerializable_Case> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $JsonSerializable_CaseType &&
+    return other.runtimeType == ($JsonSerializable_CaseType) &&
         other is $JsonSerializable_CaseType;
   }
 }
@@ -2815,7 +2817,7 @@ class $JsonSerializable_CaseType extends jni.JObjType<JsonSerializable_Case> {
 /// from: com.github.dart_lang.jnigen.annotations.MyDataClass
 class MyDataClass extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<MyDataClass> $type = type;
 
   MyDataClass.fromRef(
     jni.JObjectPtr ref,
@@ -2855,6 +2857,6 @@ class $MyDataClassType extends jni.JObjType<MyDataClass> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $MyDataClassType && other is $MyDataClassType;
+    return other.runtimeType == ($MyDataClassType) && other is $MyDataClassType;
   }
 }

@@ -51,7 +51,7 @@ import "../../../../_init.dart";
 ///@author Ben Litchfield
 class PDFTextStripper extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<PDFTextStripper> $type = type;
 
   PDFTextStripper.fromRef(
     jni.JObjectPtr ref,
@@ -1416,7 +1416,7 @@ class $PDFTextStripperType extends jni.JObjType<PDFTextStripper> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $PDFTextStripperType &&
+    return other.runtimeType == ($PDFTextStripperType) &&
         other is $PDFTextStripperType;
   }
 }

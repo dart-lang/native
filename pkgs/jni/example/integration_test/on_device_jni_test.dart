@@ -6,8 +6,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../test/global_env_test.dart' as global_env_test;
 import '../../test/exception_test.dart' as exception_test;
+import '../../test/jlist_test.dart' as jlist_test;
+import '../../test/jmap_test.dart' as jmap_test;
 import '../../test/jobject_test.dart' as jobject_test;
+import '../../test/jset_test.dart' as jset_test;
 import '../../test/jarray_test.dart' as jarray_test;
+import '../../test/boxed_test.dart' as boxed_test;
 import '../../test/type_test.dart' as type_test;
 import '../../test/load_test.dart' as load_test;
 
@@ -19,8 +23,12 @@ void main() {
   final testSuites = [
     global_env_test.run,
     exception_test.run,
+    jlist_test.run,
+    jmap_test.run,
     jobject_test.run,
+    jset_test.run,
     jarray_test.run,
+    boxed_test.run,
     type_test.run,
     load_test.run,
   ];

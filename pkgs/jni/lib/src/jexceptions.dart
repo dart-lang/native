@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'types.dart';
+import 'dart:ffi';
+
+import 'package:jni/src/third_party/generated_bindings.dart';
 
 abstract class JException implements Exception {}
 

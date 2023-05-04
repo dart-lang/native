@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: const [
             Text(
               'This app should be run as flutter integration test',
             ),

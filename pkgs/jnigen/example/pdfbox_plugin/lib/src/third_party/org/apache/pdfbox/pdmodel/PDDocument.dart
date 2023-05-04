@@ -47,7 +47,7 @@ import "../../../../_init.dart";
 ///@author Ben Litchfield
 class PDDocument extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<PDDocument> $type = type;
 
   PDDocument.fromRef(
     jni.JObjectPtr ref,
@@ -968,7 +968,7 @@ class PDDocument extends jni.JObject {
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load12(
-    jni.JArray<jni.JByte> input,
+    jni.JArray<jni.jbyte> input,
   ) {
     return const $PDDocumentType().fromRef(_load12(input.reference).object);
   }
@@ -991,7 +991,7 @@ class PDDocument extends jni.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load13(
-    jni.JArray<jni.JByte> input,
+    jni.JArray<jni.jbyte> input,
     jni.JString password,
   ) {
     return const $PDDocumentType()
@@ -1021,7 +1021,7 @@ class PDDocument extends jni.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load14(
-    jni.JArray<jni.JByte> input,
+    jni.JArray<jni.jbyte> input,
     jni.JString password,
     jni.JObject keyStore,
     jni.JString alias,
@@ -1060,7 +1060,7 @@ class PDDocument extends jni.JObject {
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument load15(
-    jni.JArray<jni.JByte> input,
+    jni.JArray<jni.jbyte> input,
     jni.JString password,
     jni.JObject keyStore,
     jni.JString alias,
@@ -1528,6 +1528,6 @@ class $PDDocumentType extends jni.JObjType<PDDocument> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $PDDocumentType && other is $PDDocumentType;
+    return other.runtimeType == ($PDDocumentType) && other is $PDDocumentType;
   }
 }

@@ -2,7 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'types.dart';
+import 'dart:ffi';
+
+import 'package:ffi/ffi.dart';
+
+import '../jexceptions.dart';
+import '../jni.dart';
+import '../jobject.dart';
+import '../jreference.dart';
+import '../third_party/generated_bindings.dart';
+import '../types.dart';
 
 class JStringType extends JObjType<JString> {
   const JStringType();
@@ -30,7 +39,8 @@ class JStringType extends JObjType<JString> {
 
 class JString extends JObject {
   @override
-  JObjType<JObject> get $type => _$type ??= type;
+  // ignore: overridden_fields
+  late final JObjType<JString> $type = type;
 
   /// The type which includes information such as the signature of this class.
   static const JObjType<JString> type = JStringType();
@@ -40,7 +50,7 @@ class JString extends JObject {
 
   static JStringPtr _toJavaString(String s) => using((arena) {
         final chars = s.toNativeUtf8(allocator: arena).cast<Char>();
-        final jstr = _env.NewStringUTF(chars);
+        final jstr = Jni.env.NewStringUTF(chars);
         if (jstr == nullptr) {
           throw 'Fatal: cannot convert string to Java string: $s';
         }
@@ -48,7 +58,7 @@ class JString extends JObject {
       });
 
   /// The number of Unicode characters in this Java string.
-  int get length => _env.GetStringLength(reference);
+  int get length => Jni.env.GetStringLength(reference);
 
   /// Construct a [JString] from the contents of Dart string [s].
   JString.fromString(String s) : super.fromRef(_toJavaString(s));
@@ -58,13 +68,13 @@ class JString extends JObject {
   /// If [deleteOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as deleted.
   String toDartString({bool deleteOriginal = false}) {
-    _ensureNotDeleted();
+    ensureNotDeleted();
     if (reference == nullptr) {
       throw NullJStringException();
     }
-    final chars = _env.GetStringUTFChars(reference, nullptr);
+    final chars = Jni.env.GetStringUTFChars(reference, nullptr);
     final result = chars.cast<Utf8>().toDartString();
-    _env.ReleaseStringUTFChars(reference, chars);
+    Jni.env.ReleaseStringUTFChars(reference, chars);
     if (deleteOriginal) {
       delete();
     }

@@ -17,4 +17,3 @@ linter:
     - unawaited_futures
     - prefer_const_constructors
     - prefer_relative_imports
-

@@ -7,5 +7,5 @@
 library internal_helpers_for_jnigen;
 
 export 'src/jni.dart' show ProtectedJniExtensions;
-export 'src/types.dart' show JReference;
+export 'src/jreference.dart';
 export 'src/accessors.dart';

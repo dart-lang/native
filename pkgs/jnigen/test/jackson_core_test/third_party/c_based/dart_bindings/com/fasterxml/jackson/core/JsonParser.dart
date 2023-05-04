@@ -47,7 +47,7 @@ import "../../../../_init.dart";
 ///@author Tatu Saloranta
 class JsonParser extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<JsonParser> $type = type;
 
   JsonParser.fromRef(
     jni.JObjectPtr ref,
@@ -193,7 +193,7 @@ class JsonParser extends jni.JObject {
   ///@param charset Character encoding for (lazily) decoding payload
   ///@since 2.8
   void setRequestPayloadOnError1(
-    jni.JArray<jni.JByte> payload,
+    jni.JArray<jni.jbyte> payload,
     jni.JString charset,
   ) {
     return _setRequestPayloadOnError1(
@@ -1593,8 +1593,8 @@ class JsonParser extends jni.JObject {
   ///    at offset 0, and not necessarily until the end of buffer)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JArray<jni.JChar> getTextCharacters() {
-    return const jni.JArrayType(jni.JCharType())
+  jni.JArray<jni.jchar> getTextCharacters() {
+    return const jni.JArrayType(jni.jcharType())
         .fromRef(_getTextCharacters(reference).object);
   }
 
@@ -2030,10 +2030,10 @@ class JsonParser extends jni.JObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JArray<jni.JByte> getBinaryValue(
+  jni.JArray<jni.jbyte> getBinaryValue(
     jni.JObject bv,
   ) {
-    return const jni.JArrayType(jni.JByteType())
+    return const jni.JArrayType(jni.jbyteType())
         .fromRef(_getBinaryValue(reference, bv.reference).object);
   }
 
@@ -2052,8 +2052,8 @@ class JsonParser extends jni.JObject {
   ///@return Decoded binary data
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JArray<jni.JByte> getBinaryValue1() {
-    return const jni.JArrayType(jni.JByteType())
+  jni.JArray<jni.jbyte> getBinaryValue1() {
+    return const jni.JArrayType(jni.jbyteType())
         .fromRef(_getBinaryValue1(reference).object);
   }
 
@@ -2653,7 +2653,7 @@ class $JsonParserType extends jni.JObjType<JsonParser> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $JsonParserType && other is $JsonParserType;
+    return other.runtimeType == ($JsonParserType) && other is $JsonParserType;
   }
 }
 
@@ -2662,7 +2662,7 @@ class $JsonParserType extends jni.JObjType<JsonParser> {
 /// Enumeration that defines all on/off features for parsers.
 class JsonParser_Feature extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<JsonParser_Feature> $type = type;
 
   JsonParser_Feature.fromRef(
     jni.JObjectPtr ref,
@@ -2768,7 +2768,7 @@ class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $JsonParser_FeatureType &&
+    return other.runtimeType == ($JsonParser_FeatureType) &&
         other is $JsonParser_FeatureType;
   }
 }
@@ -2779,7 +2779,7 @@ class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
 /// used for numbers.
 class JsonParser_NumberType extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<JsonParser_NumberType> $type = type;
 
   JsonParser_NumberType.fromRef(
     jni.JObjectPtr ref,
@@ -2836,7 +2836,7 @@ class $JsonParser_NumberTypeType extends jni.JObjType<JsonParser_NumberType> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $JsonParser_NumberTypeType &&
+    return other.runtimeType == ($JsonParser_NumberTypeType) &&
         other is $JsonParser_NumberTypeType;
   }
 }

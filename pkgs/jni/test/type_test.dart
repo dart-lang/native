@@ -217,8 +217,56 @@ void run({required TestRunnerCallback testRunner}) {
     expect(lowestCommonSuperType([JString.type]), JString.type);
     expect(lowestCommonSuperType([JObject.type, JObject.type]), JObject.type);
     expect(lowestCommonSuperType([JString.type, JString.type]), JString.type);
-    expect(lowestCommonSuperType([JString.type, JArray.type(JLong.type)]),
+    expect(lowestCommonSuperType([JString.type, JArray.type(jlong.type)]),
         JObject.type);
+  });
+
+  testRunner('Boxed types', () {
+    expect(
+      lowestCommonSuperType([
+        JByte.type,
+        JInteger.type,
+        JLong.type,
+        JShort.type,
+        JDouble.type,
+        JFloat.type,
+      ]),
+      JNumber.type,
+    );
+    expect(lowestCommonSuperType([JByte.type, JBoolean.type]), JObject.type);
+  });
+
+  testRunner('util types', () {
+    using((arena) {
+      expect(
+        lowestCommonSuperType([
+          JList.type(JObject.type),
+          JList.type(JObject.type),
+        ]),
+        JList.type(JObject.type),
+      );
+      expect(
+        lowestCommonSuperType([
+          JList.type(JObject.type),
+          JList.type(JString.type),
+        ]),
+        JObject.type,
+      );
+      expect(
+        lowestCommonSuperType([
+          JList.type(JObject.type),
+          JMap.type(JObject.type, JObject.type),
+        ]),
+        JObject.type,
+      );
+      expect(
+        lowestCommonSuperType([
+          JSet.type(JObject.type),
+          JIterator.type(JObject.type),
+        ]),
+        JObject.type,
+      );
+    });
   });
 
   testRunner('Mocked type tree', () {

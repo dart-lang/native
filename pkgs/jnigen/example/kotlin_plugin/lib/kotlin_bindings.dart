@@ -27,7 +27,7 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
 /// from: Example
 class Example extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<Example> $type = type;
 
   Example.fromRef(
     jni.JObjectPtr ref,
@@ -88,6 +88,6 @@ class $ExampleType extends jni.JObjType<Example> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $ExampleType && other is $ExampleType;
+    return other.runtimeType == ($ExampleType) && other is $ExampleType;
   }
 }

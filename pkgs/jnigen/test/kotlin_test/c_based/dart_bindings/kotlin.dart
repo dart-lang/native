@@ -31,7 +31,7 @@ final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
 /// from: com.github.dart_lang.jnigen.SuspendFun
 class SuspendFun extends jni.JObject {
   @override
-  late final jni.JObjType $type = type;
+  late final jni.JObjType<SuspendFun> $type = type;
 
   SuspendFun.fromRef(
     jni.JObjectPtr ref,
@@ -118,6 +118,6 @@ class $SuspendFunType extends jni.JObjType<SuspendFun> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $SuspendFunType && other is $SuspendFunType;
+    return other.runtimeType == ($SuspendFunType) && other is $SuspendFunType;
   }
 }

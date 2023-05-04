@@ -9,9 +9,11 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:path/path.dart';
 
+import 'jexceptions.dart';
+import 'jobject.dart';
+import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
 import 'jvalues.dart';
-import 'types.dart';
 import 'accessors.dart';
 
 String _getLibraryFileName(String base) {
@@ -183,17 +185,13 @@ abstract class Jni {
     return env;
   }
 
-  static GlobalJniEnv? _env;
-
-  /// Points to a process-wide shared instance of [GlobalJniEnvStruct].
+  /// Points to a process-wide shared instance of [GlobalJniEnv].
   ///
   /// It provides an indirection over [JniEnv] so that it can be used from
   /// any thread, and always returns global object references.
-  static GlobalJniEnv get env {
-    return _env ??= GlobalJniEnv(_fetchGlobalEnv());
-  }
+  static final env = GlobalJniEnv(_fetchGlobalEnv());
 
-  static JniAccessors get accessors => JniAccessors(_bindings.GetAccessors());
+  static final accessors = JniAccessors(_bindings.GetAccessors());
 
   /// Returns a new PortContinuation.
   static JObjectPtr newPortContinuation(ReceivePort port) {

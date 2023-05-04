@@ -264,6 +264,24 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(stack.pop().toDartString(deleteOriginal: true), 'Hello');
         });
       });
+      test('Different stacks have different types, same stacks have same types',
+          () {
+        using((arena) {
+          final aStringStack = MyStack(T: JString.type)..deletedIn(arena);
+          final anotherStringStack = MyStack(T: JString.type)..deletedIn(arena);
+          final anObjectStack = MyStack(T: JObject.type)..deletedIn(arena);
+          expect(aStringStack.$type, anotherStringStack.$type);
+          expect(
+            aStringStack.$type.hashCode,
+            anotherStringStack.$type.hashCode,
+          );
+          expect(aStringStack.$type, isNot(anObjectStack.$type));
+          expect(
+            aStringStack.$type.hashCode,
+            isNot(anObjectStack.$type.hashCode),
+          );
+        });
+      });
       test('MyMap<K, V>', () {
         using((arena) {
           final map = MyMap(K: JString.type, V: Example.type)..deletedIn(arena);

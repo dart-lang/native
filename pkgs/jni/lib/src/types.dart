@@ -4,31 +4,14 @@
 
 import 'dart:ffi';
 
-import 'package:collection/collection.dart';
-import 'package:ffi/ffi.dart';
-
-import 'accessors.dart';
 import 'jni.dart';
-import 'jvalues.dart';
+import 'jobject.dart';
 import 'third_party/generated_bindings.dart';
-
-part 'jarray.dart';
-part 'jexceptions.dart';
-part 'jprimitives.dart';
-part 'jreference.dart';
-part 'jobject.dart';
-part 'jstring.dart';
-
-final JniAccessors _accessors = Jni.accessors;
-final GlobalJniEnv _env = Jni.env;
-// This typedef is needed because void is a keyword and cannot be used in
-// type switch like a regular type.
-typedef _VoidType = void;
 
 abstract class JType<T> {
   const JType();
 
-  int get _type;
+  int get callType;
 
   String get signature;
 }
@@ -42,7 +25,7 @@ abstract class JObjType<T extends JObject> extends JType<T> {
   const JObjType();
 
   @override
-  int get _type => JniCallType.objectType;
+  int get callType => JniCallType.objectType;
 
   /// Creates an object from this type using the reference.
   T fromRef(Pointer<Void> ref);

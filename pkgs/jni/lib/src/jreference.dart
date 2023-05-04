@@ -2,14 +2,34 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of 'types.dart';
+import 'dart:ffi';
+
+import 'package:ffi/ffi.dart';
+import 'package:jni/src/third_party/generated_bindings.dart';
+
+import 'jexceptions.dart';
+import 'jni.dart';
+
+extension ProtectedJReference on JReference {
+  void ensureNotDeleted() {
+    if (_deleted) throw UseAfterFreeException(this, reference);
+  }
+
+  void setAsDeleted() {
+    if (_deleted) {
+      throw DoubleFreeException(this, reference);
+    }
+    _deleted = true;
+    JReference._finalizer.detach(this);
+  }
+}
 
 /// A class which holds one or more JNI references, and has a `delete` operation
 /// which disposes the reference(s).
 abstract class JReference implements Finalizable {
   //TODO(PR): Is it safe to cast void *f (void *) to void f (void *)?
   static final _finalizer =
-      NativeFinalizer(_env.ptr.ref.DeleteGlobalRef.cast());
+      NativeFinalizer(Jni.env.ptr.ref.DeleteGlobalRef.cast());
 
   JReference.fromRef(this.reference) {
     _finalizer.attach(this, reference, detach: this);
@@ -17,29 +37,17 @@ abstract class JReference implements Finalizable {
 
   bool _deleted = false;
 
-  void _ensureNotDeleted() {
-    if (_deleted) throw UseAfterFreeException(this, reference);
-  }
-
   /// Check whether the underlying JNI reference is `null`.
   bool get isNull => reference == nullptr;
 
   /// Returns whether this object is deleted.
   bool get isDeleted => _deleted;
 
-  void _setAsDeleted() {
-    if (_deleted) {
-      throw DoubleFreeException(this, reference);
-    }
-    _deleted = true;
-    _finalizer.detach(this);
-  }
-
   /// Deletes the underlying JNI reference. Further uses will throw
   /// [UseAfterFreeException].
   void delete() {
-    _setAsDeleted();
-    _env.DeleteGlobalRef(reference);
+    setAsDeleted();
+    Jni.env.DeleteGlobalRef(reference);
   }
 
   /// The underlying JNI global object reference.
@@ -53,7 +61,7 @@ extension JReferenceUseExtension<T extends JReference> on T {
   /// Applies [callback] on [this] object and then delete the underlying JNI
   /// reference, returning the result of [callback].
   R use<R>(R Function(T) callback) {
-    _ensureNotDeleted();
+    ensureNotDeleted();
     try {
       final result = callback(this);
       delete();

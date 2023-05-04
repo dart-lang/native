@@ -20,11 +20,8 @@ void main() {
       Jni.spawn(dylibDir: "wrong_dir");
     } on HelperNotFoundException catch (_) {
       // stderr.write("\n$_\n");
-      try {
-        Jni.spawn(dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
-      } on JvmExistsException catch (_) {
-        // TODO(#51): Support destroying and reinstantiating JVM.
-      }
+      Jni.spawnIfNotExists(
+          dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
       caught = true;
     } on JvmExistsException {
       stderr.writeln('cannot verify: HelperNotFoundException thrown');

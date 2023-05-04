@@ -64,7 +64,14 @@ export 'src/third_party/generated_bindings.dart'
     hide JniBindings, JniEnv, JniEnv1, JniExceptionDetails;
 export 'src/jni.dart' hide ProtectedJniExtensions;
 export 'src/jvalues.dart' hide JValueArgs, toJValues;
-export 'src/types.dart' hide JReference;
+export 'src/types.dart';
+export 'src/jarray.dart';
+export 'src/jexceptions.dart';
+export 'src/jobject.dart';
+export 'src/jprimitives.dart';
+export 'src/jreference.dart' show JReferenceUseExtension;
+export 'src/lang/lang.dart';
+export 'src/util/util.dart';
 
 export 'package:ffi/ffi.dart' show using, Arena;
 export 'dart:ffi' show nullptr;
