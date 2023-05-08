@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @OnPlatform({
-  'maco-os': Timeout.factor(2),
+  'mac-os': Timeout.factor(2),
   'windows': Timeout.factor(10),
 })
 library;
