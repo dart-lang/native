@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({'windows': Timeout.factor(10)})
+@OnPlatform({
+  'maco-os': Timeout.factor(2),
+  'windows': Timeout.factor(10),
+})
 library;
 
 import 'dart:ffi';
