@@ -38,8 +38,8 @@ class JArrayType<T> extends JObjType<JArray<T>> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JArrayType &&
-        other is JArrayType &&
+    return other.runtimeType == (JArrayType<T>) &&
+        other is JArrayType<T> &&
         elementType == other.elementType;
   }
 }
@@ -62,7 +62,17 @@ class JArray<E> extends JObject {
   ///
   /// The [length] must be a non-negative integer.
   factory JArray(JType<E> type, int length) {
-    if (type.callType == JniCallType.objectType && type is JObjType) {
+    const primitiveCallTypes = {
+      'B': JniCallType.byteType,
+      'Z': JniCallType.booleanType,
+      'C': JniCallType.charType,
+      'S': JniCallType.shortType,
+      'I': JniCallType.intType,
+      'J': JniCallType.longType,
+      'F': JniCallType.floatType,
+      'D': JniCallType.doubleType,
+    };
+    if (!primitiveCallTypes.containsKey(type.signature) && type is JObjType) {
       final clazz = (type as JObjType).getClass();
       final array = JArray<E>.fromRef(
         type,
@@ -73,7 +83,9 @@ class JArray<E> extends JObject {
     }
     return JArray.fromRef(
       type,
-      Jni.accessors.newPrimitiveArray(length, type.callType).object,
+      Jni.accessors
+          .newPrimitiveArray(length, primitiveCallTypes[type.signature]!)
+          .object,
     );
   }
 
@@ -355,18 +367,5 @@ extension ObjectArray<T extends JObject> on JArray<T> {
     it.forEachIndexed((index, element) {
       this[index] = element;
     });
-  }
-}
-
-extension ArrayArray<T> on JArray<JArray<T>> {
-  JArray<T> operator [](int index) {
-    return JArray<T>.fromRef(
-      (elementType as JArrayType<T>).elementType,
-      elementAt(index, JniCallType.objectType).object,
-    );
-  }
-
-  void operator []=(int index, JArray<T> value) {
-    (this as JArray<JObject>)[index] = value;
   }
 }

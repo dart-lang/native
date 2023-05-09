@@ -144,6 +144,31 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
+  testRunner("Java long array", () {
+    using((arena) {
+      final array = JArray(jlong.type, 3)..deletedIn(arena);
+      expect(array.length, 3);
+      array[0] = 1;
+      array[1] = 2;
+      array[2] = 3 + 256 * 256 * 256 * 256 * 5;
+      expect(array[0], 1);
+      expect(array[1], 2);
+      expect(array[2], 3 + 256 * 256 * 256 * 256 * 5);
+      array.setRange(0, 3, [4, 5, 6, 7], 1);
+      expect(array[0], 5);
+      expect(array[1], 6);
+      expect(array[2], 7);
+      expect(() {
+        final _ = array[-1];
+      }, throwsRangeError);
+      expect(() {
+        array[-1] = 4;
+      }, throwsRangeError);
+      expect(() {
+        array[3] = 4;
+      }, throwsRangeError);
+    });
+  });
   const epsilon = 1e-6;
   testRunner("Java float array", () {
     using((arena) {

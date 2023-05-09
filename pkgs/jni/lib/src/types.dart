@@ -6,12 +6,9 @@ import 'dart:ffi';
 
 import 'jni.dart';
 import 'jobject.dart';
-import 'third_party/generated_bindings.dart';
 
 abstract class JType<T> {
   const JType();
-
-  int get callType;
 
   String get signature;
 }
@@ -23,9 +20,6 @@ abstract class JObjType<T extends JObject> extends JType<T> {
   JObjType get superType;
 
   const JObjType();
-
-  @override
-  int get callType => JniCallType.objectType;
 
   /// Creates an object from this type using the reference.
   T fromRef(Pointer<Void> ref);

@@ -236,6 +236,32 @@ void run({required TestRunnerCallback testRunner}) {
     expect(lowestCommonSuperType([JByte.type, JBoolean.type]), JObject.type);
   });
 
+  testRunner('array types', () {
+    using((arena) {
+      expect(
+        lowestCommonSuperType([
+          JArray.type(jint.type),
+          JArray.type(jint.type),
+        ]),
+        JArray.type(jint.type),
+      );
+      expect(
+        lowestCommonSuperType([
+          JArray.type(JObject.type),
+          JArray.type(JObject.type),
+        ]),
+        JArray.type(JObject.type),
+      );
+      expect(
+        lowestCommonSuperType([
+          JArray.type(JObject.type),
+          JArray.type(jint.type),
+        ]),
+        JObject.type,
+      );
+    });
+  });
+
   testRunner('util types', () {
     using((arena) {
       expect(

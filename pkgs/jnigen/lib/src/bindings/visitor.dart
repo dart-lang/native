@@ -28,13 +28,6 @@ extension MultiVisitor<T extends Element<T>> on Iterable<Element<T>> {
   }
 }
 
-extension MultiTypeVisitor<T extends ReferredType> on Iterable<T> {
-  /// Accepts all lazily. Remember to call `.toList()` or similar methods!
-  Iterable<R> accept<R>(TypeVisitor<R> v) {
-    return map((e) => e.accept(v));
-  }
-}
-
 extension MultiTypeUsageVisitor on Iterable<TypeUsage> {
   /// Accepts all lazily. Remember to call `.toList()` or similar methods!
   Iterable<R> accept<R>(TypeVisitor<R> v) {

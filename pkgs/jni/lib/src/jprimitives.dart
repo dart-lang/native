@@ -6,7 +6,6 @@
 // lowercase.
 // ignore_for_file: camel_case_types
 
-import 'third_party/generated_bindings.dart';
 import 'types.dart';
 
 abstract class JPrimitive {}
@@ -19,10 +18,7 @@ class jbyteType extends JType<jbyte> {
   const jbyteType();
 
   @override
-  int get callType => JniCallType.byteType;
-
-  @override
-  String get signature => "B";
+  final signature = 'B';
 }
 
 abstract class jboolean extends JPrimitive {
@@ -33,10 +29,7 @@ class jbooleanType extends JType<jboolean> {
   const jbooleanType();
 
   @override
-  int get callType => JniCallType.booleanType;
-
-  @override
-  String get signature => "Z";
+  final signature = 'Z';
 }
 
 abstract class jchar extends JPrimitive {
@@ -47,10 +40,7 @@ class jcharType extends JType<jchar> {
   const jcharType();
 
   @override
-  int get callType => JniCallType.charType;
-
-  @override
-  String get signature => "C";
+  final signature = 'C';
 }
 
 abstract class jshort extends JPrimitive {
@@ -61,10 +51,7 @@ class jshortType extends JType<jshort> {
   const jshortType();
 
   @override
-  int get callType => JniCallType.shortType;
-
-  @override
-  String get signature => "S";
+  final signature = 'S';
 }
 
 abstract class jint extends JPrimitive {
@@ -75,10 +62,7 @@ class jintType extends JType<jint> {
   const jintType();
 
   @override
-  int get callType => JniCallType.intType;
-
-  @override
-  String get signature => "I";
+  final signature = 'I';
 }
 
 abstract class jlong extends JPrimitive {
@@ -89,10 +73,7 @@ class jlongType extends JType<jlong> {
   const jlongType();
 
   @override
-  int get callType => JniCallType.longType;
-
-  @override
-  String get signature => "J";
+  final signature = 'J';
 }
 
 abstract class jfloat extends JPrimitive {
@@ -103,10 +84,7 @@ class jfloatType extends JType<jfloat> {
   const jfloatType();
 
   @override
-  int get callType => JniCallType.floatType;
-
-  @override
-  String get signature => "F";
+  final signature = 'F';
 }
 
 abstract class jdouble extends JPrimitive {
@@ -117,8 +95,5 @@ class jdoubleType extends JType<jdouble> {
   const jdoubleType();
 
   @override
-  int get callType => JniCallType.doubleType;
-
-  @override
-  String get signature => "D";
+  final signature = 'D';
 }
