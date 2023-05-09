@@ -1,5 +1,5 @@
 name: ffi
-version: 2.0.1
+version: 2.0.2
 description: Utilities for working with Foreign Function Interface (FFI) code.
 repository: https://github.com/dart-lang/ffi
 

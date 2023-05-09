@@ -1,15 +1,18 @@
-# Changelog
+## 2.0.2
+
+- Fixed a typo in a doc comment.
+- Added package topics to the pubspec file.
 
 ## 2.0.1
 
-Only zero out memory on successful allocation on Windows.
-Upgrade test dev dependency.
+- Only zero out memory on successful allocation on Windows.
+- Upgrade test dev dependency.
 
 ## 2.0.0
 
-Switch Windows memory allocation to use `CoTaskMemAlloc` and `CoTaskMemFree`,
-which will enable support for `NativeFinalizer`. This release requires Dart
-2.17.0 or greater.
+- Switch Windows memory allocation to use `CoTaskMemAlloc` and `CoTaskMemFree`,
+  which will enable support for `NativeFinalizer`.
+- Require Dart 2.17.0 or greater.
 
 ## 1.2.1
 
