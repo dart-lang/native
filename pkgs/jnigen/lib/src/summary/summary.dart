@@ -12,6 +12,16 @@ import '../elements/elements.dart';
 import '../generate_bindings.dart';
 import '../logging/logging.dart';
 
+class SummaryParseException implements Exception {
+  final String? stderr;
+  final String message;
+  SummaryParseException(this.message) : stderr = null;
+  SummaryParseException.withStderr(this.stderr, this.message);
+
+  @override
+  String toString() => message;
+}
+
 /// A command based summary source which calls the ApiSummarizer command.
 /// [sourcePaths] and [classPaths] can be provided for the summarizer to find
 /// required dependencies. The [classes] argument specifies the fully qualified
@@ -93,6 +103,8 @@ class SummarizerCommand {
 }
 
 Future<Classes> getSummary(Config config) async {
+  // This function is a potential entry point in tests, which set log level to
+  // warning.
   setLoggingLevel(config.logLevel);
   final summarizer = SummarizerCommand(
     sourcePath: config.sourcePath,
@@ -154,24 +166,30 @@ Future<Classes> getSummary(Config config) async {
 
   Process process;
   Stream<List<int>> input;
+  final stopwatch = Stopwatch()..start();
   try {
     process = await summarizer.runProcess();
     input = process.stdout;
   } on Exception catch (e) {
-    log.fatal('Cannot obtain API summary: $e');
+    throw SummaryParseException('Cannot generate API summary: $e');
   }
-  final errorLog = StringBuffer();
-  collectOutputStream(process.stderr, errorLog);
+  final stderrBuffer = StringBuffer();
+  collectOutputStream(process.stderr, stderrBuffer);
   final stream = const JsonDecoder().bind(const Utf8Decoder().bind(input));
   dynamic json;
   try {
     json = await stream.single;
+    stopwatch.stop();
+    log.info('Parsing inputs took ${stopwatch.elapsedMilliseconds} ms');
   } on Exception catch (e) {
-    printError(errorLog);
-    log.fatal('Cannot parse summary: $e');
+    await process.exitCode;
+    throw SummaryParseException.withStderr(
+      stderrBuffer.toString(),
+      'Cannot generate summary: $e',
+    );
   }
   if (json == null) {
-    log.fatal('Expected JSON element from summarizer.');
+    throw SummaryParseException('Expected JSON element from summarizer.');
   }
   final list = json as List;
   final classes = Classes.fromJson(list);

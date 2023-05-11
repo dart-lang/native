@@ -5,55 +5,74 @@ import java.io.FileFilter;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 
-public class SearchUtil {
-  public static Optional<List<File>> findFilesInPath(
-      String qualifiedName, String searchPath, String suffix) {
-    var s = qualifiedName.replace(".", File.separator);
-    var f = new File(searchPath, s + suffix);
-    if (f.exists() && f.isFile()) {
-      return Optional.of(List.of(f));
-    }
+public class ClassFinder {
+  public static <E> void findFilesInPath(
+      String searchPath,
+      String suffix,
+      Map<String, List<E>> classes,
+      Function<List<File>, List<E>> mapper) {
 
-    var d = new File(searchPath, s);
-    if (d.exists() && d.isDirectory()) {
-      return Optional.of(recursiveListFiles(d, file -> file.getName().endsWith(".java")));
-    }
+    for (var binaryName : classes.keySet()) {
+      if (classes.get(binaryName) != null) {
+        continue;
+      }
+      var s = binaryName.replace(".", File.separator);
+      var f = new File(searchPath, s + suffix);
+      if (f.exists() && f.isFile()) {
+        classes.put(binaryName, mapper.apply(List.of(f)));
+      }
 
-    return Optional.empty();
+      var d = new File(searchPath, s);
+      if (d.exists() && d.isDirectory()) {
+        var files = recursiveListFiles(d, file -> file.getName().endsWith(suffix));
+        classes.put(binaryName, mapper.apply(files));
+      }
+    }
   }
 
-  public static Optional<List<ZipEntry>> findFilesInJar(
-      String qualifiedName, JarFile jar, String suffix) {
-    String relativePath = qualifiedName.replace(".", "/");
-    var classEntry = jar.getEntry(relativePath + suffix);
-    if (classEntry != null) {
-      return Optional.of(List.of(classEntry));
-    }
-    var dirPath = relativePath.endsWith("/") ? relativePath : relativePath + "/";
-    var dirEntry = jar.getEntry(dirPath);
-    if (dirEntry != null && dirEntry.isDirectory()) {
-      var result =
-          jar.stream()
-              .map(je -> (ZipEntry) je)
-              .filter(
-                  entry -> {
-                    var name = entry.getName();
-                    return name.endsWith(suffix) && name.startsWith(dirPath);
-                  })
+  public static <E> void findFilesInJar(
+      Map<String, List<E>> classes,
+      JarFile jar,
+      String suffix,
+      BiFunction<JarFile, List<ZipEntry>, List<E>> mapper) {
+    var entries =
+        jar.stream().map(JarEntry::getName).collect(Collectors.toCollection(TreeSet::new));
+    for (var binaryName : classes.keySet()) {
+      if (classes.get(binaryName) != null) {
+        continue;
+      }
+      var relativePath = binaryName.replace('.', '/');
+
+      var filePath = relativePath + suffix;
+      if (entries.contains(filePath)) {
+        var found = List.of(jar.getEntry(filePath));
+        classes.put(binaryName, mapper.apply(jar, found));
+      }
+
+      // Obtain set of all strings prefixed with relativePath + '/'
+      var dirPath = relativePath + '/';
+      var children =
+          entries.tailSet(dirPath).stream()
+              .takeWhile(e -> e.startsWith(dirPath))
+              .filter(e -> e.endsWith(suffix))
+              .map(jar::getEntry)
               .collect(Collectors.toList());
-      return Optional.of(result);
+      if (!children.isEmpty()) {
+        var mapped = mapper.apply(jar, children);
+        classes.put(binaryName, mapped);
+      }
     }
-    return Optional.empty();
   }
 
-  public static <T> Optional<List<T>> find(
-      String qualifiedName,
+  public static <T> void find(
+      Map<String, List<T>> classes,
       List<String> searchPaths,
       String suffix,
       Function<List<File>, List<T>> fileMapper,
@@ -61,22 +80,12 @@ public class SearchUtil {
     for (var searchPath : searchPaths) {
       File searchFile = new File(searchPath);
       if (searchFile.isDirectory()) {
-        var result = findFilesInPath(qualifiedName, searchPath, suffix);
-        if (result.isPresent()) {
-          var mappedResult = fileMapper.apply(result.get());
-          return Optional.of(mappedResult);
-        }
-      }
-      if (searchFile.isFile() && searchPath.endsWith(".jar")) {
+        findFilesInPath(searchPath, suffix, classes, fileMapper);
+      } else if (searchFile.isFile() && searchPath.endsWith(".jar")) {
         var jarFile = ExceptionUtil.wrapCheckedException(JarFile::new, searchPath);
-        var result = findFilesInJar(qualifiedName, jarFile, suffix);
-        if (result.isPresent()) {
-          var mappedResult = entryMapper.apply(jarFile, result.get());
-          return Optional.of(mappedResult);
-        }
+        findFilesInJar(classes, jarFile, suffix, entryMapper);
       }
     }
-    return Optional.empty();
   }
 
   private static List<JavaFileObject> getJavaFileObjectsFromFiles(
@@ -100,24 +109,26 @@ public class SearchUtil {
     return StreamUtil.map(entries, entry -> new JarEntryInputStreamProvider(jarFile, entry));
   }
 
-  public static Optional<List<JavaFileObject>> findJavaSources(
-      String qualifiedName, List<String> searchPaths, StandardJavaFileManager fm) {
-    return find(
-        qualifiedName,
+  public static void findJavaSources(
+      Map<String, List<JavaFileObject>> classes,
+      List<String> searchPaths,
+      StandardJavaFileManager fm) {
+    find(
+        classes,
         searchPaths,
         ".java",
         files -> getJavaFileObjectsFromFiles(files, fm),
-        SearchUtil::getJavaFileObjectsFromJar);
+        ClassFinder::getJavaFileObjectsFromJar);
   }
 
-  public static Optional<List<InputStreamProvider>> findJavaClasses(
-      String qualifiedName, List<String> searchPaths) {
-    return find(
-        qualifiedName,
+  public static void findJavaClasses(
+      Map<String, List<InputStreamProvider>> classes, List<String> searchPaths) {
+    find(
+        classes,
         searchPaths,
         ".class",
-        SearchUtil::getInputStreamProvidersFromFiles,
-        SearchUtil::getInputStreamProvidersFromJar);
+        ClassFinder::getInputStreamProvidersFromFiles,
+        ClassFinder::getInputStreamProvidersFromJar);
   }
 
   /**

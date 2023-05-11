@@ -7,16 +7,14 @@ package com.github.dart_lang.jnigen.apisummarizer;
 import com.github.dart_lang.jnigen.apisummarizer.disasm.AsmSummarizer;
 import com.github.dart_lang.jnigen.apisummarizer.doclet.SummarizerDoclet;
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
-import com.github.dart_lang.jnigen.apisummarizer.util.InputStreamProvider;
-import com.github.dart_lang.jnigen.apisummarizer.util.JsonUtil;
-import com.github.dart_lang.jnigen.apisummarizer.util.Log;
-import com.github.dart_lang.jnigen.apisummarizer.util.SearchUtil;
+import com.github.dart_lang.jnigen.apisummarizer.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.tools.DocumentationTool;
 import javax.tools.JavaFileObject;
@@ -85,31 +83,42 @@ public class Main {
             ? Arrays.asList(options.classPath.split(File.pathSeparator))
             : List.of();
 
-    var classStreamProviders = new ArrayList<InputStreamProvider>();
-    var sourceFiles = new ArrayList<JavaFileObject>();
-    var notFound = new ArrayList<String>();
-
     var javaDoc = ToolProvider.getSystemDocumentationTool();
 
+    var sourceClasses = new LinkedHashMap<String, List<JavaFileObject>>();
+    var binaryClasses = new LinkedHashMap<String, List<InputStreamProvider>>();
+
     for (var qualifiedName : options.args) {
-      var found = false;
-      if (options.backend != Backend.ASM) {
-        var sources =
-            SearchUtil.findJavaSources(
-                qualifiedName, sourcePaths, javaDoc.getStandardFileManager(null, null, null));
-        if (sources.isPresent()) {
-          sourceFiles.addAll(sources.get());
-          found = true;
-        }
+      sourceClasses.put(qualifiedName, null);
+      binaryClasses.put(qualifiedName, null);
+    }
+
+    if (options.backend != Backend.ASM) {
+      ClassFinder.findJavaSources(
+          sourceClasses, sourcePaths, javaDoc.getStandardFileManager(null, null, null));
+    }
+
+    // remove found classes from binaryClasses, so that they don't need to be searched again.
+    // TODO: Tidy up this logic, move to ClassFinder class
+    for (var qualifiedName : options.args) {
+      if (sourceClasses.get(qualifiedName) != null) {
+        binaryClasses.remove(qualifiedName);
       }
-      if (options.backend != Backend.DOCLET && !found) {
-        var classes = SearchUtil.findJavaClasses(qualifiedName, classPaths);
-        if (classes.isPresent()) {
-          classStreamProviders.addAll(classes.get());
-          found = true;
-        }
+    }
+
+    if (options.backend != Backend.DOCLET) {
+      ClassFinder.findJavaClasses(binaryClasses, classPaths);
+    }
+
+    // remove duplicates (found as both source & binary), and determine if any class is not found.
+    var notFound = new ArrayList<String>();
+    for (var qualifiedName : options.args) {
+      var foundSource = sourceClasses.get(qualifiedName) != null;
+      var foundBinary = binaryClasses.get(qualifiedName) != null;
+      if (foundSource) {
+        binaryClasses.remove(qualifiedName);
       }
-      if (!found) {
+      if (!foundBinary && !foundSource) {
         notFound.add(qualifiedName);
       }
     }
@@ -119,12 +128,15 @@ public class Main {
       System.exit(1);
     }
 
+    var classStreamProviders = StreamUtil.flattenListValues(binaryClasses);
+    var sourceFiles = StreamUtil.flattenListValues(sourceClasses);
+
     switch (options.backend) {
       case DOCLET:
-        JsonUtil.writeJSON(runDoclet(javaDoc, sourceFiles, options), output);
+        JsonWriter.writeJSON(runDoclet(javaDoc, sourceFiles, options), output);
         break;
       case ASM:
-        JsonUtil.writeJSON(AsmSummarizer.run(classStreamProviders), output);
+        JsonWriter.writeJSON(AsmSummarizer.run(classStreamProviders), output);
         break;
       case AUTO:
         List<ClassDecl> decls = new ArrayList<>();
@@ -134,7 +146,7 @@ public class Main {
         if (!classStreamProviders.isEmpty()) {
           decls.addAll(AsmSummarizer.run(classStreamProviders));
         }
-        JsonUtil.writeJSON(decls, output);
+        JsonWriter.writeJSON(decls, output);
         break;
     }
   }

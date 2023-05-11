@@ -4,8 +4,7 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.util;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,5 +15,12 @@ public class StreamUtil {
 
   public static <T, R> List<R> map(T[] array, Function<T, R> function) {
     return Arrays.stream(array).map(function).collect(Collectors.toList());
+  }
+
+  public static <K, E> List<E> flattenListValues(Map<K, List<E>> map) {
+    return map.values().stream()
+        .filter(Objects::nonNull)
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
   }
 }

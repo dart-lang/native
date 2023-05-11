@@ -9,6 +9,7 @@ import 'bindings/dart_generator.dart';
 import 'bindings/excluder.dart';
 import 'bindings/linker.dart';
 import 'bindings/renamer.dart';
+import 'elements/elements.dart';
 import 'summary/summary.dart';
 import 'config/config.dart';
 import 'tools/tools.dart';
@@ -22,7 +23,16 @@ Future<void> generateJniBindings(Config config) async {
 
   await buildSummarizerIfNotExists();
 
-  final classes = await getSummary(config);
+  final Classes classes;
+
+  try {
+    classes = await getSummary(config);
+  } on SummaryParseException catch (e) {
+    if (e.stderr != null) {
+      printError(e.stderr);
+    }
+    log.fatal(e.message);
+  }
 
   final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
   classes

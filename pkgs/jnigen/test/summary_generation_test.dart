@@ -8,6 +8,7 @@
 @Tags(['summarizer_test'])
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:jnigen/src/config/config.dart';
 import 'package:jnigen/src/elements/elements.dart';
@@ -20,7 +21,7 @@ import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
-void expectNonEmptySummary(Classes? classes) {
+void expectSummaryHasAllClasses(Classes? classes) {
   expect(classes, isNotNull);
   final decls = classes!.decls;
   expect(decls.entries.length, greaterThanOrEqualTo(javaFiles.length));
@@ -70,6 +71,13 @@ final simplePackagePath = join('test', 'simple_package_test', 'java');
 final simplePackageDir = Directory(simplePackagePath);
 final javaFiles = findFilesWithSuffix(simplePackageDir, '.java');
 final javaClasses = javaFiles.map(getClassNameFromPath).toList();
+// remove individual class listings from one package,
+// and add the package name instead, for testing.
+const _removalPackage = 'com.github.dart_lang.jnigen.pkg2';
+final summarizerClassesSpec = [
+  ...javaClasses.where((e) => !e.startsWith('$_removalPackage.')),
+  _removalPackage,
+];
 
 Config getConfig({List<String>? sourcePath, List<String>? classPath}) {
   return Config(
@@ -80,86 +88,126 @@ Config getConfig({List<String>? sourcePath, List<String>? classPath}) {
         structure: OutputStructure.singleFile,
       ),
     ),
-    classes: javaClasses,
+    classes: summarizerClassesSpec,
     sourcePath: sourcePath?.map((e) => Uri.file(e)).toList(),
     classPath: classPath?.map((e) => Uri.file(e)).toList(),
     logLevel: Level.WARNING,
   );
 }
 
+final random = Random.secure();
+
+void testSuccessCase(String description, Config config) {
+  config.classes = summarizerClassesSpec;
+  test(description, () async {
+    final classes = await getSummary(config);
+    expectSummaryHasAllClasses(classes);
+  });
+}
+
+void testFailureCase(
+    String description, Config config, String nonExistingClass) {
+  test(description, () async {
+    final insertPosition = random.nextInt(config.classes.length + 1);
+    config.classes = summarizerClassesSpec.sublist(0, insertPosition) +
+        [nonExistingClass] +
+        summarizerClassesSpec.sublist(insertPosition);
+    try {
+      await getSummary(config);
+    } on SummaryParseException catch (e) {
+      expect(e.stderr, isNotNull);
+      expect(e.stderr!, stringContainsInOrder(["Not found", nonExistingClass]));
+      return;
+    }
+    throw AssertionError("No exception was caught");
+  });
+}
+
+void testAllCases({
+  List<String>? sourcePath,
+  List<String>? classPath,
+}) {
+  testSuccessCase(
+    '- valid config',
+    getConfig(sourcePath: sourcePath, classPath: classPath),
+  );
+  testFailureCase(
+    '- should fail with non-existing class',
+    getConfig(sourcePath: sourcePath, classPath: classPath),
+    'com.github.dart_lang.jnigen.DoesNotExist',
+  );
+  testFailureCase(
+    '- should fail with non-existing package',
+    getConfig(sourcePath: sourcePath, classPath: classPath),
+    'com.github.dart_lang.notexist',
+  );
+}
+
 void main() async {
   await checkLocallyBuiltDependencies();
-  late Directory tempDir;
-  setUpAll(() async {
-    tempDir = getTempDir("jnigen_summary_tests_");
-  });
+  final tempDir = getTempDir("jnigen_summary_tests_");
 
-  test('Test summary generation from compiled JAR', () async {
+  group('Test summary generation from compiled JAR', () {
     final targetDir = tempDir.createTempSync("compiled_jar_test_");
-    await compileJavaFiles(simplePackageDir, targetDir);
-    final classFiles = findFilesWithSuffix(targetDir, '.class');
     final jarPath = join(targetDir.absolute.path, 'classes.jar');
-    await createJar(
-        artifactDir: targetDir.path, artifacts: classFiles, jarPath: jarPath);
-    final config = getConfig(classPath: [jarPath]);
-    final summaryClasses = await getSummary(config);
-    expectNonEmptySummary(summaryClasses);
+    setUpAll(() async {
+      await compileJavaFiles(simplePackageDir, targetDir);
+      final classFiles = findFilesWithSuffix(targetDir, '.class');
+      await createJar(
+          artifactDir: targetDir.path, artifacts: classFiles, jarPath: jarPath);
+    });
+    testAllCases(classPath: [jarPath]);
   });
 
-  test('Test summary generation from source JAR', () async {
+  group('Test summary generation from source JAR', () {
     final targetDir = tempDir.createTempSync("source_jar_test_");
     final jarPath = join(targetDir.path, 'sources.jar');
-    await createJar(
-        artifactDir: simplePackageDir.path,
-        artifacts: javaFiles,
-        jarPath: jarPath);
-    final config = getConfig(sourcePath: [jarPath]);
-    final summaryClasses = await getSummary(config);
-    expectNonEmptySummary(summaryClasses);
+    setUpAll(() async {
+      await createJar(
+          artifactDir: simplePackageDir.path,
+          artifacts: javaFiles,
+          jarPath: jarPath);
+    });
+    testAllCases(sourcePath: [jarPath]);
   });
 
-  test('Test summary generation from source folder', () async {
-    final config = getConfig(sourcePath: [simplePackagePath]);
-    final summaryClasses = await getSummary(config);
-    expectNonEmptySummary(summaryClasses);
+  group('Test summary generation from source folder', () {
+    testAllCases(sourcePath: [simplePackagePath]);
   });
 
-  test('Test summary generation from compiled classes in directory', () async {
+  group('Test summary generation from compiled classes in directory', () {
     final targetDir = tempDir.createTempSync("compiled_classes_test_");
-    await compileJavaFiles(simplePackageDir, targetDir);
-    final config = getConfig(classPath: [targetDir.path]);
-    final summaryClasses = await getSummary(config);
-    expectNonEmptySummary(summaryClasses);
+    setUpAll(() => compileJavaFiles(simplePackageDir, targetDir));
+    testAllCases(classPath: [targetDir.path]);
   });
 
   // Test summary generation from combination of a source and class path
-  test('Test summary generation from combination', () async {
+  group('Test summary generation from combination', () {
     final targetDir = tempDir.createTempSync("combination_test_");
-
+    final classesJarPath = join(targetDir.path, 'classes.jar');
     // remove a class from source files and create a source JAR
     final sourceFiles = javaFiles.toList();
     sourceFiles.removeLast();
     final sourceJarPath = join(targetDir.path, 'sources.jar');
-    await createJar(
-      artifactDir: simplePackageDir.path,
-      artifacts: sourceFiles,
-      jarPath: sourceJarPath,
-    );
+    setUpAll(() async {
+      await createJar(
+        artifactDir: simplePackageDir.path,
+        artifacts: sourceFiles,
+        jarPath: sourceJarPath,
+      );
 
-    await compileJavaFiles(simplePackageDir, targetDir);
-    final classFiles = findFilesWithSuffix(targetDir, '.class');
-    final classesJarPath = join(targetDir.path, 'classes.jar');
-    await createJar(
-      artifactDir: targetDir.path,
-      artifacts: classFiles,
-      jarPath: classesJarPath,
-    );
-    final config = getConfig(
+      await compileJavaFiles(simplePackageDir, targetDir);
+      final classFiles = findFilesWithSuffix(targetDir, '.class');
+      await createJar(
+        artifactDir: targetDir.path,
+        artifacts: classFiles,
+        jarPath: classesJarPath,
+      );
+    });
+    testAllCases(
       classPath: [classesJarPath],
       sourcePath: [sourceJarPath],
     );
-    final summaryClasses = await getSummary(config);
-    expectNonEmptySummary(summaryClasses);
   });
 
   tearDownAll(() => deleteTempDir(tempDir));

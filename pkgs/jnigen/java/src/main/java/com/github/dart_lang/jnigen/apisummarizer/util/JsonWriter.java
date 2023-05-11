@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-public class JsonUtil {
+public class JsonWriter {
   public static void writeJSON(List<ClassDecl> classes, OutputStream output) {
     var mapper = new ObjectMapper();
     Log.timed("Writing JSON");
