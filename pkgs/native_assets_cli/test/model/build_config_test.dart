@@ -8,6 +8,8 @@ import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() async {
   late Uri tempUri;
   late Uri fakeClang;
@@ -329,4 +331,68 @@ version: ${BuildConfig.version}''';
       expect(() => BuildConfig.fromConfig(config), throwsFormatException);
     });
   }
+
+  test('build folder stable ', () async {
+    await inTempDir((tempUri) async {
+      final nativeAddUri = tempUri.resolve('native_add/');
+
+      final outDir = BuildConfig.outDirName(
+        packageRoot: nativeAddUri,
+        target: Target.linuxX64,
+        linkModePreference: LinkModePreference.dynamic,
+      );
+
+      // The build folder should be stable.
+      expect(outDir, '96819d83ae789cb65752986a4abb4071');
+    });
+  });
+
+  test('build folder different due to metadata', () async {
+    await inTempDir((tempUri) async {
+      final nativeAddUri = tempUri.resolve('native_add/');
+
+      final name1 = BuildConfig.outDirName(
+        packageRoot: nativeAddUri,
+        target: Target.linuxX64,
+        linkModePreference: LinkModePreference.dynamic,
+      );
+
+      final name2 = BuildConfig.outDirName(
+        packageRoot: nativeAddUri,
+        target: Target.linuxX64,
+        linkModePreference: LinkModePreference.dynamic,
+        dependencyMetadata: {
+          'foo': Metadata({'key': 'value'})
+        },
+      );
+
+      printOnFailure([name1, name2].toString());
+      expect(name1 != name2, true);
+    });
+  });
+
+  test('build folder different due to cc', () async {
+    await inTempDir((tempUri) async {
+      final nativeAddUri = tempUri.resolve('native_add/');
+      final fakeClangUri = tempUri.resolve('fake_clang');
+      await File.fromUri(fakeClangUri).create();
+
+      final name1 = BuildConfig.outDirName(
+        packageRoot: nativeAddUri,
+        target: Target.linuxX64,
+        linkModePreference: LinkModePreference.dynamic,
+      );
+
+      final name2 = BuildConfig.outDirName(
+          packageRoot: nativeAddUri,
+          target: Target.linuxX64,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: CCompilerConfig(
+            cc: fakeClangUri,
+          ));
+
+      printOnFailure([name1, name2].toString());
+      expect(name1 != name2, true);
+    });
+  });
 }
