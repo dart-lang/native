@@ -108,7 +108,7 @@ class BuildConfig {
       cCompiler?.envScriptArgs.toString(),
       cCompiler?.ld.toString(),
       if (dependencyMetadata != null)
-        for (final entry in dependencyMetadata!.entries) ...[
+        for (final entry in dependencyMetadata.entries) ...[
           entry.key,
           json.encode(entry.value.toYaml()),
         ]
