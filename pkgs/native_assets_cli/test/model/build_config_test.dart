@@ -332,23 +332,23 @@ version: ${BuildConfig.version}''';
     });
   }
 
-  test('build folder', () async {
+  test('checksum', () async {
     await inTempDir((tempUri) async {
       final nativeAddUri = tempUri.resolve('native_add/');
       final fakeClangUri = tempUri.resolve('fake_clang');
       await File.fromUri(fakeClangUri).create();
 
-      final name1 = BuildConfig.outDirName(
+      final name1 = BuildConfig.checksum(
         packageRoot: nativeAddUri,
         target: Target.linuxX64,
         linkModePreference: LinkModePreference.dynamic,
       );
 
-      // The build folder should be stable.
+      // Using the checksum for a build folder should be stable.
       expect(name1, '96819d83ae789cb65752986a4abb4071');
 
       // Build folder different due to metadata.
-      final name2 = BuildConfig.outDirName(
+      final name2 = BuildConfig.checksum(
         packageRoot: nativeAddUri,
         target: Target.linuxX64,
         linkModePreference: LinkModePreference.dynamic,
@@ -360,7 +360,7 @@ version: ${BuildConfig.version}''';
       expect(name1 != name2, true);
 
       // Build folder different due to cc.
-      final name3 = BuildConfig.outDirName(
+      final name3 = BuildConfig.checksum(
           packageRoot: nativeAddUri,
           target: Target.linuxX64,
           linkModePreference: LinkModePreference.dynamic,
