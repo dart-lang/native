@@ -62,12 +62,12 @@ class PDFTextStripper extends jni.JObject {
   static final _get_LINE_SEPARATOR = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
-    jni.JObjectPtr,
-  )>>("get_PDFTextStripper__LINE_SEPARATOR")
+                jni.JObjectPtr,
+              )>>("get_PDFTextStripper__LINE_SEPARATOR")
       .asFunction<
           jni.JniResult Function(
-    jni.JObjectPtr,
-  )>();
+            jni.JObjectPtr,
+          )>();
 
   /// from: protected final java.lang.String LINE_SEPARATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -79,12 +79,12 @@ class PDFTextStripper extends jni.JObject {
   static final _get_charactersByArticle = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
-    jni.JObjectPtr,
-  )>>("get_PDFTextStripper__charactersByArticle")
+                jni.JObjectPtr,
+              )>>("get_PDFTextStripper__charactersByArticle")
       .asFunction<
           jni.JniResult Function(
-    jni.JObjectPtr,
-  )>();
+            jni.JObjectPtr,
+          )>();
 
   static final _set_charactersByArticle = jniLookup<
               ffi.NativeFunction<
@@ -133,12 +133,12 @@ class PDFTextStripper extends jni.JObject {
   static final _get_document = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
-    jni.JObjectPtr,
-  )>>("get_PDFTextStripper__document")
+                jni.JObjectPtr,
+              )>>("get_PDFTextStripper__document")
       .asFunction<
           jni.JniResult Function(
-    jni.JObjectPtr,
-  )>();
+            jni.JObjectPtr,
+          )>();
 
   static final _set_document = jniLookup<
           ffi.NativeFunction<
@@ -160,12 +160,12 @@ class PDFTextStripper extends jni.JObject {
   static final _get_output = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
-    jni.JObjectPtr,
-  )>>("get_PDFTextStripper__output")
+                jni.JObjectPtr,
+              )>>("get_PDFTextStripper__output")
       .asFunction<
           jni.JniResult Function(
-    jni.JObjectPtr,
-  )>();
+            jni.JObjectPtr,
+          )>();
 
   static final _set_output = jniLookup<
           ffi.NativeFunction<
