@@ -2,8 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
+import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/map.dart';
@@ -78,6 +81,46 @@ class BuildConfig {
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfig.fromConfig(config);
+  }
+
+  /// Constructs a checksum for a [BuildConfig] based on the fields
+  /// of a buildconfig that influence the build.
+  ///
+  /// This can be used for an [outDir].
+  ///
+  /// In particular, it only takes the package name from [packageRoot],
+  /// so that the hash is equal across checkouts and ignores [outDir] itself.
+  static String checksum({
+    required Uri packageRoot,
+    required Target target,
+    IOSSdk? targetIOSSdk,
+    CCompilerConfig? cCompiler,
+    required LinkModePreference linkModePreference,
+    Map<String, Metadata>? dependencyMetadata,
+  }) {
+    final packageName = packageRoot.pathSegments.lastWhere((e) => e.isNotEmpty);
+    final input = [
+      packageName,
+      target.toString(),
+      targetIOSSdk.toString(),
+      linkModePreference.toString(),
+      cCompiler?.ar.toString(),
+      cCompiler?.cc.toString(),
+      cCompiler?.envScript.toString(),
+      cCompiler?.envScriptArgs.toString(),
+      cCompiler?.ld.toString(),
+      if (dependencyMetadata != null)
+        for (final entry in dependencyMetadata.entries) ...[
+          entry.key,
+          json.encode(entry.value.toYaml()),
+        ]
+    ].join('###');
+    final sha256String = sha256.convert(utf8.encode(input)).toString();
+    // 256 bit hashes lead to 64 hex character strings.
+    // To avoid overflowing file paths limits, only use 32.
+    // Using 16 hex characters would also be unlikely to have collisions.
+    const nameLength = 32;
+    return sha256String.substring(0, nameLength);
   }
 
   BuildConfig._();
@@ -242,8 +285,6 @@ class BuildConfig {
 
   Map<String, Object> toYaml() {
     final cCompilerYaml = _cCompiler.toYaml();
-    // print(cCompilerYaml);
-    // print(cCompilerYaml.isNotEmpty);
 
     return {
       outDirConfigKey: _outDir.toFilePath(),

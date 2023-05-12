@@ -6,6 +6,28 @@ import 'dart:io';
 
 import 'package:native_assets_cli/src/model/build_config.dart';
 
+const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
+
+Future<void> inTempDir(
+  Future<void> Function(Uri tempUri) fun, {
+  String? prefix,
+  bool keepTemp = false,
+}) async {
+  final tempDir = await Directory.systemTemp.createTemp(prefix);
+  // Deal with Windows temp folder aliases.
+  final tempUri =
+      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+  try {
+    await fun(tempUri);
+  } finally {
+    if ((!Platform.environment.containsKey(keepTempKey) ||
+            Platform.environment[keepTempKey]!.isEmpty) &&
+        !keepTemp) {
+      await tempDir.delete(recursive: true);
+    }
+  }
+}
+
 /// Test files are run in a variety of ways, find this package root in all.
 ///
 /// Test files can be run from source from any working directory. The Dart SDK

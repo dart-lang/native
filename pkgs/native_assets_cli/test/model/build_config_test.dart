@@ -8,6 +8,8 @@ import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() async {
   late Uri tempUri;
   late Uri fakeClang;
@@ -329,4 +331,44 @@ version: ${BuildConfig.version}''';
       expect(() => BuildConfig.fromConfig(config), throwsFormatException);
     });
   }
+
+  test('checksum', () async {
+    await inTempDir((tempUri) async {
+      final nativeAddUri = tempUri.resolve('native_add/');
+      final fakeClangUri = tempUri.resolve('fake_clang');
+      await File.fromUri(fakeClangUri).create();
+
+      final name1 = BuildConfig.checksum(
+        packageRoot: nativeAddUri,
+        target: Target.linuxX64,
+        linkModePreference: LinkModePreference.dynamic,
+      );
+
+      // Using the checksum for a build folder should be stable.
+      expect(name1, '96819d83ae789cb65752986a4abb4071');
+
+      // Build folder different due to metadata.
+      final name2 = BuildConfig.checksum(
+        packageRoot: nativeAddUri,
+        target: Target.linuxX64,
+        linkModePreference: LinkModePreference.dynamic,
+        dependencyMetadata: {
+          'foo': Metadata({'key': 'value'})
+        },
+      );
+      printOnFailure([name1, name2].toString());
+      expect(name1 != name2, true);
+
+      // Build folder different due to cc.
+      final name3 = BuildConfig.checksum(
+          packageRoot: nativeAddUri,
+          target: Target.linuxX64,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: CCompilerConfig(
+            cc: fakeClangUri,
+          ));
+      printOnFailure([name1, name3].toString());
+      expect(name1 != name3, true);
+    });
+  });
 }
