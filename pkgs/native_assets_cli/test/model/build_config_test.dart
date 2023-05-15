@@ -12,6 +12,9 @@ import '../helpers.dart';
 
 void main() async {
   late Uri tempUri;
+  late Uri outDirUri;
+  late Uri outDir2Uri;
+  late Uri packageRootUri;
   late Uri fakeClang;
   late Uri fakeLd;
   late Uri fakeAr;
@@ -20,6 +23,12 @@ void main() async {
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
+    outDirUri = tempUri.resolve('out1/');
+    await Directory.fromUri(outDirUri).create();
+    outDir2Uri = tempUri.resolve('out2/');
+    await Directory.fromUri(outDir2Uri).create();
+    packageRootUri = tempUri.resolve('my_package/');
+    await Directory.fromUri(packageRootUri).create();
     fakeClang = tempUri.resolve('fake_clang');
     await File.fromUri(fakeClang).create();
     fakeLd = tempUri.resolve('fake_ld');
@@ -38,7 +47,7 @@ void main() async {
 
   test('BuildConfig ==', () {
     final config1 = BuildConfig(
-      outDir: tempUri.resolve('out1/'),
+      outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.iOSArm64,
       targetIOSSdk: IOSSdk.iPhoneOs,
@@ -51,7 +60,7 @@ void main() async {
     );
 
     final config2 = BuildConfig(
-      outDir: tempUri.resolve('out2/'),
+      outDir: outDir2Uri,
       packageRoot: tempUri,
       target: Target.androidArm64,
       linkModePreference: LinkModePreference.preferStatic,
@@ -76,15 +85,15 @@ void main() async {
 
   test('BuildConfig fromConfig', () {
     final buildConfig2 = BuildConfig(
-      outDir: tempUri.resolve('out2/'),
-      packageRoot: tempUri.resolve('packageRoot/'),
+      outDir: outDirUri,
+      packageRoot: packageRootUri,
       target: Target.androidArm64,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = Config(fileParsed: {
-      'out_dir': tempUri.resolve('out2/').toFilePath(),
-      'package_root': tempUri.resolve('packageRoot/').toFilePath(),
+      'out_dir': outDirUri.toFilePath(),
+      'package_root': packageRootUri.toFilePath(),
       'target': 'android_arm64',
       'link_mode_preference': 'prefer-static',
       'version': BuildOutput.version.toString(),
@@ -96,8 +105,8 @@ void main() async {
 
   test('BuildConfig toYaml fromConfig', () {
     final buildConfig1 = BuildConfig(
-      outDir: tempUri.resolve('out1/'),
-      packageRoot: tempUri.resolve('packageRoot/'),
+      outDir: outDirUri,
+      packageRoot: packageRootUri,
       target: Target.iOSArm64,
       targetIOSSdk: IOSSdk.iPhoneOs,
       cCompiler: CCompilerConfig(
@@ -115,7 +124,7 @@ void main() async {
 
   test('BuildConfig == dependency metadata', () {
     final buildConfig1 = BuildConfig(
-      outDir: tempUri.resolve('out1/'),
+      outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
       linkModePreference: LinkModePreference.preferStatic,
@@ -131,7 +140,7 @@ void main() async {
     );
 
     final buildConfig2 = BuildConfig(
-      outDir: tempUri.resolve('out1/'),
+      outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
       linkModePreference: LinkModePreference.preferStatic,
@@ -151,7 +160,7 @@ void main() async {
   });
 
   test('BuildConfig toYaml fromYaml', () {
-    final outDir = tempUri.resolve('out1/');
+    final outDir = outDirUri;
     final buildConfig1 = BuildConfig(
       outDir: outDir,
       packageRoot: tempUri,
@@ -208,7 +217,7 @@ version: ${BuildConfig.version}''';
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
-        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
+        'package_root': packageRootUri.toFilePath(),
         'target': 'android_arm64',
         'link_mode_preference': 'prefer-static',
       })),
@@ -216,8 +225,8 @@ version: ${BuildConfig.version}''';
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
-        'out_dir': tempUri.resolve('out2/').toFilePath(),
-        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
+        'out_dir': outDirUri.toFilePath(),
+        'package_root': packageRootUri.toFilePath(),
         'target': 'android_arm64',
         'link_mode_preference': 'prefer-static',
         'dependency_metadata': {
@@ -232,8 +241,8 @@ version: ${BuildConfig.version}''';
   test('FormatExceptions contain full stack trace of wrapped exception', () {
     try {
       BuildConfig.fromConfig(Config(fileParsed: {
-        'out_dir': tempUri.resolve('out2/').toFilePath(),
-        'package_root': tempUri.resolve('packageRoot/').toFilePath(),
+        'out_dir': outDirUri.toFilePath(),
+        'package_root': packageRootUri.toFilePath(),
         'target': [1, 2, 3, 4, 5],
         'link_mode_preference': 'prefer-static',
       }));
@@ -244,7 +253,7 @@ version: ${BuildConfig.version}''';
 
   test('BuildConfig toString', () {
     final config = BuildConfig(
-      outDir: tempUri.resolve('out1/'),
+      outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.iOSArm64,
       targetIOSSdk: IOSSdk.iPhoneOs,
@@ -259,7 +268,7 @@ version: ${BuildConfig.version}''';
 
   test('BuildConfig fromArgs', () async {
     final buildConfig = BuildConfig(
-      outDir: tempUri.resolve('out2/'),
+      outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
       linkModePreference: LinkModePreference.preferStatic,
@@ -277,7 +286,7 @@ version: ${BuildConfig.version}''';
 
   test('dependency metadata via config accessor', () {
     final buildConfig1 = BuildConfig(
-      outDir: tempUri.resolve('out1/'),
+      outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
       linkModePreference: LinkModePreference.preferStatic,
@@ -301,8 +310,8 @@ version: ${BuildConfig.version}''';
 
   test('envScript', () {
     final buildConfig1 = BuildConfig(
-      outDir: tempUri.resolve('out1/'),
-      packageRoot: tempUri.resolve('packageRoot/'),
+      outDir: outDirUri,
+      packageRoot: packageRootUri,
       target: Target.windowsX64,
       cCompiler: CCompilerConfig(
         cc: fakeCl,
@@ -320,7 +329,7 @@ version: ${BuildConfig.version}''';
 
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildConfig version $version', () {
-      final outDir = tempUri.resolve('out1/');
+      final outDir = outDirUri;
       final config = Config(fileParsed: {
         'link_mode_preference': 'prefer-static',
         'out_dir': outDir.toFilePath(),
