@@ -112,8 +112,8 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
       .getMethodIDOf(_class.reference, r"add", r"(Ljava/lang/Object;)Z");
   @override
   void add($E element) {
-    Jni.accessors.callMethodWithArgs(
-        reference, _addId, JniCallType.voidType, [element.reference]).check();
+    Jni.accessors.callMethodWithArgs(reference, _addId, JniCallType.booleanType,
+        [element.reference]).check();
   }
 
   static final _collectionClass = Jni.findJClass("java/util/Collection");
