@@ -207,8 +207,9 @@ class BuildConfig {
         }
       },
       (config) => _config = config,
-      (config) => _outDir = config.path(outDirConfigKey),
-      (config) => _packageRoot = config.path(packageRootConfigKey),
+      (config) => _outDir = config.path(outDirConfigKey, mustExist: true),
+      (config) =>
+          _packageRoot = config.path(packageRootConfigKey, mustExist: true),
       (config) {
         _target = Target.fromString(
           config.string(
