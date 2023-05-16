@@ -49,8 +49,8 @@ class JString extends JObject {
   JString.fromRef(JStringPtr reference) : super.fromRef(reference);
 
   static JStringPtr _toJavaString(String s) => using((arena) {
-        final chars = s.toNativeUtf8(allocator: arena).cast<Char>();
-        final jstr = Jni.env.NewStringUTF(chars);
+        final chars = s.toNativeUtf16(allocator: arena).cast<Uint16>();
+        final jstr = Jni.env.NewString(chars, s.length);
         if (jstr == nullptr) {
           throw 'Fatal: cannot convert string to Java string: $s';
         }
@@ -72,9 +72,10 @@ class JString extends JObject {
     if (reference == nullptr) {
       throw NullJStringException();
     }
-    final chars = Jni.env.GetStringUTFChars(reference, nullptr);
-    final result = chars.cast<Utf8>().toDartString();
-    Jni.env.ReleaseStringUTFChars(reference, chars);
+    final length = Jni.env.GetStringLength(reference);
+    final chars = Jni.env.GetStringChars(reference, nullptr);
+    final result = chars.cast<Utf16>().toDartString(length: length);
+    Jni.env.ReleaseStringChars(reference, chars);
     if (deleteOriginal) {
       delete();
     }

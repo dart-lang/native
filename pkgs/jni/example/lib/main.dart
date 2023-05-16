@@ -55,6 +55,12 @@ int uptime() {
   );
 }
 
+String backAndForth() {
+  final jstring = '🪓'.toJString();
+  final dartString = jstring.toDartString(deleteOriginal: true);
+  return dartString;
+}
+
 void quit() {
   JObject.fromRef(Jni.getCurrentActivity())
       .use((ac) => ac.callMethodByName<void>("finish", "()V", []));
@@ -94,6 +100,7 @@ void main() {
     if (Platform.isAndroid) ...[
       Example("Minutes of usage since reboot",
           () => (uptime() / (60 * 1000)).floor()),
+      Example("Back and forth string conversion", () => backAndForth()),
       Example(
           "Device name",
           () => Jni.retrieveStaticField<String>(

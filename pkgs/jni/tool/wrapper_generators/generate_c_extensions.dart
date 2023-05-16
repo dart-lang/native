@@ -206,6 +206,7 @@ const constBufferReturningFunctions = {
 /// Methods which do not throw exceptions, and thus not need to be checked
 const _noCheckException = {
   'GetVersion',
+  'GetStringCritical',
   'ExceptionClear',
   'ExceptionDescribe',
 };

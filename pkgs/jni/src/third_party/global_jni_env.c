@@ -2181,10 +2181,6 @@ jthrowable globalEnv_ReleasePrimitiveArrayCritical(jarray array,
 JniPointerResult globalEnv_GetStringCritical(jstring str, jboolean* isCopy) {
   attach_thread();
   const jchar* _result = (*jniEnv)->GetStringCritical(jniEnv, str, isCopy);
-  jthrowable _exception = check_exception();
-  if (_exception != NULL) {
-    return (JniPointerResult){.value = NULL, .exception = _exception};
-  }
   return (JniPointerResult){.value = _result, .exception = NULL};
 }
 

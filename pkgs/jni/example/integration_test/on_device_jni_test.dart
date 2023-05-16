@@ -9,6 +9,7 @@ import '../../test/exception_test.dart' as exception_test;
 import '../../test/jlist_test.dart' as jlist_test;
 import '../../test/jmap_test.dart' as jmap_test;
 import '../../test/jobject_test.dart' as jobject_test;
+import '../../test/jstring_test.dart' as jstring_test;
 import '../../test/jset_test.dart' as jset_test;
 import '../../test/jarray_test.dart' as jarray_test;
 import '../../test/boxed_test.dart' as boxed_test;
@@ -26,6 +27,7 @@ void main() {
     jlist_test.run,
     jmap_test.run,
     jobject_test.run,
+    jstring_test.run,
     jset_test.run,
     jarray_test.run,
     boxed_test.run,
