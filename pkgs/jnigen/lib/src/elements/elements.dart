@@ -278,7 +278,7 @@ class PrimitiveType extends ReferredType {
       signature: 'C',
       dartType: 'int',
       jniType: 'jchar',
-      cType: 'char',
+      cType: 'uint16_t',
       ffiType: 'Uint16',
     ),
     'int': PrimitiveType._(

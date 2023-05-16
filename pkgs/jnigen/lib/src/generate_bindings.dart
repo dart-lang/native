@@ -5,6 +5,7 @@
 import 'dart:io';
 import 'dart:convert';
 
+import 'bindings/c_generator.dart';
 import 'bindings/dart_generator.dart';
 import 'bindings/excluder.dart';
 import 'bindings/linker.dart';
@@ -13,7 +14,6 @@ import 'elements/elements.dart';
 import 'summary/summary.dart';
 import 'config/config.dart';
 import 'tools/tools.dart';
-import 'writers/bindings_writer.dart';
 import 'logging/logging.dart';
 
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
@@ -34,14 +34,14 @@ Future<void> generateJniBindings(Config config) async {
     log.fatal(e.message);
   }
 
-  final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
   classes
     ..accept(Excluder(config))
     ..accept(Linker(config))
     ..accept(Renamer(config));
 
+  final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
   if (cBased) {
-    await writeCBindings(config, classes.decls.values.toList());
+    await classes.accept(CGenerator(config));
   }
 
   try {
