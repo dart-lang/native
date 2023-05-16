@@ -224,6 +224,7 @@ class Target implements Comparable<Target> {
   static const fuchsiaX64 = Target._(Abi.fuchsiaX64);
   static const iOSArm = Target._(Abi.iosArm);
   static const iOSArm64 = Target._(Abi.iosArm64);
+  static const iOSX64 = Target._(Abi.iosX64);
   static const linuxArm = Target._(Abi.linuxArm);
   static const linuxArm64 = Target._(Abi.linuxArm64);
   static const linuxIA32 = Target._(Abi.linuxIA32);
