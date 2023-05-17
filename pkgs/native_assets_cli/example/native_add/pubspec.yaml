@@ -3,7 +3,7 @@ publish_to: none
 name: native_add
 description: Sums two numbers with native code.
 version: 0.1.0
-repository: https://github.com/dcharkes/native_assets_cli
+repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/native_add
 
 environment:
   sdk: ">=2.19.3 <4.0.0"
