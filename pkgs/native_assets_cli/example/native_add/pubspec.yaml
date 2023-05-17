@@ -17,6 +17,6 @@ dependencies:
     path: ../../
 
 dev_dependencies:
-  ffigen: ^7.2.8
+  ffigen: ^8.0.2
   lints: ^2.0.0
   test: ^1.21.0

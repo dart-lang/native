@@ -8,8 +8,7 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-// ignore: deprecated_member_use
-@ffi.FfiNative<ffi.Int32 Function(ffi.Int32, ffi.Int32)>('add')
+@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(symbol: 'add')
 external int add(
   int a,
   int b,
