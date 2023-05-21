@@ -47,14 +47,14 @@ Future<RunProcessResult> runProcess({
     includeParentEnvironment: includeParentEnvironment,
   );
 
-  process.stdout.transform(utf8.decoder).listen(
+  process.stdout.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
       logger?.fine('  $s');
       if (captureOutput) stdoutBuffer.write(s);
     },
     onDone: stdoutCompleter.complete,
   );
-  process.stderr.transform(utf8.decoder).listen(
+  process.stderr.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
       logger?.severe('  $s');
       if (captureOutput) stderrBuffer.write(s);
