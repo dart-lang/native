@@ -139,7 +139,12 @@ native-assets:
   });
 
   test('AssetPath factory', () async {
-    expect(() => AssetPath('wrong', null), throwsFormatException);
+    expect(
+      () => AssetPath('wrong', null),
+      throwsA(predicate(
+        (e) => e is FormatException && e.message.contains('Unknown pathType'),
+      )),
+    );
   });
 
   test('Asset hashCode copyWith', () async {

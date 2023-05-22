@@ -100,7 +100,12 @@ version: ${BuildOutput.version}''';
     test('BuildOutput version $version', () {
       expect(
         () => BuildOutput.fromYamlString('version: $version'),
-        throwsFormatException,
+        throwsA(predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(version) &&
+              e.message.contains(BuildConfig.version.toString()),
+        )),
       );
     });
   }
