@@ -76,7 +76,8 @@ Future<RunProcessResult> runProcess({
     throw ProcessException(
       executable.toFilePath(),
       arguments,
-      "Full command string: '$commandString'."
+      "Full command string: '$commandString'.\n"
+      "Exit code: '$exitCode'.\n"
       'For the output of the process check the logger output.',
     );
   }
