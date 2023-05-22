@@ -24,6 +24,20 @@ Future<RunProcessResult> runProcess({
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
 }) async {
+  if (Platform.isWindows && !includeParentEnvironment) {
+    const winEnvKeys = [
+      'SYSTEMROOT',
+    ];
+    final newEnvironment = {
+      ...{
+        for (final winEnvKey in winEnvKeys)
+          winEnvKey: Platform.environment[winEnvKey]!,
+      },
+      if (environment != null) ...environment,
+    };
+    environment = newEnvironment;
+  }
+
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
   final commandString = [
@@ -50,14 +64,14 @@ Future<RunProcessResult> runProcess({
 
   process.stdout.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
-      logger?.fine('  $s');
+      logger?.fine(s);
       if (captureOutput) stdoutBuffer.write(s);
     },
     onDone: stdoutCompleter.complete,
   );
   process.stderr.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
-      logger?.severe('  $s');
+      logger?.severe(s);
       if (captureOutput) stderrBuffer.write(s);
     },
     onDone: stderrCompleter.complete,
