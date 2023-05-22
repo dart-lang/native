@@ -254,4 +254,5 @@ class VisualStudioResolver implements ToolResolver {
   }
 }
 
-const _newLine = '\r\n';
+// runProcess uses writeln which uses '\n'.
+const _newLine = '\n';

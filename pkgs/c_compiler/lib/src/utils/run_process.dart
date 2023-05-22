@@ -24,6 +24,20 @@ Future<RunProcessResult> runProcess({
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
 }) async {
+  if (Platform.isWindows && !includeParentEnvironment) {
+    const winEnvKeys = [
+      'SYSTEMROOT',
+    ];
+    final newEnvironment = {
+      ...{
+        for (final winEnvKey in winEnvKeys)
+          winEnvKey: Platform.environment[winEnvKey]!,
+      },
+      if (environment != null) ...environment,
+    };
+    environment = newEnvironment;
+  }
+
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
   final commandString = [
@@ -45,19 +59,20 @@ Future<RunProcessResult> runProcess({
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
     includeParentEnvironment: includeParentEnvironment,
+    runInShell: Platform.isWindows && !includeParentEnvironment,
   );
 
-  process.stdout.transform(utf8.decoder).listen(
+  process.stdout.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
-      logger?.fine('  $s');
-      if (captureOutput) stdoutBuffer.write(s);
+      logger?.fine(s);
+      if (captureOutput) stdoutBuffer.writeln(s);
     },
     onDone: stdoutCompleter.complete,
   );
-  process.stderr.transform(utf8.decoder).listen(
+  process.stderr.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
-      logger?.severe('  $s');
-      if (captureOutput) stderrBuffer.write(s);
+      logger?.severe(s);
+      if (captureOutput) stderrBuffer.writeln(s);
     },
     onDone: stderrCompleter.complete,
   );
@@ -76,7 +91,8 @@ Future<RunProcessResult> runProcess({
     throw ProcessException(
       executable.toFilePath(),
       arguments,
-      "Full command string: '$commandString'."
+      "Full command string: '$commandString'.\n"
+      "Exit code: '$exitCode'.\n"
       'For the output of the process check the logger output.',
     );
   }
