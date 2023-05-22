@@ -45,6 +45,7 @@ Future<RunProcessResult> runProcess({
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
     includeParentEnvironment: includeParentEnvironment,
+    runInShell: Platform.isWindows && !includeParentEnvironment,
   );
 
   process.stdout.transform(utf8.decoder).transform(const LineSplitter()).listen(
