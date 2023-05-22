@@ -65,14 +65,14 @@ Future<RunProcessResult> runProcess({
   process.stdout.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
       logger?.fine(s);
-      if (captureOutput) stdoutBuffer.write(s);
+      if (captureOutput) stdoutBuffer.writeln(s);
     },
     onDone: stdoutCompleter.complete,
   );
   process.stderr.transform(utf8.decoder).transform(const LineSplitter()).listen(
     (s) {
       logger?.severe(s);
-      if (captureOutput) stderrBuffer.write(s);
+      if (captureOutput) stderrBuffer.writeln(s);
     },
     onDone: stderrCompleter.complete,
   );
