@@ -97,9 +97,9 @@ void main() {
       final bytes2 = await File.fromUri(lib2Uri).readAsBytes();
       final bytes3 = await File.fromUri(lib3Uri).readAsBytes();
       // Different API levels should lead to a different binary.
-      expect(bytes1.equals(bytes2), false);
+      expect(bytes1, isNot(bytes2));
       // Identical API levels should lead to an identical binary.
-      expect(bytes2.equals(bytes3), true);
+      expect(bytes2, bytes3);
     });
   });
 }
@@ -125,8 +125,8 @@ Future<Uri> buildLib(
   final buildOutput = BuildOutput();
 
   final cbuilder = CBuilder.library(
-    name: 'add',
-    assetName: 'add',
+    name: name,
+    assetName: name,
     sources: [addCUri.toFilePath()],
   );
   await cbuilder.run(

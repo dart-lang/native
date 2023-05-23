@@ -53,8 +53,8 @@ void main() {
             final buildOutput = BuildOutput();
 
             final cbuilder = CBuilder.library(
-              name: 'add',
-              assetName: 'add',
+              name: name,
+              assetName: name,
               sources: [addCUri.toFilePath()],
             );
             await cbuilder.run(
