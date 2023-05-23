@@ -63,6 +63,7 @@ void main() async {
       outDir: outDir2Uri,
       packageRoot: tempUri,
       target: Target.androidArm64,
+      targetAndroidNdkApi: 30,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -88,6 +89,7 @@ void main() async {
       outDir: outDirUri,
       packageRoot: packageRootUri,
       target: Target.androidArm64,
+      targetAndroidNdkApi: 30,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -95,6 +97,7 @@ void main() async {
       'out_dir': outDirUri.toFilePath(),
       'package_root': packageRootUri.toFilePath(),
       'target': 'android_arm64',
+      'target_android_ndk_api': 30,
       'link_mode_preference': 'prefer-static',
       'version': BuildOutput.version.toString(),
     });
@@ -127,6 +130,7 @@ void main() async {
       outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
+      targetAndroidNdkApi: 30,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
@@ -143,6 +147,7 @@ void main() async {
       outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
+      targetAndroidNdkApi: 30,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
@@ -213,28 +218,67 @@ version: ${BuildConfig.version}''';
   test('BuildConfig FormatExceptions', () {
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {})),
-      throwsFormatException,
+      throwsA(predicate(
+        (e) =>
+            e is FormatException &&
+            e.message.contains(
+              'No value was provided for required key: target',
+            ),
+      )),
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
+        'version': BuildConfig.version.toString(),
         'package_root': packageRootUri.toFilePath(),
         'target': 'android_arm64',
+        'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
       })),
-      throwsFormatException,
+      throwsA(predicate(
+        (e) =>
+            e is FormatException &&
+            e.message.contains(
+              'No value was provided for required key: out_dir',
+            ),
+      )),
     );
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
+        'version': BuildConfig.version.toString(),
         'out_dir': outDirUri.toFilePath(),
         'package_root': packageRootUri.toFilePath(),
         'target': 'android_arm64',
+        'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
         'dependency_metadata': {
           'bar': {'key': 'value'},
           'foo': <int>[],
         },
       })),
-      throwsFormatException,
+      throwsA(predicate(
+        (e) =>
+            e is FormatException &&
+            e.message.contains(
+              "Unexpected value '[]' for key 'dependency_metadata.foo' in "
+              'config file. Expected a Map.',
+            ),
+      )),
+    );
+    expect(
+      () => BuildConfig.fromConfig(Config(fileParsed: {
+        'out_dir': outDirUri.toFilePath(),
+        'version': BuildConfig.version.toString(),
+        'package_root': packageRootUri.toFilePath(),
+        'target': 'android_arm64',
+        'link_mode_preference': 'prefer-static',
+      })),
+      throwsA(predicate(
+        (e) =>
+            e is FormatException &&
+            e.message.contains(
+              'No value was provided for required key: target_android_ndk_api',
+            ),
+      )),
     );
   });
 
@@ -271,6 +315,7 @@ version: ${BuildConfig.version}''';
       outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
+      targetAndroidNdkApi: 30,
       linkModePreference: LinkModePreference.preferStatic,
     );
     final configFileContents = buildConfig.toYamlString();
@@ -289,6 +334,7 @@ version: ${BuildConfig.version}''';
       outDir: outDirUri,
       packageRoot: tempUri,
       target: Target.androidArm64,
+      targetAndroidNdkApi: 30,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
@@ -337,7 +383,15 @@ version: ${BuildConfig.version}''';
         'target': 'linux_x64',
         'version': version,
       });
-      expect(() => BuildConfig.fromConfig(config), throwsFormatException);
+      expect(
+        () => BuildConfig.fromConfig(config),
+        throwsA(predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(version) &&
+              e.message.contains(BuildConfig.version.toString()),
+        )),
+      );
     });
   }
 
@@ -354,7 +408,7 @@ version: ${BuildConfig.version}''';
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '96819d83ae789cb65752986a4abb4071');
+      expect(name1, '02dce8b58210deaf9f278772e892d01f');
 
       // Build folder different due to metadata.
       final name2 = BuildConfig.checksum(

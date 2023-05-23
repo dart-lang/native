@@ -95,7 +95,9 @@ class RunCBuilder {
           // The sysroot should be discovered automatically after NDK 22.
           // Workaround:
           if (dynamicLibrary != null) '-nostartfiles',
-          '--target=${androidNdkClangTargetFlags[target]!}',
+          '--target='
+              '${androidNdkClangTargetFlags[target]!}'
+              '${buildConfig.targetAndroidNdkApi!}',
         ],
         if (target.os == OS.macOS || target.os == OS.iOS)
           '--target=${appleClangTargetFlags[target]!}',

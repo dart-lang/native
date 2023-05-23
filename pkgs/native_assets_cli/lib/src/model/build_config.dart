@@ -39,6 +39,12 @@ class BuildConfig {
   IOSSdk? get targetIOSSdk => _targetIOSSdk;
   late final IOSSdk? _targetIOSSdk;
 
+  /// When compiling for Android, the API version to target.
+  ///
+  /// Required when [target.os] equals [OS.android].
+  int? get targetAndroidNdkApi => _targetAndroidNdkApi;
+  late final int? _targetAndroidNdkApi;
+
   /// Preferred linkMode method for library.
   LinkModePreference get linkModePreference => _linkModePreference;
   late final LinkModePreference _linkModePreference;
@@ -66,6 +72,7 @@ class BuildConfig {
     required Uri packageRoot,
     required Target target,
     IOSSdk? targetIOSSdk,
+    int? targetAndroidNdkApi,
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
@@ -75,6 +82,7 @@ class BuildConfig {
       .._packageRoot = packageRoot
       .._target = target
       .._targetIOSSdk = targetIOSSdk
+      .._targetAndroidNdkApi = targetAndroidNdkApi
       .._cCompiler = cCompiler ?? CCompilerConfig()
       .._linkModePreference = linkModePreference
       .._dependencyMetadata = dependencyMetadata;
@@ -94,6 +102,7 @@ class BuildConfig {
     required Uri packageRoot,
     required Target target,
     IOSSdk? targetIOSSdk,
+    int? targetAndroidNdkApi,
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
@@ -103,6 +112,7 @@ class BuildConfig {
       packageName,
       target.toString(),
       targetIOSSdk.toString(),
+      targetAndroidNdkApi.toString(),
       linkModePreference.toString(),
       cCompiler?.ar.toString(),
       cCompiler?.cc.toString(),
@@ -184,6 +194,7 @@ class BuildConfig {
   static const packageRootConfigKey = 'package_root';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
   static const _versionKey = 'version';
+  static const targetAndroidNdkApiConfigKey = 'target_android_ndk_api';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var targetSet = false;
@@ -226,6 +237,9 @@ class BuildConfig {
                 validValues: IOSSdk.values.map((e) => '$e'),
               ),
             )
+          : null,
+      (config) => _targetAndroidNdkApi = (targetSet && _target.os == OS.android)
+          ? config.int(targetAndroidNdkApiConfigKey)
           : null,
       (config) => cCompiler._ar =
           config.optionalPath(CCompilerConfig.arConfigKeyFull, mustExist: true),
@@ -292,6 +306,8 @@ class BuildConfig {
       packageRootConfigKey: _packageRoot.toFilePath(),
       Target.configKey: _target.toString(),
       if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
+      if (_targetAndroidNdkApi != null)
+        targetAndroidNdkApiConfigKey: _targetAndroidNdkApi!,
       if (cCompilerYaml.isNotEmpty) CCompilerConfig.configKey: cCompilerYaml,
       LinkModePreference.configKey: _linkModePreference.toString(),
       if (_dependencyMetadata != null)
@@ -314,6 +330,7 @@ class BuildConfig {
     if (other._packageRoot != _packageRoot) return false;
     if (other._target != _target) return false;
     if (other._targetIOSSdk != _targetIOSSdk) return false;
+    if (other._targetAndroidNdkApi != _targetAndroidNdkApi) return false;
     if (other._cCompiler != _cCompiler) return false;
     if (other._linkModePreference != _linkModePreference) return false;
     if (!DeepCollectionEquality()
@@ -327,6 +344,7 @@ class BuildConfig {
         _packageRoot,
         _target,
         _targetIOSSdk,
+        _targetAndroidNdkApi,
         _cCompiler,
         _linkModePreference,
         DeepCollectionEquality().hash(_dependencyMetadata),

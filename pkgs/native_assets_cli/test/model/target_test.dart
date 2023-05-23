@@ -27,11 +27,26 @@ void main() {
   test('Target fromDartPlatform', () async {
     final current = Target.fromDartPlatform(Platform.version);
     expect(current.toString(), Abi.current().toString());
-    expect(() => Target.fromDartPlatform('bogus'), throwsFormatException);
     expect(
-        () => Target.fromDartPlatform(
-            '3.0.0 (be) (Wed Apr 5 14:19:42 2023 +0000) on "myfancyos_ia32"'),
-        throwsFormatException);
+      () => Target.fromDartPlatform('bogus'),
+      throwsA(predicate(
+        (e) =>
+            e is FormatException &&
+            e.message.contains('bogus') &&
+            e.message.contains('Unknown version'),
+      )),
+    );
+    expect(
+      () => Target.fromDartPlatform(
+        '3.0.0 (be) (Wed Apr 5 14:19:42 2023 +0000) on "myfancyos_ia32"',
+      ),
+      throwsA(predicate(
+        (e) =>
+            e is FormatException &&
+            e.message.contains('myfancyos_ia32') &&
+            e.message.contains('Unknown ABI'),
+      )),
+    );
   });
 
   test('Target cross compilation', () async {
