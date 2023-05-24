@@ -99,35 +99,25 @@ Future<RunProcessResult> runProcess({
   return result;
 }
 
-class RunProcessResult extends ProcessResult {
+/// Drop in replacement of [ProcessResult].
+class RunProcessResult {
+  final int pid;
+
   final String command;
 
-  final int _exitCode;
+  final int exitCode;
 
-  // For some reason super.exitCode returns 0.
-  @override
-  int get exitCode => _exitCode;
+  final String stderr;
 
-  final String _stderrString;
-
-  @override
-  String get stderr => _stderrString;
-
-  final String _stdoutString;
-
-  @override
-  String get stdout => _stdoutString;
+  final String stdout;
 
   RunProcessResult({
-    required int pid,
+    required this.pid,
     required this.command,
-    required int exitCode,
-    required String stderr,
-    required String stdout,
-  })  : _exitCode = exitCode,
-        _stderrString = stderr,
-        _stdoutString = stdout,
-        super(pid, exitCode, stdout, stderr);
+    required this.exitCode,
+    required this.stderr,
+    required this.stdout,
+  });
 
   @override
   String toString() => '''command: $command
