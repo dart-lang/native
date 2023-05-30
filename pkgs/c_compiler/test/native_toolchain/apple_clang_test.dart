@@ -47,4 +47,12 @@ void main() {
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
   });
+
+  test('otool test', () async {
+    final requirement = ToolRequirement(otool);
+    final resolved = await otool.defaultResolver!.resolve(logger: logger);
+    expect(resolved.isNotEmpty, true);
+    final satisfied = requirement.satisfy(resolved);
+    expect(satisfied?.length, 1);
+  });
 }

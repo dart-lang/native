@@ -45,3 +45,16 @@ final Tool appleLd = Tool(
     ),
   ]),
 );
+
+/// The Mach-O dumping tool.
+///
+/// https://llvm.org/docs/CommandGuide/llvm-otool.html
+final Tool otool = Tool(
+  name: 'otool',
+  defaultResolver: CliVersionResolver(
+    wrappedResolver: PathToolResolver(
+      toolName: 'otool',
+      executableName: 'otool',
+    ),
+  ),
+);
