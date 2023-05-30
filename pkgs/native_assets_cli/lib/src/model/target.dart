@@ -249,6 +249,7 @@ class Target implements Comparable<Target> {
     fuchsiaX64,
     iOSArm,
     iOSArm64,
+    iOSX64,
     linuxArm,
     linuxArm64,
     linuxIA32,

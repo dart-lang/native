@@ -208,6 +208,7 @@ class RunCBuilder {
 
   static const appleClangTargetFlags = {
     Target.iOSArm64: 'arm64-apple-ios',
+    Target.iOSX64: 'x86_64-apple-ios',
     Target.macOSArm64: 'arm64-apple-darwin',
     Target.macOSX64: 'x86_64-apple-darwin',
   };

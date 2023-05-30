@@ -25,16 +25,21 @@ void main() {
 
   const targets = [
     Target.iOSArm64,
+    Target.iOSX64,
   ];
 
   // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
     Target.iOSArm64: 'arm64',
+    Target.iOSX64: '64-bit x86-64',
   };
 
   for (final linkMode in LinkMode.values) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
+        if (target == Target.iOSX64 && targetIOSSdk == IOSSdk.iPhoneOs) {
+          continue;
+        }
         test('Cbuilder $linkMode library $targetIOSSdk $target', () async {
           await inTempDir((tempUri) async {
             final addCUri =
