@@ -493,7 +493,7 @@ class PDFTextStripper extends jni.JObject {
   ///@throws IOException If there is an error when writing the text.
   void writeString(
     jni.JString text,
-    jni.JObject textPositions,
+    jni.JList<jni.JObject> textPositions,
   ) {
     return _writeString(reference, text.reference, textPositions.reference)
         .check();
@@ -726,8 +726,8 @@ class PDFTextStripper extends jni.JObject {
   /// Character strings are grouped by articles. It is quite common that there will only be a single article. This
   /// returns a List that contains List objects, the inner lists will contain TextPosition objects.
   ///@return A double List of TextPositions for all text strings on the page.
-  jni.JObject getCharactersByArticle() {
-    return const jni.JObjectType()
+  jni.JList<jni.JList<jni.JObject>> getCharactersByArticle() {
+    return const jni.JListType(jni.JListType(jni.JObjectType()))
         .fromRef(_getCharactersByArticle(reference).object);
   }
 
@@ -1331,7 +1331,7 @@ class PDFTextStripper extends jni.JObject {
   /// use to supply a different set of regular expression patterns for matching list item starts.
   ///@param patterns list of patterns
   void setListItemPatterns(
-    jni.JObject patterns,
+    jni.JList<jni.JObject> patterns,
   ) {
     return _setListItemPatterns(reference, patterns.reference).check();
   }
@@ -1361,8 +1361,8 @@ class PDFTextStripper extends jni.JObject {
   ///
   /// This method returns a list of such regular expression Patterns.
   ///@return a list of Pattern objects.
-  jni.JObject getListItemPatterns() {
-    return const jni.JObjectType()
+  jni.JList<jni.JObject> getListItemPatterns() {
+    return const jni.JListType(jni.JObjectType())
         .fromRef(_getListItemPatterns(reference).object);
   }
 
@@ -1389,7 +1389,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return matching pattern
   static jni.JObject matchPattern(
     jni.JString string,
-    jni.JObject patterns,
+    jni.JList<jni.JObject> patterns,
   ) {
     return const jni.JObjectType()
         .fromRef(_matchPattern(string.reference, patterns.reference).object);

@@ -1,5 +1,6 @@
-## 0.5.0-dev.0
+## 0.5.0
 * **Breaking Change** ([#72](https://github.com/dart-lang/jnigen/issues/72)): Removed support for `importMap` in favor of the newly added interop mechanism with importing yaml files.
+* **Breaking Change** ([#72](https://github.com/dart-lang/jnigen/issues/72)): `java.util.Set`, `java.util.Map`, `java.util.List`, `java.util.Iterator` and the boxed types like `java.lang.Integer`, `java.lang.Double`, ... will be generated as their corresponding classes in `package:jni`.
 * Strings now use UTF16.
 
 ## 0.4.0

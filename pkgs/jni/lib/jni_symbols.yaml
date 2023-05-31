@@ -9,4 +9,65 @@ files:
       name: JString
       type_class: JStringType
       super_count: 1
-
+    'java.lang.Number':
+      name: JNumber
+      type_class: JNumberType
+      super_count: 1
+    'java.lang.Byte':
+      name: JByte
+      type_class: JByteType
+      super_count: 2
+    'java.lang.Short':
+      name: JShort
+      type_class: JShortType
+      super_count: 2
+    'java.lang.Integer':
+      name: JInteger
+      type_class: JIntegerType
+      super_count: 2
+    'java.lang.Long':
+      name: JLong
+      type_class: JLongType
+      super_count: 2
+    'java.lang.Float':
+      name: JFloat
+      type_class: JFloatType
+      super_count: 2
+    'java.lang.Double':
+      name: JDouble
+      type_class: JDoubleType
+      super_count: 2
+    'java.lang.Boolean':
+      name: JBoolean
+      type_class: JBooleanType
+      super_count: 1
+    'java.util.Set':
+      name: JSet
+      type_class: JSetType
+      super_count: 1
+      type_params:
+        E:
+          'java.lang.Object': DECLARED
+    'java.util.List':
+      name: JList
+      type_class: JListType
+      super_count: 1
+      type_params:
+        E:
+          'java.lang.Object': DECLARED
+    'java.util.Iterator':
+      name: JIterator
+      type_class: JIteratorType
+      super_count: 1
+      type_params:
+        E:
+          'java.lang.Object': DECLARED
+    'java.util.Map':
+      name: JMap
+      type_class: JMapType
+      super_count: 1
+      type_params:
+        K:
+          'java.lang.Object': DECLARED
+        V:
+          'java.lang.Object': DECLARED

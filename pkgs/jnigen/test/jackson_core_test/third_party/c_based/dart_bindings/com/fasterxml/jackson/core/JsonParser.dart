@@ -1101,8 +1101,9 @@ class JsonParser extends jni.JObject {
   ///   token parser advanced to; or {@code null} if next token is of some other type
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  jni.JObject nextBooleanValue() {
-    return const jni.JObjectType().fromRef(_nextBooleanValue(reference).object);
+  jni.JBoolean nextBooleanValue() {
+    return const jni.JBooleanType()
+        .fromRef(_nextBooleanValue(reference).object);
   }
 
   static final _skipChildren = jniLookup<
@@ -1681,8 +1682,8 @@ class JsonParser extends jni.JObject {
   ///    the current token is not numeric, or if decoding of the value fails
   ///    (invalid format for numbers); plain IOException if underlying
   ///    content read fails (possible if values are extracted lazily)
-  jni.JObject getNumberValue() {
-    return const jni.JObjectType().fromRef(_getNumberValue(reference).object);
+  jni.JNumber getNumberValue() {
+    return const jni.JNumberType().fromRef(_getNumberValue(reference).object);
   }
 
   static final _getNumberValueExact = jniLookup<
@@ -1708,8 +1709,8 @@ class JsonParser extends jni.JObject {
   ///    (invalid format for numbers); plain IOException if underlying
   ///    content read fails (possible if values are extracted lazily)
   ///@since 2.12
-  jni.JObject getNumberValueExact() {
-    return const jni.JObjectType()
+  jni.JNumber getNumberValueExact() {
+    return const jni.JNumberType()
         .fromRef(_getNumberValueExact(reference).object);
   }
 
@@ -2573,11 +2574,11 @@ class JsonParser extends jni.JObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni.JObject readValuesAs<$T extends jni.JObject>(
+  jni.JIterator<$T> readValuesAs<$T extends jni.JObject>(
     jni.JObject valueType, {
     required jni.JObjType<$T> T,
   }) {
-    return const jni.JObjectType()
+    return jni.JIteratorType(T)
         .fromRef(_readValuesAs(reference, valueType.reference).object);
   }
 
@@ -2600,11 +2601,11 @@ class JsonParser extends jni.JObject {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni.JObject readValuesAs1<$T extends jni.JObject>(
+  jni.JIterator<$T> readValuesAs1<$T extends jni.JObject>(
     jni.JObject valueTypeRef, {
     required jni.JObjType<$T> T,
   }) {
-    return const jni.JObjectType()
+    return jni.JIteratorType(T)
         .fromRef(_readValuesAs1(reference, valueTypeRef.reference).object);
   }
 

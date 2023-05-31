@@ -1201,7 +1201,7 @@ class EmojiCompat_Config extends jni.JObject {
   ///                                      be used instead.
   EmojiCompat_Config setUseEmojiAsDefaultStyle1(
     bool useEmojiAsDefaultStyle,
-    jni.JObject emojiAsDefaultStyleExceptions,
+    jni.JList<jni.JInteger> emojiAsDefaultStyleExceptions,
   ) {
     return const $EmojiCompat_ConfigType().fromRef(_setUseEmojiAsDefaultStyle1(
             reference,
@@ -2094,14 +2094,15 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 
   /// from: public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int flags)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JObject queryIntentContentProviders(
+  jni.JList<jni.JObject> queryIntentContentProviders(
     jni.JObject packageManager,
     jni.JObject intent,
     int flags,
   ) {
-    return const jni.JObjectType().fromRef(_queryIntentContentProviders(
-            reference, packageManager.reference, intent.reference, flags)
-        .object);
+    return const jni.JListType(jni.JObjectType()).fromRef(
+        _queryIntentContentProviders(
+                reference, packageManager.reference, intent.reference, flags)
+            .object);
   }
 
   static final _getProviderInfo = jniLookup<
@@ -2227,14 +2228,15 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Get the content provider by intent.
-  jni.JObject queryIntentContentProviders(
+  jni.JList<jni.JObject> queryIntentContentProviders(
     jni.JObject packageManager,
     jni.JObject intent,
     int flags,
   ) {
-    return const jni.JObjectType().fromRef(_queryIntentContentProviders(
-            reference, packageManager.reference, intent.reference, flags)
-        .object);
+    return const jni.JListType(jni.JObjectType()).fromRef(
+        _queryIntentContentProviders(
+                reference, packageManager.reference, intent.reference, flags)
+            .object);
   }
 
   static final _getProviderInfo = jniLookup<
@@ -2686,8 +2688,8 @@ class Build extends jni.JObject {
 
   /// from: static public java.util.List getFingerprintedPartitions()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JObject getFingerprintedPartitions() {
-    return const jni.JObjectType()
+  static jni.JList<jni.JObject> getFingerprintedPartitions() {
+    return const jni.JListType(jni.JObjectType())
         .fromRef(_getFingerprintedPartitions().object);
   }
 
@@ -2806,10 +2808,16 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public void <init>(java.util.Map map)
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory HashMap.ctor3(
-    jni.JObject map, {
-    required jni.JObjType<$K> K,
-    required jni.JObjType<$V> V,
+    jni.JMap<$K, $V> map, {
+    jni.JObjType<$K>? K,
+    jni.JObjType<$V>? V,
   }) {
+    K ??= jni.lowestCommonSuperType([
+      (map.$type as jni.JMapType).K,
+    ]) as jni.JObjType<$K>;
+    V ??= jni.lowestCommonSuperType([
+      (map.$type as jni.JMapType).V,
+    ]) as jni.JObjType<$V>;
     return HashMap.fromRef(K, V, _ctor3(map.reference).object);
   }
 
@@ -2895,7 +2903,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public void putAll(java.util.Map map)
   void putAll(
-    jni.JObject map,
+    jni.JMap<$K, $V> map,
   ) {
     return _putAll(reference, map.reference).check();
   }
@@ -2948,8 +2956,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public java.util.Set keySet()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JObject keySet() {
-    return const jni.JObjectType().fromRef(_keySet(reference).object);
+  jni.JSet<$K> keySet() {
+    return jni.JSetType(K).fromRef(_keySet(reference).object);
   }
 
   static final _values = jniLookup<
@@ -2971,8 +2979,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public java.util.Set entrySet()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JObject entrySet() {
-    return const jni.JObjectType().fromRef(_entrySet(reference).object);
+  jni.JSet<jni.JObject> entrySet() {
+    return const jni.JSetType(jni.JObjectType())
+        .fromRef(_entrySet(reference).object);
   }
 
   static final _getOrDefault = jniLookup<

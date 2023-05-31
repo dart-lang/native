@@ -1,4 +1,4 @@
-## 0.5.0-dev.0
+## 0.5.0
 * **Breaking Change** ([#137](https://github.com/dart-lang/jnigen/issues/137)): Java primitive types are now all lowercase like `jint`, `jshort`, ...
 * The bindings for `java.util.Set`, `java.util.Map`, `java.util.List` and the numeric types like `java.lang.Integer`, `java.lang.Boolean`, ... are now included in `package:jni`.
 

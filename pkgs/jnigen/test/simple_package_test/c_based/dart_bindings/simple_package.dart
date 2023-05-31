@@ -949,12 +949,12 @@ class Fields extends jni.JObject {
 
   /// from: public java.lang.Integer i
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JObject get i =>
-      const jni.JObjectType().fromRef(_get_i(reference).object);
+  jni.JInteger get i =>
+      const jni.JIntegerType().fromRef(_get_i(reference).object);
 
   /// from: public java.lang.Integer i
   /// The returned object must be deleted after use, by calling the `delete` method.
-  set i(jni.JObject value) => _set_i(reference, value.reference).check();
+  set i(jni.JInteger value) => _set_i(reference, value.reference).check();
 
   static final _get_trillion = jniLookup<
           ffi.NativeFunction<

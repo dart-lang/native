@@ -315,7 +315,7 @@ class PDDocument extends jni.JObject {
   ///@deprecated The method is misleading, because only one signature may be
   /// added in a document. The method will be removed in the future.
   void addSignatureField(
-    jni.JObject sigFields,
+    jni.JList<jni.JObject> sigFields,
     jni.JObject signatureInterface,
     jni.JObject options,
   ) {
@@ -553,8 +553,8 @@ class PDDocument extends jni.JObject {
   /// Retrieve all signature fields from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni.JObject getSignatureFields() {
-    return const jni.JObjectType()
+  jni.JList<jni.JObject> getSignatureFields() {
+    return const jni.JListType(jni.JObjectType())
         .fromRef(_getSignatureFields(reference).object);
   }
 
@@ -570,8 +570,8 @@ class PDDocument extends jni.JObject {
   /// Retrieve all signature dictionaries from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni.JObject getSignatureDictionaries() {
-    return const jni.JObjectType()
+  jni.JList<jni.JObject> getSignatureDictionaries() {
+    return const jni.JListType(jni.JObjectType())
         .fromRef(_getSignatureDictionaries(reference).object);
   }
 
@@ -1206,7 +1206,7 @@ class PDDocument extends jni.JObject {
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
   void saveIncremental1(
     jni.JObject output,
-    jni.JObject objectsToWrite,
+    jni.JSet<jni.JObject> objectsToWrite,
   ) {
     return _saveIncremental1(
             reference, output.reference, objectsToWrite.reference)
@@ -1422,8 +1422,8 @@ class PDDocument extends jni.JObject {
   ///
   /// Provides the document ID.
   ///@return the document ID
-  jni.JObject getDocumentId() {
-    return const jni.JObjectType().fromRef(_getDocumentId(reference).object);
+  jni.JLong getDocumentId() {
+    return const jni.JLongType().fromRef(_getDocumentId(reference).object);
   }
 
   static final _setDocumentId = jniLookup<
@@ -1439,7 +1439,7 @@ class PDDocument extends jni.JObject {
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
   void setDocumentId(
-    jni.JObject docId,
+    jni.JLong docId,
   ) {
     return _setDocumentId(reference, docId.reference).check();
   }

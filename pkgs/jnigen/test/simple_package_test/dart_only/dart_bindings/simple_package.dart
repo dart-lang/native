@@ -893,13 +893,13 @@ class Fields extends jni.JObject {
 
   /// from: public java.lang.Integer i
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JObject get i => const jni.JObjectType().fromRef(jni.Jni.accessors
+  jni.JInteger get i => const jni.JIntegerType().fromRef(jni.Jni.accessors
       .getField(reference, _id_i, jni.JniCallType.objectType)
       .object);
 
   /// from: public java.lang.Integer i
   /// The returned object must be deleted after use, by calling the `delete` method.
-  set i(jni.JObject value) =>
+  set i(jni.JInteger value) =>
       jni.Jni.env.SetObjectField(reference, _id_i, value.reference);
 
   static final _id_trillion = jni.Jni.accessors.getFieldIDOf(
