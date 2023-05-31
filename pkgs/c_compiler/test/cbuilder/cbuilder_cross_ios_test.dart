@@ -102,6 +102,20 @@ void main() {
                       Uri.directory(tempName).resolve(libName).toFilePath();
                   expect(Uri.file(libInstallName).isAbsolute, true);
                   expect(libInstallName, contains(pathEnding));
+                  final targetInstallName =
+                      '@executable_path/Frameworks/$libName';
+                  await runProcess(
+                    executable: Uri.file('install_name_tool'),
+                    arguments: [
+                      '-id',
+                      targetInstallName,
+                      libUri.toFilePath(),
+                    ],
+                    logger: logger,
+                  );
+                  final libInstallName2 =
+                      await runOtoolInstallName(libUri, libName);
+                  expect(libInstallName2, targetInstallName);
                 } else {
                   expect(libInstallName, installName.toFilePath());
                 }
