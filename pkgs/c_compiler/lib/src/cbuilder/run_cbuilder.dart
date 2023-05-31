@@ -25,6 +25,13 @@ class RunCBuilder {
   final Uri outDir;
   final Target target;
 
+  /// The install of the [dynamicLibrary].
+  ///
+  /// Can be inspected with `otool -D <path-to-dylib>`.
+  ///
+  /// Can be modified with `install_name_tool`.
+  final Uri? installName;
+
   RunCBuilder({
     required this.buildConfig,
     this.logger,
@@ -32,6 +39,7 @@ class RunCBuilder {
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
+    this.installName,
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
@@ -109,6 +117,10 @@ class RunCBuilder {
         if (target.os == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
+        ],
+        if (installName != null) ...[
+          '-install_name',
+          installName!.toFilePath(),
         ],
         ...sources.map((e) => e.toFilePath()),
         if (executable != null) ...[
