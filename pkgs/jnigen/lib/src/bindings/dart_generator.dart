@@ -31,9 +31,6 @@ const _voidPointer = '$_ffi.Pointer<$_ffi.Void>';
 
 // Prefixes and suffixes
 const _typeParamPrefix = '\$';
-// TODO(#143): this is a temporary fix for the name collision.
-const _typeClassPrefix = '\$';
-const _typeClassSuffix = 'Type';
 
 // Misc.
 const _classRef = '_class.reference';
@@ -195,7 +192,12 @@ import "package:jni/jni.dart" as jni;
       if (cBased) {
         s.writeln(cInitCode);
       }
-      final classGenerator = _ClassGenerator(config, s);
+      final resolver = Resolver(
+        importedClasses: config.importedClasses,
+        currentClass: null, // Single file mode.
+        inputClassNames: node.decls.keys.toSet(),
+      );
+      final classGenerator = _ClassGenerator(config, s, resolver);
       for (final classDecl in node.decls.values) {
         classDecl.accept(classGenerator);
       }
@@ -249,11 +251,11 @@ import "package:jni/jni.dart" as jni;
         s.write('import "$initFilePath";');
       }
       final resolver = Resolver(
-        importMap: config.importMap ?? {},
+        importedClasses: config.importedClasses,
         currentClass: fileClassName,
         inputClassNames: node.decls.keys.toSet(),
       );
-      final classGenerator = _ClassGenerator(config, s, resolver: resolver);
+      final classGenerator = _ClassGenerator(config, s, resolver);
       for (final classDecl in classesInFile) {
         classDecl.accept(classGenerator);
       }
@@ -281,13 +283,13 @@ import "package:jni/jni.dart" as jni;
 class _ClassGenerator extends Visitor<ClassDecl, void> {
   final Config config;
   final StringSink s;
-  final Resolver? resolver;
+  final Resolver resolver;
 
   _ClassGenerator(
     this.config,
-    this.s, {
+    this.s,
     this.resolver,
-  });
+  );
 
   static const staticTypeGetter = 'type';
   static const instanceTypeGetter = '\$$staticTypeGetter';
@@ -331,7 +333,7 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
         .map((typeParam) => 'this.$typeParam,')
         .join(_newLine(depth: 2));
     final superClass = (node.classDecl.superclass!.type as DeclaredType);
-    final superTypeClassesCall = superClass.classDecl == ClassDecl.object
+    final superTypeClassesCall = superClass.classDecl.isObject()
         ? ''
         : superClass.params
             .accept(_TypeClassGenerator(resolver))
@@ -365,7 +367,7 @@ class $name$typeParamsDef extends $superName {
     // Static TypeClass getter
     s.writeln(
         '  /// The type which includes information such as the signature of this class.');
-    final typeClassName = '$_typeClassPrefix$name$_typeClassSuffix';
+    final typeClassName = node.typeClassName;
     if (typeParams.isEmpty) {
       s.writeln('static const $staticTypeGetter = $typeClassName();');
     } else {
@@ -527,7 +529,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     }
 
     final typeParams = _encloseIfNotEmpty('<', allTypeParams.join(', '), '>');
-    final prefix = resolver?.resolvePrefix(node.classDecl.binaryName) ?? '';
+    final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
     return '$prefix${node.classDecl.finalName}$typeParams';
   }
 
@@ -563,7 +565,7 @@ class _TypeClass {
 /// Generates the type class.
 class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   final bool isConst;
-  final Resolver? resolver;
+  final Resolver resolver;
 
   _TypeClassGenerator(this.resolver, {this.isConst = true});
 
@@ -573,19 +575,13 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         node.type.accept(_TypeClassGenerator(resolver, isConst: false));
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
     return _TypeClass(
-      '$ifConst$_jArray$_typeClassSuffix(${innerTypeClass.name})',
+      '$ifConst${_jArray}Type(${innerTypeClass.name})',
       innerTypeClass.canBeConst,
     );
   }
 
   @override
   _TypeClass visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.binaryName == 'java.lang.Object' ||
-        node.classDecl.binaryName == 'java.lang.String') {
-      final ifConst = isConst ? 'const ' : '';
-      return _TypeClass(
-          '$ifConst$_jni.${node.classDecl.finalName}$_typeClassSuffix()', true);
-    }
     final allTypeParams = node.classDecl.allTypeParams
         .accept(const _TypeParamGenerator(withExtends: false))
         .toList();
@@ -596,7 +592,8 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
     // Can be const if all the type parameters are defined and each of them are
     // also const.
-    final canBeConst = definedTypeClasses.every((e) => e.canBeConst);
+    final canBeConst =
+        allTypeParams.isEmpty || definedTypeClasses.every((e) => e.canBeConst);
 
     // Replacing the declared ones. They come at the end.
     // The rest will be `JObjectType`.
@@ -607,7 +604,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         List.filled(
           allTypeParams.length - node.params.length,
           // Adding const to subexpressions if the entire expression is not const.
-          '${canBeConst ? '' : 'const '}$_jObject$_typeClassSuffix()',
+          '${canBeConst ? '' : 'const '}${_jObject}Type()',
         ),
       );
       allTypeParams.replaceRange(
@@ -621,9 +618,9 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
     final args = allTypeParams.join(', ');
     final ifConst = isConst && canBeConst ? 'const ' : '';
-    final prefix = resolver?.resolvePrefix(node.classDecl.binaryName) ?? '';
+    final prefix = resolver.resolvePrefix(node.classDecl);
     return _TypeClass(
-      '$ifConst$prefix$_typeClassPrefix${node.classDecl.finalName}$_typeClassSuffix($args)',
+      '$ifConst$prefix${node.classDecl.typeClassName}($args)',
       canBeConst,
     );
   }
@@ -631,7 +628,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   @override
   _TypeClass visitPrimitiveType(PrimitiveType node) {
     final ifConst = isConst ? 'const ' : '';
-    return _TypeClass('$ifConst$_jni.${node.jniType}$_typeClassSuffix()', true);
+    return _TypeClass('$ifConst$_jni.${node.jniType}Type()', true);
   }
 
   @override
@@ -648,7 +645,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   @override
   _TypeClass visitNonPrimitiveType(ReferredType node) {
     final ifConst = isConst ? 'const ' : '';
-    return _TypeClass('$ifConst$_jObject$_typeClassSuffix()', true);
+    return _TypeClass('$ifConst${_jObject}Type()', true);
   }
 }
 
@@ -759,7 +756,7 @@ class _ToNativeSuffix extends TypeVisitor<String> {
 }
 
 class _FromNative extends TypeVisitor<String> {
-  final Resolver? resolver;
+  final Resolver resolver;
   final String value;
 
   const _FromNative(this.resolver, this.value);
@@ -778,7 +775,7 @@ class _FromNative extends TypeVisitor<String> {
 
 class _FieldGenerator extends Visitor<Field, void> {
   final Config config;
-  final Resolver? resolver;
+  final Resolver resolver;
   final StringSink s;
 
   const _FieldGenerator(this.config, this.resolver, this.s);
@@ -932,7 +929,7 @@ class _MethodTypeSig extends Visitor<Method, String> {
 /// Generates Dart bindings for Java methods.
 class _MethodGenerator extends Visitor<Method, void> {
   final Config config;
-  final Resolver? resolver;
+  final Resolver resolver;
   final StringSink s;
 
   const _MethodGenerator(this.config, this.resolver, this.s);
@@ -1181,7 +1178,7 @@ class _CtorTypeClassDef extends Visitor<TypeParam, String> {
 /// void bar(Foo foo) => ...
 /// ```
 class _ParamDef extends Visitor<Param, String> {
-  final Resolver? resolver;
+  final Resolver resolver;
 
   const _ParamDef(this.resolver);
 
@@ -1289,7 +1286,7 @@ class OutsideInBuffer {
 /// ((((a.$type as jni.JArrayType).elementType) as $JMapType).V) as jni.JObjType<$T>
 /// ```
 class _ParamTypeLocator extends Visitor<Param, Map<String, List<String>>> {
-  final Resolver? resolver;
+  final Resolver resolver;
 
   _ParamTypeLocator({required this.resolver});
 
@@ -1308,7 +1305,7 @@ class _ParamTypeLocator extends Visitor<Param, Map<String, List<String>>> {
 }
 
 class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
-  final Resolver? resolver;
+  final Resolver resolver;
 
   _TypeVarLocator({required this.resolver});
 
@@ -1334,14 +1331,13 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
 
   @override
   Map<String, List<OutsideInBuffer>> visitDeclaredType(DeclaredType node) {
-    if (node.classDecl == ClassDecl.object) {
+    if (node.classDecl.isObject()) {
       return {};
     }
     final offset = node.classDecl.allTypeParams.length - node.params.length;
     final result = <String, List<OutsideInBuffer>>{};
-    final prefix = resolver?.resolvePrefix(node.binaryName) ?? '';
-    final typeClass =
-        '$prefix$_typeClassPrefix${node.classDecl.finalName}$_typeClassSuffix';
+    final prefix = resolver.resolvePrefix(node.classDecl);
+    final typeClass = '$prefix${node.classDecl.typeClassName}';
     for (var i = 0; i < node.params.length; ++i) {
       final typeParam = node.classDecl.allTypeParams[i + offset].name;
       final exprs = node.params[i].accept(this);
@@ -1361,7 +1357,7 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
     final exprs = node.type.accept(this);
     for (final e in exprs.values.expand((i) => i)) {
       e.appendLeft('((');
-      e.prependRight(' as $_jArray$_typeClassSuffix).elementType as $_jType)');
+      e.prependRight(' as ${_jArray}Type).elementType as $_jType)');
     }
     return exprs;
   }

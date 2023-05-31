@@ -1,0 +1,12 @@
+version: 1.0.0
+files:
+  'jni.dart':
+    'java.lang.Object':
+      name: JObject
+      type_class: JObjectType
+      super_count: 0
+    'java.lang.String':
+      name: JString
+      type_class: JStringType
+      super_count: 1
+

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/src/bindings/resolver.dart';
+import 'package:jnigen/src/elements/elements.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
@@ -17,21 +18,28 @@ class ResolverTest {
 void main() async {
   await checkLocallyBuiltDependencies();
   final resolver = Resolver(
-      importMap: {
-        'org.apache.pdfbox': 'package:pdfbox/pdfbox.dart',
-        'android.os.Process': 'package:android/os.dart',
-      },
-      currentClass: 'a.b.N',
-      inputClassNames: {
-        'a.b.C',
-        'a.b.c.D',
-        'a.b.c.d.E',
-        'a.X',
-        'e.f.G',
-        'e.F',
-        'a.g.Y',
-        'a.m.n.P'
-      });
+    importedClasses: {
+      'org.apache.pdfbox.pdmodel.PDDocument': ClassDecl(
+        binaryName: 'org.apache.pdfbox.pdmodel.PDDocument',
+        simpleName: 'PDDocument',
+      )..path = 'package:pdfbox/pdfbox.dart',
+      'android.os.Process': ClassDecl(
+        binaryName: 'android.os.Process',
+        simpleName: 'Process',
+      )..path = 'package:android/os.dart',
+    },
+    currentClass: 'a.b.N',
+    inputClassNames: {
+      'a.b.C',
+      'a.b.c.D',
+      'a.b.c.d.E',
+      'a.X',
+      'e.f.G',
+      'e.F',
+      'a.g.Y',
+      'a.m.n.P'
+    },
+  );
 
   final tests = [
     // Absolute imports resolved using import map
@@ -64,6 +72,8 @@ void main() async {
     test(
         'resolve $binaryName',
         () => expect(
-            resolver.resolvePrefix(binaryName), equals(testCase.expectedName)));
+            resolver.resolvePrefix(
+                ClassDecl(binaryName: binaryName, simpleName: '')..path = ''),
+            equals(testCase.expectedName)));
   }
 }

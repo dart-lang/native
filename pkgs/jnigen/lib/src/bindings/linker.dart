@@ -2,26 +2,74 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'visitor.dart';
 import '../config/config.dart';
 import '../elements/elements.dart';
+import '../logging/logging.dart';
+import 'visitor.dart';
 
 typedef _Resolver = ClassDecl Function(String? binaryName);
 
-/// Adds references from child elements back to their parent elements.
-/// Resolves Kotlin specific `asyncReturnType` for methods.
-class Linker extends Visitor<Classes, void> {
+/// A [Visitor] that adds the correct [ClassDecl] references from the
+/// string binary names.
+///
+/// It adds the following references:
+/// * Links [ClassDecl] objects from imported dependencies.
+/// * Adds references from child elements back to their parent elements.
+/// * Resolves Kotlin specific `asyncReturnType` for methods.
+class Linker extends Visitor<Classes, Future<void>> {
   Linker(this.config);
 
   final Config config;
 
   @override
-  void visit(Classes node) {
-    final classLinker = _ClassLinker(config, (binaryName) {
-      return ClassDecl.predefined[binaryName] ??
+  Future<void> visit(Classes node) async {
+    // Specify paths for this package's classes.
+    final root = config.outputConfig.dartConfig.path;
+    if (config.outputConfig.dartConfig.structure ==
+        OutputStructure.singleFile) {
+      // Connect all to the root if the output is in single file mode.
+      final path = root.toFilePath();
+      for (final decl in node.decls.values) {
+        decl.path = path;
+      }
+    } else {
+      for (final decl in node.decls.values) {
+        final dollarSign = decl.binaryName.indexOf('\$');
+        final className = dollarSign != -1
+            ? decl.binaryName.substring(0, dollarSign)
+            : decl.binaryName;
+        final path = className.replaceAll('.', '/');
+        decl.path = root.resolve(path).toFilePath();
+      }
+    }
+
+    // Find all the imported classes.
+    await config.importClasses();
+
+    if (config.importedClasses.keys
+        .toSet()
+        .intersection(node.decls.keys.toSet())
+        .isNotEmpty) {
+      log.fatal(
+        'Trying to re-import the generated classes.\n'
+        'Try hiding the class(es) in import.',
+      );
+    }
+
+    for (final className in config.importedClasses.keys) {
+      log.finest('Imported $className successfully.');
+    }
+
+    ClassDecl resolve(String? binaryName) {
+      return config.importedClasses[binaryName] ??
           node.decls[binaryName] ??
-          ClassDecl.object;
-    });
+          resolve(TypeUsage.object.name);
+    }
+
+    final classLinker = _ClassLinker(
+      config,
+      resolve,
+    );
     for (final classDecl in node.decls.values) {
       classDecl.accept(classLinker);
     }
@@ -29,20 +77,24 @@ class Linker extends Visitor<Classes, void> {
 }
 
 class _ClassLinker extends Visitor<ClassDecl, void> {
-  _ClassLinker(this.config, this.resolve);
-
   final Config config;
   final _Resolver resolve;
-  final Set<ClassDecl> _linked = {...ClassDecl.predefined.values};
+  final Set<ClassDecl> _linked;
+
+  _ClassLinker(
+    this.config,
+    this.resolve,
+  ) : _linked = {...config.importedClasses.values};
 
   @override
   void visit(ClassDecl node) {
     if (_linked.contains(node)) return;
+    log.finest('Linking ${node.binaryName}.');
     _linked.add(node);
 
     node.parent = resolve(node.parentName);
     node.parent!.accept(this);
-    // Adding type params of outer classes to the nested classes
+    // Add type params of outer classes to the nested classes
     final allTypeParams = <TypeParam>[];
     if (!node.modifiers.contains('static')) {
       for (final typeParam in node.parent!.allTypeParams) {

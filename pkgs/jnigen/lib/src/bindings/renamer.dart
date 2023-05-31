@@ -135,18 +135,13 @@ class Renamer implements Visitor<Classes, void> {
 
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
+  final Set<ClassDecl> renamed;
   final Map<String, int> classNameCounts = {};
-  final Set<ClassDecl> renamed = {...ClassDecl.predefined.values};
-  final Map<ClassDecl, Map<String, int>> nameCounts = {
-    for (final predefined in ClassDecl.predefined.values) ...{
-      predefined: {..._definedSyms},
-    }
-  };
-  final Map<ClassDecl, Map<String, int>> methodNumsAfterRenaming = {};
+  final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
     this.config,
-  );
+  ) : renamed = {...config.importedClasses.values};
 
   /// Returns class name as useful in dart.
   ///
@@ -157,10 +152,11 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
   @override
   void visit(ClassDecl node) {
     if (renamed.contains(node)) return;
+    log.finest('Renaming ${node.binaryName}.');
     renamed.add(node);
 
     nameCounts[node] = {..._definedSyms};
-    methodNumsAfterRenaming[node] = {};
+    node.methodNumsAfterRenaming = {};
 
     final className = _getSimplifiedClassName(node.binaryName);
     node.uniqueName = _renameConflict(classNameCounts, className);
@@ -170,15 +166,16 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
     node.finalName = uniquifyName ? node.uniqueName : className;
+    // TODO(#143): $ at the beginning is a temporary fix for the name collision.
+    node.typeClassName = '\$${node.finalName}Type';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
 
     final superClass = (node.superclass!.type as DeclaredType).classDecl;
     superClass.accept(this);
-    nameCounts[node]!.addAll(nameCounts[superClass]!);
+    nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
     final methodRenamer = _MethodRenamer(
       config,
       nameCounts[node]!,
-      methodNumsAfterRenaming,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);
@@ -192,11 +189,10 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
 }
 
 class _MethodRenamer implements Visitor<Method, void> {
-  _MethodRenamer(this.config, this.nameCounts, this.methodNumsAfterRenaming);
+  _MethodRenamer(this.config, this.nameCounts);
 
   final Config config;
   final Map<String, int> nameCounts;
-  final Map<ClassDecl, Map<String, int>> methodNumsAfterRenaming;
 
   @override
   void visit(Method node) {
@@ -205,17 +201,17 @@ class _MethodRenamer implements Visitor<Method, void> {
     // If node is in super class, assign its number, overriding it.
     final superClass =
         (node.classDecl.superclass!.type as DeclaredType).classDecl;
-    final superNum = methodNumsAfterRenaming[superClass]?[sig];
+    final superNum = superClass.methodNumsAfterRenaming[sig];
     if (superNum != null) {
       // Don't rename if superNum == 0
       // Unless the node name is a keyword.
       final superNumText = superNum == 0 ? '' : '$superNum';
       final methodName = superNum == 0 ? _keywordRename(name) : name;
       node.finalName = '$methodName$superNumText';
-      methodNumsAfterRenaming[node.classDecl]?[sig] = superNum;
+      node.classDecl.methodNumsAfterRenaming[sig] = superNum;
     } else {
       node.finalName = _renameConflict(nameCounts, name);
-      methodNumsAfterRenaming[node.classDecl]?[sig] = nameCounts[name]! - 1;
+      node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
     }
     log.fine(
         'Method ${node.classDecl.binaryName}#${node.name} is named ${node.finalName}');

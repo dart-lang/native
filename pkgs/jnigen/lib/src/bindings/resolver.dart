@@ -4,18 +4,17 @@
 
 import 'dart:math';
 
+import '../elements/elements.dart';
 import '../logging/logging.dart';
 
 class Resolver {
-  static const Map<String, String> predefined = {
-    'java.lang.String': 'jni.',
-  };
-
   /// Class corresponding to currently writing file.
-  final String currentClass;
+  ///
+  /// Is [null] when in single file mode.
+  final String? currentClass;
 
   /// Explicit import mappings.
-  final Map<String, String> importMap;
+  final Map<String, ClassDecl> importedClasses;
 
   /// Names of all classes in input.
   final Set<String> inputClassNames;
@@ -27,7 +26,7 @@ class Resolver {
   final Map<String, String> _classToImportedName = {};
 
   Resolver({
-    required this.importMap,
+    required this.importedClasses,
     required this.currentClass,
     this.inputClassNames = const {},
   });
@@ -50,13 +49,20 @@ class Resolver {
   }
 
   /// Get the prefix for the class
-  String resolvePrefix(String binaryName) {
-    if (predefined.containsKey(binaryName)) {
-      return predefined[binaryName]!;
+  String resolvePrefix(ClassDecl classDecl) {
+    if (classDecl.path == 'package:jni/jni.dart') {
+      // For package:jni we don't use a leading underscore.
+      return 'jni.';
     }
+    final binaryName = classDecl.binaryName;
     final target = getFileClassName(binaryName);
 
-    if (target == currentClass && inputClassNames.contains(binaryName)) {
+    // For classes we generate (inside [inputClassNames]) no import
+    // (and therefore no prefix) is necessary when:
+    // * Never necessary in single file mode
+    // * In multi file mode if the target is the same as the current class
+    if ((currentClass == null || target == currentClass) &&
+        inputClassNames.contains(binaryName)) {
       return '';
     }
 
@@ -105,11 +111,11 @@ class Resolver {
   /// requested so that classes included in current bindings can be resolved
   /// using relative path.
   String? getImport(String classToResolve, String binaryName) {
-    var prefix = classToResolve;
+    final prefix = classToResolve;
 
     // short circuit if the requested class is specified directly in import map.
-    if (importMap.containsKey(binaryName)) {
-      return importMap[binaryName]!;
+    if (importedClasses.containsKey(binaryName)) {
+      return importedClasses[binaryName]!.path;
     }
 
     if (prefix.isEmpty) {
@@ -117,7 +123,7 @@ class Resolver {
     }
 
     final dest = classToResolve.split('.');
-    final src = currentClass.split('.');
+    final src = currentClass!.split('.');
     // Use relative import when the required class is included in current set
     // of bindings.
     if (inputClassNames.contains(binaryName)) {
@@ -138,14 +144,6 @@ class Resolver {
       return '$pathToCommon$pathToClass.dart';
     }
 
-    while (prefix.isNotEmpty) {
-      final split = cutFromLast(prefix, '.');
-      final left = split[0];
-      if (importMap.containsKey(prefix)) {
-        return importMap[prefix]!;
-      }
-      prefix = left;
-    }
     return null;
   }
 

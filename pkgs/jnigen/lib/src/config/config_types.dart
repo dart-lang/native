@@ -5,11 +5,19 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as p;
+import 'package:pub_semver/pub_semver.dart';
+import 'package:yaml/yaml.dart';
 
 import '../elements/elements.dart';
+import '../logging/logging.dart';
+import '../util/find_package.dart';
 import 'config_exception.dart';
 import 'filters.dart';
 import 'yaml_reader.dart';
+
+/// Modify this when symbols file format changes according to pub_semver.
+final _currentVersion = Version(1, 0, 0);
 
 /// Configuration for dependencies to be downloaded using maven.
 ///
@@ -209,9 +217,9 @@ class DartCodeOutputConfig {
     this.structure = OutputStructure.packageStructure,
   }) {
     if (structure == OutputStructure.singleFile) {
-      if (!path.toFilePath().endsWith('.dart')) {
+      if (p.extension(path.toFilePath()) != '.dart') {
         throw ConfigException(
-            'output path must end with ".dart" in single file mode');
+            'Dart\'s output path must end with ".dart" in single file mode.');
       }
     } else {
       _ensureIsDirectory('Dart output path', path);
@@ -225,19 +233,32 @@ class DartCodeOutputConfig {
   OutputStructure structure;
 }
 
+class SymbolsOutputConfig {
+  /// Path to write generated Dart bindings.
+  final Uri path;
+
+  SymbolsOutputConfig(this.path) {
+    if (p.extension(path.toFilePath()) != '.yaml') {
+      throw ConfigException('Symbol\'s output path must end with ".yaml".');
+    }
+  }
+}
+
 class OutputConfig {
   OutputConfig({
+    required this.dartConfig,
     this.bindingsType = BindingsType.cBased,
     this.cConfig,
-    required this.dartConfig,
+    this.symbolsConfig,
   }) {
     if (bindingsType == BindingsType.cBased && cConfig == null) {
-      throw ConfigException("C output config must be provided!");
+      throw ConfigException('C output config must be provided!');
     }
   }
   BindingsType bindingsType;
   DartCodeOutputConfig dartConfig;
   CCodeOutputConfig? cConfig;
+  SymbolsOutputConfig? symbolsConfig;
 }
 
 class BindingExclusions {
@@ -257,12 +278,12 @@ class Config {
     this.sourcePath,
     this.classPath,
     this.preamble,
-    this.importMap,
     this.androidSdkConfig,
     this.mavenDownloads,
     this.summarizerOptions,
     this.logLevel = Level.INFO,
     this.dumpJsonTo,
+    this.imports,
   });
 
   /// Output configuration for generated bindings
@@ -296,18 +317,6 @@ class Config {
   /// Common text to be pasted on top of generated C and Dart files.
   final String? preamble;
 
-  /// Additional java package -> dart package mappings (Experimental).
-  ///
-  /// a mapping com.abc.package -> 'package:my_package.dart/my_import.dart'
-  /// in this configuration suggests that any reference to a type from
-  /// com.abc.package shall resolve to an import of 'package:my_package.dart'.
-  ///
-  /// This can be as granular
-  /// `com.abc.package.Class -> 'package:abc/abc.dart'`
-  /// or coarse
-  /// `com.abc.package` -> 'package:abc/abc.dart'`
-  final Map<String, String>? importMap;
-
   /// Whether or not to change Kotlin's suspend functions to Dart async ones.
   ///
   /// This will remove the final Continuation argument.
@@ -321,8 +330,118 @@ class Config {
   /// along with their transitive dependencies.
   final MavenDownloads? mavenDownloads;
 
-  /// Additional options for the summarizer component
+  /// Additional options for the summarizer component.
   final SummarizerOptions? summarizerOptions;
+
+  /// List of dependencies.
+  final List<Uri>? imports;
+
+  /// Call [importClasses] before using this.
+  late final Map<String, ClassDecl> importedClasses;
+
+  Future<void> importClasses() async {
+    importedClasses = {};
+    for (final import in [
+      // Implicitly importing package:jni symbols.
+      Uri.parse('package:jni/jni_symbols.yaml'),
+      ...?imports,
+    ]) {
+      // Getting the actual uri in case of package uris.
+      final Uri yamlUri;
+      final String importPath;
+      if (import.scheme == 'package') {
+        final packageName = import.pathSegments.first;
+        final packageRoot = await findPackageRoot(packageName);
+        if (packageRoot == null) {
+          log.fatal('package:$packageName was not found.');
+        }
+        yamlUri = packageRoot
+            .resolve('lib/')
+            .resolve(import.pathSegments.sublist(1).join('/'));
+        importPath = 'package:$packageName';
+      } else {
+        yamlUri = import;
+        importPath = ([...import.pathSegments]..removeLast()).join('/');
+      }
+      log.finest('Parsing yaml file in url $yamlUri.');
+      final YamlMap yaml;
+      try {
+        final symbolsFile = File.fromUri(yamlUri);
+        final content = symbolsFile.readAsStringSync();
+        yaml = loadYaml(content, sourceUrl: yamlUri);
+      } on UnsupportedError catch (_) {
+        log.fatal('Could not reference "$import".');
+      } catch (e, s) {
+        log.warning(e);
+        log.warning(s);
+        log.fatal('Error while parsing yaml file "$import".');
+      }
+      final version = Version.parse(yaml['version'] as String);
+      if (!VersionConstraint.compatibleWith(_currentVersion).allows(version)) {
+        log.fatal('"$import" is version "$version" which is not compatible with'
+            'the current JNIgen symbols version $_currentVersion');
+      }
+      final files = yaml['files'] as YamlMap;
+      for (final entry in files.entries) {
+        final filePath = entry.key as String;
+        final classes = entry.value as YamlMap;
+        for (final classEntry in classes.entries) {
+          final binaryName = classEntry.key as String;
+          final decl = classEntry.value as YamlMap;
+          if (importedClasses.containsKey(binaryName)) {
+            log.fatal(
+              'Re-importing "$binaryName" in "$import".\n'
+              'Try hiding the class in import.',
+            );
+          }
+          final classDecl = ClassDecl(
+            simpleName: binaryName.split('.').last,
+            packageName: (binaryName.split('.')..removeLast()).join('.'),
+            binaryName: binaryName,
+          )
+            ..path = '$importPath/$filePath'
+            ..finalName = decl['name']
+            ..typeClassName = decl['type_class']
+            ..superCount = decl['super_count'];
+          for (final typeParamEntry
+              in ((decl['type_params'] as YamlMap?)?.entries) ??
+                  <MapEntry<dynamic, dynamic>>[]) {
+            final typeParamName = typeParamEntry.key as String;
+            final bounds = (typeParamEntry.value as YamlMap).entries.map((e) {
+              final boundName = e.key as String;
+              // Can only be DECLARED or TYPE_VARIABLE
+              if (!['DECLARED', 'TYPE_VARIABLE'].contains(e.value)) {
+                log.fatal(
+                  'Unsupported bound kind "${e.value}" for bound "$boundName" '
+                  'in type parameter "$typeParamName" '
+                  'of "$binaryName".',
+                );
+              }
+              final boundKind = (e.value as String) == 'DECLARED'
+                  ? Kind.declared
+                  : Kind.typeVariable;
+              final ReferredType type;
+              if (boundKind == Kind.declared) {
+                type =
+                    DeclaredType(binaryName: boundName, simpleName: boundName);
+              } else {
+                type = TypeVar(name: boundName);
+              }
+              return TypeUsage(
+                  shorthand: boundName, kind: boundKind, typeJson: {})
+                ..type = type;
+            }).toList();
+            classDecl.allTypeParams.add(
+              TypeParam(name: typeParamName, bounds: bounds),
+            );
+          }
+          classDecl.methodNumsAfterRenaming =
+              (decl['methods'] as YamlMap?)?.cast() ?? {};
+          importedClasses[binaryName] = classDecl;
+        }
+      }
+    }
+  }
 
   /// Directory containing the YAML configuration file, if any.
   Uri? get configRoot => _configRoot;
@@ -337,8 +456,6 @@ class Config {
 
   static final _levels = Map.fromEntries(
       Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)));
-  static List<Uri>? _toUris(List<String>? paths) =>
-      paths?.map(Uri.file).toList();
 
   static Config parseArgs(List<String> args) {
     final prov = YamlReader.parseArgs(args);
@@ -353,9 +470,6 @@ class Config {
       }
       return res;
     }
-
-    Uri? directoryUri(String? path) =>
-        path != null ? Uri.directory(path) : null;
 
     MemberFilter<T>? regexFilter<T extends ClassMember>(String property) {
       final exclusions = prov.getStringList(property);
@@ -395,14 +509,13 @@ class Config {
         configRoot?.resolve(reference).toFilePath() ?? reference;
 
     final config = Config(
-      sourcePath: _toUris(prov.getPathList(_Props.sourcePath)),
-      classPath: _toUris(prov.getPathList(_Props.classPath)),
+      sourcePath: prov.getPathList(_Props.sourcePath),
+      classPath: prov.getPathList(_Props.classPath),
       classes: must(prov.getStringList, [], _Props.classes),
       summarizerOptions: SummarizerOptions(
         extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
         backend: prov.getString(_Props.backend),
-        workingDirectory:
-            directoryUri(prov.getPath(_Props.summarizerWorkingDir)),
+        workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
       ),
       exclude: BindingExclusions(
         methods: regexFilter<Method>(_Props.excludeMethods),
@@ -417,27 +530,32 @@ class Config {
         cConfig: prov.hasValue(_Props.cCodeOutputConfig)
             ? CCodeOutputConfig(
                 libraryName: must(prov.getString, '', _Props.libraryName),
-                path: Uri.file(must(prov.getPath, '.', _Props.cRoot)),
+                path: must(prov.getPath, Uri.parse('.'), _Props.cRoot),
                 subdir: prov.getString(_Props.cSubdir),
               )
             : null,
         dartConfig: DartCodeOutputConfig(
-          path: Uri.file(must(prov.getPath, '.', _Props.dartRoot)),
+          path: must(prov.getPath, Uri.parse('.'), _Props.dartRoot),
           structure: getOutputStructure(
             prov.getString(_Props.outputStructure),
             OutputStructure.packageStructure,
           ),
         ),
+        symbolsConfig: prov.hasValue(_Props.symbolsOutputConfig)
+            ? SymbolsOutputConfig(
+                must(prov.getPath, Uri.parse('.'), _Props.symbolsOutputConfig),
+              )
+            : null,
       ),
       preamble: prov.getString(_Props.preamble),
-      importMap: prov.getStringMap(_Props.importMap),
+      imports: prov.getPathList(_Props.import),
       mavenDownloads: prov.hasValue(_Props.mavenDownloads)
           ? MavenDownloads(
               sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
-              sourceDir: prov.getPath(_Props.mavenSourceDir) ??
+              sourceDir: prov.getPath(_Props.mavenSourceDir)?.toFilePath() ??
                   resolveFromConfigRoot(MavenDownloads.defaultMavenSourceDir),
               jarOnlyDeps: prov.getStringList(_Props.jarOnlyDeps) ?? const [],
-              jarDir: prov.getPath(_Props.mavenJarDir) ??
+              jarDir: prov.getPath(_Props.mavenJarDir)?.toFilePath() ??
                   resolveFromConfigRoot(MavenDownloads.defaultMavenJarDir),
             )
           : null,
@@ -496,11 +614,12 @@ class _Props {
 
   static const suspendFunToAsync = 'suspend_fun_to_async';
 
-  static const importMap = 'import_map';
+  static const import = 'import';
   static const outputConfig = 'output';
   static const bindingsType = '$outputConfig.bindings_type';
   static const cCodeOutputConfig = '$outputConfig.c';
   static const dartCodeOutputConfig = '$outputConfig.dart';
+  static const symbolsOutputConfig = '$outputConfig.symbols';
   static const cRoot = '$cCodeOutputConfig.path';
   static const cSubdir = '$cCodeOutputConfig.subdir';
   static const dartRoot = '$dartCodeOutputConfig.path';

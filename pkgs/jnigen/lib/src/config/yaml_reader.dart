@@ -86,8 +86,7 @@ class YamlReader {
 
   /// Same as [getString] but path is resolved relative to YAML config if it's
   /// from YAML config.
-  String? getPath(String property) =>
-      _config.optionalPath(property)?.toFilePath();
+  Uri? getPath(String property) => _config.optionalPath(property);
 
   List<String>? getStringList(String property) => _config.optionalStringList(
         property,
@@ -95,14 +94,11 @@ class YamlReader {
         combineAllConfigs: false,
       );
 
-  List<String>? getPathList(String property) {
-    final configResult = _config.optionalPathList(
-      property,
-      combineAllConfigs: false,
-      splitCliPattern: ';',
-    );
-    return configResult?.map((e) => e.path).toList();
-  }
+  List<Uri>? getPathList(String property) => _config.optionalPathList(
+        property,
+        combineAllConfigs: false,
+        splitCliPattern: ';',
+      );
 
   String? getOneOf(String property, Set<String> values) =>
       _config.optionalString(property, validValues: values);

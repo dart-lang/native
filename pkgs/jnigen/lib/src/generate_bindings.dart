@@ -34,10 +34,9 @@ Future<void> generateJniBindings(Config config) async {
     log.fatal(e.message);
   }
 
-  classes
-    ..accept(Excluder(config))
-    ..accept(Linker(config))
-    ..accept(Renamer(config));
+  classes.accept(Excluder(config));
+  await classes.accept(Linker(config));
+  classes.accept(Renamer(config));
 
   final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
   if (cBased) {
