@@ -126,7 +126,7 @@ extension on String {
 /// Looks up the install name of a dynamic library at [libraryUri].
 ///
 /// Because `otool` output multiple names, [libraryName] as search parameter.
-Future<String> otoolInstallName(Uri libraryUri, String libraryName) async {
+Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
   final otoolUri =
       (await otool.defaultResolver!.resolve(logger: logger)).first.uri;
   final otoolResult = await runProcess(
@@ -134,6 +134,7 @@ Future<String> otoolInstallName(Uri libraryUri, String libraryName) async {
     arguments: ['-l', libraryUri.path],
     logger: logger,
   );
+  expect(otoolResult.exitCode, 0);
   // Leading space on purpose to differentiate from other types of names.
   const installNameName = ' name ';
   final installName = otoolResult.stdout

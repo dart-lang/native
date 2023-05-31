@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 import 'run_cbuilder.dart';
@@ -51,7 +52,9 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.dependencies].
   final List<String> dartBuildFiles;
 
-  /// TODO(dacoharkes): Move to [BuildConfig].
+  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [BuildConfig]
+  /// or hide in public API.
+  @visibleForTesting
   final Uri? installName;
 
   CBuilder.library({
@@ -59,7 +62,7 @@ class CBuilder implements Builder {
     required this.assetName,
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
-    this.installName,
+    @visibleForTesting this.installName,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({

@@ -92,9 +92,10 @@ void main() {
               expect(machine, contains(objdumpFileFormat[target]));
 
               if (linkMode == LinkMode.dynamic) {
-                final libInstallName = await otoolInstallName(libUri, libName);
+                final libInstallName =
+                    await runOtoolInstallName(libUri, libName);
                 if (installName == null) {
-                  // If no install path is passed, we will have an absolute path.
+                  // If no install path is passed, we have an absolute path.
                   final tempName =
                       tempUri.pathSegments.lastWhere((e) => e != '');
                   final pathEnding =

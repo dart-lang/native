@@ -12,6 +12,7 @@ dependencies:
   cli_config: ^0.1.1
   glob: ^2.1.1
   logging: ^1.1.1
+  meta: ^1.9.1
   # TODO(dacoharkes): Publish native_assets_cli first.
   native_assets_cli:
     path: ../native_assets_cli/
