@@ -51,11 +51,15 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.dependencies].
   final List<String> dartBuildFiles;
 
+  /// TODO(dacoharkes): Move to [BuildConfig].
+  final Uri? installName;
+
   CBuilder.library({
     required this.name,
     required this.assetName,
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
+    this.installName,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
@@ -63,7 +67,8 @@ class CBuilder implements Builder {
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
   })  : _type = _CBuilderType.executable,
-        assetName = null;
+        assetName = null,
+        installName = null;
 
   /// Runs the C Compiler with on this C build spec.
   ///
@@ -103,6 +108,7 @@ class CBuilder implements Builder {
               ? libUri
               : null,
       executable: _type == _CBuilderType.executable ? exeUri : null,
+      installName: installName,
     );
     await task.run();
 

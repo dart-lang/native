@@ -5,6 +5,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
+import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
@@ -119,4 +121,25 @@ final List<String>? envScriptArgs = Platform
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
+}
+
+/// Looks up the install name of a dynamic library at [libraryUri].
+///
+/// Because `otool` output multiple names, [libraryName] as search parameter.
+Future<String> otoolInstallName(Uri libraryUri, String libraryName) async {
+  final otoolUri =
+      (await otool.defaultResolver!.resolve(logger: logger)).first.uri;
+  final otoolResult = await runProcess(
+    executable: otoolUri,
+    arguments: ['-l', libraryUri.path],
+    logger: logger,
+  );
+  // Leading space on purpose to differentiate from other types of names.
+  const installNameName = ' name ';
+  final installName = otoolResult.stdout
+      .split('\n')
+      .firstWhere((e) => e.contains(installNameName) && e.contains(libraryName))
+      .trim()
+      .split(' ')[1];
+  return installName;
 }

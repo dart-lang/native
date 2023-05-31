@@ -34,54 +34,80 @@ void main() {
     Target.iOSX64: '64-bit x86-64',
   };
 
+  const name = 'add';
+
   for (final linkMode in LinkMode.values) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
         if (target == Target.iOSX64 && targetIOSSdk == IOSSdk.iPhoneOs) {
           continue;
         }
-        test('Cbuilder $linkMode library $targetIOSSdk $target', () async {
-          await inTempDir((tempUri) async {
-            final addCUri =
-                packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-            const name = 'add';
 
-            final buildConfig = BuildConfig(
-              outDir: tempUri,
-              packageRoot: tempUri,
-              target: target,
-              linkModePreference: linkMode == LinkMode.dynamic
-                  ? LinkModePreference.dynamic
-                  : LinkModePreference.static,
-              targetIOSSdk: targetIOSSdk,
-            );
-            final buildOutput = BuildOutput();
+        final libName = target.os.libraryFileName(name, linkMode);
+        for (final installName in [
+          null,
+          if (linkMode == LinkMode.dynamic)
+            Uri.file('@executable_path/Frameworks/$libName'),
+        ]) {
+          test(
+              'Cbuilder $linkMode library $targetIOSSdk $target'
+                      ' ${installName ?? ''}'
+                  .trim(), () async {
+            await inTempDir((tempUri) async {
+              final addCUri =
+                  packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+              final buildConfig = BuildConfig(
+                outDir: tempUri,
+                packageRoot: tempUri,
+                target: target,
+                linkModePreference: linkMode == LinkMode.dynamic
+                    ? LinkModePreference.dynamic
+                    : LinkModePreference.static,
+                targetIOSSdk: targetIOSSdk,
+              );
+              final buildOutput = BuildOutput();
 
-            final cbuilder = CBuilder.library(
-              name: name,
-              assetName: name,
-              sources: [addCUri.toFilePath()],
-            );
-            await cbuilder.run(
-              buildConfig: buildConfig,
-              buildOutput: buildOutput,
-              logger: logger,
-            );
+              final cbuilder = CBuilder.library(
+                name: name,
+                assetName: name,
+                sources: [addCUri.toFilePath()],
+                installName: installName,
+              );
+              await cbuilder.run(
+                buildConfig: buildConfig,
+                buildOutput: buildOutput,
+                logger: logger,
+              );
 
-            final libUri =
-                tempUri.resolve(target.os.libraryFileName(name, linkMode));
-            final result = await runProcess(
-              executable: Uri.file('objdump'),
-              arguments: ['-t', libUri.path],
-              logger: logger,
-            );
-            expect(result.exitCode, 0);
-            final machine = result.stdout
-                .split('\n')
-                .firstWhere((e) => e.contains('file format'));
-            expect(machine, contains(objdumpFileFormat[target]));
+              final libUri = tempUri.resolve(libName);
+              final objdumpResult = await runProcess(
+                executable: Uri.file('objdump'),
+                arguments: ['-t', libUri.path],
+                logger: logger,
+              );
+              expect(objdumpResult.exitCode, 0);
+              final machine = objdumpResult.stdout
+                  .split('\n')
+                  .firstWhere((e) => e.contains('file format'));
+              expect(machine, contains(objdumpFileFormat[target]));
+
+              if (linkMode == LinkMode.dynamic) {
+                final libInstallName = await otoolInstallName(libUri, libName);
+                if (installName == null) {
+                  // If no install path is passed, we will have an absolute path.
+                  final tempName =
+                      tempUri.pathSegments.lastWhere((e) => e != '');
+                  final pathEnding =
+                      Uri.directory(tempName).resolve(libName).toFilePath();
+                  expect(Uri.file(libInstallName).isAbsolute, true);
+                  expect(libInstallName, contains(pathEnding));
+                } else {
+                  expect(libInstallName, installName.toFilePath());
+                }
+              }
+            });
           });
-        });
+        }
       }
     }
   }
