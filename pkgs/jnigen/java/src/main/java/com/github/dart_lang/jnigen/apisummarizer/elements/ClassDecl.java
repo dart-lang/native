@@ -21,9 +21,6 @@ public class ClassDecl {
   /** Modifiers eg: static, public and abstract. */
   public Set<String> modifiers;
 
-  /** Unqualified name of the class. For example `ClassDecl` */
-  public String simpleName;
-
   /**
    * Unique, fully qualified name of the class, it's like a qualified name used in a program but
    * uses $ instead of dot (.) before nested classes.
@@ -31,7 +28,6 @@ public class ClassDecl {
   public String binaryName;
 
   public String parentName;
-  public String packageName;
   public List<TypeParam> typeParams = new ArrayList<>();
   public List<Method> methods = new ArrayList<>();
   public List<Field> fields = new ArrayList<>();

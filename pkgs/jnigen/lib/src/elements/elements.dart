@@ -58,9 +58,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
     this.annotations = const [],
     this.javadoc,
     this.modifiers = const {},
-    required this.simpleName,
     required this.binaryName,
-    this.packageName = '',
     this.parentName,
     this.typeParams = const [],
     this.methods = const [],
@@ -77,10 +75,8 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
 
   final List<Annotation> annotations;
   final JavaDocComment? javadoc;
-  final String simpleName;
   final String binaryName;
   final String? parentName;
-  final String packageName;
   List<TypeParam> typeParams;
   List<Method> methods;
   List<Field> fields;
@@ -96,6 +92,8 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   final List<String>? values;
 
   String get internalName => binaryName.replaceAll(".", "/");
+
+  String get packageName => (binaryName.split('.')..removeLast()).join('.');
 
   /// The number of super classes this type has.
   ///
@@ -195,9 +193,8 @@ class TypeUsage {
   });
 
   static TypeUsage object = TypeUsage(
-      kind: Kind.declared, shorthand: 'JObject', typeJson: {})
-    ..type =
-        (DeclaredType(binaryName: 'java.lang.Object', simpleName: 'Object'));
+      kind: Kind.declared, shorthand: 'java.lang.Object', typeJson: {})
+    ..type = DeclaredType(binaryName: 'java.lang.Object');
 
   final String shorthand;
   final Kind kind;
@@ -356,12 +353,10 @@ class PrimitiveType extends ReferredType {
 class DeclaredType extends ReferredType {
   DeclaredType({
     required this.binaryName,
-    required this.simpleName,
     this.params = const [],
   });
 
   final String binaryName;
-  final String simpleName;
   final List<TypeUsage> params;
 
   @JsonKey(includeFromJson: false)
@@ -608,12 +603,10 @@ class JavaDocComment implements Element<JavaDocComment> {
 @JsonSerializable(createToJson: false)
 class Annotation implements Element<Annotation> {
   Annotation({
-    required this.simpleName,
     required this.binaryName,
     this.properties = const {},
   });
 
-  final String simpleName;
   final String binaryName;
   final Map<String, Object> properties;
 

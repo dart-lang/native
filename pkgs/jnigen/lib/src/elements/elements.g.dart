@@ -18,9 +18,7 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
               ?.map((e) => e as String)
               .toSet() ??
           const {},
-      simpleName: json['simpleName'] as String,
       binaryName: json['binaryName'] as String,
-      packageName: json['packageName'] as String? ?? '',
       parentName: json['parentName'] as String?,
       typeParams: (json['typeParams'] as List<dynamic>?)
               ?.map((e) => TypeParam.fromJson(e as Map<String, dynamic>))
@@ -63,7 +61,6 @@ const _$KindEnumMap = {
 
 DeclaredType _$DeclaredTypeFromJson(Map<String, dynamic> json) => DeclaredType(
       binaryName: json['binaryName'] as String,
-      simpleName: json['simpleName'] as String,
       params: (json['params'] as List<dynamic>?)
               ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -155,7 +152,6 @@ JavaDocComment _$JavaDocCommentFromJson(Map<String, dynamic> json) =>
     );
 
 Annotation _$AnnotationFromJson(Map<String, dynamic> json) => Annotation(
-      simpleName: json['simpleName'] as String,
       binaryName: json['binaryName'] as String,
       properties: (json['properties'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as Object),

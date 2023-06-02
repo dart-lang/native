@@ -22,7 +22,6 @@ public class ElementBuilders {
 
   private void fillInFromTypeElement(TypeElement e, ClassDecl c) {
     c.modifiers = e.getModifiers().stream().map(Modifier::toString).collect(Collectors.toSet());
-    c.simpleName = e.getSimpleName().toString();
     c.binaryName = env.elements.getBinaryName(e).toString();
     switch (e.getKind()) {
       case INTERFACE:
@@ -45,7 +44,6 @@ public class ElementBuilders {
     if (parent instanceof TypeElement) {
       c.parentName = env.elements.getBinaryName((TypeElement) parent).toString();
     }
-    c.packageName = env.elements.getPackageOf(e).getQualifiedName().toString();
     c.javadoc = docComment(env.trees.getDocCommentTree(e));
     c.typeParams = StreamUtil.map(e.getTypeParameters(), this::typeParam);
     var superclass = e.getSuperclass();
@@ -82,7 +80,6 @@ public class ElementBuilders {
     var annotation = new JavaAnnotation();
     var type = mirror.getAnnotationType();
     var typeElement = (TypeElement) (env.types.asElement(type));
-    annotation.simpleName = typeElement.getSimpleName().toString();
     annotation.binaryName = env.elements.getBinaryName(typeElement).toString();
     var values = env.elements.getElementValuesWithDefaults(mirror);
     if (values.isEmpty()) {

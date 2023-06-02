@@ -23,15 +23,6 @@ class TypeUtils {
     return type.getClassName().split("\\$")[0];
   }
 
-  public static String packageName(Type type) {
-    var className = type.getClassName();
-    var last = className.lastIndexOf(".");
-    if (last != -1) {
-      return className.substring(0, last);
-    }
-    return null;
-  }
-
   public static String simpleName(Type type) {
     var internalName = type.getInternalName();
     if (type.getInternalName().length() == 1) {

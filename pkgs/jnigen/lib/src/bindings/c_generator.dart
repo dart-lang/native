@@ -262,7 +262,6 @@ class _CMethodGenerator extends Visitor<Method, void> {
     if (node.isCtor) {
       javaReturnType = DeclaredType(
         binaryName: node.classDecl.binaryName,
-        simpleName: node.classDecl.simpleName,
       );
     }
     final callType = node.returnType.accept(const _CTypeCallSite());

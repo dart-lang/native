@@ -17,7 +17,6 @@ public interface AsmAnnotatedElementVisitor {
     var annotation = new JavaAnnotation();
     var aType = Type.getType(descriptor);
     annotation.binaryName = aType.getClassName();
-    annotation.simpleName = TypeUtils.simpleName(aType);
     addAnnotation(annotation);
     return new AsmAnnotationVisitor(annotation);
   }

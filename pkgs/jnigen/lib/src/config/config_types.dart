@@ -395,8 +395,6 @@ class Config {
             );
           }
           final classDecl = ClassDecl(
-            simpleName: binaryName.split('.').last,
-            packageName: (binaryName.split('.')..removeLast()).join('.'),
             binaryName: binaryName,
           )
             ..path = '$importPath/$filePath'
@@ -423,14 +421,15 @@ class Config {
                   : Kind.typeVariable;
               final ReferredType type;
               if (boundKind == Kind.declared) {
-                type =
-                    DeclaredType(binaryName: boundName, simpleName: boundName);
+                type = DeclaredType(binaryName: boundName);
               } else {
                 type = TypeVar(name: boundName);
               }
               return TypeUsage(
-                  shorthand: boundName, kind: boundKind, typeJson: {})
-                ..type = type;
+                shorthand: binaryName,
+                kind: boundKind,
+                typeJson: {},
+              )..type = type;
             }).toList();
             classDecl.allTypeParams.add(
               TypeParam(name: typeParamName, bounds: bounds),

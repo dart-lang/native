@@ -48,9 +48,7 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     current.binaryName = type.getClassName();
     current.modifiers = TypeUtils.access(access);
     current.parentName = TypeUtils.parentName(type);
-    current.packageName = TypeUtils.packageName(type);
     current.declKind = TypeUtils.declKind(access);
-    current.simpleName = TypeUtils.simpleName(type);
     current.superclass = TypeUtils.typeUsage(Type.getObjectType(superName), null);
     current.interfaces =
         StreamUtil.map(interfaces, i -> TypeUtils.typeUsage(Type.getObjectType(i), null));

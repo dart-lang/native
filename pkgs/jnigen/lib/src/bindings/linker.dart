@@ -148,7 +148,7 @@ class _MethodLinker extends Visitor<Method, void> {
     if (config.suspendFunToAsync &&
         node.params.isNotEmpty &&
         node.params.last.type.kind == Kind.declared &&
-        node.params.last.type.shorthand == kotlinContinutationType) {
+        node.params.last.type.name == kotlinContinutationType) {
       final continuationType = node.params.last.type.type as DeclaredType;
       node.asyncReturnType = continuationType.params.isEmpty
           ? TypeUsage.object

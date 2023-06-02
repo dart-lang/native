@@ -35,7 +35,6 @@ public class AsmAnnotationVisitor extends AnnotationVisitor {
     var type = Type.getType(descriptor);
     var nested = new JavaAnnotation();
     nested.binaryName = type.getClassName();
-    nested.simpleName = TypeUtils.simpleName(type);
     annotation.properties.put(name, nested);
     return new AsmAnnotationVisitor(nested);
   }
@@ -71,7 +70,6 @@ public class AsmAnnotationVisitor extends AnnotationVisitor {
       var type = Type.getType(descriptor);
       var nested = new JavaAnnotation();
       nested.binaryName = type.getClassName();
-      nested.simpleName = TypeUtils.simpleName(type);
       list.add(nested);
       return new AsmAnnotationVisitor(nested);
     }

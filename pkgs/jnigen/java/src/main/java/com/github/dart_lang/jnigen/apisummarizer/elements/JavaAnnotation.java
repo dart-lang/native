@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JavaAnnotation {
-  public String simpleName;
   public String binaryName;
   public Map<String, Object> properties = new HashMap<>();
 
