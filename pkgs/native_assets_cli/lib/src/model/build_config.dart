@@ -61,6 +61,10 @@ class BuildConfig {
   CCompilerConfig get cCompiler => _cCompiler;
   late final CCompilerConfig _cCompiler;
 
+  /// Don't run the build, only report the native assets produced.
+  bool get dryRun => _dryRun ?? false;
+  late final bool? _dryRun;
+
   /// The underlying config.
   ///
   /// Can be used for easier access to values on [dependencyMetadata].
@@ -76,6 +80,7 @@ class BuildConfig {
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
+    bool? dryRun,
   }) {
     final nonValidated = BuildConfig._()
       .._outDir = outDir
@@ -85,7 +90,8 @@ class BuildConfig {
       .._targetAndroidNdkApi = targetAndroidNdkApi
       .._cCompiler = cCompiler ?? CCompilerConfig()
       .._linkModePreference = linkModePreference
-      .._dependencyMetadata = dependencyMetadata;
+      .._dependencyMetadata = dependencyMetadata
+      .._dryRun = dryRun;
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfig.fromConfig(config);
@@ -94,7 +100,7 @@ class BuildConfig {
   /// Constructs a checksum for a [BuildConfig] based on the fields
   /// of a buildconfig that influence the build.
   ///
-  /// This can be used for an [outDir].
+  /// This can be used for an [outDir], but should not be used for dry-runs.
   ///
   /// In particular, it only takes the package name from [packageRoot],
   /// so that the hash is equal across checkouts and ignores [outDir] itself.
@@ -195,6 +201,7 @@ class BuildConfig {
   static const dependencyMetadataConfigKey = 'dependency_metadata';
   static const _versionKey = 'version';
   static const targetAndroidNdkApiConfigKey = 'target_android_ndk_api';
+  static const dryRunConfigKey = 'dry_run';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var targetSet = false;
@@ -266,7 +273,8 @@ class BuildConfig {
             ),
           ),
       (config) =>
-          _dependencyMetadata = _readDependencyMetadataFromConfig(config)
+          _dependencyMetadata = _readDependencyMetadataFromConfig(config),
+      (config) => _dryRun = config.optionalBool(dryRunConfigKey),
     ];
   }
 
@@ -315,6 +323,7 @@ class BuildConfig {
           for (final entry in _dependencyMetadata!.entries)
             entry.key: entry.value.toYaml(),
         },
+      if (dryRun) dryRunConfigKey: dryRun,
       _versionKey: version.toString(),
     }.sortOnKey();
   }
@@ -335,6 +344,7 @@ class BuildConfig {
     if (other._linkModePreference != _linkModePreference) return false;
     if (!DeepCollectionEquality()
         .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
+    if (other.dryRun != dryRun) return false;
     return true;
   }
 
@@ -348,6 +358,7 @@ class BuildConfig {
         _cCompiler,
         _linkModePreference,
         DeepCollectionEquality().hash(_dependencyMetadata),
+        dryRun,
       );
 
   @override

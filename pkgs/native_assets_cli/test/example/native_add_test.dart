@@ -26,51 +26,60 @@ void main() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  test('native_add build', () async {
-    final testTempUri = tempUri.resolve('test1/');
-    await Directory.fromUri(testTempUri).create();
-    final testPackageUri = packageUri.resolve('example/native_add/');
-    final dartUri = Uri.file(Platform.resolvedExecutable);
+  for (final dryRun in [true, false]) {
+    final testSuffix = dryRun ? ' dry_run' : '';
+    test('native_add build$testSuffix', () async {
+      final testTempUri = tempUri.resolve('test1/');
+      await Directory.fromUri(testTempUri).create();
+      final testPackageUri = packageUri.resolve('example/native_add/');
+      final dartUri = Uri.file(Platform.resolvedExecutable);
 
-    final processResult = await Process.run(
-      dartUri.toFilePath(),
-      [
-        'build.dart',
-        '-Dout_dir=${tempUri.toFilePath()}',
-        '-Dpackage_root=${testPackageUri.toFilePath()}',
-        '-Dtarget=${Target.current}',
-        '-Dlink_mode_preference=dynamic',
-        if (cc != null) '-Dcc=${cc!.toFilePath()}',
-        if (envScript != null)
-          '-D${CCompilerConfig.envScriptConfigKeyFull}='
-              '${envScript!.toFilePath()}',
-        if (envScriptArgs != null)
-          '-D${CCompilerConfig.envScriptArgsConfigKeyFull}='
-              '${envScriptArgs!.join(' ')}',
-        '-Dversion=${BuildConfig.version}',
-      ],
-      workingDirectory: testPackageUri.toFilePath(),
-    );
-    if (processResult.exitCode != 0) {
-      print(processResult.stdout);
-      print(processResult.stderr);
-      print(processResult.exitCode);
-    }
-    expect(processResult.exitCode, 0);
+      final processResult = await Process.run(
+        dartUri.toFilePath(),
+        [
+          'build.dart',
+          '-Dout_dir=${tempUri.toFilePath()}',
+          '-Dpackage_root=${testPackageUri.toFilePath()}',
+          '-Dtarget=${Target.current}',
+          '-Dlink_mode_preference=dynamic',
+          if (cc != null) '-Dcc=${cc!.toFilePath()}',
+          if (envScript != null)
+            '-D${CCompilerConfig.envScriptConfigKeyFull}='
+                '${envScript!.toFilePath()}',
+          if (envScriptArgs != null)
+            '-D${CCompilerConfig.envScriptArgsConfigKeyFull}='
+                '${envScriptArgs!.join(' ')}',
+          '-Dversion=${BuildConfig.version}',
+          '-Ddry_run=$dryRun',
+        ],
+        workingDirectory: testPackageUri.toFilePath(),
+      );
+      if (processResult.exitCode != 0) {
+        print(processResult.stdout);
+        print(processResult.stderr);
+        print(processResult.exitCode);
+      }
+      expect(processResult.exitCode, 0);
 
-    final buildOutputUri = tempUri.resolve('build_output.yaml');
-    final buildOutput = BuildOutput.fromYamlString(
-        await File.fromUri(buildOutputUri).readAsString());
-    final assets = buildOutput.assets;
-    expect(assets.length, 1);
-    final dependencies = buildOutput.dependencies;
-    expect(await assets.allExist(), true);
-    expect(
-      dependencies.dependencies,
-      [
-        testPackageUri.resolve('src/native_add.c'),
-        testPackageUri.resolve('build.dart'),
-      ],
-    );
-  });
+      final buildOutputUri = tempUri.resolve('build_output.yaml');
+      final buildOutput = BuildOutput.fromYamlString(
+          await File.fromUri(buildOutputUri).readAsString());
+      final assets = buildOutput.assets;
+      expect(assets.length, 1);
+      final dependencies = buildOutput.dependencies;
+      if (dryRun) {
+        expect(await assets.single.exists(), false);
+        expect(dependencies.dependencies, <Uri>[]);
+      } else {
+        expect(await assets.allExist(), true);
+        expect(
+          dependencies.dependencies,
+          [
+            testPackageUri.resolve('src/native_add.c'),
+            testPackageUri.resolve('build.dart'),
+          ],
+        );
+      }
+    });
+  }
 }

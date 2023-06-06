@@ -91,14 +91,16 @@ void main() async {
       target: Target.androidArm64,
       targetAndroidNdkApi: 30,
       linkModePreference: LinkModePreference.preferStatic,
+      dryRun: true,
     );
 
     final config = Config(fileParsed: {
+      'dry_run': true,
+      'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'package_root': packageRootUri.toFilePath(),
-      'target': 'android_arm64',
       'target_android_ndk_api': 30,
-      'link_mode_preference': 'prefer-static',
+      'target': 'android_arm64',
       'version': BuildOutput.version.toString(),
     });
 

@@ -63,46 +63,53 @@ void main() {
     });
   });
 
-  test('Cbuilder dylib', () async {
-    await inTempDir(
-      // https://github.com/dart-lang/sdk/issues/40159
-      keepTemp: Platform.isWindows,
-      (tempUri) async {
-        final addCUri =
-            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-        const name = 'add';
+  for (final dryRun in [true, false]) {
+    final testSuffix = dryRun ? ' dry_run' : '';
+    test('Cbuilder dylib$testSuffix', () async {
+      await inTempDir(
+        // https://github.com/dart-lang/sdk/issues/40159
+        keepTemp: Platform.isWindows,
+        (tempUri) async {
+          final addCUri =
+              packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+          const name = 'add';
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
-          packageRoot: tempUri,
-          target: Target.current,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: CCompilerConfig(
-            cc: cc,
-            envScript: envScript,
-            envScriptArgs: envScriptArgs,
-          ),
-        );
-        final buildOutput = BuildOutput();
+          final buildConfig = BuildConfig(
+            outDir: tempUri,
+            packageRoot: tempUri,
+            target: Target.current,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: CCompilerConfig(
+              cc: cc,
+              envScript: envScript,
+              envScriptArgs: envScriptArgs,
+            ),
+            dryRun: dryRun,
+          );
+          final buildOutput = BuildOutput();
 
-        final cbuilder = CBuilder.library(
-          sources: [addCUri.toFilePath()],
-          name: name,
-          assetName: name,
-        );
-        await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
-          logger: logger,
-        );
+          final cbuilder = CBuilder.library(
+            sources: [addCUri.toFilePath()],
+            name: name,
+            assetName: name,
+          );
+          await cbuilder.run(
+            buildConfig: buildConfig,
+            buildOutput: buildOutput,
+            logger: logger,
+          );
 
-        final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
-        expect(await File.fromUri(dylibUri).exists(), true);
-        final dylib = DynamicLibrary.open(dylibUri.toFilePath());
-        final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-            int Function(int, int)>('add');
-        expect(add(1, 2), 3);
-      },
-    );
-  });
+          final dylibUri =
+              tempUri.resolve(Target.current.os.dylibFileName(name));
+          expect(await File.fromUri(dylibUri).exists(), !dryRun);
+          if (!dryRun) {
+            final dylib = DynamicLibrary.open(dylibUri.toFilePath());
+            final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
+                int Function(int, int)>('add');
+            expect(add(1, 2), 3);
+          }
+        },
+      );
+    });
+  }
 }

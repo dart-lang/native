@@ -97,23 +97,24 @@ class CBuilder implements Builder {
     final dartBuildFiles = [
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
-
-    final task = RunCBuilder(
-      buildConfig: buildConfig,
-      logger: logger,
-      sources: sources,
-      dynamicLibrary:
-          _type == _CBuilderType.library && linkMode == LinkMode.dynamic
-              ? libUri
-              : null,
-      staticLibrary:
-          _type == _CBuilderType.library && linkMode == LinkMode.static
-              ? libUri
-              : null,
-      executable: _type == _CBuilderType.executable ? exeUri : null,
-      installName: installName,
-    );
-    await task.run();
+    if (!buildConfig.dryRun) {
+      final task = RunCBuilder(
+        buildConfig: buildConfig,
+        logger: logger,
+        sources: sources,
+        dynamicLibrary:
+            _type == _CBuilderType.library && linkMode == LinkMode.dynamic
+                ? libUri
+                : null,
+        staticLibrary:
+            _type == _CBuilderType.library && linkMode == LinkMode.static
+                ? libUri
+                : null,
+        executable: _type == _CBuilderType.executable ? exeUri : null,
+        installName: installName,
+      );
+      await task.run();
+    }
 
     if (assetName != null) {
       buildOutput.assets.add(Asset(
@@ -123,10 +124,12 @@ class CBuilder implements Builder {
         path: AssetAbsolutePath(libUri),
       ));
     }
-    buildOutput.dependencies.dependencies.addAll([
-      ...sources,
-      ...dartBuildFiles,
-    ]);
+    if (!buildConfig.dryRun) {
+      buildOutput.dependencies.dependencies.addAll([
+        ...sources,
+        ...dartBuildFiles,
+      ]);
+    }
   }
 }
 
