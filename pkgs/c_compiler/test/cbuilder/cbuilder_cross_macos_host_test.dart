@@ -46,6 +46,7 @@ void main() {
             outDir: tempUri,
             packageRoot: tempUri,
             target: target,
+            buildMode: BuildMode.release,
             linkModePreference: linkMode == LinkMode.dynamic
                 ? LinkModePreference.dynamic
                 : LinkModePreference.static,

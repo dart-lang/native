@@ -32,6 +32,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
+        buildMode: BuildMode.release,
         // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompiler: CCompilerConfig(
@@ -78,6 +79,7 @@ void main() {
             outDir: tempUri,
             packageRoot: tempUri,
             target: Target.current,
+            buildMode: BuildMode.release,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: CCompilerConfig(
               cc: cc,

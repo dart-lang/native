@@ -8,6 +8,7 @@ library native_assets_cli;
 
 export 'src/model/asset.dart';
 export 'src/model/build_config.dart';
+export 'src/model/build_mode.dart';
 export 'src/model/build_output.dart';
 export 'src/model/dependencies.dart';
 export 'src/model/ios_sdk.dart';
