@@ -19,50 +19,55 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  test('Cbuilder executable', () async {
-    await inTempDir((tempUri) async {
-      final helloWorldCUri = packageUri
-          .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
-      if (!await File.fromUri(helloWorldCUri).exists()) {
-        throw Exception('Run the test from the root directory.');
-      }
-      const name = 'hello_world';
+  for (final buildMode in BuildMode.values) {
+    test('Cbuilder executable $buildMode', () async {
+      await inTempDir((tempUri) async {
+        final helloWorldCUri = packageUri
+            .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
+        if (!await File.fromUri(helloWorldCUri).exists()) {
+          throw Exception('Run the test from the root directory.');
+        }
+        const name = 'hello_world';
 
-      final buildConfig = BuildConfig(
-        outDir: tempUri,
-        packageRoot: tempUri,
-        target: Target.current,
-        buildMode: BuildMode.release,
-        // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: CCompilerConfig(
-          cc: cc,
-          envScript: envScript,
-          envScriptArgs: envScriptArgs,
-        ),
-      );
-      final buildOutput = BuildOutput();
-      final cbuilder = CBuilder.executable(
-        name: name,
-        sources: [helloWorldCUri.toFilePath()],
-      );
-      await cbuilder.run(
-        buildConfig: buildConfig,
-        buildOutput: buildOutput,
-        logger: logger,
-      );
+        final buildConfig = BuildConfig(
+          outDir: tempUri,
+          packageRoot: tempUri,
+          target: Target.current,
+          buildMode: buildMode,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: CCompilerConfig(
+            cc: cc,
+            envScript: envScript,
+            envScriptArgs: envScriptArgs,
+          ),
+        );
+        final buildOutput = BuildOutput();
+        final cbuilder = CBuilder.executable(
+          name: name,
+          sources: [helloWorldCUri.toFilePath()],
+        );
+        await cbuilder.run(
+          buildConfig: buildConfig,
+          buildOutput: buildOutput,
+          logger: logger,
+        );
 
-      final executableUri =
-          tempUri.resolve(Target.current.os.executableFileName(name));
-      expect(await File.fromUri(executableUri).exists(), true);
-      final result = await runProcess(
-        executable: executableUri,
-        logger: logger,
-      );
-      expect(result.exitCode, 0);
-      expect(result.stdout.trim(), 'Hello world.');
+        final executableUri =
+            tempUri.resolve(Target.current.os.executableFileName(name));
+        expect(await File.fromUri(executableUri).exists(), true);
+        final result = await runProcess(
+          executable: executableUri,
+          logger: logger,
+        );
+        expect(result.exitCode, 0);
+        if (buildMode == BuildMode.debug) {
+          expect(result.stdout.trim(), startsWith('Running in debug mode.'));
+        }
+        expect(result.stdout.trim(), endsWith('Hello world.'));
+      });
     });
-  });
+  }
 
   for (final dryRun in [true, false]) {
     final testSuffix = dryRun ? ' dry_run' : '';

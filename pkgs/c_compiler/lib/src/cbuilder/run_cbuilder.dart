@@ -136,6 +136,11 @@ class RunCBuilder {
           '-o',
           outDir.resolve('out.o').toFilePath(),
         ],
+        // TODO(https://github.com/dart-lang/native/issues/50): The defines
+        // should probably be configurable. That way, the mapping from
+        // build_mode to defines can be defined in a project-dependent way in
+        // each project build.dart.
+        '-D${buildConfig.buildMode.name.toUpperCase()}=1'
       ],
       logger: logger,
       captureOutput: false,
@@ -185,6 +190,11 @@ class RunCBuilder {
           '/c',
           ...sources.map((e) => e.toFilePath()),
         ],
+        // TODO(https://github.com/dart-lang/native/issues/50): The defines
+        // should probably be configurable. That way, the mapping from
+        // build_mode to defines can be defined in a project-dependent way in
+        // each project build.dart.
+        '/D${buildConfig.buildMode.name.toUpperCase()}=1'
       ],
       workingDirectory: outDir,
       environment: environment,

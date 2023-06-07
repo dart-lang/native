@@ -5,6 +5,9 @@
 #include <stdio.h>
 
 int main() {
-   printf("Hello world.\n");
-   return 0;
+#ifdef DEBUG
+  printf("Running in debug mode.\n");
+#endif
+  printf("Hello world.\n");
+  return 0;
 }
