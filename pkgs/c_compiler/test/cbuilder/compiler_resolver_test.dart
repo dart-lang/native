@@ -44,6 +44,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.current,
+        buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
         cCompiler: CCompilerConfig(
           ar: ar,
@@ -67,6 +68,7 @@ void main() {
         outDir: tempUri,
         packageRoot: tempUri,
         target: Target.windowsX64,
+        buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
       );
       final resolver = CompilerResolver(

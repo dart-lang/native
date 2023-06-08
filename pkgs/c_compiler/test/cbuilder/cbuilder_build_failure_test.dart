@@ -35,6 +35,7 @@ void main() {
           packageRoot: tempUri,
           target: Target.current,
           linkModePreference: LinkModePreference.dynamic,
+          buildMode: BuildMode.release,
           cCompiler: CCompilerConfig(
             cc: cc,
             envScript: envScript,

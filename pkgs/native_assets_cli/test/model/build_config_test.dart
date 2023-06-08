@@ -56,6 +56,7 @@ void main() async {
         ld: fakeLd,
         ar: fakeAr,
       ),
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -64,6 +65,7 @@ void main() async {
       packageRoot: tempUri,
       target: Target.androidArm64,
       targetAndroidNdkApi: 30,
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -90,11 +92,13 @@ void main() async {
       packageRoot: packageRootUri,
       target: Target.androidArm64,
       targetAndroidNdkApi: 30,
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       dryRun: true,
     );
 
     final config = Config(fileParsed: {
+      'build_mode': 'release',
       'dry_run': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
@@ -118,6 +122,7 @@ void main() async {
         cc: fakeClang,
         ld: fakeLd,
       ),
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
     );
 
@@ -133,6 +138,7 @@ void main() async {
       packageRoot: tempUri,
       target: Target.androidArm64,
       targetAndroidNdkApi: 30,
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
@@ -150,6 +156,7 @@ void main() async {
       packageRoot: tempUri,
       target: Target.androidArm64,
       targetAndroidNdkApi: 30,
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
@@ -177,6 +184,7 @@ void main() async {
         cc: fakeClang,
         ld: fakeLd,
       ),
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       // This map should be sorted on key for two layers.
       dependencyMetadata: {
@@ -190,7 +198,8 @@ void main() async {
       },
     );
     final yamlString = buildConfig1.toYamlString();
-    final expectedYamlString = '''c_compiler:
+    final expectedYamlString = '''build_mode: release
+c_compiler:
   cc: ${fakeClang.toFilePath()}
   ld: ${fakeLd.toFilePath()}
 dependency_metadata:
@@ -307,6 +316,7 @@ version: ${BuildConfig.version}''';
         cc: fakeClang,
         ld: fakeLd,
       ),
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
     );
     config.toString();
@@ -318,6 +328,7 @@ version: ${BuildConfig.version}''';
       packageRoot: tempUri,
       target: Target.androidArm64,
       targetAndroidNdkApi: 30,
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
     );
     final configFileContents = buildConfig.toYamlString();
@@ -337,6 +348,7 @@ version: ${BuildConfig.version}''';
       packageRoot: tempUri,
       target: Target.androidArm64,
       targetAndroidNdkApi: 30,
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
         'bar': Metadata({
@@ -366,6 +378,7 @@ version: ${BuildConfig.version}''';
         envScript: fakeVcVars,
         envScriptArgs: ['x64'],
       ),
+      buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
     );
 
@@ -406,16 +419,18 @@ version: ${BuildConfig.version}''';
       final name1 = BuildConfig.checksum(
         packageRoot: nativeAddUri,
         target: Target.linuxX64,
+        buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '02dce8b58210deaf9f278772e892d01f');
+      expect(name1, '05b54381626750e570c92d255bb09390');
 
       // Build folder different due to metadata.
       final name2 = BuildConfig.checksum(
         packageRoot: nativeAddUri,
         target: Target.linuxX64,
+        buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
         dependencyMetadata: {
           'foo': Metadata({'key': 'value'})
@@ -428,6 +443,7 @@ version: ${BuildConfig.version}''';
       final name3 = BuildConfig.checksum(
           packageRoot: nativeAddUri,
           target: Target.linuxX64,
+          buildMode: BuildMode.release,
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: CCompilerConfig(
             cc: fakeClangUri,

@@ -11,6 +11,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/map.dart';
 import '../utils/yaml.dart';
+import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'metadata.dart';
@@ -65,6 +66,10 @@ class BuildConfig {
   bool get dryRun => _dryRun ?? false;
   late final bool? _dryRun;
 
+  /// The build mode that the code should be compiled in.
+  BuildMode get buildMode => _buildMode;
+  late final BuildMode _buildMode;
+
   /// The underlying config.
   ///
   /// Can be used for easier access to values on [dependencyMetadata].
@@ -74,6 +79,7 @@ class BuildConfig {
   factory BuildConfig({
     required Uri outDir,
     required Uri packageRoot,
+    required BuildMode buildMode,
     required Target target,
     IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
@@ -85,6 +91,7 @@ class BuildConfig {
     final nonValidated = BuildConfig._()
       .._outDir = outDir
       .._packageRoot = packageRoot
+      .._buildMode = buildMode
       .._target = target
       .._targetIOSSdk = targetIOSSdk
       .._targetAndroidNdkApi = targetAndroidNdkApi
@@ -107,6 +114,7 @@ class BuildConfig {
   static String checksum({
     required Uri packageRoot,
     required Target target,
+    required BuildMode buildMode,
     IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     CCompilerConfig? cCompiler,
@@ -119,6 +127,7 @@ class BuildConfig {
       target.toString(),
       targetIOSSdk.toString(),
       targetAndroidNdkApi.toString(),
+      buildMode.toString(),
       linkModePreference.toString(),
       cCompiler?.ar.toString(),
       cCompiler?.cc.toString(),
@@ -228,6 +237,12 @@ class BuildConfig {
       (config) => _outDir = config.path(outDirConfigKey, mustExist: true),
       (config) =>
           _packageRoot = config.path(packageRootConfigKey, mustExist: true),
+      (config) => _buildMode = BuildMode.fromString(
+            config.string(
+              BuildMode.configKey,
+              validValues: BuildMode.values.map((e) => '$e'),
+            ),
+          ),
       (config) {
         _target = Target.fromString(
           config.string(
@@ -312,6 +327,7 @@ class BuildConfig {
     return {
       outDirConfigKey: _outDir.toFilePath(),
       packageRootConfigKey: _packageRoot.toFilePath(),
+      BuildMode.configKey: _buildMode.toString(),
       Target.configKey: _target.toString(),
       if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
       if (_targetAndroidNdkApi != null)
@@ -337,6 +353,7 @@ class BuildConfig {
     }
     if (other._outDir != _outDir) return false;
     if (other._packageRoot != _packageRoot) return false;
+    if (other._buildMode != _buildMode) return false;
     if (other._target != _target) return false;
     if (other._targetIOSSdk != _targetIOSSdk) return false;
     if (other._targetAndroidNdkApi != _targetAndroidNdkApi) return false;
@@ -352,6 +369,7 @@ class BuildConfig {
   int get hashCode => Object.hash(
         _outDir,
         _packageRoot,
+        _buildMode,
         _target,
         _targetIOSSdk,
         _targetAndroidNdkApi,

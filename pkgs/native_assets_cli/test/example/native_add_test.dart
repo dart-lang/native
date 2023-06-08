@@ -41,6 +41,7 @@ void main() async {
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
           '-Dtarget=${Target.current}',
+          '-Dbuild_mode=debug',
           '-Dlink_mode_preference=dynamic',
           if (cc != null) '-Dcc=${cc!.toFilePath()}',
           if (envScript != null)

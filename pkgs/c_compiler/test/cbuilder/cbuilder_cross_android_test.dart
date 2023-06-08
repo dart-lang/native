@@ -117,6 +117,7 @@ Future<Uri> buildLib(
     packageRoot: tempUri,
     target: target,
     targetAndroidNdkApi: androidNdkApi,
+    buildMode: BuildMode.release,
     linkModePreference: linkMode == LinkMode.dynamic
         ? LinkModePreference.dynamic
         : LinkModePreference.static,

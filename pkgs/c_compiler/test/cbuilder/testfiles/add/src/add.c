@@ -4,6 +4,10 @@
 
 #include <stdint.h>
 
+#ifdef DEBUG
+#include <stdio.h>
+#endif
+
 #if _WIN32
 #define FFI_EXPORT __declspec(dllexport)
 #else
@@ -11,5 +15,8 @@
 #endif
 
 FFI_EXPORT int32_t add(int32_t a, int32_t b) {
-   return a + b;
+#ifdef DEBUG
+  printf("Adding %i and %i.\n", a, b);
+#endif
+  return a + b;
 }

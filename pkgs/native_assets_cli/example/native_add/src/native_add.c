@@ -4,6 +4,13 @@
 
 #include "native_add.h"
 
+#ifdef DEBUG
+#include <stdio.h>
+#endif
+
 int32_t add(int32_t a, int32_t b) {
-   return a + b;
+#ifdef DEBUG
+  printf("Adding %i and %i.\n", a, b);
+#endif
+  return a + b;
 }
