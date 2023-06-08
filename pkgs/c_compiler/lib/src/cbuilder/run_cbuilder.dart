@@ -140,7 +140,7 @@ class RunCBuilder {
         // should probably be configurable. That way, the mapping from
         // build_mode to defines can be defined in a project-dependent way in
         // each project build.dart.
-        '-D${buildConfig.buildMode.name.toUpperCase()}=1'
+        '-D${buildConfig.buildMode.name.toUpperCase()}'
       ],
       logger: logger,
       captureOutput: false,
