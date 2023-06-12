@@ -482,7 +482,8 @@ version: ${BuildConfig.version}''';
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'target_architecture': 'arm',
-      'version': BuildConfig.version,
+      'build_mode': 'debug',
+      'version': BuildConfig.version.toString(),
     });
     expect(
       () => BuildConfig.fromConfig(config),
