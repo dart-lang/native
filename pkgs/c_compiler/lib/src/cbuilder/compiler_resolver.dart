@@ -61,7 +61,9 @@ class CompilerResolver {
     final targetArch = buildConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
-    if (targetArch == host.architecture && host.os == OS.linux) return clang;
+    if (targetArch == host.architecture &&
+        targetOs == host.os &&
+        host.os == OS.linux) return clang;
     if (targetOs == OS.macOS || targetOs == OS.iOS) return appleClang;
     if (targetOs == OS.android) return androidNdkClang;
     if (host.os == OS.linux) {
@@ -141,7 +143,9 @@ class CompilerResolver {
     final targetArchitecture = buildConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
-    if (targetArchitecture == host.architecture && host.os == OS.linux) {
+    if (targetArchitecture == host.architecture &&
+        targetOs == host.os &&
+        host.os == OS.linux) {
       return llvmAr;
     }
     if (targetOs == OS.macOS || targetOs == OS.iOS) return appleAr;
