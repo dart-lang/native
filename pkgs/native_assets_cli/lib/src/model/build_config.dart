@@ -30,7 +30,7 @@ class BuildConfig {
   Uri get packageRoot => _packageRoot;
   late final Uri _packageRoot;
 
-  // The target being compiled for.
+  /// The target being compiled for.
   late final Target target =
       Target.fromArchitectureAndOs(targetArchitecture, targetOs);
 
