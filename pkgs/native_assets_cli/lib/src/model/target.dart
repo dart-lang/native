@@ -281,6 +281,7 @@ class Target implements Comparable<Target> {
   static const linuxX64 = Target._(Abi.linuxX64);
   static const macOSArm64 = Target._(Abi.macosArm64);
   static const macOSX64 = Target._(Abi.macosX64);
+  static const windowsArm64 = Target._(Abi.windowsArm64);
   static const windowsIA32 = Target._(Abi.windowsIA32);
   static const windowsX64 = Target._(Abi.windowsX64);
 
@@ -306,6 +307,7 @@ class Target implements Comparable<Target> {
     linuxX64,
     macOSArm64,
     macOSX64,
+    windowsArm64,
     windowsIA32,
     windowsX64,
     // TODO(dacoharkes): Add support for `wasm`.
