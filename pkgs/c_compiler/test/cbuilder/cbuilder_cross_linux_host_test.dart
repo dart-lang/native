@@ -45,7 +45,8 @@ void main() {
           final buildConfig = BuildConfig(
             outDir: tempUri,
             packageRoot: tempUri,
-            target: target,
+            targetArchitecture: target.architecture,
+            targetOs: target.os,
             buildMode: BuildMode.release,
             linkModePreference: linkMode == LinkMode.dynamic
                 ? LinkModePreference.dynamic

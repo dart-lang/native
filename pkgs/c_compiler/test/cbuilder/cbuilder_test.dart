@@ -32,7 +32,8 @@ void main() {
         final buildConfig = BuildConfig(
           outDir: tempUri,
           packageRoot: tempUri,
-          target: Target.current,
+          targetArchitecture: Architecture.current,
+          targetOs: OS.current,
           buildMode: buildMode,
           // Ignored by executables.
           linkModePreference: LinkModePreference.dynamic,
@@ -83,7 +84,8 @@ void main() {
           final buildConfig = BuildConfig(
             outDir: tempUri,
             packageRoot: tempUri,
-            target: Target.current,
+            targetArchitecture: Architecture.current,
+            targetOs: OS.current,
             buildMode: BuildMode.release,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: CCompilerConfig(

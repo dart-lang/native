@@ -43,7 +43,8 @@ void main() {
       final buildConfig = BuildConfig(
         outDir: tempUri,
         packageRoot: tempUri,
-        target: Target.current,
+        targetArchitecture: Architecture.current,
+        targetOs: OS.current,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
         cCompiler: CCompilerConfig(
@@ -67,7 +68,8 @@ void main() {
       final buildConfig = BuildConfig(
         outDir: tempUri,
         packageRoot: tempUri,
-        target: Target.windowsX64,
+        targetArchitecture: Architecture.arm64,
+        targetOs: OS.windows,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
       );

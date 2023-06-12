@@ -33,7 +33,8 @@ void main() {
         final buildConfig = BuildConfig(
           outDir: tempUri,
           packageRoot: tempUri,
-          target: Target.current,
+          targetArchitecture: Architecture.current,
+          targetOs: OS.current,
           linkModePreference: LinkModePreference.dynamic,
           buildMode: BuildMode.release,
           cCompiler: CCompilerConfig(

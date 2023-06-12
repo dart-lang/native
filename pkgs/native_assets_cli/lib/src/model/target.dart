@@ -55,6 +55,26 @@ class Architecture {
     Abi.windowsIA32: Architecture.ia32,
     Abi.windowsX64: Architecture.x64,
   };
+
+  /// The `package:config` key preferably used.
+  static const String configKey = 'target_architecture';
+
+  @override
+  String toString() => dartPlatform;
+
+  /// Mapping from strings as used in [Architecture.toString] to
+  /// [Architecture]s.
+  static final Map<String, Architecture> _stringToArchitecture =
+      Map.fromEntries(Architecture.values.map(
+          (architecture) => MapEntry(architecture.toString(), architecture)));
+
+  factory Architecture.fromString(String target) =>
+      _stringToArchitecture[target]!;
+
+  /// The current [Architecture].
+  ///
+  /// Read from the [Platform.version] string.
+  static final Architecture current = Target.current.architecture;
 }
 
 /// The operating systems the Dart VM runs on.
@@ -184,6 +204,24 @@ class OS {
     OS.macOS: '',
     OS.windows: 'exe',
   };
+
+  /// The `package:config` key preferably used.
+  static const String configKey = 'target_os';
+
+  @override
+  String toString() => dartPlatform;
+
+  /// Mapping from strings as used in [OS.toString] to
+  /// [OS]s.
+  static final Map<String, OS> _stringToOS =
+      Map.fromEntries(OS.values.map((os) => MapEntry(os.toString(), os)));
+
+  factory OS.fromString(String target) => _stringToOS[target]!;
+
+  /// The current [OS].
+  ///
+  /// Read from the [Platform.version] string.
+  static final OS current = Target.current.os;
 }
 
 /// Application binary interface.
@@ -214,6 +252,16 @@ class Target implements Comparable<Target> {
           " '$versionStringFull'.");
     }
     return target;
+  }
+
+  factory Target.fromArchitectureAndOs(Architecture architecture, OS os) {
+    for (final value in values) {
+      if (value.os == os && value.architecture == architecture) {
+        return value;
+      }
+    }
+    throw ArgumentError('Unsupported combination of OS and architecture: '
+        "'${os}_$architecture'");
   }
 
   static const androidArm = Target._(Abi.androidArm);
@@ -309,9 +357,6 @@ class Target implements Comparable<Target> {
               // And no deprecated architectures.
               target != Target.iOSArm)
           .sorted;
-
-  /// The `package:config` key preferably used.
-  static const String configKey = 'target';
 }
 
 /// Common methods for manipulating iterables of [Target]s.
