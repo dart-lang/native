@@ -31,11 +31,19 @@ class BuildConfig {
   late final Uri _packageRoot;
 
   /// The target being compiled for.
+  ///
+  /// Not available in [dryRun].
   late final Target target =
       Target.fromArchitectureAndOs(targetArchitecture, targetOs);
 
   /// The architecture being compiled for.
-  Architecture get targetArchitecture => _targetArchitecture;
+  ///
+  /// Not available in [dryRun].
+  Architecture get targetArchitecture {
+    _ensureNotDryRun();
+    return _targetArchitecture;
+  }
+
   late final Architecture _targetArchitecture;
 
   /// The operating system being compiled for.
@@ -45,13 +53,25 @@ class BuildConfig {
   /// When compiling for iOS, whether to target device or simulator.
   ///
   /// Required when [targetOs] equals [OS.iOS].
-  IOSSdk? get targetIOSSdk => _targetIOSSdk;
+  ///
+  /// Not available in [dryRun].s
+  IOSSdk? get targetIOSSdk {
+    _ensureNotDryRun();
+    return _targetIOSSdk;
+  }
+
   late final IOSSdk? _targetIOSSdk;
 
   /// When compiling for Android, the API version to target.
   ///
   /// Required when [targetOs] equals [OS.android].
-  int? get targetAndroidNdkApi => _targetAndroidNdkApi;
+  ///
+  /// Not available in [dryRun].
+  int? get targetAndroidNdkApi {
+    _ensureNotDryRun();
+    return _targetAndroidNdkApi;
+  }
+
   late final int? _targetAndroidNdkApi;
 
   /// Preferred linkMode method for library.
@@ -63,11 +83,23 @@ class BuildConfig {
   /// The key in the map is the package name of the dependency.
   ///
   /// The key in the nested map is the key for the metadata from the dependency.
-  Map<String, Metadata>? get dependencyMetadata => _dependencyMetadata;
+  ///
+  /// Not available in [dryRun].
+  Map<String, Metadata>? get dependencyMetadata {
+    _ensureNotDryRun();
+    return _dependencyMetadata;
+  }
+
   late final Map<String, Metadata>? _dependencyMetadata;
 
   /// The configuration for invoking the C compiler.
-  CCompilerConfig get cCompiler => _cCompiler;
+  ///
+  /// Not available in [dryRun].
+  CCompilerConfig get cCompiler {
+    _ensureNotDryRun();
+    return _cCompiler;
+  }
+
   late final CCompilerConfig _cCompiler;
 
   /// Don't run the build, only report the native assets produced.
@@ -75,7 +107,13 @@ class BuildConfig {
   late final bool? _dryRun;
 
   /// The build mode that the code should be compiled in.
-  BuildMode get buildMode => _buildMode;
+  ///
+  /// Not available in [dryRun].
+  BuildMode get buildMode {
+    _ensureNotDryRun();
+    return _buildMode;
+  }
+
   late final BuildMode _buildMode;
 
   /// The underlying config.
@@ -95,7 +133,6 @@ class BuildConfig {
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
-    bool? dryRun,
   }) {
     final nonValidated = BuildConfig._()
       .._outDir = outDir
@@ -108,7 +145,25 @@ class BuildConfig {
       .._cCompiler = cCompiler ?? CCompilerConfig()
       .._linkModePreference = linkModePreference
       .._dependencyMetadata = dependencyMetadata
-      .._dryRun = dryRun;
+      .._dryRun = false;
+    final parsedConfigFile = nonValidated.toYaml();
+    final config = Config(fileParsed: parsedConfigFile);
+    return BuildConfig.fromConfig(config);
+  }
+
+  factory BuildConfig.dryRun({
+    required Uri outDir,
+    required Uri packageRoot,
+    required OS targetOs,
+    required LinkModePreference linkModePreference,
+  }) {
+    final nonValidated = BuildConfig._()
+      .._outDir = outDir
+      .._packageRoot = packageRoot
+      .._targetOs = targetOs
+      .._linkModePreference = linkModePreference
+      .._cCompiler = CCompilerConfig()
+      .._dryRun = true;
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfig.fromConfig(config);
@@ -246,15 +301,22 @@ class BuildConfig {
         }
       },
       (config) => _config = config,
+      (config) => _dryRun = config.optionalBool(dryRunConfigKey),
       (config) => _outDir = config.path(outDirConfigKey, mustExist: true),
       (config) =>
           _packageRoot = config.path(packageRootConfigKey, mustExist: true),
-      (config) => _buildMode = BuildMode.fromString(
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<String>(BuildMode.configKey);
+        } else {
+          _buildMode = BuildMode.fromString(
             config.string(
               BuildMode.configKey,
               validValues: BuildMode.values.map((e) => '$e'),
             ),
-          ),
+          );
+        }
+      },
       (config) {
         _targetOs = OS.fromString(
           config.string(
@@ -265,58 +327,111 @@ class BuildConfig {
         osSet = true;
       },
       (config) {
-        final validArchitectures = [
-          if (!osSet)
-            ...Architecture.values
-          else
-            for (final target in Target.values)
-              if (target.os == _targetOs) target.architecture
-        ];
-        _targetArchitecture = Architecture.fromString(
+        if (dryRun) {
+          _throwIfNotNullInDryRun<String>(Architecture.configKey);
+        } else {
+          final validArchitectures = [
+            if (!osSet)
+              ...Architecture.values
+            else
+              for (final target in Target.values)
+                if (target.os == _targetOs) target.architecture
+          ];
+          _targetArchitecture = Architecture.fromString(
+            config.string(
+              Architecture.configKey,
+              validValues: validArchitectures.map((e) => '$e'),
+            ),
+          );
+        }
+      },
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<String>(IOSSdk.configKey);
+        } else {
+          _targetIOSSdk = (osSet && _targetOs == OS.iOS)
+              ? IOSSdk.fromString(
+                  config.string(
+                    IOSSdk.configKey,
+                    validValues: IOSSdk.values.map((e) => '$e'),
+                  ),
+                )
+              : null;
+        }
+      },
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<int>(targetAndroidNdkApiConfigKey);
+        } else {
+          _targetAndroidNdkApi = (osSet && _targetOs == OS.android)
+              ? config.int(targetAndroidNdkApiConfigKey)
+              : null;
+        }
+      },
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<int>(CCompilerConfig.arConfigKeyFull);
+        } else {
+          cCompiler._ar = config.optionalPath(
+            CCompilerConfig.arConfigKeyFull,
+            mustExist: true,
+          );
+        }
+      },
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+        } else {
+          cCompiler._cc = config.optionalPath(
+            CCompilerConfig.ccConfigKeyFull,
+            mustExist: true,
+          );
+          ccSet = true;
+        }
+      },
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+        } else {
+          cCompiler._ld = config.optionalPath(
+            CCompilerConfig.ldConfigKeyFull,
+            mustExist: true,
+          );
+        }
+      },
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+        } else {
+          cCompiler._envScript = (ccSet &&
+                  cCompiler.cc != null &&
+                  cCompiler.cc!.toFilePath().endsWith('cl.exe'))
+              ? config.path(CCompilerConfig.envScriptConfigKeyFull,
+                  mustExist: true)
+              : null;
+        }
+      },
+      (config) {
+        if (dryRun) {
+          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+        } else {
+          cCompiler._envScriptArgs = config.optionalStringList(
+            CCompilerConfig.envScriptArgsConfigKeyFull,
+            splitEnvironmentPattern: ' ',
+          );
+        }
+      },
+      (config) {
+        _linkModePreference = LinkModePreference.fromString(
           config.string(
-            Architecture.configKey,
-            validValues: validArchitectures.map((e) => '$e'),
+            LinkModePreference.configKey,
+            validValues: LinkModePreference.values.map((e) => '$e'),
           ),
         );
       },
-      (config) => _targetIOSSdk = (osSet && _targetOs == OS.iOS)
-          ? IOSSdk.fromString(
-              config.string(
-                IOSSdk.configKey,
-                validValues: IOSSdk.values.map((e) => '$e'),
-              ),
-            )
-          : null,
-      (config) => _targetAndroidNdkApi = (osSet && _targetOs == OS.android)
-          ? config.int(targetAndroidNdkApiConfigKey)
-          : null,
-      (config) => cCompiler._ar =
-          config.optionalPath(CCompilerConfig.arConfigKeyFull, mustExist: true),
       (config) {
-        cCompiler._cc = config.optionalPath(CCompilerConfig.ccConfigKeyFull,
-            mustExist: true);
-        ccSet = true;
+        _dependencyMetadata = _readDependencyMetadataFromConfig(config);
       },
-      (config) => cCompiler._ld =
-          config.optionalPath(CCompilerConfig.ldConfigKeyFull, mustExist: true),
-      (config) => cCompiler._envScript = (ccSet &&
-              cCompiler.cc != null &&
-              cCompiler.cc!.toFilePath().endsWith('cl.exe'))
-          ? config.path(CCompilerConfig.envScriptConfigKeyFull, mustExist: true)
-          : null,
-      (config) => cCompiler._envScriptArgs = config.optionalStringList(
-            CCompilerConfig.envScriptArgsConfigKeyFull,
-            splitEnvironmentPattern: ' ',
-          ),
-      (config) => _linkModePreference = LinkModePreference.fromString(
-            config.string(
-              LinkModePreference.configKey,
-              validValues: LinkModePreference.values.map((e) => '$e'),
-            ),
-          ),
-      (config) =>
-          _dependencyMetadata = _readDependencyMetadataFromConfig(config),
-      (config) => _dryRun = config.optionalBool(dryRunConfigKey),
     ];
   }
 
@@ -354,21 +469,23 @@ class BuildConfig {
     return {
       outDirConfigKey: _outDir.toFilePath(),
       packageRootConfigKey: _packageRoot.toFilePath(),
-      BuildMode.configKey: _buildMode.toString(),
-      Architecture.configKey: _targetArchitecture.toString(),
       OS.configKey: _targetOs.toString(),
-      if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
-      if (_targetAndroidNdkApi != null)
-        targetAndroidNdkApiConfigKey: _targetAndroidNdkApi!,
-      if (cCompilerYaml.isNotEmpty) CCompilerConfig.configKey: cCompilerYaml,
       LinkModePreference.configKey: _linkModePreference.toString(),
-      if (_dependencyMetadata != null)
-        dependencyMetadataConfigKey: {
-          for (final entry in _dependencyMetadata!.entries)
-            entry.key: entry.value.toYaml(),
-        },
-      if (dryRun) dryRunConfigKey: dryRun,
       _versionKey: version.toString(),
+      if (dryRun) dryRunConfigKey: dryRun,
+      if (!dryRun) ...{
+        BuildMode.configKey: _buildMode.toString(),
+        Architecture.configKey: _targetArchitecture.toString(),
+        if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
+        if (_targetAndroidNdkApi != null)
+          targetAndroidNdkApiConfigKey: _targetAndroidNdkApi!,
+        if (cCompilerYaml.isNotEmpty) CCompilerConfig.configKey: cCompilerYaml,
+        if (_dependencyMetadata != null)
+          dependencyMetadataConfigKey: {
+            for (final entry in _dependencyMetadata!.entries)
+              entry.key: entry.value.toYaml(),
+          },
+      },
     }.sortOnKey();
   }
 
@@ -379,38 +496,61 @@ class BuildConfig {
     if (other is! BuildConfig) {
       return false;
     }
-    if (other._outDir != _outDir) return false;
-    if (other._packageRoot != _packageRoot) return false;
-    if (other._buildMode != _buildMode) return false;
-    if (other._targetArchitecture != _targetArchitecture) return false;
-    if (other._targetOs != _targetOs) return false;
-    if (other._targetIOSSdk != _targetIOSSdk) return false;
-    if (other._targetAndroidNdkApi != _targetAndroidNdkApi) return false;
-    if (other._cCompiler != _cCompiler) return false;
-    if (other._linkModePreference != _linkModePreference) return false;
-    if (!DeepCollectionEquality()
-        .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
+    if (other.outDir != outDir) return false;
+    if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
+    if (other.targetOs != targetOs) return false;
+    if (other.linkModePreference != linkModePreference) return false;
+    if (!dryRun) {
+      if (other.buildMode != buildMode) return false;
+      if (other.targetArchitecture != targetArchitecture) return false;
+      if (other.targetIOSSdk != targetIOSSdk) return false;
+      if (other.targetAndroidNdkApi != targetAndroidNdkApi) return false;
+      if (other.cCompiler != cCompiler) return false;
+      if (!DeepCollectionEquality()
+          .equals(other.dependencyMetadata, _dependencyMetadata)) return false;
+    }
     return true;
   }
 
   @override
-  int get hashCode => Object.hash(
-        _outDir,
-        _packageRoot,
-        _buildMode,
-        _targetArchitecture,
-        _targetOs,
-        _targetIOSSdk,
-        _targetAndroidNdkApi,
-        _cCompiler,
-        _linkModePreference,
-        DeepCollectionEquality().hash(_dependencyMetadata),
+  int get hashCode => Object.hashAll([
+        outDir,
+        packageRoot,
+        targetOs,
+        linkModePreference,
         dryRun,
-      );
+        if (!dryRun) ...[
+          buildMode,
+          DeepCollectionEquality().hash(dependencyMetadata),
+          targetArchitecture,
+          targetIOSSdk,
+          targetAndroidNdkApi,
+          cCompiler,
+        ],
+      ]);
 
   @override
   String toString() => 'BuildConfig(${toYaml()})';
+
+  void _ensureNotDryRun() {
+    if (dryRun) {
+      throw StateError('''This field is not available in dry runs.
+In Flutter projects, native builds are generated per OS which target multiple
+architectures, build modes, etc. Therefore, the list of native assets produced
+can _only_ depend on OS.''');
+    }
+  }
+
+  void _throwIfNotNullInDryRun<T>(String key) {
+    final object = config.valueOf<T?>(key);
+    if (object != null) {
+      throw FormatException('''This field is not available in dry runs.
+In Flutter projects, native builds are generated per OS which target multiple
+architectures, build modes, etc. Therefore, the list of native assets produced
+can _only_ depend on OS.''');
+    }
+  }
 }
 
 class CCompilerConfig {
@@ -476,9 +616,9 @@ class CCompilerConfig {
     if (other is! CCompilerConfig) {
       return false;
     }
-    if (other._ar != _ar) return false;
-    if (other._cc != _cc) return false;
-    if (other._ld != _ld) return false;
+    if (other.ar != ar) return false;
+    if (other.cc != cc) return false;
+    if (other.ld != ld) return false;
     if (other.envScript != envScript) return false;
     if (!ListEquality<String>().equals(other.envScriptArgs, envScriptArgs)) {
       return false;

@@ -117,12 +117,21 @@ class CBuilder implements Builder {
     }
 
     if (assetName != null) {
-      buildOutput.assets.add(Asset(
-        name: assetName!,
-        linkMode: linkMode,
-        target: buildConfig.target,
-        path: AssetAbsolutePath(libUri),
-      ));
+      final targets = [
+        if (!buildConfig.dryRun)
+          buildConfig.target
+        else
+          for (final target in Target.values)
+            if (target.os == buildConfig.targetOs) target
+      ];
+      for (final target in targets) {
+        buildOutput.assets.add(Asset(
+          name: assetName!,
+          linkMode: linkMode,
+          target: target,
+          path: AssetAbsolutePath(libUri),
+        ));
+      }
     }
     if (!buildConfig.dryRun) {
       buildOutput.dependencies.dependencies.addAll([
