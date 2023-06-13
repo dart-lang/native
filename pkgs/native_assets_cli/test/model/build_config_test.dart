@@ -98,17 +98,37 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      dryRun: true,
     );
 
     final config = Config(fileParsed: {
       'build_mode': 'release',
-      'dry_run': true,
+      'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
+      'target_os': 'android',
+      'version': BuildOutput.version.toString(),
+    });
+
+    final fromConfig = BuildConfig.fromConfig(config);
+    expect(fromConfig, equals(buildConfig2));
+  });
+
+  test('BuildConfig.dryRun', () {
+    final buildConfig2 = BuildConfig.dryRun(
+      outDir: outDirUri,
+      packageRoot: packageRootUri,
+      targetOs: OS.android,
+      linkModePreference: LinkModePreference.preferStatic,
+    );
+
+    final config = Config(fileParsed: {
+      'dry_run': true,
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDirUri.toFilePath(),
+      'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
       'version': BuildOutput.version.toString(),
     });
@@ -489,6 +509,46 @@ version: ${BuildConfig.version}''';
       () => BuildConfig.fromConfig(config),
       throwsA(predicate(
         (e) => e is FormatException && e.message.contains('arm'),
+      )),
+    );
+  });
+
+  test('BuildConfig dry_run access invalid args', () {
+    final outDir = outDirUri;
+    final config = Config(fileParsed: {
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDir.toFilePath(),
+      'package_root': tempUri.toFilePath(),
+      'target_os': 'windows',
+      'target_architecture': 'arm64',
+      'build_mode': 'debug',
+      'dry_run': true,
+      'version': BuildConfig.version.toString(),
+    });
+    expect(
+      () => BuildConfig.fromConfig(config),
+      throwsA(predicate(
+        (e) =>
+            e is FormatException && e.message.contains('In Flutter projects'),
+      )),
+    );
+  });
+
+  test('BuildConfig dry_run access invalid args', () {
+    final outDir = outDirUri;
+    final config = Config(fileParsed: {
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDir.toFilePath(),
+      'package_root': tempUri.toFilePath(),
+      'target_os': 'windows',
+      'dry_run': true,
+      'version': BuildConfig.version.toString(),
+    });
+    final buildConfig = BuildConfig.fromConfig(config);
+    expect(
+      () => buildConfig.targetArchitecture,
+      throwsA(predicate(
+        (e) => e is StateError && e.message.contains('In Flutter projects'),
       )),
     );
   });

@@ -81,20 +81,26 @@ void main() {
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
           const name = 'add';
 
-          final buildConfig = BuildConfig(
-            outDir: tempUri,
-            packageRoot: tempUri,
-            targetArchitecture: Architecture.current,
-            targetOs: OS.current,
-            buildMode: BuildMode.release,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: CCompilerConfig(
-              cc: cc,
-              envScript: envScript,
-              envScriptArgs: envScriptArgs,
-            ),
-            dryRun: dryRun,
-          );
+          final buildConfig = dryRun
+              ? BuildConfig.dryRun(
+                  outDir: tempUri,
+                  packageRoot: tempUri,
+                  targetOs: OS.current,
+                  linkModePreference: LinkModePreference.dynamic,
+                )
+              : BuildConfig(
+                  outDir: tempUri,
+                  packageRoot: tempUri,
+                  targetArchitecture: Architecture.current,
+                  targetOs: OS.current,
+                  buildMode: BuildMode.release,
+                  linkModePreference: LinkModePreference.dynamic,
+                  cCompiler: CCompilerConfig(
+                    cc: cc,
+                    envScript: envScript,
+                    envScriptArgs: envScriptArgs,
+                  ),
+                );
           final buildOutput = BuildOutput();
 
           final cbuilder = CBuilder.library(

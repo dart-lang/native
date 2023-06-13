@@ -56,4 +56,20 @@ void main() {
     expect(
         Target.macOSArm64.supportedTargetTargets(), contains(Target.iOSArm64));
   });
+
+  test('Target fromArchitectureAndOs', () async {
+    final current =
+        Target.fromArchitectureAndOs(Architecture.current, OS.current);
+    expect(current.toString(), Abi.current().toString());
+
+    expect(
+      () => Target.fromArchitectureAndOs(Architecture.arm, OS.windows),
+      throwsA(predicate(
+        (e) =>
+            e is ArgumentError &&
+            (e.message as String).contains('arm') &&
+            (e.message as String).contains('windows'),
+      )),
+    );
+  });
 }

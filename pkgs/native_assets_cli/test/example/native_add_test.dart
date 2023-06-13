@@ -41,18 +41,20 @@ void main() async {
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
           '-Dtarget_os=${OS.current}',
-          '-Dtarget_architecture=${Architecture.current}',
-          '-Dbuild_mode=debug',
-          '-Dlink_mode_preference=dynamic',
-          if (cc != null) '-Dcc=${cc!.toFilePath()}',
-          if (envScript != null)
-            '-D${CCompilerConfig.envScriptConfigKeyFull}='
-                '${envScript!.toFilePath()}',
-          if (envScriptArgs != null)
-            '-D${CCompilerConfig.envScriptArgsConfigKeyFull}='
-                '${envScriptArgs!.join(' ')}',
           '-Dversion=${BuildConfig.version}',
+          '-Dlink_mode_preference=dynamic',
           '-Ddry_run=$dryRun',
+          if (!dryRun) ...[
+            '-Dtarget_architecture=${Architecture.current}',
+            '-Dbuild_mode=debug',
+            if (cc != null) '-Dcc=${cc!.toFilePath()}',
+            if (envScript != null)
+              '-D${CCompilerConfig.envScriptConfigKeyFull}='
+                  '${envScript!.toFilePath()}',
+            if (envScriptArgs != null)
+              '-D${CCompilerConfig.envScriptArgsConfigKeyFull}='
+                  '${envScriptArgs!.join(' ')}',
+          ],
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );
@@ -67,12 +69,13 @@ void main() async {
       final buildOutput = BuildOutput.fromYamlString(
           await File.fromUri(buildOutputUri).readAsString());
       final assets = buildOutput.assets;
-      expect(assets.length, 1);
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
-        expect(await assets.single.exists(), false);
+        expect(assets.length, greaterThanOrEqualTo(1));
+        expect(await assets.first.exists(), false);
         expect(dependencies.dependencies, <Uri>[]);
       } else {
+        expect(assets.length, 1);
         expect(await assets.allExist(), true);
         expect(
           dependencies.dependencies,
