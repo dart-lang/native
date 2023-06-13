@@ -401,7 +401,8 @@ class Config {
             ..finalName = decl['name']
             ..typeClassName = decl['type_class']
             ..superCount = decl['super_count']
-            ..allTypeParams = [];
+            ..allTypeParams = []
+            ..parent = null;
           for (final typeParamEntry
               in ((decl['type_params'] as YamlMap?)?.entries) ??
                   <MapEntry<dynamic, dynamic>>[]) {

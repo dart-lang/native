@@ -20,7 +20,11 @@ import org.objectweb.asm.Type;
 class TypeUtils {
 
   public static String parentName(Type type) {
-    return type.getClassName().split("\\$")[0];
+    var className = type.getClassName();
+    if (!className.contains("$")) {
+      return null;
+    }
+    return className.split("\\$")[0];
   }
 
   public static String simpleName(Type type) {

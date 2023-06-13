@@ -1459,27 +1459,29 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
   static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"<init>", r"(Ljava/lang/Object;Ljava/lang/Object;)V");
+      _class.reference,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V");
 
-  /// from: public void <init>(T parentValue, S value)
+  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $parent, S newValue)
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory GrandParent_Parent(
-    $T parentValue,
-    $S value, {
+    GrandParent<$T> $parent,
+    $S newValue, {
     jni.JObjType<$T>? T,
     jni.JObjType<$S>? S,
   }) {
     T ??= jni.lowestCommonSuperType([
-      parentValue.$type,
+      ($parent.$type as $GrandParentType).T,
     ]) as jni.JObjType<$T>;
     S ??= jni.lowestCommonSuperType([
-      value.$type,
+      newValue.$type,
     ]) as jni.JObjType<$S>;
     return GrandParent_Parent.fromRef(
         T,
         S,
         jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor,
-            [parentValue.reference, value.reference]).object);
+            [$parent.reference, newValue.reference]).object);
   }
 }
 
@@ -1605,37 +1607,35 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   set value($U value) =>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
-  static final _id_ctor = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"<init>", r"(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V");
+  static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V");
 
-  /// from: public void <init>(T grandParentValue, S parentValue, U value)
+  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $parent, U newValue)
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory GrandParent_Parent_Child(
-    $T grandParentValue,
-    $S parentValue,
-    $U value, {
+    GrandParent_Parent<$T, $S> $parent,
+    $U newValue, {
     jni.JObjType<$T>? T,
     jni.JObjType<$S>? S,
     jni.JObjType<$U>? U,
   }) {
     T ??= jni.lowestCommonSuperType([
-      grandParentValue.$type,
+      ($parent.$type as $GrandParent_ParentType).T,
     ]) as jni.JObjType<$T>;
     S ??= jni.lowestCommonSuperType([
-      parentValue.$type,
+      ($parent.$type as $GrandParent_ParentType).S,
     ]) as jni.JObjType<$S>;
     U ??= jni.lowestCommonSuperType([
-      value.$type,
+      newValue.$type,
     ]) as jni.JObjType<$U>;
     return GrandParent_Parent_Child.fromRef(
         T,
         S,
         U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor, [
-          grandParentValue.reference,
-          parentValue.reference,
-          value.reference
-        ]).object);
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor,
+            [$parent.reference, newValue.reference]).object);
   }
 }
 
@@ -1838,11 +1838,14 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
   static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"<init>", r"(Ljava/lang/Object;Ljava/lang/Object;)V");
+      _class.reference,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V");
 
-  /// from: public void <init>(S parentValue, U value)
+  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $parent, S parentValue, U value)
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory GrandParent_StaticParent_Child(
+    GrandParent_StaticParent<$S> $parent,
     $S parentValue,
     $U value, {
     jni.JObjType<$S>? S,
@@ -1850,6 +1853,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   }) {
     S ??= jni.lowestCommonSuperType([
       parentValue.$type,
+      ($parent.$type as $GrandParent_StaticParentType).S,
     ]) as jni.JObjType<$S>;
     U ??= jni.lowestCommonSuperType([
       value.$type,
@@ -1857,8 +1861,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     return GrandParent_StaticParent_Child.fromRef(
         S,
         U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor,
-            [parentValue.reference, value.reference]).object);
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor, [
+          $parent.reference,
+          parentValue.reference,
+          value.reference
+        ]).object);
   }
 }
 
@@ -2084,11 +2091,14 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
   static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"<init>", r"(Ljava/lang/Object;Ljava/lang/Object;)V");
+      _class.reference,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/Object;Ljava/lang/Object;)V");
 
-  /// from: public void <init>(K key, V value)
+  /// from: public void <init>(com.github.dart_lang.jnigen.generics.MyMap $parent, K key, V value)
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory MyMap_MyEntry(
+    MyMap<$K, $V> $parent,
     $K key,
     $V value, {
     jni.JObjType<$K>? K,
@@ -2096,15 +2106,17 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   }) {
     K ??= jni.lowestCommonSuperType([
       key.$type,
+      ($parent.$type as $MyMapType).K,
     ]) as jni.JObjType<$K>;
     V ??= jni.lowestCommonSuperType([
       value.$type,
+      ($parent.$type as $MyMapType).V,
     ]) as jni.JObjType<$V>;
     return MyMap_MyEntry.fromRef(
         K,
         V,
         jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor,
-            [key.reference, value.reference]).object);
+            [$parent.reference, key.reference, value.reference]).object);
   }
 }
 

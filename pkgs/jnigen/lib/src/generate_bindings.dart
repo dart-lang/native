@@ -9,6 +9,7 @@ import 'bindings/c_generator.dart';
 import 'bindings/dart_generator.dart';
 import 'bindings/excluder.dart';
 import 'bindings/linker.dart';
+import 'bindings/unnester.dart';
 import 'bindings/renamer.dart';
 import 'elements/elements.dart';
 import 'summary/summary.dart';
@@ -36,6 +37,7 @@ Future<void> generateJniBindings(Config config) async {
 
   classes.accept(Excluder(config));
   await classes.accept(Linker(config));
+  classes.accept(Unnester());
   classes.accept(Renamer(config));
 
   final cBased = config.outputConfig.bindingsType == BindingsType.cBased;

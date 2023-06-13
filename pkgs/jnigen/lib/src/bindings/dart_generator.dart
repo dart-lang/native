@@ -333,7 +333,7 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
         .map((typeParam) => 'this.$typeParam,')
         .join(_newLine(depth: 2));
     final superClass = (node.classDecl.superclass!.type as DeclaredType);
-    final superTypeClassesCall = superClass.classDecl.isObject()
+    final superTypeClassesCall = superClass.classDecl.isObject
         ? ''
         : superClass.params
             .accept(_TypeClassGenerator(resolver))
@@ -1331,7 +1331,7 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
 
   @override
   Map<String, List<OutsideInBuffer>> visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject()) {
+    if (node.classDecl.isObject) {
       return {};
     }
     final offset = node.classDecl.allTypeParams.length - node.params.length;

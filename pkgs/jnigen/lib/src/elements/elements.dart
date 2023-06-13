@@ -167,7 +167,9 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @override
   String get name => finalName;
 
-  bool isObject() => superCount == 0;
+  bool get isObject => superCount == 0;
+
+  bool get isNested => parentName != null;
 }
 
 @JsonEnum()
@@ -455,7 +457,7 @@ class Method extends ClassMember implements Element<Method> {
   final List<Annotation> annotations;
   final JavaDocComment? javadoc;
   final List<TypeParam> typeParams;
-  final List<Param> params;
+  List<Param> params;
   final TypeUsage returnType;
 
   /// The [ClassDecl] where this method is defined.

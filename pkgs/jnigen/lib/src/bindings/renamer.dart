@@ -65,6 +65,7 @@ const Set<String> _keywords = {
   'throw',
   'true',
   'try',
+  'type', // Is used for type classes.
   'typedef',
   'var',
   'void',
@@ -213,8 +214,8 @@ class _MethodRenamer implements Visitor<Method, void> {
       node.finalName = _renameConflict(nameCounts, name);
       node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
     }
-    log.fine(
-        'Method ${node.classDecl.binaryName}#${node.name} is named ${node.finalName}');
+    log.fine('Method ${node.classDecl.binaryName}#${node.name}'
+        ' is named ${node.finalName}');
 
     final paramRenamer = _ParamRenamer(config);
     for (final param in node.params) {
@@ -242,8 +243,8 @@ class _FieldRenamer implements Visitor<Field, void> {
       nameCounts,
       node.name,
     );
-    log.fine(
-        'Field ${node.classDecl.binaryName}#${node.name} is named ${node.finalName}');
+    log.fine('Field ${node.classDecl.binaryName}#${node.name}'
+        ' is named ${node.finalName}');
   }
 }
 

@@ -390,9 +390,12 @@ class _CParamGenerator extends Visitor<Param, String> {
   @override
   String visit(Param node) {
     final paramName =
-        _cTypeKeywords.contains(node.name) ? '${node.name}0' : node.name;
-    final type = node.type.accept(const _CReturnType());
-    if (addReturnType) return '$type $paramName';
+        (_cTypeKeywords.contains(node.name) ? '${node.name}0' : node.name)
+            .replaceAll('\$', '_');
+    if (addReturnType) {
+      final type = node.type.accept(const _CReturnType());
+      return '$type $paramName';
+    }
     return paramName;
   }
 }
