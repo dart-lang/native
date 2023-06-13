@@ -49,7 +49,8 @@ void main() async {
     final config1 = BuildConfig(
       outDir: outDirUri,
       packageRoot: tempUri,
-      target: Target.iOSArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOs,
       cCompiler: CCompilerConfig(
         cc: fakeClang,
@@ -63,7 +64,8 @@ void main() async {
     final config2 = BuildConfig(
       outDir: outDir2Uri,
       packageRoot: tempUri,
-      target: Target.androidArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -73,7 +75,8 @@ void main() async {
     expect(config1 == config2, false);
     expect(config1.outDir != config2.outDir, true);
     expect(config1.packageRoot, config2.packageRoot);
-    expect(config1.target != config2.target, true);
+    expect(config1.targetArchitecture == config2.targetArchitecture, true);
+    expect(config1.targetOs != config2.targetOs, true);
     expect(config1.targetIOSSdk != config2.targetIOSSdk, true);
     expect(config1.cCompiler.cc != config2.cCompiler.cc, true);
     expect(config1.cCompiler.ld != config2.cCompiler.ld, true);
@@ -90,7 +93,8 @@ void main() async {
     final buildConfig2 = BuildConfig(
       outDir: outDirUri,
       packageRoot: packageRootUri,
-      target: Target.androidArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -104,7 +108,8 @@ void main() async {
       'out_dir': outDirUri.toFilePath(),
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
-      'target': 'android_arm64',
+      'target_architecture': 'arm64',
+      'target_os': 'android',
       'version': BuildOutput.version.toString(),
     });
 
@@ -116,7 +121,8 @@ void main() async {
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
       packageRoot: packageRootUri,
-      target: Target.iOSArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOs,
       cCompiler: CCompilerConfig(
         cc: fakeClang,
@@ -136,7 +142,8 @@ void main() async {
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
       packageRoot: tempUri,
-      target: Target.androidArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -154,7 +161,8 @@ void main() async {
     final buildConfig2 = BuildConfig(
       outDir: outDirUri,
       packageRoot: tempUri,
-      target: Target.androidArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -178,7 +186,8 @@ void main() async {
     final buildConfig1 = BuildConfig(
       outDir: outDir,
       packageRoot: tempUri,
-      target: Target.iOSArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOs,
       cCompiler: CCompilerConfig(
         cc: fakeClang,
@@ -213,8 +222,9 @@ dependency_metadata:
 link_mode_preference: prefer-static
 out_dir: ${outDir.toFilePath()}
 package_root: ${tempUri.toFilePath()}
-target: ios_arm64
+target_architecture: arm64
 target_ios_sdk: iphoneos
+target_os: ios
 version: ${BuildConfig.version}''';
     expect(yamlString, equals(expectedYamlString));
 
@@ -233,7 +243,7 @@ version: ${BuildConfig.version}''';
         (e) =>
             e is FormatException &&
             e.message.contains(
-              'No value was provided for required key: target',
+              'No value was provided for required key: build_mode',
             ),
       )),
     );
@@ -241,7 +251,8 @@ version: ${BuildConfig.version}''';
       () => BuildConfig.fromConfig(Config(fileParsed: {
         'version': BuildConfig.version.toString(),
         'package_root': packageRootUri.toFilePath(),
-        'target': 'android_arm64',
+        'target_architecture': 'arm64',
+        'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
       })),
@@ -258,7 +269,8 @@ version: ${BuildConfig.version}''';
         'version': BuildConfig.version.toString(),
         'out_dir': outDirUri.toFilePath(),
         'package_root': packageRootUri.toFilePath(),
-        'target': 'android_arm64',
+        'target_architecture': 'arm64',
+        'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
         'dependency_metadata': {
@@ -280,7 +292,8 @@ version: ${BuildConfig.version}''';
         'out_dir': outDirUri.toFilePath(),
         'version': BuildConfig.version.toString(),
         'package_root': packageRootUri.toFilePath(),
-        'target': 'android_arm64',
+        'target_architecture': 'arm64',
+        'target_os': 'android',
         'link_mode_preference': 'prefer-static',
       })),
       throwsA(predicate(
@@ -310,7 +323,8 @@ version: ${BuildConfig.version}''';
     final config = BuildConfig(
       outDir: outDirUri,
       packageRoot: tempUri,
-      target: Target.iOSArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOs,
       cCompiler: CCompilerConfig(
         cc: fakeClang,
@@ -326,7 +340,8 @@ version: ${BuildConfig.version}''';
     final buildConfig = BuildConfig(
       outDir: outDirUri,
       packageRoot: tempUri,
-      target: Target.androidArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -346,7 +361,8 @@ version: ${BuildConfig.version}''';
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
       packageRoot: tempUri,
-      target: Target.androidArm64,
+      targetArchitecture: Architecture.arm64,
+      targetOs: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -372,7 +388,8 @@ version: ${BuildConfig.version}''';
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
       packageRoot: packageRootUri,
-      target: Target.windowsX64,
+      targetArchitecture: Architecture.x64,
+      targetOs: OS.windows,
       cCompiler: CCompilerConfig(
         cc: fakeCl,
         envScript: fakeVcVars,
@@ -395,7 +412,8 @@ version: ${BuildConfig.version}''';
         'link_mode_preference': 'prefer-static',
         'out_dir': outDir.toFilePath(),
         'package_root': tempUri.toFilePath(),
-        'target': 'linux_x64',
+        'target_os': 'linux',
+        'target_architecture': 'x64',
         'version': version,
       });
       expect(
@@ -418,18 +436,20 @@ version: ${BuildConfig.version}''';
 
       final name1 = BuildConfig.checksum(
         packageRoot: nativeAddUri,
-        target: Target.linuxX64,
+        targetArchitecture: Architecture.x64,
+        targetOs: OS.linux,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '05b54381626750e570c92d255bb09390');
+      expect(name1, '1397e1b887565784da364fddc021491a');
 
       // Build folder different due to metadata.
       final name2 = BuildConfig.checksum(
         packageRoot: nativeAddUri,
-        target: Target.linuxX64,
+        targetArchitecture: Architecture.x64,
+        targetOs: OS.linux,
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
         dependencyMetadata: {
@@ -442,7 +462,8 @@ version: ${BuildConfig.version}''';
       // Build folder different due to cc.
       final name3 = BuildConfig.checksum(
           packageRoot: nativeAddUri,
-          target: Target.linuxX64,
+          targetArchitecture: Architecture.x64,
+          targetOs: OS.linux,
           buildMode: BuildMode.release,
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: CCompilerConfig(
@@ -451,5 +472,24 @@ version: ${BuildConfig.version}''';
       printOnFailure([name1, name3].toString());
       expect(name1 != name3, true);
     });
+  });
+
+  test('BuildConfig invalid target os architecture combination', () {
+    final outDir = outDirUri;
+    final config = Config(fileParsed: {
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDir.toFilePath(),
+      'package_root': tempUri.toFilePath(),
+      'target_os': 'windows',
+      'target_architecture': 'arm',
+      'build_mode': 'debug',
+      'version': BuildConfig.version.toString(),
+    });
+    expect(
+      () => BuildConfig.fromConfig(config),
+      throwsA(predicate(
+        (e) => e is FormatException && e.message.contains('arm'),
+      )),
+    );
   });
 }

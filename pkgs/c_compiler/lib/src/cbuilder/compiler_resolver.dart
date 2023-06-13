@@ -47,37 +47,41 @@ class CompilerResolver {
       return result;
     }
 
-    final target = buildConfig.target;
-    final errorMessage =
-        "No tools configured on host '$host' with target '$target'.";
+    final targetOs = buildConfig.targetOs;
+    final targetArchitecture = buildConfig.targetArchitecture;
+    final errorMessage = "No tools configured on host '$host' with target "
+        "'${targetOs}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
-    final target = buildConfig.target;
+    final targetOs = buildConfig.targetOs;
+    final targetArch = buildConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
-    if (target == host && host.os == OS.linux) return clang;
-    if (target.os == OS.macOS || target.os == OS.iOS) return appleClang;
-    if (target.os == OS.android) return androidNdkClang;
+    if (targetArch == host.architecture &&
+        targetOs == host.os &&
+        host.os == OS.linux) return clang;
+    if (targetOs == OS.macOS || targetOs == OS.iOS) return appleClang;
+    if (targetOs == OS.android) return androidNdkClang;
     if (host.os == OS.linux) {
-      switch (target) {
-        case Target.linuxArm:
+      switch (targetArch) {
+        case Architecture.arm:
           return armLinuxGnueabihfGcc;
-        case Target.linuxArm64:
+        case Architecture.arm64:
           return aarch64LinuxGnuGcc;
-        case Target.linuxIA32:
+        case Architecture.ia32:
           return i686LinuxGnuGcc;
       }
     }
 
     if (host.os == OS.windows) {
-      switch (target) {
-        case Target.windowsIA32:
+      switch (targetArch) {
+        case Architecture.ia32:
           return clIA32;
-        case Target.windowsX64:
+        case Architecture.x64:
           return cl;
       }
     }
@@ -125,36 +129,42 @@ class CompilerResolver {
       return result;
     }
 
-    final target = buildConfig.target;
-    final errorMessage =
-        "No tools configured on host '$host' with target '$target'.";
+    final targetOs = buildConfig.targetOs;
+    final targetArchitecture = buildConfig.targetArchitecture;
+    final errorMessage = "No tools configured on host '$host' with target "
+        "'${targetOs}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
-    final target = buildConfig.target;
+    final targetOs = buildConfig.targetOs;
+    final targetArchitecture = buildConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
-    if (target == host && host.os == OS.linux) return llvmAr;
-    if (target.os == OS.macOS || target.os == OS.iOS) return appleAr;
-    if (target.os == OS.android) return androidNdkLlvmAr;
+    if (targetArchitecture == host.architecture &&
+        targetOs == host.os &&
+        host.os == OS.linux) {
+      return llvmAr;
+    }
+    if (targetOs == OS.macOS || targetOs == OS.iOS) return appleAr;
+    if (targetOs == OS.android) return androidNdkLlvmAr;
     if (host.os == OS.linux) {
-      switch (target) {
-        case Target.linuxArm:
+      switch (targetArchitecture) {
+        case Architecture.arm:
           return armLinuxGnueabihfGccAr;
-        case Target.linuxArm64:
+        case Architecture.arm64:
           return aarch64LinuxGnuGccAr;
-        case Target.linuxIA32:
+        case Architecture.ia32:
           return i686LinuxGnuGccAr;
       }
     }
     if (host.os == OS.windows) {
-      switch (target) {
-        case Target.windowsIA32:
+      switch (targetArchitecture) {
+        case Architecture.ia32:
           return libIA32;
-        case Target.windowsX64:
+        case Architecture.x64:
           return lib;
       }
     }

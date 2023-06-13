@@ -115,7 +115,8 @@ Future<Uri> buildLib(
   final buildConfig = BuildConfig(
     outDir: tempUri,
     packageRoot: tempUri,
-    target: target,
+    targetArchitecture: target.architecture,
+    targetOs: target.os,
     targetAndroidNdkApi: androidNdkApi,
     buildMode: BuildMode.release,
     linkModePreference: linkMode == LinkMode.dynamic

@@ -87,9 +87,9 @@ class CBuilder implements Builder {
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode = buildConfig.linkModePreference.preferredLinkMode;
     final libUri =
-        outDir.resolve(buildConfig.target.os.libraryFileName(name, linkMode));
+        outDir.resolve(buildConfig.targetOs.libraryFileName(name, linkMode));
     final exeUri =
-        outDir.resolve(buildConfig.target.os.executableFileName(name));
+        outDir.resolve(buildConfig.targetOs.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
