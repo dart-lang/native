@@ -552,4 +552,15 @@ version: ${BuildConfig.version}''';
       )),
     );
   });
+
+  test('BuildConfig dry_run access invalid args', () {
+    final buildConfig = BuildConfig.dryRun(
+      outDir: outDirUri,
+      packageRoot: tempUri,
+      targetOs: OS.windows,
+      linkModePreference: LinkModePreference.dynamic,
+    );
+    buildConfig.toYamlString();
+    // No crash.
+  });
 }

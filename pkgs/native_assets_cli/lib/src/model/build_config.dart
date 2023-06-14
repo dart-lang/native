@@ -464,7 +464,10 @@ class BuildConfig {
   }
 
   Map<String, Object> toYaml() {
-    final cCompilerYaml = _cCompiler.toYaml();
+    late Map<String, Object> cCompilerYaml;
+    if (!dryRun) {
+      cCompilerYaml = _cCompiler.toYaml();
+    }
 
     return {
       outDirConfigKey: _outDir.toFilePath(),
