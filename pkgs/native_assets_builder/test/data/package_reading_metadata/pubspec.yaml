@@ -10,7 +10,7 @@ environment:
 dependencies:
   cli_config: ^0.1.1
   native_assets_cli:
-    path: ../../../native_assets_cli/
+    path: ../../../../native_assets_cli/
   package_with_metadata:
     path: ../package_with_metadata/
   yaml: ^3.1.1

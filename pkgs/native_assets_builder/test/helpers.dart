@@ -104,7 +104,7 @@ Uri findPackageRoot(String packageName) {
 
 final pkgNativeAssetsBuilderUri = findPackageRoot('native_assets_builder');
 
-final testDataUri = pkgNativeAssetsBuilderUri.resolve('test_data/');
+final testDataUri = pkgNativeAssetsBuilderUri.resolve('test/data/');
 
 extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
@@ -148,7 +148,7 @@ Future<void> copyTestProjects({
     final targetFileUri = targetUri.resolveUri(pathToModify);
     final sourceString = await sourceFile.readAsString();
     final modifiedString = sourceString.replaceAll(
-      'path: ../../',
+      'path: ../../../',
       'path: ${pkgNativeAssetsBuilderUri.toFilePath().replaceAll('\\', '/')}',
     );
     await File.fromUri(targetFileUri)
