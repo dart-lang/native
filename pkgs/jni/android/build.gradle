@@ -27,6 +27,11 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
+    // Condition for namespace compatibility in AGP 8
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.github.dart_lang.jni'
+    }
+
     // Bumping the plugin compileSdkVersion requires all clients of this plugin
     // to bump the version in their app.
     compileSdkVersion 31
