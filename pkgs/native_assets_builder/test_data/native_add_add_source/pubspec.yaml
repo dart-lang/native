@@ -16,7 +16,7 @@ dependencies:
     path: ../../../native_assets_cli/
 
 dev_dependencies:
-  ffigen: ^7.2.9
+  ffigen: ^8.0.2
   lints: ^2.0.0
   test: ^1.23.1
 
