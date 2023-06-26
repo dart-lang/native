@@ -28,7 +28,7 @@ void main() async {
       }
 
       await copyTestProjects(
-        sourceUri: testProjectsUri.resolve('native_add_break_build/'),
+        sourceUri: testDataUri.resolve('native_add_break_build/'),
         targetUri: packageUri,
       );
 

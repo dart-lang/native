@@ -63,7 +63,7 @@ void main() async {
       }
 
       await copyTestProjects(
-        sourceUri: testProjectsUri.resolve('native_add_add_symbol/'),
+        sourceUri: testDataUri.resolve('native_add_add_symbol/'),
         targetUri: packageUri,
       );
 
@@ -87,7 +87,7 @@ void main() async {
       }
 
       await copyTestProjects(
-          sourceUri: testProjectsUri.resolve('native_add_add_source/'),
+          sourceUri: testDataUri.resolve('native_add_add_source/'),
           targetUri: packageUri);
 
       {
