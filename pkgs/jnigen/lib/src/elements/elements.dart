@@ -68,12 +68,14 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
     this.hasStaticInit = false,
     this.hasInstanceInit = false,
     this.values,
+    this.kotlinClass,
   });
 
   @override
   final Set<String> modifiers;
 
   final List<Annotation> annotations;
+  final KotlinClass? kotlinClass;
   final JavaDocComment? javadoc;
   final String binaryName;
   final String? parentName;
@@ -444,6 +446,7 @@ class Method extends ClassMember implements Element<Method> {
     this.javadoc,
     this.modifiers = const {},
     required this.name,
+    this.descriptor,
     this.typeParams = const [],
     this.params = const [],
     required this.returnType,
@@ -460,6 +463,11 @@ class Method extends ClassMember implements Element<Method> {
   List<Param> params;
   final TypeUsage returnType;
 
+  /// Can be used to match with [KotlinFunction]'s descriptor.
+  ///
+  /// Can create a unique signature in combination with [name].
+  final String? descriptor;
+
   /// The [ClassDecl] where this method is defined.
   ///
   /// Populated by [Linker].
@@ -474,12 +482,11 @@ class Method extends ClassMember implements Element<Method> {
   @JsonKey(includeFromJson: false)
   late bool isOverridden;
 
-  /// This gets populated in the preprocessing stage.
+  /// The actual return type when the method is a Kotlin's suspend fun.
   ///
-  /// It will contain a type only when the suspendFunToAsync flag is on
-  /// and the method has a `kotlin.coroutines.Continuation` final argument.
+  /// Populated by [KotlinProcessor].
   @JsonKey(includeFromJson: false)
-  late TypeUsage? asyncReturnType;
+  TypeUsage? asyncReturnType;
 
   @JsonKey(includeFromJson: false)
   late String javaSig = _javaSig();
@@ -617,6 +624,52 @@ class Annotation implements Element<Annotation> {
 
   @override
   R accept<R>(Visitor<Annotation, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinClass implements Element<KotlinClass> {
+  KotlinClass({
+    required this.name,
+    this.functions = const [],
+  });
+
+  final String name;
+  final List<KotlinFunction> functions;
+
+  factory KotlinClass.fromJson(Map<String, dynamic> json) =>
+      _$KotlinClassFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinClass, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinFunction implements Element<KotlinFunction> {
+  KotlinFunction({
+    required this.name,
+    required this.descriptor,
+    required this.kotlinName,
+    required this.isSuspend,
+  });
+
+  final String name;
+
+  /// Used to match with [Method]'s descriptor.
+  ///
+  /// Creates a unique signature in combination with [name].
+  final String descriptor;
+  final String kotlinName;
+  final bool isSuspend;
+
+  factory KotlinFunction.fromJson(Map<String, dynamic> json) =>
+      _$KotlinFunctionFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinFunction, R> v) {
     return v.visit(this);
   }
 }

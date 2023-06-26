@@ -43,6 +43,9 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
       hasInstanceInit: json['hasInstanceInit'] as bool? ?? false,
       values:
           (json['values'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      kotlinClass: json['kotlinClass'] == null
+          ? null
+          : KotlinClass.fromJson(json['kotlinClass'] as Map<String, dynamic>),
     );
 
 TypeUsage _$TypeUsageFromJson(Map<String, dynamic> json) => TypeUsage(
@@ -97,6 +100,7 @@ Method _$MethodFromJson(Map<String, dynamic> json) => Method(
               .toSet() ??
           const {},
       name: json['name'] as String,
+      descriptor: json['descriptor'] as String?,
       typeParams: (json['typeParams'] as List<dynamic>?)
               ?.map((e) => TypeParam.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -157,4 +161,20 @@ Annotation _$AnnotationFromJson(Map<String, dynamic> json) => Annotation(
             (k, e) => MapEntry(k, e as Object),
           ) ??
           const {},
+    );
+
+KotlinClass _$KotlinClassFromJson(Map<String, dynamic> json) => KotlinClass(
+      name: json['name'] as String,
+      functions: (json['functions'] as List<dynamic>?)
+              ?.map((e) => KotlinFunction.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
+    KotlinFunction(
+      name: json['name'] as String,
+      descriptor: json['descriptor'] as String,
+      kotlinName: json['kotlinName'] as String,
+      isSuspend: json['isSuspend'] as bool,
     );

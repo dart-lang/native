@@ -1,4 +1,5 @@
 ## ApiSummarizer
+
 An early version of ApiSummarizer.
 
 It analyzes java source code / jars and outputs a JSON representation of the public API.
@@ -6,11 +7,13 @@ It analyzes java source code / jars and outputs a JSON representation of the pub
 It's currently used in `jnigen` to get the information of the Java API.
 
 ## Build
+
 When using it via `jnigen`, the `jnigen:setup` script will take care of building the jar in appropriate location.
 
 To build the jar manually, run `mvn compile` in project root. To build the jar and run the tests as well, run `mvn test`. The jar will be created in `target/` directory.
 
 ## Command line
+
 ```
 usage: java -jar <JAR> [-s <SOURCE_DIR=.>] [-c <CLASSES_JAR>]
 <CLASS_OR_PACKAGE_NAMES>
@@ -27,13 +30,14 @@ or 'asm').
 -v,--verbose              Enable verbose output
 ```
 
-Here class or package names are specified as fully qualified names, for example `org.apache.pdfbox.pdmodel.PDDocument` will load `org/apache/pdfbox/pdmodel/PDDocument.java`. It assumes the package naming reflects directory structure. If such mapping results in a directory, for example `android.os` is given and a directory `android/os` is found under the source path, it is considered as a package and all Java source files under that directory are loaded recursively. 
+Here class or package names are specified as fully qualified names, for example `org.apache.pdfbox.pdmodel.PDDocument` will load `org/apache/pdfbox/pdmodel/PDDocument.java`. It assumes the package naming reflects directory structure. If such mapping results in a directory, for example `android.os` is given and a directory `android/os` is found under the source path, it is considered as a package and all Java source files under that directory are loaded recursively.
 
 Note that some options are directly forwarded to the underlying tool.
 
 ApiSummarizer's current use is in `jnigen` for obtaining public API of java packages. Only the features strictly required for that purpose are focused upon.
 
 ## Running tests
+
 Run `mvn surefire:test`
 
 There are not many tests at the moment. We plan to add some later.
@@ -43,4 +47,5 @@ There are not many tests at the moment. We plan to add some later.
 The main backend is based on javadoc API and generates summary based on java sources. A more experimental ASM backend also exists, and works somewhat okay-ish. It can summarize the compiled JARs. However, compiled jars without debug information do not include method parameter names. Some basic renaming is applied, i.e If type is `Object`, the parameter name will be output as `object` if an actual name is absent.
 
 ## TODO
+
 See issue #23.

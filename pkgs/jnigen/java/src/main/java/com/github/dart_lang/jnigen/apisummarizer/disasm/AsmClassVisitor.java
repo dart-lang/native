@@ -91,6 +91,7 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
       return null;
     }
     method.name = name;
+    method.descriptor = descriptor;
     var type = Type.getType(descriptor);
     var params = new ArrayList<Param>();
     var paramTypes = type.getArgumentTypes();
@@ -115,6 +116,14 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     }
     peekVisiting().methods.add(method);
     return new AsmMethodVisitor(method);
+  }
+
+  @Override
+  public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+    if (descriptor.equals("Lkotlin/Metadata;")) {
+      return new KotlinMetadataAnnotationVisitor(peekVisiting());
+    }
+    return super.visitAnnotation(descriptor, visible);
   }
 
   @Override

@@ -51,7 +51,6 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
       // way to the generated code.
       'com.github.dart_lang.jnigen',
     ],
-    suspendFunToAsync: true,
     logLevel: Level.ALL,
     outputConfig: OutputConfig(
       bindingsType: bindingsType,

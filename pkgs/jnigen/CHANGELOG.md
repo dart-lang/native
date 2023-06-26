@@ -1,3 +1,6 @@
+## 0.6.0-dev.0
+* **Breaking Change** Removed `suspend_fun_to_async` flag from the config. It's now happening by default since we read the Kotlin's metadata and reliably identify the `suspend fun`s.
+
 ## 0.5.0
 * **Breaking Change** ([#72](https://github.com/dart-lang/jnigen/issues/72)): Removed support for `importMap` in favor of the newly added interop mechanism with importing yaml files.
 * **Breaking Change** ([#72](https://github.com/dart-lang/jnigen/issues/72)): `java.util.Set`, `java.util.Map`, `java.util.List`, `java.util.Iterator` and the boxed types like `java.lang.Integer`, `java.lang.Double`, ... will be generated as their corresponding classes in `package:jni`.

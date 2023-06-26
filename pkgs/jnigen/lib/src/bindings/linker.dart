@@ -130,19 +130,6 @@ class _MethodLinker extends Visitor<Method, void> {
     final paramLinker = _ParamLinker(typeVisitor);
     node.typeParams.accept(typeParamLinker).toList();
     node.params.accept(paramLinker).toList();
-    // Kotlin specific
-    const kotlinContinutationType = 'kotlin.coroutines.Continuation';
-    if (config.suspendFunToAsync &&
-        node.params.isNotEmpty &&
-        node.params.last.type.kind == Kind.declared &&
-        node.params.last.type.name == kotlinContinutationType) {
-      final continuationType = node.params.last.type.type as DeclaredType;
-      node.asyncReturnType = continuationType.params.isEmpty
-          ? TypeUsage.object
-          : continuationType.params.first;
-    } else {
-      node.asyncReturnType = null;
-    }
     node.asyncReturnType?.accept(typeVisitor);
   }
 }

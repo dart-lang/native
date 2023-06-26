@@ -274,7 +274,6 @@ class Config {
     required this.outputConfig,
     required this.classes,
     this.exclude,
-    this.suspendFunToAsync = false,
     this.sourcePath,
     this.classPath,
     this.preamble,
@@ -316,12 +315,6 @@ class Config {
 
   /// Common text to be pasted on top of generated C and Dart files.
   final String? preamble;
-
-  /// Whether or not to change Kotlin's suspend functions to Dart async ones.
-  ///
-  /// This will remove the final Continuation argument.
-  /// Defaults to [false].
-  final bool suspendFunToAsync;
 
   /// Configuration to search for Android SDK libraries (Experimental).
   final AndroidSdkConfig? androidSdkConfig;
@@ -522,7 +515,6 @@ class Config {
         methods: regexFilter<Method>(_Props.excludeMethods),
         fields: regexFilter<Field>(_Props.excludeFields),
       ),
-      suspendFunToAsync: prov.getBool(_Props.suspendFunToAsync) ?? false,
       outputConfig: OutputConfig(
         bindingsType: getBindingsType(
           prov.getString(_Props.bindingsType),
@@ -612,8 +604,6 @@ class _Props {
   static const exclude = 'exclude';
   static const excludeMethods = '$exclude.methods';
   static const excludeFields = '$exclude.fields';
-
-  static const suspendFunToAsync = 'suspend_fun_to_async';
 
   static const import = 'import';
   static const outputConfig = 'output';
