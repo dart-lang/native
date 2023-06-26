@@ -82,8 +82,7 @@ Future<RunProcessResult> runProcess({
     process.exitCode,
     stdoutSub.asFuture<void>(),
     stderrSub.asFuture<void>()
-  )
-      .wait;
+  ).wait;
   final result = RunProcessResult(
     pid: process.pid,
     command: commandString,
