@@ -18,7 +18,7 @@ Future<void> runPubGet({
 }) async {
   final result = await runProcess(
     executable: Uri.file(Platform.resolvedExecutable),
-    arguments: ['pub', 'get'],
+    arguments: ['pub', '--no-analytics', 'get'],
     workingDirectory: workingDirectory,
     logger: logger,
   );
