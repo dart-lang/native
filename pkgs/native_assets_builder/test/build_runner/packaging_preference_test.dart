@@ -10,7 +10,7 @@ import 'helpers.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
-void main(List<String> args) async {
+void main() async {
   test('link mode preference', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);

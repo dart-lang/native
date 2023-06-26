@@ -5,15 +5,15 @@ version: 0.1.0
 publish_to: none
 
 environment:
-  sdk: ">=2.19.3 <4.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   c_compiler:
-    path: ../../../../../third_party/pkg/native/pkgs/c_compiler/
+    path: ../../../../c_compiler/
   cli_config: ^0.1.1
   logging: ^1.1.1
   native_assets_cli:
-    path: ../../../../../third_party/pkg/native/pkgs/native_assets_cli/
+    path: ../../../../native_assets_cli/
 
 dev_dependencies:
   ffigen: ^7.2.9
@@ -22,4 +22,4 @@ dev_dependencies:
 
 dependency_overrides:
   native_assets_cli:
-    path: ../../../../../third_party/pkg/native/pkgs/native_assets_cli/
+    path: ../../../../native_assets_cli/

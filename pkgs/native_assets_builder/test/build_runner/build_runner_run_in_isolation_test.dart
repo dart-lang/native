@@ -12,7 +12,7 @@ import 'helpers.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
-void main(List<String> args) async {
+void main() async {
   if (Platform.isMacOS) {
     // We don't set any compiler paths on MacOS in
     // pkg/test_runner/lib/src/configuration.dart

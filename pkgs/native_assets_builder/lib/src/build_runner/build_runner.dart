@@ -263,7 +263,7 @@ class NativeAssetsBuildRunner {
     required LinkModePreference linkMode,
     required Uri buildParentDir,
   }) async {
-    final String buildDirName = 'dry_run_${targetOs}_$linkMode';
+    final buildDirName = 'dry_run_${targetOs}_$linkMode';
     final outDirUri = buildParentDir.resolve('$buildDirName/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {

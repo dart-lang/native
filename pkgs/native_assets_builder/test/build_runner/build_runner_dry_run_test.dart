@@ -10,7 +10,7 @@ import 'helpers.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
-void main(List<String> args) async {
+void main() async {
   test('dry_run', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
@@ -27,7 +27,7 @@ void main(List<String> args) async {
       final buildAssets = await build(packageUri, logger, dartExecutable);
 
       expect(dryRunAssets.length, buildAssets.length);
-      for (int i = 0; i < dryRunAssets.length; i++) {
+      for (var i = 0; i < dryRunAssets.length; i++) {
         final dryRunAsset = dryRunAssets[0];
         final buildAsset = buildAssets[0];
         expect(dryRunAsset.linkMode, buildAsset.linkMode);

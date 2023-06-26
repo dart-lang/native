@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
@@ -12,7 +10,9 @@ void main(List<String> args) async {
   final buildConfig = BuildConfig.fromConfig(config);
   final metadata =
       buildConfig.dependencyMetadata!['package_with_metadata']!.metadata;
-  final someValue = metadata['some_key']!;
-  final someInt = metadata['some_int']!;
+  final someValue = metadata['some_key'];
+  assert(someValue != null);
+  final someInt = metadata['some_int'];
+  assert(someInt != null);
   print(metadata);
 }
