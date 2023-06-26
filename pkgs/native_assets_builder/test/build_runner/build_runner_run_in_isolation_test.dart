@@ -13,29 +13,35 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  if (Platform.isMacOS) {
-    // We don't set any compiler paths on MacOS in
-    // pkg/test_runner/lib/src/configuration.dart
+  String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
+  final arKey = unparseKey(CCompilerConfig.arConfigKeyFull);
+  final ccKey = unparseKey(CCompilerConfig.ccConfigKeyFull);
+  final ldKey = unparseKey(CCompilerConfig.ldConfigKeyFull);
+  final envScriptKey = unparseKey(CCompilerConfig.envScriptConfigKeyFull);
+  final envScriptArgsKey =
+      unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull);
+
+  final cc = Platform.environment[ccKey]?.fileUri;
+
+  if (cc == null) {
+    // We don't set any compiler paths on the GitHub CI.
+    // We neither set compiler paths on MacOS on the Dart SDK CI
+    // in pkg/test_runner/lib/src/configuration.dart
     // nativeCompilerEnvironmentVariables.
+    //
+    // We could potentially run this test if we default to some compilers
+    // we find on the path before running the test. However, the logic for
+    // discovering compilers is currently hidden inside package:c_compiler.
     return;
   }
 
   test('run in isolation', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
-      String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
-      final arKey = unparseKey(CCompilerConfig.arConfigKeyFull);
-      final ccKey = unparseKey(CCompilerConfig.ccConfigKeyFull);
-      final ldKey = unparseKey(CCompilerConfig.ldConfigKeyFull);
-      final envScriptKey = unparseKey(CCompilerConfig.envScriptConfigKeyFull);
-      final envScriptArgsKey =
-          unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull);
-
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
 
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final cc = Platform.environment[ccKey]?.fileUri;
       printOnFailure(
           'Platform.environment[ccKey]: ${Platform.environment[ccKey]}');
       printOnFailure('cc: $cc');
