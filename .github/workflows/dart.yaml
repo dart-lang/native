@@ -49,15 +49,25 @@ jobs:
 
       - run: dart pub get
 
-      - name: dart pub get in test_data
-        run: |
-          for x in test_data/dart_app/ test_data/native_add/ test_data/native_add_add_source/ test_data/native_subtract/ test_data/package_reading_metadata/ test_data/package_with_metadata/; do
-            dart pub get -C $x
-          done
+      - run: dart pub get -C test_data/dart_app/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get
-        working-directory: pkgs/native_assets_cli/example/native_add/
+      - run: dart pub get -C test_data/native_add/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/native_add_add_source/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/native_subtract/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/package_reading_metadata/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/package_with_metadata/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C example/native_add/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
       - run: dart analyze --fatal-infos
