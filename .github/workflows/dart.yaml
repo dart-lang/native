@@ -21,7 +21,7 @@ jobs:
       matrix:
         os: [ubuntu, macos, windows]
         sdk: [stable, dev]
-        package: [c_compiler, native_assets_cli]
+        package: [c_compiler, native_assets_builder, native_assets_cli]
         exclude:
           # Only run analyze against dev on one host.
           - os: macos
@@ -49,8 +49,25 @@ jobs:
 
       - run: dart pub get
 
-      - run: dart pub get
-        working-directory: pkgs/native_assets_cli/example/native_add/
+      - run: dart pub get -C test/data/dart_app/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test/data/native_add/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test/data/native_add_add_source/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test/data/native_subtract/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test/data/package_reading_metadata/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test/data/package_with_metadata/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C example/native_add/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
       - run: dart analyze --fatal-infos

@@ -12,6 +12,7 @@ bundling.
 | -------------------------------------------- | ------------------------------------------------------------------------------------------- | ------- |
 | [c_compiler](pkgs/c_compiler/)               | A library to invoke the native C compiler installed on the host machine.                    |         |
 | [native_assets_cli](pkgs/native_assets_cli/) | A library that contains the argument and file formats for implementing a native assets CLI. |         |
+| [native_assets_builder](pkgs/native_assets_builder/) | A library that contains the logic for building native assets. This should not be used by users, and is used as shared implementation between dartdev and flutter_tools. |         |
 
 <!-- ## Publishing automation
 
