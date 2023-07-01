@@ -42,7 +42,7 @@ jobs:
         with:
           sdk: ${{ matrix.sdk }}
 
-      - uses: nttld/setup-ndk@c3e36003730df20c11818b97b212543c146845d8
+      - uses: nttld/setup-ndk@91bb446aff9b54c7beb09cfea60f0c32f365aa19
         with:
           ndk-version: r25b
         if: ${{ matrix.sdk == 'stable' }}
