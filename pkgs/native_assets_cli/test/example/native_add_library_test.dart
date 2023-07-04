@@ -80,7 +80,7 @@ void main() async {
         expect(
           dependencies.dependencies,
           [
-            testPackageUri.resolve('src/native_add.c'),
+            testPackageUri.resolve('src/native_add_library.c'),
             testPackageUri.resolve('build.dart'),
           ],
         );
