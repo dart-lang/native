@@ -31,9 +31,10 @@ The native assets feature is not yet available in Flutter.
 
 ## Development
 
-The development of the feature can be tracked in [dart-lang#50565] and on
-the issue tracker on this repository.
+The development of the feature can be tracked in [dart-lang#50565],
+[flutter#129757], and in the issue tracker on this repository.
 
 [`dart:ffi`]: https://api.dart.dev/stable/dart-ffi/dart-ffi-library.html
 [`package:ffigen`]: https://pub.dev/packages/ffigen
 [dart-lang#50565]: https://github.com/dart-lang/sdk/issues/50565
+[flutter#129757]: https://github.com/flutter/flutter/issues/129757
