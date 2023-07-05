@@ -187,6 +187,8 @@ Future<Classes> getSummary(Config config) async {
       stderrBuffer.toString(),
       'Cannot generate summary: $e',
     );
+  } finally {
+    log.writeSectionToFile("summarizer logs", stderrBuffer.toString());
   }
   if (json == null) {
     throw SummaryParseException('Expected JSON element from summarizer.');

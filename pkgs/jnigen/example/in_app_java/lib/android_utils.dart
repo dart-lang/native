@@ -2382,6 +2382,419 @@ class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType extends jni
   }
 }
 
+/// from: android.os.Build$Partition
+class Build_Partition extends jni.JObject {
+  @override
+  late final jni.JObjType<Build_Partition> $type = type;
+
+  Build_Partition.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Build_PartitionType();
+
+  /// from: static public final java.lang.String PARTITION_NAME_SYSTEM
+  static const PARTITION_NAME_SYSTEM = r"""system""";
+
+  static final _getName = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Build_Partition__getName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getName()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JString getName() {
+    return const jni.JStringType().fromRef(_getName(reference).object);
+  }
+
+  static final _getFingerprint = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Build_Partition__getFingerprint")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getFingerprint()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JString getFingerprint() {
+    return const jni.JStringType().fromRef(_getFingerprint(reference).object);
+  }
+
+  static final _getBuildTimeMillis = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "Build_Partition__getBuildTimeMillis")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getBuildTimeMillis()
+  int getBuildTimeMillis() {
+    return _getBuildTimeMillis(reference).long;
+  }
+
+  static final _equals1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Build_Partition__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean equals(java.lang.Object object)
+  bool equals1(
+    jni.JObject object,
+  ) {
+    return _equals1(reference, object.reference).boolean;
+  }
+
+  static final _hashCode1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Build_Partition__hashCode1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int hashCode()
+  int hashCode1() {
+    return _hashCode1(reference).integer;
+  }
+}
+
+class $Build_PartitionType extends jni.JObjType<Build_Partition> {
+  const $Build_PartitionType();
+
+  @override
+  String get signature => r"Landroid/os/Build$Partition;";
+
+  @override
+  Build_Partition fromRef(jni.JObjectPtr ref) => Build_Partition.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Build_PartitionType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Build_PartitionType) &&
+        other is $Build_PartitionType;
+  }
+}
+
+/// from: android.os.Build$VERSION
+class Build_VERSION extends jni.JObject {
+  @override
+  late final jni.JObjType<Build_VERSION> $type = type;
+
+  Build_VERSION.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Build_VERSIONType();
+  static final _get_BASE_OS =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__BASE_OS")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String BASE_OS
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get BASE_OS =>
+      const jni.JStringType().fromRef(_get_BASE_OS().object);
+
+  static final _get_CODENAME =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__CODENAME")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String CODENAME
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get CODENAME =>
+      const jni.JStringType().fromRef(_get_CODENAME().object);
+
+  static final _get_INCREMENTAL =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__INCREMENTAL")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String INCREMENTAL
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get INCREMENTAL =>
+      const jni.JStringType().fromRef(_get_INCREMENTAL().object);
+
+  static final _get_MEDIA_PERFORMANCE_CLASS =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__MEDIA_PERFORMANCE_CLASS")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final int MEDIA_PERFORMANCE_CLASS
+  static int get MEDIA_PERFORMANCE_CLASS =>
+      _get_MEDIA_PERFORMANCE_CLASS().integer;
+
+  static final _get_PREVIEW_SDK_INT =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__PREVIEW_SDK_INT")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final int PREVIEW_SDK_INT
+  static int get PREVIEW_SDK_INT => _get_PREVIEW_SDK_INT().integer;
+
+  static final _get_RELEASE =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__RELEASE")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String RELEASE
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get RELEASE =>
+      const jni.JStringType().fromRef(_get_RELEASE().object);
+
+  static final _get_RELEASE_OR_CODENAME =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__RELEASE_OR_CODENAME")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String RELEASE_OR_CODENAME
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get RELEASE_OR_CODENAME =>
+      const jni.JStringType().fromRef(_get_RELEASE_OR_CODENAME().object);
+
+  static final _get_RELEASE_OR_PREVIEW_DISPLAY =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__RELEASE_OR_PREVIEW_DISPLAY")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String RELEASE_OR_PREVIEW_DISPLAY
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get RELEASE_OR_PREVIEW_DISPLAY =>
+      const jni.JStringType().fromRef(_get_RELEASE_OR_PREVIEW_DISPLAY().object);
+
+  static final _get_SDK =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__SDK")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String SDK
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get SDK =>
+      const jni.JStringType().fromRef(_get_SDK().object);
+
+  static final _get_SDK_INT =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__SDK_INT")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final int SDK_INT
+  static int get SDK_INT => _get_SDK_INT().integer;
+
+  static final _get_SECURITY_PATCH =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_VERSION__SECURITY_PATCH")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final java.lang.String SECURITY_PATCH
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JString get SECURITY_PATCH =>
+      const jni.JStringType().fromRef(_get_SECURITY_PATCH().object);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Build_VERSION__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.os.Build $parent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  factory Build_VERSION(
+    Build $parent,
+  ) {
+    return Build_VERSION.fromRef(_ctor($parent.reference).object);
+  }
+}
+
+class $Build_VERSIONType extends jni.JObjType<Build_VERSION> {
+  const $Build_VERSIONType();
+
+  @override
+  String get signature => r"Landroid/os/Build$VERSION;";
+
+  @override
+  Build_VERSION fromRef(jni.JObjectPtr ref) => Build_VERSION.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Build_VERSIONType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Build_VERSIONType) &&
+        other is $Build_VERSIONType;
+  }
+}
+
+/// from: android.os.Build$VERSION_CODES
+class Build_VERSION_CODES extends jni.JObject {
+  @override
+  late final jni.JObjType<Build_VERSION_CODES> $type = type;
+
+  Build_VERSION_CODES.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Build_VERSION_CODESType();
+
+  /// from: static public final int BASE
+  static const BASE = 1;
+
+  /// from: static public final int BASE_1_1
+  static const BASE_1_1 = 2;
+
+  /// from: static public final int CUPCAKE
+  static const CUPCAKE = 3;
+
+  /// from: static public final int CUR_DEVELOPMENT
+  static const CUR_DEVELOPMENT = 10000;
+
+  /// from: static public final int DONUT
+  static const DONUT = 4;
+
+  /// from: static public final int ECLAIR
+  static const ECLAIR = 5;
+
+  /// from: static public final int ECLAIR_0_1
+  static const ECLAIR_0_1 = 6;
+
+  /// from: static public final int ECLAIR_MR1
+  static const ECLAIR_MR1 = 7;
+
+  /// from: static public final int FROYO
+  static const FROYO = 8;
+
+  /// from: static public final int GINGERBREAD
+  static const GINGERBREAD = 9;
+
+  /// from: static public final int GINGERBREAD_MR1
+  static const GINGERBREAD_MR1 = 10;
+
+  /// from: static public final int HONEYCOMB
+  static const HONEYCOMB = 11;
+
+  /// from: static public final int HONEYCOMB_MR1
+  static const HONEYCOMB_MR1 = 12;
+
+  /// from: static public final int HONEYCOMB_MR2
+  static const HONEYCOMB_MR2 = 13;
+
+  /// from: static public final int ICE_CREAM_SANDWICH
+  static const ICE_CREAM_SANDWICH = 14;
+
+  /// from: static public final int ICE_CREAM_SANDWICH_MR1
+  static const ICE_CREAM_SANDWICH_MR1 = 15;
+
+  /// from: static public final int JELLY_BEAN
+  static const JELLY_BEAN = 16;
+
+  /// from: static public final int JELLY_BEAN_MR1
+  static const JELLY_BEAN_MR1 = 17;
+
+  /// from: static public final int JELLY_BEAN_MR2
+  static const JELLY_BEAN_MR2 = 18;
+
+  /// from: static public final int KITKAT
+  static const KITKAT = 19;
+
+  /// from: static public final int KITKAT_WATCH
+  static const KITKAT_WATCH = 20;
+
+  /// from: static public final int LOLLIPOP
+  static const LOLLIPOP = 21;
+
+  /// from: static public final int LOLLIPOP_MR1
+  static const LOLLIPOP_MR1 = 22;
+
+  /// from: static public final int M
+  static const M = 23;
+
+  /// from: static public final int N
+  static const N = 24;
+
+  /// from: static public final int N_MR1
+  static const N_MR1 = 25;
+
+  /// from: static public final int O
+  static const O = 26;
+
+  /// from: static public final int O_MR1
+  static const O_MR1 = 27;
+
+  /// from: static public final int P
+  static const P = 28;
+
+  /// from: static public final int Q
+  static const Q = 29;
+
+  /// from: static public final int R
+  static const R = 30;
+
+  /// from: static public final int S
+  static const S = 31;
+
+  /// from: static public final int S_V2
+  static const S_V2 = 32;
+
+  /// from: static public final int TIRAMISU
+  static const TIRAMISU = 33;
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Build_VERSION_CODES__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.os.Build $parent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  factory Build_VERSION_CODES(
+    Build $parent,
+  ) {
+    return Build_VERSION_CODES.fromRef(_ctor($parent.reference).object);
+  }
+}
+
+class $Build_VERSION_CODESType extends jni.JObjType<Build_VERSION_CODES> {
+  const $Build_VERSION_CODESType();
+
+  @override
+  String get signature => r"Landroid/os/Build$VERSION_CODES;";
+
+  @override
+  Build_VERSION_CODES fromRef(jni.JObjectPtr ref) =>
+      Build_VERSION_CODES.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Build_VERSION_CODESType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Build_VERSION_CODESType) &&
+        other is $Build_VERSION_CODESType;
+  }
+}
+
 /// from: android.os.Build
 class Build extends jni.JObject {
   @override
@@ -2688,8 +3101,8 @@ class Build extends jni.JObject {
 
   /// from: static public java.util.List getFingerprintedPartitions()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  static jni.JList<jni.JObject> getFingerprintedPartitions() {
-    return const jni.JListType(jni.JObjectType())
+  static jni.JList<Build_Partition> getFingerprintedPartitions() {
+    return const jni.JListType($Build_PartitionType())
         .fromRef(_getFingerprintedPartitions().object);
   }
 

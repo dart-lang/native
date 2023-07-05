@@ -268,6 +268,29 @@ class BindingExclusions {
   ClassFilter? classes;
 }
 
+bool _isCapitalized(String s) {
+  final firstLetter = s.substring(0, 1);
+  return firstLetter == firstLetter.toUpperCase();
+}
+
+void _validateClassName(String className) {
+  final parts = className.split('.');
+  assert(parts.isNotEmpty);
+  const nestedClassesInfo =
+      "Nested classes cannot be specified separately. Specifying the "
+      "parent class will pull the nested classes.";
+  if (parts.length > 1 && _isCapitalized(parts[parts.length - 2])) {
+    // Try to detect possible nested classes specified using dot notation eg:
+    // `com.package.Class.NestedClass` and emit a warning.
+    log.warning("It appears a nested class $className is specified in the "
+        "config. $nestedClassesInfo");
+  }
+  if (className.contains('\$')) {
+    throw ConfigException(
+        "Nested class $className not allowed. $nestedClassesInfo");
+  }
+}
+
 /// Configuration for jnigen binding generation.
 class Config {
   Config({
@@ -283,7 +306,11 @@ class Config {
     this.logLevel = Level.INFO,
     this.dumpJsonTo,
     this.imports,
-  });
+  }) {
+    for (final className in classes) {
+      _validateClassName(className);
+    }
+  }
 
   /// Output configuration for generated bindings
   OutputConfig outputConfig;

@@ -1,3 +1,7 @@
+## 0.6.0-dev.1
+* **Breaking Change** Specifying a class always pulls in nested classes by default. If a nested class is specified in config, it will be an error.
+* Save all `jnigen` logs to a file in `.dart_tool/jnigen/logs/`. This is useful for debugging.
+
 ## 0.6.0-dev.0
 * **Breaking Change** Removed `suspend_fun_to_async` flag from the config. It's now happening by default since we read the Kotlin's metadata and reliably identify the `suspend fun`s.
 

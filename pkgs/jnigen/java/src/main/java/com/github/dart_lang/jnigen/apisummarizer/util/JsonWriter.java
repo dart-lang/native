@@ -11,7 +11,7 @@ import java.util.List;
 public class JsonWriter {
   public static void writeJSON(List<ClassDecl> classes, OutputStream output) {
     var mapper = new ObjectMapper();
-    Log.timed("Writing JSON");
+    Log.info("Writing JSON for %d classes", classes.size());
     mapper.enable(SerializationFeature.INDENT_OUTPUT);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     try {
@@ -19,6 +19,6 @@ public class JsonWriter {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    Log.timed("Finished");
+    Log.info("Finished");
   }
 }

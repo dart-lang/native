@@ -1,5 +1,6 @@
 package com.github.dart_lang.jnigen.apisummarizer;
 
+import com.github.dart_lang.jnigen.apisummarizer.util.Log;
 import java.io.File;
 import java.io.IOException;
 import org.junit.Assert;
@@ -31,11 +32,22 @@ public class JSONComparisonTest {
   @Test
   public void testExampleSummary() throws IOException, InterruptedException {
     var tempFile = File.createTempFile("summarizer_test", ".json");
+    Log.info("Temporary file: %s", tempFile.getPath());
     Main.main(
         new String[] {
           "-s", "src/test/resources", "com.example.Example", "-o", tempFile.getPath(),
         });
     int comparison = gitDiff(exampleClassJsonOutput, tempFile);
+    if (comparison != 0) {
+      Log.warning("New output (%s) is different than reference output.", tempFile.getPath());
+    }
+
+    // Fail test if git diff exited with 1
     Assert.assertEquals(0, comparison);
+
+    var deleted = tempFile.delete();
+    if (!deleted) {
+      Log.warning("Cannot delete temp file %s", tempFile.getPath());
+    }
   }
 }

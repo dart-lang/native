@@ -132,5 +132,9 @@ void main() async {
       name: 'Invalid log level',
       overrides: ['-Dlog_level=inf'],
     );
+    testForErrorChecking<ConfigException>(
+      name: 'Nested class specified',
+      overrides: ['-Dclasses=com.android.Clock\$Clock'],
+    );
   });
 }

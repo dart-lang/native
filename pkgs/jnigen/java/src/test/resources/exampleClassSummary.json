@@ -1,9 +1,7 @@
 [ {
   "declKind" : "CLASS",
   "modifiers" : [ "public" ],
-  "simpleName" : "Example",
   "binaryName" : "com.example.Example",
-  "packageName" : "com.example",
   "methods" : [ {
     "modifiers" : [ "public" ],
     "name" : "<init>",
@@ -140,10 +138,8 @@
 }, {
   "declKind" : "CLASS",
   "modifiers" : [ "static", "public" ],
-  "simpleName" : "Aux",
   "binaryName" : "com.example.Example$Aux",
   "parentName" : "com.example.Example",
-  "packageName" : "com.example",
   "methods" : [ {
     "modifiers" : [ "public" ],
     "name" : "<init>",

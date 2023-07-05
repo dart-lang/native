@@ -4,30 +4,22 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.util;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Log {
-  private static long lastPrinted = System.currentTimeMillis();
+  private static final Logger logger = Logger.getLogger("ApiSummarizer");
 
-  public static void setVerbose(boolean verbose) {
-    Log.verboseLogs = verbose;
+  private static void log(Level level, String format, Object... args) {
+    String formatted = String.format(format, args);
+    logger.log(level, formatted);
   }
 
-  private static boolean verboseLogs = false;
-
-  public static void verbose(String format, Object... args) {
-    if (!verboseLogs) {
-      return;
-    }
-    System.err.printf(format + "\n", args);
+  public static void info(String format, Object... args) {
+    log(Level.INFO, format, args);
   }
 
-  public static void timed(String format, Object... args) {
-    long now = System.currentTimeMillis();
-    System.err.printf("[%6d ms] ", now - lastPrinted);
-    lastPrinted = now;
-    System.err.printf(format + "\n", args);
-  }
-
-  public static void always(String format, Object... args) {
-    System.err.printf(format + "\n", args);
+  public static void warning(String format, Object... args) {
+    log(Level.WARNING, format, args);
   }
 }

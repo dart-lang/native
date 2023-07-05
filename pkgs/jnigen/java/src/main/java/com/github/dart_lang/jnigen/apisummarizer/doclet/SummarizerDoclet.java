@@ -46,7 +46,7 @@ public class SummarizerDoclet implements Doclet {
 
   @Override
   public boolean run(DocletEnvironment docletEnvironment) {
-    Log.timed("Initializing doclet");
+    Log.info("Initializing doclet");
     utils = AstEnv.fromEnvironment(docletEnvironment);
     SummarizingScanner scanner = new SummarizingScanner();
     docletEnvironment.getSpecifiedElements().forEach(e -> scanner.scan(e, new SummaryCollector()));
@@ -77,7 +77,7 @@ public class SummarizerDoclet implements Doclet {
 
     @Override
     public Void visitPackage(PackageElement e, SummaryCollector collector) {
-      Log.verbose("Visiting package: %s", e.getQualifiedName());
+      Log.info("Visiting package: %s", e.getQualifiedName());
       collector.packages.push(new Package());
       System.out.println("package: " + e.getQualifiedName());
       var result = super.visitPackage(e, collector);
@@ -91,7 +91,7 @@ public class SummarizerDoclet implements Doclet {
       if (!collector.types.isEmpty()) {
         return null;
       }
-      Log.verbose("Visiting class: %s, %s", e.getQualifiedName(), collector.types);
+      Log.info("Visiting class: %s, %s", e.getQualifiedName(), collector.types);
       switch (e.getKind()) {
         case CLASS:
         case INTERFACE:
@@ -102,11 +102,11 @@ public class SummarizerDoclet implements Doclet {
             super.visitType(e, collector);
             types.add(collector.types.pop());
           } catch (SkipException skip) {
-            Log.always("Skip type: %s", e.getQualifiedName());
+            Log.info("Skip type: %s", e.getQualifiedName());
           }
           break;
         case ANNOTATION_TYPE:
-          Log.always("Skip annotation type: %s", e.getQualifiedName());
+          Log.info("Skip annotation type: %s", e.getQualifiedName());
           break;
       }
       return null;
@@ -149,7 +149,7 @@ public class SummarizerDoclet implements Doclet {
             collector.method = null;
             cls.methods.add(method);
           } catch (SkipException skip) {
-            Log.always("Skip method: %s", element.getSimpleName());
+            Log.info("Skip method: %s", element.getSimpleName());
           }
           break;
         case STATIC_INIT:

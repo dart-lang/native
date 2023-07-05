@@ -1352,6 +1352,284 @@ JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__create(
   return to_global_ref_result(_result);
 }
 
+// android.os.Build$Partition
+jclass _c_Build_Partition = NULL;
+
+jmethodID _m_Build_Partition__getName = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build_Partition__getName(jobject self_) {
+  load_env();
+  load_class_global_ref(&_c_Build_Partition, "android/os/Build$Partition");
+  if (_c_Build_Partition == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build_Partition, &_m_Build_Partition__getName, "getName",
+              "()Ljava/lang/String;");
+  if (_m_Build_Partition__getName == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result =
+      (*jniEnv)->CallObjectMethod(jniEnv, self_, _m_Build_Partition__getName);
+  return to_global_ref_result(_result);
+}
+
+jmethodID _m_Build_Partition__getFingerprint = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build_Partition__getFingerprint(jobject self_) {
+  load_env();
+  load_class_global_ref(&_c_Build_Partition, "android/os/Build$Partition");
+  if (_c_Build_Partition == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build_Partition, &_m_Build_Partition__getFingerprint,
+              "getFingerprint", "()Ljava/lang/String;");
+  if (_m_Build_Partition__getFingerprint == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallObjectMethod(
+      jniEnv, self_, _m_Build_Partition__getFingerprint);
+  return to_global_ref_result(_result);
+}
+
+jmethodID _m_Build_Partition__getBuildTimeMillis = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build_Partition__getBuildTimeMillis(jobject self_) {
+  load_env();
+  load_class_global_ref(&_c_Build_Partition, "android/os/Build$Partition");
+  if (_c_Build_Partition == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build_Partition, &_m_Build_Partition__getBuildTimeMillis,
+              "getBuildTimeMillis", "()J");
+  if (_m_Build_Partition__getBuildTimeMillis == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  int64_t _result = (*jniEnv)->CallLongMethod(
+      jniEnv, self_, _m_Build_Partition__getBuildTimeMillis);
+  return (JniResult){.value = {.j = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_Build_Partition__equals1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build_Partition__equals1(jobject self_, jobject object) {
+  load_env();
+  load_class_global_ref(&_c_Build_Partition, "android/os/Build$Partition");
+  if (_c_Build_Partition == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build_Partition, &_m_Build_Partition__equals1, "equals",
+              "(Ljava/lang/Object;)Z");
+  if (_m_Build_Partition__equals1 == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_Build_Partition__equals1, object);
+  return (JniResult){.value = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_Build_Partition__hashCode1 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build_Partition__hashCode1(jobject self_) {
+  load_env();
+  load_class_global_ref(&_c_Build_Partition, "android/os/Build$Partition");
+  if (_c_Build_Partition == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build_Partition, &_m_Build_Partition__hashCode1, "hashCode",
+              "()I");
+  if (_m_Build_Partition__hashCode1 == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  int32_t _result =
+      (*jniEnv)->CallIntMethod(jniEnv, self_, _m_Build_Partition__hashCode1);
+  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
+}
+
+// android.os.Build$VERSION
+jclass _c_Build_VERSION = NULL;
+
+jmethodID _m_Build_VERSION__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build_VERSION__ctor(jobject _parent) {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build_VERSION, &_m_Build_VERSION__ctor, "<init>",
+              "(Landroid/os/Build;)V");
+  if (_m_Build_VERSION__ctor == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION,
+                                         _m_Build_VERSION__ctor, _parent);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__BASE_OS = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__BASE_OS() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__BASE_OS, "BASE_OS",
+                    "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build_VERSION,
+                                                    _f_Build_VERSION__BASE_OS);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__CODENAME = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__CODENAME() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__CODENAME, "CODENAME",
+                    "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build_VERSION,
+                                                    _f_Build_VERSION__CODENAME);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__INCREMENTAL = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__INCREMENTAL() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__INCREMENTAL,
+                    "INCREMENTAL", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build_VERSION, _f_Build_VERSION__INCREMENTAL);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__MEDIA_PERFORMANCE_CLASS = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__MEDIA_PERFORMANCE_CLASS() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION,
+                    &_f_Build_VERSION__MEDIA_PERFORMANCE_CLASS,
+                    "MEDIA_PERFORMANCE_CLASS", "I");
+  int32_t _result = (*jniEnv)->GetStaticIntField(
+      jniEnv, _c_Build_VERSION, _f_Build_VERSION__MEDIA_PERFORMANCE_CLASS);
+  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build_VERSION__PREVIEW_SDK_INT = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__PREVIEW_SDK_INT() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__PREVIEW_SDK_INT,
+                    "PREVIEW_SDK_INT", "I");
+  int32_t _result = (*jniEnv)->GetStaticIntField(
+      jniEnv, _c_Build_VERSION, _f_Build_VERSION__PREVIEW_SDK_INT);
+  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build_VERSION__RELEASE = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__RELEASE() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__RELEASE, "RELEASE",
+                    "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build_VERSION,
+                                                    _f_Build_VERSION__RELEASE);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__RELEASE_OR_CODENAME = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__RELEASE_OR_CODENAME() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__RELEASE_OR_CODENAME,
+                    "RELEASE_OR_CODENAME", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build_VERSION, _f_Build_VERSION__RELEASE_OR_CODENAME);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__RELEASE_OR_PREVIEW_DISPLAY = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__RELEASE_OR_PREVIEW_DISPLAY() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION,
+                    &_f_Build_VERSION__RELEASE_OR_PREVIEW_DISPLAY,
+                    "RELEASE_OR_PREVIEW_DISPLAY", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build_VERSION, _f_Build_VERSION__RELEASE_OR_PREVIEW_DISPLAY);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__SDK = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__SDK() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__SDK, "SDK",
+                    "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build_VERSION,
+                                                    _f_Build_VERSION__SDK);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build_VERSION__SDK_INT = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__SDK_INT() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__SDK_INT, "SDK_INT",
+                    "I");
+  int32_t _result = (*jniEnv)->GetStaticIntField(jniEnv, _c_Build_VERSION,
+                                                 _f_Build_VERSION__SDK_INT);
+  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
+}
+
+jfieldID _f_Build_VERSION__SECURITY_PATCH = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_VERSION__SECURITY_PATCH() {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
+  if (_c_Build_VERSION == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_VERSION, &_f_Build_VERSION__SECURITY_PATCH,
+                    "SECURITY_PATCH", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build_VERSION, _f_Build_VERSION__SECURITY_PATCH);
+  return to_global_ref_result(_result);
+}
+
+// android.os.Build$VERSION_CODES
+jclass _c_Build_VERSION_CODES = NULL;
+
+jmethodID _m_Build_VERSION_CODES__ctor = NULL;
+FFI_PLUGIN_EXPORT
+JniResult Build_VERSION_CODES__ctor(jobject _parent) {
+  load_env();
+  load_class_global_ref(&_c_Build_VERSION_CODES,
+                        "android/os/Build$VERSION_CODES");
+  if (_c_Build_VERSION_CODES == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_Build_VERSION_CODES, &_m_Build_VERSION_CODES__ctor, "<init>",
+              "(Landroid/os/Build;)V");
+  if (_m_Build_VERSION_CODES__ctor == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION_CODES,
+                                         _m_Build_VERSION_CODES__ctor, _parent);
+  return to_global_ref_result(_result);
+}
+
 // android.os.Build
 jclass _c_Build = NULL;
 

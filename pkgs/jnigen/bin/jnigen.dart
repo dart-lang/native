@@ -6,6 +6,7 @@ import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
 
 void main(List<String> args) async {
+  enableLoggingToFile();
   Config config;
   try {
     config = Config.parseArgs(args);

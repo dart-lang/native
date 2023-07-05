@@ -209,6 +209,9 @@ task $_gradleGetSourcesTaskName(type: Copy) {
           'yet cached. Please run `flutter build apk`$inAndroidProject and try '
           'again\n');
     }
+    // Record both stdout and stderr of gradle.
+    log.writeSectionToFile("Gradle logs ($stubName)", procRes.stderr);
+    log.writeSectionToFile("Gradle output ($stubName)", procRes.stdout);
     final output = procRes.stdout as String;
     if (output.isEmpty) {
       printError(procRes.stderr);

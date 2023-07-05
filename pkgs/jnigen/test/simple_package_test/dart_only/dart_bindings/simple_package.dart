@@ -527,6 +527,15 @@ class Example_Nested extends jni.JObject {
         .newObjectWithArgs(_class.reference, _id_ctor, [value ? 1 : 0]).object);
   }
 
+  static final _id_usesAnonymousInnerClass = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"usesAnonymousInnerClass", r"()V");
+
+  /// from: public void usesAnonymousInnerClass()
+  void usesAnonymousInnerClass() {
+    return jni.Jni.accessors.callMethodWithArgs(reference,
+        _id_usesAnonymousInnerClass, jni.JniCallType.voidType, []).check();
+  }
+
   static final _id_getValue =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"getValue", r"()Z");
 
@@ -571,6 +580,74 @@ class $Example_NestedType extends jni.JObjType<Example_Nested> {
   bool operator ==(Object other) {
     return other.runtimeType == ($Example_NestedType) &&
         other is $Example_NestedType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice
+class Example_Nested_NestedTwice extends jni.JObject {
+  @override
+  late final jni.JObjType<Example_Nested_NestedTwice> $type = type;
+
+  Example_Nested_NestedTwice.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Example_Nested_NestedTwiceType();
+  static final _id_ZERO = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"ZERO",
+    r"I",
+  );
+
+  /// from: static public int ZERO
+  static int get ZERO => jni.Jni.accessors
+      .getStaticField(_class.reference, _id_ZERO, jni.JniCallType.intType)
+      .integer;
+
+  /// from: static public int ZERO
+  static set ZERO(int value) =>
+      jni.Jni.env.SetStaticIntField(_class.reference, _id_ZERO, value);
+
+  static final _id_ctor =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  factory Example_Nested_NestedTwice() {
+    return Example_Nested_NestedTwice.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+  }
+}
+
+class $Example_Nested_NestedTwiceType
+    extends jni.JObjType<Example_Nested_NestedTwice> {
+  const $Example_Nested_NestedTwiceType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;";
+
+  @override
+  Example_Nested_NestedTwice fromRef(jni.JObjectPtr ref) =>
+      Example_Nested_NestedTwice.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Example_Nested_NestedTwiceType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_Nested_NestedTwiceType) &&
+        other is $Example_Nested_NestedTwiceType;
   }
 }
 

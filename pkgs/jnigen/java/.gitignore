@@ -8,3 +8,5 @@ target/*
 .idea/jarRepositories.xml
 .idea/misc.xml
 .idea/runConfigurations.xml
+
+.classpath ## Used for experimenting with JShell REPL

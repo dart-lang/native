@@ -1,5 +1,6 @@
 package com.github.dart_lang.jnigen.apisummarizer;
 
+import java.util.Arrays;
 import org.apache.commons.cli.*;
 
 public class SummarizerOptions {
@@ -9,7 +10,6 @@ public class SummarizerOptions {
   boolean useModules;
   Main.Backend backend;
   String modulesList;
-  boolean addDependencies;
   String toolArgs;
   boolean verbose;
   String outputFile;
@@ -19,15 +19,13 @@ public class SummarizerOptions {
 
   public static SummarizerOptions fromCommandLine(CommandLine cmd) {
     var opts = new SummarizerOptions();
-    opts.sourcePath = cmd.getOptionValue("sources", ".");
+    opts.sourcePath = cmd.getOptionValue("sources", null);
     var backendString = cmd.getOptionValue("backend", "auto");
     opts.backend = Main.Backend.valueOf(backendString.toUpperCase());
     opts.classPath = cmd.getOptionValue("classes", null);
     opts.useModules = cmd.hasOption("use-modules");
     opts.modulesList = cmd.getOptionValue("module-names", null);
-    opts.addDependencies = cmd.hasOption("recursive");
     opts.toolArgs = cmd.getOptionValue("doctool-args", null);
-    opts.verbose = cmd.hasOption("verbose");
     opts.outputFile = cmd.getOptionValue("output-file", null);
     opts.args = cmd.getArgs();
     if (opts.args.length == 0) {
@@ -47,28 +45,16 @@ public class SummarizerOptions {
             true,
             "backend to use for summary generation ('doclet', 'asm' or 'auto' (default)).");
     Option useModules = new Option("M", "use-modules", false, "use Java modules");
-    Option recursive = new Option("r", "recursive", false, "include dependencies of classes");
     Option moduleNames =
         new Option("m", "module-names", true, "comma separated list of module names");
     Option doctoolArgs =
         new Option("D", "doctool-args", true, "arguments to pass to the documentation tool");
-    Option verbose = new Option("v", "verbose", false, "enable verbose output");
     Option outputFile =
         new Option("o", "output-file", true, "write JSON to file instead of stdout");
-    for (Option opt :
-        new Option[] {
-          sources,
-          classes,
-          backend,
-          useModules,
-          recursive,
-          moduleNames,
-          doctoolArgs,
-          verbose,
-          outputFile,
-        }) {
-      options.addOption(opt);
-    }
+    Option[] allOptions = {
+      sources, classes, backend, useModules, moduleNames, doctoolArgs, outputFile
+    };
+    Arrays.stream(allOptions).forEach(options::addOption);
 
     HelpFormatter help = new HelpFormatter();
 

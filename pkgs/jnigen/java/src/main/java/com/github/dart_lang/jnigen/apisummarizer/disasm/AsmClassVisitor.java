@@ -4,9 +4,6 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.disasm;
 
-import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-
 import com.github.dart_lang.jnigen.apisummarizer.elements.*;
 import com.github.dart_lang.jnigen.apisummarizer.util.SkipException;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
@@ -57,10 +54,6 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
       reader.accept(new AsmClassSignatureVisitor(current));
     }
     super.visit(version, access, name, signature, superName, interfaces);
-  }
-
-  private static boolean isPrivate(int access) {
-    return ((access & ACC_PUBLIC) == 0) && ((access & ACC_PROTECTED) == 0);
   }
 
   @Override

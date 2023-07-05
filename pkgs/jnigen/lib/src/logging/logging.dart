@@ -18,10 +18,69 @@ String _colorize(String message, String colorCode) {
   return message;
 }
 
+/// Format [DateTime] for use in filename
+String _formatTime(DateTime now) {
+  return '${now.year}-${now.month}-${now.day}-'
+      '${now.hour}.${now.minute}.${now.second}';
+}
+
+// We need to respect logging level for console but log everything to file.
+// Hierarchical logging is convoluted. I'm just keeping track of log level.
+var _logLevel = Level.INFO;
+
+final _logDirUri = Directory.current.uri.resolve(".dart_tool/jnigen/logs/");
+
+final _logDir = () {
+  final dir = Directory.fromUri(_logDirUri);
+  dir.createSync(recursive: true);
+  return dir;
+}();
+
+Uri _getDefaultLogFileUri() =>
+    _logDir.uri.resolve("jnigen-${_formatTime(DateTime.now())}.log");
+
+IOSink? _logStream;
+
+/// Enable saving the logs to a file.
+///
+/// This is only meant to be called from an application entry point such as
+/// `main`.
+void enableLoggingToFile() {
+  _deleteOldLogFiles();
+  if (_logStream != null) {
+    throw StateError('Log file is already set');
+  }
+  _logStream = File.fromUri(_getDefaultLogFileUri()).openWrite();
+}
+
+// Maximum number of log files to keep.
+const _maxLogFiles = 5;
+
+/// Delete log files except most recent [_maxLogFiles] files.
+void _deleteOldLogFiles() {
+  final logFiles = _logDir.listSync().map((f) => File(f.path)).toList();
+  // sort in descending order of last modified time.
+  logFiles
+      .sort((f1, f2) => f2.lastModifiedSync().compareTo(f1.lastModifiedSync()));
+  final toDelete = logFiles.length < _maxLogFiles
+      ? const <File>[]
+      : logFiles.sublist(_maxLogFiles - 1);
+  for (final oldLogFile in toDelete) {
+    oldLogFile.deleteSync();
+  }
+}
+
 Logger log = () {
+  // initialize the logger.
   final jnigenLogger = Logger('jnigen');
-  Logger.root.level = Level.INFO;
+  Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((r) {
+    // Write to file regardless of level.
+    _logStream?.writeln('${r.level} ${r.time}: ${r.message}');
+    // write to console only if level is above configured level.
+    if (r.level < _logLevel) {
+      return;
+    }
     var message = '(${r.loggerName}) ${r.level.name}: ${r.message}';
     if ((r.level == Level.SHOUT || r.level == Level.SEVERE)) {
       message = _colorize(message, _ansiRed);
@@ -35,10 +94,8 @@ Logger log = () {
 
 /// Set logging level to [level].
 void setLoggingLevel(Level level) {
-  /// This initializes `log` as a side effect, so that level setting we apply
-  /// is always the last one applied.
   log.fine('Set log level: $level');
-  Logger.root.level = level;
+  _logLevel = level;
 }
 
 /// Prints [message] without logging information.
@@ -53,5 +110,17 @@ extension FatalErrors on Logger {
     message = _colorize('Fatal: $message', _ansiRed);
     stderr.writeln(message);
     return exit(exitCode);
+  }
+}
+
+extension WriteToFile on Logger {
+  void writeToFile(Object? data) {
+    _logStream?.writeln(data);
+  }
+
+  void writeSectionToFile(String? sectionName, Object? data) {
+    _logStream?.writeln("==== Begin $sectionName ====");
+    _logStream?.writeln(data);
+    _logStream?.writeln("==== End $sectionName ====");
   }
 }
