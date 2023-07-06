@@ -4,7 +4,7 @@ version: 0.1.0-dev
 repository: https://github.com/dart-lang/native/tree/main/pkgs/c_compiler
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 publish_to: none
 
@@ -15,7 +15,10 @@ dependencies:
   meta: ^1.9.1
   # TODO(dacoharkes): Publish native_assets_cli first.
   native_assets_cli:
-    path: ../native_assets_cli/
+    git:
+      url: git@github.com:dart-lang/native.git
+      ref: 21d7270a9f629ec2c0eb0879d000b30bcbef6cfc
+      path: pkgs/native_assets_cli/
   pub_semver: ^2.1.3
 
 dev_dependencies:

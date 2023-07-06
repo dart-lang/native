@@ -11,7 +11,10 @@ dependencies:
   graphs: ^2.3.1
   logging: ^1.2.0
   native_assets_cli:
-    path: ../native_assets_cli/
+    git:
+      url: git@github.com:dart-lang/native.git
+      ref: 21d7270a9f629ec2c0eb0879d000b30bcbef6cfc
+      path: pkgs/native_assets_cli/
   package_config: ^2.1.0
 
 dev_dependencies:
