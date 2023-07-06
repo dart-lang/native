@@ -5,6 +5,8 @@
 
 This package contains the shared logic for invoking [native assets CLI]s.
 
+## Audience
+
 This package is not intended for users, rather it is shared logic for Dart
 launchers to invoke the native assets CLIs of packages.
 Known Dart launchers using this shared logic: [dartdev] and [flutter_tools].
