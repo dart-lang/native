@@ -6,6 +6,8 @@
 This library contains the CLI specification and a default implementation
 for bundling native code with Dart packages.
 
+## Status
+
 The native assets feature is experimental, and will likely undergo breaking
 changes while the feature is in development.
 
