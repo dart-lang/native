@@ -94,6 +94,11 @@ class RunCBuilder {
       archiver_ = await archiver();
     }
 
+    late final IOSSdk targetIosSdk;
+    if (target.os == OS.iOS) {
+      targetIosSdk = buildConfig.targetIOSSdk!;
+    }
+
     await runProcess(
       executable: compiler,
       arguments: [
@@ -107,12 +112,13 @@ class RunCBuilder {
               '${androidNdkClangTargetFlags[target]!}'
               '${buildConfig.targetAndroidNdkApi!}',
         ],
-        if (target.os == OS.macOS || target.os == OS.iOS)
-          '--target=${appleClangTargetFlags[target]!}',
+        if (target.os == OS.macOS)
+          '--target=${appleClangMacosTargetFlags[target]!}',
+        if (target.os == OS.iOS)
+          '--target=${appleClangIosTargetFlags[target]![targetIosSdk]!}',
         if (target.os == OS.iOS) ...[
           '-isysroot',
-          (await iosSdk(buildConfig.targetIOSSdk!, logger: logger))
-              .toFilePath(),
+          (await iosSdk(targetIosSdk, logger: logger)).toFilePath(),
         ],
         if (target.os == OS.macOS) ...[
           '-isysroot',
@@ -228,10 +234,18 @@ class RunCBuilder {
     Target.androidX64: 'x86_64-linux-android',
   };
 
-  static const appleClangTargetFlags = {
-    Target.iOSArm64: 'arm64-apple-ios',
-    Target.iOSX64: 'x86_64-apple-ios',
+  static const appleClangMacosTargetFlags = {
     Target.macOSArm64: 'arm64-apple-darwin',
     Target.macOSX64: 'x86_64-apple-darwin',
+  };
+
+  static const appleClangIosTargetFlags = {
+    Target.iOSArm64: {
+      IOSSdk.iPhoneOs: 'arm64-apple-ios',
+      IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
+    },
+    Target.iOSX64: {
+      IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
+    },
   };
 }

@@ -93,6 +93,28 @@ void main() {
                   .firstWhere((e) => e.contains('file format'));
               expect(machine, contains(objdumpFileFormat[target]));
 
+              final otoolResult = await runProcess(
+                executable: Uri.file('otool'),
+                arguments: ['-l', libUri.path],
+                logger: logger,
+              );
+              expect(otoolResult.exitCode, 0);
+              if (targetIOSSdk == IOSSdk.iPhoneOs || target == Target.iOSX64) {
+                // The x64 simulator behaves as device, presumably because the
+                // devices are never x64.
+                expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));
+                expect(otoolResult.stdout, isNot(contains('LC_BUILD_VERSION')));
+              } else {
+                expect(otoolResult.stdout,
+                    isNot(contains('LC_VERSION_MIN_IPHONEOS')));
+                expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
+                final platform = otoolResult.stdout
+                    .split('\n')
+                    .firstWhere((e) => e.contains('platform'));
+                const platformIosSimulator = 7;
+                expect(platform, contains(platformIosSimulator.toString()));
+              }
+
               if (linkMode == LinkMode.dynamic) {
                 final libInstallName =
                     await runOtoolInstallName(libUri, libName);
