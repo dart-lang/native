@@ -14,6 +14,6 @@ Known Dart launchers using this shared logic: [dartdev] and [flutter_tools].
 For more information on how to use native assets as a user see 
 package [native assets CLI].
 
-[native assets CLI]: https://github.com/dart-lang/native/pkgs/native_assets_cli
+[native assets CLI]: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli
 [dartdev]: https://github.com/dart-lang/sdk/tree/main/pkg/dartdev
 [flutter_tools]: https://github.com/flutter/flutter/tree/master/packages/flutter_tools
