@@ -5,10 +5,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
-import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
@@ -84,7 +84,7 @@ Uri findPackageRoot(String packageName) {
       "'${Directory.current.uri.toFilePath()}'.");
 }
 
-Uri packageUri = findPackageRoot('c_compiler');
+Uri packageUri = findPackageRoot('native_toolchain_c');
 
 extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;

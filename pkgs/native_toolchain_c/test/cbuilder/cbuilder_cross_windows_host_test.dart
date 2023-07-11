@@ -2,36 +2,48 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@TestOn('linux')
+@TestOn('windows')
+@OnPlatform({
+  'windows': Timeout.factor(10),
+})
 library;
 
 import 'dart:io';
 
-import 'package:c_compiler/c_compiler.dart';
-import 'package:c_compiler/src/utils/run_process.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
+import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
 void main() {
-  if (!Platform.isLinux) {
+  if (!Platform.isWindows) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
   const targets = [
-    Target.linuxArm,
-    Target.linuxArm64,
-    Target.linuxIA32,
-    Target.linuxX64
+    Target.windowsIA32,
+    Target.windowsX64,
   ];
 
-  const readElfMachine = {
-    Target.linuxArm: 'ARM',
-    Target.linuxArm64: 'AArch64',
-    Target.linuxIA32: 'Intel 80386',
-    Target.linuxX64: 'Advanced Micro Devices X86-64',
+  late Uri dumpbinUri;
+
+  setUp(() async {
+    dumpbinUri =
+        (await dumpbin.defaultResolver!.resolve(logger: logger)).first.uri;
+  });
+
+  const dumpbinMachine = {
+    Target.windowsIA32: 'x86',
+    Target.windowsX64: 'x64',
+  };
+
+  const dumpbinFileType = {
+    LinkMode.dynamic: 'DLL',
+    LinkMode.static: 'LIBRARY',
   };
 
   for (final linkMode in LinkMode.values) {
@@ -45,8 +57,8 @@ void main() {
           final buildConfig = BuildConfig(
             outDir: tempUri,
             packageRoot: tempUri,
-            targetArchitecture: target.architecture,
             targetOs: target.os,
+            targetArchitecture: target.architecture,
             buildMode: BuildMode.release,
             linkModePreference: linkMode == LinkMode.dynamic
                 ? LinkModePreference.dynamic
@@ -67,17 +79,21 @@ void main() {
 
           final libUri =
               tempUri.resolve(target.os.libraryFileName(name, linkMode));
+          expect(await File.fromUri(libUri).exists(), true);
           final result = await runProcess(
-            executable: Uri.file('readelf'),
-            arguments: ['-h', libUri.path],
+            executable: dumpbinUri,
+            arguments: ['/HEADERS', libUri.toFilePath()],
             logger: logger,
           );
           expect(result.exitCode, 0);
           final machine = result.stdout
               .split('\n')
-              .firstWhere((e) => e.contains('Machine:'));
-          expect(machine, contains(readElfMachine[target]));
-          expect(result.exitCode, 0);
+              .firstWhere((e) => e.contains('machine'));
+          expect(machine, contains(dumpbinMachine[target]));
+          final fileType = result.stdout
+              .split('\n')
+              .firstWhere((e) => e.contains('File Type'));
+          expect(fileType, contains(dumpbinFileType[linkMode]));
         });
       });
     }

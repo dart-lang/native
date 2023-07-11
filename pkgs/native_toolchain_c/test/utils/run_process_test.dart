@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:c_compiler/src/utils/run_process.dart';
+import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

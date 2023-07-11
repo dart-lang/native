@@ -13,7 +13,7 @@ import 'package:logging/logging.dart';
 /// If [logger] is provided, stream stdout and stderr to it.
 ///
 /// If [captureOutput], captures stdout and stderr.
-// TODO(dacoharkes): Share between package:c_compiler and here.
+// TODO(dacoharkes): Share between package:native_toolchain_c and here.
 Future<RunProcessResult> runProcess({
   required Uri executable,
   List<String> arguments = const [],

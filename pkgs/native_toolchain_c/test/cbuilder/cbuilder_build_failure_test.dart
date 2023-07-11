@@ -10,8 +10,8 @@ library;
 
 import 'dart:io';
 
-import 'package:c_compiler/c_compiler.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

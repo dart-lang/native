@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:c_compiler/c_compiler.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 const packageName = 'native_add_library';
 
@@ -15,7 +15,7 @@ void main(List<String> args) async {
   final buildConfig = await BuildConfig.fromArgs(args);
   final buildOutput = BuildOutput();
 
-  // Configure `package:c_compiler` to build the C code for us.
+  // Configure `package:native_toolchain_c` to build the C code for us.
   final cbuilder = CBuilder.library(
     name: packageName,
     assetName: 'package:$packageName/${packageName}.dart',
@@ -25,7 +25,7 @@ void main(List<String> args) async {
   );
   await cbuilder.run(
     buildConfig: buildConfig,
-    // `package:c_compiler` will output the dynamic or static libraries it built,
+    // `package:native_toolchain_c` will output the dynamic or static libraries it built,
     // what files it accessed (for caching the build), etc.
     buildOutput: buildOutput,
     logger: Logger('')..onRecord.listen((record) => print(record.message)),
