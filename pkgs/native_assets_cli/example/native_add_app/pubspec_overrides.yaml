@@ -1,3 +1,0 @@
-dependency_overrides:
-  native_assets_cli:
-    path: ../../

@@ -1,8 +1,7 @@
 name: native_assets_builder
 description: >-
   This package is the backend that invokes top-level `build.dart` scripts.
-version: 0.1.0-dev
-
+version: 0.1.0
 publish_to: none
 
 environment:
@@ -11,8 +10,7 @@ environment:
 dependencies:
   graphs: ^2.3.1
   logging: ^1.2.0
-  # TODO(dacoharkes): Publish native_assets_cli first.
-  native_assets_cli: ^0.1.0-dev
+  native_assets_cli: ^0.1.0
   package_config: ^2.1.0
 
 dev_dependencies:
