@@ -1,7 +1,7 @@
 # This configures the .github/workflows/pull_request_label.yml workflow.
 
 type-infra:
-  - '.github/**'
+  - .github/**
 
 package:c_compiler:
   - pkgs/c_compiler/**/*
