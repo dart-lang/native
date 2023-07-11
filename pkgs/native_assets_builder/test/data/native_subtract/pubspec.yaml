@@ -11,8 +11,7 @@ dependencies:
   cli_config: ^0.1.1
   logging: ^1.1.1
   native_assets_cli: ^0.1.0
-  native_toolchain_c:
-    path: ../../../../native_toolchain_c/
+  native_toolchain_c: ^0.1.0
 
 dev_dependencies:
   ffigen: ^8.0.2
