@@ -13,8 +13,7 @@ dependencies:
     path: ../../../c_compiler/
   cli_config: ^0.1.1
   logging: ^1.1.1
-  native_assets_cli:
-    path: ../../
+  native_assets_cli: ^0.1.0
 
 dev_dependencies:
   ffigen: ^8.0.2
@@ -24,5 +23,3 @@ dev_dependencies:
 dependency_overrides:
   c_compiler:
     path: ../../../c_compiler/
-  native_assets_cli:
-    path: ../../
