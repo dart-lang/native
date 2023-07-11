@@ -1,21 +1,18 @@
 name: c_compiler
 description: >-
   A library to invoke the native C compiler installed on the host machine.
-version: 0.1.0-dev
+version: 0.1.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/c_compiler
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-
-publish_to: none
 
 dependencies:
   cli_config: ^0.1.1
   glob: ^2.1.1
   logging: ^1.1.1
   meta: ^1.9.1
-  # TODO(dacoharkes): Publish native_assets_cli first.
-  native_assets_cli: ^0.1.0-dev
+  native_assets_cli: ^0.1.0
   pub_semver: ^2.1.3
 
 dev_dependencies:
