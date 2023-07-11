@@ -1,17 +1,13 @@
 # This configures the .github/workflows/pull_request_label.yml workflow.
 
 'type-infra':
-  - any:
-      - '.github/**'
+  - '.github/**'
 
 'package:c_compiler':
-  - any:
-      - pkgs/c_compiler/**/*
+  - pkgs/c_compiler/**/*
 
 'package:native_assets_builder':
-  - any:
-      - pkgs/native_assets_builder/**/*
+  - pkgs/native_assets_builder/**/*
 
 'package:native_assets_cli':
-  - any:
-      - pkgs/native_assets_cli/**/*
+  - pkgs/native_assets_cli/**/*
