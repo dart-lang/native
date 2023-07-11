@@ -8,13 +8,13 @@
 })
 library;
 
-import 'package:c_compiler/src/cbuilder/compiler_resolver.dart';
-import 'package:c_compiler/src/native_toolchain/apple_clang.dart';
-import 'package:c_compiler/src/native_toolchain/clang.dart';
-import 'package:c_compiler/src/native_toolchain/msvc.dart';
-import 'package:c_compiler/src/tool/tool_error.dart';
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
+import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/tool/tool_error.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

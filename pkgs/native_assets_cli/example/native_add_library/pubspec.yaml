@@ -9,11 +9,11 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  c_compiler:
-    path: ../../../c_compiler/
   cli_config: ^0.1.1
   logging: ^1.1.1
   native_assets_cli: ^0.1.0
+  native_toolchain_c:
+    path: ../../../native_toolchain_c/
 
 dev_dependencies:
   ffigen: ^8.0.2
@@ -21,5 +21,5 @@ dev_dependencies:
   test: ^1.21.0
 
 dependency_overrides:
-  c_compiler:
-    path: ../../../c_compiler/
+  native_toolchain_c:
+    path: ../../../native_toolchain_c/

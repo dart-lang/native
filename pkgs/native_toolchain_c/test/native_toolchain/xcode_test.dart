@@ -10,9 +10,9 @@ library;
 
 import 'dart:io';
 
-import 'package:c_compiler/src/native_toolchain/xcode.dart';
-import 'package:c_compiler/src/tool/tool.dart';
-import 'package:c_compiler/src/tool/tool_instance.dart';
+import 'package:native_toolchain_c/src/native_toolchain/xcode.dart';
+import 'package:native_toolchain_c/src/tool/tool.dart';
+import 'package:native_toolchain_c/src/tool/tool_instance.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

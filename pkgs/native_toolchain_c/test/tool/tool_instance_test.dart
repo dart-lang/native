@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:c_compiler/src/tool/tool.dart';
-import 'package:c_compiler/src/tool/tool_instance.dart';
 import 'package:collection/collection.dart';
+import 'package:native_toolchain_c/src/tool/tool.dart';
+import 'package:native_toolchain_c/src/tool/tool_instance.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 

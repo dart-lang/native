@@ -10,8 +10,8 @@ library;
 
 import 'dart:io';
 
-import 'package:c_compiler/src/native_toolchain/msvc.dart';
-import 'package:c_compiler/src/utils/env_from_bat.dart';
+import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/utils/env_from_bat.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

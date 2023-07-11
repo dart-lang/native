@@ -7,10 +7,10 @@ library;
 
 import 'dart:io';
 
-import 'package:c_compiler/src/native_toolchain/gcc.dart';
-import 'package:c_compiler/src/tool/tool.dart';
-import 'package:c_compiler/src/tool/tool_requirement.dart';
-import 'package:c_compiler/src/tool/tool_resolver.dart';
+import 'package:native_toolchain_c/src/native_toolchain/gcc.dart';
+import 'package:native_toolchain_c/src/tool/tool.dart';
+import 'package:native_toolchain_c/src/tool/tool_requirement.dart';
+import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

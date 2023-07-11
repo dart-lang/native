@@ -31,7 +31,8 @@ void main() async {
     //
     // We could potentially run this test if we default to some compilers
     // we find on the path before running the test. However, the logic for
-    // discovering compilers is currently hidden inside package:c_compiler.
+    // discovering compilers is currently hidden inside
+    // package:native_toolchain_c.
     return;
   }
 
