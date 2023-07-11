@@ -7,8 +7,6 @@ repository: https://github.com/dart-lang/native/tree/main/pkgs/c_compiler
 environment:
   sdk: '>=3.0.0 <4.0.0'
 
-publish_to: none
-
 dependencies:
   cli_config: ^0.1.1
   glob: ^2.1.1

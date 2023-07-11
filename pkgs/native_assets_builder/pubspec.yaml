@@ -2,7 +2,7 @@ name: native_assets_builder
 description: >-
   This package is the backend that invokes top-level `build.dart` scripts.
 version: 0.1.0
-publish_to: none
+repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_builder
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
