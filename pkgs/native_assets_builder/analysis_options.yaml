@@ -4,6 +4,8 @@ analyzer:
   language:
     strict-raw-types: true
     strict-inference: true
+  exclude:
+    - test/data/**
 
 linter:
   rules:
