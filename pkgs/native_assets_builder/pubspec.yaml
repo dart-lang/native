@@ -4,11 +4,6 @@ description: >-
 version: 0.1.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_builder
 
-topics:
-  - ffi
-  - interop
-  - native
-
 environment:
   sdk: '>=3.0.0 <4.0.0'
 
