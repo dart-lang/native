@@ -64,7 +64,6 @@ class NativeAssetsBuildRunner {
         targetMetadata: _metadata[target],
       );
       final config = await _cliConfig(
-        packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         target: target,
         buildMode: buildMode,
@@ -81,6 +80,7 @@ class NativeAssetsBuildRunner {
         workingDirectory,
         includeParentEnvironment,
       );
+      validateAssetsPackage(assets, package.name);
       assetList.addAll(assets);
     }
     return assetList;
@@ -214,7 +214,6 @@ class NativeAssetsBuildRunner {
   }
 
   static Future<BuildConfig> _cliConfig({
-    required String packageName,
     required Uri packageRoot,
     required Target target,
     IOSSdk? targetIOSSdk,
@@ -290,6 +289,21 @@ class NativeAssetsBuildRunner {
       for (final entry in targetMetadata.entries)
         if (dependencies.contains(entry.key)) entry.key: entry.value,
     };
+  }
+
+  void validateAssetsPackage(List<Asset> assets, String packageName) {
+    final invalidAssetIds = assets
+        .map((a) => a.name)
+        .where((n) => !n.startsWith('package:$packageName'))
+        .toSet()
+        .toList()
+      ..sort();
+    if (invalidAssetIds.isNotEmpty) {
+      throw FormatException(
+        '`package:$packageName` declares the following assets which do not '
+        'start with `package:$packageName`: ${invalidAssetIds.join(', ')}.',
+      );
+    }
   }
 }
 
