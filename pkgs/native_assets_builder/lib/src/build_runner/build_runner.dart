@@ -301,7 +301,7 @@ class NativeAssetsBuildRunner {
     if (invalidAssetIds.isNotEmpty) {
       throw FormatException(
         '`package:$packageName` declares the following assets which do not '
-        'start with `package:$packageName`: ${invalidAssetIds.join(', ')}.',
+        'start with `package:$packageName/`: ${invalidAssetIds.join(', ')}.',
       );
     }
   }
