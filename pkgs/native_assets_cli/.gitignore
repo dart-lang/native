@@ -7,3 +7,8 @@
 pubspec.lock
 
 coverage/
+
+*.dll
+*.dylib
+*.exe
+*.so
