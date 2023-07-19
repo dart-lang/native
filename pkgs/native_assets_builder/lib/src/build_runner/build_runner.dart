@@ -294,7 +294,7 @@ class NativeAssetsBuildRunner {
   void validateAssetsPackage(List<Asset> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.name)
-        .where((n) => !n.startsWith('package:$packageName'))
+        .where((n) => !n.startsWith('package:$packageName/'))
         .toSet()
         .toList()
       ..sort();
