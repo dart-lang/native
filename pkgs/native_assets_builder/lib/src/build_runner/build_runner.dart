@@ -175,7 +175,7 @@ class NativeAssetsBuildRunner {
     required bool dryRun,
   }) async {
     final outDir = config.outDir;
-    final configFile = outDir.resolve('config.yaml');
+    final configFile = outDir.resolve('../config.yaml');
     final buildDotDart = config.packageRoot.resolve('build.dart');
     final configFileContents = config.toYamlString();
     logger.info('config.yaml contents: $configFileContents');
@@ -236,7 +236,7 @@ class NativeAssetsBuildRunner {
       dependencyMetadata: dependencyMetadata,
       targetAndroidNdkApi: targetAndroidNdkApi,
     );
-    final outDirUri = buildParentDir.resolve('$buildDirName/');
+    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
