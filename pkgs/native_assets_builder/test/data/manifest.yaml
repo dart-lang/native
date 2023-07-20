@@ -23,3 +23,5 @@
 - package_reading_metadata/pubspec.yaml
 - package_with_metadata/build.dart
 - package_with_metadata/pubspec.yaml
+- wrong_namespace_asset/build.dart
+- wrong_namespace_asset/pubspec.yaml
