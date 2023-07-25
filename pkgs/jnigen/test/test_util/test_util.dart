@@ -88,9 +88,10 @@ void comparePaths(String path1, String path2) {
   if (diffProc.exitCode != 0) {
     final originalDiff = diffProc.stdout;
     log.warning(
-        "Paths $path1 and $path2 differ, comparing by ignoring space change");
-    final fallbackDiffProc = Process.runSync(
-        "git", [...diffCommand, '--ignore-space-change', path1, path2]);
+        "Paths $path1 and $path2 differ, Running dart format on $path1.");
+    Process.runSync('dart', ['format', path1]);
+    final fallbackDiffProc =
+        Process.runSync("git", [...diffCommand, path1, path2]);
     if (fallbackDiffProc.exitCode != 0) {
       stderr.writeln(originalDiff);
       throw Exception("Paths $path1 and $path2 differ");
