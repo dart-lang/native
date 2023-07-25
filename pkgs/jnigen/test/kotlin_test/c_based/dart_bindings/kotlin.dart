@@ -16,6 +16,7 @@
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
@@ -61,7 +62,8 @@ class SuspendFun extends jni.JObject {
   /// The returned object must be deleted after use, by calling the `delete` method.
   Future<jni.JString> sayHello() async {
     final $p = ReceivePort();
-    final $c = jni.JObject.fromRef(jni.Jni.newPortContinuation($p));
+    final $c =
+        jni.JObject.fromRef(ProtectedJniExtensions.newPortContinuation($p));
     _sayHello(reference, $c.reference).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
     final $k = const jni.JStringType().getClass().reference;
@@ -87,7 +89,8 @@ class SuspendFun extends jni.JObject {
     jni.JString string,
   ) async {
     final $p = ReceivePort();
-    final $c = jni.JObject.fromRef(jni.Jni.newPortContinuation($p));
+    final $c =
+        jni.JObject.fromRef(ProtectedJniExtensions.newPortContinuation($p));
     _sayHello1(reference, string.reference, $c.reference).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
     final $k = const jni.JStringType().getClass().reference;

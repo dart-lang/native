@@ -63,7 +63,7 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
         structure: OutputStructure.singleFile,
       ),
     ),
-    summarizerOptions: SummarizerOptions(backend: 'asm'),
+    summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
     preamble: preamble,
   );
   return config;

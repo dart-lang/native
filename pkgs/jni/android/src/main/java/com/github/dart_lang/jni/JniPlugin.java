@@ -6,14 +6,12 @@ package com.github.dart_lang.jni;
 
 import android.app.Activity;
 import android.content.Context;
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-@Keep
 public class JniPlugin implements FlutterPlugin, ActivityAware {
 
   @Override

@@ -7,13 +7,14 @@ import '../jni.dart';
 import '../jobject.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
-import 'jinteger.dart';
-import 'jshort.dart';
-import 'jlong.dart';
+import 'jboolean.dart';
+import 'jbyte.dart';
+import 'jcharacter.dart';
 import 'jdouble.dart';
 import 'jfloat.dart';
-import 'jbyte.dart';
-import 'jboolean.dart';
+import 'jinteger.dart';
+import 'jlong.dart';
+import 'jshort.dart';
 
 class JNumberType extends JObjType<JNumber> {
   const JNumberType();
@@ -137,6 +138,7 @@ extension IntToJava on int {
   JShort toJShort() => JShort(this);
   JInteger toJInteger() => JInteger(this);
   JLong toJLong() => JLong(this);
+  JCharacter toJCharacter() => JCharacter(this);
 }
 
 extension DoubleToJava on double {

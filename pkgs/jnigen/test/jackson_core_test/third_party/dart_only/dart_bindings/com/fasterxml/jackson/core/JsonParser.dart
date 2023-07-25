@@ -29,6 +29,7 @@
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
@@ -2463,7 +2464,9 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readValueAsTree = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"readValueAsTree", r"()Ljava/lang/Object;");
+      _class.reference,
+      r"readValueAsTree",
+      r"()Lcom/fasterxml/jackson/core/TreeNode;");
 
   /// from: public T readValueAsTree()
   /// The returned object must be deleted after use, by calling the `delete` method.

@@ -13,6 +13,7 @@ import '../elements/elements.dart';
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'config_exception.dart';
+import 'experiments.dart';
 import 'filters.dart';
 import 'yaml_reader.dart';
 
@@ -117,22 +118,20 @@ class AndroidSdkConfig {
   String? androidExample;
 }
 
-/// Additional options to pass to the summary generator component.
-class SummarizerOptions {
-  SummarizerOptions(
-      {this.extraArgs = const [], this.workingDirectory, this.backend});
-  List<String> extraArgs;
-  Uri? workingDirectory;
-  String? backend;
+extension on String {
+  /// Converts the enum name from camelCase to snake_case.
+  String toSnakeCase() {
+    return splitMapJoin(
+      RegExp('[A-Z]'),
+      onMatch: (p) => '_${p[0]!.toLowerCase()}',
+    );
+  }
 }
 
-/// Backend for reading summary of Java libraries
-enum SummarizerBackend {
-  /// Generate Java API summaries using JARs in provided `classPath`s.
-  asm,
-
-  /// Generate Java API summaries using source files in provided `sourcePath`s.
-  doclet,
+extension<T extends Enum> on Iterable<T> {
+  Map<String, T> valuesMap() {
+    return Map.fromEntries(map((e) => MapEntry(e.name.toSnakeCase(), e)));
+  }
 }
 
 T _getEnumValueFromString<T>(
@@ -145,6 +144,35 @@ T _getEnumValueFromString<T>(
   return value;
 }
 
+/// Additional options to pass to the summary generator component.
+class SummarizerOptions {
+  SummarizerOptions(
+      {this.extraArgs = const [], this.workingDirectory, this.backend});
+  List<String> extraArgs;
+  Uri? workingDirectory;
+  SummarizerBackend? backend;
+}
+
+/// Backend for reading summary of Java libraries
+enum SummarizerBackend {
+  /// Generate Java API summaries using JARs in provided `classPath`s.
+  asm,
+
+  /// Generate Java API summaries using source files in provided `sourcePath`s.
+  doclet,
+}
+
+SummarizerBackend? getSummarizerBackend(
+  String? name,
+  SummarizerBackend? defaultVal,
+) {
+  return _getEnumValueFromString(
+    SummarizerBackend.values.valuesMap(),
+    name,
+    defaultVal,
+  );
+}
+
 void _ensureIsDirectory(String name, Uri path) {
   if (!path.toFilePath().endsWith(Platform.pathSeparator)) {
     throw ConfigException('$name must be a directory path. If using YAML '
@@ -155,31 +183,27 @@ void _ensureIsDirectory(String name, Uri path) {
 enum OutputStructure { packageStructure, singleFile }
 
 OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
-  const values = {
-    'package_structure': OutputStructure.packageStructure,
-    'single_file': OutputStructure.singleFile,
-  };
-  return _getEnumValueFromString(values, name, defaultVal);
+  return _getEnumValueFromString(
+    OutputStructure.values.valuesMap(),
+    name,
+    defaultVal,
+  );
 }
 
 enum BindingsType { cBased, dartOnly }
 
 extension GetConfigString on BindingsType {
-  static const _configStrings = {
-    BindingsType.cBased: 'c_based',
-    BindingsType.dartOnly: 'dart_only',
-  };
   String getConfigString() {
-    return _configStrings[this]!;
+    return name.toSnakeCase();
   }
 }
 
 BindingsType getBindingsType(String? name, BindingsType defaultVal) {
-  const values = {
-    'c_based': BindingsType.cBased,
-    'dart_only': BindingsType.dartOnly,
-  };
-  return _getEnumValueFromString(values, name, defaultVal);
+  return _getEnumValueFromString(
+    BindingsType.values.valuesMap(),
+    name,
+    defaultVal,
+  );
 }
 
 class CCodeOutputConfig {
@@ -296,6 +320,7 @@ class Config {
   Config({
     required this.outputConfig,
     required this.classes,
+    this.experiments,
     this.exclude,
     this.sourcePath,
     this.classPath,
@@ -324,6 +349,8 @@ class Config {
   /// name suffix is `.class`.
   List<String> classes;
 
+  Set<Experiment?>? experiments;
+
   /// Methods and fields to be excluded from generated bindings.
   final BindingExclusions? exclude;
 
@@ -351,7 +378,7 @@ class Config {
   final MavenDownloads? mavenDownloads;
 
   /// Additional options for the summarizer component.
-  final SummarizerOptions? summarizerOptions;
+  SummarizerOptions? summarizerOptions;
 
   /// List of dependencies.
   final List<Uri>? imports;
@@ -415,6 +442,7 @@ class Config {
             );
           }
           final classDecl = ClassDecl(
+            declKind: DeclKind.classKind,
             binaryName: binaryName,
           )
             ..path = '$importPath/$filePath'
@@ -535,7 +563,7 @@ class Config {
       classes: must(prov.getStringList, [], _Props.classes),
       summarizerOptions: SummarizerOptions(
         extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
-        backend: prov.getString(_Props.backend),
+        backend: getSummarizerBackend(prov.getString(_Props.backend), null),
         workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
       ),
       exclude: BindingExclusions(
@@ -568,6 +596,12 @@ class Config {
             : null,
       ),
       preamble: prov.getString(_Props.preamble),
+      experiments: prov
+          .getStringList(_Props.experiments)
+          ?.map(
+            (e) => Experiment.fromString(e),
+          )
+          .toSet(),
       imports: prov.getPathList(_Props.import),
       mavenDownloads: prov.hasValue(_Props.mavenDownloads)
           ? MavenDownloads(
@@ -632,6 +666,7 @@ class _Props {
   static const excludeMethods = '$exclude.methods';
   static const excludeFields = '$exclude.fields';
 
+  static const experiments = 'enable_experiment';
   static const import = 'import';
   static const outputConfig = 'output';
   static const bindingsType = '$outputConfig.bindings_type';

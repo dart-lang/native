@@ -20,9 +20,11 @@ void main() async {
   final resolver = Resolver(
     importedClasses: {
       'org.apache.pdfbox.pdmodel.PDDocument': ClassDecl(
+        declKind: DeclKind.classKind,
         binaryName: 'org.apache.pdfbox.pdmodel.PDDocument',
       )..path = 'package:pdfbox/pdfbox.dart',
       'android.os.Process': ClassDecl(
+        declKind: DeclKind.classKind,
         binaryName: 'android.os.Process',
       )..path = 'package:android/os.dart',
     },
@@ -70,8 +72,10 @@ void main() async {
     test(
         'resolve $binaryName',
         () => expect(
-            resolver
-                .resolvePrefix(ClassDecl(binaryName: binaryName)..path = ''),
+            resolver.resolvePrefix(ClassDecl(
+              declKind: DeclKind.classKind,
+              binaryName: binaryName,
+            )..path = ''),
             equals(testCase.expectedName)));
   }
 }

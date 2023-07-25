@@ -574,10 +574,11 @@ Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith(JNIEnv* env,
                                                              jobject thiz,
                                                              jlong port,
                                                              jobject result) {
-  Dart_CObject dartPtr;
-  dartPtr.type = Dart_CObject_kInt64;
-  dartPtr.value.as_int64 = (jlong)((*env)->NewGlobalRef(env, result));
-  Dart_PostCObject_DL(port, &dartPtr);
+  attach_thread();
+  Dart_CObject c_post;
+  c_post.type = Dart_CObject_kInt64;
+  c_post.value.as_int64 = (jlong)((*env)->NewGlobalRef(env, result));
+  Dart_PostCObject_DL(port, &c_post);
 }
 
 // com.github.dart_lang.jni.PortContinuation
@@ -586,6 +587,7 @@ jclass _c_PortContinuation = NULL;
 jmethodID _m_PortContinuation__ctor = NULL;
 FFI_PLUGIN_EXPORT
 JniResult PortContinuation__ctor(int64_t j) {
+  attach_thread();
   load_class_global_ref(&_c_PortContinuation,
                         "com/github/dart_lang/jni/PortContinuation");
   if (_c_PortContinuation == NULL)
@@ -601,4 +603,89 @@ JniResult PortContinuation__ctor(int64_t j) {
     _result = to_global_ref(_result);
   }
   return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+}
+
+// com.github.dart_lang.jni.PortProxy
+jclass _c_PortProxy = NULL;
+
+jmethodID _m_PortProxy__newInstance = NULL;
+FFI_PLUGIN_EXPORT
+JniResult PortProxy__newInstance(jobject binaryName,
+                                 int64_t port,
+                                 int64_t functionPtr) {
+  attach_thread();
+  load_class_global_ref(&_c_PortProxy, "com/github/dart_lang/jni/PortProxy");
+  if (_c_PortProxy == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_PortProxy, &_m_PortProxy__newInstance, "newInstance",
+                     "(Ljava/lang/String;JJJ)Ljava/lang/Object;");
+  if (_m_PortProxy__newInstance == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_PortProxy, _m_PortProxy__newInstance, binaryName, port,
+      thread_id(), functionPtr);
+  return to_global_ref_result(_result);
+}
+
+FFI_PLUGIN_EXPORT
+void resultFor(CallbackResult* result, jobject object) {
+  acquire_lock(&result->lock);
+  result->ready = 1;
+  result->object = object;
+  signal_cond(&result->cond);
+  release_lock(&result->lock);
+}
+
+JNIEXPORT jobject JNICALL
+Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
+                                                  jobject thiz,
+                                                  jlong port,
+                                                  jlong threadId,
+                                                  jlong functionPtr,
+                                                  jobject proxy,
+                                                  jstring methodDescriptor,
+                                                  jobjectArray args) {
+  attach_thread();
+  if (threadId != thread_id()) {
+    CallbackResult* result = (CallbackResult*)malloc(sizeof(CallbackResult));
+    init_lock(&result->lock);
+    init_cond(&result->cond);
+    acquire_lock(&result->lock);
+    result->ready = 0;
+    result->object = NULL;
+
+    Dart_CObject c_result;
+    c_result.type = Dart_CObject_kInt64;
+    c_result.value.as_int64 = (jlong)result;
+
+    Dart_CObject c_method;
+    c_method.type = Dart_CObject_kInt64;
+    c_method.value.as_int64 =
+        (jlong)((*env)->NewGlobalRef(env, methodDescriptor));
+
+    Dart_CObject c_args;
+    c_args.type = Dart_CObject_kInt64;
+    c_args.value.as_int64 = (jlong)((*env)->NewGlobalRef(env, args));
+
+    Dart_CObject* c_post_arr[] = {&c_result, &c_method, &c_args};
+    Dart_CObject c_post;
+    c_post.type = Dart_CObject_kArray;
+    c_post.value.as_array.values = c_post_arr;
+    c_post.value.as_array.length = sizeof(c_post_arr) / sizeof(c_post_arr[0]);
+
+    Dart_PostCObject_DL(port, &c_post);
+    while (!result->ready) {
+      wait_for(&result->cond, &result->lock);
+    }
+    release_lock(&result->lock);
+    destroy_lock(&result->lock);
+    destroy_cond(&result->cond);
+    jobject object = result->object;
+    free(result);
+    return object;
+  } else {
+    return ((jobject(*)(uint64_t, jobject, jobject))functionPtr)(
+        port, (*env)->NewGlobalRef(env, methodDescriptor),
+        (*env)->NewGlobalRef(env, args));
+  }
 }

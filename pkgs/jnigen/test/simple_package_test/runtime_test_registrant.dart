@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:test/test.dart';
@@ -528,6 +529,74 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
     });
   });
+
+  group('interface implementation', () {
+    for (final method in {
+      'another thread': MyInterfaceConsumer.consumeOnAnotherThread,
+      'the same thread': MyInterfaceConsumer.consumeOnSameThread,
+    }.entries) {
+      test('MyInterface.implement on ${method.key}', () async {
+        final voidCallbackResult = Completer<JString>();
+        final varCallbackResult = Completer<JInteger>();
+        final manyPrimitivesResult = Completer<int>();
+        // We can use this trick to access self, instead of generating a `thiz`
+        // or `self` argument for each one of the callbacks.
+        late final MyInterface<JInteger> myInterface;
+        myInterface = MyInterface.implement(
+          voidCallback: (s) {
+            voidCallbackResult.complete(s);
+          },
+          stringCallback: (s) {
+            return (s.toDartString(deleteOriginal: true) * 2).toJString();
+          },
+          varCallback: (JInteger t) {
+            final result = (t.intValue(deleteOriginal: true) * 2).toJInteger();
+            varCallbackResult.complete(result);
+            return result;
+          },
+          manyPrimitives: (a, b, c, d) {
+            if (b) {
+              final result = a + c + d.toInt();
+              manyPrimitivesResult.complete(result);
+              return result;
+            } else {
+              // Call self, add to [a] when [b] is false and change b to true.
+              return myInterface.manyPrimitives(a + 1, true, c, d);
+            }
+          },
+          T: JInteger.type,
+        );
+        // [stringCallback] is going to be called first using [s].
+        // The result of it is going to be used as the argument for
+        // [voidCallback].
+        // The other two methods will be called individually using the passed
+        // arguments afterwards.
+        method.value(
+          myInterface,
+          // For stringCallback:
+          'hello'.toJString(),
+          // For manyPrimitives:
+          -1,
+          false,
+          3,
+          3.14,
+          // For varCallback
+          7.toJInteger(),
+        );
+        final voidCallback = await voidCallbackResult.future;
+        expect(voidCallback.toDartString(deleteOriginal: true), 'hellohello');
+
+        final varCallback = await varCallbackResult.future;
+        expect(varCallback.intValue(), 14);
+
+        final manyPrimitives = await manyPrimitivesResult.future;
+        expect(manyPrimitives, -1 + 3 + 3.14.toInt() + 1);
+
+        myInterface.delete();
+      });
+    }
+  });
+
   group('$groupName (load tests)', () {
     const k4 = 4 * 1024; // This is a round number, unlike say 4000
     const k256 = 256 * 1024;

@@ -1,3 +1,7 @@
+## 0.6.0-wip-2
+* Added `PortProxy` and related methods used for interface implementation.
+* Added the missing binding for `java.lang.Character`.
+
 ## 0.5.0
 * **Breaking Change** ([#137](https://github.com/dart-lang/jnigen/issues/137)): Java primitive types are now all lowercase like `jint`, `jshort`, ...
 * The bindings for `java.util.Set`, `java.util.Map`, `java.util.List` and the numeric types like `java.lang.Integer`, `java.lang.Boolean`, ... are now included in `package:jni`.

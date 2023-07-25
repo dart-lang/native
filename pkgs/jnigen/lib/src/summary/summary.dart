@@ -44,11 +44,7 @@ class SummarizerCommand {
     this.workingDirectory,
     this.backend,
   })  : sourcePaths = sourcePath ?? [],
-        classPaths = classPath ?? [] {
-    if (backend != null && !{'asm', 'doclet'}.contains(backend)) {
-      throw ArgumentError('Supported backends: asm, doclet');
-    }
-  }
+        classPaths = classPath ?? [];
 
   static const sourcePathsOption = '-s';
   static const classPathsOption = '-c';
@@ -60,7 +56,7 @@ class SummarizerCommand {
   List<String> classes;
 
   Uri? workingDirectory;
-  String? backend;
+  SummarizerBackend? backend;
 
   void addSourcePaths(List<Uri> paths) {
     sourcePaths.addAll(paths);
@@ -91,7 +87,7 @@ class SummarizerCommand {
     _addPathParam(args, sourcePathsOption, sourcePaths);
     _addPathParam(args, classPathsOption, classPaths);
     if (backend != null) {
-      args.addAll(['--backend', backend!]);
+      args.addAll(['--backend', backend!.name]);
     }
     args.addAll(extraArgs);
     args.addAll(classes);

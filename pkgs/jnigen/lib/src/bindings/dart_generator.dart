@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:meta/meta.dart';
 
 import '../config/config.dart';
+import '../config/experiments.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
 import '../util/string_util.dart';
@@ -33,6 +34,7 @@ const _voidPointer = '$_ffi.Pointer<$_ffi.Void>';
 const _typeParamPrefix = '\$';
 
 // Misc.
+const _protectedExtension = 'ProtectedJniExtensions';
 const _classRef = '_class.reference';
 const _env = '$_jni.Jni.env';
 const _accessors = '$_jni.Jni.accessors';
@@ -128,7 +130,7 @@ class DartGenerator extends Visitor<Classes, Future<void>> {
 // Auto-generated initialization code.
 
 final $_ffi.Pointer<T> Function<T extends $_ffi.NativeType>(String sym) $_lookup =
-    ProtectedJniExtensions.initGeneratedLibrary("${config.outputConfig.cConfig!.libraryName}");
+    $_protectedExtension.initGeneratedLibrary("${config.outputConfig.cConfig!.libraryName}");
 
 
 ''';
@@ -155,6 +157,7 @@ import "package:jni/jni.dart" as jni;
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
 
 ''';
@@ -399,6 +402,119 @@ class $name$typeParamsDef extends $superName {
       method.accept(methodGenerator);
     }
 
+    // Experimental: Interface implementation
+    if (node.declKind == DeclKind.interfaceKind &&
+        (config.experiments?.contains(Experiment.interfaceImplementation) ??
+            false)) {
+      s.write('''
+  /// Maps a specific port to the implemented methods.
+  static final Map<int, Map<String, Function>> _\$methods = {};
+
+  /// Maps a specific port to the type parameters.
+  static final Map<int, Map<String, $_jType>> _\$types = {};
+
+  ReceivePort? _\$p;
+
+  static final Finalizer<ReceivePort> _\$finalizer = Finalizer((\$p) {
+    _\$methods.remove(\$p.sendPort.nativePort);
+    _\$types.remove(\$p.sendPort.nativePort);
+    \$p.close();
+  });
+
+  @override
+  void delete() {
+    _\$methods.remove(_\$p?.sendPort.nativePort);
+    _\$types.remove(_\$p?.sendPort.nativePort);
+    _\$p?.close();
+    _\$finalizer.detach(this);
+    super.delete();
+  }
+
+  static jni.JObjectPtr _\$invoke(
+    int port,
+    jni.JObjectPtr descriptor,
+    jni.JObjectPtr args,
+  ) {
+    return _\$invokeMethod(
+      port,
+      \$MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final ffi.Pointer<
+          ffi.NativeFunction<
+              jni.JObjectPtr Function(
+                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
+      _\$invokePointer = ffi.Pointer.fromFunction(_\$invoke);
+
+  static ffi.Pointer<ffi.Void> _\$invokeMethod(
+    int \$p,
+    \$MethodInvocation \$i,
+  ) {
+    final \$d = \$i.methodDescriptor.toDartString(deleteOriginal: true);
+    final \$a = \$i.args;
+    ''');
+      final proxyMethodIf = _InterfaceMethodIf(resolver, s);
+      for (final method in node.methods) {
+        method.accept(proxyMethodIf);
+      }
+      s.write('''
+    return jni.nullptr;
+  }
+
+  factory $name.implement(
+''');
+      final typeClassesCall =
+          typeParams.map((typeParam) => '$typeParam,').join(_newLine(depth: 3));
+      s.write(_encloseIfNotEmpty(
+        '{',
+        [
+          ...typeParams
+              .map((typeParam) => 'required $_jType<\$$typeParam> $typeParam,'),
+          ...node.methods.accept(_InterfaceImplementArg(resolver))
+        ].join(_newLine(depth: 2)),
+        '}',
+      ));
+
+      s.write('''
+      ) {
+    final \$p = ReceivePort();
+    final \$x = $name.fromRef(
+      $typeClassesCall
+      $_protectedExtension.newPortProxy(
+        r"${node.binaryName}",
+        \$p,
+        _\$invokePointer,
+      ),
+    ).._\$p = \$p;
+    final \$a = \$p.sendPort.nativePort; 
+    _\$types[\$a] = {};
+    _\$methods[\$a] = {};
+''');
+      final typeFiller = _InterfaceTypesFiller(s);
+      for (final typeParam in node.allTypeParams) {
+        typeParam.accept(typeFiller);
+      }
+      final methodFiller = _InterfaceMethodsFiller(s);
+      for (final method in node.methods) {
+        method.accept(methodFiller);
+      }
+      s.write('''
+    _\$finalizer.attach(\$x, \$p, detach: \$x);
+    \$p.listen((\$m) {
+      final \$i = \$MethodInvocation.fromMessage(\$m);
+      final \$r = _\$invokeMethod(\$p.sendPort.nativePort, \$i);
+      ProtectedJniExtensions.returnResult(\$i.result, \$r);
+    });
+    return \$x;
+  }
+  ''');
+    }
+
     // End of Class definition
     s.writeln('}');
 
@@ -491,7 +607,7 @@ class _TypeGenerator extends TypeVisitor<String> {
   String visitArrayType(ArrayType node) {
     final innerType = node.type;
     if (innerType.kind == Kind.primitive) {
-      return '$_jArray<$_jni.${(innerType.type as PrimitiveType).jniType}>';
+      return '$_jArray<$_jni.j${(innerType.type as PrimitiveType).name}>';
     }
     return '$_jArray<${innerType.accept(this)}>';
   }
@@ -565,14 +681,32 @@ class _TypeClass {
 /// Generates the type class.
 class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   final bool isConst;
+
+  /// Whether or not to return the equivalent boxed type class for primitives.
+  /// Only for interface implemetation.
+  final bool boxPrimitives;
+
+  /// Whether or not to find the correct type variable from the static map.
+  /// Only for interface implemetation.
+  final bool typeVarFromMap;
+
   final Resolver resolver;
 
-  _TypeClassGenerator(this.resolver, {this.isConst = true});
+  _TypeClassGenerator(
+    this.resolver, {
+    this.isConst = true,
+    this.boxPrimitives = false,
+    this.typeVarFromMap = false,
+  });
 
   @override
   _TypeClass visitArrayType(ArrayType node) {
-    final innerTypeClass =
-        node.type.accept(_TypeClassGenerator(resolver, isConst: false));
+    final innerTypeClass = node.type.accept(_TypeClassGenerator(
+      resolver,
+      isConst: false,
+      boxPrimitives: boxPrimitives,
+      typeVarFromMap: typeVarFromMap,
+    ));
     final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
     return _TypeClass(
       '$ifConst${_jArray}Type(${innerTypeClass.name})',
@@ -587,8 +721,12 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         .toList();
 
     // The ones that are declared.
-    final definedTypeClasses =
-        node.params.accept(_TypeClassGenerator(resolver, isConst: false));
+    final definedTypeClasses = node.params.accept(_TypeClassGenerator(
+      resolver,
+      isConst: false,
+      boxPrimitives: boxPrimitives,
+      typeVarFromMap: typeVarFromMap,
+    ));
 
     // Can be const if all the type parameters are defined and each of them are
     // also const.
@@ -628,11 +766,15 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   @override
   _TypeClass visitPrimitiveType(PrimitiveType node) {
     final ifConst = isConst ? 'const ' : '';
-    return _TypeClass('$ifConst$_jni.${node.jniType}Type()', true);
+    final name = boxPrimitives ? 'J${node.boxedName}' : 'j${node.name}';
+    return _TypeClass('$ifConst$_jni.${name}Type()', true);
   }
 
   @override
   _TypeClass visitTypeVar(TypeVar node) {
+    if (typeVarFromMap) {
+      return _TypeClass('_\$types[\$p]!["${node.name}"]!', false);
+    }
     return _TypeClass(node.name, false);
   }
 
@@ -823,7 +965,7 @@ class _FieldGenerator extends Visitor<Field, void> {
   void writeDartOnlyAccessor(Field node) {
     final name = node.finalName;
     final ifStatic = node.isStatic ? 'Static' : '';
-    final descriptor = node.type.accept(const Descriptor());
+    final descriptor = node.type.descriptor;
     s.write('''
   static final _id_$name = 
       $_accessors.get${ifStatic}FieldIDOf(
@@ -950,10 +1092,10 @@ class _MethodGenerator extends Visitor<Method, void> {
   void writeDartOnlyAccessor(Method node) {
     final name = node.finalName;
     final ifStatic = node.isStatic ? 'Static' : '';
-    final signature = node.accept(const MethodSignature());
+    final descriptor = node.descriptor;
     s.write('''
   static final _id_$name = $_accessors.get${ifStatic}MethodIDOf(
-          $_classRef, r"${node.name}", r"$signature");
+          $_classRef, r"${node.name}", r"$descriptor");
 
 ''');
   }
@@ -1110,7 +1252,7 @@ class _MethodGenerator extends Visitor<Method, void> {
       s.write('''async {
     $typeInference
     final \$p = ReceivePort();
-    final \$c = $_jObject.fromRef($_jni.Jni.newPortContinuation(\$p));
+    final \$c = $_jObject.fromRef($_protectedExtension.newPortContinuation(\$p));
     $callExpr;
     final \$o = $_jPointer.fromAddress(await \$p.first);
     final \$k = $returnTypeClass.getClass().reference;
@@ -1365,5 +1507,131 @@ class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
   @override
   Map<String, List<OutsideInBuffer>> visitPrimitiveType(PrimitiveType node) {
     return {};
+  }
+}
+
+/// The argument for .implement method of interfaces.
+class _InterfaceImplementArg extends Visitor<Method, String> {
+  final Resolver resolver;
+
+  _InterfaceImplementArg(this.resolver);
+
+  @override
+  String visit(Method node) {
+    final returnType = node.returnType.accept(_TypeGenerator(resolver));
+    final name = node.finalName;
+    final args = node.params.accept(_ParamDef(resolver)).join(', ');
+    return 'required $returnType Function($args) $name,';
+  }
+}
+
+/// The if statement to check which method has been called from the proxy class.
+class _InterfaceMethodIf extends Visitor<Method, void> {
+  final Resolver resolver;
+  final StringSink s;
+
+  _InterfaceMethodIf(this.resolver, this.s);
+
+  @override
+  void visit(Method node) {
+    final signature = node.javaSig;
+    final saveResult = node.returnType.name == 'void' ? '' : 'final \$r = ';
+    s.write('''
+      if (\$d == r"$signature") {
+        ${saveResult}_\$methods[\$p]![\$d]!(
+''');
+    for (var i = 0; i < node.params.length; ++i) {
+      node.params[i].accept(_InterfaceParamCast(resolver, s, paramIndex: i));
+    }
+    const returnBox = _InterfaceReturnBox();
+    s.write('''
+        );
+        return ${node.returnType.accept(returnBox)};
+      }
+''');
+  }
+}
+
+/// Generates casting to the correct parameter type from the list of JObject
+/// arguments received from the call to the proxy class.
+class _InterfaceParamCast extends Visitor<Param, void> {
+  final Resolver resolver;
+  final StringSink s;
+  final int paramIndex;
+
+  _InterfaceParamCast(
+    this.resolver,
+    this.s, {
+    required this.paramIndex,
+  });
+
+  @override
+  void visit(Param node) {
+    final typeClass = node.type
+        .accept(_TypeClassGenerator(
+          resolver,
+          boxPrimitives: true,
+          typeVarFromMap: true,
+        ))
+        .name;
+    s.write('\$a[$paramIndex].castTo($typeClass, deleteOriginal: true)');
+    if (node.type.kind == Kind.primitive) {
+      // Convert to Dart type.
+      final name = (node.type.type as PrimitiveType).name;
+      s.write('.${name}Value(deleteOriginal: true)');
+    }
+    s.writeln(',');
+  }
+}
+
+/// Boxes the returned primitive value into the correct Boxed type.
+/// Only returns the reference for non primitive types.
+/// Returns null for void.
+///
+/// For example `$r.toJInteger().reference` when the return type is `integer`.
+class _InterfaceReturnBox extends TypeVisitor<String> {
+  const _InterfaceReturnBox();
+
+  @override
+  String visitNonPrimitiveType(ReferredType node) {
+    return '\$r.reference';
+  }
+
+  @override
+  String visitPrimitiveType(PrimitiveType node) {
+    if (node.name == 'void') {
+      return '$_jni.nullptr';
+    }
+    return '$_jni.J${node.boxedName}(\$r).reference';
+  }
+}
+
+/// Fills the static _$types map with the correct type classes for the given
+/// port.
+class _InterfaceTypesFiller extends Visitor<TypeParam, void> {
+  final StringSink s;
+
+  _InterfaceTypesFiller(this.s);
+
+  @override
+  void visit(TypeParam node) {
+    s.write('''
+    _\$types[\$a]!["${node.name}"] = ${node.name};
+''');
+  }
+}
+
+/// Fills the static _$method map with the correct callbacks for the given
+/// port.
+class _InterfaceMethodsFiller extends Visitor<Method, void> {
+  final StringSink s;
+
+  _InterfaceMethodsFiller(this.s);
+
+  @override
+  void visit(Method node) {
+    s.write('''
+    _\$methods[\$a]![r"${node.javaSig}"] = ${node.finalName};
+''');
   }
 }

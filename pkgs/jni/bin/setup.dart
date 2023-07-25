@@ -93,11 +93,11 @@ void verboseLog(String msg) {
   }
 }
 
-/// Find path to C sources in pub cache for package specified by [packageName].
+/// Find path to C or Java sources in pub cache for package specified by
+/// [packageName].
 ///
-/// It's assumed C FFI sources are in "src/" relative to package root.
 /// If package cannot be found, null is returned.
-Future<String> findSources(String packageName) async {
+Future<String> findSources(String packageName, String subDirectory) async {
   final packageConfig = await findPackageConfig(Directory.current);
   if (packageConfig == null) {
     throw UnsupportedError("Please run from project root.");
@@ -106,7 +106,7 @@ Future<String> findSources(String packageName) async {
   if (package == null) {
     throw UnsupportedError("Cannot find package: $packageName");
   }
-  return package.root.resolve("src").toFilePath();
+  return package.root.resolve(subDirectory).toFilePath();
 }
 
 /// Return '/src' directories of all dependencies which has a CMakeLists.txt
@@ -170,7 +170,8 @@ void main(List<String> arguments) async {
 
   final sources = options.sources;
   for (var packageName in options.packages) {
-    sources.add(await findSources(packageName));
+    // It's assumed C FFI sources are in "src/" relative to package root.
+    sources.add(await findSources(packageName, 'src'));
   }
   if (sources.isEmpty) {
     final dependencySources = await findDependencySources();
@@ -185,6 +186,28 @@ void main(List<String> arguments) async {
     exitCode = 1;
     return;
   }
+
+  final currentDirUri = Uri.directory(".");
+  final buildPath = options.buildPath ??
+      currentDirUri.resolve(_defaultRelativeBuildPath).toFilePath();
+  final buildDir = Directory(buildPath);
+  await buildDir.create(recursive: true);
+
+  final javaSrc = await findSources('jni', 'java');
+  final targetJar = File.fromUri(buildDir.uri.resolve('jni.jar'));
+  if (!needsBuild(targetJar, Directory.fromUri(Uri.directory(javaSrc)))) {
+    verboseLog('Last modified of ${targetJar.path}: '
+        '${targetJar.lastModifiedSync()}.');
+    stderr.writeln('Target newer than source, skipping build.');
+  } else {
+    verboseLog('Running mvn package for jni java sources to $buildPath.');
+    await runCommand(
+      'mvn',
+      ['package', '-Dtarget=${buildDir.absolute.path}'],
+      await findSources('jni', 'java'),
+    );
+  }
+
   for (var srcPath in sources) {
     final srcDir = Directory(srcPath);
     if (!srcDir.existsSync()) {
@@ -194,20 +217,14 @@ void main(List<String> arguments) async {
     }
 
     verboseLog("srcPath: $srcPath");
-
-    final currentDirUri = Uri.directory(".");
-    final buildPath = options.buildPath ??
-        currentDirUri.resolve(_defaultRelativeBuildPath).toFilePath();
-    final buildDir = Directory(buildPath);
-    await buildDir.create(recursive: true);
     verboseLog("buildPath: $buildPath");
 
     final targetFileUri = buildDir.uri.resolve(getTargetName(srcDir));
     final targetFile = File.fromUri(targetFileUri);
     if (!needsBuild(targetFile, srcDir)) {
-      verboseLog("last modified of ${targetFile.path}: "
-          "${targetFile.lastModifiedSync()}");
-      stderr.writeln("target newer than source, skipping build");
+      verboseLog("Last modified of ${targetFile.path}: "
+          "${targetFile.lastModifiedSync()}.");
+      stderr.writeln('Target newer than source, skipping build.');
       continue;
     }
 

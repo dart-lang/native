@@ -11,72 +11,6 @@ import '../util/find_package.dart';
 import '../util/string_util.dart';
 import 'visitor.dart';
 
-/// JVM representation of type signatures.
-///
-/// https://docs.oracle.com/en/java/javase/18/docs/specs/jni/types.html#type-signatures
-class Descriptor extends TypeVisitor<String> {
-  const Descriptor();
-
-  @override
-  String visitArrayType(ArrayType node) {
-    final inner = node.type.accept(this);
-    return '[$inner';
-  }
-
-  @override
-  String visitDeclaredType(DeclaredType node) {
-    final internalName = node.binaryName.replaceAll('.', '/');
-    return 'L$internalName;';
-  }
-
-  @override
-  String visitPrimitiveType(PrimitiveType node) {
-    return node.signature;
-  }
-
-  @override
-  String visitTypeVar(TypeVar node) {
-    // It should be possible to compute the erasure of a type
-    // in parser itself.
-    // TODO(#23): Use erasure of the type variable here.
-    // This is just a (wrong) placeholder
-    return super.visitTypeVar(node);
-  }
-
-  @override
-  String visitWildcard(Wildcard node) {
-    final extendsBound = node.extendsBound?.accept(this);
-    return extendsBound ?? 'Ljava/lang/Object;';
-  }
-
-  @override
-  String visitNonPrimitiveType(ReferredType node) {
-    return "Ljava/lang/Object;";
-  }
-}
-
-/// Generates JNI Method signatures.
-///
-/// https://docs.oracle.com/en/java/javase/18/docs/specs/jni/types.html#type-signatures
-/// Also see: [Descriptor]
-class MethodSignature extends Visitor<Method, String> {
-  const MethodSignature();
-
-  @override
-  String visit(Method node) {
-    final s = StringBuffer();
-    s.write('(');
-    s.write(node.params
-        .map((param) => param.type)
-        .accept(const Descriptor())
-        .join());
-    s.write(')');
-    final returnType = node.returnType.accept(const Descriptor());
-    s.write(returnType);
-    return s.toString();
-  }
-}
-
 class CFieldName extends Visitor<Field, String> {
   const CFieldName();
 
@@ -255,7 +189,7 @@ class _CMethodGenerator extends Visitor<Method, void> {
       if (!node.isCtor && !node.isStatic) 'jobject self_',
       ...node.params.accept(const _CParamGenerator(addReturnType: true)),
     ].join(',');
-    final jniSignature = node.accept(const MethodSignature());
+    final jniSignature = node.descriptor;
     final ifStaticMethodID = node.isStatic ? 'static_' : '';
 
     var javaReturnType = node.returnType.type;
@@ -357,7 +291,7 @@ $cReturnType ${cMethodPrefix}_$fieldNameInC($formalArgs) {
     $_loadEnvCall
     ${node.classDecl.accept(_CLoadClassGenerator())}
     load_${ifStaticField}field($classVar, &$fieldVar, "$fieldName",
-      "${node.type.accept(const Descriptor())}");
+      "${node.type.descriptor}");
 $accessorStatements
 }
 

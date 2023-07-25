@@ -33,22 +33,33 @@ functions:
     - 'setJniGetters'
     - 'jni_log'
     # Inline functions
+    # keep-sorted start
     - 'acquire_lock'
-    - 'release_lock'
-    - 'init_lock'
+    - 'attach_thread'
+    - 'check_exception'
+    - 'destroy_cond'
     - 'destroy_lock'
+    - 'init_cond'
+    - 'init_lock'
     - 'load_class'
     - 'load_class_global_ref'
-    - 'attach_thread'
-    - 'load_method'
-    - 'load_static_method'
-    - 'load_field'
-    - 'load_static_field'
-    - 'to_global_ref'
-    - 'check_exception'
+    - 'load_class_local_ref'
+    - 'load_class_platform'
     - 'load_env'
-    # This is a native function in Java. No need to call it from Dart.
+    - 'load_field'
+    - 'load_method'
+    - 'load_static_field'
+    - 'load_static_method'
+    - 'release_lock'
+    - 'signal_cond'
+    - 'thread_id'
+    - 'to_global_ref'
+    - 'to_global_ref_result'
+    - 'wait_for'
+    # keep-sorted end
+    # Native functions in Java. No need to call them from Dart.
     - 'Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith'
+    - 'Java_com_github_dart_1lang_jni_PortProxy__1invoke'
 structs:
   exclude:
     - 'JniContext'
@@ -57,6 +68,7 @@ structs:
     - '_JNIEnv'
     - 'JNIInvokeInterface'
     - '__va_list_tag'
+    - 'CallbackResult'
   rename:
     ## opaque struct definitions, base types of jfieldID and jmethodID
     '_jfieldID': 'jfieldID_'

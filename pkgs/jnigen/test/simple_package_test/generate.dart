@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:jnigen/src/config/experiments.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 import 'package:jnigen/jnigen.dart';
@@ -31,6 +32,8 @@ var javaFiles = [
   join(javaPrefix, 'generics', 'StringStack.java'),
   join(javaPrefix, 'generics', 'StringValuedMap.java'),
   join(javaPrefix, 'generics', 'StringKeyedMap.java'),
+  join(javaPrefix, 'interfaces', 'MyInterface.java'),
+  join(javaPrefix, 'interfaces', 'MyInterfaceConsumer.java'),
   join(javaPrefix, 'annotations', 'JsonSerializable.java'),
   join(javaPrefix, 'annotations', 'MyDataClass.java'),
 ];
@@ -57,6 +60,7 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',
       'com.github.dart_lang.jnigen.generics',
+      'com.github.dart_lang.jnigen.interfaces',
       'com.github.dart_lang.jnigen.annotations',
     ],
     logLevel: Level.INFO,
@@ -72,6 +76,7 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
       ),
     ),
     preamble: preamble,
+    experiments: {Experiment.interfaceImplementation},
   );
   return config;
 }

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/config/experiments.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' hide equals;
 
@@ -43,7 +44,7 @@ Config getConfig({
       jarDir: join(thirdPartyDir, 'jar'),
     ),
     summarizerOptions: SummarizerOptions(
-      backend: useAsm ? 'asm' : null,
+      backend: useAsm ? SummarizerBackend.asm : null,
     ),
     preamble: jacksonPreamble,
     outputConfig: OutputConfig(
@@ -69,17 +70,19 @@ Config getConfig({
           ],
     logLevel: Level.INFO,
     exclude: BindingExclusions(
-        // TODO(#31): Remove field exclusions.
-        fields: excludeAll<Field>([
-          ['com.fasterxml.jackson.core.JsonFactory', 'DEFAULT_QUOTE_CHAR'],
-          ['com.fasterxml.jackson.core.Base64Variant', 'PADDING_CHAR_NONE'],
-          ['com.fasterxml.jackson.core.base.ParserMinimalBase', 'CHAR_NULL'],
-          ['com.fasterxml.jackson.core.io.UTF32Reader', 'NC'],
-        ]),
-        // TODO(#159): Remove class exclusions.
-        classes: ClassNameFilter.exclude(
-          'com.fasterxml.jackson.core.JsonFactoryBuilder',
-        )),
+      // TODO(#31): Remove field exclusions.
+      fields: excludeAll<Field>([
+        ['com.fasterxml.jackson.core.JsonFactory', 'DEFAULT_QUOTE_CHAR'],
+        ['com.fasterxml.jackson.core.Base64Variant', 'PADDING_CHAR_NONE'],
+        ['com.fasterxml.jackson.core.base.ParserMinimalBase', 'CHAR_NULL'],
+        ['com.fasterxml.jackson.core.io.UTF32Reader', 'NC'],
+      ]),
+      // TODO(#159): Remove class exclusions.
+      classes: ClassNameFilter.exclude(
+        'com.fasterxml.jackson.core.JsonFactoryBuilder',
+      ),
+    ),
+    experiments: {Experiment.interfaceImplementation},
   );
   return config;
 }

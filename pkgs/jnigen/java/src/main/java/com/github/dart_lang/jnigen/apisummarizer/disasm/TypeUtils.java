@@ -19,14 +19,6 @@ import org.objectweb.asm.Type;
 
 class TypeUtils {
 
-  public static String parentName(Type type) {
-    var className = type.getClassName();
-    if (!className.contains("$")) {
-      return null;
-    }
-    return className.split("\\$")[0];
-  }
-
   public static String simpleName(Type type) {
     var internalName = type.getInternalName();
     if (type.getInternalName().length() == 1) {
@@ -46,7 +38,8 @@ class TypeUtils {
       case OBJECT:
         usage.kind = TypeUsage.Kind.DECLARED;
         usage.type =
-            new TypeUsage.DeclaredType(type.getClassName(), TypeUtils.simpleName(type), null);
+            new TypeUsage.DeclaredType(
+                type.getInternalName().replace('/', '.'), TypeUtils.simpleName(type), null);
         break;
       case ARRAY:
         usage.kind = TypeUsage.Kind.ARRAY;

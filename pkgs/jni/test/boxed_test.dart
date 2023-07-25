@@ -26,6 +26,13 @@ void run({required TestRunnerCallback testRunner}) {
       expect((-val).toJByte().byteValue(deleteOriginal: true), -val);
     });
   });
+  testRunner('JCharacter', () {
+    const val = 1 << 5;
+    using((arena) {
+      expect(JCharacter(val).charValue(deleteOriginal: true), val);
+      expect(JCharacter(0).charValue(deleteOriginal: true), 0);
+    });
+  });
   testRunner('JShort', () {
     const val = 1 << 10;
     using((arena) {
@@ -75,6 +82,14 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final a = JByte(1)..deletedIn(arena);
       final b = JByte(2)..deletedIn(arena);
+      expect(a.$type, b.$type);
+      expect(a.$type.hashCode, b.$type.hashCode);
+    });
+  });
+  testRunner('JCharacter.\$type hashCode and ==', () {
+    using((arena) {
+      final a = JCharacter(1)..deletedIn(arena);
+      final b = JCharacter(2)..deletedIn(arena);
       expect(a.$type, b.$type);
       expect(a.$type.hashCode, b.$type.hashCode);
     });

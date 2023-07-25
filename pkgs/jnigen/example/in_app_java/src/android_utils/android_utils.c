@@ -1440,17 +1440,16 @@ jclass _c_Build_VERSION = NULL;
 
 jmethodID _m_Build_VERSION__ctor = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Build_VERSION__ctor(jobject _parent) {
+JniResult Build_VERSION__ctor() {
   load_env();
   load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
   if (_c_Build_VERSION == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Build_VERSION, &_m_Build_VERSION__ctor, "<init>",
-              "(Landroid/os/Build;)V");
+  load_method(_c_Build_VERSION, &_m_Build_VERSION__ctor, "<init>", "()V");
   if (_m_Build_VERSION__ctor == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION,
-                                         _m_Build_VERSION__ctor, _parent);
+  jobject _result =
+      (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION, _m_Build_VERSION__ctor);
   return to_global_ref_result(_result);
 }
 
@@ -1615,18 +1614,18 @@ jclass _c_Build_VERSION_CODES = NULL;
 
 jmethodID _m_Build_VERSION_CODES__ctor = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Build_VERSION_CODES__ctor(jobject _parent) {
+JniResult Build_VERSION_CODES__ctor() {
   load_env();
   load_class_global_ref(&_c_Build_VERSION_CODES,
                         "android/os/Build$VERSION_CODES");
   if (_c_Build_VERSION_CODES == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_Build_VERSION_CODES, &_m_Build_VERSION_CODES__ctor, "<init>",
-              "(Landroid/os/Build;)V");
+              "()V");
   if (_m_Build_VERSION_CODES__ctor == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION_CODES,
-                                         _m_Build_VERSION_CODES__ctor, _parent);
+                                         _m_Build_VERSION_CODES__ctor);
   return to_global_ref_result(_result);
 }
 

@@ -8,6 +8,7 @@ import com.github.dart_lang.jnigen.apisummarizer.elements.*;
 import com.github.dart_lang.jnigen.apisummarizer.util.SkipException;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.objectweb.asm.*;
 import org.objectweb.asm.signature.SignatureReader;
 
@@ -27,6 +28,9 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
   List<ClassDecl> visited = new ArrayList<>();
   Stack<ClassDecl> visiting = new Stack<>();
 
+  /// Actual access for the inner classes as originally defined.
+  Map<String, Integer> actualAccess = new HashMap<>();
+
   public AsmClassVisitor() {
     super(AsmConstants.API);
   }
@@ -42,9 +46,8 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     var current = new ClassDecl();
     visiting.push(current);
     var type = Type.getObjectType(name);
-    current.binaryName = type.getClassName();
-    current.modifiers = TypeUtils.access(access);
-    current.parentName = TypeUtils.parentName(type);
+    current.binaryName = name.replace('/', '.');
+    current.modifiers = TypeUtils.access(actualAccess.getOrDefault(current.binaryName, access));
     current.declKind = TypeUtils.declKind(access);
     current.superclass = TypeUtils.typeUsage(Type.getObjectType(superName), null);
     current.interfaces =
@@ -54,6 +57,21 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
       reader.accept(new AsmClassSignatureVisitor(current));
     }
     super.visit(version, access, name, signature, superName, interfaces);
+  }
+
+  @Override
+  public void visitInnerClass(String name, String outerName, String innerName, int access) {
+    var binaryName = name.replace('/', '.');
+    actualAccess.put(binaryName, access);
+    var alreadyVisitedInnerClass =
+        visited.stream()
+            .filter(decl -> decl.binaryName.equals(binaryName))
+            .collect(Collectors.toList());
+    // If the order of visit is outer first inner second.
+    // We still want to correct the modifiers.
+    if (!alreadyVisitedInnerClass.isEmpty()) {
+      alreadyVisitedInnerClass.get(0).modifiers = TypeUtils.access(access);
+    }
   }
 
   @Override

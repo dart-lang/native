@@ -3383,7 +3383,7 @@ JniResult JsonParser__readValueAsTree(jobject self_) {
   if (_c_JsonParser == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_JsonParser, &_m_JsonParser__readValueAsTree, "readValueAsTree",
-              "()Ljava/lang/Object;");
+              "()Lcom/fasterxml/jackson/core/TreeNode;");
   if (_m_JsonParser__readValueAsTree == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallObjectMethod(jniEnv, self_,

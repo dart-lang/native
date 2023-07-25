@@ -8,22 +8,19 @@ import static com.github.dart_lang.jnigen.apisummarizer.util.ExceptionUtil.wrapC
 
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
 import com.github.dart_lang.jnigen.apisummarizer.util.InputStreamProvider;
-import java.util.ArrayList;
 import java.util.List;
 import org.objectweb.asm.ClassReader;
 
 public class AsmSummarizer {
 
   public static List<ClassDecl> run(List<InputStreamProvider> inputProviders) {
-    List<ClassDecl> parsed = new ArrayList<>();
+    var visitor = new AsmClassVisitor();
     for (var provider : inputProviders) {
       var inputStream = provider.getInputStream();
       var classReader = wrapCheckedException(ClassReader::new, inputStream);
-      var visitor = new AsmClassVisitor();
       classReader.accept(visitor, 0);
-      parsed.addAll(visitor.getVisited());
       provider.close();
     }
-    return parsed;
+    return visitor.getVisited();
   }
 }

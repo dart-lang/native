@@ -27,7 +27,6 @@ public class ClassDecl {
    */
   public String binaryName;
 
-  public String parentName;
   public List<TypeParam> typeParams = new ArrayList<>();
   public List<Method> methods = new ArrayList<>();
   public List<Field> fields = new ArrayList<>();

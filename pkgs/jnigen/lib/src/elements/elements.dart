@@ -57,9 +57,9 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   ClassDecl({
     this.annotations = const [],
     this.javadoc,
+    required this.declKind,
     this.modifiers = const {},
     required this.binaryName,
-    this.parentName,
     this.typeParams = const [],
     this.methods = const [],
     this.fields = const [],
@@ -77,8 +77,8 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   final List<Annotation> annotations;
   final KotlinClass? kotlinClass;
   final JavaDocComment? javadoc;
+  final DeclKind declKind;
   final String binaryName;
-  final String? parentName;
   List<TypeParam> typeParams;
   List<Method> methods;
   List<Field> fields;
@@ -171,7 +171,13 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
 
   bool get isObject => superCount == 0;
 
-  bool get isNested => parentName != null;
+  @JsonKey(includeFromJson: false)
+  late final String? parentName = binaryName.contains(r'$')
+      ? binaryName.splitMapJoin(RegExp(r'\$[^$]+$'), onMatch: (_) => '')
+      : null;
+
+  @JsonKey(includeFromJson: false)
+  late final isNested = parentName != null;
 }
 
 @JsonEnum()
@@ -206,9 +212,13 @@ class TypeUsage {
   @JsonKey(name: "type")
   final Map<String, dynamic> typeJson;
 
-  /// Populated by in [TypeUsage.fromJson].
+  /// Populated by [TypeUsage.fromJson].
   @JsonKey(includeFromJson: false)
   late final ReferredType type;
+
+  /// Populated by [Descriptor].
+  @JsonKey(includeFromJson: false)
+  late String descriptor;
 
   String get name => type.name;
 
@@ -255,7 +265,7 @@ class PrimitiveType extends ReferredType {
       name: 'byte',
       signature: 'B',
       dartType: 'int',
-      jniType: 'jbyte',
+      boxedName: 'Byte',
       cType: 'int8_t',
       ffiType: 'Int8',
     ),
@@ -263,7 +273,7 @@ class PrimitiveType extends ReferredType {
       name: 'short',
       signature: 'S',
       dartType: 'int',
-      jniType: 'jshort',
+      boxedName: 'Short',
       cType: 'int16_t',
       ffiType: 'Int16',
     ),
@@ -271,7 +281,7 @@ class PrimitiveType extends ReferredType {
       name: 'char',
       signature: 'C',
       dartType: 'int',
-      jniType: 'jchar',
+      boxedName: 'Character',
       cType: 'uint16_t',
       ffiType: 'Uint16',
     ),
@@ -279,7 +289,7 @@ class PrimitiveType extends ReferredType {
       name: 'int',
       signature: 'I',
       dartType: 'int',
-      jniType: 'jint',
+      boxedName: 'Integer',
       cType: 'int32_t',
       ffiType: 'Int32',
     ),
@@ -287,7 +297,7 @@ class PrimitiveType extends ReferredType {
       name: 'long',
       signature: 'J',
       dartType: 'int',
-      jniType: 'jlong',
+      boxedName: 'Long',
       cType: 'int64_t',
       ffiType: 'Int64',
     ),
@@ -295,7 +305,7 @@ class PrimitiveType extends ReferredType {
       name: 'float',
       signature: 'F',
       dartType: 'double',
-      jniType: 'jfloat',
+      boxedName: 'Float',
       cType: 'float',
       ffiType: 'Float',
     ),
@@ -303,7 +313,7 @@ class PrimitiveType extends ReferredType {
       name: 'double',
       signature: 'D',
       dartType: 'double',
-      jniType: 'jdouble',
+      boxedName: 'Double',
       cType: 'double',
       ffiType: 'Double',
     ),
@@ -311,7 +321,7 @@ class PrimitiveType extends ReferredType {
       name: 'boolean',
       signature: 'Z',
       dartType: 'bool',
-      jniType: 'jboolean',
+      boxedName: 'Boolean',
       cType: 'uint8_t',
       ffiType: 'Uint8',
     ),
@@ -319,7 +329,7 @@ class PrimitiveType extends ReferredType {
       name: 'void',
       signature: 'V',
       dartType: 'void',
-      jniType: 'jvoid', // Never used
+      boxedName: 'Void', // Not used.
       cType: 'void',
       ffiType: 'Void',
     ),
@@ -329,7 +339,7 @@ class PrimitiveType extends ReferredType {
     required this.name,
     required this.signature,
     required this.dartType,
-    required this.jniType,
+    required this.boxedName,
     required this.cType,
     required this.ffiType,
   });
@@ -339,7 +349,7 @@ class PrimitiveType extends ReferredType {
 
   final String signature;
   final String dartType;
-  final String jniType;
+  final String boxedName;
   final String cType;
   final String ffiType;
 
@@ -466,7 +476,8 @@ class Method extends ClassMember implements Element<Method> {
   /// Can be used to match with [KotlinFunction]'s descriptor.
   ///
   /// Can create a unique signature in combination with [name].
-  final String? descriptor;
+  /// Populated either by the ASM backend or [Descriptor].
+  String? descriptor;
 
   /// The [ClassDecl] where this method is defined.
   ///
@@ -489,12 +500,7 @@ class Method extends ClassMember implements Element<Method> {
   TypeUsage? asyncReturnType;
 
   @JsonKey(includeFromJson: false)
-  late String javaSig = _javaSig();
-
-  String _javaSig() {
-    final paramNames = params.map((p) => p.type.name).join(', ');
-    return '${returnType.name} $name($paramNames)';
-  }
+  late final String javaSig = '$name$descriptor';
 
   bool get isCtor => name == '<init>';
 

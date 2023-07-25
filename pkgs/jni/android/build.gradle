@@ -27,9 +27,29 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
+    // Keeping the classes from being removed by proguard.
+    defaultConfig {
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
     // Condition for namespace compatibility in AGP 8
     if (project.android.hasProperty("namespace")) {
         namespace 'com.github.dart_lang.jni'
+    }
+
+    // Adding [PortContinuation] and [PortProxy] classes shared between Flutter and
+    // Dart-standalone versions of package:jni.
+    sourceSets {
+        main {
+            java {
+                srcDirs '../java/src/main/java'
+            }
+        }
     }
 
     // Bumping the plugin compileSdkVersion requires all clients of this plugin

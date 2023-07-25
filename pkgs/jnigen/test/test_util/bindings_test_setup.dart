@@ -19,7 +19,7 @@ import 'test_util.dart';
 final simplePackageTest = join('test', 'simple_package_test');
 final jacksonCoreTest = join('test', 'jackson_core_test');
 final kotlinTest = join('test', 'kotlin_test');
-final jniJar = join(kotlinTest, 'jni.jar');
+final jniJar = join('build', 'jni_libs', 'jni.jar');
 
 final simplePackageTestJava = join(simplePackageTest, 'java');
 final kotlinTestKotlin = join(kotlinTest, 'kotlin');

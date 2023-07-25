@@ -35,6 +35,7 @@ void expectConfigsAreEqual(Config a, Config b) {
       equals(b.outputConfig.symbolsConfig?.path),
       reason: "symbolsRoot");
   expect(a.sourcePath, equals(b.sourcePath), reason: "sourcePath");
+  expect(a.experiments, equals(b.experiments), reason: "experiments");
   expect(a.classPath, equals(b.classPath), reason: "classPath");
   expect(a.preamble, equals(b.preamble), reason: "preamble");
   final am = a.mavenDownloads;

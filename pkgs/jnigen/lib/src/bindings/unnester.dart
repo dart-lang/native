@@ -10,6 +10,8 @@ import 'visitor.dart';
 /// Nested classes are not supported in Dart. So this "unnests" them into
 /// separate classes.
 class Unnester extends Visitor<Classes, void> {
+  const Unnester();
+
   @override
   void visit(node) {
     final classProcessor = _ClassUnnester();
@@ -53,9 +55,14 @@ class _MethodUnnester extends Visitor<Method, void> {
   void visit(Method node) {
     assert(!node.classDecl.isStatic);
     assert(node.classDecl.isNested);
-    if (node.isCtor || node.isStatic) {
+    // TODO(#319): Unnest the methods in APISummarizer itself.
+    // For now the nullity of [node.descriptor] identifies if the doclet
+    // backend was used and the method would potentially need "unnesting".
+    if ((node.isCtor || node.isStatic) && node.descriptor == null) {
       // Non-static nested classes take an instance of their outer class as the
-      // first parameter. This is not accounted for by the summarizer, so we
+      // first parameter.
+      //
+      // This is not accounted for by the **doclet** summarizer, so we
       // manually add it as the first parameter.
       final parentTypeParamCount = node.classDecl.allTypeParams.length -
           node.classDecl.typeParams.length;

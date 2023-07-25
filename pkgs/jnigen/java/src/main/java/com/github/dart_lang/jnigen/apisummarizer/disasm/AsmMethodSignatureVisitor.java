@@ -7,11 +7,13 @@ package com.github.dart_lang.jnigen.apisummarizer.disasm;
 import com.github.dart_lang.jnigen.apisummarizer.elements.Method;
 import com.github.dart_lang.jnigen.apisummarizer.elements.TypeParam;
 import com.github.dart_lang.jnigen.apisummarizer.elements.TypeUsage;
+import java.util.ArrayList;
+import java.util.List;
 import org.objectweb.asm.signature.SignatureVisitor;
 
 public class AsmMethodSignatureVisitor extends SignatureVisitor {
   private final Method method;
-  private int paramIndex = -1;
+  private final List<TypeUsage> paramTypes = new ArrayList<>();
 
   public AsmMethodSignatureVisitor(Method method) {
     super(AsmConstants.API);
@@ -43,13 +45,22 @@ public class AsmMethodSignatureVisitor extends SignatureVisitor {
 
   @Override
   public SignatureVisitor visitReturnType() {
+    // Visiting params finished.
+    //
+    // In case of non-static inner class constructor, there is an extra parent parameter
+    // at the beginning which is not accounted for by the signature. So we fill the types
+    // for the last [paramTypes.size()] params.
+    int startIndex = method.params.size() - paramTypes.size();
+    for (int i = 0; i < paramTypes.size(); ++i) {
+      method.params.get(startIndex + i).type = paramTypes.get(i);
+    }
     return new AsmTypeUsageSignatureVisitor(method.returnType);
   }
 
   @Override
   public SignatureVisitor visitParameterType() {
-    paramIndex++;
-    return new AsmTypeUsageSignatureVisitor(method.params.get(paramIndex).type);
+    paramTypes.add(new TypeUsage());
+    return new AsmTypeUsageSignatureVisitor(paramTypes.get(paramTypes.size() - 1));
   }
 
   @Override

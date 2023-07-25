@@ -43,3 +43,6 @@ preamble: |
   // limitations under the License.
 
 log_level: warning
+
+enable_experiment:
+  - interface_implementation

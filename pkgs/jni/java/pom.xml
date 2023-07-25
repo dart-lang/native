@@ -16,6 +16,7 @@
 
     <build>
         <finalName>jni</finalName>
+        <directory>${target}</directory>
     </build>
 
     <dependencies>

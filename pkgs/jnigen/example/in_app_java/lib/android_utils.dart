@@ -12,6 +12,7 @@
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
+// ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
 
 import "dart:isolate" show ReceivePort;
@@ -2600,18 +2601,14 @@ class Build_VERSION extends jni.JObject {
   static jni.JString get SECURITY_PATCH =>
       const jni.JStringType().fromRef(_get_SECURITY_PATCH().object);
 
-  static final _ctor = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("Build_VERSION__ctor")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Build_VERSION__ctor")
+      .asFunction<jni.JniResult Function()>();
 
-  /// from: public void <init>(android.os.Build $parent)
+  /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Build_VERSION(
-    Build $parent,
-  ) {
-    return Build_VERSION.fromRef(_ctor($parent.reference).object);
+  factory Build_VERSION() {
+    return Build_VERSION.fromRef(_ctor().object);
   }
 }
 
@@ -2754,18 +2751,14 @@ class Build_VERSION_CODES extends jni.JObject {
   /// from: static public final int TIRAMISU
   static const TIRAMISU = 33;
 
-  static final _ctor = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("Build_VERSION_CODES__ctor")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Build_VERSION_CODES__ctor")
+      .asFunction<jni.JniResult Function()>();
 
-  /// from: public void <init>(android.os.Build $parent)
+  /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Build_VERSION_CODES(
-    Build $parent,
-  ) {
-    return Build_VERSION_CODES.fromRef(_ctor($parent.reference).object);
+  factory Build_VERSION_CODES() {
+    return Build_VERSION_CODES.fromRef(_ctor().object);
   }
 }
 

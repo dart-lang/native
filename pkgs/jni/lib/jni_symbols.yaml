@@ -41,6 +41,10 @@ files:
       name: JBoolean
       type_class: JBooleanType
       super_count: 1
+    'java.lang.Character':
+      name: JCharacter
+      type_class: JCharacterType
+      super_count: 1
     'java.util.Set':
       name: JSet
       type_class: JSetType

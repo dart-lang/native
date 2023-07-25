@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'bindings/c_generator.dart';
 import 'bindings/dart_generator.dart';
+import 'bindings/descriptor.dart';
 import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
@@ -39,7 +40,8 @@ Future<void> generateJniBindings(Config config) async {
   classes.accept(Excluder(config));
   classes.accept(KotlinProcessor());
   await classes.accept(Linker(config));
-  classes.accept(Unnester());
+  classes.accept(const Unnester());
+  classes.accept(const Descriptor());
   classes.accept(Renamer(config));
 
   final cBased = config.outputConfig.bindingsType == BindingsType.cBased;

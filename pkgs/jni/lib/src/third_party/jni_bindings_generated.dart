@@ -178,6 +178,23 @@ class JniBindings {
   late final _InitDartApiDL =
       _InitDartApiDLPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
+  void resultFor(
+    ffi.Pointer<CallbackResult> result,
+    JObjectPtr object,
+  ) {
+    return _resultFor(
+      result,
+      object,
+    );
+  }
+
+  late final _resultForPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<CallbackResult>, JObjectPtr)>>('resultFor');
+  late final _resultFor = _resultForPtr
+      .asFunction<void Function(ffi.Pointer<CallbackResult>, JObjectPtr)>();
+
   JniResult PortContinuation__ctor(
     int j,
   ) {
@@ -191,6 +208,25 @@ class JniBindings {
           'PortContinuation__ctor');
   late final _PortContinuation__ctor =
       _PortContinuation__ctorPtr.asFunction<JniResult Function(int)>();
+
+  JniResult PortProxy__newInstance(
+    JObjectPtr binaryName,
+    int port,
+    int functionPtr,
+  ) {
+    return _PortProxy__newInstance(
+      binaryName,
+      port,
+      functionPtr,
+    );
+  }
+
+  late final _PortProxy__newInstancePtr = _lookup<
+      ffi.NativeFunction<
+          JniResult Function(
+              JObjectPtr, ffi.Int64, ffi.Int64)>>('PortProxy__newInstance');
+  late final _PortProxy__newInstance = _PortProxy__newInstancePtr.asFunction<
+      JniResult Function(JObjectPtr, int, int)>();
 
   ffi.Pointer<GlobalJniEnvStruct> GetGlobalEnv() {
     return _GetGlobalEnv();
@@ -1934,6 +1970,41 @@ class JavaVMOption extends ffi.Struct {
   external ffi.Pointer<ffi.Char> optionString;
 
   external ffi.Pointer<ffi.Void> extraInfo;
+}
+
+class CallbackResult extends ffi.Struct {
+  external MutexLock lock;
+
+  external ConditionVariable cond;
+
+  @ffi.Int()
+  external int ready;
+
+  external JObjectPtr object;
+}
+
+typedef MutexLock = pthread_mutex_t;
+typedef pthread_mutex_t = __darwin_pthread_mutex_t;
+typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
+
+class _opaque_pthread_mutex_t extends ffi.Struct {
+  @ffi.Long()
+  external int __sig;
+
+  @ffi.Array.multi([56])
+  external ffi.Array<ffi.Char> __opaque;
+}
+
+typedef ConditionVariable = pthread_cond_t;
+typedef pthread_cond_t = __darwin_pthread_cond_t;
+typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
+
+class _opaque_pthread_cond_t extends ffi.Struct {
+  @ffi.Long()
+  external int __sig;
+
+  @ffi.Array.multi([40])
+  external ffi.Array<ffi.Char> __opaque;
 }
 
 class GlobalJniEnvStruct extends ffi.Struct {

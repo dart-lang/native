@@ -4,6 +4,7 @@
 
 export 'jboolean.dart';
 export 'jbyte.dart';
+export 'jcharacter.dart';
 export 'jdouble.dart';
 export 'jfloat.dart';
 export 'jinteger.dart';

@@ -93,7 +93,8 @@ public class AsmTypeUsageSignatureVisitor extends SignatureVisitor {
 
   @Override
   public void visitInnerClassType(String name) {
-    super.visitInnerClassType(name);
-    // TODO(#139) support nested generic classes
+    typeUsage.shorthand += "." + name;
+    ((TypeUsage.DeclaredType) typeUsage.type).binaryName += "$" + name;
+    ((TypeUsage.DeclaredType) typeUsage.type).simpleName = name;
   }
 }

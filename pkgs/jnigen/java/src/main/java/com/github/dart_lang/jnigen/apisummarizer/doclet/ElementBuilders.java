@@ -40,10 +40,6 @@ public class ElementBuilders {
         throw new RuntimeException(
             "Unexpected element kind " + e.getKind() + " on " + c.binaryName);
     }
-    var parent = e.getEnclosingElement();
-    if (parent instanceof TypeElement) {
-      c.parentName = env.elements.getBinaryName((TypeElement) parent).toString();
-    }
     c.javadoc = docComment(env.trees.getDocCommentTree(e));
     c.typeParams = StreamUtil.map(e.getTypeParameters(), this::typeParam);
     var superclass = e.getSuperclass();

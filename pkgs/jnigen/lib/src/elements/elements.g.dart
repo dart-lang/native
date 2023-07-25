@@ -14,12 +14,12 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
       javadoc: json['javadoc'] == null
           ? null
           : JavaDocComment.fromJson(json['javadoc'] as Map<String, dynamic>),
+      declKind: $enumDecode(_$DeclKindEnumMap, json['declKind']),
       modifiers: (json['modifiers'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toSet() ??
           const {},
       binaryName: json['binaryName'] as String,
-      parentName: json['parentName'] as String?,
       typeParams: (json['typeParams'] as List<dynamic>?)
               ?.map((e) => TypeParam.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -47,6 +47,12 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
           ? null
           : KotlinClass.fromJson(json['kotlinClass'] as Map<String, dynamic>),
     );
+
+const _$DeclKindEnumMap = {
+  DeclKind.classKind: 'CLASS',
+  DeclKind.interfaceKind: 'INTERFACE',
+  DeclKind.enumKind: 'ENUM',
+};
 
 TypeUsage _$TypeUsageFromJson(Map<String, dynamic> json) => TypeUsage(
       shorthand: json['shorthand'] as String,
