@@ -45,7 +45,7 @@ class NativeAssetsBuildRunner {
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
   }) async {
-    assert(_metadata.isEmpty);
+    _metadata.clear();
     final packageLayout =
         await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -98,7 +98,6 @@ class NativeAssetsBuildRunner {
     required Uri workingDirectory,
     required bool includeParentEnvironment,
   }) async {
-    assert(_metadata.isEmpty);
     final packageLayout =
         await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =

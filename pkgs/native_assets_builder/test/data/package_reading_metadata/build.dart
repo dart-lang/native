@@ -8,11 +8,15 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 void main(List<String> args) async {
   final config = await Config.fromArgs(args: args);
   final buildConfig = BuildConfig.fromConfig(config);
-  final metadata =
-      buildConfig.dependencyMetadata!['package_with_metadata']!.metadata;
-  final someValue = metadata['some_key'];
-  assert(someValue != null);
-  final someInt = metadata['some_int'];
-  assert(someInt != null);
-  print(metadata);
+  if (!buildConfig.dryRun) {
+    final metadata =
+        buildConfig.dependencyMetadata!['package_with_metadata']!.metadata;
+    final someValue = metadata['some_key'];
+    assert(someValue != null);
+    final someInt = metadata['some_int'];
+    assert(someInt != null);
+    print(metadata);
+  } else {
+    print('meta data not available in dry run');
+  }
 }
