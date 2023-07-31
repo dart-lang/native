@@ -636,7 +636,12 @@ void resultFor(CallbackResult* result, jobject object) {
   release_lock(&result->lock);
 }
 
-JNIEXPORT jobject JNICALL
+jclass _c_Object = NULL;
+jclass _c_Long = NULL;
+
+jmethodID _m_Long_init = NULL;
+
+JNIEXPORT jobjectArray JNICALL
 Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
                                                   jobject thiz,
                                                   jlong port,
@@ -645,9 +650,8 @@ Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
                                                   jobject proxy,
                                                   jstring methodDescriptor,
                                                   jobjectArray args) {
-  attach_thread();
+  CallbackResult* result = (CallbackResult*)malloc(sizeof(CallbackResult));
   if (threadId != thread_id()) {
-    CallbackResult* result = (CallbackResult*)malloc(sizeof(CallbackResult));
     init_lock(&result->lock);
     init_cond(&result->cond);
     acquire_lock(&result->lock);
@@ -674,18 +678,40 @@ Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
     c_post.value.as_array.length = sizeof(c_post_arr) / sizeof(c_post_arr[0]);
 
     Dart_PostCObject_DL(port, &c_post);
+
     while (!result->ready) {
       wait_for(&result->cond, &result->lock);
     }
+
     release_lock(&result->lock);
     destroy_lock(&result->lock);
     destroy_cond(&result->cond);
-    jobject object = result->object;
-    free(result);
-    return object;
   } else {
-    return ((jobject(*)(uint64_t, jobject, jobject))functionPtr)(
+    result->object = ((jobject(*)(uint64_t, jobject, jobject))functionPtr)(
         port, (*env)->NewGlobalRef(env, methodDescriptor),
         (*env)->NewGlobalRef(env, args));
   }
+  // Returning an array of length 2.
+  // [0]: The result pointer, used for cleaning up the global reference, and
+  //      freeing the memory since we passed the ownership to Java.
+  // [1]: The returned object.
+  attach_thread();
+  load_class_global_ref(&_c_Object, "java/lang/Object");
+  load_class_global_ref(&_c_Long, "java/lang/Long");
+  load_method(_c_Long, &_m_Long_init, "<init>", "(J)V");
+  jobject first = (*env)->NewObject(env, _c_Long, _m_Long_init, (jlong)result);
+  jobject second = result->object;
+  jobjectArray arr = (*env)->NewObjectArray(env, 2, _c_Object, NULL);
+  (*env)->SetObjectArrayElement(env, arr, 0, first);
+  (*env)->SetObjectArrayElement(env, arr, 1, second);
+  return arr;
+}
+
+JNIEXPORT void JNICALL
+Java_com_github_dart_1lang_jni_PortProxy__1cleanUp(JNIEnv* env,
+                                                   jobject thiz,
+                                                   jlong resultPtr) {
+  CallbackResult* result = (CallbackResult*)resultPtr;
+  (*env)->DeleteGlobalRef(env, result->object);
+  free(result);
 }

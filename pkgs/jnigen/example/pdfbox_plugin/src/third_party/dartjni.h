@@ -76,7 +76,7 @@ static inline void wait_for(ConditionVariable* cond, MutexLock* lock) {
 }
 
 static inline void destroy_cond(ConditionVariable* cond) {
-  DeleteCriticalSection(cond);
+  // Not available.
 }
 
 #elif defined __APPLE__ || defined __LINUX__ || defined __ANDROID__ ||         \
@@ -435,7 +435,7 @@ JniResult PortProxy__newInstance(jobject binaryName,
                                  int64_t port,
                                  int64_t functionPtr);
 
-JNIEXPORT jobject JNICALL
+JNIEXPORT jobjectArray JNICALL
 Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
                                                   jobject thiz,
                                                   jlong port,
@@ -444,3 +444,8 @@ Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
                                                   jobject proxy,
                                                   jstring methodDescriptor,
                                                   jobjectArray args);
+
+JNIEXPORT void JNICALL
+Java_com_github_dart_1lang_jni_PortProxy__1cleanUp(JNIEnv* env,
+                                                   jobject thiz,
+                                                   jlong resultPtr);

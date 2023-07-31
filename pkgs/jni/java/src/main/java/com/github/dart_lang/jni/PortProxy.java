@@ -62,21 +62,28 @@ public class PortProxy implements InvocationHandler {
 
   public static Object newInstance(String binaryName, long port, long threadId, long functionPtr)
       throws ClassNotFoundException {
-    Class clazz = Class.forName(binaryName);
+    Class<?> clazz = Class.forName(binaryName);
     return Proxy.newProxyInstance(
         clazz.getClassLoader(), new Class[] {clazz}, new PortProxy(port, threadId, functionPtr));
   }
 
   @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    return _invoke(port, threadId, functionPtr, proxy, getDescriptor(method), args);
+  public Object invoke(Object proxy, Method method, Object[] args) {
+    Object[] result = _invoke(port, threadId, functionPtr, proxy, getDescriptor(method), args);
+    _cleanUp((Long) result[0]);
+    return result[1];
   }
 
-  private native Object _invoke(
+  /// Returns an array with two objects:
+  /// [0]: The address of the result pointer used for the clean-up.
+  /// [1]: The result of the invocation.
+  private native Object[] _invoke(
       long port,
       long threadId,
       long functionPtr,
       Object proxy,
       String methodDescriptor,
       Object[] args);
+
+  private native void _cleanUp(long resultPtr);
 }

@@ -2818,13 +2818,17 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
       final $r = _$methods[$p]![$d]!(
         $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
       );
-      return $r.reference;
+      return (($r as jni.JObject).castTo(const jni.JObjectType())
+            ..setAsDeleted())
+          .reference;
     }
     if ($d == r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;") {
       final $r = _$methods[$p]![$d]!(
         $a[0].castTo(_$types[$p]!["T"]!, deleteOriginal: true),
       );
-      return $r.reference;
+      return (($r as jni.JObject).castTo(const jni.JObjectType())
+            ..setAsDeleted())
+          .reference;
     }
     if ($d == r"manyPrimitives(IZCD)J") {
       final $r = _$methods[$p]![$d]!(
@@ -2841,7 +2845,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
             .castTo(const jni.JDoubleType(), deleteOriginal: true)
             .doubleValue(deleteOriginal: true),
       );
-      return jni.JLong($r).reference;
+      return (jni.JLong($r)..setAsDeleted()).reference;
     }
     return jni.nullptr;
   }
