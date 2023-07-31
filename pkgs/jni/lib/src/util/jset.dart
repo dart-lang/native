@@ -190,23 +190,6 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     return super.retainAll(elements);
   }
 
-  static final _hashCodeId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"hashCode", r"()I");
-  @override
-  int get hashCode => Jni.accessors.callMethodWithArgs(
-      reference, _hashCodeId, JniCallType.intType, []).integer;
-
-  static final _equalsId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"equals", r"(Ljava/lang/Object;)Z");
-  @override
-  bool operator ==(Object other) {
-    if (other is! JObject) {
-      return false;
-    }
-    return Jni.accessors.callMethodWithArgs(reference, _equalsId,
-        JniCallType.booleanType, [other.reference]).boolean;
-  }
-
   @override
   $E? lookup(Object? element) {
     if (contains(element)) return element as $E;

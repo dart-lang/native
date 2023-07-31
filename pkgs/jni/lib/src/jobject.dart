@@ -342,6 +342,15 @@ class JObject extends JReference {
     return Jni.accessors.callMethodWithArgs(reference, _equalsId,
         JniCallType.booleanType, [other.reference]).boolean;
   }
+
+  static final _toStringId = Jni.accessors.getMethodIDOf(
+      _objectClass.reference, r"toString", r"()Ljava/lang/String;");
+  @override
+  String toString() {
+    return JString.fromRef(Jni.accessors.callMethodWithArgs(
+            reference, _toStringId, JniCallType.objectType, []).object)
+        .toDartString(deleteOriginal: true);
+  }
 }
 
 /// A high level wrapper over a JNI class reference.

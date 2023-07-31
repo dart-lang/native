@@ -267,21 +267,6 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   JSet<$E> toSet() {
     return toJSet(E);
   }
-
-  static final _hashCodeId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"hashCode", r"()I");
-  @override
-  int get hashCode => Jni.accessors.callMethodWithArgs(
-      reference, _hashCodeId, JniCallType.intType, []).integer;
-
-  static final _equalsId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"equals", r"(Ljava/lang/Object;)Z");
-  @override
-  bool operator ==(Object other) {
-    if (other is! JObject) return false;
-    return Jni.accessors.callMethodWithArgs(reference, _equalsId,
-        JniCallType.booleanType, [other.reference]).boolean;
-  }
 }
 
 extension ToJavaList<E extends JObject> on Iterable<E> {

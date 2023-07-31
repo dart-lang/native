@@ -43,4 +43,9 @@ void run({required TestRunnerCallback testRunner}) {
       testStringBackAndForth('');
     });
   });
+
+  testRunner('Inherited toString', () {
+    final s = 'hello'.toJString();
+    expect(s.toString(), 'hello');
+  });
 }
