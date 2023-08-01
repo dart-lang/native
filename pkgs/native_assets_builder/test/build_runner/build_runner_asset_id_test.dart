@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -23,13 +22,12 @@ void main() async {
 
       {
         var buildFailed = false;
-        final assets = await build(packageUri, logger, dartExecutable)
-            .onError((error, stackTrace) {
+        try {
+          await build(packageUri, logger, dartExecutable);
+        } catch (error) {
           buildFailed = true;
-          return [];
-        });
+        }
         expect(buildFailed, true);
-        expect(assets, <Asset>[]);
       }
     });
   });

@@ -47,7 +47,7 @@ void main() async {
           'Platform.environment[ccKey]: ${Platform.environment[ccKey]}');
       printOnFailure('cc: $cc');
 
-      final assets = await build(
+      final result = await build(
         packageUri,
         logger,
         dartExecutable,
@@ -62,7 +62,7 @@ void main() async {
         // Prevent any other environment variables.
         includeParentEnvironment: false,
       );
-      expect(assets.length, 1);
+      expect(result.assets.length, 1);
     });
   });
 }

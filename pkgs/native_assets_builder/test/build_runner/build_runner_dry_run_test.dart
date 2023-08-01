@@ -22,14 +22,15 @@ void main() async {
       );
 
       final dryRunAssets = (await dryRun(packageUri, logger, dartExecutable))
+          .assets
           .where((element) => element.target == Target.current)
           .toList();
-      final buildAssets = await build(packageUri, logger, dartExecutable);
+      final result = await build(packageUri, logger, dartExecutable);
 
-      expect(dryRunAssets.length, buildAssets.length);
+      expect(dryRunAssets.length, result.assets.length);
       for (var i = 0; i < dryRunAssets.length; i++) {
         final dryRunAsset = dryRunAssets[0];
-        final buildAsset = buildAssets[0];
+        final buildAsset = result.assets[0];
         expect(dryRunAsset.linkMode, buildAsset.linkMode);
         expect(dryRunAsset.name, buildAsset.name);
         expect(dryRunAsset.target, buildAsset.target);

@@ -27,15 +27,13 @@ class NativeAssetsBuildRunner {
     required this.dartExecutable,
   });
 
-  final _metadata = <Target, DependencyMetadata>{};
-
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
   /// Completes the future with an error if the build fails.
-  Future<List<Asset>> build({
+  Future<BuildResult> build({
     required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
@@ -45,7 +43,7 @@ class NativeAssetsBuildRunner {
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
   }) async {
-    _metadata.clear();
+    _clear();
     final packageLayout =
         await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -56,7 +54,6 @@ class NativeAssetsBuildRunner {
       dartExecutable: Uri.file(Platform.resolvedExecutable),
     );
     final plan = planner.plan();
-    final assetList = <Asset>[];
     for (final package in plan) {
       final dependencyMetadata = _metadataForPackage(
         packageGraph: planner.packageGraph,
@@ -74,16 +71,17 @@ class NativeAssetsBuildRunner {
         targetIOSSdk: targetIOSSdk,
         targetAndroidNdkApi: targetAndroidNdkApi,
       );
-      final assets = await _buildPackageCached(
+      await _buildPackageCached(
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
       );
-      validateAssetsPackage(assets, package.name);
-      assetList.addAll(assets);
     }
-    return assetList;
+    return _BuildResultImpl(
+      assets: _assets,
+      dependencies: _dependencies..sort(_uriCompare),
+    );
   }
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -92,12 +90,13 @@ class NativeAssetsBuildRunner {
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
   /// Completes the future with an error if the build fails.
-  Future<List<Asset>> dryRun({
+  Future<DryRunResult> dryRun({
     required LinkModePreference linkModePreference,
     required OS targetOs,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
   }) async {
+    _clear();
     final packageLayout =
         await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -108,7 +107,6 @@ class NativeAssetsBuildRunner {
       dartExecutable: Uri.file(Platform.resolvedExecutable),
     );
     final plan = planner.plan();
-    final assetList = <Asset>[];
     for (final package in plan) {
       final config = await _cliConfigDryRun(
         packageName: package.name,
@@ -117,19 +115,30 @@ class NativeAssetsBuildRunner {
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
       );
-      final assets = await _buildPackage(
+      await _buildPackage(
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
         dryRun: true,
       );
-      assetList.addAll(assets);
     }
-    return assetList;
+    return _DryRunResultImpl(
+      assets: _assets,
+    );
   }
 
-  Future<List<Asset>> _buildPackageCached(
+  final _metadata = <Target, DependencyMetadata>{};
+  final _assets = <Asset>[];
+  final _dependencies = <Uri>[];
+
+  void _clear() {
+    _metadata.clear();
+    _assets.clear();
+    _dependencies.clear();
+  }
+
+  Future<void> _buildPackageCached(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -154,10 +163,12 @@ class NativeAssetsBuildRunner {
       // here whether the config is equal.
 
       setMetadata(config.target, packageName, buildOutput?.metadata);
-      return buildOutput!.assets;
+      _assets.addAll(buildOutput!.assets);
+      _dependencies.addAll(buildOutput.dependencies.dependencies);
+      return;
     }
 
-    return _buildPackage(
+    await _buildPackage(
       config,
       packageConfigUri,
       workingDirectory,
@@ -166,7 +177,7 @@ class NativeAssetsBuildRunner {
     );
   }
 
-  Future<List<Asset>> _buildPackage(
+  Future<void> _buildPackage(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -201,7 +212,12 @@ class NativeAssetsBuildRunner {
     if (!dryRun) {
       setMetadata(config.target, config.packageName, buildOutput?.metadata);
     }
-    return buildOutput?.assets ?? [];
+    final assets = buildOutput?.assets;
+    if (assets != null) {
+      validateAssetsPackage(assets, config.packageName);
+      _assets.addAll(assets);
+    }
+    _dependencies.addAll(buildOutput?.dependencies.dependencies ?? []);
   }
 
   void setMetadata(Target target, String packageName, Metadata? metadata) {
@@ -306,6 +322,43 @@ class NativeAssetsBuildRunner {
   }
 }
 
+/// The result from a [NativeAssetsBuildRunner.dryRun].
+abstract interface class DryRunResult {
+  /// The native assets for all [Target]s for the build or dry run.
+  List<Asset> get assets;
+}
+
+final class _DryRunResultImpl implements DryRunResult {
+  @override
+  final List<Asset> assets;
+
+  _DryRunResultImpl({required this.assets});
+}
+
+final class _BuildResultImpl implements BuildResult {
+  @override
+  final List<Asset> assets;
+
+  @override
+  final List<Uri> dependencies;
+
+  _BuildResultImpl({
+    required this.assets,
+    required this.dependencies,
+  });
+}
+
+/// The result from a [NativeAssetsBuildRunner.build].
+abstract class BuildResult implements DryRunResult {
+  /// All the files used for building the native assets of all packages.
+  ///
+  /// This aggregated list can be used to determine whether the
+  /// [NativeAssetsBuildRunner] needs to be invoked again. The
+  /// [NativeAssetsBuildRunner] determines per package with native assets
+  /// if it needs to run the build again.
+  List<Uri> get dependencies;
+}
+
 extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
@@ -316,3 +369,5 @@ extension on BuildConfig {
   String get packageName =>
       packageRoot.pathSegments.lastWhere((e) => e.isNotEmpty);
 }
+
+int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());

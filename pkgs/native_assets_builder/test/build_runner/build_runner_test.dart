@@ -26,26 +26,26 @@ void main() async {
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final assets = await build(packageUri, logger, dartExecutable,
+        final result = await build(packageUri, logger, dartExecutable,
             capturedLogs: logMessages);
         expect(
             logMessages.join('\n'),
             stringContainsInOrder(
                 ['native_add${Platform.pathSeparator}build.dart']));
-        expect(assets.length, 1);
+        expect(result.assets.length, 1);
       }
 
       // Trigger a build, should not invoke anything.
       {
         final logMessages = <String>[];
-        final assets = await build(packageUri, logger, dartExecutable,
+        final result = await build(packageUri, logger, dartExecutable,
             capturedLogs: logMessages);
         expect(
             false,
             logMessages
                 .join('\n')
                 .contains('native_add${Platform.pathSeparator}build.dart'));
-        expect(assets.length, 1);
+        expect(result.assets.length, 1);
       }
     });
   });

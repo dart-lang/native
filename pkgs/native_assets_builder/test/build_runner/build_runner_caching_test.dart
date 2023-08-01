@@ -24,25 +24,40 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        await build(packageUri, logger, dartExecutable,
+        final result = await build(packageUri, logger, dartExecutable,
             capturedLogs: logMessages);
         expect(
-            logMessages.join('\n'),
-            stringContainsInOrder(
-                ['native_add${Platform.pathSeparator}build.dart']));
+          logMessages.join('\n'),
+          contains('native_add${Platform.pathSeparator}build.dart'),
+        );
+        expect(
+          result.dependencies,
+          [
+            packageUri.resolve('build.dart'),
+            packageUri.resolve('src/native_add.c'),
+          ],
+        );
       }
 
       {
         final logMessages = <String>[];
-        await build(packageUri, logger, dartExecutable,
+        final result = await build(packageUri, logger, dartExecutable,
             capturedLogs: logMessages);
-        expect(logMessages.join('\n'),
-            stringContainsInOrder(['Skipping build for native_add']));
         expect(
-            false,
-            logMessages
-                .join('\n')
-                .contains('native_add${Platform.pathSeparator}build.dart'));
+          logMessages.join('\n'),
+          contains('Skipping build for native_add'),
+        );
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('native_add${Platform.pathSeparator}build.dart')),
+        );
+        expect(
+          result.dependencies,
+          [
+            packageUri.resolve('build.dart'),
+            packageUri.resolve('src/native_add.c'),
+          ],
+        );
       }
     });
   });
@@ -58,8 +73,8 @@ void main() async {
       );
 
       {
-        final assets = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(asset: assets.single, symbols: ['add']);
+        final result = await build(packageUri, logger, dartExecutable);
+        await expectSymbols(asset: result.assets.single, symbols: ['add']);
       }
 
       await copyTestProjects(
@@ -68,8 +83,11 @@ void main() async {
       );
 
       {
-        final assets = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(asset: assets.single, symbols: ['add', 'subtract']);
+        final result = await build(packageUri, logger, dartExecutable);
+        await expectSymbols(
+          asset: result.assets.single,
+          symbols: ['add', 'subtract'],
+        );
       }
     });
   });
@@ -82,8 +100,8 @@ void main() async {
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
-        final assets = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(asset: assets.single, symbols: ['add']);
+        final result = await build(packageUri, logger, dartExecutable);
+        await expectSymbols(asset: result.assets.single, symbols: ['add']);
       }
 
       await copyTestProjects(
@@ -91,8 +109,9 @@ void main() async {
           targetUri: packageUri);
 
       {
-        final assets = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(asset: assets.single, symbols: ['add', 'multiply']);
+        final result = await build(packageUri, logger, dartExecutable);
+        await expectSymbols(
+            asset: result.assets.single, symbols: ['add', 'multiply']);
       }
     });
   });
