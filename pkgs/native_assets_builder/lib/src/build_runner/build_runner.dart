@@ -335,6 +335,17 @@ final class _DryRunResultImpl implements DryRunResult {
   _DryRunResultImpl({required this.assets});
 }
 
+/// The result from a [NativeAssetsBuildRunner.build].
+abstract class BuildResult implements DryRunResult {
+  /// All the files used for building the native assets of all packages.
+  ///
+  /// This aggregated list can be used to determine whether the
+  /// [NativeAssetsBuildRunner] needs to be invoked again. The
+  /// [NativeAssetsBuildRunner] determines per package with native assets
+  /// if it needs to run the build again.
+  List<Uri> get dependencies;
+}
+
 final class _BuildResultImpl implements BuildResult {
   @override
   final List<Asset> assets;
@@ -346,17 +357,6 @@ final class _BuildResultImpl implements BuildResult {
     required this.assets,
     required this.dependencies,
   });
-}
-
-/// The result from a [NativeAssetsBuildRunner.build].
-abstract class BuildResult implements DryRunResult {
-  /// All the files used for building the native assets of all packages.
-  ///
-  /// This aggregated list can be used to determine whether the
-  /// [NativeAssetsBuildRunner] needs to be invoked again. The
-  /// [NativeAssetsBuildRunner] determines per package with native assets
-  /// if it needs to run the build again.
-  List<Uri> get dependencies;
 }
 
 extension on DateTime {
