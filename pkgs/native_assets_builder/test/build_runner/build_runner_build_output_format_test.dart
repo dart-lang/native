@@ -14,8 +14,9 @@ void main() async {
   for (final package in [
     'wrong_build_output',
     'wrong_build_output_2',
+    'wrong_build_output_3',
   ]) {
-    test('wrong version $package', timeout: longTimeout, () async {
+    test('wrong build output $package', timeout: longTimeout, () async {
       await inTempDir((tempUri) async {
         await copyTestProjects(targetUri: tempUri);
         final packageUri = tempUri.resolve('$package/');
@@ -25,7 +26,8 @@ void main() async {
           logger: logger,
         );
 
-        {
+        // Run twice, failures should not be cached and return the same errors.
+        for (final _ in [1, 2]) {
           final logMessages = <String>[];
           final result = await build(
             packageUri,
@@ -34,10 +36,18 @@ void main() async {
           );
           final fullLog = logMessages.join('\n');
           expect(result.success, false);
-          expect(
-            fullLog,
-            contains('build_output.yaml contained a format error.'),
-          );
+          if (package == 'wrong_build_output_3') {
+            // Should re-execute the process on second run.
+            expect(
+              fullLog,
+              contains('build.dart returned with exit code: 1.'),
+            );
+          } else {
+            expect(
+              fullLog,
+              contains('build_output.yaml contained a format error.'),
+            );
+          }
         }
       });
     });

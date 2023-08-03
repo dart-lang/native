@@ -31,5 +31,7 @@
 - wrong_build_output/pubspec.yaml
 - wrong_build_output_2/build.dart
 - wrong_build_output_2/pubspec.yaml
+- wrong_build_output_3/build.dart
+- wrong_build_output_3/pubspec.yaml
 - wrong_namespace_asset/build.dart
 - wrong_namespace_asset/pubspec.yaml
