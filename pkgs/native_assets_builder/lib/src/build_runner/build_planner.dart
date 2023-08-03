@@ -47,7 +47,7 @@ class NativeAssetsBuildPlanner {
     );
   }
 
-  ({List<Package> packages, bool success}) plan() {
+  (List<Package> packages, bool success) plan() {
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
     };
@@ -71,7 +71,7 @@ class NativeAssetsBuildPlanner {
             packageMap[stronglyConnectedComponentWithNativeAssets.single]!);
       }
     }
-    return (packages: result, success: success);
+    return (result, success);
   }
 }
 

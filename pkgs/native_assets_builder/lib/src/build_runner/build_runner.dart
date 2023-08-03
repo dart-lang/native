@@ -53,13 +53,13 @@ class NativeAssetsBuildRunner {
       dartExecutable: Uri.file(Platform.resolvedExecutable),
       logger: logger,
     );
-    final plan = planner.plan();
+    final (plan, planSuccess) = planner.plan();
     final assets = <Asset>[];
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
-    var success = plan.success;
-    if (plan.success) {
-      for (final package in plan.packages) {
+    var success = planSuccess;
+    if (planSuccess) {
+      for (final package in plan) {
         final dependencyMetadata = _metadataForPackage(
           packageGraph: planner.packageGraph,
           packageName: package.name,
@@ -124,11 +124,11 @@ class NativeAssetsBuildRunner {
       dartExecutable: Uri.file(Platform.resolvedExecutable),
       logger: logger,
     );
-    final plan = planner.plan();
+    final (plan, planSuccess) = planner.plan();
     final assets = <Asset>[];
-    var success = plan.success;
-    if (plan.success) {
-      for (final package in plan.packages) {
+    var success = planSuccess;
+    if (planSuccess) {
+      for (final package in plan) {
         final config = await _cliConfigDryRun(
           packageName: package.name,
           packageRoot: packageLayout.packageRoot(package.name),
@@ -153,7 +153,7 @@ class NativeAssetsBuildRunner {
     );
   }
 
-  Future<(List<Asset>, List<Uri>, Metadata?, bool)> _buildPackageCached(
+  Future<_PackageBuildRecord> _buildPackageCached(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -191,7 +191,7 @@ class NativeAssetsBuildRunner {
     );
   }
 
-  Future<(List<Asset>, List<Uri>, Metadata?, bool)> _buildPackage(
+  Future<_PackageBuildRecord> _buildPackage(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -366,6 +366,13 @@ build_output.yaml contained a format error.
     return success;
   }
 }
+
+typedef _PackageBuildRecord = (
+  List<Asset>,
+  List<Uri> dependencies,
+  Metadata?,
+  bool success,
+);
 
 /// The result from a [NativeAssetsBuildRunner.dryRun].
 abstract interface class DryRunResult {

@@ -45,9 +45,9 @@ void main() async {
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final buildPlan = planner.plan();
-      expect(buildPlan.packages.length, 1);
-      expect(buildPlan.packages.single.name, 'native_add');
+      final (buildPlan, _) = planner.plan();
+      expect(buildPlan.length, 1);
+      expect(buildPlan.single.name, 'native_add');
     });
   });
   test('build dependency graph fromPackageRoot', () async {
@@ -62,15 +62,16 @@ void main() async {
           await PackageLayout.fromRootPackageRoot(nativeAddUri);
       final packagesWithNativeAssets =
           await packageLayout.packagesWithNativeAssets;
-      final buildPlan = (await NativeAssetsBuildPlanner.fromRootPackageRoot(
+      final nativeAssetsBuildPlanner =
+          await NativeAssetsBuildPlanner.fromRootPackageRoot(
         rootPackageRoot: nativeAddUri,
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
-      ))
-          .plan();
-      expect(buildPlan.packages.length, 1);
-      expect(buildPlan.packages.single.name, 'native_add');
+      );
+      final (buildPlan, _) = nativeAssetsBuildPlanner.plan();
+      expect(buildPlan.length, 1);
+      expect(buildPlan.single.name, 'native_add');
     });
   });
 }
