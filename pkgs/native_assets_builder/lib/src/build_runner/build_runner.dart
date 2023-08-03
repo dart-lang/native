@@ -43,7 +43,6 @@ class NativeAssetsBuildRunner {
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
   }) async {
-    _clear();
     final packageLayout =
         await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -54,11 +53,14 @@ class NativeAssetsBuildRunner {
       dartExecutable: Uri.file(Platform.resolvedExecutable),
     );
     final plan = planner.plan();
+    final assets = <Asset>[];
+    final dependencies = <Uri>[];
+    final metadata = <String, Metadata>{};
     for (final package in plan) {
       final dependencyMetadata = _metadataForPackage(
         packageGraph: planner.packageGraph,
         packageName: package.name,
-        targetMetadata: _metadata[target],
+        targetMetadata: metadata,
       );
       final config = await _cliConfig(
         packageRoot: packageLayout.packageRoot(package.name),
@@ -71,16 +73,22 @@ class NativeAssetsBuildRunner {
         targetIOSSdk: targetIOSSdk,
         targetAndroidNdkApi: targetAndroidNdkApi,
       );
-      await _buildPackageCached(
+      final (packageAssets, packageDependencies, packageMetadata) =
+          await _buildPackageCached(
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
       );
+      assets.addAll(packageAssets);
+      dependencies.addAll(packageDependencies);
+      if (packageMetadata != null) {
+        metadata[config.packageName] = packageMetadata;
+      }
     }
     return _BuildResultImpl(
-      assets: _assets,
-      dependencies: _dependencies..sort(_uriCompare),
+      assets: assets,
+      dependencies: dependencies..sort(_uriCompare),
     );
   }
 
@@ -96,7 +104,6 @@ class NativeAssetsBuildRunner {
     required Uri workingDirectory,
     required bool includeParentEnvironment,
   }) async {
-    _clear();
     final packageLayout =
         await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -107,6 +114,7 @@ class NativeAssetsBuildRunner {
       dartExecutable: Uri.file(Platform.resolvedExecutable),
     );
     final plan = planner.plan();
+    final assets = <Asset>[];
     for (final package in plan) {
       final config = await _cliConfigDryRun(
         packageName: package.name,
@@ -115,30 +123,21 @@ class NativeAssetsBuildRunner {
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
       );
-      await _buildPackage(
+      final (packageAssets, _, _) = await _buildPackage(
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
         dryRun: true,
       );
+      assets.addAll(packageAssets);
     }
     return _DryRunResultImpl(
-      assets: _assets,
+      assets: assets,
     );
   }
 
-  final _metadata = <Target, DependencyMetadata>{};
-  final _assets = <Asset>[];
-  final _dependencies = <Uri>[];
-
-  void _clear() {
-    _metadata.clear();
-    _assets.clear();
-    _dependencies.clear();
-  }
-
-  Future<void> _buildPackageCached(
+  Future<(List<Asset>, List<Uri>, Metadata?)> _buildPackageCached(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -161,14 +160,13 @@ class NativeAssetsBuildRunner {
           'Last build on $lastBuilt, last input change on $lastChange.');
       // All build flags go into [outDir]. Therefore we do not have to check
       // here whether the config is equal.
-
-      setMetadata(config.target, packageName, buildOutput?.metadata);
-      _assets.addAll(buildOutput!.assets);
-      _dependencies.addAll(buildOutput.dependencies.dependencies);
-      return;
+      final assets = buildOutput!.assets;
+      final dependencies = buildOutput.dependencies.dependencies;
+      final metadata = buildOutput.metadata;
+      return (assets, dependencies, metadata);
     }
 
-    await _buildPackage(
+    return await _buildPackage(
       config,
       packageConfigUri,
       workingDirectory,
@@ -177,7 +175,7 @@ class NativeAssetsBuildRunner {
     );
   }
 
-  Future<void> _buildPackage(
+  Future<(List<Asset>, List<Uri>, Metadata?)> _buildPackage(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -209,23 +207,11 @@ class NativeAssetsBuildRunner {
       throwOnUnexpectedExitCode: true,
     );
     final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
-    if (!dryRun) {
-      setMetadata(config.target, config.packageName, buildOutput?.metadata);
-    }
-    final assets = buildOutput?.assets;
-    if (assets != null) {
-      validateAssetsPackage(assets, config.packageName);
-      _assets.addAll(assets);
-    }
-    _dependencies.addAll(buildOutput?.dependencies.dependencies ?? []);
-  }
-
-  void setMetadata(Target target, String packageName, Metadata? metadata) {
-    if (metadata == null) {
-      return;
-    }
-    _metadata[target] ??= {};
-    _metadata[target]![packageName] = metadata;
+    final assets = buildOutput?.assets ?? [];
+    validateAssetsPackage(assets, config.packageName);
+    final dependencies = buildOutput?.dependencies.dependencies ?? [];
+    final metadata = dryRun ? null : buildOutput?.metadata;
+    return (assets, dependencies, metadata);
   }
 
   static Future<BuildConfig> _cliConfig({
