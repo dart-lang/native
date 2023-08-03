@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -39,13 +41,19 @@ void main() async {
       );
 
       {
-        var buildFailed = false;
-        try {
-          await build(packageUri, logger, dartExecutable);
-        } catch (error) {
-          buildFailed = true;
-        }
-        expect(buildFailed, true);
+        final result = await build(packageUri, logger, dartExecutable);
+        expect(result.errors, isNotEmpty);
+        expect(result.errors.length, 1);
+        final errorMessage = result.errors.first.message;
+        expect(errorMessage, contains('To reproduce run:'));
+        final reproCommand = errorMessage
+            .split('\n')
+            .skipWhile((l) => l != 'To reproduce run:')
+            .skip(1)
+            .first;
+        final reproResult =
+            await Process.run(reproCommand, [], runInShell: true);
+        expect(reproResult.exitCode, isNot(0));
       }
 
       await copyTestProjects(

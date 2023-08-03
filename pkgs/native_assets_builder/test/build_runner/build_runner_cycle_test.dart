@@ -10,15 +10,20 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('wrong asset id', timeout: longTimeout, () async {
+  test('cycle', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('wrong_namespace_asset/');
+      final packageUri = tempUri.resolve('cyclic_package_1/');
 
       await runPubGet(
         workingDirectory: packageUri,
         logger: logger,
       );
+
+      {
+        final result = await dryRun(packageUri, logger, dartExecutable);
+        expect(result.errors, isNotEmpty);
+      }
 
       {
         final result = await build(packageUri, logger, dartExecutable);

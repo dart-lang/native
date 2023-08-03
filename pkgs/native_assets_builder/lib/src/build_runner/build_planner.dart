@@ -8,6 +8,8 @@ import 'dart:io';
 import 'package:graphs/graphs.dart' as graphs;
 import 'package:package_config/package_config.dart';
 
+import 'build_runner.dart';
+
 class NativeAssetsBuildPlanner {
   final PackageGraph packageGraph;
   final List<Package> packagesWithNativeAssets;
@@ -42,29 +44,30 @@ class NativeAssetsBuildPlanner {
     );
   }
 
-  List<Package> plan() {
+  ({List<Package> packages, List<NativeAssetsBuilderError> errors}) plan() {
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
     };
     final packagesToBuild = packageMap.keys.toSet();
     final stronglyConnectedComponents = packageGraph.computeStrongComponents();
     final result = <Package>[];
+    final errors = <NativeAssetsBuilderError>[];
     for (final stronglyConnectedComponent in stronglyConnectedComponents) {
       final stronglyConnectedComponentWithNativeAssets = [
         for (final packageName in stronglyConnectedComponent)
           if (packagesToBuild.contains(packageName)) packageName
       ];
       if (stronglyConnectedComponentWithNativeAssets.length > 1) {
-        throw Exception(
+        errors.add(NativeAssetsBuilderError(
           'Cyclic dependency for native asset builds in the following '
-          'packages: $stronglyConnectedComponent.',
-        );
+          'packages: $stronglyConnectedComponentWithNativeAssets.',
+        ));
       } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
         result.add(
             packageMap[stronglyConnectedComponentWithNativeAssets.single]!);
       }
     }
-    return result;
+    return (packages: result, errors: errors);
   }
 }
 
