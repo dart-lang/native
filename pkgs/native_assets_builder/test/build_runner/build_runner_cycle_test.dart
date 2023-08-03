@@ -22,12 +22,12 @@ void main() async {
 
       {
         final result = await dryRun(packageUri, logger, dartExecutable);
-        expect(result.errors, isNotEmpty);
+        expect(result.success, false);
       }
 
       {
         final result = await build(packageUri, logger, dartExecutable);
-        expect(result.errors, isNotEmpty);
+        expect(result.success, false);
       }
     });
   });

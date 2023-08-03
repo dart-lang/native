@@ -160,7 +160,14 @@ Future<void> copyTestProjects({
 final logger = Logger('')
   ..level = Level.ALL
   ..onRecord.listen((record) {
-    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    printOnFailure(record.message);
+  });
+
+Logger createCapturingLogger(List<String> capturedMessages) => Logger('')
+  ..level = Level.ALL
+  ..onRecord.listen((record) {
+    printOnFailure(record.message);
+    capturedMessages.add(record.message);
   });
 
 final dartExecutable = File(Platform.resolvedExecutable).uri;

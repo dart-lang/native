@@ -43,6 +43,7 @@ void main() async {
         packageGraph: graph,
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
+        logger: logger,
       );
       final buildPlan = planner.plan();
       expect(buildPlan.packages.length, 1);
@@ -65,6 +66,7 @@ void main() async {
         rootPackageRoot: nativeAddUri,
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
+        logger: logger,
       ))
           .plan();
       expect(buildPlan.packages.length, 1);

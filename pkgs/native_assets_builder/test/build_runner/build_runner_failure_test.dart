@@ -41,12 +41,13 @@ void main() async {
       );
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
-        expect(result.errors, isNotEmpty);
-        expect(result.errors.length, 1);
-        final errorMessage = result.errors.first.message;
-        expect(errorMessage, contains('To reproduce run:'));
-        final reproCommand = errorMessage
+        final logMessages = <String>[];
+        final result = await build(
+            packageUri, createCapturingLogger(logMessages), dartExecutable);
+        expect(result.success, false);
+        final fullLog = logMessages.join('\n');
+        expect(fullLog, contains('To reproduce run:'));
+        final reproCommand = fullLog
             .split('\n')
             .skipWhile((l) => l != 'To reproduce run:')
             .skip(1)

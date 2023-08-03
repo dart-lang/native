@@ -26,7 +26,7 @@ void main() async {
 
         {
           final result = await build(packageUri, logger, dartExecutable);
-          expect(result.errors, isNotEmpty);
+          expect(result.success, false);
         }
       });
     });

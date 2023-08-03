@@ -52,7 +52,7 @@ Future<BuildResult> build(
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
   );
-  if (result.errors.isEmpty) {
+  if (result.success) {
     await expectAssetsExist(result.assets);
   }
 

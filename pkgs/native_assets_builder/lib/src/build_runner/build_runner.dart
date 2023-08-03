@@ -51,15 +51,14 @@ class NativeAssetsBuildRunner {
       rootPackageRoot: packageLayout.rootPackageRoot,
       packagesWithNativeAssets: packagesWithNativeAssets,
       dartExecutable: Uri.file(Platform.resolvedExecutable),
+      logger: logger,
     );
     final plan = planner.plan();
     final assets = <Asset>[];
     final dependencies = <Uri>[];
-    final errors = <NativeAssetsBuilderError>[];
     final metadata = <String, Metadata>{};
-    if (plan.errors.isNotEmpty) {
-      errors.addAll(plan.errors);
-    } else {
+    var success = plan.success;
+    if (plan.success) {
       for (final package in plan.packages) {
         final dependencyMetadata = _metadataForPackage(
           packageGraph: planner.packageGraph,
@@ -81,7 +80,7 @@ class NativeAssetsBuildRunner {
           packageAssets,
           packageDependencies,
           packageMetadata,
-          packageErrors
+          packageSuccess,
         ) = await _buildPackageCached(
           config,
           packageLayout.packageConfigUri,
@@ -90,7 +89,7 @@ class NativeAssetsBuildRunner {
         );
         assets.addAll(packageAssets);
         dependencies.addAll(packageDependencies);
-        errors.addAll(packageErrors);
+        success &= packageSuccess;
         if (packageMetadata != null) {
           metadata[config.packageName] = packageMetadata;
         }
@@ -99,7 +98,7 @@ class NativeAssetsBuildRunner {
     return _BuildResultImpl(
       assets: assets,
       dependencies: dependencies..sort(_uriCompare),
-      errors: errors,
+      success: success,
     );
   }
 
@@ -123,13 +122,12 @@ class NativeAssetsBuildRunner {
       rootPackageRoot: packageLayout.rootPackageRoot,
       packagesWithNativeAssets: packagesWithNativeAssets,
       dartExecutable: Uri.file(Platform.resolvedExecutable),
+      logger: logger,
     );
     final plan = planner.plan();
     final assets = <Asset>[];
-    final errors = <NativeAssetsBuilderError>[];
-    if (plan.errors.isNotEmpty) {
-      errors.addAll(plan.errors);
-    } else {
+    var success = plan.success;
+    if (plan.success) {
       for (final package in plan.packages) {
         final config = await _cliConfigDryRun(
           packageName: package.name,
@@ -138,7 +136,7 @@ class NativeAssetsBuildRunner {
           linkMode: linkModePreference,
           buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
         );
-        final (packageAssets, _, _, packageErrors) = await _buildPackage(
+        final (packageAssets, _, _, packageSuccess) = await _buildPackage(
           config,
           packageLayout.packageConfigUri,
           workingDirectory,
@@ -146,17 +144,16 @@ class NativeAssetsBuildRunner {
           dryRun: true,
         );
         assets.addAll(packageAssets);
-        errors.addAll(packageErrors);
+        success &= packageSuccess;
       }
     }
     return _DryRunResultImpl(
       assets: assets,
-      errors: errors,
+      success: success,
     );
   }
 
-  Future<(List<Asset>, List<Uri>, Metadata?, List<NativeAssetsBuilderError>)>
-      _buildPackageCached(
+  Future<(List<Asset>, List<Uri>, Metadata?, bool)> _buildPackageCached(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -182,7 +179,7 @@ class NativeAssetsBuildRunner {
       final assets = buildOutput!.assets;
       final dependencies = buildOutput.dependencies.dependencies;
       final metadata = buildOutput.metadata;
-      return (assets, dependencies, metadata, <NativeAssetsBuilderError>[]);
+      return (assets, dependencies, metadata, true);
     }
 
     return await _buildPackage(
@@ -194,8 +191,7 @@ class NativeAssetsBuildRunner {
     );
   }
 
-  Future<(List<Asset>, List<Uri>, Metadata?, List<NativeAssetsBuilderError>)>
-      _buildPackage(
+  Future<(List<Asset>, List<Uri>, Metadata?, bool)> _buildPackage(
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -225,7 +221,7 @@ class NativeAssetsBuildRunner {
       logger: logger,
       includeParentEnvironment: includeParentEnvironment,
     );
-    final errors = <NativeAssetsBuilderError>[];
+    var success = true;
     if (result.exitCode != 0) {
       final printWorkingDir = workingDirectory != Directory.current.uri;
       final commandString = [
@@ -234,8 +230,7 @@ class NativeAssetsBuildRunner {
         ...arguments.map((a) => a.contains(' ') ? "'$a'" : a),
         if (printWorkingDir) ')',
       ].join(' ');
-      errors.add(NativeAssetsBuilderError(
-        package: config.packageName,
+      logger.severe(
         '''Building native assets failed.
 build.dart returned with exit code: ${result.exitCode}.
 To reproduce run:
@@ -245,49 +240,34 @@ ${result.stderr}
 stdout:
 ${result.stdout}
         ''',
-      ));
+      );
+      success = false;
     }
 
     try {
       final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
       final assets = buildOutput?.assets ?? [];
-      errors.addAll(validateAssetsPackage(assets, config.packageName));
+      success &= validateAssetsPackage(assets, config.packageName);
       final dependencies = buildOutput?.dependencies.dependencies ?? [];
       final metadata = dryRun ? null : buildOutput?.metadata;
-      return (assets, dependencies, metadata, errors);
+      return (assets, dependencies, metadata, success);
     } on FormatException catch (e) {
-      return (
-        <Asset>[],
-        <Uri>[],
-        null,
-        [
-          NativeAssetsBuilderError(
-            package: config.packageName,
-            '''Building native assets failed.
+      logger.severe('''
+Building native assets for package:${config.packageName} failed.
 build_output.yaml contained a format error.
 ${e.message}
-        ''',
-          ),
-        ],
-      );
+        ''');
+      return (<Asset>[], <Uri>[], Metadata({}), false);
       // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
       // type errors in native_assets_cli, release a new version of that package
       // and then remove this.
       // ignore: avoid_catching_errors
     } on TypeError {
-      return (
-        <Asset>[],
-        <Uri>[],
-        null,
-        [
-          NativeAssetsBuilderError(
-            package: config.packageName,
-            '''Building native assets failed.
+      logger.severe('''
+Building native assets for package:${config.packageName} failed.
 build_output.yaml contained a format error.
-        ''',
-          ),
-        ],
-      );
+        ''');
+      return (<Asset>[], <Uri>[], Metadata({}), false);
     }
   }
 
@@ -369,21 +349,21 @@ build_output.yaml contained a format error.
     };
   }
 
-  List<NativeAssetsBuilderError> validateAssetsPackage(
-      List<Asset> assets, String packageName) {
+  bool validateAssetsPackage(List<Asset> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.name)
         .where((n) => !n.startsWith('package:$packageName/'))
         .toSet()
         .toList()
       ..sort();
-    return [
-      if (invalidAssetIds.isNotEmpty)
-        NativeAssetsBuilderError(
-          '`package:$packageName` declares the following assets which do not '
-          'start with `package:$packageName/`: ${invalidAssetIds.join(', ')}.',
-        ),
-    ];
+    final success = invalidAssetIds.isEmpty;
+    if (!success) {
+      logger.severe(
+        '`package:$packageName` declares the following assets which do not '
+        'start with `package:$packageName/`: ${invalidAssetIds.join(', ')}.',
+      );
+    }
+    return success;
   }
 }
 
@@ -392,8 +372,10 @@ abstract interface class DryRunResult {
   /// The native assets for all [Target]s for the build or dry run.
   List<Asset> get assets;
 
-  /// Any errors
-  List<NativeAssetsBuilderError> get errors;
+  /// Whether all builds completed without errors.
+  ///
+  /// All error messages are streamed to [NativeAssetsBuildRunner.logger].
+  bool get success;
 }
 
 final class _DryRunResultImpl implements DryRunResult {
@@ -401,11 +383,11 @@ final class _DryRunResultImpl implements DryRunResult {
   final List<Asset> assets;
 
   @override
-  final List<NativeAssetsBuilderError> errors;
+  final bool success;
 
   _DryRunResultImpl({
     required this.assets,
-    required this.errors,
+    required this.success,
   });
 }
 
@@ -428,24 +410,12 @@ final class _BuildResultImpl implements BuildResult {
   final List<Uri> dependencies;
 
   @override
-  final List<NativeAssetsBuilderError> errors;
+  final bool success;
 
   _BuildResultImpl({
     required this.assets,
     required this.dependencies,
-    required this.errors,
-  });
-}
-
-final class NativeAssetsBuilderError {
-  final String message;
-
-  /// The package that was being built that caused an error.
-  final String? package;
-
-  NativeAssetsBuilderError(
-    this.message, {
-    this.package,
+    required this.success,
   });
 }
 
