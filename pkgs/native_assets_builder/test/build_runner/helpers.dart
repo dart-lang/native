@@ -26,7 +26,7 @@ Future<void> runPubGet({
   expect(result.exitCode, 0);
 }
 
-Future<List<Asset>> build(
+Future<BuildResult> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -41,7 +41,7 @@ Future<List<Asset>> build(
         logger.onRecord.listen((event) => capturedLogs.add(event.message));
   }
 
-  final assets = await NativeAssetsBuildRunner(
+  final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
   ).build(
@@ -52,16 +52,16 @@ Future<List<Asset>> build(
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
   );
-  await expectAssetsExist(assets);
+  await expectAssetsExist(result.assets);
 
   if (subscription != null) {
     await subscription.cancel();
   }
 
-  return assets;
+  return result;
 }
 
-Future<List<Asset>> dryRun(
+Future<DryRunResult> dryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -76,7 +76,7 @@ Future<List<Asset>> dryRun(
         logger.onRecord.listen((event) => capturedLogs.add(event.message));
   }
 
-  final assets = await NativeAssetsBuildRunner(
+  final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
   ).dryRun(
@@ -90,7 +90,7 @@ Future<List<Asset>> dryRun(
     await subscription.cancel();
   }
 
-  return assets;
+  return result;
 }
 
 Future<void> expectAssetsExist(List<Asset> assets) async {

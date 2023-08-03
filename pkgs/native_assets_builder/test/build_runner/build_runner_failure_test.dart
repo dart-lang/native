@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -22,9 +21,16 @@ void main() async {
       );
 
       {
-        final assets = await build(packageUri, logger, dartExecutable);
-        expect(assets.length, 1);
-        await expectSymbols(asset: assets.single, symbols: ['add']);
+        final result = await build(packageUri, logger, dartExecutable);
+        expect(result.assets.length, 1);
+        await expectSymbols(asset: result.assets.single, symbols: ['add']);
+        expect(
+          result.dependencies,
+          [
+            packageUri.resolve('build.dart'),
+            packageUri.resolve('src/native_add.c'),
+          ],
+        );
       }
 
       await copyTestProjects(
@@ -34,13 +40,30 @@ void main() async {
 
       {
         var buildFailed = false;
-        final assets = await build(packageUri, logger, dartExecutable)
-            .onError((error, stackTrace) {
+        try {
+          await build(packageUri, logger, dartExecutable);
+        } catch (error) {
           buildFailed = true;
-          return [];
-        });
+        }
         expect(buildFailed, true);
-        expect(assets, <Asset>[]);
+      }
+
+      await copyTestProjects(
+        sourceUri: testDataUri.resolve('native_add_fix_build/'),
+        targetUri: packageUri,
+      );
+
+      {
+        final result = await build(packageUri, logger, dartExecutable);
+        expect(result.assets.length, 1);
+        await expectSymbols(asset: result.assets.single, symbols: ['add']);
+        expect(
+          result.dependencies,
+          [
+            packageUri.resolve('build.dart'),
+            packageUri.resolve('src/native_add.c'),
+          ],
+        );
       }
     });
   });
