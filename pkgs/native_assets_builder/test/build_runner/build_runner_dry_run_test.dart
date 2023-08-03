@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
@@ -36,6 +39,12 @@ void main() async {
         expect(dryRunAsset.target, buildAsset.target);
         // The target folders are different, so the paths are different.
       }
+
+      final dryRunDir = packageUri.resolve(
+          '.dart_tool/native_assets_builder/dry_run_${Target.current.os}_dynamic/');
+      expect(File.fromUri(dryRunDir.resolve('config.yaml')), exists);
+      expect(File.fromUri(dryRunDir.resolve('out/build_output.yaml')), exists);
+      //
     });
   });
 }
