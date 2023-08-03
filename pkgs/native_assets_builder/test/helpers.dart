@@ -163,11 +163,15 @@ final logger = Logger('')
     printOnFailure(record.message);
   });
 
-Logger createCapturingLogger(List<String> capturedMessages) => Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure(record.message);
-    capturedMessages.add(record.message);
-  });
+Logger createCapturingLogger(
+  List<String> capturedMessages, {
+  Level level = Level.ALL,
+}) =>
+    Logger('')
+      ..level = level
+      ..onRecord.listen((record) {
+        printOnFailure(record.message);
+        capturedMessages.add(record.message);
+      });
 
 final dartExecutable = File(Platform.resolvedExecutable).uri;

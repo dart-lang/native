@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -19,15 +20,40 @@ void main() async {
         workingDirectory: packageUri,
         logger: logger,
       );
-
       {
-        final result = await dryRun(packageUri, logger, dartExecutable);
+        final logMessages = <String>[];
+        final result = await dryRun(
+          packageUri,
+          createCapturingLogger(logMessages, level: Level.SEVERE),
+          dartExecutable,
+        );
+        final fullLog = logMessages.join('\n');
         expect(result.success, false);
+        expect(
+          fullLog,
+          contains(
+            'Cyclic dependency for native asset builds in the following '
+            'packages: [cyclic_package_1, cyclic_package_2]',
+          ),
+        );
       }
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
+        final logMessages = <String>[];
+        final result = await build(
+          packageUri,
+          createCapturingLogger(logMessages, level: Level.SEVERE),
+          dartExecutable,
+        );
+        final fullLog = logMessages.join('\n');
         expect(result.success, false);
+        expect(
+          fullLog,
+          contains(
+            'Cyclic dependency for native asset builds in the following '
+            'packages: [cyclic_package_1, cyclic_package_2]',
+          ),
+        );
       }
     });
   });

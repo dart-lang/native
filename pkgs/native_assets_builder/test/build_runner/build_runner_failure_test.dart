@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -43,9 +44,12 @@ void main() async {
       {
         final logMessages = <String>[];
         final result = await build(
-            packageUri, createCapturingLogger(logMessages), dartExecutable);
-        expect(result.success, false);
+          packageUri,
+          createCapturingLogger(logMessages, level: Level.SEVERE),
+          dartExecutable,
+        );
         final fullLog = logMessages.join('\n');
+        expect(result.success, false);
         expect(fullLog, contains('To reproduce run:'));
         final reproCommand = fullLog
             .split('\n')

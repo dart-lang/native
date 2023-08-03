@@ -231,7 +231,8 @@ class NativeAssetsBuildRunner {
         if (printWorkingDir) ')',
       ].join(' ');
       logger.severe(
-        '''Building native assets failed.
+        '''
+Building native assets for package:${config.packageName} failed.
 build.dart returned with exit code: ${result.exitCode}.
 To reproduce run:
 $commandString
