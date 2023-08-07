@@ -14,10 +14,10 @@ class Metadata {
   const Metadata(this.metadata);
 
   factory Metadata.fromYaml(YamlMap? yamlMap) =>
-      Metadata(yamlMap?.cast<String, Object>() ?? {});
+      Metadata(yamlMap?.formatCast<String, Object>() ?? {});
 
   factory Metadata.fromYamlString(String yaml) {
-    final yamlObject = loadYaml(yaml) as YamlMap;
+    final yamlObject = as<YamlMap>(loadYaml(yaml));
     return Metadata.fromYaml(yamlObject);
   }
 

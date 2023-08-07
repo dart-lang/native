@@ -27,8 +27,8 @@ abstract class AssetPath {
   }
 
   factory AssetPath.fromYaml(YamlMap yamlMap) {
-    final pathType = yamlMap[_pathTypeKey] as String;
-    final uriString = yamlMap[_uriKey] as String?;
+    final pathType = as<String>(yamlMap[_pathTypeKey]);
+    final uriString = as<String?>(yamlMap[_uriKey]);
     final uri = uriString != null ? Uri(path: uriString) : null;
     return AssetPath(pathType, uri);
   }
@@ -203,10 +203,10 @@ class Asset {
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
-        id: (yamlMap[_idKey] ?? yamlMap[_nameKey]) as String,
-        path: AssetPath.fromYaml(yamlMap[_pathKey] as YamlMap),
-        target: Target.fromString(yamlMap[_targetKey] as String),
-        linkMode: LinkMode.fromName(yamlMap[_linkModeKey] as String),
+        id: as<String>(yamlMap[_idKey] ?? yamlMap[_nameKey]),
+        path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
+        target: Target.fromString(as<String>(yamlMap[_targetKey])),
+        linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
       );
 
   static List<Asset> listFromYamlString(String yaml) {
@@ -215,14 +215,14 @@ class Asset {
       return [];
     }
     return [
-      for (final yamlElement in yamlObject as YamlList)
-        Asset.fromYaml(yamlElement as YamlMap),
+      for (final yamlElement in as<YamlList>(yamlObject))
+        Asset.fromYaml(as<YamlMap>(yamlElement)),
     ];
   }
 
   static List<Asset> listFromYamlList(YamlList yamlList) => [
         for (final yamlElement in yamlList)
-          Asset.fromYaml(yamlElement as YamlMap),
+          Asset.fromYaml(as<YamlMap>(yamlElement)),
       ];
 
   Asset copyWith({

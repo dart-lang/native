@@ -443,7 +443,7 @@ class BuildConfig {
     }
     final result = <String, Metadata>{};
     for (final entry in fileValue.entries) {
-      final packageName = entry.key;
+      final packageName = as<String>(entry.key);
       final defines = entry.value;
       if (defines is! Map) {
         throw FormatException("Unexpected value '$defines' for key "
@@ -452,13 +452,11 @@ class BuildConfig {
       }
       final packageResult = <String, Object>{};
       for (final entry2 in defines.entries) {
-        final key = entry2.key;
-        assert(key is String);
-        final value = entry2.value;
-        assert(value != null);
-        packageResult[key as String] = value as Object;
+        final key = as<String>(entry2.key);
+        final value = as<Object>(entry2.value);
+        packageResult[key] = value;
       }
-      result[packageName as String] = Metadata(packageResult.sortOnKey());
+      result[packageName] = Metadata(packageResult.sortOnKey());
     }
     return result.sortOnKey();
   }
