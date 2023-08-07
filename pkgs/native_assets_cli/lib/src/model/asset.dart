@@ -266,6 +266,8 @@ class Asset {
   String toYamlString() => yamlEncode(toYaml());
 
   static const _idKey = 'id';
+  // TODO(https://github.com/dart-lang/native/issues/100): Remove name key when
+  // rolling dependencies in example.
   static const _nameKey = 'name';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
