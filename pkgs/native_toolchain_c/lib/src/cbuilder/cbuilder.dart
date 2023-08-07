@@ -36,7 +36,7 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.assets].
   ///
   /// If omitted, no asset will be added to the build output.
-  final String? assetName;
+  final String? assetId;
 
   /// Sources to build the library or executable.
   ///
@@ -59,7 +59,7 @@ class CBuilder implements Builder {
 
   CBuilder.library({
     required this.name,
-    required this.assetName,
+    required this.assetId,
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
     @visibleForTesting this.installName,
@@ -70,7 +70,7 @@ class CBuilder implements Builder {
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
   })  : _type = _CBuilderType.executable,
-        assetName = null,
+        assetId = null,
         installName = null;
 
   /// Runs the C Compiler with on this C build spec.
@@ -116,7 +116,7 @@ class CBuilder implements Builder {
       await task.run();
     }
 
-    if (assetName != null) {
+    if (assetId != null) {
       final targets = [
         if (!buildConfig.dryRun)
           buildConfig.target
@@ -126,7 +126,7 @@ class CBuilder implements Builder {
       ];
       for (final target in targets) {
         buildOutput.assets.add(Asset(
-          name: assetName!,
+          id: assetId!,
           linkMode: linkMode,
           target: target,
           path: AssetAbsolutePath(libUri),
