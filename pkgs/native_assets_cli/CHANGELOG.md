@@ -1,4 +1,4 @@
-## 0.1.1
+## 0.1.1-wip
 
 - Added topics.
 - Fixed metadata example.

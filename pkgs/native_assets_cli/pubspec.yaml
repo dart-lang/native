@@ -2,7 +2,7 @@ name: native_assets_cli
 description: >-
   A library that contains the argument and file formats for implementing a
   native assets CLI.
-version: 0.1.1
+version: 0.1.1-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli
 
 topics:
