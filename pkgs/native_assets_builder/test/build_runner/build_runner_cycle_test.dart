@@ -11,15 +11,32 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('wrong asset id', timeout: longTimeout, () async {
+  test('cycle', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('wrong_namespace_asset/');
+      final packageUri = tempUri.resolve('cyclic_package_1/');
 
       await runPubGet(
         workingDirectory: packageUri,
         logger: logger,
       );
+      {
+        final logMessages = <String>[];
+        final result = await dryRun(
+          packageUri,
+          createCapturingLogger(logMessages, level: Level.SEVERE),
+          dartExecutable,
+        );
+        final fullLog = logMessages.join('\n');
+        expect(result.success, false);
+        expect(
+          fullLog,
+          contains(
+            'Cyclic dependency for native asset builds in the following '
+            'packages: [cyclic_package_1, cyclic_package_2]',
+          ),
+        );
+      }
 
       {
         final logMessages = <String>[];
@@ -33,8 +50,8 @@ void main() async {
         expect(
           fullLog,
           contains(
-            '`package:wrong_namespace_asset` declares the following assets '
-            'which do not start with `package:wrong_namespace_asset/`:',
+            'Cyclic dependency for native asset builds in the following '
+            'packages: [cyclic_package_1, cyclic_package_2]',
           ),
         );
       }

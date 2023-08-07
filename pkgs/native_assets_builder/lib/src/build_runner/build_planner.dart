@@ -6,23 +6,27 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:graphs/graphs.dart' as graphs;
+import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 
 class NativeAssetsBuildPlanner {
   final PackageGraph packageGraph;
   final List<Package> packagesWithNativeAssets;
   final Uri dartExecutable;
+  final Logger logger;
 
   NativeAssetsBuildPlanner({
     required this.packageGraph,
     required this.packagesWithNativeAssets,
     required this.dartExecutable,
+    required this.logger,
   });
 
   static Future<NativeAssetsBuildPlanner> fromRootPackageRoot({
     required Uri rootPackageRoot,
     required List<Package> packagesWithNativeAssets,
     required Uri dartExecutable,
+    required Logger logger,
   }) async {
     final result = await Process.run(
       dartExecutable.toFilePath(),
@@ -39,32 +43,35 @@ class NativeAssetsBuildPlanner {
       packageGraph: packageGraph,
       packagesWithNativeAssets: packagesWithNativeAssets,
       dartExecutable: dartExecutable,
+      logger: logger,
     );
   }
 
-  List<Package> plan() {
+  (List<Package> packages, bool success) plan() {
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
     };
     final packagesToBuild = packageMap.keys.toSet();
     final stronglyConnectedComponents = packageGraph.computeStrongComponents();
     final result = <Package>[];
+    var success = true;
     for (final stronglyConnectedComponent in stronglyConnectedComponents) {
       final stronglyConnectedComponentWithNativeAssets = [
         for (final packageName in stronglyConnectedComponent)
           if (packagesToBuild.contains(packageName)) packageName
       ];
       if (stronglyConnectedComponentWithNativeAssets.length > 1) {
-        throw Exception(
+        logger.severe(
           'Cyclic dependency for native asset builds in the following '
-          'packages: $stronglyConnectedComponent.',
+          'packages: $stronglyConnectedComponentWithNativeAssets.',
         );
+        success = false;
       } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
         result.add(
             packageMap[stronglyConnectedComponentWithNativeAssets.single]!);
       }
     }
-    return result;
+    return (result, success);
   }
 }
 

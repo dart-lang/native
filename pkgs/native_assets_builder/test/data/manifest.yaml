@@ -1,5 +1,9 @@
 # The list of files to copy to a temporary folder to ensure running tests from
 # a completely clean setup.
+- cyclic_package_1/build.dart
+- cyclic_package_1/pubspec.yaml
+- cyclic_package_2/build.dart
+- cyclic_package_2/pubspec.yaml
 - dart_app/bin/dart_app.dart
 - dart_app/pubspec.yaml
 - native_add/build.dart
@@ -23,5 +27,11 @@
 - package_reading_metadata/pubspec.yaml
 - package_with_metadata/build.dart
 - package_with_metadata/pubspec.yaml
+- wrong_build_output/build.dart
+- wrong_build_output/pubspec.yaml
+- wrong_build_output_2/build.dart
+- wrong_build_output_2/pubspec.yaml
+- wrong_build_output_3/build.dart
+- wrong_build_output_3/pubspec.yaml
 - wrong_namespace_asset/build.dart
 - wrong_namespace_asset/pubspec.yaml

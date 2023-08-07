@@ -52,7 +52,9 @@ Future<BuildResult> build(
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
   );
-  await expectAssetsExist(result.assets);
+  if (result.success) {
+    await expectAssetsExist(result.assets);
+  }
 
   if (subscription != null) {
     await subscription.cancel();
