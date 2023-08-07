@@ -149,7 +149,7 @@ native-assets:
 
   test('Asset hashCode copyWith', () async {
     final asset = assets.first;
-    final asset2 = asset.copyWith(name: 'foo321');
+    final asset2 = asset.copyWith(id: 'foo321');
     expect(asset.hashCode != asset2.hashCode, true);
 
     final asset3 = asset.copyWith();

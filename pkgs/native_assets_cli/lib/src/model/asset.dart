@@ -227,12 +227,12 @@ class Asset {
 
   Asset copyWith({
     LinkMode? linkMode,
-    String? name,
+    String? id,
     Target? target,
     AssetPath? path,
   }) =>
       Asset(
-        id: name ?? this.id,
+        id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
