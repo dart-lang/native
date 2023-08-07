@@ -191,19 +191,19 @@ class AssetInExecutable implements AssetPath {
 
 class Asset {
   final LinkMode linkMode;
-  final String name;
+  final String id;
   final Target target;
   final AssetPath path;
 
   Asset({
-    required this.name,
+    required this.id,
     required this.linkMode,
     required this.target,
     required this.path,
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
-        name: as<String>(yamlMap[_nameKey]),
+        id: as<String>(yamlMap[_idKey] ?? yamlMap[_nameKey]),
         path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
         target: Target.fromString(as<String>(yamlMap[_targetKey])),
         linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
@@ -227,12 +227,12 @@ class Asset {
 
   Asset copyWith({
     LinkMode? linkMode,
-    String? name,
+    String? id,
     Target? target,
     AssetPath? path,
   }) =>
       Asset(
-        name: name ?? this.name,
+        id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
@@ -243,28 +243,31 @@ class Asset {
     if (other is! Asset) {
       return false;
     }
-    return other.name == name &&
+    return other.id == id &&
         other.linkMode == linkMode &&
         other.target == target &&
         other.path == path;
   }
 
   @override
-  int get hashCode => Object.hash(name, linkMode, target, path);
+  int get hashCode => Object.hash(id, linkMode, target, path);
 
   Map<String, Object> toYaml() => {
-        _nameKey: name,
+        _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
       };
 
   Map<String, List<String>> toDartConst() => {
-        name: path.toDartConst(),
+        id: path.toDartConst(),
       };
 
   String toYamlString() => yamlEncode(toYaml());
 
+  static const _idKey = 'id';
+  // TODO(https://github.com/dart-lang/native/issues/100): Remove name key when
+  // rolling dependencies in example.
   static const _nameKey = 'name';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';

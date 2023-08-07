@@ -14,84 +14,84 @@ void main() {
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
   final assets = [
     Asset(
-      name: 'foo',
+      id: 'foo',
       path: AssetAbsolutePath(fooUri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
     ),
     Asset(
-      name: 'foo2',
+      id: 'foo2',
       path: AssetRelativePath(foo2Uri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
     ),
     Asset(
-      name: 'foo3',
+      id: 'foo3',
       path: AssetSystemPath(foo3Uri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
     ),
     Asset(
-      name: 'foo4',
+      id: 'foo4',
       path: AssetInExecutable(),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
     ),
     Asset(
-      name: 'foo5',
+      id: 'foo5',
       path: AssetInProcess(),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
     ),
     Asset(
-      name: 'bar',
+      id: 'bar',
       path: AssetAbsolutePath(barUri),
       target: Target.linuxArm64,
       linkMode: LinkMode.static,
     ),
     Asset(
-      name: 'bla',
+      id: 'bla',
       path: AssetAbsolutePath(blaUri),
       target: Target.windowsX64,
       linkMode: LinkMode.dynamic,
     ),
   ];
 
-  final assetsYamlEncoding = '''- name: foo
+  final assetsYamlEncoding = '''- id: foo
   link_mode: dynamic
   path:
     path_type: absolute
     uri: ${fooUri.toFilePath()}
   target: android_x64
-- name: foo2
+- id: foo2
   link_mode: dynamic
   path:
     path_type: relative
     uri: ${foo2Uri.toFilePath()}
   target: android_x64
-- name: foo3
+- id: foo3
   link_mode: dynamic
   path:
     path_type: system
     uri: ${foo3Uri.toFilePath()}
   target: android_x64
-- name: foo4
+- id: foo4
   link_mode: dynamic
   path:
     path_type: executable
   target: android_x64
-- name: foo5
+- id: foo5
   link_mode: dynamic
   path:
     path_type: process
   target: android_x64
-- name: bar
+- id: bar
   link_mode: static
   path:
     path_type: absolute
     uri: ${barUri.toFilePath()}
   target: linux_arm64
-- name: bla
+- id: bla
   link_mode: dynamic
   path:
     path_type: absolute
@@ -149,7 +149,7 @@ native-assets:
 
   test('Asset hashCode copyWith', () async {
     final asset = assets.first;
-    final asset2 = asset.copyWith(name: 'foo321');
+    final asset2 = asset.copyWith(id: 'foo321');
     expect(asset.hashCode != asset2.hashCode, true);
 
     final asset3 = asset.copyWith();
@@ -179,7 +179,7 @@ native-assets:
     expect(
         assets.first.toYamlString(),
         '''
-name: foo
+id: foo
 link_mode: dynamic
 path:
   path_type: absolute
