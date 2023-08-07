@@ -191,19 +191,19 @@ class AssetInExecutable implements AssetPath {
 
 class Asset {
   final LinkMode linkMode;
-  final String name;
+  final String id;
   final Target target;
   final AssetPath path;
 
   Asset({
-    required this.name,
+    required this.id,
     required this.linkMode,
     required this.target,
     required this.path,
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
-        name: yamlMap[_nameKey] as String,
+        id: (yamlMap[_idKey] ?? yamlMap[_nameKey]) as String,
         path: AssetPath.fromYaml(yamlMap[_pathKey] as YamlMap),
         target: Target.fromString(yamlMap[_targetKey] as String),
         linkMode: LinkMode.fromName(yamlMap[_linkModeKey] as String),
@@ -232,7 +232,7 @@ class Asset {
     AssetPath? path,
   }) =>
       Asset(
-        name: name ?? this.name,
+        id: name ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
@@ -243,28 +243,29 @@ class Asset {
     if (other is! Asset) {
       return false;
     }
-    return other.name == name &&
+    return other.id == id &&
         other.linkMode == linkMode &&
         other.target == target &&
         other.path == path;
   }
 
   @override
-  int get hashCode => Object.hash(name, linkMode, target, path);
+  int get hashCode => Object.hash(id, linkMode, target, path);
 
   Map<String, Object> toYaml() => {
-        _nameKey: name,
+        _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
       };
 
   Map<String, List<String>> toDartConst() => {
-        name: path.toDartConst(),
+        id: path.toDartConst(),
       };
 
   String toYamlString() => yamlEncode(toYaml());
 
+  static const _idKey = 'id';
   static const _nameKey = 'name';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';

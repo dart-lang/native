@@ -22,13 +22,13 @@ void main() {
     timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     assets: [
       Asset(
-        name: 'foo',
+        id: 'foo',
         path: AssetAbsolutePath(Uri(path: 'path/to/libfoo.so')),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
       ),
       Asset(
-        name: 'foo2',
+        id: 'foo2',
         path: AssetRelativePath(Uri(path: 'path/to/libfoo2.so')),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
@@ -44,13 +44,13 @@ void main() {
 
   final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
 assets:
-  - name: foo
+  - id: foo
     link_mode: dynamic
     path:
       path_type: absolute
       uri: path/to/libfoo.so
     target: android_x64
-  - name: foo2
+  - id: foo2
     link_mode: dynamic
     path:
       path_type: relative
