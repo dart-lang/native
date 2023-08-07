@@ -25,7 +25,7 @@ class Dependencies {
   factory Dependencies.fromYaml(YamlList? yamlList) => Dependencies([
         if (yamlList != null)
           for (final dependency in yamlList)
-            fileSystemPathToUri(dependency as String),
+            fileSystemPathToUri(as<String>(dependency)),
       ]);
 
   List<String> toYaml() => [
