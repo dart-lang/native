@@ -43,12 +43,12 @@ class BuildOutput {
   static const _versionKey = 'version';
 
   factory BuildOutput.fromYamlString(String yaml) {
-    final yamlObject = loadYaml(yaml) as YamlMap;
-    return BuildOutput.fromYaml(yamlObject);
+    final yamlObject = loadYaml(yaml);
+    return BuildOutput.fromYaml(as<YamlMap>(yamlObject));
   }
 
   factory BuildOutput.fromYaml(YamlMap yamlMap) {
-    final outputVersion = Version.parse(yamlMap['version'] as String);
+    final outputVersion = Version.parse(as<String>(yamlMap['version']));
     if (outputVersion.major > version.major) {
       throw FormatException(
         'The output version $outputVersion is newer than the '
@@ -65,11 +65,11 @@ class BuildOutput {
     }
 
     return BuildOutput(
-      timestamp: DateTime.parse(yamlMap[_timestampKey] as String),
-      assets: Asset.listFromYamlList(yamlMap[_assetsKey] as YamlList),
+      timestamp: DateTime.parse(as<String>(yamlMap[_timestampKey])),
+      assets: Asset.listFromYamlList(as<YamlList>(yamlMap[_assetsKey])),
       dependencies:
-          Dependencies.fromYaml(yamlMap[_dependenciesKey] as YamlList?),
-      metadata: Metadata.fromYaml(yamlMap[_metadataKey] as YamlMap?),
+          Dependencies.fromYaml(as<YamlList?>(yamlMap[_dependenciesKey])),
+      metadata: Metadata.fromYaml(as<YamlMap?>(yamlMap[_metadataKey])),
     );
   }
 
