@@ -54,45 +54,50 @@ class NativeAssetsBuildRunner {
       logger: logger,
     );
     final (plan, planSuccess) = planner.plan();
+    if (!planSuccess) {
+      return _BuildResultImpl(
+        assets: [],
+        dependencies: [],
+        success: false,
+      );
+    }
     final assets = <Asset>[];
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
-    var success = planSuccess;
-    if (planSuccess) {
-      for (final package in plan) {
-        final dependencyMetadata = _metadataForPackage(
-          packageGraph: planner.packageGraph,
-          packageName: package.name,
-          targetMetadata: metadata,
-        );
-        final config = await _cliConfig(
-          packageRoot: packageLayout.packageRoot(package.name),
-          target: target,
-          buildMode: buildMode,
-          linkMode: linkModePreference,
-          buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
-          dependencyMetadata: dependencyMetadata,
-          cCompilerConfig: cCompilerConfig,
-          targetIOSSdk: targetIOSSdk,
-          targetAndroidNdkApi: targetAndroidNdkApi,
-        );
-        final (
-          packageAssets,
-          packageDependencies,
-          packageMetadata,
-          packageSuccess,
-        ) = await _buildPackageCached(
-          config,
-          packageLayout.packageConfigUri,
-          workingDirectory,
-          includeParentEnvironment,
-        );
-        assets.addAll(packageAssets);
-        dependencies.addAll(packageDependencies);
-        success &= packageSuccess;
-        if (packageMetadata != null) {
-          metadata[config.packageName] = packageMetadata;
-        }
+    var success = true;
+    for (final package in plan) {
+      final dependencyMetadata = _metadataForPackage(
+        packageGraph: planner.packageGraph,
+        packageName: package.name,
+        targetMetadata: metadata,
+      );
+      final config = await _cliConfig(
+        packageRoot: packageLayout.packageRoot(package.name),
+        target: target,
+        buildMode: buildMode,
+        linkMode: linkModePreference,
+        buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
+        dependencyMetadata: dependencyMetadata,
+        cCompilerConfig: cCompilerConfig,
+        targetIOSSdk: targetIOSSdk,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+      );
+      final (
+        packageAssets,
+        packageDependencies,
+        packageMetadata,
+        packageSuccess,
+      ) = await _buildPackageCached(
+        config,
+        packageLayout.packageConfigUri,
+        workingDirectory,
+        includeParentEnvironment,
+      );
+      assets.addAll(packageAssets);
+      dependencies.addAll(packageDependencies);
+      success &= packageSuccess;
+      if (packageMetadata != null) {
+        metadata[config.packageName] = packageMetadata;
       }
     }
     return _BuildResultImpl(
@@ -125,27 +130,31 @@ class NativeAssetsBuildRunner {
       logger: logger,
     );
     final (plan, planSuccess) = planner.plan();
+    if (!planSuccess) {
+      return _DryRunResultImpl(
+        assets: [],
+        success: false,
+      );
+    }
     final assets = <Asset>[];
-    var success = planSuccess;
-    if (planSuccess) {
-      for (final package in plan) {
-        final config = await _cliConfigDryRun(
-          packageName: package.name,
-          packageRoot: packageLayout.packageRoot(package.name),
-          targetOs: targetOs,
-          linkMode: linkModePreference,
-          buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
-        );
-        final (packageAssets, _, _, packageSuccess) = await _buildPackage(
-          config,
-          packageLayout.packageConfigUri,
-          workingDirectory,
-          includeParentEnvironment,
-          dryRun: true,
-        );
-        assets.addAll(packageAssets);
-        success &= packageSuccess;
-      }
+    var success = true;
+    for (final package in plan) {
+      final config = await _cliConfigDryRun(
+        packageName: package.name,
+        packageRoot: packageLayout.packageRoot(package.name),
+        targetOs: targetOs,
+        linkMode: linkModePreference,
+        buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
+      );
+      final (packageAssets, _, _, packageSuccess) = await _buildPackage(
+        config,
+        packageLayout.packageConfigUri,
+        workingDirectory,
+        includeParentEnvironment,
+        dryRun: true,
+      );
+      assets.addAll(packageAssets);
+      success &= packageSuccess;
     }
     return _DryRunResultImpl(
       assets: assets,
