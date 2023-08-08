@@ -9,7 +9,7 @@ void main(List<String> args) async {
   final buildOutput = BuildOutput(
     assets: [
       Asset(
-        name: 'package:other_package/foo',
+        id: 'package:other_package/foo',
         linkMode: LinkMode.dynamic,
         target: Target.current,
         path: AssetAbsolutePath(

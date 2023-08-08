@@ -18,7 +18,7 @@ void main(List<String> args) async {
   // Configure `package:native_toolchain_c` to build the C code for us.
   final cbuilder = CBuilder.library(
     name: packageName,
-    assetName: 'package:$packageName/${packageName}.dart',
+    assetId: 'package:$packageName/${packageName}.dart',
     sources: [
       'src/$packageName.c',
     ],

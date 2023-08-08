@@ -35,7 +35,7 @@ void main() async {
         final dryRunAsset = dryRunAssets[0];
         final buildAsset = result.assets[0];
         expect(dryRunAsset.linkMode, buildAsset.linkMode);
-        expect(dryRunAsset.name, buildAsset.name);
+        expect(dryRunAsset.id, buildAsset.id);
         expect(dryRunAsset.target, buildAsset.target);
         // The target folders are different, so the paths are different.
       }

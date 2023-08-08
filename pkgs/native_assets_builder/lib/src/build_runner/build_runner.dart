@@ -371,7 +371,7 @@ build_output.yaml contained a format error.
 
   bool validateAssetsPackage(List<Asset> assets, String packageName) {
     final invalidAssetIds = assets
-        .map((a) => a.name)
+        .map((a) => a.id)
         .where((n) => !n.startsWith('package:$packageName/'))
         .toSet()
         .toList()
