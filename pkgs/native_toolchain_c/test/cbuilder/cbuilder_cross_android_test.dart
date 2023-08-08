@@ -127,7 +127,7 @@ Future<Uri> buildLib(
 
   final cbuilder = CBuilder.library(
     name: name,
-    assetName: name,
+    assetId: name,
     sources: [addCUri.toFilePath()],
   );
   await cbuilder.run(

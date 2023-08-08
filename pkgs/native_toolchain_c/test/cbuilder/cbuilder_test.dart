@@ -106,7 +106,7 @@ void main() {
           final cbuilder = CBuilder.library(
             sources: [addCUri.toFilePath()],
             name: name,
-            assetName: name,
+            assetId: name,
           );
           await cbuilder.run(
             buildConfig: buildConfig,
