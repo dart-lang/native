@@ -4,9 +4,6 @@ analyzer:
   language:
     strict-raw-types: true
     strict-inference: true
-  exclude:
-    # TODO(https://github.com/dart-lang/ecosystem/issues/150): Remove this.
-    - test/data/
 
 linter:
   rules:
