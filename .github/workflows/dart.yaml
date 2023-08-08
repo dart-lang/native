@@ -91,23 +91,19 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && matrix.breaking-change != 'true' }}
-
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && matrix.breaking-change != 'true' }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets run
         working-directory: pkgs/${{ matrix.package }}/example/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && matrix.breaking-change != 'true' }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
         working-directory: pkgs/${{ matrix.package }}/example/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && matrix.breaking-change != 'true' }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: ./native_add_app.exe
         working-directory: pkgs/${{ matrix.package }}/example/native_add_app/bin/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && matrix.breaking-change != 'true' }}
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage
         run: dart pub global activate coverage
