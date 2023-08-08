@@ -1,4 +1,4 @@
-## 0.2.0-wip
+## 0.2.0
 
 - **Breaking change** `NativeAssetsBuildRunner`s methods now return an object
   ([#105](https://github.com/dart-lang/native/issues/105)).
