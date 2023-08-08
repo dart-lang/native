@@ -203,7 +203,7 @@ class Asset {
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
-        id: as<String>(yamlMap[_idKey] ?? yamlMap[_nameKey]),
+        id: as<String>(yamlMap[_idKey]),
         path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
         target: Target.fromString(as<String>(yamlMap[_targetKey])),
         linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
@@ -266,9 +266,6 @@ class Asset {
   String toYamlString() => yamlEncode(toYaml());
 
   static const _idKey = 'id';
-  // TODO(https://github.com/dart-lang/native/issues/100): Remove name key when
-  // rolling dependencies in example.
-  static const _nameKey = 'name';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';

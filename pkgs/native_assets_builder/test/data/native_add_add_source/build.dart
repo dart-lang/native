@@ -13,8 +13,7 @@ void main(List<String> args) async {
   final buildOutput = BuildOutput();
   final cbuilder = CBuilder.library(
     name: packageName,
-    assetName:
-        'package:$packageName/src/${packageName}_bindings_generated.dart',
+    assetId: 'package:$packageName/src/${packageName}_bindings_generated.dart',
     sources: [
       'src/$packageName.c',
       'src/native_multiply.c',
