@@ -1,3 +1,9 @@
+## 2.1.0
+
+- Require Dart 3.0.0 or greater.
+- Expose native equivalent to `free` (`nativeFree`) from `malloc` and
+  `calloc` allocators.
+
 ## 2.0.2
 
 - Fixed a typo in a doc comment.

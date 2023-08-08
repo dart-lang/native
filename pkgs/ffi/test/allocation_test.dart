@@ -38,4 +38,13 @@ void main() async {
     // amount of addressable memory on the system.
     expect(() => calloc<Uint8>(-1), throwsA(isA<ArgumentError>()));
   });
+
+  test('nativeFree', () {
+    // malloc.nativeFree should be able to free memory allocated by malloc.
+    final ptr1 = malloc.allocate<Uint8>(1024);
+    malloc.nativeFree.asFunction<void Function(Pointer<Void>)>()(ptr1.cast());
+    // calloc.nativeFree should be able to free memory allocated by calloc.
+    final ptr2 = calloc.allocate<Uint8>(1024);
+    calloc.nativeFree.asFunction<void Function(Pointer<Void>)>()(ptr2.cast());
+  });
 }

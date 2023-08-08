@@ -22,19 +22,21 @@ final PosixCalloc posixCalloc =
 
 typedef PosixFreeNative = Void Function(Pointer);
 typedef PosixFree = void Function(Pointer);
-final PosixFree posixFree =
-    stdlib.lookupFunction<PosixFreeNative, PosixFree>('free');
+final Pointer<NativeFunction<PosixFreeNative>> posixFreePointer =
+    stdlib.lookup('free');
+final PosixFree posixFree = posixFreePointer.asFunction();
 
-typedef WinCoTaskMemAllocNative = Pointer Function(Size cb);
-typedef WinCoTaskMemAlloc = Pointer Function(int cb);
+typedef WinCoTaskMemAllocNative = Pointer Function(Size);
+typedef WinCoTaskMemAlloc = Pointer Function(int);
 final WinCoTaskMemAlloc winCoTaskMemAlloc =
     stdlib.lookupFunction<WinCoTaskMemAllocNative, WinCoTaskMemAlloc>(
         'CoTaskMemAlloc');
 
-typedef WinCoTaskMemFreeNative = Void Function(Pointer pv);
-typedef WinCoTaskMemFree = void Function(Pointer pv);
-final WinCoTaskMemFree winCoTaskMemFree = stdlib
-    .lookupFunction<WinCoTaskMemFreeNative, WinCoTaskMemFree>('CoTaskMemFree');
+typedef WinCoTaskMemFreeNative = Void Function(Pointer);
+typedef WinCoTaskMemFree = void Function(Pointer);
+final Pointer<NativeFunction<WinCoTaskMemFreeNative>> winCoTaskMemFreePointer =
+    stdlib.lookup('CoTaskMemFree');
+final WinCoTaskMemFree winCoTaskMemFree = winCoTaskMemFreePointer.asFunction();
 
 /// Manages memory on the native heap.
 ///
@@ -43,8 +45,8 @@ final WinCoTaskMemFree winCoTaskMemFree = stdlib
 ///
 /// For POSIX-based systems, this uses `malloc` and `free`. On Windows, it uses
 /// `CoTaskMemAlloc`.
-class _MallocAllocator implements Allocator {
-  const _MallocAllocator();
+final class MallocAllocator implements Allocator {
+  const MallocAllocator._();
 
   /// Allocates [byteCount] bytes of of unitialized memory on the native heap.
   ///
@@ -81,6 +83,37 @@ class _MallocAllocator implements Allocator {
       posixFree(pointer);
     }
   }
+
+  /// Returns a pointer to a native free function.
+  ///
+  /// This function can be used to release memory allocated by [allocated]
+  /// from the native side. It can also be used as a finalization callback
+  /// passed to `NativeFinalizer` constructor or `Pointer.atTypedList`
+  /// method.
+  ///
+  /// For example to automatically free native memory when the Dart object
+  /// wrapping it is reclaimed by GC:
+  ///
+  /// ```dart
+  /// class Wrapper implements Finalizable {
+  ///   static final finalizer = NativeFinalizer(malloc.nativeFree);
+  ///
+  ///   final Pointer<Uint8> data;
+  ///
+  ///   Wrapper() : data = malloc.allocate<Uint8>(length) {
+  ///     finalizer.attach(this, data);
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// or to free native memory that is owned by a typed list:
+  ///
+  /// ```dart
+  /// malloc.allocate<Uint8>(n).asTypedList(n, finalizer: malloc.nativeFree)
+  /// ```
+  ///
+  Pointer<NativeFinalizerFunction> get nativeFree =>
+      Platform.isWindows ? winCoTaskMemFreePointer : posixFreePointer;
 }
 
 /// Manages memory on the native heap.
@@ -90,7 +123,7 @@ class _MallocAllocator implements Allocator {
 ///
 /// For POSIX-based systems, this uses `malloc` and `free`. On Windows, it uses
 /// `CoTaskMemAlloc` and `CoTaskMemFree`.
-const Allocator malloc = _MallocAllocator();
+const MallocAllocator malloc = MallocAllocator._();
 
 /// Manages memory on the native heap.
 ///
@@ -98,8 +131,8 @@ const Allocator malloc = _MallocAllocator();
 ///
 /// For POSIX-based systems, this uses `calloc` and `free`. On Windows, it uses
 /// `CoTaskMemAlloc` and `CoTaskMemFree`.
-class _CallocAllocator implements Allocator {
-  const _CallocAllocator();
+final class CallocAllocator implements Allocator {
+  const CallocAllocator._();
 
   /// Fills a block of memory with a specified value.
   void _fillMemory(Pointer destination, int length, int fill) {
@@ -153,6 +186,37 @@ class _CallocAllocator implements Allocator {
       posixFree(pointer);
     }
   }
+
+  /// Returns a pointer to a native free function.
+  ///
+  /// This function can be used to release memory allocated by [allocated]
+  /// from the native side. It can also be used as a finalization callback
+  /// passed to `NativeFinalizer` constructor or `Pointer.atTypedList`
+  /// method.
+  ///
+  /// For example to automatically free native memory when the Dart object
+  /// wrapping it is reclaimed by GC:
+  ///
+  /// ```dart
+  /// class Wrapper implements Finalizable {
+  ///   static final finalizer = NativeFinalizer(calloc.nativeFree);
+  ///
+  ///   final Pointer<Uint8> data;
+  ///
+  ///   Wrapper() : data = calloc.allocate<Uint8>(length) {
+  ///     finalizer.attach(this, data);
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// or to free native memory that is owned by a typed list:
+  ///
+  /// ```dart
+  /// calloc.allocate<Uint8>(n).asTypedList(n, finalizer: calloc.nativeFree)
+  /// ```
+  ///
+  Pointer<NativeFinalizerFunction> get nativeFree =>
+      Platform.isWindows ? winCoTaskMemFreePointer : posixFreePointer;
 }
 
 /// Manages memory on the native heap.
@@ -162,4 +226,4 @@ class _CallocAllocator implements Allocator {
 ///
 /// For POSIX-based systems, this uses `calloc` and `free`. On Windows, it uses
 /// `CoTaskMemAlloc` and `CoTaskMemFree`.
-const Allocator calloc = _CallocAllocator();
+const CallocAllocator calloc = CallocAllocator._();
