@@ -57,9 +57,6 @@ functions:
     - 'to_global_ref_result'
     - 'wait_for'
     # keep-sorted end
-    # Native functions in Java. No need to call them from Dart.
-    - 'Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith'
-    - 'Java_com_github_dart_1lang_jni_PortProxy__1invoke'
 structs:
   exclude:
     - 'JniContext'

@@ -422,11 +422,6 @@ FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data);
 
 FFI_PLUGIN_EXPORT void resultFor(CallbackResult* result, jobject object);
 
-JNIEXPORT void JNICALL
-Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith(JNIEnv* env,
-                                                             jobject thiz,
-                                                             jlong port,
-                                                             jobject result);
 FFI_PLUGIN_EXPORT
 JniResult PortContinuation__ctor(int64_t j);
 
@@ -434,18 +429,3 @@ FFI_PLUGIN_EXPORT
 JniResult PortProxy__newInstance(jobject binaryName,
                                  int64_t port,
                                  int64_t functionPtr);
-
-JNIEXPORT jobjectArray JNICALL
-Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
-                                                  jobject thiz,
-                                                  jlong port,
-                                                  jlong threadId,
-                                                  jlong functionPtr,
-                                                  jobject proxy,
-                                                  jstring methodDescriptor,
-                                                  jobjectArray args);
-
-JNIEXPORT void JNICALL
-Java_com_github_dart_1lang_jni_PortProxy__1cleanUp(JNIEnv* env,
-                                                   jobject thiz,
-                                                   jlong resultPtr);

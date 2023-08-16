@@ -25,6 +25,10 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+#if defined(__Fuchsia__)
+#include <zircon/types.h>
+#endif
+
 #ifdef __cplusplus
 #define DART_EXTERN_C extern "C"
 #else
@@ -849,7 +853,7 @@ typedef Dart_Handle (*Dart_GetVMServiceAssetsArchive)(void);
  * The current version of the Dart_InitializeFlags. Should be incremented every
  * time Dart_InitializeFlags changes in a binary incompatible way.
  */
-#define DART_INITIALIZE_PARAMS_CURRENT_VERSION (0x00000007)
+#define DART_INITIALIZE_PARAMS_CURRENT_VERSION (0x00000008)
 
 /** Forward declaration */
 struct Dart_CodeObserver;
@@ -992,6 +996,15 @@ typedef struct {
    * Kernel blob unregistration callback function. See Dart_UnregisterKernelBlobCallback.
    */
   Dart_UnregisterKernelBlobCallback unregister_kernel_blob;
+
+#if defined(__Fuchsia__)
+  /**
+   * The resource needed to use zx_vmo_replace_as_executable. Can be
+   * ZX_HANDLE_INVALID if the process has ambient-replace-as-executable or if
+   * executable memory is not needed (e.g., this is an AOT runtime).
+   */
+  zx_handle_t vmex_resource;
+#endif
 } Dart_InitializeParams;
 
 /**
@@ -1105,7 +1118,7 @@ Dart_CreateIsolateGroup(const char* script_uri,
  *   shutdown (may be NULL).
  * \param cleanup_callback A callback to be called when the isolate is being
  *   cleaned up (may be NULL).
- * \param isolate_data The embedder-specific data associated with this isolate.
+ * \param child_isolate_data The embedder-specific data associated with this isolate.
  * \param error Set to NULL if creation is successful, set to an error
  *   message otherwise. The caller is responsible for calling free() on the
  *   error message.
@@ -1210,7 +1223,7 @@ DART_EXPORT void* Dart_CurrentIsolateGroupData(void);
  * It is the responsibility of the caller to free the returned ID.
  */
 typedef int64_t Dart_IsolateGroupId;
-DART_EXPORT Dart_IsolateGroupId Dart_CurrentIsolateGroupId();
+DART_EXPORT Dart_IsolateGroupId Dart_CurrentIsolateGroupId(void);
 
 /**
  * Returns the callback data associated with the specified isolate group. This
@@ -1227,6 +1240,17 @@ DART_EXPORT void* Dart_IsolateGroupData(Dart_Isolate isolate);
  * debugging messages more comprehensible.
  */
 DART_EXPORT Dart_Handle Dart_DebugName(void);
+
+/**
+ * Returns the debugging name for the current isolate.
+ *
+ * This name is unique to each isolate and should only be used to make
+ * debugging messages more comprehensible.
+ *
+ * The returned string is scope allocated and is only valid until the next call
+ * to Dart_ExitScope.
+ */
+DART_EXPORT const char* Dart_DebugNameToCString(void);
 
 /**
  * Returns the ID for an isolate which is used to query the service protocol.
@@ -1269,6 +1293,79 @@ DART_EXPORT void Dart_KillIsolate(Dart_Isolate isolate);
  * Requires there to be a current isolate.
  */
 DART_EXPORT void Dart_NotifyIdle(int64_t deadline);
+
+typedef void (*Dart_HeapSamplingReportCallback)(void* context,
+                                                void* data);
+
+typedef void* (*Dart_HeapSamplingCreateCallback)(
+    Dart_Isolate isolate,
+    Dart_IsolateGroup isolate_group,
+    const char* cls_name,
+    intptr_t allocation_size);
+typedef void (*Dart_HeapSamplingDeleteCallback)(void* data);
+
+/**
+ * Starts the heap sampling profiler for each thread in the VM.
+ */
+DART_EXPORT void Dart_EnableHeapSampling(void);
+
+/*
+ * Stops the heap sampling profiler for each thread in the VM.
+ */
+DART_EXPORT void Dart_DisableHeapSampling(void);
+
+/* Registers callbacks are invoked once per sampled allocation upon object
+ * allocation and garbage collection.
+ *
+ * |create_callback| can be used to associate additional data with the sampled
+ * allocation, such as a stack trace. This data pointer will be passed to
+ * |delete_callback| to allow for proper disposal when the object associated
+ * with the allocation sample is collected.
+ *
+ * The provided callbacks must not call into the VM and should do as little
+ * work as possible to avoid performance penalities during object allocation and
+ * garbage collection.
+ *
+ * NOTE: It is a fatal error to set either callback to null once they have been
+ * initialized.
+ */
+DART_EXPORT void Dart_RegisterHeapSamplingCallback(
+    Dart_HeapSamplingCreateCallback create_callback,
+    Dart_HeapSamplingDeleteCallback delete_callback);
+
+/*
+ * Reports the surviving allocation samples for all live isolate groups in the
+ * VM.
+ *
+ * When the callback is invoked:
+ *  - |context| will be the context object provided when invoking
+ *    |Dart_ReportSurvivingAllocations|. This can be safely set to null if not
+ *    required.
+ *  - |heap_size| will be equal to the size of the allocated object associated
+ *    with the sample.
+ *  - |cls_name| will be a C String representing
+ *    the class name of the allocated object. This string is valid for the
+ *    duration of the call to Dart_ReportSurvivingAllocations and can be
+ *    freed by the VM at any point after the method returns.
+ *  - |data| will be set to the data associated with the sample by
+ *    |Dart_HeapSamplingCreateCallback|.
+ *
+ * If |force_gc| is true, a full GC will be performed before reporting the
+ * allocations.
+ */
+DART_EXPORT void Dart_ReportSurvivingAllocations(
+    Dart_HeapSamplingReportCallback callback,
+    void* context,
+    bool force_gc);
+
+/*
+ * Sets the average heap sampling rate based on a number of |bytes| for each
+ * thread.
+ *
+ * In other words, approximately every |bytes| allocated will create a sample.
+ * Defaults to 512 KiB.
+ */
+DART_EXPORT void Dart_SetHeapSamplingPeriod(intptr_t bytes);
 
 /**
  * Notifies the VM that the embedder expects the application's working set has
@@ -1328,7 +1425,7 @@ DART_EXPORT void Dart_StartProfiling(void);
 /**
  * Stops the CPU sampling profiler.
  *
- * Note that some profile samples might still be taken after this fucntion
+ * Note that some profile samples might still be taken after this function
  * returns due to the asynchronous nature of the implementation on some
  * platforms.
  */
@@ -1663,8 +1760,8 @@ DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle Dart_RunLoop(void);
  * \param error A non-NULL pointer which will hold an error message if the call
  *   fails. The error has to be free()ed by the caller.
  *
- * \return If successful the VM takes owernship of the isolate and takes care
- *   of its message loop. If not successful the caller retains owernship of the
+ * \return If successful the VM takes ownership of the isolate and takes care
+ *   of its message loop. If not successful the caller retains ownership of the
  *   isolate.
  */
 DART_EXPORT DART_WARN_UNUSED_RESULT bool Dart_RunLoopAsync(
@@ -1924,7 +2021,7 @@ DART_EXPORT Dart_Handle Dart_FunctionName(Dart_Handle function);
 DART_EXPORT Dart_Handle Dart_FunctionOwner(Dart_Handle function);
 
 /**
- * Determines whether a function handle referes to a static function
+ * Determines whether a function handle refers to a static function
  * of method.
  *
  * For the purposes of the embedding API, a top-level function is
@@ -3456,7 +3553,7 @@ DART_EXPORT Dart_Handle Dart_SetRootLibrary(Dart_Handle library);
  * \param number_of_type_arguments Number of type arguments.
  *   For non parametric types the number of type arguments would be 0.
  * \param type_arguments Pointer to an array of type arguments.
- *   For non parameteric types a NULL would be passed in for this argument.
+ *   For non parametric types a NULL would be passed in for this argument.
  *
  * \return If no error occurs, the type is returned.
  *   Otherwise an error handle is returned.
@@ -3475,7 +3572,7 @@ DART_EXPORT Dart_Handle Dart_GetType(Dart_Handle library,
  * \param number_of_type_arguments Number of type arguments.
  *   For non parametric types the number of type arguments would be 0.
  * \param type_arguments Pointer to an array of type arguments.
- *   For non parameteric types a NULL would be passed in for this argument.
+ *   For non parametric types a NULL would be passed in for this argument.
  *
  * \return If no error occurs, the type is returned.
  *   Otherwise an error handle is returned.
@@ -3494,7 +3591,7 @@ DART_EXPORT Dart_Handle Dart_GetNullableType(Dart_Handle library,
  * \param number_of_type_arguments Number of type arguments.
  *   For non parametric types the number of type arguments would be 0.
  * \param type_arguments Pointer to an array of type arguments.
- *   For non parameteric types a NULL would be passed in for this argument.
+ *   For non parametric types a NULL would be passed in for this argument.
  *
  * \return If no error occurs, the type is returned.
  *   Otherwise an error handle is returned.
@@ -3598,6 +3695,8 @@ DART_EXPORT Dart_Handle Dart_LibraryHandleError(Dart_Handle library,
 DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
 Dart_LoadLibraryFromKernel(const uint8_t* kernel_buffer,
                            intptr_t kernel_buffer_size);
+DART_EXPORT DART_WARN_UNUSED_RESULT Dart_Handle
+Dart_LoadLibrary(Dart_Handle kernel_buffer);
 
 /**
  * Indicates that all outstanding load requests have been satisfied.
@@ -3729,43 +3828,6 @@ Dart_CompileToKernel(const char* script_uri,
                      bool snapshot_compile,
                      const char* package_config,
                      Dart_KernelCompilationVerbosityLevel verbosity);
-
-/**
- * Compiles the given `script_uri` to a kernel file.
- *
- * \param platform_kernel A buffer containing the kernel of the platform (e.g.
- * `vm_platform_strong.dill`). The VM does not take ownership of this memory.
- *
- * \param platform_kernel_size The length of the platform_kernel buffer.
- *
- * \param snapshot_compile Set to `true` when the compilation is for a snapshot.
- * This is used by the frontend to determine if compilation related information
- * should be printed to console (e.g., null safety mode).
- *
- * \param null_safety Provides null-safety mode setting for the compiler.
- *
- * \param verbosity Specifies the logging behavior of the kernel compilation
- * service.
- *
- * \return Returns the result of the compilation.
- *
- * On a successful compilation the returned [Dart_KernelCompilationResult] has
- * a status of [Dart_KernelCompilationStatus_Ok] and the `kernel`/`kernel_size`
- * fields are set. The caller takes ownership of the malloc()ed buffer.
- *
- * On a failed compilation the `error` might be set describing the reason for
- * the failed compilation. The caller takes ownership of the malloc()ed
- * error.
- */
-DART_EXPORT Dart_KernelCompilationResult
-Dart_CompileToKernelWithGivenNullsafety(
-    const char* script_uri,
-    const uint8_t* platform_kernel,
-    const intptr_t platform_kernel_size,
-    bool snapshot_compile,
-    const char* package_config,
-    const bool null_safety,
-    Dart_KernelCompilationVerbosityLevel verbosity);
 
 typedef struct {
   const char* uri;
@@ -4094,5 +4156,30 @@ DART_EXPORT void Dart_DumpNativeStackTrace(void* context);
  *  attempt to cleanup resources.
  */
 DART_EXPORT void Dart_PrepareToAbort(void);
+
+/**
+ * Callback provided by the embedder that is used by the VM to
+ * produce footnotes appended to DWARF stack traces.
+ *
+ * Whenever VM formats a stack trace as a string it would call this callback
+ * passing raw program counters for each frame in the stack trace.
+ *
+ * Embedder can then return a string which if not-null will be appended to the
+ * formatted stack trace.
+ *
+ * Returned string is expected to be `malloc()` allocated. VM takes ownership
+ * of the returned string and will `free()` it.
+ *
+ * \param addresses raw program counter addresses for each frame
+ * \param count number of elements in the addresses array
+ */
+typedef char* (*Dart_DwarfStackTraceFootnoteCallback)(void* addresses[],
+                                                      intptr_t count);
+
+/**
+ *  Configure DWARF stack trace footnote callback.
+ */
+DART_EXPORT void Dart_SetDwarfStackTraceFootnoteCallback(
+    Dart_DwarfStackTraceFootnoteCallback callback);
 
 #endif /* INCLUDE_DART_API_H_ */ /* NOLINT */
