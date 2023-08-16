@@ -543,28 +543,31 @@ void registerTests(String groupName, TestRunnerCallback test) {
         // or `self` argument for each one of the callbacks.
         late final MyInterface<JInteger> myInterface;
         myInterface = MyInterface.implement(
-          voidCallback: (s) {
-            voidCallbackResult.complete(s);
-          },
-          stringCallback: (s) {
-            return (s.toDartString(deleteOriginal: true) * 2).toJString();
-          },
-          varCallback: (JInteger t) {
-            final result = (t.intValue(deleteOriginal: true) * 2).toJInteger();
-            varCallbackResult.complete(result);
-            return result;
-          },
-          manyPrimitives: (a, b, c, d) {
-            if (b) {
-              final result = a + c + d.toInt();
-              manyPrimitivesResult.complete(result);
+          $MyInterfaceImpl(
+            voidCallback: (s) {
+              voidCallbackResult.complete(s);
+            },
+            stringCallback: (s) {
+              return (s.toDartString(deleteOriginal: true) * 2).toJString();
+            },
+            varCallback: (JInteger t) {
+              final result =
+                  (t.intValue(deleteOriginal: true) * 2).toJInteger();
+              varCallbackResult.complete(result);
               return result;
-            } else {
-              // Call self, add to [a] when [b] is false and change b to true.
-              return myInterface.manyPrimitives(a + 1, true, c, d);
-            }
-          },
-          T: JInteger.type,
+            },
+            manyPrimitives: (a, b, c, d) {
+              if (b) {
+                final result = a + c + d.toInt();
+                manyPrimitivesResult.complete(result);
+                return result;
+              } else {
+                // Call self, add to [a] when [b] is false and change b to true.
+                return myInterface.manyPrimitives(a + 1, true, c, d);
+              }
+            },
+            T: JInteger.type,
+          ),
         );
         // [stringCallback] is going to be called first using [s].
         // The result of it is going to be used as the argument for

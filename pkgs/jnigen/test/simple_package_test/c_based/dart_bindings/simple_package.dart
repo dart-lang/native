@@ -2919,24 +2919,19 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     return _manyPrimitives(reference, a, b ? 1 : 0, c, d).long;
   }
 
-  /// Maps a specific port to the implemented methods.
-  static final Map<int, Map<String, Function>> _$methods = {};
-
-  /// Maps a specific port to the type parameters.
-  static final Map<int, Map<String, jni.JObjType>> _$types = {};
+  /// Maps a specific port to the implemented interface.
+  static final Map<int, $MyInterfaceImpl> _$impls = {};
 
   ReceivePort? _$p;
 
   static final Finalizer<ReceivePort> _$finalizer = Finalizer(($p) {
-    _$methods.remove($p.sendPort.nativePort);
-    _$types.remove($p.sendPort.nativePort);
+    _$impls.remove($p.sendPort.nativePort);
     $p.close();
   });
 
   @override
   void delete() {
-    _$methods.remove(_$p?.sendPort.nativePort);
-    _$types.remove(_$p?.sendPort.nativePort);
+    _$impls.remove(_$p?.sendPort.nativePort);
     _$p?.close();
     _$finalizer.detach(this);
     super.delete();
@@ -2970,13 +2965,13 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
     final $a = $i.args;
     if ($d == r"voidCallback(Ljava/lang/String;)V") {
-      _$methods[$p]![$d]!(
+      _$impls[$p]!.voidCallback(
         $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
       );
       return jni.nullptr;
     }
     if ($d == r"stringCallback(Ljava/lang/String;)Ljava/lang/String;") {
-      final $r = _$methods[$p]![$d]!(
+      final $r = _$impls[$p]!.stringCallback(
         $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
       );
       return (($r as jni.JObject).castTo(const jni.JObjectType())
@@ -2984,15 +2979,15 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
           .reference;
     }
     if ($d == r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;") {
-      final $r = _$methods[$p]![$d]!(
-        $a[0].castTo(_$types[$p]!["T"]!, deleteOriginal: true),
+      final $r = _$impls[$p]!.varCallback(
+        $a[0].castTo(_$impls[$p]!.T, deleteOriginal: true),
       );
       return (($r as jni.JObject).castTo(const jni.JObjectType())
             ..setAsDeleted())
           .reference;
     }
     if ($d == r"manyPrimitives(IZCD)J") {
-      final $r = _$methods[$p]![$d]!(
+      final $r = _$impls[$p]!.manyPrimitives(
         $a[0]
             .castTo(const jni.JIntegerType(), deleteOriginal: true)
             .intValue(deleteOriginal: true),
@@ -3011,16 +3006,12 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     return jni.nullptr;
   }
 
-  factory MyInterface.implement({
-    required jni.JObjType<$T> T,
-    required void Function(jni.JString s) voidCallback,
-    required jni.JString Function(jni.JString s) stringCallback,
-    required $T Function($T t) varCallback,
-    required int Function(int a, bool b, int c, double d) manyPrimitives,
-  }) {
+  factory MyInterface.implement(
+    $MyInterfaceImpl<$T> $impl,
+  ) {
     final $p = ReceivePort();
     final $x = MyInterface.fromRef(
-      T,
+      $impl.T,
       ProtectedJniExtensions.newPortProxy(
         r"com.github.dart_lang.jnigen.interfaces.MyInterface",
         $p,
@@ -3028,15 +3019,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
       ),
     ).._$p = $p;
     final $a = $p.sendPort.nativePort;
-    _$types[$a] = {};
-    _$methods[$a] = {};
-    _$types[$a]!["T"] = T;
-    _$methods[$a]![r"voidCallback(Ljava/lang/String;)V"] = voidCallback;
-    _$methods[$a]![r"stringCallback(Ljava/lang/String;)Ljava/lang/String;"] =
-        stringCallback;
-    _$methods[$a]![r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;"] =
-        varCallback;
-    _$methods[$a]![r"manyPrimitives(IZCD)J"] = manyPrimitives;
+    _$impls[$a] = $impl;
     _$finalizer.attach($x, $p, detach: $x);
     $p.listen(($m) {
       final $i = $MethodInvocation.fromMessage($m);
@@ -3044,6 +3027,61 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
       ProtectedJniExtensions.returnResult($i.result, $r);
     });
     return $x;
+  }
+}
+
+abstract class $MyInterfaceImpl<$T extends jni.JObject> {
+  factory $MyInterfaceImpl({
+    required jni.JObjType<$T> T,
+    required void Function(jni.JString s) voidCallback,
+    required jni.JString Function(jni.JString s) stringCallback,
+    required $T Function($T t) varCallback,
+    required int Function(int a, bool b, int c, double d) manyPrimitives,
+  }) = _$MyInterfaceImpl;
+
+  jni.JObjType<$T> get T;
+
+  void voidCallback(jni.JString s);
+  jni.JString stringCallback(jni.JString s);
+  $T varCallback($T t);
+  int manyPrimitives(int a, bool b, int c, double d);
+}
+
+class _$MyInterfaceImpl<$T extends jni.JObject>
+    implements $MyInterfaceImpl<$T> {
+  _$MyInterfaceImpl({
+    required this.T,
+    required void Function(jni.JString s) voidCallback,
+    required jni.JString Function(jni.JString s) stringCallback,
+    required $T Function($T t) varCallback,
+    required int Function(int a, bool b, int c, double d) manyPrimitives,
+  })  : _voidCallback = voidCallback,
+        _stringCallback = stringCallback,
+        _varCallback = varCallback,
+        _manyPrimitives = manyPrimitives;
+
+  @override
+  final jni.JObjType<$T> T;
+
+  final void Function(jni.JString s) _voidCallback;
+  final jni.JString Function(jni.JString s) _stringCallback;
+  final $T Function($T t) _varCallback;
+  final int Function(int a, bool b, int c, double d) _manyPrimitives;
+
+  void voidCallback(jni.JString s) {
+    return _voidCallback(s);
+  }
+
+  jni.JString stringCallback(jni.JString s) {
+    return _stringCallback(s);
+  }
+
+  $T varCallback($T t) {
+    return _varCallback(t);
+  }
+
+  int manyPrimitives(int a, bool b, int c, double d) {
+    return _manyPrimitives(a, b, c, d);
   }
 }
 
