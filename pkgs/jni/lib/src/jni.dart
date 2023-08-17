@@ -64,8 +64,10 @@ abstract class Jni {
     _dylibDir = dylibDir;
   }
 
+  /// Initializes DartApiDL used for Continuations and interface implementation.
   static void initDLApi() {
-    // Initializing DartApiDL used for Continuations.
+    assert(NativeApi.majorVersion == 2);
+    assert(NativeApi.minorVersion >= 3);
     final result = _bindings.InitDartApiDL(NativeApi.initializeApiDLData);
     assert(result == 0);
   }

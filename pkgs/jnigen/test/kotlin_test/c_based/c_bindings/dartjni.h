@@ -124,16 +124,6 @@ static inline void destroy_cond(ConditionVariable* cond) {
 
 #endif
 
-static inline uint64_t thread_id() {
-#ifdef _WIN32
-  return GetCurrentThreadId();
-#elif defined __APPLE__
-  return pthread_mach_thread_np(pthread_self());
-#else
-  return pthread_self();
-#endif
-}
-
 typedef struct CallbackResult {
   MutexLock lock;
   ConditionVariable cond;

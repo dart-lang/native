@@ -323,9 +323,9 @@ class EmojiCompat extends jni.JObject {
   static const EMOJI_FALLBACK = 2;
 
   static final _init = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat__init")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat__init")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat init(android.content.Context context)
@@ -373,9 +373,9 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _init2 = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat__init2")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat__init2")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat init(androidx.emoji2.text.EmojiCompat.Config config)
@@ -414,9 +414,9 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _reset = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat__reset")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat__reset")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat.Config config)
@@ -432,9 +432,9 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _reset1 = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat__reset1")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat__reset1")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat emojiCompat)
@@ -480,9 +480,9 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _load = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat__load")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat__load")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void load()
@@ -549,9 +549,9 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _getLoadState = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat__getLoadState")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat__getLoadState")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getLoadState()
@@ -565,8 +565,8 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _isEmojiSpanIndicatorEnabled = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "EmojiCompat__isEmojiSpanIndicatorEnabled")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -579,8 +579,8 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _getEmojiSpanIndicatorColor = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "EmojiCompat__getEmojiSpanIndicatorColor")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -977,9 +977,9 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _getAssetSignature = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat__getAssetSignature")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat__getAssetSignature")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getAssetSignature()
@@ -1066,9 +1066,9 @@ class EmojiCompat_Config extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_ConfigType();
   static final _ctor = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("EmojiCompat_Config__ctor")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "EmojiCompat_Config__ctor")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(androidx.emoji2.text.EmojiCompat.MetadataRepoLoader metadataLoader)
@@ -1345,8 +1345,8 @@ class EmojiCompat_Config extends jni.JObject {
   }
 
   static final _getMetadataRepoLoader = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "EmojiCompat_Config__getMetadataRepoLoader")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -1664,8 +1664,8 @@ class EmojiCompat_InitCallback extends jni.JObject {
   }
 
   static final _onInitialized = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "EmojiCompat_InitCallback__onInitialized")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -1914,9 +1914,9 @@ class DefaultEmojiCompatConfig extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $DefaultEmojiCompatConfigType();
   static final _create = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("DefaultEmojiCompatConfig__create")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DefaultEmojiCompatConfig__create")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.FontRequestEmojiCompatConfig create(android.content.Context context)
@@ -1972,9 +1972,9 @@ class $DefaultEmojiCompatConfigType
 class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
     extends DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 {
   @override
-  late final jni.JObjType<
-          DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28> $type =
-      type;
+  late final jni
+      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28>
+      $type = type;
 
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28.fromRef(
     jni.JObjectPtr ref,
@@ -2017,8 +2017,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
 }
 
 class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
-    extends jni.JObjType<
-        DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28> {
+    extends jni
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28> {
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
 
   @override
@@ -2059,9 +2059,9 @@ class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
 class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
     extends DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper {
   @override
-  late final jni.JObjType<
-          DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19> $type =
-      type;
+  late final jni
+      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19>
+      $type = type;
 
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19.fromRef(
     jni.JObjectPtr ref,
@@ -2126,8 +2126,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
 }
 
 class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
-    extends jni.JObjType<
-        DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19> {
+    extends jni
+    .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19> {
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
 
   @override
@@ -2169,8 +2169,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
     extends jni.JObject {
   @override
   late final jni
-          .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper>
-      $type = type;
+      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper> $type =
+      type;
 
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromRef(
     jni.JObjectPtr ref,
@@ -2303,7 +2303,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
     extends jni.JObject {
   @override
   late final jni
-          .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory>
+      .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory>
       $type = type;
 
   DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromRef(
@@ -2314,8 +2314,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType();
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -2399,9 +2399,9 @@ class Build_Partition extends jni.JObject {
   static const PARTITION_NAME_SYSTEM = r"""system""";
 
   static final _getName = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("Build_Partition__getName")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "Build_Partition__getName")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getName()
@@ -2411,9 +2411,9 @@ class Build_Partition extends jni.JObject {
   }
 
   static final _getFingerprint = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("Build_Partition__getFingerprint")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "Build_Partition__getFingerprint")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getFingerprint()
@@ -2423,8 +2423,8 @@ class Build_Partition extends jni.JObject {
   }
 
   static final _getBuildTimeMillis = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "Build_Partition__getBuildTimeMillis")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -2449,9 +2449,9 @@ class Build_Partition extends jni.JObject {
   }
 
   static final _hashCode1 = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("Build_Partition__hashCode1")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "Build_Partition__hashCode1")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int hashCode()
@@ -3207,8 +3207,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _ctor3 = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__ctor3")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__ctor3")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.util.Map map)
@@ -3228,8 +3229,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _size = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__size")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__size")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int size()
@@ -3238,9 +3240,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _isEmpty = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("HashMap__isEmpty")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__isEmpty")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEmpty()
@@ -3331,8 +3333,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _clear = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__clear")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__clear")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clear()
@@ -3356,8 +3359,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _keySet = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__keySet")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__keySet")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set keySet()
@@ -3367,8 +3371,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _values = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__values")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__values")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Collection values()
@@ -3378,9 +3383,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _entrySet = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("HashMap__entrySet")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__entrySet")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set entrySet()
@@ -3606,8 +3611,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _clone = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__clone")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HashMap__clone")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object clone()

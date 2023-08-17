@@ -70,9 +70,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _ctor1 = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__ctor1")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__ctor1")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDictionary dic)
@@ -87,8 +87,8 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getCOSObject = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "PDDocumentInformation__getCOSObject")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -129,9 +129,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getTitle = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getTitle")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getTitle")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getTitle()
@@ -162,9 +162,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getAuthor = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getAuthor")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getAuthor")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getAuthor()
@@ -195,9 +195,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getSubject = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getSubject")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getSubject")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getSubject()
@@ -228,9 +228,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getKeywords = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getKeywords")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getKeywords")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getKeywords()
@@ -261,9 +261,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getCreator = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getCreator")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getCreator")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCreator()
@@ -294,9 +294,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getProducer = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getProducer")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getProducer")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getProducer()
@@ -327,8 +327,8 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getCreationDate = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "PDDocumentInformation__getCreationDate")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -361,8 +361,8 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getModificationDate = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "PDDocumentInformation__getModificationDate")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
@@ -396,9 +396,9 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getTrapped = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__getTrapped")
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "PDDocumentInformation__getTrapped")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getTrapped()
@@ -412,8 +412,8 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getMetadataKeys = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
           "PDDocumentInformation__getMetadataKeys")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 

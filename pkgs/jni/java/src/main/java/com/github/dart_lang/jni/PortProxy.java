@@ -12,12 +12,12 @@ public class PortProxy implements InvocationHandler {
   }
 
   private final long port;
-  private final long threadId;
+  private final long isolateId;
   private final long functionPtr;
 
-  private PortProxy(long port, long threadId, long functionPtr) {
+  private PortProxy(long port, long isolateId, long functionPtr) {
     this.port = port;
-    this.threadId = threadId;
+    this.isolateId = isolateId;
     this.functionPtr = functionPtr;
   }
 
@@ -60,16 +60,16 @@ public class PortProxy implements InvocationHandler {
     }
   }
 
-  public static Object newInstance(String binaryName, long port, long threadId, long functionPtr)
+  public static Object newInstance(String binaryName, long port, long isolateId, long functionPtr)
       throws ClassNotFoundException {
     Class<?> clazz = Class.forName(binaryName);
     return Proxy.newProxyInstance(
-        clazz.getClassLoader(), new Class[] {clazz}, new PortProxy(port, threadId, functionPtr));
+        clazz.getClassLoader(), new Class[] {clazz}, new PortProxy(port, isolateId, functionPtr));
   }
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) {
-    Object[] result = _invoke(port, threadId, functionPtr, proxy, getDescriptor(method), args);
+    Object[] result = _invoke(port, isolateId, functionPtr, proxy, getDescriptor(method), args);
     _cleanUp((Long) result[0]);
     return result[1];
   }
@@ -79,7 +79,7 @@ public class PortProxy implements InvocationHandler {
   /// [1]: The result of the invocation.
   private native Object[] _invoke(
       long port,
-      long threadId,
+      long isolateId,
       long functionPtr,
       Object proxy,
       String methodDescriptor,

@@ -623,7 +623,7 @@ JniResult PortProxy__newInstance(jobject binaryName,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
       jniEnv, _c_PortProxy, _m_PortProxy__newInstance, binaryName, port,
-      thread_id(), functionPtr);
+      (jlong)Dart_CurrentIsolate_DL(), functionPtr);
   return to_global_ref_result(_result);
 }
 
@@ -645,13 +645,13 @@ JNIEXPORT jobjectArray JNICALL
 Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
                                                   jobject thiz,
                                                   jlong port,
-                                                  jlong threadId,
+                                                  jlong isolateId,
                                                   jlong functionPtr,
                                                   jobject proxy,
                                                   jstring methodDescriptor,
                                                   jobjectArray args) {
   CallbackResult* result = (CallbackResult*)malloc(sizeof(CallbackResult));
-  if (threadId != thread_id()) {
+  if (isolateId != (jlong)Dart_CurrentIsolate_DL()) {
     init_lock(&result->lock);
     init_cond(&result->cond);
     acquire_lock(&result->lock);

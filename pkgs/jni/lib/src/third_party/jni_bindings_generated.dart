@@ -257,13 +257,13 @@ abstract class JniCallType {
 ///
 /// If [exception] is null, it means the result is valid.
 /// It's assumed that the caller knows the expected type in [result].
-class JniResult extends ffi.Struct {
+final class JniResult extends ffi.Struct {
   external JValue value;
 
   external JThrowablePtr exception;
 }
 
-class JValue extends ffi.Union {
+final class JValue extends ffi.Union {
   @JBooleanMarker()
   external int z;
 
@@ -306,7 +306,7 @@ typedef JObjectPtr = ffi.Pointer<ffi.Void>;
 typedef JThrowablePtr = JObjectPtr;
 
 /// Similar to [JniResult] but for class lookups.
-class JniClassLookupResult extends ffi.Struct {
+final class JniClassLookupResult extends ffi.Struct {
   external JClassPtr value;
 
   external JThrowablePtr exception;
@@ -315,7 +315,7 @@ class JniClassLookupResult extends ffi.Struct {
 typedef JClassPtr = JObjectPtr;
 
 /// Similar to [JniResult] but for method/field ID lookups.
-class JniPointerResult extends ffi.Struct {
+final class JniPointerResult extends ffi.Struct {
   external ffi.Pointer<ffi.Void> value;
 
   external JThrowablePtr exception;
@@ -323,7 +323,7 @@ class JniPointerResult extends ffi.Struct {
 
 /// JniExceptionDetails holds 2 jstring objects, one is the result of
 /// calling `toString` on exception object, other is stack trace;
-class JniExceptionDetails extends ffi.Struct {
+final class JniExceptionDetails extends ffi.Struct {
   external JStringPtr message;
 
   external JStringPtr stacktrace;
@@ -337,7 +337,7 @@ typedef JStringPtr = JObjectPtr;
 /// Flutter embedding checks for pending JNI exceptions before an FFI transition, which requires us
 /// to check for and clear the exception before returning to dart code, which requires these functions
 /// to return result types.
-class JniAccessorsStruct extends ffi.Struct {
+final class JniAccessorsStruct extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JniClassLookupResult Function(
@@ -378,8 +378,8 @@ class JniAccessorsStruct extends ffi.Struct {
       newObject;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(JSizeMarker length, ffi.Int type)>>
+          ffi
+          .NativeFunction<JniResult Function(JSizeMarker length, ffi.Int type)>>
       newPrimitiveArray;
 
   external ffi.Pointer<
@@ -421,27 +421,27 @@ class JniAccessorsStruct extends ffi.Struct {
 
 typedef JMethodIDPtr = ffi.Pointer<jmethodID_>;
 
-class jmethodID_ extends ffi.Opaque {}
+final class jmethodID_ extends ffi.Opaque {}
 
 /// "cardinal indices and sizes"
 typedef JSizeMarker = JIntMarker;
 typedef JArrayPtr = JObjectPtr;
 typedef JFieldIDPtr = ffi.Pointer<jfieldID_>;
 
-class jfieldID_ extends ffi.Opaque {}
+final class jfieldID_ extends ffi.Opaque {}
 
 typedef JavaVM = ffi.Pointer<JNIInvokeInterface>;
 
 /// JNI invocation interface.
-class JNIInvokeInterface extends ffi.Struct {
+final class JNIInvokeInterface extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;
 
   external ffi.Pointer<ffi.Void> reserved1;
 
   external ffi.Pointer<ffi.Void> reserved2;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM1> vm)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM1> vm)>>
       DestroyJavaVM;
 
   external ffi.Pointer<
@@ -451,8 +451,8 @@ class JNIInvokeInterface extends ffi.Struct {
               ffi.Pointer<ffi.Pointer<JniEnv>> p_env,
               ffi.Pointer<ffi.Void> thr_args)>> AttachCurrentThread;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM1> vm)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM1> vm)>>
       DetachCurrentThread;
 
   external ffi.Pointer<
@@ -474,7 +474,7 @@ typedef JavaVM1 = ffi.Pointer<JNIInvokeInterface>;
 typedef JniEnv = ffi.Pointer<JNINativeInterface>;
 
 /// Table of interface function pointers.
-class JNINativeInterface extends ffi.Struct {
+final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;
 
   external ffi.Pointer<ffi.Void> reserved1;
@@ -551,12 +551,12 @@ class JNINativeInterface extends ffi.Struct {
           ffi.NativeFunction<JThrowablePtr Function(ffi.Pointer<JniEnv1> env)>>
       ExceptionOccurred;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<JniEnv1> env)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<JniEnv1> env)>>
       ExceptionDescribe;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<JniEnv1> env)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<JniEnv1> env)>>
       ExceptionClear;
 
   external ffi.Pointer<
@@ -1933,7 +1933,7 @@ typedef JLongArrayPtr = JArrayPtr;
 typedef JFloatArrayPtr = JArrayPtr;
 typedef JDoubleArrayPtr = JArrayPtr;
 
-class JNINativeMethod extends ffi.Struct {
+final class JNINativeMethod extends ffi.Struct {
   external ffi.Pointer<ffi.Char> name;
 
   external ffi.Pointer<ffi.Char> signature;
@@ -1950,7 +1950,7 @@ abstract class JObjectRefType {
   static const int JNIWeakGlobalRefType = 3;
 }
 
-class JavaVMInitArgs extends ffi.Struct {
+final class JavaVMInitArgs extends ffi.Struct {
   /// use JNI_VERSION_1_2 or later
   @JIntMarker()
   external int version;
@@ -1966,13 +1966,13 @@ class JavaVMInitArgs extends ffi.Struct {
 
 /// JNI 1.2+ initialization.  (As of 1.6, the pre-1.2 structures are no
 /// longer supported.)
-class JavaVMOption extends ffi.Struct {
+final class JavaVMOption extends ffi.Struct {
   external ffi.Pointer<ffi.Char> optionString;
 
   external ffi.Pointer<ffi.Void> extraInfo;
 }
 
-class CallbackResult extends ffi.Struct {
+final class CallbackResult extends ffi.Struct {
   external MutexLock lock;
 
   external ConditionVariable cond;
@@ -1987,7 +1987,7 @@ typedef MutexLock = pthread_mutex_t;
 typedef pthread_mutex_t = __darwin_pthread_mutex_t;
 typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
 
-class _opaque_pthread_mutex_t extends ffi.Struct {
+final class _opaque_pthread_mutex_t extends ffi.Struct {
   @ffi.Long()
   external int __sig;
 
@@ -1999,7 +1999,7 @@ typedef ConditionVariable = pthread_cond_t;
 typedef pthread_cond_t = __darwin_pthread_cond_t;
 typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
 
-class _opaque_pthread_cond_t extends ffi.Struct {
+final class _opaque_pthread_cond_t extends ffi.Struct {
   @ffi.Long()
   external int __sig;
 
@@ -2007,7 +2007,7 @@ class _opaque_pthread_cond_t extends ffi.Struct {
   external ffi.Array<ffi.Char> __opaque;
 }
 
-class GlobalJniEnvStruct extends ffi.Struct {
+final class GlobalJniEnvStruct extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;
 
   external ffi.Pointer<ffi.Void> reserved1;
@@ -2030,12 +2030,12 @@ class GlobalJniEnvStruct extends ffi.Struct {
       ffi.NativeFunction<
           JniClassLookupResult Function(ffi.Pointer<ffi.Char> name)>> FindClass;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<JniPointerResult Function(JObjectPtr method)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<JniPointerResult Function(JObjectPtr method)>>
       FromReflectedMethod;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<JniPointerResult Function(JObjectPtr field)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<JniPointerResult Function(JObjectPtr field)>>
       FromReflectedField;
 
   external ffi.Pointer<
@@ -2080,33 +2080,34 @@ class GlobalJniEnvStruct extends ffi.Struct {
       FatalError;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JIntMarker capacity)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JIntMarker capacity)>>
       PushLocalFrame;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JObjectPtr result)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JObjectPtr result)>>
       PopLocalFrame;
 
   external ffi.Pointer<ffi.NativeFunction<JniResult Function(JObjectPtr obj)>>
       NewGlobalRef;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<JThrowablePtr Function(JObjectPtr globalRef)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<JThrowablePtr Function(JObjectPtr globalRef)>>
       DeleteGlobalRef;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<JThrowablePtr Function(JObjectPtr localRef)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<JThrowablePtr Function(JObjectPtr localRef)>>
       DeleteLocalRef;
 
   external ffi.Pointer<
-      ffi.NativeFunction<
-          JniResult Function(JObjectPtr ref1, JObjectPtr ref2)>> IsSameObject;
+          ffi
+          .NativeFunction<JniResult Function(JObjectPtr ref1, JObjectPtr ref2)>>
+      IsSameObject;
 
   external ffi.Pointer<ffi.NativeFunction<JniResult Function(JObjectPtr obj)>>
       NewLocalRef;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JIntMarker capacity)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JIntMarker capacity)>>
       EnsureLocalCapacity;
 
   external ffi.Pointer<ffi.NativeFunction<JniResult Function(JClassPtr clazz)>>
@@ -2132,8 +2133,9 @@ class GlobalJniEnvStruct extends ffi.Struct {
       GetObjectClass;
 
   external ffi.Pointer<
-      ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JClassPtr clazz)>> IsInstanceOf;
+          ffi
+          .NativeFunction<JniResult Function(JObjectPtr obj, JClassPtr clazz)>>
+      IsInstanceOf;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -2878,7 +2880,7 @@ class GlobalJniEnvStruct extends ffi.Struct {
       NewString;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JStringPtr string)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JStringPtr string)>>
       GetStringLength;
 
   external ffi.Pointer<
@@ -2898,7 +2900,7 @@ class GlobalJniEnvStruct extends ffi.Struct {
       NewStringUTF;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JStringPtr string)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JStringPtr string)>>
       GetStringUTFLength;
 
   external ffi.Pointer<
@@ -2933,35 +2935,35 @@ class GlobalJniEnvStruct extends ffi.Struct {
       SetObjectArrayElement;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewBooleanArray;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewByteArray;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewCharArray;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewShortArray;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewIntArray;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewLongArray;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewFloatArray;
 
   external ffi
-          .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
+      .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
       NewDoubleArray;
 
   external ffi.Pointer<
@@ -3257,8 +3259,8 @@ class GlobalJniEnvStruct extends ffi.Struct {
                   ffi.Pointer<ffi.Void> address, JLongMarker capacity)>>
       NewDirectByteBuffer;
 
-  external ffi.Pointer<
-          ffi.NativeFunction<JniPointerResult Function(JObjectPtr buf)>>
+  external ffi
+      .Pointer<ffi.NativeFunction<JniPointerResult Function(JObjectPtr buf)>>
       GetDirectBufferAddress;
 
   external ffi.Pointer<ffi.NativeFunction<JniResult Function(JObjectPtr buf)>>

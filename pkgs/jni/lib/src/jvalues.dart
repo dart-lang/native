@@ -22,8 +22,8 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
     case bool:
       pos.ref.z = arg ? 1 : 0;
       break;
-    case Pointer<Void>:
-    case Pointer<Never>: // for nullptr
+    case const (Pointer<Void>):
+    case const (Pointer<Never>): // for nullptr
       pos.ref.l = arg;
       break;
     case double:
