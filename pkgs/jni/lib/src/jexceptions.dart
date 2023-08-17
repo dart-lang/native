@@ -9,37 +9,38 @@ import 'package:jni/src/third_party/generated_bindings.dart';
 abstract class JException implements Exception {}
 
 class UseAfterFreeException implements JException {
-  dynamic object;
-  Pointer<Void> ptr;
-  UseAfterFreeException(this.object, this.ptr);
+  final Pointer<Void> ptr;
+  UseAfterFreeException(this.ptr);
 
   @override
   String toString() {
-    return "use after free on $ptr through $object";
+    return 'Use after free on $ptr.';
   }
 }
 
-class NullJStringException implements JException {
+class JNullException implements JException {
+  const JNullException();
+
   @override
-  String toString() => 'toDartString called on null JString reference';
+  String toString() => 'The reference was null.';
 }
 
 class InvalidJStringException implements JException {
-  Pointer<Void> reference;
+  final Pointer<Void> reference;
   InvalidJStringException(this.reference);
+
   @override
   String toString() => 'Not a valid Java String: '
-      '0x${reference.address.toRadixString(16)}';
+      '0x${reference.address.toRadixString(16)}.';
 }
 
 class DoubleFreeException implements JException {
-  dynamic object;
-  Pointer<Void> ptr;
-  DoubleFreeException(this.object, this.ptr);
+  final Pointer<Void> ptr;
+  DoubleFreeException(this.ptr);
 
   @override
   String toString() {
-    return "double free on $ptr through $object";
+    return 'Double free on $ptr.';
   }
 }
 
@@ -113,9 +114,10 @@ class HelperNotFoundException implements JException {
   final String path;
 
   @override
-  String toString() => "Lookup for helper library $path failed.\n"
-      "Please ensure that `dartjni` shared library is built.\n"
-      "Provided jni:setup script can be used to build the shared library."
-      "If the library is already built, ensure that the JVM libraries can be "
-      "loaded from Dart.";
+  String toString() => '''
+Lookup for helper library $path failed.
+Please ensure that `dartjni` shared library is built.
+Provided jni:setup script can be used to build the shared library.
+If the library is already built, ensure that the JVM libraries can be 
+loaded from Dart.''';
 }

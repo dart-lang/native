@@ -189,7 +189,6 @@ class JObject extends JReference {
   ///
   /// This may be a subclass of compile-time class.
   JClass getClass() {
-    ensureNotDeleted();
     final classRef = Jni.env.GetObjectClass(reference);
     if (classRef == nullptr) {
       Jni.accessors.throwException(Jni.env.ExceptionOccurred());
@@ -199,28 +198,24 @@ class JObject extends JReference {
 
   /// Get [JFieldIDPtr] of instance field identified by [fieldName] & [signature].
   JFieldIDPtr getFieldID(String fieldName, String signature) {
-    ensureNotDeleted();
     return _getID(
         Jni.accessors.getFieldID, _class.reference, fieldName, signature);
   }
 
   /// Get [JFieldIDPtr] of static field identified by [fieldName] & [signature].
   JFieldIDPtr getStaticFieldID(String fieldName, String signature) {
-    ensureNotDeleted();
     return _getID<jfieldID_>(
         Jni.accessors.getStaticFieldID, _class.reference, fieldName, signature);
   }
 
   /// Get [JMethodIDPtr] of instance method [methodName] with [signature].
   JMethodIDPtr getMethodID(String methodName, String signature) {
-    ensureNotDeleted();
     return _getID<jmethodID_>(
         Jni.accessors.getMethodID, _class.reference, methodName, signature);
   }
 
   /// Get [JMethodIDPtr] of static method [methodName] with [signature].
   JMethodIDPtr getStaticMethodID(String methodName, String signature) {
-    ensureNotDeleted();
     return _getID<jmethodID_>(Jni.accessors.getStaticMethodID, _class.reference,
         methodName, signature);
   }
@@ -235,7 +230,6 @@ class JObject extends JReference {
   /// If [T] is String or [JObject], required conversions are performed and
   /// final value is returned.
   T getField<T>(JFieldIDPtr fieldID, [int? callType]) {
-    ensureNotDeleted();
     if (callType == JniCallType.voidType) {
       throw ArgumentError("void is not a valid field type.");
     }
@@ -258,7 +252,6 @@ class JObject extends JReference {
     if (callType == JniCallType.voidType) {
       throw ArgumentError("void is not a valid field type.");
     }
-    ensureNotDeleted();
     return _getField<T>(callType,
         (ct) => Jni.accessors.getStaticField(_class.reference, fieldID, ct));
   }
@@ -278,7 +271,6 @@ class JObject extends JReference {
   ///
   /// See [getField] for an explanation about [callType] and return type [T].
   T callMethod<T>(JMethodIDPtr methodID, List<dynamic> args, [int? callType]) {
-    ensureNotDeleted();
     return _callMethod<T>(callType, args,
         (ct, jvs) => Jni.accessors.callMethod(reference, methodID, ct, jvs));
   }
@@ -296,7 +288,6 @@ class JObject extends JReference {
   /// more details about [args] and [callType].
   T callStaticMethod<T>(JMethodIDPtr methodID, List<dynamic> args,
       [int? callType]) {
-    ensureNotDeleted();
     return _callMethod<T>(
         callType,
         args,
@@ -317,8 +308,9 @@ class JObject extends JReference {
   T castTo<T extends JObject>(JObjType<T> type, {bool deleteOriginal = false}) {
     if (deleteOriginal) {
       _jClass?.delete();
+      final ret = type.fromRef(reference);
       setAsDeleted();
-      return type.fromRef(reference);
+      return ret;
     }
     final newRef = Jni.env.NewGlobalRef(reference);
     return type.fromRef(newRef);
@@ -360,28 +352,24 @@ class JClass extends JReference {
 
   /// Get [JFieldIDPtr] of static field [fieldName] with [signature].
   JFieldIDPtr getStaticFieldID(String fieldName, String signature) {
-    ensureNotDeleted();
     return _getID<jfieldID_>(
         Jni.accessors.getStaticFieldID, reference, fieldName, signature);
   }
 
   /// Get [JMethodIDPtr] of static method [methodName] with [signature].
   JMethodIDPtr getStaticMethodID(String methodName, String signature) {
-    ensureNotDeleted();
     return _getID<jmethodID_>(
         Jni.accessors.getStaticMethodID, reference, methodName, signature);
   }
 
   /// Get [JFieldIDPtr] of field [fieldName] with [signature].
   JFieldIDPtr getFieldID(String fieldName, String signature) {
-    ensureNotDeleted();
     return _getID<jfieldID_>(
         Jni.accessors.getFieldID, reference, fieldName, signature);
   }
 
   /// Get [JMethodIDPtr] of method [methodName] with [signature].
   JMethodIDPtr getMethodID(String methodName, String signature) {
-    ensureNotDeleted();
     return _getID<jmethodID_>(
         Jni.accessors.getMethodID, reference, methodName, signature);
   }
@@ -396,7 +384,6 @@ class JClass extends JReference {
     if (callType == JniCallType.voidType) {
       throw ArgumentError("void is not a valid field type.");
     }
-    ensureNotDeleted();
     return _getField<T>(
         callType, (ct) => Jni.accessors.getStaticField(reference, fieldID, ct));
   }
@@ -415,7 +402,6 @@ class JClass extends JReference {
   /// about [args] and [callType].
   T callStaticMethod<T>(JMethodIDPtr methodID, List<dynamic> args,
       [int? callType]) {
-    ensureNotDeleted();
     return _callMethod<T>(
         callType,
         args,
@@ -434,7 +420,6 @@ class JClass extends JReference {
 
   /// Create a new instance of this class with [ctor] and [args].
   JObject newInstance(JMethodIDPtr ctor, List<dynamic> args) => using((arena) {
-        ensureNotDeleted();
         final jArgs = JValueArgs(args, arena);
         final res =
             Jni.accessors.newObject(reference, ctor, jArgs.values).object;

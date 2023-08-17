@@ -5,6 +5,7 @@
 import '../accessors.dart';
 import '../jni.dart';
 import '../jobject.dart';
+import '../jreference.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jboolean.dart';
@@ -64,6 +65,7 @@ class JNumber extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"intValue", r"()I");
 
   int intValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _intValueId, JniCallType.intType, []).integer;
     if (deleteOriginal) {
@@ -76,6 +78,7 @@ class JNumber extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"longValue", r"()J");
 
   int longValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _longValueId, JniCallType.longType, []).long;
     if (deleteOriginal) {
@@ -88,6 +91,7 @@ class JNumber extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"floatValue", r"()F");
 
   double floatValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _floatValueId, JniCallType.floatType, []).float;
     if (deleteOriginal) {
@@ -100,6 +104,7 @@ class JNumber extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"doubleValue", r"()D");
 
   double doubleValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _doubleValueId, JniCallType.doubleType, []).doubleFloat;
     if (deleteOriginal) {
@@ -112,6 +117,7 @@ class JNumber extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"byteValue", r"()B");
 
   int byteValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _byteValueId, JniCallType.byteType, []).byte;
     if (deleteOriginal) {
@@ -124,6 +130,7 @@ class JNumber extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"shortValue", r"()S");
 
   int shortValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _shortValueId, JniCallType.shortType, []).short;
     if (deleteOriginal) {

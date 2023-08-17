@@ -1,6 +1,7 @@
 import '../accessors.dart';
 import '../jni.dart';
 import '../jobject.dart';
+import '../jreference.dart';
 import '../jvalues.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
@@ -54,6 +55,7 @@ class JCharacter extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"charValue", r"()C");
 
   int charValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _charValueId, JniCallType.charType, []).char;
     if (deleteOriginal) {

@@ -1703,10 +1703,10 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 /// garbage collect it via [NativeFinalizer] thus making it invalid.
 /// This passes the ownership to Java using [setAsDeleted].
 ///
-/// `..setAsDeleted` detaches the object from the [NativeFinalizer] and Java
+/// `toPointer` detaches the object from the [NativeFinalizer] and Java
 /// will clean up the global reference afterwards.
 ///
-/// For example `($r.toJInteger()..setAsDeleted()).reference` when the return
+/// For example `$r.toJInteger().toPointer()` when the return
 /// type is `integer`.
 class _InterfaceReturnBox extends TypeVisitor<String> {
   const _InterfaceReturnBox();
@@ -1716,8 +1716,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
     // should not be [setAsDeleted].
-    return '((\$r as $_jObject).castTo(const ${_jObject}Type())'
-        '..setAsDeleted()).reference';
+    return '(\$r as $_jObject).castTo(const ${_jObject}Type()).toPointer()';
   }
 
   @override
@@ -1725,6 +1724,6 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     if (node.name == 'void') {
       return '$_jni.nullptr';
     }
-    return '($_jni.J${node.boxedName}(\$r)..setAsDeleted()).reference';
+    return '$_jni.J${node.boxedName}(\$r).toPointer()';
   }
 }

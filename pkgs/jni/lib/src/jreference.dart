@@ -11,28 +11,37 @@ import 'jexceptions.dart';
 import 'jni.dart';
 
 extension ProtectedJReference on JReference {
-  void ensureNotDeleted() {
-    if (_deleted) throw UseAfterFreeException(this, reference);
-  }
-
   void setAsDeleted() {
     if (_deleted) {
-      throw DoubleFreeException(this, reference);
+      throw DoubleFreeException(_reference);
     }
     _deleted = true;
     JReference._finalizer.detach(this);
+  }
+
+  void ensureNotNull() {
+    if (isNull) {
+      throw const JNullException();
+    }
+  }
+
+  /// Similar to [reference].
+  ///
+  /// Detaches the finalizer so the underlying pointer will not be deleted.
+  JObjectPtr toPointer() {
+    setAsDeleted();
+    return _reference;
   }
 }
 
 /// A class which holds one or more JNI references, and has a `delete` operation
 /// which disposes the reference(s).
 abstract class JReference implements Finalizable {
-  //TODO(PR): Is it safe to cast void *f (void *) to void f (void *)?
   static final _finalizer =
       NativeFinalizer(Jni.env.ptr.ref.DeleteGlobalRef.cast());
 
-  JReference.fromRef(this.reference) {
-    _finalizer.attach(this, reference, detach: this);
+  JReference.fromRef(this._reference) {
+    _finalizer.attach(this, _reference, detach: this);
   }
 
   bool _deleted = false;
@@ -43,15 +52,26 @@ abstract class JReference implements Finalizable {
   /// Returns whether this object is deleted.
   bool get isDeleted => _deleted;
 
-  /// Deletes the underlying JNI reference. Further uses will throw
-  /// [UseAfterFreeException].
+  /// Deletes the underlying JNI reference.
+  ///
+  /// Further uses will throw [UseAfterFreeException].
   void delete() {
     setAsDeleted();
-    Jni.env.DeleteGlobalRef(reference);
+    Jni.env.DeleteGlobalRef(_reference);
   }
 
   /// The underlying JNI global object reference.
-  final JObjectPtr reference;
+  ///
+  /// Throws [UseAfterFreeException] if the object is previously deleted.
+  ///
+  /// Be careful when storing this reference in a variable, since the underlying
+  /// object might get deleted.
+  JObjectPtr get reference {
+    if (_deleted) throw UseAfterFreeException(_reference);
+    return _reference;
+  }
+
+  final JObjectPtr _reference;
 
   /// Registers this object to be deleted at the end of [arena]'s lifetime.
   void deletedIn(Arena arena) => arena.onReleaseAll(delete);
@@ -61,7 +81,6 @@ extension JReferenceUseExtension<T extends JReference> on T {
   /// Applies [callback] on [this] object and then delete the underlying JNI
   /// reference, returning the result of [callback].
   R use<R>(R Function(T) callback) {
-    ensureNotDeleted();
     try {
       final result = callback(this);
       delete();

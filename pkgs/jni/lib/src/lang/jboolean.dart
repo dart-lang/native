@@ -4,6 +4,7 @@
 
 import '../accessors.dart';
 import '../jobject.dart';
+import '../jreference.dart';
 import '../jni.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
@@ -56,6 +57,7 @@ class JBoolean extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference, r"booleanValue", r"()Z");
 
   bool booleanValue({bool deleteOriginal = false}) {
+    ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _booleanValueId, JniCallType.booleanType, []).boolean;
     if (deleteOriginal) {
