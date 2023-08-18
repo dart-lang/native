@@ -57,8 +57,8 @@ class PDDocumentInformation extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentInformationType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "PDDocumentInformation__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "PDDocumentInformation__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
@@ -66,13 +66,13 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// Default Constructor.
   factory PDDocumentInformation() {
-    return PDDocumentInformation.fromRef(_ctor().object);
+    return PDDocumentInformation.fromRef(_new0().object);
   }
 
-  static final _ctor1 = jniLookup<
+  static final _new1 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__ctor1")
+          "PDDocumentInformation__new1")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDictionary dic)
@@ -80,10 +80,10 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
-  factory PDDocumentInformation.ctor1(
+  factory PDDocumentInformation.new1(
     jni.JObject dic,
   ) {
-    return PDDocumentInformation.fromRef(_ctor1(dic.reference).object);
+    return PDDocumentInformation.fromRef(_new1(dic.reference).object);
   }
 
   static final _getCOSObject = jniLookup<

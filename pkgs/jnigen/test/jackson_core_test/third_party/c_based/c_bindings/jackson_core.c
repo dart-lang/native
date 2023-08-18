@@ -35,88 +35,88 @@ void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
 // com.fasterxml.jackson.core.JsonFactory
 jclass _c_JsonFactory = NULL;
 
-jmethodID _m_JsonFactory__ctor = NULL;
+jmethodID _m_JsonFactory__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory__ctor() {
+JniResult JsonFactory__new0() {
   load_env();
   load_class_global_ref(&_c_JsonFactory,
                         "com/fasterxml/jackson/core/JsonFactory");
   if (_c_JsonFactory == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory, &_m_JsonFactory__ctor, "<init>", "()V");
-  if (_m_JsonFactory__ctor == NULL)
+  load_method(_c_JsonFactory, &_m_JsonFactory__new0, "<init>", "()V");
+  if (_m_JsonFactory__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_JsonFactory, _m_JsonFactory__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_JsonFactory, _m_JsonFactory__new0);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_JsonFactory__ctor1 = NULL;
+jmethodID _m_JsonFactory__new1 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory__ctor1(jobject oc) {
+JniResult JsonFactory__new1(jobject oc) {
   load_env();
   load_class_global_ref(&_c_JsonFactory,
                         "com/fasterxml/jackson/core/JsonFactory");
   if (_c_JsonFactory == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory, &_m_JsonFactory__ctor1, "<init>",
+  load_method(_c_JsonFactory, &_m_JsonFactory__new1, "<init>",
               "(Lcom/fasterxml/jackson/core/ObjectCodec;)V");
-  if (_m_JsonFactory__ctor1 == NULL)
+  if (_m_JsonFactory__new1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_JsonFactory, _m_JsonFactory__ctor1, oc);
+      (*jniEnv)->NewObject(jniEnv, _c_JsonFactory, _m_JsonFactory__new1, oc);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_JsonFactory__ctor2 = NULL;
+jmethodID _m_JsonFactory__new2 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory__ctor2(jobject src, jobject codec) {
+JniResult JsonFactory__new2(jobject src, jobject codec) {
   load_env();
   load_class_global_ref(&_c_JsonFactory,
                         "com/fasterxml/jackson/core/JsonFactory");
   if (_c_JsonFactory == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory, &_m_JsonFactory__ctor2, "<init>",
+  load_method(_c_JsonFactory, &_m_JsonFactory__new2, "<init>",
               "(Lcom/fasterxml/jackson/core/JsonFactory;Lcom/fasterxml/jackson/"
               "core/ObjectCodec;)V");
-  if (_m_JsonFactory__ctor2 == NULL)
+  if (_m_JsonFactory__new2 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_JsonFactory,
-                                         _m_JsonFactory__ctor2, src, codec);
+                                         _m_JsonFactory__new2, src, codec);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_JsonFactory__ctor3 = NULL;
+jmethodID _m_JsonFactory__new3 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory__ctor3(jobject b) {
+JniResult JsonFactory__new3(jobject b) {
   load_env();
   load_class_global_ref(&_c_JsonFactory,
                         "com/fasterxml/jackson/core/JsonFactory");
   if (_c_JsonFactory == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory, &_m_JsonFactory__ctor3, "<init>",
+  load_method(_c_JsonFactory, &_m_JsonFactory__new3, "<init>",
               "(Lcom/fasterxml/jackson/core/JsonFactoryBuilder;)V");
-  if (_m_JsonFactory__ctor3 == NULL)
+  if (_m_JsonFactory__new3 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_JsonFactory, _m_JsonFactory__ctor3, b);
+      (*jniEnv)->NewObject(jniEnv, _c_JsonFactory, _m_JsonFactory__new3, b);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_JsonFactory__ctor4 = NULL;
+jmethodID _m_JsonFactory__new4 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory__ctor4(jobject b, uint8_t bogus) {
+JniResult JsonFactory__new4(jobject b, uint8_t bogus) {
   load_env();
   load_class_global_ref(&_c_JsonFactory,
                         "com/fasterxml/jackson/core/JsonFactory");
   if (_c_JsonFactory == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory, &_m_JsonFactory__ctor4, "<init>",
+  load_method(_c_JsonFactory, &_m_JsonFactory__new4, "<init>",
               "(Lcom/fasterxml/jackson/core/TSFBuilder;Z)V");
-  if (_m_JsonFactory__ctor4 == NULL)
+  if (_m_JsonFactory__new4 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_JsonFactory,
-                                         _m_JsonFactory__ctor4, b, bogus);
+                                         _m_JsonFactory__new4, b, bogus);
   return to_global_ref_result(_result);
 }
 
@@ -1562,35 +1562,35 @@ JniResult JsonFactory_Feature__getMask(jobject self_) {
 // com.fasterxml.jackson.core.JsonParser
 jclass _c_JsonParser = NULL;
 
-jmethodID _m_JsonParser__ctor = NULL;
+jmethodID _m_JsonParser__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonParser__ctor() {
+JniResult JsonParser__new0() {
   load_env();
   load_class_global_ref(&_c_JsonParser,
                         "com/fasterxml/jackson/core/JsonParser");
   if (_c_JsonParser == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonParser, &_m_JsonParser__ctor, "<init>", "()V");
-  if (_m_JsonParser__ctor == NULL)
+  load_method(_c_JsonParser, &_m_JsonParser__new0, "<init>", "()V");
+  if (_m_JsonParser__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_JsonParser, _m_JsonParser__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_JsonParser, _m_JsonParser__new0);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_JsonParser__ctor1 = NULL;
+jmethodID _m_JsonParser__new1 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonParser__ctor1(int32_t features) {
+JniResult JsonParser__new1(int32_t features) {
   load_env();
   load_class_global_ref(&_c_JsonParser,
                         "com/fasterxml/jackson/core/JsonParser");
   if (_c_JsonParser == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonParser, &_m_JsonParser__ctor1, "<init>", "(I)V");
-  if (_m_JsonParser__ctor1 == NULL)
+  load_method(_c_JsonParser, &_m_JsonParser__new1, "<init>", "(I)V");
+  if (_m_JsonParser__new1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_JsonParser,
-                                         _m_JsonParser__ctor1, features);
+                                         _m_JsonParser__new1, features);
   return to_global_ref_result(_result);
 }
 

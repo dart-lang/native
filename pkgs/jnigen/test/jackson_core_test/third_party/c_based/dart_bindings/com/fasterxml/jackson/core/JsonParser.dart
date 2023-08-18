@@ -71,27 +71,27 @@ class JsonParser extends jni.JObject {
   static jni.JObject get DEFAULT_READ_CAPABILITIES =>
       const jni.JObjectType().fromRef(_get_DEFAULT_READ_CAPABILITIES().object);
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "JsonParser__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "JsonParser__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: protected void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory JsonParser() {
-    return JsonParser.fromRef(_ctor().object);
+    return JsonParser.fromRef(_new0().object);
   }
 
-  static final _ctor1 =
+  static final _new1 =
       jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int32)>>(
-              "JsonParser__ctor1")
+              "JsonParser__new1")
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: protected void <init>(int features)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory JsonParser.ctor1(
+  factory JsonParser.new1(
     int features,
   ) {
-    return JsonParser.fromRef(_ctor1(features).object);
+    return JsonParser.fromRef(_new1(features).object);
   }
 
   static final _getCodec = jniLookup<

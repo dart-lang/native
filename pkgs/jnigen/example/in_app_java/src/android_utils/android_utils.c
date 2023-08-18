@@ -520,21 +520,21 @@ JniResult EmojiCompat__updateEditorInfo(jobject self_, jobject outAttrs) {
 // androidx.emoji2.text.EmojiCompat$Config
 jclass _c_EmojiCompat_Config = NULL;
 
-jmethodID _m_EmojiCompat_Config__ctor = NULL;
+jmethodID _m_EmojiCompat_Config__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult EmojiCompat_Config__ctor(jobject metadataLoader) {
+JniResult EmojiCompat_Config__new0(jobject metadataLoader) {
   load_env();
   load_class_global_ref(&_c_EmojiCompat_Config,
                         "androidx/emoji2/text/EmojiCompat$Config");
   if (_c_EmojiCompat_Config == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_EmojiCompat_Config, &_m_EmojiCompat_Config__ctor, "<init>",
+  load_method(_c_EmojiCompat_Config, &_m_EmojiCompat_Config__new0, "<init>",
               "(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;)V");
-  if (_m_EmojiCompat_Config__ctor == NULL)
+  if (_m_EmojiCompat_Config__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_Config,
-                           _m_EmojiCompat_Config__ctor, metadataLoader);
+                           _m_EmojiCompat_Config__new0, metadataLoader);
   return to_global_ref_result(_result);
 }
 
@@ -766,9 +766,9 @@ JniResult EmojiCompat_Config__getMetadataRepoLoader(jobject self_) {
 // androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback
 jclass _c_EmojiCompat_MetadataRepoLoaderCallback = NULL;
 
-jmethodID _m_EmojiCompat_MetadataRepoLoaderCallback__ctor = NULL;
+jmethodID _m_EmojiCompat_MetadataRepoLoaderCallback__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult EmojiCompat_MetadataRepoLoaderCallback__ctor() {
+JniResult EmojiCompat_MetadataRepoLoaderCallback__new0() {
   load_env();
   load_class_global_ref(
       &_c_EmojiCompat_MetadataRepoLoaderCallback,
@@ -776,13 +776,13 @@ JniResult EmojiCompat_MetadataRepoLoaderCallback__ctor() {
   if (_c_EmojiCompat_MetadataRepoLoaderCallback == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_EmojiCompat_MetadataRepoLoaderCallback,
-              &_m_EmojiCompat_MetadataRepoLoaderCallback__ctor, "<init>",
+              &_m_EmojiCompat_MetadataRepoLoaderCallback__new0, "<init>",
               "()V");
-  if (_m_EmojiCompat_MetadataRepoLoaderCallback__ctor == NULL)
+  if (_m_EmojiCompat_MetadataRepoLoaderCallback__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_MetadataRepoLoaderCallback,
-                           _m_EmojiCompat_MetadataRepoLoaderCallback__ctor);
+                           _m_EmojiCompat_MetadataRepoLoaderCallback__new0);
   return to_global_ref_result(_result);
 }
 
@@ -881,20 +881,20 @@ JniResult EmojiCompat_MetadataRepoLoader__load(jobject self_,
 // androidx.emoji2.text.EmojiCompat$InitCallback
 jclass _c_EmojiCompat_InitCallback = NULL;
 
-jmethodID _m_EmojiCompat_InitCallback__ctor = NULL;
+jmethodID _m_EmojiCompat_InitCallback__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult EmojiCompat_InitCallback__ctor() {
+JniResult EmojiCompat_InitCallback__new0() {
   load_env();
   load_class_global_ref(&_c_EmojiCompat_InitCallback,
                         "androidx/emoji2/text/EmojiCompat$InitCallback");
   if (_c_EmojiCompat_InitCallback == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_EmojiCompat_InitCallback, &_m_EmojiCompat_InitCallback__ctor,
+  load_method(_c_EmojiCompat_InitCallback, &_m_EmojiCompat_InitCallback__new0,
               "<init>", "()V");
-  if (_m_EmojiCompat_InitCallback__ctor == NULL)
+  if (_m_EmojiCompat_InitCallback__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_InitCallback,
-                                         _m_EmojiCompat_InitCallback__ctor);
+                                         _m_EmojiCompat_InitCallback__new0);
   return to_global_ref_result(_result);
 }
 
@@ -937,21 +937,21 @@ JniResult EmojiCompat_InitCallback__onFailed(jobject self_, jobject throwable) {
 // androidx.emoji2.text.EmojiCompat$DefaultSpanFactory
 jclass _c_EmojiCompat_DefaultSpanFactory = NULL;
 
-jmethodID _m_EmojiCompat_DefaultSpanFactory__ctor = NULL;
+jmethodID _m_EmojiCompat_DefaultSpanFactory__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult EmojiCompat_DefaultSpanFactory__ctor() {
+JniResult EmojiCompat_DefaultSpanFactory__new0() {
   load_env();
   load_class_global_ref(&_c_EmojiCompat_DefaultSpanFactory,
                         "androidx/emoji2/text/EmojiCompat$DefaultSpanFactory");
   if (_c_EmojiCompat_DefaultSpanFactory == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_EmojiCompat_DefaultSpanFactory,
-              &_m_EmojiCompat_DefaultSpanFactory__ctor, "<init>", "()V");
-  if (_m_EmojiCompat_DefaultSpanFactory__ctor == NULL)
+              &_m_EmojiCompat_DefaultSpanFactory__new0, "<init>", "()V");
+  if (_m_EmojiCompat_DefaultSpanFactory__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_EmojiCompat_DefaultSpanFactory,
-                           _m_EmojiCompat_DefaultSpanFactory__ctor);
+                           _m_EmojiCompat_DefaultSpanFactory__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1025,11 +1025,11 @@ JniResult DefaultEmojiCompatConfig__create(jobject context) {
 jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 = NULL;
 
 jmethodID
-    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor =
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__new0 =
         NULL;
 FFI_PLUGIN_EXPORT
 JniResult
-DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor() {
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__new0() {
   load_env();
   load_class_global_ref(
       &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
@@ -1039,14 +1039,14 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(
       _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
-      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__new0,
       "<init>", "()V");
-  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor ==
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__new0 ==
       NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28,
-      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor);
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1086,11 +1086,11 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__getSigningSignatu
 jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 = NULL;
 
 jmethodID
-    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor =
+    _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__new0 =
         NULL;
 FFI_PLUGIN_EXPORT
 JniResult
-DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor() {
+DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__new0() {
   load_env();
   load_class_global_ref(
       &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
@@ -1100,14 +1100,14 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor() {
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(
       _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
-      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__new0,
       "<init>", "()V");
-  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor ==
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__new0 ==
       NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19,
-      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor);
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1177,10 +1177,10 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__getProviderInfo(
 // androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
 jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper = NULL;
 
-jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor =
+jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__new0 =
     NULL;
 FFI_PLUGIN_EXPORT
-JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor() {
+JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__new0() {
   load_env();
   load_class_global_ref(
       &_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
@@ -1189,13 +1189,13 @@ JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor() {
   if (_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
-              &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor,
+              &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__new0,
               "<init>", "()V");
-  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor == NULL)
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper,
-      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor);
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1297,10 +1297,10 @@ DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__getProviderInfo(
 // androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory
 jclass _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory = NULL;
 
-jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor =
+jmethodID _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__new0 =
     NULL;
 FFI_PLUGIN_EXPORT
-JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor(
+JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__new0(
     jobject helper) {
   load_env();
   load_class_global_ref(
@@ -1311,15 +1311,15 @@ JniResult DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor(
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(
       _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
-      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor,
+      &_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__new0,
       "<init>",
       "(Landroidx/emoji2/text/"
       "DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;)V");
-  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor == NULL)
+  if (_m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory,
-      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor,
+      _m_DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__new0,
       helper);
   return to_global_ref_result(_result);
 }
@@ -1438,18 +1438,18 @@ JniResult Build_Partition__hashCode1(jobject self_) {
 // android.os.Build$VERSION
 jclass _c_Build_VERSION = NULL;
 
-jmethodID _m_Build_VERSION__ctor = NULL;
+jmethodID _m_Build_VERSION__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Build_VERSION__ctor() {
+JniResult Build_VERSION__new0() {
   load_env();
   load_class_global_ref(&_c_Build_VERSION, "android/os/Build$VERSION");
   if (_c_Build_VERSION == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Build_VERSION, &_m_Build_VERSION__ctor, "<init>", "()V");
-  if (_m_Build_VERSION__ctor == NULL)
+  load_method(_c_Build_VERSION, &_m_Build_VERSION__new0, "<init>", "()V");
+  if (_m_Build_VERSION__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION, _m_Build_VERSION__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION, _m_Build_VERSION__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1612,37 +1612,37 @@ JniResult get_Build_VERSION__SECURITY_PATCH() {
 // android.os.Build$VERSION_CODES
 jclass _c_Build_VERSION_CODES = NULL;
 
-jmethodID _m_Build_VERSION_CODES__ctor = NULL;
+jmethodID _m_Build_VERSION_CODES__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Build_VERSION_CODES__ctor() {
+JniResult Build_VERSION_CODES__new0() {
   load_env();
   load_class_global_ref(&_c_Build_VERSION_CODES,
                         "android/os/Build$VERSION_CODES");
   if (_c_Build_VERSION_CODES == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Build_VERSION_CODES, &_m_Build_VERSION_CODES__ctor, "<init>",
+  load_method(_c_Build_VERSION_CODES, &_m_Build_VERSION_CODES__new0, "<init>",
               "()V");
-  if (_m_Build_VERSION_CODES__ctor == NULL)
+  if (_m_Build_VERSION_CODES__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build_VERSION_CODES,
-                                         _m_Build_VERSION_CODES__ctor);
+                                         _m_Build_VERSION_CODES__new0);
   return to_global_ref_result(_result);
 }
 
 // android.os.Build
 jclass _c_Build = NULL;
 
-jmethodID _m_Build__ctor = NULL;
+jmethodID _m_Build__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Build__ctor() {
+JniResult Build__new0() {
   load_env();
   load_class_global_ref(&_c_Build, "android/os/Build");
   if (_c_Build == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Build, &_m_Build__ctor, "<init>", "()V");
-  if (_m_Build__ctor == NULL)
+  load_method(_c_Build, &_m_Build__new0, "<init>", "()V");
+  if (_m_Build__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build, _m_Build__ctor);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Build, _m_Build__new0);
   return to_global_ref_result(_result);
 }
 
@@ -2064,62 +2064,62 @@ JniResult get_Build__USER() {
 // java.util.HashMap
 jclass _c_HashMap = NULL;
 
-jmethodID _m_HashMap__ctor = NULL;
+jmethodID _m_HashMap__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult HashMap__ctor(int32_t i, float f) {
+JniResult HashMap__new0(int32_t i, float f) {
   load_env();
   load_class_global_ref(&_c_HashMap, "java/util/HashMap");
   if (_c_HashMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_HashMap, &_m_HashMap__ctor, "<init>", "(IF)V");
-  if (_m_HashMap__ctor == NULL)
+  load_method(_c_HashMap, &_m_HashMap__new0, "<init>", "(IF)V");
+  if (_m_HashMap__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor, i, f);
+      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__new0, i, f);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_HashMap__ctor1 = NULL;
+jmethodID _m_HashMap__new1 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult HashMap__ctor1(int32_t i) {
+JniResult HashMap__new1(int32_t i) {
   load_env();
   load_class_global_ref(&_c_HashMap, "java/util/HashMap");
   if (_c_HashMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_HashMap, &_m_HashMap__ctor1, "<init>", "(I)V");
-  if (_m_HashMap__ctor1 == NULL)
+  load_method(_c_HashMap, &_m_HashMap__new1, "<init>", "(I)V");
+  if (_m_HashMap__new1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor1, i);
+      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__new1, i);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_HashMap__ctor2 = NULL;
+jmethodID _m_HashMap__new2 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult HashMap__ctor2() {
+JniResult HashMap__new2() {
   load_env();
   load_class_global_ref(&_c_HashMap, "java/util/HashMap");
   if (_c_HashMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_HashMap, &_m_HashMap__ctor2, "<init>", "()V");
-  if (_m_HashMap__ctor2 == NULL)
+  load_method(_c_HashMap, &_m_HashMap__new2, "<init>", "()V");
+  if (_m_HashMap__new2 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor2);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__new2);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_HashMap__ctor3 = NULL;
+jmethodID _m_HashMap__new3 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult HashMap__ctor3(jobject map) {
+JniResult HashMap__new3(jobject map) {
   load_env();
   load_class_global_ref(&_c_HashMap, "java/util/HashMap");
   if (_c_HashMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_HashMap, &_m_HashMap__ctor3, "<init>", "(Ljava/util/Map;)V");
-  if (_m_HashMap__ctor3 == NULL)
+  load_method(_c_HashMap, &_m_HashMap__new3, "<init>", "(Ljava/util/Map;)V");
+  if (_m_HashMap__new3 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__ctor3, map);
+      (*jniEnv)->NewObject(jniEnv, _c_HashMap, _m_HashMap__new3, map);
   return to_global_ref_result(_result);
 }
 

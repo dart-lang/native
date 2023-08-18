@@ -40,14 +40,14 @@ class SuspendFun extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "SuspendFun__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "SuspendFun__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory SuspendFun() {
-    return SuspendFun.fromRef(_ctor().object);
+    return SuspendFun.fromRef(_new0().object);
   }
 
   static final _sayHello = jniLookup<

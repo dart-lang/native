@@ -121,8 +121,8 @@ class JsonFactory extends jni.JObject {
   static jni.JObject get DEFAULT_ROOT_VALUE_SEPARATOR => const jni.JObjectType()
       .fromRef(_get_DEFAULT_ROOT_VALUE_SEPARATOR().object);
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "JsonFactory__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "JsonFactory__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
@@ -137,27 +137,27 @@ class JsonFactory extends jni.JObject {
   /// and this reuse only works within context of a single
   /// factory instance.
   factory JsonFactory() {
-    return JsonFactory.fromRef(_ctor().object);
+    return JsonFactory.fromRef(_new0().object);
   }
 
-  static final _ctor1 = jniLookup<
+  static final _new1 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__ctor1")
+          "JsonFactory__new1")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory JsonFactory.ctor1(
+  factory JsonFactory.new1(
     jni.JObject oc,
   ) {
-    return JsonFactory.fromRef(_ctor1(oc.reference).object);
+    return JsonFactory.fromRef(_new1(oc.reference).object);
   }
 
-  static final _ctor2 = jniLookup<
+  static final _new2 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("JsonFactory__ctor2")
+                  ffi.Pointer<ffi.Void>)>>("JsonFactory__new2")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -169,17 +169,17 @@ class JsonFactory extends jni.JObject {
   ///@param src Original factory to copy settings from
   ///@param codec Databinding-level codec to use, if any
   ///@since 2.2.1
-  factory JsonFactory.ctor2(
+  factory JsonFactory.new2(
     JsonFactory src,
     jni.JObject codec,
   ) {
-    return JsonFactory.fromRef(_ctor2(src.reference, codec.reference).object);
+    return JsonFactory.fromRef(_new2(src.reference, codec.reference).object);
   }
 
-  static final _ctor3 = jniLookup<
+  static final _new3 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__ctor3")
+          "JsonFactory__new3")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.fasterxml.jackson.core.JsonFactoryBuilder b)
@@ -188,16 +188,16 @@ class JsonFactory extends jni.JObject {
   /// Constructor used by JsonFactoryBuilder for instantiation.
   ///@param b Builder that contains settings to use
   ///@since 2.10
-  factory JsonFactory.ctor3(
+  factory JsonFactory.new3(
     jni.JObject b,
   ) {
-    return JsonFactory.fromRef(_ctor3(b.reference).object);
+    return JsonFactory.fromRef(_new3(b.reference).object);
   }
 
-  static final _ctor4 = jniLookup<
+  static final _new4 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JsonFactory__ctor4")
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JsonFactory__new4")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: protected void <init>(com.fasterxml.jackson.core.TSFBuilder<?,?> b, boolean bogus)
@@ -208,11 +208,11 @@ class JsonFactory extends jni.JObject {
   /// implementation for json.
   ///@param b Builder that contains settings to use
   ///@param bogus Argument only needed to separate constructor signature; ignored
-  factory JsonFactory.ctor4(
+  factory JsonFactory.new4(
     jni.JObject b,
     bool bogus,
   ) {
-    return JsonFactory.fromRef(_ctor4(b.reference, bogus ? 1 : 0).object);
+    return JsonFactory.fromRef(_new4(b.reference, bogus ? 1 : 0).object);
   }
 
   static final _rebuild = jniLookup<

@@ -36,85 +36,85 @@ void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
 // org.apache.pdfbox.pdmodel.PDDocument
 jclass _c_PDDocument = NULL;
 
-jmethodID _m_PDDocument__ctor = NULL;
+jmethodID _m_PDDocument__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__ctor() {
+JniResult PDDocument__new0() {
   load_env();
   load_class_global_ref(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__ctor, "<init>", "()V");
-  if (_m_PDDocument__ctor == NULL)
+  load_method(_c_PDDocument, &_m_PDDocument__new0, "<init>", "()V");
+  if (_m_PDDocument__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_PDDocument, _m_PDDocument__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_PDDocument, _m_PDDocument__new0);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_PDDocument__ctor1 = NULL;
+jmethodID _m_PDDocument__new1 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__ctor1(jobject memUsageSetting) {
+JniResult PDDocument__new1(jobject memUsageSetting) {
   load_env();
   load_class_global_ref(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__ctor1, "<init>",
+  load_method(_c_PDDocument, &_m_PDDocument__new1, "<init>",
               "(Lorg/apache/pdfbox/io/MemoryUsageSetting;)V");
-  if (_m_PDDocument__ctor1 == NULL)
+  if (_m_PDDocument__new1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocument,
-                                         _m_PDDocument__ctor1, memUsageSetting);
+                                         _m_PDDocument__new1, memUsageSetting);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_PDDocument__ctor2 = NULL;
+jmethodID _m_PDDocument__new2 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__ctor2(jobject doc) {
+JniResult PDDocument__new2(jobject doc) {
   load_env();
   load_class_global_ref(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__ctor2, "<init>",
+  load_method(_c_PDDocument, &_m_PDDocument__new2, "<init>",
               "(Lorg/apache/pdfbox/cos/COSDocument;)V");
-  if (_m_PDDocument__ctor2 == NULL)
+  if (_m_PDDocument__new2 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_PDDocument, _m_PDDocument__ctor2, doc);
+      (*jniEnv)->NewObject(jniEnv, _c_PDDocument, _m_PDDocument__new2, doc);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_PDDocument__ctor3 = NULL;
+jmethodID _m_PDDocument__new3 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__ctor3(jobject doc, jobject source) {
+JniResult PDDocument__new3(jobject doc, jobject source) {
   load_env();
   load_class_global_ref(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__ctor3, "<init>",
+  load_method(_c_PDDocument, &_m_PDDocument__new3, "<init>",
               "(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/"
               "RandomAccessRead;)V");
-  if (_m_PDDocument__ctor3 == NULL)
+  if (_m_PDDocument__new3 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocument,
-                                         _m_PDDocument__ctor3, doc, source);
+                                         _m_PDDocument__new3, doc, source);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_PDDocument__ctor4 = NULL;
+jmethodID _m_PDDocument__new4 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocument__ctor4(jobject doc, jobject source, jobject permission) {
+JniResult PDDocument__new4(jobject doc, jobject source, jobject permission) {
   load_env();
   load_class_global_ref(&_c_PDDocument, "org/apache/pdfbox/pdmodel/PDDocument");
   if (_c_PDDocument == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocument, &_m_PDDocument__ctor4, "<init>",
+  load_method(_c_PDDocument, &_m_PDDocument__new4, "<init>",
               "(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/"
               "RandomAccessRead;Lorg/apache/pdfbox/pdmodel/encryption/"
               "AccessPermission;)V");
-  if (_m_PDDocument__ctor4 == NULL)
+  if (_m_PDDocument__new4 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
-      jniEnv, _c_PDDocument, _m_PDDocument__ctor4, doc, source, permission);
+      jniEnv, _c_PDDocument, _m_PDDocument__new4, doc, source, permission);
   return to_global_ref_result(_result);
 }
 
@@ -1103,37 +1103,37 @@ JniResult PDDocument__setResourceCache(jobject self_, jobject resourceCache) {
 // org.apache.pdfbox.pdmodel.PDDocumentInformation
 jclass _c_PDDocumentInformation = NULL;
 
-jmethodID _m_PDDocumentInformation__ctor = NULL;
+jmethodID _m_PDDocumentInformation__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocumentInformation__ctor() {
+JniResult PDDocumentInformation__new0() {
   load_env();
   load_class_global_ref(&_c_PDDocumentInformation,
                         "org/apache/pdfbox/pdmodel/PDDocumentInformation");
   if (_c_PDDocumentInformation == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocumentInformation, &_m_PDDocumentInformation__ctor,
+  load_method(_c_PDDocumentInformation, &_m_PDDocumentInformation__new0,
               "<init>", "()V");
-  if (_m_PDDocumentInformation__ctor == NULL)
+  if (_m_PDDocumentInformation__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocumentInformation,
-                                         _m_PDDocumentInformation__ctor);
+                                         _m_PDDocumentInformation__new0);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_PDDocumentInformation__ctor1 = NULL;
+jmethodID _m_PDDocumentInformation__new1 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDDocumentInformation__ctor1(jobject dic) {
+JniResult PDDocumentInformation__new1(jobject dic) {
   load_env();
   load_class_global_ref(&_c_PDDocumentInformation,
                         "org/apache/pdfbox/pdmodel/PDDocumentInformation");
   if (_c_PDDocumentInformation == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDDocumentInformation, &_m_PDDocumentInformation__ctor1,
+  load_method(_c_PDDocumentInformation, &_m_PDDocumentInformation__new1,
               "<init>", "(Lorg/apache/pdfbox/cos/COSDictionary;)V");
-  if (_m_PDDocumentInformation__ctor1 == NULL)
+  if (_m_PDDocumentInformation__new1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDDocumentInformation,
-                                         _m_PDDocumentInformation__ctor1, dic);
+                                         _m_PDDocumentInformation__new1, dic);
   return to_global_ref_result(_result);
 }
 
@@ -1550,19 +1550,19 @@ JniResult PDDocumentInformation__setTrapped(jobject self_, jobject value) {
 // org.apache.pdfbox.text.PDFTextStripper
 jclass _c_PDFTextStripper = NULL;
 
-jmethodID _m_PDFTextStripper__ctor = NULL;
+jmethodID _m_PDFTextStripper__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult PDFTextStripper__ctor() {
+JniResult PDFTextStripper__new0() {
   load_env();
   load_class_global_ref(&_c_PDFTextStripper,
                         "org/apache/pdfbox/text/PDFTextStripper");
   if (_c_PDFTextStripper == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__ctor, "<init>", "()V");
-  if (_m_PDFTextStripper__ctor == NULL)
+  load_method(_c_PDFTextStripper, &_m_PDFTextStripper__new0, "<init>", "()V");
+  if (_m_PDFTextStripper__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_PDFTextStripper,
-                                         _m_PDFTextStripper__ctor);
+                                         _m_PDFTextStripper__new0);
   return to_global_ref_result(_result);
 }
 

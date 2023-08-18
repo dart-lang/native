@@ -40,14 +40,14 @@ class Notifications extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $NotificationsType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "Notifications__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Notifications__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Notifications() {
-    return Notifications.fromRef(_ctor().object);
+    return Notifications.fromRef(_new0().object);
   }
 
   static final _showNotification = jniLookup<

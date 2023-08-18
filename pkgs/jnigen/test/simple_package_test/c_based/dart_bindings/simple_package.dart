@@ -359,77 +359,70 @@ class Example extends jni.JObject {
         .fromRef(_getRandomNumericString(reference, random.reference).object);
   }
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Example() {
-    return Example.fromRef(_ctor().object);
+    return Example.fromRef(_new0().object);
   }
 
-  static final _ctor1 =
+  static final _new1 =
       jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int32)>>(
-              "Example__ctor1")
+              "Example__new1")
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: public void <init>(int number)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor1(
+  factory Example.new1(
     int number,
   ) {
-    return Example.fromRef(_ctor1(number).object);
+    return Example.fromRef(_new1(number).object);
   }
 
-  static final _ctor2 = jniLookup<
+  static final _new2 = jniLookup<
               ffi.NativeFunction<jni.JniResult Function(ffi.Int32, ffi.Uint8)>>(
-          "Example__ctor2")
+          "Example__new2")
       .asFunction<jni.JniResult Function(int, int)>();
 
   /// from: public void <init>(int number, boolean isUp)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor2(
+  factory Example.new2(
     int number,
     bool isUp,
   ) {
-    return Example.fromRef(_ctor2(number, isUp ? 1 : 0).object);
+    return Example.fromRef(_new2(number, isUp ? 1 : 0).object);
   }
 
-  static final _ctor3 = jniLookup<
+  static final _new3 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Int32, ffi.Uint8,
-                  ffi.Pointer<ffi.Void>)>>("Example__ctor3")
+                  ffi.Pointer<ffi.Void>)>>("Example__new3")
       .asFunction<jni.JniResult Function(int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(int number, boolean isUp, java.lang.String codename)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor3(
+  factory Example.new3(
     int number,
     bool isUp,
     jni.JString codename,
   ) {
     return Example.fromRef(
-        _ctor3(number, isUp ? 1 : 0, codename.reference).object);
+        _new3(number, isUp ? 1 : 0, codename.reference).object);
   }
 
-  static final _ctor4 = jniLookup<
+  static final _new4 = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Int32)>>("Example__ctor4")
+              jni.JniResult Function(ffi.Int32, ffi.Int32, ffi.Int32, ffi.Int32,
+                  ffi.Int32, ffi.Int32, ffi.Int32, ffi.Int32)>>("Example__new4")
       .asFunction<
           jni.JniResult Function(int, int, int, int, int, int, int, int)>();
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor4(
+  factory Example.new4(
     int a,
     int b,
     int c,
@@ -439,7 +432,7 @@ class Example extends jni.JObject {
     int g,
     int h,
   ) {
-    return Example.fromRef(_ctor4(a, b, c, d, e, f, g, h).object);
+    return Example.fromRef(_new4(a, b, c, d, e, f, g, h).object);
   }
 
   static final _whichExample = jniLookup<
@@ -548,9 +541,9 @@ class Example_Nested extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example_NestedType();
-  static final _ctor =
+  static final _new0 =
       jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Uint8)>>(
-              "Example_Nested__ctor")
+              "Example_Nested__new0")
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: public void <init>(boolean value)
@@ -558,7 +551,7 @@ class Example_Nested extends jni.JObject {
   factory Example_Nested(
     bool value,
   ) {
-    return Example_Nested.fromRef(_ctor(value ? 1 : 0).object);
+    return Example_Nested.fromRef(_new0(value ? 1 : 0).object);
   }
 
   static final _usesAnonymousInnerClass = jniLookup<
@@ -650,14 +643,14 @@ class Example_Nested_NestedTwice extends jni.JObject {
   /// from: static public int ZERO
   static set ZERO(int value) => _set_ZERO(value).check();
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "Example_Nested_NestedTwice__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Example_Nested_NestedTwice__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Example_Nested_NestedTwice() {
-    return Example_Nested_NestedTwice.fromRef(_ctor().object);
+    return Example_Nested_NestedTwice.fromRef(_new0().object);
   }
 }
 
@@ -700,38 +693,38 @@ class Exceptions extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExceptionsType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "Exceptions__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Exceptions__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Exceptions() {
-    return Exceptions.fromRef(_ctor().object);
+    return Exceptions.fromRef(_new0().object);
   }
 
-  static final _ctor1 =
+  static final _new1 =
       jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Float)>>(
-              "Exceptions__ctor1")
+              "Exceptions__new1")
           .asFunction<jni.JniResult Function(double)>();
 
   /// from: public void <init>(float x)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Exceptions.ctor1(
+  factory Exceptions.new1(
     double x,
   ) {
-    return Exceptions.fromRef(_ctor1(x).object);
+    return Exceptions.fromRef(_new1(x).object);
   }
 
-  static final _ctor2 = jniLookup<
+  static final _new2 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Int32, ffi.Int32, ffi.Int32, ffi.Int32,
-                  ffi.Int32, ffi.Int32)>>("Exceptions__ctor2")
+                  ffi.Int32, ffi.Int32)>>("Exceptions__new2")
       .asFunction<jni.JniResult Function(int, int, int, int, int, int)>();
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Exceptions.ctor2(
+  factory Exceptions.new2(
     int a,
     int b,
     int c,
@@ -739,7 +732,7 @@ class Exceptions extends jni.JObject {
     int e,
     int f,
   ) {
-    return Exceptions.fromRef(_ctor2(a, b, c, d, e, f).object);
+    return Exceptions.fromRef(_new2(a, b, c, d, e, f).object);
   }
 
   static final _staticObjectMethod =
@@ -1150,14 +1143,14 @@ class Fields extends jni.JObject {
   /// from: static public char euroSymbol
   static set euroSymbol(int value) => _set_euroSymbol(value).check();
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Fields__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Fields__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Fields() {
-    return Fields.fromRef(_ctor().object);
+    return Fields.fromRef(_new0().object);
   }
 }
 
@@ -1240,14 +1233,14 @@ class Fields_Nested extends jni.JObject {
   static set BEST_GOD(jni.JString value) =>
       _set_BEST_GOD(value.reference).check();
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "Fields_Nested__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Fields_Nested__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Fields_Nested() {
-    return Fields_Nested.fromRef(_ctor().object);
+    return Fields_Nested.fromRef(_new0().object);
   }
 }
 
@@ -1304,14 +1297,14 @@ class C2 extends jni.JObject {
   /// from: static public int CONSTANT
   static set CONSTANT(int value) => _set_CONSTANT(value).check();
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("C2__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("C2__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory C2() {
-    return C2.fromRef(_ctor().object);
+    return C2.fromRef(_new0().object);
   }
 }
 
@@ -1350,14 +1343,14 @@ class Example1 extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example1Type();
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example1__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example1__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Example1() {
-    return Example1.fromRef(_ctor().object);
+    return Example1.fromRef(_new0().object);
   }
 
   static final _whichExample = jniLookup<
@@ -1442,10 +1435,10 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be deleted after use, by calling the `delete` method.
   set value($T value) => _set_value(reference, value.reference).check();
 
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "GrandParent__ctor")
+          "GrandParent__new0")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(T value)
@@ -1457,7 +1450,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     T ??= jni.lowestCommonSuperType([
       value.$type,
     ]) as jni.JObjType<$T>;
-    return GrandParent.fromRef(T, _ctor(value.reference).object);
+    return GrandParent.fromRef(T, _new0(value.reference).object);
   }
 
   static final _stringParent = jniLookup<
@@ -1649,10 +1642,10 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   /// The returned object must be deleted after use, by calling the `delete` method.
   set value($S value) => _set_value(reference, value.reference).check();
 
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("GrandParent_Parent__ctor")
+                  ffi.Pointer<ffi.Void>)>>("GrandParent_Parent__new0")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -1672,7 +1665,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
       newValue.$type,
     ]) as jni.JObjType<$S>;
     return GrandParent_Parent.fromRef(
-        T, S, _ctor($parent.reference, newValue.reference).object);
+        T, S, _new0($parent.reference, newValue.reference).object);
   }
 }
 
@@ -1824,10 +1817,10 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   /// The returned object must be deleted after use, by calling the `delete` method.
   set value($U value) => _set_value(reference, value.reference).check();
 
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("GrandParent_Parent_Child__ctor")
+                  ffi.Pointer<ffi.Void>)>>("GrandParent_Parent_Child__new0")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -1851,7 +1844,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
       newValue.$type,
     ]) as jni.JObjType<$U>;
     return GrandParent_Parent_Child.fromRef(
-        T, S, U, _ctor($parent.reference, newValue.reference).object);
+        T, S, U, _new0($parent.reference, newValue.reference).object);
   }
 }
 
@@ -1942,10 +1935,10 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   /// The returned object must be deleted after use, by calling the `delete` method.
   set value($S value) => _set_value(reference, value.reference).check();
 
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "GrandParent_StaticParent__ctor")
+          "GrandParent_StaticParent__new0")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(S value)
@@ -1957,7 +1950,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
     S ??= jni.lowestCommonSuperType([
       value.$type,
     ]) as jni.JObjType<$S>;
-    return GrandParent_StaticParent.fromRef(S, _ctor(value.reference).object);
+    return GrandParent_StaticParent.fromRef(S, _new0(value.reference).object);
   }
 }
 
@@ -2075,11 +2068,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   /// The returned object must be deleted after use, by calling the `delete` method.
   set value($U value) => _set_value(reference, value.reference).check();
 
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
               ffi.NativeFunction<
                   jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "GrandParent_StaticParent_Child__ctor")
+          "GrandParent_StaticParent_Child__new0")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
@@ -2103,7 +2096,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     return GrandParent_StaticParent_Child.fromRef(
         S,
         U,
-        _ctor($parent.reference, parentValue.reference, value.reference)
+        _new0($parent.reference, parentValue.reference, value.reference)
             .object);
   }
 }
@@ -2172,8 +2165,8 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     );
   }
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("MyMap__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("MyMap__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
@@ -2182,7 +2175,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return MyMap.fromRef(K, V, _ctor().object);
+    return MyMap.fromRef(K, V, _new0().object);
   }
 
   static final _get0 = jniLookup<
@@ -2344,12 +2337,12 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   /// The returned object must be deleted after use, by calling the `delete` method.
   set value($V value) => _set_value(reference, value.reference).check();
 
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("MyMap_MyEntry__ctor")
+                  ffi.Pointer<ffi.Void>)>>("MyMap_MyEntry__new0")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
@@ -2372,7 +2365,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
       ($parent.$type as $MyMapType).V,
     ]) as jni.JObjType<$V>;
     return MyMap_MyEntry.fromRef(
-        K, V, _ctor($parent.reference, key.reference, value.reference).object);
+        K, V, _new0($parent.reference, key.reference, value.reference).object);
   }
 }
 
@@ -2433,8 +2426,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     );
   }
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("MyStack__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("MyStack__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
@@ -2442,7 +2435,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   factory MyStack({
     required jni.JObjType<$T> T,
   }) {
-    return MyStack.fromRef(T, _ctor().object);
+    return MyStack.fromRef(T, _new0().object);
   }
 
   static final _fromArray = jniLookup<
@@ -2627,8 +2620,8 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
     );
   }
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "StringKeyedMap__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "StringKeyedMap__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
@@ -2636,7 +2629,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
   factory StringKeyedMap({
     required jni.JObjType<$V> V,
   }) {
-    return StringKeyedMap.fromRef(V, _ctor().object);
+    return StringKeyedMap.fromRef(V, _new0().object);
   }
 }
 
@@ -2684,14 +2677,14 @@ class StringMap extends StringKeyedMap<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringMapType();
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("StringMap__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("StringMap__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory StringMap() {
-    return StringMap.fromRef(_ctor().object);
+    return StringMap.fromRef(_new0().object);
   }
 }
 
@@ -2730,14 +2723,14 @@ class StringStack extends MyStack<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringStackType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "StringStack__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "StringStack__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory StringStack() {
-    return StringStack.fromRef(_ctor().object);
+    return StringStack.fromRef(_new0().object);
   }
 }
 
@@ -2786,8 +2779,8 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
     );
   }
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "StringValuedMap__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "StringValuedMap__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
@@ -2795,7 +2788,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
   factory StringValuedMap({
     required jni.JObjType<$K> K,
   }) {
-    return StringValuedMap.fromRef(K, _ctor().object);
+    return StringValuedMap.fromRef(K, _new0().object);
   }
 }
 
@@ -3128,14 +3121,14 @@ class MyInterfaceConsumer extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyInterfaceConsumerType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "MyInterfaceConsumer__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "MyInterfaceConsumer__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory MyInterfaceConsumer() {
-    return MyInterfaceConsumer.fromRef(_ctor().object);
+    return MyInterfaceConsumer.fromRef(_new0().object);
   }
 
   static final _consumeOnAnotherThread = jniLookup<
@@ -3313,14 +3306,14 @@ class MyDataClass extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyDataClassType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "MyDataClass__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "MyDataClass__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory MyDataClass() {
-    return MyDataClass.fromRef(_ctor().object);
+    return MyDataClass.fromRef(_new0().object);
   }
 }
 

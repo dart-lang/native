@@ -22,19 +22,19 @@ void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
 // com.example.notification_plugin.Notifications
 jclass _c_Notifications = NULL;
 
-jmethodID _m_Notifications__ctor = NULL;
+jmethodID _m_Notifications__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Notifications__ctor() {
+JniResult Notifications__new0() {
   load_env();
   load_class_global_ref(&_c_Notifications,
                         "com/example/notification_plugin/Notifications");
   if (_c_Notifications == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Notifications, &_m_Notifications__ctor, "<init>", "()V");
-  if (_m_Notifications__ctor == NULL)
+  load_method(_c_Notifications, &_m_Notifications__new0, "<init>", "()V");
+  if (_m_Notifications__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Notifications, _m_Notifications__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_Notifications, _m_Notifications__new0);
   return to_global_ref_result(_result);
 }
 

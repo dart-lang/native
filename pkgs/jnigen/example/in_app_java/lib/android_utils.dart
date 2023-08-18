@@ -1065,10 +1065,10 @@ class EmojiCompat_Config extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_ConfigType();
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat_Config__ctor")
+          "EmojiCompat_Config__new0")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(androidx.emoji2.text.EmojiCompat.MetadataRepoLoader metadataLoader)
@@ -1079,7 +1079,7 @@ class EmojiCompat_Config extends jni.JObject {
   factory EmojiCompat_Config(
     EmojiCompat_MetadataRepoLoader metadataLoader,
   ) {
-    return EmojiCompat_Config.fromRef(_ctor(metadataLoader.reference).object);
+    return EmojiCompat_Config.fromRef(_new0(metadataLoader.reference).object);
   }
 
   static final _registerInitCallback = jniLookup<
@@ -1400,14 +1400,14 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_MetadataRepoLoaderCallbackType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "EmojiCompat_MetadataRepoLoaderCallback__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "EmojiCompat_MetadataRepoLoaderCallback__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory EmojiCompat_MetadataRepoLoaderCallback() {
-    return EmojiCompat_MetadataRepoLoaderCallback.fromRef(_ctor().object);
+    return EmojiCompat_MetadataRepoLoaderCallback.fromRef(_new0().object);
   }
 
   static final _onLoaded = jniLookup<
@@ -1653,14 +1653,14 @@ class EmojiCompat_InitCallback extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_InitCallbackType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "EmojiCompat_InitCallback__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "EmojiCompat_InitCallback__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory EmojiCompat_InitCallback() {
-    return EmojiCompat_InitCallback.fromRef(_ctor().object);
+    return EmojiCompat_InitCallback.fromRef(_new0().object);
   }
 
   static final _onInitialized = jniLookup<
@@ -1736,14 +1736,14 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_DefaultSpanFactoryType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "EmojiCompat_DefaultSpanFactory__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "EmojiCompat_DefaultSpanFactory__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory EmojiCompat_DefaultSpanFactory() {
-    return EmojiCompat_DefaultSpanFactory.fromRef(_ctor().object);
+    return EmojiCompat_DefaultSpanFactory.fromRef(_new0().object);
   }
 
   static final _createSpan = jniLookup<
@@ -1983,15 +1983,15 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
-        .fromRef(_ctor().object);
+        .fromRef(_new0().object);
   }
 
   static final _getSigningSignatures1 = jniLookup<
@@ -2070,15 +2070,15 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
-        .fromRef(_ctor().object);
+        .fromRef(_new0().object);
   }
 
   static final _queryIntentContentProviders = jniLookup<
@@ -2179,15 +2179,15 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromRef(
-        _ctor().object);
+        _new0().object);
   }
 
   static final _getSigningSignatures = jniLookup<
@@ -2313,10 +2313,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   /// The type which includes information such as the signature of this class.
   static const type =
       $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType();
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__ctor")
+          "DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory__new0")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigHelper helper)
@@ -2327,7 +2327,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
     DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper helper,
   ) {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromRef(
-        _ctor(helper.reference).object);
+        _new0(helper.reference).object);
   }
 
   static final _create = jniLookup<
@@ -2601,14 +2601,14 @@ class Build_VERSION extends jni.JObject {
   static jni.JString get SECURITY_PATCH =>
       const jni.JStringType().fromRef(_get_SECURITY_PATCH().object);
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "Build_VERSION__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Build_VERSION__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Build_VERSION() {
-    return Build_VERSION.fromRef(_ctor().object);
+    return Build_VERSION.fromRef(_new0().object);
   }
 }
 
@@ -2751,14 +2751,14 @@ class Build_VERSION_CODES extends jni.JObject {
   /// from: static public final int TIRAMISU
   static const TIRAMISU = 33;
 
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "Build_VERSION_CODES__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Build_VERSION_CODES__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Build_VERSION_CODES() {
-    return Build_VERSION_CODES.fromRef(_ctor().object);
+    return Build_VERSION_CODES.fromRef(_new0().object);
   }
 }
 
@@ -3066,14 +3066,14 @@ class Build extends jni.JObject {
   static jni.JString get USER =>
       const jni.JStringType().fromRef(_get_USER().object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Build__ctor")
+  static final _new0 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Build__new0")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Build() {
-    return Build.fromRef(_ctor().object);
+    return Build.fromRef(_new0().object);
   }
 
   static final _getSerial =
@@ -3162,9 +3162,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     );
   }
 
-  static final _ctor = jniLookup<
+  static final _new0 = jniLookup<
               ffi.NativeFunction<jni.JniResult Function(ffi.Int32, ffi.Float)>>(
-          "HashMap__ctor")
+          "HashMap__new0")
       .asFunction<jni.JniResult Function(int, double)>();
 
   /// from: public void <init>(int i, float f)
@@ -3175,46 +3175,46 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return HashMap.fromRef(K, V, _ctor(i, f).object);
+    return HashMap.fromRef(K, V, _new0(i, f).object);
   }
 
-  static final _ctor1 =
+  static final _new1 =
       jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int32)>>(
-              "HashMap__ctor1")
+              "HashMap__new1")
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: public void <init>(int i)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory HashMap.ctor1(
+  factory HashMap.new1(
     int i, {
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return HashMap.fromRef(K, V, _ctor1(i).object);
+    return HashMap.fromRef(K, V, _new1(i).object);
   }
 
-  static final _ctor2 =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("HashMap__ctor2")
+  static final _new2 =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("HashMap__new2")
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory HashMap.ctor2({
+  factory HashMap.new2({
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return HashMap.fromRef(K, V, _ctor2().object);
+    return HashMap.fromRef(K, V, _new2().object);
   }
 
-  static final _ctor3 = jniLookup<
+  static final _new3 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__ctor3")
+          "HashMap__new3")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.util.Map map)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory HashMap.ctor3(
+  factory HashMap.new3(
     jni.JMap<$K, $V> map, {
     jni.JObjType<$K>? K,
     jni.JObjType<$V>? V,
@@ -3225,7 +3225,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     V ??= jni.lowestCommonSuperType([
       (map.$type as jni.JMapType).V,
     ]) as jni.JObjType<$V>;
-    return HashMap.fromRef(K, V, _ctor3(map.reference).object);
+    return HashMap.fromRef(K, V, _new3(map.reference).object);
   }
 
   static final _size = jniLookup<

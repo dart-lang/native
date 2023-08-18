@@ -18,17 +18,17 @@ void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
 // Example
 jclass _c_Example = NULL;
 
-jmethodID _m_Example__ctor = NULL;
+jmethodID _m_Example__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example__ctor() {
+JniResult Example__new0() {
   load_env();
   load_class_global_ref(&_c_Example, "Example");
   if (_c_Example == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example, &_m_Example__ctor, "<init>", "()V");
-  if (_m_Example__ctor == NULL)
+  load_method(_c_Example, &_m_Example__new0, "<init>", "()V");
+  if (_m_Example__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__ctor);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__new0);
   return to_global_ref_result(_result);
 }
 

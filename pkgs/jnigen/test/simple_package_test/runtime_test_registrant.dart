@@ -112,15 +112,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(e0.getNumber(), 0);
       expect(e0.getIsUp(), true);
       expect(e0.getCodename().toDartString(), equals('achilles'));
-      final e1 = Example.ctor1(111);
+      final e1 = Example.new1(111);
       expect(e1.getNumber(), equals(111));
       expect(e1.getIsUp(), true);
       expect(e1.getCodename().toDartString(), "achilles");
-      final e2 = Example.ctor2(122, false);
+      final e2 = Example.new2(122, false);
       expect(e2.getNumber(), equals(122));
       expect(e2.getIsUp(), false);
       expect(e2.getCodename().toDartString(), "achilles");
-      final e3 = Example.ctor3(133, false, "spartan".toJString());
+      final e3 = Example.new3(133, false, "spartan".toJString());
       expect(e3.getNumber(), equals(133));
       expect(e3.getIsUp(), false);
       expect(e3.getCodename().toDartString(), "spartan");
@@ -227,8 +227,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
 
       test('Exception from constructor', () {
-        throwsException(() => Exceptions.ctor1(6.8));
-        throwsException(() => Exceptions.ctor2(1, 2, 3, 4, 5, 6));
+        throwsException(() => Exceptions.new1(6.8));
+        throwsException(() => Exceptions.new2(1, 2, 3, 4, 5, 6));
       });
 
       test('Exception contains error message & stack trace', () {
@@ -286,8 +286,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('MyMap<K, V>', () {
         using((arena) {
           final map = MyMap(K: JString.type, V: Example.type)..deletedIn(arena);
-          final helloExample = Example.ctor1(1)..deletedIn(arena);
-          final worldExample = Example.ctor1(2)..deletedIn(arena);
+          final helloExample = Example.new1(1)..deletedIn(arena);
+          final worldExample = Example.new1(2)..deletedIn(arena);
           map.put('Hello'.toJString()..deletedIn(arena), helloExample);
           map.put('World'.toJString()..deletedIn(arena), worldExample);
           expect(
@@ -605,14 +605,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
     const k256 = 256 * 1024;
     test('create large number of JNI references without deleting', () {
       for (int i = 0; i < k4; i++) {
-        final e = Example.ctor1(i);
+        final e = Example.new1(i);
         expect(e.getNumber(), equals(i));
       }
     });
     test('Create many JNI refs with scoped deletion', () {
       for (int i = 0; i < k256; i++) {
         using((arena) {
-          final e = Example.ctor1(i)..deletedIn(arena);
+          final e = Example.new1(i)..deletedIn(arena);
           expect(e.getNumber(), equals(i));
         });
       }
@@ -621,7 +621,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       for (int i = 0; i < 256; i++) {
         using((arena) {
           for (int i = 0; i < 1024; i++) {
-            final e = Example.ctor1(i)..deletedIn(arena);
+            final e = Example.new1(i)..deletedIn(arena);
             expect(e.getNumber(), equals(i));
           }
         });
@@ -629,14 +629,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
     test('Create large number of JNI refs with manual delete', () {
       for (int i = 0; i < k256; i++) {
-        final e = Example.ctor1(i);
+        final e = Example.new1(i);
         expect(e.getNumber(), equals(i));
         e.delete();
       }
     });
     test('Method returning primitive type does not create references', () {
       using((arena) {
-        final e = Example.ctor1(64)..deletedIn(arena);
+        final e = Example.new1(64)..deletedIn(arena);
         for (int i = 0; i < k256; i++) {
           expect(e.getNumber(), equals(64));
         }

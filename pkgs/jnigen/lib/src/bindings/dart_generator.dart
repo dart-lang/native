@@ -1242,7 +1242,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     if (node.isCtor) {
       final className = node.classDecl.finalName;
       final name = node.finalName;
-      final ctorName = name == 'ctor' ? className : '$className.$name';
+      final ctorName = name == 'new0' ? className : '$className.$name';
       final paramsDef = node.params.accept(_ParamDef(resolver)).delimited(', ');
       final typeClassDef = _encloseIfNotEmpty(
         '{',

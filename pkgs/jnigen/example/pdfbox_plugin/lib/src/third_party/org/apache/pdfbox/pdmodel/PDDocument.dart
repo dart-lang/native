@@ -56,8 +56,8 @@ class PDDocument extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentType();
-  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "PDDocument__ctor")
+  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "PDDocument__new0")
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
@@ -66,13 +66,13 @@ class PDDocument extends jni.JObject {
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
   factory PDDocument() {
-    return PDDocument.fromRef(_ctor().object);
+    return PDDocument.fromRef(_new0().object);
   }
 
-  static final _ctor1 = jniLookup<
+  static final _new1 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__ctor1")
+          "PDDocument__new1")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
@@ -81,16 +81,16 @@ class PDDocument extends jni.JObject {
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
-  factory PDDocument.ctor1(
+  factory PDDocument.new1(
     jni.JObject memUsageSetting,
   ) {
-    return PDDocument.fromRef(_ctor1(memUsageSetting.reference).object);
+    return PDDocument.fromRef(_new1(memUsageSetting.reference).object);
   }
 
-  static final _ctor2 = jniLookup<
+  static final _new2 = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__ctor2")
+          "PDDocument__new2")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc)
@@ -98,16 +98,16 @@ class PDDocument extends jni.JObject {
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
-  factory PDDocument.ctor2(
+  factory PDDocument.new2(
     jni.JObject doc,
   ) {
-    return PDDocument.fromRef(_ctor2(doc.reference).object);
+    return PDDocument.fromRef(_new2(doc.reference).object);
   }
 
-  static final _ctor3 = jniLookup<
+  static final _new3 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocument__ctor3")
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__new3")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -118,19 +118,19 @@ class PDDocument extends jni.JObject {
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
-  factory PDDocument.ctor3(
+  factory PDDocument.new3(
     jni.JObject doc,
     jni.JObject source,
   ) {
-    return PDDocument.fromRef(_ctor3(doc.reference, source.reference).object);
+    return PDDocument.fromRef(_new3(doc.reference, source.reference).object);
   }
 
-  static final _ctor4 = jniLookup<
+  static final _new4 = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocument__ctor4")
+                  ffi.Pointer<ffi.Void>)>>("PDDocument__new4")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
@@ -142,13 +142,13 @@ class PDDocument extends jni.JObject {
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
   ///@param permission he access permissions of the pdf
-  factory PDDocument.ctor4(
+  factory PDDocument.new4(
     jni.JObject doc,
     jni.JObject source,
     jni.JObject permission,
   ) {
     return PDDocument.fromRef(
-        _ctor4(doc.reference, source.reference, permission.reference).object);
+        _new4(doc.reference, source.reference, permission.reference).object);
   }
 
   static final _addPage = jniLookup<

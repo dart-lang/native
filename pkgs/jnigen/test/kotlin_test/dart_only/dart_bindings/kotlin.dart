@@ -38,14 +38,14 @@ class SuspendFun extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory SuspendFun() {
     return SuspendFun.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 
   static final _id_sayHello = jni.Jni.accessors.getMethodIDOf(_class.reference,

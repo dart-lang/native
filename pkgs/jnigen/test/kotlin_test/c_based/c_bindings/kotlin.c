@@ -22,19 +22,19 @@ void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
 // com.github.dart_lang.jnigen.SuspendFun
 jclass _c_SuspendFun = NULL;
 
-jmethodID _m_SuspendFun__ctor = NULL;
+jmethodID _m_SuspendFun__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult SuspendFun__ctor() {
+JniResult SuspendFun__new0() {
   load_env();
   load_class_global_ref(&_c_SuspendFun,
                         "com/github/dart_lang/jnigen/SuspendFun");
   if (_c_SuspendFun == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_SuspendFun, &_m_SuspendFun__ctor, "<init>", "()V");
-  if (_m_SuspendFun__ctor == NULL)
+  load_method(_c_SuspendFun, &_m_SuspendFun__new0, "<init>", "()V");
+  if (_m_SuspendFun__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_SuspendFun, _m_SuspendFun__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_SuspendFun, _m_SuspendFun__new0);
   return to_global_ref_result(_result);
 }
 

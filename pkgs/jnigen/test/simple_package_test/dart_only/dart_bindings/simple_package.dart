@@ -332,63 +332,63 @@ class Example extends jni.JObject {
         [random.reference]).object);
   }
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Example() {
     return Example.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 
-  static final _id_ctor1 =
+  static final _id_new1 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(I)V");
 
   /// from: public void <init>(int number)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor1(
+  factory Example.new1(
     int number,
   ) {
     return Example.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_ctor1, [jni.JValueInt(number)]).object);
+        _class.reference, _id_new1, [jni.JValueInt(number)]).object);
   }
 
-  static final _id_ctor2 =
+  static final _id_new2 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(IZ)V");
 
   /// from: public void <init>(int number, boolean isUp)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor2(
+  factory Example.new2(
     int number,
     bool isUp,
   ) {
     return Example.fromRef(jni.Jni.accessors.newObjectWithArgs(_class.reference,
-        _id_ctor2, [jni.JValueInt(number), isUp ? 1 : 0]).object);
+        _id_new2, [jni.JValueInt(number), isUp ? 1 : 0]).object);
   }
 
-  static final _id_ctor3 = jni.Jni.accessors
+  static final _id_new3 = jni.Jni.accessors
       .getMethodIDOf(_class.reference, r"<init>", r"(IZLjava/lang/String;)V");
 
   /// from: public void <init>(int number, boolean isUp, java.lang.String codename)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor3(
+  factory Example.new3(
     int number,
     bool isUp,
     jni.JString codename,
   ) {
     return Example.fromRef(jni.Jni.accessors.newObjectWithArgs(
         _class.reference,
-        _id_ctor3,
+        _id_new3,
         [jni.JValueInt(number), isUp ? 1 : 0, codename.reference]).object);
   }
 
-  static final _id_ctor4 = jni.Jni.accessors
+  static final _id_new4 = jni.Jni.accessors
       .getMethodIDOf(_class.reference, r"<init>", r"(IIIIIIII)V");
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Example.ctor4(
+  factory Example.new4(
     int a,
     int b,
     int c,
@@ -399,7 +399,7 @@ class Example extends jni.JObject {
     int h,
   ) {
     return Example.fromRef(
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor4, [
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new4, [
       jni.JValueInt(a),
       jni.JValueInt(b),
       jni.JValueInt(c),
@@ -516,7 +516,7 @@ class Example_Nested extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example_NestedType();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(Z)V");
 
   /// from: public void <init>(boolean value)
@@ -525,7 +525,7 @@ class Example_Nested extends jni.JObject {
     bool value,
   ) {
     return Example_Nested.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, [value ? 1 : 0]).object);
+        .newObjectWithArgs(_class.reference, _id_new0, [value ? 1 : 0]).object);
   }
 
   static final _id_usesAnonymousInnerClass = jni.Jni.accessors
@@ -613,14 +613,14 @@ class Example_Nested_NestedTwice extends jni.JObject {
   static set ZERO(int value) =>
       jni.Jni.env.SetStaticIntField(_class.reference, _id_ZERO, value);
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Example_Nested_NestedTwice() {
     return Example_Nested_NestedTwice.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -666,34 +666,34 @@ class Exceptions extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExceptionsType();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Exceptions() {
     return Exceptions.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 
-  static final _id_ctor1 =
+  static final _id_new1 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(F)V");
 
   /// from: public void <init>(float x)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Exceptions.ctor1(
+  factory Exceptions.new1(
     double x,
   ) {
     return Exceptions.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_ctor1, [jni.JValueFloat(x)]).object);
+        _class.reference, _id_new1, [jni.JValueFloat(x)]).object);
   }
 
-  static final _id_ctor2 = jni.Jni.accessors
+  static final _id_new2 = jni.Jni.accessors
       .getMethodIDOf(_class.reference, r"<init>", r"(IIIIII)V");
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  factory Exceptions.ctor2(
+  factory Exceptions.new2(
     int a,
     int b,
     int c,
@@ -702,7 +702,7 @@ class Exceptions extends jni.JObject {
     int f,
   ) {
     return Exceptions.fromRef(
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor2, [
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new2, [
       jni.JValueInt(a),
       jni.JValueInt(b),
       jni.JValueInt(c),
@@ -1061,14 +1061,14 @@ class Fields extends jni.JObject {
   static set euroSymbol(int value) =>
       jni.Jni.env.SetStaticCharField(_class.reference, _id_euroSymbol, value);
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Fields() {
     return Fields.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -1145,14 +1145,14 @@ class Fields_Nested extends jni.JObject {
   static set BEST_GOD(jni.JString value) => jni.Jni.env
       .SetStaticObjectField(_class.reference, _id_BEST_GOD, value.reference);
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Fields_Nested() {
     return Fields_Nested.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -1211,14 +1211,14 @@ class C2 extends jni.JObject {
   static set CONSTANT(int value) =>
       jni.Jni.env.SetStaticIntField(_class.reference, _id_CONSTANT, value);
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory C2() {
     return C2.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -1260,14 +1260,14 @@ class Example1 extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example1Type();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory Example1() {
     return Example1.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 
   static final _id_whichExample = jni.Jni.accessors
@@ -1345,7 +1345,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   set value($T value) =>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
-  static final _id_ctor = jni.Jni.accessors
+  static final _id_new0 = jni.Jni.accessors
       .getMethodIDOf(_class.reference, r"<init>", r"(Ljava/lang/Object;)V");
 
   /// from: public void <init>(T value)
@@ -1360,7 +1360,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     return GrandParent.fromRef(
         T,
         jni.Jni.accessors.newObjectWithArgs(
-            _class.reference, _id_ctor, [value.reference]).object);
+            _class.reference, _id_new0, [value.reference]).object);
   }
 
   static final _id_stringParent = jni.Jni.accessors.getMethodIDOf(
@@ -1536,7 +1536,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   set value($S value) =>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
-  static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
       _class.reference,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V");
@@ -1558,7 +1558,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     return GrandParent_Parent.fromRef(
         T,
         S,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor,
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
             [$parent.reference, newValue.reference]).object);
   }
 }
@@ -1685,7 +1685,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   set value($U value) =>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
-  static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
       _class.reference,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V");
@@ -1712,7 +1712,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
         T,
         S,
         U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor,
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
             [$parent.reference, newValue.reference]).object);
   }
 }
@@ -1798,7 +1798,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   set value($S value) =>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
-  static final _id_ctor = jni.Jni.accessors
+  static final _id_new0 = jni.Jni.accessors
       .getMethodIDOf(_class.reference, r"<init>", r"(Ljava/lang/Object;)V");
 
   /// from: public void <init>(S value)
@@ -1813,7 +1813,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
     return GrandParent_StaticParent.fromRef(
         S,
         jni.Jni.accessors.newObjectWithArgs(
-            _class.reference, _id_ctor, [value.reference]).object);
+            _class.reference, _id_new0, [value.reference]).object);
   }
 }
 
@@ -1915,7 +1915,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   set value($U value) =>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
-  static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
       _class.reference,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V");
@@ -1939,7 +1939,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     return GrandParent_StaticParent_Child.fromRef(
         S,
         U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor, [
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0, [
           $parent.reference,
           parentValue.reference,
           value.reference
@@ -2014,7 +2014,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     );
   }
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
@@ -2027,7 +2027,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
         K,
         V,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+            .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 
   static final _id_get0 = jni.Jni.accessors.getMethodIDOf(
@@ -2168,7 +2168,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   set value($V value) =>
       jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
 
-  static final _id_ctor = jni.Jni.accessors.getMethodIDOf(
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
       _class.reference,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/Object;Ljava/lang/Object;)V");
@@ -2193,7 +2193,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     return MyMap_MyEntry.fromRef(
         K,
         V,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_ctor,
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
             [$parent.reference, key.reference, value.reference]).object);
   }
 }
@@ -2258,7 +2258,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     );
   }
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
@@ -2269,7 +2269,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     return MyStack.fromRef(
         T,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+            .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 
   static final _id_fromArray = jni.Jni.accessors.getStaticMethodIDOf(
@@ -2457,7 +2457,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
     );
   }
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
@@ -2468,7 +2468,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
     return StringKeyedMap.fromRef(
         V,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+            .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -2519,14 +2519,14 @@ class StringMap extends StringKeyedMap<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringMapType();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory StringMap() {
     return StringMap.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -2568,14 +2568,14 @@ class StringStack extends MyStack<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringStackType();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory StringStack() {
     return StringStack.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -2627,7 +2627,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
     );
   }
 
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
@@ -2638,7 +2638,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
     return StringValuedMap.fromRef(
         K,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+            .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
@@ -2966,14 +2966,14 @@ class MyInterfaceConsumer extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyInterfaceConsumerType();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory MyInterfaceConsumer() {
     return MyInterfaceConsumer.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 
   static final _id_consumeOnAnotherThread = jni.Jni.accessors.getStaticMethodIDOf(
@@ -3152,14 +3152,14 @@ class MyDataClass extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyDataClassType();
-  static final _id_ctor =
+  static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be deleted after use, by calling the `delete` method.
   factory MyDataClass() {
     return MyDataClass.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_ctor, []).object);
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 

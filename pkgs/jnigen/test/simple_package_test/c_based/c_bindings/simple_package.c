@@ -402,89 +402,89 @@ JniResult Example__getRandomNumericString(jobject self_, jobject random) {
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_Example__ctor = NULL;
+jmethodID _m_Example__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example__ctor() {
+JniResult Example__new0() {
   load_env();
   load_class_global_ref(&_c_Example,
                         "com/github/dart_lang/jnigen/simple_package/Example");
   if (_c_Example == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example, &_m_Example__ctor, "<init>", "()V");
-  if (_m_Example__ctor == NULL)
+  load_method(_c_Example, &_m_Example__new0, "<init>", "()V");
+  if (_m_Example__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__ctor);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__new0);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_Example__ctor1 = NULL;
+jmethodID _m_Example__new1 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example__ctor1(int32_t number) {
+JniResult Example__new1(int32_t number) {
   load_env();
   load_class_global_ref(&_c_Example,
                         "com/github/dart_lang/jnigen/simple_package/Example");
   if (_c_Example == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example, &_m_Example__ctor1, "<init>", "(I)V");
-  if (_m_Example__ctor1 == NULL)
+  load_method(_c_Example, &_m_Example__new1, "<init>", "(I)V");
+  if (_m_Example__new1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__ctor1, number);
+      (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__new1, number);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_Example__ctor2 = NULL;
+jmethodID _m_Example__new2 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example__ctor2(int32_t number, uint8_t isUp) {
+JniResult Example__new2(int32_t number, uint8_t isUp) {
   load_env();
   load_class_global_ref(&_c_Example,
                         "com/github/dart_lang/jnigen/simple_package/Example");
   if (_c_Example == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example, &_m_Example__ctor2, "<init>", "(IZ)V");
-  if (_m_Example__ctor2 == NULL)
+  load_method(_c_Example, &_m_Example__new2, "<init>", "(IZ)V");
+  if (_m_Example__new2 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__ctor2, number, isUp);
+      (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__new2, number, isUp);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_Example__ctor3 = NULL;
+jmethodID _m_Example__new3 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example__ctor3(int32_t number, uint8_t isUp, jobject codename) {
+JniResult Example__new3(int32_t number, uint8_t isUp, jobject codename) {
   load_env();
   load_class_global_ref(&_c_Example,
                         "com/github/dart_lang/jnigen/simple_package/Example");
   if (_c_Example == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example, &_m_Example__ctor3, "<init>",
+  load_method(_c_Example, &_m_Example__new3, "<init>",
               "(IZLjava/lang/String;)V");
-  if (_m_Example__ctor3 == NULL)
+  if (_m_Example__new3 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__ctor3,
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__new3,
                                          number, isUp, codename);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_Example__ctor4 = NULL;
+jmethodID _m_Example__new4 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example__ctor4(int32_t a,
-                         int32_t b,
-                         int32_t c,
-                         int32_t d,
-                         int32_t e,
-                         int32_t f,
-                         int32_t g,
-                         int32_t h) {
+JniResult Example__new4(int32_t a,
+                        int32_t b,
+                        int32_t c,
+                        int32_t d,
+                        int32_t e,
+                        int32_t f,
+                        int32_t g,
+                        int32_t h) {
   load_env();
   load_class_global_ref(&_c_Example,
                         "com/github/dart_lang/jnigen/simple_package/Example");
   if (_c_Example == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example, &_m_Example__ctor4, "<init>", "(IIIIIIII)V");
-  if (_m_Example__ctor4 == NULL)
+  load_method(_c_Example, &_m_Example__new4, "<init>", "(IIIIIIII)V");
+  if (_m_Example__new4 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__ctor4,
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example, _m_Example__new4,
                                          a, b, c, d, e, f, g, h);
   return to_global_ref_result(_result);
 }
@@ -590,20 +590,20 @@ JniResult Example__throwException() {
 // com.github.dart_lang.jnigen.simple_package.Example$Nested
 jclass _c_Example_Nested = NULL;
 
-jmethodID _m_Example_Nested__ctor = NULL;
+jmethodID _m_Example_Nested__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example_Nested__ctor(uint8_t value) {
+JniResult Example_Nested__new0(uint8_t value) {
   load_env();
   load_class_global_ref(
       &_c_Example_Nested,
       "com/github/dart_lang/jnigen/simple_package/Example$Nested");
   if (_c_Example_Nested == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example_Nested, &_m_Example_Nested__ctor, "<init>", "(Z)V");
-  if (_m_Example_Nested__ctor == NULL)
+  load_method(_c_Example_Nested, &_m_Example_Nested__new0, "<init>", "(Z)V");
+  if (_m_Example_Nested__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example_Nested,
-                                         _m_Example_Nested__ctor, value);
+                                         _m_Example_Nested__new0, value);
   return to_global_ref_result(_result);
 }
 
@@ -663,9 +663,9 @@ JniResult Example_Nested__setValue(jobject self_, uint8_t value) {
 // com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice
 jclass _c_Example_Nested_NestedTwice = NULL;
 
-jmethodID _m_Example_Nested_NestedTwice__ctor = NULL;
+jmethodID _m_Example_Nested_NestedTwice__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example_Nested_NestedTwice__ctor() {
+JniResult Example_Nested_NestedTwice__new0() {
   load_env();
   load_class_global_ref(
       &_c_Example_Nested_NestedTwice,
@@ -673,11 +673,11 @@ JniResult Example_Nested_NestedTwice__ctor() {
   if (_c_Example_Nested_NestedTwice == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(_c_Example_Nested_NestedTwice,
-              &_m_Example_Nested_NestedTwice__ctor, "<init>", "()V");
-  if (_m_Example_Nested_NestedTwice__ctor == NULL)
+              &_m_Example_Nested_NestedTwice__new0, "<init>", "()V");
+  if (_m_Example_Nested_NestedTwice__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Example_Nested_NestedTwice,
-                                         _m_Example_Nested_NestedTwice__ctor);
+                                         _m_Example_Nested_NestedTwice__new0);
   return to_global_ref_result(_result);
 }
 
@@ -716,56 +716,56 @@ JniResult set_Example_Nested_NestedTwice__ZERO(int32_t value) {
 // com.github.dart_lang.jnigen.simple_package.Exceptions
 jclass _c_Exceptions = NULL;
 
-jmethodID _m_Exceptions__ctor = NULL;
+jmethodID _m_Exceptions__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Exceptions__ctor() {
+JniResult Exceptions__new0() {
   load_env();
   load_class_global_ref(
       &_c_Exceptions, "com/github/dart_lang/jnigen/simple_package/Exceptions");
   if (_c_Exceptions == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Exceptions, &_m_Exceptions__ctor, "<init>", "()V");
-  if (_m_Exceptions__ctor == NULL)
+  load_method(_c_Exceptions, &_m_Exceptions__new0, "<init>", "()V");
+  if (_m_Exceptions__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Exceptions, _m_Exceptions__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_Exceptions, _m_Exceptions__new0);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_Exceptions__ctor1 = NULL;
+jmethodID _m_Exceptions__new1 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Exceptions__ctor1(float x) {
+JniResult Exceptions__new1(float x) {
   load_env();
   load_class_global_ref(
       &_c_Exceptions, "com/github/dart_lang/jnigen/simple_package/Exceptions");
   if (_c_Exceptions == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Exceptions, &_m_Exceptions__ctor1, "<init>", "(F)V");
-  if (_m_Exceptions__ctor1 == NULL)
+  load_method(_c_Exceptions, &_m_Exceptions__new1, "<init>", "(F)V");
+  if (_m_Exceptions__new1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Exceptions, _m_Exceptions__ctor1, x);
+      (*jniEnv)->NewObject(jniEnv, _c_Exceptions, _m_Exceptions__new1, x);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_Exceptions__ctor2 = NULL;
+jmethodID _m_Exceptions__new2 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Exceptions__ctor2(int32_t a,
-                            int32_t b,
-                            int32_t c,
-                            int32_t d,
-                            int32_t e,
-                            int32_t f) {
+JniResult Exceptions__new2(int32_t a,
+                           int32_t b,
+                           int32_t c,
+                           int32_t d,
+                           int32_t e,
+                           int32_t f) {
   load_env();
   load_class_global_ref(
       &_c_Exceptions, "com/github/dart_lang/jnigen/simple_package/Exceptions");
   if (_c_Exceptions == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Exceptions, &_m_Exceptions__ctor2, "<init>", "(IIIIII)V");
-  if (_m_Exceptions__ctor2 == NULL)
+  load_method(_c_Exceptions, &_m_Exceptions__new2, "<init>", "(IIIIII)V");
+  if (_m_Exceptions__new2 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(
-      jniEnv, _c_Exceptions, _m_Exceptions__ctor2, a, b, c, d, e, f);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Exceptions,
+                                         _m_Exceptions__new2, a, b, c, d, e, f);
   return to_global_ref_result(_result);
 }
 
@@ -1009,18 +1009,18 @@ JniResult Exceptions__throwLoremIpsum() {
 // com.github.dart_lang.jnigen.simple_package.Fields
 jclass _c_Fields = NULL;
 
-jmethodID _m_Fields__ctor = NULL;
+jmethodID _m_Fields__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Fields__ctor() {
+JniResult Fields__new0() {
   load_env();
   load_class_global_ref(&_c_Fields,
                         "com/github/dart_lang/jnigen/simple_package/Fields");
   if (_c_Fields == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Fields, &_m_Fields__ctor, "<init>", "()V");
-  if (_m_Fields__ctor == NULL)
+  load_method(_c_Fields, &_m_Fields__new0, "<init>", "()V");
+  if (_m_Fields__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Fields, _m_Fields__ctor);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_Fields, _m_Fields__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1288,20 +1288,20 @@ JniResult set_Fields__euroSymbol(uint16_t value) {
 // com.github.dart_lang.jnigen.simple_package.Fields$Nested
 jclass _c_Fields_Nested = NULL;
 
-jmethodID _m_Fields_Nested__ctor = NULL;
+jmethodID _m_Fields_Nested__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Fields_Nested__ctor() {
+JniResult Fields_Nested__new0() {
   load_env();
   load_class_global_ref(
       &_c_Fields_Nested,
       "com/github/dart_lang/jnigen/simple_package/Fields$Nested");
   if (_c_Fields_Nested == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Fields_Nested, &_m_Fields_Nested__ctor, "<init>", "()V");
-  if (_m_Fields_Nested__ctor == NULL)
+  load_method(_c_Fields_Nested, &_m_Fields_Nested__new0, "<init>", "()V");
+  if (_m_Fields_Nested__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Fields_Nested, _m_Fields_Nested__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_Fields_Nested, _m_Fields_Nested__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1367,17 +1367,17 @@ JniResult set_Fields_Nested__BEST_GOD(jobject value) {
 // com.github.dart_lang.jnigen.pkg2.C2
 jclass _c_C2 = NULL;
 
-jmethodID _m_C2__ctor = NULL;
+jmethodID _m_C2__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult C2__ctor() {
+JniResult C2__new0() {
   load_env();
   load_class_global_ref(&_c_C2, "com/github/dart_lang/jnigen/pkg2/C2");
   if (_c_C2 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_C2, &_m_C2__ctor, "<init>", "()V");
-  if (_m_C2__ctor == NULL)
+  load_method(_c_C2, &_m_C2__new0, "<init>", "()V");
+  if (_m_C2__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_C2, _m_C2__ctor);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_C2, _m_C2__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1408,19 +1408,19 @@ JniResult set_C2__CONSTANT(int32_t value) {
 // com.github.dart_lang.jnigen.pkg2.Example
 jclass _c_Example1 = NULL;
 
-jmethodID _m_Example1__ctor = NULL;
+jmethodID _m_Example1__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Example1__ctor() {
+JniResult Example1__new0() {
   load_env();
   load_class_global_ref(&_c_Example1,
                         "com/github/dart_lang/jnigen/pkg2/Example");
   if (_c_Example1 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Example1, &_m_Example1__ctor, "<init>", "()V");
-  if (_m_Example1__ctor == NULL)
+  load_method(_c_Example1, &_m_Example1__new0, "<init>", "()V");
+  if (_m_Example1__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_Example1, _m_Example1__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_Example1, _m_Example1__new0);
   return to_global_ref_result(_result);
 }
 
@@ -1443,20 +1443,20 @@ JniResult Example1__whichExample(jobject self_) {
 // com.github.dart_lang.jnigen.generics.GrandParent
 jclass _c_GrandParent = NULL;
 
-jmethodID _m_GrandParent__ctor = NULL;
+jmethodID _m_GrandParent__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult GrandParent__ctor(jobject value) {
+JniResult GrandParent__new0(jobject value) {
   load_env();
   load_class_global_ref(&_c_GrandParent,
                         "com/github/dart_lang/jnigen/generics/GrandParent");
   if (_c_GrandParent == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_GrandParent, &_m_GrandParent__ctor, "<init>",
+  load_method(_c_GrandParent, &_m_GrandParent__new0, "<init>",
               "(Ljava/lang/Object;)V");
-  if (_m_GrandParent__ctor == NULL)
+  if (_m_GrandParent__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_GrandParent, _m_GrandParent__ctor, value);
+      (*jniEnv)->NewObject(jniEnv, _c_GrandParent, _m_GrandParent__new0, value);
   return to_global_ref_result(_result);
 }
 
@@ -1582,23 +1582,23 @@ JniResult set_GrandParent__value(jobject self_, jobject value) {
 // com.github.dart_lang.jnigen.generics.GrandParent$Parent
 jclass _c_GrandParent_Parent = NULL;
 
-jmethodID _m_GrandParent_Parent__ctor = NULL;
+jmethodID _m_GrandParent_Parent__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult GrandParent_Parent__ctor(jobject _parent, jobject newValue) {
+JniResult GrandParent_Parent__new0(jobject _parent, jobject newValue) {
   load_env();
   load_class_global_ref(
       &_c_GrandParent_Parent,
       "com/github/dart_lang/jnigen/generics/GrandParent$Parent");
   if (_c_GrandParent_Parent == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_GrandParent_Parent, &_m_GrandParent_Parent__ctor, "<init>",
+  load_method(_c_GrandParent_Parent, &_m_GrandParent_Parent__new0, "<init>",
               "(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/"
               "Object;)V");
-  if (_m_GrandParent_Parent__ctor == NULL)
+  if (_m_GrandParent_Parent__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_GrandParent_Parent,
-                           _m_GrandParent_Parent__ctor, _parent, newValue);
+                           _m_GrandParent_Parent__new0, _parent, newValue);
   return to_global_ref_result(_result);
 }
 
@@ -1666,23 +1666,23 @@ JniResult set_GrandParent_Parent__value(jobject self_, jobject value) {
 // com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child
 jclass _c_GrandParent_Parent_Child = NULL;
 
-jmethodID _m_GrandParent_Parent_Child__ctor = NULL;
+jmethodID _m_GrandParent_Parent_Child__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult GrandParent_Parent_Child__ctor(jobject _parent, jobject newValue) {
+JniResult GrandParent_Parent_Child__new0(jobject _parent, jobject newValue) {
   load_env();
   load_class_global_ref(
       &_c_GrandParent_Parent_Child,
       "com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child");
   if (_c_GrandParent_Parent_Child == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_GrandParent_Parent_Child, &_m_GrandParent_Parent_Child__ctor,
+  load_method(_c_GrandParent_Parent_Child, &_m_GrandParent_Parent_Child__new0,
               "<init>",
               "(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/"
               "lang/Object;)V");
-  if (_m_GrandParent_Parent_Child__ctor == NULL)
+  if (_m_GrandParent_Parent_Child__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_GrandParent_Parent_Child,
-                                         _m_GrandParent_Parent_Child__ctor,
+                                         _m_GrandParent_Parent_Child__new0,
                                          _parent, newValue);
   return to_global_ref_result(_result);
 }
@@ -1789,22 +1789,22 @@ JniResult set_GrandParent_Parent_Child__value(jobject self_, jobject value) {
 // com.github.dart_lang.jnigen.generics.GrandParent$StaticParent
 jclass _c_GrandParent_StaticParent = NULL;
 
-jmethodID _m_GrandParent_StaticParent__ctor = NULL;
+jmethodID _m_GrandParent_StaticParent__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult GrandParent_StaticParent__ctor(jobject value) {
+JniResult GrandParent_StaticParent__new0(jobject value) {
   load_env();
   load_class_global_ref(
       &_c_GrandParent_StaticParent,
       "com/github/dart_lang/jnigen/generics/GrandParent$StaticParent");
   if (_c_GrandParent_StaticParent == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_GrandParent_StaticParent, &_m_GrandParent_StaticParent__ctor,
+  load_method(_c_GrandParent_StaticParent, &_m_GrandParent_StaticParent__new0,
               "<init>", "(Ljava/lang/Object;)V");
-  if (_m_GrandParent_StaticParent__ctor == NULL)
+  if (_m_GrandParent_StaticParent__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
       (*jniEnv)->NewObject(jniEnv, _c_GrandParent_StaticParent,
-                           _m_GrandParent_StaticParent__ctor, value);
+                           _m_GrandParent_StaticParent__new0, value);
   return to_global_ref_result(_result);
 }
 
@@ -1842,9 +1842,9 @@ JniResult set_GrandParent_StaticParent__value(jobject self_, jobject value) {
 // com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child
 jclass _c_GrandParent_StaticParent_Child = NULL;
 
-jmethodID _m_GrandParent_StaticParent_Child__ctor = NULL;
+jmethodID _m_GrandParent_StaticParent_Child__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult GrandParent_StaticParent_Child__ctor(jobject _parent,
+JniResult GrandParent_StaticParent_Child__new0(jobject _parent,
                                                jobject parentValue,
                                                jobject value) {
   load_env();
@@ -1855,14 +1855,14 @@ JniResult GrandParent_StaticParent_Child__ctor(jobject _parent,
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_method(
       _c_GrandParent_StaticParent_Child,
-      &_m_GrandParent_StaticParent_Child__ctor, "<init>",
+      &_m_GrandParent_StaticParent_Child__new0, "<init>",
       "(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/"
       "lang/Object;Ljava/lang/Object;)V");
-  if (_m_GrandParent_StaticParent_Child__ctor == NULL)
+  if (_m_GrandParent_StaticParent_Child__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
       jniEnv, _c_GrandParent_StaticParent_Child,
-      _m_GrandParent_StaticParent_Child__ctor, _parent, parentValue, value);
+      _m_GrandParent_StaticParent_Child__new0, _parent, parentValue, value);
   return to_global_ref_result(_result);
 }
 
@@ -1937,18 +1937,18 @@ JniResult set_GrandParent_StaticParent_Child__value(jobject self_,
 // com.github.dart_lang.jnigen.generics.MyMap
 jclass _c_MyMap = NULL;
 
-jmethodID _m_MyMap__ctor = NULL;
+jmethodID _m_MyMap__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult MyMap__ctor() {
+JniResult MyMap__new0() {
   load_env();
   load_class_global_ref(&_c_MyMap,
                         "com/github/dart_lang/jnigen/generics/MyMap");
   if (_c_MyMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_MyMap, &_m_MyMap__ctor, "<init>", "()V");
-  if (_m_MyMap__ctor == NULL)
+  load_method(_c_MyMap, &_m_MyMap__new0, "<init>", "()V");
+  if (_m_MyMap__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_MyMap, _m_MyMap__ctor);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_MyMap, _m_MyMap__new0);
   return to_global_ref_result(_result);
 }
 
@@ -2006,21 +2006,21 @@ JniResult MyMap__entryStack(jobject self_) {
 // com.github.dart_lang.jnigen.generics.MyMap$MyEntry
 jclass _c_MyMap_MyEntry = NULL;
 
-jmethodID _m_MyMap_MyEntry__ctor = NULL;
+jmethodID _m_MyMap_MyEntry__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult MyMap_MyEntry__ctor(jobject _parent, jobject key, jobject value) {
+JniResult MyMap_MyEntry__new0(jobject _parent, jobject key, jobject value) {
   load_env();
   load_class_global_ref(&_c_MyMap_MyEntry,
                         "com/github/dart_lang/jnigen/generics/MyMap$MyEntry");
   if (_c_MyMap_MyEntry == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_MyMap_MyEntry, &_m_MyMap_MyEntry__ctor, "<init>",
+  load_method(_c_MyMap_MyEntry, &_m_MyMap_MyEntry__new0, "<init>",
               "(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/"
               "Object;Ljava/lang/Object;)V");
-  if (_m_MyMap_MyEntry__ctor == NULL)
+  if (_m_MyMap_MyEntry__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(
-      jniEnv, _c_MyMap_MyEntry, _m_MyMap_MyEntry__ctor, _parent, key, value);
+      jniEnv, _c_MyMap_MyEntry, _m_MyMap_MyEntry__new0, _parent, key, value);
   return to_global_ref_result(_result);
 }
 
@@ -2083,18 +2083,18 @@ JniResult set_MyMap_MyEntry__value(jobject self_, jobject value) {
 // com.github.dart_lang.jnigen.generics.MyStack
 jclass _c_MyStack = NULL;
 
-jmethodID _m_MyStack__ctor = NULL;
+jmethodID _m_MyStack__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult MyStack__ctor() {
+JniResult MyStack__new0() {
   load_env();
   load_class_global_ref(&_c_MyStack,
                         "com/github/dart_lang/jnigen/generics/MyStack");
   if (_c_MyStack == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_MyStack, &_m_MyStack__ctor, "<init>", "()V");
-  if (_m_MyStack__ctor == NULL)
+  load_method(_c_MyStack, &_m_MyStack__new0, "<init>", "()V");
+  if (_m_MyStack__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_MyStack, _m_MyStack__ctor);
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_MyStack, _m_MyStack__new0);
   return to_global_ref_result(_result);
 }
 
@@ -2237,76 +2237,76 @@ JniResult MyStack__size(jobject self_) {
 // com.github.dart_lang.jnigen.generics.StringKeyedMap
 jclass _c_StringKeyedMap = NULL;
 
-jmethodID _m_StringKeyedMap__ctor = NULL;
+jmethodID _m_StringKeyedMap__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult StringKeyedMap__ctor() {
+JniResult StringKeyedMap__new0() {
   load_env();
   load_class_global_ref(&_c_StringKeyedMap,
                         "com/github/dart_lang/jnigen/generics/StringKeyedMap");
   if (_c_StringKeyedMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_StringKeyedMap, &_m_StringKeyedMap__ctor, "<init>", "()V");
-  if (_m_StringKeyedMap__ctor == NULL)
+  load_method(_c_StringKeyedMap, &_m_StringKeyedMap__new0, "<init>", "()V");
+  if (_m_StringKeyedMap__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_StringKeyedMap, _m_StringKeyedMap__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_StringKeyedMap, _m_StringKeyedMap__new0);
   return to_global_ref_result(_result);
 }
 
 // com.github.dart_lang.jnigen.generics.StringMap
 jclass _c_StringMap = NULL;
 
-jmethodID _m_StringMap__ctor = NULL;
+jmethodID _m_StringMap__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult StringMap__ctor() {
+JniResult StringMap__new0() {
   load_env();
   load_class_global_ref(&_c_StringMap,
                         "com/github/dart_lang/jnigen/generics/StringMap");
   if (_c_StringMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_StringMap, &_m_StringMap__ctor, "<init>", "()V");
-  if (_m_StringMap__ctor == NULL)
+  load_method(_c_StringMap, &_m_StringMap__new0, "<init>", "()V");
+  if (_m_StringMap__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_StringMap, _m_StringMap__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_StringMap, _m_StringMap__new0);
   return to_global_ref_result(_result);
 }
 
 // com.github.dart_lang.jnigen.generics.StringStack
 jclass _c_StringStack = NULL;
 
-jmethodID _m_StringStack__ctor = NULL;
+jmethodID _m_StringStack__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult StringStack__ctor() {
+JniResult StringStack__new0() {
   load_env();
   load_class_global_ref(&_c_StringStack,
                         "com/github/dart_lang/jnigen/generics/StringStack");
   if (_c_StringStack == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_StringStack, &_m_StringStack__ctor, "<init>", "()V");
-  if (_m_StringStack__ctor == NULL)
+  load_method(_c_StringStack, &_m_StringStack__new0, "<init>", "()V");
+  if (_m_StringStack__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_StringStack, _m_StringStack__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_StringStack, _m_StringStack__new0);
   return to_global_ref_result(_result);
 }
 
 // com.github.dart_lang.jnigen.generics.StringValuedMap
 jclass _c_StringValuedMap = NULL;
 
-jmethodID _m_StringValuedMap__ctor = NULL;
+jmethodID _m_StringValuedMap__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult StringValuedMap__ctor() {
+JniResult StringValuedMap__new0() {
   load_env();
   load_class_global_ref(&_c_StringValuedMap,
                         "com/github/dart_lang/jnigen/generics/StringValuedMap");
   if (_c_StringValuedMap == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_StringValuedMap, &_m_StringValuedMap__ctor, "<init>", "()V");
-  if (_m_StringValuedMap__ctor == NULL)
+  load_method(_c_StringValuedMap, &_m_StringValuedMap__new0, "<init>", "()V");
+  if (_m_StringValuedMap__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_StringValuedMap,
-                                         _m_StringValuedMap__ctor);
+                                         _m_StringValuedMap__new0);
   return to_global_ref_result(_result);
 }
 
@@ -2387,21 +2387,21 @@ JniResult MyInterface__manyPrimitives(jobject self_,
 // com.github.dart_lang.jnigen.interfaces.MyInterfaceConsumer
 jclass _c_MyInterfaceConsumer = NULL;
 
-jmethodID _m_MyInterfaceConsumer__ctor = NULL;
+jmethodID _m_MyInterfaceConsumer__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult MyInterfaceConsumer__ctor() {
+JniResult MyInterfaceConsumer__new0() {
   load_env();
   load_class_global_ref(
       &_c_MyInterfaceConsumer,
       "com/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer");
   if (_c_MyInterfaceConsumer == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_MyInterfaceConsumer, &_m_MyInterfaceConsumer__ctor, "<init>",
+  load_method(_c_MyInterfaceConsumer, &_m_MyInterfaceConsumer__new0, "<init>",
               "()V");
-  if (_m_MyInterfaceConsumer__ctor == NULL)
+  if (_m_MyInterfaceConsumer__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->NewObject(jniEnv, _c_MyInterfaceConsumer,
-                                         _m_MyInterfaceConsumer__ctor);
+                                         _m_MyInterfaceConsumer__new0);
   return to_global_ref_result(_result);
 }
 
@@ -2508,18 +2508,18 @@ JniResult JsonSerializable_Case__valueOf(jobject name) {
 // com.github.dart_lang.jnigen.annotations.MyDataClass
 jclass _c_MyDataClass = NULL;
 
-jmethodID _m_MyDataClass__ctor = NULL;
+jmethodID _m_MyDataClass__new0 = NULL;
 FFI_PLUGIN_EXPORT
-JniResult MyDataClass__ctor() {
+JniResult MyDataClass__new0() {
   load_env();
   load_class_global_ref(&_c_MyDataClass,
                         "com/github/dart_lang/jnigen/annotations/MyDataClass");
   if (_c_MyDataClass == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_MyDataClass, &_m_MyDataClass__ctor, "<init>", "()V");
-  if (_m_MyDataClass__ctor == NULL)
+  load_method(_c_MyDataClass, &_m_MyDataClass__new0, "<init>", "()V");
+  if (_m_MyDataClass__new0 == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result =
-      (*jniEnv)->NewObject(jniEnv, _c_MyDataClass, _m_MyDataClass__ctor);
+      (*jniEnv)->NewObject(jniEnv, _c_MyDataClass, _m_MyDataClass__new0);
   return to_global_ref_result(_result);
 }
