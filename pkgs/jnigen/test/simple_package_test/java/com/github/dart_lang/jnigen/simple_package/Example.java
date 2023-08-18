@@ -14,6 +14,8 @@ public class Example {
   public static final char SEMICOLON = ';';
   public static final String SEMICOLON_STRING = ";";
 
+  public static final Random unusedRandom = new Random();
+
   private static int amount = 500;
   private static double pi = 3.14159;
   private static char asterisk = '*';
@@ -123,6 +125,26 @@ public class Example {
         "%d%d%d%d", random.nextInt(10), random.nextInt(10), random.nextInt(10), random.nextInt(10));
   }
 
+  private void privateMethod(String a, String b) {}
+
+  protected void protectedMethod(String a, String b) {}
+
+  protected Random protectedField;
+
+  public final void finalMethod() {}
+
+  public List<String> getList() {
+    return null;
+  }
+
+  /** Joins the strings in the list using the given delimiter. */
+  public String joinStrings(List<String> values, String delim) {
+    return null;
+  }
+
+  public <T extends CharSequence> void methodWithSeveralParams(
+      char ch, String s, int[] a, T t, List<T> lt, Map<String, ? extends CharSequence> wm) {}
+
   public Example() {
     this(0);
   }
@@ -167,6 +189,20 @@ public class Example {
 
   public static void throwException() {
     throw new RuntimeException("Hello");
+  }
+
+  public void overloaded() {}
+
+  public void overloaded(int a, String b) {}
+
+  public void overloaded(int a) {}
+
+  public void overloaded(List<Integer> a, String b) {}
+
+  public void overloaded(List<Integer> a) {}
+
+  public class NonStaticNested {
+    public boolean ok;
   }
 
   public static class Nested {

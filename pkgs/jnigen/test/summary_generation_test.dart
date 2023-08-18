@@ -1,4 +1,4 @@
-// Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -7,18 +7,16 @@
 
 @Tags(['summarizer_test'])
 
-import 'dart:io';
 import 'dart:math';
 
 import 'package:jnigen/src/config/config.dart';
 import 'package:jnigen/src/elements/elements.dart';
-import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/summary/summary.dart';
-import 'package:logging/logging.dart';
 
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
+import 'test_util/summary_util.dart';
 import 'test_util/test_util.dart';
 
 const nestedClasses = [
@@ -43,18 +41,6 @@ void expectSummaryHasAllClasses(Classes? classes) {
   expect(declNames, containsAll(expectedClasses));
 }
 
-void deleteTempDir(Directory directory) {
-  try {
-    if (Platform.isWindows) {
-      // This appears to avoid "file used by another process" errors.
-      sleep(const Duration(seconds: 1));
-    }
-    directory.deleteSync(recursive: true);
-  } on FileSystemException catch (e) {
-    log.warning("Cannot delete directory: $e");
-  }
-}
-
 /// Packs files indicated by [artifacts], each relative to [artifactDir] into
 /// a JAR file at [jarPath].
 Future<void> createJar({
@@ -66,44 +52,6 @@ Future<void> createJar({
     'jar',
     ['cf', relative(jarPath, from: artifactDir), ...artifacts],
     workingDirectory: artifactDir,
-  );
-}
-
-String getClassNameFromPath(String path) {
-  if (!path.endsWith('.java')) {
-    throw ArgumentError('Filename must end with java');
-  }
-  return path
-      .replaceAll('/', '.')
-      .replaceAll('\\', '.')
-      .substring(0, path.length - 5);
-}
-
-final simplePackagePath = join('test', 'simple_package_test', 'java');
-final simplePackageDir = Directory(simplePackagePath);
-final javaFiles = findFilesWithSuffix(simplePackageDir, '.java');
-final javaClasses = javaFiles.map(getClassNameFromPath).toList();
-// remove individual class listings from one package,
-// and add the package name instead, for testing.
-const _removalPackage = 'com.github.dart_lang.jnigen.pkg2';
-final summarizerClassesSpec = [
-  ...javaClasses.where((e) => !e.startsWith('$_removalPackage.')),
-  _removalPackage,
-];
-
-Config getConfig({List<String>? sourcePath, List<String>? classPath}) {
-  return Config(
-    outputConfig: OutputConfig(
-      bindingsType: BindingsType.dartOnly,
-      dartConfig: DartCodeOutputConfig(
-        path: Uri.file('unused.dart'),
-        structure: OutputStructure.singleFile,
-      ),
-    ),
-    classes: summarizerClassesSpec,
-    sourcePath: sourcePath?.map((e) => Uri.file(e)).toList(),
-    classPath: classPath?.map((e) => Uri.file(e)).toList(),
-    logLevel: Level.WARNING,
   );
 }
 
@@ -141,16 +89,16 @@ void testAllCases({
 }) {
   testSuccessCase(
     '- valid config',
-    getConfig(sourcePath: sourcePath, classPath: classPath),
+    getSummaryGenerationConfig(sourcePath: sourcePath, classPath: classPath),
   );
   testFailureCase(
     '- should fail with non-existing class',
-    getConfig(sourcePath: sourcePath, classPath: classPath),
+    getSummaryGenerationConfig(sourcePath: sourcePath, classPath: classPath),
     'com.github.dart_lang.jnigen.DoesNotExist',
   );
   testFailureCase(
     '- should fail with non-existing package',
-    getConfig(sourcePath: sourcePath, classPath: classPath),
+    getSummaryGenerationConfig(sourcePath: sourcePath, classPath: classPath),
     'com.github.dart_lang.notexist',
   );
 }
@@ -222,5 +170,5 @@ void main() async {
     );
   });
 
-  tearDownAll(() => deleteTempDir(tempDir));
+  tearDownAll(() => deleteTempDirWithDelay(tempDir));
 }

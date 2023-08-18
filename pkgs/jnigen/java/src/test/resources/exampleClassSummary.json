@@ -139,7 +139,6 @@
   "declKind" : "CLASS",
   "modifiers" : [ "static", "public" ],
   "binaryName" : "com.example.Example$Aux",
-  "parentName" : "com.example.Example",
   "methods" : [ {
     "modifiers" : [ "public" ],
     "name" : "<init>",

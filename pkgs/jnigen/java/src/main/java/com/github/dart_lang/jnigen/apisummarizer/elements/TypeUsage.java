@@ -7,6 +7,14 @@ package com.github.dart_lang.jnigen.apisummarizer.elements;
 import java.util.List;
 
 public class TypeUsage {
+  public TypeUsage(String shorthand, Kind kind, ReferredType type) {
+    this.shorthand = shorthand;
+    this.kind = kind;
+    this.type = type;
+  }
+
+  public TypeUsage() {}
+
   public enum Kind {
     DECLARED,
     TYPE_VARIABLE,

@@ -62,6 +62,9 @@ public class ElementBuilders {
     field.name = e.getSimpleName().toString();
     field.modifiers = e.getModifiers().stream().map(Modifier::toString).collect(Collectors.toSet());
     field.defaultValue = e.getConstantValue();
+    if (field.defaultValue instanceof Character) {
+      field.defaultValue = (int) (Character) field.defaultValue;
+    }
     field.type = typeUsage(e.asType());
     field.javadoc = docComment(env.trees.getDocCommentTree(e));
     field.annotations = annotations(e.getAnnotationMirrors());

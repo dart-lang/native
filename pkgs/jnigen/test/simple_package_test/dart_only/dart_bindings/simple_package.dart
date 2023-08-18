@@ -24,6 +24,73 @@ import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
+/// from: com.github.dart_lang.jnigen.simple_package.Color
+class Color extends jni.JObject {
+  @override
+  late final jni.JObjType<Color> $type = type;
+
+  Color.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/simple_package/Color");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $ColorType();
+  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"values",
+      r"()[Lcom/github/dart_lang/jnigen/simple_package/Color;");
+
+  /// from: static public com.github.dart_lang.jnigen.simple_package.Color[] values()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JArray<Color> values() {
+    return const jni.JArrayType($ColorType()).fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_values,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"valueOf",
+      r"(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/simple_package/Color;");
+
+  /// from: static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String name)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static Color valueOf(
+    jni.JString name,
+  ) {
+    return const $ColorType().fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
+            jni.JniCallType.objectType, [name.reference]).object);
+  }
+}
+
+class $ColorType extends jni.JObjType<Color> {
+  const $ColorType();
+
+  @override
+  String get signature => r"Lcom/github/dart_lang/jnigen/simple_package/Color;";
+
+  @override
+  Color fromRef(jni.JObjectPtr ref) => Color.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($ColorType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($ColorType) && other is $ColorType;
+  }
+}
+
 /// from: com.github.dart_lang.jnigen.simple_package.Example
 class Example extends jni.JObject {
   @override
@@ -49,10 +116,42 @@ class Example extends jni.JObject {
   static const PI = 3.14159;
 
   /// from: static public final char SEMICOLON
-  static const SEMICOLON = r""";""";
+  static const SEMICOLON = 59;
 
   /// from: static public final java.lang.String SEMICOLON_STRING
   static const SEMICOLON_STRING = r""";""";
+
+  static final _id_unusedRandom = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"unusedRandom",
+    r"Ljava/util/Random;",
+  );
+
+  /// from: static public final java.util.Random unusedRandom
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static jni.JObject get unusedRandom =>
+      const jni.JObjectType().fromRef(jni.Jni.accessors
+          .getStaticField(
+              _class.reference, _id_unusedRandom, jni.JniCallType.objectType)
+          .object);
+
+  static final _id_protectedField = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"protectedField",
+    r"Ljava/util/Random;",
+  );
+
+  /// from: protected java.util.Random protectedField
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JObject get protectedField =>
+      const jni.JObjectType().fromRef(jni.Jni.accessors
+          .getField(reference, _id_protectedField, jni.JniCallType.objectType)
+          .object);
+
+  /// from: protected java.util.Random protectedField
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  set protectedField(jni.JObject value) => jni.Jni.env
+      .SetObjectField(reference, _id_protectedField, value.reference);
 
   static final _id_getAmount = jni.Jni.accessors
       .getStaticMethodIDOf(_class.reference, r"getAmount", r"()I");
@@ -332,6 +431,90 @@ class Example extends jni.JObject {
         [random.reference]).object);
   }
 
+  static final _id_protectedMethod = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"protectedMethod",
+      r"(Ljava/lang/String;Ljava/lang/String;)V");
+
+  /// from: protected void protectedMethod(java.lang.String a, java.lang.String b)
+  void protectedMethod(
+    jni.JString a,
+    jni.JString b,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_protectedMethod,
+        jni.JniCallType.voidType, [a.reference, b.reference]).check();
+  }
+
+  static final _id_finalMethod =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"finalMethod", r"()V");
+
+  /// from: public final void finalMethod()
+  void finalMethod() {
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_finalMethod, jni.JniCallType.voidType, []).check();
+  }
+
+  static final _id_getList = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"getList", r"()Ljava/util/List;");
+
+  /// from: public java.util.List<java.lang.String> getList()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JList<jni.JString> getList() {
+    return const jni.JListType(jni.JStringType()).fromRef(jni.Jni.accessors
+        .callMethodWithArgs(
+            reference, _id_getList, jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_joinStrings = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"joinStrings",
+      r"(Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;");
+
+  /// from: public java.lang.String joinStrings(java.util.List<java.lang.String> values, java.lang.String delim)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Joins the strings in the list using the given delimiter.
+  jni.JString joinStrings(
+    jni.JList<jni.JString> values,
+    jni.JString delim,
+  ) {
+    return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
+        reference,
+        _id_joinStrings,
+        jni.JniCallType.objectType,
+        [values.reference, delim.reference]).object);
+  }
+
+  static final _id_methodWithSeveralParams = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"methodWithSeveralParams",
+      r"(CLjava/lang/String;[ILjava/lang/CharSequence;Ljava/util/List;Ljava/util/Map;)V");
+
+  /// from: public void methodWithSeveralParams(char ch, java.lang.String s, int[] a, T t, java.util.List<T> lt, java.util.Map<java.lang.String,? extends java.lang.CharSequence> wm)
+  void methodWithSeveralParams<$T extends jni.JObject>(
+    int ch,
+    jni.JString s,
+    jni.JArray<jni.jint> a,
+    $T t,
+    jni.JList<$T> lt,
+    jni.JMap<jni.JString, jni.JObject> wm, {
+    jni.JObjType<$T>? T,
+  }) {
+    T ??= jni.lowestCommonSuperType([
+      (lt.$type as jni.JListType).E,
+      t.$type,
+    ]) as jni.JObjType<$T>;
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_methodWithSeveralParams, jni.JniCallType.voidType, [
+      jni.JValueChar(ch),
+      s.reference,
+      a.reference,
+      t.reference,
+      lt.reference,
+      wm.reference
+    ]).check();
+  }
+
   static final _id_new0 =
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
@@ -474,6 +657,63 @@ class Example extends jni.JObject {
   static void throwException() {
     return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
         _id_throwException, jni.JniCallType.voidType, []).check();
+  }
+
+  static final _id_overloaded =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"overloaded", r"()V");
+
+  /// from: public void overloaded()
+  void overloaded() {
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_overloaded, jni.JniCallType.voidType, []).check();
+  }
+
+  static final _id_overloaded1 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference, r"overloaded", r"(ILjava/lang/String;)V");
+
+  /// from: public void overloaded(int a, java.lang.String b)
+  void overloaded1(
+    int a,
+    jni.JString b,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded1,
+        jni.JniCallType.voidType, [jni.JValueInt(a), b.reference]).check();
+  }
+
+  static final _id_overloaded2 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"overloaded", r"(I)V");
+
+  /// from: public void overloaded(int a)
+  void overloaded2(
+    int a,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded2,
+        jni.JniCallType.voidType, [jni.JValueInt(a)]).check();
+  }
+
+  static final _id_overloaded3 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"overloaded",
+      r"(Ljava/util/List;Ljava/lang/String;)V");
+
+  /// from: public void overloaded(java.util.List<java.lang.Integer> a, java.lang.String b)
+  void overloaded3(
+    jni.JList<jni.JInteger> a,
+    jni.JString b,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded3,
+        jni.JniCallType.voidType, [a.reference, b.reference]).check();
+  }
+
+  static final _id_overloaded4 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"overloaded", r"(Ljava/util/List;)V");
+
+  /// from: public void overloaded(java.util.List<java.lang.Integer> a)
+  void overloaded4(
+    jni.JList<jni.JInteger> a,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded4,
+        jni.JniCallType.voidType, [a.reference]).check();
   }
 }
 
@@ -649,6 +889,76 @@ class $Example_Nested_NestedTwiceType
   bool operator ==(Object other) {
     return other.runtimeType == ($Example_Nested_NestedTwiceType) &&
         other is $Example_Nested_NestedTwiceType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested
+class Example_NonStaticNested extends jni.JObject {
+  @override
+  late final jni.JObjType<Example_NonStaticNested> $type = type;
+
+  Example_NonStaticNested.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Example_NonStaticNestedType();
+  static final _id_ok = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"ok",
+    r"Z",
+  );
+
+  /// from: public boolean ok
+  bool get ok => jni.Jni.accessors
+      .getField(reference, _id_ok, jni.JniCallType.booleanType)
+      .boolean;
+
+  /// from: public boolean ok
+  set ok(bool value) =>
+      jni.Jni.env.SetBooleanField(reference, _id_ok, value ? 1 : 0);
+
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(_class.reference,
+      r"<init>", r"(Lcom/github/dart_lang/jnigen/simple_package/Example;)V");
+
+  /// from: public void <init>(com.github.dart_lang.jnigen.simple_package.Example $parent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  factory Example_NonStaticNested(
+    Example $parent,
+  ) {
+    return Example_NonStaticNested.fromRef(jni.Jni.accessors.newObjectWithArgs(
+        _class.reference, _id_new0, [$parent.reference]).object);
+  }
+}
+
+class $Example_NonStaticNestedType
+    extends jni.JObjType<Example_NonStaticNested> {
+  const $Example_NonStaticNestedType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;";
+
+  @override
+  Example_NonStaticNested fromRef(jni.JObjectPtr ref) =>
+      Example_NonStaticNested.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Example_NonStaticNestedType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_NonStaticNestedType) &&
+        other is $Example_NonStaticNestedType;
   }
 }
 
@@ -1301,6 +1611,89 @@ class $Example1Type extends jni.JObjType<Example1> {
   @override
   bool operator ==(Object other) {
     return other.runtimeType == ($Example1Type) && other is $Example1Type;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.generics.GenericTypeParams
+class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
+    extends jni.JObject {
+  @override
+  late final jni.JObjType<GenericTypeParams<$S, $K>> $type = type(S, K);
+
+  final jni.JObjType<$S> S;
+  final jni.JObjType<$K> K;
+
+  GenericTypeParams.fromRef(
+    this.S,
+    this.K,
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/generics/GenericTypeParams");
+
+  /// The type which includes information such as the signature of this class.
+  static $GenericTypeParamsType<$S, $K>
+      type<$S extends jni.JObject, $K extends jni.JObject>(
+    jni.JObjType<$S> S,
+    jni.JObjType<$K> K,
+  ) {
+    return $GenericTypeParamsType(
+      S,
+      K,
+    );
+  }
+
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  factory GenericTypeParams({
+    required jni.JObjType<$S> S,
+    required jni.JObjType<$K> K,
+  }) {
+    return GenericTypeParams.fromRef(
+        S,
+        K,
+        jni.Jni.accessors
+            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+  }
+}
+
+class $GenericTypeParamsType<$S extends jni.JObject, $K extends jni.JObject>
+    extends jni.JObjType<GenericTypeParams<$S, $K>> {
+  final jni.JObjType<$S> S;
+  final jni.JObjType<$K> K;
+
+  const $GenericTypeParamsType(
+    this.S,
+    this.K,
+  );
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;";
+
+  @override
+  GenericTypeParams<$S, $K> fromRef(jni.JObjectPtr ref) =>
+      GenericTypeParams.fromRef(S, K, ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash($GenericTypeParamsType, S, K);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericTypeParamsType<$S, $K>) &&
+        other is $GenericTypeParamsType<$S, $K> &&
+        S == other.S &&
+        K == other.K;
   }
 }
 

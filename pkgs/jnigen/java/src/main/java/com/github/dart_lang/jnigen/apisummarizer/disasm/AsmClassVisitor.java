@@ -4,6 +4,8 @@
 
 package com.github.dart_lang.jnigen.apisummarizer.disasm;
 
+import static org.objectweb.asm.Opcodes.ACC_ENUM;
+
 import com.github.dart_lang.jnigen.apisummarizer.elements.*;
 import com.github.dart_lang.jnigen.apisummarizer.util.SkipException;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
@@ -45,7 +47,6 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
       String[] interfaces) {
     var current = new ClassDecl();
     visiting.push(current);
-    var type = Type.getObjectType(name);
     current.binaryName = name.replace('/', '.');
     current.modifiers = TypeUtils.access(actualAccess.getOrDefault(current.binaryName, access));
     current.declKind = TypeUtils.declKind(access);
@@ -86,6 +87,9 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     field.type = TypeUtils.typeUsage(Type.getType(descriptor), signature);
     field.defaultValue = value;
     field.modifiers = TypeUtils.access(access);
+    if ((access & ACC_ENUM) != 0) {
+      peekVisiting().values.add(name);
+    }
     if (signature != null) {
       var reader = new SignatureReader(signature);
       reader.accept(new AsmTypeUsageSignatureVisitor(field.type));

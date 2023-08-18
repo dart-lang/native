@@ -22,7 +22,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(Example.ON, equals(1));
       expect(Example.OFF, equals(0));
       expect(Example.PI, closeTo(pi, fpDelta));
-      expect(Example.SEMICOLON, equals(';'));
+      expect(Example.SEMICOLON, equals(';'.codeUnitAt(0)));
       expect(Example.SEMICOLON_STRING, equals(';'));
     });
 
