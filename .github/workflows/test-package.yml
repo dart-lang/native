@@ -248,12 +248,6 @@ jobs:
       - run: Add-Content $env:GITHUB_PATH "$env:JAVA_HOME\bin\server"
       - run: dart pub get
       - run: dart run jnigen:setup
-      - name: build in_app_java APK
-        run: flutter build apk --target-platform=android-arm64
-        working-directory: ./pkgs/jnigen/example/in_app_java
-      - name: build notification_plugin example APK
-        run: flutter build apk --target-platform=android-arm64
-        working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Build summarizer
         run: dart run jnigen:setup
       - name: Generate runtime tests

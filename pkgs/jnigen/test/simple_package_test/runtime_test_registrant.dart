@@ -17,8 +17,16 @@ const fpDelta = 0.001;
 const trillion = 1024 * 1024 * 1024 * 1024;
 
 void _runJavaGC() {
-  final system = Jni.findJClass('java/lang/System');
-  system.callStaticMethodByName<void>('gc', '()V', []);
+  final managementFactory =
+      Jni.findJClass('java/lang/management/ManagementFactory');
+  final bean = managementFactory.callStaticMethodByName<JObject>(
+      'getRuntimeMXBean', '()Ljava/lang/management/RuntimeMXBean;', []);
+  final pid = bean.callMethodByName<int>('getPid', '()J', []);
+  ProcessResult result;
+  do {
+    sleep(const Duration(milliseconds: 100));
+    result = Process.runSync('jcmd', [pid.toString(), 'GC.run']);
+  } while (result.exitCode != 0);
 }
 
 void registerTests(String groupName, TestRunnerCallback test) {

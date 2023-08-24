@@ -16,14 +16,13 @@ import 'test_util/test_util.dart';
 
 void main() {
   checkLocallyBuiltDependencies();
-  test('Method descriptor generation', timeout: const Timeout.factor(3),
-      () async {
-    final configGetters = [
-      simple_package_test.getConfig,
-      kotlin_test.getConfig,
-      jackson_core_test.getConfig
-    ];
-    for (final getConfig in configGetters) {
+  for (final (name, getConfig) in [
+    ('simple_package', simple_package_test.getConfig),
+    ('kotlin', kotlin_test.getConfig),
+    ('jackson_core', jackson_core_test.getConfig),
+  ]) {
+    test('Method descriptor generation for $name',
+        timeout: const Timeout.factor(3), () async {
       final config = getConfig();
       config.summarizerOptions =
           SummarizerOptions(backend: SummarizerBackend.asm);
@@ -38,6 +37,6 @@ void main() {
           expect(method.descriptor, method.accept(methodDescriptor));
         }
       }
-    }
-  });
+    });
+  }
 }
