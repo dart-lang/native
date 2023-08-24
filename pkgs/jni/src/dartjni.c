@@ -571,7 +571,7 @@ FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data) {
 
 JNIEXPORT void JNICALL
 Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith(JNIEnv* env,
-                                                             jobject thiz,
+                                                             jclass clazz,
                                                              jlong port,
                                                              jobject result) {
   attach_thread();
@@ -643,7 +643,7 @@ jmethodID _m_Long_init = NULL;
 
 JNIEXPORT jobjectArray JNICALL
 Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
-                                                  jobject thiz,
+                                                  jclass clazz,
                                                   jlong port,
                                                   jlong isolateId,
                                                   jlong functionPtr,
@@ -709,9 +709,18 @@ Java_com_github_dart_1lang_jni_PortProxy__1invoke(JNIEnv* env,
 
 JNIEXPORT void JNICALL
 Java_com_github_dart_1lang_jni_PortProxy__1cleanUp(JNIEnv* env,
-                                                   jobject thiz,
+                                                   jclass clazz,
                                                    jlong resultPtr) {
   CallbackResult* result = (CallbackResult*)resultPtr;
   (*env)->DeleteGlobalRef(env, result->object);
   free(result);
+}
+
+JNIEXPORT void JNICALL
+Java_com_github_dart_1lang_jni_PortCleaner_clean(JNIEnv* env,
+                                                 jclass clazz,
+                                                 jlong port) {
+  Dart_CObject close_signal;
+  close_signal.type = Dart_CObject_kNull;
+  Dart_PostCObject_DL(port, &close_signal);
 }

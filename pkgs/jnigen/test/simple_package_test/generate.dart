@@ -64,6 +64,11 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
       'com.github.dart_lang.jnigen.annotations',
     ],
     logLevel: Level.INFO,
+    customClassBody: {
+      'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
+  static Map<int, $MyInterfaceImpl> get $impls => _$impls;
+'''
+    },
     outputConfig: OutputConfig(
       bindingsType: bindingsType,
       cConfig: CCodeOutputConfig(

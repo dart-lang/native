@@ -325,6 +325,7 @@ class Config {
     this.sourcePath,
     this.classPath,
     this.preamble,
+    this.customClassBody,
     this.androidSdkConfig,
     this.mavenDownloads,
     this.summarizerOptions,
@@ -385,6 +386,12 @@ class Config {
 
   /// Call [importClasses] before using this.
   late final Map<String, ClassDecl> importedClasses;
+
+  /// Custom code that is added to the end of the class body with the specified
+  /// binary name.
+  ///
+  /// Used for testing package:jnigen.
+  final Map<String, String>? customClassBody;
 
   Future<void> importClasses() async {
     importedClasses = {};

@@ -11,6 +11,7 @@ public class PortProxy implements InvocationHandler {
     System.loadLibrary("dartjni");
   }
 
+  private static final PortCleaner cleaner = new PortCleaner();
   private final long port;
   private final long isolateId;
   private final long functionPtr;
@@ -23,48 +24,53 @@ public class PortProxy implements InvocationHandler {
 
   private static String getDescriptor(Method method) {
     StringBuilder descriptor = new StringBuilder();
-    descriptor.append(method.getName()).append("(");
+    descriptor.append(method.getName()).append('(');
     Class<?>[] parameterTypes = method.getParameterTypes();
     for (Class<?> paramType : parameterTypes) {
       appendType(descriptor, paramType);
     }
-    descriptor.append(")");
+    descriptor.append(')');
     appendType(descriptor, method.getReturnType());
     return descriptor.toString();
   }
 
   private static void appendType(StringBuilder descriptor, Class<?> type) {
     if (type == void.class) {
-      descriptor.append("V");
+      descriptor.append('V');
     } else if (type == boolean.class) {
-      descriptor.append("Z");
+      descriptor.append('Z');
     } else if (type == byte.class) {
-      descriptor.append("B");
+      descriptor.append('B');
     } else if (type == char.class) {
-      descriptor.append("C");
+      descriptor.append('C');
     } else if (type == short.class) {
-      descriptor.append("S");
+      descriptor.append('S');
     } else if (type == int.class) {
-      descriptor.append("I");
+      descriptor.append('I');
     } else if (type == long.class) {
-      descriptor.append("J");
+      descriptor.append('J');
     } else if (type == float.class) {
-      descriptor.append("F");
+      descriptor.append('F');
     } else if (type == double.class) {
-      descriptor.append("D");
+      descriptor.append('D');
     } else if (type.isArray()) {
       descriptor.append('[');
       appendType(descriptor, type.getComponentType());
     } else {
-      descriptor.append("L").append(type.getName().replace('.', '/')).append(";");
+      descriptor.append('L').append(type.getName().replace('.', '/')).append(';');
     }
   }
 
   public static Object newInstance(String binaryName, long port, long isolateId, long functionPtr)
       throws ClassNotFoundException {
     Class<?> clazz = Class.forName(binaryName);
-    return Proxy.newProxyInstance(
-        clazz.getClassLoader(), new Class[] {clazz}, new PortProxy(port, isolateId, functionPtr));
+    Object obj =
+        Proxy.newProxyInstance(
+            clazz.getClassLoader(),
+            new Class[] {clazz},
+            new PortProxy(port, isolateId, functionPtr));
+    cleaner.register(obj, port);
+    return obj;
   }
 
   @Override
@@ -77,7 +83,7 @@ public class PortProxy implements InvocationHandler {
   /// Returns an array with two objects:
   /// [0]: The address of the result pointer used for the clean-up.
   /// [1]: The result of the invocation.
-  private native Object[] _invoke(
+  private static native Object[] _invoke(
       long port,
       long isolateId,
       long functionPtr,
@@ -85,5 +91,5 @@ public class PortProxy implements InvocationHandler {
       String methodDescriptor,
       Object[] args);
 
-  private native void _cleanUp(long resultPtr);
+  private static native void _cleanUp(long resultPtr);
 }

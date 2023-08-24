@@ -16,6 +16,11 @@ const pi = 3.14159;
 const fpDelta = 0.001;
 const trillion = 1024 * 1024 * 1024 * 1024;
 
+void _runJavaGC() {
+  final system = Jni.findJClass('java/lang/System');
+  system.callStaticMethodByName<void>('gc', '()V', []);
+}
+
 void registerTests(String groupName, TestRunnerCallback test) {
   group(groupName, () {
     test('static final fields - int', () {
@@ -531,11 +536,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
   });
 
   group('interface implementation', () {
-    for (final method in {
-      'another thread': MyInterfaceConsumer.consumeOnAnotherThread,
-      'the same thread': MyInterfaceConsumer.consumeOnSameThread,
-    }.entries) {
-      test('MyInterface.implement on ${method.key}', () async {
+    for (final (threading, consume) in [
+      ('another thread', MyInterfaceConsumer.consumeOnAnotherThread),
+      ('the same thread', MyInterfaceConsumer.consumeOnSameThread),
+    ]) {
+      test('MyInterface.implement on $threading', () async {
         final voidCallbackResult = Completer<JString>();
         final varCallbackResult = Completer<JInteger>();
         final manyPrimitivesResult = Completer<int>();
@@ -574,7 +579,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         // [voidCallback].
         // The other two methods will be called individually using the passed
         // arguments afterwards.
-        method.value(
+        consume(
           myInterface,
           // For stringCallback:
           'hello'.toJString(),
@@ -595,7 +600,20 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final manyPrimitives = await manyPrimitivesResult.future;
         expect(manyPrimitives, -1 + 3 + 3.14.toInt() + 1);
 
+        // Currently we have one implementation of the interface.
+        expect(MyInterface.$impls, hasLength(1));
         myInterface.delete();
+        // Running System.gc() and waiting.
+        _runJavaGC();
+        for (var i = 0; i < 8; ++i) {
+          await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
+          if (MyInterface.$impls.isEmpty) {
+            break;
+          }
+        }
+        // Since the interface is now deleted, the cleaner must signal to Dart
+        // to clean up.
+        expect(MyInterface.$impls, isEmpty);
       });
     }
   });
@@ -603,7 +621,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
   group('$groupName (load tests)', () {
     const k4 = 4 * 1024; // This is a round number, unlike say 4000
     const k256 = 256 * 1024;
-    test('create large number of JNI references without deleting', () {
+    test('Create large number of JNI references without deleting', () {
       for (int i = 0; i < k4; i++) {
         final e = Example.new1(i);
         expect(e.getNumber(), equals(i));

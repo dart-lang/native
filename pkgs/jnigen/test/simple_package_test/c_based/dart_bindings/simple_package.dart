@@ -3344,21 +3344,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
 
   /// Maps a specific port to the implemented interface.
   static final Map<int, $MyInterfaceImpl> _$impls = {};
-
   ReceivePort? _$p;
-
-  static final Finalizer<ReceivePort> _$finalizer = Finalizer(($p) {
-    _$impls.remove($p.sendPort.nativePort);
-    $p.close();
-  });
-
-  @override
-  void delete() {
-    _$impls.remove(_$p?.sendPort.nativePort);
-    _$p?.close();
-    _$finalizer.detach(this);
-    super.delete();
-  }
 
   static jni.JObjectPtr _$invoke(
     int port,
@@ -3439,14 +3425,19 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     ).._$p = $p;
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;
-    _$finalizer.attach($x, $p, detach: $x);
     $p.listen(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
       final $i = $MethodInvocation.fromMessage($m);
       final $r = _$invokeMethod($p.sendPort.nativePort, $i);
       ProtectedJniExtensions.returnResult($i.result, $r);
     });
     return $x;
   }
+  static Map<int, $MyInterfaceImpl> get $impls => _$impls;
 }
 
 abstract class $MyInterfaceImpl<$T extends jni.JObject> {

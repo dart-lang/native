@@ -410,30 +410,18 @@ class $name$typeParamsDef extends $superName {
       s.write('''
   /// Maps a specific port to the implemented interface.
   static final Map<int, $implClassName> _\$impls = {};
+''');
+      s.write(r'''
+  ReceivePort? _$p;
 
-  ReceivePort? _\$p;
-
-  static final Finalizer<ReceivePort> _\$finalizer = Finalizer((\$p) {
-    _\$impls.remove(\$p.sendPort.nativePort);
-    \$p.close();
-  });
-
-  @override
-  void delete() {
-    _\$impls.remove(_\$p?.sendPort.nativePort);
-    _\$p?.close();
-    _\$finalizer.detach(this);
-    super.delete();
-  }
-
-  static jni.JObjectPtr _\$invoke(
+  static jni.JObjectPtr _$invoke(
     int port,
     jni.JObjectPtr descriptor,
     jni.JObjectPtr args,
   ) {
-    return _\$invokeMethod(
+    return _$invokeMethod(
       port,
-      \$MethodInvocation.fromAddresses(
+      $MethodInvocation.fromAddresses(
         0,
         descriptor.address,
         args.address,
@@ -445,14 +433,14 @@ class $name$typeParamsDef extends $superName {
           ffi.NativeFunction<
               jni.JObjectPtr Function(
                   ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
-      _\$invokePointer = ffi.Pointer.fromFunction(_\$invoke);
+      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
 
-  static ffi.Pointer<ffi.Void> _\$invokeMethod(
-    int \$p,
-    \$MethodInvocation \$i,
+  static ffi.Pointer<ffi.Void> _$invokeMethod(
+    int $p,
+    $MethodInvocation $i,
   ) {
-    final \$d = \$i.methodDescriptor.toDartString(deleteOriginal: true);
-    final \$a = \$i.args;
+    final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
+    final $a = $i.args;
     ''');
       final proxyMethodIf = _InterfaceMethodIf(resolver, s);
       for (final method in node.methods) {
@@ -482,16 +470,25 @@ class $name$typeParamsDef extends $superName {
     final \$a = \$p.sendPort.nativePort; 
     _\$impls[\$a] = \$impl;
 ''');
-      s.write('''
-    _\$finalizer.attach(\$x, \$p, detach: \$x);
-    \$p.listen((\$m) {
-      final \$i = \$MethodInvocation.fromMessage(\$m);
-      final \$r = _\$invokeMethod(\$p.sendPort.nativePort, \$i);
-      ProtectedJniExtensions.returnResult(\$i.result, \$r);
+      s.write(r'''
+    $p.listen(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = $MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      ProtectedJniExtensions.returnResult($i.result, $r);
     });
-    return \$x;
+    return $x;
   }
   ''');
+    }
+
+    // Writing any custom code provided for this class.
+    if (config.customClassBody?.containsKey(node.binaryName) ?? false) {
+      s.writeln(config.customClassBody![node.binaryName]);
     }
 
     // End of Class definition.
