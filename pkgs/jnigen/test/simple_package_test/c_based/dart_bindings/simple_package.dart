@@ -3371,42 +3371,46 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     int $p,
     $MethodInvocation $i,
   ) {
-    final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
-    final $a = $i.args;
-    if ($d == r"voidCallback(Ljava/lang/String;)V") {
-      _$impls[$p]!.voidCallback(
-        $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
-      );
-      return jni.nullptr;
-    }
-    if ($d == r"stringCallback(Ljava/lang/String;)Ljava/lang/String;") {
-      final $r = _$impls[$p]!.stringCallback(
-        $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
-      );
-      return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
-    }
-    if ($d == r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;") {
-      final $r = _$impls[$p]!.varCallback(
-        $a[0].castTo(_$impls[$p]!.T, deleteOriginal: true),
-      );
-      return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
-    }
-    if ($d == r"manyPrimitives(IZCD)J") {
-      final $r = _$impls[$p]!.manyPrimitives(
-        $a[0]
-            .castTo(const jni.JIntegerType(), deleteOriginal: true)
-            .intValue(deleteOriginal: true),
-        $a[1]
-            .castTo(const jni.JBooleanType(), deleteOriginal: true)
-            .booleanValue(deleteOriginal: true),
-        $a[2]
-            .castTo(const jni.JCharacterType(), deleteOriginal: true)
-            .charValue(deleteOriginal: true),
-        $a[3]
-            .castTo(const jni.JDoubleType(), deleteOriginal: true)
-            .doubleValue(deleteOriginal: true),
-      );
-      return jni.JLong($r).toPointer();
+    try {
+      final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
+      final $a = $i.args;
+      if ($d == r"voidCallback(Ljava/lang/String;)V") {
+        _$impls[$p]!.voidCallback(
+          $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
+        );
+        return jni.nullptr;
+      }
+      if ($d == r"stringCallback(Ljava/lang/String;)Ljava/lang/String;") {
+        final $r = _$impls[$p]!.stringCallback(
+          $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
+        );
+        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+      }
+      if ($d == r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;") {
+        final $r = _$impls[$p]!.varCallback(
+          $a[0].castTo(_$impls[$p]!.T, deleteOriginal: true),
+        );
+        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+      }
+      if ($d == r"manyPrimitives(IZCD)J") {
+        final $r = _$impls[$p]!.manyPrimitives(
+          $a[0]
+              .castTo(const jni.JIntegerType(), deleteOriginal: true)
+              .intValue(deleteOriginal: true),
+          $a[1]
+              .castTo(const jni.JBooleanType(), deleteOriginal: true)
+              .booleanValue(deleteOriginal: true),
+          $a[2]
+              .castTo(const jni.JCharacterType(), deleteOriginal: true)
+              .charValue(deleteOriginal: true),
+          $a[3]
+              .castTo(const jni.JDoubleType(), deleteOriginal: true)
+              .doubleValue(deleteOriginal: true),
+        );
+        return jni.JLong($r).toPointer();
+      }
+    } catch (e) {
+      return ProtectedJniExtensions.newDartException(e.toString());
     }
     return jni.nullptr;
   }
@@ -3643,6 +3647,243 @@ class $MyInterfaceConsumerType extends jni.JObjType<MyInterfaceConsumer> {
   bool operator ==(Object other) {
     return other.runtimeType == ($MyInterfaceConsumerType) &&
         other is $MyInterfaceConsumerType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.interfaces.MyRunnable
+class MyRunnable extends jni.JObject {
+  @override
+  late final jni.JObjType<MyRunnable> $type = type;
+
+  MyRunnable.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $MyRunnableType();
+  static final _run = jniLookup<
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "MyRunnable__run")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public abstract void run()
+  void run() {
+    return _run(reference).check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final Map<int, $MyRunnableImpl> _$impls = {};
+  ReceivePort? _$p;
+
+  static jni.JObjectPtr _$invoke(
+    int port,
+    jni.JObjectPtr descriptor,
+    jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      $MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final ffi.Pointer<
+          ffi.NativeFunction<
+              jni.JObjectPtr Function(
+                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
+      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
+
+  static ffi.Pointer<ffi.Void> _$invokeMethod(
+    int $p,
+    $MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
+      final $a = $i.args;
+      if ($d == r"run()V") {
+        _$impls[$p]!.run();
+        return jni.nullptr;
+      }
+    } catch (e) {
+      return ProtectedJniExtensions.newDartException(e.toString());
+    }
+    return jni.nullptr;
+  }
+
+  factory MyRunnable.implement(
+    $MyRunnableImpl $impl,
+  ) {
+    final $p = ReceivePort();
+    final $x = MyRunnable.fromRef(
+      ProtectedJniExtensions.newPortProxy(
+        r"com.github.dart_lang.jnigen.interfaces.MyRunnable",
+        $p,
+        _$invokePointer,
+      ),
+    ).._$p = $p;
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+    $p.listen(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = $MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    return $x;
+  }
+}
+
+abstract class $MyRunnableImpl {
+  factory $MyRunnableImpl({
+    required void Function() run,
+  }) = _$MyRunnableImpl;
+
+  void run();
+}
+
+class _$MyRunnableImpl implements $MyRunnableImpl {
+  _$MyRunnableImpl({
+    required void Function() run,
+  }) : _run = run;
+
+  final void Function() _run;
+
+  void run() {
+    return _run();
+  }
+}
+
+class $MyRunnableType extends jni.JObjType<MyRunnable> {
+  const $MyRunnableType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;";
+
+  @override
+  MyRunnable fromRef(jni.JObjectPtr ref) => MyRunnable.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($MyRunnableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyRunnableType) && other is $MyRunnableType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.interfaces.MyRunnableRunner
+class MyRunnableRunner extends jni.JObject {
+  @override
+  late final jni.JObjType<MyRunnableRunner> $type = type;
+
+  MyRunnableRunner.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $MyRunnableRunnerType();
+  static final _get_error = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                jni.JObjectPtr,
+              )>>("get_MyRunnableRunner__error")
+      .asFunction<
+          jni.JniResult Function(
+            jni.JObjectPtr,
+          )>();
+
+  static final _set_error = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(jni.JObjectPtr,
+                  ffi.Pointer<ffi.Void>)>>("set_MyRunnableRunner__error")
+      .asFunction<
+          jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.Throwable error
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JObject get error =>
+      const jni.JObjectType().fromRef(_get_error(reference).object);
+
+  /// from: public java.lang.Throwable error
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  set error(jni.JObject value) =>
+      _set_error(reference, value.reference).check();
+
+  static final _new0 = jniLookup<
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "MyRunnableRunner__new0")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(com.github.dart_lang.jnigen.interfaces.MyRunnable runnable)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  factory MyRunnableRunner(
+    MyRunnable runnable,
+  ) {
+    return MyRunnableRunner.fromRef(_new0(runnable.reference).object);
+  }
+
+  static final _runOnSameThread = jniLookup<
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "MyRunnableRunner__runOnSameThread")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void runOnSameThread()
+  void runOnSameThread() {
+    return _runOnSameThread(reference).check();
+  }
+
+  static final _runOnAnotherThread = jniLookup<
+              ffi
+              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "MyRunnableRunner__runOnAnotherThread")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void runOnAnotherThread()
+  void runOnAnotherThread() {
+    return _runOnAnotherThread(reference).check();
+  }
+}
+
+class $MyRunnableRunnerType extends jni.JObjType<MyRunnableRunner> {
+  const $MyRunnableRunnerType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/interfaces/MyRunnableRunner;";
+
+  @override
+  MyRunnableRunner fromRef(jni.JObjectPtr ref) => MyRunnableRunner.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($MyRunnableRunnerType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyRunnableRunnerType) &&
+        other is $MyRunnableRunnerType;
   }
 }
 

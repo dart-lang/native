@@ -178,22 +178,19 @@ class JniBindings {
   late final _InitDartApiDL =
       _InitDartApiDLPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
-  void resultFor(
-    ffi.Pointer<CallbackResult> result,
-    JObjectPtr object,
+  JniResult DartException__ctor(
+    JStringPtr message,
   ) {
-    return _resultFor(
-      result,
-      object,
+    return _DartException__ctor(
+      message,
     );
   }
 
-  late final _resultForPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<CallbackResult>, JObjectPtr)>>('resultFor');
-  late final _resultFor = _resultForPtr
-      .asFunction<void Function(ffi.Pointer<CallbackResult>, JObjectPtr)>();
+  late final _DartException__ctorPtr =
+      _lookup<ffi.NativeFunction<JniResult Function(JStringPtr)>>(
+          'DartException__ctor');
+  late final _DartException__ctor =
+      _DartException__ctorPtr.asFunction<JniResult Function(JStringPtr)>();
 
   JniResult PortContinuation__ctor(
     int j,
@@ -227,6 +224,23 @@ class JniBindings {
               JObjectPtr, ffi.Int64, ffi.Int64)>>('PortProxy__newInstance');
   late final _PortProxy__newInstance = _PortProxy__newInstancePtr.asFunction<
       JniResult Function(JObjectPtr, int, int)>();
+
+  void resultFor(
+    ffi.Pointer<CallbackResult> result,
+    JObjectPtr object,
+  ) {
+    return _resultFor(
+      result,
+      object,
+    );
+  }
+
+  late final _resultForPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<CallbackResult>, JObjectPtr)>>('resultFor');
+  late final _resultFor = _resultForPtr
+      .asFunction<void Function(ffi.Pointer<CallbackResult>, JObjectPtr)>();
 
   ffi.Pointer<GlobalJniEnvStruct> GetGlobalEnv() {
     return _GetGlobalEnv();

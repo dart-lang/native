@@ -2786,6 +2786,111 @@ JniResult MyInterfaceConsumer__consumeOnSameThread(jobject myInterface,
   return (JniResult){.value = {.j = 0}, .exception = check_exception()};
 }
 
+// com.github.dart_lang.jnigen.interfaces.MyRunnable
+jclass _c_MyRunnable = NULL;
+
+jmethodID _m_MyRunnable__run = NULL;
+FFI_PLUGIN_EXPORT
+JniResult MyRunnable__run(jobject self_) {
+  load_env();
+  load_class_global_ref(&_c_MyRunnable,
+                        "com/github/dart_lang/jnigen/interfaces/MyRunnable");
+  if (_c_MyRunnable == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_MyRunnable, &_m_MyRunnable__run, "run", "()V");
+  if (_m_MyRunnable__run == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_MyRunnable__run);
+  return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+}
+
+// com.github.dart_lang.jnigen.interfaces.MyRunnableRunner
+jclass _c_MyRunnableRunner = NULL;
+
+jmethodID _m_MyRunnableRunner__new0 = NULL;
+FFI_PLUGIN_EXPORT
+JniResult MyRunnableRunner__new0(jobject runnable) {
+  load_env();
+  load_class_global_ref(
+      &_c_MyRunnableRunner,
+      "com/github/dart_lang/jnigen/interfaces/MyRunnableRunner");
+  if (_c_MyRunnableRunner == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_MyRunnableRunner, &_m_MyRunnableRunner__new0, "<init>",
+              "(Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;)V");
+  if (_m_MyRunnableRunner__new0 == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_MyRunnableRunner,
+                                         _m_MyRunnableRunner__new0, runnable);
+  return to_global_ref_result(_result);
+}
+
+jmethodID _m_MyRunnableRunner__runOnSameThread = NULL;
+FFI_PLUGIN_EXPORT
+JniResult MyRunnableRunner__runOnSameThread(jobject self_) {
+  load_env();
+  load_class_global_ref(
+      &_c_MyRunnableRunner,
+      "com/github/dart_lang/jnigen/interfaces/MyRunnableRunner");
+  if (_c_MyRunnableRunner == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_MyRunnableRunner, &_m_MyRunnableRunner__runOnSameThread,
+              "runOnSameThread", "()V");
+  if (_m_MyRunnableRunner__runOnSameThread == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_,
+                            _m_MyRunnableRunner__runOnSameThread);
+  return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+}
+
+jmethodID _m_MyRunnableRunner__runOnAnotherThread = NULL;
+FFI_PLUGIN_EXPORT
+JniResult MyRunnableRunner__runOnAnotherThread(jobject self_) {
+  load_env();
+  load_class_global_ref(
+      &_c_MyRunnableRunner,
+      "com/github/dart_lang/jnigen/interfaces/MyRunnableRunner");
+  if (_c_MyRunnableRunner == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_MyRunnableRunner, &_m_MyRunnableRunner__runOnAnotherThread,
+              "runOnAnotherThread", "()V");
+  if (_m_MyRunnableRunner__runOnAnotherThread == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  (*jniEnv)->CallVoidMethod(jniEnv, self_,
+                            _m_MyRunnableRunner__runOnAnotherThread);
+  return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+}
+
+jfieldID _f_MyRunnableRunner__error = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_MyRunnableRunner__error(jobject self_) {
+  load_env();
+  load_class_global_ref(
+      &_c_MyRunnableRunner,
+      "com/github/dart_lang/jnigen/interfaces/MyRunnableRunner");
+  if (_c_MyRunnableRunner == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_field(_c_MyRunnableRunner, &_f_MyRunnableRunner__error, "error",
+             "Ljava/lang/Throwable;");
+  jobject _result =
+      (*jniEnv)->GetObjectField(jniEnv, self_, _f_MyRunnableRunner__error);
+  return to_global_ref_result(_result);
+}
+
+FFI_PLUGIN_EXPORT
+JniResult set_MyRunnableRunner__error(jobject self_, jobject value) {
+  load_env();
+  load_class_global_ref(
+      &_c_MyRunnableRunner,
+      "com/github/dart_lang/jnigen/interfaces/MyRunnableRunner");
+  if (_c_MyRunnableRunner == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_field(_c_MyRunnableRunner, &_f_MyRunnableRunner__error, "error",
+             "Ljava/lang/Throwable;");
+  (*jniEnv)->SetObjectField(jniEnv, self_, _f_MyRunnableRunner__error, value);
+  return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+}
+
 // com.github.dart_lang.jnigen.annotations.JsonSerializable$Case
 jclass _c_JsonSerializable_Case = NULL;
 

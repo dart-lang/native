@@ -439,14 +439,18 @@ class $name$typeParamsDef extends $superName {
     int $p,
     $MethodInvocation $i,
   ) {
-    final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
-    final $a = $i.args;
+    try {
+      final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
+      final $a = $i.args;
     ''');
       final proxyMethodIf = _InterfaceMethodIf(resolver, s);
       for (final method in node.methods) {
         method.accept(proxyMethodIf);
       }
       s.write('''
+    } catch (e) {
+      return $_protectedExtension.newDartException(e.toString());
+    }
     return jni.nullptr;
   }
 
@@ -469,19 +473,17 @@ class $name$typeParamsDef extends $superName {
     ).._\$p = \$p;
     final \$a = \$p.sendPort.nativePort; 
     _\$impls[\$a] = \$impl;
-''');
-      s.write(r'''
-    $p.listen(($m) {
-      if ($m == null) {
-        _$impls.remove($p.sendPort.nativePort);
-        $p.close();
+    \$p.listen((\$m) {
+      if (\$m == null) {
+        _\$impls.remove(\$p.sendPort.nativePort);
+        \$p.close();
         return;
       }
-      final $i = $MethodInvocation.fromMessage($m);
-      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
-      ProtectedJniExtensions.returnResult($i.result, $r);
+      final \$i = \$MethodInvocation.fromMessage(\$m);
+      final \$r = _\$invokeMethod(\$p.sendPort.nativePort, \$i);
+      $_protectedExtension.returnResult(\$i.result, \$r);
     });
-    return $x;
+    return \$x;
   }
   ''');
     }
@@ -1645,17 +1647,17 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
     final saveResult = isVoid ? '' : 'final \$r = ';
     final name = node.finalName;
     s.write('''
-      if (\$d == r"$signature") {
-        ${saveResult}_\$impls[\$p]!.$name(
+        if (\$d == r"$signature") {
+          ${saveResult}_\$impls[\$p]!.$name(
 ''');
     for (var i = 0; i < node.params.length; ++i) {
       node.params[i].accept(_InterfaceParamCast(resolver, s, paramIndex: i));
     }
     const returnBox = _InterfaceReturnBox();
     s.write('''
-        );
-        return ${node.returnType.accept(returnBox)};
-      }
+          );
+          return ${node.returnType.accept(returnBox)};
+        }
 ''');
   }
 }

@@ -47,20 +47,11 @@ class JString extends JObject {
   /// Construct a new [JString] with [reference] as its underlying reference.
   JString.fromRef(JStringPtr reference) : super.fromRef(reference);
 
-  static JStringPtr _toJavaString(String s) => using((arena) {
-        final chars = s.toNativeUtf16(allocator: arena).cast<Uint16>();
-        final jstr = Jni.env.NewString(chars, s.length);
-        if (jstr == nullptr) {
-          throw 'Fatal: cannot convert string to Java string: $s';
-        }
-        return jstr;
-      });
-
   /// The number of Unicode characters in this Java string.
   int get length => Jni.env.GetStringLength(reference);
 
   /// Construct a [JString] from the contents of Dart string [s].
-  JString.fromString(String s) : super.fromRef(_toJavaString(s));
+  JString.fromString(String s) : super.fromRef(Jni.env.toJStringPtr(s));
 
   /// Returns the contents as a Dart String.
   ///

@@ -299,6 +299,13 @@ extension ProtectedJniExtensions on Jni {
     return lookup;
   }
 
+  /// Returns a new DartException.
+  static JObjectPtr newDartException(String message) {
+    return Jni._bindings
+        .DartException__ctor(Jni.env.toJStringPtr(message))
+        .object;
+  }
+
   /// Returns a new PortContinuation.
   static JObjectPtr newPortContinuation(ReceivePort port) {
     return Jni._bindings
@@ -323,7 +330,7 @@ extension ProtectedJniExtensions on Jni {
         .object;
   }
 
-  /// Return the result of a callback..
+  /// Returns the result of a callback..
   static void returnResult(
       Pointer<CallbackResult> result, JObjectPtr object) async {
     Jni._bindings.resultFor(result, object);
@@ -334,28 +341,30 @@ extension AdditionalEnvMethods on GlobalJniEnv {
   /// Convenience method for converting a [JStringPtr]
   /// to dart string.
   /// if [deleteOriginal] is specified, jstring passed will be deleted using
-  /// DeleteLocalRef.
+  /// DeleteGlobalRef.
   String toDartString(JStringPtr jstringPtr, {bool deleteOriginal = false}) {
     if (jstringPtr == nullptr) {
       throw const JNullException();
     }
-    final chars = GetStringUTFChars(jstringPtr, nullptr);
+    final chars = GetStringChars(jstringPtr, nullptr);
     if (chars == nullptr) {
       throw InvalidJStringException(jstringPtr);
     }
-    final result = chars.cast<Utf8>().toDartString();
-    ReleaseStringUTFChars(jstringPtr, chars);
+    final result = chars.cast<Utf16>().toDartString();
+    ReleaseStringChars(jstringPtr, chars);
     if (deleteOriginal) {
       DeleteGlobalRef(jstringPtr);
     }
     return result;
   }
 
-  /// Return a new [JStringPtr] from contents of [s].
+  /// Returns a new [JStringPtr] from contents of [s].
   JStringPtr toJStringPtr(String s) => using((arena) {
-        final utf = s.toNativeUtf8().cast<Char>();
-        final result = NewStringUTF(utf);
-        malloc.free(utf);
+        final utf = s.toNativeUtf16(allocator: arena).cast<Uint16>();
+        final result = NewString(utf, s.length);
+        if (utf == nullptr) {
+          throw 'Fatal: cannot convert string to Java string: $s';
+        }
         return result;
       });
 

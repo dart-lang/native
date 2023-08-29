@@ -73,10 +73,19 @@ public class PortProxy implements InvocationHandler {
     return obj;
   }
 
+  private static final class DartException extends Exception {
+    private DartException(String message) {
+      super(message);
+    }
+  }
+
   @Override
-  public Object invoke(Object proxy, Method method, Object[] args) {
+  public Object invoke(Object proxy, Method method, Object[] args) throws DartException {
     Object[] result = _invoke(port, isolateId, functionPtr, proxy, getDescriptor(method), args);
     _cleanUp((Long) result[0]);
+    if (result[1] instanceof DartException) {
+      throw (DartException) result[1];
+    }
     return result[1];
   }
 

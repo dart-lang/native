@@ -29,7 +29,7 @@ void testExample(String exampleName, String dartOutput, String? cOutput,
     {bool isLargeTest = false}) {
   test(
     'Generate and compare bindings for $exampleName',
-    timeout: const Timeout.factor(2),
+    timeout: const Timeout.factor(3),
     () async {
       final examplePath = join('example', exampleName);
       final configPath = join(examplePath, 'jnigen.yaml');

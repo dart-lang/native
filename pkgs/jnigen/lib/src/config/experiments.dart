@@ -31,7 +31,7 @@ class Experiment {
     }
     final result = search.single;
     if (result.isExpired) {
-      throw 'The experiment $s can no longer be used in this version. ';
+      throw 'The experiment $s can no longer be used in this version.';
     }
     return result;
   }

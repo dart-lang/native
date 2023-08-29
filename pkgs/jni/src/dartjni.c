@@ -569,6 +569,29 @@ FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data) {
   return Dart_InitializeApiDL(data);
 }
 
+// com.github.dart_lang.jni.DartException
+jclass _c_DartException = NULL;
+
+jmethodID _m_DartException__ctor = NULL;
+FFI_PLUGIN_EXPORT JniResult DartException__ctor(jstring message) {
+  attach_thread();
+  load_class_global_ref(&_c_DartException,
+                        "com/github/dart_lang/jni/PortProxy$DartException");
+  if (_c_DartException == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_DartException, &_m_DartException__ctor, "<init>",
+              "(Ljava/lang/String;)V");
+  if (_m_DartException__ctor == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->NewObject(jniEnv, _c_DartException,
+                                         _m_DartException__ctor, message);
+  jthrowable exception = check_exception();
+  if (exception == NULL) {
+    _result = to_global_ref(_result);
+  }
+  return (JniResult){.value = {.l = _result}, .exception = check_exception()};
+}
+
 JNIEXPORT void JNICALL
 Java_com_github_dart_1lang_jni_PortContinuation__1resumeWith(JNIEnv* env,
                                                              jclass clazz,

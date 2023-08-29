@@ -24,8 +24,8 @@ void _runJavaGC() {
   final pid = bean.callMethodByName<int>('getPid', '()J', []);
   ProcessResult result;
   do {
-    sleep(const Duration(milliseconds: 100));
     result = Process.runSync('jcmd', [pid.toString(), 'GC.run']);
+    sleep(const Duration(milliseconds: 100));
   } while (result.exitCode != 0);
 }
 
@@ -624,6 +624,50 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(MyInterface.$impls, isEmpty);
       });
     }
+    group('Dart exceptions are handled', () {
+      for (final exception in [UnimplementedError(), 'Hello!']) {
+        for (final sameThread in [true, false]) {
+          test(
+              'on ${sameThread ? 'the same thread' : 'another thread'}'
+              ' throwing $exception', () async {
+            final runnable = MyRunnable.implement(
+              $MyRunnableImpl(
+                run: () {
+                  throw exception;
+                },
+              ),
+            );
+            final runner = MyRunnableRunner(runnable);
+            if (sameThread) {
+              runner.runOnSameThread();
+            } else {
+              runner.runOnAnotherThread();
+            }
+            while (runner.error.isNull) {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+            }
+            expect(
+              Jni.env.IsInstanceOf(
+                runner.error.reference,
+                Jni.findClass('java/lang/reflect/UndeclaredThrowableException'),
+              ),
+              isTrue,
+            );
+            final cause = runner.error.callMethodByName<JObject>(
+                'getCause', '()Ljava/lang/Throwable;', []);
+            expect(
+              Jni.env.IsInstanceOf(
+                cause.reference,
+                Jni.findClass(
+                    'com/github/dart_lang/jni/PortProxy\$DartException'),
+              ),
+              isTrue,
+            );
+            expect(cause.toString(), contains(exception.toString()));
+          });
+        }
+      }
+    });
   });
 
   group('$groupName (load tests)', () {
