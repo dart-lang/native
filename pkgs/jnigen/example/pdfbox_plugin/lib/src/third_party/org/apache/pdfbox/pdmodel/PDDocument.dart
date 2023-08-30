@@ -61,7 +61,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
@@ -76,7 +76,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
@@ -94,7 +94,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
@@ -113,7 +113,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
@@ -136,7 +136,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
@@ -368,7 +368,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDPage importPage(org.apache.pdfbox.pdmodel.PDPage page)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will import and copy the contents from another location. Currently the content stream is
   /// stored in a scratch file. The scratch file is associated with the document. If you are adding
@@ -405,7 +405,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.cos.COSDocument getDocument()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the low level document.
   ///@return The document that this layer sits on top of.
@@ -420,7 +420,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the document info dictionary. If it doesn't exist, an empty document info
   /// dictionary is created in the document trailer.
@@ -463,7 +463,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the document CATALOG. This is guaranteed to not return null.
   ///@return The documents /Root dictionary
@@ -493,7 +493,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the encryption dictionary for this document. This will still return the parameters if the document
   /// was decrypted. As the encryption architecture in PDF documents is pluggable this returns an abstract class,
@@ -531,7 +531,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will return the last signature from the field tree. Note that this may not be the
   /// last in time when empty signature fields are created first but signed after other fields.
@@ -549,7 +549,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Retrieve all signature fields from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
@@ -566,7 +566,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Retrieve all signature dictionaries from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
@@ -604,7 +604,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
   ///@param file file to be loaded
@@ -626,7 +626,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
   ///@param file file to be loaded
@@ -651,7 +651,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
   ///@param file file to be loaded
@@ -678,7 +678,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
   ///@param file file to be loaded
@@ -709,7 +709,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
   ///@param file file to be loaded
@@ -746,7 +746,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
   ///@param file file to be loaded
@@ -779,7 +779,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
   /// pdf. Unrestricted main memory will be used for buffering PDF streams.
@@ -802,7 +802,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
   /// copied to main memory or to a temporary file to enable random access to the pdf.
@@ -828,7 +828,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
   /// pdf. Unrestricted main memory will be used for buffering PDF streams.
@@ -857,7 +857,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. The given input stream is copied to the memory to enable random access to the
   /// pdf. Unrestricted main memory will be used for buffering PDF streams.
@@ -889,7 +889,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
   /// copied to main memory or to a temporary file to enable random access to the pdf.
@@ -926,7 +926,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Depending on the memory settings parameter the given input stream is either
   /// copied to memory or to a temporary file to enable random access to the pdf.
@@ -961,7 +961,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
   ///@param input byte array that contains the document.
@@ -983,7 +983,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
   ///@param input byte array that contains the document.
@@ -1011,7 +1011,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF. Unrestricted main memory will be used for buffering PDF streams.
   ///@param input byte array that contains the document.
@@ -1049,7 +1049,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Parses a PDF.
   ///@param input byte array that contains the document.
@@ -1224,7 +1224,7 @@ class PDDocument extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.interactive.digitalsignature.ExternalSigningSupport saveIncrementalForExternalSigning(java.io.OutputStream output)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   ///
   /// __(This is a new feature for 2.0.3. The API for external signing might change based on feedback after release!)__
@@ -1277,7 +1277,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDPage getPage(int pageIndex)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the page at the given 0-based index.
   ///
@@ -1300,7 +1300,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDPageTree getPages()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the page tree.
   ///@return the page tree
@@ -1369,7 +1369,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.encryption.AccessPermission getCurrentAccessPermission()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the access permissions granted when the document was decrypted. If the document was not decrypted this
   /// method returns the access permission for a document owner (ie can do everything). The returned object is in read
@@ -1419,7 +1419,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Long getDocumentId()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Provides the document ID.
   ///@return the document ID
@@ -1482,7 +1482,7 @@ class PDDocument extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.ResourceCache getResourceCache()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the resource cache associated with this document, or null if there is none.
   ///@return the resource cache or null.

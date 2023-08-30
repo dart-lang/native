@@ -20,11 +20,12 @@ void main() {
 void run({required TestRunnerCallback testRunner}) {
   JMap<JString, JString> testDataMap(Arena arena) {
     return {
-      "1".toJString()..deletedIn(arena): "One".toJString()..deletedIn(arena),
-      "2".toJString()..deletedIn(arena): "Two".toJString()..deletedIn(arena),
-      "3".toJString()..deletedIn(arena): "Three".toJString()..deletedIn(arena),
+      "1".toJString()..releasedBy(arena): "One".toJString()..releasedBy(arena),
+      "2".toJString()..releasedBy(arena): "Two".toJString()..releasedBy(arena),
+      "3".toJString()..releasedBy(arena): "Three".toJString()
+        ..releasedBy(arena),
     }.toJMap(JString.type, JString.type)
-      ..deletedIn(arena);
+      ..releasedBy(arena);
   }
 
   testRunner('length', () {
@@ -39,12 +40,12 @@ void run({required TestRunnerCallback testRunner}) {
       // ignore: collection_methods_unrelated_type
       expect(map[1], null);
       expect(
-        map["1".toJString()..deletedIn(arena)]
-            ?.toDartString(deleteOriginal: true),
+        map["1".toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
         "One",
       );
       expect(
-        map["4".toJString()..deletedIn(arena)],
+        map["4".toJString()..releasedBy(arena)],
         null,
       );
     });
@@ -52,19 +53,19 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('[]=', () {
     using((arena) {
       final map = testDataMap(arena);
-      map["0".toJString()..deletedIn(arena)] = "Zero".toJString()
-        ..deletedIn(arena);
+      map["0".toJString()..releasedBy(arena)] = "Zero".toJString()
+        ..releasedBy(arena);
       expect(
-        map["0".toJString()..deletedIn(arena)]
-            ?.toDartString(deleteOriginal: true),
+        map["0".toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
         "Zero",
       );
       expect(map.length, 4);
-      map["1".toJString()..deletedIn(arena)] = "one!".toJString()
-        ..deletedIn(arena);
+      map["1".toJString()..releasedBy(arena)] = "one!".toJString()
+        ..releasedBy(arena);
       expect(
-        map["1".toJString()..deletedIn(arena)]
-            ?.toDartString(deleteOriginal: true),
+        map["1".toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
         "one!",
       );
       expect(map.length, 4);
@@ -74,23 +75,26 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final map = testDataMap(arena);
       final toAdd = {
-        "0".toJString()..deletedIn(arena): "Zero".toJString()..deletedIn(arena),
-        "1".toJString()..deletedIn(arena): "one!".toJString()..deletedIn(arena),
+        "0".toJString()..releasedBy(arena): "Zero".toJString()
+          ..releasedBy(arena),
+        "1".toJString()..releasedBy(arena): "one!".toJString()
+          ..releasedBy(arena),
       }.toJMap(JString.type, JString.type);
       map.addAll(toAdd);
       expect(map.length, 4);
       expect(
-        map["0".toJString()..deletedIn(arena)]
-            ?.toDartString(deleteOriginal: true),
+        map["0".toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
         "Zero",
       );
       expect(
-        map["1".toJString()..deletedIn(arena)]
-            ?.toDartString(deleteOriginal: true),
+        map["1".toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
         "one!",
       );
       map.addAll({
-        "4".toJString()..deletedIn(arena): "Four".toJString()..deletedIn(arena)
+        "4".toJString()..releasedBy(arena): "Four".toJString()
+          ..releasedBy(arena)
       });
       expect(map.length, 5);
     });
@@ -110,8 +114,8 @@ void run({required TestRunnerCallback testRunner}) {
       final map = testDataMap(arena);
       // ignore: iterable_contains_unrelated_type
       expect(map.containsKey(1), false);
-      expect(map.containsKey("1".toJString()..deletedIn(arena)), true);
-      expect(map.containsKey("4".toJString()..deletedIn(arena)), false);
+      expect(map.containsKey("1".toJString()..releasedBy(arena)), true);
+      expect(map.containsKey("4".toJString()..releasedBy(arena)), false);
     });
   });
   testRunner('containsValue', () {
@@ -119,8 +123,8 @@ void run({required TestRunnerCallback testRunner}) {
       final map = testDataMap(arena);
       // ignore: iterable_contains_unrelated_type
       expect(map.containsValue(1), false);
-      expect(map.containsValue("One".toJString()..deletedIn(arena)), true);
-      expect(map.containsValue("Four".toJString()..deletedIn(arena)), false);
+      expect(map.containsValue("One".toJString()..releasedBy(arena)), true);
+      expect(map.containsValue("Four".toJString()..releasedBy(arena)), false);
     });
   });
   testRunner('keys', () {
@@ -129,7 +133,7 @@ void run({required TestRunnerCallback testRunner}) {
       final keys = map.keys;
       expect(
         keys
-            .map((element) => element.toDartString(deleteOriginal: true))
+            .map((element) => element.toDartString(releaseOriginal: true))
             .toSet(),
         {"1", "2", "3"},
       );
@@ -140,12 +144,12 @@ void run({required TestRunnerCallback testRunner}) {
       final map = testDataMap(arena);
       // ignore: collection_methods_unrelated_type
       expect(map.remove(1), null);
-      expect(map.remove("4".toJString()..deletedIn(arena)), null);
+      expect(map.remove("4".toJString()..releasedBy(arena)), null);
       expect(map.length, 3);
       expect(
         map
-            .remove("3".toJString()..deletedIn(arena))
-            ?.toDartString(deleteOriginal: true),
+            .remove("3".toJString()..releasedBy(arena))
+            ?.toDartString(releaseOriginal: true),
         "Three",
       );
       expect(map.length, 2);
@@ -158,7 +162,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(a.$type, b.$type);
       expect(a.$type, b.$type);
       expect(a.$type.hashCode, b.$type.hashCode);
-      final c = JMap.hash(JObject.type, JObject.type)..deletedIn(arena);
+      final c = JMap.hash(JObject.type, JObject.type)..releasedBy(arena);
       expect(a.$type, isNot(c.$type));
       expect(a.$type.hashCode, isNot(c.$type.hashCode));
     });

@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
-    example.delete();
+    example.release();
     super.dispose();
   }
 
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {
                   answer = example.thinkBeforeAnswering().then(
-                      (value) => value.toDartString(deleteOriginal: true));
+                      (value) => value.toDartString(releaseOriginal: true));
                 });
               },
               child: const Text('Think...'),

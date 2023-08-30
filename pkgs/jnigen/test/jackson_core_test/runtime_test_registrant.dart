@@ -24,17 +24,19 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final next = parser.nextToken();
         if (next.isNull) continue;
         values.add(next.isNumeric());
-        next.delete();
+        next.release();
       }
       expect(values, equals([false, true, false, false, true, true, false]));
-      Jni.deleteAll([factory, parser, json]);
+      for (final obj in [factory, parser, json]) {
+        obj.release();
+      }
     });
     test("parsing invalid JSON throws JniException", () {
       using((arena) {
-        final factory = JsonFactory()..deletedIn(arena);
+        final factory = JsonFactory()..releasedBy(arena);
         final erroneous = factory
-            .createParser6("<html>".toJString()..deletedIn(arena))
-          ..deletedIn(arena);
+            .createParser6("<html>".toJString()..releasedBy(arena))
+          ..releasedBy(arena);
         expect(() => erroneous.nextToken(), throwsA(isA<JniException>()));
       });
     });

@@ -64,14 +64,14 @@ void run({required TestRunnerCallback testRunner}) {
       list.add(newRandom());
     }
     for (final jobject in list) {
-      jobject.delete();
+      jobject.release();
     }
   });
 
-  testRunner('Create and delete 256K references in a loop using arena', () {
+  testRunner('Create and release 256K references in a loop using arena', () {
     for (int i = 0; i < k256; i++) {
       using((arena) {
-        final random = newRandom()..deletedIn(arena);
+        final random = newRandom()..releasedBy(arena);
         // The actual expect here does not matter. I am just being paranoid
         // against assigning to `_` because compiler may optimize it. (It has
         // side effect of calling FFI but still.)
@@ -80,19 +80,20 @@ void run({required TestRunnerCallback testRunner}) {
     }
   });
 
-  testRunner('Create & delete 256K references in a loop (explicit delete)', () {
+  testRunner('Create and release 256K references in a loop (explicit release)',
+      () {
     for (int i = 0; i < k256; i++) {
       final random = newRandom();
       expect(random.reference, isNot(nullptr));
-      random.delete();
+      random.release();
     }
   });
 
-  testRunner('Create and delete 64K references, in batches of 256', () {
+  testRunner('Create and release 64K references, in batches of 256', () {
     for (int i = 0; i < 64 * 4; i++) {
       using((arena) {
         for (int i = 0; i < 256; i++) {
-          final r = newRandom()..deletedIn(arena);
+          final r = newRandom()..releasedBy(arena);
           expect(r.reference, isNot(nullptr));
         }
       });

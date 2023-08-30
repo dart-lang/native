@@ -71,7 +71,7 @@ class PDFTextStripper extends jni.JObject {
           )>();
 
   /// from: protected final java.lang.String LINE_SEPARATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The platform's line separator.
   jni.JString get LINE_SEPARATOR =>
@@ -96,7 +96,7 @@ class PDFTextStripper extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The charactersByArticle is used to extract text by article divisions. For example a PDF that has two columns like
   /// a newspaper, we want to extract the first column and then the second column. In this example the PDF would have 2
@@ -114,7 +114,7 @@ class PDFTextStripper extends jni.JObject {
       .fromRef(_get_charactersByArticle(reference).object);
 
   /// from: protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The charactersByArticle is used to extract text by article divisions. For example a PDF that has two columns like
   /// a newspaper, we want to extract the first column and then the second column. In this example the PDF would have 2
@@ -149,12 +149,12 @@ class PDFTextStripper extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   pddocument_.PDDocument get document => const pddocument_.$PDDocumentType()
       .fromRef(_get_document(reference).object);
 
   /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set document(pddocument_.PDDocument value) =>
       _set_document(reference, value.reference).check();
 
@@ -176,12 +176,12 @@ class PDFTextStripper extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.io.Writer output
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get output =>
       const jni.JObjectType().fromRef(_get_output(reference).object);
 
   /// from: protected java.io.Writer output
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set output(jni.JObject value) =>
       _set_output(reference, value.reference).check();
 
@@ -190,7 +190,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Instantiate a new PDFTextStripper object.
   ///@throws IOException If there is an error loading the properties.
@@ -207,7 +207,7 @@ class PDFTextStripper extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getText(org.apache.pdfbox.pdmodel.PDDocument doc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will return the text of a document. See writeText. <br>
   /// NOTE: The document must not be encrypted when coming into this method.
@@ -629,7 +629,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getLineSeparator()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the line separator.
   ///@return The desired line separator string.
@@ -644,7 +644,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getWordSeparator()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the word separator.
   ///@return The desired word separator string.
@@ -707,7 +707,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.io.Writer getOutput()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The output stream that is being written to.
   ///@return The stream that output is being written to.
@@ -722,7 +722,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.util.List<java.util.List<org.apache.pdfbox.text.TextPosition>> getCharactersByArticle()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Character strings are grouped by articles. It is quite common that there will only be a single article. This
   /// returns a List that contains List objects, the inner lists will contain TextPosition objects.
@@ -790,7 +790,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getEndBookmark()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
   ///@return The ending bookmark.
@@ -823,7 +823,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getStartBookmark()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
   ///@return The starting bookmark.
@@ -1056,7 +1056,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getParagraphStart()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the beginning of a paragraph.
   ///@return the paragraph start string
@@ -1090,7 +1090,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getParagraphEnd()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the end of a paragraph.
   ///@return the paragraph end string
@@ -1123,7 +1123,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getPageStart()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the beginning of a page.
   ///@return the page start string
@@ -1156,7 +1156,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getPageEnd()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the end of a page.
   ///@return the page end string
@@ -1189,7 +1189,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getArticleStart()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the beginning of an article.
   ///@return the article start string
@@ -1222,7 +1222,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getArticleEnd()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the string which will be used at the end of an article.
   ///@return the article end string
@@ -1344,7 +1344,7 @@ class PDFTextStripper extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.util.List<java.util.regex.Pattern> getListItemPatterns()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// returns a list of regular expression Patterns representing different common list item formats. For example
   /// numbered items of form:
@@ -1376,7 +1376,7 @@ class PDFTextStripper extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static protected java.util.regex.Pattern matchPattern(java.lang.String string, java.util.List<java.util.regex.Pattern> patterns)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// iterates over the specified list of Patterns until it finds one that matches the specified string. Then returns
   /// the Pattern.

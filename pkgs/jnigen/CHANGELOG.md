@@ -1,19 +1,14 @@
-## 0.6.0-wip.3
+## 0.6.0
+* **Breaking Change** ([#131](https://github.com/dart-lang/jnigen/issues/131)): Renamed `delete*` to `release*`.
 * **Breaking Change** ([#354](https://github.com/dart-lang/jnigen/issues/354)): Renamed constructors from `ctor1`, `ctor2`, ... to `new1`, `new2`, ...
-
-## 0.6.0-wip.2
+* **Breaking Change**: Specifying a class always pulls in nested classes by default. If a nested class is specified in config, it will be an error.
+* **Breaking Change**: Removed `suspend_fun_to_async` flag from the config. It's now happening by default since we read the Kotlin's metadata and reliably identify the `suspend fun`s.
 * Fixed a bug where the nested classes would be generated incorrectly depending on the backend used for generation.
 * Fixed a bug where ASM backend would produce the incorrect parent for multi-level nested classes.
 * Fixed a bug where the backends would produce different descriptors for the same method.
 * Added `enable_experiment` option to config.
 * Created an experiment called `interface_implementation` which creates a `.implement` method for interfaces, so you can implement them using Dart.
-
-## 0.6.0-wip.1
-* **Breaking Change**: Specifying a class always pulls in nested classes by default. If a nested class is specified in config, it will be an error.
 * Save all `jnigen` logs to a file in `.dart_tool/jnigen/logs/`. This is useful for debugging.
-
-## 0.6.0-wip.0
-* **Breaking Change** Removed `suspend_fun_to_async` flag from the config. It's now happening by default since we read the Kotlin's metadata and reliably identify the `suspend fun`s.
 
 ## 0.5.0
 * **Breaking Change** ([#72](https://github.com/dart-lang/jnigen/issues/72)): Removed support for `importMap` in favor of the newly added interop mechanism with importing yaml files.

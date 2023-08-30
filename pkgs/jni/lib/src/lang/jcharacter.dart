@@ -54,12 +54,12 @@ class JCharacter extends JObject {
   static final _charValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"charValue", r"()C");
 
-  int charValue({bool deleteOriginal = false}) {
+  int charValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _charValueId, JniCallType.charType, []).char;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }

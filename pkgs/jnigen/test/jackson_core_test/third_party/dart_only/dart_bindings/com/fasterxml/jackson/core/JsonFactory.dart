@@ -133,7 +133,7 @@ class JsonFactory extends jni.JObject {
   );
 
   /// from: static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get DEFAULT_ROOT_VALUE_SEPARATOR =>
       const jni.JObjectType().fromRef(jni.Jni.accessors
           .getStaticField(_class.reference, _id_DEFAULT_ROOT_VALUE_SEPARATOR,
@@ -144,7 +144,7 @@ class JsonFactory extends jni.JObject {
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default constructor used to create factory instances.
   /// Creation of a factory instance is a light-weight operation,
@@ -163,7 +163,7 @@ class JsonFactory extends jni.JObject {
       r"<init>", r"(Lcom/fasterxml/jackson/core/ObjectCodec;)V");
 
   /// from: public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory JsonFactory.new1(
     jni.JObject oc,
   ) {
@@ -177,7 +177,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonFactory;Lcom/fasterxml/jackson/core/ObjectCodec;)V");
 
   /// from: protected void <init>(com.fasterxml.jackson.core.JsonFactory src, com.fasterxml.jackson.core.ObjectCodec codec)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor used when copy()ing a factory instance.
   ///@param src Original factory to copy settings from
@@ -195,7 +195,7 @@ class JsonFactory extends jni.JObject {
       r"<init>", r"(Lcom/fasterxml/jackson/core/JsonFactoryBuilder;)V");
 
   /// from: public void <init>(com.fasterxml.jackson.core.JsonFactoryBuilder b)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor used by JsonFactoryBuilder for instantiation.
   ///@param b Builder that contains settings to use
@@ -211,7 +211,7 @@ class JsonFactory extends jni.JObject {
       r"<init>", r"(Lcom/fasterxml/jackson/core/TSFBuilder;Z)V");
 
   /// from: protected void <init>(com.fasterxml.jackson.core.TSFBuilder<?,?> b, boolean bogus)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor for subtypes; needed to work around the fact that before 3.0,
   /// this factory has cumbersome dual role as generic type as well as actual
@@ -230,7 +230,7 @@ class JsonFactory extends jni.JObject {
       r"rebuild", r"()Lcom/fasterxml/jackson/core/TSFBuilder;");
 
   /// from: public com.fasterxml.jackson.core.TSFBuilder<?,?> rebuild()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that allows construction of differently configured factory, starting
   /// with settings of this factory.
@@ -247,7 +247,7 @@ class JsonFactory extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/TSFBuilder;");
 
   /// from: static public com.fasterxml.jackson.core.TSFBuilder<?,?> builder()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Main factory method to use for constructing JsonFactory instances with
   /// different configuration: creates and returns a builder for collecting configuration
@@ -267,7 +267,7 @@ class JsonFactory extends jni.JObject {
       _class.reference, r"copy", r"()Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory copy()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing a new JsonFactory that has
   /// the same settings as this instance, but is otherwise
@@ -291,7 +291,7 @@ class JsonFactory extends jni.JObject {
       .getMethodIDOf(_class.reference, r"readResolve", r"()Ljava/lang/Object;");
 
   /// from: protected java.lang.Object readResolve()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that we need to override to actually make restoration go
   /// through constructors etc: needed to allow JDK serializability of
@@ -391,7 +391,7 @@ class JsonFactory extends jni.JObject {
       _class.reference, r"getFormatReadFeatureType", r"()Ljava/lang/Class;");
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatReadFeatureType() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
         reference,
@@ -403,7 +403,7 @@ class JsonFactory extends jni.JObject {
       _class.reference, r"getFormatWriteFeatureType", r"()Ljava/lang/Class;");
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatWriteFeatureType() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
         reference,
@@ -438,7 +438,7 @@ class JsonFactory extends jni.JObject {
       _class.reference, r"getFormatName", r"()Ljava/lang/String;");
 
   /// from: public java.lang.String getFormatName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that returns short textual id identifying format
   /// this factory supports.
@@ -457,7 +457,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;");
 
   /// from: public com.fasterxml.jackson.core.format.MatchStrength hasFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject hasFormat(
     jni.JObject acc,
   ) {
@@ -493,7 +493,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;");
 
   /// from: protected com.fasterxml.jackson.core.format.MatchStrength hasJSONFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject hasJSONFormat(
     jni.JObject acc,
   ) {
@@ -508,7 +508,7 @@ class JsonFactory extends jni.JObject {
       _class.reference, r"version", r"()Lcom/fasterxml/jackson/core/Version;");
 
   /// from: public com.fasterxml.jackson.core.Version version()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject version() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
         reference, _id_version, jni.JniCallType.objectType, []).object);
@@ -520,7 +520,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonFactory.Feature f, boolean state)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified parser feature
   /// (check JsonParser.Feature for list of features)
@@ -543,7 +543,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonFactory.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
   /// (check JsonFactory.Feature for list of features)
@@ -564,7 +564,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonFactory.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified parser features
   /// (check JsonFactory.Feature for list of features)
@@ -636,7 +636,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified parser feature
   /// (check JsonParser.Feature for list of features)
@@ -658,7 +658,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonParser.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
   /// (check JsonParser.Feature for list of features)
@@ -678,7 +678,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonParser.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified parser features
   /// (check JsonParser.Feature for list of features)
@@ -733,7 +733,7 @@ class JsonFactory extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/io/InputDecorator;");
 
   /// from: public com.fasterxml.jackson.core.io.InputDecorator getInputDecorator()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for getting currently configured input decorator (if any;
   /// there is no default decorator).
@@ -751,7 +751,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/io/InputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setInputDecorator(com.fasterxml.jackson.core.io.InputDecorator d)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for overriding currently configured input decorator
   ///@param d Decorator to configure for this factory, if any ({@code null} if none)
@@ -771,7 +771,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonGenerator.Feature f, boolean state)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified generator feature
   /// (check JsonGenerator.Feature for list of features)
@@ -793,7 +793,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified generator features
   /// (check JsonGenerator.Feature for list of features)
@@ -813,7 +813,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified generator feature
   /// (check JsonGenerator.Feature for list of features)
@@ -868,7 +868,7 @@ class JsonFactory extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/io/CharacterEscapes;");
 
   /// from: public com.fasterxml.jackson.core.io.CharacterEscapes getCharacterEscapes()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing custom escapes factory uses for JsonGenerators
   /// it creates.
@@ -886,7 +886,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/io/CharacterEscapes;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCharacterEscapes(com.fasterxml.jackson.core.io.CharacterEscapes esc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for defining custom escapes factory uses for JsonGenerators
   /// it creates.
@@ -906,7 +906,7 @@ class JsonFactory extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/io/OutputDecorator;");
 
   /// from: public com.fasterxml.jackson.core.io.OutputDecorator getOutputDecorator()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for getting currently configured output decorator (if any;
   /// there is no default decorator).
@@ -925,7 +925,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/io/OutputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setOutputDecorator(com.fasterxml.jackson.core.io.OutputDecorator d)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for overriding currently configured output decorator
   ///@return This factory instance (to allow call chaining)
@@ -945,7 +945,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setRootValueSeparator(java.lang.String sep)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that allows overriding String used for separating root-level
   /// JSON values (default is single space character)
@@ -964,7 +964,7 @@ class JsonFactory extends jni.JObject {
       _class.reference, r"getRootValueSeparator", r"()Ljava/lang/String;");
 
   /// from: public java.lang.String getRootValueSeparator()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @return Root value separator configured, if any
   jni.JString getRootValueSeparator() {
@@ -980,7 +980,7 @@ class JsonFactory extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/ObjectCodec;)Lcom/fasterxml/jackson/core/JsonFactory;");
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCodec(com.fasterxml.jackson.core.ObjectCodec oc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for associating a ObjectCodec (typically
   /// a <code>com.fasterxml.jackson.databind.ObjectMapper</code>)
@@ -1001,7 +1001,7 @@ class JsonFactory extends jni.JObject {
       r"getCodec", r"()Lcom/fasterxml/jackson/core/ObjectCodec;");
 
   /// from: public com.fasterxml.jackson.core.ObjectCodec getCodec()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getCodec() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
         reference, _id_getCodec, jni.JniCallType.objectType, []).object);
@@ -1013,7 +1013,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.File f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON parser instance to parse
   /// contents of specified file.
@@ -1045,7 +1045,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.net.URL url)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON parser instance to parse
   /// contents of resource reference by given URL.
@@ -1075,7 +1075,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.InputStream in)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON parser instance to parse
   /// the contents accessed via specified input stream.
@@ -1108,7 +1108,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.Reader r)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// the contents accessed via specified Reader.
@@ -1134,7 +1134,7 @@ class JsonFactory extends jni.JObject {
       r"([B)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// the contents of given byte array.
@@ -1153,7 +1153,7 @@ class JsonFactory extends jni.JObject {
       r"([BII)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data, int offset, int len)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// the contents of given byte array.
@@ -1181,7 +1181,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.lang.String content)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// contents of given String.
@@ -1200,7 +1200,7 @@ class JsonFactory extends jni.JObject {
       r"([C)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// contents of given char array.
@@ -1219,7 +1219,7 @@ class JsonFactory extends jni.JObject {
       r"([CII)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content, int offset, int len)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing contents of given char array.
   ///@since 2.4
@@ -1243,7 +1243,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/DataInput;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.DataInput in)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Optional method for constructing parser for reading contents from specified DataInput
   /// instance.
@@ -1264,7 +1264,7 @@ class JsonFactory extends jni.JObject {
           r"()Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createNonBlockingByteArrayParser()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Optional method for constructing parser for non-blocking parsing
   /// via com.fasterxml.jackson.core.async.ByteArrayFeeder
@@ -1291,7 +1291,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON generator for writing JSON content
   /// using specified output stream.
@@ -1328,7 +1328,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Convenience method for constructing generator that uses default
   /// encoding of the format (UTF-8 for JSON and most other data formats).
@@ -1351,7 +1351,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.Writer w)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON generator for writing JSON content
   /// using specified Writer.
@@ -1380,7 +1380,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/File;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.File f, com.fasterxml.jackson.core.JsonEncoding enc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON generator for writing JSON content
   /// to specified file, overwriting contents it might have (or creating
@@ -1411,7 +1411,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/DataOutput;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out, com.fasterxml.jackson.core.JsonEncoding enc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing generator for writing content using specified
   /// DataOutput instance.
@@ -1433,7 +1433,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/DataOutput;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Convenience method for constructing generator that uses default
   /// encoding of the format (UTF-8 for JSON and most other data formats).
@@ -1456,7 +1456,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.File f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON parser instance to parse
   /// contents of specified file.
@@ -1490,7 +1490,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.net.URL url)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON parser instance to parse
   /// contents of resource reference by given URL.
@@ -1523,7 +1523,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.InputStream in)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON parser instance to parse
   /// the contents accessed via specified input stream.
@@ -1559,7 +1559,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.Reader r)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// the contents accessed via specified Reader.
@@ -1588,7 +1588,7 @@ class JsonFactory extends jni.JObject {
       r"([B)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing the contents of given byte array.
   ///@param data Input content to parse
@@ -1610,7 +1610,7 @@ class JsonFactory extends jni.JObject {
       r"([BII)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data, int offset, int len)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// the contents of given byte array.
@@ -1641,7 +1641,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.lang.String content)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing parser for parsing
   /// contents of given String.
@@ -1664,7 +1664,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON generator for writing JSON content
   /// using specified output stream.
@@ -1703,7 +1703,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.Writer out)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for constructing JSON generator for writing JSON content
   /// using specified Writer.
@@ -1734,7 +1734,7 @@ class JsonFactory extends jni.JObject {
       r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;");
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Convenience method for constructing generator that uses default
   /// encoding of the format (UTF-8 for JSON and most other data formats).
@@ -1802,7 +1802,7 @@ class JsonFactory_Feature extends jni.JObject {
       r"()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
 
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonFactory_Feature> values() {
     return const jni.JArrayType($JsonFactory_FeatureType()).fromRef(
         jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
@@ -1815,7 +1815,7 @@ class JsonFactory_Feature extends jni.JObject {
       r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
 
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static JsonFactory_Feature valueOf(
     jni.JString name,
   ) {

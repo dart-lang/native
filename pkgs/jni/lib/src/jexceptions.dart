@@ -8,13 +8,13 @@ import 'package:jni/src/third_party/generated_bindings.dart';
 
 abstract class JException implements Exception {}
 
-class UseAfterFreeException implements JException {
+class UseAfterReleaseException implements JException {
   final Pointer<Void> ptr;
-  UseAfterFreeException(this.ptr);
+  UseAfterReleaseException(this.ptr);
 
   @override
   String toString() {
-    return 'Use after free on $ptr.';
+    return 'Use after release on $ptr.';
   }
 }
 
@@ -34,13 +34,13 @@ class InvalidJStringException implements JException {
       '0x${reference.address.toRadixString(16)}.';
 }
 
-class DoubleFreeException implements JException {
+class DoubleReleaseException implements JException {
   final Pointer<Void> ptr;
-  DoubleFreeException(this.ptr);
+  DoubleReleaseException(this.ptr);
 
   @override
   String toString() {
-    return 'Double free on $ptr.';
+    return 'Double release on $ptr.';
   }
 }
 

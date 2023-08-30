@@ -3,12 +3,20 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: jnigen
-version: 0.6.0-wip.3
-description: Experimental generator for FFI+JNI bindings.
+description: A Dart bindings generator for Java and Kotlin that uses JNI under the hood to interop with Java virtual machine.
+version: 0.6.0
 repository: https://github.com/dart-lang/jnigen/tree/main/jnigen
 
 environment:
-  sdk: '>=3.1.0-262.3.beta <4.0.0'
+  sdk: ">=3.1.0-262.3.beta <4.0.0"
+
+topics:
+  - interop
+  - ffi
+  - codegen
+  - java
+  - kotlin
+  - jni
 
 dependencies:
   json_annotation: ^4.8.0

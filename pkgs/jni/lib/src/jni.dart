@@ -11,7 +11,6 @@ import 'package:path/path.dart';
 
 import 'jexceptions.dart';
 import 'jobject.dart';
-import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
 import 'jvalues.dart';
 import 'accessors.dart';
@@ -230,7 +229,7 @@ abstract class Jni {
     final cls = findJClass(qualifiedName);
     final ctor = cls.getCtorID(ctorSignature);
     final obj = cls.newInstance(ctor, args);
-    cls.delete();
+    cls.release();
     return obj;
   }
 
@@ -252,7 +251,7 @@ abstract class Jni {
       [int? callType]) {
     final cls = findJClass(className);
     final result = cls.getStaticFieldByName<T>(fieldName, signature, callType);
-    cls.delete();
+    cls.release();
     return result;
   }
 
@@ -267,15 +266,8 @@ abstract class Jni {
     final cls = findJClass(className);
     final result =
         cls.callStaticMethodByName<T>(methodName, signature, args, callType);
-    cls.delete();
+    cls.release();
     return result;
-  }
-
-  /// Delete all references in [objects].
-  static void deleteAll(List<JReference> objects) {
-    for (var object in objects) {
-      object.delete();
-    }
   }
 }
 
@@ -340,9 +332,9 @@ extension ProtectedJniExtensions on Jni {
 extension AdditionalEnvMethods on GlobalJniEnv {
   /// Convenience method for converting a [JStringPtr]
   /// to dart string.
-  /// if [deleteOriginal] is specified, jstring passed will be deleted using
+  /// if [releaseOriginal] is specified, jstring passed will be deleted using
   /// DeleteGlobalRef.
-  String toDartString(JStringPtr jstringPtr, {bool deleteOriginal = false}) {
+  String toDartString(JStringPtr jstringPtr, {bool releaseOriginal = false}) {
     if (jstringPtr == nullptr) {
       throw const JNullException();
     }
@@ -352,7 +344,7 @@ extension AdditionalEnvMethods on GlobalJniEnv {
     }
     final result = chars.cast<Utf16>().toDartString();
     ReleaseStringChars(jstringPtr, chars);
-    if (deleteOriginal) {
+    if (releaseOriginal) {
       DeleteGlobalRef(jstringPtr);
     }
     return result;

@@ -42,9 +42,9 @@ const _lookup = 'jniLookup';
 const _selfPointer = 'reference';
 
 // Docs.
-const _deleteInstruction =
-    '  /// The returned object must be deleted after use, '
-    'by calling the `delete` method.';
+const _releaseInstruction =
+    '  /// The returned object must be released after use, '
+    'by calling the [release] method.';
 
 extension on Iterable<String> {
   /// Similar to [join] but adds the [separator] to the end as well.
@@ -440,7 +440,7 @@ class $name$typeParamsDef extends $superName {
     $MethodInvocation $i,
   ) {
     try {
-      final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
     ''');
       final proxyMethodIf = _InterfaceMethodIf(resolver, s);
@@ -1050,11 +1050,11 @@ class _FieldGenerator extends Visitor<Field, void> {
     return '$_env.Set$ifStatic${fieldType}Field($self, _id_$name, value$toNativeSuffix)';
   }
 
-  void writeDocs(Field node, {required bool writeDeleteInstructions}) {
+  void writeDocs(Field node, {required bool writeReleaseInstructions}) {
     final originalDecl = '${node.type.shorthand} ${node.name}';
     s.writeln('  /// from: ${node.modifiers.join(' ')} $originalDecl');
-    if (node.type.kind != Kind.primitive && writeDeleteInstructions) {
-      s.writeln(_deleteInstruction);
+    if (node.type.kind != Kind.primitive && writeReleaseInstructions) {
+      s.writeln(_releaseInstruction);
     }
     node.javadoc?.accept(_DocGenerator(s, depth: 1));
   }
@@ -1069,7 +1069,7 @@ class _FieldGenerator extends Visitor<Field, void> {
       final value = node.defaultValue!;
       // TODO(#31): Should we leave String as a normal getter instead?
       if (value is String || value is num || value is bool) {
-        writeDocs(node, writeDeleteInstructions: false);
+        writeDocs(node, writeReleaseInstructions: false);
         s.write('  static const $name = ');
         if (value is String) {
           s.write('r"""$value"""');
@@ -1085,7 +1085,7 @@ class _FieldGenerator extends Visitor<Field, void> {
     (isCBased ? writeCAccessor : writeDartOnlyAccessor)(node);
 
     // Getter docs.
-    writeDocs(node, writeDeleteInstructions: true);
+    writeDocs(node, writeReleaseInstructions: true);
 
     final name = node.finalName;
     final ifStatic = node.isStatic ? 'static ' : '';
@@ -1097,7 +1097,7 @@ class _FieldGenerator extends Visitor<Field, void> {
     s.writeln(';\n');
     if (!node.isFinal) {
       // Setter docs.
-      writeDocs(node, writeDeleteInstructions: true);
+      writeDocs(node, writeReleaseInstructions: true);
 
       s.write('${ifStatic}set $name($type value) => ');
       s.write((isCBased ? cSetter : dartOnlySetter)(node));
@@ -1209,7 +1209,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     s.writeAll(node.params.map((p) => '${p.type.shorthand} ${p.name}'), ', ');
     s.writeln(')');
     if (node.returnType.kind != Kind.primitive || node.isCtor) {
-      s.writeln(_deleteInstruction);
+      s.writeln(_releaseInstruction);
     }
     node.javadoc?.accept(_DocGenerator(s, depth: 1));
 
@@ -1684,11 +1684,11 @@ class _InterfaceParamCast extends Visitor<Param, void> {
           typeVarFromMap: true,
         ))
         .name;
-    s.write('\$a[$paramIndex].castTo($typeClass, deleteOriginal: true)');
+    s.write('\$a[$paramIndex].castTo($typeClass, releaseOriginal: true)');
     if (node.type.kind == Kind.primitive) {
       // Convert to Dart type.
       final name = (node.type.type as PrimitiveType).name;
-      s.write('.${name}Value(deleteOriginal: true)');
+      s.write('.${name}Value(releaseOriginal: true)');
     }
     s.writeln(',');
   }
@@ -1700,7 +1700,7 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 ///
 /// Since Dart doesn't know that this global reference is still used, it might
 /// garbage collect it via [NativeFinalizer] thus making it invalid.
-/// This passes the ownership to Java using [setAsDeleted].
+/// This passes the ownership to Java using [setAsReleased].
 ///
 /// `toPointer` detaches the object from the [NativeFinalizer] and Java
 /// will clean up the global reference afterwards.
@@ -1714,7 +1714,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
   String visitNonPrimitiveType(ReferredType node) {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
-    // should not be [setAsDeleted].
+    // should not be [setAsReleased].
     return '(\$r as $_jObject).castTo(const ${_jObject}Type()).toPointer()';
   }
 

@@ -45,7 +45,7 @@ class Color extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.github.dart_lang.jnigen.simple_package.Color[] values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<Color> values() {
     return const jni.JArrayType($ColorType()).fromRef(_values().object);
   }
@@ -57,7 +57,7 @@ class Color extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String name)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static Color valueOf(
     jni.JString name,
   ) {
@@ -122,7 +122,7 @@ class Example extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.util.Random unusedRandom
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get unusedRandom =>
       const jni.JObjectType().fromRef(_get_unusedRandom().object);
 
@@ -144,12 +144,12 @@ class Example extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.util.Random protectedField
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get protectedField =>
       const jni.JObjectType().fromRef(_get_protectedField(reference).object);
 
   /// from: protected java.util.Random protectedField
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set protectedField(jni.JObject value) =>
       _set_protectedField(reference, value.reference).check();
 
@@ -188,7 +188,7 @@ class Example extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public java.lang.String getName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getName() {
     return const jni.JStringType().fromRef(_getName().object);
   }
@@ -199,7 +199,7 @@ class Example extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.github.dart_lang.jnigen.simple_package.Example.Nested getNestedInstance()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static Example_Nested getNestedInstance() {
     return const $Example_NestedType().fromRef(_getNestedInstance().object);
   }
@@ -334,7 +334,7 @@ class Example extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCodename()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString getCodename() {
     return const jni.JStringType().fromRef(_getCodename(reference).object);
   }
@@ -361,7 +361,7 @@ class Example extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Random getRandom()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getRandom() {
     return const jni.JObjectType().fromRef(_getRandom(reference).object);
   }
@@ -448,7 +448,7 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getRandomNumericString(java.util.Random random)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString getRandomNumericString(
     jni.JObject random,
   ) {
@@ -492,7 +492,7 @@ class Example extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getList()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JList<jni.JString> getList() {
     return const jni.JListType(jni.JStringType())
         .fromRef(_getList(reference).object);
@@ -509,7 +509,7 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String joinStrings(java.util.List<java.lang.String> values, java.lang.String delim)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Joins the strings in the list using the given delimiter.
   jni.JString joinStrings(
@@ -564,7 +564,7 @@ class Example extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromRef(_new0().object);
   }
@@ -575,7 +575,7 @@ class Example extends jni.JObject {
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: public void <init>(int number)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example.new1(
     int number,
   ) {
@@ -588,7 +588,7 @@ class Example extends jni.JObject {
       .asFunction<jni.JniResult Function(int, int)>();
 
   /// from: public void <init>(int number, boolean isUp)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example.new2(
     int number,
     bool isUp,
@@ -603,7 +603,7 @@ class Example extends jni.JObject {
       .asFunction<jni.JniResult Function(int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(int number, boolean isUp, java.lang.String codename)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example.new3(
     int number,
     bool isUp,
@@ -621,7 +621,7 @@ class Example extends jni.JObject {
           jni.JniResult Function(int, int, int, int, int, int, int, int)>();
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example.new4(
     int a,
     int b,
@@ -664,7 +664,7 @@ class Example extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public int[] getArr()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> getArr() {
     return const jni.JArrayType(jni.jintType()).fromRef(_getArr().object);
   }
@@ -689,7 +689,7 @@ class Example extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.github.dart_lang.jnigen.simple_package.Example getSelf()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   Example getSelf() {
     return const $ExampleType().fromRef(_getSelf(reference).object);
   }
@@ -820,7 +820,7 @@ class Example_Nested extends jni.JObject {
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: public void <init>(boolean value)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested(
     bool value,
   ) {
@@ -921,7 +921,7 @@ class Example_Nested_NestedTwice extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested_NestedTwice() {
     return Example_Nested_NestedTwice.fromRef(_new0().object);
   }
@@ -995,7 +995,7 @@ class Example_NonStaticNested extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.github.dart_lang.jnigen.simple_package.Example $parent)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example_NonStaticNested(
     Example $parent,
   ) {
@@ -1047,7 +1047,7 @@ class Exceptions extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions() {
     return Exceptions.fromRef(_new0().object);
   }
@@ -1058,7 +1058,7 @@ class Exceptions extends jni.JObject {
           .asFunction<jni.JniResult Function(double)>();
 
   /// from: public void <init>(float x)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new1(
     double x,
   ) {
@@ -1072,7 +1072,7 @@ class Exceptions extends jni.JObject {
       .asFunction<jni.JniResult Function(int, int, int, int, int, int)>();
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new2(
     int a,
     int b,
@@ -1090,7 +1090,7 @@ class Exceptions extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public java.lang.Object staticObjectMethod()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject staticObjectMethod() {
     return const jni.JObjectType().fromRef(_staticObjectMethod().object);
   }
@@ -1111,7 +1111,7 @@ class Exceptions extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public java.lang.Object[] staticObjectArrayMethod()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JObject> staticObjectArrayMethod() {
     return const jni.JArrayType(jni.JObjectType())
         .fromRef(_staticObjectArrayMethod().object);
@@ -1123,7 +1123,7 @@ class Exceptions extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public int[] staticIntArrayMethod()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> staticIntArrayMethod() {
     return const jni.JArrayType(jni.jintType())
         .fromRef(_staticIntArrayMethod().object);
@@ -1136,7 +1136,7 @@ class Exceptions extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object objectMethod()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject objectMethod() {
     return const jni.JObjectType().fromRef(_objectMethod(reference).object);
   }
@@ -1159,7 +1159,7 @@ class Exceptions extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object[] objectArrayMethod()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.JObject> objectArrayMethod() {
     return const jni.JArrayType(jni.JObjectType())
         .fromRef(_objectArrayMethod(reference).object);
@@ -1172,7 +1172,7 @@ class Exceptions extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int[] intArrayMethod()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jint> intArrayMethod() {
     return const jni.JArrayType(jni.jintType())
         .fromRef(_intArrayMethod(reference).object);
@@ -1196,7 +1196,7 @@ class Exceptions extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.io.InputStream throwFileNotFoundException()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwFileNotFoundException() {
     return const jni.JObjectType()
         .fromRef(_throwFileNotFoundException(reference).object);
@@ -1209,7 +1209,7 @@ class Exceptions extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.io.FileInputStream throwClassCastException()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwClassCastException() {
     return const jni.JObjectType()
         .fromRef(_throwClassCastException(reference).object);
@@ -1343,12 +1343,12 @@ class Fields extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public java.lang.String name
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get name =>
       const jni.JStringType().fromRef(_get_name().object);
 
   /// from: static public java.lang.String name
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static set name(jni.JString value) => _set_name(value.reference).check();
 
   static final _get_i = jniLookup<
@@ -1369,12 +1369,12 @@ class Fields extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Integer i
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JInteger get i =>
       const jni.JIntegerType().fromRef(_get_i(reference).object);
 
   /// from: public java.lang.Integer i
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set i(jni.JInteger value) => _set_i(reference, value.reference).check();
 
   static final _get_trillion = jniLookup<
@@ -1440,12 +1440,12 @@ class Fields extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String bestFighterInGreece
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString get bestFighterInGreece => const jni.JStringType()
       .fromRef(_get_bestFighterInGreece(reference).object);
 
   /// from: public java.lang.String bestFighterInGreece
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set bestFighterInGreece(jni.JString value) =>
       _set_bestFighterInGreece(reference, value.reference).check();
 
@@ -1467,12 +1467,12 @@ class Fields extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Random random
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get random =>
       const jni.JObjectType().fromRef(_get_random(reference).object);
 
   /// from: public java.util.Random random
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set random(jni.JObject value) =>
       _set_random(reference, value.reference).check();
 
@@ -1497,7 +1497,7 @@ class Fields extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Fields() {
     return Fields.fromRef(_new0().object);
   }
@@ -1573,12 +1573,12 @@ class Fields_Nested extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public java.lang.String BEST_GOD
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BEST_GOD =>
       const jni.JStringType().fromRef(_get_BEST_GOD().object);
 
   /// from: static public java.lang.String BEST_GOD
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static set BEST_GOD(jni.JString value) =>
       _set_BEST_GOD(value.reference).check();
 
@@ -1587,7 +1587,7 @@ class Fields_Nested extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Fields_Nested() {
     return Fields_Nested.fromRef(_new0().object);
   }
@@ -1651,7 +1651,7 @@ class C2 extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory C2() {
     return C2.fromRef(_new0().object);
   }
@@ -1697,7 +1697,7 @@ class Example1 extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example1() {
     return Example1.fromRef(_new0().object);
   }
@@ -1770,7 +1770,7 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory GenericTypeParams({
     required jni.JObjType<$S> S,
     required jni.JObjType<$K> K,
@@ -1854,11 +1854,11 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public T value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $T get value => T.fromRef(_get_value(reference).object);
 
   /// from: public T value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set value($T value) => _set_value(reference, value.reference).check();
 
   static final _new0 = jniLookup<
@@ -1868,7 +1868,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(T value)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent(
     $T value, {
     jni.JObjType<$T>? T,
@@ -1886,7 +1886,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<java.lang.String> stringParent()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   GrandParent_Parent<jni.JObject, jni.JString> stringParent() {
     return const $GrandParent_ParentType(jni.JObjectType(), jni.JStringType())
         .fromRef(_stringParent(reference).object);
@@ -1901,7 +1901,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<S> varParent(S nestedValue)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   GrandParent_Parent<jni.JObject, $S> varParent<$S extends jni.JObject>(
     $S nestedValue, {
     jni.JObjType<$S>? S,
@@ -1919,7 +1919,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<java.lang.String> stringStaticParent()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static GrandParent_StaticParent<jni.JString> stringStaticParent() {
     return const $GrandParent_StaticParentType(jni.JStringType())
         .fromRef(_stringStaticParent().object);
@@ -1932,7 +1932,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<S> varStaticParent(S value)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static GrandParent_StaticParent<$S> varStaticParent<$S extends jni.JObject>(
     $S value, {
     jni.JObjType<$S>? S,
@@ -1951,7 +1951,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<T> staticParentWithSameType()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   GrandParent_StaticParent<$T> staticParentWithSameType() {
     return $GrandParent_StaticParentType(T)
         .fromRef(_staticParentWithSameType(reference).object);
@@ -2035,11 +2035,11 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public T parentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $T get parentValue => T.fromRef(_get_parentValue(reference).object);
 
   /// from: public T parentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set parentValue($T value) =>
       _set_parentValue(reference, value.reference).check();
 
@@ -2061,11 +2061,11 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public S value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $S get value => S.fromRef(_get_value(reference).object);
 
   /// from: public S value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set value($S value) => _set_value(reference, value.reference).check();
 
   static final _new0 = jniLookup<
@@ -2077,7 +2077,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $parent, S newValue)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_Parent(
     GrandParent<$T> $parent,
     $S newValue, {
@@ -2182,11 +2182,11 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public T grandParentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $T get grandParentValue => T.fromRef(_get_grandParentValue(reference).object);
 
   /// from: public T grandParentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set grandParentValue($T value) =>
       _set_grandParentValue(reference, value.reference).check();
 
@@ -2209,11 +2209,11 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public S parentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $S get parentValue => S.fromRef(_get_parentValue(reference).object);
 
   /// from: public S parentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S value) =>
       _set_parentValue(reference, value.reference).check();
 
@@ -2236,11 +2236,11 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public U value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $U get value => U.fromRef(_get_value(reference).object);
 
   /// from: public U value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set value($U value) => _set_value(reference, value.reference).check();
 
   static final _new0 = jniLookup<
@@ -2252,7 +2252,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $parent, U newValue)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_Parent_Child(
     GrandParent_Parent<$T, $S> $parent,
     $U newValue, {
@@ -2354,11 +2354,11 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public S value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $S get value => S.fromRef(_get_value(reference).object);
 
   /// from: public S value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set value($S value) => _set_value(reference, value.reference).check();
 
   static final _new0 = jniLookup<
@@ -2368,7 +2368,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(S value)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_StaticParent(
     $S value, {
     jni.JObjType<$S>? S,
@@ -2460,11 +2460,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public S parentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $S get parentValue => S.fromRef(_get_parentValue(reference).object);
 
   /// from: public S parentValue
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S value) =>
       _set_parentValue(reference, value.reference).check();
 
@@ -2487,11 +2487,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public U value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $U get value => U.fromRef(_get_value(reference).object);
 
   /// from: public U value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set value($U value) => _set_value(reference, value.reference).check();
 
   static final _new0 = jniLookup<
@@ -2504,7 +2504,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $parent, S parentValue, U value)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent_StaticParent_Child(
     GrandParent_StaticParent<$S> $parent,
     $S parentValue,
@@ -2596,7 +2596,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory MyMap({
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
@@ -2613,7 +2613,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public V get(K key)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V get0(
     $K key,
   ) {
@@ -2629,7 +2629,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V put(K key, V value)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V put(
     $K key,
     $V value,
@@ -2644,7 +2644,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.github.dart_lang.jnigen.generics.MyStack<com.github.dart_lang.jnigen.generics.MyMap<K,V>.MyEntry> entryStack()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   MyStack<MyMap_MyEntry<jni.JObject, jni.JObject>> entryStack() {
     return const $MyStackType(
             $MyMap_MyEntryType(jni.JObjectType(), jni.JObjectType()))
@@ -2731,11 +2731,11 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public K key
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $K get key => K.fromRef(_get_key(reference).object);
 
   /// from: public K key
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set key($K value) => _set_key(reference, value.reference).check();
 
   static final _get_value = jniLookup<
@@ -2756,11 +2756,11 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public V value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V get value => V.fromRef(_get_value(reference).object);
 
   /// from: public V value
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set value($V value) => _set_value(reference, value.reference).check();
 
   static final _new0 = jniLookup<
@@ -2774,7 +2774,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.github.dart_lang.jnigen.generics.MyMap $parent, K key, V value)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory MyMap_MyEntry(
     MyMap<$K, $V> $parent,
     $K key,
@@ -2857,7 +2857,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory MyStack({
     required jni.JObjType<$T> T,
   }) {
@@ -2871,7 +2871,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> fromArray(T[] arr)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> fromArray<$T extends jni.JObject>(
     jni.JArray<$T> arr, {
     jni.JObjType<$T>? T,
@@ -2889,7 +2889,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<S> fromArrayOfArrayOfGrandParents(com.github.dart_lang.jnigen.generics.GrandParent<S>[][] arr)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$S> fromArrayOfArrayOfGrandParents<$S extends jni.JObject>(
     jni.JArray<jni.JArray<GrandParent<$S>>> arr, {
     jni.JObjType<$S>? S,
@@ -2909,7 +2909,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> of<$T extends jni.JObject>({
     required jni.JObjType<$T> T,
   }) {
@@ -2923,7 +2923,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> of1<$T extends jni.JObject>(
     $T obj, {
     jni.JObjType<$T>? T,
@@ -2943,7 +2943,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj, T obj2)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T> of2<$T extends jni.JObject>(
     $T obj,
     $T obj2, {
@@ -2978,7 +2978,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public T pop()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $T pop() {
     return T.fromRef(_pop(reference).object);
   }
@@ -3051,7 +3051,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory StringKeyedMap({
     required jni.JObjType<$V> V,
   }) {
@@ -3108,7 +3108,7 @@ class StringMap extends StringKeyedMap<jni.JString> {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory StringMap() {
     return StringMap.fromRef(_new0().object);
   }
@@ -3154,7 +3154,7 @@ class StringStack extends MyStack<jni.JString> {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory StringStack() {
     return StringStack.fromRef(_new0().object);
   }
@@ -3210,7 +3210,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory StringValuedMap({
     required jni.JObjType<$K> K,
   }) {
@@ -3296,7 +3296,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.lang.String stringCallback(java.lang.String s)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString stringCallback(
     jni.JString s,
   ) {
@@ -3313,7 +3313,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract T varCallback(T t)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $T varCallback(
     $T t,
   ) {
@@ -3372,40 +3372,40 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     $MethodInvocation $i,
   ) {
     try {
-      final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
       if ($d == r"voidCallback(Ljava/lang/String;)V") {
         _$impls[$p]!.voidCallback(
-          $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
+          $a[0].castTo(const jni.JStringType(), releaseOriginal: true),
         );
         return jni.nullptr;
       }
       if ($d == r"stringCallback(Ljava/lang/String;)Ljava/lang/String;") {
         final $r = _$impls[$p]!.stringCallback(
-          $a[0].castTo(const jni.JStringType(), deleteOriginal: true),
+          $a[0].castTo(const jni.JStringType(), releaseOriginal: true),
         );
         return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
       }
       if ($d == r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;") {
         final $r = _$impls[$p]!.varCallback(
-          $a[0].castTo(_$impls[$p]!.T, deleteOriginal: true),
+          $a[0].castTo(_$impls[$p]!.T, releaseOriginal: true),
         );
         return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
       }
       if ($d == r"manyPrimitives(IZCD)J") {
         final $r = _$impls[$p]!.manyPrimitives(
           $a[0]
-              .castTo(const jni.JIntegerType(), deleteOriginal: true)
-              .intValue(deleteOriginal: true),
+              .castTo(const jni.JIntegerType(), releaseOriginal: true)
+              .intValue(releaseOriginal: true),
           $a[1]
-              .castTo(const jni.JBooleanType(), deleteOriginal: true)
-              .booleanValue(deleteOriginal: true),
+              .castTo(const jni.JBooleanType(), releaseOriginal: true)
+              .booleanValue(releaseOriginal: true),
           $a[2]
-              .castTo(const jni.JCharacterType(), deleteOriginal: true)
-              .charValue(deleteOriginal: true),
+              .castTo(const jni.JCharacterType(), releaseOriginal: true)
+              .charValue(releaseOriginal: true),
           $a[3]
-              .castTo(const jni.JDoubleType(), deleteOriginal: true)
-              .doubleValue(deleteOriginal: true),
+              .castTo(const jni.JDoubleType(), releaseOriginal: true)
+              .doubleValue(releaseOriginal: true),
         );
         return jni.JLong($r).toPointer();
       }
@@ -3547,7 +3547,7 @@ class MyInterfaceConsumer extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory MyInterfaceConsumer() {
     return MyInterfaceConsumer.fromRef(_new0().object);
   }
@@ -3702,7 +3702,7 @@ class MyRunnable extends jni.JObject {
     $MethodInvocation $i,
   ) {
     try {
-      final $d = $i.methodDescriptor.toDartString(deleteOriginal: true);
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
       if ($d == r"run()V") {
         _$impls[$p]!.run();
@@ -3815,12 +3815,12 @@ class MyRunnableRunner extends jni.JObject {
           jni.JniResult Function(jni.JObjectPtr, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Throwable error
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get error =>
       const jni.JObjectType().fromRef(_get_error(reference).object);
 
   /// from: public java.lang.Throwable error
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   set error(jni.JObject value) =>
       _set_error(reference, value.reference).check();
 
@@ -3831,7 +3831,7 @@ class MyRunnableRunner extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.github.dart_lang.jnigen.interfaces.MyRunnable runnable)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory MyRunnableRunner(
     MyRunnable runnable,
   ) {
@@ -3904,7 +3904,7 @@ class JsonSerializable_Case extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case[] values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonSerializable_Case> values() {
     return const jni.JArrayType($JsonSerializable_CaseType())
         .fromRef(_values().object);
@@ -3917,7 +3917,7 @@ class JsonSerializable_Case extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.annotations.JsonSerializable.Case valueOf(java.lang.String name)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable_Case valueOf(
     jni.JString name,
   ) {
@@ -3969,7 +3969,7 @@ class MyDataClass extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory MyDataClass() {
     return MyDataClass.fromRef(_new0().object);
   }

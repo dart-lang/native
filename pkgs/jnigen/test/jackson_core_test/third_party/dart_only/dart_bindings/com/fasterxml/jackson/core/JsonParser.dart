@@ -66,7 +66,7 @@ class JsonParser extends jni.JObject {
   );
 
   /// from: static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default set of StreamReadCapabilityies that may be used as
   /// basis for format-specific readers (or as bogus instance if non-null
@@ -82,7 +82,7 @@ class JsonParser extends jni.JObject {
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: protected void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory JsonParser() {
     return JsonParser.fromRef(jni.Jni.accessors
         .newObjectWithArgs(_class.reference, _id_new0, []).object);
@@ -92,7 +92,7 @@ class JsonParser extends jni.JObject {
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(I)V");
 
   /// from: protected void <init>(int features)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory JsonParser.new1(
     int features,
   ) {
@@ -104,7 +104,7 @@ class JsonParser extends jni.JObject {
       r"getCodec", r"()Lcom/fasterxml/jackson/core/ObjectCodec;");
 
   /// from: public abstract com.fasterxml.jackson.core.ObjectCodec getCodec()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for ObjectCodec associated with this
   /// parser, if any. Codec is used by \#readValueAs(Class)
@@ -135,7 +135,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getInputSource", r"()Ljava/lang/Object;");
 
   /// from: public java.lang.Object getInputSource()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be used to get access to object that is used
   /// to access input being parsed; this is usually either
@@ -242,7 +242,7 @@ class JsonParser extends jni.JObject {
       r"getSchema", r"()Lcom/fasterxml/jackson/core/FormatSchema;");
 
   /// from: public com.fasterxml.jackson.core.FormatSchema getSchema()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing Schema that this parser uses, if any.
   /// Default implementation returns null.
@@ -316,7 +316,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/async/NonBlockingInputFeeder;");
 
   /// from: public com.fasterxml.jackson.core.async.NonBlockingInputFeeder getNonBlockingInputFeeder()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will either return a feeder instance (if parser uses
   /// non-blocking, aka asynchronous access); or <code>null</code> for
@@ -336,7 +336,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;");
 
   /// from: public com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> getReadCapabilities()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for getting metadata on capabilities of this parser, based on
   /// underlying data format being read (directly or indirectly).
@@ -353,7 +353,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"version", r"()Lcom/fasterxml/jackson/core/Version;");
 
   /// from: public abstract com.fasterxml.jackson.core.Version version()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor for getting version of the core package, given a parser instance.
   /// Left for sub-classes to implement.
@@ -411,7 +411,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonStreamContext;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonStreamContext getParsingContext()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be used to access current parsing context reader
   /// is in. There are 3 different types: root, array and object contexts,
@@ -435,7 +435,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonLocation;");
 
   /// from: public com.fasterxml.jackson.core.JsonLocation currentLocation()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that returns location of the last processed input unit (character
   /// or byte) from the input;
@@ -460,7 +460,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonLocation;");
 
   /// from: public com.fasterxml.jackson.core.JsonLocation currentTokenLocation()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that return the __starting__ location of the current
   /// (most recently returned)
@@ -487,7 +487,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonLocation;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonLocation getCurrentLocation()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
@@ -505,7 +505,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonLocation;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonLocation getTokenLocation()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentTokenLocation(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
@@ -521,7 +521,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"currentValue", r"()Ljava/lang/Object;");
 
   /// from: public java.lang.Object currentValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Helper method, usually equivalent to:
   ///<code>
@@ -564,7 +564,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getCurrentValue", r"()Ljava/lang/Object;");
 
   /// from: public java.lang.Object getCurrentValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentValue(), to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
@@ -642,7 +642,7 @@ class JsonParser extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser enable(com.fasterxml.jackson.core.JsonParser.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
   /// (check Feature for list of features)
@@ -664,7 +664,7 @@ class JsonParser extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser disable(com.fasterxml.jackson.core.JsonParser.Feature f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified  feature
   /// (check Feature for list of features)
@@ -686,7 +686,7 @@ class JsonParser extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified feature
   /// (check Feature for list of features)
@@ -756,7 +756,7 @@ class JsonParser extends jni.JObject {
       r"(I)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser setFeatureMask(int mask)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Bulk set method for (re)setting states of all standard Features
   ///@param mask Bit mask that defines set of features to enable
@@ -779,7 +779,7 @@ class JsonParser extends jni.JObject {
       r"(II)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser overrideStdFeatures(int values, int mask)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Bulk set method for (re)setting states of features specified by <code>mask</code>.
   /// Functionally equivalent to
@@ -824,7 +824,7 @@ class JsonParser extends jni.JObject {
       r"(II)Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public com.fasterxml.jackson.core.JsonParser overrideFormatFeatures(int values, int mask)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Bulk set method for (re)setting states of FormatFeatures,
   /// by specifying values (set / clear) along with a mask, to determine
@@ -851,7 +851,7 @@ class JsonParser extends jni.JObject {
       r"nextToken", r"()Lcom/fasterxml/jackson/core/JsonToken;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken nextToken()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Main iteration method, which will advance stream enough
   /// to determine type of the next token, if any. If none
@@ -871,7 +871,7 @@ class JsonParser extends jni.JObject {
       r"nextValue", r"()Lcom/fasterxml/jackson/core/JsonToken;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken nextValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Iteration method that will advance stream enough
   /// to determine type of the next token that is a value type
@@ -928,7 +928,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"nextFieldName", r"()Ljava/lang/String;");
 
   /// from: public java.lang.String nextFieldName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// verifies whether it is JsonToken\#FIELD_NAME; if it is,
@@ -947,7 +947,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"nextTextValue", r"()Ljava/lang/String;");
 
   /// from: public java.lang.String nextTextValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// if it is JsonToken\#VALUE_STRING returns contained String value;
@@ -1029,7 +1029,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"nextBooleanValue", r"()Ljava/lang/Boolean;");
 
   /// from: public java.lang.Boolean nextBooleanValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// if it is JsonToken\#VALUE_TRUE or JsonToken\#VALUE_FALSE
@@ -1059,7 +1059,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonParser;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonParser skipChildren()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will skip all child tokens of an array or
   /// object token that the parser currently points to,
@@ -1110,7 +1110,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonToken;");
 
   /// from: public com.fasterxml.jackson.core.JsonToken currentToken()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor to find which token parser currently points to, if any;
   /// null will be returned if none.
@@ -1152,7 +1152,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonToken;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken getCurrentToken()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias for \#currentToken(), may be deprecated sometime after
   /// Jackson 2.13 (will be removed from 3.0).
@@ -1354,7 +1354,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonToken;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken getLastClearedToken()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to get the last token that was
   /// cleared using \#clearCurrentToken. This is not necessarily
@@ -1395,7 +1395,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getCurrentName", r"()Ljava/lang/String;");
 
   /// from: public abstract java.lang.String getCurrentName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Alias of \#currentName().
   ///@return Name of the current field in the parsing context
@@ -1410,7 +1410,7 @@ class JsonParser extends jni.JObject {
       .getMethodIDOf(_class.reference, r"currentName", r"()Ljava/lang/String;");
 
   /// from: public java.lang.String currentName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to get the name associated with
   /// the current token: for JsonToken\#FIELD_NAMEs it will
@@ -1430,7 +1430,7 @@ class JsonParser extends jni.JObject {
       .getMethodIDOf(_class.reference, r"getText", r"()Ljava/lang/String;");
 
   /// from: public abstract java.lang.String getText()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for accessing textual representation of the current token;
   /// if no current token (before first call to \#nextToken, or
@@ -1476,7 +1476,7 @@ class JsonParser extends jni.JObject {
       .getMethodIDOf(_class.reference, r"getTextCharacters", r"()[C");
 
   /// from: public abstract char[] getTextCharacters()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method similar to \#getText, but that will return
   /// underlying (unmodifiable) character array that contains
@@ -1573,7 +1573,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getNumberValue", r"()Ljava/lang/Number;");
 
   /// from: public abstract java.lang.Number getNumberValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Generic number value accessor method that will work for
   /// all kinds of numeric values. It will return the optimal
@@ -1594,7 +1594,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getNumberValueExact", r"()Ljava/lang/Number;");
 
   /// from: public java.lang.Number getNumberValueExact()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method similar to \#getNumberValue with the difference that
   /// for floating-point numbers value returned may be BigDecimal
@@ -1623,7 +1623,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
 
   /// from: public abstract com.fasterxml.jackson.core.JsonParser.NumberType getNumberType()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// If current token is of type
   /// JsonToken\#VALUE_NUMBER_INT or
@@ -1748,7 +1748,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getBigIntegerValue", r"()Ljava/math/BigInteger;");
 
   /// from: public abstract java.math.BigInteger getBigIntegerValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -1822,7 +1822,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getDecimalValue", r"()Ljava/math/BigDecimal;");
 
   /// from: public abstract java.math.BigDecimal getDecimalValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_FLOAT or
@@ -1862,7 +1862,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getEmbeddedObject", r"()Ljava/lang/Object;");
 
   /// from: public java.lang.Object getEmbeddedObject()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Accessor that can be called if (and only if) the current token
   /// is JsonToken\#VALUE_EMBEDDED_OBJECT. For other token types,
@@ -1891,7 +1891,7 @@ class JsonParser extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/Base64Variant;)[B");
 
   /// from: public abstract byte[] getBinaryValue(com.fasterxml.jackson.core.Base64Variant bv)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be used to read (and consume -- results
   /// may not be accessible using other methods after the call)
@@ -1925,7 +1925,7 @@ class JsonParser extends jni.JObject {
       .getMethodIDOf(_class.reference, r"getBinaryValue", r"()[B");
 
   /// from: public byte[] getBinaryValue()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Convenience alternative to \#getBinaryValue(Base64Variant)
   /// that defaults to using
@@ -2184,7 +2184,7 @@ class JsonParser extends jni.JObject {
       _class.reference, r"getValueAsString", r"()Ljava/lang/String;");
 
   /// from: public java.lang.String getValueAsString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will try to convert value of current token to a
   /// java.lang.String.
@@ -2210,7 +2210,7 @@ class JsonParser extends jni.JObject {
       r"(Ljava/lang/String;)Ljava/lang/String;");
 
   /// from: public abstract java.lang.String getValueAsString(java.lang.String def)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that will try to convert value of current token to a
   /// java.lang.String.
@@ -2280,7 +2280,7 @@ class JsonParser extends jni.JObject {
       .getMethodIDOf(_class.reference, r"getObjectId", r"()Ljava/lang/Object;");
 
   /// from: public java.lang.Object getObjectId()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to check whether current token
   /// (one that was just read) has an associated Object id, and if
@@ -2304,7 +2304,7 @@ class JsonParser extends jni.JObject {
       .getMethodIDOf(_class.reference, r"getTypeId", r"()Ljava/lang/Object;");
 
   /// from: public java.lang.Object getTypeId()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that can be called to check whether current token
   /// (one that was just read) has an associated type id, and if
@@ -2330,7 +2330,7 @@ class JsonParser extends jni.JObject {
       r"(Ljava/lang/Class;)Ljava/lang/Object;");
 
   /// from: public T readValueAs(java.lang.Class<T> valueType)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into a non-container
   /// type (it can be an array type, however): typically a bean, array
@@ -2374,7 +2374,7 @@ class JsonParser extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/lang/Object;");
 
   /// from: public T readValueAs(com.fasterxml.jackson.core.type.TypeReference<?> valueTypeRef)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into a Java type, reference
   /// to which is passed as argument. Type is passed using so-called
@@ -2415,7 +2415,7 @@ class JsonParser extends jni.JObject {
       r"(Ljava/lang/Class;)Ljava/util/Iterator;");
 
   /// from: public java.util.Iterator<T> readValuesAs(java.lang.Class<T> valueType)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
   /// all with same specified value type.
@@ -2442,7 +2442,7 @@ class JsonParser extends jni.JObject {
       r"(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/util/Iterator;");
 
   /// from: public java.util.Iterator<T> readValuesAs(com.fasterxml.jackson.core.type.TypeReference<T> valueTypeRef)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
   /// all with same specified value type.
@@ -2469,7 +2469,7 @@ class JsonParser extends jni.JObject {
       r"()Lcom/fasterxml/jackson/core/TreeNode;");
 
   /// from: public T readValueAsTree()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into equivalent "tree model",
   /// represented by root TreeNode of resulting model.
@@ -2534,7 +2534,7 @@ class JsonParser_Feature extends jni.JObject {
       r"()[Lcom/fasterxml/jackson/core/JsonParser$Feature;");
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.Feature[] values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonParser_Feature> values() {
     return const jni.JArrayType($JsonParser_FeatureType()).fromRef(
         jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
@@ -2547,7 +2547,7 @@ class JsonParser_Feature extends jni.JObject {
       r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;");
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static JsonParser_Feature valueOf(
     jni.JString name,
   ) {
@@ -2648,7 +2648,7 @@ class JsonParser_NumberType extends jni.JObject {
       r"()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonParser_NumberType> values() {
     return const jni.JArrayType($JsonParser_NumberTypeType()).fromRef(
         jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
@@ -2661,7 +2661,7 @@ class JsonParser_NumberType extends jni.JObject {
       r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
 
   /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static JsonParser_NumberType valueOf(
     jni.JString name,
   ) {

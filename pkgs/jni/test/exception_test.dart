@@ -37,15 +37,15 @@ void main() {
 void run({required TestRunnerCallback testRunner}) {
   testRunner("double free throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
-    r.delete();
-    expect(r.delete, throwsA(isA<DoubleFreeException>()));
+    r.release();
+    expect(r.release, throwsA(isA<DoubleReleaseException>()));
   });
 
   testRunner("Use after free throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
-    r.delete();
+    r.release();
     expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(256)]),
-        throwsA(isA<UseAfterFreeException>()));
+        throwsA(isA<UseAfterReleaseException>()));
   });
 
   testRunner("void fieldType throws exception", () {

@@ -1,4 +1,5 @@
-## 0.6.0-wip-2
+## 0.6.0
+* **Breaking Change** ([#131](https://github.com/dart-lang/jnigen/issues/131)): Renamed `delete*` to `release*`.
 * Added `PortProxy` and related methods used for interface implementation.
 * Added the missing binding for `java.lang.Character`.
 

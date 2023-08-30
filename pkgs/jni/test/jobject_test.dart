@@ -48,11 +48,11 @@ void run({required TestRunnerCallback testRunner}) {
     final intValue = long.callMethodByName<int>("intValue", "()I", []);
     expect(intValue, equals(176));
 
-    // delete any JObject and JClass instances using .delete() after use.
-    // Deletion is not strictly required since JNI objects / classes have
-    // a NativeFinalizer. But deleting them after use is a good practice.
-    long.delete();
-    longClass.delete();
+    // Release any JObject and JClass instances using `.release()` after use.
+    // This is not strictly required since JNI objects / classes have
+    // a [NativeFinalizer]. But deleting them after use is a good practice.
+    long.release();
+    longClass.release();
   });
 
   testRunner("call a static method using JClass APIs", () {
@@ -60,16 +60,16 @@ void run({required TestRunnerCallback testRunner}) {
     final result = integerClass.callStaticMethodByName<JString>(
         "toHexString", "(I)Ljava/lang/String;", [JValueInt(31)]);
 
-    // if the object is supposed to be a Java string
-    // you can call toDartString on it.
+    // If the object is supposed to be a Java string you can call
+    // [toDartString] on it.
     final resultString = result.toDartString();
 
-    // Dart string is a copy, original object can be deleted.
-    result.delete();
+    // Dart string is a copy, original object can be released.
+    result.release();
     expect(resultString, equals("1f"));
 
-    // Also don't forget to delete the class
-    integerClass.delete();
+    // Also don't forget to release the class.
+    integerClass.release();
   });
 
   testRunner("Call method with null argument, expect exception", () {
@@ -78,7 +78,7 @@ void run({required TestRunnerCallback testRunner}) {
         () => integerClass.callStaticMethodByName<int>(
             "parseInt", "(Ljava/lang/String;)I", [nullptr]),
         throwsException);
-    integerClass.delete();
+    integerClass.release();
   });
 
   // Skip this test on Android integration test because it fails there, possibly
@@ -89,8 +89,8 @@ void run({required TestRunnerCallback testRunner}) {
     });
   }
 
-  /// callMethodByName will be expensive if making same call many times
-  /// Use getMethodID to get a method ID and use it in subsequent calls
+  // [callMethodByName] will be expensive if making same call many times.
+  // Use [getMethodID] to get a method ID and use it in subsequent calls.
   testRunner("Example for using getMethodID", () {
     final longClass = Jni.findJClass("java/lang/Long");
     final bitCountMethod = longClass.getStaticMethodID("bitCount", "(J)I");
@@ -99,7 +99,7 @@ void run({required TestRunnerCallback testRunner}) {
     // It finds the class, gets constructor ID and constructs an instance.
     final random = Jni.newInstance("java/util/Random", "()V", []);
 
-    // You don't need a JClass reference to get instance method IDs
+    // You don't need a [JClass] reference to get instance method IDs.
     final nextIntMethod = random.getMethodID("nextInt", "(I)I");
 
     for (int i = 0; i < 100; i++) {
@@ -112,7 +112,8 @@ void run({required TestRunnerCallback testRunner}) {
       }
       expect(jbc, equals(bits));
     }
-    Jni.deleteAll([random, longClass]);
+    random.release();
+    longClass.release();
   });
 
   // One-off invocation of static method in single call.
@@ -135,19 +136,19 @@ void run({required TestRunnerCallback testRunner}) {
     expect(maxLong, equals(32767));
   });
 
-  // Use callStringMethod if all you care about is a string result
+  // Use [callStringMethod] if all you care about is a string result
   testRunner("callStaticStringMethod", () {
     final longClass = Jni.findJClass("java/lang/Long");
     const n = 1223334444;
     final strFromJava = longClass.callStaticMethodByName<String>(
         "toOctalString", "(J)Ljava/lang/String;", [n]);
     expect(strFromJava, equals(n.toRadixString(8)));
-    longClass.delete();
+    longClass.release();
   });
 
-  // In JObject, JClass, and retrieve_/invoke_ methods
+  // In [JObject], [JClass], and retrieve_/invoke_ methods
   // you can also pass Dart strings, apart from range of types
-  // allowed by Jni.jvalues
+  // allowed by [Jni.jvalues].
   // They will be converted automatically.
   testRunner(
     "Passing strings in arguments",
@@ -158,7 +159,7 @@ void run({required TestRunnerCallback testRunner}) {
       // (\n because test runner prints first char at end of the line)
       //out.callMethodByName<Null>(
       //    "println", "(Ljava/lang/Object;)V", ["\nWorks (Apparently)"]);
-      out.delete();
+      out.release();
     },
   );
 
@@ -181,14 +182,14 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Using arena', () {
     final objects = <JObject>[];
     using((arena) {
-      final r = Jni.findJClass('java/util/Random')..deletedIn(arena);
+      final r = Jni.findJClass('java/util/Random')..releasedBy(arena);
       final ctor = r.getCtorID("()V");
       for (int i = 0; i < 10; i++) {
-        objects.add(r.newInstance(ctor, [])..deletedIn(arena));
+        objects.add(r.newInstance(ctor, [])..releasedBy(arena));
       }
     });
     for (var object in objects) {
-      expect(object.isDeleted, isTrue);
+      expect(object.isReleased, isTrue);
     }
   });
 
@@ -202,14 +203,14 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner("casting", () {
     using((arena) {
-      final str = "hello".toJString()..deletedIn(arena);
-      final obj = str.castTo(JObject.type)..deletedIn(arena);
+      final str = "hello".toJString()..releasedBy(arena);
+      final obj = str.castTo(JObject.type)..releasedBy(arena);
       final backToStr = obj.castTo(JString.type);
       expect(backToStr.toDartString(), str.toDartString());
-      final _ = backToStr.castTo(JObject.type, deleteOriginal: true)
-        ..deletedIn(arena);
-      expect(backToStr.toDartString, throwsA(isA<UseAfterFreeException>()));
-      expect(backToStr.delete, throwsA(isA<DoubleFreeException>()));
+      final _ = backToStr.castTo(JObject.type, releaseOriginal: true)
+        ..releasedBy(arena);
+      expect(backToStr.toDartString, throwsA(isA<UseAfterReleaseException>()));
+      expect(backToStr.release, throwsA(isA<DoubleReleaseException>()));
     });
   });
 
@@ -258,5 +259,5 @@ void doSomeWorkInIsolate(Void? _) {
   // Expect throws an [OutsideTestException]
   // but you can uncomment below print and see it works
   // print("\n$r");
-  random.delete();
+  random.release();
 }

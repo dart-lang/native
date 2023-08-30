@@ -20,7 +20,7 @@ void main() {
 
 void testStringBackAndForth(String str) {
   final jstring = str.toJString();
-  final dartString = jstring.toDartString(deleteOriginal: true);
+  final dartString = jstring.toDartString(releaseOriginal: true);
   expect(dartString, str);
 }
 

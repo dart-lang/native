@@ -60,7 +60,7 @@ class JsonToken extends jni.JObject {
       r"()[Lcom/fasterxml/jackson/core/JsonToken;");
 
   /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonToken> values() {
     return const jni.JArrayType($JsonTokenType()).fromRef(jni.Jni.accessors
         .callStaticMethodWithArgs(_class.reference, _id_values,
@@ -73,7 +73,7 @@ class JsonToken extends jni.JObject {
       r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonToken;");
 
   /// from: static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static JsonToken valueOf(
     jni.JString name,
   ) {
@@ -95,7 +95,7 @@ class JsonToken extends jni.JObject {
       .getMethodIDOf(_class.reference, r"asString", r"()Ljava/lang/String;");
 
   /// from: public final java.lang.String asString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
     return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
         reference, _id_asString, jni.JniCallType.objectType, []).object);
@@ -105,7 +105,7 @@ class JsonToken extends jni.JObject {
       .getMethodIDOf(_class.reference, r"asCharArray", r"()[C");
 
   /// from: public final char[] asCharArray()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
     return const jni.JArrayType(jni.jcharType()).fromRef(jni.Jni.accessors
         .callMethodWithArgs(
@@ -116,7 +116,7 @@ class JsonToken extends jni.JObject {
       .getMethodIDOf(_class.reference, r"asByteArray", r"()[B");
 
   /// from: public final byte[] asByteArray()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
     return const jni.JArrayType(jni.jbyteType()).fromRef(jni.Jni.accessors
         .callMethodWithArgs(

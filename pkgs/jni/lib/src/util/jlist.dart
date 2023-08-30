@@ -235,7 +235,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
       JniCallType.intType,
       [element.reference],
     ).integer;
-    range.delete();
+    range.release();
     return res;
   }
 
@@ -260,7 +260,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   void removeRange(int start, int end) {
     final range = getRange(start, end);
     range.clear();
-    range.delete();
+    range.release();
   }
 
   @override

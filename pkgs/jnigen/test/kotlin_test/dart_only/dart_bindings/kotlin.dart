@@ -42,7 +42,7 @@ class SuspendFun extends jni.JObject {
       jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
     return SuspendFun.fromRef(jni.Jni.accessors
         .newObjectWithArgs(_class.reference, _id_new0, []).object);
@@ -52,7 +52,7 @@ class SuspendFun extends jni.JObject {
       r"sayHello", r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
 
   /// from: public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> sayHello() async {
     final $p = ReceivePort();
     final $c =
@@ -73,7 +73,7 @@ class SuspendFun extends jni.JObject {
       r"(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
 
   /// from: public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> sayHello1(
     jni.JString string,
   ) async {

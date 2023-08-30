@@ -161,7 +161,7 @@ class PDFFileInfo {
     if (jstr.reference == nullptr) {
       return '(null)';
     }
-    return jstr.toDartString(deleteOriginal: true);
+    return jstr.toDartString(releaseOriginal: true);
   }
 
   PDFFileInfo.usingPDFBox(this.filename) {

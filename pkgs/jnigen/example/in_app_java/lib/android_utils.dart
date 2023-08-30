@@ -329,7 +329,7 @@ class EmojiCompat extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat init(android.content.Context context)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Initialize the singleton instance with the default system-provided configuration.
   ///
@@ -361,7 +361,7 @@ class EmojiCompat extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat init(android.content.Context context, androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigFactory defaultFactory)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @hide
   static EmojiCompat init1(
@@ -379,7 +379,7 @@ class EmojiCompat extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat init(androidx.emoji2.text.EmojiCompat.Config config)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Initialize the singleton instance with a configuration. When used on devices running API 18
   /// or below, the singleton instance is immediately moved into \#LOAD_STATE_SUCCEEDED
@@ -420,7 +420,7 @@ class EmojiCompat extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat.Config config)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Used by the tests to reset EmojiCompat with a new configuration. Every time it is called a
   /// new instance is created with the new configuration.
@@ -438,7 +438,7 @@ class EmojiCompat extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat reset(androidx.emoji2.text.EmojiCompat emojiCompat)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Used by the tests to reset EmojiCompat with a new singleton instance.
   ///@hide
@@ -469,7 +469,7 @@ class EmojiCompat extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: static public androidx.emoji2.text.EmojiCompat get()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Return singleton EmojiCompat instance. Should be called after
   /// \#init(EmojiCompat.Config) is called to initialize the singleton instance.
@@ -805,7 +805,7 @@ class EmojiCompat extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found. When
   /// used on devices running API 18 or below, returns the given {@code charSequence} without
@@ -832,7 +832,7 @@ class EmojiCompat extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found.
   ///
@@ -879,7 +879,7 @@ class EmojiCompat extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int, int)>();
 
   /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end, int maxEmojiCount)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found.
   ///
@@ -932,7 +932,7 @@ class EmojiCompat extends jni.JObject {
               int, int, int, int)>();
 
   /// from: public java.lang.CharSequence process(java.lang.CharSequence charSequence, int start, int end, int maxEmojiCount, int replaceStrategy)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Checks a given CharSequence for emojis, and adds EmojiSpans if any emojis are found.
   ///
@@ -983,7 +983,7 @@ class EmojiCompat extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getAssetSignature()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns signature for the currently loaded emoji assets. The signature is a SHA that is
   /// constructed using emoji assets. Can be used to detect if currently loaded asset is different
@@ -1072,7 +1072,7 @@ class EmojiCompat_Config extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(androidx.emoji2.text.EmojiCompat.MetadataRepoLoader metadataLoader)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default constructor.
   ///@param metadataLoader MetadataRepoLoader instance, cannot be {@code null}
@@ -1092,7 +1092,7 @@ class EmojiCompat_Config extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config registerInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Registers an initialization callback.
   ///@param initCallback the initialization callback to register, cannot be {@code null}
@@ -1114,7 +1114,7 @@ class EmojiCompat_Config extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config unregisterInitCallback(androidx.emoji2.text.EmojiCompat.InitCallback initCallback)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Unregisters a callback that was added before.
   ///@param initCallback the initialization callback to be removed, cannot be {@code null}
@@ -1133,7 +1133,7 @@ class EmojiCompat_Config extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setReplaceAll(boolean replaceAll)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines whether EmojiCompat should replace all the emojis it finds with the
   /// EmojiSpans. By default EmojiCompat tries its best to understand if the system already
@@ -1154,7 +1154,7 @@ class EmojiCompat_Config extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setUseEmojiAsDefaultStyle(boolean useEmojiAsDefaultStyle)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines whether EmojiCompat should use the emoji presentation style for emojis
   /// that have text style as default. By default, the text style would be used, unless these
@@ -1186,7 +1186,7 @@ class EmojiCompat_Config extends jni.JObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setUseEmojiAsDefaultStyle(boolean useEmojiAsDefaultStyle, java.util.List<java.lang.Integer> emojiAsDefaultStyleExceptions)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @see \#setUseEmojiAsDefaultStyle(boolean)
   ///@param emojiAsDefaultStyleExceptions Contains the exception emojis which will be still
@@ -1218,7 +1218,7 @@ class EmojiCompat_Config extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setEmojiSpanIndicatorEnabled(boolean emojiSpanIndicatorEnabled)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines whether a background will be drawn for the emojis that are found and
   /// replaced by EmojiCompat. Should be used only for debugging purposes. The indicator color
@@ -1241,7 +1241,7 @@ class EmojiCompat_Config extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setEmojiSpanIndicatorColor(int color)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Sets the color used as emoji span indicator. The default value is
   /// Color\#GREEN Color.GREEN.
@@ -1260,7 +1260,7 @@ class EmojiCompat_Config extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setMetadataLoadStrategy(int strategy)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Determines the strategy to start loading the metadata. By default EmojiCompat
   /// will start loading the metadata during EmojiCompat\#init(Config). When set to
@@ -1310,7 +1310,7 @@ class EmojiCompat_Config extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setSpanFactory(androidx.emoji2.text.EmojiCompat.SpanFactory factory)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Set the span factory used to actually draw emoji replacements.
   ///@param factory custum span factory that can draw the emoji replacements
@@ -1332,7 +1332,7 @@ class EmojiCompat_Config extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config setGlyphChecker(androidx.emoji2.text.EmojiCompat.GlyphChecker glyphChecker)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// The interface that is used by EmojiCompat in order to check if a given emoji can be
   /// rendered by the system.
@@ -1351,7 +1351,7 @@ class EmojiCompat_Config extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected final androidx.emoji2.text.EmojiCompat.MetadataRepoLoader getMetadataRepoLoader()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns the MetadataRepoLoader.
   EmojiCompat_MetadataRepoLoader getMetadataRepoLoader() {
@@ -1405,7 +1405,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_MetadataRepoLoaderCallback() {
     return EmojiCompat_MetadataRepoLoaderCallback.fromRef(_new0().object);
   }
@@ -1658,7 +1658,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_InitCallback() {
     return EmojiCompat_InitCallback.fromRef(_new0().object);
   }
@@ -1741,7 +1741,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_DefaultSpanFactory() {
     return EmojiCompat_DefaultSpanFactory.fromRef(_new0().object);
   }
@@ -1756,7 +1756,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer rasterizer)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Returns a TypefaceEmojiSpan.
   ///@param rasterizer TypefaceEmojiRasterizer instance, which can draw the emoji onto a
@@ -1826,7 +1826,7 @@ class EmojiCompat_SpanFactory extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract androidx.emoji2.text.EmojiSpan createSpan(androidx.emoji2.text.TypefaceEmojiRasterizer rasterizer)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Create EmojiSpan instance.
   ///@param rasterizer TypefaceEmojiRasterizer instance, which can draw the emoji onto a
@@ -1920,7 +1920,7 @@ class DefaultEmojiCompatConfig extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public androidx.emoji2.text.FontRequestEmojiCompatConfig create(android.content.Context context)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the default emoji compat config for this device.
   ///
@@ -1988,7 +1988,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
         .fromRef(_new0().object);
@@ -2004,7 +2004,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String providerPackage)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.JObject> getSigningSignatures1(
     jni.JObject packageManager,
     jni.JString providerPackage,
@@ -2075,7 +2075,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
         .fromRef(_new0().object);
@@ -2094,7 +2094,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int flags)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JList<jni.JObject> queryIntentContentProviders(
     jni.JObject packageManager,
     jni.JObject intent,
@@ -2116,7 +2116,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getProviderInfo(
     jni.JObject resolveInfo,
   ) {
@@ -2184,7 +2184,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromRef(
         _new0().object);
@@ -2200,7 +2200,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.Signature[] getSigningSignatures(android.content.pm.PackageManager packageManager, java.lang.String providerPackage)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the signing signatures for a package in package manager.
   jni.JArray<jni.JObject> getSigningSignatures(
@@ -2226,7 +2226,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int flags)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get the content provider by intent.
   jni.JList<jni.JObject> queryIntentContentProviders(
@@ -2250,7 +2250,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ProviderInfo getProviderInfo(android.content.pm.ResolveInfo resolveInfo)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Get a ProviderInfo, if present, from a ResolveInfo
   ///@param resolveInfo the subject
@@ -2320,7 +2320,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(androidx.emoji2.text.DefaultEmojiCompatConfig.DefaultEmojiCompatConfigHelper helper)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @hide
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory(
@@ -2340,7 +2340,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public androidx.emoji2.text.EmojiCompat.Config create(android.content.Context context)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @see DefaultEmojiCompatConfig\#create
   ///@hide
@@ -2405,7 +2405,7 @@ class Build_Partition extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString getName() {
     return const jni.JStringType().fromRef(_getName(reference).object);
   }
@@ -2417,7 +2417,7 @@ class Build_Partition extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getFingerprint()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString getFingerprint() {
     return const jni.JStringType().fromRef(_getFingerprint(reference).object);
   }
@@ -2502,7 +2502,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String BASE_OS
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BASE_OS =>
       const jni.JStringType().fromRef(_get_BASE_OS().object);
 
@@ -2512,7 +2512,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String CODENAME
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CODENAME =>
       const jni.JStringType().fromRef(_get_CODENAME().object);
 
@@ -2522,7 +2522,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String INCREMENTAL
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get INCREMENTAL =>
       const jni.JStringType().fromRef(_get_INCREMENTAL().object);
 
@@ -2549,7 +2549,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String RELEASE
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE =>
       const jni.JStringType().fromRef(_get_RELEASE().object);
 
@@ -2559,7 +2559,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String RELEASE_OR_CODENAME
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE_OR_CODENAME =>
       const jni.JStringType().fromRef(_get_RELEASE_OR_CODENAME().object);
 
@@ -2569,7 +2569,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String RELEASE_OR_PREVIEW_DISPLAY
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE_OR_PREVIEW_DISPLAY =>
       const jni.JStringType().fromRef(_get_RELEASE_OR_PREVIEW_DISPLAY().object);
 
@@ -2579,7 +2579,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String SDK
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SDK =>
       const jni.JStringType().fromRef(_get_SDK().object);
 
@@ -2597,7 +2597,7 @@ class Build_VERSION extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String SECURITY_PATCH
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SECURITY_PATCH =>
       const jni.JStringType().fromRef(_get_SECURITY_PATCH().object);
 
@@ -2606,7 +2606,7 @@ class Build_VERSION extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION() {
     return Build_VERSION.fromRef(_new0().object);
   }
@@ -2756,7 +2756,7 @@ class Build_VERSION_CODES extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION_CODES() {
     return Build_VERSION_CODES.fromRef(_new0().object);
   }
@@ -2805,7 +2805,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String BOARD
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BOARD =>
       const jni.JStringType().fromRef(_get_BOARD().object);
 
@@ -2815,7 +2815,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String BOOTLOADER
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BOOTLOADER =>
       const jni.JStringType().fromRef(_get_BOOTLOADER().object);
 
@@ -2825,7 +2825,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String BRAND
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BRAND =>
       const jni.JStringType().fromRef(_get_BRAND().object);
 
@@ -2835,7 +2835,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String CPU_ABI
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CPU_ABI =>
       const jni.JStringType().fromRef(_get_CPU_ABI().object);
 
@@ -2845,7 +2845,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String CPU_ABI2
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CPU_ABI2 =>
       const jni.JStringType().fromRef(_get_CPU_ABI2().object);
 
@@ -2855,7 +2855,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String DEVICE
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get DEVICE =>
       const jni.JStringType().fromRef(_get_DEVICE().object);
 
@@ -2865,7 +2865,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String DISPLAY
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get DISPLAY =>
       const jni.JStringType().fromRef(_get_DISPLAY().object);
 
@@ -2875,7 +2875,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String FINGERPRINT
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get FINGERPRINT =>
       const jni.JStringType().fromRef(_get_FINGERPRINT().object);
 
@@ -2885,7 +2885,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String HARDWARE
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get HARDWARE =>
       const jni.JStringType().fromRef(_get_HARDWARE().object);
 
@@ -2894,7 +2894,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String HOST
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get HOST =>
       const jni.JStringType().fromRef(_get_HOST().object);
 
@@ -2903,7 +2903,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String ID
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get ID =>
       const jni.JStringType().fromRef(_get_ID().object);
 
@@ -2913,7 +2913,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String MANUFACTURER
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get MANUFACTURER =>
       const jni.JStringType().fromRef(_get_MANUFACTURER().object);
 
@@ -2923,7 +2923,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String MODEL
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get MODEL =>
       const jni.JStringType().fromRef(_get_MODEL().object);
 
@@ -2933,7 +2933,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String ODM_SKU
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get ODM_SKU =>
       const jni.JStringType().fromRef(_get_ODM_SKU().object);
 
@@ -2943,7 +2943,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String PRODUCT
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get PRODUCT =>
       const jni.JStringType().fromRef(_get_PRODUCT().object);
 
@@ -2953,7 +2953,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String RADIO
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RADIO =>
       const jni.JStringType().fromRef(_get_RADIO().object);
 
@@ -2963,7 +2963,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String SERIAL
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SERIAL =>
       const jni.JStringType().fromRef(_get_SERIAL().object);
 
@@ -2972,7 +2972,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String SKU
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SKU =>
       const jni.JStringType().fromRef(_get_SKU().object);
 
@@ -2982,7 +2982,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String SOC_MANUFACTURER
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SOC_MANUFACTURER =>
       const jni.JStringType().fromRef(_get_SOC_MANUFACTURER().object);
 
@@ -2992,7 +2992,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String SOC_MODEL
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SOC_MODEL =>
       const jni.JStringType().fromRef(_get_SOC_MODEL().object);
 
@@ -3002,7 +3002,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String[] SUPPORTED_32_BIT_ABIS
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_32_BIT_ABIS =>
       const jni.JArrayType(jni.JStringType())
           .fromRef(_get_SUPPORTED_32_BIT_ABIS().object);
@@ -3013,7 +3013,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String[] SUPPORTED_64_BIT_ABIS
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_64_BIT_ABIS =>
       const jni.JArrayType(jni.JStringType())
           .fromRef(_get_SUPPORTED_64_BIT_ABIS().object);
@@ -3024,7 +3024,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String[] SUPPORTED_ABIS
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_ABIS =>
       const jni.JArrayType(jni.JStringType())
           .fromRef(_get_SUPPORTED_ABIS().object);
@@ -3034,7 +3034,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String TAGS
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get TAGS =>
       const jni.JStringType().fromRef(_get_TAGS().object);
 
@@ -3050,7 +3050,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String TYPE
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get TYPE =>
       const jni.JStringType().fromRef(_get_TYPE().object);
 
@@ -3062,7 +3062,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String USER
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get USER =>
       const jni.JStringType().fromRef(_get_USER().object);
 
@@ -3071,7 +3071,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Build() {
     return Build.fromRef(_new0().object);
   }
@@ -3082,7 +3082,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public java.lang.String getSerial()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getSerial() {
     return const jni.JStringType().fromRef(_getSerial().object);
   }
@@ -3093,7 +3093,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public java.util.List getFingerprintedPartitions()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JList<Build_Partition> getFingerprintedPartitions() {
     return const jni.JListType($Build_PartitionType())
         .fromRef(_getFingerprintedPartitions().object);
@@ -3105,7 +3105,7 @@ class Build extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public java.lang.String getRadioVersion()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getRadioVersion() {
     return const jni.JStringType().fromRef(_getRadioVersion().object);
   }
@@ -3168,7 +3168,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
       .asFunction<jni.JniResult Function(int, double)>();
 
   /// from: public void <init>(int i, float f)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory HashMap(
     int i,
     double f, {
@@ -3184,7 +3184,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           .asFunction<jni.JniResult Function(int)>();
 
   /// from: public void <init>(int i)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new1(
     int i, {
     required jni.JObjType<$K> K,
@@ -3198,7 +3198,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new2({
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
@@ -3213,7 +3213,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.util.Map map)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new3(
     jni.JMap<$K, $V> map, {
     jni.JObjType<$K>? K,
@@ -3259,7 +3259,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public V get(java.lang.Object object)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V get0(
     jni.JObject object,
   ) {
@@ -3292,7 +3292,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V put(K object, V object1)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V put(
     $K object,
     $V object1,
@@ -3325,7 +3325,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public V remove(java.lang.Object object)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V remove(
     jni.JObject object,
   ) {
@@ -3365,7 +3365,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set keySet()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<$K> keySet() {
     return jni.JSetType(K).fromRef(_keySet(reference).object);
   }
@@ -3377,7 +3377,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Collection values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject values() {
     return const jni.JObjectType().fromRef(_values(reference).object);
   }
@@ -3389,7 +3389,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set entrySet()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<jni.JObject> entrySet() {
     return const jni.JSetType(jni.JObjectType())
         .fromRef(_entrySet(reference).object);
@@ -3406,7 +3406,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V getOrDefault(java.lang.Object object, V object1)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V getOrDefault(
     jni.JObject object,
     $V object1,
@@ -3426,7 +3426,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V putIfAbsent(K object, V object1)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V putIfAbsent(
     $K object,
     $V object1,
@@ -3486,7 +3486,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V replace(K object, V object1)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V replace1(
     $K object,
     $V object1,
@@ -3506,7 +3506,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V computeIfAbsent(K object, java.util.function.Function function)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V computeIfAbsent(
     $K object,
     jni.JObject function,
@@ -3527,7 +3527,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V computeIfPresent(K object, java.util.function.BiFunction biFunction)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V computeIfPresent(
     $K object,
     jni.JObject biFunction,
@@ -3548,7 +3548,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public V compute(K object, java.util.function.BiFunction biFunction)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V compute(
     $K object,
     jni.JObject biFunction,
@@ -3569,7 +3569,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public V merge(K object, V object1, java.util.function.BiFunction biFunction)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   $V merge(
     $K object,
     $V object1,
@@ -3617,7 +3617,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object clone()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JObject clone() {
     return const jni.JObjectType().fromRef(_clone(reference).object);
   }

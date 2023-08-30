@@ -124,7 +124,7 @@ T _callOrGet<T>(int? callType, JniResult Function(int) function) {
           callType, JniCallType.objectType, {JniCallType.objectType});
       final ref = function(finalCallType).object;
       final ctor = T == String
-          ? (ref) => Jni.env.toDartString(ref, deleteOriginal: true)
+          ? (ref) => Jni.env.toDartString(ref, releaseOriginal: true)
           : (T == JObject ? JObject.fromRef : JString.fromRef);
       result = ctor(ref) as T;
       break;
@@ -177,12 +177,12 @@ class JObject extends JReference {
     return _jClass ??= getClass();
   }
 
-  /// Deletes the JNI reference and marks this object as deleted. Any further
-  /// uses will throw [UseAfterFreeException].
+  /// Deletes the JNI reference and marks this object as released. Any further
+  /// uses will throw [UseAfterReleaseException].
   @override
-  void delete() {
-    _jClass?.delete();
-    super.delete();
+  void release() {
+    _jClass?.release();
+    super.release();
   }
 
   /// Returns [JClass] corresponding to concrete class of this object.
@@ -304,12 +304,17 @@ class JObject extends JReference {
     return callStaticMethod<T>(id, args, callType);
   }
 
-  /// Casts this object to another type.
-  T castTo<T extends JObject>(JObjType<T> type, {bool deleteOriginal = false}) {
-    if (deleteOriginal) {
-      _jClass?.delete();
+  /// Casts this object to another [type].
+  ///
+  /// If [releaseOriginal] is `true`, the casted object will be released.
+  T castTo<T extends JObject>(
+    JObjType<T> type, {
+    bool releaseOriginal = false,
+  }) {
+    if (releaseOriginal) {
+      _jClass?.release();
       final ret = type.fromRef(reference);
-      setAsDeleted();
+      setAsReleased();
       return ret;
     }
     final newRef = Jni.env.NewGlobalRef(reference);
@@ -341,7 +346,7 @@ class JObject extends JReference {
   String toString() {
     return JString.fromRef(Jni.accessors.callMethodWithArgs(
             reference, _toStringId, JniCallType.objectType, []).object)
-        .toDartString(deleteOriginal: true);
+        .toDartString(releaseOriginal: true);
   }
 }
 

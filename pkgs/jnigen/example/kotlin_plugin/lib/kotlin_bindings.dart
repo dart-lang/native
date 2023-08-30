@@ -41,7 +41,7 @@ class Example extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromRef(_new0().object);
   }
@@ -55,7 +55,7 @@ class Example extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> thinkBeforeAnswering() async {
     final $p = ReceivePort();
     final $c =

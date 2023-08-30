@@ -62,7 +62,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default Constructor.
   factory PDDocumentInformation() {
@@ -76,7 +76,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDictionary dic)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
@@ -93,7 +93,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public org.apache.pdfbox.cos.COSDictionary getCOSObject()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
@@ -111,7 +111,7 @@ class PDDocumentInformation extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getPropertyStringValue(java.lang.String propertyKey)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Return the properties String value.
   ///
@@ -135,7 +135,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getTitle()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
@@ -168,7 +168,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getAuthor()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the author of the document.  This will return null if no author exists.
   ///@return The author of the document.
@@ -201,7 +201,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getSubject()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the subject of the document.  This will return null if no subject exists.
   ///@return The subject of the document.
@@ -234,7 +234,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getKeywords()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the keywords of the document.  This will return null if no keywords exists.
   ///@return The keywords of the document.
@@ -267,7 +267,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCreator()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the creator of the document.  This will return null if no creator exists.
   ///@return The creator of the document.
@@ -300,7 +300,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getProducer()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the producer of the document.  This will return null if no producer exists.
   ///@return The producer of the document.
@@ -333,7 +333,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Calendar getCreationDate()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
@@ -367,7 +367,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Calendar getModificationDate()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the modification date of the document.  This will return null if no modification date exists.
   ///@return The modification date of the document.
@@ -402,7 +402,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getTrapped()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the trapped value for the document.
   /// This will return null if one is not found.
@@ -418,7 +418,7 @@ class PDDocumentInformation extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set<java.lang.String> getMetadataKeys()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the keys of all metadata information fields for the document.
   ///@return all metadata key strings.
@@ -438,7 +438,7 @@ class PDDocumentInformation extends jni.JObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCustomMetadataValue(java.lang.String fieldName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// This will get the value of a custom metadata information field for the document.
   ///  This will return null if one is not found.

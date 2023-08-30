@@ -44,7 +44,7 @@ int randomUsingEnv(int n) => using((arena) {
 double randomDouble() {
   final math = Jni.findJClass("java/lang/Math");
   final random = math.callStaticMethodByName<double>("random", "()D", []);
-  math.delete();
+  math.release();
   return random;
 }
 
@@ -57,7 +57,7 @@ int uptime() {
 
 String backAndForth() {
   final jstring = '🪓'.toJString();
-  final dartString = jstring.toDartString(deleteOriginal: true);
+  final dartString = jstring.toDartString(releaseOriginal: true);
   return dartString;
 }
 

@@ -78,7 +78,7 @@ class JArray<E> extends JObject {
         type,
         Jni.accessors.newObjectArray(length, clazz.reference, nullptr).object,
       );
-      clazz.delete();
+      clazz.release();
       return array;
     }
     return JArray.fromRef(
@@ -102,7 +102,7 @@ class JArray<E> extends JObject {
           .newObjectArray(length, clazz.reference, fill.reference)
           .object,
     );
-    clazz.delete();
+    clazz.release();
     return array;
   }
 

@@ -55,16 +55,16 @@ class JString extends JObject {
 
   /// Returns the contents as a Dart String.
   ///
-  /// If [deleteOriginal] is true, the underlying reference is deleted
-  /// after conversion and this object will be marked as deleted.
-  String toDartString({bool deleteOriginal = false}) {
+  /// If [releaseOriginal] is true, the underlying reference is deleted
+  /// after conversion and this object will be marked as released.
+  String toDartString({bool releaseOriginal = false}) {
     ensureNotNull();
     final length = Jni.env.GetStringLength(reference);
     final chars = Jni.env.GetStringChars(reference, nullptr);
     final result = chars.cast<Utf16>().toDartString(length: length);
     Jni.env.ReleaseStringChars(reference, chars);
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return result;
   }

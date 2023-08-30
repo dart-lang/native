@@ -45,7 +45,7 @@ class Notifications extends jni.JObject {
       .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
     return Notifications.fromRef(_new0().object);
   }

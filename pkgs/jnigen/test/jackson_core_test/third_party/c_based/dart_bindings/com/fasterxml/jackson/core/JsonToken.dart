@@ -59,7 +59,7 @@ class JsonToken extends jni.JObject {
           .asFunction<jni.JniResult Function()>();
 
   /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonToken> values() {
     return const jni.JArrayType($JsonTokenType()).fromRef(_values().object);
   }
@@ -71,7 +71,7 @@ class JsonToken extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   static JsonToken valueOf(
     jni.JString name,
   ) {
@@ -96,7 +96,7 @@ class JsonToken extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final java.lang.String asString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
     return const jni.JStringType().fromRef(_asString(reference).object);
   }
@@ -108,7 +108,7 @@ class JsonToken extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final char[] asCharArray()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
     return const jni.JArrayType(jni.jcharType())
         .fromRef(_asCharArray(reference).object);
@@ -121,7 +121,7 @@ class JsonToken extends jni.JObject {
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final byte[] asByteArray()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
     return const jni.JArrayType(jni.jbyteType())
         .fromRef(_asByteArray(reference).object);

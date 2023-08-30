@@ -13,13 +13,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
   group(groupName, () {
     test('Suspend functions', () async {
       await using((arena) async {
-        final suspendFun = SuspendFun()..deletedIn(arena);
+        final suspendFun = SuspendFun()..releasedBy(arena);
         final hello = await suspendFun.sayHello();
-        expect(hello.toDartString(deleteOriginal: true), "Hello!");
+        expect(hello.toDartString(releaseOriginal: true), "Hello!");
         const name = "Bob";
         final helloBob =
-            await suspendFun.sayHello1(name.toJString()..deletedIn(arena));
-        expect(helloBob.toDartString(deleteOriginal: true), "Hello $name!");
+            await suspendFun.sayHello1(name.toJString()..releasedBy(arena));
+        expect(helloBob.toDartString(releaseOriginal: true), "Hello $name!");
       });
     });
   });

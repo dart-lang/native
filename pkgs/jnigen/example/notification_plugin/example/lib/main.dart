@@ -19,8 +19,8 @@ void showNotification(String title, String text) {
   var jTitle = JString.fromString(title);
   var jText = JString.fromString(text);
   Notifications.showNotification(activity, i, jTitle, jText);
-  jTitle.delete();
-  jText.delete();
+  jTitle.release();
+  jText.release();
 }
 
 void main() {

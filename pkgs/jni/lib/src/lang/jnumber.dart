@@ -64,12 +64,12 @@ class JNumber extends JObject {
   static final _intValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"intValue", r"()I");
 
-  int intValue({bool deleteOriginal = false}) {
+  int intValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _intValueId, JniCallType.intType, []).integer;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }
@@ -77,12 +77,12 @@ class JNumber extends JObject {
   static final _longValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"longValue", r"()J");
 
-  int longValue({bool deleteOriginal = false}) {
+  int longValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _longValueId, JniCallType.longType, []).long;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }
@@ -90,12 +90,12 @@ class JNumber extends JObject {
   static final _floatValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"floatValue", r"()F");
 
-  double floatValue({bool deleteOriginal = false}) {
+  double floatValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _floatValueId, JniCallType.floatType, []).float;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }
@@ -103,12 +103,12 @@ class JNumber extends JObject {
   static final _doubleValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"doubleValue", r"()D");
 
-  double doubleValue({bool deleteOriginal = false}) {
+  double doubleValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _doubleValueId, JniCallType.doubleType, []).doubleFloat;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }
@@ -116,12 +116,12 @@ class JNumber extends JObject {
   static final _byteValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"byteValue", r"()B");
 
-  int byteValue({bool deleteOriginal = false}) {
+  int byteValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _byteValueId, JniCallType.byteType, []).byte;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }
@@ -129,12 +129,12 @@ class JNumber extends JObject {
   static final _shortValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"shortValue", r"()S");
 
-  int shortValue({bool deleteOriginal = false}) {
+  int shortValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _shortValueId, JniCallType.shortType, []).short;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }

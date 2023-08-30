@@ -56,12 +56,12 @@ class JBoolean extends JObject {
   static final _booleanValueId =
       Jni.accessors.getMethodIDOf(_class.reference, r"booleanValue", r"()Z");
 
-  bool booleanValue({bool deleteOriginal = false}) {
+  bool booleanValue({bool releaseOriginal = false}) {
     ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
         reference, _booleanValueId, JniCallType.booleanType, []).boolean;
-    if (deleteOriginal) {
-      delete();
+    if (releaseOriginal) {
+      release();
     }
     return ret;
   }
