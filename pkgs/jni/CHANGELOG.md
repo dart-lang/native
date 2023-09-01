@@ -1,3 +1,6 @@
+## 0.6.1
+* Depend on the stable version of Dart 3.1.
+
 ## 0.6.0
 * **Breaking Change** ([#131](https://github.com/dart-lang/jnigen/issues/131)): Renamed `delete*` to `release*`.
 * Added `PortProxy` and related methods used for interface implementation.

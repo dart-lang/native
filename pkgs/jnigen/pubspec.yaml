@@ -15,7 +15,6 @@ topics:
   - ffi
   - codegen
   - java
-  - kotlin
   - jni
 
 dependencies:
