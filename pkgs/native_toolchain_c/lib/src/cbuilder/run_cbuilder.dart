@@ -25,12 +25,14 @@ class RunCBuilder {
   final Uri outDir;
   final Target target;
 
-  /// The install of the [dynamicLibrary].
+  /// The install name of the [dynamicLibrary].
   ///
   /// Can be inspected with `otool -D <path-to-dylib>`.
   ///
   /// Can be modified with `install_name_tool`.
   final Uri? installName;
+
+  final bool? pic;
 
   RunCBuilder({
     required this.buildConfig,
@@ -40,6 +42,7 @@ class RunCBuilder {
     this.dynamicLibrary,
     this.staticLibrary,
     this.installName,
+    this.pic,
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
@@ -142,6 +145,20 @@ class RunCBuilder {
           '-o',
           outDir.resolve('out.o').toFilePath(),
         ],
+        if (pic != null)
+          if (pic!) ...[
+            if (dynamicLibrary != null) '-fPIC',
+            // Using PIC for static libraries allows them to be linked into
+            // any executable, but it is not necessarily the best option in
+            // terms of overhead. We would have to know wether the target into
+            // which the static library is linked is PIC, PIE or neither. Then
+            // we could use the same option for the static library.
+            if (staticLibrary != null) '-fPIC',
+            if (executable != null) '-fPIE',
+          ] else ...[
+            '-fno-PIC',
+            '-fno-PIE',
+          ],
         // TODO(https://github.com/dart-lang/native/issues/50): The defines
         // should probably be configurable. That way, the mapping from
         // build_mode to defines can be defined in a project-dependent way in

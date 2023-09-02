@@ -57,18 +57,27 @@ class CBuilder implements Builder {
   @visibleForTesting
   final Uri? installName;
 
+  /// Whether the compiler will emit position independent code.
+  ///
+  /// When set to `null`, the default behavior of the compiler will be used.
+  ///
+  /// Defaults to `true` for libraries and `false` for executables.
+  final bool? pic;
+
   CBuilder.library({
     required this.name,
     required this.assetId,
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
     @visibleForTesting this.installName,
+    this.pic = true,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
     required this.name,
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
+    this.pic = false,
   })  : _type = _CBuilderType.executable,
         assetId = null,
         installName = null;
@@ -112,6 +121,7 @@ class CBuilder implements Builder {
                 : null,
         executable: _type == _CBuilderType.executable ? exeUri : null,
         installName: installName,
+        pic: pic,
       );
       await task.run();
     }
