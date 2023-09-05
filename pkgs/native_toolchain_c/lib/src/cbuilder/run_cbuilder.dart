@@ -32,6 +32,8 @@ class RunCBuilder {
   /// Can be modified with `install_name_tool`.
   final Uri? installName;
 
+  final Map<String, String?> defines;
+
   RunCBuilder({
     required this.buildConfig,
     this.logger,
@@ -40,6 +42,7 @@ class RunCBuilder {
     this.dynamicLibrary,
     this.staticLibrary,
     this.installName,
+    this.defines = const {},
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
@@ -142,11 +145,8 @@ class RunCBuilder {
           '-o',
           outDir.resolve('out.o').toFilePath(),
         ],
-        // TODO(https://github.com/dart-lang/native/issues/50): The defines
-        // should probably be configurable. That way, the mapping from
-        // build_mode to defines can be defined in a project-dependent way in
-        // each project build.dart.
-        '-D${buildConfig.buildMode.name.toUpperCase()}'
+        for (final MapEntry(key: name, :value) in defines.entries)
+          if (value == null) '-D$name' else '-D$name=$value',
       ],
       logger: logger,
       captureOutput: false,
@@ -181,11 +181,8 @@ class RunCBuilder {
     final result = await runProcess(
       executable: compiler.uri,
       arguments: [
-        // TODO(https://github.com/dart-lang/native/issues/50): The defines
-        // should probably be configurable. That way, the mapping from
-        // build_mode to defines can be defined in a project-dependent way in
-        // each project build.dart.
-        '/D${buildConfig.buildMode.name.toUpperCase()}',
+        for (final MapEntry(key: name, :value) in defines.entries)
+          if (value == null) '/D$name' else '/D$name=$value',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',

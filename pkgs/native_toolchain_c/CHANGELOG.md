@@ -1,3 +1,9 @@
+## 0.2.1
+
+- Added `defines` for specifying custom defines.
+- Added `buildModeDefine` to toggle define for current build mode.
+- Added `ndebugDefine` to toggle define of `NDEBUG` for non-debug builds.
+
 ## 0.2.0
 
 - **Breaking change** Rename `assetName` to `assetId`
