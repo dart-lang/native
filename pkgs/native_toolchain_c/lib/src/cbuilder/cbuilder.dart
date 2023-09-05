@@ -59,6 +59,12 @@ class CBuilder implements Builder {
 
   /// Whether the compiler will emit position independent code.
   ///
+  /// This option is set by the `pie` parameter for the [executable]
+  /// constructor.
+  ///
+  /// When set to `true`, libraries will be compiled with `-fPIC` and
+  /// executables with `-fPIE`.
+  ///
   /// When set to `null`, the default behavior of the compiler will be used.
   ///
   /// Defaults to `true` for libraries and `false` for executables.
@@ -77,10 +83,11 @@ class CBuilder implements Builder {
     required this.name,
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
-    this.pic = false,
+    bool? pie = false,
   })  : _type = _CBuilderType.executable,
         assetId = null,
-        installName = null;
+        installName = null,
+        pic = pie;
 
   /// Runs the C Compiler with on this C build spec.
   ///

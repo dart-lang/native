@@ -20,8 +20,13 @@ import '../helpers.dart';
 
 void main() {
   for (final pic in [null, true, false]) {
+    final picTag =
+        switch (pic) { null => 'auto-PIC', true => 'PIC', false => 'no-PIC' };
+
     for (final buildMode in BuildMode.values) {
-      test('Cbuilder executable $buildMode (pic: $pic)', () async {
+      final testSuffix = buildTestSuffix([buildMode.toString(), picTag]);
+
+      test('Cbuilder executable$testSuffix', () async {
         await inTempDir((tempUri) async {
           final helloWorldCUri = packageUri
               .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
@@ -48,7 +53,7 @@ void main() {
           final cbuilder = CBuilder.executable(
             name: name,
             sources: [helloWorldCUri.toFilePath()],
-            pic: pic,
+            pie: pic,
           );
           await cbuilder.run(
             buildConfig: buildConfig,
@@ -73,8 +78,9 @@ void main() {
     }
 
     for (final dryRun in [true, false]) {
-      final testSuffix = dryRun ? ' dry_run' : '';
-      test('Cbuilder dylib$testSuffix (pic: $pic)', () async {
+      final testSuffix = buildTestSuffix([if (dryRun) 'dry_run', picTag]);
+
+      test('Cbuilder dylib$testSuffix', () async {
         await inTempDir(
           // https://github.com/dart-lang/sdk/issues/40159
           keepTemp: Platform.isWindows,
@@ -132,3 +138,6 @@ void main() {
     }
   }
 }
+
+String buildTestSuffix(List<String> tags) =>
+    switch (tags) { [] => '', _ => ' (${tags.join(', ')})' };
