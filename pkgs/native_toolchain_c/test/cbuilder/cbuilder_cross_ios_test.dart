@@ -50,7 +50,7 @@ void main() {
             Uri.file('@executable_path/Frameworks/$libName'),
         ]) {
           test(
-              'Cbuilder $linkMode library $targetIOSSdk $target'
+              'CBuilder $linkMode library $targetIOSSdk $target'
                       ' ${installName ?? ''}'
                   .trim(), () async {
             await inTempDir((tempUri) async {

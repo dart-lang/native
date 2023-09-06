@@ -83,13 +83,14 @@ class CBuilder implements Builder {
 
   /// Whether the compiler will emit position independent code.
   ///
-  /// This option is set by the `pie` parameter for the [executable]
-  /// constructor.
-  ///
   /// When set to `true`, libraries will be compiled with `-fPIC` and
-  /// executables with `-fPIE`.
+  /// executables with `-fPIE`. Accordingly the corresponding parameter of the
+  /// [executable] constructor is named `pie`.
   ///
   /// When set to `null`, the default behavior of the compiler will be used.
+  ///
+  /// This option has no effect when building for Windows, where generation of
+  /// position independent code is not configurable.
   ///
   /// Defaults to `true` for libraries and `false` for executables.
   final bool? pic;

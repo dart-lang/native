@@ -21,12 +21,12 @@ import '../helpers.dart';
 void main() {
   for (final pic in [null, true, false]) {
     final picTag =
-        switch (pic) { null => 'auto-PIC', true => 'PIC', false => 'no-PIC' };
+        switch (pic) { null => 'auto_pic', true => 'pic', false => 'no_pic' };
 
     for (final buildMode in BuildMode.values) {
-      final testSuffix = buildTestSuffix([buildMode.toString(), picTag]);
+      final suffix = testSuffix([buildMode, picTag]);
 
-      test('Cbuilder executable$testSuffix', () async {
+      test('CBuilder executable$suffix', () async {
         await inTempDir((tempUri) async {
           final helloWorldCUri = packageUri
               .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
@@ -34,6 +34,9 @@ void main() {
             throw Exception('Run the test from the root directory.');
           }
           const name = 'hello_world';
+
+          final logMessages = <String>[];
+          final logger = createCapturingLogger(logMessages);
 
           final buildConfig = BuildConfig(
             outDir: tempUri,
@@ -73,14 +76,30 @@ void main() {
             expect(result.stdout.trim(), startsWith('Running in debug mode.'));
           }
           expect(result.stdout.trim(), endsWith('Hello world.'));
+
+          final compilerInvocation = logMessages.singleWhere(
+            (message) => message.contains(helloWorldCUri.toFilePath()),
+          );
+          switch (pic) {
+            case null:
+              expect(compilerInvocation, isNot(contains('-fPIC')));
+              expect(compilerInvocation, isNot(contains('-fPIE')));
+              expect(compilerInvocation, isNot(contains('-fno-PIC')));
+              expect(compilerInvocation, isNot(contains('-fno-PIE')));
+            case true:
+              expect(compilerInvocation, contains('-fPIE'));
+            case false:
+              expect(compilerInvocation, contains('-fno-PIC'));
+              expect(compilerInvocation, contains('-fno-PIE'));
+          }
         });
       });
     }
 
     for (final dryRun in [true, false]) {
-      final testSuffix = buildTestSuffix([if (dryRun) 'dry_run', picTag]);
+      final suffix = testSuffix([if (dryRun) 'dry_run', picTag]);
 
-      test('Cbuilder dylib$testSuffix', () async {
+      test('CBuilder dylib$suffix', () async {
         await inTempDir(
           // https://github.com/dart-lang/sdk/issues/40159
           keepTemp: Platform.isWindows,
@@ -88,6 +107,9 @@ void main() {
             final addCUri =
                 packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
             const name = 'add';
+
+            final logMessages = <String>[];
+            final logger = createCapturingLogger(logMessages);
 
             final buildConfig = dryRun
                 ? BuildConfig.dryRun(
@@ -131,6 +153,22 @@ void main() {
               final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
                   int Function(int, int)>('add');
               expect(add(1, 2), 3);
+
+              final compilerInvocation = logMessages.singleWhere(
+                (message) => message.contains(addCUri.toFilePath()),
+              );
+              switch (pic) {
+                case null:
+                  expect(compilerInvocation, isNot(contains('-fPIC')));
+                  expect(compilerInvocation, isNot(contains('-fPIE')));
+                  expect(compilerInvocation, isNot(contains('-fno-PIC')));
+                  expect(compilerInvocation, isNot(contains('-fno-PIE')));
+                case true:
+                  expect(compilerInvocation, contains('-fPIC'));
+                case false:
+                  expect(compilerInvocation, contains('-fno-PIC'));
+                  expect(compilerInvocation, contains('-fno-PIE'));
+              }
             }
           },
         );
@@ -140,9 +178,10 @@ void main() {
 
   for (final buildMode in BuildMode.values) {
     for (final enabled in [true, false]) {
+      final suffix = testSuffix([buildMode, enabled ? 'enabled' : 'disabled']);
+
       test(
-        'Cbuilder build mode defines ${enabled ? 'enabled' : 'disabled'} for '
-        '$buildMode',
+        'CBuilder build mode defines$suffix',
         () => testDefines(
           buildMode: buildMode,
           buildModeDefine: enabled,
@@ -153,8 +192,10 @@ void main() {
   }
 
   for (final value in [true, false]) {
+    final suffix = testSuffix([value ? 'with_value' : 'without_value']);
+
     test(
-      'Cbuilder define ${value ? 'with' : 'without'} value',
+      'CBuilder define$suffix',
       () => testDefines(customDefineWithValue: value),
     );
   }
@@ -253,6 +294,3 @@ Future<void> testDefines({
     }
   });
 }
-
-String buildTestSuffix(List<String> tags) =>
-    switch (tags) { [] => '', _ => ' (${tags.join(', ')})' };

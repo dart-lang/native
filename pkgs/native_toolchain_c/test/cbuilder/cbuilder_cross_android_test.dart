@@ -41,7 +41,7 @@ void main() {
 
   for (final linkMode in LinkMode.values) {
     for (final target in targets) {
-      test('Cbuilder $linkMode library $target', () async {
+      test('CBuilder $linkMode library $target', () async {
         await inTempDir((tempUri) async {
           final libUri = await buildLib(
             tempUri,
@@ -77,7 +77,7 @@ void main() {
     }
   }
 
-  test('Cbuilder API levels binary difference', () async {
+  test('CBuilder API levels binary difference', () async {
     const target = Target.androidArm64;
     const linkMode = LinkMode.dynamic;
     const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
