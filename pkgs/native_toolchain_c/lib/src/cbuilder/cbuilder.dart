@@ -81,6 +81,20 @@ class CBuilder implements Builder {
   /// Defaults to `true`.
   final bool ndebugDefine;
 
+  /// Whether the compiler will emit position independent code.
+  ///
+  /// When set to `true`, libraries will be compiled with `-fPIC` and
+  /// executables with `-fPIE`. Accordingly the corresponding parameter of the
+  /// [executable] constructor is named `pie`.
+  ///
+  /// When set to `null`, the default behavior of the compiler will be used.
+  ///
+  /// This option has no effect when building for Windows, where generation of
+  /// position independent code is not configurable.
+  ///
+  /// Defaults to `true` for libraries and `false` for executables.
+  final bool? pic;
+
   CBuilder.library({
     required this.name,
     required this.assetId,
@@ -90,6 +104,7 @@ class CBuilder implements Builder {
     this.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
+    this.pic = true,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
@@ -99,9 +114,11 @@ class CBuilder implements Builder {
     this.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
+    bool? pie = false,
   })  : _type = _CBuilderType.executable,
         assetId = null,
-        installName = null;
+        installName = null,
+        pic = pie;
 
   /// Runs the C Compiler with on this C build spec.
   ///
@@ -148,6 +165,7 @@ class CBuilder implements Builder {
           if (ndebugDefine && buildConfig.buildMode != BuildMode.debug)
             'NDEBUG': null,
         },
+        pic: pic,
       );
       await task.run();
     }

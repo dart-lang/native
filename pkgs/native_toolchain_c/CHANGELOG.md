@@ -1,3 +1,8 @@
+## 0.2.2
+
+- Generate position independent code for libraries by default and add
+  `pic` option to control this behavior.
+
 ## 0.2.1
 
 - Added `defines` for specifying custom defines.

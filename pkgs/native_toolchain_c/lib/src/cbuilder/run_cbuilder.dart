@@ -25,7 +25,7 @@ class RunCBuilder {
   final Uri outDir;
   final Target target;
 
-  /// The install of the [dynamicLibrary].
+  /// The install name of the [dynamicLibrary].
   ///
   /// Can be inspected with `otool -D <path-to-dylib>`.
   ///
@@ -33,6 +33,7 @@ class RunCBuilder {
   final Uri? installName;
 
   final Map<String, String?> defines;
+  final bool? pic;
 
   RunCBuilder({
     required this.buildConfig,
@@ -43,6 +44,7 @@ class RunCBuilder {
     this.staticLibrary,
     this.installName,
     this.defines = const {},
+    this.pic,
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
@@ -145,6 +147,20 @@ class RunCBuilder {
           '-o',
           outDir.resolve('out.o').toFilePath(),
         ],
+        if (pic != null)
+          if (pic!) ...[
+            if (dynamicLibrary != null) '-fPIC',
+            // Using PIC for static libraries allows them to be linked into
+            // any executable, but it is not necessarily the best option in
+            // terms of overhead. We would have to know wether the target into
+            // which the static library is linked is PIC, PIE or neither. Then
+            // we could use the same option for the static library.
+            if (staticLibrary != null) '-fPIC',
+            if (executable != null) '-fPIE',
+          ] else ...[
+            '-fno-PIC',
+            '-fno-PIE',
+          ],
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
       ],

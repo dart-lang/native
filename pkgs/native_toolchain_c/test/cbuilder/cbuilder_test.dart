@@ -19,94 +19,44 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  for (final buildMode in BuildMode.values) {
-    test('Cbuilder executable $buildMode', () async {
-      await inTempDir((tempUri) async {
-        final helloWorldCUri = packageUri
-            .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
-        if (!await File.fromUri(helloWorldCUri).exists()) {
-          throw Exception('Run the test from the root directory.');
-        }
-        const name = 'hello_world';
+  for (final pic in [null, true, false]) {
+    final picTag =
+        switch (pic) { null => 'auto_pic', true => 'pic', false => 'no_pic' };
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
-          packageRoot: tempUri,
-          targetArchitecture: Architecture.current,
-          targetOs: OS.current,
-          buildMode: buildMode,
-          // Ignored by executables.
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: CCompilerConfig(
-            cc: cc,
-            envScript: envScript,
-            envScriptArgs: envScriptArgs,
-          ),
-        );
-        final buildOutput = BuildOutput();
-        final cbuilder = CBuilder.executable(
-          name: name,
-          sources: [helloWorldCUri.toFilePath()],
-        );
-        await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
-          logger: logger,
-        );
+    for (final buildMode in BuildMode.values) {
+      final suffix = testSuffix([buildMode, picTag]);
 
-        final executableUri =
-            tempUri.resolve(Target.current.os.executableFileName(name));
-        expect(await File.fromUri(executableUri).exists(), true);
-        final result = await runProcess(
-          executable: executableUri,
-          logger: logger,
-        );
-        expect(result.exitCode, 0);
-        if (buildMode == BuildMode.debug) {
-          expect(result.stdout.trim(), startsWith('Running in debug mode.'));
-        }
-        expect(result.stdout.trim(), endsWith('Hello world.'));
-      });
-    });
-  }
+      test('CBuilder executable$suffix', () async {
+        await inTempDir((tempUri) async {
+          final helloWorldCUri = packageUri
+              .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
+          if (!await File.fromUri(helloWorldCUri).exists()) {
+            throw Exception('Run the test from the root directory.');
+          }
+          const name = 'hello_world';
 
-  for (final dryRun in [true, false]) {
-    final testSuffix = dryRun ? ' dry_run' : '';
-    test('Cbuilder dylib$testSuffix', () async {
-      await inTempDir(
-        // https://github.com/dart-lang/sdk/issues/40159
-        keepTemp: Platform.isWindows,
-        (tempUri) async {
-          final addCUri =
-              packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-          const name = 'add';
+          final logMessages = <String>[];
+          final logger = createCapturingLogger(logMessages);
 
-          final buildConfig = dryRun
-              ? BuildConfig.dryRun(
-                  outDir: tempUri,
-                  packageRoot: tempUri,
-                  targetOs: OS.current,
-                  linkModePreference: LinkModePreference.dynamic,
-                )
-              : BuildConfig(
-                  outDir: tempUri,
-                  packageRoot: tempUri,
-                  targetArchitecture: Architecture.current,
-                  targetOs: OS.current,
-                  buildMode: BuildMode.release,
-                  linkModePreference: LinkModePreference.dynamic,
-                  cCompiler: CCompilerConfig(
-                    cc: cc,
-                    envScript: envScript,
-                    envScriptArgs: envScriptArgs,
-                  ),
-                );
+          final buildConfig = BuildConfig(
+            outDir: tempUri,
+            packageRoot: tempUri,
+            targetArchitecture: Architecture.current,
+            targetOs: OS.current,
+            buildMode: buildMode,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: CCompilerConfig(
+              cc: cc,
+              envScript: envScript,
+              envScriptArgs: envScriptArgs,
+            ),
+          );
           final buildOutput = BuildOutput();
-
-          final cbuilder = CBuilder.library(
-            sources: [addCUri.toFilePath()],
+          final cbuilder = CBuilder.executable(
             name: name,
-            assetId: name,
+            sources: [helloWorldCUri.toFilePath()],
+            pie: pic,
           );
           await cbuilder.run(
             buildConfig: buildConfig,
@@ -114,25 +64,125 @@ void main() {
             logger: logger,
           );
 
-          final dylibUri =
-              tempUri.resolve(Target.current.os.dylibFileName(name));
-          expect(await File.fromUri(dylibUri).exists(), !dryRun);
-          if (!dryRun) {
-            final dylib = DynamicLibrary.open(dylibUri.toFilePath());
-            final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-                int Function(int, int)>('add');
-            expect(add(1, 2), 3);
+          final executableUri =
+              tempUri.resolve(Target.current.os.executableFileName(name));
+          expect(await File.fromUri(executableUri).exists(), true);
+          final result = await runProcess(
+            executable: executableUri,
+            logger: logger,
+          );
+          expect(result.exitCode, 0);
+          if (buildMode == BuildMode.debug) {
+            expect(result.stdout.trim(), startsWith('Running in debug mode.'));
           }
-        },
-      );
-    });
+          expect(result.stdout.trim(), endsWith('Hello world.'));
+
+          final compilerInvocation = logMessages.singleWhere(
+            (message) => message.contains(helloWorldCUri.toFilePath()),
+          );
+
+          switch ((buildConfig.targetOs, pic)) {
+            case (OS.windows, _) || (_, null):
+              expect(compilerInvocation, isNot(contains('-fPIC')));
+              expect(compilerInvocation, isNot(contains('-fPIE')));
+              expect(compilerInvocation, isNot(contains('-fno-PIC')));
+              expect(compilerInvocation, isNot(contains('-fno-PIE')));
+            case (_, true):
+              expect(compilerInvocation, contains('-fPIE'));
+            case (_, false):
+              expect(compilerInvocation, contains('-fno-PIC'));
+              expect(compilerInvocation, contains('-fno-PIE'));
+          }
+        });
+      });
+    }
+
+    for (final dryRun in [true, false]) {
+      final suffix = testSuffix([if (dryRun) 'dry_run', picTag]);
+
+      test('CBuilder dylib$suffix', () async {
+        await inTempDir(
+          // https://github.com/dart-lang/sdk/issues/40159
+          keepTemp: Platform.isWindows,
+          (tempUri) async {
+            final addCUri =
+                packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+            const name = 'add';
+
+            final logMessages = <String>[];
+            final logger = createCapturingLogger(logMessages);
+
+            final buildConfig = dryRun
+                ? BuildConfig.dryRun(
+                    outDir: tempUri,
+                    packageRoot: tempUri,
+                    targetOs: OS.current,
+                    linkModePreference: LinkModePreference.dynamic,
+                  )
+                : BuildConfig(
+                    outDir: tempUri,
+                    packageRoot: tempUri,
+                    targetArchitecture: Architecture.current,
+                    targetOs: OS.current,
+                    buildMode: BuildMode.release,
+                    linkModePreference: LinkModePreference.dynamic,
+                    cCompiler: CCompilerConfig(
+                      cc: cc,
+                      envScript: envScript,
+                      envScriptArgs: envScriptArgs,
+                    ),
+                  );
+            final buildOutput = BuildOutput();
+
+            final cbuilder = CBuilder.library(
+              sources: [addCUri.toFilePath()],
+              name: name,
+              assetId: name,
+              pic: pic,
+            );
+            await cbuilder.run(
+              buildConfig: buildConfig,
+              buildOutput: buildOutput,
+              logger: logger,
+            );
+
+            final dylibUri =
+                tempUri.resolve(Target.current.os.dylibFileName(name));
+            expect(await File.fromUri(dylibUri).exists(), !dryRun);
+            if (!dryRun) {
+              final dylib = DynamicLibrary.open(dylibUri.toFilePath());
+              final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
+                  int Function(int, int)>('add');
+              expect(add(1, 2), 3);
+
+              final compilerInvocation = logMessages.singleWhere(
+                (message) => message.contains(addCUri.toFilePath()),
+              );
+              switch ((buildConfig.targetOs, pic)) {
+                case (OS.windows, _) || (_, null):
+                  expect(compilerInvocation, isNot(contains('-fPIC')));
+                  expect(compilerInvocation, isNot(contains('-fPIE')));
+                  expect(compilerInvocation, isNot(contains('-fno-PIC')));
+                  expect(compilerInvocation, isNot(contains('-fno-PIE')));
+                case (_, true):
+                  expect(compilerInvocation, contains('-fPIC'));
+                case (_, false):
+                  expect(compilerInvocation, contains('-fno-PIC'));
+                  expect(compilerInvocation, contains('-fno-PIE'));
+              }
+            }
+          },
+        );
+      });
+    }
   }
 
   for (final buildMode in BuildMode.values) {
     for (final enabled in [true, false]) {
+      final suffix = testSuffix([buildMode, enabled ? 'enabled' : 'disabled']);
+
       test(
-        'Cbuilder build mode defines ${enabled ? 'enabled' : 'disabled'} for '
-        '$buildMode',
+        'CBuilder build mode defines$suffix',
         () => testDefines(
           buildMode: buildMode,
           buildModeDefine: enabled,
@@ -143,8 +193,10 @@ void main() {
   }
 
   for (final value in [true, false]) {
+    final suffix = testSuffix([value ? 'with_value' : 'without_value']);
+
     test(
-      'Cbuilder define ${value ? 'with' : 'without'} value',
+      'CBuilder define$suffix',
       () => testDefines(customDefineWithValue: value),
     );
   }

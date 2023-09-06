@@ -11,6 +11,32 @@ import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
+/// Returns a suffix for a test that is parameterized.
+///
+/// [tags] represent the current configuration of the test. Each element
+/// is converted to a string by calling [Object.toString].
+///
+/// ## Example
+///
+/// The instances of the test below will have the following descriptions:
+///
+/// - `My test`
+/// - `My test (dry_run)`
+///
+/// ```dart
+/// void main() {
+///   for (final dryRun in [true, false]) {
+///     final suffix = testSuffix([if (dryRun) 'dry_run']);
+///
+///     test('My test$suffix', () {});
+///   }
+/// }
+/// ```
+String testSuffix(List<Object> tags) => switch (tags) {
+      [] => '',
+      _ => ' (${tags.join(', ')})',
+    };
+
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
 Future<void> inTempDir(
