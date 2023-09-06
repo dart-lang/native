@@ -137,6 +137,121 @@ void main() {
       });
     }
   }
+
+  for (final buildMode in BuildMode.values) {
+    for (final enabled in [true, false]) {
+      test(
+        'Cbuilder build mode defines ${enabled ? 'enabled' : 'disabled'} for '
+        '$buildMode',
+        () => testDefines(
+          buildMode: buildMode,
+          buildModeDefine: enabled,
+          ndebugDefine: enabled,
+        ),
+      );
+    }
+  }
+
+  for (final value in [true, false]) {
+    test(
+      'Cbuilder define ${value ? 'with' : 'without'} value',
+      () => testDefines(customDefineWithValue: value),
+    );
+  }
+}
+
+Future<void> testDefines({
+  BuildMode buildMode = BuildMode.debug,
+  bool buildModeDefine = false,
+  bool ndebugDefine = false,
+  bool? customDefineWithValue,
+}) async {
+  await inTempDir((tempUri) async {
+    final definesCUri =
+        packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
+    if (!await File.fromUri(definesCUri).exists()) {
+      throw Exception('Run the test from the root directory.');
+    }
+    const name = 'defines';
+
+    final buildConfig = BuildConfig(
+      outDir: tempUri,
+      packageRoot: tempUri,
+      targetArchitecture: Architecture.current,
+      targetOs: OS.current,
+      buildMode: buildMode,
+      // Ignored by executables.
+      linkModePreference: LinkModePreference.dynamic,
+      cCompiler: CCompilerConfig(
+        cc: cc,
+        envScript: envScript,
+        envScriptArgs: envScriptArgs,
+      ),
+    );
+    final buildOutput = BuildOutput();
+    final cbuilder = CBuilder.executable(
+      name: name,
+      sources: [definesCUri.toFilePath()],
+      defines: {
+        if (customDefineWithValue != null)
+          'FOO': customDefineWithValue ? 'BAR' : null,
+      },
+      buildModeDefine: buildModeDefine,
+      ndebugDefine: ndebugDefine,
+    );
+    await cbuilder.run(
+      buildConfig: buildConfig,
+      buildOutput: buildOutput,
+      logger: logger,
+    );
+
+    final executableUri =
+        tempUri.resolve(Target.current.os.executableFileName(name));
+    expect(await File.fromUri(executableUri).exists(), true);
+    final result = await runProcess(
+      executable: executableUri,
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+
+    if (buildModeDefine) {
+      expect(
+        result.stdout,
+        contains('Macro ${buildMode.name.toUpperCase()} is defined: 1'),
+      );
+    } else {
+      expect(
+        result.stdout,
+        contains('Macro ${buildMode.name.toUpperCase()} is undefined.'),
+      );
+    }
+
+    if (ndebugDefine && buildMode != BuildMode.debug) {
+      expect(
+        result.stdout,
+        contains('Macro NDEBUG is defined: 1'),
+      );
+    } else {
+      expect(
+        result.stdout,
+        contains('Macro NDEBUG is undefined.'),
+      );
+    }
+
+    if (customDefineWithValue != null) {
+      expect(
+        result.stdout,
+        contains(
+          'Macro FOO is defined: ${customDefineWithValue ? 'BAR' : '1'}',
+        ),
+      );
+    } else {
+      expect(
+        result.stdout,
+        contains('Macro FOO is undefined.'),
+      );
+    }
+  });
 }
 
 String buildTestSuffix(List<String> tags) =>

@@ -57,6 +57,30 @@ class CBuilder implements Builder {
   @visibleForTesting
   final Uri? installName;
 
+  /// Definitions of preprocessor macros.
+  ///
+  /// When the value is `null`, the macro is defined without a value.
+  final Map<String, String?> defines;
+
+  /// Whether to define a macro for the current [BuildMode].
+  ///
+  /// The macro name is the uppercase name of the build mode and does not have a
+  /// value.
+  ///
+  /// Defaults to `true`.
+  final bool buildModeDefine;
+
+  /// Whether to define the standard `NDEBUG` macro when _not_ building with
+  /// [BuildMode.debug].
+  ///
+  /// When `NDEBUG` is defined, the C/C++ standard library
+  /// [`assert` macro in `assert.h`](https://en.wikipedia.org/wiki/Assert.h)
+  /// becomes a no-op. Other C/C++ code commonly use `NDEBUG` to disable debug
+  /// features, as well.
+  ///
+  /// Defaults to `true`.
+  final bool ndebugDefine;
+
   /// Whether the compiler will emit position independent code.
   ///
   /// This option is set by the `pie` parameter for the [executable]
@@ -76,6 +100,9 @@ class CBuilder implements Builder {
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
     @visibleForTesting this.installName,
+    this.defines = const {},
+    this.buildModeDefine = true,
+    this.ndebugDefine = true,
     this.pic = true,
   }) : _type = _CBuilderType.library;
 
@@ -83,6 +110,9 @@ class CBuilder implements Builder {
     required this.name,
     this.sources = const [],
     this.dartBuildFiles = const ['build.dart'],
+    this.defines = const {},
+    this.buildModeDefine = true,
+    this.ndebugDefine = true,
     bool? pie = false,
   })  : _type = _CBuilderType.executable,
         assetId = null,
@@ -128,6 +158,12 @@ class CBuilder implements Builder {
                 : null,
         executable: _type == _CBuilderType.executable ? exeUri : null,
         installName: installName,
+        defines: {
+          ...defines,
+          if (buildModeDefine) buildConfig.buildMode.name.toUpperCase(): null,
+          if (ndebugDefine && buildConfig.buildMode != BuildMode.debug)
+            'NDEBUG': null,
+        },
         pic: pic,
       );
       await task.run();
