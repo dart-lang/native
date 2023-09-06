@@ -80,15 +80,16 @@ void main() {
           final compilerInvocation = logMessages.singleWhere(
             (message) => message.contains(helloWorldCUri.toFilePath()),
           );
-          switch (pic) {
-            case null:
+
+          switch ((buildConfig.targetOs, pic)) {
+            case (OS.windows, _) || (_, null):
               expect(compilerInvocation, isNot(contains('-fPIC')));
               expect(compilerInvocation, isNot(contains('-fPIE')));
               expect(compilerInvocation, isNot(contains('-fno-PIC')));
               expect(compilerInvocation, isNot(contains('-fno-PIE')));
-            case true:
+            case (_, true):
               expect(compilerInvocation, contains('-fPIE'));
-            case false:
+            case (_, false):
               expect(compilerInvocation, contains('-fno-PIC'));
               expect(compilerInvocation, contains('-fno-PIE'));
           }
@@ -157,15 +158,15 @@ void main() {
               final compilerInvocation = logMessages.singleWhere(
                 (message) => message.contains(addCUri.toFilePath()),
               );
-              switch (pic) {
-                case null:
+              switch ((buildConfig.targetOs, pic)) {
+                case (OS.windows, _) || (_, null):
                   expect(compilerInvocation, isNot(contains('-fPIC')));
                   expect(compilerInvocation, isNot(contains('-fPIE')));
                   expect(compilerInvocation, isNot(contains('-fno-PIC')));
                   expect(compilerInvocation, isNot(contains('-fno-PIE')));
-                case true:
+                case (_, true):
                   expect(compilerInvocation, contains('-fPIC'));
-                case false:
+                case (_, false):
                   expect(compilerInvocation, contains('-fno-PIC'));
                   expect(compilerInvocation, contains('-fno-PIE'));
               }
