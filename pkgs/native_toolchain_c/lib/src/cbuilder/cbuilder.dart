@@ -45,6 +45,13 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.dependencies].
   final List<String> sources;
 
+  /// Include directories to pass to the compiler.
+  ///
+  /// Resolved against [BuildConfig.packageRoot].
+  ///
+  /// Used to output the [BuildOutput.dependencies].
+  final List<String> includes;
+
   /// The dart files involved in building this artifact.
   ///
   /// Resolved against [BuildConfig.packageRoot].
@@ -56,6 +63,9 @@ class CBuilder implements Builder {
   /// or hide in public API.
   @visibleForTesting
   final Uri? installName;
+
+  /// Flags to pass to the compiler.
+  final List<String> flags;
 
   /// Definitions of preprocessor macros.
   ///
@@ -99,8 +109,10 @@ class CBuilder implements Builder {
     required this.name,
     required this.assetId,
     this.sources = const [],
+    this.includes = const [],
     this.dartBuildFiles = const ['build.dart'],
     @visibleForTesting this.installName,
+    this.flags = const [],
     this.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
@@ -110,7 +122,9 @@ class CBuilder implements Builder {
   CBuilder.executable({
     required this.name,
     this.sources = const [],
+    this.includes = const [],
     this.dartBuildFiles = const ['build.dart'],
+    this.flags = const [],
     this.defines = const {},
     this.buildModeDefine = true,
     this.ndebugDefine = true,
@@ -141,6 +155,9 @@ class CBuilder implements Builder {
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
     ];
+    final includes = [
+      for (final include in this.includes) packageRoot.resolve(include),
+    ];
     final dartBuildFiles = [
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
@@ -149,6 +166,7 @@ class CBuilder implements Builder {
         buildConfig: buildConfig,
         logger: logger,
         sources: sources,
+        includes: includes,
         dynamicLibrary:
             _type == _CBuilderType.library && linkMode == LinkMode.dynamic
                 ? libUri
@@ -159,6 +177,7 @@ class CBuilder implements Builder {
                 : null,
         executable: _type == _CBuilderType.executable ? exeUri : null,
         installName: installName,
+        flags: flags,
         defines: {
           ...defines,
           if (buildModeDefine) buildConfig.buildMode.name.toUpperCase(): null,
@@ -190,6 +209,7 @@ class CBuilder implements Builder {
     if (!buildConfig.dryRun) {
       buildOutput.dependencies.dependencies.addAll([
         ...sources,
+        ...includes,
         ...dartBuildFiles,
       ]);
     }

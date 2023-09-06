@@ -19,6 +19,7 @@ class RunCBuilder {
   final BuildConfig buildConfig;
   final Logger? logger;
   final List<Uri> sources;
+  final List<Uri> includes;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
@@ -32,6 +33,7 @@ class RunCBuilder {
   /// Can be modified with `install_name_tool`.
   final Uri? installName;
 
+  final List<String> flags;
   final Map<String, String?> defines;
   final bool? pic;
 
@@ -39,10 +41,12 @@ class RunCBuilder {
     required this.buildConfig,
     this.logger,
     this.sources = const [],
+    this.includes = const [],
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
     this.installName,
+    this.flags = const [],
     this.defines = const {},
     this.pic,
   })  : outDir = buildConfig.outDir,
@@ -147,6 +151,7 @@ class RunCBuilder {
           '-o',
           outDir.resolve('out.o').toFilePath(),
         ],
+        for (final include in includes) '-I${include.toFilePath()}',
         if (pic != null)
           if (pic!) ...[
             if (dynamicLibrary != null) '-fPIC',
@@ -163,6 +168,7 @@ class RunCBuilder {
           ],
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
+        ...flags,
       ],
       logger: logger,
       captureOutput: false,
@@ -197,8 +203,10 @@ class RunCBuilder {
     final result = await runProcess(
       executable: compiler.uri,
       arguments: [
+        for (final include in includes) '/I${include.toFilePath()}',
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',
+        ...flags,
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',
