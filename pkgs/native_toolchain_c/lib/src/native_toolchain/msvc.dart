@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
@@ -71,7 +72,7 @@ Tool vcvars(ToolInstance toolInstance) {
     defaultResolver: InstallLocationResolver(
       toolName: fileName,
       paths: [
-        batchScript.toFilePath().replaceAll('\\', '/'),
+        Glob.quote(batchScript.toFilePath()),
       ],
     ),
   );
