@@ -221,7 +221,7 @@ class RunCBuilder {
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',
-        for (final include in includes) '/I${include.toFilePath()}',
+        for (final directory in includes) '/I${directory.toFilePath()}',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',

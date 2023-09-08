@@ -189,7 +189,8 @@ class CBuilder implements Builder {
         packageRoot.resolveUri(Uri.file(source)),
     ];
     final includes = [
-      for (final include in this.includes) packageRoot.resolve(include),
+      for (final directory in this.includes)
+        packageRoot.resolveUri(Uri.file(directory)),
     ];
     final dartBuildFiles = [
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
