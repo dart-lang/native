@@ -105,6 +105,33 @@ class CBuilder implements Builder {
   /// Defaults to `true` for libraries and `false` for executables.
   final bool? pic;
 
+  /// The language standard to use.
+  ///
+  /// When set to `null`, the default behavior of the compiler will be used.
+  final String? std;
+
+  /// Whether to compile sources as C++.
+  ///
+  /// [cppLinkStdLib] only has an effect when this is `true`.
+  final bool cpp;
+
+  /// The C++ standard library to link against.
+  ///
+  /// This option has no effect when [cpp] is `false` or when compiling for
+  /// Windows.
+  ///
+  /// When set to `null`, the following defaults will be used, based on the
+  /// target OS:
+  ///
+  /// | OS      | Library      |
+  /// | :------ | :----------- |
+  /// | Android | `c++_shared` |
+  /// | iOS     | `c++`        |
+  /// | Linux   | `stdc++`     |
+  /// | macOS   | `c++`        |
+  /// | Fuchsia | `c++`        |
+  final String? cppLinkStdLib;
+
   CBuilder.library({
     required this.name,
     required this.assetId,
@@ -117,6 +144,9 @@ class CBuilder implements Builder {
     this.buildModeDefine = true,
     this.ndebugDefine = true,
     this.pic = true,
+    this.std,
+    this.cpp = false,
+    this.cppLinkStdLib,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
@@ -129,6 +159,9 @@ class CBuilder implements Builder {
     this.buildModeDefine = true,
     this.ndebugDefine = true,
     bool? pie = false,
+    this.std,
+    this.cpp = false,
+    this.cppLinkStdLib,
   })  : _type = _CBuilderType.executable,
         assetId = null,
         installName = null,
@@ -185,6 +218,9 @@ class CBuilder implements Builder {
             'NDEBUG': null,
         },
         pic: pic,
+        std: std,
+        cpp: cpp,
+        cppLinkStdLib: cppLinkStdLib,
       );
       await task.run();
     }
@@ -207,11 +243,21 @@ class CBuilder implements Builder {
       }
     }
     if (!buildConfig.dryRun) {
-      buildOutput.dependencies.dependencies.addAll([
+      final includeFiles = await Stream.fromIterable(includes)
+          .asyncExpand(
+            (include) => Directory(include.toFilePath())
+                .list(recursive: true)
+                .where((entry) => entry is File)
+                .map((file) => file.uri),
+          )
+          .toList();
+
+      buildOutput.dependencies.dependencies.addAll({
+        // Note: We use a Set here to deduplicate the dependencies.
         ...sources,
-        ...includes,
+        ...includeFiles,
         ...dartBuildFiles,
-      ]);
+      });
     }
   }
 }

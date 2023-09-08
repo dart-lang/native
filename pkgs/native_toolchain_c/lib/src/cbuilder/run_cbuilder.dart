@@ -36,6 +36,9 @@ class RunCBuilder {
   final List<String> flags;
   final Map<String, String?> defines;
   final bool? pic;
+  final String? std;
+  final bool cpp;
+  final String? cppLinkStdLib;
 
   RunCBuilder({
     required this.buildConfig,
@@ -49,6 +52,9 @@ class RunCBuilder {
     this.flags = const [],
     this.defines = const {},
     this.pic,
+    this.std,
+    this.cpp = false,
+    this.cppLinkStdLib,
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
@@ -137,21 +143,6 @@ class RunCBuilder {
           '-install_name',
           installName!.toFilePath(),
         ],
-        ...sources.map((e) => e.toFilePath()),
-        if (executable != null) ...[
-          '-o',
-          outDir.resolveUri(executable!).toFilePath(),
-        ],
-        if (dynamicLibrary != null) ...[
-          '--shared',
-          '-o',
-          outDir.resolveUri(dynamicLibrary!).toFilePath(),
-        ] else if (staticLibrary != null) ...[
-          '-c',
-          '-o',
-          outDir.resolve('out.o').toFilePath(),
-        ],
-        for (final include in includes) '-I${include.toFilePath()}',
         if (pic != null)
           if (pic!) ...[
             if (dynamicLibrary != null) '-fPIC',
@@ -166,9 +157,31 @@ class RunCBuilder {
             '-fno-PIC',
             '-fno-PIE',
           ],
+        if (std != null) '-std=$std',
+        if (cpp) ...[
+          '-x',
+          'c++',
+          '-l',
+          cppLinkStdLib ?? defaultCppLinkStdLib[target.os]!
+        ],
+        ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
-        ...flags,
+        for (final include in includes) '-I${include.toFilePath()}',
+        ...sources.map((e) => e.toFilePath()),
+        if (executable != null) ...[
+          '-o',
+          outDir.resolveUri(executable!).toFilePath(),
+        ],
+        if (dynamicLibrary != null) ...[
+          '--shared',
+          '-o',
+          outDir.resolveUri(dynamicLibrary!).toFilePath(),
+        ] else if (staticLibrary != null) ...[
+          '-c',
+          '-o',
+          outDir.resolve('out.o').toFilePath(),
+        ],
       ],
       logger: logger,
       captureOutput: false,
@@ -203,10 +216,12 @@ class RunCBuilder {
     final result = await runProcess(
       executable: compiler.uri,
       arguments: [
-        for (final include in includes) '/I${include.toFilePath()}',
+        if (std != null) '/std:$std',
+        if (cpp) '/TP',
+        ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',
-        ...flags,
+        for (final include in includes) '/I${include.toFilePath()}',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',
@@ -268,5 +283,13 @@ class RunCBuilder {
     Target.iOSX64: {
       IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
     },
+  };
+
+  static const defaultCppLinkStdLib = {
+    OS.android: 'c++_shared',
+    OS.fuchsia: 'c++',
+    OS.iOS: 'c++',
+    OS.linux: 'stdc++',
+    OS.macOS: 'c++',
   };
 }

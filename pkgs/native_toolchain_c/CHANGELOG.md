@@ -1,3 +1,11 @@
+## 0.2.3
+
+- Added `includes` for specifying include directories.
+- Added `flags` for specifying arbitrary compiler flags.
+- Added `std` for specifying a language standard.
+- Added `cpp` for enabling C++ compilation.
+- Added `cppLinkStdLib` for specifying the C++ standard library to link against.
+
 ## 0.2.2
 
 - Generate position independent code for libraries by default and add
