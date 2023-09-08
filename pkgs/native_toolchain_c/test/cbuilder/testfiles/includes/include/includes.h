@@ -9,3 +9,4 @@
 #endif
 
 FFI_EXPORT int x = 42;
+
