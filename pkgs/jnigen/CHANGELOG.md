@@ -1,3 +1,6 @@
+## 0.6.1-wip
+* Added an explicit cast in generated `<Interface>.implement` code to allow `dart analyze` to pass when `strict-casts` is set.
+
 ## 0.6.0
 * **Breaking Change** ([#131](https://github.com/dart-lang/jnigen/issues/131)): Renamed `delete*` to `release*`.
 * **Breaking Change** ([#354](https://github.com/dart-lang/jnigen/issues/354)): Renamed constructors from `ctor1`, `ctor2`, ... to `new1`, `new2`, ...

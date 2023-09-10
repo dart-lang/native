@@ -479,7 +479,7 @@ class $name$typeParamsDef extends $superName {
         \$p.close();
         return;
       }
-      final \$i = \$MethodInvocation.fromMessage(\$m);
+      final \$i = \$MethodInvocation.fromMessage(\$m as List<dynamic>);
       final \$r = _\$invokeMethod(\$p.sendPort.nativePort, \$i);
       $_protectedExtension.returnResult(\$i.result, \$r);
     });
