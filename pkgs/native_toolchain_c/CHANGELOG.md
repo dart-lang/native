@@ -3,7 +3,7 @@
 - Added `includes` for specifying include directories.
 - Added `flags` for specifying arbitrary compiler flags.
 - Added `std` for specifying a language standard.
-- Added `cpp` for enabling C++ compilation.
+- Added `language` for selecting the language (`c` and `cpp`) to compile source files as.
 - Added `cppLinkStdLib` for specifying the C++ standard library to link against.
 
 ## 0.2.3
