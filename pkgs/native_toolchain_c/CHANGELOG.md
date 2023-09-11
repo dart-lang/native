@@ -1,4 +1,4 @@
-## 0.2.3
+## 0.2.4
 
 - Added `includes` for specifying include directories.
 - Added `flags` for specifying arbitrary compiler flags.
