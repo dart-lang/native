@@ -18,7 +18,9 @@ abstract class Builder {
   });
 }
 
-/// A programming language.
+/// A programming language that can be selected for compilation of source files.
+///
+/// See [CBuilder.language] for more information.
 class Language {
   /// The name of the language.
   final String name;
