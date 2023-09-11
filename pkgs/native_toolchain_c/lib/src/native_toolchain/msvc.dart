@@ -72,7 +72,7 @@ Tool vcvars(ToolInstance toolInstance) {
     defaultResolver: InstallLocationResolver(
       toolName: fileName,
       paths: [
-        Glob.quote(batchScript.toFilePath()),
+        Glob.quote(batchScript.toFilePath().replaceAll('\\', '/')),
       ],
     ),
   );
