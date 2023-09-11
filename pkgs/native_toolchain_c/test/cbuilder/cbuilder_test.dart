@@ -202,62 +202,60 @@ void main() {
   }
 
   test('CBuilder flags', () async {
-    await inTempDir(
-      // https://github.com/dart-lang/sdk/issues/40159
-      keepTemp: Platform.isWindows,
-      (tempUri) async {
-        final addCUri =
-            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-        const name = 'add';
+    await inTempDir((tempUri) async {
+      final helloWorldCppCcUri = packageUri.resolve(
+          'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
+      const name = 'hello_world_cpp';
 
-        final logMessages = <String>[];
-        final logger = createCapturingLogger(logMessages);
+      final logMessages = <String>[];
+      final logger = createCapturingLogger(logMessages);
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
-          packageRoot: tempUri,
-          targetArchitecture: Architecture.current,
-          targetOs: OS.current,
-          buildMode: BuildMode.release,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: CCompilerConfig(
-            cc: cc,
-            envScript: envScript,
-            envScriptArgs: envScriptArgs,
-          ),
-        );
-        final buildOutput = BuildOutput();
+      final buildConfig = BuildConfig(
+        outDir: tempUri,
+        packageRoot: tempUri,
+        targetArchitecture: Architecture.current,
+        targetOs: OS.current,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: CCompilerConfig(
+          cc: cc,
+          envScript: envScript,
+          envScriptArgs: envScriptArgs,
+        ),
+      );
+      final buildOutput = BuildOutput();
 
-        final flag = switch (buildConfig.targetOs) {
-          OS.windows => '/O2',
-          _ => '-O2',
-        };
+      final cLanguageFlag = switch (buildConfig.targetOs) {
+        OS.windows => '/TC',
+        _ => '-xc',
+      };
 
-        final cbuilder = CBuilder.library(
-          sources: [addCUri.toFilePath()],
-          name: name,
-          assetId: name,
-          flags: [flag],
-        );
-        await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
-          logger: logger,
-        );
+      final cbuilder = CBuilder.executable(
+        sources: [helloWorldCppCcUri.toFilePath()],
+        name: name,
+        flags: [cLanguageFlag],
+      );
+      await expectLater(
+        () async {
+          await cbuilder.run(
+            buildConfig: buildConfig,
+            buildOutput: buildOutput,
+            logger: logger,
+          );
+        },
+        throwsA(isA<ProcessException>()),
+      );
 
-        final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+      final compilerInvocation = logMessages.firstWhere(
+        (message) => message.contains(helloWorldCppCcUri.toFilePath()),
+      );
+      expect(compilerInvocation, contains(cLanguageFlag));
 
-        final dylib = DynamicLibrary.open(dylibUri.toFilePath());
-        final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-            int Function(int, int)>('add');
-        expect(add(1, 2), 3);
-
-        final compilerInvocation = logMessages.singleWhere(
-          (message) => message.contains(addCUri.toFilePath()),
-        );
-        expect(compilerInvocation, contains(flag));
-      },
-    );
+      expect(
+        logMessages,
+        anyElement(contains("'iostream' file not found")),
+      );
+    });
   });
 
   test('CBuilder includes', () async {
