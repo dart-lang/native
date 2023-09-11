@@ -1,4 +1,5 @@
 ## 0.6.1-wip
+* Add `ignore_for_file: lines_longer_than_80_chars` to the generated file preamble.
 * Added an explicit cast in generated `<Interface>.implement` code to allow `dart analyze` to pass when `strict-casts` is set.
 
 ## 0.6.0
