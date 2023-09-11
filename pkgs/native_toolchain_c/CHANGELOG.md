@@ -1,3 +1,8 @@
+## 0.2.3
+
+- Fix MSVC tool resolution inside (x86) folder
+  ([#123](https://github.com/dart-lang/native/issues/123)).
+
 ## 0.2.2
 
 - Generate position independent code for libraries by default and add
