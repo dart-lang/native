@@ -203,9 +203,12 @@ void main() {
 
   test('CBuilder flags', () async {
     await inTempDir((tempUri) async {
-      final helloWorldCppCcUri = packageUri.resolve(
-          'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
-      const name = 'hello_world_cpp';
+      final definesCUri =
+          packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
+      if (!await File.fromUri(definesCUri).exists()) {
+        throw Exception('Run the test from the root directory.');
+      }
+      const name = 'defines';
 
       final logMessages = <String>[];
       final logger = createCapturingLogger(logMessages);
@@ -216,6 +219,7 @@ void main() {
         targetArchitecture: Architecture.current,
         targetOs: OS.current,
         buildMode: BuildMode.release,
+        // Ignored by executables.
         linkModePreference: LinkModePreference.dynamic,
         cCompiler: CCompilerConfig(
           cc: cc,
@@ -225,36 +229,36 @@ void main() {
       );
       final buildOutput = BuildOutput();
 
-      final cLanguageFlag = switch (buildConfig.targetOs) {
-        OS.windows => '/TC',
-        _ => '-xc',
+      final flag = switch (buildConfig.targetOs) {
+        OS.windows => '/DFOO=USER_FLAG',
+        _ => '-DFOO=USER_FLAG',
       };
 
       final cbuilder = CBuilder.executable(
-        sources: [helloWorldCppCcUri.toFilePath()],
         name: name,
-        flags: [cLanguageFlag],
+        sources: [definesCUri.toFilePath()],
+        flags: [flag],
       );
-      await expectLater(
-        () async {
-          await cbuilder.run(
-            buildConfig: buildConfig,
-            buildOutput: buildOutput,
-            logger: logger,
-          );
-        },
-        throwsA(isA<ProcessException>()),
+      await cbuilder.run(
+        buildConfig: buildConfig,
+        buildOutput: buildOutput,
+        logger: logger,
       );
 
-      final compilerInvocation = logMessages.firstWhere(
-        (message) => message.contains(helloWorldCppCcUri.toFilePath()),
+      final executableUri =
+          tempUri.resolve(Target.current.os.executableFileName(name));
+      expect(await File.fromUri(executableUri).exists(), true);
+      final result = await runProcess(
+        executable: executableUri,
+        logger: logger,
       );
-      expect(compilerInvocation, contains(cLanguageFlag));
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('Macro FOO is defined: USER_FLAG'));
 
-      expect(
-        logMessages,
-        anyElement(contains("'iostream' file not found")),
+      final compilerInvocation = logMessages.singleWhere(
+        (message) => message.contains(definesCUri.toFilePath()),
       );
+      expect(compilerInvocation, contains(flag));
     });
   });
 
