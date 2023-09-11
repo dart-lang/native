@@ -1,3 +1,8 @@
+## 0.2.1
+
+- Provide a `PackageLayout` constructor for already parsed `PackageConfig`
+  [flutter#134427](https://github.com/flutter/flutter/issues/134427).
+
 ## 0.2.0
 
 - **Breaking change** `NativeAssetsBuildRunner`s methods now return an object
