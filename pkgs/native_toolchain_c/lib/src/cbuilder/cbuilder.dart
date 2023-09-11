@@ -18,6 +18,23 @@ abstract class Builder {
   });
 }
 
+/// A programming language.
+class Language {
+  /// The name of the language.
+  final String name;
+
+  const Language._(this.name);
+
+  static const Language c = Language._('c');
+  static const Language cpp = Language._('c++');
+
+  /// Known values for [Language].
+  static const List<Language> values = [c, cpp];
+
+  @override
+  String toString() => name;
+}
+
 /// Specification for building an artifact with a C compiler.
 class CBuilder implements Builder {
   /// What kind of artifact to build.
@@ -110,15 +127,16 @@ class CBuilder implements Builder {
   /// When set to `null`, the default behavior of the compiler will be used.
   final String? std;
 
-  /// Whether to compile sources as C++.
+  /// The language to compile [sources] as.
   ///
-  /// [cppLinkStdLib] only has an effect when this is `true`.
-  final bool cpp;
+  /// [cppLinkStdLib] only has an effect when this option is set to
+  /// [Langauge.cpp].
+  final Language language;
 
   /// The C++ standard library to link against.
   ///
-  /// This option has no effect when [cpp] is `false` or when compiling for
-  /// Windows.
+  /// This option has no effect when [language] is not set to [Language.cpp] or
+  /// when compiling for Windows.
   ///
   /// When set to `null`, the following defaults will be used, based on the
   /// target OS:
@@ -145,7 +163,7 @@ class CBuilder implements Builder {
     this.ndebugDefine = true,
     this.pic = true,
     this.std,
-    this.cpp = false,
+    this.language = Language.c,
     this.cppLinkStdLib,
   }) : _type = _CBuilderType.library;
 
@@ -160,7 +178,7 @@ class CBuilder implements Builder {
     this.ndebugDefine = true,
     bool? pie = false,
     this.std,
-    this.cpp = false,
+    this.language = Language.c,
     this.cppLinkStdLib,
   })  : _type = _CBuilderType.executable,
         assetId = null,
@@ -220,7 +238,7 @@ class CBuilder implements Builder {
         },
         pic: pic,
         std: std,
-        cpp: cpp,
+        language: language,
         cppLinkStdLib: cppLinkStdLib,
       );
       await task.run();

@@ -13,6 +13,7 @@ import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
+import 'cbuilder.dart';
 import 'compiler_resolver.dart';
 
 class RunCBuilder {
@@ -37,7 +38,7 @@ class RunCBuilder {
   final Map<String, String?> defines;
   final bool? pic;
   final String? std;
-  final bool cpp;
+  final Language language;
   final String? cppLinkStdLib;
 
   RunCBuilder({
@@ -53,7 +54,7 @@ class RunCBuilder {
     this.defines = const {},
     this.pic,
     this.std,
-    this.cpp = false,
+    this.language = Language.c,
     this.cppLinkStdLib,
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
@@ -158,7 +159,7 @@ class RunCBuilder {
             '-fno-PIE',
           ],
         if (std != null) '-std=$std',
-        if (cpp) ...[
+        if (language == Language.cpp) ...[
           '-x',
           'c++',
           '-l',
@@ -217,7 +218,7 @@ class RunCBuilder {
       executable: compiler.uri,
       arguments: [
         if (std != null) '/std:$std',
-        if (cpp) '/TP',
+        if (language == Language.cpp) '/TP',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',

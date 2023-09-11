@@ -370,7 +370,7 @@ void main() {
     );
   });
 
-  test('CBuilder cpp', () async {
+  test('CBuilder compile c++', () async {
     await inTempDir((tempUri) async {
       final helloWorldCppUri = packageUri.resolve(
           'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
@@ -397,7 +397,7 @@ void main() {
       final cbuilder = CBuilder.executable(
         name: name,
         sources: [helloWorldCppUri.toFilePath()],
-        cpp: true,
+        language: Language.cpp,
       );
       await cbuilder.run(
         buildConfig: buildConfig,
