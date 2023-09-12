@@ -19,6 +19,11 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
+  test('Langauge.toString', () {
+    expect(Language.c.toString(), 'c');
+    expect(Language.cpp.toString(), 'c++');
+  });
+
   for (final pic in [null, true, false]) {
     final picTag =
         switch (pic) { null => 'auto_pic', true => 'pic', false => 'no_pic' };
