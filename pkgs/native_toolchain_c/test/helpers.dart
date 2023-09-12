@@ -55,7 +55,7 @@ Future<void> inTempDir(
     if ((!Platform.environment.containsKey(keepTempKey) ||
             Platform.environment[keepTempKey]!.isEmpty) &&
         !keepTemp) {
-      await tempDir.delete(recursive: true);
+      addTearDown(() => tempDir.delete(recursive: true));
     }
   }
 }
