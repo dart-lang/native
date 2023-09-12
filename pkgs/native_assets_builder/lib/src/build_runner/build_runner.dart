@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:package_config/package_config.dart';
 
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
@@ -47,27 +48,38 @@ class NativeAssetsBuildRunner {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
-    final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-      rootPackageRoot: packageLayout.rootPackageRoot,
-      packagesWithNativeAssets: packagesWithNativeAssets,
-      dartExecutable: Uri.file(Platform.resolvedExecutable),
-      logger: logger,
-    );
-    final (plan, planSuccess) = planner.plan();
-    if (!planSuccess) {
-      return _BuildResultImpl(
-        assets: [],
-        dependencies: [],
-        success: false,
+    final List<Package> buildPlan;
+    final PackageGraph packageGraph;
+    if (packagesWithNativeAssets.length <= 1) {
+      buildPlan = packagesWithNativeAssets;
+      packageGraph = PackageGraph({
+        for (final p in packagesWithNativeAssets) p.name: [],
+      });
+    } else {
+      final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
+        rootPackageRoot: packageLayout.rootPackageRoot,
+        packagesWithNativeAssets: packagesWithNativeAssets,
+        dartExecutable: Uri.file(Platform.resolvedExecutable),
+        logger: logger,
       );
+      final (plan, planSuccess) = planner.plan();
+      if (!planSuccess) {
+        return _BuildResultImpl(
+          assets: [],
+          dependencies: [],
+          success: false,
+        );
+      }
+      buildPlan = plan;
+      packageGraph = planner.packageGraph;
     }
     final assets = <Asset>[];
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
     var success = true;
-    for (final package in plan) {
+    for (final package in buildPlan) {
       final dependencyMetadata = _metadataForPackage(
-        packageGraph: planner.packageGraph,
+        packageGraph: packageGraph,
         packageName: package.name,
         targetMetadata: metadata,
       );
@@ -123,22 +135,28 @@ class NativeAssetsBuildRunner {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
-    final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-      rootPackageRoot: packageLayout.rootPackageRoot,
-      packagesWithNativeAssets: packagesWithNativeAssets,
-      dartExecutable: Uri.file(Platform.resolvedExecutable),
-      logger: logger,
-    );
-    final (plan, planSuccess) = planner.plan();
-    if (!planSuccess) {
-      return _DryRunResultImpl(
-        assets: [],
-        success: false,
+    final List<Package> buildPlan;
+    if (packagesWithNativeAssets.length <= 1) {
+      buildPlan = packagesWithNativeAssets;
+    } else {
+      final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
+        rootPackageRoot: packageLayout.rootPackageRoot,
+        packagesWithNativeAssets: packagesWithNativeAssets,
+        dartExecutable: Uri.file(Platform.resolvedExecutable),
+        logger: logger,
       );
+      final (plan, planSuccess) = planner.plan();
+      if (!planSuccess) {
+        return _DryRunResultImpl(
+          assets: [],
+          success: false,
+        );
+      }
+      buildPlan = plan;
     }
     final assets = <Asset>[];
     var success = true;
-    for (final package in plan) {
+    for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
