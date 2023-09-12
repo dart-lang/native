@@ -42,9 +42,9 @@ class NativeAssetsBuildRunner {
     IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
   }) async {
-    final packageLayout =
-        await PackageLayout.fromRootPackageRoot(workingDirectory);
+    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
     final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
@@ -118,9 +118,9 @@ class NativeAssetsBuildRunner {
     required OS targetOs,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
   }) async {
-    final packageLayout =
-        await PackageLayout.fromRootPackageRoot(workingDirectory);
+    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
     final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
