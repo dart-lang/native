@@ -1,12 +1,17 @@
+## 0.2.3
+
+- Quicker build planning for 0 or 1 packages with native assets
+  ([#128](https://github.com/dart-lang/native/issues/128)).
+
 ## 0.2.2
 
 - Take a `PackageLayout` argument for `build` and `dryRun`
-  [flutter#134427](https://github.com/flutter/flutter/issues/134427).
+  ([flutter#134427](https://github.com/flutter/flutter/issues/134427)).
 
 ## 0.2.1
 
 - Provide a `PackageLayout` constructor for already parsed `PackageConfig`
-  [flutter#134427](https://github.com/flutter/flutter/issues/134427).
+  ([flutter#134427](https://github.com/flutter/flutter/issues/134427)).
 
 ## 0.2.0
 
