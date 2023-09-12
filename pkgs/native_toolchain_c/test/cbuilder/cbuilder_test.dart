@@ -106,78 +106,74 @@ void main() {
       final suffix = testSuffix([if (dryRun) 'dry_run', picTag]);
 
       test('CBuilder dylib$suffix', () async {
-        await inTempDir(
-          // https://github.com/dart-lang/sdk/issues/40159
-          keepTemp: Platform.isWindows,
-          (tempUri) async {
-            final addCUri =
-                packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-            const name = 'add';
+        await inTempDir((tempUri) async {
+          final addCUri =
+              packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+          const name = 'add';
 
-            final logMessages = <String>[];
-            final logger = createCapturingLogger(logMessages);
+          final logMessages = <String>[];
+          final logger = createCapturingLogger(logMessages);
 
-            final buildConfig = dryRun
-                ? BuildConfig.dryRun(
-                    outDir: tempUri,
-                    packageRoot: tempUri,
-                    targetOs: OS.current,
-                    linkModePreference: LinkModePreference.dynamic,
-                  )
-                : BuildConfig(
-                    outDir: tempUri,
-                    packageRoot: tempUri,
-                    targetArchitecture: Architecture.current,
-                    targetOs: OS.current,
-                    buildMode: BuildMode.release,
-                    linkModePreference: LinkModePreference.dynamic,
-                    cCompiler: CCompilerConfig(
-                      cc: cc,
-                      envScript: envScript,
-                      envScriptArgs: envScriptArgs,
-                    ),
-                  );
-            final buildOutput = BuildOutput();
+          final buildConfig = dryRun
+              ? BuildConfig.dryRun(
+                  outDir: tempUri,
+                  packageRoot: tempUri,
+                  targetOs: OS.current,
+                  linkModePreference: LinkModePreference.dynamic,
+                )
+              : BuildConfig(
+                  outDir: tempUri,
+                  packageRoot: tempUri,
+                  targetArchitecture: Architecture.current,
+                  targetOs: OS.current,
+                  buildMode: BuildMode.release,
+                  linkModePreference: LinkModePreference.dynamic,
+                  cCompiler: CCompilerConfig(
+                    cc: cc,
+                    envScript: envScript,
+                    envScriptArgs: envScriptArgs,
+                  ),
+                );
+          final buildOutput = BuildOutput();
 
-            final cbuilder = CBuilder.library(
-              sources: [addCUri.toFilePath()],
-              name: name,
-              assetId: name,
-              pic: pic,
+          final cbuilder = CBuilder.library(
+            sources: [addCUri.toFilePath()],
+            name: name,
+            assetId: name,
+            pic: pic,
+          );
+          await cbuilder.run(
+            buildConfig: buildConfig,
+            buildOutput: buildOutput,
+            logger: logger,
+          );
+
+          final dylibUri =
+              tempUri.resolve(Target.current.os.dylibFileName(name));
+          expect(await File.fromUri(dylibUri).exists(), !dryRun);
+          if (!dryRun) {
+            final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
+            final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
+                int Function(int, int)>('add');
+            expect(add(1, 2), 3);
+
+            final compilerInvocation = logMessages.singleWhere(
+              (message) => message.contains(addCUri.toFilePath()),
             );
-            await cbuilder.run(
-              buildConfig: buildConfig,
-              buildOutput: buildOutput,
-              logger: logger,
-            );
-
-            final dylibUri =
-                tempUri.resolve(Target.current.os.dylibFileName(name));
-            expect(await File.fromUri(dylibUri).exists(), !dryRun);
-            if (!dryRun) {
-              final dylib = DynamicLibrary.open(dylibUri.toFilePath());
-              final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-                  int Function(int, int)>('add');
-              expect(add(1, 2), 3);
-
-              final compilerInvocation = logMessages.singleWhere(
-                (message) => message.contains(addCUri.toFilePath()),
-              );
-              switch ((buildConfig.targetOs, pic)) {
-                case (OS.windows, _) || (_, null):
-                  expect(compilerInvocation, isNot(contains('-fPIC')));
-                  expect(compilerInvocation, isNot(contains('-fPIE')));
-                  expect(compilerInvocation, isNot(contains('-fno-PIC')));
-                  expect(compilerInvocation, isNot(contains('-fno-PIE')));
-                case (_, true):
-                  expect(compilerInvocation, contains('-fPIC'));
-                case (_, false):
-                  expect(compilerInvocation, contains('-fno-PIC'));
-                  expect(compilerInvocation, contains('-fno-PIE'));
-              }
+            switch ((buildConfig.targetOs, pic)) {
+              case (OS.windows, _) || (_, null):
+                expect(compilerInvocation, isNot(contains('-fPIC')));
+                expect(compilerInvocation, isNot(contains('-fPIE')));
+                expect(compilerInvocation, isNot(contains('-fno-PIC')));
+                expect(compilerInvocation, isNot(contains('-fno-PIE')));
+              case (_, true):
+                expect(compilerInvocation, contains('-fPIC'));
+              case (_, false):
+                expect(compilerInvocation, contains('-fno-PIC'));
+                expect(compilerInvocation, contains('-fno-PIE'));
             }
-          },
-        );
+          }
+        });
       });
     }
   }
@@ -268,113 +264,105 @@ void main() {
   });
 
   test('CBuilder includes', () async {
-    await inTempDir(
-      // https://github.com/dart-lang/sdk/issues/40159
-      keepTemp: Platform.isWindows,
-      (tempUri) async {
-        final includeDirectoryUri =
-            packageUri.resolve('test/cbuilder/testfiles/includes/include');
-        final includesHUri = packageUri
-            .resolve('test/cbuilder/testfiles/includes/include/includes.h');
-        final includesCUri = packageUri
-            .resolve('test/cbuilder/testfiles/includes/src/includes.c');
-        const name = 'includes';
+    await inTempDir((tempUri) async {
+      final includeDirectoryUri =
+          packageUri.resolve('test/cbuilder/testfiles/includes/include');
+      final includesHUri = packageUri
+          .resolve('test/cbuilder/testfiles/includes/include/includes.h');
+      final includesCUri =
+          packageUri.resolve('test/cbuilder/testfiles/includes/src/includes.c');
+      const name = 'includes';
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
-          packageRoot: tempUri,
-          targetArchitecture: Architecture.current,
-          targetOs: OS.current,
-          buildMode: BuildMode.release,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: CCompilerConfig(
-            cc: cc,
-            envScript: envScript,
-            envScriptArgs: envScriptArgs,
-          ),
-        );
-        final buildOutput = BuildOutput();
+      final buildConfig = BuildConfig(
+        outDir: tempUri,
+        packageRoot: tempUri,
+        targetArchitecture: Architecture.current,
+        targetOs: OS.current,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: CCompilerConfig(
+          cc: cc,
+          envScript: envScript,
+          envScriptArgs: envScriptArgs,
+        ),
+      );
+      final buildOutput = BuildOutput();
 
-        final cbuilder = CBuilder.library(
-          name: name,
-          assetId: name,
-          includes: [includeDirectoryUri.toFilePath()],
-          sources: [includesCUri.toFilePath()],
-        );
-        await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
-          logger: logger,
-        );
+      final cbuilder = CBuilder.library(
+        name: name,
+        assetId: name,
+        includes: [includeDirectoryUri.toFilePath()],
+        sources: [includesCUri.toFilePath()],
+      );
+      await cbuilder.run(
+        buildConfig: buildConfig,
+        buildOutput: buildOutput,
+        logger: logger,
+      );
 
-        expect(buildOutput.dependencies.dependencies, contains(includesHUri));
+      expect(buildOutput.dependencies.dependencies, contains(includesHUri));
 
-        final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
-        final dylib = DynamicLibrary.open(dylibUri.toFilePath());
-        final x = dylib.lookup<Int>('x');
-        expect(x.value, 42);
-      },
-    );
+      final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+      final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
+      final x = dylib.lookup<Int>('x');
+      expect(x.value, 42);
+    });
   });
 
   test('CBuilder std', () async {
-    await inTempDir(
-      // https://github.com/dart-lang/sdk/issues/40159
-      keepTemp: Platform.isWindows,
-      (tempUri) async {
-        final addCUri =
-            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-        const name = 'add';
-        const std = 'c99';
+    await inTempDir((tempUri) async {
+      final addCUri =
+          packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+      const name = 'add';
+      const std = 'c99';
 
-        final logMessages = <String>[];
-        final logger = createCapturingLogger(logMessages);
+      final logMessages = <String>[];
+      final logger = createCapturingLogger(logMessages);
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
-          packageRoot: tempUri,
-          targetArchitecture: Architecture.current,
-          targetOs: OS.current,
-          buildMode: BuildMode.release,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: CCompilerConfig(
-            cc: cc,
-            envScript: envScript,
-            envScriptArgs: envScriptArgs,
-          ),
-        );
-        final buildOutput = BuildOutput();
+      final buildConfig = BuildConfig(
+        outDir: tempUri,
+        packageRoot: tempUri,
+        targetArchitecture: Architecture.current,
+        targetOs: OS.current,
+        buildMode: BuildMode.release,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: CCompilerConfig(
+          cc: cc,
+          envScript: envScript,
+          envScriptArgs: envScriptArgs,
+        ),
+      );
+      final buildOutput = BuildOutput();
 
-        final stdFlag = switch (buildConfig.targetOs) {
-          OS.windows => '/std:$std',
-          _ => '-std=$std',
-        };
+      final stdFlag = switch (buildConfig.targetOs) {
+        OS.windows => '/std:$std',
+        _ => '-std=$std',
+      };
 
-        final cbuilder = CBuilder.library(
-          sources: [addCUri.toFilePath()],
-          name: name,
-          assetId: name,
-          std: std,
-        );
-        await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
-          logger: logger,
-        );
+      final cbuilder = CBuilder.library(
+        sources: [addCUri.toFilePath()],
+        name: name,
+        assetId: name,
+        std: std,
+      );
+      await cbuilder.run(
+        buildConfig: buildConfig,
+        buildOutput: buildOutput,
+        logger: logger,
+      );
 
-        final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+      final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
 
-        final dylib = DynamicLibrary.open(dylibUri.toFilePath());
-        final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-            int Function(int, int)>('add');
-        expect(add(1, 2), 3);
+      final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
+      final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
+          int Function(int, int)>('add');
+      expect(add(1, 2), 3);
 
-        final compilerInvocation = logMessages.singleWhere(
-          (message) => message.contains(addCUri.toFilePath()),
-        );
-        expect(compilerInvocation, contains(stdFlag));
-      },
-    );
+      final compilerInvocation = logMessages.singleWhere(
+        (message) => message.contains(addCUri.toFilePath()),
+      );
+      expect(compilerInvocation, contains(stdFlag));
+    });
   });
 
   test('CBuilder compile c++', () async {

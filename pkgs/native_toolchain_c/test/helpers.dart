@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -169,4 +170,14 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
       .trim()
       .split(' ')[1];
   return installName;
+}
+
+/// Opens the [DynamicLibrary] at [path] and register a tear down hook to close
+/// it when the current test is done.
+DynamicLibrary openDynamicLibraryForTest(String path) {
+  final library = DynamicLibrary.open(path);
+  // TODO: Remove this ignore when sdk is >=3.1.0.
+  // ignore: sdk_version_since
+  addTearDown(library.close);
+  return library;
 }
