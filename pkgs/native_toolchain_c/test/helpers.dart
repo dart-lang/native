@@ -49,15 +49,12 @@ Future<void> inTempDir(
   // Deal with Windows temp folder aliases.
   final tempUri =
       Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
-  try {
-    await fun(tempUri);
-  } finally {
-    if ((!Platform.environment.containsKey(keepTempKey) ||
-            Platform.environment[keepTempKey]!.isEmpty) &&
-        !keepTemp) {
-      addTearDown(() => tempDir.delete(recursive: true));
-    }
+  if ((!Platform.environment.containsKey(keepTempKey) ||
+          Platform.environment[keepTempKey]!.isEmpty) &&
+      !keepTemp) {
+    addTearDown(() => tempDir.delete(recursive: true));
   }
+  await fun(tempUri);
 }
 
 /// Logger that outputs the full trace when a test fails.
