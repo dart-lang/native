@@ -374,6 +374,9 @@ void main() {
       }
       const name = 'hello_world_cpp';
 
+      final logMessages = <String>[];
+      final logger = createCapturingLogger(logMessages);
+
       final buildConfig = BuildConfig(
         buildMode: BuildMode.release,
         outDir: tempUri,
@@ -389,6 +392,14 @@ void main() {
         ),
       );
       final buildOutput = BuildOutput();
+
+      final defaultStdLibLinkFlag = switch (buildConfig.targetOs) {
+        OS.windows => null,
+        OS.linux => '-l stdc++',
+        OS.macOS => '-l c++',
+        _ => throw UnimplementedError(),
+      };
+
       final cbuilder = CBuilder.executable(
         name: name,
         sources: [helloWorldCppUri.toFilePath()],
@@ -409,6 +420,81 @@ void main() {
       );
       expect(result.exitCode, 0);
       expect(result.stdout.trim(), endsWith('Hello world.'));
+
+      if (defaultStdLibLinkFlag != null) {
+        final compilerInvocation = logMessages.singleWhere(
+          (message) => message.contains(helloWorldCppUri.toFilePath()),
+        );
+        expect(compilerInvocation, contains(defaultStdLibLinkFlag));
+      }
+    });
+  });
+
+  test('CBuilder cppLinkStdLib', () async {
+    await inTempDir((tempUri) async {
+      final helloWorldCppUri = packageUri.resolve(
+          'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
+      if (!await File.fromUri(helloWorldCppUri).exists()) {
+        throw Exception('Run the test from the root directory.');
+      }
+      const name = 'hello_world_cpp';
+
+      final logMessages = <String>[];
+      final logger = createCapturingLogger(logMessages);
+
+      final buildConfig = BuildConfig(
+        buildMode: BuildMode.release,
+        outDir: tempUri,
+        packageRoot: tempUri,
+        targetArchitecture: Architecture.current,
+        targetOs: OS.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: CCompilerConfig(
+          cc: cc,
+          envScript: envScript,
+          envScriptArgs: envScriptArgs,
+        ),
+      );
+      final buildOutput = BuildOutput();
+      final cbuilder = CBuilder.executable(
+        name: name,
+        sources: [helloWorldCppUri.toFilePath()],
+        language: Language.cpp,
+        cppLinkStdLib: 'stdc++',
+      );
+
+      if (buildConfig.targetOs == OS.windows) {
+        await expectLater(
+          () => cbuilder.run(
+            buildConfig: buildConfig,
+            buildOutput: buildOutput,
+            logger: logger,
+          ),
+          throwsArgumentError,
+        );
+      } else {
+        await cbuilder.run(
+          buildConfig: buildConfig,
+          buildOutput: buildOutput,
+          logger: logger,
+        );
+
+        final executableUri =
+            tempUri.resolve(Target.current.os.executableFileName(name));
+        expect(await File.fromUri(executableUri).exists(), true);
+        final result = await runProcess(
+          executable: executableUri,
+          logger: logger,
+        );
+        expect(result.exitCode, 0);
+        expect(result.stdout.trim(), endsWith('Hello world.'));
+
+        final compilerInvocation = logMessages.singleWhere(
+          (message) => message.contains(helloWorldCppUri.toFilePath()),
+        );
+        expect(compilerInvocation, contains('-l stdc++'));
+      }
     });
   });
 }

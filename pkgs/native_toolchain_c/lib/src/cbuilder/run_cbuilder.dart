@@ -61,7 +61,15 @@ class RunCBuilder {
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
-            1);
+            1) {
+    if (target.os == OS.windows && cppLinkStdLib != null) {
+      throw ArgumentError.value(
+        cppLinkStdLib,
+        'cppLinkStdLib',
+        'is not supported when targeting Windows',
+      );
+    }
+  }
 
   late final _resolver =
       CompilerResolver(buildConfig: buildConfig, logger: logger);
