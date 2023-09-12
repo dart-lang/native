@@ -50,27 +50,24 @@ void main() async {
   }
 
   test('compiler does not exist', () async {
-    await inTempDir((tempUri) async {
-      final recognizer = CompilerRecognizer(tempUri.resolve('asdf'));
-      final result = await recognizer.resolve(logger: logger);
-      expect(result, <ToolInstance>[]);
-    });
+    final tempUri = await tempDirForTest();
+    final recognizer = CompilerRecognizer(tempUri.resolve('asdf'));
+    final result = await recognizer.resolve(logger: logger);
+    expect(result, <ToolInstance>[]);
   });
 
   test('linker does not exist', () async {
-    await inTempDir((tempUri) async {
-      final recognizer = LinkerRecognizer(tempUri.resolve('asdf'));
-      final result = await recognizer.resolve(logger: logger);
-      expect(result, <ToolInstance>[]);
-    });
+    final tempUri = await tempDirForTest();
+    final recognizer = LinkerRecognizer(tempUri.resolve('asdf'));
+    final result = await recognizer.resolve(logger: logger);
+    expect(result, <ToolInstance>[]);
   });
 
   test('archiver does not exist', () async {
-    await inTempDir((tempUri) async {
-      final recognizer = ArchiverRecognizer(tempUri.resolve('asdf'));
-      final result = await recognizer.resolve(logger: logger);
-      expect(result, <ToolInstance>[]);
-    });
+    final tempUri = await tempDirForTest();
+    final recognizer = ArchiverRecognizer(tempUri.resolve('asdf'));
+    final result = await recognizer.resolve(logger: logger);
+    expect(result, <ToolInstance>[]);
   });
 }
 

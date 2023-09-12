@@ -18,45 +18,44 @@ import '../helpers.dart';
 
 void main() {
   test('build failure', () async {
-    await inTempDir((tempUri) async {
-      final addCOriginalUri =
-          packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-      final addCUri = tempUri.resolve('add.c');
-      final addCOriginalContents =
-          await File.fromUri(addCOriginalUri).readAsString();
-      final addCBrokenContents = addCOriginalContents.replaceAll(
-          'int32_t a, int32_t b', 'int64_t blabla');
-      await File.fromUri(addCUri).writeAsString(addCBrokenContents);
-      const name = 'add';
+    final tempUri = await tempDirForTest();
+    final addCOriginalUri =
+        packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+    final addCUri = tempUri.resolve('add.c');
+    final addCOriginalContents =
+        await File.fromUri(addCOriginalUri).readAsString();
+    final addCBrokenContents = addCOriginalContents.replaceAll(
+        'int32_t a, int32_t b', 'int64_t blabla');
+    await File.fromUri(addCUri).writeAsString(addCBrokenContents);
+    const name = 'add';
 
-      final buildConfig = BuildConfig(
-        outDir: tempUri,
-        packageRoot: tempUri,
-        targetArchitecture: Architecture.current,
-        targetOs: OS.current,
-        linkModePreference: LinkModePreference.dynamic,
-        buildMode: BuildMode.release,
-        cCompiler: CCompilerConfig(
-          cc: cc,
-          envScript: envScript,
-          envScriptArgs: envScriptArgs,
-        ),
-      );
-      final buildOutput = BuildOutput();
+    final buildConfig = BuildConfig(
+      outDir: tempUri,
+      packageRoot: tempUri,
+      targetArchitecture: Architecture.current,
+      targetOs: OS.current,
+      linkModePreference: LinkModePreference.dynamic,
+      buildMode: BuildMode.release,
+      cCompiler: CCompilerConfig(
+        cc: cc,
+        envScript: envScript,
+        envScriptArgs: envScriptArgs,
+      ),
+    );
+    final buildOutput = BuildOutput();
 
-      final cbuilder = CBuilder.library(
-        sources: [addCUri.toFilePath()],
-        name: name,
-        assetId: name,
-      );
-      expect(
-        () => cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
-          logger: logger,
-        ),
-        throwsException,
-      );
-    });
+    final cbuilder = CBuilder.library(
+      sources: [addCUri.toFilePath()],
+      name: name,
+      assetId: name,
+    );
+    expect(
+      () => cbuilder.run(
+        buildConfig: buildConfig,
+        buildOutput: buildOutput,
+        logger: logger,
+      ),
+      throwsException,
+    );
   });
 }

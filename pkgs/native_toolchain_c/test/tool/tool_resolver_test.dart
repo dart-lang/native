@@ -58,56 +58,52 @@ void main() {
   });
 
   test('RelativeToolResolver', () async {
-    await inTempDir((tempUri) async {
-      final barExeUri =
-          tempUri.resolve(Target.current.os.executableFileName('bar'));
-      final bazExeName = Target.current.os.executableFileName('baz');
-      final bazExeUri = tempUri.resolve(bazExeName);
-      await File.fromUri(barExeUri).writeAsString('dummy');
-      await File.fromUri(bazExeUri).writeAsString('dummy');
-      expect(await File.fromUri(barExeUri).exists(), true);
-      expect(await File.fromUri(bazExeUri).exists(), true);
-      final barResolver = InstallLocationResolver(
-        toolName: 'bar',
-        paths: [barExeUri.toFilePath().replaceAll('\\', '/')],
-      );
-      final bazResolver = RelativeToolResolver(
-        toolName: 'baz',
-        wrappedResolver: barResolver,
-        relativePath: Uri.file(bazExeName),
-      );
-      final resolvedBarInstances = await barResolver.resolve(logger: logger);
-      expect(
-        resolvedBarInstances,
-        [ToolInstance(tool: Tool(name: 'bar'), uri: barExeUri)],
-      );
-      final resolvedBazInstances = await bazResolver.resolve(logger: logger);
-      expect(
-        resolvedBazInstances,
-        [ToolInstance(tool: Tool(name: 'baz'), uri: bazExeUri)],
-      );
-    });
+    final tempUri = await tempDirForTest();
+    final barExeUri =
+        tempUri.resolve(Target.current.os.executableFileName('bar'));
+    final bazExeName = Target.current.os.executableFileName('baz');
+    final bazExeUri = tempUri.resolve(bazExeName);
+    await File.fromUri(barExeUri).writeAsString('dummy');
+    await File.fromUri(bazExeUri).writeAsString('dummy');
+    expect(await File.fromUri(barExeUri).exists(), true);
+    expect(await File.fromUri(bazExeUri).exists(), true);
+    final barResolver = InstallLocationResolver(
+      toolName: 'bar',
+      paths: [barExeUri.toFilePath().replaceAll('\\', '/')],
+    );
+    final bazResolver = RelativeToolResolver(
+      toolName: 'baz',
+      wrappedResolver: barResolver,
+      relativePath: Uri.file(bazExeName),
+    );
+    final resolvedBarInstances = await barResolver.resolve(logger: logger);
+    expect(
+      resolvedBarInstances,
+      [ToolInstance(tool: Tool(name: 'bar'), uri: barExeUri)],
+    );
+    final resolvedBazInstances = await bazResolver.resolve(logger: logger);
+    expect(
+      resolvedBazInstances,
+      [ToolInstance(tool: Tool(name: 'baz'), uri: bazExeUri)],
+    );
   });
 
   test('logger', () async {
-    await inTempDir((tempUri) async {
-      final barExeUri =
-          tempUri.resolve(Target.current.os.executableFileName('bar'));
-      final bazExeName = Target.current.os.executableFileName('baz');
-      final bazExeUri = tempUri.resolve(bazExeName);
-      await File.fromUri(barExeUri).writeAsString('dummy');
-      final barResolver = InstallLocationResolver(
-          toolName: 'bar',
-          paths: [barExeUri.toFilePath().replaceAll('\\', '/')]);
-      final bazResolver = InstallLocationResolver(
-          toolName: 'baz',
-          paths: [bazExeUri.toFilePath().replaceAll('\\', '/')]);
-      final barLogs = <String>[];
-      final bazLogs = <String>[];
-      await barResolver.resolve(logger: createCapturingLogger(barLogs));
-      await bazResolver.resolve(logger: createCapturingLogger(bazLogs));
-      expect(barLogs.join('\n'), contains('Found [ToolInstance(bar'));
-      expect(bazLogs.join('\n'), contains('Found no baz'));
-    });
+    final tempUri = await tempDirForTest();
+    final barExeUri =
+        tempUri.resolve(Target.current.os.executableFileName('bar'));
+    final bazExeName = Target.current.os.executableFileName('baz');
+    final bazExeUri = tempUri.resolve(bazExeName);
+    await File.fromUri(barExeUri).writeAsString('dummy');
+    final barResolver = InstallLocationResolver(
+        toolName: 'bar', paths: [barExeUri.toFilePath().replaceAll('\\', '/')]);
+    final bazResolver = InstallLocationResolver(
+        toolName: 'baz', paths: [bazExeUri.toFilePath().replaceAll('\\', '/')]);
+    final barLogs = <String>[];
+    final bazLogs = <String>[];
+    await barResolver.resolve(logger: createCapturingLogger(barLogs));
+    await bazResolver.resolve(logger: createCapturingLogger(bazLogs));
+    expect(barLogs.join('\n'), contains('Found [ToolInstance(bar'));
+    expect(bazLogs.join('\n'), contains('Found no baz'));
   });
 }

@@ -42,37 +42,36 @@ void main() {
   for (final linkMode in LinkMode.values) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
-        await inTempDir((tempUri) async {
-          final libUri = await buildLib(
-            tempUri,
-            target,
-            flutterAndroidNdkVersionLowestSupported,
-            linkMode,
+        final tempUri = await tempDirForTest();
+        final libUri = await buildLib(
+          tempUri,
+          target,
+          flutterAndroidNdkVersionLowestSupported,
+          linkMode,
+        );
+        if (Platform.isLinux) {
+          final result = await runProcess(
+            executable: Uri.file('readelf'),
+            arguments: ['-h', libUri.path],
+            logger: logger,
           );
-          if (Platform.isLinux) {
-            final result = await runProcess(
-              executable: Uri.file('readelf'),
-              arguments: ['-h', libUri.path],
-              logger: logger,
-            );
-            expect(result.exitCode, 0);
-            final machine = result.stdout
-                .split('\n')
-                .firstWhere((e) => e.contains('Machine:'));
-            expect(machine, contains(readElfMachine[target]));
-          } else if (Platform.isMacOS) {
-            final result = await runProcess(
-              executable: Uri.file('objdump'),
-              arguments: ['-T', libUri.path],
-              logger: logger,
-            );
-            expect(result.exitCode, 0);
-            final machine = result.stdout
-                .split('\n')
-                .firstWhere((e) => e.contains('file format'));
-            expect(machine, contains(objdumpFileFormat[target]));
-          }
-        });
+          expect(result.exitCode, 0);
+          final machine = result.stdout
+              .split('\n')
+              .firstWhere((e) => e.contains('Machine:'));
+          expect(machine, contains(readElfMachine[target]));
+        } else if (Platform.isMacOS) {
+          final result = await runProcess(
+            executable: Uri.file('objdump'),
+            arguments: ['-T', libUri.path],
+            logger: logger,
+          );
+          expect(result.exitCode, 0);
+          final machine = result.stdout
+              .split('\n')
+              .firstWhere((e) => e.contains('file format'));
+          expect(machine, contains(objdumpFileFormat[target]));
+        }
       });
     }
   }
@@ -82,24 +81,23 @@ void main() {
     const linkMode = LinkMode.dynamic;
     const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
     const apiLevel2 = flutterAndroidNdkVersionHighestSupported;
-    await inTempDir((tempUri) async {
-      final out1Uri = tempUri.resolve('out1/');
-      final out2Uri = tempUri.resolve('out2/');
-      final out3Uri = tempUri.resolve('out3/');
-      await Directory.fromUri(out1Uri).create();
-      await Directory.fromUri(out2Uri).create();
-      await Directory.fromUri(out3Uri).create();
-      final lib1Uri = await buildLib(out1Uri, target, apiLevel1, linkMode);
-      final lib2Uri = await buildLib(out2Uri, target, apiLevel2, linkMode);
-      final lib3Uri = await buildLib(out3Uri, target, apiLevel2, linkMode);
-      final bytes1 = await File.fromUri(lib1Uri).readAsBytes();
-      final bytes2 = await File.fromUri(lib2Uri).readAsBytes();
-      final bytes3 = await File.fromUri(lib3Uri).readAsBytes();
-      // Different API levels should lead to a different binary.
-      expect(bytes1, isNot(bytes2));
-      // Identical API levels should lead to an identical binary.
-      expect(bytes2, bytes3);
-    });
+    final tempUri = await tempDirForTest();
+    final out1Uri = tempUri.resolve('out1/');
+    final out2Uri = tempUri.resolve('out2/');
+    final out3Uri = tempUri.resolve('out3/');
+    await Directory.fromUri(out1Uri).create();
+    await Directory.fromUri(out2Uri).create();
+    await Directory.fromUri(out3Uri).create();
+    final lib1Uri = await buildLib(out1Uri, target, apiLevel1, linkMode);
+    final lib2Uri = await buildLib(out2Uri, target, apiLevel2, linkMode);
+    final lib3Uri = await buildLib(out3Uri, target, apiLevel2, linkMode);
+    final bytes1 = await File.fromUri(lib1Uri).readAsBytes();
+    final bytes2 = await File.fromUri(lib2Uri).readAsBytes();
+    final bytes3 = await File.fromUri(lib3Uri).readAsBytes();
+    // Different API levels should lead to a different binary.
+    expect(bytes1, isNot(bytes2));
+    // Identical API levels should lead to an identical binary.
+    expect(bytes2, bytes3);
   });
 }
 

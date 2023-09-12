@@ -40,11 +40,7 @@ String testSuffix(List<Object> tags) => switch (tags) {
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
-Future<void> inTempDir(
-  Future<void> Function(Uri tempUri) fun, {
-  String? prefix,
-  bool keepTemp = false,
-}) async {
+Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
   final tempUri =
@@ -54,7 +50,7 @@ Future<void> inTempDir(
       !keepTemp) {
     addTearDown(() => tempDir.delete(recursive: true));
   }
-  await fun(tempUri);
+  return tempUri;
 }
 
 /// Logger that outputs the full trace when a test fails.
