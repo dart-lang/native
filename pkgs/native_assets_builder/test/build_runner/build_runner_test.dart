@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -36,15 +37,25 @@ void main() async {
       }
 
       // Trigger a build, should not invoke anything.
-      {
+      for (final passPackageLayout in [true, false]) {
+        PackageLayout? packageLayout;
+        if (passPackageLayout) {
+          packageLayout = await PackageLayout.fromRootPackageRoot(packageUri);
+        }
         final logMessages = <String>[];
-        final result = await build(packageUri, logger, dartExecutable,
-            capturedLogs: logMessages);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          packageLayout: packageLayout,
+        );
         expect(
-            false,
-            logMessages
-                .join('\n')
-                .contains('native_add${Platform.pathSeparator}build.dart'));
+          false,
+          logMessages
+              .join('\n')
+              .contains('native_add${Platform.pathSeparator}build.dart'),
+        );
         expect(result.assets.length, 1);
       }
     });

@@ -1,3 +1,8 @@
+## 0.2.2
+
+- Take a `PackageLayout` argument for `build` and `dryRun`
+  [flutter#134427](https://github.com/flutter/flutter/issues/134427).
+
 ## 0.2.1
 
 - Provide a `PackageLayout` constructor for already parsed `PackageConfig`
