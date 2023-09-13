@@ -17,7 +17,7 @@ import 'jinteger.dart';
 import 'jlong.dart';
 import 'jshort.dart';
 
-class JNumberType extends JObjType<JNumber> {
+final class JNumberType extends JObjType<JNumber> {
   const JNumberType();
 
   @override

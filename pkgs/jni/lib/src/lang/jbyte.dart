@@ -9,7 +9,7 @@ import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-class JByteType extends JObjType<JByte> {
+final class JByteType extends JObjType<JByte> {
   const JByteType();
 
   @override

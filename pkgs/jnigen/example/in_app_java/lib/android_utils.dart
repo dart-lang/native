@@ -55,7 +55,7 @@ class AndroidUtils extends jni.JObject {
   }
 }
 
-class $AndroidUtilsType extends jni.JObjType<AndroidUtils> {
+final class $AndroidUtilsType extends jni.JObjType<AndroidUtils> {
   const $AndroidUtilsType();
 
   @override
@@ -1027,7 +1027,7 @@ class EmojiCompat extends jni.JObject {
   }
 }
 
-class $EmojiCompatType extends jni.JObjType<EmojiCompat> {
+final class $EmojiCompatType extends jni.JObjType<EmojiCompat> {
   const $EmojiCompatType();
 
   @override
@@ -1361,7 +1361,7 @@ class EmojiCompat_Config extends jni.JObject {
   }
 }
 
-class $EmojiCompat_ConfigType extends jni.JObjType<EmojiCompat_Config> {
+final class $EmojiCompat_ConfigType extends jni.JObjType<EmojiCompat_Config> {
   const $EmojiCompat_ConfigType();
 
   @override
@@ -1450,7 +1450,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
   }
 }
 
-class $EmojiCompat_MetadataRepoLoaderCallbackType
+final class $EmojiCompat_MetadataRepoLoaderCallbackType
     extends jni.JObjType<EmojiCompat_MetadataRepoLoaderCallback> {
   const $EmojiCompat_MetadataRepoLoaderCallbackType();
 
@@ -1551,7 +1551,7 @@ class EmojiCompat_GlyphChecker extends jni.JObject {
   }
 }
 
-class $EmojiCompat_GlyphCheckerType
+final class $EmojiCompat_GlyphCheckerType
     extends jni.JObjType<EmojiCompat_GlyphChecker> {
   const $EmojiCompat_GlyphCheckerType();
 
@@ -1613,7 +1613,7 @@ class EmojiCompat_MetadataRepoLoader extends jni.JObject {
   }
 }
 
-class $EmojiCompat_MetadataRepoLoaderType
+final class $EmojiCompat_MetadataRepoLoaderType
     extends jni.JObjType<EmojiCompat_MetadataRepoLoader> {
   const $EmojiCompat_MetadataRepoLoaderType();
 
@@ -1697,7 +1697,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
   }
 }
 
-class $EmojiCompat_InitCallbackType
+final class $EmojiCompat_InitCallbackType
     extends jni.JObjType<EmojiCompat_InitCallback> {
   const $EmojiCompat_InitCallbackType();
 
@@ -1771,7 +1771,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
   }
 }
 
-class $EmojiCompat_DefaultSpanFactoryType
+final class $EmojiCompat_DefaultSpanFactoryType
     extends jni.JObjType<EmojiCompat_DefaultSpanFactory> {
   const $EmojiCompat_DefaultSpanFactoryType();
 
@@ -1841,7 +1841,7 @@ class EmojiCompat_SpanFactory extends jni.JObject {
   }
 }
 
-class $EmojiCompat_SpanFactoryType
+final class $EmojiCompat_SpanFactoryType
     extends jni.JObjType<EmojiCompat_SpanFactory> {
   const $EmojiCompat_SpanFactoryType();
 
@@ -1939,7 +1939,7 @@ class DefaultEmojiCompatConfig extends jni.JObject {
   }
 }
 
-class $DefaultEmojiCompatConfigType
+final class $DefaultEmojiCompatConfigType
     extends jni.JObjType<DefaultEmojiCompatConfig> {
   const $DefaultEmojiCompatConfigType();
 
@@ -2017,7 +2017,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   }
 }
 
-class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
     extends jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28> {
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type();
@@ -2126,7 +2126,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   }
 }
 
-class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
     extends jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19> {
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type();
@@ -2264,7 +2264,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   }
 }
 
-class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType extends jni
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType
+    extends jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper> {
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType();
 
@@ -2353,7 +2354,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   }
 }
 
-class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType extends jni
+final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType
+    extends jni
     .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory> {
   const $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType();
 
@@ -2461,7 +2463,7 @@ class Build_Partition extends jni.JObject {
   }
 }
 
-class $Build_PartitionType extends jni.JObjType<Build_Partition> {
+final class $Build_PartitionType extends jni.JObjType<Build_Partition> {
   const $Build_PartitionType();
 
   @override
@@ -2613,7 +2615,7 @@ class Build_VERSION extends jni.JObject {
   }
 }
 
-class $Build_VERSIONType extends jni.JObjType<Build_VERSION> {
+final class $Build_VERSIONType extends jni.JObjType<Build_VERSION> {
   const $Build_VERSIONType();
 
   @override
@@ -2763,7 +2765,7 @@ class Build_VERSION_CODES extends jni.JObject {
   }
 }
 
-class $Build_VERSION_CODESType extends jni.JObjType<Build_VERSION_CODES> {
+final class $Build_VERSION_CODESType extends jni.JObjType<Build_VERSION_CODES> {
   const $Build_VERSION_CODESType();
 
   @override
@@ -3112,7 +3114,7 @@ class Build extends jni.JObject {
   }
 }
 
-class $BuildType extends jni.JObjType<Build> {
+final class $BuildType extends jni.JObjType<Build> {
   const $BuildType();
 
   @override
@@ -3624,7 +3626,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 }
 
-class $HashMapType<$K extends jni.JObject, $V extends jni.JObject>
+final class $HashMapType<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObjType<HashMap<$K, $V>> {
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;

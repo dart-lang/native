@@ -102,7 +102,7 @@ class SuspendFun extends jni.JObject {
   }
 }
 
-class $SuspendFunType extends jni.JObjType<SuspendFun> {
+final class $SuspendFunType extends jni.JObjType<SuspendFun> {
   const $SuspendFunType();
 
   @override

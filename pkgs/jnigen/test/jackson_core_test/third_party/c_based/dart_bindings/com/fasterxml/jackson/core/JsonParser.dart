@@ -2636,7 +2636,7 @@ class JsonParser extends jni.JObject {
   }
 }
 
-class $JsonParserType extends jni.JObjType<JsonParser> {
+final class $JsonParserType extends jni.JObjType<JsonParser> {
   const $JsonParserType();
 
   @override
@@ -2750,7 +2750,7 @@ class JsonParser_Feature extends jni.JObject {
   }
 }
 
-class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
+final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
   const $JsonParser_FeatureType();
 
   @override
@@ -2818,7 +2818,8 @@ class JsonParser_NumberType extends jni.JObject {
   }
 }
 
-class $JsonParser_NumberTypeType extends jni.JObjType<JsonParser_NumberType> {
+final class $JsonParser_NumberTypeType
+    extends jni.JObjType<JsonParser_NumberType> {
   const $JsonParser_NumberTypeType();
 
   @override

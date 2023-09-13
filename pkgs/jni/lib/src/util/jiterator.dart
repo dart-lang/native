@@ -8,7 +8,7 @@ import '../jobject.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
-class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
+final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
   final JObjType<$E> E;
 
   const JIteratorType(

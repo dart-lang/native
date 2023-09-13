@@ -15,7 +15,7 @@ import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jiterator.dart';
 
-class JListType<$E extends JObject> extends JObjType<JList<$E>> {
+final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
   final JObjType<$E> E;
 
   const JListType(
@@ -193,10 +193,11 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
         Jni.env.IsInstanceOf(
             (iterable as JObject).reference, _collectionClass.reference)) {
       Jni.accessors.callMethodWithArgs(
-          reference,
-          _insertAllId,
-          JniCallType.booleanType,
-          [JValueInt(index), (iterable as JObject).reference]);
+        reference,
+        _insertAllId,
+        JniCallType.booleanType,
+        [JValueInt(index), (iterable as JObject).reference],
+      ).boolean;
       return;
     }
     super.insertAll(index, iterable);

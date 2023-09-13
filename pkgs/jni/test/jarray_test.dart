@@ -319,6 +319,12 @@ void run({required TestRunnerCallback testRunner}) {
       expect((arr[0]..releasedBy(arena)).isNull, true);
     });
   });
+  testRunner('JArray of JCharacter', () {
+    using((arena) {
+      final arr = JArray(JCharacter.type, 1)..releasedBy(arena);
+      expect((arr[0]..releasedBy(arena)).isNull, true);
+    });
+  });
   testRunner('JArray of JLong', () {
     using((arena) {
       final arr = JArray(JLong.type, 1)..releasedBy(arena);

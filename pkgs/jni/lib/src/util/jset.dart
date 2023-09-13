@@ -12,7 +12,7 @@ import '../jobject.dart';
 import '../types.dart';
 import 'jiterator.dart';
 
-class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
+final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
   final JObjType<$E> E;
 
   const JSetType(
@@ -93,6 +93,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
         JniCallType.booleanType,
         [(elements as JObject).reference],
       ).boolean;
+      return;
     }
     return super.addAll(elements);
   }
@@ -173,6 +174,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
             (elements as JObject).reference, _collectionClass.reference)) {
       Jni.accessors.callMethodWithArgs(reference, _removeAllId,
           JniCallType.booleanType, [(elements as JObject).reference]).boolean;
+      return;
     }
     return super.removeAll(elements);
   }
@@ -186,6 +188,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
             (elements as JObject).reference, _collectionClass.reference)) {
       Jni.accessors.callMethodWithArgs(reference, _retainAllId,
           JniCallType.booleanType, [(elements as JObject).reference]).boolean;
+      return;
     }
     return super.retainAll(elements);
   }

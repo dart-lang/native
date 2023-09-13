@@ -16,7 +16,7 @@ import 'jobject.dart';
 import 'jprimitives.dart';
 import 'types.dart';
 
-class JArrayType<T> extends JObjType<JArray<T>> {
+final class JArrayType<T> extends JObjType<JArray<T>> {
   final JType<T> elementType;
 
   const JArrayType(this.elementType);

@@ -25,7 +25,7 @@ class A extends JObject {
   JObjType<JObject> get $type => $AType();
 }
 
-class $AType extends JObjType<A> {
+final class $AType extends JObjType<A> {
   @override
   A fromRef(Pointer<Void> ref) {
     return A.fromRef(ref);
@@ -55,7 +55,7 @@ class B extends JObject {
   JObjType<JObject> get $type => $BType();
 }
 
-class $BType extends JObjType<B> {
+final class $BType extends JObjType<B> {
   @override
   B fromRef(Pointer<Void> ref) {
     return B.fromRef(ref);
@@ -86,7 +86,7 @@ class C extends A {
   JObjType<JObject> get $type => $CType();
 }
 
-class $CType extends JObjType<C> {
+final class $CType extends JObjType<C> {
   @override
   C fromRef(Pointer<Void> ref) {
     return C.fromRef(ref);
@@ -117,7 +117,7 @@ class D extends A {
   JObjType<JObject> get $type => $DType();
 }
 
-class $DType extends JObjType<D> {
+final class $DType extends JObjType<D> {
   @override
   D fromRef(Pointer<Void> ref) {
     return D.fromRef(ref);
@@ -148,7 +148,7 @@ class E extends B {
   JObjType<JObject> get $type => $EType();
 }
 
-class $EType extends JObjType<E> {
+final class $EType extends JObjType<E> {
   @override
   E fromRef(Pointer<Void> ref) {
     return E.fromRef(ref);
@@ -179,7 +179,7 @@ class F extends C {
   JObjType<JObject> get $type => $FType();
 }
 
-class $FType extends JObjType<F> {
+final class $FType extends JObjType<F> {
   @override
   F fromRef(Pointer<Void> ref) {
     return F.fromRef(ref);
@@ -291,6 +291,13 @@ void run({required TestRunnerCallback testRunner}) {
           JIterator.type(JObject.type),
         ]),
         JObject.type,
+      );
+      expect(
+        lowestCommonSuperType([
+          JByteBuffer.type,
+          JBuffer.type,
+        ]),
+        JBuffer.type,
       );
     });
   });

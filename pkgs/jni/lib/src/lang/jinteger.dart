@@ -9,7 +9,7 @@ import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-class JIntegerType extends JObjType<JInteger> {
+final class JIntegerType extends JObjType<JInteger> {
   const JIntegerType();
 
   @override

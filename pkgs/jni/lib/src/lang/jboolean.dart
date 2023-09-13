@@ -9,7 +9,7 @@ import '../jni.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
-class JBooleanType extends JObjType<JBoolean> {
+final class JBooleanType extends JObjType<JBoolean> {
   const JBooleanType();
 
   @override

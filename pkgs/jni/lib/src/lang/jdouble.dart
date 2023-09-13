@@ -8,7 +8,7 @@ import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-class JDoubleType extends JObjType<JDouble> {
+final class JDoubleType extends JObjType<JDouble> {
   const JDoubleType();
 
   @override

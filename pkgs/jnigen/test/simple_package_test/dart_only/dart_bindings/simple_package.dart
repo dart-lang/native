@@ -68,7 +68,7 @@ class Color extends jni.JObject {
   }
 }
 
-class $ColorType extends jni.JObjType<Color> {
+final class $ColorType extends jni.JObjType<Color> {
   const $ColorType();
 
   @override
@@ -718,7 +718,7 @@ class Example extends jni.JObject {
   }
 }
 
-class $ExampleType extends jni.JObjType<Example> {
+final class $ExampleType extends jni.JObjType<Example> {
   const $ExampleType();
 
   @override
@@ -799,7 +799,7 @@ class Example_Nested extends jni.JObject {
   }
 }
 
-class $Example_NestedType extends jni.JObjType<Example_Nested> {
+final class $Example_NestedType extends jni.JObjType<Example_Nested> {
   const $Example_NestedType();
 
   @override
@@ -865,7 +865,7 @@ class Example_Nested_NestedTwice extends jni.JObject {
   }
 }
 
-class $Example_Nested_NestedTwiceType
+final class $Example_Nested_NestedTwiceType
     extends jni.JObjType<Example_Nested_NestedTwice> {
   const $Example_Nested_NestedTwiceType();
 
@@ -935,7 +935,7 @@ class Example_NonStaticNested extends jni.JObject {
   }
 }
 
-class $Example_NonStaticNestedType
+final class $Example_NonStaticNestedType
     extends jni.JObjType<Example_NonStaticNested> {
   const $Example_NonStaticNestedType();
 
@@ -1172,7 +1172,7 @@ class Exceptions extends jni.JObject {
   }
 }
 
-class $ExceptionsType extends jni.JObjType<Exceptions> {
+final class $ExceptionsType extends jni.JObjType<Exceptions> {
   const $ExceptionsType();
 
   @override
@@ -1383,7 +1383,7 @@ class Fields extends jni.JObject {
   }
 }
 
-class $FieldsType extends jni.JObjType<Fields> {
+final class $FieldsType extends jni.JObjType<Fields> {
   const $FieldsType();
 
   @override
@@ -1467,7 +1467,7 @@ class Fields_Nested extends jni.JObject {
   }
 }
 
-class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
+final class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
   const $Fields_NestedType();
 
   @override
@@ -1533,7 +1533,7 @@ class C2 extends jni.JObject {
   }
 }
 
-class $C2Type extends jni.JObjType<C2> {
+final class $C2Type extends jni.JObjType<C2> {
   const $C2Type();
 
   @override
@@ -1591,7 +1591,7 @@ class Example1 extends jni.JObject {
   }
 }
 
-class $Example1Type extends jni.JObjType<Example1> {
+final class $Example1Type extends jni.JObjType<Example1> {
   const $Example1Type();
 
   @override
@@ -1662,8 +1662,8 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
   }
 }
 
-class $GenericTypeParamsType<$S extends jni.JObject, $K extends jni.JObject>
-    extends jni.JObjType<GenericTypeParams<$S, $K>> {
+final class $GenericTypeParamsType<$S extends jni.JObject,
+    $K extends jni.JObject> extends jni.JObjType<GenericTypeParams<$S, $K>> {
   final jni.JObjType<$S> S;
   final jni.JObjType<$K> K;
 
@@ -1835,7 +1835,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   }
 }
 
-class $GrandParentType<$T extends jni.JObject>
+final class $GrandParentType<$T extends jni.JObject>
     extends jni.JObjType<GrandParent<$T>> {
   final jni.JObjType<$T> T;
 
@@ -1957,8 +1957,8 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   }
 }
 
-class $GrandParent_ParentType<$T extends jni.JObject, $S extends jni.JObject>
-    extends jni.JObjType<GrandParent_Parent<$T, $S>> {
+final class $GrandParent_ParentType<$T extends jni.JObject,
+    $S extends jni.JObject> extends jni.JObjType<GrandParent_Parent<$T, $S>> {
   final jni.JObjType<$T> T;
   final jni.JObjType<$S> S;
 
@@ -2111,7 +2111,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   }
 }
 
-class $GrandParent_Parent_ChildType<$T extends jni.JObject,
+final class $GrandParent_Parent_ChildType<$T extends jni.JObject,
         $S extends jni.JObject, $U extends jni.JObject>
     extends jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
   final jni.JObjType<$T> T;
@@ -2211,7 +2211,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   }
 }
 
-class $GrandParent_StaticParentType<$S extends jni.JObject>
+final class $GrandParent_StaticParentType<$S extends jni.JObject>
     extends jni.JObjType<GrandParent_StaticParent<$S>> {
   final jni.JObjType<$S> S;
 
@@ -2341,7 +2341,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   }
 }
 
-class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
+final class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
         $U extends jni.JObject>
     extends jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
   final jni.JObjType<$S> S;
@@ -2464,7 +2464,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 }
 
-class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
+final class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObjType<MyMap<$K, $V>> {
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;
@@ -2592,7 +2592,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   }
 }
 
-class $MyMap_MyEntryType<$K extends jni.JObject, $V extends jni.JObject>
+final class $MyMap_MyEntryType<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObjType<MyMap_MyEntry<$K, $V>> {
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;
@@ -2797,7 +2797,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   }
 }
 
-class $MyStackType<$T extends jni.JObject> extends jni.JObjType<MyStack<$T>> {
+final class $MyStackType<$T extends jni.JObject>
+    extends jni.JObjType<MyStack<$T>> {
   final jni.JObjType<$T> T;
 
   const $MyStackType(
@@ -2866,7 +2867,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
   }
 }
 
-class $StringKeyedMapType<$V extends jni.JObject>
+final class $StringKeyedMapType<$V extends jni.JObject>
     extends jni.JObjType<StringKeyedMap<$V>> {
   final jni.JObjType<$V> V;
 
@@ -2924,7 +2925,7 @@ class StringMap extends StringKeyedMap<jni.JString> {
   }
 }
 
-class $StringMapType extends jni.JObjType<StringMap> {
+final class $StringMapType extends jni.JObjType<StringMap> {
   const $StringMapType();
 
   @override
@@ -2973,7 +2974,7 @@ class StringStack extends MyStack<jni.JString> {
   }
 }
 
-class $StringStackType extends jni.JObjType<StringStack> {
+final class $StringStackType extends jni.JObjType<StringStack> {
   const $StringStackType();
 
   @override
@@ -3036,7 +3037,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
   }
 }
 
-class $StringValuedMapType<$K extends jni.JObject>
+final class $StringValuedMapType<$K extends jni.JObject>
     extends jni.JObjType<StringValuedMap<$K>> {
   final jni.JObjType<$K> K;
 
@@ -3309,7 +3310,7 @@ class _$MyInterfaceImpl<$T extends jni.JObject>
   }
 }
 
-class $MyInterfaceType<$T extends jni.JObject>
+final class $MyInterfaceType<$T extends jni.JObject>
     extends jni.JObjType<MyInterface<$T>> {
   final jni.JObjType<$T> T;
 
@@ -3430,7 +3431,7 @@ class MyInterfaceConsumer extends jni.JObject {
   }
 }
 
-class $MyInterfaceConsumerType extends jni.JObjType<MyInterfaceConsumer> {
+final class $MyInterfaceConsumerType extends jni.JObjType<MyInterfaceConsumer> {
   const $MyInterfaceConsumerType();
 
   @override
@@ -3569,7 +3570,7 @@ class _$MyRunnableImpl implements $MyRunnableImpl {
   }
 }
 
-class $MyRunnableType extends jni.JObjType<MyRunnable> {
+final class $MyRunnableType extends jni.JObjType<MyRunnable> {
   const $MyRunnableType();
 
   @override
@@ -3656,7 +3657,7 @@ class MyRunnableRunner extends jni.JObject {
   }
 }
 
-class $MyRunnableRunnerType extends jni.JObjType<MyRunnableRunner> {
+final class $MyRunnableRunnerType extends jni.JObjType<MyRunnableRunner> {
   const $MyRunnableRunnerType();
 
   @override
@@ -3725,7 +3726,8 @@ class JsonSerializable_Case extends jni.JObject {
   }
 }
 
-class $JsonSerializable_CaseType extends jni.JObjType<JsonSerializable_Case> {
+final class $JsonSerializable_CaseType
+    extends jni.JObjType<JsonSerializable_Case> {
   const $JsonSerializable_CaseType();
 
   @override
@@ -3777,7 +3779,7 @@ class MyDataClass extends jni.JObject {
   }
 }
 
-class $MyDataClassType extends jni.JObjType<MyDataClass> {
+final class $MyDataClassType extends jni.JObjType<MyDataClass> {
   const $MyDataClassType();
 
   @override

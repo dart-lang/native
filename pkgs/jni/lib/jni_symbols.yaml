@@ -75,3 +75,11 @@ files:
           'java.lang.Object': DECLARED
         V:
           'java.lang.Object': DECLARED
+    'java.nio.Buffer':
+      name: JBuffer
+      type_class: JBufferType
+      super_count: 1
+    'java.nio.ByteBuffer':
+      name: JByteBuffer
+      type_class: JByteBufferType
+      super_count: 2

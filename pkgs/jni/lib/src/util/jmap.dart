@@ -11,7 +11,7 @@ import '../third_party/jni_bindings_generated.dart';
 import '../types.dart';
 import 'jset.dart';
 
-class JMapType<$K extends JObject, $V extends JObject>
+final class JMapType<$K extends JObject, $V extends JObject>
     extends JObjType<JMap<$K, $V>> {
   final JObjType<$K> K;
   final JObjType<$V> V;
@@ -107,11 +107,9 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     if (other is JMap<$K, $V>) {
       Jni.accessors.callMethodWithArgs(reference, _addAllId,
           JniCallType.voidType, [other.reference]).check();
-    } else {
-      for (final entry in other.entries) {
-        this[entry.key] = entry.value;
-      }
+      return;
     }
+    super.addAll(other);
   }
 
   static final _clearId =

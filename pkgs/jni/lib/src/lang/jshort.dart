@@ -9,7 +9,7 @@ import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-class JShortType extends JObjType<JShort> {
+final class JShortType extends JObjType<JShort> {
   const JShortType();
 
   @override

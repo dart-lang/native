@@ -12,7 +12,7 @@ import '../jobject.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
-class JStringType extends JObjType<JString> {
+final class JStringType extends JObjType<JString> {
   const JStringType();
 
   @override

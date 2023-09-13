@@ -8,7 +8,7 @@ import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-class JLongType extends JObjType<JLong> {
+final class JLongType extends JObjType<JLong> {
   const JLongType();
 
   @override

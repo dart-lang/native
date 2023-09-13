@@ -19,7 +19,7 @@ import 'types.dart';
 // type switch like a regular type.
 typedef _VoidType = void;
 
-class JObjectType extends JObjType<JObject> {
+final class JObjectType extends JObjType<JObject> {
   const JObjectType();
 
   @override

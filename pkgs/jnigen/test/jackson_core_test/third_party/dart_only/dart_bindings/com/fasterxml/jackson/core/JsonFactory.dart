@@ -1756,7 +1756,7 @@ class JsonFactory extends jni.JObject {
   }
 }
 
-class $JsonFactoryType extends jni.JObjType<JsonFactory> {
+final class $JsonFactoryType extends jni.JObjType<JsonFactory> {
   const $JsonFactoryType();
 
   @override
@@ -1868,7 +1868,7 @@ class JsonFactory_Feature extends jni.JObject {
   }
 }
 
-class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
+final class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
   const $JsonFactory_FeatureType();
 
   @override

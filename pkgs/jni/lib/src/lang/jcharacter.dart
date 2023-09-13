@@ -6,7 +6,7 @@ import '../jvalues.dart';
 import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
-class JCharacterType extends JObjType<JCharacter> {
+final class JCharacterType extends JObjType<JCharacter> {
   const JCharacterType();
 
   @override
