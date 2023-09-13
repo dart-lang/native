@@ -169,8 +169,6 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
 /// it when the current test is done.
 DynamicLibrary openDynamicLibraryForTest(String path) {
   final library = DynamicLibrary.open(path);
-  // TODO: Remove this ignore when sdk is >=3.1.0.
-  // ignore: sdk_version_since
   addTearDown(library.close);
   return library;
 }
