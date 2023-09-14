@@ -85,14 +85,14 @@ class RunCBuilder {
     if (compilerTool == appleClang ||
         compilerTool == clang ||
         compilerTool == gcc) {
-      await runClangLike(compiler: compiler_.uri);
+      await runClangLike(compiler: compiler_);
       return;
     }
     assert(compilerTool == cl);
     await runCl(compiler: compiler_);
   }
 
-  Future<void> runClangLike({required Uri compiler}) async {
+  Future<void> runClangLike({required ToolInstance compiler}) async {
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
     if (isStaticLib) {
@@ -105,7 +105,7 @@ class RunCBuilder {
     }
 
     await runProcess(
-      executable: compiler,
+      executable: compiler.uri,
       arguments: [
         if (target.os == OS.android) ...[
           // TODO(dacoharkes): How to solve linking issues?
@@ -160,8 +160,10 @@ class RunCBuilder {
           ] else ...[
             '-fno-PIC',
             '-fno-PIE',
-            '-z',
-            'notext',
+            if (compiler.tool == clang) ...[
+              '-z',
+              'notext',
+            ]
           ],
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
