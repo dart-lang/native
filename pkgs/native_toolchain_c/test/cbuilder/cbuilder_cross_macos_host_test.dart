@@ -37,47 +37,46 @@ void main() {
   for (final linkMode in LinkMode.values) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
-        await inTempDir((tempUri) async {
-          final addCUri =
-              packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-          const name = 'add';
+        final tempUri = await tempDirForTest();
+        final addCUri =
+            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+        const name = 'add';
 
-          final buildConfig = BuildConfig(
-            outDir: tempUri,
-            packageRoot: tempUri,
-            targetArchitecture: target.architecture,
-            targetOs: target.os,
-            buildMode: BuildMode.release,
-            linkModePreference: linkMode == LinkMode.dynamic
-                ? LinkModePreference.dynamic
-                : LinkModePreference.static,
-          );
-          final buildOutput = BuildOutput();
+        final buildConfig = BuildConfig(
+          outDir: tempUri,
+          packageRoot: tempUri,
+          targetArchitecture: target.architecture,
+          targetOs: target.os,
+          buildMode: BuildMode.release,
+          linkModePreference: linkMode == LinkMode.dynamic
+              ? LinkModePreference.dynamic
+              : LinkModePreference.static,
+        );
+        final buildOutput = BuildOutput();
 
-          final cbuilder = CBuilder.library(
-            name: name,
-            assetId: name,
-            sources: [addCUri.toFilePath()],
-          );
-          await cbuilder.run(
-            buildConfig: buildConfig,
-            buildOutput: buildOutput,
-            logger: logger,
-          );
+        final cbuilder = CBuilder.library(
+          name: name,
+          assetId: name,
+          sources: [addCUri.toFilePath()],
+        );
+        await cbuilder.run(
+          buildConfig: buildConfig,
+          buildOutput: buildOutput,
+          logger: logger,
+        );
 
-          final libUri =
-              tempUri.resolve(target.os.libraryFileName(name, linkMode));
-          final result = await runProcess(
-            executable: Uri.file('objdump'),
-            arguments: ['-t', libUri.path],
-            logger: logger,
-          );
-          expect(result.exitCode, 0);
-          final machine = result.stdout
-              .split('\n')
-              .firstWhere((e) => e.contains('file format'));
-          expect(machine, contains(objdumpFileFormat[target]));
-        });
+        final libUri =
+            tempUri.resolve(target.os.libraryFileName(name, linkMode));
+        final result = await runProcess(
+          executable: Uri.file('objdump'),
+          arguments: ['-t', libUri.path],
+          logger: logger,
+        );
+        expect(result.exitCode, 0);
+        final machine = result.stdout
+            .split('\n')
+            .firstWhere((e) => e.contains('file format'));
+        expect(machine, contains(objdumpFileFormat[target]));
       });
     }
   }

@@ -53,98 +53,95 @@ void main() {
               'CBuilder $linkMode library $targetIOSSdk $target'
                       ' ${installName ?? ''}'
                   .trim(), () async {
-            await inTempDir((tempUri) async {
-              final addCUri =
-                  packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-              final buildConfig = BuildConfig(
-                outDir: tempUri,
-                packageRoot: tempUri,
-                targetArchitecture: target.architecture,
-                targetOs: target.os,
-                buildMode: BuildMode.release,
-                linkModePreference: linkMode == LinkMode.dynamic
-                    ? LinkModePreference.dynamic
-                    : LinkModePreference.static,
-                targetIOSSdk: targetIOSSdk,
-              );
-              final buildOutput = BuildOutput();
+            final tempUri = await tempDirForTest();
+            final addCUri =
+                packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+            final buildConfig = BuildConfig(
+              outDir: tempUri,
+              packageRoot: tempUri,
+              targetArchitecture: target.architecture,
+              targetOs: target.os,
+              buildMode: BuildMode.release,
+              linkModePreference: linkMode == LinkMode.dynamic
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+              targetIOSSdk: targetIOSSdk,
+            );
+            final buildOutput = BuildOutput();
 
-              final cbuilder = CBuilder.library(
-                name: name,
-                assetId: name,
-                sources: [addCUri.toFilePath()],
-                installName: installName,
-              );
-              await cbuilder.run(
-                buildConfig: buildConfig,
-                buildOutput: buildOutput,
-                logger: logger,
-              );
+            final cbuilder = CBuilder.library(
+              name: name,
+              assetId: name,
+              sources: [addCUri.toFilePath()],
+              installName: installName,
+            );
+            await cbuilder.run(
+              buildConfig: buildConfig,
+              buildOutput: buildOutput,
+              logger: logger,
+            );
 
-              final libUri = tempUri.resolve(libName);
-              final objdumpResult = await runProcess(
-                executable: Uri.file('objdump'),
-                arguments: ['-t', libUri.path],
-                logger: logger,
-              );
-              expect(objdumpResult.exitCode, 0);
-              final machine = objdumpResult.stdout
+            final libUri = tempUri.resolve(libName);
+            final objdumpResult = await runProcess(
+              executable: Uri.file('objdump'),
+              arguments: ['-t', libUri.path],
+              logger: logger,
+            );
+            expect(objdumpResult.exitCode, 0);
+            final machine = objdumpResult.stdout
+                .split('\n')
+                .firstWhere((e) => e.contains('file format'));
+            expect(machine, contains(objdumpFileFormat[target]));
+
+            final otoolResult = await runProcess(
+              executable: Uri.file('otool'),
+              arguments: ['-l', libUri.path],
+              logger: logger,
+            );
+            expect(otoolResult.exitCode, 0);
+            if (targetIOSSdk == IOSSdk.iPhoneOs || target == Target.iOSX64) {
+              // The x64 simulator behaves as device, presumably because the
+              // devices are never x64.
+              expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));
+              expect(otoolResult.stdout, isNot(contains('LC_BUILD_VERSION')));
+            } else {
+              expect(otoolResult.stdout,
+                  isNot(contains('LC_VERSION_MIN_IPHONEOS')));
+              expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
+              final platform = otoolResult.stdout
                   .split('\n')
-                  .firstWhere((e) => e.contains('file format'));
-              expect(machine, contains(objdumpFileFormat[target]));
+                  .firstWhere((e) => e.contains('platform'));
+              const platformIosSimulator = 7;
+              expect(platform, contains(platformIosSimulator.toString()));
+            }
 
-              final otoolResult = await runProcess(
-                executable: Uri.file('otool'),
-                arguments: ['-l', libUri.path],
-                logger: logger,
-              );
-              expect(otoolResult.exitCode, 0);
-              if (targetIOSSdk == IOSSdk.iPhoneOs || target == Target.iOSX64) {
-                // The x64 simulator behaves as device, presumably because the
-                // devices are never x64.
-                expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));
-                expect(otoolResult.stdout, isNot(contains('LC_BUILD_VERSION')));
-              } else {
-                expect(otoolResult.stdout,
-                    isNot(contains('LC_VERSION_MIN_IPHONEOS')));
-                expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
-                final platform = otoolResult.stdout
-                    .split('\n')
-                    .firstWhere((e) => e.contains('platform'));
-                const platformIosSimulator = 7;
-                expect(platform, contains(platformIosSimulator.toString()));
-              }
-
-              if (linkMode == LinkMode.dynamic) {
-                final libInstallName =
+            if (linkMode == LinkMode.dynamic) {
+              final libInstallName = await runOtoolInstallName(libUri, libName);
+              if (installName == null) {
+                // If no install path is passed, we have an absolute path.
+                final tempName = tempUri.pathSegments.lastWhere((e) => e != '');
+                final pathEnding =
+                    Uri.directory(tempName).resolve(libName).toFilePath();
+                expect(Uri.file(libInstallName).isAbsolute, true);
+                expect(libInstallName, contains(pathEnding));
+                final targetInstallName =
+                    '@executable_path/Frameworks/$libName';
+                await runProcess(
+                  executable: Uri.file('install_name_tool'),
+                  arguments: [
+                    '-id',
+                    targetInstallName,
+                    libUri.toFilePath(),
+                  ],
+                  logger: logger,
+                );
+                final libInstallName2 =
                     await runOtoolInstallName(libUri, libName);
-                if (installName == null) {
-                  // If no install path is passed, we have an absolute path.
-                  final tempName =
-                      tempUri.pathSegments.lastWhere((e) => e != '');
-                  final pathEnding =
-                      Uri.directory(tempName).resolve(libName).toFilePath();
-                  expect(Uri.file(libInstallName).isAbsolute, true);
-                  expect(libInstallName, contains(pathEnding));
-                  final targetInstallName =
-                      '@executable_path/Frameworks/$libName';
-                  await runProcess(
-                    executable: Uri.file('install_name_tool'),
-                    arguments: [
-                      '-id',
-                      targetInstallName,
-                      libUri.toFilePath(),
-                    ],
-                    logger: logger,
-                  );
-                  final libInstallName2 =
-                      await runOtoolInstallName(libUri, libName);
-                  expect(libInstallName2, targetInstallName);
-                } else {
-                  expect(libInstallName, installName.toFilePath());
-                }
+                expect(libInstallName2, targetInstallName);
+              } else {
+                expect(libInstallName, installName.toFilePath());
               }
-            });
+            }
           });
         }
       }

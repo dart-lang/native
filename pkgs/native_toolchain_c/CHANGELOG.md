@@ -1,3 +1,11 @@
+## 0.2.4
+
+- Added `includes` for specifying include directories.
+- Added `flags` for specifying arbitrary compiler flags.
+- Added `std` for specifying a language standard.
+- Added `language` for selecting the language (`c` and `cpp`) to compile source files as.
+- Added `cppLinkStdLib` for specifying the C++ standard library to link against.
+
 ## 0.2.3
 
 - Fix MSVC tool resolution inside (x86) folder

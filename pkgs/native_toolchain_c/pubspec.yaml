@@ -1,7 +1,7 @@
 name: native_toolchain_c
 description: >-
   A library to invoke the native C compiler installed on the host machine.
-version: 0.2.3
+version: 0.2.4
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_toolchain_c
 
 topics:
@@ -12,7 +12,7 @@ topics:
   - native-toolchain
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   cli_config: ^0.1.1

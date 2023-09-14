@@ -13,12 +13,14 @@ import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
+import 'cbuilder.dart';
 import 'compiler_resolver.dart';
 
 class RunCBuilder {
   final BuildConfig buildConfig;
   final Logger? logger;
   final List<Uri> sources;
+  final List<Uri> includes;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
@@ -32,25 +34,42 @@ class RunCBuilder {
   /// Can be modified with `install_name_tool`.
   final Uri? installName;
 
+  final List<String> flags;
   final Map<String, String?> defines;
   final bool? pic;
+  final String? std;
+  final Language language;
+  final String? cppLinkStdLib;
 
   RunCBuilder({
     required this.buildConfig,
     this.logger,
     this.sources = const [],
+    this.includes = const [],
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
     this.installName,
+    this.flags = const [],
     this.defines = const {},
     this.pic,
+    this.std,
+    this.language = Language.c,
+    this.cppLinkStdLib,
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
-            1);
+            1) {
+    if (target.os == OS.windows && cppLinkStdLib != null) {
+      throw ArgumentError.value(
+        cppLinkStdLib,
+        'cppLinkStdLib',
+        'is not supported when targeting Windows',
+      );
+    }
+  }
 
   late final _resolver =
       CompilerResolver(buildConfig: buildConfig, logger: logger);
@@ -133,20 +152,6 @@ class RunCBuilder {
           '-install_name',
           installName!.toFilePath(),
         ],
-        ...sources.map((e) => e.toFilePath()),
-        if (executable != null) ...[
-          '-o',
-          outDir.resolveUri(executable!).toFilePath(),
-        ],
-        if (dynamicLibrary != null) ...[
-          '--shared',
-          '-o',
-          outDir.resolveUri(dynamicLibrary!).toFilePath(),
-        ] else if (staticLibrary != null) ...[
-          '-c',
-          '-o',
-          outDir.resolve('out.o').toFilePath(),
-        ],
         if (pic != null)
           if (pic!) ...[
             if (dynamicLibrary != null) '-fPIC',
@@ -165,8 +170,31 @@ class RunCBuilder {
               'notext',
             ]
           ],
+        if (std != null) '-std=$std',
+        if (language == Language.cpp) ...[
+          '-x',
+          'c++',
+          '-l',
+          cppLinkStdLib ?? defaultCppLinkStdLib[target.os]!
+        ],
+        ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
+        for (final include in includes) '-I${include.toFilePath()}',
+        ...sources.map((e) => e.toFilePath()),
+        if (executable != null) ...[
+          '-o',
+          outDir.resolveUri(executable!).toFilePath(),
+        ],
+        if (dynamicLibrary != null) ...[
+          '--shared',
+          '-o',
+          outDir.resolveUri(dynamicLibrary!).toFilePath(),
+        ] else if (staticLibrary != null) ...[
+          '-c',
+          '-o',
+          outDir.resolve('out.o').toFilePath(),
+        ],
       ],
       logger: logger,
       captureOutput: false,
@@ -201,8 +229,12 @@ class RunCBuilder {
     final result = await runProcess(
       executable: compiler.uri,
       arguments: [
+        if (std != null) '/std:$std',
+        if (language == Language.cpp) '/TP',
+        ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',
+        for (final directory in includes) '/I${directory.toFilePath()}',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',
@@ -264,5 +296,13 @@ class RunCBuilder {
     Target.iOSX64: {
       IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
     },
+  };
+
+  static const defaultCppLinkStdLib = {
+    OS.android: 'c++_shared',
+    OS.fuchsia: 'c++',
+    OS.iOS: 'c++',
+    OS.linux: 'stdc++',
+    OS.macOS: 'c++',
   };
 }

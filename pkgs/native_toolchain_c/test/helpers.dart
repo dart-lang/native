@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -39,24 +40,17 @@ String testSuffix(List<Object> tags) => switch (tags) {
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
-Future<void> inTempDir(
-  Future<void> Function(Uri tempUri) fun, {
-  String? prefix,
-  bool keepTemp = false,
-}) async {
+Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
   final tempUri =
       Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
-  try {
-    await fun(tempUri);
-  } finally {
-    if ((!Platform.environment.containsKey(keepTempKey) ||
-            Platform.environment[keepTempKey]!.isEmpty) &&
-        !keepTemp) {
-      await tempDir.delete(recursive: true);
-    }
+  if ((!Platform.environment.containsKey(keepTempKey) ||
+          Platform.environment[keepTempKey]!.isEmpty) &&
+      !keepTemp) {
+    addTearDown(() => tempDir.delete(recursive: true));
   }
+  return tempUri;
 }
 
 /// Logger that outputs the full trace when a test fails.
@@ -169,4 +163,12 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
       .trim()
       .split(' ')[1];
   return installName;
+}
+
+/// Opens the [DynamicLibrary] at [path] and register a tear down hook to close
+/// it when the current test is done.
+DynamicLibrary openDynamicLibraryForTest(String path) {
+  final library = DynamicLibrary.open(path);
+  addTearDown(library.close);
+  return library;
 }
