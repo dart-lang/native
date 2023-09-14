@@ -160,6 +160,8 @@ class RunCBuilder {
           ] else ...[
             '-fno-PIC',
             '-fno-PIE',
+            '-z',
+            'notext',
           ],
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
