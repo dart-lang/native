@@ -161,15 +161,18 @@ class RunCBuilder {
             // which the static library is linked is PIC, PIE or neither. Then
             // we could use the same option for the static library.
             if (staticLibrary != null) '-fPIC',
-            if (executable != null) '-fPIE',
+            if (executable != null) ...[
+              // Generate position-independent code for executables.
+              '-fPIE',
+              // Tell the linker to generate a position-independent executable.
+              '-pie',
+            ],
           ] else ...[
+            // Disable generation of any kind of position-independent code.
             '-fno-PIC',
             '-fno-PIE',
-            if (compiler.tool == clang) ...[
-              '-z',
-              'notext',
-              if (executable != null) '-no-pie',
-            ]
+            // Tell the linker to generate a position-dependent executable.
+            if (executable != null) '-no-pie',
           ],
         if (std != null) '-std=$std',
         if (language == Language.cpp) ...[
