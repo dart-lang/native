@@ -16,7 +16,7 @@ on:
     - cron: "0 0 * * 0" # weekly
 
 jobs:
-  clang-bleeding-edge:
+  dart-sdk-clang:
     strategy:
       matrix:
         os: [ubuntu]
@@ -51,8 +51,7 @@ jobs:
       - run: echo "$PWD/depot_tools" >> $GITHUB_PATH
       - run: mkdir dart-sdk
       - run: cd dart-sdk && fetch --no-history dart
-      - run: ./dart-sdk/sdk/buildtools/linux-x64/clang/bin/clang --version
-      - run: echo "./dart-sdk/sdk/buildtools/linux-x64/clang/bin/" >> $GITHUB_PATH
+      - run: echo "./dart-sdk/sdk/buildtools/linux-x64/clang/bin" >> $GITHUB_PATH
       - run: clang --version
 
       - run: dart test
