@@ -168,6 +168,7 @@ class RunCBuilder {
             if (compiler.tool == clang) ...[
               '-z',
               'notext',
+              if (executable != null) '-no-pie',
             ]
           ],
         if (std != null) '-std=$std',
