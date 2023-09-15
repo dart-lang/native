@@ -82,7 +82,7 @@ jobs:
         if: ${{ matrix.sdk == 'stable' }}
 
       - name: Install native toolchains
-        run: sudo apt-get update && sudo apt-get install clang-14 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+        run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
         if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
 
       - run: dart test
