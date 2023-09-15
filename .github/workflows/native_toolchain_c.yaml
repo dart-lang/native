@@ -43,13 +43,17 @@ jobs:
 
       - run: dart pub get
 
-      - name: Download clang
-        run: curl https://storage.googleapis.com/chrome-infra-packages/store/SHA256/33c37f2289b1bb64755c8ae27e173a6934d08c86674221bb64f5966ba50a9f2a?Expires=1694770717&GoogleAccessId=chrome-infra-packages%40appspot.gserviceaccount.com&Signature=qOT43Za7fTznfe8SRBRyqBlwnERkIkRMTGXorJxqRgBaiSAuB9Fv%2Fm7ZrNf8thRWYrGDaxoMbWs3RQ%2BxxUtdOVIjpPwN9Zd2SOPqq35M4Pif7ukyU6oiZuHb%2BqZkMDQv8TALT7SsXJYvEOBMvGhUjXIwTsesJANL2pQ6NZ695xzhZG5oxkus4sC4dhSmte3iJanHIWfnLsVYhbuD%2FI4DXuJQTgBYsYj62gVwmigze0tRUG%2B4oubS6FrGDK49AMl3H8oku1pkKxbSt9vRw%2BeDxyWwJrnCsQGR4OyIlZy5FTVZ9PMYLMptMChNA%2F7jGUHa6hCLhmISmLtXvPRANzcQcw%3D%3D&response-content-disposition=attachment%3B+filename%3D%22clang-linux-amd64.zip%22
-
-        # TODO: use       # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
       - name: Install native toolchains
-        run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+        run: sudo apt-get update && sudo apt-get install gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
         if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
+
+      - run: git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+      - run: echo "$PWD/depot_tools" >> $GITHUB_PATH
+      - run: mkdir dart-sdk
+      - run: cd dart-sdk && fetch --no-history dart
+      - run: ./dart-sdk/sdk/buildtools/linux-x64/clang/bin/clang --version
+      - run: echo "./dart-sdk/sdk/buildtools/linux-x64/clang/bin/" >> $GITHUB_PATH
+      - run: clang --version
 
       - run: dart test
         if: ${{ matrix.sdk == 'stable' }}
