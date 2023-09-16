@@ -1,4 +1,4 @@
-name: dart
+name: native_toolchain_c
 permissions: read-all
 
 on:
