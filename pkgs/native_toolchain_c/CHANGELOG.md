@@ -1,3 +1,8 @@
+## 0.2.4+1
+
+- Explicitly tell linker to create position dependent or position independent executable
+  ([#113](https://github.com/dart-lang/native/issues/133)).
+
 ## 0.2.4
 
 - Added `includes` for specifying include directories.
