@@ -1,4 +1,4 @@
-## 0.2.4+1
+## 0.2.5
 
 - Explicitly tell linker to create position dependent or position independent executable
   ([#113](https://github.com/dart-lang/native/issues/133)).
