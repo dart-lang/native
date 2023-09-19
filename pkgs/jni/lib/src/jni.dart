@@ -9,7 +9,7 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:path/path.dart';
 
-import 'jexceptions.dart';
+import 'errors.dart';
 import 'jobject.dart';
 import 'third_party/generated_bindings.dart';
 import 'jvalues.dart';
@@ -38,7 +38,7 @@ DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = "dartjni"}) {
     final dylib = DynamicLibrary.open(libPath);
     return dylib;
   } on Error {
-    throw HelperNotFoundException(libPath);
+    throw HelperNotFoundError(libPath);
   }
 }
 
@@ -97,12 +97,12 @@ abstract class Jni {
       jniVersion: jniVersion,
     );
     if (status == false) {
-      throw JvmExistsException();
+      throw JniVmExistsError();
     }
   }
 
   /// Same as [spawn] but if a JVM exists, returns silently instead of
-  /// throwing [JvmExistsException].
+  /// throwing [JvmExistsError].
   ///
   /// If the options are different than that of existing VM, the existing VM's
   /// options will remain in effect.
@@ -129,7 +129,7 @@ abstract class Jni {
         } else if (status == DART_JNI_SINGLETON_EXISTS) {
           return false;
         } else {
-          throw SpawnException.of(status);
+          throw JniError.of(status);
         }
       });
 
@@ -176,12 +176,12 @@ abstract class Jni {
     return _bindings.GetJavaVM();
   }
 
-  /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over JNIEnv
-  /// without the same-thread restriction.
+  /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over
+  /// JNIEnv without the same-thread restriction.
   static Pointer<GlobalJniEnvStruct> _fetchGlobalEnv() {
     final env = _bindings.GetGlobalEnv();
     if (env == nullptr) {
-      throw NoJvmInstanceException();
+      throw NoJvmInstanceError();
     }
     return env;
   }
@@ -336,11 +336,11 @@ extension AdditionalEnvMethods on GlobalJniEnv {
   /// DeleteGlobalRef.
   String toDartString(JStringPtr jstringPtr, {bool releaseOriginal = false}) {
     if (jstringPtr == nullptr) {
-      throw const JNullException();
+      throw JNullError();
     }
     final chars = GetStringChars(jstringPtr, nullptr);
     if (chars == nullptr) {
-      throw InvalidJStringException(jstringPtr);
+      throw ArgumentError('Not a valid jstring pointer.');
     }
     final result = chars.cast<Utf16>().toDartString();
     ReleaseStringChars(jstringPtr, chars);

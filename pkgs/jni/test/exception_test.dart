@@ -14,17 +14,17 @@ void main() {
     checkDylibIsUpToDate();
     bool caught = false;
     try {
-      // If library does not exist, a helpful exception should be thrown.
-      // we can't test this directly because
-      // `test` schedules functions asynchronously
+      // If library does not exist, a helpful error should be thrown.
+      // we can't test this directly because `test` schedules functions
+      // asynchronously.
       Jni.spawn(dylibDir: "wrong_dir");
-    } on HelperNotFoundException catch (_) {
+    } on HelperNotFoundError catch (_) {
       // stderr.write("\n$_\n");
       Jni.spawnIfNotExists(
           dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
       caught = true;
-    } on JvmExistsException {
-      stderr.writeln('cannot verify: HelperNotFoundException thrown');
+    } on JniVmExistsError {
+      stderr.writeln('cannot verify: HelperNotFoundError thrown');
     }
     if (!caught) {
       throw "Expected HelperNotFoundException\n"
@@ -38,14 +38,14 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner("double free throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     r.release();
-    expect(r.release, throwsA(isA<DoubleReleaseException>()));
+    expect(r.release, throwsA(isA<DoubleReleaseError>()));
   });
 
   testRunner("Use after free throws exception", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     r.release();
     expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(256)]),
-        throwsA(isA<UseAfterReleaseException>()));
+        throwsA(isA<UseAfterReleaseError>()));
   });
 
   testRunner("void fieldType throws exception", () {
@@ -56,12 +56,12 @@ void run({required TestRunnerCallback testRunner}) {
         throwsArgumentError);
   });
 
-  testRunner("Wrong callType throws exception", () {
+  testRunner("Wrong callType throws error", () {
     final r = Jni.newInstance("java/util/Random", "()V", []);
     expect(
         () => r.callMethodByName<int>(
             "nextInt", "(I)I", [JValueInt(256)], JniCallType.doubleType),
-        throwsA(isA<InvalidCallTypeException>()));
+        throwsA(isA<InvalidCallTypeError>()));
   });
 
   testRunner("An exception in JNI throws JniException in Dart", () {

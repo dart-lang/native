@@ -221,7 +221,7 @@ void run({required TestRunnerCallback testRunner}) {
       final data2 = directBuffer.asUint8List(releaseOriginal: true);
       expect(
         () => directBuffer.nextByte = 42,
-        throwsA(isA<UseAfterReleaseException>()),
+        throwsA(isA<UseAfterReleaseError>()),
       );
       expect(data2[0], 42);
     });

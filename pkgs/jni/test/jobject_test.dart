@@ -45,7 +45,12 @@ void run({required TestRunnerCallback testRunner}) {
     // to JNI strings.
     final long = longClass.newInstance(longCtor, [176]);
 
-    final intValue = long.callMethodByName<int>("intValue", "()I", []);
+    final intValue = long.callMethodByName<int>(
+      "intValue",
+      "()I",
+      [],
+      JniCallType.intType,
+    );
     expect(intValue, equals(176));
 
     // Release any JObject and JClass instances using `.release()` after use.
@@ -103,9 +108,17 @@ void run({required TestRunnerCallback testRunner}) {
     final nextIntMethod = random.getMethodID("nextInt", "(I)I");
 
     for (int i = 0; i < 100; i++) {
-      int r = random.callMethod<int>(nextIntMethod, [JValueInt(256 * 256)]);
+      int r = random.callMethod<int>(
+        nextIntMethod,
+        [JValueInt(256 * 256)],
+        JniCallType.intType,
+      );
       int bits = 0;
-      final jbc = longClass.callStaticMethod<int>(bitCountMethod, [r]);
+      final jbc = longClass.callStaticMethod<int>(
+        bitCountMethod,
+        [r],
+        JniCallType.intType,
+      );
       while (r != 0) {
         bits += r % 2;
         r = (r / 2).floor();
@@ -118,8 +131,13 @@ void run({required TestRunnerCallback testRunner}) {
 
   // One-off invocation of static method in single call.
   testRunner("invoke_", () {
-    final m = Jni.invokeStaticMethod<int>("java/lang/Short", "compare", "(SS)I",
-        [JValueShort(1234), JValueShort(1324)]);
+    final m = Jni.invokeStaticMethod<int>(
+      "java/lang/Short",
+      "compare",
+      "(SS)I",
+      [JValueShort(1234), JValueShort(1324)],
+      JniCallType.intType,
+    );
     expect(m, equals(1234 - 1324));
   });
 
@@ -172,8 +190,13 @@ void run({required TestRunnerCallback testRunner}) {
   // You can use() method on JObject for using once and deleting.
   testRunner("use() method", () {
     final randomInt = Jni.newInstance("java/util/Random", "()V", []).use(
-        (random) =>
-            random.callMethodByName<int>("nextInt", "(I)I", [JValueInt(15)]));
+      (random) => random.callMethodByName<int>(
+        "nextInt",
+        "(I)I",
+        [JValueInt(15)],
+        JniCallType.intType,
+      ),
+    );
     expect(randomInt, lessThan(15));
   });
 
@@ -197,7 +220,14 @@ void run({required TestRunnerCallback testRunner}) {
     // Don't forget to escape $ in nested type names
     final ordinal = Jni.retrieveStaticField<JObject>(
             "java/net/Proxy\$Type", "HTTP", "Ljava/net/Proxy\$Type;")
-        .use((f) => f.callMethodByName<int>("ordinal", "()I", []));
+        .use(
+      (f) => f.callMethodByName<int>(
+        "ordinal",
+        "()I",
+        [],
+        JniCallType.intType,
+      ),
+    );
     expect(ordinal, equals(1));
   });
 
@@ -209,8 +239,8 @@ void run({required TestRunnerCallback testRunner}) {
       expect(backToStr.toDartString(), str.toDartString());
       final _ = backToStr.castTo(JObject.type, releaseOriginal: true)
         ..releasedBy(arena);
-      expect(backToStr.toDartString, throwsA(isA<UseAfterReleaseException>()));
-      expect(backToStr.release, throwsA(isA<DoubleReleaseException>()));
+      expect(backToStr.toDartString, throwsA(isA<UseAfterReleaseError>()));
+      expect(backToStr.release, throwsA(isA<DoubleReleaseError>()));
     });
   });
 

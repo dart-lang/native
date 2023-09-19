@@ -1,3 +1,20 @@
+## 0.8.0-wip
+
+- **Breaking Change** ([#394](https://github.com/dart-lang/jnigen/issues/394)):
+  Converted various `Exception`s into `Error`s:
+  - `UseAfterReleaseException` -> `UseAfterReleaseError`
+  - `DoubleReleaseException` -> `DoubleReleaseError`
+  - `SpawnException` -> `JniError` (It's now a `sealed class`)
+  - `JNullException` -> `JNullError`
+  - `InvalidCallTypeException` -> `InvalidCallTypeError`
+  - `HelperNotFoundException` -> `HelperNotFoundError`
+  - `JvmExistsException` -> `JniVmExistsError`
+  - `NoJvmInstanceException` -> `NoJvmInstanceError`
+- **Breaking Change**: Removed `InvalidJStringException`.
+- **Breaking Change**: The default return `callType` of type parameter `int` for
+  methods such as `JObject.callMethodByName<int>` is now Java's `long` instead
+  of `int` to be consistent with the way arguments work.
+
 ## 0.7.0
 
 - **Breaking Change** ([#387](https://github.com/dart-lang/jnigen/issues/387)):

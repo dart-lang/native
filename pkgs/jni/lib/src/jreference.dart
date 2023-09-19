@@ -7,13 +7,13 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:jni/src/third_party/generated_bindings.dart';
 
-import 'jexceptions.dart';
+import 'errors.dart';
 import 'jni.dart';
 
 extension ProtectedJReference on JReference {
   void setAsReleased() {
     if (_released) {
-      throw DoubleReleaseException(_reference);
+      throw DoubleReleaseError();
     }
     _released = true;
     JReference._finalizer.detach(this);
@@ -21,7 +21,7 @@ extension ProtectedJReference on JReference {
 
   void ensureNotNull() {
     if (isNull) {
-      throw const JNullException();
+      throw JNullError();
     }
   }
 
@@ -47,15 +47,17 @@ abstract class JReference implements Finalizable {
 
   bool _released = false;
 
-  /// Check whether the underlying JNI reference is `null`.
+  /// Whether the underlying JNI reference is `null` or not.
   bool get isNull => reference == nullptr;
 
-  /// Returns `true` if the underlying JNI reference is deleted.
+  /// Whether the underlying JNI reference is deleted or not.
   bool get isReleased => _released;
 
-  /// Deletes the underlying JNI reference.
+  /// Deletes the underlying JNI reference and marks this as released.
   ///
-  /// Further uses will throw [UseAfterReleaseException].
+  /// Throws [DoubleReleaseError] if this is already released.
+  ///
+  /// Further uses of this object will throw [UseAfterReleaseError].
   void release() {
     setAsReleased();
     Jni.env.DeleteGlobalRef(_reference);
@@ -63,12 +65,12 @@ abstract class JReference implements Finalizable {
 
   /// The underlying JNI global object reference.
   ///
-  /// Throws [UseAfterReleaseException] if the object is previously released.
+  /// Throws [UseAfterReleaseError] if the object is previously released.
   ///
   /// Be careful when storing this in a variable since it might have gotten
   /// released upon use.
   JObjectPtr get reference {
-    if (_released) throw UseAfterReleaseException(_reference);
+    if (_released) throw UseAfterReleaseError();
     return _reference;
   }
 
@@ -84,11 +86,9 @@ extension JReferenceUseExtension<T extends JReference> on T {
   R use<R>(R Function(T) callback) {
     try {
       final result = callback(this);
-      release();
       return result;
-    } catch (e) {
+    } finally {
       release();
-      rethrow;
     }
   }
 }

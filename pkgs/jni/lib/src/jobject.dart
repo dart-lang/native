@@ -7,7 +7,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:jni/src/accessors.dart';
 
-import 'jexceptions.dart';
+import 'errors.dart';
 import 'jni.dart';
 import 'jreference.dart';
 import 'lang/jstring.dart';
@@ -65,7 +65,7 @@ Pointer<T> _getID<T extends NativeType>(
 int _getCallType(int? callType, int defaultType, Set<int> allowed) {
   if (callType == null) return defaultType;
   if (allowed.contains(callType)) return callType;
-  throw InvalidCallTypeException(callType, allowed);
+  throw InvalidCallTypeError(callType, allowed);
 }
 
 T _callOrGet<T>(int? callType, JniResult Function(int) function) {
@@ -78,7 +78,7 @@ T _callOrGet<T>(int? callType, JniResult Function(int) function) {
       result = function(finalCallType).boolean as T;
       break;
     case int:
-      finalCallType = _getCallType(callType, JniCallType.intType, {
+      finalCallType = _getCallType(callType, JniCallType.longType, {
         JniCallType.byteType,
         JniCallType.charType,
         JniCallType.shortType,
@@ -177,8 +177,6 @@ class JObject extends JReference {
     return _jClass ??= getClass();
   }
 
-  /// Deletes the JNI reference and marks this object as released. Any further
-  /// uses will throw [UseAfterReleaseException].
   @override
   void release() {
     _jClass?.release();
