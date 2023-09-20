@@ -1,3 +1,8 @@
+## 0.8.0-wip
+
+- **Breaking Change**: The generated impl class for interfaces is now an
+  `interface`.
+
 ## 0.7.0
 
 - **Breaking Change** ([#387](https://github.com/dart-lang/jnigen/issues/387)):

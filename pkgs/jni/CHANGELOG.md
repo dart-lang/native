@@ -14,6 +14,10 @@
 - **Breaking Change**: The default return `callType` of type parameter `int` for
   methods such as `JObject.callMethodByName<int>` is now Java's `long` instead
   of `int` to be consistent with the way arguments work.
+- **Breaking Change**: `JType` is now `sealed`.
+- **Breaking Change**: Primitive types and their type classes are now `final`.
+- **Breaking Change**: `JArray.filled` now uses the generated type class of the
+  `fill` object and not its Java runtime type.
 
 ## 0.7.0
 

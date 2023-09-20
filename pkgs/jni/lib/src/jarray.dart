@@ -13,7 +13,6 @@ import 'package:jni/src/third_party/generated_bindings.dart';
 
 import 'jni.dart';
 import 'jobject.dart';
-import 'jprimitives.dart';
 import 'types.dart';
 
 final class JArrayType<T> extends JObjType<JArray<T>> {
@@ -92,10 +91,9 @@ class JArray<E> extends JObject {
   /// Creates a [JArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
-  /// The [fill] must be a non-null [JObject].
   static JArray<E> filled<E extends JObject>(int length, E fill) {
-    assert(!fill.isNull, "fill must not be null.");
-    final clazz = fill.getClass();
+    RangeError.checkNotNegative(length);
+    final clazz = fill.$type.getClass();
     final array = JArray<E>.fromRef(
       fill.$type as JObjType<E>,
       Jni.accessors

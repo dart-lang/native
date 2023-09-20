@@ -289,11 +289,8 @@ void run({required TestRunnerCallback testRunner}) {
       final string = "abc".toJString()..releasedBy(arena);
       final array = JArray.filled(3, string)..releasedBy(arena);
       expect(
-        () {
-          final _ = JArray.filled(3, JString.fromRef(nullptr))
-            ..releasedBy(arena);
-        },
-        throwsA(isA<AssertionError>()),
+        () => JArray.filled(-3, JString.fromRef(nullptr)),
+        throwsA(isA<RangeError>()),
       );
       expect(array.length, 3);
       expect(array[0].toDartString(releaseOriginal: true), "abc");

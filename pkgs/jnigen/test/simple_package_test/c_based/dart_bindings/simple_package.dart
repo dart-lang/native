@@ -3446,7 +3446,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   static Map<int, $MyInterfaceImpl> get $impls => _$impls;
 }
 
-abstract class $MyInterfaceImpl<$T extends jni.JObject> {
+abstract interface class $MyInterfaceImpl<$T extends jni.JObject> {
   factory $MyInterfaceImpl({
     required jni.JObjType<$T> T,
     required void Function(jni.JString s) voidCallback,
@@ -3743,7 +3743,7 @@ class MyRunnable extends jni.JObject {
   }
 }
 
-abstract class $MyRunnableImpl {
+abstract interface class $MyRunnableImpl {
   factory $MyRunnableImpl({
     required void Function() run,
   }) = _$MyRunnableImpl;

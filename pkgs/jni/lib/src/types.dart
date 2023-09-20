@@ -7,7 +7,9 @@ import 'dart:ffi';
 import 'jni.dart';
 import 'jobject.dart';
 
-abstract class JType<T> {
+part 'jprimitives.dart';
+
+sealed class JType<T> {
   const JType();
 
   String get signature;

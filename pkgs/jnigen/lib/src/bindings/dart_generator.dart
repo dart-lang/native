@@ -520,7 +520,7 @@ class $name$typeParamsDef extends $superName {
         '}',
       );
       s.write('''
-abstract class $implClassName$typeParamsDef {
+abstract interface class $implClassName$typeParamsDef {
   factory $implClassName(
     $abstractFactoryArgs
   ) = _$implClassName;

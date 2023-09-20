@@ -8,7 +8,6 @@ import 'dart:typed_data';
 import '../accessors.dart';
 import '../jarray.dart';
 import '../jni.dart';
-import '../jprimitives.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../third_party/generated_bindings.dart';

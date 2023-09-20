@@ -67,35 +67,35 @@ Pointer<JValue> toJValues(List<dynamic> args, {Allocator allocator = calloc}) {
 
 /// Use this class as wrapper to convert an integer
 /// to Java `int` in jvalues method.
-class JValueInt {
+final class JValueInt {
   int value;
   JValueInt(this.value);
 }
 
 /// Use this class as wrapper to convert an integer
 /// to Java `short` in jvalues method.
-class JValueShort {
+final class JValueShort {
   int value;
   JValueShort(this.value);
 }
 
 /// Use this class as wrapper to convert an integer
 /// to Java `byte` in jvalues method.
-class JValueByte {
+final class JValueByte {
   int value;
   JValueByte(this.value);
 }
 
 /// Use this class as wrapper to convert an double
 /// to Java `float` in jvalues method.
-class JValueFloat {
+final class JValueFloat {
   double value;
   JValueFloat(this.value);
 }
 
 /// Use this class as wrapper to convert an integer
 /// to Java `char` in jvalues method.
-class JValueChar {
+final class JValueChar {
   int value;
   JValueChar(this.value);
   JValueChar.fromString(String s) : value = 0 {
@@ -115,7 +115,7 @@ class JValueChar {
 ///
 /// Returned value is allocated using provided allocator.
 /// But default allocator may be used for string conversions.
-class JValueArgs {
+final class JValueArgs {
   late Pointer<JValue> values;
   final List<JObjectPtr> createdRefs = [];
 

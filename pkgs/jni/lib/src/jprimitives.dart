@@ -6,92 +6,92 @@
 // lowercase.
 // ignore_for_file: camel_case_types
 
-import 'types.dart';
+part of 'types.dart';
 
-abstract class JPrimitive {}
+abstract final class JPrimitive {}
 
-abstract class jbyte extends JPrimitive {
+abstract final class jbyte extends JPrimitive {
   static const type = jbyteType();
 }
 
-class jbyteType extends JType<jbyte> {
+final class jbyteType extends JType<jbyte> {
   const jbyteType();
 
   @override
   final signature = 'B';
 }
 
-abstract class jboolean extends JPrimitive {
+abstract final class jboolean extends JPrimitive {
   static const type = jbooleanType();
 }
 
-class jbooleanType extends JType<jboolean> {
+final class jbooleanType extends JType<jboolean> {
   const jbooleanType();
 
   @override
   final signature = 'Z';
 }
 
-abstract class jchar extends JPrimitive {
+abstract final class jchar extends JPrimitive {
   static const type = jcharType();
 }
 
-class jcharType extends JType<jchar> {
+final class jcharType extends JType<jchar> {
   const jcharType();
 
   @override
   final signature = 'C';
 }
 
-abstract class jshort extends JPrimitive {
+abstract final class jshort extends JPrimitive {
   static const type = jshortType();
 }
 
-class jshortType extends JType<jshort> {
+final class jshortType extends JType<jshort> {
   const jshortType();
 
   @override
   final signature = 'S';
 }
 
-abstract class jint extends JPrimitive {
+abstract final class jint extends JPrimitive {
   static const type = jintType();
 }
 
-class jintType extends JType<jint> {
+final class jintType extends JType<jint> {
   const jintType();
 
   @override
   final signature = 'I';
 }
 
-abstract class jlong extends JPrimitive {
+abstract final class jlong extends JPrimitive {
   static const type = jlongType();
 }
 
-class jlongType extends JType<jlong> {
+final class jlongType extends JType<jlong> {
   const jlongType();
 
   @override
   final signature = 'J';
 }
 
-abstract class jfloat extends JPrimitive {
+abstract final class jfloat extends JPrimitive {
   static const type = jfloatType();
 }
 
-class jfloatType extends JType<jfloat> {
+final class jfloatType extends JType<jfloat> {
   const jfloatType();
 
   @override
   final signature = 'F';
 }
 
-abstract class jdouble extends JPrimitive {
+abstract final class jdouble extends JPrimitive {
   static const type = jdoubleType();
 }
 
-class jdoubleType extends JType<jdouble> {
+final class jdoubleType extends JType<jdouble> {
   const jdoubleType();
 
   @override
