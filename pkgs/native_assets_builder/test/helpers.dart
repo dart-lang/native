@@ -156,7 +156,10 @@ Future<void> copyTestProjects({
   }
 }
 
+/// Logger that outputs the full trace when a test fails.
 Logger get logger => _logger ??= () {
+      // We lazily create a new logger for each test so that the messages
+      // captured by printOnFailure are scoped to the correct test.
       addTearDown(() => _logger = null);
       return _createTestLogger();
     }();
