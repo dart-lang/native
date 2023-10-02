@@ -156,22 +156,30 @@ Future<void> copyTestProjects({
   }
 }
 
-/// Logger that outputs the full trace when a test fails.
-final logger = Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure(record.message);
-  });
+Logger get logger => _logger ??= () {
+      addTearDown(() => _logger = null);
+      return _createTestLogger();
+    }();
+
+Logger? _logger;
 
 Logger createCapturingLogger(
   List<String> capturedMessages, {
   Level level = Level.ALL,
 }) =>
+    _createTestLogger(capturedMessages: capturedMessages, level: level);
+
+Logger _createTestLogger({
+  List<String>? capturedMessages,
+  Level level = Level.ALL,
+}) =>
     Logger('')
       ..level = level
       ..onRecord.listen((record) {
-        printOnFailure(record.message);
-        capturedMessages.add(record.message);
+        printOnFailure(
+          '${record.level.name}: ${record.time}: ${record.message}',
+        );
+        capturedMessages?.add(record.message);
       });
 
 final dartExecutable = File(Platform.resolvedExecutable).uri;
