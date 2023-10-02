@@ -1,3 +1,8 @@
+## 0.3.0
+
+- **Breaking change** Add required `BuildConfig.packageName`
+  ([#142](https://github.com/dart-lang/native/issues/142)).
+
 ## 0.2.0
 
 - **Breaking change** Rename `Asset.name` to `Asset.id`

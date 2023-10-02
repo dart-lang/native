@@ -23,6 +23,10 @@ class BuildConfig {
   Uri get outDir => _outDir;
   late final Uri _outDir;
 
+  /// The name of the package the native assets are built for.
+  String get packageName => _packageName;
+  late final String _packageName;
+
   /// The root of the package the native assets are built for.
   ///
   /// Often a package's native assets are built because a package is a
@@ -124,6 +128,7 @@ class BuildConfig {
 
   factory BuildConfig({
     required Uri outDir,
+    required String packageName,
     required Uri packageRoot,
     required BuildMode buildMode,
     required Architecture targetArchitecture,
@@ -136,6 +141,7 @@ class BuildConfig {
   }) {
     final nonValidated = BuildConfig._()
       .._outDir = outDir
+      .._packageName = packageName
       .._packageRoot = packageRoot
       .._buildMode = buildMode
       .._targetArchitecture = targetArchitecture
@@ -153,12 +159,14 @@ class BuildConfig {
 
   factory BuildConfig.dryRun({
     required Uri outDir,
+    required String packageName,
     required Uri packageRoot,
     required OS targetOs,
     required LinkModePreference linkModePreference,
   }) {
     final nonValidated = BuildConfig._()
       .._outDir = outDir
+      .._packageName = packageName
       .._packageRoot = packageRoot
       .._targetOs = targetOs
       .._linkModePreference = linkModePreference
@@ -177,6 +185,7 @@ class BuildConfig {
   /// In particular, it only takes the package name from [packageRoot],
   /// so that the hash is equal across checkouts and ignores [outDir] itself.
   static String checksum({
+    required String packageName,
     required Uri packageRoot,
     required Architecture targetArchitecture,
     required OS targetOs,
@@ -187,7 +196,6 @@ class BuildConfig {
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
   }) {
-    final packageName = packageRoot.pathSegments.lastWhere((e) => e.isNotEmpty);
     final input = [
       packageName,
       targetArchitecture.toString(),
@@ -273,6 +281,7 @@ class BuildConfig {
   }
 
   static const outDirConfigKey = 'out_dir';
+  static const packageNameConfigKey = 'package_name';
   static const packageRootConfigKey = 'package_root';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
   static const _versionKey = 'version';
@@ -303,6 +312,7 @@ class BuildConfig {
       (config) => _config = config,
       (config) => _dryRun = config.optionalBool(dryRunConfigKey),
       (config) => _outDir = config.path(outDirConfigKey, mustExist: true),
+      (config) => _packageName = config.string(packageNameConfigKey),
       (config) =>
           _packageRoot = config.path(packageRootConfigKey, mustExist: true),
       (config) {
@@ -469,6 +479,7 @@ class BuildConfig {
 
     return {
       outDirConfigKey: _outDir.toFilePath(),
+      packageNameConfigKey: _packageName,
       packageRootConfigKey: _packageRoot.toFilePath(),
       OS.configKey: _targetOs.toString(),
       LinkModePreference.configKey: _linkModePreference.toString(),
@@ -498,6 +509,7 @@ class BuildConfig {
       return false;
     }
     if (other.outDir != outDir) return false;
+    if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
     if (other.targetOs != targetOs) return false;
@@ -517,6 +529,7 @@ class BuildConfig {
   @override
   int get hashCode => Object.hashAll([
         outDir,
+        packageName,
         packageRoot,
         targetOs,
         linkModePreference,
