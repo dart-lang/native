@@ -45,6 +45,7 @@ void main() {
 
         final buildConfig = BuildConfig(
           outDir: tempUri,
+          packageName: name,
           packageRoot: tempUri,
           targetArchitecture: Architecture.current,
           targetOs: OS.current,
@@ -116,12 +117,14 @@ void main() {
         final buildConfig = dryRun
             ? BuildConfig.dryRun(
                 outDir: tempUri,
+                packageName: name,
                 packageRoot: tempUri,
                 targetOs: OS.current,
                 linkModePreference: LinkModePreference.dynamic,
               )
             : BuildConfig(
                 outDir: tempUri,
+                packageName: name,
                 packageRoot: tempUri,
                 targetArchitecture: Architecture.current,
                 targetOs: OS.current,
@@ -213,6 +216,7 @@ void main() {
 
     final buildConfig = BuildConfig(
       outDir: tempUri,
+      packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOs: OS.current,
@@ -271,6 +275,7 @@ void main() {
 
     final buildConfig = BuildConfig(
       outDir: tempUri,
+      packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOs: OS.current,
@@ -315,6 +320,7 @@ void main() {
 
     final buildConfig = BuildConfig(
       outDir: tempUri,
+      packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOs: OS.current,
@@ -373,6 +379,7 @@ void main() {
     final buildConfig = BuildConfig(
       buildMode: BuildMode.release,
       outDir: tempUri,
+      packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOs: OS.current,
@@ -437,6 +444,7 @@ void main() {
     final buildConfig = BuildConfig(
       buildMode: BuildMode.release,
       outDir: tempUri,
+      packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOs: OS.current,
@@ -506,6 +514,7 @@ Future<void> testDefines({
 
   final buildConfig = BuildConfig(
     outDir: tempUri,
+    packageName: name,
     packageRoot: tempUri,
     targetArchitecture: Architecture.current,
     targetOs: OS.current,

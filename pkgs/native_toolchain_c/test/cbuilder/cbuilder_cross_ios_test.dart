@@ -58,6 +58,7 @@ void main() {
                 packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
             final buildConfig = BuildConfig(
               outDir: tempUri,
+              packageName: name,
               packageRoot: tempUri,
               targetArchitecture: target.architecture,
               targetOs: target.os,
