@@ -42,6 +42,7 @@ void main() {
     ].firstOrNull?.uri;
     final buildConfig = BuildConfig(
       outDir: tempUri,
+      packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOs: OS.current,
@@ -65,6 +66,7 @@ void main() {
     final tempUri = await tempDirForTest();
     final buildConfig = BuildConfig(
       outDir: tempUri,
+      packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.windows,

@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Bump `package:native_assets_cli` to 0.3.0.
+
 ## 0.2.5
 
 - Explicitly tell linker to create position dependent or position independent executable

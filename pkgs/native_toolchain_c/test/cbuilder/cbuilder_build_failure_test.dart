@@ -31,6 +31,7 @@ void main() {
 
     final buildConfig = BuildConfig(
       outDir: tempUri,
+      packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
       targetOs: OS.current,

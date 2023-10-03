@@ -112,6 +112,7 @@ Future<Uri> buildLib(
 
   final buildConfig = BuildConfig(
     outDir: tempUri,
+    packageName: name,
     packageRoot: tempUri,
     targetArchitecture: target.architecture,
     targetOs: target.os,
