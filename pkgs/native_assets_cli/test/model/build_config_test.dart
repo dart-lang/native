@@ -14,6 +14,7 @@ void main() async {
   late Uri tempUri;
   late Uri outDirUri;
   late Uri outDir2Uri;
+  late String packageName;
   late Uri packageRootUri;
   late Uri fakeClang;
   late Uri fakeLd;
@@ -26,8 +27,9 @@ void main() async {
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();
     outDir2Uri = tempUri.resolve('out2/');
+    packageName = 'my_package';
     await Directory.fromUri(outDir2Uri).create();
-    packageRootUri = tempUri.resolve('my_package/');
+    packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
     fakeClang = tempUri.resolve('fake_clang');
     await File.fromUri(fakeClang).create();
@@ -48,6 +50,7 @@ void main() async {
   test('BuildConfig ==', () {
     final config1 = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.iOS,
@@ -63,6 +66,7 @@ void main() async {
 
     final config2 = BuildConfig(
       outDir: outDir2Uri,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.android,
@@ -92,6 +96,7 @@ void main() async {
   test('BuildConfig fromConfig', () {
     final buildConfig2 = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.android,
@@ -105,6 +110,7 @@ void main() async {
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
@@ -119,6 +125,7 @@ void main() async {
   test('BuildConfig.dryRun', () {
     final buildConfig2 = BuildConfig.dryRun(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: packageRootUri,
       targetOs: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
@@ -128,6 +135,7 @@ void main() async {
       'dry_run': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
+      'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
       'version': BuildOutput.version.toString(),
@@ -140,6 +148,7 @@ void main() async {
   test('BuildConfig toYaml fromConfig', () {
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.iOS,
@@ -161,6 +170,7 @@ void main() async {
   test('BuildConfig == dependency metadata', () {
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.android,
@@ -180,6 +190,7 @@ void main() async {
 
     final buildConfig2 = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.android,
@@ -205,6 +216,7 @@ void main() async {
     final outDir = outDirUri;
     final buildConfig1 = BuildConfig(
       outDir: outDir,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.iOS,
@@ -241,6 +253,7 @@ dependency_metadata:
       - a
 link_mode_preference: prefer-static
 out_dir: ${outDir.toFilePath()}
+package_name: $packageName
 package_root: ${tempUri.toFilePath()}
 target_architecture: arm64
 target_ios_sdk: iphoneos
@@ -270,6 +283,7 @@ version: ${BuildConfig.version}''';
     expect(
       () => BuildConfig.fromConfig(Config(fileParsed: {
         'version': BuildConfig.version.toString(),
+        'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
@@ -288,6 +302,7 @@ version: ${BuildConfig.version}''';
       () => BuildConfig.fromConfig(Config(fileParsed: {
         'version': BuildConfig.version.toString(),
         'out_dir': outDirUri.toFilePath(),
+        'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
@@ -311,6 +326,7 @@ version: ${BuildConfig.version}''';
       () => BuildConfig.fromConfig(Config(fileParsed: {
         'out_dir': outDirUri.toFilePath(),
         'version': BuildConfig.version.toString(),
+        'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
@@ -342,6 +358,7 @@ version: ${BuildConfig.version}''';
   test('BuildConfig toString', () {
     final config = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.iOS,
@@ -359,6 +376,7 @@ version: ${BuildConfig.version}''';
   test('BuildConfig fromArgs', () async {
     final buildConfig = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.android,
@@ -380,6 +398,7 @@ version: ${BuildConfig.version}''';
   test('dependency metadata via config accessor', () {
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
       targetOs: OS.android,
@@ -407,6 +426,7 @@ version: ${BuildConfig.version}''';
   test('envScript', () {
     final buildConfig1 = BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.x64,
       targetOs: OS.windows,
@@ -455,6 +475,7 @@ version: ${BuildConfig.version}''';
       await File.fromUri(fakeClangUri).create();
 
       final name1 = BuildConfig.checksum(
+        packageName: packageName,
         packageRoot: nativeAddUri,
         targetArchitecture: Architecture.x64,
         targetOs: OS.linux,
@@ -463,10 +484,11 @@ version: ${BuildConfig.version}''';
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '1397e1b887565784da364fddc021491a');
+      expect(name1, '037109b9824b2559502fa7bd42e1b6f8');
 
       // Build folder different due to metadata.
       final name2 = BuildConfig.checksum(
+        packageName: packageName,
         packageRoot: nativeAddUri,
         targetArchitecture: Architecture.x64,
         targetOs: OS.linux,
@@ -481,6 +503,7 @@ version: ${BuildConfig.version}''';
 
       // Build folder different due to cc.
       final name3 = BuildConfig.checksum(
+          packageName: packageName,
           packageRoot: nativeAddUri,
           targetArchitecture: Architecture.x64,
           targetOs: OS.linux,
@@ -499,6 +522,7 @@ version: ${BuildConfig.version}''';
     final config = Config(fileParsed: {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'target_architecture': 'arm',
@@ -518,6 +542,7 @@ version: ${BuildConfig.version}''';
     final config = Config(fileParsed: {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'target_architecture': 'arm64',
@@ -539,6 +564,7 @@ version: ${BuildConfig.version}''';
     final config = Config(fileParsed: {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
+      'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'dry_run': true,
@@ -555,6 +581,7 @@ version: ${BuildConfig.version}''';
 
   test('BuildConfig dry_run access invalid args', () {
     final buildConfig = BuildConfig.dryRun(
+      packageName: packageName,
       outDir: outDirUri,
       packageRoot: tempUri,
       targetOs: OS.windows,
