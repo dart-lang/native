@@ -17,6 +17,7 @@ import '../helpers.dart';
 
 void main() async {
   late Uri tempUri;
+  const name = 'native_add_library';
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -31,7 +32,7 @@ void main() async {
     test('native_add build$testSuffix', () async {
       final testTempUri = tempUri.resolve('test1/');
       await Directory.fromUri(testTempUri).create();
-      final testPackageUri = packageUri.resolve('example/native_add_library/');
+      final testPackageUri = packageUri.resolve('example/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final processResult = await Process.run(
@@ -39,6 +40,7 @@ void main() async {
         [
           'build.dart',
           '-Dout_dir=${tempUri.toFilePath()}',
+          '-Dpackage_name=$name',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
           '-Dtarget_os=${OS.current}',
           '-Dversion=${BuildConfig.version}',
@@ -80,7 +82,7 @@ void main() async {
         expect(
           dependencies.dependencies,
           [
-            testPackageUri.resolve('src/native_add_library.c'),
+            testPackageUri.resolve('src/$name.c'),
             testPackageUri.resolve('build.dart'),
           ],
         );
