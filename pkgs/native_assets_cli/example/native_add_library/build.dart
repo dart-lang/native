@@ -28,7 +28,9 @@ void main(List<String> args) async {
     // `package:native_toolchain_c` will output the dynamic or static libraries it built,
     // what files it accessed (for caching the build), etc.
     buildOutput: buildOutput,
-    logger: Logger('')..onRecord.listen((record) => print(record.message)),
+    logger: Logger('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) => print(record.message)),
   );
 
   // Write the output according to the native assets protocol so that Dart or

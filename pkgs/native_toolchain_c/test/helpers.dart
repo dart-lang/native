@@ -54,17 +54,23 @@ Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
 }
 
 /// Logger that outputs the full trace when a test fails.
-final logger = Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
-  });
+Logger get logger => _logger ??= () {
+      // A new logger is lazily created for each test so that the messages
+      // captured by printOnFailure are scoped to the correct test.
+      addTearDown(() => _logger = null);
+      return _createTestLogger();
+    }();
 
-Logger createCapturingLogger(List<String> capturedMessages) => Logger('')
+Logger? _logger;
+
+Logger createCapturingLogger(List<String> capturedMessages) =>
+    _createTestLogger(capturedMessages: capturedMessages);
+
+Logger _createTestLogger({List<String>? capturedMessages}) => Logger('')
   ..level = Level.ALL
   ..onRecord.listen((record) {
     printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
-    capturedMessages.add(record.message);
+    capturedMessages?.add(record.message);
   });
 
 /// Test files are run in a variety of ways, find this package root in all.
