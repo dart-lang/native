@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Bump `package:native_assets_cli` to 0.3.0
+  ([#142](https://github.com/dart-lang/native/issues/142)).
+
 ## 0.2.3
 
 - Quicker build planning for 0 or 1 packages with native assets
