@@ -68,6 +68,11 @@ class BuildConfig {
 
   /// When compiling for Android, the API version to target.
   ///
+  /// This property is not to be confused with
+  /// [`targetSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#targetsdkversion)
+  /// but is instead the
+  /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion).
+  ///
   /// Required when [targetOs] equals [OS.android].
   ///
   /// Not available in [dryRun].
