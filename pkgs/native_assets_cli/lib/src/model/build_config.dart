@@ -66,11 +66,16 @@ class BuildConfig {
 
   late final IOSSdk? _targetIOSSdk;
 
-  /// When compiling for Android, the API version to target.
+  /// When compiling for Android, the minimum Android SDK API version to that
+  /// the compiled code will be compatible with.
   ///
   /// Required when [targetOs] equals [OS.android].
   ///
   /// Not available in [dryRun].
+  ///
+  /// For more information about the Android API version, refer to
+  /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
+  /// in the Android documentation.
   int? get targetAndroidNdkApi {
     _ensureNotDryRun();
     return _targetAndroidNdkApi;
