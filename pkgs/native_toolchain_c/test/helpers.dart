@@ -66,12 +66,14 @@ Logger? _logger;
 Logger createCapturingLogger(List<String> capturedMessages) =>
     _createTestLogger(capturedMessages: capturedMessages);
 
-Logger _createTestLogger({List<String>? capturedMessages}) => Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
-    capturedMessages?.add(record.message);
-  });
+Logger _createTestLogger({List<String>? capturedMessages}) =>
+    Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) {
+        printOnFailure(
+            '${record.level.name}: ${record.time}: ${record.message}');
+        capturedMessages?.add(record.message);
+      });
 
 /// Test files are run in a variety of ways, find this package root in all.
 ///

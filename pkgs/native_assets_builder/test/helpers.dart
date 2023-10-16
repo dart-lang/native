@@ -176,7 +176,7 @@ Logger _createTestLogger({
   List<String>? capturedMessages,
   Level level = Level.ALL,
 }) =>
-    Logger('')
+    Logger.detached('')
       ..level = level
       ..onRecord.listen((record) {
         printOnFailure(
