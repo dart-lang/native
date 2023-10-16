@@ -34,7 +34,7 @@ void main() {
     ].first.uri;
     final ld = [
       ...await appleLd.defaultResolver!.resolve(logger: logger),
-      ...await lib.defaultResolver!.resolve(logger: logger),
+      ...await link.defaultResolver!.resolve(logger: logger),
       ...await lld.defaultResolver!.resolve(logger: logger),
     ].first.uri;
     final envScript = [
