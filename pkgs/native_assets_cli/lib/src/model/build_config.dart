@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
@@ -525,7 +526,7 @@ class BuildConfig {
       if (other.targetIOSSdk != targetIOSSdk) return false;
       if (other.targetAndroidNdkApi != targetAndroidNdkApi) return false;
       if (other.cCompiler != cCompiler) return false;
-      if (!DeepCollectionEquality()
+      if (!const DeepCollectionEquality()
           .equals(other.dependencyMetadata, _dependencyMetadata)) return false;
     }
     return true;
@@ -541,7 +542,7 @@ class BuildConfig {
         dryRun,
         if (!dryRun) ...[
           buildMode,
-          DeepCollectionEquality().hash(dependencyMetadata),
+          const DeepCollectionEquality().hash(dependencyMetadata),
           targetArchitecture,
           targetIOSSdk,
           targetAndroidNdkApi,
@@ -564,7 +565,7 @@ can _only_ depend on OS.''');
   void _throwIfNotNullInDryRun<T>(String key) {
     final object = config.valueOf<T?>(key);
     if (object != null) {
-      throw FormatException('''This field is not available in dry runs.
+      throw const FormatException('''This field is not available in dry runs.
 In Flutter projects, native builds are generated per OS which target multiple
 architectures, build modes, etc. Therefore, the list of native assets produced
 can _only_ depend on OS.''');
@@ -639,7 +640,8 @@ class CCompilerConfig {
     if (other.cc != cc) return false;
     if (other.ld != ld) return false;
     if (other.envScript != envScript) return false;
-    if (!ListEquality<String>().equals(other.envScriptArgs, envScriptArgs)) {
+    if (!const ListEquality<String>()
+        .equals(other.envScriptArgs, envScriptArgs)) {
       return false;
     }
     return true;
@@ -651,6 +653,6 @@ class CCompilerConfig {
         _cc,
         _ld,
         _envScript,
-        ListEquality<String>().hash(envScriptArgs),
+        const ListEquality<String>().hash(envScriptArgs),
       );
 }

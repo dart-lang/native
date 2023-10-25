@@ -37,7 +37,7 @@ void main() {
     dependencies: Dependencies([
       Uri.file('path/to/file.ext'),
     ]),
-    metadata: Metadata({
+    metadata: const Metadata({
       'key': 'value',
     }),
   );

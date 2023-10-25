@@ -287,7 +287,7 @@ build_output.yaml contained a format error.
 ${e.message}
         ''');
       success = false;
-      return (<Asset>[], <Uri>[], Metadata({}), false);
+      return (<Asset>[], <Uri>[], const Metadata({}), false);
       // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
       // type errors in native_assets_cli, release a new version of that package
       // and then remove this.
@@ -298,7 +298,7 @@ Building native assets for package:${config.packageName} failed.
 build_output.yaml contained a format error.
         ''');
       success = false;
-      return (<Asset>[], <Uri>[], Metadata({}), false);
+      return (<Asset>[], <Uri>[], const Metadata({}), false);
     } finally {
       if (!success) {
         final buildOutputFile =
@@ -472,7 +472,7 @@ final class _BuildResultImpl implements BuildResult {
 extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
-          millisecondsSinceEpoch % Duration(seconds: 1).inMilliseconds);
+          millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
 }
 
 int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());

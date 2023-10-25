@@ -59,8 +59,10 @@ void main() {
     ];
 
     final toolInstancesSorted = [...toolInstances]..sort();
-    expect(DeepCollectionEquality().equals(toolInstancesSorted, toolInstances),
-        true);
+    expect(
+      const DeepCollectionEquality().equals(toolInstancesSorted, toolInstances),
+      true,
+    );
   });
 
   test('toString', () {

@@ -178,11 +178,11 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
-        'bar': Metadata({
+        'bar': const Metadata({
           'key': 'value',
           'foo': ['asdf', 'fdsa'],
         }),
-        'foo': Metadata({
+        'foo': const Metadata({
           'key': 321,
         }),
       },
@@ -198,10 +198,10 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
-        'bar': Metadata({
+        'bar': const Metadata({
           'key': 'value',
         }),
-        'foo': Metadata({
+        'foo': const Metadata({
           'key': 123,
         }),
       },
@@ -229,11 +229,11 @@ void main() async {
       linkModePreference: LinkModePreference.preferStatic,
       // This map should be sorted on key for two layers.
       dependencyMetadata: {
-        'foo': Metadata({
+        'foo': const Metadata({
           'z': ['z', 'a'],
           'a': 321,
         }),
-        'bar': Metadata({
+        'bar': const Metadata({
           'key': 'value',
         }),
       },
@@ -406,7 +406,7 @@ version: ${BuildConfig.version}''';
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       dependencyMetadata: {
-        'bar': Metadata({
+        'bar': const Metadata({
           'key': {'key2': 'value'},
         }),
       },
@@ -495,7 +495,7 @@ version: ${BuildConfig.version}''';
         buildMode: BuildMode.release,
         linkModePreference: LinkModePreference.dynamic,
         dependencyMetadata: {
-          'foo': Metadata({'key': 'value'})
+          'foo': const Metadata({'key': 'value'})
         },
       );
       printOnFailure([name1, name2].toString());
