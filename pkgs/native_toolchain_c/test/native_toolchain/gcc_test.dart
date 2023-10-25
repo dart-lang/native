@@ -60,6 +60,12 @@ void main() {
     i686LinuxGnuLd,
   ]);
 
+  testToolSet('x86_64LinuxGnuGcc', [
+    x86_64LinuxGnuGcc,
+    x86_64LinuxGnuGccAr,
+    x86_64LinuxGnuLd,
+  ]);
+
   testToolSet('riscv64LinuxGnuGcc', [
     riscv64LinuxGnuGcc,
     riscv64LinuxGnuGccAr,
