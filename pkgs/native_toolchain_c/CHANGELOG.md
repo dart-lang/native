@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Added MSVC arm64 toolchain.
+
 ## 0.3.0
 
 - Bump `package:native_assets_cli` to 0.3.0.
