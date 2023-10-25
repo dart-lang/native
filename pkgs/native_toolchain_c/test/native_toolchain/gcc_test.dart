@@ -59,4 +59,10 @@ void main() {
     i686LinuxGnuGccAr,
     i686LinuxGnuLd,
   ]);
+
+  testToolSet('riscv64LinuxGnuGcc', [
+    riscv64LinuxGnuGcc,
+    riscv64LinuxGnuGccAr,
+    riscv64LinuxGnuLd,
+  ]);
 }
