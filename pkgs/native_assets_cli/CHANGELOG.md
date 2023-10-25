@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Added `Target.androidRiscv64`.
+
 ## 0.3.0
 
 - **Breaking change** Add required `BuildConfig.packageName`

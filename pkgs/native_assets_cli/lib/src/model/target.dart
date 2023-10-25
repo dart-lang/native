@@ -38,6 +38,7 @@ class Architecture {
     Abi.androidArm64: Architecture.arm64,
     Abi.androidIA32: Architecture.ia32,
     Abi.androidX64: Architecture.x64,
+    Abi.androidRiscv64: Architecture.riscv64,
     Abi.fuchsiaArm64: Architecture.arm64,
     Abi.fuchsiaX64: Architecture.x64,
     Abi.iosArm: Architecture.arm,
@@ -108,6 +109,7 @@ class OS {
     Abi.androidArm64: OS.android,
     Abi.androidIA32: OS.android,
     Abi.androidX64: OS.android,
+    Abi.androidRiscv64: OS.android,
     Abi.fuchsiaArm64: OS.fuchsia,
     Abi.fuchsiaX64: OS.fuchsia,
     Abi.iosArm: OS.iOS,
@@ -268,6 +270,7 @@ class Target implements Comparable<Target> {
   static const androidArm64 = Target._(Abi.androidArm64);
   static const androidIA32 = Target._(Abi.androidIA32);
   static const androidX64 = Target._(Abi.androidX64);
+  static const androidRiscv64 = Target._(Abi.androidRiscv64);
   static const fuchsiaArm64 = Target._(Abi.fuchsiaArm64);
   static const fuchsiaX64 = Target._(Abi.fuchsiaX64);
   static const iOSArm = Target._(Abi.iosArm);
@@ -294,6 +297,7 @@ class Target implements Comparable<Target> {
     androidArm64,
     androidIA32,
     androidX64,
+    androidRiscv64,
     fuchsiaArm64,
     fuchsiaX64,
     iOSArm,
