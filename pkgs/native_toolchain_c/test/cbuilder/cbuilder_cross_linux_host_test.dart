@@ -24,7 +24,8 @@ void main() {
     Target.linuxArm,
     Target.linuxArm64,
     Target.linuxIA32,
-    Target.linuxX64
+    Target.linuxX64,
+    Target.linuxRiscv64
   ];
 
   const readElfMachine = {
@@ -32,6 +33,7 @@ void main() {
     Target.linuxArm64: 'AArch64',
     Target.linuxIA32: 'Intel 80386',
     Target.linuxX64: 'Advanced Micro Devices X86-64',
+    Target.linuxRiscv64: 'RISC-V',
   };
 
   for (final linkMode in LinkMode.values) {

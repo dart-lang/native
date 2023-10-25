@@ -17,6 +17,7 @@ void main() {
     Target.androidArm64,
     Target.androidIA32,
     Target.androidX64,
+    Target.androidRiscv64,
   ];
 
   const readElfMachine = {
@@ -24,6 +25,7 @@ void main() {
     Target.androidArm64: 'AArch64',
     Target.androidIA32: 'Intel 80386',
     Target.androidX64: 'Advanced Micro Devices X86-64',
+    Target.androidRiscv64: 'RISC-V',
   };
 
   const objdumpFileFormat = {
@@ -31,6 +33,7 @@ void main() {
     Target.androidArm64: 'elf64-littleaarch64',
     Target.androidIA32: 'elf32-i386',
     Target.androidX64: 'elf64-x86-64',
+    Target.androidRiscv64: 'elf64-littleriscv',
   };
 
   /// From https://docs.flutter.dev/reference/supported-platforms.

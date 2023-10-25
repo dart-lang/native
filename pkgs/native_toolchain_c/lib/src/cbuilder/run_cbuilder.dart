@@ -285,6 +285,7 @@ class RunCBuilder {
     Target.androidArm64: 'aarch64-linux-android',
     Target.androidIA32: 'i686-linux-android',
     Target.androidX64: 'x86_64-linux-android',
+    Target.androidRiscv64: 'riscv64-linux-android',
   };
 
   static const appleClangMacosTargetFlags = {

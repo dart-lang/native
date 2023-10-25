@@ -74,6 +74,10 @@ class CompilerResolver {
           return aarch64LinuxGnuGcc;
         case Architecture.ia32:
           return i686LinuxGnuGcc;
+        case Architecture.x64:
+          return x86_64LinuxGnuGcc;
+        case Architecture.riscv64:
+          return riscv64LinuxGnuGcc;
       }
     }
 
@@ -158,6 +162,10 @@ class CompilerResolver {
           return aarch64LinuxGnuGccAr;
         case Architecture.ia32:
           return i686LinuxGnuGccAr;
+        case Architecture.x64:
+          return x86_64LinuxGnuGccAr;
+        case Architecture.riscv64:
+          return riscv64LinuxGnuGccAr;
       }
     }
     if (host.os == OS.windows) {

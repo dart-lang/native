@@ -29,6 +29,15 @@ final i686LinuxGnuGccAr = _gnuArchiver('i686-linux-gnu');
 /// [gnuLinker] with [Tool.defaultResolver] for [Architecture.ia32].
 final i686LinuxGnuLd = _gnuLinker('i686-linux-gnu');
 
+/// [gcc] with [Tool.defaultResolver] for [Architecture.x64].
+final x86_64LinuxGnuGcc = _gcc('x86_64-linux-gnu');
+
+/// [gnuArchiver] with [Tool.defaultResolver] for [Architecture.x64].
+final x86_64LinuxGnuGccAr = _gnuArchiver('x86_64-linux-gnu');
+
+/// [gnuLinker] with [Tool.defaultResolver] for [Architecture.x64].
+final x86_64LinuxGnuLd = _gnuLinker('x86_64-linux-gnu');
+
 /// [gcc] with [Tool.defaultResolver] for [Architecture.arm].
 final armLinuxGnueabihfGcc = _gcc('arm-linux-gnueabihf');
 
@@ -46,6 +55,15 @@ final aarch64LinuxGnuGccAr = _gnuArchiver('aarch64-linux-gnu');
 
 /// [gnuLinker] with [Tool.defaultResolver] for [Architecture.arm64].
 final aarch64LinuxGnuLd = _gnuLinker('aarch64-linux-gnu');
+
+/// [gcc] with [Tool.defaultResolver] for [Architecture.riscv64].
+final riscv64LinuxGnuGcc = _gcc('riscv64-linux-gnu');
+
+/// [gnuArchiver] with [Tool.defaultResolver] for [Architecture.riscv64].
+final riscv64LinuxGnuGccAr = _gnuArchiver('riscv64-linux-gnu');
+
+/// [gnuLinker] with [Tool.defaultResolver] for [Architecture.riscv64].
+final riscv64LinuxGnuLd = _gnuLinker('riscv64-linux-gnu');
 
 Tool _gcc(String prefix) => Tool(
       name: gcc.name,
