@@ -33,8 +33,8 @@ class BuildOutput {
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
         assets = assets ?? [],
-        dependencies = dependencies ?? Dependencies([]),
-        metadata = metadata ?? Metadata({});
+        dependencies = dependencies ?? const Dependencies([]),
+        metadata = metadata ?? const Metadata({});
 
   static const _assetsKey = 'assets';
   static const _dependenciesKey = 'dependencies';
@@ -121,7 +121,7 @@ class BuildOutput {
       return false;
     }
     return other.timestamp == timestamp &&
-        ListEquality<Asset>().equals(other.assets, assets) &&
+        const ListEquality<Asset>().equals(other.assets, assets) &&
         other.dependencies == dependencies &&
         other.metadata == metadata;
   }
@@ -129,7 +129,7 @@ class BuildOutput {
   @override
   int get hashCode => Object.hash(
         timestamp.hashCode,
-        ListEquality<Asset>().hash(assets),
+        const ListEquality<Asset>().hash(assets),
         dependencies,
         metadata,
       );

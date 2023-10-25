@@ -5,5 +5,5 @@
 extension DateTimeExtension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
-          millisecondsSinceEpoch % Duration(seconds: 1).inMilliseconds);
+          millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
 }

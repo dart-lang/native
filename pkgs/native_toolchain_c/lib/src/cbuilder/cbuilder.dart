@@ -114,7 +114,7 @@ class CBuilder implements Builder {
   ///
   /// When set to `true`, libraries will be compiled with `-fPIC` and
   /// executables with `-fPIE`. Accordingly the corresponding parameter of the
-  /// [executable] constructor is named `pie`.
+  /// [CBuilder.executable] constructor is named `pie`.
   ///
   /// When set to `null`, the default behavior of the compiler will be used.
   ///
@@ -132,7 +132,7 @@ class CBuilder implements Builder {
   /// The language to compile [sources] as.
   ///
   /// [cppLinkStdLib] only has an effect when this option is set to
-  /// [Langauge.cpp].
+  /// [Language.cpp].
   final Language language;
 
   /// The C++ standard library to link against.

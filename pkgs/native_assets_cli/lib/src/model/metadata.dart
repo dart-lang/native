@@ -30,11 +30,11 @@ class Metadata {
     if (other is! Metadata) {
       return false;
     }
-    return DeepCollectionEquality().equals(other.metadata, metadata);
+    return const DeepCollectionEquality().equals(other.metadata, metadata);
   }
 
   @override
-  int get hashCode => DeepCollectionEquality().hash(metadata);
+  int get hashCode => const DeepCollectionEquality().hash(metadata);
 
   @override
   String toString() => 'Metadata(${toYaml()})';
