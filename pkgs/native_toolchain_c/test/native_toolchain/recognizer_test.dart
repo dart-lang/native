@@ -39,6 +39,9 @@ void main() async {
     RecognizerTest(link, LinkerRecognizer.new),
     RecognizerTest(lld, LinkerRecognizer.new),
     RecognizerTest(llvmAr, ArchiverRecognizer.new),
+    RecognizerTest(riscv64LinuxGnuGcc, CompilerRecognizer.new),
+    RecognizerTest(riscv64LinuxGnuGccAr, ArchiverRecognizer.new),
+    RecognizerTest(riscv64LinuxGnuLd, LinkerRecognizer.new),
   ];
 
   for (final test in tests) {

@@ -44,7 +44,7 @@ jobs:
       - run: dart pub get
 
       - name: Install native toolchains
-        run: sudo apt-get update && sudo apt-get install gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+        run: sudo apt-get update && sudo apt-get install gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
 
       - run: git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
