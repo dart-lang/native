@@ -161,7 +161,7 @@ version: ${BuildOutput.version}'''),
   });
 
   test('BuildOutput dependencies can be modified', () {
-    // TODO(https://github.com/dart-lang/native/issues/168):
+    // TODO(https://github.com/dart-lang/native/issues/25):
     // Remove once dependencies are made immutable.
     final buildOutput = BuildOutput();
     expect(

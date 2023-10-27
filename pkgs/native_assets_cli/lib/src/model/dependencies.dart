@@ -11,9 +11,6 @@ import '../utils/yaml.dart';
 
 class Dependencies {
   /// The dependencies a build relied on.
-  ///
-  /// NOTE: Do not modify this list. In a future release,
-  /// the [dependencies] property will likely return an [Iterable].
   final List<Uri> dependencies;
 
   const Dependencies(this.dependencies);
