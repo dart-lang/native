@@ -1,3 +1,8 @@
+## 0.3.2
+
+- Fixed an issue where `Depenendencies.dependencies` could not be
+  modified when expected to.
+
 ## 0.3.1
 
 - Added `Target.androidRiscv64`.

@@ -33,8 +33,10 @@ class BuildOutput {
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
         assets = assets ?? [],
-        dependencies = dependencies ?? const Dependencies([]),
-        metadata = metadata ?? const Metadata({});
+        // ignore: prefer_const_constructors
+        dependencies = dependencies ?? Dependencies([]),
+        // ignore: prefer_const_constructors
+        metadata = metadata ?? Metadata({});
 
   static const _assetsKey = 'assets';
   static const _dependenciesKey = 'dependencies';
