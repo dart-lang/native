@@ -10,6 +10,10 @@ import '../utils/uri.dart';
 import '../utils/yaml.dart';
 
 class Dependencies {
+  /// The dependencies a build relied on.
+  ///
+  /// NOTE: Do not modify this list. In a future release,
+  /// the [dependencies] property will likely return an [Iterable].
   final List<Uri> dependencies;
 
   const Dependencies(this.dependencies);
@@ -19,7 +23,8 @@ class Dependencies {
     if (yaml is YamlList) {
       return Dependencies.fromYaml(yaml);
     }
-    return const Dependencies([]);
+    // ignore: prefer_const_constructors
+    return Dependencies([]);
   }
 
   factory Dependencies.fromYaml(YamlList? yamlList) => Dependencies([

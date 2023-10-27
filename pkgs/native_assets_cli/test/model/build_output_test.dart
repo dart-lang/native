@@ -159,4 +159,15 @@ version: ${BuildOutput.version}'''),
       throwsFormatException,
     );
   });
+
+  test('BuildOutput dependencies can be modified', () {
+    // TODO(https://github.com/dart-lang/native/issues/168):
+    // Remove once dependencies are made immutable.
+    final buildOutput = BuildOutput();
+    expect(
+      () => buildOutput.dependencies.dependencies
+          .add(Uri.file('path/to/file.ext')),
+      returnsNormally,
+    );
+  });
 }
