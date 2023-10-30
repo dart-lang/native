@@ -85,6 +85,8 @@ class CompilerResolver {
       switch (targetArch) {
         case Architecture.ia32:
           return clIA32;
+        case Architecture.arm64:
+          return clArm64;
         case Architecture.x64:
           return cl;
       }
@@ -172,6 +174,8 @@ class CompilerResolver {
       switch (targetArchitecture) {
         case Architecture.ia32:
           return libIA32;
+        case Architecture.arm64:
+          return libArm64;
         case Architecture.x64:
           return lib;
       }
