@@ -33,7 +33,7 @@ jobs:
         sdk: [stable]
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: ${{ matrix.sdk }}
           cache: true
@@ -68,7 +68,7 @@ jobs:
         sdk: [stable, beta]
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: ${{ matrix.sdk }}
           cache: true
@@ -121,7 +121,7 @@ jobs:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -159,7 +159,7 @@ jobs:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -208,7 +208,7 @@ jobs:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -235,7 +235,7 @@ jobs:
         with:
           version: latest
           platform: x64
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -263,7 +263,7 @@ jobs:
         working-directory: ./pkgs/jni
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -288,7 +288,7 @@ jobs:
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
           brew: clang-format
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -313,7 +313,7 @@ jobs:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -337,7 +337,7 @@ jobs:
         working-directory: ./pkgs/jni/example
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -361,7 +361,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
@@ -376,7 +376,7 @@ jobs:
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
-      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
         with:
           channel: 'stable'
           cache: true
