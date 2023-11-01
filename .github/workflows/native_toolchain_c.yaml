@@ -40,7 +40,7 @@ jobs:
 
       - uses: nttld/setup-ndk@3354316c3285ea90da09d047280dd79d00d5a37a
         with:
-          ndk-version: r25b
+          ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
 
       - run: dart pub get
