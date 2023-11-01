@@ -1,3 +1,9 @@
+## 0.3.2
+
+- Added workaround minSdkVersion 19 and 20 for Android.
+- Start using sysroot for Android.
+- Added tests for up to Android API version 34.
+
 ## 0.3.1
 
 - Added MSVC arm64 toolchain.
