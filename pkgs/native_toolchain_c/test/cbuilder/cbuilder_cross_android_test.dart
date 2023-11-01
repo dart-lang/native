@@ -34,6 +34,9 @@ void main() {
   };
 
   /// From https://docs.flutter.dev/reference/supported-platforms.
+  const flutterAndroidNdkVersionLowestBestEffort = 19;
+
+  /// From https://docs.flutter.dev/reference/supported-platforms.
   const flutterAndroidNdkVersionLowestSupported = 21;
 
   /// From https://docs.flutter.dev/reference/supported-platforms.
@@ -41,38 +44,45 @@ void main() {
 
   for (final linkMode in LinkMode.values) {
     for (final target in targets) {
-      test('CBuilder $linkMode library $target', () async {
-        final tempUri = await tempDirForTest();
-        final libUri = await buildLib(
-          tempUri,
-          target,
-          flutterAndroidNdkVersionLowestSupported,
-          linkMode,
-        );
-        if (Platform.isLinux) {
-          final result = await runProcess(
-            executable: Uri.file('readelf'),
-            arguments: ['-h', libUri.path],
-            logger: logger,
+      for (final apiLevel in [
+        flutterAndroidNdkVersionLowestBestEffort,
+        flutterAndroidNdkVersionLowestSupported,
+        flutterAndroidNdkVersionHighestSupported,
+      ]) {
+        test('CBuilder $linkMode library $target minSdkVersion $apiLevel',
+            () async {
+          final tempUri = await tempDirForTest();
+          final libUri = await buildLib(
+            tempUri,
+            target,
+            apiLevel,
+            linkMode,
           );
-          expect(result.exitCode, 0);
-          final machine = result.stdout
-              .split('\n')
-              .firstWhere((e) => e.contains('Machine:'));
-          expect(machine, contains(readElfMachine[target]));
-        } else if (Platform.isMacOS) {
-          final result = await runProcess(
-            executable: Uri.file('objdump'),
-            arguments: ['-T', libUri.path],
-            logger: logger,
-          );
-          expect(result.exitCode, 0);
-          final machine = result.stdout
-              .split('\n')
-              .firstWhere((e) => e.contains('file format'));
-          expect(machine, contains(objdumpFileFormat[target]));
-        }
-      });
+          if (Platform.isLinux) {
+            final result = await runProcess(
+              executable: Uri.file('readelf'),
+              arguments: ['-h', libUri.path],
+              logger: logger,
+            );
+            expect(result.exitCode, 0);
+            final machine = result.stdout
+                .split('\n')
+                .firstWhere((e) => e.contains('Machine:'));
+            expect(machine, contains(readElfMachine[target]));
+          } else if (Platform.isMacOS) {
+            final result = await runProcess(
+              executable: Uri.file('objdump'),
+              arguments: ['-T', libUri.path],
+              logger: logger,
+            );
+            expect(result.exitCode, 0);
+            final machine = result.stdout
+                .split('\n')
+                .firstWhere((e) => e.contains('file format'));
+            expect(machine, contains(objdumpFileFormat[target]));
+          }
+        });
+      }
     }
   }
 
