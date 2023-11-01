@@ -224,9 +224,13 @@ class InstallLocationResolver implements ToolResolver {
     final result = <Uri>[];
     final fileSystemEntities = await Glob(path).list().toList();
     for (final fileSystemEntity in fileSystemEntities) {
-      if (await fileSystemEntity.exists()) {
-        result.add(fileSystemEntity.uri);
+      if (!await fileSystemEntity.exists()) {
+        continue;
       }
+      if (fileSystemEntity is! Directory && path.endsWith('/')) {
+        continue;
+      }
+      result.add(fileSystemEntity.uri);
     }
     return result;
   }
