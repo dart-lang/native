@@ -15,3 +15,5 @@ jobs:
     permissions:
       id-token: write # Required for authentication using OIDC
       pull-requests: write # Required for writing the pull request note
+    with:
+      write-comments: false
