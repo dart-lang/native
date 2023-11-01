@@ -1,3 +1,5 @@
+# Workflow that runs relevant tests with the clang from the Dart SDK.
+
 name: native_toolchain_c
 permissions: read-all
 

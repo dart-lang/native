@@ -1,4 +1,4 @@
-[![dart](https://github.com/dart-lang/native/actions/workflows/dart.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/dart.yaml)
+[![dart](https://github.com/dart-lang/native/actions/workflows/native.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/native.yaml)
 [![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
 [![pub package](https://img.shields.io/pub/v/native_assets_builder.svg)](https://pub.dev/packages/native_assets_builder)
 [![package publisher](https://img.shields.io/pub/publisher/native_assets_builder.svg)](https://pub.dev/packages/native_assets_builder/publisher)
