@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math';
+
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
@@ -126,13 +128,21 @@ class RunCBuilder {
       targetIosSdk = buildConfig.targetIOSSdk!;
     }
 
+    // The Android Gradle plugin does not honor API level 19 and 20 when
+    // invoking clang. Mimic that behavior here.
+    // See https://github.com/dart-lang/native/issues/171.
+    late final int targetAndroidNdkApi;
+    if (target.os == OS.android) {
+      targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, 21);
+    }
+
     await runProcess(
       executable: compiler.uri,
       arguments: [
         if (target.os == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[target]!}'
-              '${buildConfig.targetAndroidNdkApi!}',
+              '$targetAndroidNdkApi',
           '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
         if (target.os == OS.macOS)
