@@ -37,7 +37,7 @@ void main() {
   const flutterAndroidNdkVersionLowestSupported = 21;
 
   /// From https://docs.flutter.dev/reference/supported-platforms.
-  const flutterAndroidNdkVersionHighestSupported = 30;
+  const flutterAndroidNdkVersionHighestSupported = 34;
 
   for (final linkMode in LinkMode.values) {
     for (final target in targets) {
