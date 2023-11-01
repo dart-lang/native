@@ -98,6 +98,9 @@ class RunCBuilder {
           .first
           .uri;
 
+  Uri androidSysroot(ToolInstance compiler) =>
+      compiler.uri.resolve('../sysroot/');
+
   Future<void> run() async {
     final compiler_ = await compiler();
     final compilerTool = compiler_.tool;
@@ -127,14 +130,10 @@ class RunCBuilder {
       executable: compiler.uri,
       arguments: [
         if (target.os == OS.android) ...[
-          // TODO(dacoharkes): How to solve linking issues?
-          // Non-working fix: --sysroot=$NDKPATH/toolchains/llvm/prebuilt/linux-x86_64/sysroot.
-          // The sysroot should be discovered automatically after NDK 22.
-          // Workaround:
-          if (dynamicLibrary != null) '-nostartfiles',
           '--target='
               '${androidNdkClangTargetFlags[target]!}'
               '${buildConfig.targetAndroidNdkApi!}',
+          '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
         if (target.os == OS.macOS)
           '--target=${appleClangMacosTargetFlags[target]!}',
