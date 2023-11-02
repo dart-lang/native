@@ -19,6 +19,9 @@
 - **Breaking Change**: `JArray.filled` now uses the generated type class of the
   `fill` object and not its Java runtime type.
 
+## 0.7.1
+- Removed macOS Flutter plugin until package:jni supports it ([#41](https://github.com/dart-lang/jnigen/issues/41)).
+
 ## 0.7.0
 
 - **Breaking Change** ([#387](https://github.com/dart-lang/jnigen/issues/387)):
