@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:ffi/ffi.dart';
 import 'package:jni/jni.dart';
 import 'package:jni/src/jvalues.dart';
 import 'package:test/test.dart';
@@ -118,14 +119,27 @@ void run({required TestRunnerCallback testRunner}) {
           }));
 
   testRunner(
-      "Convert back & forth between Dart & Java strings",
+      "Convert back & forth between Dart & Java strings (UTF-8)",
       () => using((arena) {
             const str = "ABCD EFGH";
-            // This is what asJString and asDartString do internally
             final jstr = env.NewStringUTF(str.toNativeChars(arena));
             final jchars = env.GetStringUTFChars(jstr, nullptr);
-            final dstr = jchars.toDartString();
+            final jlen = env.GetStringUTFLength(jstr);
+            final dstr = jchars.toDartString(length: jlen);
             env.ReleaseStringUTFChars(jstr, jchars);
+            expect(str, equals(dstr));
+            env.DeleteGlobalRef(jstr);
+          }));
+
+  testRunner(
+      "Convert back & forth between Dart & Java strings (UTF-16)",
+      () => using((arena) {
+            const str = "ABCD EFGH";
+            final jstr = env.NewString(str.toNativeUtf16().cast(), str.length);
+            final jchars = env.GetStringChars(jstr, nullptr);
+            final jlen = env.GetStringLength(jstr);
+            final dstr = jchars.cast<Utf16>().toDartString(length: jlen);
+            env.ReleaseStringChars(jstr, jchars);
             expect(str, equals(dstr));
             env.DeleteGlobalRef(jstr);
           }));

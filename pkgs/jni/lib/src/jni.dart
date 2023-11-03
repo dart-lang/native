@@ -330,8 +330,7 @@ extension ProtectedJniExtensions on Jni {
 }
 
 extension AdditionalEnvMethods on GlobalJniEnv {
-  /// Convenience method for converting a [JStringPtr]
-  /// to dart string.
+  /// Convenience method for converting a [JStringPtr] to dart string.
   /// if [releaseOriginal] is specified, jstring passed will be deleted using
   /// DeleteGlobalRef.
   String toDartString(JStringPtr jstringPtr, {bool releaseOriginal = false}) {
@@ -342,7 +341,8 @@ extension AdditionalEnvMethods on GlobalJniEnv {
     if (chars == nullptr) {
       throw ArgumentError('Not a valid jstring pointer.');
     }
-    final result = chars.cast<Utf16>().toDartString();
+    final length = GetStringLength(jstringPtr);
+    final result = chars.cast<Utf16>().toDartString(length: length);
     ReleaseStringChars(jstringPtr, chars);
     if (releaseOriginal) {
       DeleteGlobalRef(jstringPtr);
@@ -377,7 +377,7 @@ extension StringMethodsForJni on String {
 
 extension CharPtrMethodsForJni on Pointer<Char> {
   /// Same as calling `cast<Utf8>` followed by `toDartString`.
-  String toDartString() {
-    return cast<Utf8>().toDartString();
+  String toDartString({int? length}) {
+    return cast<Utf8>().toDartString(length: length);
   }
 }

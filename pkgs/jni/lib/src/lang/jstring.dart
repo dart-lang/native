@@ -4,7 +4,6 @@
 
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
 import 'package:jni/src/jreference.dart';
 
 import '../jni.dart';
@@ -59,10 +58,7 @@ class JString extends JObject {
   /// after conversion and this object will be marked as released.
   String toDartString({bool releaseOriginal = false}) {
     ensureNotNull();
-    final length = Jni.env.GetStringLength(reference);
-    final chars = Jni.env.GetStringChars(reference, nullptr);
-    final result = chars.cast<Utf16>().toDartString(length: length);
-    Jni.env.ReleaseStringChars(reference, chars);
+    final result = Jni.env.toDartString(reference);
     if (releaseOriginal) {
       release();
     }
