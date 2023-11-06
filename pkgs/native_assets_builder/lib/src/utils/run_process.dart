@@ -28,6 +28,8 @@ Future<RunProcessResult> runProcess({
   if (Platform.isWindows && !includeParentEnvironment) {
     const winEnvKeys = [
       'SYSTEMROOT',
+      'TEMP',
+      'TMP',
     ];
     environment = {
       for (final winEnvKey in winEnvKeys)
