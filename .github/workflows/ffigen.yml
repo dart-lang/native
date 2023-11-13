@@ -1,11 +1,17 @@
-name: Dart CI
+name: ffigen CI
 
 on:
   # Run on PRs and pushes to the default branch.
   push:
     branches: [main, stable]
+    paths:
+      - '.github/workflows/ffigen.yml'
+      - 'pkgs/ffigen/**'
   pull_request:
     branches: [main, stable]
+    paths:
+      - '.github/workflows/ffigen.yml'
+      - 'pkgs/ffigen/**'
   schedule:
     - cron: "0 0 * * 0"
 
@@ -16,6 +22,9 @@ jobs:
   # Check code formatting and static analysis on a single OS (macos).
   analyze:
     runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
     strategy:
       fail-fast: false
       matrix:
@@ -41,6 +50,9 @@ jobs:
   test-linux:
     needs: analyze
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
@@ -58,6 +70,9 @@ jobs:
   test-mac:
     needs: analyze
     runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
@@ -75,11 +90,14 @@ jobs:
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: lcov.info
+          path-to-lcov: pkgs/ffigen/lcov.info
 
   test-windows:
     needs: analyze
     runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
@@ -105,6 +123,9 @@ jobs:
   test-windows-flutter:
     needs: analyze
     runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
