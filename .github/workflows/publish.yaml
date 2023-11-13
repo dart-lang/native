@@ -17,3 +17,4 @@ jobs:
       pull-requests: write # Required for writing the pull request note
     with:
       write-comments: false
+      sdk: beta
