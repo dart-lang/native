@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../ffigen.schema.json
+
+name: NativeLibrary
+ffi-native:
+  assetId: 'package:ffinative_example/generated_bindings.dart' # (optional)
+description: Bindings to `headers/example.h`.
+output: 'lib/generated_bindings.dart'
+headers:
+  entry-points:
+    - 'headers/example.h'
+preamble: |
+  // ignore_for_file: deprecated_member_use
