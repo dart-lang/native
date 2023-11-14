@@ -1,4 +1,4 @@
-name: ffigen CI
+name: ffigen
 
 on:
   # Run on PRs and pushes to the default branch.
