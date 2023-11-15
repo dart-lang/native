@@ -1,6 +1,7 @@
-[![pub package](https://img.shields.io/pub/v/ffigen.svg)](https://pub.dev/packages/ffigen)
-[![ffigen](https://github.com/dart-lang/native/actions/workflows/ffigen.yml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/ffigen.yml)
+[![Build Status](https://github.com/dart-lang/native/actions/workflows/ffigen.yml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/ffigen.yml)
 [![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
+[![pub package](https://img.shields.io/pub/v/ffigen.svg)](https://pub.dev/packages/ffigen)
+[![package publisher](https://img.shields.io/pub/publisher/ffigen.svg)](https://pub.dev/packages/ffigen/publisher)
 
 Binding generator for [FFI](https://dart.dev/guides/libraries/c-interop) bindings.
 

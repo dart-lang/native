@@ -302,7 +302,8 @@ BindingType? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     return null;
   }
 
-  // TODO(#347): Currently any interface with a category bypasses the filters.
+  // TODO(https://github.com/dart-lang/ffigen/issues/347): Currently any
+  // interface with a category bypasses the filters.
   final itf = itfCursor.type().toCodeGenType();
   if (itf is! ObjCInterface) {
     _logger.severe(

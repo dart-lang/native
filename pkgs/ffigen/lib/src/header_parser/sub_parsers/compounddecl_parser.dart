@@ -255,11 +255,13 @@ int _compoundMembersVisitor(clang_types.CXCursor cursor,
 
         final mt = cursor.toCodeGenType();
         if (mt is IncompleteArray) {
-          // TODO(68): Structs with flexible Array Members are not supported.
+          // TODO(https://github.com/dart-lang/ffigen/issues/68): Structs with
+          // flexible Array Members are not supported.
           parsed.flexibleArrayMember = true;
         }
         if (clang.clang_getFieldDeclBitWidth(cursor) != -1) {
-          // TODO(84): Struct with bitfields are not suppoorted.
+          // TODO(https://github.com/dart-lang/ffigen/issues/84): Struct with
+          // bitfields are not suppoorted.
           parsed.bitFieldMember = true;
         }
         if (mt is HandleType) {
