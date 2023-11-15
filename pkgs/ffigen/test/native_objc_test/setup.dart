@@ -65,11 +65,17 @@ Future<void> _runProcess(
     workingDirectory: workingDirectory,
   );
   if (result.exitCode != 0) {
-    stdout.writeln(
+    stderr.writeln(
       'Process invocation failed with exit code ${result.exitCode}.',
     );
-    stdout.write(result.stdout);
-    stderr.write(result.stderr);
+    stderr.writeln('---');
+    stderr.writeln('stdout:');
+    stderr.writeln(result.stdout);
+    stderr.writeln('---');
+    stderr.writeln('stderr:');
+    stderr.writeln(result.stderr);
+    stderr.writeln('---');
+    stderr.writeln('Throwing process exception.');
     throw ProcessException(
       executable,
       arguments,
