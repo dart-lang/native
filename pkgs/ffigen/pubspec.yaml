@@ -3,19 +3,18 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: ffigen
-version: 10.0.0-dev.0
+version: 10.0.0
 description: >
   Generator for FFI bindings, using LibClang to parse C, Objective-C, and Swift
   files.
 repository: https://github.com/dart-lang/native/tree/main/pkgs/ffigen
-
 topics:
- - interop
- - ffi
- - codegen
+  - interop
+  - ffi
+  - codegen
 
 environment:
-  sdk: ">=3.2.0-210.4.beta <4.0.0"
+  sdk: '>=3.2.0 <4.0.0'
 
 dependencies:
   ffi: ^2.0.1
