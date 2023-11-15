@@ -1,5 +1,7 @@
-## 10.0.0-dev.0
+## 10.0.0
 
+- Stable release targeting Dart 3.2 using new `dart:ffi` features available
+  in Dart 3.2 and later.
 - Add support for ObjC Blocks that can be invoked from any thread, using
   NativeCallable.listener.
 - Fix invalid exceptional return value ObjCBlocks that return floats.
@@ -10,7 +12,6 @@
   generate a typedef for the `Function`.
 - Use Dart wrapper types in args and returns of ObjCBlocks.
 - Use Dart wrapper types in args and returns of static functions.
-- Bump min SDK version to 3.2.0-210.4.beta.
 - Renamed `asset` to `assetId` for `ffi-native`.  
 
 ## 9.0.1
