@@ -57,9 +57,11 @@ Future<void> _generateBindings(String config) async {
   ];
   final process =
       await Process.start(Platform.executable, args, workingDirectory: '../..');
-  unawaited(stdout.addStream(process.stdout));
-  unawaited(stderr.addStream(process.stderr));
+  final stdoutDone = stdout.addStream(process.stdout);
+  final stderrDone = stderr.addStream(process.stderr);
   final result = await process.exitCode;
+  await stdoutDone;
+  await stderrDone;
   if (result != 0) {
     throw ProcessException('dart', args, 'Generating bindings', result);
   }
@@ -124,6 +126,28 @@ Future<void> main(List<String> arguments) async {
   if (!Platform.isMacOS) {
     throw OSError('Objective C tests are only supported on MacOS');
   }
+
+  var result = await Process.run(
+    'xcodebuild',
+    ['-version'],
+  );
+  print(result.exitCode);
+  print(result.stdout);
+  print(result.stderr);
+  result = await Process.run(
+    'xcodebuild',
+    ['-find-library', 'libclang.dylib'],
+  );
+  print(result.exitCode);
+  print(result.stdout);
+  print(result.stderr);
+  result = await Process.run(
+    'xcode-select',
+    ['-print-path'],
+  );
+  print(result.exitCode);
+  print(result.stdout);
+  print(result.stderr);
 
   if (arguments.isNotEmpty && arguments[0] == 'clean') {
     return await clean(_getTestNames());
