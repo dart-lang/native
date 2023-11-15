@@ -28,7 +28,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO: Change to 3.2.0 stable once it's released.
         sdk: [3.2.0]
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
