@@ -6,65 +6,77 @@ import 'dart:async';
 import 'dart:io';
 
 Future<void> _buildLib(String input, String output) async {
-  final args = [
-    '-shared',
-    '-fpic',
-    '-x',
-    'objective-c',
-    input,
-    '-framework',
-    'Foundation',
-    '-o',
-    output,
-  ];
-  final process = await Process.start('clang', args);
-  unawaited(stdout.addStream(process.stdout));
-  unawaited(stderr.addStream(process.stderr));
-  final result = await process.exitCode;
-  if (result != 0) {
-    throw ProcessException('clang', args, 'Build failed', result);
-  }
+  await _runProcess(
+    'clang',
+    [
+      '-shared',
+      '-fpic',
+      '-x',
+      'objective-c',
+      input,
+      '-framework',
+      'Foundation',
+      '-o',
+      output,
+    ],
+  );
   print('Generated file: $output');
 }
 
 Future<void> _buildSwift(
     String input, String outputHeader, String outputLib) async {
-  final args = [
-    '-c',
-    input,
-    '-emit-objc-header-path',
-    outputHeader,
-    '-emit-library',
-    '-o',
-    outputLib,
-  ];
-  final process = await Process.start('swiftc', args);
-  unawaited(stdout.addStream(process.stdout));
-  unawaited(stderr.addStream(process.stderr));
-  final result = await process.exitCode;
-  if (result != 0) {
-    throw ProcessException('swiftc', args, 'Build failed', result);
-  }
+  await _runProcess(
+    'swiftc',
+    [
+      '-c',
+      input,
+      '-emit-objc-header-path',
+      outputHeader,
+      '-emit-library',
+      '-o',
+      outputLib,
+    ],
+  );
   print('Generated files: $outputHeader and $outputLib');
 }
 
 Future<void> _generateBindings(String config) async {
-  final args = [
-    'run',
-    'ffigen',
-    '--config',
-    'test/native_objc_test/$config',
-  ];
-  final result =
-      await Process.run(Platform.executable, args, workingDirectory: '../..');
+  await _runProcess(
+    Platform.executable,
+    [
+      'run',
+      'ffigen',
+      '--config',
+      'test/native_objc_test/$config',
+    ],
+    workingDirectory: '../..',
+  );
+  print('Generated bindings for: $config');
+}
+
+Future<void> _runProcess(
+  String executable,
+  List<String> arguments, {
+  String? workingDirectory,
+}) async {
+  final result = await Process.run(
+    executable,
+    arguments,
+    workingDirectory: workingDirectory,
+  );
   if (result.exitCode != 0) {
-    stdout
-        .writeln('Process invocation failed with exit code ${esult.exitCode}.');
+    stdout.writeln(
+      'Process invocation failed with exit code ${result.exitCode}.',
+    );
     stdout.write(result.stdout);
     stderr.write(result.stderr);
-    throw ProcessException('dart', args, 'Generating bindings', result);
+    throw ProcessException(
+      executable,
+      arguments,
+      '',
+      result.exitCode,
+    );
   }
-  print('Generated bindings for: $config');
 }
 
 List<String> _getTestNames() {
