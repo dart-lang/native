@@ -55,14 +55,12 @@ Future<void> _generateBindings(String config) async {
     '--config',
     'test/native_objc_test/$config',
   ];
-  final process =
-      await Process.start(Platform.executable, args, workingDirectory: '../..');
-  final stdoutDone = stdout.addStream(process.stdout);
-  final stderrDone = stderr.addStream(process.stderr);
-  final result = await process.exitCode;
-  await stdoutDone;
-  await stderrDone;
-  if (result != 0) {
+  final result =
+      await Process.run(Platform.executable, args, workingDirectory: '../..');
+  if (result.exitCode != 0) {
+    stdout.writeln('Process invocation failed with exit code ${esult.exitCode}.')
+    stdout.write(result.stdout);
+    stderr.write(result.stderr);
     throw ProcessException('dart', args, 'Generating bindings', result);
   }
   print('Generated bindings for: $config');
