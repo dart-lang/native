@@ -58,7 +58,8 @@ Future<void> _generateBindings(String config) async {
   final result =
       await Process.run(Platform.executable, args, workingDirectory: '../..');
   if (result.exitCode != 0) {
-    stdout.writeln('Process invocation failed with exit code ${esult.exitCode}.')
+    stdout
+        .writeln('Process invocation failed with exit code ${esult.exitCode}.');
     stdout.write(result.stdout);
     stderr.write(result.stderr);
     throw ProcessException('dart', args, 'Generating bindings', result);
