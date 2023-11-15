@@ -10,7 +10,8 @@ output: 'generated_bindings.dart'
 #   - '/usr/local/opt/llvm'
 
 # Bash style Glob matching is also supported.
-# TODO(11): Globs dont work on windows if they begin with '.' or '..'.
+# TODO(https://github.com/dart-lang/ffigen/issues/11): Globs dont work on
+# windows if they begin with '.' or '..'.
 headers:
   entry-points:
     - ../../third_party/libclang/include/clang-c/Index.h
@@ -33,7 +34,7 @@ functions:
       - 'clang_.*' # Typedefs for Native and Dart type for these functions will be generated.
 structs:
   include:
-      - 'CX.*'
+    - 'CX.*'
 enums:
   include:
     - 'CXTypeKind' # Full names are given higher priority than regexp.
