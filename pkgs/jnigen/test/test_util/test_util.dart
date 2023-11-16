@@ -149,8 +149,10 @@ Future<void> generateAndAnalyzeBindings(Config config) async {
   try {
     await _generateTempBindings(config, tempDir);
     final analyzeResult = Process.runSync("dart", ["analyze", tempDir.path]);
-    expect(analyzeResult.exitCode, equals(0),
-        reason: "Analyzer exited with non-zero status");
+    if (analyzeResult.exitCode != 0) {
+      stderr.write(analyzeResult.stdout);
+      fail('Analyzer exited with non-zero status (${analyzeResult.exitCode})');
+    }
   } finally {
     tempDir.deleteSync(recursive: true);
   }

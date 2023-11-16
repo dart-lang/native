@@ -18,3 +18,6 @@ classes:
   - 'androidx.emoji2.text.DefaultEmojiCompatConfig' # From gradle's source path
   - 'android.os.Build' # from gradle's compile classpath
   - 'java.util.HashMap' # from gradle's compile classpath
+exclude:
+  fields:
+    - 'android.os.Build\$VERSION_CODES#UPSIDE_DOWN_CAKE'
