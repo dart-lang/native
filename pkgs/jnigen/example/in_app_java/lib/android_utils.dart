@@ -3210,9 +3210,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _new3 = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__new3")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__new3")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.util.Map map)
@@ -3232,9 +3231,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _size = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__size")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__size")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int size()
@@ -3336,9 +3334,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _clear = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__clear")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__clear")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clear()
@@ -3362,9 +3359,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _keySet = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__keySet")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__keySet")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set keySet()
@@ -3374,9 +3370,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _values = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__values")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__values")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Collection values()
@@ -3614,9 +3609,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _clone = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__clone")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__clone")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object clone()

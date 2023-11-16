@@ -52,9 +52,8 @@ class Color extends jni.JObject {
   }
 
   static final _valueOf = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Color__valueOf")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Color__valueOf")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String name)
@@ -671,9 +670,8 @@ class Example extends jni.JObject {
   }
 
   static final _addAll = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__addAll")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Example__addAll")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public int addAll(int[] arr)
@@ -2918,9 +2916,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   }
 
   static final _of1 = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "MyStack__of1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("MyStack__of1")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T obj)
@@ -2973,9 +2970,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   }
 
   static final _pop = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "MyStack__pop")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("MyStack__pop")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public T pop()
@@ -2985,9 +2981,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   }
 
   static final _size = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "MyStack__size")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("MyStack__size")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int size()
@@ -3664,9 +3659,8 @@ class MyRunnable extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $MyRunnableType();
   static final _run = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "MyRunnable__run")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("MyRunnable__run")
       .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void run()
