@@ -4,6 +4,7 @@
 
 /// Utility functions to check whether a binding should be parsed or not
 /// based on filters.
+library;
 
 import '../config_provider/config_types.dart';
 import '../strings.dart' as strings;

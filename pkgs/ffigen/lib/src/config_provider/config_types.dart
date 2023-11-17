@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Contains all the neccesary classes required by config.
+library;
+
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
