@@ -1,0 +1,80 @@
+## String to be pasted verbatim into generated bindings
+preamble: |
+  // Generated from Apache PDFBox library which is licensed under the Apache License 2.0.
+  // The following copyright from the original authors applies.
+  //
+  // Licensed to the Apache Software Foundation (ASF) under one or more
+  // contributor license agreements.  See the NOTICE file distributed with
+  // this work for additional information regarding copyright ownership.
+  // The ASF licenses this file to You under the Apache License, Version 2.0
+  // (the "License"); you may not use this file except in compliance with
+  // the License.  You may obtain a copy of the License at
+  //
+  //    http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+## Output configuration
+output:
+  c:
+    ## Path to write generated C bindings
+    path: 'src/'
+    ## C files can be stored in a different sub-directory inside root.
+    ##
+    ## We have a guideline to keep all generated code in third_party/ since the
+    ## original project's license applies to generated code. So we specify
+    ## third_party/ as c_subdir while keeping generated CMakeLists.txt in src/.
+    subdir: 'third_party/'
+    ## Name of the generated library. This is a required parameter, and used
+    ## for the name of the shared library and CMake configuration.
+    library_name: 'pdfbox_plugin'
+  dart:
+    ## Generated dart bindings will be written to this path. They will follow
+    ## the same folder hierarchy as the original Java code.
+    path: 'lib/src/third_party/'
+
+## Classes / packages for which bindings need to be generated.
+classes:
+  - 'org.apache.pdfbox.pdmodel.PDDocument'
+  - 'org.apache.pdfbox.pdmodel.PDDocumentInformation'
+  - 'org.apache.pdfbox.text.PDFTextStripper'
+
+## Exclude a problematic static field. Static fields are usually converted
+## directly to dart static fields. In the current implementation some string
+## escaping problems may occur.
+##
+## See issue #31 (https://github.com/dart-lang/jnigen/issues/31) for details.
+## (This field does not appear in bindings unless full package bindings are
+## generated using a `-Dclasses` override.)
+##
+## TODO(#31): For string fields, it may be better to generate a field getter
+## than a direct literal.
+exclude:
+  fields:
+    - 'org.apache.pdfbox.contentstream.operator.OperatorName#SHOW_TEXT_LINE_AND_SPACE'
+
+## Dependencies to be downloaded using Maven (Invokes `mvn` command). These
+## dependencies are always downloaded along with their transitive dependencies.
+##
+## Dependencies should be specified using groupID:artifactID:version format
+## The downloaded dependencies are automatically added to classpath of the
+## Java API scanning process. There's no need to specify these again in
+## sourcepath and classpath.
+##
+## Note that when maven based tooling is used, the first run often has to fetch
+## all the dependencies and might take some time. However, maven caches the
+## artifacts in local repository, thus subsequent runs will be faster.
+maven_downloads:
+  ## For these dependencies, both source and JARs are downloaded.
+  source_deps:
+    - 'org.apache.pdfbox:pdfbox:2.0.26'
+  ## Runtime dependencies for which bindings aren't generated directly.
+  ## Only JARs are downloaded.
+  jar_only_deps:
+    - 'org.bouncycastle:bcmail-jdk15on:1.70'
+    - 'org.bouncycastle:bcprov-jdk15on:1.70'
+

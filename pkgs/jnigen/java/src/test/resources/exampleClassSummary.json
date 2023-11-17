@@ -1,0 +1,185 @@
+[ {
+  "declKind" : "CLASS",
+  "modifiers" : [ "public" ],
+  "binaryName" : "com.example.Example",
+  "methods" : [ {
+    "modifiers" : [ "public" ],
+    "name" : "<init>",
+    "params" : [ {
+      "name" : "instanceField",
+      "type" : {
+        "shorthand" : "int",
+        "kind" : "PRIMITIVE",
+        "type" : {
+          "name" : "int"
+        }
+      }
+    } ],
+    "returnType" : {
+      "shorthand" : "void",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "void"
+      }
+    }
+  }, {
+    "modifiers" : [ "static", "public" ],
+    "name" : "getStaticField",
+    "returnType" : {
+      "shorthand" : "java.lang.String",
+      "kind" : "DECLARED",
+      "type" : {
+        "binaryName" : "java.lang.String",
+        "simpleName" : "String"
+      }
+    }
+  }, {
+    "modifiers" : [ "public" ],
+    "name" : "getInstanceField",
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  }, {
+    "modifiers" : [ "protected" ],
+    "name" : "overrideableMethod",
+    "params" : [ {
+      "name" : "x",
+      "type" : {
+        "shorthand" : "int",
+        "kind" : "PRIMITIVE",
+        "type" : {
+          "name" : "int"
+        }
+      }
+    }, {
+      "name" : "y",
+      "type" : {
+        "shorthand" : "int",
+        "kind" : "PRIMITIVE",
+        "type" : {
+          "name" : "int"
+        }
+      }
+    } ],
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  }, {
+    "name" : "defaultAccessNotVisible",
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  }, {
+    "modifiers" : [ "private" ],
+    "name" : "privateAccessNotVisible",
+    "returnType" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  } ],
+  "fields" : [ {
+    "modifiers" : [ "static", "public", "final" ],
+    "name" : "staticFinalField",
+    "type" : {
+      "shorthand" : "boolean",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "boolean"
+      }
+    },
+    "defaultValue" : true
+  }, {
+    "modifiers" : [ "static", "public" ],
+    "name" : "staticField",
+    "type" : {
+      "shorthand" : "java.lang.String",
+      "kind" : "DECLARED",
+      "type" : {
+        "binaryName" : "java.lang.String",
+        "simpleName" : "String"
+      }
+    }
+  }, {
+    "modifiers" : [ "public" ],
+    "name" : "instanceField",
+    "type" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  } ],
+  "superclass" : {
+    "shorthand" : "java.lang.Object",
+    "kind" : "DECLARED",
+    "type" : {
+      "binaryName" : "java.lang.Object",
+      "simpleName" : "Object"
+    }
+  },
+  "hasStaticInit" : false,
+  "hasInstanceInit" : false
+}, {
+  "declKind" : "CLASS",
+  "modifiers" : [ "static", "public" ],
+  "binaryName" : "com.example.Example$Aux",
+  "methods" : [ {
+    "modifiers" : [ "public" ],
+    "name" : "<init>",
+    "returnType" : {
+      "shorthand" : "void",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "void"
+      }
+    }
+  }, {
+    "modifiers" : [ "static", "public" ],
+    "name" : "getAnExample",
+    "returnType" : {
+      "shorthand" : "com.example.Example",
+      "kind" : "DECLARED",
+      "type" : {
+        "binaryName" : "com.example.Example",
+        "simpleName" : "Example"
+      }
+    }
+  } ],
+  "fields" : [ {
+    "modifiers" : [ "static", "public" ],
+    "name" : "nothing",
+    "type" : {
+      "shorthand" : "int",
+      "kind" : "PRIMITIVE",
+      "type" : {
+        "name" : "int"
+      }
+    }
+  } ],
+  "superclass" : {
+    "shorthand" : "com.example.Example",
+    "kind" : "DECLARED",
+    "type" : {
+      "binaryName" : "com.example.Example",
+      "simpleName" : "Example"
+    }
+  },
+  "hasStaticInit" : false,
+  "hasInstanceInit" : false
+} ]

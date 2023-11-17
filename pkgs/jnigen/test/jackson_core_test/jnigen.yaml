@@ -1,0 +1,48 @@
+maven_downloads:
+  source_deps:
+    - 'com.fasterxml.jackson.core:jackson-core:2.13.4'
+  source_dir: third_party/java/
+  jar_dir: third_party/jar/
+
+output:
+  bindings_type: c_based
+  c:
+    library_name: jackson_core
+    path: third_party/c_based/c_bindings/
+  dart:
+    path: third_party/c_based/dart_bindings/
+
+classes:
+  - 'com.fasterxml.jackson.core.JsonFactory'
+  - 'com.fasterxml.jackson.core.JsonParser'
+  - 'com.fasterxml.jackson.core.JsonToken'
+
+exclude:
+  fields:
+    - 'com.fasterxml.jackson.core.JsonFactory#DEFAULT_QUOTE_CHAR'
+    - 'com.fasterxml.jackson.core.Base64Variant#PADDING_CHAR_NONE'
+    - 'com.fasterxml.jackson.core.base.ParserMinimalBase#CHAR_NULL'
+    - 'com.fasterxml.jackson.core.io.UTF32Reader#NC'
+
+preamble: |
+  // Generated from jackson-core which is licensed under the Apache License 2.0.
+  // The following copyright from the original authors applies.
+  // See https://github.com/FasterXML/jackson-core/blob/2.14/LICENSE
+  //
+  // Copyright (c) 2007 - The Jackson Project Authors
+  // Licensed under the Apache License, Version 2.0 (the "License")
+  // you may not use this file except in compliance with the License.
+  // You may obtain a copy of the License at
+  //
+  //     http://www.apache.org/licenses/LICENSE-2.0
+  //
+  // Unless required by applicable law or agreed to in writing, software
+  // distributed under the License is distributed on an "AS IS" BASIS,
+  // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  // See the License for the specific language governing permissions and
+  // limitations under the License.
+
+log_level: warning
+
+enable_experiment:
+  - interface_implementation

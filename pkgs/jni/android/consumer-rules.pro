@@ -1,0 +1,1 @@
+-keep class com.github.dart_lang.jni.** { *; }
