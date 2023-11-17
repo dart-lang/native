@@ -7,6 +7,7 @@ analyzer:
 
 linter:
   rules:
+    - dangling_library_doc_comments
     - prefer_final_locals
     - prefer_const_declarations
 # Additional information about this file can be found at

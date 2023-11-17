@@ -12,6 +12,7 @@ analyzer:
 
 linter:
   rules:
+    - dangling_library_doc_comments
     - prefer_final_locals
     - prefer_const_declarations
     - unawaited_futures

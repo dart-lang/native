@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Extracts code_gen Type from type.
+library;
+
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/function_type_param_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/typedefdecl_parser.dart';

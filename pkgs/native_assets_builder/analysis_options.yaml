@@ -9,6 +9,7 @@ analyzer:
 
 linter:
   rules:
+    - dangling_library_doc_comments
     - prefer_const_declarations
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
