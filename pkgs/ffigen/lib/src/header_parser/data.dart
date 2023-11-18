@@ -45,6 +45,10 @@ List<Constant> _unnamedEnumConstants = [];
 ObjCBuiltInFunctions get objCBuiltInFunctions => _objCBuiltInFunctions;
 late ObjCBuiltInFunctions _objCBuiltInFunctions;
 
+/// Tracks if any source error/warning has occured which can potentially cause
+///  invalid generated bindings.
+bool hasSourceErrors = false;
+
 void initializeGlobals({required Config config}) {
   _config = config;
   _clang = Clang(DynamicLibrary.open(config.libclangDylib));
@@ -54,4 +58,5 @@ void initializeGlobals({required Config config}) {
   _cursorIndex = CursorIndex();
   _bindingsIndex = BindingsIndex();
   _objCBuiltInFunctions = ObjCBuiltInFunctions();
+  hasSourceErrors = false;
 }

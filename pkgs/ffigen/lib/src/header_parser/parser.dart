@@ -4,7 +4,6 @@
 
 import 'dart:ffi';
 import 'dart:io';
-import 'dart:math' show max;
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/src/code_generator.dart';
@@ -85,8 +84,6 @@ List<Binding> parseToBindings(Config c) {
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
-  var highestDiagnosticLevel =
-      clang_types.CXDiagnosticSeverity.CXDiagnostic_Ignored;
   // Parse all translation units from entry points.
   for (final headerLocation in config.headers.entryPoints) {
     _logger.fine('Creating TranslationUnit for header: $headerLocation');
@@ -112,13 +109,11 @@ List<Binding> parseToBindings(Config c) {
       continue;
     }
 
-    final diagnosticsLevel = logTuDiagnostics(tu, _logger, headerLocation);
-    highestDiagnosticLevel = max(highestDiagnosticLevel, diagnosticsLevel);
+    logTuDiagnostics(tu, _logger, headerLocation);
     tuList.add(tu);
   }
 
-  if (highestDiagnosticLevel >=
-      clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
+  if (hasSourceErrors) {
     _logger.severe(
         "The compiler found some warnings/errors in source files. This might generate invalid bindings due to a wrong compiler guess.");
     if (config.ignoreSourceErrors) {

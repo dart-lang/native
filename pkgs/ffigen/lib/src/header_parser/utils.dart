@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'dart:math' show max;
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/src/code_generator.dart';
@@ -30,21 +29,20 @@ void visitChildrenResultChecker(int resultCode) {
 }
 
 /// Logs the warnings/errors returned by clang for a translation unit.
-///
-/// Returns the highest [clang_types.CXDiagnosticSeverity] seen, defaults to
-/// [clang_types.CXDiagnosticSeverity.CXDiagnostic_Ignored] if none.
-int logTuDiagnostics(
+void logTuDiagnostics(
     Pointer<clang_types.CXTranslationUnitImpl> tu, Logger logger, String header,
     {Level logLevel = Level.SEVERE}) {
-  var result = clang_types.CXDiagnosticSeverity.CXDiagnostic_Ignored;
   final total = clang.clang_getNumDiagnostics(tu);
   if (total == 0) {
-    return result;
+    return;
   }
   logger.log(logLevel, 'Header $header: Total errors/warnings: $total.');
   for (var i = 0; i < total; i++) {
     final diag = clang.clang_getDiagnostic(tu, i);
-    result = max(result, clang.clang_getDiagnosticSeverity(diag));
+    if (clang.clang_getDiagnosticSeverity(diag) >=
+        clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
+      hasSourceErrors = true;
+    }
     final cxstring = clang.clang_formatDiagnostic(
       diag,
       clang_types
@@ -56,7 +54,6 @@ int logTuDiagnostics(
     logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
     clang.clang_disposeDiagnostic(diag);
   }
-  return result;
 }
 
 extension CXSourceRangeExt on Pointer<clang_types.CXSourceRange> {
