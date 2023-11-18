@@ -122,8 +122,7 @@ List<Binding> parseToBindings(Config c) {
     _logger.severe(
         "The compiler found some warnings/errors in source files. This might generate invalid bindings due to a wrong compiler guess.");
     if (config.ignoreSourceErrors) {
-      _logger.severe(
-          "Ignored source errors (User supplied --ignore-source-errors)");
+      _logger.severe("Ignored source errors.");
     } else {
       _logger.severe(
           "Skipped generating bindings due to errors in source files. Either resolve or ignore them (Set --ignore-source-errors on cmd or ignore-source-errors:true in config.");

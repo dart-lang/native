@@ -259,6 +259,8 @@ class Config {
                 _logger.severe(
                     'Objective C support is EXPERIMENTAL. The API may change '
                     'in a breaking way without notice.');
+                // Ignore source errors for ObjC.
+                ignoreSourceErrors = true;
                 return Language.objc;
               } else {
                 return Language.c;
