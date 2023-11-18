@@ -200,6 +200,7 @@ const supportedNativeType_mappings = <String, SupportedNativeType>{
 const sort = 'sort';
 const useSupportedTypedefs = 'use-supported-typedefs';
 const useDartHandle = 'use-dart-handle';
+const ignoreSourceErrors = 'ignore-source-errors';
 
 const comments = 'comments';
 // Sub-fields of comments.

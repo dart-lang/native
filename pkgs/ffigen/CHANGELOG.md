@@ -1,3 +1,8 @@
+# 10.1.0
+
+- Add flag and config `ignore-source-errors`. This prevents bindings to be generated
+until source errors are resolved or manually ignore via this flag.
+
 ## 10.0.0
 
 - Stable release targeting Dart 3.2 using new `dart:ffi` features available

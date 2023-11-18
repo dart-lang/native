@@ -61,6 +61,7 @@ functions:
     - clang_disposeIndex
     - clang_getNumDiagnostics
     - clang_getDiagnostic
+    - clang_getDiagnosticSeverity
     - clang_disposeDiagnostic
     - clang_parseTranslationUnit
     - clang_disposeTranslationUnit

@@ -452,6 +452,24 @@ use-supported-typedefs: true
 ```yaml
 use-dart-handle: true
 ```
+
+  </td>
+  </tr>
+  <tr>
+    <td>ignore-source-errors</td>
+    <td>Where to ignore compiler warnings/errors in source header files.<br>
+    <b>Default: false</b>
+    </td>
+    <td>
+
+```yaml
+ignore-source-errors: true
+```
+and/or via the command line -
+```bash
+dart run ffigen --ignore-source-errors
+```
+
   </td>
   </tr>
   <tr>

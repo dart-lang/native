@@ -316,6 +316,21 @@ class Clang {
   late final _clang_formatDiagnostic = _clang_formatDiagnosticPtr
       .asFunction<CXString Function(CXDiagnostic, int)>();
 
+  /// Determine the severity of the given diagnostic.
+  int clang_getDiagnosticSeverity(
+    CXDiagnostic arg0,
+  ) {
+    return _clang_getDiagnosticSeverity(
+      arg0,
+    );
+  }
+
+  late final _clang_getDiagnosticSeverityPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(CXDiagnostic)>>(
+          'clang_getDiagnosticSeverity');
+  late final _clang_getDiagnosticSeverity =
+      _clang_getDiagnosticSeverityPtr.asFunction<int Function(CXDiagnostic)>();
+
   /// Same as \c clang_parseTranslationUnit2, but returns
   /// the \c CXTranslationUnit instead of an error code.  In case of an error this
   /// routine returns a \c NULL \c CXTranslationUnit, without further detailed
@@ -1484,6 +1499,29 @@ abstract class CXDiagnosticDisplayOptions {
   static const int CXDiagnostic_DisplayCategoryName = 32;
 }
 
+/// Describes the severity of a particular diagnostic.
+abstract class CXDiagnosticSeverity {
+  /// A diagnostic that has been suppressed, e.g., by a command-line
+  /// option.
+  static const int CXDiagnostic_Ignored = 0;
+
+  /// This diagnostic is a note that should be attached to the
+  /// previous (non-note) diagnostic.
+  static const int CXDiagnostic_Note = 1;
+
+  /// This diagnostic indicates suspicious code that may not be
+  /// wrong.
+  static const int CXDiagnostic_Warning = 2;
+
+  /// This diagnostic indicates that the code is ill-formed.
+  static const int CXDiagnostic_Error = 3;
+
+  /// This diagnostic indicates that the code is ill-formed such
+  /// that future parser recovery is unlikely to produce useful
+  /// results.
+  static const int CXDiagnostic_Fatal = 4;
+}
+
 /// Flags that control the creation of translation units.
 ///
 /// The enumerators in this enumeration type are meant to be bitwise
@@ -2641,8 +2679,10 @@ abstract class CXChildVisitResult {
 /// The visitor should return one of the \c CXChildVisitResult values
 /// to direct clang_visitCursorChildren().
 typedef CXCursorVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitor_function>>;
-typedef CXCursorVisitor_function = ffi.Int32 Function(
+    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
+typedef CXCursorVisitorFunction = ffi.Int32 Function(
+    CXCursor cursor, CXCursor parent, CXClientData client_data);
+typedef DartCXCursorVisitorFunction = int Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 
 /// Opaque pointer representing client data that will be passed through
