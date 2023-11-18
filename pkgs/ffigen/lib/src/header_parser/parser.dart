@@ -117,12 +117,18 @@ List<Binding> parseToBindings(Config c) {
     tuList.add(tu);
   }
 
-  if (!config.ignoreSourceErrors &&
-      highestDiagnosticLevel >=
-          clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
+  if (highestDiagnosticLevel >=
+      clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
     _logger.severe(
-        "Source headers contains errors. Either resolve them or set flag --ignore-source-errors to generate the bindings.");
-    exit(1);
+        "The compiler found some warnings/errors in source files. This might generate invalid bindings due to a wrong compiler guess.");
+    if (config.ignoreSourceErrors) {
+      _logger.severe(
+          "Ignored source errors (User supplied --ignore-source-errors)");
+    } else {
+      _logger.severe(
+          "Skipped generating bindings. You can either resolve these errors or ignore them (Pass --ignore-source-errors or set ignore-source-errors:true in config.");
+      exit(1);
+    }
   }
 
   final tuCursors =

@@ -177,12 +177,7 @@ class Config {
   late FfiNativeConfig _ffiNativeConfig;
 
   /// Where to ignore compiler warnings/errors in source header files.
-  bool get ignoreSourceErrors => _ignoreSourceErrors;
-  set ignoreSourceErrors(bool n) {
-    _ignoreSourceErrors = _ignoreSourceErrors || n;
-  }
-
-  bool _ignoreSourceErrors = false;
+  bool ignoreSourceErrors = false;
 
   Config._({required this.filename, required this.packageConfig});
 
@@ -297,7 +292,10 @@ class Config {
           key: strings.ignoreSourceErrors,
           valueConfigSpec: BoolConfigSpec(),
           defaultValue: (node) => false,
-          resultOrDefault: (node) => ignoreSourceErrors = node.value as bool,
+          resultOrDefault: (node) {
+            // Set value to true if not already.
+            ignoreSourceErrors = ignoreSourceErrors || node.value as bool;
+          },
         ),
         HeterogeneousMapEntry(
           key: strings.compilerOpts,
