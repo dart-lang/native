@@ -114,10 +114,13 @@ List<Binding> parseToBindings(Config c) {
   }
 
   if (hasSourceErrors) {
-    _logger.severe(
+    _logger.warning(
         "The compiler found some warnings/errors in source files. This might generate invalid bindings due to a wrong compiler guess.");
     if (config.ignoreSourceErrors) {
-      _logger.severe("Ignored source errors.");
+      _logger.warning(
+          "Ignored source errors. (User supplied --ignore-source-errors)");
+    } else if (config.language == Language.objc) {
+      _logger.warning("Ignored source errors. (ObjC)");
     } else {
       _logger.severe(
           "Skipped generating bindings due to errors in source files. Either resolve or ignore them (Set --ignore-source-errors on cmd or ignore-source-errors:true in config.");
