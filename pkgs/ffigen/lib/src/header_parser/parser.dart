@@ -126,7 +126,7 @@ List<Binding> parseToBindings(Config c) {
           "Ignored source errors (User supplied --ignore-source-errors)");
     } else {
       _logger.severe(
-          "Skipped generating bindings. You can either resolve these errors or ignore them (Pass --ignore-source-errors or set ignore-source-errors:true in config.");
+          "Skipped generating bindings due to errors in source files. Either resolve or ignore them (Set --ignore-source-errors on cmd or ignore-source-errors:true in config.");
       exit(1);
     }
   }

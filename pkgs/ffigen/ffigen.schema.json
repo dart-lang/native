@@ -73,6 +73,9 @@
         "entry-points"
       ]
     },
+    "ignore-source-errors": {
+      "type": "boolean"
+    },
     "compiler-opts": {
       "$oneOf": [
         {
