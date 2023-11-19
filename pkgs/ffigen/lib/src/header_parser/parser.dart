@@ -124,9 +124,7 @@ List<Binding> parseToBindings(Config c) {
     } else {
       _logger.severe(
           "Skipped generating bindings due to errors in source files. Either resolve or ignore them (Set --ignore-source-errors on cmd or ignore-source-errors:true in config.");
-      // TEMP: REVERT THIS CHANGE
-      _logger.severe(config.headers.entryPoints);
-      // exit(1);
+      exit(1);
     }
   }
 
