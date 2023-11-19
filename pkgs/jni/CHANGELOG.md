@@ -1,6 +1,6 @@
 ## 0.8.0-wip
 
-- **Breaking Change** ([#394](https://github.com/dart-lang/jnigen/issues/394)):
+- **Breaking Change** ([#548](https://github.com/dart-lang/native/issues/548)):
   Converted various `Exception`s into `Error`s:
   - `UseAfterReleaseException` -> `UseAfterReleaseError`
   - `DoubleReleaseException` -> `DoubleReleaseError`
@@ -23,11 +23,11 @@
 - Fixed a bug where reading non-null terminated strings would overflow.
 
 ## 0.7.1
-- Removed macOS Flutter plugin until package:jni supports it ([#41](https://github.com/dart-lang/jnigen/issues/41)).
+- Removed macOS Flutter plugin until package:jni supports it ([#780](https://github.com/dart-lang/native/issues/780)).
 
 ## 0.7.0
 
-- **Breaking Change** ([#387](https://github.com/dart-lang/jnigen/issues/387)):
+- **Breaking Change** ([#563](https://github.com/dart-lang/native/issues/563)):
   Added `JBuffer` and `JByteBuffer` classes as default classes for
   `java.nio.Buffer` and `java.nio.ByteBuffer` respectively.
 - **Breaking Change**: Made the type classes `final`.
@@ -42,14 +42,14 @@
 
 ## 0.6.0
 
-- **Breaking Change** ([#131](https://github.com/dart-lang/jnigen/issues/131)):
+- **Breaking Change** ([#707](https://github.com/dart-lang/native/issues/707)):
   Renamed `delete*` to `release*`.
 - Added `PortProxy` and related methods used for interface implementation.
 - Added the missing binding for `java.lang.Character`.
 
 ## 0.5.0
 
-- **Breaking Change** ([#137](https://github.com/dart-lang/jnigen/issues/137)):
+- **Breaking Change** ([#711](https://github.com/dart-lang/native/issues/711)):
   Java primitive types are now all lowercase like `jint`, `jshort`, ...
 - The bindings for `java.util.Set`, `java.util.Map`, `java.util.List` and the
   numeric types like `java.lang.Integer`, `java.lang.Boolean`, ... are now

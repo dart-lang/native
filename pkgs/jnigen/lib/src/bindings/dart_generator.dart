@@ -177,7 +177,7 @@ import "package:jni/jni.dart" as jni;
       log.fatal('Dart format completed with exit code ${formatRes.exitCode} '
           'This usually means there\'s a syntax error in bindings.\n'
           'Please look at the generated files and report a bug: \n'
-          'https://github.com/dart-lang/jnigen/issues/new\n');
+          'https://github.com/dart-lang/native/issues/new?labels=package%3Ajnigen\n');
     }
   }
 

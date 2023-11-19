@@ -1,5 +1,7 @@
-[![Build Status](https://github.com/dart-lang/jnigen/workflows/Dart%20CI/badge.svg)](https://github.com/dart-lang/jnigen/actions?query=workflow%3A%22Dart+CI%22+branch%3Amain)
-[![Coverage Status](https://coveralls.io/repos/github/dart-lang/jnigen/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/jnigen?branch=main)
+[![Build Status](https://github.com/dart-lang/native/actions/workflows/jnigen.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/jnigen.yaml)
+[![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
+[![pub package](https://img.shields.io/pub/v/jnigen.svg)](https://pub.dev/packages/jnigen)
+[![package publisher](https://img.shields.io/pub/publisher/jnigen.svg)](https://pub.dev/packages/jnigen/publisher)
 
 ## Introduction
 Experimental bindings generator for Java bindings through dart:ffi and JNI.
@@ -136,7 +138,7 @@ On Android, the flutter application runs embedded in Android JVM. On other platf
 ## Java features support
 Currently basic features of the Java language are supported in the bindings. Each Java class is mapped to a Dart class. Bindings are generated for methods, constructors and fields. Exceptions thrown in Java are rethrown in Dart with stack trace from Java.
 
-More advanced features such as callbacks are not supported yet. Support for these features is tracked in the [issue tracker](https://github.com/dart-lang/jnigen/issues).
+More advanced features such as callbacks are not supported yet. Support for these features is tracked in the [issue tracker](https://github.com/dart-lang/native/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3Ajni%2Cpackage%3Ajnigen).
 
 ## Note on Dart (standalone) target
 `package:jni` is an FFI plugin containing native code, and any bindings generated from jnigen contains native code too.
