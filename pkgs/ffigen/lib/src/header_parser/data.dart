@@ -46,7 +46,7 @@ ObjCBuiltInFunctions get objCBuiltInFunctions => _objCBuiltInFunctions;
 late ObjCBuiltInFunctions _objCBuiltInFunctions;
 
 /// Tracks if any source error/warning has occured which can potentially cause
-///  invalid generated bindings.
+/// invalid generated bindings.
 bool hasSourceErrors = false;
 
 void initializeGlobals({required Config config}) {
