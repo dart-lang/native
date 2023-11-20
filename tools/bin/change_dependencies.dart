@@ -32,7 +32,8 @@ void main(List<String> args) {
         {
           // Some packages contain full test projects that are copied in unit
           // tests. So, use absolute paths.
-          'path': root.resolve('pkgs/$package/').toFilePath(windows: false),
+          'path':
+              root.resolve('pkgs/$package/').toFilePath().replaceAll(r'\', '/'),
         },
       );
     }
