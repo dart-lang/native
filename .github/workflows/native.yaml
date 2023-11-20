@@ -135,5 +135,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
+          carryforward: "ffigen-all,jnigen_tests,jni_tests"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

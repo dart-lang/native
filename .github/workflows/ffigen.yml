@@ -95,6 +95,7 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
+          carryforward: "jnigen_tests,jni_tests,native_assets_builder-macos,native_assets_builder-ubuntu,native_assets_builder-windows,native_assets_cli-macos,native_assets_cli-ubuntu,native_assets_cli-windows,native_toolchain_c-macos,native_toolchain_c-ubuntu,native_toolchain_c-windows"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
