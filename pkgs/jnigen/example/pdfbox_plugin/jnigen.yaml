@@ -47,7 +47,7 @@ classes:
 ## directly to dart static fields. In the current implementation some string
 ## escaping problems may occur.
 ##
-## See issue #31 (https://github.com/dart-lang/jnigen/issues/31) for details.
+## See issue #31 (https://github.com/dart-lang/native/issues/792) for details.
 ## (This field does not appear in bindings unless full package bindings are
 ## generated using a `-Dclasses` override.)
 ##

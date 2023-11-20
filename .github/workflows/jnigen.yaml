@@ -7,7 +7,7 @@
 # code before making a PR. If you add a task here, you might want to add
 # the equivalent in that script as well.
 
-name: Dart CI
+name: jnigen
 
 on:
   # Run on PRs and pushes to the default branch.

@@ -3,7 +3,7 @@ description: |
   Example of using jnigen to generate bindings for a non-trivial Java library.
 version: 0.0.1
 publish_to: none
-homepage: https://github.com/dart-lang/jnigen
+homepage: https://github.com/dart-lang/native
 
 environment:
   sdk: '>=3.1.0 <4.0.0'

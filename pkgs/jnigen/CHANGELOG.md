@@ -5,7 +5,7 @@
 
 ## 0.7.0
 
-- **Breaking Change** ([#387](https://github.com/dart-lang/jnigen/issues/387)):
+- **Breaking Change** ([#563](https://github.com/dart-lang/native/issues/563)):
   Added `JBuffer` and `JByteBuffer` classes as default classes for
   `java.nio.Buffer` and `java.nio.ByteBuffer` respectively.
 - **Breaking Change**: Made the type classes `final`.
@@ -16,9 +16,9 @@
 
 ## 0.6.0
 
-- **Breaking Change** ([#131](https://github.com/dart-lang/jnigen/issues/131)):
+- **Breaking Change** ([#707](https://github.com/dart-lang/native/issues/707)):
   Renamed `delete*` to `release*`.
-- **Breaking Change** ([#354](https://github.com/dart-lang/jnigen/issues/354)):
+- **Breaking Change** ([#585](https://github.com/dart-lang/native/issues/585)):
   Renamed constructors from `ctor1`, `ctor2`, ... to `new1`, `new2`, ...
 - **Breaking Change**: Specifying a class always pulls in nested classes by
   default. If a nested class is specified in config, it will be an error.
@@ -39,10 +39,10 @@
 
 ## 0.5.0
 
-- **Breaking Change** ([#72](https://github.com/dart-lang/jnigen/issues/72)):
+- **Breaking Change** ([#746](https://github.com/dart-lang/native/issues/746)):
   Removed support for `importMap` in favor of the newly added interop mechanism
   with importing yaml files.
-- **Breaking Change** ([#72](https://github.com/dart-lang/jnigen/issues/72)):
+- **Breaking Change** ([#746](https://github.com/dart-lang/native/issues/746)):
   `java.util.Set`, `java.util.Map`, `java.util.List`, `java.util.Iterator` and
   the boxed types like `java.lang.Integer`, `java.lang.Double`, ... will be
   generated as their corresponding classes in `package:jni`.
@@ -50,7 +50,7 @@
 
 ## 0.4.0
 
-- **Breaking Change** ([#145](https://github.com/dart-lang/jnigen/issues/145)):
+- **Breaking Change** ([#705](https://github.com/dart-lang/native/issues/705)):
   Type arguments are now named instead of positional.
 - Type parameters can now be inferred when possible.
 - Fixed a bug where passing a `long` argument truncated it to `int` in pure dart
