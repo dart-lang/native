@@ -31,7 +31,7 @@ jobs:
         sdk: [stable, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
-        breaking-change: [true]
+        breaking-change: [false]
         exclude:
           # Only run analyze against dev on one host.
           - os: macos
