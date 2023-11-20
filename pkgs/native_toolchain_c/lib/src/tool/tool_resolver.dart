@@ -63,6 +63,10 @@ class PathToolResolver extends ToolResolver {
     if (process.exitCode == 0) {
       final file = File(LineSplitter.split(process.stdout).first);
       final uri = File(await file.resolveSymbolicLinks()).uri;
+      if (uri.pathSegments.last == 'llvm') {
+        // https://github.com/dart-lang/native/issues/136
+        return file.uri;
+      }
       return uri;
     }
     // The exit code for executable not being on the `PATH`.
@@ -220,9 +224,13 @@ class InstallLocationResolver implements ToolResolver {
     final result = <Uri>[];
     final fileSystemEntities = await Glob(path).list().toList();
     for (final fileSystemEntity in fileSystemEntities) {
-      if (await fileSystemEntity.exists()) {
-        result.add(fileSystemEntity.uri);
+      if (!await fileSystemEntity.exists()) {
+        continue;
       }
+      if (fileSystemEntity is! Directory && path.endsWith('/')) {
+        continue;
+      }
+      result.add(fileSystemEntity.uri);
     }
     return result;
   }

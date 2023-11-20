@@ -1,17 +1,25 @@
-name: dart
+# CI for the native_* packages.
+#
+# Combined into a single workflow so that deps are configured and installed once.
+
+name: native
 permissions: read-all
 
 on:
   pull_request:
     branches: [main]
     paths:
-      - ".github/workflows/dart.yaml"
-      - "pkgs/**"
+      - ".github/workflows/native.yaml"
+      - "pkgs/native_assets_builder/**"
+      - "pkgs/native_assets_cli/**"
+      - "pkgs/native_toolchain_c/**"
   push:
     branches: [main]
     paths:
-      - ".github/workflows/dart.yaml"
-      - "pkgs/**"
+      - ".github/workflows/native.yaml"
+      - "pkgs/native_assets_builder/**"
+      - "pkgs/native_assets_cli/**"
+      - "pkgs/native_toolchain_c/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
 
@@ -23,7 +31,6 @@ jobs:
         sdk: [stable, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
-        # TODO(https://github.com/dart-lang/native/issues/116): Set to false.
         breaking-change: [true]
         exclude:
           # Only run analyze against dev on one host.
@@ -39,15 +46,15 @@ jobs:
         working-directory: pkgs/${{ matrix.package }}
 
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
 
-      - uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+      - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
         with:
           sdk: ${{ matrix.sdk }}
 
-      - uses: nttld/setup-ndk@8c3b609ff4d54576ea420551943fd34b4d03b0dc
+      - uses: nttld/setup-ndk@3354316c3285ea90da09d047280dd79d00d5a37a
         with:
-          ndk-version: r25b
+          ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
 
       - run: dart pub get
@@ -83,7 +90,7 @@ jobs:
         if: ${{ matrix.sdk == 'stable' }}
 
       - name: Install native toolchains
-        run: sudo apt-get update && sudo apt-get install clang-14 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+        run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
 
       - run: dart test
@@ -114,7 +121,7 @@ jobs:
         if: ${{ matrix.sdk == 'stable' }}
 
       - name: Upload coverage
-        uses: coverallsapp/github-action@95b1a2355bd0e526ad2fd62da9fd386ad4c98474
+        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
           flag-name: ${{ matrix.package }}-${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -126,7 +133,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage
-        uses: coverallsapp/github-action@95b1a2355bd0e526ad2fd62da9fd386ad4c98474
+        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

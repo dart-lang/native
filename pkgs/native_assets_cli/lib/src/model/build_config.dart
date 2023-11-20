@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
@@ -22,6 +23,10 @@ class BuildConfig {
   /// placed.
   Uri get outDir => _outDir;
   late final Uri _outDir;
+
+  /// The name of the package the native assets are built for.
+  String get packageName => _packageName;
+  late final String _packageName;
 
   /// The root of the package the native assets are built for.
   ///
@@ -62,11 +67,16 @@ class BuildConfig {
 
   late final IOSSdk? _targetIOSSdk;
 
-  /// When compiling for Android, the API version to target.
+  /// When compiling for Android, the minimum Android SDK API version to that
+  /// the compiled code will be compatible with.
   ///
   /// Required when [targetOs] equals [OS.android].
   ///
   /// Not available in [dryRun].
+  ///
+  /// For more information about the Android API version, refer to
+  /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
+  /// in the Android documentation.
   int? get targetAndroidNdkApi {
     _ensureNotDryRun();
     return _targetAndroidNdkApi;
@@ -124,6 +134,7 @@ class BuildConfig {
 
   factory BuildConfig({
     required Uri outDir,
+    required String packageName,
     required Uri packageRoot,
     required BuildMode buildMode,
     required Architecture targetArchitecture,
@@ -136,6 +147,7 @@ class BuildConfig {
   }) {
     final nonValidated = BuildConfig._()
       .._outDir = outDir
+      .._packageName = packageName
       .._packageRoot = packageRoot
       .._buildMode = buildMode
       .._targetArchitecture = targetArchitecture
@@ -153,12 +165,14 @@ class BuildConfig {
 
   factory BuildConfig.dryRun({
     required Uri outDir,
+    required String packageName,
     required Uri packageRoot,
     required OS targetOs,
     required LinkModePreference linkModePreference,
   }) {
     final nonValidated = BuildConfig._()
       .._outDir = outDir
+      .._packageName = packageName
       .._packageRoot = packageRoot
       .._targetOs = targetOs
       .._linkModePreference = linkModePreference
@@ -177,6 +191,7 @@ class BuildConfig {
   /// In particular, it only takes the package name from [packageRoot],
   /// so that the hash is equal across checkouts and ignores [outDir] itself.
   static String checksum({
+    required String packageName,
     required Uri packageRoot,
     required Architecture targetArchitecture,
     required OS targetOs,
@@ -187,7 +202,6 @@ class BuildConfig {
     required LinkModePreference linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
   }) {
-    final packageName = packageRoot.pathSegments.lastWhere((e) => e.isNotEmpty);
     final input = [
       packageName,
       targetArchitecture.toString(),
@@ -273,6 +287,7 @@ class BuildConfig {
   }
 
   static const outDirConfigKey = 'out_dir';
+  static const packageNameConfigKey = 'package_name';
   static const packageRootConfigKey = 'package_root';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
   static const _versionKey = 'version';
@@ -303,6 +318,7 @@ class BuildConfig {
       (config) => _config = config,
       (config) => _dryRun = config.optionalBool(dryRunConfigKey),
       (config) => _outDir = config.path(outDirConfigKey, mustExist: true),
+      (config) => _packageName = config.string(packageNameConfigKey),
       (config) =>
           _packageRoot = config.path(packageRootConfigKey, mustExist: true),
       (config) {
@@ -469,6 +485,7 @@ class BuildConfig {
 
     return {
       outDirConfigKey: _outDir.toFilePath(),
+      packageNameConfigKey: _packageName,
       packageRootConfigKey: _packageRoot.toFilePath(),
       OS.configKey: _targetOs.toString(),
       LinkModePreference.configKey: _linkModePreference.toString(),
@@ -498,6 +515,7 @@ class BuildConfig {
       return false;
     }
     if (other.outDir != outDir) return false;
+    if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
     if (other.targetOs != targetOs) return false;
@@ -508,7 +526,7 @@ class BuildConfig {
       if (other.targetIOSSdk != targetIOSSdk) return false;
       if (other.targetAndroidNdkApi != targetAndroidNdkApi) return false;
       if (other.cCompiler != cCompiler) return false;
-      if (!DeepCollectionEquality()
+      if (!const DeepCollectionEquality()
           .equals(other.dependencyMetadata, _dependencyMetadata)) return false;
     }
     return true;
@@ -517,13 +535,14 @@ class BuildConfig {
   @override
   int get hashCode => Object.hashAll([
         outDir,
+        packageName,
         packageRoot,
         targetOs,
         linkModePreference,
         dryRun,
         if (!dryRun) ...[
           buildMode,
-          DeepCollectionEquality().hash(dependencyMetadata),
+          const DeepCollectionEquality().hash(dependencyMetadata),
           targetArchitecture,
           targetIOSSdk,
           targetAndroidNdkApi,
@@ -546,7 +565,7 @@ can _only_ depend on OS.''');
   void _throwIfNotNullInDryRun<T>(String key) {
     final object = config.valueOf<T?>(key);
     if (object != null) {
-      throw FormatException('''This field is not available in dry runs.
+      throw const FormatException('''This field is not available in dry runs.
 In Flutter projects, native builds are generated per OS which target multiple
 architectures, build modes, etc. Therefore, the list of native assets produced
 can _only_ depend on OS.''');
@@ -621,7 +640,8 @@ class CCompilerConfig {
     if (other.cc != cc) return false;
     if (other.ld != ld) return false;
     if (other.envScript != envScript) return false;
-    if (!ListEquality<String>().equals(other.envScriptArgs, envScriptArgs)) {
+    if (!const ListEquality<String>()
+        .equals(other.envScriptArgs, envScriptArgs)) {
       return false;
     }
     return true;
@@ -633,6 +653,6 @@ class CCompilerConfig {
         _cc,
         _ld,
         _envScript,
-        ListEquality<String>().hash(envScriptArgs),
+        const ListEquality<String>().hash(envScriptArgs),
       );
 }

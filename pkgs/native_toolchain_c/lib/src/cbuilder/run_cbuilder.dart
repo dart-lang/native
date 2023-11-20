@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math';
+
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
@@ -13,39 +15,63 @@ import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
 import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
+import 'cbuilder.dart';
 import 'compiler_resolver.dart';
 
 class RunCBuilder {
   final BuildConfig buildConfig;
   final Logger? logger;
   final List<Uri> sources;
+  final List<Uri> includes;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
   final Uri outDir;
   final Target target;
 
-  /// The install of the [dynamicLibrary].
+  /// The install name of the [dynamicLibrary].
   ///
   /// Can be inspected with `otool -D <path-to-dylib>`.
   ///
   /// Can be modified with `install_name_tool`.
   final Uri? installName;
 
+  final List<String> flags;
+  final Map<String, String?> defines;
+  final bool? pic;
+  final String? std;
+  final Language language;
+  final String? cppLinkStdLib;
+
   RunCBuilder({
     required this.buildConfig,
     this.logger,
     this.sources = const [],
+    this.includes = const [],
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
     this.installName,
+    this.flags = const [],
+    this.defines = const {},
+    this.pic,
+    this.std,
+    this.language = Language.c,
+    this.cppLinkStdLib,
   })  : outDir = buildConfig.outDir,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
-            1);
+            1) {
+    if (target.os == OS.windows && cppLinkStdLib != null) {
+      throw ArgumentError.value(
+        cppLinkStdLib,
+        'cppLinkStdLib',
+        'is not supported when targeting Windows',
+      );
+    }
+  }
 
   late final _resolver =
       CompilerResolver(buildConfig: buildConfig, logger: logger);
@@ -74,20 +100,23 @@ class RunCBuilder {
           .first
           .uri;
 
+  Uri androidSysroot(ToolInstance compiler) =>
+      compiler.uri.resolve('../sysroot/');
+
   Future<void> run() async {
     final compiler_ = await compiler();
     final compilerTool = compiler_.tool;
     if (compilerTool == appleClang ||
         compilerTool == clang ||
         compilerTool == gcc) {
-      await runClangLike(compiler: compiler_.uri);
+      await runClangLike(compiler: compiler_);
       return;
     }
     assert(compilerTool == cl);
     await runCl(compiler: compiler_);
   }
 
-  Future<void> runClangLike({required Uri compiler}) async {
+  Future<void> runClangLike({required ToolInstance compiler}) async {
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
     if (isStaticLib) {
@@ -99,18 +128,22 @@ class RunCBuilder {
       targetIosSdk = buildConfig.targetIOSSdk!;
     }
 
+    // The Android Gradle plugin does not honor API level 19 and 20 when
+    // invoking clang. Mimic that behavior here.
+    // See https://github.com/dart-lang/native/issues/171.
+    late final int targetAndroidNdkApi;
+    if (target.os == OS.android) {
+      targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, 21);
+    }
+
     await runProcess(
-      executable: compiler,
+      executable: compiler.uri,
       arguments: [
         if (target.os == OS.android) ...[
-          // TODO(dacoharkes): How to solve linking issues?
-          // Non-working fix: --sysroot=$NDKPATH/toolchains/llvm/prebuilt/linux-x86_64/sysroot.
-          // The sysroot should be discovered automatically after NDK 22.
-          // Workaround:
-          if (dynamicLibrary != null) '-nostartfiles',
           '--target='
               '${androidNdkClangTargetFlags[target]!}'
-              '${buildConfig.targetAndroidNdkApi!}',
+              '$targetAndroidNdkApi',
+          '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
         if (target.os == OS.macOS)
           '--target=${appleClangMacosTargetFlags[target]!}',
@@ -128,6 +161,39 @@ class RunCBuilder {
           '-install_name',
           installName!.toFilePath(),
         ],
+        if (pic != null)
+          if (pic!) ...[
+            if (dynamicLibrary != null) '-fPIC',
+            // Using PIC for static libraries allows them to be linked into
+            // any executable, but it is not necessarily the best option in
+            // terms of overhead. We would have to know wether the target into
+            // which the static library is linked is PIC, PIE or neither. Then
+            // we could use the same option for the static library.
+            if (staticLibrary != null) '-fPIC',
+            if (executable != null) ...[
+              // Generate position-independent code for executables.
+              '-fPIE',
+              // Tell the linker to generate a position-independent executable.
+              '-pie',
+            ],
+          ] else ...[
+            // Disable generation of any kind of position-independent code.
+            '-fno-PIC',
+            '-fno-PIE',
+            // Tell the linker to generate a position-dependent executable.
+            if (executable != null) '-no-pie',
+          ],
+        if (std != null) '-std=$std',
+        if (language == Language.cpp) ...[
+          '-x',
+          'c++',
+          '-l',
+          cppLinkStdLib ?? defaultCppLinkStdLib[target.os]!
+        ],
+        ...flags,
+        for (final MapEntry(key: name, :value) in defines.entries)
+          if (value == null) '-D$name' else '-D$name=$value',
+        for (final include in includes) '-I${include.toFilePath()}',
         ...sources.map((e) => e.toFilePath()),
         if (executable != null) ...[
           '-o',
@@ -142,11 +208,6 @@ class RunCBuilder {
           '-o',
           outDir.resolve('out.o').toFilePath(),
         ],
-        // TODO(https://github.com/dart-lang/native/issues/50): The defines
-        // should probably be configurable. That way, the mapping from
-        // build_mode to defines can be defined in a project-dependent way in
-        // each project build.dart.
-        '-D${buildConfig.buildMode.name.toUpperCase()}'
       ],
       logger: logger,
       captureOutput: false,
@@ -181,11 +242,12 @@ class RunCBuilder {
     final result = await runProcess(
       executable: compiler.uri,
       arguments: [
-        // TODO(https://github.com/dart-lang/native/issues/50): The defines
-        // should probably be configurable. That way, the mapping from
-        // build_mode to defines can be defined in a project-dependent way in
-        // each project build.dart.
-        '/D${buildConfig.buildMode.name.toUpperCase()}',
+        if (std != null) '/std:$std',
+        if (language == Language.cpp) '/TP',
+        ...flags,
+        for (final MapEntry(key: name, :value) in defines.entries)
+          if (value == null) '/D$name' else '/D$name=$value',
+        for (final directory in includes) '/I${directory.toFilePath()}',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',
@@ -247,5 +309,13 @@ class RunCBuilder {
     Target.iOSX64: {
       IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
     },
+  };
+
+  static const defaultCppLinkStdLib = {
+    OS.android: 'c++_shared',
+    OS.fuchsia: 'c++',
+    OS.iOS: 'c++',
+    OS.linux: 'stdc++',
+    OS.macOS: 'c++',
   };
 }

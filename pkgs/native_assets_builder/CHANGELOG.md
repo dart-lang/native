@@ -1,3 +1,23 @@
+## 0.3.0
+
+- Bump `package:native_assets_cli` to 0.3.0
+  ([#142](https://github.com/dart-lang/native/issues/142)).
+
+## 0.2.3
+
+- Quicker build planning for 0 or 1 packages with native assets
+  ([#128](https://github.com/dart-lang/native/issues/128)).
+
+## 0.2.2
+
+- Take a `PackageLayout` argument for `build` and `dryRun`
+  ([flutter#134427](https://github.com/flutter/flutter/issues/134427)).
+
+## 0.2.1
+
+- Provide a `PackageLayout` constructor for already parsed `PackageConfig`
+  ([flutter#134427](https://github.com/flutter/flutter/issues/134427)).
+
 ## 0.2.0
 
 - **Breaking change** `NativeAssetsBuildRunner`s methods now return an object

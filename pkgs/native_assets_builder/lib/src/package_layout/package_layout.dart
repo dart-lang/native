@@ -31,6 +31,16 @@ class PackageLayout {
   PackageLayout._(
       this.rootPackageRoot, this.packageConfig, this.packageConfigUri);
 
+  factory PackageLayout.fromPackageConfig(
+    PackageConfig packageConfig,
+    Uri packageConfigUri,
+  ) {
+    assert(File.fromUri(packageConfigUri).existsSync());
+    packageConfigUri = packageConfigUri.normalizePath();
+    final rootPackageRoot = packageConfigUri.resolve('../');
+    return PackageLayout._(rootPackageRoot, packageConfig, packageConfigUri);
+  }
+
   static Future<PackageLayout> fromRootPackageRoot(Uri rootPackageRoot) async {
     rootPackageRoot = rootPackageRoot.normalizePath();
     final packageConfigUri =

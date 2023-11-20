@@ -3,23 +3,13 @@ include: package:dart_flutter_team_lints/analysis_options.yaml
 analyzer:
   language:
     strict-raw-types: true
-    strict-inference: true
   exclude:
     # TODO(https://github.com/dart-lang/ecosystem/issues/150): Remove this.
     - test/data/
 
 linter:
   rules:
-    - always_declare_return_types
-    - avoid_dynamic_calls
-    - camel_case_types
-    - depend_on_referenced_packages
-    - directives_ordering
     - prefer_const_declarations
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
-    - prefer_relative_imports
-    - prefer_single_quotes
-    - sort_pub_dependencies
-    - unawaited_futures

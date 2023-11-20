@@ -19,7 +19,11 @@ Future<void> runPubGet({
 }) async {
   final result = await runProcess(
     executable: Uri.file(Platform.resolvedExecutable),
-    arguments: ['pub', '--no-analytics', 'get'],
+    arguments: [
+      'pub',
+      '--suppress-analytics', // Prevent extra log entries.
+      'get',
+    ],
     workingDirectory: workingDirectory,
     logger: logger,
   );
@@ -34,6 +38,7 @@ Future<BuildResult> build(
   CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
+  PackageLayout? packageLayout,
 }) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
@@ -51,6 +56,7 @@ Future<BuildResult> build(
     workingDirectory: packageUri,
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
+    packageLayout: packageLayout,
   );
   if (result.success) {
     await expectAssetsExist(result.assets);
@@ -71,6 +77,7 @@ Future<DryRunResult> dryRun(
   CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
+  PackageLayout? packageLayout,
 }) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
@@ -86,6 +93,7 @@ Future<DryRunResult> dryRun(
     targetOs: Target.current.os,
     workingDirectory: packageUri,
     includeParentEnvironment: includeParentEnvironment,
+    packageLayout: packageLayout,
   );
 
   if (subscription != null) {

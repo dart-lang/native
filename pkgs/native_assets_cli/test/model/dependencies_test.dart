@@ -42,7 +42,7 @@ void main() {
 
   test('dependencies fromYamlString', () {
     final dependencies = Dependencies.fromYamlString('');
-    expect(dependencies, Dependencies([]));
+    expect(dependencies, const Dependencies([]));
   });
 
   test('dependencies lastModified', () async {

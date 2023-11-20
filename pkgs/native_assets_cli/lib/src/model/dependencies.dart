@@ -10,6 +10,7 @@ import '../utils/uri.dart';
 import '../utils/yaml.dart';
 
 class Dependencies {
+  /// The dependencies a build relied on.
   final List<Uri> dependencies;
 
   const Dependencies(this.dependencies);
@@ -19,6 +20,7 @@ class Dependencies {
     if (yaml is YamlList) {
       return Dependencies.fromYaml(yaml);
     }
+    // ignore: prefer_const_constructors
     return Dependencies([]);
   }
 
@@ -45,9 +47,9 @@ class Dependencies {
     if (other is! Dependencies) {
       return false;
     }
-    return ListEquality<Uri>().equals(other.dependencies, dependencies);
+    return const ListEquality<Uri>().equals(other.dependencies, dependencies);
   }
 
   @override
-  int get hashCode => ListEquality<Uri>().hash(dependencies);
+  int get hashCode => const ListEquality<Uri>().hash(dependencies);
 }

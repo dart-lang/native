@@ -158,7 +158,7 @@ native-assets:
 
   test('List<Asset> hashCode', () async {
     final assets2 = assets.take(3).toList();
-    final equality = ListEquality<Asset>();
+    const equality = ListEquality<Asset>();
     expect(equality.hash(assets) != equality.hash(assets2), true);
   });
 

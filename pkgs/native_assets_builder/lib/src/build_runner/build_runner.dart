@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:package_config/package_config.dart';
 
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
@@ -42,36 +43,48 @@ class NativeAssetsBuildRunner {
     IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
   }) async {
-    final packageLayout =
-        await PackageLayout.fromRootPackageRoot(workingDirectory);
+    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
-    final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-      rootPackageRoot: packageLayout.rootPackageRoot,
-      packagesWithNativeAssets: packagesWithNativeAssets,
-      dartExecutable: Uri.file(Platform.resolvedExecutable),
-      logger: logger,
-    );
-    final (plan, planSuccess) = planner.plan();
-    if (!planSuccess) {
-      return _BuildResultImpl(
-        assets: [],
-        dependencies: [],
-        success: false,
+    final List<Package> buildPlan;
+    final PackageGraph packageGraph;
+    if (packagesWithNativeAssets.length <= 1) {
+      buildPlan = packagesWithNativeAssets;
+      packageGraph = PackageGraph({
+        for (final p in packagesWithNativeAssets) p.name: [],
+      });
+    } else {
+      final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
+        rootPackageRoot: packageLayout.rootPackageRoot,
+        packagesWithNativeAssets: packagesWithNativeAssets,
+        dartExecutable: Uri.file(Platform.resolvedExecutable),
+        logger: logger,
       );
+      final (plan, planSuccess) = planner.plan();
+      if (!planSuccess) {
+        return _BuildResultImpl(
+          assets: [],
+          dependencies: [],
+          success: false,
+        );
+      }
+      buildPlan = plan;
+      packageGraph = planner.packageGraph;
     }
     final assets = <Asset>[];
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
     var success = true;
-    for (final package in plan) {
+    for (final package in buildPlan) {
       final dependencyMetadata = _metadataForPackage(
-        packageGraph: planner.packageGraph,
+        packageGraph: packageGraph,
         packageName: package.name,
         targetMetadata: metadata,
       );
       final config = await _cliConfig(
+        packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         target: target,
         buildMode: buildMode,
@@ -118,27 +131,33 @@ class NativeAssetsBuildRunner {
     required OS targetOs,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
   }) async {
-    final packageLayout =
-        await PackageLayout.fromRootPackageRoot(workingDirectory);
+    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
-    final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-      rootPackageRoot: packageLayout.rootPackageRoot,
-      packagesWithNativeAssets: packagesWithNativeAssets,
-      dartExecutable: Uri.file(Platform.resolvedExecutable),
-      logger: logger,
-    );
-    final (plan, planSuccess) = planner.plan();
-    if (!planSuccess) {
-      return _DryRunResultImpl(
-        assets: [],
-        success: false,
+    final List<Package> buildPlan;
+    if (packagesWithNativeAssets.length <= 1) {
+      buildPlan = packagesWithNativeAssets;
+    } else {
+      final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
+        rootPackageRoot: packageLayout.rootPackageRoot,
+        packagesWithNativeAssets: packagesWithNativeAssets,
+        dartExecutable: Uri.file(Platform.resolvedExecutable),
+        logger: logger,
       );
+      final (plan, planSuccess) = planner.plan();
+      if (!planSuccess) {
+        return _DryRunResultImpl(
+          assets: [],
+          success: false,
+        );
+      }
+      buildPlan = plan;
     }
     final assets = <Asset>[];
     var success = true;
-    for (final package in plan) {
+    for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
@@ -268,7 +287,7 @@ build_output.yaml contained a format error.
 ${e.message}
         ''');
       success = false;
-      return (<Asset>[], <Uri>[], Metadata({}), false);
+      return (<Asset>[], <Uri>[], const Metadata({}), false);
       // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
       // type errors in native_assets_cli, release a new version of that package
       // and then remove this.
@@ -279,7 +298,7 @@ Building native assets for package:${config.packageName} failed.
 build_output.yaml contained a format error.
         ''');
       success = false;
-      return (<Asset>[], <Uri>[], Metadata({}), false);
+      return (<Asset>[], <Uri>[], const Metadata({}), false);
     } finally {
       if (!success) {
         final buildOutputFile =
@@ -292,6 +311,7 @@ build_output.yaml contained a format error.
   }
 
   static Future<BuildConfig> _cliConfig({
+    required String packageName,
     required Uri packageRoot,
     required Target target,
     IOSSdk? targetIOSSdk,
@@ -303,6 +323,7 @@ build_output.yaml contained a format error.
     DependencyMetadata? dependencyMetadata,
   }) async {
     final buildDirName = BuildConfig.checksum(
+      packageName: packageName,
       packageRoot: packageRoot,
       targetOs: target.os,
       targetArchitecture: target.architecture,
@@ -321,6 +342,7 @@ build_output.yaml contained a format error.
     }
     return BuildConfig(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: packageRoot,
       targetOs: target.os,
       targetArchitecture: target.architecture,
@@ -348,6 +370,7 @@ build_output.yaml contained a format error.
     }
     return BuildConfig.dryRun(
       outDir: outDirUri,
+      packageName: packageName,
       packageRoot: packageRoot,
       targetOs: targetOs,
       linkModePreference: linkMode,
@@ -449,12 +472,7 @@ final class _BuildResultImpl implements BuildResult {
 extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
-          millisecondsSinceEpoch % Duration(seconds: 1).inMilliseconds);
-}
-
-extension on BuildConfig {
-  String get packageName =>
-      packageRoot.pathSegments.lastWhere((e) => e.isNotEmpty);
+          millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
 }
 
 int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());

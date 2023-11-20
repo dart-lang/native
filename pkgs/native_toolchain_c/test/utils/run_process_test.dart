@@ -13,15 +13,14 @@ void main() {
   final whichUri = Uri.file(Platform.isWindows ? 'where' : 'which');
 
   test('log contains working dir', () async {
-    await inTempDir((tempUri) async {
-      final messages = <String>[];
-      await runProcess(
-        executable: whichUri,
-        workingDirectory: tempUri,
-        logger: createCapturingLogger(messages),
-      );
-      expect(messages.join('\n'), contains('cd'));
-    });
+    final tempUri = await tempDirForTest();
+    final messages = <String>[];
+    await runProcess(
+      executable: whichUri,
+      workingDirectory: tempUri,
+      logger: createCapturingLogger(messages),
+    );
+    expect(messages.join('\n'), contains('cd'));
   });
 
   test('log contains env', () async {

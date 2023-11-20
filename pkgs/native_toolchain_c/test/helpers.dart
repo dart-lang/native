@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -11,41 +12,68 @@ import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
+/// Returns a suffix for a test that is parameterized.
+///
+/// [tags] represent the current configuration of the test. Each element
+/// is converted to a string by calling [Object.toString].
+///
+/// ## Example
+///
+/// The instances of the test below will have the following descriptions:
+///
+/// - `My test`
+/// - `My test (dry_run)`
+///
+/// ```dart
+/// void main() {
+///   for (final dryRun in [true, false]) {
+///     final suffix = testSuffix([if (dryRun) 'dry_run']);
+///
+///     test('My test$suffix', () {});
+///   }
+/// }
+/// ```
+String testSuffix(List<Object> tags) => switch (tags) {
+      [] => '',
+      _ => ' (${tags.join(', ')})',
+    };
+
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
-Future<void> inTempDir(
-  Future<void> Function(Uri tempUri) fun, {
-  String? prefix,
-  bool keepTemp = false,
-}) async {
+Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
   final tempUri =
       Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
-  try {
-    await fun(tempUri);
-  } finally {
-    if ((!Platform.environment.containsKey(keepTempKey) ||
-            Platform.environment[keepTempKey]!.isEmpty) &&
-        !keepTemp) {
-      await tempDir.delete(recursive: true);
-    }
+  if ((!Platform.environment.containsKey(keepTempKey) ||
+          Platform.environment[keepTempKey]!.isEmpty) &&
+      !keepTemp) {
+    addTearDown(() => tempDir.delete(recursive: true));
   }
+  return tempUri;
 }
 
 /// Logger that outputs the full trace when a test fails.
-final logger = Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
-  });
+Logger get logger => _logger ??= () {
+      // A new logger is lazily created for each test so that the messages
+      // captured by printOnFailure are scoped to the correct test.
+      addTearDown(() => _logger = null);
+      return _createTestLogger();
+    }();
 
-Logger createCapturingLogger(List<String> capturedMessages) => Logger('')
-  ..level = Level.ALL
-  ..onRecord.listen((record) {
-    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
-    capturedMessages.add(record.message);
-  });
+Logger? _logger;
+
+Logger createCapturingLogger(List<String> capturedMessages) =>
+    _createTestLogger(capturedMessages: capturedMessages);
+
+Logger _createTestLogger({List<String>? capturedMessages}) =>
+    Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) {
+        printOnFailure(
+            '${record.level.name}: ${record.time}: ${record.message}');
+        capturedMessages?.add(record.message);
+      });
 
 /// Test files are run in a variety of ways, find this package root in all.
 ///
@@ -143,4 +171,12 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
       .trim()
       .split(' ')[1];
   return installName;
+}
+
+/// Opens the [DynamicLibrary] at [path] and register a tear down hook to close
+/// it when the current test is done.
+DynamicLibrary openDynamicLibraryForTest(String path) {
+  final library = DynamicLibrary.open(path);
+  addTearDown(library.close);
+  return library;
 }

@@ -18,6 +18,25 @@ abstract class Builder {
   });
 }
 
+/// A programming language that can be selected for compilation of source files.
+///
+/// See [CBuilder.language] for more information.
+class Language {
+  /// The name of the language.
+  final String name;
+
+  const Language._(this.name);
+
+  static const Language c = Language._('c');
+  static const Language cpp = Language._('c++');
+
+  /// Known values for [Language].
+  static const List<Language> values = [c, cpp];
+
+  @override
+  String toString() => name;
+}
+
 /// Specification for building an artifact with a C compiler.
 class CBuilder implements Builder {
   /// What kind of artifact to build.
@@ -45,6 +64,13 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.dependencies].
   final List<String> sources;
 
+  /// Include directories to pass to the compiler.
+  ///
+  /// Resolved against [BuildConfig.packageRoot].
+  ///
+  /// Used to output the [BuildOutput.dependencies].
+  final List<String> includes;
+
   /// The dart files involved in building this artifact.
   ///
   /// Resolved against [BuildConfig.packageRoot].
@@ -57,21 +83,109 @@ class CBuilder implements Builder {
   @visibleForTesting
   final Uri? installName;
 
+  /// Flags to pass to the compiler.
+  final List<String> flags;
+
+  /// Definitions of preprocessor macros.
+  ///
+  /// When the value is `null`, the macro is defined without a value.
+  final Map<String, String?> defines;
+
+  /// Whether to define a macro for the current [BuildMode].
+  ///
+  /// The macro name is the uppercase name of the build mode and does not have a
+  /// value.
+  ///
+  /// Defaults to `true`.
+  final bool buildModeDefine;
+
+  /// Whether to define the standard `NDEBUG` macro when _not_ building with
+  /// [BuildMode.debug].
+  ///
+  /// When `NDEBUG` is defined, the C/C++ standard library
+  /// [`assert` macro in `assert.h`](https://en.wikipedia.org/wiki/Assert.h)
+  /// becomes a no-op. Other C/C++ code commonly use `NDEBUG` to disable debug
+  /// features, as well.
+  ///
+  /// Defaults to `true`.
+  final bool ndebugDefine;
+
+  /// Whether the compiler will emit position independent code.
+  ///
+  /// When set to `true`, libraries will be compiled with `-fPIC` and
+  /// executables with `-fPIE`. Accordingly the corresponding parameter of the
+  /// [CBuilder.executable] constructor is named `pie`.
+  ///
+  /// When set to `null`, the default behavior of the compiler will be used.
+  ///
+  /// This option has no effect when building for Windows, where generation of
+  /// position independent code is not configurable.
+  ///
+  /// Defaults to `true` for libraries and `false` for executables.
+  final bool? pic;
+
+  /// The language standard to use.
+  ///
+  /// When set to `null`, the default behavior of the compiler will be used.
+  final String? std;
+
+  /// The language to compile [sources] as.
+  ///
+  /// [cppLinkStdLib] only has an effect when this option is set to
+  /// [Language.cpp].
+  final Language language;
+
+  /// The C++ standard library to link against.
+  ///
+  /// This option has no effect when [language] is not set to [Language.cpp] or
+  /// when compiling for Windows.
+  ///
+  /// When set to `null`, the following defaults will be used, based on the
+  /// target OS:
+  ///
+  /// | OS      | Library      |
+  /// | :------ | :----------- |
+  /// | Android | `c++_shared` |
+  /// | iOS     | `c++`        |
+  /// | Linux   | `stdc++`     |
+  /// | macOS   | `c++`        |
+  /// | Fuchsia | `c++`        |
+  final String? cppLinkStdLib;
+
   CBuilder.library({
     required this.name,
     required this.assetId,
     this.sources = const [],
+    this.includes = const [],
     this.dartBuildFiles = const ['build.dart'],
     @visibleForTesting this.installName,
+    this.flags = const [],
+    this.defines = const {},
+    this.buildModeDefine = true,
+    this.ndebugDefine = true,
+    this.pic = true,
+    this.std,
+    this.language = Language.c,
+    this.cppLinkStdLib,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
     required this.name,
     this.sources = const [],
+    this.includes = const [],
     this.dartBuildFiles = const ['build.dart'],
+    this.flags = const [],
+    this.defines = const {},
+    this.buildModeDefine = true,
+    this.ndebugDefine = true,
+    bool? pie = false,
+    this.std,
+    this.language = Language.c,
+    this.cppLinkStdLib,
   })  : _type = _CBuilderType.executable,
         assetId = null,
-        installName = null;
+        installName = null,
+        pic = pie;
 
   /// Runs the C Compiler with on this C build spec.
   ///
@@ -94,6 +208,10 @@ class CBuilder implements Builder {
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
     ];
+    final includes = [
+      for (final directory in this.includes)
+        packageRoot.resolveUri(Uri.file(directory)),
+    ];
     final dartBuildFiles = [
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
@@ -102,6 +220,7 @@ class CBuilder implements Builder {
         buildConfig: buildConfig,
         logger: logger,
         sources: sources,
+        includes: includes,
         dynamicLibrary:
             _type == _CBuilderType.library && linkMode == LinkMode.dynamic
                 ? libUri
@@ -112,6 +231,17 @@ class CBuilder implements Builder {
                 : null,
         executable: _type == _CBuilderType.executable ? exeUri : null,
         installName: installName,
+        flags: flags,
+        defines: {
+          ...defines,
+          if (buildModeDefine) buildConfig.buildMode.name.toUpperCase(): null,
+          if (ndebugDefine && buildConfig.buildMode != BuildMode.debug)
+            'NDEBUG': null,
+        },
+        pic: pic,
+        std: std,
+        language: language,
+        cppLinkStdLib: cppLinkStdLib,
       );
       await task.run();
     }
@@ -134,10 +264,21 @@ class CBuilder implements Builder {
       }
     }
     if (!buildConfig.dryRun) {
-      buildOutput.dependencies.dependencies.addAll([
+      final includeFiles = await Stream.fromIterable(includes)
+          .asyncExpand(
+            (include) => Directory(include.toFilePath())
+                .list(recursive: true)
+                .where((entry) => entry is File)
+                .map((file) => file.uri),
+          )
+          .toList();
+
+      buildOutput.dependencies.dependencies.addAll({
+        // Note: We use a Set here to deduplicate the dependencies.
         ...sources,
+        ...includeFiles,
         ...dartBuildFiles,
-      ]);
+      });
     }
   }
 }

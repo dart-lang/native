@@ -40,4 +40,28 @@ void main() async {
       }
     });
   });
+
+  test('right asset id but other directory', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      final packageUri = tempUri.resolve('different_root_dir/');
+      await copyTestProjects(
+        sourceUri: testDataUri.resolve('native_add/'),
+        targetUri: packageUri,
+      );
+
+      await runPubGet(
+        workingDirectory: packageUri,
+        logger: logger,
+      );
+
+      {
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+        );
+        expect(result.success, true);
+      }
+    });
+  });
 }

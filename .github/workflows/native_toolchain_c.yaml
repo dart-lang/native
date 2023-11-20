@@ -1,0 +1,60 @@
+# Workflow that runs relevant tests with the clang from the Dart SDK.
+
+name: native_toolchain_c
+permissions: read-all
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_toolchain_c.yaml"
+      - "pkgs/native_toolchain_c/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_toolchain_c.yaml"
+      - "pkgs/native_toolchain_c/**"
+  schedule:
+    - cron: "0 0 * * 0" # weekly
+
+jobs:
+  dart-sdk-clang:
+    strategy:
+      matrix:
+        os: [ubuntu]
+        sdk: [stable]
+        package: [native_toolchain_c]
+
+    runs-on: ${{ matrix.os }}-latest
+
+    defaults:
+      run:
+        working-directory: pkgs/${{ matrix.package }}
+
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+      - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - uses: nttld/setup-ndk@3354316c3285ea90da09d047280dd79d00d5a37a
+        with:
+          ndk-version: r26b
+        if: ${{ matrix.sdk == 'stable' }}
+
+      - run: dart pub get
+
+      - name: Install native toolchains
+        run: sudo apt-get update && sudo apt-get install gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
+        if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
+
+      - run: git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+      - run: echo "$PWD/depot_tools" >> $GITHUB_PATH
+      - run: mkdir dart-sdk
+      - run: cd dart-sdk && fetch --no-history dart
+      - run: echo "./dart-sdk/sdk/buildtools/linux-x64/clang/bin" >> $GITHUB_PATH
+      - run: clang --version
+
+      - run: dart test
+        if: ${{ matrix.sdk == 'stable' }}

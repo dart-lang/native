@@ -37,7 +37,7 @@ void main() {
     dependencies: Dependencies([
       Uri.file('path/to/file.ext'),
     ]),
-    metadata: Metadata({
+    metadata: const Metadata({
       'key': 'value',
     }),
   );
@@ -157,6 +157,17 @@ metadata:
   123: value
 version: ${BuildOutput.version}'''),
       throwsFormatException,
+    );
+  });
+
+  test('BuildOutput dependencies can be modified', () {
+    // TODO(https://github.com/dart-lang/native/issues/25):
+    // Remove once dependencies are made immutable.
+    final buildOutput = BuildOutput();
+    expect(
+      () => buildOutput.dependencies.dependencies
+          .add(Uri.file('path/to/file.ext')),
+      returnsNormally,
     );
   });
 }

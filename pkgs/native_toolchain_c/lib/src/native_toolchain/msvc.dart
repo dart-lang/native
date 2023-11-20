@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
@@ -62,16 +63,26 @@ Tool vcvars(ToolInstance toolInstance) {
   final tool = toolInstance.tool;
   assert(tool == cl || tool == link || tool == lib);
   final vcDir = toolInstance.uri.resolve('../../../../../../');
-  final fileName = toolInstance.uri.toFilePath().contains('x86')
-      ? 'vcvars32.bat'
-      : 'vcvars64.bat';
+  final String fileName;
+  if (toolInstance.uri.toFilePath().contains('\\x86\\')) {
+    fileName = 'vcvars32.bat';
+  } else if (toolInstance.uri.toFilePath().contains('\\arm64\\')) {
+    // TODO(https://github.com/dart-lang/native/issues/170): Support native
+    // windows-arm64 MSVC toolchain.
+    // vcvarsarm64 only works on native windows-arm64. In case of cross
+    // compilation, it's better to stick to cross toolchain, which works under
+    // emulation on windows-arm64.
+    fileName = 'vcvarsamd64_arm64.bat';
+  } else {
+    fileName = 'vcvars64.bat';
+  }
   final batchScript = vcDir.resolve('Auxiliary/Build/$fileName');
   return Tool(
     name: fileName,
     defaultResolver: InstallLocationResolver(
       toolName: fileName,
       paths: [
-        batchScript.toFilePath().replaceAll('\\', '/'),
+        Glob.quote(batchScript.toFilePath().replaceAll('\\', '/')),
       ],
     ),
   );
@@ -95,6 +106,20 @@ final Tool vcvars32 = Tool(
   ),
 );
 
+final Tool vcvarsarm64 = Tool(
+  // TODO(https://github.com/dart-lang/native/issues/170): Support native
+  // windows-arm64 MSVC toolchain.
+  // vcvarsarm64 only works on native windows-arm64. In case of cross
+  // compilation, it's better to stick to cross toolchain, which works under
+  // emulation on windows-arm64.
+  name: 'vcvarsamd64_arm64.bat',
+  defaultResolver: RelativeToolResolver(
+    toolName: 'vcvarsamd64_arm64.bat',
+    wrappedResolver: visualStudio.defaultResolver!,
+    relativePath: Uri(path: './VC/Auxiliary/Build/vcvarsamd64_arm64.bat'),
+  ),
+);
+
 final Tool vcvarsall = Tool(
   name: 'vcvarsall.bat',
   defaultResolver: RelativeToolResolver(
@@ -115,7 +140,7 @@ final Tool vsDevCmd = Tool(
 
 /// The C/C++ Optimizing Compiler main executable.
 ///
-/// For targeting x64.
+/// For targeting [Architecture.x64].
 final Tool cl = _msvcTool(
   name: 'cl',
   versionArguments: [],
@@ -125,11 +150,21 @@ final Tool cl = _msvcTool(
 
 /// The C/C++ Optimizing Compiler main executable.
 ///
-/// For targeting ia32.
+/// For targeting [Architecture.ia32].
 final Tool clIA32 = _msvcTool(
   name: 'cl',
   versionArguments: [],
   targetArchitecture: Architecture.ia32,
+  hostArchitecture: Target.current.architecture,
+);
+
+/// The C/C++ Optimizing Compiler main executable.
+///
+/// For targeting [Architecture.arm64].
+final Tool clArm64 = _msvcTool(
+  name: 'cl',
+  versionArguments: [],
+  targetArchitecture: Architecture.arm64,
   hostArchitecture: Target.current.architecture,
 );
 
@@ -144,6 +179,14 @@ final Tool lib = _msvcTool(
 final Tool libIA32 = _msvcTool(
   name: 'lib',
   targetArchitecture: Architecture.ia32,
+  hostArchitecture: Target.current.architecture,
+  // https://github.com/dart-lang/native/issues/18
+  resolveVersion: false,
+);
+
+final Tool libArm64 = _msvcTool(
+  name: 'lib',
+  targetArchitecture: Architecture.arm64,
   hostArchitecture: Target.current.architecture,
   // https://github.com/dart-lang/native/issues/18
   resolveVersion: false,
@@ -165,6 +208,14 @@ final Tool linkIA32 = _msvcTool(
   hostArchitecture: Target.current.architecture,
 );
 
+final Tool linkArm64 = _msvcTool(
+  name: 'link',
+  versionArguments: ['/help'],
+  versionExitCode: 1100,
+  targetArchitecture: Architecture.arm64,
+  hostArchitecture: Target.current.architecture,
+);
+
 final Tool dumpbin = _msvcTool(
   name: 'dumpbin',
   targetArchitecture: Architecture.x64,
@@ -174,6 +225,7 @@ final Tool dumpbin = _msvcTool(
 const _msvcArchNames = {
   Architecture.ia32: 'x86',
   Architecture.x64: 'x64',
+  Architecture.arm64: 'arm64',
 };
 
 Tool _msvcTool({
