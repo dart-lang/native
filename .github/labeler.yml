@@ -6,6 +6,12 @@
 'package:ffigen':
   - 'pkgs/ffigen/**'
 
+'package:jnigen':
+  - 'pkgs/jnigen/**'
+
+'package:jni':
+  - 'pkgs/jni/**'
+
 'package:native_assets_builder':
   - 'pkgs/native_assets_builder/**'
 
