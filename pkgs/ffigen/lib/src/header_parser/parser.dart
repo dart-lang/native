@@ -123,7 +123,7 @@ List<Binding> parseToBindings(Config c) {
       _logger.warning("Ignored source errors. (ObjC)");
     } else {
       _logger.severe(
-          "Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/docs/errors.md.");
+          "Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.");
       exit(1);
     }
   }
