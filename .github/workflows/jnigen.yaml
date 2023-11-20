@@ -116,8 +116,8 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: jnigen_tests
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jnigen/coverage/lcov.info
         if: ${{ matrix.sdk == 'stable' }}
@@ -192,8 +192,8 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: jni_tests
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
       # TODO(https://github.com/dart-lang/ffigen/issues/555): Ffigen generated
