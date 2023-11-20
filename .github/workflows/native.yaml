@@ -123,7 +123,7 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
-          flag-name: ${{ matrix.package }}-${{ matrix.os }}
+          flag-name: ${{ matrix.package }}_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
         if: ${{ matrix.sdk == 'stable' }}
@@ -135,6 +135,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
-          carryforward: "ffigen-all,jnigen_tests,jni_tests"
+          carryforward: "ffigen_macos,jnigen_tests,jni_tests"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
