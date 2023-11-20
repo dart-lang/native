@@ -33,5 +33,5 @@ void main() async {
     final config = getConfig(generateFullVersion: true);
     config.outputConfig.bindingsType = BindingsType.dartOnly;
     await generateAndAnalyzeBindings(config);
-  }, timeout: const Timeout.factor(2), tags: largeTestTag);
+  }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
 }

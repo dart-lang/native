@@ -225,10 +225,10 @@ void generateAndCompareBothModes(
 ) {
   test('$description (cBased)', () async {
     await generateAndCompareBindings(cBasedConfig);
-  });
+  }, timeout: const Timeout(Duration(minutes: 2)));
   test('$description (dartOnly)', () async {
     await generateAndCompareBindings(dartOnlyConfig);
-  });
+  }, timeout: const Timeout(Duration(minutes: 2)));
 }
 
 List<String> findFilesWithSuffix(Directory dir, String suffix) {

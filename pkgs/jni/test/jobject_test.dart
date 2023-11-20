@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
-import 'dart:ffi';
 import 'dart:isolate';
 
 import 'package:test/test.dart';
@@ -244,8 +243,8 @@ void run({required TestRunnerCallback testRunner}) {
     });
   });
 
-  testRunner("Isolate", () {
-    Isolate.spawn(doSomeWorkInIsolate, null);
+  testRunner("Isolate", () async {
+    await Isolate.run(doSomeWorkInIsolate);
   });
 
   testRunner("Methods rethrow exceptions in Java as JniException", () {
@@ -277,7 +276,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
 }
 
-void doSomeWorkInIsolate(Void? _) {
+void doSomeWorkInIsolate() {
   // On standalone target, make sure to call [setDylibDir] before accessing
   // any JNI function in a new isolate.
   //
