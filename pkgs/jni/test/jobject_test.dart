@@ -244,7 +244,9 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner("Isolate", () async {
-    await Isolate.run(doSomeWorkInIsolate);
+    final random = await Isolate.run(doSomeWorkInIsolate);
+    expect(random, greaterThanOrEqualTo(0));
+    expect(random, lessThan(256));
   });
 
   testRunner("Methods rethrow exceptions in Java as JniException", () {
@@ -276,17 +278,15 @@ void run({required TestRunnerCallback testRunner}) {
   });
 }
 
-void doSomeWorkInIsolate() {
+int doSomeWorkInIsolate() {
   // On standalone target, make sure to call [setDylibDir] before accessing
   // any JNI function in a new isolate.
   //
   // otherwise subsequent JNI calls will throw a "library not found" exception.
   Jni.setDylibDir(dylibDir: "build/jni_libs");
   final random = Jni.newInstance("java/util/Random", "()V", []);
-  // final r = random.callMethodByName<int>("nextInt", "(I)I", [256]);
-  // expect(r, lessThan(256));
-  // Expect throws an [OutsideTestException]
-  // but you can uncomment below print and see it works
-  // print("\n$r");
+  final result = random.callMethodByName<int>(
+      "nextInt", "(I)I", [256], JniCallType.intType);
   random.release();
+  return result;
 }
