@@ -39,6 +39,7 @@ void main(List<String> args) {
     if (yamlEditor.edits.isEmpty) {
       continue;
     }
+    yamlEditor.update(['publish_to'], 'none');
     file.writeAsStringSync(yamlEditor.toString());
   }
 }
