@@ -244,7 +244,23 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner("Isolate", () async {
-    final random = await Isolate.run(doSomeWorkInIsolate);
+    final receivePort = ReceivePort();
+    await Isolate.spawn((sendPort) {
+      // On standalone target, make sure to call [setDylibDir] before accessing
+      // any JNI function in a new isolate.
+      //
+      // otherwise subsequent JNI calls will throw a "library not found" exception.
+      Jni.setDylibDir(dylibDir: "build/jni_libs");
+      final random = Jni.newInstance("java/util/Random", "()V", []);
+      final result = random.callMethodByName<int>(
+          "nextInt", "(I)I", [256], JniCallType.intType);
+      random.release();
+      // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
+      // with coverage pauses indefinitely here.
+      sendPort.send(result);
+      exit(0);
+    }, receivePort.sendPort);
+    final random = await receivePort.first as int;
     expect(random, greaterThanOrEqualTo(0));
     expect(random, lessThan(256));
   });
@@ -276,17 +292,4 @@ void run({required TestRunnerCallback testRunner}) {
     );
     expect(maxLong, equals(maxLongInJava));
   });
-}
-
-int doSomeWorkInIsolate() {
-  // On standalone target, make sure to call [setDylibDir] before accessing
-  // any JNI function in a new isolate.
-  //
-  // otherwise subsequent JNI calls will throw a "library not found" exception.
-  Jni.setDylibDir(dylibDir: "build/jni_libs");
-  final random = Jni.newInstance("java/util/Random", "()V", []);
-  final result = random.callMethodByName<int>(
-      "nextInt", "(I)I", [256], JniCallType.intType);
-  random.release();
-  return result;
 }
