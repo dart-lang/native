@@ -114,8 +114,8 @@ List<Binding> parseToBindings(Config c) {
   }
 
   if (hasSourceErrors) {
-    _logger.warning(
-        "The compiler found some warnings/errors in source files. This might generate invalid bindings due to a wrong compiler guess.");
+    _logger.warning("The compiler found warnings/errors in source files.");
+    _logger.warning("This will likely generate invalid bindings.");
     if (config.ignoreSourceErrors) {
       _logger.warning(
           "Ignored source errors. (User supplied --ignore-source-errors)");

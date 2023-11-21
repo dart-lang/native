@@ -4,7 +4,8 @@ This file documents various errors and their potential fixes related to ffigen.
 
 ## Errors in source header files
 
-Under the hood ffigen uses libclang to parse header files. Any compiler warnings/errors should be logged (with SEVERE level), these should be resolved as it can potentially generate *incomplete* or *invalid* bindings that might cause silent errors at runtime.
+FFIgen uses libclang to parse header files. Any compiler warnings/errors should be logged (with SEVERE level).
+Compiler errors and warnings should be resolved as they can potentially generate invalid bindings that might cause silent errors and crashes at runtime.
 
 > You can pass in args to libclang using  `compiler-opts` via cmd line or yaml config or both.
 
@@ -21,3 +22,5 @@ compiler-opts:
 ### Ignoring source errors
 
 As a last resort, you can pass in `--ignore-source-errors` or set `ignore-source-errors: true` in yaml config.
+
+**Warning: This will likely lead to incorrect bindings!**
