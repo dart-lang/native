@@ -1,0 +1,14 @@
+name: tools_for_dart_lang_native
+description: >-
+  Some helper scripts for https://github.com/dart-lang/native.
+version: 0.1.0
+repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_builder
+
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  glob: ^2.1.2
+  yaml_edit: ^2.1.1

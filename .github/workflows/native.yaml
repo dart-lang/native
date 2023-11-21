@@ -13,6 +13,7 @@ on:
       - "pkgs/native_assets_builder/**"
       - "pkgs/native_assets_cli/**"
       - "pkgs/native_toolchain_c/**"
+      - "tools/**"
   push:
     branches: [main]
     paths:
@@ -20,6 +21,7 @@ on:
       - "pkgs/native_assets_builder/**"
       - "pkgs/native_assets_cli/**"
       - "pkgs/native_toolchain_c/**"
+      - "tools/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
 
@@ -30,6 +32,7 @@ jobs:
         os: [ubuntu, macos, windows]
         sdk: [stable, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
+        dependencies: [published, path]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
         exclude:
@@ -38,6 +41,9 @@ jobs:
             sdk: dev
           - os: windows
             sdk: dev
+          # Only run path deps on dev
+          - sdk: stable
+            dependencies: published
 
     runs-on: ${{ matrix.os }}-latest
 
@@ -56,6 +62,12 @@ jobs:
         with:
           ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
+
+      - run: dart pub get -C ../../tools/
+        if: ${{ matrix.dependencies == 'path' }}
+
+      - run: dart ../../tools/bin/change_dependencies.dart 
+        if: ${{ matrix.dependencies == 'path' }}
 
       - run: dart pub get
 
@@ -114,11 +126,11 @@ jobs:
 
       - name: Install coverage
         run: dart pub global activate coverage
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' && matrix.dependencies == 'published' }}
 
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' && matrix.dependencies == 'published' }}
 
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
@@ -126,7 +138,7 @@ jobs:
           flag-name: ${{ matrix.package }}_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' && matrix.dependencies == 'published' }}
 
   coverage-finished:
     needs: [build]
