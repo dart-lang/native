@@ -16,6 +16,7 @@ final _logger = Logger('ffigen.ffigen');
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 const compilerOpts = 'compiler-opts';
+const ignoreSourceErrors = 'ignore-source-errors';
 const conf = 'config';
 const help = 'help';
 const verbose = 'verbose';
@@ -85,6 +86,10 @@ Config getConfig(ArgResults result, PackageConfig? packageConfig) {
     _logger.fine('Passed compiler opts - "${result[compilerOpts]}"');
     config.addCompilerOpts((result[compilerOpts] as String),
         highPriority: true);
+  }
+
+  if (result.wasParsed(ignoreSourceErrors)) {
+    config.ignoreSourceErrors = true;
   }
 
   return config;
@@ -157,6 +162,11 @@ ArgResults getArgResults(List<String> args) {
   parser.addOption(
     compilerOpts,
     help: 'Compiler options for clang. (E.g --$compilerOpts "-I/headers -W")',
+  );
+  parser.addFlag(
+    ignoreSourceErrors,
+    help: 'Ignore any compiler warnings/errors in source header files',
+    negatable: false,
   );
 
   ArgResults results;

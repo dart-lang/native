@@ -39,6 +39,10 @@ void logTuDiagnostics(
   logger.log(logLevel, 'Header $header: Total errors/warnings: $total.');
   for (var i = 0; i < total; i++) {
     final diag = clang.clang_getDiagnostic(tu, i);
+    if (clang.clang_getDiagnosticSeverity(diag) >=
+        clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
+      hasSourceErrors = true;
+    }
     final cxstring = clang.clang_formatDiagnostic(
       diag,
       clang_types
