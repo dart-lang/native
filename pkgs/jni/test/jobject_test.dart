@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
-import 'dart:ffi';
 import 'dart:isolate';
 
 import 'package:test/test.dart';
@@ -244,8 +243,27 @@ void run({required TestRunnerCallback testRunner}) {
     });
   });
 
-  testRunner("Isolate", () {
-    Isolate.spawn(doSomeWorkInIsolate, null);
+  testRunner("Isolate", () async {
+    final receivePort = ReceivePort();
+    await Isolate.spawn((sendPort) {
+      // On standalone target, make sure to call [setDylibDir] before accessing
+      // any JNI function in a new isolate.
+      //
+      // otherwise subsequent JNI calls will throw a "library not found" exception.
+      Jni.setDylibDir(dylibDir: "build/jni_libs");
+      final random = Jni.newInstance("java/util/Random", "()V", []);
+      final result = random.callMethodByName<int>(
+          "nextInt", "(I)I", [256], JniCallType.intType);
+      random.release();
+      // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
+      // with coverage pauses indefinitely here.
+      // https://github.com/dart-lang/coverage/issues/472
+      sendPort.send(result);
+      Isolate.current.kill();
+    }, receivePort.sendPort);
+    final random = await receivePort.first as int;
+    expect(random, greaterThanOrEqualTo(0));
+    expect(random, lessThan(256));
   });
 
   testRunner("Methods rethrow exceptions in Java as JniException", () {
@@ -275,19 +293,4 @@ void run({required TestRunnerCallback testRunner}) {
     );
     expect(maxLong, equals(maxLongInJava));
   });
-}
-
-void doSomeWorkInIsolate(Void? _) {
-  // On standalone target, make sure to call [setDylibDir] before accessing
-  // any JNI function in a new isolate.
-  //
-  // otherwise subsequent JNI calls will throw a "library not found" exception.
-  Jni.setDylibDir(dylibDir: "build/jni_libs");
-  final random = Jni.newInstance("java/util/Random", "()V", []);
-  // final r = random.callMethodByName<int>("nextInt", "(I)I", [256]);
-  // expect(r, lessThan(256));
-  // Expect throws an [OutsideTestException]
-  // but you can uncomment below print and see it works
-  // print("\n$r");
-  random.release();
 }
