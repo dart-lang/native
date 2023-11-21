@@ -257,6 +257,7 @@ void run({required TestRunnerCallback testRunner}) {
       random.release();
       // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
       // with coverage pauses indefinitely here.
+      // https://github.com/dart-lang/coverage/issues/472
       sendPort.send(result);
       Isolate.current.kill();
     }, receivePort.sendPort);
