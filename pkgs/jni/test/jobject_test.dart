@@ -258,7 +258,7 @@ void run({required TestRunnerCallback testRunner}) {
       // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
       // with coverage pauses indefinitely here.
       sendPort.send(result);
-      exit(0);
+      Isolate.current.kill();
     }, receivePort.sendPort);
     final random = await receivePort.first as int;
     expect(random, greaterThanOrEqualTo(0));
