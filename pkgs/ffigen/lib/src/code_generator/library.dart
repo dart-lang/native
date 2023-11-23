@@ -95,7 +95,7 @@ class Library {
   void _warnIfPrivateDeclaration(Binding b) {
     if (b.name.startsWith('_') && !b.isInternal) {
       _logger.warning(
-          "Generated declaration '${b.name}' start's with '_' and therefore will be private.");
+          "Generated declaration '${b.name}' starts with '_' and therefore will be private.");
     }
   }
 
