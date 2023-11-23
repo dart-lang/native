@@ -73,12 +73,22 @@ class JsonFactory extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonFactoryType();
+  static final _id_FORMAT_NAME_JSON = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"FORMAT_NAME_JSON",
+    r"Ljava/lang/String;",
+  );
 
   /// from: static public final java.lang.String FORMAT_NAME_JSON
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Name used to identify JSON format
   /// (and returned by \#getFormatName()
-  static const FORMAT_NAME_JSON = r"""JSON""";
+  static jni.JString get FORMAT_NAME_JSON => const jni.JStringType().fromRef(jni
+      .Jni.accessors
+      .getStaticField(
+          _class.reference, _id_FORMAT_NAME_JSON, jni.JniCallType.objectType)
+      .object);
 
   static final _id_DEFAULT_FACTORY_FEATURE_FLAGS =
       jni.Jni.accessors.getStaticFieldIDOf(

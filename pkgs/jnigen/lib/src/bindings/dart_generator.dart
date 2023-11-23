@@ -1071,16 +1071,9 @@ class _FieldGenerator extends Visitor<Field, void> {
     if (node.isFinal && node.isStatic && node.defaultValue != null) {
       final name = node.finalName;
       final value = node.defaultValue!;
-      // TODO(#31): Should we leave String as a normal getter instead?
-      if (value is String || value is num || value is bool) {
+      if (value is num || value is bool) {
         writeDocs(node, writeReleaseInstructions: false);
-        s.write('  static const $name = ');
-        if (value is String) {
-          s.write('r"""$value"""');
-        } else {
-          s.write(value);
-        }
-        s.writeln(';\n');
+        s.writeln('  static const $name = $value;');
         return;
       }
     }

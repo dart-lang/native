@@ -113,9 +113,15 @@ class Example extends jni.JObject {
 
   /// from: static public final char SEMICOLON
   static const SEMICOLON = 59;
+  static final _get_SEMICOLON_STRING =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Example__SEMICOLON_STRING")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String SEMICOLON_STRING
-  static const SEMICOLON_STRING = r""";""";
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JString get SEMICOLON_STRING =>
+      const jni.JStringType().fromRef(_get_SEMICOLON_STRING().object);
 
   static final _get_unusedRandom =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(

@@ -140,8 +140,13 @@ class EmojiCompat extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompatType();
+  static final _get_EDITOR_INFO_METAVERSION_KEY =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_EmojiCompat__EDITOR_INFO_METAVERSION_KEY")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String EDITOR_INFO_METAVERSION_KEY
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Key in EditorInfo\#extras that represents the emoji metadata version used by the
   /// widget. The existence of the value means that the widget is using EmojiCompat.
@@ -149,15 +154,21 @@ class EmojiCompat extends jni.JObject {
   /// If exists, the value for the key is an {@code int} and can be used to query EmojiCompat to
   /// see whether the widget has the ability to display a certain emoji using
   /// \#hasEmojiGlyph(CharSequence, int).
-  static const EDITOR_INFO_METAVERSION_KEY =
-      r"""android.support.text.emoji.emojiCompat_metadataVersion""";
+  static jni.JString get EDITOR_INFO_METAVERSION_KEY => const jni.JStringType()
+      .fromRef(_get_EDITOR_INFO_METAVERSION_KEY().object);
+
+  static final _get_EDITOR_INFO_REPLACE_ALL_KEY =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_EmojiCompat__EDITOR_INFO_REPLACE_ALL_KEY")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String EDITOR_INFO_REPLACE_ALL_KEY
+  /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Key in EditorInfo\#extras that represents EmojiCompat.Config\#setReplaceAll(boolean) configuration parameter. The key is added only if
   /// EmojiCompat is used by the widget. If exists, the value is a boolean.
-  static const EDITOR_INFO_REPLACE_ALL_KEY =
-      r"""android.support.text.emoji.emojiCompat_replaceAll""";
+  static jni.JString get EDITOR_INFO_REPLACE_ALL_KEY => const jni.JStringType()
+      .fromRef(_get_EDITOR_INFO_REPLACE_ALL_KEY().object);
 
   /// from: static public final int LOAD_STATE_DEFAULT
   ///
@@ -323,7 +334,6 @@ class EmojiCompat extends jni.JObject {
   /// androidx.core.graphics.PaintCompat\#hasGlyph(Paint, String) for each emoji
   /// subsequence.
   static const EMOJI_FALLBACK = 2;
-
   static final _init = jniLookup<
               ffi
               .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
@@ -2398,9 +2408,15 @@ class Build_Partition extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Build_PartitionType();
+  static final _get_PARTITION_NAME_SYSTEM =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build_Partition__PARTITION_NAME_SYSTEM")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.lang.String PARTITION_NAME_SYSTEM
-  static const PARTITION_NAME_SYSTEM = r"""system""";
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JString get PARTITION_NAME_SYSTEM =>
+      const jni.JStringType().fromRef(_get_PARTITION_NAME_SYSTEM().object);
 
   static final _getName = jniLookup<
               ffi
@@ -2754,7 +2770,6 @@ class Build_VERSION_CODES extends jni.JObject {
 
   /// from: static public final int TIRAMISU
   static const TIRAMISU = 33;
-
   static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "Build_VERSION_CODES__new0")
       .asFunction<jni.JniResult Function()>();
@@ -3058,8 +3073,15 @@ class Build extends jni.JObject {
   static jni.JString get TYPE =>
       const jni.JStringType().fromRef(_get_TYPE().object);
 
+  static final _get_UNKNOWN =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Build__UNKNOWN")
+          .asFunction<jni.JniResult Function()>();
+
   /// from: static public final java.lang.String UNKNOWN
-  static const UNKNOWN = r"""unknown""";
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JString get UNKNOWN =>
+      const jni.JStringType().fromRef(_get_UNKNOWN().object);
 
   static final _get_USER =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__USER")

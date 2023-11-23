@@ -251,7 +251,10 @@ class _CFieldGenerator extends Visitor<Field, void> {
 
     // If the field is final and default is assigned, then no need to wrap
     // this field. It should then be a constant in dart code.
-    if (node.isStatic && node.isFinal && node.defaultValue != null) {
+    if (node.isStatic &&
+        node.isFinal &&
+        node.defaultValue != null &&
+        (node.defaultValue is num || node.defaultValue is bool)) {
       return;
     }
 
