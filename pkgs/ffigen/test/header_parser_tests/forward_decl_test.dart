@@ -23,6 +23,7 @@ ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
     - 'test/header_parser_tests/forward_decl.h'
+${strings.ignoreSourceErrors}: true
         '''),
       );
     });

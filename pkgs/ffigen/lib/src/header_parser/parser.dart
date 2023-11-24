@@ -22,7 +22,7 @@ import 'utils.dart';
 Library parse(Config c) {
   initParser(c);
 
-  final bindings = parseToBindings();
+  final bindings = parseToBindings(c);
 
   final library = Library(
     bindings: bindings,
@@ -52,7 +52,7 @@ void initParser(Config c) {
 }
 
 /// Parses source files and adds generated bindings to [bindings].
-List<Binding> parseToBindings() {
+List<Binding> parseToBindings(Config c) {
   final index = clang.clang_createIndex(0, 0);
 
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
@@ -111,6 +111,21 @@ List<Binding> parseToBindings() {
 
     logTuDiagnostics(tu, _logger, headerLocation);
     tuList.add(tu);
+  }
+
+  if (hasSourceErrors) {
+    _logger.warning("The compiler found warnings/errors in source files.");
+    _logger.warning("This will likely generate invalid bindings.");
+    if (config.ignoreSourceErrors) {
+      _logger.warning(
+          "Ignored source errors. (User supplied --ignore-source-errors)");
+    } else if (config.language == Language.objc) {
+      _logger.warning("Ignored source errors. (ObjC)");
+    } else {
+      _logger.severe(
+          "Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.");
+      exit(1);
+    }
   }
 
   final tuCursors =

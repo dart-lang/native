@@ -1,0 +1,47 @@
+# Copyright (c) 2022, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+name: jni
+description: A library to access JNI from Dart and Flutter that acts as a support library for package:jnigen.
+version: 0.8.0-wip
+repository: https://github.com/dart-lang/native/tree/main/pkgs/jni
+
+topics:
+  - interop
+  - ffi
+  - java
+  - kotlin
+  - jni
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+  flutter: '>=2.11.0'
+
+dependencies:
+  collection: ^1.0.0
+  plugin_platform_interface: ^2.0.2
+  ffi: ^2.0.1
+  path: ^1.8.0
+  package_config: ^2.1.0
+  args: ^2.3.1
+
+dev_dependencies:
+  ## Pin ffigen version because we are depending on internal APIs.
+  ffigen: 8.0.2
+  flutter_lints: ^2.0.0
+  test: ^1.21.1
+  logging: ^1.1.1
+
+# The following section is specific to Flutter packages.
+flutter:
+  plugin:
+    platforms:
+      linux:
+        ffiPlugin: true
+      windows:
+        ffiPlugin: true
+      android:
+        ffiPlugin: true
+        package: com.github.dart_lang.jni
+        pluginClass: JniPlugin

@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Validates the yaml input by the user, prints useful info for the user
+/// Validates the yaml input by the user, prints useful info for the user.
+library;
 
 import 'dart:io';
 
@@ -175,6 +176,9 @@ class Config {
   FfiNativeConfig get ffiNativeConfig => _ffiNativeConfig;
   late FfiNativeConfig _ffiNativeConfig;
 
+  /// Where to ignore compiler warnings/errors in source header files.
+  bool ignoreSourceErrors = false;
+
   Config._({required this.filename, required this.packageConfig});
 
   /// Create config from Yaml map.
@@ -284,6 +288,15 @@ class Config {
               transform: (node) => headersExtractor(node.value, filename),
               result: (node) => _headers = node.value,
             )),
+        HeterogeneousMapEntry(
+          key: strings.ignoreSourceErrors,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => false,
+          resultOrDefault: (node) {
+            // Set value to true if not already.
+            ignoreSourceErrors = ignoreSourceErrors || node.value as bool;
+          },
+        ),
         HeterogeneousMapEntry(
           key: strings.compilerOpts,
           valueConfigSpec: OneOfConfigSpec<List<String>, List<String>>(

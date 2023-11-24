@@ -1,0 +1,20 @@
+# Copyright (c) 2022, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+include: package:lints/recommended.yaml
+
+analyzer:
+  exclude: [build/**, example/**]
+  language:
+    strict-raw-types: true
+    strict-inference: true
+
+linter:
+  rules:
+    - dangling_library_doc_comments
+    - prefer_final_locals
+    - prefer_const_declarations
+    - unawaited_futures
+    - prefer_const_constructors
+    - prefer_relative_imports

@@ -1,4 +1,4 @@
-name: ffigen CI
+name: ffigen
 
 on:
   # Run on PRs and pushes to the default branch.
@@ -28,8 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # TODO: Change to 3.2.0 stable once it's released.
-        sdk: [3.2.0-210.4.beta]
+        sdk: [3.2.0]
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
@@ -57,7 +56,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
         with:
-          sdk: 3.2.0-210.4.beta
+          sdk: 3.2.0
       - name: Install dependencies
         run: dart pub get
       - name: Install libclang-14-dev
@@ -77,7 +76,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
         with:
-          sdk: 3.2.0-210.4.beta
+          sdk: 3.2.0
       - name: Install dependencies
         run: dart pub get
       - name: Build test dylib and bindings
@@ -89,8 +88,16 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
+          flag-name: ffigen_macos
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
           path-to-lcov: pkgs/ffigen/lcov.info
+      - name: Upload coverage
+        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        with:
+          carryforward: "jnigen_tests,jni_tests,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
 
   test-windows:
     needs: analyze
@@ -102,7 +109,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
         with:
-          sdk: 3.2.0-210.4.beta
+          sdk: 3.2.0
       - name: Install dependencies
         run: dart pub get
       - name: Build test dylib and bindings

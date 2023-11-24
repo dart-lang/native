@@ -1,0 +1,6 @@
+build/
+*.class
+test_lib/
+test_src/
+*_dartonly_generated.dart ## Generated test replicas
+generated_runtime_test.dart

@@ -1,13 +1,22 @@
-# This configures the .github/workflows/pull_request_label.yml workflow.
+# Configuration for .github/workflows/pull_request_label.yml.
 
 'type-infra':
-  - .github/**
+  - '.github/**'
+
+'package:ffigen':
+  - 'pkgs/ffigen/**'
+
+'package:jnigen':
+  - 'pkgs/jnigen/**'
+
+'package:jni':
+  - 'pkgs/jni/**'
 
 'package:native_assets_builder':
-  - pkgs/native_assets_builder/**/*
+  - 'pkgs/native_assets_builder/**'
 
 'package:native_assets_cli':
-  - pkgs/native_assets_cli/**/*
+  - 'pkgs/native_assets_cli/**'
 
 'package:native_toolchain_c':
-  - pkgs/native_toolchain_c/**/*
+  - 'pkgs/native_toolchain_c/**'

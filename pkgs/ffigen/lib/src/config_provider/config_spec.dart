@@ -66,7 +66,7 @@ abstract class ConfigSpec<TE extends Object?, RE extends Object?> {
     return {
       r"$id": schemaId,
       r"$comment":
-          "This file is generated. To regenerate run: dart tool/generate_json_schema.dart in github.com/dart-lang/ffigen",
+          "This file is generated. To regenerate run: dart tool/generate_json_schema.dart in github.com/dart-lang/native/tree/main/pkgs/ffigen",
       r"$schema": "https://json-schema.org/draft/2020-12/schema",
       ...schemaMap,
       r"$defs": defs,
