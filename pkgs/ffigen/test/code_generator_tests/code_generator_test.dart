@@ -250,6 +250,7 @@ void main() {
                 SupportedNativeType.Float,
               ),
             ),
+            constant: true,
           ),
           structSome,
           Global(

@@ -7,7 +7,10 @@
 
 bool coolGlobal;
 int32_t myInt;
-int32_t *aGlobalPointer;
+int32_t *aGlobalPointer0;
+int32_t *const aGlobalPointer1;
+const int32_t *aGlobalPointer2;
+const int32_t *const aGlobalPointer3;
 long double longDouble;
 long double *pointerToLongDouble;
 
