@@ -49,8 +49,14 @@ ${strings.ignoreSourceErrors}: true
           expected.getBindingAsString('coolGlobal'));
       expect(actual.getBindingAsString('myInt'),
           expected.getBindingAsString('myInt'));
-      expect(actual.getBindingAsString('aGlobalPointer'),
-          expected.getBindingAsString('aGlobalPointer'));
+      expect(actual.getBindingAsString('aGlobalPointer0'),
+          expected.getBindingAsString('aGlobalPointer0'));
+      expect(actual.getBindingAsString('aGlobalPointer1'),
+          expected.getBindingAsString('aGlobalPointer1'));
+      expect(actual.getBindingAsString('aGlobalPointer2'),
+          expected.getBindingAsString('aGlobalPointer2'));
+      expect(actual.getBindingAsString('aGlobalPointer3'),
+          expected.getBindingAsString('aGlobalPointer3'));
     });
 
     test('Ignore global values', () {
@@ -60,6 +66,18 @@ ${strings.ignoreSourceErrors}: true
           throwsA(TypeMatcher<NotFoundException>()));
       expect(() => actual.getBindingAsString('pointerToLongDouble'),
           throwsA(TypeMatcher<NotFoundException>()));
+    });
+
+    test('identifies constant globals', () {
+      final globalPointers = [
+        for (var i = 0; i < 4; i++)
+          actual.getBinding('aGlobalPointer$i') as Global,
+      ];
+
+      expect(globalPointers[0].constant, isFalse); // int32_t*
+      expect(globalPointers[1].constant, isTrue); // int32_t* const
+      expect(globalPointers[2].constant, isFalse); // const int32_t*
+      expect(globalPointers[3].constant, isTrue); // const int32_t* const
     });
   });
 }
@@ -77,8 +95,25 @@ Library expectedLibrary() {
       ),
       Global(
         type: PointerType(NativeType(SupportedNativeType.Int32)),
-        name: 'aGlobalPointer',
+        name: 'aGlobalPointer0',
         exposeSymbolAddress: true,
+      ),
+      Global(
+        type: PointerType(NativeType(SupportedNativeType.Int32)),
+        name: 'aGlobalPointer1',
+        exposeSymbolAddress: true,
+        constant: true,
+      ),
+      Global(
+        type: PointerType(NativeType(SupportedNativeType.Int32)),
+        name: 'aGlobalPointer2',
+        exposeSymbolAddress: true,
+      ),
+      Global(
+        type: PointerType(NativeType(SupportedNativeType.Int32)),
+        name: 'aGlobalPointer3',
+        exposeSymbolAddress: true,
+        constant: true,
       ),
       globalStruct,
       Global(
