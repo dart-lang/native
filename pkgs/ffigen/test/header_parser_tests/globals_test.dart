@@ -35,6 +35,7 @@ ${strings.globals}:
       - pointerToLongDouble
       - globalStruct
 ${strings.compilerOpts}: '-Wno-nullability-completeness'
+${strings.ignoreSourceErrors}: true
         '''),
       );
     });

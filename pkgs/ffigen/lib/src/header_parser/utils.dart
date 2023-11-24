@@ -301,6 +301,10 @@ extension CXTypeExt on clang_types.CXType {
         '(Type) spelling: ${spelling()}, kind: ${kind()}, kindSpelling: ${kindSpelling()}';
     return s;
   }
+
+  bool get isConstQualified {
+    return clang.clang_isConstQualifiedType(this) != 0;
+  }
 }
 
 extension CXStringExt on clang_types.CXString {
