@@ -17,6 +17,7 @@ void main(List<String> args) async {
             Target.current.os.dylibFileName('foo'),
           ),
         ),
+        type: AssetType.code,
       ),
     ],
   );

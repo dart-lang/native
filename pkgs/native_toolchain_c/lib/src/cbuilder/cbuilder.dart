@@ -260,6 +260,7 @@ class CBuilder implements Builder {
           linkMode: linkMode,
           target: target,
           path: AssetAbsolutePath(libUri),
+          type: AssetType.code,
         ));
       }
     }

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
@@ -23,18 +24,18 @@ void main() async {
         logger: logger,
       );
 
-      final buildRunner = NativeAssetsBuildRunner(
+      final buildRunner = NativeAssetsRunner(
         logger: logger,
         dartExecutable: dartExecutable,
       );
 
-      await buildRunner.dryRun(
+      await buildRunner.dryBuild(
         targetOs: Target.current.os,
         linkModePreference: LinkModePreference.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
       );
-      await buildRunner.dryRun(
+      await buildRunner.dryBuild(
         targetOs: Target.current.os,
         linkModePreference: LinkModePreference.dynamic,
         workingDirectory: packageUri,

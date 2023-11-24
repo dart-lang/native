@@ -26,12 +26,14 @@ void main() {
         path: AssetAbsolutePath(Uri(path: 'path/to/libfoo.so')),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
+        type: AssetType.code,
       ),
       Asset(
         id: 'foo2',
         path: AssetRelativePath(Uri(path: 'path/to/libfoo2.so')),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
+        type: AssetType.code,
       ),
     ],
     dependencies: Dependencies([
@@ -50,12 +52,14 @@ assets:
       path_type: absolute
       uri: path/to/libfoo.so
     target: android_x64
+    type: code
   - id: foo2
     link_mode: dynamic
     path:
       path_type: relative
       uri: path/to/libfoo2.so
     target: android_x64
+    type: code
 dependencies:
   - path/to/file.ext
 metadata:

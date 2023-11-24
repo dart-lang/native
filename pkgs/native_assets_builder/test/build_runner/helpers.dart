@@ -46,7 +46,7 @@ Future<BuildResult> build(
         logger.onRecord.listen((event) => capturedLogs.add(event.message));
   }
 
-  final result = await NativeAssetsBuildRunner(
+  final result = await NativeAssetsRunner(
     logger: logger,
     dartExecutable: dartExecutable,
   ).build(
@@ -69,7 +69,7 @@ Future<BuildResult> build(
   return result;
 }
 
-Future<DryRunResult> dryRun(
+Future<BuildResult> dryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -85,10 +85,10 @@ Future<DryRunResult> dryRun(
         logger.onRecord.listen((event) => capturedLogs.add(event.message));
   }
 
-  final result = await NativeAssetsBuildRunner(
+  final result = await NativeAssetsRunner(
     logger: logger,
     dartExecutable: dartExecutable,
-  ).dryRun(
+  ).dryBuild(
     linkModePreference: linkModePreference,
     targetOs: Target.current.os,
     workingDirectory: packageUri,

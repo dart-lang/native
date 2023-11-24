@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 class ResourceIdentifiers {
   final List<Identifier> identifiers;
 
   ResourceIdentifiers({required this.identifiers});
 
-  factory ResourceIdentifiers.fromFile() =>
-      ResourceIdentifiers(identifiers: []);
+  factory ResourceIdentifiers.fromFile(String fileContents) =>
+      ResourceIdentifiers(
+          identifiers: (jsonDecode(fileContents) as List)
+              .map((e) => e as Map<String, dynamic>)
+              .map(Identifier.fromJson)
+              .toList());
 }
 
 class Identifier {
@@ -32,7 +38,17 @@ class Identifier {
 
   @override
   String toString() =>
-      'Identifier(name: $name, id: $id, uri: $uri, nonConstant: $nonConstant, files: $files)';
+      '''Identifier(name: $name, id: $id, uri: $uri, nonConstant: $nonConstant, files: $files)''';
+
+  factory Identifier.fromJson(Map<String, dynamic> map) => Identifier(
+        name: map['name'] as String,
+        id: map['id'] as String,
+        uri: map['uri'] as String,
+        nonConstant: map['nonConstant'] as bool,
+        files: List<ResourceFile>.from((map['files'] as List)
+            .map((e) => e as Map<String, dynamic>)
+            .map(ResourceFile.fromJson)),
+      );
 }
 
 class ResourceFile {
@@ -45,6 +61,13 @@ class ResourceFile {
         'part': part,
         'references': references.map((x) => x.toJson()).toList(),
       };
+
+  factory ResourceFile.fromJson(Map<String, dynamic> map) => ResourceFile(
+        part: map['part'] as int,
+        references: List<ResourceReference>.from((map['files'] as List)
+            .map((e) => e as Map<String, dynamic>)
+            .map(ResourceReference.fromJson)),
+      );
 
   @override
   String toString() => 'ResourceFile(part: $part, references: $references)';
@@ -74,5 +97,14 @@ class ResourceReference {
 
   @override
   String toString() =>
-      'ResourceReference(uri: $uri, line: $line, column: $column, arguments: $arguments)';
+      '''ResourceReference(uri: $uri, line: $line, column: $column, arguments: $arguments)''';
+
+  factory ResourceReference.fromJson(Map<String, dynamic> map) =>
+      ResourceReference(
+        uri: map['uri'] as String,
+        line: map['line'] as int,
+        column: map['column'] as int,
+        arguments:
+            Map<String, Object?>.from(map['arguments'] as Map<String, dynamic>),
+      );
 }

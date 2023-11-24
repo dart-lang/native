@@ -9,20 +9,20 @@ import 'package:graphs/graphs.dart' as graphs;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 
-class NativeAssetsBuildPlanner {
-  final PackageGraph packageGraph;
+class NativeAssetsPlanner {
+  final DependencyGraph dependencyGraph;
   final List<Package> packagesWithNativeAssets;
   final Uri dartExecutable;
   final Logger logger;
 
-  NativeAssetsBuildPlanner({
-    required this.packageGraph,
+  NativeAssetsPlanner({
+    required this.dependencyGraph,
     required this.packagesWithNativeAssets,
     required this.dartExecutable,
     required this.logger,
   });
 
-  static Future<NativeAssetsBuildPlanner> fromRootPackageRoot({
+  static Future<NativeAssetsPlanner> fromRootPackageRoot({
     required Uri rootPackageRoot,
     required List<Package> packagesWithNativeAssets,
     required Uri dartExecutable,
@@ -37,10 +37,10 @@ class NativeAssetsBuildPlanner {
       ],
       workingDirectory: rootPackageRoot.toFilePath(),
     );
-    final packageGraph =
-        PackageGraph.fromPubDepsJsonString(result.stdout as String);
-    return NativeAssetsBuildPlanner(
-      packageGraph: packageGraph,
+    final dependencyGraph =
+        DependencyGraph.fromPubDepsJsonString(result.stdout as String);
+    return NativeAssetsPlanner(
+      dependencyGraph: dependencyGraph,
       packagesWithNativeAssets: packagesWithNativeAssets,
       dartExecutable: dartExecutable,
       logger: logger,
@@ -52,7 +52,8 @@ class NativeAssetsBuildPlanner {
       for (final package in packagesWithNativeAssets) package.name: package
     };
     final packagesToBuild = packageMap.keys.toSet();
-    final stronglyConnectedComponents = packageGraph.computeStrongComponents();
+    final stronglyConnectedComponents =
+        dependencyGraph.computeStrongComponents();
     final result = <Package>[];
     var success = true;
     for (final stronglyConnectedComponent in stronglyConnectedComponents) {
@@ -75,17 +76,20 @@ class NativeAssetsBuildPlanner {
   }
 }
 
-class PackageGraph {
+/// A graph of package dependencies, encoded as package name -> list of package
+/// dependencies.
+class DependencyGraph {
   final Map<String, List<String>> map;
 
-  PackageGraph(this.map);
+  DependencyGraph(this.map);
 
   /// Construct a graph from the JSON produced by `dart pub deps --json`.
-  factory PackageGraph.fromPubDepsJsonString(String json) =>
-      PackageGraph.fromPubDepsJson(jsonDecode(json) as Map<dynamic, dynamic>);
+  factory DependencyGraph.fromPubDepsJsonString(String json) =>
+      DependencyGraph.fromPubDepsJson(
+          jsonDecode(json) as Map<dynamic, dynamic>);
 
   /// Construct a graph from the JSON produced by `dart pub deps --json`.
-  factory PackageGraph.fromPubDepsJson(Map<dynamic, dynamic> map) {
+  factory DependencyGraph.fromPubDepsJson(Map<dynamic, dynamic> map) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {
@@ -96,7 +100,7 @@ class PackageGraph {
           .toList();
       result[name] = dependencies;
     }
-    return PackageGraph(result);
+    return DependencyGraph(result);
   }
 
   Iterable<String> neighborsOf(String vertex) => map[vertex] ?? [];

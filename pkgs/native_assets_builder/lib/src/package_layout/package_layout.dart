@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:package_config/package_config.dart';
 
+import 'build_type.dart';
+
 /// Directory layout for dealing with native assets.
 ///
 /// Build scripts for native assets will be run from the context of another
@@ -89,16 +91,22 @@ class PackageLayout {
   /// a `build.dart`.
   ///
   /// `package:native` itself is excluded.
-  late final Future<List<Package>> packagesWithNativeAssets = () async {
+  Future<List<Package>> packagesWithNativeAssets(BuildType type) async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
-        if (await File.fromUri(packageRoot.resolve('build.dart')).exists()) {
+        if (await File.fromUri(packageRoot.resolve(type.scriptName)).exists()) {
           result.add(package);
         }
       }
     }
     return result;
-  }();
+  }
+
+  late final Future<List<Package>> packagesWithNativeBuild =
+      packagesWithNativeAssets(BuildType.build);
+
+  late final Future<List<Package>> packagesWithNativeLink =
+      packagesWithNativeAssets(BuildType.link);
 }

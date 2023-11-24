@@ -32,15 +32,15 @@ void main() async {
       );
       expect(result.exitCode, 0);
 
-      final graph = PackageGraph.fromPubDepsJsonString(result.stdout);
+      final graph = DependencyGraph.fromPubDepsJsonString(result.stdout);
 
       final packageLayout =
           await PackageLayout.fromRootPackageRoot(nativeAddUri);
       final packagesWithNativeAssets =
-          await packageLayout.packagesWithNativeAssets;
+          await packageLayout.packagesWithNativeBuild;
 
-      final planner = NativeAssetsBuildPlanner(
-        packageGraph: graph,
+      final planner = NativeAssetsPlanner(
+        dependencyGraph: graph,
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
@@ -61,9 +61,9 @@ void main() async {
       final packageLayout =
           await PackageLayout.fromRootPackageRoot(nativeAddUri);
       final packagesWithNativeAssets =
-          await packageLayout.packagesWithNativeAssets;
+          await packageLayout.packagesWithNativeBuild;
       final nativeAssetsBuildPlanner =
-          await NativeAssetsBuildPlanner.fromRootPackageRoot(
+          await NativeAssetsPlanner.fromRootPackageRoot(
         rootPackageRoot: nativeAddUri,
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),

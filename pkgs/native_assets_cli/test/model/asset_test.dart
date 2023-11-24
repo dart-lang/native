@@ -18,42 +18,49 @@ void main() {
       path: AssetAbsolutePath(fooUri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
+      type: AssetType.code,
     ),
     Asset(
       id: 'foo2',
       path: AssetRelativePath(foo2Uri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
+      type: AssetType.code,
     ),
     Asset(
       id: 'foo3',
       path: AssetSystemPath(foo3Uri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
+      type: AssetType.code,
     ),
     Asset(
       id: 'foo4',
       path: AssetInExecutable(),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
+      type: AssetType.code,
     ),
     Asset(
       id: 'foo5',
       path: AssetInProcess(),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
+      type: AssetType.code,
     ),
     Asset(
       id: 'bar',
       path: AssetAbsolutePath(barUri),
       target: Target.linuxArm64,
       linkMode: LinkMode.static,
+      type: AssetType.code,
     ),
     Asset(
       id: 'bla',
       path: AssetAbsolutePath(blaUri),
       target: Target.windowsX64,
       linkMode: LinkMode.dynamic,
+      type: AssetType.code,
     ),
   ];
 
@@ -63,40 +70,47 @@ void main() {
     path_type: absolute
     uri: ${fooUri.toFilePath()}
   target: android_x64
+  type: code
 - id: foo2
   link_mode: dynamic
   path:
     path_type: relative
     uri: ${foo2Uri.toFilePath()}
   target: android_x64
+  type: code
 - id: foo3
   link_mode: dynamic
   path:
     path_type: system
     uri: ${foo3Uri.toFilePath()}
   target: android_x64
+  type: code
 - id: foo4
   link_mode: dynamic
   path:
     path_type: executable
   target: android_x64
+  type: code
 - id: foo5
   link_mode: dynamic
   path:
     path_type: process
   target: android_x64
+  type: code
 - id: bar
   link_mode: static
   path:
     path_type: absolute
     uri: ${barUri.toFilePath()}
   target: linux_arm64
+  type: code
 - id: bla
   link_mode: dynamic
   path:
     path_type: absolute
     uri: ${blaUri.toFilePath()}
-  target: windows_x64''';
+  target: windows_x64
+  type: code''';
 
   final assetsDartEncoding = '''format-version:
   - 1
@@ -185,6 +199,7 @@ path:
   path_type: absolute
   uri: ${fooUri.toFilePath()}
 target: android_x64
+type: code
 '''
             .trim());
   });
