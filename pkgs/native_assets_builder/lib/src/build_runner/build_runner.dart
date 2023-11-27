@@ -9,7 +9,6 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:package_config/package_config.dart';
 
-import '../package_layout/build_type.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';
@@ -47,7 +46,7 @@ class NativeAssetsRunner {
     PackageLayout? packageLayout,
   }) async =>
       _run(
-        buildType: BuildType.build,
+        buildType: BuildType(),
         linkModePreference: linkModePreference,
         target: target,
         workingDirectory: workingDirectory,
@@ -71,7 +70,7 @@ class NativeAssetsRunner {
     Uri? resourceIdentifiers,
   }) async =>
       _run(
-        buildType: BuildType.link,
+        buildType: LinkType(),
         linkModePreference: LinkModePreference.dynamic,
         target: target,
         workingDirectory: workingDirectory,
@@ -81,11 +80,10 @@ class NativeAssetsRunner {
         targetAndroidNdkApi: targetAndroidNdkApi,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
-        resourceIdentifiers: resourceIdentifiers,
       );
 
   Future<BuildResult> _run({
-    required BuildType buildType,
+    required RunType buildType,
     required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
@@ -133,6 +131,7 @@ class NativeAssetsRunner {
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
+        resourceIdentifiers,
       );
       assets.addAll(buildOutput.assets);
       dependencies.addAll(buildOutput.dependencies.dependencies);
@@ -177,11 +176,12 @@ class NativeAssetsRunner {
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
       );
       final (buildOutput, packageSuccess) = await _buildPackage(
-        BuildType.build,
+        BuildType(),
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
+        null,
       );
       assets.addAll(buildOutput.assets);
       success &= packageSuccess;
@@ -190,11 +190,12 @@ class NativeAssetsRunner {
   }
 
   Future<_PackageBuildRecord> _runPackageCached(
-    BuildType buildType,
+    RunType buildType,
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
+    Uri? resources,
   ) async {
     final packageName = config.packageName;
     final outDir = config.outDir;
@@ -202,7 +203,10 @@ class NativeAssetsRunner {
       await Directory.fromUri(outDir).create(recursive: true);
     }
 
-    final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
+    final buildOutput = await BuildOutput.readFromFile(
+      outDir: outDir,
+      buildType: buildType,
+    );
     final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
         DateTime.fromMillisecondsSinceEpoch(0);
     final dependencies = buildOutput?.dependencies;
@@ -222,15 +226,17 @@ class NativeAssetsRunner {
       packageConfigUri,
       workingDirectory,
       includeParentEnvironment,
+      resources,
     );
   }
 
   Future<_PackageBuildRecord> _buildPackage(
-    BuildType buildType,
+    RunType buildType,
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
+    Uri? resources,
   ) async {
     final outDir = config.outDir;
     final configFile = outDir.resolve('../config.yaml');
@@ -238,7 +244,7 @@ class NativeAssetsRunner {
     final configFileContents = config.toYamlString();
     logger.info('config.yaml contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final buildOutputFile = File.fromUri(outDir.resolve(BuildOutput.fileName));
+    final buildOutputFile = File.fromUri(outDir.resolve(buildType.outputName));
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -246,7 +252,11 @@ class NativeAssetsRunner {
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
       script.toFilePath(),
-      '--config=${configFile.toFilePath()}',
+      ...buildType.args(
+        configFile,
+        outDir.resolve(BuildType().outputName),
+        resources,
+      ),
     ];
     final result = await runProcess(
       workingDirectory: workingDirectory,
@@ -267,7 +277,7 @@ class NativeAssetsRunner {
       logger.severe(
         '''
 Building native assets for package:${config.packageName} failed.
-build.dart returned with exit code: ${result.exitCode}.
+${buildType.scriptName} returned with exit code: ${result.exitCode}.
 To reproduce run:
 $commandString
 stderr:
@@ -280,7 +290,10 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
+      final buildOutput = await BuildOutput.readFromFile(
+        outDir: outDir,
+        buildType: buildType,
+      );
       success &=
           validateAssetsPackage(buildOutput?.assets ?? [], config.packageName);
       return (buildOutput ?? BuildOutput(), success);
@@ -305,8 +318,6 @@ build_output.yaml contained a format error.
       return (BuildOutput(), false);
     } finally {
       if (!success) {
-        final buildOutputFile =
-            File.fromUri(outDir.resolve(BuildOutput.fileName));
         if (await buildOutputFile.exists()) {
           await buildOutputFile.delete();
         }

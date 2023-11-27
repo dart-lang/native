@@ -33,7 +33,21 @@ void main(List<String> args) async {
       ..onRecord.listen((record) => print(record.message)),
   );
 
+  buildOutput.assets.add(
+    Asset(
+      id: 'package:$packageName/ajsonfile',
+      linkMode: LinkMode.dynamic,
+      target: buildConfig.target,
+      path: AssetAbsolutePath(Uri.file(
+          '/home/mosum/projects/native/pkgs/native_assets_cli/example/native_add_library/data_asset_build.json')),
+      type: AssetType.data,
+    ),
+  );
+
   // Write the output according to the native assets protocol so that Dart or
   // Flutter can find the native assets produced by this script.
-  await buildOutput.writeToFile(outDir: buildConfig.outDir);
+  await buildOutput.writeToFile(
+    outDir: buildConfig.outDir,
+    buildType: BuildType(),
+  );
 }

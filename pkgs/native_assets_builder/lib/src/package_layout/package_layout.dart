@@ -4,9 +4,8 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:package_config/package_config.dart';
-
-import 'build_type.dart';
 
 /// Directory layout for dealing with native assets.
 ///
@@ -91,7 +90,7 @@ class PackageLayout {
   /// a `build.dart`.
   ///
   /// `package:native` itself is excluded.
-  Future<List<Package>> packagesWithNativeAssets(BuildType type) async {
+  Future<List<Package>> packagesWithNativeAssets(RunType type) async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
@@ -105,8 +104,8 @@ class PackageLayout {
   }
 
   late final Future<List<Package>> packagesWithNativeBuild =
-      packagesWithNativeAssets(BuildType.build);
+      packagesWithNativeAssets(BuildType());
 
   late final Future<List<Package>> packagesWithNativeLink =
-      packagesWithNativeAssets(BuildType.link);
+      packagesWithNativeAssets(LinkType());
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:cli_config/cli_config.dart';
 
 import 'build_config.dart';
@@ -24,26 +25,40 @@ class LinkInput {
 
   /// Generate the [LinkInput] from the input arguments to the linking script.
   static Future<LinkInput> fromArgs(List<String> args) async {
-    final config = await Config.fromArgs(args: args);
-    final buildOutputPath = config.string('build_output');
-    final buildConfigPath = config.string('build_config');
-    final resourceIdentifierPath =
-        config.optionalString('resource_identifiers');
-    final buildConfig = BuildConfig.fromConfig(Config.fromConfigFileContents(
-      fileSourceUri: Uri.parse(buildConfigPath),
-    ));
+    final argParser = ArgParser()
+      ..addOption('build_output')
+      ..addOption('resource_identifiers')
+      ..addOption('config');
+
+    final results = argParser.parse(args);
+    final config = Config.fromConfigFileContents(
+        fileContents: File(results['config'] as String).readAsStringSync());
+    final buildConfig = BuildConfig.fromConfig(config);
+
+    final buildOutputPath = results['build_output'] as String;
     final buildOutput =
         BuildOutput.fromYamlString(File(buildOutputPath).readAsStringSync());
 
+    final resourceIdentifierPath = results['resource_identifiers'] as String?;
     ResourceIdentifiers? resourceIdentifiers;
     if (resourceIdentifierPath != null) {
       resourceIdentifiers =
           ResourceIdentifiers.fromFile(resourceIdentifierPath);
     }
+
     return LinkInput._(
       buildConfig: buildConfig,
       buildOutput: buildOutput,
       resourceIdentifiers: resourceIdentifiers,
     );
   }
+
+  static List<String> toArgs(
+          Uri buildOutput, Uri buildConfig, Uri? resources) =>
+      [
+        '--config=${buildConfig.toFilePath()}',
+        '--build_output=${buildOutput.toFilePath()}',
+        if (resources != null)
+          '--resource_identifiers=${resources.toFilePath()}',
+      ];
 }

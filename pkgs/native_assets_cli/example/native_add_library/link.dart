@@ -4,6 +4,7 @@
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 
+const packageName = 'native_add_library';
 void main(List<String> args) async {
   final linkInput = await LinkInput.fromArgs(args);
 
@@ -12,8 +13,22 @@ void main(List<String> args) async {
     linkInput.resourceIdentifiers,
   );
 
+  shakenAssets.add(
+    Asset(
+      id: 'package:$packageName/ajsonfil2e',
+      linkMode: LinkMode.dynamic,
+      target: Target.androidArm,
+      path: AssetAbsolutePath(Uri.file(
+          '/home/mosum/projects/native/pkgs/native_assets_cli/example/native_add_library/data_asset_link.json')),
+      type: AssetType.data,
+    ),
+  );
+
   final linkOutput = BuildOutput(assets: shakenAssets);
-  await linkOutput.writeToFile(outDir: linkInput.buildConfig.outDir);
+  await linkOutput.writeToFile(
+    outDir: linkInput.buildConfig.outDir,
+    buildType: LinkType(),
+  );
 }
 
 class MyResourceShaker {
@@ -21,5 +36,5 @@ class MyResourceShaker {
     List<Asset> assets,
     ResourceIdentifiers? resourceIdentifiers,
   ) =>
-      assets.skip(2).toList();
+      assets.where((element) => element.type != AssetType.data).toList();
 }

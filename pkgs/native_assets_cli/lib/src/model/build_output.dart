@@ -13,6 +13,7 @@ import '../utils/file.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'asset.dart';
+import 'build_type.dart';
 import 'dependencies.dart';
 import 'metadata.dart';
 
@@ -95,11 +96,12 @@ class BuildOutput {
   /// representation in the protocol.
   static Version version = Version(1, 0, 0);
 
-  static const fileName = 'build_output.yaml';
-
   /// Writes the YAML file from [outDir]/[fileName].
-  static Future<BuildOutput?> readFromFile({required Uri outDir}) async {
-    final buildOutputUri = outDir.resolve(fileName);
+  static Future<BuildOutput?> readFromFile({
+    required Uri outDir,
+    required RunType buildType,
+  }) async {
+    final buildOutputUri = outDir.resolve(buildType.outputName);
     final buildOutputFile = File.fromUri(buildOutputUri);
     if (!await buildOutputFile.exists()) {
       return null;
@@ -108,8 +110,11 @@ class BuildOutput {
   }
 
   /// Writes the [toYamlString] to [outDir]/[fileName].
-  Future<void> writeToFile({required Uri outDir}) async {
-    final buildOutputUri = outDir.resolve(fileName);
+  Future<void> writeToFile({
+    required Uri outDir,
+    required RunType buildType,
+  }) async {
+    final buildOutputUri = outDir.resolve(buildType.outputName);
     await File.fromUri(buildOutputUri)
         .writeAsStringCreateDirectory(toYamlString());
   }
