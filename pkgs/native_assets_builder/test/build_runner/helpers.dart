@@ -69,6 +69,44 @@ Future<BuildResult> build(
   return result;
 }
 
+Future<BuildResult> link(
+  Uri packageUri,
+  Logger logger,
+  Uri dartExecutable, {
+  LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  CCompilerConfig? cCompilerConfig,
+  bool includeParentEnvironment = true,
+  List<String>? capturedLogs,
+  PackageLayout? packageLayout,
+}) async {
+  StreamSubscription<LogRecord>? subscription;
+  if (capturedLogs != null) {
+    subscription =
+        logger.onRecord.listen((event) => capturedLogs.add(event.message));
+  }
+
+  final result = await NativeAssetsRunner(
+    logger: logger,
+    dartExecutable: dartExecutable,
+  ).link(
+    buildMode: BuildMode.release,
+    target: Target.current,
+    workingDirectory: packageUri,
+    cCompilerConfig: cCompilerConfig,
+    includeParentEnvironment: includeParentEnvironment,
+    packageLayout: packageLayout,
+  );
+  if (result.success) {
+    await expectAssetsExist(result.assets);
+  }
+
+  if (subscription != null) {
+    await subscription.cancel();
+  }
+
+  return result;
+}
+
 Future<BuildResult> dryRun(
   Uri packageUri,
   Logger logger,

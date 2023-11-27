@@ -205,7 +205,7 @@ class NativeAssetsRunner {
 
     final buildOutput = await BuildOutput.readFromFile(
       outDir: outDir,
-      buildType: buildType,
+      type: buildType,
     );
     final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
         DateTime.fromMillisecondsSinceEpoch(0);
@@ -292,7 +292,7 @@ ${result.stdout}
     try {
       final buildOutput = await BuildOutput.readFromFile(
         outDir: outDir,
-        buildType: buildType,
+        type: buildType,
       );
       success &=
           validateAssetsPackage(buildOutput?.assets ?? [], config.packageName);

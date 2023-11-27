@@ -48,6 +48,6 @@ void main(List<String> args) async {
   // Flutter can find the native assets produced by this script.
   await buildOutput.writeToFile(
     outDir: buildConfig.outDir,
-    buildType: BuildType(),
+    type: BuildType(),
   );
 }

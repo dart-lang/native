@@ -88,9 +88,9 @@ version: ${BuildOutput.version}''';
 
   test('BuildOutput.readFromFile BuildOutput.writeToFile', () async {
     final outDir = tempUri.resolve('out_dir/');
-    await buildOutput.writeToFile(outDir: outDir, buildType: BuildType());
+    await buildOutput.writeToFile(outDir: outDir, type: BuildType());
     final buildOutput2 =
-        await BuildOutput.readFromFile(outDir: outDir, buildType: BuildType());
+        await BuildOutput.readFromFile(outDir: outDir, type: BuildType());
     expect(buildOutput2, buildOutput);
   });
 

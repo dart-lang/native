@@ -99,9 +99,9 @@ class BuildOutput {
   /// Writes the YAML file from [outDir]/[fileName].
   static Future<BuildOutput?> readFromFile({
     required Uri outDir,
-    required RunType buildType,
+    required RunType type,
   }) async {
-    final buildOutputUri = outDir.resolve(buildType.outputName);
+    final buildOutputUri = outDir.resolve(type.outputName);
     final buildOutputFile = File.fromUri(buildOutputUri);
     if (!await buildOutputFile.exists()) {
       return null;
@@ -112,9 +112,9 @@ class BuildOutput {
   /// Writes the [toYamlString] to [outDir]/[fileName].
   Future<void> writeToFile({
     required Uri outDir,
-    required RunType buildType,
+    required RunType type,
   }) async {
-    final buildOutputUri = outDir.resolve(buildType.outputName);
+    final buildOutputUri = outDir.resolve(type.outputName);
     await File.fromUri(buildOutputUri)
         .writeAsStringCreateDirectory(toYamlString());
   }

@@ -27,6 +27,8 @@
 - package_reading_metadata/pubspec.yaml
 - package_with_metadata/build.dart
 - package_with_metadata/pubspec.yaml
+- simple_link/pubspec.yaml
+- simple_link/build.dart
 - wrong_build_output/build.dart
 - wrong_build_output/pubspec.yaml
 - wrong_build_output_2/build.dart
