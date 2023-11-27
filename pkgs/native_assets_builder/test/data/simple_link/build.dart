@@ -6,9 +6,10 @@ import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-const packageName = 'native_add';
+const packageName = 'simple_link';
 
 void main(List<String> args) async {
+  print('RUN BUILDING');
   final buildConfig = await BuildConfig.fromArgs(args);
   final buildOutput = BuildOutput(
       assets: List.generate(

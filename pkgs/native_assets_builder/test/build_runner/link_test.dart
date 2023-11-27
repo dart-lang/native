@@ -29,6 +29,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
+          copyAssets: false,
         );
         final linkResult = await link(
           packageUri,

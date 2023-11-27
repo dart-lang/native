@@ -39,6 +39,7 @@ Future<BuildResult> build(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
+  bool copyAssets = true,
 }) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
@@ -58,7 +59,7 @@ Future<BuildResult> build(
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,
   );
-  if (result.success) {
+  if (result.success && copyAssets) {
     await expectAssetsExist(result.assets);
   }
 
@@ -84,7 +85,6 @@ Future<BuildResult> link(
     subscription =
         logger.onRecord.listen((event) => capturedLogs.add(event.message));
   }
-
   final result = await NativeAssetsRunner(
     logger: logger,
     dartExecutable: dartExecutable,
@@ -96,6 +96,7 @@ Future<BuildResult> link(
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,
   );
+  capturedLogs?.add('ASSETS: ${result.assets}');
   if (result.success) {
     await expectAssetsExist(result.assets);
   }
