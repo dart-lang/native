@@ -47,7 +47,15 @@ class NativeAssetsBuildPlanner {
     );
   }
 
-  (List<Package> packages, bool success) plan() {
+  (List<Package> packages, bool success) plan({
+    String? runPackageName,
+  }) {
+    final PackageGraph packageGraph;
+    if (runPackageName != null) {
+      packageGraph = this.packageGraph.subGraph(runPackageName);
+    } else {
+      packageGraph = this.packageGraph;
+    }
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
     };
@@ -105,4 +113,19 @@ class PackageGraph {
 
   List<List<String>> computeStrongComponents() =>
       graphs.stronglyConnectedComponents(vertices, neighborsOf);
+
+  PackageGraph subGraph(String rootPackageName) {
+    final subgraphVertices = [
+      ...graphs.transitiveClosure(vertices, neighborsOf)[rootPackageName]!,
+      rootPackageName,
+    ];
+    return PackageGraph({
+      for (final vertex in map.keys)
+        if (subgraphVertices.contains(vertex))
+          vertex: [
+            for (final neighbor in map[vertex]!)
+              if (subgraphVertices.contains(neighbor)) neighbor,
+          ]
+    });
+  }
 }

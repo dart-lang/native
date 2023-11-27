@@ -33,7 +33,8 @@ class NativeAssetsBuildRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// Completes the future with an error if the build fails.
+  /// If provided, only native assets of all transitive dependencies of
+  /// [runPackageName] are built.
   Future<BuildResult> build({
     required LinkModePreference linkModePreference,
     required Target target,
@@ -44,13 +45,14 @@ class NativeAssetsBuildRunner {
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
+    String? runPackageName,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
     final List<Package> buildPlan;
     final PackageGraph packageGraph;
-    if (packagesWithNativeAssets.length <= 1) {
+    if (packagesWithNativeAssets.length <= 1 && runPackageName == null) {
       buildPlan = packagesWithNativeAssets;
       packageGraph = PackageGraph({
         for (final p in packagesWithNativeAssets) p.name: [],
@@ -62,7 +64,9 @@ class NativeAssetsBuildRunner {
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final (plan, planSuccess) = planner.plan();
+      final (plan, planSuccess) = planner.plan(
+        runPackageName: runPackageName,
+      );
       if (!planSuccess) {
         return _BuildResultImpl(
           assets: [],
@@ -125,19 +129,21 @@ class NativeAssetsBuildRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// Completes the future with an error if the build fails.
+  /// If provided, only native assets of all transitive dependencies of
+  /// [runPackageName] are built.
   Future<DryRunResult> dryRun({
     required LinkModePreference linkModePreference,
     required OS targetOs,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
+    String? runPackageName,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
         await packageLayout.packagesWithNativeAssets;
     final List<Package> buildPlan;
-    if (packagesWithNativeAssets.length <= 1) {
+    if (packagesWithNativeAssets.length <= 1 && runPackageName == null) {
       buildPlan = packagesWithNativeAssets;
     } else {
       final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
@@ -146,7 +152,9 @@ class NativeAssetsBuildRunner {
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final (plan, planSuccess) = planner.plan();
+      final (plan, planSuccess) = planner.plan(
+        runPackageName: runPackageName,
+      );
       if (!planSuccess) {
         return _DryRunResultImpl(
           assets: [],

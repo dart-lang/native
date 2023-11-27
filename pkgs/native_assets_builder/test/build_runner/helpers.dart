@@ -39,6 +39,7 @@ Future<BuildResult> build(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
+  String? runPackageName,
 }) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
@@ -57,6 +58,7 @@ Future<BuildResult> build(
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,
+    runPackageName: runPackageName,
   );
   if (result.success) {
     await expectAssetsExist(result.assets);
