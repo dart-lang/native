@@ -517,6 +517,36 @@ JniResult EmojiCompat__updateEditorInfo(jobject self_, jobject outAttrs) {
   return (JniResult){.value = {.j = 0}, .exception = check_exception()};
 }
 
+jfieldID _f_EmojiCompat__EDITOR_INFO_METAVERSION_KEY = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_EmojiCompat__EDITOR_INFO_METAVERSION_KEY() {
+  load_env();
+  load_class_global_ref(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_EmojiCompat,
+                    &_f_EmojiCompat__EDITOR_INFO_METAVERSION_KEY,
+                    "EDITOR_INFO_METAVERSION_KEY", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_EmojiCompat, _f_EmojiCompat__EDITOR_INFO_METAVERSION_KEY);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_EmojiCompat__EDITOR_INFO_REPLACE_ALL_KEY = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_EmojiCompat__EDITOR_INFO_REPLACE_ALL_KEY() {
+  load_env();
+  load_class_global_ref(&_c_EmojiCompat, "androidx/emoji2/text/EmojiCompat");
+  if (_c_EmojiCompat == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_EmojiCompat,
+                    &_f_EmojiCompat__EDITOR_INFO_REPLACE_ALL_KEY,
+                    "EDITOR_INFO_REPLACE_ALL_KEY", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_EmojiCompat, _f_EmojiCompat__EDITOR_INFO_REPLACE_ALL_KEY);
+  return to_global_ref_result(_result);
+}
+
 // androidx.emoji2.text.EmojiCompat$Config
 jclass _c_EmojiCompat_Config = NULL;
 
@@ -1435,6 +1465,21 @@ JniResult Build_Partition__hashCode1(jobject self_) {
   return (JniResult){.value = {.i = _result}, .exception = check_exception()};
 }
 
+jfieldID _f_Build_Partition__PARTITION_NAME_SYSTEM = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build_Partition__PARTITION_NAME_SYSTEM() {
+  load_env();
+  load_class_global_ref(&_c_Build_Partition, "android/os/Build$Partition");
+  if (_c_Build_Partition == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build_Partition,
+                    &_f_Build_Partition__PARTITION_NAME_SYSTEM,
+                    "PARTITION_NAME_SYSTEM", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Build_Partition, _f_Build_Partition__PARTITION_NAME_SYSTEM);
+  return to_global_ref_result(_result);
+}
+
 // android.os.Build$VERSION
 jclass _c_Build_VERSION = NULL;
 
@@ -2045,6 +2090,20 @@ JniResult get_Build__TYPE() {
   load_static_field(_c_Build, &_f_Build__TYPE, "TYPE", "Ljava/lang/String;");
   jobject _result =
       (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__TYPE);
+  return to_global_ref_result(_result);
+}
+
+jfieldID _f_Build__UNKNOWN = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Build__UNKNOWN() {
+  load_env();
+  load_class_global_ref(&_c_Build, "android/os/Build");
+  if (_c_Build == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Build, &_f_Build__UNKNOWN, "UNKNOWN",
+                    "Ljava/lang/String;");
+  jobject _result =
+      (*jniEnv)->GetStaticObjectField(jniEnv, _c_Build, _f_Build__UNKNOWN);
   return to_global_ref_result(_result);
 }
 
