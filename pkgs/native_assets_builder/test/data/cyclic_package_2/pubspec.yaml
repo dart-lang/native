@@ -11,7 +11,7 @@ dependencies:
   cli_config: ^0.1.1
   cyclic_package_1:
     path: ../cyclic_package_1
-  native_assets_cli: ^0.3.0
+  native_assets_cli: ^0.3.2
   yaml: ^3.1.1
   yaml_edit: ^2.1.0
 
