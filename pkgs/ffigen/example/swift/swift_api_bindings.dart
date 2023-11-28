@@ -1420,6 +1420,8 @@ class SwiftLibrary {
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, _NSRange)>();
 
   late final _sel_rangeValue1 = _registerName1("rangeValue");
+  late final _objc_msgSend_useVariants1 = ffi.Abi.current() == ffi.Abi.iosX64 ||
+      ffi.Abi.current() == ffi.Abi.macosX64;
   void _objc_msgSend_54(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
@@ -1433,9 +1435,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_54Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_54 = __objc_msgSend_54Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>)>();
@@ -1539,9 +1542,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_59Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_59 = __objc_msgSend_59Ptr.asFunction<
       void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>)>();
@@ -1560,9 +1564,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_60Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_60 = __objc_msgSend_60Ptr.asFunction<
       void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>)>();
@@ -1581,9 +1586,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_61Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_61 = __objc_msgSend_61Ptr.asFunction<
       void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>)>();
@@ -1602,9 +1608,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_62Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<NSEdgeInsets>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<NSEdgeInsets>,
+                  ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_62 = __objc_msgSend_62Ptr.asFunction<
       void Function(ffi.Pointer<NSEdgeInsets>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>)>();
@@ -4391,9 +4398,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_165Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Double Function(ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_fpret');
+          ffi.NativeFunction<
+              ffi.Double Function(
+                  ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_fpret' : 'objc_msgSend');
   late final __objc_msgSend_165 = __objc_msgSend_165Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
@@ -4434,9 +4442,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_167Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_fpret');
+          ffi.NativeFunction<
+              ffi.Double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_fpret' : 'objc_msgSend');
   late final __objc_msgSend_167 = __objc_msgSend_167Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
@@ -6300,9 +6309,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_239Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Float Function(ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_fpret');
+          ffi.NativeFunction<
+              ffi.Float Function(
+                  ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_fpret' : 'objc_msgSend');
   late final __objc_msgSend_239 = __objc_msgSend_239Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
@@ -7269,14 +7279,15 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_271Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Int32,
-              _NSRange)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<_NSRange>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Int32,
+                  _NSRange)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_271 = __objc_msgSend_271Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
@@ -8194,9 +8205,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_307Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Float Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_fpret');
+          ffi.NativeFunction<
+              ffi.Float Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_fpret' : 'objc_msgSend');
   late final __objc_msgSend_307 = __objc_msgSend_307Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
@@ -8215,9 +8227,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_308Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_fpret');
+          ffi.NativeFunction<
+              ffi.Double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_fpret' : 'objc_msgSend');
   late final __objc_msgSend_308 = __objc_msgSend_308Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
@@ -8769,12 +8782,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_329Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<CGPoint>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_329 = __objc_msgSend_329Ptr.asFunction<
       void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
@@ -8795,12 +8806,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_330Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<CGSize>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_330 = __objc_msgSend_330Ptr.asFunction<
       void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
@@ -8821,12 +8830,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_331Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<CGRect>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_331 = __objc_msgSend_331Ptr.asFunction<
       void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
@@ -9059,12 +9066,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_340Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_340 = __objc_msgSend_340Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
@@ -9089,13 +9094,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_341Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Int32)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, ffi.Int32)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_341 = __objc_msgSend_341Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int)>();
@@ -9121,14 +9123,15 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_342Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Int32,
-              _NSRange)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<_NSRange>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Int32,
+                  _NSRange)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_342 = __objc_msgSend_342Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
@@ -9156,15 +9159,16 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_343Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Int32,
-              _NSRange,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<_NSRange>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Int32,
+                  _NSRange,
+                  ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_343 = __objc_msgSend_343Ptr.asFunction<
       void Function(
           ffi.Pointer<_NSRange>,
@@ -9192,12 +9196,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_344Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_344 = __objc_msgSend_344Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
@@ -9221,13 +9223,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_345Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Int32)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, ffi.Int32)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_345 = __objc_msgSend_345Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int)>();
@@ -9253,14 +9252,15 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_346Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Int32,
-              _NSRange)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<_NSRange>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Int32,
+                  _NSRange)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_346 = __objc_msgSend_346Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
@@ -9282,9 +9282,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_347Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.UnsignedLong)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.UnsignedLong)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_347 = __objc_msgSend_347Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, int)>();
@@ -9306,9 +9307,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_348Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, _NSRange)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, _NSRange)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_348 = __objc_msgSend_348Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, _NSRange)>();
@@ -21331,9 +21333,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_767Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Int32)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>, ffi.Int32)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_767 = __objc_msgSend_767Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, int)>();
@@ -21360,14 +21363,15 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_768Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Int32,
-              ffi.Int32,
-              ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<_NSRange>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>,
+                  ffi.Int32,
+                  ffi.Int32,
+                  ffi.Pointer<ObjCObject>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_768 = __objc_msgSend_768Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, int, int, ffi.Pointer<ObjCObject>)>();
@@ -26210,11 +26214,10 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_940Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<NSOperatingSystemVersion>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<NSOperatingSystemVersion>,
+                  ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_940 = __objc_msgSend_940Ptr.asFunction<
       void Function(ffi.Pointer<NSOperatingSystemVersion>,
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
@@ -26647,14 +26650,15 @@ class SwiftLibrary {
   }
 
   late final __objc_msgSend_955Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Int32,
-              _NSRange)>>('objc_msgSend_stret');
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  ffi.Pointer<_NSRange>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Pointer<ObjCSel>,
+                  ffi.Pointer<ObjCObject>,
+                  ffi.Int32,
+                  _NSRange)>>(
+      _objc_msgSend_useVariants1 ? 'objc_msgSend_stret' : 'objc_msgSend');
   late final __objc_msgSend_955 = __objc_msgSend_955Ptr.asFunction<
       void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
