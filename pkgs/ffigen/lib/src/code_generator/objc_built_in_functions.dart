@@ -466,7 +466,6 @@ class ObjCMsgSendFunc {
   bool get isStret => variant == ObjCMsgSendVariant.stret;
   bool get isNormal => variant == ObjCMsgSendVariant.normal;
 
-  @override
   void addDependencies(Set<Binding> dependencies) {
     if (!isNormal) {
       useVariants.addDependencies(dependencies);
