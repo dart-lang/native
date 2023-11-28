@@ -109,9 +109,12 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
 
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance(_ObjCWrapper obj) {
-    return obj._lib.${_isKindOfClassMsgSend.name}(
-        obj._id, obj._lib.${_isKindOfClass.name},
-        obj._lib.${_classObject.name});
+    return ${_isKindOfClassMsgSend.invoke(
+      'obj._lib',
+      'obj._id',
+      'obj._lib.${_isKindOfClass.name}',
+      ['obj._lib.${_classObject.name}'],
+    )};
   }
 
 ''');
@@ -200,18 +203,14 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
       if (returnType != voidType) {
         s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
       }
-      s.write('_lib.${m.msgSend!.name}(');
-      if (isStret) {
-        s.write('stret, ');
-      }
-      s.write(isStatic ? '_lib.${_classObject.name}' : '_id');
-      s.write(', _lib.${m.selObject!.name}');
-      for (final p in m.params) {
-        final convertedParam =
-            p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false);
-        s.write(', $convertedParam');
-      }
-      s.write(');\n');
+      s.write(m.msgSend!.invoke(
+          '_lib',
+          isStatic ? '_lib.${_classObject.name}' : '_id',
+          '_lib.${m.selObject!.name}',
+          m.params.map((p) => p.type
+              .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
+          stret: 'stret'));
+      s.write(';\n');
       if (convertReturn) {
         final result = returnType.convertFfiDartTypeToDartType(
           w,

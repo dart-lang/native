@@ -425,31 +425,43 @@ enum ObjCMsgSendVariant {
 }
 
 /// A wrapper around the objc_msgSend function, or the stret or fpret variants.
-class ObjCMsgSendFunc extends Func {
+class ObjCMsgSendFunc {
   final ObjCMsgSendVariant variant;
   final ObjCInternalGlobal useVariants;
+  late final Func normalFunc;
+  late final Func? variantFunc;
 
   ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params,
-      ObjCInternalGlobal useVariants)
-      : this._(name, returnType, params, useVariants,
-            ObjCMsgSendVariant.fromReturnType(returnType));
+      this.useVariants)
+      : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
+    normalFunc = Func(
+      name: name,
+      originalName: ObjCMsgSendVariant.normal.name,
+      returnType: returnType,
+      parameters: _params(params),
+      isInternal: true,
+    );
+    variantFunc = isNormal
+        ? null
+        : Func(
+            name: '${name}_variant',
+            originalName: variant.name,
+            returnType: isStret ? voidType : returnType,
+            parameters: _params(params,
+                stretType: isStret ? PointerType(returnType) : null),
+            isInternal: true,
+          );
+  }
 
-  ObjCMsgSendFunc._(String name, Type returnType, List<ObjCMethodParam> params,
-      this.useVariants, this.variant)
-      : super(
-          name: name,
-          originalName: variant.name,
-          returnType:
-              variant == ObjCMsgSendVariant.stret ? voidType : returnType,
-          parameters: [
-            if (variant == ObjCMsgSendVariant.stret)
-              Parameter(name: 'stret', type: PointerType(returnType)),
-            Parameter(name: 'obj', type: PointerType(objCObjectType)),
-            Parameter(name: 'sel', type: PointerType(objCSelType)),
-            for (final p in params) Parameter(name: p.name, type: p.type),
-          ],
-          isInternal: true,
-        );
+  static List<Parameter> _params(List<ObjCMethodParam> params,
+      {Type? stretType}) {
+    return [
+      if (stretType != null) Parameter(name: 'stret', type: stretType),
+      Parameter(name: 'obj', type: PointerType(objCObjectType)),
+      Parameter(name: 'sel', type: PointerType(objCSelType)),
+      for (final p in params) Parameter(name: p.name, type: p.type),
+    ];
+  }
 
   bool get isStret => variant == ObjCMsgSendVariant.stret;
   bool get isNormal => variant == ObjCMsgSendVariant.normal;
@@ -459,16 +471,38 @@ class ObjCMsgSendFunc extends Func {
     if (!isNormal) {
       useVariants.addDependencies(dependencies);
     }
-    super.addDependencies(dependencies);
+    normalFunc.addDependencies(dependencies);
+    variantFunc?.addDependencies(dependencies);
   }
 
-  @override
-  String get nameExpression => isNormal
-      ? "'${variant.name}'"
-      : '''
-${useVariants.name} ? '${variant.name}' : '${ObjCMsgSendVariant.normal.name}'
-''';
+  String invoke(String lib, String target, String sel, Iterable<String> params,
+      {String? stret}) {
+    final normalCall = _invoke(normalFunc.name, lib, target, sel, params);
+    if (isStret) {
+      final stretCall =
+          _invoke(variantFunc!.name, lib, target, sel, params, stret: stret);
+      return '$lib.${useVariants.name} ? $stretCall : $stret.ref = $normalCall';
+    } else if (variantFunc != null) {
+      final variantCall = _invoke(variantFunc!.name, lib, target, sel, params);
+      return '$lib.${useVariants.name} ? $variantCall : $normalCall';
+    } else {
+      return normalCall;
+    }
+  }
 
-  @override
-  bool get nameExpressionIsConst => isNormal;
+  static String _invoke(
+    String name,
+    String lib,
+    String target,
+    String sel,
+    Iterable<String> params, {
+    String? stret,
+  }) {
+    return '''$lib.$name(${[
+      if (stret != null) stret,
+      target,
+      sel,
+      ...params,
+    ].join(', ')})''';
+  }
 }
