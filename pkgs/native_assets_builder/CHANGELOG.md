@@ -1,3 +1,8 @@
+## 0.3.1-wip
+
+- Add support for `runPackageName` to avoid native assets for packages that
+  the root package depends on but the package being run doesn't.
+
 ## 0.3.0
 
 - Bump `package:native_assets_cli` to 0.3.0
