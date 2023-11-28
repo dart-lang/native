@@ -209,7 +209,7 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
           '_lib.${m.selObject!.name}',
           m.params.map((p) => p.type
               .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
-          stret: 'stret'));
+          structRetPtr: 'stret'));
       s.write(';\n');
       if (convertReturn) {
         final result = returnType.convertFfiDartTypeToDartType(
