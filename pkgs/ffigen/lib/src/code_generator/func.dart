@@ -95,6 +95,7 @@ class Func extends LookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     final enclosingFuncName = name;
+    final useFfiNative = ffiNativeConfig.enabled && nameExpressionIsConst;
 
     if (dartDoc != null) {
       s.write(makeDartDoc(dartDoc!));
@@ -134,7 +135,7 @@ class Func extends LookUpBinding {
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
         w,
         '$funcVarName($argString)',
-        ffiNativeConfig.enabled ? 'lib' : 'this',
+        useFfiNative ? 'lib' : 'this',
         objCRetain: !objCReturnsRetained,
       );
     } else {
@@ -145,13 +146,13 @@ class Func extends LookUpBinding {
       funcImplCall = '$funcVarName($argString)';
     }
 
-    if (ffiNativeConfig.enabled) {
+    if (useFfiNative) {
       final assetString = ffiNativeConfig.assetId != null
           ? ", assetId: '${ffiNativeConfig.assetId}'"
           : '';
       final nativeFuncName = needsWrapper ? funcVarName : enclosingFuncName;
       s.write('''
-@${w.ffiLibraryPrefix}.Native<$cType>(symbol: '$originalName'$assetString$isLeafString)
+@${w.ffiLibraryPrefix}.Native<$cType>(symbol: $nameExpression$assetString$isLeafString)
 external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 
 ''');
@@ -188,7 +189,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       // Write function pointer.
       s.write('''
 late final $funcPointerName = ${w.lookupFuncIdentifier}<
-    ${w.ffiLibraryPrefix}.NativeFunction<$cType>>('$originalName');
+    ${w.ffiLibraryPrefix}.NativeFunction<$cType>>($nameExpression);
 late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
 ''');
@@ -196,6 +197,12 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
     return BindingString(type: BindingStringType.func, string: s.toString());
   }
+
+  // Returns the expression used to construct the function name that is used to
+  // look up the native function. If the expression is not const, this function
+  // cannot be loaded using a @Native style function lookup.
+  String get nameExpression => "'$originalName'";
+  bool get nameExpressionIsConst => true;
 
   @override
   void addDependencies(Set<Binding> dependencies) {

@@ -105,8 +105,18 @@ $objType $name(String name) {
       key += ' ${p.type.cacheKey()}';
     }
     return _msgSendFuncs[key] ??= ObjCMsgSendFunc(
-        '_objc_msgSend_${_msgSendFuncs.length}', returnType, params);
+        '_objc_msgSend_${_msgSendFuncs.length}',
+        returnType,
+        params,
+        _msgSendUseVariants);
   }
+
+  late final _msgSendUseVariants = ObjCInternalGlobal(
+      '_objc_msgSend_useVariants',
+      (Writer w) => '''
+${w.ffiLibraryPrefix}.Abi.current() == ${w.ffiLibraryPrefix}.Abi.iosX64 ||
+${w.ffiLibraryPrefix}.Abi.current() == ${w.ffiLibraryPrefix}.Abi.macosX64
+''');
 
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
@@ -285,7 +295,7 @@ class $name implements ${w.ffiLibraryPrefix}.Finalizable {
     _releaseFunc.addDependencies(dependencies);
     _releaseFinalizer.addDependencies(dependencies);
     for (final msgSendFunc in _msgSendFuncs.values) {
-      msgSendFunc.func.addDependencies(dependencies);
+      msgSendFunc.addDependencies(dependencies);
     }
     for (final sel in _selObjects.values) {
       sel.addDependencies(dependencies);
@@ -415,30 +425,50 @@ enum ObjCMsgSendVariant {
 }
 
 /// A wrapper around the objc_msgSend function, or the stret or fpret variants.
-class ObjCMsgSendFunc {
+class ObjCMsgSendFunc extends Func {
   final ObjCMsgSendVariant variant;
-  late final Func func;
+  final ObjCInternalGlobal useVariants;
 
-  ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params)
-      : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
-    func = Func(
-      name: name,
-      originalName: variant.name,
-      returnType: isStret ? voidType : returnType,
-      parameters: [
-        if (isStret) Parameter(name: 'stret', type: PointerType(returnType)),
-        Parameter(name: 'obj', type: PointerType(objCObjectType)),
-        Parameter(name: 'sel', type: PointerType(objCSelType)),
-        for (final p in params) Parameter(name: p.name, type: p.type),
-      ],
-      isInternal: true,
-    );
-  }
+  ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params,
+      ObjCInternalGlobal useVariants)
+      : this._(name, returnType, params, useVariants,
+            ObjCMsgSendVariant.fromReturnType(returnType));
 
-  String get name => func.name;
+  ObjCMsgSendFunc._(String name, Type returnType, List<ObjCMethodParam> params,
+      this.useVariants, this.variant)
+      : super(
+          name: name,
+          originalName: variant.name,
+          returnType:
+              variant == ObjCMsgSendVariant.stret ? voidType : returnType,
+          parameters: [
+            if (variant == ObjCMsgSendVariant.stret)
+              Parameter(name: 'stret', type: PointerType(returnType)),
+            Parameter(name: 'obj', type: PointerType(objCObjectType)),
+            Parameter(name: 'sel', type: PointerType(objCSelType)),
+            for (final p in params) Parameter(name: p.name, type: p.type),
+          ],
+          isInternal: true,
+        );
+
   bool get isStret => variant == ObjCMsgSendVariant.stret;
+  bool get isNormal => variant == ObjCMsgSendVariant.normal;
 
+  @override
   void addDependencies(Set<Binding> dependencies) {
-    func.addDependencies(dependencies);
+    if (!isNormal) {
+      useVariants.addDependencies(dependencies);
+    }
+    super.addDependencies(dependencies);
   }
+
+  @override
+  String get nameExpression => isNormal
+      ? "'${variant.name}'"
+      : '''
+${useVariants.name} ? '${variant.name}' : '${ObjCMsgSendVariant.normal.name}'
+''';
+
+  @override
+  bool get nameExpressionIsConst => isNormal;
 }
