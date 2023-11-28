@@ -1,3 +1,7 @@
+## 0.3.3-wip
+
+- Bump `package:native_assets_cli` to 0.3.2.
+
 ## 0.3.2
 
 - Added workaround minSdkVersion 19 and 20 for Android.
