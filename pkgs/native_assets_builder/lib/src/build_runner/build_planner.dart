@@ -50,11 +50,11 @@ class NativeAssetsPlanner {
   (List<Package> packages, bool success) plan({
     String? runPackageName,
   }) {
-    final PackageGraph packageGraph;
+    final DependencyGraph dependencyGraph;
     if (runPackageName != null) {
-      packageGraph = this.packageGraph.subGraph(runPackageName);
+      dependencyGraph = this.dependencyGraph.subGraph(runPackageName);
     } else {
-      packageGraph = this.packageGraph;
+      dependencyGraph = this.dependencyGraph;
     }
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
@@ -118,12 +118,12 @@ class DependencyGraph {
   List<List<String>> computeStrongComponents() =>
       graphs.stronglyConnectedComponents(vertices, neighborsOf);
 
-  PackageGraph subGraph(String rootPackageName) {
+  DependencyGraph subGraph(String rootPackageName) {
     final subgraphVertices = [
       ...graphs.transitiveClosure(vertices, neighborsOf)[rootPackageName]!,
       rootPackageName,
     ];
-    return PackageGraph({
+    return DependencyGraph({
       for (final vertex in map.keys)
         if (subgraphVertices.contains(vertex))
           vertex: [
