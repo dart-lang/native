@@ -41,7 +41,7 @@ void main(List<String> args) async {
       linkMode: LinkMode.dynamic,
       target: buildConfig.target,
       path: AssetAbsolutePath(File(
-              'native/pkgs/native_assets_cli/example/native_add_library/data_asset_build.json')
+              'pkgs/native_assets_cli/example/native_add_library/data_asset_build.json')
           .absolute
           .uri),
       type: AssetType.data,
