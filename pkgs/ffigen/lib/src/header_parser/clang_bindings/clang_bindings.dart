@@ -626,6 +626,23 @@ class Clang {
   late final _clang_getCanonicalType =
       _clang_getCanonicalTypePtr.asFunction<CXType Function(CXType)>();
 
+  /// Determine whether a CXType has the "const" qualifier set,
+  /// without looking through typedefs that may have added "const" at a
+  /// different level.
+  int clang_isConstQualifiedType(
+    CXType T,
+  ) {
+    return _clang_isConstQualifiedType(
+      T,
+    );
+  }
+
+  late final _clang_isConstQualifiedTypePtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
+          'clang_isConstQualifiedType');
+  late final _clang_isConstQualifiedType =
+      _clang_isConstQualifiedTypePtr.asFunction<int Function(CXType)>();
+
   /// Determine whether a  CXCursor that is a macro, is
   /// function like.
   int clang_Cursor_isMacroFunctionLike(

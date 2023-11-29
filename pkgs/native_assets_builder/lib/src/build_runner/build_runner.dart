@@ -33,7 +33,8 @@ class NativeAssetsRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// Completes the future with an error if the build fails.
+  /// If provided, only native assets of all transitive dependencies of
+  /// [runPackageName] are built.
   Future<BuildResult> build({
     required LinkModePreference linkModePreference,
     required Target target,
@@ -44,6 +45,7 @@ class NativeAssetsRunner {
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
+    String? runPackageName,
   }) async =>
       _run(
         buildType: BuildType(),
@@ -56,6 +58,7 @@ class NativeAssetsRunner {
         targetAndroidNdkApi: targetAndroidNdkApi,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
+        runPackageName: runPackageName,
       );
 
   Future<BuildResult> link({
@@ -68,6 +71,7 @@ class NativeAssetsRunner {
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
+    String? runPackageName,
   }) async =>
       _run(
         buildType: LinkType(),
@@ -80,6 +84,7 @@ class NativeAssetsRunner {
         targetAndroidNdkApi: targetAndroidNdkApi,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
+        runPackageName: runPackageName,
       );
 
   Future<BuildResult> _run({
@@ -94,12 +99,13 @@ class NativeAssetsRunner {
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     Uri? resourceIdentifiers,
+    String? runPackageName,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild =
         await packageLayout.packagesWithNativeAssets(buildType);
-    final (packages, dependencyGraph, planSuccess) =
-        await _plannedPackages(packagesWithBuild, packageLayout);
+    final (packages, dependencyGraph, planSuccess) = await _plannedPackages(
+        packagesWithBuild, packageLayout, runPackageName);
     if (!planSuccess) {
       return BuildResult._(assets: [], dependencies: [], success: false);
     }
@@ -150,18 +156,23 @@ class NativeAssetsRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// Completes the future with an error if the build fails.
+  /// If provided, only native assets of all transitive dependencies of
+  /// [runPackageName] are built.
   Future<BuildResult> dryBuild({
     required LinkModePreference linkModePreference,
     required OS targetOs,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
+    String? runPackageName,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild = await packageLayout.packagesWithNativeBuild;
-    final (packages, _, planSuccess) =
-        await _plannedPackages(packagesWithBuild, packageLayout);
+    final (packages, _, planSuccess) = await _plannedPackages(
+      packagesWithBuild,
+      packageLayout,
+      runPackageName,
+    );
     if (!planSuccess) {
       return BuildResult._(assets: [], dependencies: [], success: false);
     }
@@ -428,8 +439,9 @@ build_output.yaml contained a format error.
       _plannedPackages(
     List<Package> packagesWithNativeAssets,
     PackageLayout packageLayout,
+    String? runPackageName,
   ) async {
-    if (packagesWithNativeAssets.length <= 1) {
+    if (packagesWithNativeAssets.length <= 1 && runPackageName != null) {
       final dependencyGraph = DependencyGraph({
         for (final p in packagesWithNativeAssets) p.name: [],
       });
@@ -441,7 +453,9 @@ build_output.yaml contained a format error.
         dartExecutable: Uri.file(Platform.resolvedExecutable),
         logger: logger,
       );
-      final (plan, planSuccess) = planner.plan();
+      final (plan, planSuccess) = planner.plan(
+        runPackageName: runPackageName,
+      );
       return (plan, planner.dependencyGraph, planSuccess);
     }
   }

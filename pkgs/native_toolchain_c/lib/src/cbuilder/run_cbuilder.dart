@@ -133,7 +133,8 @@ class RunCBuilder {
     // See https://github.com/dart-lang/native/issues/171.
     late final int targetAndroidNdkApi;
     if (target.os == OS.android) {
-      targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, 21);
+      final minimumApi = target == Target.androidRiscv64 ? 35 : 21;
+      targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, minimumApi);
     }
 
     await runProcess(
@@ -294,6 +295,7 @@ class RunCBuilder {
     Target.androidArm64: 'aarch64-linux-android',
     Target.androidIA32: 'i686-linux-android',
     Target.androidX64: 'x86_64-linux-android',
+    Target.androidRiscv64: 'riscv64-linux-android',
   };
 
   static const appleClangMacosTargetFlags = {

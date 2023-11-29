@@ -1386,6 +1386,21 @@ JniResult JsonFactory__createJsonGenerator2(jobject self_, jobject out) {
   return to_global_ref_result(_result);
 }
 
+jfieldID _f_JsonFactory__FORMAT_NAME_JSON = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_JsonFactory__FORMAT_NAME_JSON() {
+  load_env();
+  load_class_global_ref(&_c_JsonFactory,
+                        "com/fasterxml/jackson/core/JsonFactory");
+  if (_c_JsonFactory == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_JsonFactory, &_f_JsonFactory__FORMAT_NAME_JSON,
+                    "FORMAT_NAME_JSON", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_JsonFactory, _f_JsonFactory__FORMAT_NAME_JSON);
+  return to_global_ref_result(_result);
+}
+
 jfieldID _f_JsonFactory__DEFAULT_FACTORY_FEATURE_FLAGS = NULL;
 FFI_PLUGIN_EXPORT
 JniResult get_JsonFactory__DEFAULT_FACTORY_FEATURE_FLAGS() {

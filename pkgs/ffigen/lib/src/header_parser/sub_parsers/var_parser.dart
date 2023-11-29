@@ -25,7 +25,8 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
 
   _logger.fine('++++ Adding Global: ${cursor.completeStringRepr()}');
 
-  final type = cursor.type().toCodeGenType();
+  final cType = cursor.type();
+  final type = cType.toCodeGenType();
   if (type.baseType is UnimplementedType) {
     _logger.fine('---- Removed Global, reason: unsupported type: '
         '${cursor.completeStringRepr()}');
@@ -46,6 +47,7 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
     type: type,
     dartDoc: getCursorDocComment(cursor),
     exposeSymbolAddress: config.functionDecl.shouldIncludeSymbolAddress(name),
+    constant: cType.isConstQualified,
   );
   bindingsIndex.addGlobalVarToSeen(usr, global);
   return global;

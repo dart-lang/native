@@ -36,7 +36,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(Example.OFF, equals(0));
       expect(Example.PI, closeTo(pi, fpDelta));
       expect(Example.SEMICOLON, equals(';'.codeUnitAt(0)));
-      expect(Example.SEMICOLON_STRING, equals(';'));
+      expect(Example.SEMICOLON_STRING.toDartString(releaseOriginal: true),
+          equals(';'));
     });
 
     test('Static methods - primitive', () {

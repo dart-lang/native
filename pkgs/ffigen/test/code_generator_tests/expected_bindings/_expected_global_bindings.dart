@@ -29,8 +29,6 @@ class Bindings {
 
   ffi.Pointer<ffi.Float> get test2 => _test2.value;
 
-  set test2(ffi.Pointer<ffi.Float> value) => _test2.value = value;
-
   late final ffi.Pointer<ffi.Pointer<Some>> _test5 =
       _lookup<ffi.Pointer<Some>>('test5');
 

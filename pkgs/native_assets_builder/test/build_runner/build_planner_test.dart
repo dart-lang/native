@@ -50,6 +50,7 @@ void main() async {
       expect(buildPlan.single.name, 'native_add');
     });
   });
+
   test('build dependency graph fromPackageRoot', () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
@@ -72,6 +73,32 @@ void main() async {
       final (buildPlan, _) = nativeAssetsBuildPlanner.plan();
       expect(buildPlan.length, 1);
       expect(buildPlan.single.name, 'native_add');
+    });
+  });
+
+  test('runPackageName', () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final nativeAddUri = tempUri.resolve('native_add/');
+
+      // First, run `pub get`, we need pub to resolve our dependencies.
+      await runPubGet(workingDirectory: nativeAddUri, logger: logger);
+
+      final packageLayout =
+          await PackageLayout.fromRootPackageRoot(nativeAddUri);
+      final packagesWithNativeAssets =
+          await packageLayout.packagesWithNativeAssets;
+      final nativeAssetsBuildPlanner =
+          await NativeAssetsBuildPlanner.fromRootPackageRoot(
+        rootPackageRoot: nativeAddUri,
+        packagesWithNativeAssets: packagesWithNativeAssets,
+        dartExecutable: Uri.file(Platform.resolvedExecutable),
+        logger: logger,
+      );
+      final (buildPlan, _) = nativeAssetsBuildPlanner.plan(
+        runPackageName: 'ffigen',
+      );
+      expect(buildPlan.length, 0);
     });
   });
 }

@@ -793,6 +793,21 @@ JniResult Example__overloaded4(jobject self_, jobject a) {
   return (JniResult){.value = {.j = 0}, .exception = check_exception()};
 }
 
+jfieldID _f_Example__SEMICOLON_STRING = NULL;
+FFI_PLUGIN_EXPORT
+JniResult get_Example__SEMICOLON_STRING() {
+  load_env();
+  load_class_global_ref(&_c_Example,
+                        "com/github/dart_lang/jnigen/simple_package/Example");
+  if (_c_Example == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_field(_c_Example, &_f_Example__SEMICOLON_STRING,
+                    "SEMICOLON_STRING", "Ljava/lang/String;");
+  jobject _result = (*jniEnv)->GetStaticObjectField(
+      jniEnv, _c_Example, _f_Example__SEMICOLON_STRING);
+  return to_global_ref_result(_result);
+}
+
 jfieldID _f_Example__unusedRandom = NULL;
 FFI_PLUGIN_EXPORT
 JniResult get_Example__unusedRandom() {

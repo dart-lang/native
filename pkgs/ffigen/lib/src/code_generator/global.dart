@@ -22,6 +22,7 @@ import 'writer.dart';
 class Global extends LookUpBinding {
   final Type type;
   final bool exposeSymbolAddress;
+  final bool constant;
 
   Global({
     super.usr,
@@ -30,6 +31,7 @@ class Global extends LookUpBinding {
     required this.type,
     super.dartDoc,
     this.exposeSymbolAddress = false,
+    this.constant = false,
   });
 
   @override
@@ -55,8 +57,10 @@ class Global extends LookUpBinding {
       }
     } else {
       s.write('$dartType get $globalVarName => $pointerName.value;\n\n');
-      s.write(
-          'set $globalVarName($dartType value) => $pointerName.value = value;\n\n');
+      if (!constant) {
+        s.write(
+            'set $globalVarName($dartType value) => $pointerName.value = value;\n\n');
+      }
     }
 
     if (exposeSymbolAddress) {

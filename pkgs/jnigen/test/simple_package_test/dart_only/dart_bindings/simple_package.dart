@@ -119,9 +119,19 @@ class Example extends jni.JObject {
 
   /// from: static public final char SEMICOLON
   static const SEMICOLON = 59;
+  static final _id_SEMICOLON_STRING = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"SEMICOLON_STRING",
+    r"Ljava/lang/String;",
+  );
 
   /// from: static public final java.lang.String SEMICOLON_STRING
-  static const SEMICOLON_STRING = r""";""";
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JString get SEMICOLON_STRING => const jni.JStringType().fromRef(jni
+      .Jni.accessors
+      .getStaticField(
+          _class.reference, _id_SEMICOLON_STRING, jni.JniCallType.objectType)
+      .object);
 
   static final _id_unusedRandom = jni.Jni.accessors.getStaticFieldIDOf(
     _class.reference,

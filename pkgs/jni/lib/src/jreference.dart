@@ -29,9 +29,8 @@ extension ProtectedJReference on JReference {
   ///
   /// Detaches the finalizer so the underlying pointer will not be deleted.
   JObjectPtr toPointer() {
-    final ref = reference;
     setAsReleased();
-    return ref;
+    return _reference;
   }
 }
 
@@ -43,9 +42,7 @@ abstract class JReference implements Finalizable {
       NativeFinalizer(Jni.env.ptr.ref.DeleteGlobalRef.cast());
 
   JReference.fromRef(this._reference) {
-    if (_reference != nullptr) {
-      _finalizer.attach(this, _reference, detach: this);
-    }
+    _finalizer.attach(this, _reference, detach: this);
   }
 
   bool _released = false;
@@ -81,45 +78,6 @@ abstract class JReference implements Finalizable {
 
   /// Registers this object to be released at the end of [arena]'s lifetime.
   void releasedBy(Arena arena) => arena.onReleaseAll(release);
-}
-
-/// Creates a "lazy" [JReference].
-///
-/// The first use of [reference] will call [lazyReference].
-///
-/// This is useful when the Java object is not necessarily used directly, and
-/// there are alternative ways to get a Dart representation of the Object.
-///
-/// Object mixed in with this must call their super.[fromRef] constructor
-/// with [nullptr].
-///
-/// Also see [JFinalString].
-mixin JLazyReference on JReference {
-  JObjectPtr? _lazyReference;
-
-  JObjectPtr Function() get lazyReference;
-
-  @override
-  JObjectPtr get reference {
-    if (_lazyReference == null) {
-      _lazyReference = lazyReference();
-      JReference._finalizer.attach(this, _lazyReference!, detach: this);
-      return _lazyReference!;
-    }
-    if (_released) {
-      throw UseAfterReleaseError();
-    }
-    return _lazyReference!;
-  }
-
-  @override
-  void release() {
-    setAsReleased();
-    if (_lazyReference == null) {
-      return;
-    }
-    Jni.env.DeleteGlobalRef(_lazyReference!);
-  }
 }
 
 extension JReferenceUseExtension<T extends JReference> on T {

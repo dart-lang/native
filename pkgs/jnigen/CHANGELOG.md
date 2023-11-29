@@ -2,6 +2,9 @@
 
 - **Breaking Change**: The generated impl class for interfaces is now an
   `interface`.
+- **Breaking Change** ([#792](https://github.com/dart-lang/native/issues/792)]):
+  `static final String` fields get converted to `JString` getters instead of
+  `static const String` fields in Dart.
 
 ## 0.7.0
 

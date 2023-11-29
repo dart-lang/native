@@ -40,6 +40,7 @@ Future<BuildResult> build(
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   bool copyAssets = true,
+  String? runPackageName,
 }) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
@@ -58,6 +59,7 @@ Future<BuildResult> build(
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,
+    runPackageName: runPackageName,
   );
   if (result.success && copyAssets) {
     await expectAssetsExist(result.assets);
