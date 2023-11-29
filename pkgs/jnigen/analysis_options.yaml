@@ -5,6 +5,8 @@
 include: package:lints/recommended.yaml
 
 analyzer:
+  errors:
+    todo: ignore
   exclude: [build/**, example/**]
   language:
     strict-raw-types: true
