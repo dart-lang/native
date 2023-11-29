@@ -7,6 +7,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 const packageName = 'native_add_library';
 void main(List<String> args) async {
   final linkInput = await LinkInput.fromArgs(args);
+  final buildConfig = await BuildConfig.fromArgs(args);
 
   final shakenAssets = MyResourceShaker().shake(
     linkInput.buildOutput.assets,
@@ -18,8 +19,8 @@ void main(List<String> args) async {
       id: 'package:$packageName/ajsonfil2e',
       linkMode: LinkMode.dynamic,
       target: Target.androidArm,
-      path: AssetAbsolutePath(Uri.file(
-          '/home/mosum/projects/native/pkgs/native_assets_cli/example/native_add_library/data_asset_link.json')),
+      path: AssetAbsolutePath(
+          buildConfig.packageRoot.resolve('data_asset_link.json')),
       type: AssetType.data,
     ),
   );
