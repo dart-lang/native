@@ -20,7 +20,8 @@ void main(List<String> args) async {
       linkMode: LinkMode.dynamic,
       target: Target.androidArm,
       path: AssetAbsolutePath(
-          buildConfig.packageRoot.resolve('data_asset_link.json')),
+        buildConfig.packageRoot.resolve('data_asset_link.json'),
+      ),
       type: AssetType.data,
     ),
   );
@@ -37,5 +38,5 @@ class MyResourceShaker {
     List<Asset> assets,
     ResourceIdentifiers? resourceIdentifiers,
   ) =>
-      assets.where((element) => element.type != AssetType.data).toList();
+      assets.where((asset) => asset.type != AssetType.data).toList();
 }
