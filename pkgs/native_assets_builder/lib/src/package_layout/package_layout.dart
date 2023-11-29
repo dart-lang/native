@@ -90,12 +90,12 @@ class PackageLayout {
   /// a `build.dart`.
   ///
   /// `package:native` itself is excluded.
-  Future<List<Package>> packagesWithNativeAssets(RunType type) async {
+  Future<List<Package>> packagesWithNativeAssets(RunStep step) async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
-        if (await File.fromUri(packageRoot.resolve(type.scriptName)).exists()) {
+        if (await File.fromUri(packageRoot.resolve(step.scriptName)).exists()) {
           result.add(package);
         }
       }
@@ -104,8 +104,8 @@ class PackageLayout {
   }
 
   late final Future<List<Package>> packagesWithNativeBuild =
-      packagesWithNativeAssets(BuildType());
+      packagesWithNativeAssets(const BuildStep());
 
   late final Future<List<Package>> packagesWithNativeLink =
-      packagesWithNativeAssets(LinkType());
+      packagesWithNativeAssets(const LinkStep());
 }

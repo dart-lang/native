@@ -6,6 +6,7 @@ import 'package:yaml/yaml.dart';
 
 import '../utils/uri.dart';
 import '../utils/yaml.dart';
+import 'build_type.dart';
 import 'link_mode.dart';
 import 'target.dart';
 
@@ -195,6 +196,7 @@ class Asset {
   final Target target;
   final AssetPath path;
   final AssetType type;
+  final RunStep copyAt;
 
   Asset({
     required this.id,
@@ -202,6 +204,7 @@ class Asset {
     required this.target,
     required this.path,
     required this.type,
+    this.copyAt = const BuildStep(),
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(

@@ -88,7 +88,7 @@ void main() async {
       final packageLayout =
           await PackageLayout.fromRootPackageRoot(nativeAddUri);
       final packagesWithNativeAssets =
-          await packageLayout.packagesWithNativeAssets(BuildType());
+          await packageLayout.packagesWithNativeAssets(const BuildStep());
       final nativeAssetsBuildPlanner =
           await NativeAssetsPlanner.fromRootPackageRoot(
         rootPackageRoot: nativeAddUri,

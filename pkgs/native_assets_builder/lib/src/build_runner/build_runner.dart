@@ -48,7 +48,7 @@ class NativeAssetsRunner {
     String? runPackageName,
   }) async =>
       _run(
-        buildType: BuildType(),
+        buildStep: const BuildStep(),
         linkModePreference: linkModePreference,
         target: target,
         workingDirectory: workingDirectory,
@@ -74,7 +74,7 @@ class NativeAssetsRunner {
     String? runPackageName,
   }) async =>
       _run(
-        buildType: LinkType(),
+        buildStep: const LinkStep(),
         linkModePreference: LinkModePreference.dynamic,
         target: target,
         workingDirectory: workingDirectory,
@@ -88,7 +88,7 @@ class NativeAssetsRunner {
       );
 
   Future<BuildResult> _run({
-    required RunType buildType,
+    required RunStep buildStep,
     required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
@@ -103,7 +103,7 @@ class NativeAssetsRunner {
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild =
-        await packageLayout.packagesWithNativeAssets(buildType);
+        await packageLayout.packagesWithNativeAssets(buildStep);
     final (packages, dependencyGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     if (!planSuccess) {
@@ -132,7 +132,7 @@ class NativeAssetsRunner {
         targetAndroidNdkApi: targetAndroidNdkApi,
       );
       final (buildOutput, packageSuccess) = await _runPackageCached(
-        buildType,
+        buildStep,
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
@@ -187,7 +187,7 @@ class NativeAssetsRunner {
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
       );
       final (buildOutput, packageSuccess) = await _buildPackage(
-        BuildType(),
+        const BuildStep(),
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
@@ -201,7 +201,7 @@ class NativeAssetsRunner {
   }
 
   Future<_PackageBuildRecord> _runPackageCached(
-    RunType buildType,
+    RunStep runStep,
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -216,7 +216,7 @@ class NativeAssetsRunner {
 
     final buildOutput = await BuildOutput.readFromFile(
       outDir: outDir,
-      type: buildType,
+      step: runStep,
     );
     final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
         DateTime.fromMillisecondsSinceEpoch(0);
@@ -232,7 +232,7 @@ class NativeAssetsRunner {
     }
 
     return await _buildPackage(
-      buildType,
+      runStep,
       config,
       packageConfigUri,
       workingDirectory,
@@ -242,7 +242,7 @@ class NativeAssetsRunner {
   }
 
   Future<_PackageBuildRecord> _buildPackage(
-    RunType buildType,
+    RunStep runStep,
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -251,11 +251,11 @@ class NativeAssetsRunner {
   ) async {
     final outDir = config.outDir;
     final configFile = outDir.resolve('../config.yaml');
-    final script = config.packageRoot.resolve(buildType.scriptName);
+    final script = config.packageRoot.resolve(runStep.scriptName);
     final configFileContents = config.toYamlString();
     logger.info('config.yaml contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final buildOutputFile = File.fromUri(outDir.resolve(buildType.outputName));
+    final buildOutputFile = File.fromUri(outDir.resolve(runStep.outputName));
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -263,9 +263,9 @@ class NativeAssetsRunner {
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
       script.toFilePath(),
-      ...buildType.args(
+      ...runStep.args(
         configFile,
-        outDir.resolve(BuildType().outputName),
+        outDir.resolve(const BuildStep().outputName),
         resources,
       ),
     ];
@@ -288,7 +288,7 @@ class NativeAssetsRunner {
       logger.severe(
         '''
 Building native assets for package:${config.packageName} failed.
-${buildType.scriptName} returned with exit code: ${result.exitCode}.
+${runStep.scriptName} returned with exit code: ${result.exitCode}.
 To reproduce run:
 $commandString
 stderr:
@@ -303,7 +303,7 @@ ${result.stdout}
     try {
       final buildOutput = await BuildOutput.readFromFile(
         outDir: outDir,
-        type: buildType,
+        step: runStep,
       );
       success &=
           validateAssetsPackage(buildOutput?.assets ?? [], config.packageName);

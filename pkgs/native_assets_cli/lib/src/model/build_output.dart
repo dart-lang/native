@@ -96,12 +96,12 @@ class BuildOutput {
   /// representation in the protocol.
   static Version version = Version(1, 0, 0);
 
-  /// Writes the YAML file from [outDir]/[type].
+  /// Writes the YAML file from [outDir]/[step].
   static Future<BuildOutput?> readFromFile({
     required Uri outDir,
-    required RunType type,
+    required RunStep step,
   }) async {
-    final buildOutputUri = outDir.resolve(type.outputName);
+    final buildOutputUri = outDir.resolve(step.outputName);
     final buildOutputFile = File.fromUri(buildOutputUri);
     if (!await buildOutputFile.exists()) {
       return null;
@@ -109,12 +109,12 @@ class BuildOutput {
     return BuildOutput.fromYamlString(await buildOutputFile.readAsString());
   }
 
-  /// Writes the [toYamlString] to [outDir]/[type].
+  /// Writes the [toYamlString] to [outDir]/[step].
   Future<void> writeToFile({
     required Uri outDir,
-    required RunType type,
+    required RunStep step,
   }) async {
-    final buildOutputUri = outDir.resolve(type.outputName);
+    final buildOutputUri = outDir.resolve(step.outputName);
     await File.fromUri(buildOutputUri)
         .writeAsStringCreateDirectory(toYamlString());
   }

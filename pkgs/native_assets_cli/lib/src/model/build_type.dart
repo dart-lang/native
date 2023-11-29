@@ -4,13 +4,15 @@ import 'link_input.dart';
 ///
 /// The `build.dart` script runs before, and the `link.dart` script after
 /// compilation.
-sealed class RunType {
+sealed class RunStep {
   String get scriptName;
   String get outputName;
   List<String> args(Uri configFile, Uri buildOutput, Uri? resources);
+
+  const RunStep();
 }
 
-final class LinkType extends RunType {
+final class LinkStep extends RunStep {
   @override
   String get outputName => 'link_output.yaml';
 
@@ -20,9 +22,11 @@ final class LinkType extends RunType {
   @override
   List<String> args(Uri configFile, Uri buildOutput, Uri? resources) =>
       LinkInput.toArgs(buildOutput, configFile, resources);
+
+  const LinkStep();
 }
 
-final class BuildType extends RunType {
+final class BuildStep extends RunStep {
   @override
   String get outputName => 'build_output.yaml';
 
@@ -34,4 +38,6 @@ final class BuildType extends RunType {
   List<String> args(Uri configFile, Uri buildOutput, Uri? resources) => [
         '--config=${configFile.toFilePath()}',
       ];
+
+  const BuildStep();
 }

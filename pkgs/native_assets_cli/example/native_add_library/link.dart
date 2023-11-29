@@ -29,7 +29,7 @@ void main(List<String> args) async {
   final linkOutput = BuildOutput(assets: shakenAssets);
   await linkOutput.writeToFile(
     outDir: linkInput.buildConfig.outDir,
-    type: LinkType(),
+    step: LinkStep(),
   );
 }
 
