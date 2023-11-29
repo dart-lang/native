@@ -2,20 +2,8 @@ import 'link_input.dart';
 
 /// The two types of scripts which are hooked into the compilation process.
 ///
-/// The [build] script runs before, and the [link] script after compilation.
-// enum BuildType {
-//   build,
-//   link;
-
-//   static RunType getType(BuildType type) => switch (type) {
-//         BuildType.build => const BuildType2(),
-//         BuildType.link => const LinkType(),
-//       };
-// }
-
-/// The two types of scripts which are hooked into the compilation process.
-///
-/// The [build] script runs before, and the [link] script after compilation.
+/// The `build.dart` script runs before, and the `link.dart` script after
+/// compilation.
 sealed class RunType {
   String get scriptName;
   String get outputName;

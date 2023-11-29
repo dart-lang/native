@@ -96,7 +96,7 @@ class BuildOutput {
   /// representation in the protocol.
   static Version version = Version(1, 0, 0);
 
-  /// Writes the YAML file from [outDir]/[fileName].
+  /// Writes the YAML file from [outDir]/[type].
   static Future<BuildOutput?> readFromFile({
     required Uri outDir,
     required RunType type,
@@ -109,7 +109,7 @@ class BuildOutput {
     return BuildOutput.fromYamlString(await buildOutputFile.readAsString());
   }
 
-  /// Writes the [toYamlString] to [outDir]/[fileName].
+  /// Writes the [toYamlString] to [outDir]/[type].
   Future<void> writeToFile({
     required Uri outDir,
     required RunType type,
