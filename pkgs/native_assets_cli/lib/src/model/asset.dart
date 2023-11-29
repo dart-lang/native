@@ -196,7 +196,11 @@ class Asset {
   final Target target;
   final AssetPath path;
   final AssetType type;
-  final RunStep copyAt;
+
+  /// The step at which the asset should be output. For example, if you want an
+  /// asset to be output after `build.dart`, choose [BuildStep]. If you want it
+  /// output after `link.dart`, choose [LinkStep].
+  final RunStep step;
 
   Asset({
     required this.id,
@@ -204,7 +208,7 @@ class Asset {
     required this.target,
     required this.path,
     required this.type,
-    this.copyAt = const BuildStep(),
+    this.step = const BuildStep(),
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
