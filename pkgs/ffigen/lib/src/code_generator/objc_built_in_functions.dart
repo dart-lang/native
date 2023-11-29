@@ -105,8 +105,18 @@ $objType $name(String name) {
       key += ' ${p.type.cacheKey()}';
     }
     return _msgSendFuncs[key] ??= ObjCMsgSendFunc(
-        '_objc_msgSend_${_msgSendFuncs.length}', returnType, params);
+        '_objc_msgSend_${_msgSendFuncs.length}',
+        returnType,
+        params,
+        _msgSendUseVariants);
   }
+
+  late final _msgSendUseVariants = ObjCInternalGlobal(
+      '_objc_msgSend_useVariants',
+      (Writer w) => '''
+${w.ffiLibraryPrefix}.Abi.current() == ${w.ffiLibraryPrefix}.Abi.iosX64 ||
+${w.ffiLibraryPrefix}.Abi.current() == ${w.ffiLibraryPrefix}.Abi.macosX64
+''');
 
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
@@ -285,7 +295,7 @@ class $name implements ${w.ffiLibraryPrefix}.Finalizable {
     _releaseFunc.addDependencies(dependencies);
     _releaseFinalizer.addDependencies(dependencies);
     for (final msgSendFunc in _msgSendFuncs.values) {
-      msgSendFunc.func.addDependencies(dependencies);
+      msgSendFunc.addDependencies(dependencies);
     }
     for (final sel in _selObjects.values) {
       sel.addDependencies(dependencies);
@@ -415,30 +425,110 @@ enum ObjCMsgSendVariant {
 }
 
 /// A wrapper around the objc_msgSend function, or the stret or fpret variants.
+///
+/// The [variant] is based purely on the return type of the method.
+///
+/// For the stret and fpret variants, we may need to fall back to the normal
+/// objc_msgSend function at runtime, depending on the ABI. So we emit both the
+/// variant function and the normal function, and decide which to use at runtime
+/// based on the ABI. The result of the ABI check is stored in [useVariants].
+///
+/// This runtime check is complicated by the fact that objc_msgSend_stret has
+/// a different signature than objc_msgSend has for the same method. This is
+/// because objc_msgSend_stret takes a pointer to the return type as its first
+/// arg.
 class ObjCMsgSendFunc {
   final ObjCMsgSendVariant variant;
-  late final Func func;
+  final ObjCInternalGlobal useVariants;
 
-  ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params)
+  // [normalFunc] is always a reference to the normal objc_msgSend function. If
+  // the [variant] is fpret or stret, then [variantFunc] is a reference to the
+  // corresponding variant of the objc_msgSend function, otherwise it's null.
+  late final Func normalFunc;
+  late final Func? variantFunc;
+
+  ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params,
+      this.useVariants)
       : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
-    func = Func(
+    normalFunc = Func(
       name: name,
-      originalName: variant.name,
-      returnType: isStret ? voidType : returnType,
-      parameters: [
-        if (isStret) Parameter(name: 'stret', type: PointerType(returnType)),
-        Parameter(name: 'obj', type: PointerType(objCObjectType)),
-        Parameter(name: 'sel', type: PointerType(objCSelType)),
-        for (final p in params) Parameter(name: p.name, type: p.type),
-      ],
+      originalName: ObjCMsgSendVariant.normal.name,
+      returnType: returnType,
+      parameters: _params(params),
       isInternal: true,
     );
+    switch (variant) {
+      case ObjCMsgSendVariant.normal:
+        variantFunc = null;
+      case ObjCMsgSendVariant.fpret:
+        variantFunc = Func(
+          name: '${name}_fpret',
+          originalName: variant.name,
+          returnType: returnType,
+          parameters: _params(params),
+          isInternal: true,
+        );
+      case ObjCMsgSendVariant.stret:
+        variantFunc = Func(
+          name: '${name}_stret',
+          originalName: variant.name,
+          returnType: voidType,
+          parameters: _params(params, structRetPtr: PointerType(returnType)),
+          isInternal: true,
+        );
+    }
   }
 
-  String get name => func.name;
+  static List<Parameter> _params(List<ObjCMethodParam> params,
+      {Type? structRetPtr}) {
+    return [
+      if (structRetPtr != null) Parameter(name: 'stret', type: structRetPtr),
+      Parameter(name: 'obj', type: PointerType(objCObjectType)),
+      Parameter(name: 'sel', type: PointerType(objCSelType)),
+      for (final p in params) Parameter(name: p.name, type: p.type),
+    ];
+  }
+
   bool get isStret => variant == ObjCMsgSendVariant.stret;
 
   void addDependencies(Set<Binding> dependencies) {
-    func.addDependencies(dependencies);
+    if (variant != ObjCMsgSendVariant.normal) {
+      useVariants.addDependencies(dependencies);
+    }
+    normalFunc.addDependencies(dependencies);
+    variantFunc?.addDependencies(dependencies);
+  }
+
+  String invoke(String lib, String target, String sel, Iterable<String> params,
+      {String? structRetPtr}) {
+    final normalCall = _invoke(normalFunc.name, lib, target, sel, params);
+    switch (variant) {
+      case ObjCMsgSendVariant.normal:
+        return normalCall;
+      case ObjCMsgSendVariant.fpret:
+        final fpretCall = _invoke(variantFunc!.name, lib, target, sel, params);
+        return '$lib.${useVariants.name} ? $fpretCall : $normalCall';
+      case ObjCMsgSendVariant.stret:
+        final stretCall = _invoke(variantFunc!.name, lib, target, sel, params,
+            structRetPtr: structRetPtr);
+        return '$lib.${useVariants.name} ? $stretCall : '
+            '$structRetPtr.ref = $normalCall';
+    }
+  }
+
+  static String _invoke(
+    String name,
+    String lib,
+    String target,
+    String sel,
+    Iterable<String> params, {
+    String? structRetPtr,
+  }) {
+    return '''$lib.$name(${[
+      if (structRetPtr != null) structRetPtr,
+      target,
+      sel,
+      ...params,
+    ].join(', ')})''';
   }
 }
