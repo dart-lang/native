@@ -16,7 +16,7 @@ void main(List<String> args) async {
 
   shakenAssets.add(
     Asset(
-      id: 'package:$packageName/ajsonfil2e',
+      id: 'package:$packageName/a_json_file',
       linkMode: LinkMode.dynamic,
       target: Target.androidArm,
       path: AssetAbsolutePath(
