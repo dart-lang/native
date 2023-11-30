@@ -10,6 +10,11 @@ sealed class RunStep {
   List<String> args(Uri configFile, Uri buildOutput, Uri? resources);
 
   const RunStep();
+
+  Map<String, Object> toYaml() => {
+        'script': scriptName,
+        'output': outputName,
+      };
 }
 
 final class LinkStep extends RunStep {

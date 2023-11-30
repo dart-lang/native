@@ -237,12 +237,14 @@ class Asset {
     String? id,
     Target? target,
     AssetPath? path,
+    RunStep? step,
   }) =>
       Asset(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
+        step: step ?? this.step,
       );
 
   @override
@@ -253,17 +255,19 @@ class Asset {
     return other.id == id &&
         other.linkMode == linkMode &&
         other.target == target &&
-        other.path == path;
+        other.path == path &&
+        other.step == step;
   }
 
   @override
-  int get hashCode => Object.hash(id, linkMode, target, path);
+  int get hashCode => Object.hash(id, linkMode, target, path, step);
 
   Map<String, Object> toYaml() => {
         _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
+        _step: step.toYaml(),
       };
 
   Map<String, List<String>> toDartConst() => {
@@ -276,6 +280,7 @@ class Asset {
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
+  static const _step = 'step';
 
   Future<bool> exists() => path.exists();
 
