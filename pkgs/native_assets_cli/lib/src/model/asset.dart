@@ -195,7 +195,6 @@ class Asset {
   final String id;
   final Target target;
   final AssetPath path;
-  final AssetType type;
 
   /// The step at which the asset should be output. For example, if you want an
   /// asset to be output after `build.dart`, choose [BuildStep]. If you want it
@@ -207,7 +206,6 @@ class Asset {
     required this.linkMode,
     required this.target,
     required this.path,
-    required this.type,
     this.step = const BuildStep(),
   });
 
@@ -216,7 +214,6 @@ class Asset {
         path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
         target: Target.fromString(as<String>(yamlMap[_targetKey])),
         linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
-        type: AssetType.fromName(as<String>(yamlMap[_typeKey])),
       );
 
   static List<Asset> listFromYamlString(String yaml) {
@@ -240,14 +237,12 @@ class Asset {
     String? id,
     Target? target,
     AssetPath? path,
-    AssetType? type,
   }) =>
       Asset(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
-        type: type ?? this.type,
       );
 
   @override
@@ -258,19 +253,17 @@ class Asset {
     return other.id == id &&
         other.linkMode == linkMode &&
         other.target == target &&
-        other.path == path &&
-        other.type == type;
+        other.path == path;
   }
 
   @override
-  int get hashCode => Object.hash(id, linkMode, target, path, type);
+  int get hashCode => Object.hash(id, linkMode, target, path);
 
   Map<String, Object> toYaml() => {
         _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
-        _typeKey: type.name,
       };
 
   Map<String, List<String>> toDartConst() => {
@@ -283,20 +276,11 @@ class Asset {
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
-  static const _typeKey = 'type';
 
   Future<bool> exists() => path.exists();
 
   @override
   String toString() => 'Asset(${toYaml()})';
-}
-
-enum AssetType {
-  code,
-  data;
-
-  static AssetType fromName(String name) =>
-      AssetType.values.firstWhere((element) => element.name == name);
 }
 
 extension AssetIterable on Iterable<Asset> {

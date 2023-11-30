@@ -22,7 +22,6 @@ void main(List<String> args) async {
       path: AssetAbsolutePath(
         buildConfig.packageRoot.resolve('data_asset_link.json'),
       ),
-      type: AssetType.data,
     ),
   );
 
@@ -38,5 +37,5 @@ class MyResourceShaker {
     List<Asset> assets,
     ResourceIdentifiers? resourceIdentifiers,
   ) =>
-      assets.where((asset) => asset.type != AssetType.data).toList();
+      assets.where((asset) => !asset.id.endsWith('.json')).toList();
 }

@@ -39,7 +39,6 @@ void main(List<String> args) async {
       target: buildConfig.target,
       path: AssetAbsolutePath(
           buildConfig.packageRoot.resolve('data_asset_build.json')),
-      type: AssetType.data,
     ),
   );
 
