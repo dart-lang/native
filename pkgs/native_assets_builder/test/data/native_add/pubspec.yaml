@@ -16,4 +16,6 @@ dependencies:
 dev_dependencies:
   ffigen: ^8.0.2
   lints: ^3.0.0
+  some_dev_dep:
+    path: ../some_dev_dep/
   test: ^1.23.1
