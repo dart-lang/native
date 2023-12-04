@@ -1,0 +1,5 @@
+dependency_overrides:
+  native_assets_cli:
+    path: ../../../native_assets_cli/
+  native_toolchain_c:
+    path: ../../../native_toolchain_c/
