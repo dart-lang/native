@@ -68,12 +68,7 @@ jobs:
 
   test-mac:
     needs: analyze
-    strategy:
-      matrix:
-        host: 
-          - 'macos-latest'
-          - 'macos-latest-xlarge' # Arm64.
-    runs-on: ${{ matrix.host }}
+    runs-on: 'macos-latest'
     defaults:
       run:
         working-directory: pkgs/ffigen/
@@ -90,7 +85,6 @@ jobs:
         run: dart test --platform vm --concurrency=1
       - name: Collect coverage
         run: ./tool/coverage.sh
-        if: ${{ matrix.host == 'macos-latest' }}
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
@@ -98,14 +92,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/ffigen/lcov.info
-        if: ${{ matrix.host == 'macos-latest' }}
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
           carryforward: "jnigen_tests,jni_tests,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
-        if: ${{ matrix.host == 'macos-latest' }}
 
   test-windows:
     needs: analyze

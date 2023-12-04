@@ -1,0 +1,30 @@
+# Run the ffigen tests on apple silicon once a week. Unlike the other GitHub
+# CI hosts, this one isn't free, so we don't run it on every commit.
+
+name: ffigen_weekly
+
+on:
+  # Run once a week.
+  schedule:
+    - cron: "0 0 * * 0"
+
+env:
+  PUB_ENVIRONMENT: bot.github
+
+jobs:
+  test-mac:
+    runs-on: 'macos-latest-xlarge' # Arm64.
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+        with:
+          sdk: 3.2.0
+      - name: Install dependencies
+        run: dart pub get
+      - name: Build test dylib and bindings
+        run: dart test/setup.dart
+      - name: Run VM tests
+        run: dart test --platform vm --concurrency=1
