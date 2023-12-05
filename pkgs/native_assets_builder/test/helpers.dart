@@ -123,10 +123,15 @@ Future<void> copyTestProjects({
     for (final path in manifestYaml.contents as YamlList)
       Uri(path: path as String)
   ];
-  final filesToCopy =
-      manifest.where((e) => e.pathSegments.last != 'pubspec.yaml').toList();
-  final filesToModify =
-      manifest.where((e) => e.pathSegments.last == 'pubspec.yaml').toList();
+  final filesToCopy = manifest
+      .where((e) => !(e.pathSegments.last.startsWith('pubspec') &&
+          e.pathSegments.last.endsWith('.yaml')))
+      .toList();
+  final filesToModify = manifest
+      .where((e) =>
+          e.pathSegments.last.startsWith('pubspec') &&
+          e.pathSegments.last.endsWith('.yaml'))
+      .toList();
 
   for (final pathToCopy in filesToCopy) {
     final sourceFile = File.fromUri(sourceUri.resolveUri(pathToCopy));
