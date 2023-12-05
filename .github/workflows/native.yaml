@@ -63,7 +63,7 @@ jobs:
           ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
 
-      - run: find -type f -name 'pubspec_overrides.yaml' -delete
+      - run: dart run tools/delete_pubspec_overrides.dart
         if: ${{ matrix.dependencies == 'published' }}
 
       - run: dart pub get
