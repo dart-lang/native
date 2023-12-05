@@ -66,6 +66,7 @@ jobs:
       - name: Run VM tests
         run: dart test --platform vm --concurrency=1
 
+  # Keep in sync with ffigen_weekly.yaml:test-mac-arm64
   test-mac:
     needs: analyze
     runs-on: 'macos-latest'

@@ -12,7 +12,8 @@ env:
   PUB_ENVIRONMENT: bot.github
 
 jobs:
-  test-mac:
+  # Keep in sync with ffigen.yaml:test-mac
+  test-mac-arm64:
     runs-on: 'macos-latest-xlarge' # Arm64.
     defaults:
       run:
