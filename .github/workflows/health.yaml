@@ -11,3 +11,4 @@ jobs:
       checks: "version,changelog,license,coverage,do-not-submit" # TODO(mosum):add "breaking" as soon as flutter pub get issue is resolved.
     permissions:
       pull-requests: write
+      
