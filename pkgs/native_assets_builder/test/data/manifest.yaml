@@ -33,6 +33,7 @@
 - package_with_metadata/build.dart
 - package_with_metadata/pubspec.yaml
 - simple_link/pubspec.yaml
+- simple_link/pubspec_overrides.yaml
 - simple_link/build.dart
 - package_with_metadata/pubspec_overrides.yaml
 - some_dev_dep/bin/some_dev_dep.dart
