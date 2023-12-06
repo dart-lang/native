@@ -8,6 +8,7 @@ jobs:
     uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
     with:
       coverage_web: true
-      checks: "version,changelog,license,coverage,do-not-submit" # TODO(mosum):add "breaking" as soon as flutter pub get issue is resolved.
+      checks: "version,changelog,license,coverage,do-not-submit,breaking"
+      use-flutter: true
     permissions:
       pull-requests: write
