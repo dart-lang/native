@@ -28,5 +28,8 @@ void main(List<String> args) async {
         print('${record.level.name}: ${record.time}: ${record.message}');
       }),
   );
-  await buildOutput.writeToFile(outDir: buildConfig.outDir);
+  await buildOutput.writeToFile(
+    outDir: buildConfig.outDir,
+    step: const BuildStep(),
+  );
 }

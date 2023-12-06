@@ -21,9 +21,11 @@ void main(List<String> args) async {
         linkMode: LinkMode.dynamic,
         target: buildConfig.target,
         path: AssetAbsolutePath(Uri.file(File(filename).absolute.path)),
-        type: AssetType.data,
       );
     },
   ));
-  await buildOutput.writeToFile(outDir: buildConfig.outDir, type: BuildType());
+  await buildOutput.writeToFile(
+    outDir: buildConfig.outDir,
+    step: const BuildStep(),
+  );
 }

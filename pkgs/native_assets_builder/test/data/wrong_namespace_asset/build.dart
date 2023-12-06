@@ -17,9 +17,11 @@ void main(List<String> args) async {
             Target.current.os.dylibFileName('foo'),
           ),
         ),
-        type: AssetType.code,
       ),
     ],
   );
-  await buildOutput.writeToFile(outDir: buildConfig.outDir);
+  await buildOutput.writeToFile(
+    outDir: buildConfig.outDir,
+    step: const BuildStep(),
+  );
 }

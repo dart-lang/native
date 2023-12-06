@@ -87,21 +87,22 @@ void main() async {
         // First, run `pub get`, we need pub to resolve our dependencies.
         await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
-      final packageLayout =
-          await PackageLayout.fromRootPackageRoot(nativeAddUri);
-      final packagesWithNativeAssets =
-          await packageLayout.packagesWithNativeAssets(const BuildStep());
-      final nativeAssetsBuildPlanner =
-          await NativeAssetsPlanner.fromRootPackageRoot(
-        rootPackageRoot: nativeAddUri,
-        packagesWithNativeAssets: packagesWithNativeAssets,
-        dartExecutable: Uri.file(Platform.resolvedExecutable),
-        logger: logger,
-      );
-      final (buildPlan, _) = nativeAssetsBuildPlanner.plan(
+        final packageLayout =
+            await PackageLayout.fromRootPackageRoot(nativeAddUri);
+        final packagesWithNativeAssets =
+            await packageLayout.packagesWithNativeAssets(const BuildStep());
+        final nativeAssetsBuildPlanner =
+            await NativeAssetsPlanner.fromRootPackageRoot(
+          rootPackageRoot: nativeAddUri,
+          packagesWithNativeAssets: packagesWithNativeAssets,
+          dartExecutable: Uri.file(Platform.resolvedExecutable),
+          logger: logger,
+        );
+        final (buildPlan, _) = nativeAssetsBuildPlanner.plan(
           runPackageName: runPackageName,
-      );
-      expect(buildPlan.length, 0);
+        );
+        expect(buildPlan.length, 0);
+      });
     });
   }
 }
