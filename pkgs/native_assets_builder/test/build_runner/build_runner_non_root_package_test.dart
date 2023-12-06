@@ -29,7 +29,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          runPackageName: 'ffigen',
+          runPackageName: 'some_dev_dep',
         );
         expect(result.assets, isEmpty);
         expect(result.dependencies, isEmpty);

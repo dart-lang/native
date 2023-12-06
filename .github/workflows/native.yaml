@@ -58,16 +58,13 @@ jobs:
         with:
           sdk: ${{ matrix.sdk }}
 
-      - uses: nttld/setup-ndk@3354316c3285ea90da09d047280dd79d00d5a37a
+      - uses: nttld/setup-ndk@6a7e9c5494a25c4842ca1011f710300132eacd94
         with:
           ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
 
-      - run: dart pub get -C ../../tools/
-        if: ${{ matrix.dependencies == 'path' }}
-
-      - run: dart ../../tools/bin/change_dependencies.dart 
-        if: ${{ matrix.dependencies == 'path' }}
+      - run: dart run ../../tools/delete_pubspec_overrides.dart
+        if: ${{ matrix.dependencies == 'published' }}
 
       - run: dart pub get
 

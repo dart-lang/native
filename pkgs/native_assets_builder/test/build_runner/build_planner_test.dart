@@ -77,13 +77,15 @@ void main() async {
     });
   });
 
-  test('runPackageName', () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final nativeAddUri = tempUri.resolve('native_add/');
+  for (final existing in [true, false]) {
+    final runPackageName = existing ? 'ffigen' : 'does_not_exist';
+    test('runPackageName $runPackageName', () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final nativeAddUri = tempUri.resolve('native_add/');
 
-      // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(workingDirectory: nativeAddUri, logger: logger);
+        // First, run `pub get`, we need pub to resolve our dependencies.
+        await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
       final packageLayout =
           await PackageLayout.fromRootPackageRoot(nativeAddUri);
@@ -97,9 +99,9 @@ void main() async {
         logger: logger,
       );
       final (buildPlan, _) = nativeAssetsBuildPlanner.plan(
-        runPackageName: 'ffigen',
+          runPackageName: runPackageName,
       );
       expect(buildPlan.length, 0);
     });
-  });
+  }
 }

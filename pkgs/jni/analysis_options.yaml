@@ -1,6 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  errors:
+    todo: ignore
   exclude: [build/**, third_party/**]
   language:
     strict-raw-types: true

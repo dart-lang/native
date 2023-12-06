@@ -45,6 +45,9 @@ void main() async {
     await inTempDir((tempUri) async {
       final packageUri = tempUri.resolve('different_root_dir/');
       await copyTestProjects(
+        targetUri: tempUri,
+      );
+      await copyTestProjects(
         sourceUri: testDataUri.resolve('native_add/'),
         targetUri: packageUri,
       );

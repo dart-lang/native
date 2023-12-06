@@ -119,6 +119,11 @@ class DependencyGraph {
       graphs.stronglyConnectedComponents(vertices, neighborsOf);
 
   DependencyGraph subGraph(String rootPackageName) {
+    if (!vertices.contains(rootPackageName)) {
+      // Some downstream tooling requested a package that doesn't exist.
+      // This will likely lead to an error, so avoid building native assets.
+      return DependencyGraph({});
+    }
     final subgraphVertices = [
       ...graphs.transitiveClosure(vertices, neighborsOf)[rootPackageName]!,
       rootPackageName,
