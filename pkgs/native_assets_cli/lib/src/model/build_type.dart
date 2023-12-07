@@ -4,20 +4,17 @@ import 'link_input.dart';
 ///
 /// The `build.dart` script runs before, and the `link.dart` script after
 /// compilation.
-sealed class RunStep {
+sealed class PipelineStep {
   String get scriptName;
   String get outputName;
   List<String> args(Uri configFile, Uri buildOutput, Uri? resources);
 
-  const RunStep();
+  const PipelineStep();
 
-  Map<String, Object> toYaml() => {
-        'script': scriptName,
-        'output': outputName,
-      };
+  String toYaml();
 }
 
-final class LinkStep extends RunStep {
+final class LinkStep extends PipelineStep {
   @override
   String get outputName => 'link_output.yaml';
 
@@ -26,12 +23,15 @@ final class LinkStep extends RunStep {
 
   @override
   List<String> args(Uri configFile, Uri buildOutput, Uri? resources) =>
-      LinkInput.toArgs(buildOutput, configFile, resources);
+      LinkConfig.toArgs(buildOutput, configFile, resources);
 
   const LinkStep();
+
+  @override
+  String toYaml() => 'link';
 }
 
-final class BuildStep extends RunStep {
+final class BuildStep extends PipelineStep {
   @override
   String get outputName => 'build_output.yaml';
 
@@ -45,4 +45,7 @@ final class BuildStep extends RunStep {
       ];
 
   const BuildStep();
+
+  @override
+  String toYaml() => 'build';
 }

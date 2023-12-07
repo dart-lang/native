@@ -6,7 +6,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 const packageName = 'native_add_library';
 void main(List<String> args) async {
-  final linkInput = await LinkInput.fromArgs(args);
+  final linkInput = await LinkConfig.fromArgs(args);
   final buildConfig = await BuildConfig.fromArgs(args);
 
   final shakenAssets = MyResourceShaker().shake(

@@ -99,7 +99,7 @@ class BuildOutput {
   /// Writes the YAML file from [outDir]/[step].
   static Future<BuildOutput?> readFromFile({
     required Uri outDir,
-    required RunStep step,
+    required PipelineStep step,
   }) async {
     final buildOutputUri = outDir.resolve(step.outputName);
     final buildOutputFile = File.fromUri(buildOutputUri);
@@ -112,7 +112,7 @@ class BuildOutput {
   /// Writes the [toYamlString] to [outDir]/[step].
   Future<void> writeToFile({
     required Uri outDir,
-    required RunStep step,
+    required PipelineStep step,
   }) async {
     final buildOutputUri = outDir.resolve(step.outputName);
     await File.fromUri(buildOutputUri)

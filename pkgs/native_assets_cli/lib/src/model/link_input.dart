@@ -12,19 +12,19 @@ import 'resources.dart';
 /// It consists of the [buildConfig] already passed to the build script, the
 /// result of the build step [buildOutput], and the [resourceIdentifiers]
 /// generated during the kernel compilation.
-class LinkInput {
-  final BuildOutput buildOutput;
+class LinkConfig {
+  final Map<String, BuildOutput> buildOutput;
   final BuildConfig buildConfig;
   final ResourceIdentifiers? resourceIdentifiers;
 
-  LinkInput._({
+  LinkConfig._({
     required this.buildOutput,
     required this.buildConfig,
     required this.resourceIdentifiers,
   });
 
-  /// Generate the [LinkInput] from the input arguments to the linking script.
-  static Future<LinkInput> fromArgs(List<String> args) async {
+  /// Generate the [LinkConfig] from the input arguments to the linking script.
+  static Future<LinkConfig> fromArgs(List<String> args) async {
     final argParser = ArgParser()
       ..addOption('build_output')
       ..addOption('resource_identifiers')
@@ -46,7 +46,7 @@ class LinkInput {
           ResourceIdentifiers.fromFile(resourceIdentifierPath);
     }
 
-    return LinkInput._(
+    return LinkConfig._(
       buildConfig: buildConfig,
       buildOutput: buildOutput,
       resourceIdentifiers: resourceIdentifiers,

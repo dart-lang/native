@@ -9,20 +9,20 @@ import 'package:graphs/graphs.dart' as graphs;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 
-class NativeAssetsPlanner {
-  final DependencyGraph dependencyGraph;
+class NativeAssetsBuildPlanner {
+  final PackageGraph packageGraph;
   final List<Package> packagesWithNativeAssets;
   final Uri dartExecutable;
   final Logger logger;
 
-  NativeAssetsPlanner({
-    required this.dependencyGraph,
+  NativeAssetsBuildPlanner({
+    required this.packageGraph,
     required this.packagesWithNativeAssets,
     required this.dartExecutable,
     required this.logger,
   });
 
-  static Future<NativeAssetsPlanner> fromRootPackageRoot({
+  static Future<NativeAssetsBuildPlanner> fromRootPackageRoot({
     required Uri rootPackageRoot,
     required List<Package> packagesWithNativeAssets,
     required Uri dartExecutable,
@@ -37,10 +37,10 @@ class NativeAssetsPlanner {
       ],
       workingDirectory: rootPackageRoot.toFilePath(),
     );
-    final dependencyGraph =
-        DependencyGraph.fromPubDepsJsonString(result.stdout as String);
-    return NativeAssetsPlanner(
-      dependencyGraph: dependencyGraph,
+    final packageGraph =
+        PackageGraph.fromPubDepsJsonString(result.stdout as String);
+    return NativeAssetsBuildPlanner(
+      packageGraph: packageGraph,
       packagesWithNativeAssets: packagesWithNativeAssets,
       dartExecutable: dartExecutable,
       logger: logger,
@@ -50,18 +50,17 @@ class NativeAssetsPlanner {
   (List<Package> packages, bool success) plan({
     String? runPackageName,
   }) {
-    final DependencyGraph dependencyGraph;
+    final PackageGraph packageGraph;
     if (runPackageName != null) {
-      dependencyGraph = this.dependencyGraph.subGraph(runPackageName);
+      packageGraph = this.packageGraph.subGraph(runPackageName);
     } else {
-      dependencyGraph = this.dependencyGraph;
+      packageGraph = this.packageGraph;
     }
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package
     };
     final packagesToBuild = packageMap.keys.toSet();
-    final stronglyConnectedComponents =
-        dependencyGraph.computeStrongComponents();
+    final stronglyConnectedComponents = packageGraph.computeStrongComponents();
     final result = <Package>[];
     var success = true;
     for (final stronglyConnectedComponent in stronglyConnectedComponents) {
@@ -86,18 +85,17 @@ class NativeAssetsPlanner {
 
 /// A graph of package dependencies, encoded as package name -> list of package
 /// dependencies.
-class DependencyGraph {
+class PackageGraph {
   final Map<String, List<String>> map;
 
-  DependencyGraph(this.map);
+  PackageGraph(this.map);
 
   /// Construct a graph from the JSON produced by `dart pub deps --json`.
-  factory DependencyGraph.fromPubDepsJsonString(String json) =>
-      DependencyGraph.fromPubDepsJson(
-          jsonDecode(json) as Map<dynamic, dynamic>);
+  factory PackageGraph.fromPubDepsJsonString(String json) =>
+      PackageGraph.fromPubDepsJson(jsonDecode(json) as Map<dynamic, dynamic>);
 
   /// Construct a graph from the JSON produced by `dart pub deps --json`.
-  factory DependencyGraph.fromPubDepsJson(Map<dynamic, dynamic> map) {
+  factory PackageGraph.fromPubDepsJson(Map<dynamic, dynamic> map) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {
@@ -108,7 +106,7 @@ class DependencyGraph {
           .toList();
       result[name] = dependencies;
     }
-    return DependencyGraph(result);
+    return PackageGraph(result);
   }
 
   Iterable<String> neighborsOf(String vertex) => map[vertex] ?? [];
@@ -118,17 +116,17 @@ class DependencyGraph {
   List<List<String>> computeStrongComponents() =>
       graphs.stronglyConnectedComponents(vertices, neighborsOf);
 
-  DependencyGraph subGraph(String rootPackageName) {
+  PackageGraph subGraph(String rootPackageName) {
     if (!vertices.contains(rootPackageName)) {
       // Some downstream tooling requested a package that doesn't exist.
       // This will likely lead to an error, so avoid building native assets.
-      return DependencyGraph({});
+      return PackageGraph({});
     }
     final subgraphVertices = [
       ...graphs.transitiveClosure(vertices, neighborsOf)[rootPackageName]!,
       rootPackageName,
     ];
-    return DependencyGraph({
+    return PackageGraph({
       for (final vertex in map.keys)
         if (subgraphVertices.contains(vertex))
           vertex: [

@@ -90,7 +90,7 @@ class PackageLayout {
   /// a `build.dart`.
   ///
   /// `package:native` itself is excluded.
-  Future<List<Package>> packagesWithNativeAssets(RunStep step) async {
+  Future<List<Package>> packagesWithNativeAssets(PipelineStep step) async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;

@@ -24,7 +24,7 @@ void main() async {
         logger: logger,
       );
 
-      final buildRunner = NativeAssetsRunner(
+      final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
       );

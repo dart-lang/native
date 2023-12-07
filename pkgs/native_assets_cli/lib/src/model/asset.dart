@@ -196,10 +196,13 @@ class Asset {
   final Target target;
   final AssetPath path;
 
-  /// The step at which the asset should be output. For example, if you want an
-  /// asset to be output after `build.dart`, choose [BuildStep]. If you want it
-  /// output after `link.dart`, choose [LinkStep].
-  final RunStep step;
+  /// The step at which the asset should be written to file.
+  /// * [BuildStep] - The asset is written after `build.dart` has run.
+  /// * [LinkStep] - The asset is written after `link.dart` has run.
+  ///
+  /// In particular, an asset which is created by `build.dart` and then further
+  /// modified by `link.dart` should be marked as [LinkStep].
+  final PipelineStep step;
 
   Asset({
     required this.id,
@@ -237,7 +240,7 @@ class Asset {
     String? id,
     Target? target,
     AssetPath? path,
-    RunStep? step,
+    PipelineStep? step,
   }) =>
       Asset(
         id: id ?? this.id,

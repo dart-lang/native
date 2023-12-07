@@ -6,7 +6,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
   print('RUN LINKING');
-  final linkInput = await LinkInput.fromArgs(args);
+  final linkInput = await LinkConfig.fromArgs(args);
 
   final shakenAssets = MyResourceShaker().shake(
     linkInput.buildOutput.assets,

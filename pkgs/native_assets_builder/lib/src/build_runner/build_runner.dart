@@ -19,11 +19,11 @@ typedef DependencyMetadata = Map<String, Metadata>;
 ///
 /// These methods are invoked by launchers such as dartdev (for `dart run`)
 /// and flutter_tools (for `flutter run` and `flutter build`).
-class NativeAssetsRunner {
+class NativeAssetsBuildRunner {
   final Logger logger;
   final Uri dartExecutable;
 
-  NativeAssetsRunner({
+  NativeAssetsBuildRunner({
     required this.logger,
     required this.dartExecutable,
   });
@@ -48,7 +48,7 @@ class NativeAssetsRunner {
     String? runPackageName,
   }) async =>
       _run(
-        buildStep: const BuildStep(),
+        step: const BuildStep(),
         linkModePreference: linkModePreference,
         target: target,
         workingDirectory: workingDirectory,
@@ -74,7 +74,7 @@ class NativeAssetsRunner {
     String? runPackageName,
   }) async =>
       _run(
-        buildStep: const LinkStep(),
+        step: const LinkStep(),
         linkModePreference: LinkModePreference.dynamic,
         target: target,
         workingDirectory: workingDirectory,
@@ -88,7 +88,7 @@ class NativeAssetsRunner {
       );
 
   Future<BuildResult> _run({
-    required RunStep buildStep,
+    required PipelineStep step,
     required LinkModePreference linkModePreference,
     required Target target,
     required Uri workingDirectory,
@@ -103,7 +103,7 @@ class NativeAssetsRunner {
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild =
-        await packageLayout.packagesWithNativeAssets(buildStep);
+        await packageLayout.packagesWithNativeAssets(step);
     final (packages, dependencyGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     if (!planSuccess) {
@@ -115,7 +115,7 @@ class NativeAssetsRunner {
     var success = true;
     for (final package in packages) {
       final dependencyMetadata = _metadataForPackage(
-        dependencyGraph: dependencyGraph,
+        packageGraph: dependencyGraph,
         packageName: package.name,
         targetMetadata: metadata,
       );
@@ -131,8 +131,8 @@ class NativeAssetsRunner {
         targetIOSSdk: targetIOSSdk,
         targetAndroidNdkApi: targetAndroidNdkApi,
       );
-      final (buildOutput, packageSuccess) = await _runPackageCached(
-        buildStep,
+      final (buildOutput, packageSuccess) = await _buildPackageCached(
+        step,
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
@@ -200,8 +200,8 @@ class NativeAssetsRunner {
     return BuildResult._dryrun(assets: assets, success: success);
   }
 
-  Future<_PackageBuildRecord> _runPackageCached(
-    RunStep runStep,
+  Future<_PackageBuildRecord> _buildPackageCached(
+    PipelineStep step,
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -216,7 +216,7 @@ class NativeAssetsRunner {
 
     final buildOutput = await BuildOutput.readFromFile(
       outDir: outDir,
-      step: runStep,
+      step: step,
     );
     final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
         DateTime.fromMillisecondsSinceEpoch(0);
@@ -232,7 +232,7 @@ class NativeAssetsRunner {
     }
 
     return await _buildPackage(
-      runStep,
+      step,
       config,
       packageConfigUri,
       workingDirectory,
@@ -242,7 +242,7 @@ class NativeAssetsRunner {
   }
 
   Future<_PackageBuildRecord> _buildPackage(
-    RunStep runStep,
+    PipelineStep step,
     BuildConfig config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -251,11 +251,11 @@ class NativeAssetsRunner {
   ) async {
     final outDir = config.outDir;
     final configFile = outDir.resolve('../config.yaml');
-    final script = config.packageRoot.resolve(runStep.scriptName);
+    final script = config.packageRoot.resolve(step.scriptName);
     final configFileContents = config.toYamlString();
     logger.info('config.yaml contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final buildOutputFile = File.fromUri(outDir.resolve(runStep.outputName));
+    final buildOutputFile = File.fromUri(outDir.resolve(step.outputName));
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -263,7 +263,7 @@ class NativeAssetsRunner {
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
       script.toFilePath(),
-      ...runStep.args(
+      ...step.args(
         configFile,
         outDir.resolve(const BuildStep().outputName),
         resources,
@@ -288,7 +288,7 @@ class NativeAssetsRunner {
       logger.severe(
         '''
 Building native assets for package:${config.packageName} failed.
-${runStep.scriptName} returned with exit code: ${result.exitCode}.
+${step.scriptName} returned with exit code: ${result.exitCode}.
 To reproduce run:
 $commandString
 stderr:
@@ -301,12 +301,10 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput = await BuildOutput.readFromFile(
-        outDir: outDir,
-        step: runStep,
-      );
-      success &=
-          validateAssetsPackage(buildOutput?.assets ?? [], config.packageName);
+      final buildOutput =
+          await BuildOutput.readFromFile(outDir: outDir, step: step);
+      final assets = buildOutput?.assets ?? [];
+      success &= validateAssetsPackage(assets, config.packageName);
       return (buildOutput ?? BuildOutput(), success);
     } on FormatException catch (e) {
       logger.severe('''
@@ -404,14 +402,14 @@ build_output.yaml contained a format error.
   }
 
   DependencyMetadata? _metadataForPackage({
-    required DependencyGraph dependencyGraph,
+    required PackageGraph packageGraph,
     required String packageName,
     DependencyMetadata? targetMetadata,
   }) {
     if (targetMetadata == null) {
       return null;
     }
-    final dependencies = dependencyGraph.neighborsOf(packageName).toSet();
+    final dependencies = packageGraph.neighborsOf(packageName).toSet();
     return {
       for (final entry in targetMetadata.entries)
         if (dependencies.contains(entry.key)) entry.key: entry.value,
@@ -435,19 +433,19 @@ build_output.yaml contained a format error.
     return success;
   }
 
-  Future<(List<Package> plan, DependencyGraph dependencyGraph, bool success)>
+  Future<(List<Package> plan, PackageGraph dependencyGraph, bool success)>
       _plannedPackages(
     List<Package> packagesWithNativeAssets,
     PackageLayout packageLayout,
     String? runPackageName,
   ) async {
     if (packagesWithNativeAssets.length <= 1 && runPackageName != null) {
-      final dependencyGraph = DependencyGraph({
+      final dependencyGraph = PackageGraph({
         for (final p in packagesWithNativeAssets) p.name: [],
       });
       return (packagesWithNativeAssets, dependencyGraph, true);
     } else {
-      final planner = await NativeAssetsPlanner.fromRootPackageRoot(
+      final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
         rootPackageRoot: packageLayout.rootPackageRoot,
         packagesWithNativeAssets: packagesWithNativeAssets,
         dartExecutable: Uri.file(Platform.resolvedExecutable),
@@ -456,20 +454,21 @@ build_output.yaml contained a format error.
       final (plan, planSuccess) = planner.plan(
         runPackageName: runPackageName,
       );
-      return (plan, planner.dependencyGraph, planSuccess);
+      return (plan, planner.packageGraph, planSuccess);
     }
   }
 }
 
 typedef _PackageBuildRecord = (BuildOutput, bool success);
 
-/// The result from a [NativeAssetsRunner._run].
+/// The result from a [NativeAssetsBuildRunner.build] or
+/// [NativeAssetsBuildRunner.link].
 final class BuildResult {
   /// All the files used for building the native assets of all packages.
   ///
   /// This aggregated list can be used to determine whether the
-  /// [NativeAssetsRunner] needs to be invoked again. The
-  /// [NativeAssetsRunner] determines per package with native assets
+  /// [NativeAssetsBuildRunner] needs to be invoked again. The
+  /// [NativeAssetsBuildRunner] determines per package with native assets
   /// if it needs to run the build again.
   final List<Uri> dependencies;
 
