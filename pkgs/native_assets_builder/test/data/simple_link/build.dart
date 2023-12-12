@@ -24,8 +24,5 @@ void main(List<String> args) async {
       );
     },
   ));
-  await buildOutput.writeToFile(
-    outDir: buildConfig.outDir,
-    step: const BuildStep(),
-  );
+  await buildOutput.writeToFile(output: buildConfig.output);
 }

@@ -6,18 +6,16 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
   print('RUN LINKING');
-  final linkInput = await LinkConfig.fromArgs(args);
+  final linkConfig = await LinkConfig.fromArgs(args);
 
   final shakenAssets = MyResourceShaker().shake(
-    linkInput.buildOutput.assets,
-    linkInput.resourceIdentifiers,
+    linkConfig.assets,
+    linkConfig.resourceIdentifiers,
   );
 
   final linkOutput = BuildOutput(assets: shakenAssets);
-  await linkOutput.writeToFile(
-    outDir: linkInput.buildConfig.outDir,
-    step: const LinkStep(),
-  );
+
+  await linkOutput.writeToFile(output: linkConfig.output);
 }
 
 class MyResourceShaker {

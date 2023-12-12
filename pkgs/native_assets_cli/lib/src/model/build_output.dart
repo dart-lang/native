@@ -13,7 +13,6 @@ import '../utils/file.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'asset.dart';
-import 'build_type.dart';
 import 'dependencies.dart';
 import 'metadata.dart';
 
@@ -96,28 +95,18 @@ class BuildOutput {
   /// representation in the protocol.
   static Version version = Version(1, 0, 0);
 
-  /// Writes the YAML file from [outDir]/[step].
-  static Future<BuildOutput?> readFromFile({
-    required Uri outDir,
-    required PipelineStep step,
-  }) async {
-    final buildOutputUri = outDir.resolve(step.outputName);
-    final buildOutputFile = File.fromUri(buildOutputUri);
+  /// Writes the YAML file from [outputUri].
+  static Future<BuildOutput?> readFromFile({required Uri outputUri}) async {
+    final buildOutputFile = File.fromUri(outputUri);
     if (!await buildOutputFile.exists()) {
       return null;
     }
     return BuildOutput.fromYamlString(await buildOutputFile.readAsString());
   }
 
-  /// Writes the [toYamlString] to [outDir]/[step].
-  Future<void> writeToFile({
-    required Uri outDir,
-    required PipelineStep step,
-  }) async {
-    final buildOutputUri = outDir.resolve(step.outputName);
-    await File.fromUri(buildOutputUri)
-        .writeAsStringCreateDirectory(toYamlString());
-  }
+  /// Writes the [toYamlString] to [output].
+  Future<void> writeToFile({required Uri output}) async =>
+      await File.fromUri(output).writeAsStringCreateDirectory(toYamlString());
 
   @override
   String toString() => toYamlString();

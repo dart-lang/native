@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:collection/collection.dart';
 import 'package:yaml/yaml.dart';
 
 import '../utils/uri.dart';
@@ -197,11 +198,11 @@ class Asset {
   final AssetPath path;
 
   /// The step at which the asset should be written to file.
-  /// * [BuildStep] - The asset is written after `build.dart` has run.
-  /// * [LinkStep] - The asset is written after `link.dart` has run.
+  /// * [PipelineStep.build] - The asset is written after `build.dart` has run.
+  /// * [PipelineStep.build] - The asset is written after `link.dart` has run.
   ///
   /// In particular, an asset which is created by `build.dart` and then further
-  /// modified by `link.dart` should be marked as [LinkStep].
+  /// modified by `link.dart` should be marked as [PipelineStep.link].
   final PipelineStep step;
 
   Asset({
@@ -209,7 +210,7 @@ class Asset {
     required this.linkMode,
     required this.target,
     required this.path,
-    this.step = const BuildStep(),
+    this.step = PipelineStep.build,
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
@@ -217,6 +218,9 @@ class Asset {
         path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
         target: Target.fromString(as<String>(yamlMap[_targetKey])),
         linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
+        step: PipelineStep.values.firstWhereOrNull(
+                (step) => step.name == as<String>(yamlMap[_step])) ??
+            PipelineStep.build,
       );
 
   static List<Asset> listFromYamlString(String yaml) {
@@ -270,7 +274,7 @@ class Asset {
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
-        _step: step.toYaml(),
+        _step: step.name,
       };
 
   Map<String, List<String>> toDartConst() => {
@@ -317,7 +321,7 @@ extension AssetIterable on Iterable<Asset> {
 
   Map<Object, Object> toNativeAssetsFileEncoding() => {
         'format-version': [1, 0, 0],
-        'native-assets': toDartConst(),
+        'native-assets': toYaml(),
       };
 
   String toNativeAssetsFile() => yamlEncode(toNativeAssetsFileEncoding());

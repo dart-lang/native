@@ -13,18 +13,31 @@ import 'package:pub_semver/pub_semver.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'build_mode.dart';
+import 'build_type.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'metadata.dart';
+import 'pipeline_config.dart';
 import 'target.dart';
 
-class BuildConfig {
+class BuildConfig extends PipelineConfig {
+  @override
+  Uri get script => packageRoot.resolve(PipelineStep.build.scriptName);
+
+  @override
+  String get outputName => 'build_output.yaml';
+
+  @override
+  Uri get configFile => outDir.resolve('../config.yaml');
+
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
+  @override
   Uri get outDir => _outDir;
   late final Uri _outDir;
 
   /// The name of the package the native assets are built for.
+  @override
   String get packageName => _packageName;
   late final String _packageName;
 
@@ -32,6 +45,7 @@ class BuildConfig {
   ///
   /// Often a package's native assets are built because a package is a
   /// dependency of another. For this it is convenient to know the packageRoot.
+  @override
   Uri get packageRoot => _packageRoot;
   late final Uri _packageRoot;
 
@@ -477,6 +491,7 @@ class BuildConfig {
     return result.sortOnKey();
   }
 
+  @override
   Map<String, Object> toYaml() {
     late Map<String, Object> cCompilerYaml;
     if (!dryRun) {
@@ -506,8 +521,6 @@ class BuildConfig {
       },
     }.sortOnKey();
   }
-
-  String toYamlString() => yamlEncode(toYaml());
 
   @override
   bool operator ==(Object other) {

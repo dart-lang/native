@@ -12,8 +12,5 @@ void main(List<String> args) async {
       'some_int': 3,
     }),
   );
-  await buildOutput.writeToFile(
-    outDir: buildConfig.outDir,
-    step: const BuildStep(),
-  );
+  await buildOutput.writeToFile(output: buildConfig.output);
 }

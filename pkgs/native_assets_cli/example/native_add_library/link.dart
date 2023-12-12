@@ -7,10 +7,9 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 const packageName = 'native_add_library';
 void main(List<String> args) async {
   final linkInput = await LinkConfig.fromArgs(args);
-  final buildConfig = await BuildConfig.fromArgs(args);
 
   final shakenAssets = MyResourceShaker().shake(
-    linkInput.buildOutput.assets,
+    linkInput.assets,
     linkInput.resourceIdentifiers,
   );
 
@@ -20,16 +19,13 @@ void main(List<String> args) async {
       linkMode: LinkMode.dynamic,
       target: Target.androidArm,
       path: AssetAbsolutePath(
-        buildConfig.packageRoot.resolve('data_asset_link.json'),
+        linkInput.buildConfig.packageRoot.resolve('data_asset_link.json'),
       ),
     ),
   );
 
   final linkOutput = BuildOutput(assets: shakenAssets);
-  await linkOutput.writeToFile(
-    outDir: linkInput.buildConfig.outDir,
-    step: LinkStep(),
-  );
+  await linkOutput.writeToFile(output: linkInput.output);
 }
 
 class MyResourceShaker {

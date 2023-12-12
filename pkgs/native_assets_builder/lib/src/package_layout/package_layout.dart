@@ -104,8 +104,8 @@ class PackageLayout {
   }
 
   late final Future<List<Package>> packagesWithNativeBuild =
-      packagesWithNativeAssets(const BuildStep());
+      packagesWithNativeAssets(PipelineStep.build);
 
   late final Future<List<Package>> packagesWithNativeLink =
-      packagesWithNativeAssets(const LinkStep());
+      packagesWithNativeAssets(PipelineStep.link);
 }

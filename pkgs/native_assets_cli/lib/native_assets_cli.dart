@@ -17,5 +17,7 @@ export 'src/model/link_input.dart';
 export 'src/model/link_mode.dart';
 export 'src/model/link_mode_preference.dart';
 export 'src/model/metadata.dart';
+export 'src/model/pipeline_config.dart';
 export 'src/model/resources.dart';
 export 'src/model/target.dart';
+export 'src/utils/yaml.dart';

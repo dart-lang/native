@@ -86,9 +86,12 @@ version: ${BuildOutput.version}''';
 
   test('BuildOutput.readFromFile BuildOutput.writeToFile', () async {
     final outDir = tempUri.resolve('out_dir/');
-    await buildOutput.writeToFile(outDir: outDir, step: const BuildStep());
-    final buildOutput2 =
-        await BuildOutput.readFromFile(outDir: outDir, step: const BuildStep());
+    await buildOutput.writeToFile(
+      output: outDir.resolve('build_output.yaml'),
+    );
+    final buildOutput2 = await BuildOutput.readFromFile(
+      outputUri: outDir.resolve('build_output.yaml'),
+    );
     expect(buildOutput2, buildOutput);
   });
 
