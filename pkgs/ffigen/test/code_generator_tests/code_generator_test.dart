@@ -3,16 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 
 void main() {
   group('code_generator: ', () {
-    test('Function Binding (primitives, pointers)', () {
+    void functionBindings(bool enableFfiNative) {
       final library = Library(
         name: 'Bindings',
         bindings: [
           Func(
+            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
             name: 'noParam',
             dartDoc: 'Just a test function\nheres another line',
             returnType: NativeType(
@@ -20,6 +22,7 @@ void main() {
             ),
           ),
           Func(
+            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
             name: 'withPrimitiveParam',
             parameters: [
               Parameter(
@@ -40,6 +43,7 @@ void main() {
             ),
           ),
           Func(
+            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
             name: 'withPointerParam',
             parameters: [
               Parameter(
@@ -68,6 +72,7 @@ void main() {
             ),
           ),
           Func(
+            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
             isLeaf: true,
             name: 'leafFunc',
             dartDoc: 'A function with isLeaf: true',
@@ -86,7 +91,15 @@ void main() {
         ],
       );
 
-      _matchLib(library, 'function');
+      _matchLib(library, enableFfiNative ? 'function_ffiNative' : 'function');
+    }
+
+    test('Function Binding (primitives, pointers)', () {
+      functionBindings(false);
+    });
+
+    test('Function Binding (primitives, pointers) (ffiNative)', () {
+      functionBindings(true);
     });
 
     test('Struct Binding (primitives, pointers)', () {
