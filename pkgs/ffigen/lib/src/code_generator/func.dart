@@ -111,7 +111,6 @@ class Func extends LookUpBinding {
         functionType.getFfiDartType(w, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final isLeafString = isLeaf ? 'isLeaf:true' : '';
     final funcVarName = w.wrapperLevelUniqueNamer.makeUnique('_$name');
     final ffiReturnType = functionType.returnType.getFfiDartType(w);
     final ffiArgDeclString = functionType.dartTypeParameters
@@ -149,6 +148,7 @@ class Func extends LookUpBinding {
       final assetString = ffiNativeConfig.assetId != null
           ? ", assetId: '${ffiNativeConfig.assetId}'"
           : '';
+      final isLeafString = isLeaf ? ', isLeaf:true' : '';
       final nativeFuncName = needsWrapper ? funcVarName : enclosingFuncName;
       s.write('''
 @${w.ffiLibraryPrefix}.Native<$cType>(symbol: '$originalName'$assetString$isLeafString)
@@ -166,6 +166,7 @@ $dartReturnType $enclosingFuncName($libArg$dartArgDeclString) => $funcImplCall;
       }
     } else {
       funcPointerName = w.wrapperLevelUniqueNamer.makeUnique('_${name}Ptr');
+      final isLeafString = isLeaf ? 'isLeaf:true' : '';
 
       // Write enclosing function.
       s.write('''
