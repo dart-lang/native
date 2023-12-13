@@ -164,6 +164,15 @@ $dartReturnType $enclosingFuncName($libArg$dartArgDeclString) => $funcImplCall;
 
 ''');
       }
+
+      if (exposeSymbolAddress) {
+        // Add to SymbolAddress in writer.
+        w.symbolAddressWriter.addNativeSymbol(
+          type:
+              '${w.ffiLibraryPrefix}.Pointer<${w.ffiLibraryPrefix}.NativeFunction<$cType>>',
+          name: name,
+        );
+      }
     } else {
       funcPointerName = w.wrapperLevelUniqueNamer.makeUnique('_${name}Ptr');
 

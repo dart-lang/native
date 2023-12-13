@@ -49,3 +49,16 @@ external ffi.Pointer<ffi.Double> dividePrecision(
   double a,
   double b,
 );
+
+/// Version of the native C library
+@ffi.Native<ffi.Pointer<ffi.Char>>()
+external final library_version;
+const _SymbolAddresses addresses = _SymbolAddresses();
+
+class _SymbolAddresses {
+  const _SymbolAddresses();
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>> get sum =>
+      ffi.Native.addressOf(sum);
+  ffi.Pointer<ffi.Pointer<ffi.Char>> get library_version =>
+      ffi.Native.addressOf(library_version);
+}

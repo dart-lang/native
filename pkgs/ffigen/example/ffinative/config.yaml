@@ -10,3 +10,11 @@ headers:
     - 'headers/example.h'
 preamble: |
   // ignore_for_file: deprecated_member_use
+functions:
+  symbol-address:
+    include:
+      - sum
+globals:
+  symbol-address:
+    include:
+      - library_version

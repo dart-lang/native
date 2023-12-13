@@ -34,21 +34,17 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
     return null;
   }
 
-  if (config.ffiNativeConfig.enabled) {
-    _logger
-        .warning("Skipped global variable '$name', not supported in Natives.");
-    return null;
-  }
-
   final global = Global(
     originalName: name,
     name: config.globals.renameUsingConfig(name),
     usr: usr,
     type: type,
     dartDoc: getCursorDocComment(cursor),
-    exposeSymbolAddress: config.functionDecl.shouldIncludeSymbolAddress(name),
+    exposeSymbolAddress: config.globals.shouldIncludeSymbolAddress(name),
     constant: cType.isConstQualified,
+    nativeConfig: config.ffiNativeConfig,
   );
   bindingsIndex.addGlobalVarToSeen(usr, global);
+
   return global;
 }

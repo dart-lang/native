@@ -5,13 +5,13 @@
 import 'dart:io';
 
 import 'package:cli_util/cli_util.dart';
+import 'package:collection/collection.dart';
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml_edit/yaml_edit.dart';
 
-import '../strings.dart' as strings;
 import 'utils.dart';
 import 'writer.dart';
 
@@ -52,7 +52,6 @@ class Library {
     for (final b in this.bindings) {
       _warnIfPrivateDeclaration(b);
       _resolveIfNameConflicts(declConflictHandler, b);
-      _warnIfExposeSymbolAddressAndFfiNative(b);
     }
 
     // Override pack values according to config. We do this after declaration
@@ -66,23 +65,20 @@ class Library {
     }
 
     // Seperate bindings which require lookup.
-    final lookUpBindings = this.bindings.whereType<LookUpBinding>().where((e) {
-      if (e is Func) {
-        return !e.ffiNativeConfig.enabled;
-      }
-      return true;
-    }).toList();
-    final ffiNativeBindings = this
-        .bindings
-        .whereType<Func>()
-        .where((e) => e.ffiNativeConfig.enabled)
-        .toList();
+    final byLookupKind = groupBy(
+      bindings.whereType<LookUpBinding>(),
+      (e) => switch (e) {
+        Func() => !e.ffiNativeConfig.enabled,
+        Global() => !e.nativeConfig.enabled,
+        _ => true,
+      },
+    );
     final noLookUpBindings =
         this.bindings.whereType<NoLookUpBinding>().toList();
 
     _writer = Writer(
-      lookUpBindings: lookUpBindings,
-      ffiNativeBindings: ffiNativeBindings,
+      lookUpBindings: byLookupKind[true]?.toList() ?? const [],
+      ffiNativeBindings: byLookupKind[false]?.toList() ?? const [],
       noLookUpBindings: noLookUpBindings,
       className: name,
       classDocComment: description,
@@ -110,16 +106,6 @@ class Library {
           "Resolved name conflict: Declaration '$oldName' and has been renamed to '${b.name}'.");
     } else {
       namer.markUsed(b.name);
-    }
-  }
-
-  /// Logs a warning if generated declaration will be private.
-  void _warnIfExposeSymbolAddressAndFfiNative(Binding b) {
-    if (b is Func) {
-      if (b.exposeSymbolAddress && b.ffiNativeConfig.enabled) {
-        _logger.warning(
-            "Ignoring ${strings.symbolAddress} for '${b.name}' because it is generated as FfiNative.");
-      }
     }
   }
 
