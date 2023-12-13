@@ -52,7 +52,7 @@ external ffi.Pointer<ffi.Double> dividePrecision(
 
 /// Version of the native C library
 @ffi.Native<ffi.Pointer<ffi.Char>>()
-external final library_version;
+external final ffi.Pointer<ffi.Char> library_version;
 const _SymbolAddresses addresses = _SymbolAddresses();
 
 class _SymbolAddresses {

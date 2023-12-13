@@ -57,7 +57,7 @@ class Global extends LookUpBinding {
         s.write('final ');
       }
 
-      s.writeln('$globalVarName;');
+      s.writeln('$dartType $globalVarName;');
 
       if (exposeSymbolAddress) {
         w.symbolAddressWriter.addNativeSymbol(
