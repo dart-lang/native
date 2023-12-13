@@ -6,6 +6,9 @@ bindings if the compiler makes a wrong guess. A flag `--ignore-source-errors` (o
 must be passed to change this behaviour.
 - __Breaking change__: Stop generating setters for global variables marked `const` in C.
 - Fix objc_msgSend being used on arm64 platforms where it's not available.
+- Global variables are now compatible with the `ffi-native` option.
+- Exposing symbol addresses of functions and globals is now compatible with the
+  `ffi-native` option.
 
 ## 10.0.0
 
