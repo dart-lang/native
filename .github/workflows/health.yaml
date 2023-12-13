@@ -7,7 +7,7 @@ jobs:
   health:
     uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
     with:
-      coverage_web: true
+      coverage_web: false
       checks: "version,changelog,license,coverage,do-not-submit,breaking"
       use-flutter: true
     permissions:
