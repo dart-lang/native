@@ -35,11 +35,17 @@ void main() async {
       final testPackageUri = packageUri.resolve('example/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
-      await Process.run(
+      final pubGetResult = await Process.run(
         dartUri.toFilePath(),
         ['pub', 'get'],
         workingDirectory: testPackageUri.toFilePath(),
       );
+      if (pubGetResult.exitCode != 0) {
+        print(pubGetResult.stdout);
+        print(pubGetResult.stderr);
+      }
+      expect(pubGetResult.exitCode, 0);
+      print('pub get done');
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
