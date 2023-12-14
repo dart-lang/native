@@ -39,6 +39,7 @@ Type getCodeGenType(
   /// Cursor of the declaration, currently this is useful only to extract
   /// parameter names in function types.
   clang_types.CXCursor? originalCursor,
+  bool supportNonInlineArray = false,
 }) {
   _logger.fine('${_padding}getCodeGenType ${cxtype.completeStringRepr()}');
 
@@ -121,12 +122,13 @@ Type getCodeGenType(
     case clang_types.CXTypeKind.CXType_ConstantArray:
       // Primarily used for constant array in struct members.
       final numElements = clang.clang_getNumElements(cxtype);
-      final elementType =
-          clang.clang_getArrayElementType(cxtype).toCodeGenType();
+      final elementType = clang
+          .clang_getArrayElementType(cxtype)
+          .toCodeGenType(supportNonInlineArray: supportNonInlineArray);
       // Handle numElements being 0 as an incomplete array.
       return numElements == 0
           ? IncompleteArray(elementType)
-          : ConstantArray(numElements, elementType);
+          : ConstantArray(numElements, supportNonInlineArray, elementType);
     case clang_types.CXTypeKind.CXType_IncompleteArray:
       // Primarily used for incomplete array in function parameters.
       return IncompleteArray(

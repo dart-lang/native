@@ -45,7 +45,9 @@ class PointerType extends Type {
 /// Represents a constant array, which has a fixed size.
 class ConstantArray extends PointerType {
   final int length;
-  ConstantArray(this.length, Type child) : super._(child);
+  final bool useArrayType;
+
+  ConstantArray(this.length, this.useArrayType, Type child) : super._(child);
 
   @override
   Type get baseArrayType => child.baseArrayType;
@@ -58,6 +60,15 @@ class ConstantArray extends PointerType {
 
   @override
   String cacheKey() => '${child.cacheKey()}[$length]';
+
+  @override
+  String getCType(Writer w) {
+    if (useArrayType) {
+      return '${w.ffiLibraryPrefix}.Array<${child.getCType(w)}>';
+    }
+
+    return super.getCType(w);
+  }
 }
 
 /// Represents an incomplete array, which has an unknown size.

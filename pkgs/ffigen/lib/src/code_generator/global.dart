@@ -6,6 +6,7 @@ import '../config_provider/config_types.dart';
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
+import 'pointer.dart';
 import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -48,6 +49,10 @@ class Global extends LookUpBinding {
     final cType = type.getCType(w);
 
     if (nativeConfig.enabled) {
+      if (type case final ConstantArray arr) {
+        arr.generateSizeAnnotation(s, w);
+      }
+
       s
         ..write('@${w.ffiLibraryPrefix}.Native<')
         ..write(cType)
@@ -104,5 +109,23 @@ class Global extends LookUpBinding {
 
     dependencies.add(this);
     type.addDependencies(dependencies);
+  }
+}
+
+extension on ConstantArray {
+  void generateSizeAnnotation(StringBuffer buffer, Writer w) {
+    buffer.write('@${w.ffiLibraryPrefix}.Array(');
+
+    Type? array = this;
+    var first = true;
+    while (array is ConstantArray) {
+      if (!first) buffer.write(', ');
+
+      buffer.write(array.length);
+      first = false;
+      array = array.baseArrayType;
+    }
+
+    buffer.writeln(')');
   }
 }

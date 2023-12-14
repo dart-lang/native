@@ -50,6 +50,10 @@ external ffi.Pointer<ffi.Double> dividePrecision(
   double b,
 );
 
+@ffi.Array(10)
+@ffi.Native<ffi.Array<ffi.Int>>()
+external ffi.Array<ffi.Int> array;
+
 /// Version of the native C library
 @ffi.Native<ffi.Pointer<ffi.Char>>()
 external final ffi.Pointer<ffi.Char> library_version;
