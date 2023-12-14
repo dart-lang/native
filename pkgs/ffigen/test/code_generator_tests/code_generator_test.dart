@@ -8,10 +8,17 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 void main() {
+  const licenseHeader = '''
+// Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+''';
+
   group('code_generator: ', () {
     void functionBindings(bool enableFfiNative) {
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           Func(
             ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
@@ -105,6 +112,7 @@ void main() {
     test('Struct Binding (primitives, pointers)', () {
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           Struct(
             name: 'NoMember',
@@ -217,6 +225,7 @@ void main() {
       );
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           structSome,
           Func(
@@ -249,6 +258,7 @@ void main() {
 
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           Global(
             name: 'test1',
@@ -282,7 +292,7 @@ void main() {
     test('constant', () {
       final library = Library(
         name: 'Bindings',
-        header: '// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         bindings: [
           Constant(
             name: 'test1',
@@ -302,7 +312,7 @@ void main() {
     test('enum_class', () {
       final library = Library(
         name: 'Bindings',
-        header: '// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         bindings: [
           EnumClass(
             name: 'Constants',
@@ -323,7 +333,7 @@ void main() {
       final library = Library(
         name: 'init_dylib',
         header:
-            '// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+            '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
         bindings: [
           Func(
             name: 'test',
@@ -370,6 +380,7 @@ void main() {
   test('boolean_dartBool', () {
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       bindings: [
         Func(
           name: 'test1',
@@ -392,6 +403,7 @@ void main() {
   test('sort bindings', () {
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       sort: true,
       bindings: [
         Func(name: 'b', returnType: NativeType(SupportedNativeType.Void)),
@@ -405,6 +417,7 @@ void main() {
   test('Pack Structs', () {
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       bindings: [
         Struct(name: 'NoPacking', pack: null, members: [
           Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
@@ -435,6 +448,7 @@ void main() {
         Union(name: 'Union1', members: [Member(name: 'a', type: charType)]);
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       bindings: [
         struct1,
         union1,
@@ -465,7 +479,8 @@ void main() {
   test('Typealias Bindings', () {
     final library = Library(
       name: 'Bindings',
-      header: '// ignore_for_file: non_constant_identifier_names\n',
+      header:
+          '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
       bindings: [
         Typealias(name: 'RawUnused', type: Struct(name: 'Struct1')),
         Struct(name: 'WithTypealiasStruct', members: [
