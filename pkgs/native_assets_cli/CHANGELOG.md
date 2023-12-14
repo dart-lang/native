@@ -1,3 +1,8 @@
+## 0.3.3-wip
+
+- Added [example/use_dart_api/](example/use_dart_api/) detailing how to use
+  `dart_api_dl.h` from the Dart SDK in native code.
+
 ## 0.3.2
 
 - Fixed an issue where `Depenendencies.dependencies` could not be
