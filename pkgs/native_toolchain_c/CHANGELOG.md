@@ -1,5 +1,6 @@
-## 0.3.3-wip
+## 0.3.3
 
+- Export `environmentFromBatchFile`.
 - Bump `package:native_assets_cli` to 0.3.2.
 
 ## 0.3.2
