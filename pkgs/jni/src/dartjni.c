@@ -453,6 +453,7 @@ JniResult newPrimitiveArray(jsize length, int type) {
       // This error should have been handled in dart.
       // is there a way to mark this as unreachable?
       // or throw exception in Dart using Dart's C API.
+      array = NULL;
       break;
   }
   return to_global_ref_result(array);
@@ -468,7 +469,6 @@ JniResult newObjectArray(jsize length,
 }
 
 JniResult getArrayElement(jarray array, int index, int type) {
-  JniResult result = {{.l = NULL}, NULL};
   attach_thread();
   jvalue value;
   switch (type) {
