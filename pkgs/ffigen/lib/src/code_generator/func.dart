@@ -145,13 +145,15 @@ class Func extends LookUpBinding {
     }
 
     if (ffiNativeConfig.enabled) {
-      final assetString = ffiNativeConfig.assetId != null
-          ? ", assetId: '${ffiNativeConfig.assetId}'"
-          : '';
-      final isLeafString = isLeaf ? ', isLeaf:true' : '';
       final nativeFuncName = needsWrapper ? funcVarName : enclosingFuncName;
       s.write('''
-@${w.ffiLibraryPrefix}.Native<$cType>(symbol: '$originalName'$assetString$isLeafString)
+${makeNativeAnnotation(
+        w,
+        nativeType: cType,
+        differentName: originalName != nativeFuncName ? originalName : null,
+        assetId: ffiNativeConfig.assetId,
+        isLeaf: isLeaf,
+      )}
 external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 
 ''');

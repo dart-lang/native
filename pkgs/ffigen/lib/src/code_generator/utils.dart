@@ -1,4 +1,5 @@
 import 'dart_keywords.dart';
+import 'writer.dart';
 
 class UniqueNamer {
   final Set<String> _usedUpNames;
@@ -74,4 +75,26 @@ String makeDoc(String text) {
   s.write('\n');
 
   return s.toString();
+}
+
+String makeNativeAnnotation(
+  Writer w, {
+  required String? nativeType,
+  String? differentName,
+  String? assetId,
+  bool isLeaf = false,
+}) {
+  final args = <(String, String)>[];
+  if (differentName != null) {
+    args.add(('symbol', '"$differentName"'));
+  }
+  if (assetId != null) {
+    args.add(('assetId', "'$assetId'"));
+  }
+  if (isLeaf) {
+    args.add(('isLeaf', 'true'));
+  }
+
+  final combinedArgs = args.map((e) => '${e.$1}: ${e.$2}').join(', ');
+  return '@${w.ffiLibraryPrefix}.Native<$nativeType>($combinedArgs)';
 }

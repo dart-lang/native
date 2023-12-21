@@ -8,7 +8,7 @@ import 'dart:ffi' as ffi;
 
 /// Adds 2 integers.
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(
-    symbol: 'sum', assetId: 'package:ffinative_example/generated_bindings.dart')
+    assetId: 'package:ffinative_example/generated_bindings.dart')
 external int sum(
   int a,
   int b,
@@ -16,7 +16,6 @@ external int sum(
 
 /// Subtracts 2 integers.
 @ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>(
-    symbol: 'subtract',
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external int subtract(
   int a,
@@ -25,7 +24,6 @@ external int subtract(
 
 /// Multiplies 2 integers, returns pointer to an integer,.
 @ffi.Native<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>(
-    symbol: 'multiply',
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external ffi.Pointer<ffi.Int> multiply(
   int a,
@@ -34,7 +32,6 @@ external ffi.Pointer<ffi.Int> multiply(
 
 /// Divides 2 integers, returns pointer to a float.
 @ffi.Native<ffi.Pointer<ffi.Float> Function(ffi.Int, ffi.Int)>(
-    symbol: 'divide',
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external ffi.Pointer<ffi.Float> divide(
   int a,
@@ -43,7 +40,6 @@ external ffi.Pointer<ffi.Float> divide(
 
 /// Divides 2 floats, returns a pointer to double.
 @ffi.Native<ffi.Pointer<ffi.Double> Function(ffi.Float, ffi.Float)>(
-    symbol: 'dividePrecision',
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external ffi.Pointer<ffi.Double> dividePrecision(
   double a,
@@ -51,11 +47,13 @@ external ffi.Pointer<ffi.Double> dividePrecision(
 );
 
 @ffi.Array(10)
-@ffi.Native<ffi.Array<ffi.Int>>()
+@ffi.Native<ffi.Array<ffi.Int>>(
+    assetId: 'package:ffinative_example/generated_bindings.dart')
 external ffi.Array<ffi.Int> array;
 
 /// Version of the native C library
-@ffi.Native<ffi.Pointer<ffi.Char>>()
+@ffi.Native<ffi.Pointer<ffi.Char>>(
+    assetId: 'package:ffinative_example/generated_bindings.dart')
 external final ffi.Pointer<ffi.Char> library_version;
 const _SymbolAddresses addresses = _SymbolAddresses();
 

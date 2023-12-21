@@ -54,9 +54,13 @@ class Global extends LookUpBinding {
       }
 
       s
-        ..write('@${w.ffiLibraryPrefix}.Native<')
-        ..write(cType)
-        ..writeln('>()')
+        ..writeln(makeNativeAnnotation(
+          w,
+          nativeType: cType,
+          assetId: nativeConfig.assetId,
+          differentName: globalVarName != originalName ? originalName : null,
+          isLeaf: false,
+        ))
         ..write('external ');
       if (constant) {
         s.write('final ');
