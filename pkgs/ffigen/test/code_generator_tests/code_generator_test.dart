@@ -4,7 +4,9 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:meta/meta.dart';
 import 'package:test/test.dart';
+
 import '../test_utils.dart';
 
 void main() {
@@ -15,7 +17,16 @@ void main() {
 ''';
 
   group('code_generator: ', () {
-    void functionBindings(bool enableFfiNative) {
+    @isTestGroup
+    void withAndWithoutNative(String description, void Function(bool) runTest) {
+      group(description, () {
+        test('without Native', () => runTest(false));
+        test('with Native', () => runTest(true));
+      });
+    }
+
+    withAndWithoutNative('Function Binding (primitives, pointers)',
+        (enableFfiNative) {
       final library = Library(
         name: 'Bindings',
         header: licenseHeader,
@@ -99,14 +110,6 @@ void main() {
       );
 
       _matchLib(library, enableFfiNative ? 'function_ffiNative' : 'function');
-    }
-
-    test('Function Binding (primitives, pointers)', () {
-      functionBindings(false);
-    });
-
-    test('Function Binding (primitives, pointers) (ffiNative)', () {
-      functionBindings(true);
     });
 
     test('Struct Binding (primitives, pointers)', () {
@@ -250,23 +253,27 @@ void main() {
       _matchLib(library, 'function_n_struct');
     });
 
-    test('global (primitives, pointers, pointer to struct)', () {
+    withAndWithoutNative('global (primitives, pointers, pointer to struct)',
+        (enableNative) {
       final structSome = Struct(
         name: 'Some',
       );
       final emptyGlobalStruct = Struct(name: 'EmptyStruct');
+      final nativeConfig = FfiNativeConfig(enabled: enableNative);
 
       final library = Library(
         name: 'Bindings',
         header: licenseHeader,
         bindings: [
           Global(
+            nativeConfig: nativeConfig,
             name: 'test1',
             type: NativeType(
               SupportedNativeType.Int32,
             ),
           ),
           Global(
+            nativeConfig: nativeConfig,
             name: 'test2',
             type: PointerType(
               NativeType(
@@ -275,18 +282,35 @@ void main() {
             ),
             constant: true,
           ),
+          Global(
+            nativeConfig: nativeConfig,
+            name: 'test3',
+            type: ConstantArray(
+              10,
+              NativeType(
+                SupportedNativeType.Float,
+              ),
+              useArrayType: enableNative,
+            ),
+            constant: true,
+          ),
           structSome,
           Global(
+            nativeConfig: nativeConfig,
             name: 'test5',
             type: PointerType(
               structSome,
             ),
           ),
           emptyGlobalStruct,
-          Global(name: 'globalStruct', type: emptyGlobalStruct),
+          Global(
+            nativeConfig: nativeConfig,
+            name: 'globalStruct',
+            type: emptyGlobalStruct,
+          ),
         ],
       );
-      _matchLib(library, 'global');
+      _matchLib(library, enableNative ? 'global_native' : 'global');
     });
 
     test('constant', () {
@@ -329,6 +353,7 @@ void main() {
       );
       _matchLib(library, 'enumclass');
     });
+
     test('Internal conflict resolution', () {
       final library = Library(
         name: 'init_dylib',
@@ -361,6 +386,8 @@ void main() {
                   NativeType(
                     SupportedNativeType.Int8,
                   ),
+                  // Arrays are always supported in struct fields
+                  useArrayType: true,
                 ),
               ),
             ],
@@ -375,6 +402,30 @@ void main() {
         ],
       );
       _matchLib(library, 'internal_conflict_resolution');
+    });
+
+    test('Adds Native symbol on mismatch', () {
+      final nativeConfig = FfiNativeConfig(enabled: true);
+      final library = Library(
+        name: 'init_dylib',
+        header:
+            '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+        bindings: [
+          Func(
+            ffiNativeConfig: nativeConfig,
+            name: 'test',
+            originalName: '_test',
+            returnType: NativeType(SupportedNativeType.Void),
+          ),
+          Global(
+            nativeConfig: nativeConfig,
+            name: 'testField',
+            originalName: '_testField',
+            type: NativeType(SupportedNativeType.Int16),
+          ),
+        ],
+      );
+      _matchLib(library, 'native_symbol');
     });
   });
   test('boolean_dartBool', () {
@@ -467,10 +518,15 @@ void main() {
           Member(name: 'd', type: PointerType(struct1)),
         ]),
         Union(name: 'WithArray', members: [
-          Member(name: 'a', type: ConstantArray(10, charType)),
-          Member(name: 'b', type: ConstantArray(10, union1)),
-          Member(name: 'b', type: ConstantArray(10, struct1)),
-          Member(name: 'c', type: ConstantArray(10, PointerType(union1))),
+          Member(
+              name: 'a', type: ConstantArray(10, charType, useArrayType: true)),
+          Member(
+              name: 'b', type: ConstantArray(10, union1, useArrayType: true)),
+          Member(
+              name: 'b', type: ConstantArray(10, struct1, useArrayType: true)),
+          Member(
+              name: 'c',
+              type: ConstantArray(10, PointerType(union1), useArrayType: true)),
         ]),
       ],
     );

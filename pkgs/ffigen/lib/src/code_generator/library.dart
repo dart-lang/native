@@ -34,18 +34,7 @@ class Library {
     StructPackingOverride? packingOverride,
     Set<LibraryImport>? libraryImports,
   }) {
-    /// Get all dependencies (includes itself).
-    final dependencies = <Binding>{};
-    for (final b in bindings) {
-      b.addDependencies(dependencies);
-    }
-
-    /// Save bindings.
-    this.bindings = dependencies.toList();
-
-    if (sort) {
-      _sort();
-    }
+    _findBindings(bindings, sort);
 
     /// Handle any declaration-declaration name conflicts and emit warnings.
     final declConflictHandler = UniqueNamer({});
@@ -65,26 +54,44 @@ class Library {
     }
 
     // Seperate bindings which require lookup.
-    final byLookupKind = groupBy(
-      bindings.whereType<LookUpBinding>(),
-      (e) => switch (e) {
-        Func() => !e.ffiNativeConfig.enabled,
-        Global() => !e.nativeConfig.enabled,
+    final lookupBindings = <LookUpBinding>[];
+    final nativeBindings = <LookUpBinding>[];
+
+    for (final binding in this.bindings.whereType<LookUpBinding>()) {
+      final usesLookup = switch (binding) {
+        Func() => !binding.ffiNativeConfig.enabled,
+        Global() => !binding.nativeConfig.enabled,
         _ => true,
-      },
-    );
+      };
+
+      (usesLookup ? lookupBindings : nativeBindings).add(binding);
+    }
     final noLookUpBindings =
         this.bindings.whereType<NoLookUpBinding>().toList();
 
     _writer = Writer(
-      lookUpBindings: byLookupKind[true]?.toList() ?? const [],
-      ffiNativeBindings: byLookupKind[false]?.toList() ?? const [],
+      lookUpBindings: lookupBindings,
+      ffiNativeBindings: nativeBindings,
       noLookUpBindings: noLookUpBindings,
       className: name,
       classDocComment: description,
       header: header,
       additionalImports: libraryImports,
     );
+  }
+
+  void _findBindings(List<Binding> original, bool sort) {
+    /// Get all dependencies (includes itself).
+    final dependencies = <Binding>{};
+    for (final b in original) {
+      b.addDependencies(dependencies);
+    }
+
+    /// Save bindings.
+    bindings = dependencies.toList();
+    if (sort) {
+      bindings.sortBy((b) => b.name);
+    }
   }
 
   /// Logs a warning if generated declaration will be private.
@@ -107,11 +114,6 @@ class Library {
     } else {
       namer.markUsed(b.name);
     }
-  }
-
-  /// Sort all bindings in alphabetical order.
-  void _sort() {
-    bindings.sort((b1, b2) => b1.name.compareTo(b2.name));
   }
 
   /// Generates [file] by generating C bindings.

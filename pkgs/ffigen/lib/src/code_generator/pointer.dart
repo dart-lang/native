@@ -47,7 +47,8 @@ class ConstantArray extends PointerType {
   final int length;
   final bool useArrayType;
 
-  ConstantArray(this.length, this.useArrayType, Type child) : super._(child);
+  ConstantArray(this.length, Type child, {required this.useArrayType})
+      : super._(child);
 
   @override
   Type get baseArrayType => child.baseArrayType;

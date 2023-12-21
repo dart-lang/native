@@ -128,7 +128,11 @@ Type getCodeGenType(
       // Handle numElements being 0 as an incomplete array.
       return numElements == 0
           ? IncompleteArray(elementType)
-          : ConstantArray(numElements, supportNonInlineArray, elementType);
+          : ConstantArray(
+              numElements,
+              elementType,
+              useArrayType: supportNonInlineArray,
+            );
     case clang_types.CXTypeKind.CXType_IncompleteArray:
       // Primarily used for incomplete array in function parameters.
       return IncompleteArray(
