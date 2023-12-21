@@ -2,8 +2,4 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// A library to invoke the native C compiler installed on the host machine.
-library;
-
-export 'src/cbuilder/cbuilder.dart';
-export 'src/utils/env_from_bat.dart';
+export 'src/use_dart_api_bindings_generated.dart';
