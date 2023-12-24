@@ -57,6 +57,13 @@ class Writer {
     return _ffiPkgLibraryPrefix = import.prefix;
   }
 
+  late String selfImportPrefix = () {
+    final import = _usedImports
+        .firstWhere((element) => element.name == self.name, orElse: () => self);
+    _usedImports.add(import);
+    return import.prefix;
+  }();
+
   final Set<LibraryImport> _usedImports = {};
 
   late String _lookupFuncIdentifier;
@@ -381,7 +388,10 @@ class SymbolAddressWriter {
       if (address.native) {
         // For native fields and functions, we can use Native.addressOf to look
         // up their address.
-        sb.writeln('${w.ffiLibraryPrefix}.Native.addressOf(${address.name});');
+        // The name of address getter shadows the actual element in the library,
+        // so we need to use a self-import.
+        final arg = '${w.selfImportPrefix}.${address.name}';
+        sb.writeln('${w.ffiLibraryPrefix}.Native.addressOf($arg);');
       } else {
         // For other elements, the generator will write a private field of type
         // Pointer which we can reference here.
