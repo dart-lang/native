@@ -309,6 +309,17 @@ Headers headersExtractor(
 /// error and throws an Exception if not found.
 String findDylibAtDefaultLocations() {
   String? k;
+  final condaEnvPath = Platform.environment['CONDA_PREFIX'] ?? '';
+  if (condaEnvPath.isNotEmpty) {
+    final localtions = [
+      p.join(condaEnvPath, 'lib'),
+      p.join(p.dirname(p.dirname(condaEnvPath)), 'lib'),
+    ];
+    for (final l in localtions) {
+      k = findLibclangDylib(l);
+      if (k != null) return k;
+    }
+  }
   if (Platform.isLinux) {
     for (final l in strings.linuxDylibLocations) {
       k = findLibclangDylib(l);
