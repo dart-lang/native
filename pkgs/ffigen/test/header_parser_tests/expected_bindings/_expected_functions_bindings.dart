@@ -132,7 +132,7 @@ class NativeLibrary {
           ffi.Char Function(ffi.UnsignedChar, ffi.SignedChar)>>('diffChars');
   late final _diffChars = _diffCharsPtr.asFunction<int Function(int, int)>();
 
-  late final addresses = _SymbolAddresses(this);
+  late final _SymbolAddresses addresses = _SymbolAddresses(this);
 }
 
 class _SymbolAddresses {
