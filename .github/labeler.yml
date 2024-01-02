@@ -1,29 +1,29 @@
 # Configuration for .github/workflows/pull_request_label.yml.
 
 'type-infra':
-  - changed-files:
-      - any-glob-to-any-file: '.github/**'
+- changed-files:
+  - any-glob-to-any-file: '.github/**'
 
 'package:ffigen':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/ffigen/**'
+- changed-files:
+  - any-glob-to-any-file: 'pkgs/ffigen/**'
 
 'package:jnigen':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/jnigen/**'
+- changed-files:
+  - any-glob-to-any-file: 'pkgs/jnigen/**'
 
 'package:jni':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/jni/**'
+- changed-files:
+  - any-glob-to-any-file: 'pkgs/jni/**'
 
 'package:native_assets_builder':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/native_assets_builder/**'
+- changed-files:
+  - any-glob-to-any-file: 'pkgs/native_assets_builder/**'
 
 'package:native_assets_cli':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/native_assets_cli/**'
+- changed-files:
+  - any-glob-to-any-file: 'pkgs/native_assets_cli/**'
 
 'package:native_toolchain_c':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/native_toolchain_c/**'
+- changed-files:
+  - any-glob-to-any-file: 'pkgs/native_toolchain_c/**'
