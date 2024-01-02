@@ -10,13 +10,17 @@ import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Int32>()
 external int test1;
+
 @ffi.Native<ffi.Pointer<ffi.Float>>()
 external final ffi.Pointer<ffi.Float> test2;
+
 @ffi.Array(10)
 @ffi.Native<ffi.Array<ffi.Float>>()
 external final ffi.Array<ffi.Float> test3;
+
 @ffi.Native<ffi.Pointer<Some>>()
 external ffi.Pointer<Some> test5;
+
 @ffi.Native<EmptyStruct>()
 external EmptyStruct globalStruct;
 

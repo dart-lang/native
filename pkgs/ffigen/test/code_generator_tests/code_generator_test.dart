@@ -519,14 +519,21 @@ void main() {
         ]),
         Union(name: 'WithArray', members: [
           Member(
-              name: 'a', type: ConstantArray(10, charType, useArrayType: true)),
+            name: 'a',
+            type: ConstantArray(10, charType, useArrayType: true),
+          ),
           Member(
-              name: 'b', type: ConstantArray(10, union1, useArrayType: true)),
+            name: 'b',
+            type: ConstantArray(10, union1, useArrayType: true),
+          ),
           Member(
-              name: 'b', type: ConstantArray(10, struct1, useArrayType: true)),
+            name: 'b',
+            type: ConstantArray(10, struct1, useArrayType: true),
+          ),
           Member(
-              name: 'c',
-              type: ConstantArray(10, PointerType(union1), useArrayType: true)),
+            name: 'c',
+            type: ConstantArray(10, PointerType(union1), useArrayType: true),
+          ),
         ]),
       ],
     );

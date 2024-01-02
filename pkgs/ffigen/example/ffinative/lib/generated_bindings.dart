@@ -51,7 +51,11 @@ external ffi.Pointer<ffi.Double> dividePrecision(
   double b,
 );
 
-@ffi.Array(10)
+@ffi.Native<ffi.Int>(
+    assetId: 'package:ffinative_example/generated_bindings.dart')
+external int log_level;
+
+@ffi.Array(5)
 @ffi.Native<ffi.Array<ffi.Int>>(
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external ffi.Array<ffi.Int> array;
@@ -60,6 +64,7 @@ external ffi.Array<ffi.Int> array;
 @ffi.Native<ffi.Pointer<ffi.Char>>(
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external final ffi.Pointer<ffi.Char> library_version;
+
 const _SymbolAddresses addresses = _SymbolAddresses();
 
 class _SymbolAddresses {

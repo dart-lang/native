@@ -58,7 +58,8 @@ class Global extends LookUpBinding {
           w,
           nativeType: cType,
           assetId: nativeConfig.assetId,
-          differentName: globalVarName != originalName ? originalName : null,
+          dartName: globalVarName,
+          nativeSymbolName: originalName,
           isLeaf: false,
         ))
         ..write('external ');
@@ -66,7 +67,7 @@ class Global extends LookUpBinding {
         s.write('final ');
       }
 
-      s.writeln('$dartType $globalVarName;');
+      s.writeln('$dartType $globalVarName;\n');
 
       if (exposeSymbolAddress) {
         w.symbolAddressWriter.addNativeSymbol(

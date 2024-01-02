@@ -17,7 +17,9 @@ float *divide(int a, int b);
 /** Divides 2 floats, returns a pointer to double. */
 double *dividePrecision(float a, float b);
 
-const int array[10];
+int log_level = -1;
+
+const int array[5] = {0, 1, 2, 3, 4};
 
 /** Version of the native C library */
 const char* const library_version = "1.0.0-native";

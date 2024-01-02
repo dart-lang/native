@@ -150,7 +150,8 @@ class Func extends LookUpBinding {
 ${makeNativeAnnotation(
         w,
         nativeType: cType,
-        differentName: originalName != nativeFuncName ? originalName : null,
+        dartName: nativeFuncName,
+        nativeSymbolName: originalName,
         assetId: ffiNativeConfig.assetId,
         isLeaf: isLeaf,
       )}
