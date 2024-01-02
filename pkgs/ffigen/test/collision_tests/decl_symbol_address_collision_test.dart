@@ -9,13 +9,20 @@ import '../test_utils.dart';
 
 late Library actual;
 void main() {
+  const licenseHeader = '''
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names
+''';
+
   group('decl_symbol_address_collision_test', () {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = Library(
         name: 'Bindings',
-        header:
-            '// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+        header: licenseHeader,
         bindings: [
           Struct(name: 'addresses'),
           Struct(name: '_SymbolAddresses'),
