@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart_keywords.dart';
+import 'pointer.dart';
+import 'type.dart';
 import 'writer.dart';
 
 class UniqueNamer {
@@ -102,4 +104,15 @@ String makeNativeAnnotation(
 
   final combinedArgs = args.map((e) => '${e.$1}: ${e.$2}').join(', ');
   return '@${w.ffiLibraryPrefix}.Native<$nativeType>($combinedArgs)';
+}
+
+String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
+  final dimensions = <int>[];
+  Type type = arrayType;
+  while (type is ConstantArray) {
+    dimensions.add(type.length);
+    type = type.child;
+  }
+
+  return '@${w.ffiLibraryPrefix}.Array.multi([${dimensions.join(', ')}])';
 }

@@ -65,7 +65,7 @@ external ffi.Array<ffi.Int> array;
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external final ffi.Pointer<ffi.Char> library_version;
 
-const _SymbolAddresses addresses = _SymbolAddresses();
+const addresses = _SymbolAddresses();
 
 class _SymbolAddresses {
   const _SymbolAddresses();

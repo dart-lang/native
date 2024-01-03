@@ -361,9 +361,9 @@ class SymbolAddressWriter {
     final fieldName = w._symbolAddressVariableName;
 
     if (hasNonNativeAddress) {
-      return 'late final $className $fieldName = $className(this);';
+      return 'late final $fieldName = $className(this);';
     } else {
-      return 'const $className $fieldName = $className();';
+      return 'const $fieldName = $className();';
     }
   }
 

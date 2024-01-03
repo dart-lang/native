@@ -386,7 +386,8 @@ void main() {
                   NativeType(
                     SupportedNativeType.Int8,
                   ),
-                  // Arrays are always supported in struct fields
+                  // This flag is ignored for struct fields, which always use
+                  // inline arrays.
                   useArrayType: true,
                 ),
               ),

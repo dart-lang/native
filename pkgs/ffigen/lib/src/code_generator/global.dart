@@ -50,7 +50,7 @@ class Global extends LookUpBinding {
 
     if (nativeConfig.enabled) {
       if (type case final ConstantArray arr) {
-        arr.generateSizeAnnotation(s, w);
+        s.writeln(makeArrayAnnotation(w, arr));
       }
 
       s
@@ -114,23 +114,5 @@ class Global extends LookUpBinding {
 
     dependencies.add(this);
     type.addDependencies(dependencies);
-  }
-}
-
-extension on ConstantArray {
-  void generateSizeAnnotation(StringBuffer buffer, Writer w) {
-    buffer.write('@${w.ffiLibraryPrefix}.Array(');
-
-    Type? array = this;
-    var first = true;
-    while (array is ConstantArray) {
-      if (!first) buffer.write(', ');
-
-      buffer.write(array.length);
-      first = false;
-      array = array.baseArrayType;
-    }
-
-    buffer.writeln(')');
   }
 }
