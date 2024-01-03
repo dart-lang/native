@@ -10,5 +10,6 @@ jobs:
       coverage_web: false
       checks: "version,changelog,license,do-not-submit,breaking"
       use-flutter: true
+      sdk: dev
     permissions:
       pull-requests: write
