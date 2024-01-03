@@ -6827,7 +6827,7 @@ class LibClang {
   late final _clang_Type_visitFields =
       _clang_Type_visitFieldsPtr.asFunction<DartClang_Type_visitFields>();
 
-  late final _SymbolAddresses addresses = _SymbolAddresses(this);
+  late final addresses = _SymbolAddresses(this);
 }
 
 class _SymbolAddresses {

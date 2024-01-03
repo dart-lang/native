@@ -55,7 +55,7 @@ external ffi.Pointer<ffi.Double> dividePrecision(
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external int log_level;
 
-@ffi.Array(5)
+@ffi.Array.multi([5])
 @ffi.Native<ffi.Array<ffi.Int>>(
     assetId: 'package:ffinative_example/generated_bindings.dart')
 external ffi.Array<ffi.Int> array;
