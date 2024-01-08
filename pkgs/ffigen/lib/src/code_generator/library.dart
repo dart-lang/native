@@ -56,14 +56,20 @@ class Library {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
     final nativeBindings = <LookUpBinding>[];
+    FfiNativeConfig? nativeConfig;
 
     for (final binding in this.bindings.whereType<LookUpBinding>()) {
-      final usesLookup = switch (binding) {
-        Func() => !binding.ffiNativeConfig.enabled,
-        Global() => !binding.nativeConfig.enabled,
-        _ => true,
+      final nativeConfigForBinding = switch (binding) {
+        Func() => binding.ffiNativeConfig,
+        Global() => binding.nativeConfig,
+        _ => null,
       };
 
+      // At the moment, all bindings share their native config.
+      nativeConfig ??= nativeConfigForBinding;
+
+      final usesLookup =
+          nativeConfigForBinding == null || !nativeConfigForBinding.enabled;
       (usesLookup ? lookupBindings : nativeBindings).add(binding);
     }
     final noLookUpBindings =
@@ -72,6 +78,7 @@ class Library {
     _writer = Writer(
       lookUpBindings: lookupBindings,
       ffiNativeBindings: nativeBindings,
+      nativeAssetId: nativeConfig?.assetId,
       noLookUpBindings: noLookUpBindings,
       className: name,
       classDocComment: description,

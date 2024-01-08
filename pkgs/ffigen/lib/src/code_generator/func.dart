@@ -152,7 +152,6 @@ ${makeNativeAnnotation(
         nativeType: cType,
         dartName: nativeFuncName,
         nativeSymbolName: originalName,
-        assetId: ffiNativeConfig.assetId,
         isLeaf: isLeaf,
       )}
 external $ffiReturnType $nativeFuncName($ffiArgDeclString);

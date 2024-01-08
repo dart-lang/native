@@ -11,28 +11,30 @@ import '../test_utils.dart';
 
 void main() {
   const licenseHeader = '''
-// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 ''';
 
   group('code_generator: ', () {
     @isTestGroup
-    void withAndWithoutNative(String description, void Function(bool) runTest) {
+    void withAndWithoutNative(
+        String description, void Function(FfiNativeConfig) runTest) {
       group(description, () {
-        test('without Native', () => runTest(false));
-        test('with Native', () => runTest(true));
+        test('without Native', () => runTest(FfiNativeConfig(enabled: false)));
+        test('with Native',
+            () => runTest(FfiNativeConfig(enabled: true, assetId: 'test')));
       });
     }
 
     withAndWithoutNative('Function Binding (primitives, pointers)',
-        (enableFfiNative) {
+        (nativeConfig) {
       final library = Library(
         name: 'Bindings',
         header: licenseHeader,
         bindings: [
           Func(
-            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
+            ffiNativeConfig: nativeConfig,
             name: 'noParam',
             dartDoc: 'Just a test function\nheres another line',
             returnType: NativeType(
@@ -40,7 +42,7 @@ void main() {
             ),
           ),
           Func(
-            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
+            ffiNativeConfig: nativeConfig,
             name: 'withPrimitiveParam',
             parameters: [
               Parameter(
@@ -61,7 +63,7 @@ void main() {
             ),
           ),
           Func(
-            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
+            ffiNativeConfig: nativeConfig,
             name: 'withPointerParam',
             parameters: [
               Parameter(
@@ -90,7 +92,7 @@ void main() {
             ),
           ),
           Func(
-            ffiNativeConfig: FfiNativeConfig(enabled: enableFfiNative),
+            ffiNativeConfig: nativeConfig,
             isLeaf: true,
             name: 'leafFunc',
             dartDoc: 'A function with isLeaf: true',
@@ -109,7 +111,8 @@ void main() {
         ],
       );
 
-      _matchLib(library, enableFfiNative ? 'function_ffiNative' : 'function');
+      _matchLib(
+          library, nativeConfig.enabled ? 'function_ffiNative' : 'function');
     });
 
     test('Struct Binding (primitives, pointers)', () {
@@ -254,12 +257,11 @@ void main() {
     });
 
     withAndWithoutNative('global (primitives, pointers, pointer to struct)',
-        (enableNative) {
+        (nativeConfig) {
       final structSome = Struct(
         name: 'Some',
       );
       final emptyGlobalStruct = Struct(name: 'EmptyStruct');
-      final nativeConfig = FfiNativeConfig(enabled: enableNative);
 
       final library = Library(
         name: 'Bindings',
@@ -290,7 +292,7 @@ void main() {
               NativeType(
                 SupportedNativeType.Float,
               ),
-              useArrayType: enableNative,
+              useArrayType: nativeConfig.enabled,
             ),
             constant: true,
           ),
@@ -310,7 +312,7 @@ void main() {
           ),
         ],
       );
-      _matchLib(library, enableNative ? 'global_native' : 'global');
+      _matchLib(library, nativeConfig.enabled ? 'global_native' : 'global');
     });
 
     test('constant', () {

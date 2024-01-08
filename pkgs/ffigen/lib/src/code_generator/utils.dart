@@ -88,15 +88,11 @@ String makeNativeAnnotation(
   required String? nativeType,
   required String dartName,
   required String nativeSymbolName,
-  String? assetId,
   bool isLeaf = false,
 }) {
   final args = <(String, String)>[];
   if (dartName != nativeSymbolName) {
     args.add(('symbol', '"$nativeSymbolName"'));
-  }
-  if (assetId != null) {
-    args.add(('assetId', "'$assetId'"));
   }
   if (isLeaf) {
     args.add(('isLeaf', 'true'));

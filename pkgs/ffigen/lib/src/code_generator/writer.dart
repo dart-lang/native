@@ -23,6 +23,9 @@ class Writer {
   /// Holds bindings which don't lookup symbols.
   final List<Binding> noLookUpBindings;
 
+  /// The default asset id to use for [ffiNativeBindings].
+  final String? nativeAssetId;
+
   /// Manages the `_SymbolAddress` class.
   final symbolAddressWriter = SymbolAddressWriter();
 
@@ -99,6 +102,7 @@ class Writer {
     required this.ffiNativeBindings,
     required this.noLookUpBindings,
     required String className,
+    required this.nativeAssetId,
     Set<LibraryImport>? additionalImports,
     this.classDocComment,
     this.header,
@@ -222,6 +226,17 @@ class Writer {
     // Write lint ignore if not specified by user already.
     if (!RegExp(r'ignore_for_file:\s*type\s*=\s*lint').hasMatch(header ?? '')) {
       result.write(makeDoc('ignore_for_file: type=lint'));
+    }
+
+    // If there are any @Native bindings, the file needs to have an
+    // `@DefaultAsset` annotation for the symbols to resolve properly. This
+    // avoids duplicating the asset on every element.
+    // Since the annotation goes on a `library;` directive, it needs to appear
+    // before other definitions in the file.
+    if (ffiNativeBindings.isNotEmpty && nativeAssetId != null) {
+      result
+        ..writeln("@$ffiLibraryPrefix.DefaultAsset('$nativeAssetId')")
+        ..writeln('library;\n');
     }
 
     /// Write [lookUpBindings].

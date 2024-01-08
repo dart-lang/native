@@ -57,7 +57,6 @@ class Global extends LookUpBinding {
         ..writeln(makeNativeAnnotation(
           w,
           nativeType: cType,
-          assetId: nativeConfig.assetId,
           dartName: globalVarName,
           nativeSymbolName: originalName,
           isLeaf: false,
