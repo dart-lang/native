@@ -29,7 +29,7 @@ void main() {
       ),
       Asset(
         id: 'foo2',
-        path: AssetRelativePath(Uri(path: 'path/to/libfoo2.so')),
+        path: AssetSystemPath(Uri(path: 'path/to/libfoo2.so')),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
       ),
@@ -53,7 +53,7 @@ assets:
   - id: foo2
     link_mode: dynamic
     path:
-      path_type: relative
+      path_type: system
       uri: path/to/libfoo2.so
     target: android_x64
 dependencies:

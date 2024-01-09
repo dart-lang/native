@@ -8,7 +8,6 @@ import 'package:test/test.dart';
 
 void main() {
   final fooUri = Uri.file('path/to/libfoo.so');
-  final foo2Uri = Uri.file('path/to/libfoo2.so');
   final foo3Uri = Uri(path: 'libfoo3.so');
   final barUri = Uri(path: 'path/to/libbar.a');
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
@@ -16,12 +15,6 @@ void main() {
     Asset(
       id: 'foo',
       path: AssetAbsolutePath(fooUri),
-      target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
-    ),
-    Asset(
-      id: 'foo2',
-      path: AssetRelativePath(foo2Uri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
     ),
@@ -63,12 +56,6 @@ void main() {
     path_type: absolute
     uri: ${fooUri.toFilePath()}
   target: android_x64
-- id: foo2
-  link_mode: dynamic
-  path:
-    path_type: relative
-    uri: ${foo2Uri.toFilePath()}
-  target: android_x64
 - id: foo3
   link_mode: dynamic
   path:
@@ -98,44 +85,11 @@ void main() {
     uri: ${blaUri.toFilePath()}
   target: windows_x64''';
 
-  final assetsDartEncoding = '''format-version:
-  - 1
-  - 0
-  - 0
-native-assets:
-  android_x64:
-    foo:
-      - absolute
-      - ${fooUri.toFilePath()}
-    foo2:
-      - relative
-      - ${foo2Uri.toFilePath()}
-    foo3:
-      - system
-      - ${foo3Uri.toFilePath()}
-    foo4:
-      - executable
-    foo5:
-      - process
-  linux_arm64:
-    bar:
-      - absolute
-      - ${barUri.toFilePath()}
-  windows_x64:
-    bla:
-      - absolute
-      - ${blaUri.toFilePath()}''';
-
   test('asset yaml', () {
     final yaml = assets.toYamlString();
     expect(yaml, assetsYamlEncoding);
     final assets2 = Asset.listFromYamlString(yaml);
     expect(assets, assets2);
-  });
-
-  test('asset yaml', () async {
-    final fileContents = assets.toNativeAssetsFile();
-    expect(fileContents, assetsDartEncoding);
   });
 
   test('AssetPath factory', () async {
@@ -162,31 +116,8 @@ native-assets:
     expect(equality.hash(assets) != equality.hash(assets2), true);
   });
 
-  test('List<Asset> whereLinkMode', () async {
-    final assets2 = assets.whereLinkMode(LinkMode.dynamic);
-    expect(assets2.length, 6);
-  });
-
   test('Asset toString', () async {
     assets.toString();
-  });
-
-  test('Asset toString', () async {
-    expect(await assets.allExist(), false);
-  });
-
-  test('Asset toYaml', () async {
-    expect(
-        assets.first.toYamlString(),
-        '''
-id: foo
-link_mode: dynamic
-path:
-  path_type: absolute
-  uri: ${fooUri.toFilePath()}
-target: android_x64
-'''
-            .trim());
   });
 
   test('Asset listFromYamlString', () async {
