@@ -6,28 +6,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../utils/yaml.dart';
 
-extension on Asset {
-  Map<String, List<String>> toDartConst() => {
-        id: path.toDartConst(),
-      };
-}
-
-extension on AssetPath {
-  List<String> toDartConst() {
-    final this_ = this;
-    switch (this_) {
-      case AssetAbsolutePath _:
-        return ['absolute', this_.uri.toFilePath()];
-      case AssetSystemPath _:
-        return ['system', this_.uri.toFilePath()];
-      case AssetInProcess _:
-        return ['process'];
-      default:
-        assert(this_ is AssetInExecutable);
-        return ['executable'];
-    }
-  }
-}
+extension on AssetPath {}
 
 extension AssetIterable on Iterable<Asset> {
   Iterable<Asset> whereLinkMode(LinkMode linkMode) =>
@@ -45,8 +24,11 @@ extension AssetIterable on Iterable<Asset> {
 
   Map<String, Map<String, List<String>>> toDartConst() => {
         for (final entry in assetsPerTarget.entries)
-          entry.key.toString():
-              _combineMaps(entry.value.map((e) => e.toDartConst()).toList())
+          entry.key.toString(): _combineMaps(entry.value
+              .map((e) => {
+                    e.id: _toDartConst(e.path),
+                  })
+              .toList())
       };
 
   Map<Object, Object> toNativeAssetsFileEncoding() => {
@@ -55,6 +37,20 @@ extension AssetIterable on Iterable<Asset> {
       };
 
   String toNativeAssetsFile() => yamlEncode(toNativeAssetsFileEncoding());
+}
+
+List<String> _toDartConst(AssetPath path) {
+  switch (path) {
+    case AssetAbsolutePath _:
+      return ['absolute', path.uri.toFilePath()];
+    case AssetSystemPath _:
+      return ['system', path.uri.toFilePath()];
+    case AssetInProcess _:
+      return ['process'];
+    default:
+      assert(path is AssetInExecutable);
+      return ['executable'];
+  }
 }
 
 Map<X, Y> _combineMaps<X, Y>(Iterable<Map<X, Y>> maps) {
