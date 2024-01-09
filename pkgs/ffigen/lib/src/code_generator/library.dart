@@ -5,13 +5,13 @@
 import 'dart:io';
 
 import 'package:cli_util/cli_util.dart';
+import 'package:collection/collection.dart';
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml_edit/yaml_edit.dart';
 
-import '../strings.dart' as strings;
 import 'utils.dart';
 import 'writer.dart';
 
@@ -34,25 +34,13 @@ class Library {
     StructPackingOverride? packingOverride,
     Set<LibraryImport>? libraryImports,
   }) {
-    /// Get all dependencies (includes itself).
-    final dependencies = <Binding>{};
-    for (final b in bindings) {
-      b.addDependencies(dependencies);
-    }
-
-    /// Save bindings.
-    this.bindings = dependencies.toList();
-
-    if (sort) {
-      _sort();
-    }
+    _findBindings(bindings, sort);
 
     /// Handle any declaration-declaration name conflicts and emit warnings.
     final declConflictHandler = UniqueNamer({});
     for (final b in this.bindings) {
       _warnIfPrivateDeclaration(b);
       _resolveIfNameConflicts(declConflictHandler, b);
-      _warnIfExposeSymbolAddressAndFfiNative(b);
     }
 
     // Override pack values according to config. We do this after declaration
@@ -66,29 +54,51 @@ class Library {
     }
 
     // Seperate bindings which require lookup.
-    final lookUpBindings = this.bindings.whereType<LookUpBinding>().where((e) {
-      if (e is Func) {
-        return !e.ffiNativeConfig.enabled;
-      }
-      return true;
-    }).toList();
-    final ffiNativeBindings = this
-        .bindings
-        .whereType<Func>()
-        .where((e) => e.ffiNativeConfig.enabled)
-        .toList();
+    final lookupBindings = <LookUpBinding>[];
+    final nativeBindings = <LookUpBinding>[];
+    FfiNativeConfig? nativeConfig;
+
+    for (final binding in this.bindings.whereType<LookUpBinding>()) {
+      final nativeConfigForBinding = switch (binding) {
+        Func() => binding.ffiNativeConfig,
+        Global() => binding.nativeConfig,
+        _ => null,
+      };
+
+      // At the moment, all bindings share their native config.
+      nativeConfig ??= nativeConfigForBinding;
+
+      final usesLookup =
+          nativeConfigForBinding == null || !nativeConfigForBinding.enabled;
+      (usesLookup ? lookupBindings : nativeBindings).add(binding);
+    }
     final noLookUpBindings =
         this.bindings.whereType<NoLookUpBinding>().toList();
 
     _writer = Writer(
-      lookUpBindings: lookUpBindings,
-      ffiNativeBindings: ffiNativeBindings,
+      lookUpBindings: lookupBindings,
+      ffiNativeBindings: nativeBindings,
+      nativeAssetId: nativeConfig?.assetId,
       noLookUpBindings: noLookUpBindings,
       className: name,
       classDocComment: description,
       header: header,
       additionalImports: libraryImports,
     );
+  }
+
+  void _findBindings(List<Binding> original, bool sort) {
+    /// Get all dependencies (includes itself).
+    final dependencies = <Binding>{};
+    for (final b in original) {
+      b.addDependencies(dependencies);
+    }
+
+    /// Save bindings.
+    bindings = dependencies.toList();
+    if (sort) {
+      bindings.sortBy((b) => b.name);
+    }
   }
 
   /// Logs a warning if generated declaration will be private.
@@ -111,21 +121,6 @@ class Library {
     } else {
       namer.markUsed(b.name);
     }
-  }
-
-  /// Logs a warning if generated declaration will be private.
-  void _warnIfExposeSymbolAddressAndFfiNative(Binding b) {
-    if (b is Func) {
-      if (b.exposeSymbolAddress && b.ffiNativeConfig.enabled) {
-        _logger.warning(
-            "Ignoring ${strings.symbolAddress} for '${b.name}' because it is generated as FfiNative.");
-      }
-    }
-  }
-
-  /// Sort all bindings in alphabetical order.
-  void _sort() {
-    bindings.sort((b1, b2) => b1.name.compareTo(b2.name));
   }
 
   /// Generates [file] by generating C bindings.

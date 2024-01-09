@@ -1,3 +1,9 @@
+## 12.0.0-dev
+
+- Global variables are now compatible with the `ffi-native` option.
+- Exposing symbol addresses of functions and globals is now compatible with the
+  `ffi-native` option.
+
 ## 11.0.0
 
 - Any compiler errors/warnings in source header files will now result in

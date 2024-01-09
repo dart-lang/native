@@ -76,6 +76,7 @@ class SelfImportedType extends Type {
 
 final ffiImport = LibraryImport('ffi', 'dart:ffi');
 final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
+final self = LibraryImport('self', '');
 
 final voidType = ImportedType(ffiImport, 'Void', 'void');
 

@@ -273,8 +273,8 @@ String? removeRawCommentMarkups(String? string) {
 
 extension CXTypeExt on clang_types.CXType {
   /// Get code_gen [Type] representation of [clang_types.CXType].
-  Type toCodeGenType() {
-    return getCodeGenType(this);
+  Type toCodeGenType({bool supportNonInlineArray = false}) {
+    return getCodeGenType(this, supportNonInlineArray: supportNonInlineArray);
   }
 
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
