@@ -16,12 +16,3 @@ String yamlEncode(Object yamlEncoding) {
   );
   return editor.toString();
 }
-
-T as<T>(Object? object) {
-  if (object is T) {
-    return object;
-  }
-  throw FormatException(
-    "Unexpected value '$object' in YAML. Expected a $T.",
-  );
-}

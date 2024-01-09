@@ -1,2 +1,3 @@
 paths:
   - test/build_runner/
+  - test/model/

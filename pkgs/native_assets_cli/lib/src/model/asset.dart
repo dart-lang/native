@@ -4,7 +4,6 @@
 
 import 'package:yaml/yaml.dart';
 
-import '../utils/uri.dart';
 import '../utils/yaml.dart';
 import 'link_mode.dart';
 import 'target.dart';
@@ -32,12 +31,9 @@ abstract class AssetPath {
   }
 
   Map<String, Object> toYaml();
-  List<String> toDartConst();
 
   static const _pathTypeKey = 'path_type';
   static const _uriKey = 'uri';
-
-  Future<bool> exists();
 }
 
 /// Asset at absolute path [uri].
@@ -55,9 +51,6 @@ class AssetAbsolutePath implements AssetPath {
       };
 
   @override
-  List<String> toDartConst() => [_pathTypeValue, uri.toFilePath()];
-
-  @override
   int get hashCode => Object.hash(uri, 133711);
 
   @override
@@ -67,9 +60,6 @@ class AssetAbsolutePath implements AssetPath {
     }
     return uri == other.uri;
   }
-
-  @override
-  Future<bool> exists() => uri.fileSystemEntity.exists();
 }
 
 /// Asset is avaliable on the system `PATH`.
@@ -89,9 +79,6 @@ class AssetSystemPath implements AssetPath {
       };
 
   @override
-  List<String> toDartConst() => [_pathTypeValue, uri.toFilePath()];
-
-  @override
   int get hashCode => Object.hash(uri, 133723);
 
   @override
@@ -101,9 +88,6 @@ class AssetSystemPath implements AssetPath {
     }
     return uri == other.uri;
   }
-
-  @override
-  Future<bool> exists() => Future.value(true);
 }
 
 /// Asset is loaded in the process and symbols are available through
@@ -121,12 +105,6 @@ class AssetInProcess implements AssetPath {
   Map<String, Object> toYaml() => {
         AssetPath._pathTypeKey: _pathTypeValue,
       };
-
-  @override
-  List<String> toDartConst() => [_pathTypeValue];
-
-  @override
-  Future<bool> exists() => Future.value(true);
 }
 
 /// Asset is embedded in executable and symbols are available through
@@ -144,12 +122,6 @@ class AssetInExecutable implements AssetPath {
   Map<String, Object> toYaml() => {
         AssetPath._pathTypeKey: _pathTypeValue,
       };
-
-  @override
-  List<String> toDartConst() => [_pathTypeValue];
-
-  @override
-  Future<bool> exists() => Future.value(true);
 }
 
 class Asset {
@@ -222,16 +194,12 @@ class Asset {
         _targetKey: target.toString(),
       };
 
-  Map<String, List<String>> toDartConst() => {
-        id: path.toDartConst(),
-      };
-
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
 
-  Future<bool> exists() => path.exists();
+  // Future<bool> exists() => path.exists();
 
   @override
   String toString() => 'Asset(${toYaml()})';

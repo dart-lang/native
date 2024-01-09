@@ -1,4 +1,4 @@
-// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -11,7 +11,6 @@ import 'package:test/test.dart';
 
 void main() {
   final fooUri = Uri.file('path/to/libfoo.so');
-  final foo2Uri = Uri.file('path/to/libfoo2.so');
   final foo3Uri = Uri(path: 'libfoo3.so');
   final barUri = Uri(path: 'path/to/libbar.a');
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
@@ -19,12 +18,6 @@ void main() {
     Asset(
       id: 'foo',
       path: AssetAbsolutePath(fooUri),
-      target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
-    ),
-    Asset(
-      id: 'foo2',
-      path: AssetRelativePath(foo2Uri),
       target: Target.androidX64,
       linkMode: LinkMode.dynamic,
     ),
@@ -69,9 +62,6 @@ native-assets:
     foo:
       - absolute
       - ${fooUri.toFilePath()}
-    foo2:
-      - relative
-      - ${foo2Uri.toFilePath()}
     foo3:
       - system
       - ${foo3Uri.toFilePath()}
@@ -95,6 +85,6 @@ native-assets:
 
   test('List<Asset> whereLinkMode', () async {
     final assets2 = assets.whereLinkMode(LinkMode.dynamic);
-    expect(assets2.length, 6);
+    expect(assets2.length, 5);
   });
 }

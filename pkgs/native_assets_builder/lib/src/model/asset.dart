@@ -6,35 +6,27 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../utils/yaml.dart';
 
-/// Asset is avaliable on a relative path.
-///
-/// If [LinkMode] of an [Asset] is [LinkMode.dynamic],
-/// `Platform.script.resolve(uri)` will be used to load the asset at runtime.
-class AssetRelativePath implements AssetPath {
-  final Uri uri;
+extension on Asset {
+  Map<String, List<String>> toDartConst() => {
+        id: path.toDartConst(),
+      };
+}
 
-  AssetRelativePath(this.uri);
-
-  static const _pathTypeValue = 'relative';
-
-  @override
-  Map<String, Object> toYaml() => throw UnimplementedError();
-  @override
-  List<String> toDartConst() => [_pathTypeValue, uri.toFilePath()];
-
-  @override
-  int get hashCode => Object.hash(uri, 133717);
-
-  @override
-  bool operator ==(Object other) {
-    if (other is! AssetRelativePath) {
-      return false;
+extension on AssetPath {
+  List<String> toDartConst() {
+    final this_ = this;
+    switch (this_) {
+      case AssetAbsolutePath _:
+        return ['absolute', this_.uri.toFilePath()];
+      case AssetSystemPath _:
+        return ['system', this_.uri.toFilePath()];
+      case AssetInProcess _:
+        return ['process'];
+      default:
+        assert(this_ is AssetInExecutable);
+        return ['executable'];
     }
-    return uri == other.uri;
   }
-
-  @override
-  Future<bool> exists() => throw UnimplementedError();
 }
 
 extension AssetIterable on Iterable<Asset> {

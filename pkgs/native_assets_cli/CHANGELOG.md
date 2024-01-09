@@ -4,8 +4,6 @@
   `dart_api_dl.h` from the Dart SDK in native code.
 - **Breaking change** Moved code not used in `build.dart` to
   `package:native_assets_builder`.
-  `AssetRelativePath` is only defined inside `toNativeAssetsFile()` which is
-  passed to the VM, not inside `build.dart` output.
 
 
 ## 0.3.2
