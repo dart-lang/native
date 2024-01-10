@@ -4,11 +4,12 @@
 
 import 'package:yaml/yaml.dart';
 
+import '../api/asset.dart' as api;
 import '../utils/yaml.dart';
 import 'link_mode.dart';
 import 'target.dart';
 
-abstract class AssetPath {
+abstract class AssetPath implements api.AssetPath {
   factory AssetPath(String pathType, Uri? uri) {
     switch (pathType) {
       case AssetAbsolutePath._pathTypeValue:
@@ -37,7 +38,8 @@ abstract class AssetPath {
 }
 
 /// Asset at absolute path [uri].
-class AssetAbsolutePath implements AssetPath {
+class AssetAbsolutePath implements AssetPath, api.AssetAbsolutePath {
+  @override
   final Uri uri;
 
   AssetAbsolutePath(this.uri);
@@ -65,7 +67,8 @@ class AssetAbsolutePath implements AssetPath {
 /// Asset is avaliable on the system `PATH`.
 ///
 /// [uri] only contains a file name.
-class AssetSystemPath implements AssetPath {
+class AssetSystemPath implements AssetPath, api.AssetSystemPath {
+  @override
   final Uri uri;
 
   AssetSystemPath(this.uri);
@@ -92,7 +95,7 @@ class AssetSystemPath implements AssetPath {
 
 /// Asset is loaded in the process and symbols are available through
 /// `DynamicLibrary.process()`.
-class AssetInProcess implements AssetPath {
+class AssetInProcess implements AssetPath, api.AssetInProcess {
   AssetInProcess._();
 
   static final AssetInProcess _singleton = AssetInProcess._();
@@ -109,7 +112,7 @@ class AssetInProcess implements AssetPath {
 
 /// Asset is embedded in executable and symbols are available through
 /// `DynamicLibrary.executable()`.
-class AssetInExecutable implements AssetPath {
+class AssetInExecutable implements AssetPath, api.AssetInExecutable {
   AssetInExecutable._();
 
   static final AssetInExecutable _singleton = AssetInExecutable._();
@@ -124,10 +127,14 @@ class AssetInExecutable implements AssetPath {
       };
 }
 
-class Asset {
+class Asset implements api.Asset {
+  @override
   final LinkMode linkMode;
+  @override
   final String id;
+  @override
   final Target target;
+  @override
   final AssetPath path;
 
   Asset({

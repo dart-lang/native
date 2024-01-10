@@ -6,13 +6,13 @@
 /// native assets CLI.
 library native_assets_cli;
 
-export 'src/model/asset.dart';
-export 'src/model/build_config.dart';
-export 'src/model/build_mode.dart';
-export 'src/model/build_output.dart';
-export 'src/model/dependencies.dart';
-export 'src/model/ios_sdk.dart';
-export 'src/model/link_mode.dart';
-export 'src/model/link_mode_preference.dart';
-export 'src/model/metadata.dart';
-export 'src/model/target.dart';
+export 'src/api/asset.dart';
+export 'src/api/build_config.dart';
+export 'src/api/build_mode.dart';
+export 'src/api/build_output.dart';
+export 'src/api/dependencies.dart';
+export 'src/api/ios_sdk.dart';
+export 'src/api/link_mode.dart';
+export 'src/api/link_mode_preference.dart';
+export 'src/api/metadata.dart';
+export 'src/api/target.dart';

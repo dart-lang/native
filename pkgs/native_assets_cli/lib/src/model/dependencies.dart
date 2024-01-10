@@ -5,12 +5,14 @@
 import 'package:collection/collection.dart';
 import 'package:yaml/yaml.dart';
 
+import '../api/dependencies.dart' as api;
 import '../utils/file.dart';
 import '../utils/uri.dart';
 import '../utils/yaml.dart';
 
-class Dependencies {
+class Dependencies implements api.Dependencies {
   /// The dependencies a build relied on.
+  @override
   final List<Uri> dependencies;
 
   const Dependencies(this.dependencies);

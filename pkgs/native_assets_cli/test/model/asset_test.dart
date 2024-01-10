@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -99,15 +99,6 @@ void main() {
         (e) => e is FormatException && e.message.contains('Unknown pathType'),
       )),
     );
-  });
-
-  test('Asset hashCode copyWith', () async {
-    final asset = assets.first;
-    final asset2 = asset.copyWith(id: 'foo321');
-    expect(asset.hashCode != asset2.hashCode, true);
-
-    final asset3 = asset.copyWith();
-    expect(asset.hashCode, asset3.hashCode);
   });
 
   test('List<Asset> hashCode', () async {

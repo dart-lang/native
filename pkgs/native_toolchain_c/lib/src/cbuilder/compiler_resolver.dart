@@ -32,10 +32,7 @@ class CompilerResolver {
 
   Future<ToolInstance> resolveCompiler() async {
     // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadCompilerFromConfig(
-      CCompilerConfig.ccConfigKeyFull,
-      (buildConfig) => buildConfig.cCompiler.cc,
-    );
+    var result = await _tryLoadCompilerFromConfig();
 
     // Then, try to detect on the host machine.
     final tool = _selectCompiler();
@@ -95,18 +92,16 @@ class CompilerResolver {
     return null;
   }
 
-  Future<ToolInstance?> _tryLoadCompilerFromConfig(
-      String configKey, Uri? Function(BuildConfig) getter) async {
-    final configCcUri = getter(buildConfig);
+  Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
+    final configCcUri = buildConfig.cCompiler.cc;
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
       logger?.finer('Using compiler ${configCcUri.toFilePath()} '
-          'from config[${CCompilerConfig.ccConfigKeyFull}].');
+          'from BuildConfig.cCompiler.cc.');
       return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer(
-        'No compiler set in config[${CCompilerConfig.ccConfigKeyFull}].');
+    logger?.finer('No compiler set in BuildConfig.cCompiler.cc.');
     return null;
   }
 
@@ -120,10 +115,7 @@ class CompilerResolver {
 
   Future<ToolInstance> resolveArchiver() async {
     // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadArchiverFromConfig(
-      CCompilerConfig.arConfigKeyFull,
-      (buildConfig) => buildConfig.cCompiler.ar,
-    );
+    var result = await _tryLoadArchiverFromConfig();
 
     // Then, try to detect on the host machine.
     final tool = _selectArchiver();
@@ -184,18 +176,16 @@ class CompilerResolver {
     return null;
   }
 
-  Future<ToolInstance?> _tryLoadArchiverFromConfig(
-      String configKey, Uri? Function(BuildConfig) getter) async {
-    final configArUri = getter(buildConfig);
+  Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
+    final configArUri = buildConfig.cCompiler.ar;
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
       logger?.finer('Using archiver ${configArUri.toFilePath()} '
-          'from config[${CCompilerConfig.arConfigKeyFull}].');
+          'from BuildConfig.cCompiler.ar.');
       return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer(
-        'No archiver set in config[${CCompilerConfig.arConfigKeyFull}].');
+    logger?.finer('No compiler set in BuildConfig.cCompiler.ar.');
     return null;
   }
 

@@ -7,7 +7,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -121,30 +121,38 @@ extension on Uri {
 String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
 
 /// Archiver provided by the environment.
+///
+/// Provided on Dart CI.
 final Uri? ar = Platform
-    .environment[unparseKey(CCompilerConfig.arConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfig.arConfigKeyFull)]
     ?.asFileUri();
 
 /// Compiler provided by the environment.
+///
+/// Provided on Dart CI.
 final Uri? cc = Platform
-    .environment[unparseKey(CCompilerConfig.ccConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfig.ccConfigKeyFull)]
     ?.asFileUri();
 
 /// Linker provided by the environment.
+///
+/// Provided on Dart CI.
 final Uri? ld = Platform
-    .environment[unparseKey(CCompilerConfig.ldConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfig.ldConfigKeyFull)]
     ?.asFileUri();
 
 /// Path to script that sets environment variables for [cc], [ld], and [ar].
 ///
-/// Provided by environment.
+/// Provided on Dart CI.
 final Uri? envScript = Platform
-    .environment[unparseKey(CCompilerConfig.envScriptConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfig.envScriptConfigKeyFull)]
     ?.asFileUri();
 
 /// Arguments for [envScript] provided by environment.
-final List<String>? envScriptArgs = Platform
-    .environment[unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull)]
+///
+/// Provided on Dart CI.
+final List<String>? envScriptArgs = Platform.environment[
+        unparseKey(internal.CCompilerConfig.envScriptArgsConfigKeyFull)]
     ?.split(' ');
 
 extension on String {

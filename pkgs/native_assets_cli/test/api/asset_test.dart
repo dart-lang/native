@@ -1,12 +1,8 @@
-// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: undefined_hidden_name
-
-import 'package:native_assets_builder/src/model/asset.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart'
-    hide AssetIterable, AssetRelativePath;
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -53,38 +49,7 @@ void main() {
     ),
   ];
 
-  final assetsDartEncoding = '''format-version:
-  - 1
-  - 0
-  - 0
-native-assets:
-  android_x64:
-    foo:
-      - absolute
-      - ${fooUri.toFilePath()}
-    foo3:
-      - system
-      - ${foo3Uri.toFilePath()}
-    foo4:
-      - executable
-    foo5:
-      - process
-  linux_arm64:
-    bar:
-      - absolute
-      - ${barUri.toFilePath()}
-  windows_x64:
-    bla:
-      - absolute
-      - ${blaUri.toFilePath()}''';
-
-  test('asset yaml', () async {
-    final fileContents = assets.toNativeAssetsFile();
-    expect(fileContents, assetsDartEncoding);
-  });
-
-  test('List<Asset> whereLinkMode', () async {
-    final assets2 = assets.whereLinkMode(LinkMode.dynamic);
-    expect(assets2.length, 5);
+  test('Asset toString', () async {
+    assets.toString();
   });
 }

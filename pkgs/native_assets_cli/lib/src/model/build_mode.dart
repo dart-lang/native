@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class BuildMode {
+import '../api/build_mode.dart' as api;
+
+class BuildMode implements api.BuildMode {
+  @override
   final String name;
 
   const BuildMode._(this.name);
