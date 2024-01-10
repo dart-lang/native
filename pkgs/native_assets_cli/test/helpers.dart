@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/src/model/build_config.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -102,4 +102,31 @@ final List<String>? envScriptArgs = Platform
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
+}
+
+extension AssetIterable on Iterable<Asset> {
+  Future<bool> allExist() async {
+    final allResults = await Future.wait(map((e) => e.exists()));
+    final missing = allResults.contains(false);
+    return !missing;
+  }
+}
+
+extension on Asset {
+  Future<bool> exists() async {
+    final path_ = path;
+    return switch (path_) {
+      AssetAbsolutePath _ => await path_.uri.fileSystemEntity.exists(),
+      _ => true,
+    };
+  }
+}
+
+extension UriExtension on Uri {
+  FileSystemEntity get fileSystemEntity {
+    if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
+      return Directory.fromUri(this);
+    }
+    return File.fromUri(this);
+  }
 }
