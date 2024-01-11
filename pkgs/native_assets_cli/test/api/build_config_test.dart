@@ -205,11 +205,11 @@ void main() async {
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
-    final buildConfig2 = await BuildConfig.fromArgs(
+    final buildConfigFromArgs = await BuildConfig.fromArgs(
       ['--config', configUri.toFilePath()],
       environment: {}, // Don't inherit the test environment.
     );
-    expect(buildConfig2, buildConfig);
+    expect(buildConfigFromArgs, buildConfig);
   });
 
   test('BuildConfig.version', () {
