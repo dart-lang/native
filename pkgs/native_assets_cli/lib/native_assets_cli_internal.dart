@@ -1,9 +1,11 @@
-// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// These files should not be accessed from `build.dart`.
-library native_assets_cli_internal;
+/// This library should not be used by `build.dart` scripts.
+///
+/// Only `package:native_assets_builder` should use this.
+library native_assets_cli;
 
 export 'src/model/asset.dart';
 export 'src/model/build_config.dart';

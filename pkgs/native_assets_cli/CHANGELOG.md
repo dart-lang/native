@@ -1,10 +1,9 @@
-## 0.4.0-wip
+## 0.4.0
 
 - Added [example/use_dart_api/](example/use_dart_api/) detailing how to use
   `dart_api_dl.h` from the Dart SDK in native code.
 - **Breaking change** Removed all code not used in `build.dart` scripts out of
   the public API.
-
 
 
 ## 0.3.2
