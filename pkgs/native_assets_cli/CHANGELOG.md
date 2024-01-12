@@ -1,4 +1,4 @@
-## 0.4.1-wip
+## 0.4.1
 
 - **Breaking change** Removed all code not used in `build.dart` scripts out of
   the public API.
