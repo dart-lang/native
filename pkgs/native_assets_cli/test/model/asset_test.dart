@@ -101,6 +101,15 @@ void main() {
     );
   });
 
+  test('Asset hashCode copyWith', () async {
+    final asset = assets.first;
+    final asset2 = asset.copyWith(id: 'foo321');
+    expect(asset.hashCode != asset2.hashCode, true);
+
+    final asset3 = asset.copyWith();
+    expect(asset.hashCode, asset3.hashCode);
+  });
+
   test('List<Asset> hashCode', () async {
     final assets2 = assets.take(3).toList();
     const equality = ListEquality<Asset>();
