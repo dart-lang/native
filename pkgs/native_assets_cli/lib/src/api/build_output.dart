@@ -15,6 +15,15 @@ import 'dependencies.dart';
 import 'metadata.dart';
 
 abstract class BuildOutput {
+  /// Time the build this output belongs to started.
+  ///
+  /// Rounded down to whole seconds, because [File.lastModified] is rounded
+  /// to whole seconds and caching logic compares these timestamps.
+  DateTime get timestamp;
+  List<Asset> get assets;
+  Dependencies get dependencies;
+  Metadata get metadata;
+
   factory BuildOutput({
     DateTime? timestamp,
     List<Asset>? assets,
