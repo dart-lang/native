@@ -5,10 +5,12 @@
 import 'package:collection/collection.dart';
 import 'package:yaml/yaml.dart';
 
+import '../api/metadata.dart' as api;
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 
-class Metadata {
+class Metadata implements api.Metadata {
+  @override
   final Map<String, Object> metadata;
 
   const Metadata(this.metadata);

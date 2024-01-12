@@ -7,7 +7,6 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -121,30 +120,31 @@ extension on Uri {
 String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
 
 /// Archiver provided by the environment.
-final Uri? ar = Platform
-    .environment[unparseKey(CCompilerConfig.arConfigKeyFull)]
-    ?.asFileUri();
+///
+/// Provided on Dart CI.
+final Uri? ar = Platform.environment[unparseKey('c_compiler.ar')]?.asFileUri();
 
 /// Compiler provided by the environment.
-final Uri? cc = Platform
-    .environment[unparseKey(CCompilerConfig.ccConfigKeyFull)]
-    ?.asFileUri();
+///
+/// Provided on Dart CI.
+final Uri? cc = Platform.environment[unparseKey('c_compiler.cc')]?.asFileUri();
 
 /// Linker provided by the environment.
-final Uri? ld = Platform
-    .environment[unparseKey(CCompilerConfig.ldConfigKeyFull)]
-    ?.asFileUri();
+///
+/// Provided on Dart CI.
+final Uri? ld = Platform.environment[unparseKey('c_compiler.ld')]?.asFileUri();
 
 /// Path to script that sets environment variables for [cc], [ld], and [ar].
 ///
-/// Provided by environment.
-final Uri? envScript = Platform
-    .environment[unparseKey(CCompilerConfig.envScriptConfigKeyFull)]
-    ?.asFileUri();
+/// Provided on Dart CI.
+final Uri? envScript =
+    Platform.environment[unparseKey('c_compiler.env_script')]?.asFileUri();
 
 /// Arguments for [envScript] provided by environment.
+///
+/// Provided on Dart CI.
 final List<String>? envScriptArgs = Platform
-    .environment[unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull)]
+    .environment[unparseKey('c_compiler.env_script_arguments')]
     ?.split(' ');
 
 extension on String {

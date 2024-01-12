@@ -5,10 +5,12 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
+import '../api/link_mode.dart' as api;
+import '../api/target.dart' as api;
 import 'link_mode.dart';
 
 /// The hardware architectures the Dart VM runs on.
-class Architecture {
+class Architecture implements api.Architecture {
   /// This architecture as used in [Platform.version].
   final String dartPlatform;
 
@@ -79,7 +81,7 @@ class Architecture {
 }
 
 /// The operating systems the Dart VM runs on.
-class OS {
+class OS implements api.OS {
   /// This OS as used in [Platform.version]
   final String dartPlatform;
 
@@ -136,6 +138,7 @@ class OS {
   };
 
   /// The default dynamic library file name on this [OS].
+  @override
   String dylibFileName(String name) {
     final prefix = _dylibPrefix[this]!;
     final extension = _dylibExtension[this]!;
@@ -143,13 +146,15 @@ class OS {
   }
 
   /// The default static library file name on this [OS].
+  @override
   String staticlibFileName(String name) {
     final prefix = _staticlibPrefix[this]!;
     final extension = _staticlibExtension[this]!;
     return '$prefix$name.$extension';
   }
 
-  String libraryFileName(String name, LinkMode linkMode) {
+  @override
+  String libraryFileName(String name, api.LinkMode linkMode) {
     if (linkMode == LinkMode.dynamic) {
       return dylibFileName(name);
     }
@@ -158,6 +163,7 @@ class OS {
   }
 
   /// The default executable file name on this [OS].
+  @override
   String executableFileName(String name) {
     final extension = _executableExtension[this]!;
     final dot = extension.isNotEmpty ? '.' : '';
@@ -229,7 +235,7 @@ class OS {
 /// Application binary interface.
 ///
 /// The Dart VM can run on a variety of [Target]s, see [Target.values].
-class Target implements Comparable<Target> {
+class Target implements api.Target {
   final Abi abi;
 
   const Target._(this.abi);
@@ -331,8 +337,10 @@ class Target implements Comparable<Target> {
   /// Read from the [Platform.version] string.
   static final Target current = Target.fromDartPlatform(Platform.version);
 
+  @override
   Architecture get architecture => Architecture.fromAbi(abi);
 
+  @override
   OS get os => OS.fromAbi(abi);
 
   String get _architectureString => architecture.dartPlatform;
@@ -350,7 +358,7 @@ class Target implements Comparable<Target> {
   ///
   /// If [other] is also an [Target], consistent with sorting on [toString].
   @override
-  int compareTo(Target other) => toString().compareTo(other.toString());
+  int compareTo(api.Target other) => toString().compareTo(other.toString());
 
   /// A list of supported target [Target]s from this host [os].
   List<Target> supportedTargetTargets(

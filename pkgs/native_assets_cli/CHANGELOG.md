@@ -1,3 +1,8 @@
+## 0.4.1-wip
+
+- **Breaking change** Removed all code not used in `build.dart` scripts out of
+  the public API.
+
 ## 0.4.0
 
 - Added [example/use_dart_api/](example/use_dart_api/) detailing how to use
