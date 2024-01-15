@@ -1,3 +1,8 @@
+## 2.1.1
+
+- Require Dart 3.3.0 or greater.
+- Migrate `elementAt` use to `operator +`.
+
 ## 2.1.0
 
 - Require Dart 3.0.0 or greater.

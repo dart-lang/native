@@ -1,15 +1,15 @@
 name: ffi
-version: 2.1.0
+version: 2.1.1
 description: Utilities for working with Foreign Function Interface (FFI) code.
 repository: https://github.com/dart-lang/ffi
 
 topics:
- - interop
- - ffi
- - codegen
+  - interop
+  - ffi
+  - codegen
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.3.0-279.1.beta <4.0.0'
 
 dev_dependencies:
   test: ^1.21.2
