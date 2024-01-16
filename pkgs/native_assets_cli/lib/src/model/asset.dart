@@ -7,8 +7,8 @@ import 'package:yaml/yaml.dart';
 
 import '../api/asset.dart' as api;
 import '../utils/yaml.dart';
-import 'pipeline_step.dart';
 import 'link_mode.dart';
+import 'pipeline_step.dart';
 import 'target.dart';
 
 abstract class AssetPath implements api.AssetPath {
