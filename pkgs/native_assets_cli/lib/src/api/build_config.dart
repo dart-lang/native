@@ -11,6 +11,7 @@ import '../model/build_config.dart' as model;
 import '../model/build_mode.dart' as model;
 import '../model/ios_sdk.dart' as model;
 import '../model/link_mode_preference.dart' as model;
+import '../model/pipeline_config.dart';
 import '../model/target.dart' as model;
 import 'build_mode.dart';
 import 'ios_sdk.dart';
@@ -18,18 +19,21 @@ import 'link_mode_preference.dart';
 import 'metadata.dart';
 import 'target.dart';
 
-abstract class BuildConfig {
+abstract class BuildConfig extends PipelineConfig {
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
+  @override
   Uri get outDir;
 
   /// The name of the package the native assets are built for.
+  @override
   String get packageName;
 
   /// The root of the package the native assets are built for.
   ///
   /// Often a package's native assets are built because a package is a
   /// dependency of another. For this it is convenient to know the packageRoot.
+  @override
   Uri get packageRoot;
 
   /// The target being compiled for.

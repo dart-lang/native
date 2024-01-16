@@ -109,10 +109,10 @@ class BuildOutput implements api.BuildOutput {
     return BuildOutput.fromYamlString(await buildOutputFile.readAsString());
   }
 
-  /// Writes the [toYamlString] to [outFile].
+  /// Writes the [toYamlString] to [output].
   @override
-  Future<void> writeToFile({required Uri outFile}) async {
-    await File.fromUri(outFile).writeAsStringCreateDirectory(toYamlString());
+  Future<void> writeToFile({required Uri output}) async {
+    await File.fromUri(output).writeAsStringCreateDirectory(toYamlString());
   }
 
   @override

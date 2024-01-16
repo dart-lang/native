@@ -47,5 +47,5 @@ abstract class BuildOutput {
   /// representation in the protocol.
   static Version get version => model.BuildOutput.version;
 
-  Future<void> writeToFile({required Uri outFile});
+  Future<void> writeToFile({required Uri output});
 }
