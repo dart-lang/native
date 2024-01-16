@@ -8,6 +8,7 @@
 - cyclic_package_2/pubspec_overrides.yaml
 - dart_app/bin/dart_app.dart
 - dart_app/pubspec.yaml
+- dart_app/pubspec_overrides.yaml
 - native_add/build.dart
 - native_add/ffigen.yaml
 - native_add/lib/native_add.dart
