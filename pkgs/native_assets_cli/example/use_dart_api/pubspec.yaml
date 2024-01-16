@@ -10,8 +10,8 @@ environment:
 dependencies:
   cli_config: ^0.1.1
   logging: ^1.1.1
-  native_assets_cli: ^0.4.0
-  native_toolchain_c: ^0.3.4
+  native_assets_cli: ^0.4.1
+  native_toolchain_c: ^0.3.4+1
 
 dev_dependencies:
   ffigen: ^10.0.0

@@ -1,3 +1,7 @@
+## 0.3.5-wip
+
+- Bump `package:native_assets_cli` to 0.4.1.
+
 ## 0.3.4+1
 
 - Stop depending on private `package:native_assets_cli` `CCompilerConfig` fields.
