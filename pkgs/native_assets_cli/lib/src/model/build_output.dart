@@ -8,6 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
+import '../api/build_output.dart' as api;
 import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/map.dart';
@@ -16,14 +17,18 @@ import 'asset.dart';
 import 'dependencies.dart';
 import 'metadata.dart';
 
-class BuildOutput {
+class BuildOutput implements api.BuildOutput {
   /// Time the build this output belongs to started.
   ///
   /// Rounded down to whole seconds, because [File.lastModified] is rounded
   /// to whole seconds and caching logic compares these timestamps.
+  @override
   final DateTime timestamp;
+  @override
   final List<Asset> assets;
+  @override
   final Dependencies dependencies;
+  @override
   final Metadata metadata;
 
   BuildOutput({
@@ -104,9 +109,11 @@ class BuildOutput {
     return BuildOutput.fromYamlString(await buildOutputFile.readAsString());
   }
 
-  /// Writes the [toYamlString] to [output].
-  Future<void> writeToFile({required Uri output}) async =>
-      await File.fromUri(output).writeAsStringCreateDirectory(toYamlString());
+  /// Writes the [toYamlString] to [outDir].
+  @override
+  Future<void> writeToFile({required Uri outDir}) async {
+    await File.fromUri(outDir).writeAsStringCreateDirectory(toYamlString());
+  }
 
   @override
   String toString() => toYamlString();

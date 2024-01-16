@@ -3,21 +3,16 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// A library that contains the argument and file formats for implementing a
-/// native assets CLI.
+/// native assets CLI, e.g. a `build.dart` script.
 library native_assets_cli;
 
-export 'src/model/asset.dart';
-export 'src/model/build_config.dart';
-export 'src/model/build_mode.dart';
-export 'src/model/build_output.dart';
-export 'src/model/build_type.dart';
-export 'src/model/dependencies.dart';
-export 'src/model/ios_sdk.dart';
-export 'src/model/link_input.dart';
-export 'src/model/link_mode.dart';
-export 'src/model/link_mode_preference.dart';
-export 'src/model/metadata.dart';
-export 'src/model/pipeline_config.dart';
-export 'src/model/resources.dart';
-export 'src/model/target.dart';
-export 'src/utils/yaml.dart';
+export 'src/api/asset.dart';
+export 'src/api/build_config.dart';
+export 'src/api/build_mode.dart';
+export 'src/api/build_output.dart';
+export 'src/api/dependencies.dart';
+export 'src/api/ios_sdk.dart';
+export 'src/api/link_mode.dart';
+export 'src/api/link_mode_preference.dart';
+export 'src/api/metadata.dart';
+export 'src/api/target.dart';

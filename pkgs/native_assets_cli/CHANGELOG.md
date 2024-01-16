@@ -1,3 +1,15 @@
+## 0.4.1
+
+- **Breaking change** Removed all code not used in `build.dart` scripts out of
+  the public API.
+
+## 0.4.0
+
+- Added [example/use_dart_api/](example/use_dart_api/) detailing how to use
+  `dart_api_dl.h` from the Dart SDK in native code.
+- **Breaking change** Moved code not used in `build.dart` to
+  `package:native_assets_builder`.
+
 ## 0.3.2
 
 - Fixed an issue where `Depenendencies.dependencies` could not be

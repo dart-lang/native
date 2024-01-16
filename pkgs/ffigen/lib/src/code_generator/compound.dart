@@ -80,16 +80,6 @@ abstract class Compound extends BindingType {
     }
   }
 
-  List<int> _getArrayDimensionLengths(Type type) {
-    final array = <int>[];
-    var startType = type;
-    while (startType is ConstantArray) {
-      array.add(startType.length);
-      startType = startType.child;
-    }
-    return array;
-  }
-
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
       return '${w.ffiLibraryPrefix}.Array<'
@@ -132,9 +122,8 @@ abstract class Compound extends BindingType {
         s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
         s.write('\n');
       }
-      if (m.type is ConstantArray) {
-        s.write('$depth@${w.ffiLibraryPrefix}.Array.multi(');
-        s.write('${_getArrayDimensionLengths(m.type)})\n');
+      if (m.type case final ConstantArray arrayType) {
+        s.writeln(makeArrayAnnotation(w, arrayType));
         s.write('${depth}external ${_getInlineArrayTypeString(m.type, w)} ');
         s.write('${m.name};\n\n');
       } else {

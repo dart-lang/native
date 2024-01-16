@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-class LinkMode {
+import '../api/link_mode.dart' as api;
+
+class LinkMode implements api.LinkMode {
   final String name;
 
   const LinkMode._(this.name);

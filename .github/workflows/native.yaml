@@ -64,6 +64,8 @@ jobs:
           ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
 
+      - run: dart run ../../tools/check_pubspec_overrides.dart
+
       - run: dart run ../../tools/delete_pubspec_overrides.dart
         if: ${{ matrix.dependencies == 'published' }}
 
@@ -93,6 +95,9 @@ jobs:
       - run: dart pub get -C example/native_add_library/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
+      - run: dart pub get -C example/use_dart_api/
+        if: ${{ matrix.package == 'native_assets_cli' }}
+
       - run: dart analyze --fatal-infos
         # Run on dev to ensure we're not depending on deprecated SDK things.
 
@@ -120,6 +125,10 @@ jobs:
 
       - run: ./native_add_app.exe
         working-directory: pkgs/${{ matrix.package }}/example/native_add_app/bin/native_add_app/
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+
+      - run: dart --enable-experiment=native-assets test
+        working-directory: pkgs/${{ matrix.package }}/example/use_dart_api/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage

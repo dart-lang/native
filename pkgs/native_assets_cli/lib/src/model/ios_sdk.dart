@@ -2,10 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../api/ios_sdk.dart' as api;
+
 /// For an iOS target, a build is either done for the device or the simulator.
 ///
 /// Only fat binaries or xcframeworks can contain both targets.
-class IOSSdk {
+class IOSSdk implements api.IOSSdk {
   final String xcodebuildSdk;
 
   const IOSSdk._(this.xcodebuildSdk);

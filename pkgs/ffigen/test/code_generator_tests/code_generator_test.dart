@@ -3,16 +3,38 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:meta/meta.dart';
 import 'package:test/test.dart';
+
 import '../test_utils.dart';
 
 void main() {
+  const licenseHeader = '''
+// Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+''';
+
   group('code_generator: ', () {
-    test('Function Binding (primitives, pointers)', () {
+    @isTestGroup
+    void withAndWithoutNative(
+        String description, void Function(FfiNativeConfig) runTest) {
+      group(description, () {
+        test('without Native', () => runTest(FfiNativeConfig(enabled: false)));
+        test('with Native',
+            () => runTest(FfiNativeConfig(enabled: true, assetId: 'test')));
+      });
+    }
+
+    withAndWithoutNative('Function Binding (primitives, pointers)',
+        (nativeConfig) {
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           Func(
+            ffiNativeConfig: nativeConfig,
             name: 'noParam',
             dartDoc: 'Just a test function\nheres another line',
             returnType: NativeType(
@@ -20,6 +42,7 @@ void main() {
             ),
           ),
           Func(
+            ffiNativeConfig: nativeConfig,
             name: 'withPrimitiveParam',
             parameters: [
               Parameter(
@@ -40,6 +63,7 @@ void main() {
             ),
           ),
           Func(
+            ffiNativeConfig: nativeConfig,
             name: 'withPointerParam',
             parameters: [
               Parameter(
@@ -68,6 +92,7 @@ void main() {
             ),
           ),
           Func(
+            ffiNativeConfig: nativeConfig,
             isLeaf: true,
             name: 'leafFunc',
             dartDoc: 'A function with isLeaf: true',
@@ -86,12 +111,14 @@ void main() {
         ],
       );
 
-      _matchLib(library, 'function');
+      _matchLib(
+          library, nativeConfig.enabled ? 'function_ffiNative' : 'function');
     });
 
     test('Struct Binding (primitives, pointers)', () {
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           Struct(
             name: 'NoMember',
@@ -204,6 +231,7 @@ void main() {
       );
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           structSome,
           Func(
@@ -228,7 +256,8 @@ void main() {
       _matchLib(library, 'function_n_struct');
     });
 
-    test('global (primitives, pointers, pointer to struct)', () {
+    withAndWithoutNative('global (primitives, pointers, pointer to struct)',
+        (nativeConfig) {
       final structSome = Struct(
         name: 'Some',
       );
@@ -236,14 +265,17 @@ void main() {
 
       final library = Library(
         name: 'Bindings',
+        header: licenseHeader,
         bindings: [
           Global(
+            nativeConfig: nativeConfig,
             name: 'test1',
             type: NativeType(
               SupportedNativeType.Int32,
             ),
           ),
           Global(
+            nativeConfig: nativeConfig,
             name: 'test2',
             type: PointerType(
               NativeType(
@@ -252,24 +284,41 @@ void main() {
             ),
             constant: true,
           ),
+          Global(
+            nativeConfig: nativeConfig,
+            name: 'test3',
+            type: ConstantArray(
+              10,
+              NativeType(
+                SupportedNativeType.Float,
+              ),
+              useArrayType: nativeConfig.enabled,
+            ),
+            constant: true,
+          ),
           structSome,
           Global(
+            nativeConfig: nativeConfig,
             name: 'test5',
             type: PointerType(
               structSome,
             ),
           ),
           emptyGlobalStruct,
-          Global(name: 'globalStruct', type: emptyGlobalStruct),
+          Global(
+            nativeConfig: nativeConfig,
+            name: 'globalStruct',
+            type: emptyGlobalStruct,
+          ),
         ],
       );
-      _matchLib(library, 'global');
+      _matchLib(library, nativeConfig.enabled ? 'global_native' : 'global');
     });
 
     test('constant', () {
       final library = Library(
         name: 'Bindings',
-        header: '// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         bindings: [
           Constant(
             name: 'test1',
@@ -289,7 +338,7 @@ void main() {
     test('enum_class', () {
       final library = Library(
         name: 'Bindings',
-        header: '// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         bindings: [
           EnumClass(
             name: 'Constants',
@@ -306,11 +355,12 @@ void main() {
       );
       _matchLib(library, 'enumclass');
     });
+
     test('Internal conflict resolution', () {
       final library = Library(
         name: 'init_dylib',
         header:
-            '// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+            '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
         bindings: [
           Func(
             name: 'test',
@@ -338,6 +388,9 @@ void main() {
                   NativeType(
                     SupportedNativeType.Int8,
                   ),
+                  // This flag is ignored for struct fields, which always use
+                  // inline arrays.
+                  useArrayType: true,
                 ),
               ),
             ],
@@ -353,10 +406,35 @@ void main() {
       );
       _matchLib(library, 'internal_conflict_resolution');
     });
+
+    test('Adds Native symbol on mismatch', () {
+      final nativeConfig = FfiNativeConfig(enabled: true);
+      final library = Library(
+        name: 'init_dylib',
+        header:
+            '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+        bindings: [
+          Func(
+            ffiNativeConfig: nativeConfig,
+            name: 'test',
+            originalName: '_test',
+            returnType: NativeType(SupportedNativeType.Void),
+          ),
+          Global(
+            nativeConfig: nativeConfig,
+            name: 'testField',
+            originalName: '_testField',
+            type: NativeType(SupportedNativeType.Int16),
+          ),
+        ],
+      );
+      _matchLib(library, 'native_symbol');
+    });
   });
   test('boolean_dartBool', () {
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       bindings: [
         Func(
           name: 'test1',
@@ -379,6 +457,7 @@ void main() {
   test('sort bindings', () {
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       sort: true,
       bindings: [
         Func(name: 'b', returnType: NativeType(SupportedNativeType.Void)),
@@ -392,6 +471,7 @@ void main() {
   test('Pack Structs', () {
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       bindings: [
         Struct(name: 'NoPacking', pack: null, members: [
           Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
@@ -422,6 +502,7 @@ void main() {
         Union(name: 'Union1', members: [Member(name: 'a', type: charType)]);
     final library = Library(
       name: 'Bindings',
+      header: licenseHeader,
       bindings: [
         struct1,
         union1,
@@ -440,10 +521,22 @@ void main() {
           Member(name: 'd', type: PointerType(struct1)),
         ]),
         Union(name: 'WithArray', members: [
-          Member(name: 'a', type: ConstantArray(10, charType)),
-          Member(name: 'b', type: ConstantArray(10, union1)),
-          Member(name: 'b', type: ConstantArray(10, struct1)),
-          Member(name: 'c', type: ConstantArray(10, PointerType(union1))),
+          Member(
+            name: 'a',
+            type: ConstantArray(10, charType, useArrayType: true),
+          ),
+          Member(
+            name: 'b',
+            type: ConstantArray(10, union1, useArrayType: true),
+          ),
+          Member(
+            name: 'b',
+            type: ConstantArray(10, struct1, useArrayType: true),
+          ),
+          Member(
+            name: 'c',
+            type: ConstantArray(10, PointerType(union1), useArrayType: true),
+          ),
         ]),
       ],
     );
@@ -452,7 +545,8 @@ void main() {
   test('Typealias Bindings', () {
     final library = Library(
       name: 'Bindings',
-      header: '// ignore_for_file: non_constant_identifier_names\n',
+      header:
+          '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
       bindings: [
         Typealias(name: 'RawUnused', type: Struct(name: 'Struct1')),
         Struct(name: 'WithTypealiasStruct', members: [

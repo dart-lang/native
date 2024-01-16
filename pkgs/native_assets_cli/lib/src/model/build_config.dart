@@ -10,6 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../api/build_config.dart' as api;
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'build_mode.dart';
@@ -20,7 +21,7 @@ import 'metadata.dart';
 import 'pipeline_config.dart';
 import 'target.dart';
 
-class BuildConfig extends PipelineConfig {
+class BuildConfig extends PipelineConfig implements api.BuildConfig {
   @override
   Uri get script => packageRoot.resolve(PipelineStep.build.scriptName);
 
@@ -52,12 +53,14 @@ class BuildConfig extends PipelineConfig {
   /// The target being compiled for.
   ///
   /// Not available in [dryRun].
+  @override
   late final Target target =
       Target.fromArchitectureAndOs(targetArchitecture, targetOs);
 
   /// The architecture being compiled for.
   ///
   /// Not available in [dryRun].
+  @override
   Architecture get targetArchitecture {
     _ensureNotDryRun();
     return _targetArchitecture;
@@ -66,6 +69,7 @@ class BuildConfig extends PipelineConfig {
   late final Architecture _targetArchitecture;
 
   /// The operating system being compiled for.
+  @override
   OS get targetOs => _targetOs;
   late final OS _targetOs;
 
@@ -74,6 +78,7 @@ class BuildConfig extends PipelineConfig {
   /// Required when [targetOs] equals [OS.iOS].
   ///
   /// Not available in [dryRun].s
+  @override
   IOSSdk? get targetIOSSdk {
     _ensureNotDryRun();
     return _targetIOSSdk;
@@ -91,6 +96,7 @@ class BuildConfig extends PipelineConfig {
   /// For more information about the Android API version, refer to
   /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
   /// in the Android documentation.
+  @override
   int? get targetAndroidNdkApi {
     _ensureNotDryRun();
     return _targetAndroidNdkApi;
@@ -99,6 +105,7 @@ class BuildConfig extends PipelineConfig {
   late final int? _targetAndroidNdkApi;
 
   /// Preferred linkMode method for library.
+  @override
   LinkModePreference get linkModePreference => _linkModePreference;
   late final LinkModePreference _linkModePreference;
 
@@ -109,6 +116,7 @@ class BuildConfig extends PipelineConfig {
   /// The key in the nested map is the key for the metadata from the dependency.
   ///
   /// Not available in [dryRun].
+  @override
   Map<String, Metadata>? get dependencyMetadata {
     _ensureNotDryRun();
     return _dependencyMetadata;
@@ -119,6 +127,7 @@ class BuildConfig extends PipelineConfig {
   /// The configuration for invoking the C compiler.
   ///
   /// Not available in [dryRun].
+  @override
   CCompilerConfig get cCompiler {
     _ensureNotDryRun();
     return _cCompiler;
@@ -127,12 +136,14 @@ class BuildConfig extends PipelineConfig {
   late final CCompilerConfig _cCompiler;
 
   /// Don't run the build, only report the native assets produced.
+  @override
   bool get dryRun => _dryRun ?? false;
   late final bool? _dryRun;
 
   /// The build mode that the code should be compiled in.
   ///
   /// Not available in [dryRun].
+  @override
   BuildMode get buildMode {
     _ensureNotDryRun();
     return _buildMode;
@@ -143,6 +154,7 @@ class BuildConfig extends PipelineConfig {
   /// The underlying config.
   ///
   /// Can be used for easier access to values on [dependencyMetadata].
+  @override
   Config get config => _config;
   late final Config _config;
 
@@ -586,24 +598,29 @@ can _only_ depend on OS.''');
   }
 }
 
-class CCompilerConfig {
+class CCompilerConfig implements api.CCompilerConfig {
   /// Path to a C compiler.
+  @override
   Uri? get cc => _cc;
   late final Uri? _cc;
 
   /// Path to a native linker.
+  @override
   Uri? get ld => _ld;
   late final Uri? _ld;
 
   /// Path to a native archiver.
+  @override
   Uri? get ar => _ar;
   late final Uri? _ar;
 
   /// Path to script that sets environment variables for [cc], [ld], and [ar].
+  @override
   Uri? get envScript => _envScript;
   late final Uri? _envScript;
 
   /// Arguments for [envScript].
+  @override
   List<String>? get envScriptArgs => _envScriptArgs;
   late final List<String>? _envScriptArgs;
 

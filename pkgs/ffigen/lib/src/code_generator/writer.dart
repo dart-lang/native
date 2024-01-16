@@ -23,6 +23,9 @@ class Writer {
   /// Holds bindings which don't lookup symbols.
   final List<Binding> noLookUpBindings;
 
+  /// The default asset id to use for [ffiNativeBindings].
+  final String? nativeAssetId;
+
   /// Manages the `_SymbolAddress` class.
   final symbolAddressWriter = SymbolAddressWriter();
 
@@ -56,6 +59,13 @@ class Writer {
     _usedImports.add(import);
     return _ffiPkgLibraryPrefix = import.prefix;
   }
+
+  late String selfImportPrefix = () {
+    final import = _usedImports
+        .firstWhere((element) => element.name == self.name, orElse: () => self);
+    _usedImports.add(import);
+    return import.prefix;
+  }();
 
   final Set<LibraryImport> _usedImports = {};
 
@@ -92,6 +102,7 @@ class Writer {
     required this.ffiNativeBindings,
     required this.noLookUpBindings,
     required String className,
+    required this.nativeAssetId,
     Set<LibraryImport>? additionalImports,
     this.classDocComment,
     this.header,
@@ -217,6 +228,17 @@ class Writer {
       result.write(makeDoc('ignore_for_file: type=lint'));
     }
 
+    // If there are any @Native bindings, the file needs to have an
+    // `@DefaultAsset` annotation for the symbols to resolve properly. This
+    // avoids duplicating the asset on every element.
+    // Since the annotation goes on a `library;` directive, it needs to appear
+    // before other definitions in the file.
+    if (ffiNativeBindings.isNotEmpty && nativeAssetId != null) {
+      result
+        ..writeln("@$ffiLibraryPrefix.DefaultAsset('$nativeAssetId')")
+        ..writeln('library;\n');
+    }
+
     /// Write [lookUpBindings].
     if (lookUpBindings.isNotEmpty) {
       // Write doc comment for wrapper class.
@@ -250,8 +272,14 @@ class Writer {
       s.write('}\n\n');
     }
 
-    for (final b in ffiNativeBindings) {
-      s.write(b.toBindingString(this).string);
+    if (ffiNativeBindings.isNotEmpty) {
+      for (final b in ffiNativeBindings) {
+        s.write(b.toBindingString(this).string);
+      }
+
+      if (symbolAddressWriter.shouldGenerate) {
+        s.write(symbolAddressWriter.writeObject(this));
+      }
     }
 
     if (symbolAddressWriter.shouldGenerate) {
@@ -329,29 +357,61 @@ class SymbolAddressWriter {
   /// Used to check if we need to generate `_SymbolAddress` class.
   bool get shouldGenerate => _addresses.isNotEmpty;
 
+  bool get hasNonNativeAddress => _addresses.any((e) => !e.native);
+
   void addSymbol({
     required String type,
     required String name,
     required String ptrName,
   }) {
-    _addresses.add(_SymbolAddressUnit(type, name, ptrName));
+    _addresses.add(_SymbolAddressUnit(type, name, ptrName, false));
+  }
+
+  void addNativeSymbol({required String type, required String name}) {
+    _addresses.add(_SymbolAddressUnit(type, name, '', true));
   }
 
   String writeObject(Writer w) {
-    return 'late final ${w._symbolAddressVariableName} = ${w._symbolAddressClassName}(this);';
+    final className = w._symbolAddressClassName;
+    final fieldName = w._symbolAddressVariableName;
+
+    if (hasNonNativeAddress) {
+      return 'late final $fieldName = $className(this);';
+    } else {
+      return 'const $fieldName = $className();';
+    }
   }
 
   String writeClass(Writer w) {
     final sb = StringBuffer();
     sb.write('class ${w._symbolAddressClassName} {\n');
-    // Write Library object.
-    sb.write('final ${w._className} ${w._symbolAddressLibraryVarName};\n');
-    // Write Constructor.
-    sb.write(
-        '${w._symbolAddressClassName}(this.${w._symbolAddressLibraryVarName});\n');
-    for (final address in _addresses) {
+
+    if (hasNonNativeAddress) {
+      // Write Library object.
+      sb.write('final ${w._className} ${w._symbolAddressLibraryVarName};\n');
+      // Write Constructor.
       sb.write(
-          '${address.type} get ${address.name} => ${w._symbolAddressLibraryVarName}.${address.ptrName};\n');
+          '${w._symbolAddressClassName}(this.${w._symbolAddressLibraryVarName});\n');
+    } else {
+      // Native bindings are top-level, so we don't need a field here.
+      sb.write('const ${w._symbolAddressClassName}();');
+    }
+
+    for (final address in _addresses) {
+      sb.write('${address.type} get ${address.name} => ');
+
+      if (address.native) {
+        // For native fields and functions, we can use Native.addressOf to look
+        // up their address.
+        // The name of address getter shadows the actual element in the library,
+        // so we need to use a self-import.
+        final arg = '${w.selfImportPrefix}.${address.name}';
+        sb.writeln('${w.ffiLibraryPrefix}.Native.addressOf($arg);');
+      } else {
+        // For other elements, the generator will write a private field of type
+        // Pointer which we can reference here.
+        sb.writeln('${w._symbolAddressLibraryVarName}.${address.ptrName};');
+      }
     }
     sb.write('}\n');
     return sb.toString();
@@ -362,5 +422,8 @@ class SymbolAddressWriter {
 class _SymbolAddressUnit {
   final String type, name, ptrName;
 
-  _SymbolAddressUnit(this.type, this.name, this.ptrName);
+  /// Whether the symbol we're looking up has been declared with `@Native`.
+  final bool native;
+
+  _SymbolAddressUnit(this.type, this.name, this.ptrName, this.native);
 }

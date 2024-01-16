@@ -4,7 +4,13 @@
 
 import 'dart:io';
 
-Future<Map<String, String>> envFromBat(
+/// Extracts the environment variables set by [batchFile].
+///
+/// If provided, passes [arguments] to the batch file invocation.
+///
+/// Note: needs to run [batchFile] to extract the modifications to the
+/// environment variables.
+Future<Map<String, String>> environmentFromBatchFile(
   Uri batchFile, {
   List<String> arguments = const [],
 }) async {
@@ -20,8 +26,8 @@ Future<Map<String, String>> envFromBat(
   assert(processResult.exitCode == 0);
   final resultSplit = (processResult.stdout as String).split(separator);
   assert(resultSplit.length == 2);
-  final unmodifiedParsed = parseDefines(resultSplit.first.trim());
-  final modifiedParsed = parseDefines(resultSplit[1].trim());
+  final unmodifiedParsed = _parseDefines(resultSplit.first.trim());
+  final modifiedParsed = _parseDefines(resultSplit[1].trim());
   final result = <String, String>{};
   for (final entry in modifiedParsed.entries) {
     final key = entry.key;
@@ -33,8 +39,12 @@ Future<Map<String, String>> envFromBat(
   return result;
 }
 
-// Ensures it doesn't return empty keys.
-Map<String, String> parseDefines(String defines) {
+/// Parses a string of defines.
+///
+/// Expected format is separate lines of `KEY=value`.
+///
+/// Ensures it doesn't return empty keys.
+Map<String, String> _parseDefines(String defines) {
   final result = <String, String>{};
   final lines = defines.trim().split('\r\n');
   for (final line in lines) {

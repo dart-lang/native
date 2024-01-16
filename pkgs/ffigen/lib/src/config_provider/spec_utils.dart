@@ -305,10 +305,27 @@ Headers headersExtractor(
   );
 }
 
+String? _findLibInConda() {
+  final condaEnvPath = Platform.environment['CONDA_PREFIX'] ?? '';
+  if (condaEnvPath.isNotEmpty) {
+    final locations = [
+      p.join(condaEnvPath, 'lib'),
+      p.join(p.dirname(p.dirname(condaEnvPath)), 'lib'),
+    ];
+    for (final l in locations) {
+      final k = findLibclangDylib(l);
+      if (k != null) return k;
+    }
+  }
+  return null;
+}
+
 /// Returns location of dynamic library by searching default locations. Logs
 /// error and throws an Exception if not found.
 String findDylibAtDefaultLocations() {
-  String? k;
+  // Assume clang in conda has a higher priority.
+  var k = _findLibInConda();
+  if (k != null) return k;
   if (Platform.isLinux) {
     for (final l in strings.linuxDylibLocations) {
       k = findLibclangDylib(l);
