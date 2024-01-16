@@ -7,7 +7,7 @@ import 'package:yaml/yaml.dart';
 
 import '../api/asset.dart' as api;
 import '../utils/yaml.dart';
-import 'build_type.dart';
+import 'pipeline_step.dart';
 import 'link_mode.dart';
 import 'target.dart';
 

@@ -14,11 +14,11 @@ import '../api/build_config.dart' as api;
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'build_mode.dart';
-import 'build_type.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'metadata.dart';
 import 'pipeline_config.dart';
+import 'pipeline_step.dart';
 import 'target.dart';
 
 class BuildConfig extends PipelineConfig implements api.BuildConfig {

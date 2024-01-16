@@ -25,7 +25,7 @@ void main(List<String> args) async {
   );
 
   final linkOutput = BuildOutput(assets: shakenAssets);
-  await linkOutput.writeToFile(output: linkInput.output);
+  await linkOutput.writeToFile(outFile: linkInput.outDir);
 }
 
 class MyResourceShaker {

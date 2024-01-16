@@ -1,24 +1,27 @@
 import 'dart:io';
 
-import 'package:args/args.dart';
 import 'package:cli_config/cli_config.dart';
 import 'package:yaml/yaml.dart';
 
+import '../api/link_config.dart' as api;
+import '../api/resources.dart';
 import 'asset.dart';
 import 'build_config.dart';
-import 'build_output.dart';
-import 'build_type.dart';
-import 'pipeline_config.dart';
-import 'resources.dart';
+import 'pipeline_step.dart';
 
 /// The input to the linking script.
 ///
 /// It consists of the [buildConfig] already passed to the build script, the
 /// result of the build step [assets], and the [resourceIdentifiers]
 /// generated during the kernel compilation.
-class LinkConfig extends PipelineConfig {
+class LinkConfig extends api.LinkConfig {
+  @override
   final List<Asset> assets;
+
+  @override
   final BuildConfig buildConfig;
+
+  @override
   final ResourceIdentifiers? resourceIdentifiers;
 
   final LinkConfigArgs _args;
@@ -29,18 +32,6 @@ class LinkConfig extends PipelineConfig {
     required this.buildConfig,
     required this.resourceIdentifiers,
   });
-
-  /// Generate the [LinkConfig] from the input arguments to the linking script.
-  static Future<LinkConfig> fromArgs(List<String> args) async {
-    final argParser = ArgParser()..addOption('link_config');
-
-    final results = argParser.parse(args);
-    final yaml =
-        loadYaml(File(results['link_config'] as String).readAsStringSync())
-            as YamlMap;
-
-    return LinkConfigArgs.fromYaml(yaml).fromArgs();
-  }
 
   @override
   Uri get configFile => outDir.resolve('../link_config.yaml');
