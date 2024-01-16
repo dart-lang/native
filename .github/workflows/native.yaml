@@ -63,6 +63,8 @@ jobs:
           ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
 
+      - run: dart run ../../tools/check_pubspec_overrides.dart
+
       - run: dart run ../../tools/delete_pubspec_overrides.dart
         if: ${{ matrix.dependencies == 'published' }}
 
