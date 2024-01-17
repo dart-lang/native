@@ -3,6 +3,7 @@
 - Add support for `runPackageName` to avoid native assets for packages that
   the root package depends on but the package being run doesn't.
 - Bump `package:native_assets_cli` to 0.4.1.
+- Moved test projects from `test/data/` to `test_data/`.
 
 ## 0.3.0
 

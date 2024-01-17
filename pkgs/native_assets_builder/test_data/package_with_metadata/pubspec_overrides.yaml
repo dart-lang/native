@@ -1,3 +1,3 @@
 dependency_overrides:
   native_assets_cli:
-    path: ../../../../native_assets_cli/
+    path: ../../../native_assets_cli/
