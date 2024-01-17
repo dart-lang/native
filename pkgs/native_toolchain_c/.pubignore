@@ -1,4 +1,4 @@
-# KEEP IN SYNC WITH .pubignore
+# KEEP IN SYNC WITH .gitignore
 
 # https://dart.dev/guides/libraries/private-files
 # Created by `dart pub`
@@ -9,3 +9,6 @@
 pubspec.lock
 
 coverage/
+
+# Additional pub ignores
+test_data/
