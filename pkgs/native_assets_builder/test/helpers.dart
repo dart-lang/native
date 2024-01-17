@@ -153,7 +153,7 @@ Future<void> copyTestProjects({
     final targetFileUri = targetUri.resolveUri(pathToModify);
     final sourceString = await sourceFile.readAsString();
     final modifiedString = sourceString.replaceAll(
-      'path: ../../../',
+      'path: ../../',
       'path: ${pkgNativeAssetsBuilderUri.toFilePath().replaceAll('\\', '/')}',
     );
     await File.fromUri(targetFileUri)
