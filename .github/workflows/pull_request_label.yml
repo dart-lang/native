@@ -16,7 +16,13 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9
+      - name: Label PR
+        uses: actions/labeler@8558fd74291d67161a8a78ce36a881fa63b766a9
+        id: labelstep
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           sync-labels: true
+      
+      - name: Fail if no label was added
+        if: steps.labelstep.outputs.new-labels == '[]' && !contains(steps.labelstep.outputs.all-labels, 'skip-labeling-check')
+        run: exit 1
