@@ -31,13 +31,14 @@ void main() async {
           capturedLogs: logMessages,
           copyAssets: false,
         );
+        expect(buildResult.assets.length, 4);
+
         final linkResult = await link(
           packageUri,
           logger,
           dartExecutable,
           capturedLogs: logMessages,
         );
-        expect(buildResult.assets.length, 4);
         expect(linkResult.assets.length, 2);
       }
     });
