@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Reintroduce `AssetRelativePath`, it's used in `dart build`.
+
 ## 0.3.1
 
 - Add support for `runPackageName` to avoid native assets for packages that
