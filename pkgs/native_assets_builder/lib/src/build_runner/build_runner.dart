@@ -108,7 +108,7 @@ class NativeAssetsBuildRunner {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild =
         await packageLayout.packagesWithNativeAssets(step);
-    final (packages, dependencyGraph, planSuccess) = await _plannedPackages(
+    final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     if (!planSuccess) {
       return BuildResult._(
@@ -121,10 +121,9 @@ class NativeAssetsBuildRunner {
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
     var success = true;
-    final buildParentDirectory = packageLayout.dartToolNativeAssetsBuilder;
-    for (final package in packages) {
+    for (final package in buildPlan) {
       final dependencyMetadata = _metadataForPackage(
-        packageGraph: dependencyGraph,
+        packageGraph: packageGraph,
         packageName: package.name,
         targetMetadata: metadata,
       );
@@ -134,7 +133,7 @@ class NativeAssetsBuildRunner {
         target: target,
         buildMode: buildMode,
         linkMode: linkModePreference,
-        buildParentDir: buildParentDirectory,
+        buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
         dependencyMetadata: dependencyMetadata,
         cCompilerConfig: cCompilerConfig,
         targetIOSSdk: targetIOSSdk,
@@ -188,7 +187,7 @@ class NativeAssetsBuildRunner {
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild = await packageLayout.packagesWithNativeBuild;
-    final (packages, _, planSuccess) = await _plannedPackages(
+    final (buildPlan, _, planSuccess) = await _plannedPackages(
       packagesWithBuild,
       packageLayout,
       runPackageName,
@@ -198,7 +197,7 @@ class NativeAssetsBuildRunner {
     }
     final assets = <Asset>[];
     var success = true;
-    for (final package in packages) {
+    for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
@@ -236,12 +235,11 @@ class NativeAssetsBuildRunner {
     final buildOutput = await BuildOutput.readFromFile(
       outputUri: config.output,
     );
-    final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
-        DateTime.fromMillisecondsSinceEpoch(0);
+    final lastBuilt = buildOutput?.timestamp.roundDownToSeconds();
     final dependencies = buildOutput?.dependencies;
-    final lastChange = await dependencies?.lastModified() ?? DateTime.now();
+    final lastChange = await dependencies?.lastModified();
 
-    if (lastBuilt.isAfter(lastChange)) {
+    if (lastBuilt?.isAfter(lastChange ?? DateTime.now()) ?? false) {
       logger.info('Skipping build for ${config.packageName} in $outDir. '
           'Last build on $lastBuilt, last input change on $lastChange.');
       // All build flags go into [outDir]. Therefore we do not have to check
@@ -315,7 +313,7 @@ ${result.stdout}
 
     try {
       final buildOutput =
-          await BuildOutput.readFromFile(outputUri: config.outDir);
+          await BuildOutput.readFromFile(outputUri: config.output);
       final assets = buildOutput?.assets ?? [];
       success &= validateAssetsPackage(assets, config.packageName);
       return (buildOutput ?? BuildOutput(), success);
@@ -452,7 +450,7 @@ build_output.yaml contained a format error.
     PackageLayout packageLayout,
     String? runPackageName,
   ) async {
-    if (packagesWithNativeAssets.length <= 1 && runPackageName != null) {
+    if (packagesWithNativeAssets.length <= 1 && runPackageName == null) {
       final dependencyGraph = PackageGraph({
         for (final p in packagesWithNativeAssets) p.name: [],
       });

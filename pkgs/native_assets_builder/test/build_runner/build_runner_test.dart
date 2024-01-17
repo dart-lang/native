@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_builder/native_assets_builder.dart';
+import 'package:test/expect.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -27,12 +28,16 @@ void main() async {
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = await build(packageUri, logger, dartExecutable,
-            capturedLogs: logMessages);
+        final result = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+        );
         expect(
-            logMessages.join('\n'),
-            stringContainsInOrder(
-                ['native_add${Platform.pathSeparator}build.dart']));
+          logMessages.join('\n'),
+          contains('native_add${Platform.pathSeparator}build.dart'),
+        );
         expect(result.assets.length, 1);
       }
 
