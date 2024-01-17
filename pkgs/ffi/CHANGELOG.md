@@ -1,3 +1,7 @@
+## 2.1.2
+
+- Update repository to point to dart-lang/native.
+
 ## 2.1.1
 
 - Require Dart 3.3.0 or greater.

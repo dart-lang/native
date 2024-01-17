@@ -1,4 +1,5 @@
-[![Build Status](https://github.com/dart-lang/ffi/workflows/Dart%20CI/badge.svg)](https://github.com/dart-lang/ffi/actions?query=workflow%3A"Dart+CI")
+[![Build Status](https://github.com/dart-lang/native/actions/workflows/ffi.yaml/badge.svg)](https://github.com/dart-lang/native/actions/workflows/ffi.yaml)
+[![Coverage Status](https://coveralls.io/repos/github/dart-lang/native/badge.svg?branch=main)](https://coveralls.io/github/dart-lang/native?branch=main)
 [![pub package](https://img.shields.io/pub/v/ffi.svg)](https://pub.dev/packages/ffi)
 [![package publisher](https://img.shields.io/pub/publisher/ffi.svg)](https://pub.dev/packages/ffi/publisher)
 
