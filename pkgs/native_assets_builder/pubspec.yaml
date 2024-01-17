@@ -16,6 +16,14 @@ dependencies:
   yaml_edit: ^2.1.0
 
 dev_dependencies:
+  cli_config: any #workaround https://github.com/dart-lang/pub/issues/3982
   dart_flutter_team_lints: ^2.1.1
   file_testing: ^3.0.0
+  native_add: #workaround https://github.com/dart-lang/pub/issues/3982
+    path: test/data/native_add/
+  native_subtract: #workaround https://github.com/dart-lang/pub/issues/3982
+    path: test/data/native_subtract/
+  native_toolchain_c: any #workaround https://github.com/dart-lang/pub/issues/3982
+  package_with_metadata: #workaround https://github.com/dart-lang/pub/issues/3982
+    path: test/data/package_with_metadata/
   test: ^1.24.3
