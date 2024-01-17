@@ -70,22 +70,22 @@ jobs:
 
       - run: dart pub get
 
-      - run: dart pub get -C test/data/dart_app/
+      - run: dart pub get -C test_data/dart_app/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C test/data/native_add/
+      - run: dart pub get -C test_data/native_add/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C test/data/native_add_add_source/
+      - run: dart pub get -C test_data/native_add_add_source/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C test/data/native_subtract/
+      - run: dart pub get -C test_data/native_subtract/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C test/data/package_reading_metadata/
+      - run: dart pub get -C test_data/package_reading_metadata/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C test/data/package_with_metadata/
+      - run: dart pub get -C test_data/package_with_metadata/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
       - run: dart pub get -C example/native_add_app/
