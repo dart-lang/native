@@ -1,4 +1,4 @@
-## 0.3.1-wip
+## 0.3.1
 
 - Add support for `runPackageName` to avoid native assets for packages that
   the root package depends on but the package being run doesn't.
