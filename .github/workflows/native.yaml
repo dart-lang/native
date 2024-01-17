@@ -107,7 +107,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
 
-      - run: dart test
+      - run: dart --enable-experiment=native-assets test
         if: ${{ matrix.sdk == 'stable' }}
 
       - run: dart --enable-experiment=native-assets test
