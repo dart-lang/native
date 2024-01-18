@@ -89,7 +89,6 @@ void main() async {
         true);
     expect(config1.cCompiler != config2.cCompiler, true);
     expect(config1.linkModePreference, config2.linkModePreference);
-    expect(config1.dependencyMetadata, config2.dependencyMetadata);
   });
 
   test('BuildConfig fromConfig', () {
@@ -154,14 +153,14 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      dependencyMetadata: {
-        'bar': const Metadata({
+      dependencyMetadata2: {
+        'bar': {
           'key': 'value',
           'foo': ['asdf', 'fdsa'],
-        }),
-        'foo': const Metadata({
+        },
+        'foo': {
           'key': 321,
-        }),
+        },
       },
     );
 
@@ -174,13 +173,13 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      dependencyMetadata: {
-        'bar': const Metadata({
+      dependencyMetadata2: {
+        'bar': {
           'key': 'value',
-        }),
-        'foo': const Metadata({
+        },
+        'foo': {
           'key': 123,
-        }),
+        },
       },
     );
 

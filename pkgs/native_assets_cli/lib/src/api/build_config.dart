@@ -11,6 +11,7 @@ import '../model/build_config.dart' as model;
 import '../model/build_mode.dart' as model;
 import '../model/ios_sdk.dart' as model;
 import '../model/link_mode_preference.dart' as model;
+import '../model/metadata.dart' as model;
 import '../model/target.dart' as model;
 import 'build_mode.dart';
 import 'ios_sdk.dart';
@@ -18,6 +19,10 @@ import 'link_mode_preference.dart';
 import 'metadata.dart';
 import 'target.dart';
 
+/// The configuration for a `build.dart` invocation.
+///
+/// The Flutter and Dart SDK invoke `build.dart` with commandline arguments
+/// that can be parsed by this class.
 abstract class BuildConfig {
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
@@ -74,7 +79,15 @@ abstract class BuildConfig {
   /// The key in the nested map is the key for the metadata from the dependency.
   ///
   /// Not available in [dryRun].
+  @Deprecated('Use getMetadata.')
   Map<String, Metadata>? get dependencyMetadata;
+
+  /// Get the metadata from a direct dependency.
+  ///
+  /// The [packageName] of is the package name of the direct dependency.
+  ///
+  /// Not available in [dryRun].
+  T? getMetadata<T>(String packageName, String key);
 
   /// The configuration for invoking the C compiler.
   ///
@@ -90,8 +103,6 @@ abstract class BuildConfig {
   BuildMode get buildMode;
 
   /// The underlying config.
-  ///
-  /// Can be used for easier access to values on [dependencyMetadata].
   Config get config;
 
   /// The version of [BuildConfig].
@@ -115,7 +126,9 @@ abstract class BuildConfig {
     int? targetAndroidNdkApi,
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
+    @Deprecated('Use dependencyMetadata2.')
     Map<String, Metadata>? dependencyMetadata,
+    Map<String, Map<String, Object>>? dependencyMetadata2,
   }) =>
       model.BuildConfig(
         outDir: outDir,
@@ -128,7 +141,12 @@ abstract class BuildConfig {
         targetAndroidNdkApi: targetAndroidNdkApi,
         cCompiler: cCompiler as model.CCompilerConfig?,
         linkModePreference: linkModePreference as model.LinkModePreference,
-        dependencyMetadata: dependencyMetadata?.cast(),
+        dependencyMetadata: dependencyMetadata2 != null
+            ? {
+                for (final entry in dependencyMetadata2.entries)
+                  entry.key: model.Metadata(entry.value.cast())
+              }
+            : dependencyMetadata?.cast(),
       );
 
   factory BuildConfig.dryRun({

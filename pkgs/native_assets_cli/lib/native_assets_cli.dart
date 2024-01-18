@@ -10,6 +10,7 @@ export 'src/api/asset.dart';
 export 'src/api/build_config.dart';
 export 'src/api/build_mode.dart';
 export 'src/api/build_output.dart';
+export 'src/api/build_state.dart';
 export 'src/api/dependencies.dart';
 export 'src/api/ios_sdk.dart';
 export 'src/api/link_mode.dart';

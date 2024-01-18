@@ -8,6 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
+import '../api/asset.dart' as api;
 import '../api/build_output.dart' as api;
 import '../utils/datetime.dart';
 import '../utils/file.dart';
@@ -18,17 +19,21 @@ import 'dependencies.dart';
 import 'metadata.dart';
 
 class BuildOutput implements api.BuildOutput {
-  /// Time the build this output belongs to started.
-  ///
-  /// Rounded down to whole seconds, because [File.lastModified] is rounded
-  /// to whole seconds and caching logic compares these timestamps.
   @override
   final DateTime timestamp;
+
   @override
   final List<Asset> assets;
+
+  @override
+  Iterable<Asset> get assets2 => assets;
+
   @override
   final Dependencies dependencies;
+
   @override
+  Iterable<Uri> get dependencies2 => dependencies.dependencies;
+
   final Metadata metadata;
 
   BuildOutput({
@@ -42,6 +47,10 @@ class BuildOutput implements api.BuildOutput {
         dependencies = dependencies ?? Dependencies([]),
         // ignore: prefer_const_constructors
         metadata = metadata ?? Metadata({});
+
+  @override
+  void addDependencies(Iterable<Uri> dependencies) =>
+      this.dependencies.dependencies.addAll(dependencies);
 
   static const _assetsKey = 'assets';
   static const _dependenciesKey = 'dependencies';
@@ -141,4 +150,17 @@ class BuildOutput implements api.BuildOutput {
         dependencies,
         metadata,
       );
+
+  @override
+  void addMetadata(String key, Object value) {
+    metadata.metadata[key] = value;
+  }
+
+  @override
+  T getMetadata<T>(String key) => metadata.metadata[key] as T;
+
+  @override
+  void addAssets(Iterable<api.Asset> assets) {
+    this.assets.addAll(assets.cast());
+  }
 }

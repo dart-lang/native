@@ -4,6 +4,7 @@
 
 import '../model/dependencies.dart' as model;
 
+@Deprecated('Use the methods on BuildOutput.')
 abstract class Dependencies {
   /// The dependencies a build relied on.
   List<Uri> get dependencies;

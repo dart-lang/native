@@ -4,6 +4,7 @@
 
 import '../model/metadata.dart' as model;
 
+@Deprecated('Use the methods on BuildConfig and BuildOutput.')
 abstract class Metadata {
   Map<String, Object> get metadata;
 

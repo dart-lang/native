@@ -111,6 +111,12 @@ class BuildConfig implements api.BuildConfig {
     return _dependencyMetadata;
   }
 
+  @override
+  T? getMetadata<T>(String packageName, String key) {
+    _ensureNotDryRun();
+    return _dependencyMetadata?[packageName]?.metadata[key] as T?;
+  }
+
   late final Map<String, Metadata>? _dependencyMetadata;
 
   /// The configuration for invoking the C compiler.

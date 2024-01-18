@@ -35,12 +35,12 @@ void main() {
           linkMode: LinkMode.dynamic,
         ),
       ],
-      dependencies: Dependencies([
+      dependencies2: [
         Uri.file('path/to/file.ext'),
-      ]),
-      metadata: const Metadata({
+      ],
+      metadata2: {
         'key': 'value',
-      }),
+      },
     );
   });
 }
