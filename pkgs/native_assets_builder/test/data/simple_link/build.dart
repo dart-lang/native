@@ -2,14 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 const packageName = 'simple_link';
 
 void main(List<String> args) async {
-  print('RUN BUILDING');
   final buildConfig = await BuildConfig.fromArgs(args);
   final buildOutput = BuildOutput(
       assets: List.generate(
@@ -20,7 +17,7 @@ void main(List<String> args) async {
         id: 'package:$packageName/$filename',
         linkMode: LinkMode.dynamic,
         target: buildConfig.target,
-        path: AssetAbsolutePath(Uri.file(File(filename).absolute.path)),
+        path: AssetAbsolutePath(Uri.file(filename)),
       );
     },
   ));

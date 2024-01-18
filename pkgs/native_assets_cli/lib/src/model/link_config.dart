@@ -60,6 +60,10 @@ class LinkConfigArgs {
   final Uri buildConfig;
   final Uri builtAssets;
 
+  static const resourceIdentifierKey = 'resource_identifiers';
+  static const assetsKey = 'assets';
+  static const buildConfigKey = 'build_config';
+
   LinkConfigArgs({
     required this.resourceIdentifiers,
     required this.buildConfig,
@@ -67,25 +71,22 @@ class LinkConfigArgs {
   });
 
   factory LinkConfigArgs.fromYaml(YamlMap yaml) {
-    final resourceUri = yaml['resource_identifiers'] as String? ?? '';
+    final resourceUri = yaml[resourceIdentifierKey] as String?;
     return LinkConfigArgs(
-      resourceIdentifiers: Uri.tryParse(resourceUri),
-      buildConfig: Uri.parse(yaml['build_config'] as String),
-      builtAssets: Uri.parse(yaml['built_assets'] as String),
+      resourceIdentifiers: resourceUri != null ? Uri.parse(resourceUri) : null,
+      buildConfig: Uri.parse(yaml[buildConfigKey] as String),
+      builtAssets: Uri.parse(yaml[assetsKey] as String),
     );
   }
 
   LinkConfig fromArgs() {
-    final assetsYaml =
-        loadYaml(File(builtAssets.path).readAsStringSync()) as YamlMap;
-    final assetYamlList = assetsYaml['native-assets'] as YamlList;
-    final assets = Asset.listFromYamlList(assetYamlList);
+    final assets =
+        Asset.listFromYamlString(File(builtAssets.path).readAsStringSync());
     final config = BuildConfig.fromConfig(
       Config.fromConfigFileContents(
         fileContents: File(buildConfig.path).readAsStringSync(),
       ),
     );
-
     ResourceIdentifiers? resources;
     if (resourceIdentifiers != null) {
       resources = ResourceIdentifiers.fromFile(resourceIdentifiers!.path);
@@ -101,8 +102,8 @@ class LinkConfigArgs {
 
   Map<String, Object> toYaml() => {
         if (resourceIdentifiers != null)
-          'resource_identifiers': resourceIdentifiers!,
-        'assets': builtAssets,
-        'build_config': buildConfig,
+          resourceIdentifierKey: resourceIdentifiers!.toFilePath(),
+        assetsKey: builtAssets.toFilePath(),
+        buildConfigKey: buildConfig.toFilePath(),
       };
 }

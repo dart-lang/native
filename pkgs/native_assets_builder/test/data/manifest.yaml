@@ -36,6 +36,11 @@
 - simple_link/pubspec.yaml
 - simple_link/pubspec_overrides.yaml
 - simple_link/build.dart
+- simple_link/link.dart
+- simple_link/data_0.json
+- simple_link/data_1.json
+- simple_link/data_2.json
+- simple_link/data_3.json
 - package_with_metadata/pubspec_overrides.yaml
 - some_dev_dep/bin/some_dev_dep.dart
 - some_dev_dep/pubspec.yaml

@@ -13,7 +13,7 @@ export 'src/model/build_mode.dart';
 export 'src/model/build_output.dart';
 export 'src/model/dependencies.dart';
 export 'src/model/ios_sdk.dart';
-export 'src/model/link_input.dart';
+export 'src/model/link_config.dart';
 export 'src/model/link_mode.dart';
 export 'src/model/link_mode_preference.dart';
 export 'src/model/metadata.dart';
