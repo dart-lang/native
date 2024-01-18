@@ -8,18 +8,24 @@ const packageName = 'simple_link';
 
 void main(List<String> args) async {
   final buildConfig = await BuildConfig.fromArgs(args);
+
   final buildOutput = BuildOutput(
       assets: List.generate(
     4,
     (index) {
       final filename = 'data_$index.json';
-      return Asset(
-        id: 'package:$packageName/$filename',
-        linkMode: LinkMode.dynamic,
-        target: buildConfig.target,
-        path: AssetAbsolutePath(Uri.file(filename)),
+      return Asset( // Change to DataAsset
+        id: filename,// The BuildState knows the package name.
+        linkMode: LinkMode.dynamic, //remove
+        target: buildConfig.target, //remove
+        path: AssetAbsolutePath(Uri.file(filename)), // change to URI only
       );
     },
   ));
   await buildOutput.writeToFile(output: buildConfig.output);
 }
+
+
+assetBuild(args, (state) => state.add(name, path));
+
+add(String name)=>Asset(id: package + name)
