@@ -11,7 +11,7 @@ void main(List<String> args) async {
   final linkConfig = await LinkConfig.fromArgs(args);
 
   final shakenAssets = MyResourceShaker().shake(
-    linkConfig.assets,
+    linkConfig.buildOutput.assets,
     linkConfig.resourceIdentifiers,
   );
 

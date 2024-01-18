@@ -5,18 +5,18 @@ import 'package:yaml/yaml.dart';
 
 import '../api/link_config.dart' as api;
 import '../api/resources.dart';
-import 'asset.dart';
 import 'build_config.dart';
+import 'build_output.dart';
 import 'pipeline_step.dart';
 
 /// The input to the linking script.
 ///
 /// It consists of the [buildConfig] already passed to the build script, the
-/// result of the build step [assets], and the [resourceIdentifiers]
+/// result of the build step [buildOutput], and the [resourceIdentifiers]
 /// generated during the kernel compilation.
 class LinkConfig extends api.LinkConfig {
   @override
-  final List<Asset> assets;
+  final BuildOutput buildOutput;
 
   @override
   final BuildConfig buildConfig;
@@ -28,7 +28,7 @@ class LinkConfig extends api.LinkConfig {
 
   LinkConfig(
     this._args, {
-    required this.assets,
+    required this.buildOutput,
     required this.buildConfig,
     required this.resourceIdentifiers,
   });
@@ -56,54 +56,50 @@ class LinkConfig extends api.LinkConfig {
 }
 
 class LinkConfigArgs {
-  final Uri? resourceIdentifiers;
-  final Uri buildConfig;
-  final Uri builtAssets;
+  final Uri? resourceIdentifierUri;
+  final Uri buildConfigUri;
 
   static const resourceIdentifierKey = 'resource_identifiers';
-  static const assetsKey = 'assets';
   static const buildConfigKey = 'build_config';
 
   LinkConfigArgs({
-    required this.resourceIdentifiers,
-    required this.buildConfig,
-    required this.builtAssets,
+    required this.resourceIdentifierUri,
+    required this.buildConfigUri,
   });
 
   factory LinkConfigArgs.fromYaml(YamlMap yaml) {
     final resourceUri = yaml[resourceIdentifierKey] as String?;
     return LinkConfigArgs(
-      resourceIdentifiers: resourceUri != null ? Uri.parse(resourceUri) : null,
-      buildConfig: Uri.parse(yaml[buildConfigKey] as String),
-      builtAssets: Uri.parse(yaml[assetsKey] as String),
+      resourceIdentifierUri:
+          resourceUri != null ? Uri.parse(resourceUri) : null,
+      buildConfigUri: Uri.parse(yaml[buildConfigKey] as String),
     );
   }
 
-  LinkConfig fromArgs() {
-    final assets =
-        Asset.listFromYamlString(File(builtAssets.path).readAsStringSync());
+  Future<LinkConfig> fromArgs() async {
     final config = BuildConfig.fromConfig(
       Config.fromConfigFileContents(
-        fileContents: File(buildConfig.path).readAsStringSync(),
+        fileContents: File(buildConfigUri.path).readAsStringSync(),
       ),
     );
     ResourceIdentifiers? resources;
-    if (resourceIdentifiers != null) {
-      resources = ResourceIdentifiers.fromFile(resourceIdentifiers!.path);
+    if (resourceIdentifierUri != null) {
+      resources = ResourceIdentifiers.fromFile(resourceIdentifierUri!.path);
     }
 
+    final readFromFile =
+        await BuildOutput.readFromFile(outputUri: config.output);
     return LinkConfig(
       this,
-      assets: assets,
+      buildOutput: readFromFile!,
       buildConfig: config,
       resourceIdentifiers: resources,
     );
   }
 
   Map<String, Object> toYaml() => {
-        if (resourceIdentifiers != null)
-          resourceIdentifierKey: resourceIdentifiers!.toFilePath(),
-        assetsKey: builtAssets.toFilePath(),
-        buildConfigKey: buildConfig.toFilePath(),
+        if (resourceIdentifierUri != null)
+          resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
+        buildConfigKey: buildConfigUri.toFilePath(),
       };
 }

@@ -70,7 +70,6 @@ class NativeAssetsBuildRunner {
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
-    Uri? nativeAssetsDartUri,
     Uri? resourceIdentifiers,
     String? runPackageName,
   }) async =>
@@ -87,7 +86,6 @@ class NativeAssetsBuildRunner {
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         resourceIdentifiers: resourceIdentifiers,
-        nativeAssetsDartUri: nativeAssetsDartUri,
       );
 
   Future<BuildResult> _run({
@@ -101,7 +99,6 @@ class NativeAssetsBuildRunner {
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
-    Uri? nativeAssetsDartUri,
     Uri? resourceIdentifiers,
     String? runPackageName,
   }) async {
@@ -141,10 +138,9 @@ class NativeAssetsBuildRunner {
       );
       final PipelineConfig config;
       if (step == PipelineStep.link) {
-        config = LinkConfigArgs(
-          resourceIdentifiers: resourceIdentifiers,
-          buildConfig: buildConfig.configFile,
-          builtAssets: nativeAssetsDartUri!,
+        config = await LinkConfigArgs(
+          resourceIdentifierUri: resourceIdentifiers,
+          buildConfigUri: buildConfig.configFile,
         ).fromArgs();
       } else {
         config = buildConfig;
@@ -232,9 +228,8 @@ class NativeAssetsBuildRunner {
       await Directory.fromUri(outDir).create(recursive: true);
     }
 
-    final buildOutput = await BuildOutput.readFromFile(
-      outputUri: config.output,
-    );
+    final buildOutput =
+        await BuildOutput.readFromFile(outputUri: config.output);
     final lastBuilt = buildOutput?.timestamp.roundDownToSeconds();
     final dependencies = buildOutput?.dependencies;
     final lastChange = await dependencies?.lastModified();

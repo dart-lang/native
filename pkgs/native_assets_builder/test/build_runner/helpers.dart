@@ -75,8 +75,7 @@ Future<BuildResult> build(
 Future<BuildResult> link(
   Uri packageUri,
   Logger logger,
-  Uri dartExecutable,
-  Uri nativeAssetsUri, {
+  Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompilerConfig,
   bool includeParentEnvironment = true,
@@ -98,8 +97,8 @@ Future<BuildResult> link(
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,
-    nativeAssetsDartUri: nativeAssetsUri,
   );
+
   capturedLogs?.add('ASSETS: ${result.assets}');
   if (result.success) {
     await expectAssetsExist(result.assets);

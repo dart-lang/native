@@ -6,11 +6,9 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
 
+import '../../native_assets_cli.dart';
 import '../model/link_config.dart';
 import '../model/pipeline_config.dart';
-import 'asset.dart';
-import 'build_config.dart';
-import 'resources.dart';
 
 abstract class LinkConfig extends PipelineConfig {
   /// Generate the [LinkConfig] from the input arguments to the linking script.
@@ -45,7 +43,7 @@ abstract class LinkConfig extends PipelineConfig {
   @override
   Uri get script;
 
-  List<Asset> get assets;
+  BuildOutput get buildOutput;
   BuildConfig get buildConfig;
   ResourceIdentifiers? get resourceIdentifiers;
 }
