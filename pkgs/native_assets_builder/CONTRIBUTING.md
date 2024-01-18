@@ -27,13 +27,20 @@ The above means the following.
 So, any breaking change must be done in the following way:
 
 1. Introduce a new API.
-2. Release a published version.
+2. Release a new version to pub (minor version).
 3. Roll that version into Dart SDK, and migrate uses in the Dart SDK.
 4. Wait for that Dart version to roll into g3.
 5. Update the dependencies to Flutter Tools, and migrate uses.
 6. Get the Flutter PR reviewed.
 7. Wait for the Flutter PR to roll into g3.
 8. Only then, remove the old API.
+9. Release a new version to pub (major version, old API removed).
+10. Roll both in to Dart/Flutter.
+
+The roll status can be seen on internal corp links only:
+
+* Dart roll to g3: https://dart-in-g3-qa-prod.corp.google.com/dg3/Home#/cbuild
+* Flutter roll to g3: https://frob.corp.google.com/
 
 [`package:dartdev`]: https://github.com/dart-lang/sdk/tree/main/pkg/dartdev
 [`package:flutter_tools`]: https://github.com/flutter/flutter/tree/master/packages/flutter_tools
