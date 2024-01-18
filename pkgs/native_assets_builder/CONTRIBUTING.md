@@ -13,7 +13,7 @@ Both Dartdev and Flutter Tools are built in open source, and inside g3.
 
 The versions used in these different places are as follows:
 
-* The Dart SDK uses pinned dependencies in [DEPS], the current has is in `native_rev`.
+* The Dart SDK uses pinned dependencies in [DEPS], the current hash is in `native_rev`.
 * The Flutter build on GitHub ussed published dependencies in [its `pubspec.yaml`].
 * The g3 build uses the pinned dependencies that are rolled in from the Dart SDK. **Both for Dartdev _and_ Flutter Tools**.
 
