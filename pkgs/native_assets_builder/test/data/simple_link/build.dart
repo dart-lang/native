@@ -14,8 +14,9 @@ void main(List<String> args) async {
     4,
     (index) {
       final filename = 'data_$index.json';
-      return Asset( // Change to DataAsset
-        id: filename,// The BuildState knows the package name.
+      return Asset(
+        // Change to DataAsset
+        id: 'package:$packageName/filename', // The BuildState knows the package name.
         linkMode: LinkMode.dynamic, //remove
         target: buildConfig.target, //remove
         path: AssetAbsolutePath(Uri.file(filename)), // change to URI only
@@ -24,8 +25,3 @@ void main(List<String> args) async {
   ));
   await buildOutput.writeToFile(output: buildConfig.output);
 }
-
-
-assetBuild(args, (state) => state.add(name, path));
-
-add(String name)=>Asset(id: package + name)
