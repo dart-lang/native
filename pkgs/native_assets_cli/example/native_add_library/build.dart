@@ -32,15 +32,17 @@ void main(List<String> args) async {
       ..level = Level.ALL
       ..onRecord.listen((record) => print(record.message)),
   );
-  buildOutput.assets.add(
-    Asset(
-      id: 'package:$packageName/ajsonfile',
-      linkMode: LinkMode.dynamic,
-      target: buildConfig.target,
-      path: AssetAbsolutePath(
-          buildConfig.packageRoot.resolve('data_asset_build.json')),
-    ),
-  );
+  if (!buildConfig.dryRun) {
+    buildOutput.assets.add(
+      Asset(
+        id: 'package:$packageName/ajsonfile',
+        linkMode: LinkMode.dynamic,
+        target: buildConfig.target,
+        path: AssetAbsolutePath(
+            buildConfig.packageRoot.resolve('data_asset_build.json')),
+      ),
+    );
+  }
 
   // Write the output according to the native assets protocol so that Dart or
   // Flutter can find the native assets produced by this script.
