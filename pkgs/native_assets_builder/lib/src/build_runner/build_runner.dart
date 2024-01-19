@@ -108,11 +108,7 @@ class NativeAssetsBuildRunner {
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     if (!planSuccess) {
-      return BuildResult._(
-        assets: [],
-        dependencies: [],
-        success: false,
-      );
+      return BuildResult._failure();
     }
     final assets = <Asset>[];
     final dependencies = <Uri>[];
@@ -189,7 +185,7 @@ class NativeAssetsBuildRunner {
       runPackageName,
     );
     if (!planSuccess) {
-      return BuildResult._(assets: [], dependencies: [], success: false);
+      return BuildResult._failure();
     }
     final assets = <Asset>[];
     var success = true;
@@ -230,16 +226,17 @@ class NativeAssetsBuildRunner {
 
     final buildOutput =
         await BuildOutput.readFromFile(outputUri: config.output);
-    final lastBuilt = buildOutput?.timestamp.roundDownToSeconds();
-    final dependencies = buildOutput?.dependencies;
-    final lastChange = await dependencies?.lastModified();
+    if (buildOutput != null) {
+      final lastBuilt = buildOutput.timestamp.roundDownToSeconds();
+      final lastChange = await buildOutput.dependencies.lastModified();
 
-    if (lastBuilt?.isAfter(lastChange ?? DateTime.now()) ?? false) {
-      logger.info('Skipping build for ${config.packageName} in $outDir. '
-          'Last build on $lastBuilt, last input change on $lastChange.');
-      // All build flags go into [outDir]. Therefore we do not have to check
-      // here whether the config is equal.
-      return (buildOutput!, true);
+      if (lastBuilt.isAfter(lastChange)) {
+        logger.info('Skipping build for ${config.packageName} in $outDir. '
+            'Last build on $lastBuilt, last input change on $lastChange.');
+        // All build flags go into [outDir]. Therefore we do not have to check
+        // here whether the config is equal.
+        return (buildOutput, true);
+      }
     }
 
     return await _buildPackage(
@@ -492,6 +489,8 @@ final class BuildResult {
     required this.assets,
     required this.success,
   }) : dependencies = [];
+
+  BuildResult._failure() : this._(assets: [], dependencies: [], success: false);
 }
 
 extension on DateTime {

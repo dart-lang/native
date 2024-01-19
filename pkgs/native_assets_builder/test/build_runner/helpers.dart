@@ -41,36 +41,28 @@ Future<BuildResult> build(
   PackageLayout? packageLayout,
   bool copyAssets = true,
   String? runPackageName,
-}) async {
-  StreamSubscription<LogRecord>? subscription;
-  if (capturedLogs != null) {
-    subscription =
-        logger.onRecord.listen((event) => capturedLogs.add(event.message));
-  }
+}) async =>
+    await runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).build(
+        buildMode: BuildMode.release,
+        linkModePreference: linkModePreference,
+        target: Target.current,
+        workingDirectory: packageUri,
+        cCompilerConfig: cCompilerConfig,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+      );
 
-  final result = await NativeAssetsBuildRunner(
-    logger: logger,
-    dartExecutable: dartExecutable,
-  ).build(
-    buildMode: BuildMode.release,
-    linkModePreference: linkModePreference,
-    target: Target.current,
-    workingDirectory: packageUri,
-    cCompilerConfig: cCompilerConfig,
-    includeParentEnvironment: includeParentEnvironment,
-    packageLayout: packageLayout,
-    runPackageName: runPackageName,
-  );
-  if (result.success && copyAssets) {
-    await expectAssetsExist(result.assets);
-  }
+      if (result.success && copyAssets) {
+        await expectAssetsExist(result.assets);
+      }
 
-  if (subscription != null) {
-    await subscription.cancel();
-  }
-
-  return result;
-}
+      return result;
+    });
 
 Future<BuildResult> link(
   Uri packageUri,
@@ -81,28 +73,38 @@ Future<BuildResult> link(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
-}) async {
+}) async =>
+    await runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).link(
+        buildMode: BuildMode.release,
+        target: Target.current,
+        workingDirectory: packageUri,
+        cCompilerConfig: cCompilerConfig,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+      );
+
+      if (result.success) {
+        await expectAssetsExist(result.assets);
+      }
+
+      return result;
+    });
+
+Future<BuildResult> runWithLog(
+  List<String>? capturedLogs,
+  Future<BuildResult> Function() f,
+) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
     subscription =
         logger.onRecord.listen((event) => capturedLogs.add(event.message));
   }
-  final result = await NativeAssetsBuildRunner(
-    logger: logger,
-    dartExecutable: dartExecutable,
-  ).link(
-    buildMode: BuildMode.release,
-    target: Target.current,
-    workingDirectory: packageUri,
-    cCompilerConfig: cCompilerConfig,
-    includeParentEnvironment: includeParentEnvironment,
-    packageLayout: packageLayout,
-  );
 
-  capturedLogs?.add('ASSETS: ${result.assets}');
-  if (result.success) {
-    await expectAssetsExist(result.assets);
-  }
+  final result = await f();
 
   if (subscription != null) {
     await subscription.cancel();
