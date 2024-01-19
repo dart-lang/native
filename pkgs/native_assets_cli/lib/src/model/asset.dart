@@ -7,7 +7,6 @@ import 'package:yaml/yaml.dart';
 import '../api/asset.dart' as api;
 import '../utils/yaml.dart';
 import 'link_mode.dart';
-import 'pipeline_step.dart';
 import 'target.dart';
 
 abstract class AssetPath implements api.AssetPath {
@@ -173,7 +172,6 @@ class Asset implements api.Asset {
     String? id,
     Target? target,
     AssetPath? path,
-    PipelineStep? step,
   }) =>
       Asset(
         id: id ?? this.id,

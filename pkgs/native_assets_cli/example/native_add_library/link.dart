@@ -9,7 +9,7 @@ void main(List<String> args) async {
   final linkInput = await LinkConfig.fromArgs(args);
 
   final shakenAssets = MyResourceShaker().shake(
-    linkInput.buildOutput.assets,
+    linkInput.assets,
     linkInput.resourceIdentifiers,
   );
 
@@ -25,7 +25,7 @@ void main(List<String> args) async {
   );
 
   final linkOutput = BuildOutput(assets: shakenAssets);
-  await linkOutput.writeToFile(output: linkInput.outDir);
+  await linkOutput.writeToFile(output: linkInput.output);
 }
 
 class MyResourceShaker {

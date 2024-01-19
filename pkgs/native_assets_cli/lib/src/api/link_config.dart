@@ -43,7 +43,7 @@ abstract class LinkConfig extends PipelineConfig {
   @override
   Uri get script;
 
-  BuildOutput get buildOutput;
+  List<Asset> get assets;
   BuildConfig get buildConfig;
   ResourceIdentifiers? get resourceIdentifiers;
 }

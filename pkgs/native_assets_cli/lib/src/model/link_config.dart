@@ -5,6 +5,7 @@ import 'package:yaml/yaml.dart';
 
 import '../api/link_config.dart' as api;
 import '../api/resources.dart';
+import 'asset.dart';
 import 'build_config.dart';
 import 'build_output.dart';
 import 'pipeline_step.dart';
@@ -16,7 +17,7 @@ import 'pipeline_step.dart';
 /// generated during the kernel compilation.
 class LinkConfig extends api.LinkConfig {
   @override
-  final BuildOutput buildOutput;
+  final List<Asset> assets;
 
   @override
   final BuildConfig buildConfig;
@@ -28,7 +29,7 @@ class LinkConfig extends api.LinkConfig {
 
   LinkConfig(
     this._args, {
-    required this.buildOutput,
+    required this.assets,
     required this.buildConfig,
     required this.resourceIdentifiers,
   });
@@ -97,7 +98,7 @@ class LinkConfigArgs {
         await BuildOutput.readFromFile(outputUri: config.output);
     return LinkConfig(
       this,
-      buildOutput: readFromFile!,
+      assets: readFromFile!.assets,
       buildConfig: config,
       resourceIdentifiers: resources,
     );

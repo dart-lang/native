@@ -24,8 +24,10 @@ class BuildOutput implements api.BuildOutput {
   /// to whole seconds and caching logic compares these timestamps.
   @override
   final DateTime timestamp;
+
   @override
   final List<Asset> assets;
+
   @override
   final Dependencies dependencies;
   @override
@@ -106,7 +108,8 @@ class BuildOutput implements api.BuildOutput {
     if (!await buildOutputFile.exists()) {
       return null;
     }
-    return BuildOutput.fromYamlString(await buildOutputFile.readAsString());
+    final yamlString = await buildOutputFile.readAsString();
+    return BuildOutput.fromYamlString(yamlString);
   }
 
   /// Writes the [toYamlString] to [output].

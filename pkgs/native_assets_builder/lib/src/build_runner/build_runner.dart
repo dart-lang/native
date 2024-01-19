@@ -107,11 +107,10 @@ class NativeAssetsBuildRunner {
         await packageLayout.packagesWithNativeAssets(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
+    final buildResult = BuildResult._failure();
     if (!planSuccess) {
-      return BuildResult._failure();
+      return buildResult;
     }
-    final assets = <Asset>[];
-    final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
     var success = true;
     for (final package in buildPlan) {
@@ -150,16 +149,13 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         resourceIdentifiers,
       );
-      assets.addAll(buildOutput.assets);
-      dependencies.addAll(buildOutput.dependencies.dependencies);
+      buildResult.add(buildOutput);
       success &= packageSuccess;
+
       metadata[config.packageName] = buildOutput.metadata;
     }
-    return BuildResult._(
-      assets: assets,
-      dependencies: dependencies..sort(_uriCompare),
-      success: success,
-    );
+
+    return buildResult.withSuccess(success);
   }
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -184,10 +180,10 @@ class NativeAssetsBuildRunner {
       packageLayout,
       runPackageName,
     );
+    final buildResult = BuildResult._failure();
     if (!planSuccess) {
-      return BuildResult._failure();
+      return buildResult;
     }
-    final assets = <Asset>[];
     var success = true;
     for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
@@ -205,10 +201,10 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         null,
       );
-      assets.addAll(buildOutput.assets);
+      buildResult.add(buildOutput);
       success &= packageSuccess;
     }
-    return BuildResult._dryrun(assets: assets, success: success);
+    return buildResult.withSuccess(success);
   }
 
   Future<_PackageBuildRecord> _buildPackageCached(
@@ -305,10 +301,13 @@ ${result.stdout}
 
     try {
       final buildOutput =
-          await BuildOutput.readFromFile(outputUri: config.output);
-      final assets = buildOutput?.assets ?? [];
-      success &= validateAssetsPackage(assets, config.packageName);
-      return (buildOutput ?? BuildOutput(), success);
+          await BuildOutput.readFromFile(outputUri: config.output) ??
+              BuildOutput();
+      success &= validateAssetsPackage(
+        buildOutput.assets,
+        config.packageName,
+      );
+      return (buildOutput, success);
     } on FormatException catch (e) {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
@@ -426,14 +425,15 @@ build_output.yaml contained a format error.
         .toSet()
         .toList()
       ..sort();
-    final success = invalidAssetIds.isEmpty;
-    if (!success) {
+    if (invalidAssetIds.isNotEmpty) {
       logger.severe(
         '`package:$packageName` declares the following assets which do not '
         'start with `package:$packageName/`: ${invalidAssetIds.join(', ')}.',
       );
+      return false;
+    } else {
+      return true;
     }
-    return success;
   }
 
   Future<(List<Package> plan, PackageGraph dependencyGraph, bool success)>
@@ -485,12 +485,24 @@ final class BuildResult {
     required this.success,
   });
 
-  BuildResult._dryrun({
-    required this.assets,
-    required this.success,
-  }) : dependencies = [];
+  BuildResult._failure()
+      : this._(
+          assets: [],
+          dependencies: [],
+          success: false,
+        );
 
-  BuildResult._failure() : this._(assets: [], dependencies: [], success: false);
+  void add(BuildOutput buildOutput) {
+    assets.addAll(buildOutput.assets);
+    dependencies.addAll(buildOutput.dependencies.dependencies);
+    dependencies.sort(_uriCompare);
+  }
+
+  BuildResult withSuccess(bool success) => BuildResult._(
+        assets: assets,
+        dependencies: dependencies,
+        success: success,
+      );
 }
 
 extension on DateTime {

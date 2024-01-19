@@ -122,30 +122,20 @@ Future<BuildResult> dryRun(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
-}) async {
-  StreamSubscription<LogRecord>? subscription;
-  if (capturedLogs != null) {
-    subscription =
-        logger.onRecord.listen((event) => capturedLogs.add(event.message));
-  }
-
-  final result = await NativeAssetsBuildRunner(
-    logger: logger,
-    dartExecutable: dartExecutable,
-  ).dryBuild(
-    linkModePreference: linkModePreference,
-    targetOs: Target.current.os,
-    workingDirectory: packageUri,
-    includeParentEnvironment: includeParentEnvironment,
-    packageLayout: packageLayout,
-  );
-
-  if (subscription != null) {
-    await subscription.cancel();
-  }
-
-  return result;
-}
+}) async =>
+    runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).dryBuild(
+        linkModePreference: linkModePreference,
+        targetOs: Target.current.os,
+        workingDirectory: packageUri,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+      );
+      return result;
+    });
 
 Future<void> expectAssetsExist(List<Asset> assets) async {
   for (final asset in assets) {

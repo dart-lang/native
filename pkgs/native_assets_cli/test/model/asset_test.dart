@@ -83,8 +83,7 @@ void main() {
   path:
     path_type: absolute
     uri: ${blaUri.toFilePath()}
-  target: windows_x64
-  ''';
+  target: windows_x64''';
 
   test('asset yaml', () {
     final yaml = assets.toYamlString();
