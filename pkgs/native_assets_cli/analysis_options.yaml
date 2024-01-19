@@ -1,8 +1,6 @@
 include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
-  exclude:
-    - example/**
   errors:
     todo: ignore
   language:
