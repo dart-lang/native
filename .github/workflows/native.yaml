@@ -88,6 +88,9 @@ jobs:
       - run: dart pub get -C test_data/package_with_metadata/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/simple_link/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C example/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
