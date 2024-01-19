@@ -13,7 +13,7 @@ import 'pipeline_step.dart';
 /// The input to the linking script.
 ///
 /// It consists of the [buildConfig] already passed to the build script, the
-/// result of the build step [buildOutput], and the [resourceIdentifiers]
+/// [assets] from the build step, and the [resourceIdentifiers]
 /// generated during the kernel compilation.
 class LinkConfig extends api.LinkConfig {
   @override
