@@ -6,7 +6,16 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../utils/yaml.dart';
 
-extension on AssetPath {}
+/// Asset at absolute path [uri].
+class AssetRelativePath implements AssetPath {
+  final Uri uri;
+
+  AssetRelativePath(this.uri);
+
+  // Never used in native_assets_cli, but the interface must be implemented.
+  @override
+  Map<String, Object> toYaml() => throw UnimplementedError();
+}
 
 extension AssetIterable on Iterable<Asset> {
   Iterable<Asset> whereLinkMode(LinkMode linkMode) =>
@@ -43,6 +52,8 @@ List<String> _toDartConst(AssetPath path) {
   switch (path) {
     case AssetAbsolutePath _:
       return ['absolute', path.uri.toFilePath()];
+    case AssetRelativePath _:
+      return ['relative', path.uri.toFilePath()];
     case AssetSystemPath _:
       return ['system', path.uri.toFilePath()];
     case AssetInProcess _:

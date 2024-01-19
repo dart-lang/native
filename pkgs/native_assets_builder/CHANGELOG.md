@@ -1,8 +1,13 @@
-## 0.3.1-wip
+## 0.3.2
+
+- Reintroduce `AssetRelativePath`, it's used in `dart build`.
+
+## 0.3.1
 
 - Add support for `runPackageName` to avoid native assets for packages that
   the root package depends on but the package being run doesn't.
 - Bump `package:native_assets_cli` to 0.4.1.
+- Moved test projects from `test/data/` to `test_data/`.
 
 ## 0.3.0
 
