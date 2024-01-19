@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Add support for `link.dart`.
+
 ## 0.3.2
 
 - Reintroduce `AssetRelativePath`, it's used in `dart build`.

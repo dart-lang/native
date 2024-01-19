@@ -1,3 +1,7 @@
+## 0.5.0
+
+- Add support for `link.dart`.
+
 ## 0.4.1
 
 - **Breaking change** Removed all code not used in `build.dart` scripts out of
