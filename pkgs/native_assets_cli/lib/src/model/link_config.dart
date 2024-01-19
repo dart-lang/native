@@ -77,9 +77,15 @@ class LinkConfigArgs {
   }
 
   Future<LinkConfig> fromArgs() async {
+    final buildConfigFile = File(buildConfigUri.path);
+    if (!buildConfigFile.existsSync()) {
+      throw UnsupportedError(
+          'A link.dart script needs a build.dart to be executed');
+    }
+    final readAsStringSync = buildConfigFile.readAsStringSync();
     final config = BuildConfig.fromConfig(
       Config.fromConfigFileContents(
-        fileContents: File(buildConfigUri.path).readAsStringSync(),
+        fileContents: readAsStringSync,
       ),
     );
     ResourceIdentifiers? resources;
