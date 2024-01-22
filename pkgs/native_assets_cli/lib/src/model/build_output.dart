@@ -158,7 +158,7 @@ class BuildOutput implements api.BuildOutput {
   }
 
   @override
-  T getMetadata<T>(String key) => metadata.metadata[key] as T;
+  Object? metadata2(String key) => metadata.metadata[key];
 
   @override
   void addAssets(Iterable<api.Asset> assets) {

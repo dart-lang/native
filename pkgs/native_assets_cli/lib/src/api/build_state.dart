@@ -12,11 +12,11 @@ final class BuildState {
   /// Example using `package:native_toolchain_c`:
   ///
   /// ```dart
-  /// void main(List<String> args) async =>
-  ///     await BuildState.build(args, (buildState) async {
+  /// void main(List<String> args) =>
+  ///     BuildState.build(args, (buildState) async {
   ///       final cbuilder = CBuilder.library(
   ///         name: packageName,
-  ///         assetId: 'package:$packageName/${packageName}.dart',
+  ///         assetId: 'package:$packageName/$packageName.dart',
   ///         sources: [
   ///           'src/$packageName.c',
   ///         ],
@@ -33,12 +33,14 @@ final class BuildState {
   /// Example outputting assets manually:
   ///
   /// ```dart
-  /// void main(List<String> args) async =>
-  ///     await BuildState.build(args, (buildState) async {
+  /// void main(List<String> args) =>
+  ///     BuildState.build(args, (buildState) async {
   ///       final config = buildState.config;
   ///       if (config.linkModePreference == LinkModePreference.static) {
-  ///         // Simulat that this script only supports dynamic libraries.
-  ///         throw Exception('LinkModePreference.static is not supported.');
+  ///         // Simulate that this script only supports dynamic libraries.
+  ///         throw UnsupportedError(
+  ///           'LinkModePreference.static is not supported.',
+  ///         );
   ///       }
   ///
   ///       final Iterable<Target> targets;
@@ -70,13 +72,13 @@ final class BuildState {
   ///     });
   /// ```
   static Future<void> build(
-    List<String> args,
-    Future<void> Function(BuildState) callback,
+    List<String> commandlineArguments,
+    Future<void> Function(BuildState) builder,
   ) async {
-    final config = await BuildConfig.fromArgs(args);
+    final config = await BuildConfig.fromArgs(commandlineArguments);
     final output = BuildOutput();
     final state = BuildState._(config: config, output: output);
-    await callback(state);
+    await builder(state);
     await output.writeToFile(outDir: config.outDir);
   }
 
@@ -88,18 +90,18 @@ final class BuildState {
     required this.output,
   });
 
-  /// Add assets to build output.
+  /// Adds assets to build output.
   ///
   /// See [BuildOutput.addAssets] for more info.
   void addAssets(Iterable<Asset> assets) => output.addAssets(assets);
 
-  /// Add dependencies to build output.
+  /// Adds dependencies to build output.
   ///
   /// See [BuildOutput.addDependencies] for more info.
   void addDependencies(Iterable<Uri> dependencies) =>
       output.addDependencies(dependencies);
 
-  /// Add metadata to build output.
+  /// Adds metadata to build output.
   ///
   /// See [BuildOutput.addMetadata] for more info.
   void addMetadata(String key, Object value) => output.addMetadata(key, value);

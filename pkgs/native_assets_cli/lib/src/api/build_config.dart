@@ -21,8 +21,10 @@ import 'target.dart';
 
 /// The configuration for a `build.dart` invocation.
 ///
-/// The Flutter and Dart SDK invoke `build.dart` with commandline arguments
-/// that can be parsed by this class.
+/// A package can choose to have a toplevel `build.dart` script. If such a
+/// script exists, it will be automatically run, by the Flutter and Dart SDK
+/// tools. The script will then be run with specific commandline arguments,
+/// which [BuildConfig] can parse and provide more convenient access to.
 abstract class BuildConfig {
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
@@ -39,12 +41,12 @@ abstract class BuildConfig {
 
   /// The target being compiled for.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   Target get target;
 
   /// The architecture being compiled for.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   Architecture get targetArchitecture;
 
   /// The operating system being compiled for.
@@ -54,7 +56,7 @@ abstract class BuildConfig {
   ///
   /// Required when [targetOs] equals [OS.iOS].
   ///
-  /// Not available in [dryRun].s
+  /// Not available during a [dryRun].
   IOSSdk? get targetIOSSdk;
 
   /// When compiling for Android, the minimum Android SDK API version to that
@@ -62,7 +64,7 @@ abstract class BuildConfig {
   ///
   /// Required when [targetOs] equals [OS.android].
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   ///
   /// For more information about the Android API version, refer to
   /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
@@ -78,7 +80,7 @@ abstract class BuildConfig {
   ///
   /// The key in the nested map is the key for the metadata from the dependency.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   @Deprecated('Use getMetadata.')
   Map<String, Metadata>? get dependencyMetadata;
 
@@ -86,20 +88,25 @@ abstract class BuildConfig {
   ///
   /// The [packageName] of is the package name of the direct dependency.
   ///
-  /// Not available in [dryRun].
-  T? getMetadata<T>(String packageName, String key);
+  /// Returns `null` if metadata was not provided.
+  ///
+  /// Not available during a [dryRun].
+  Object? metadata(String packageName, String key);
 
   /// The configuration for invoking the C compiler.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   CCompilerConfig get cCompiler;
 
-  /// Don't run the build, only report the native assets produced.
+  /// Whether the current run is a "dry run".
+  ///
+  /// If so, the build won't actually be run, but will report the native assets
+  /// which would have been produced.
   bool get dryRun;
 
   /// The build mode that the code should be compiled in.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   BuildMode get buildMode;
 
   /// The underlying config.

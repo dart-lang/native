@@ -41,14 +41,14 @@ class BuildConfig implements api.BuildConfig {
 
   /// The target being compiled for.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   @override
   late final Target target =
       Target.fromArchitectureAndOs(targetArchitecture, targetOs);
 
   /// The architecture being compiled for.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   @override
   Architecture get targetArchitecture {
     _ensureNotDryRun();
@@ -66,7 +66,7 @@ class BuildConfig implements api.BuildConfig {
   ///
   /// Required when [targetOs] equals [OS.iOS].
   ///
-  /// Not available in [dryRun].s
+  /// Not available during a [dryRun].
   @override
   IOSSdk? get targetIOSSdk {
     _ensureNotDryRun();
@@ -80,7 +80,7 @@ class BuildConfig implements api.BuildConfig {
   ///
   /// Required when [targetOs] equals [OS.android].
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   ///
   /// For more information about the Android API version, refer to
   /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
@@ -104,7 +104,7 @@ class BuildConfig implements api.BuildConfig {
   ///
   /// The key in the nested map is the key for the metadata from the dependency.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   @override
   Map<String, Metadata>? get dependencyMetadata {
     _ensureNotDryRun();
@@ -112,16 +112,16 @@ class BuildConfig implements api.BuildConfig {
   }
 
   @override
-  T? getMetadata<T>(String packageName, String key) {
+  Object? metadata(String packageName, String key) {
     _ensureNotDryRun();
-    return _dependencyMetadata?[packageName]?.metadata[key] as T?;
+    return _dependencyMetadata?[packageName]?.metadata[key];
   }
 
   late final Map<String, Metadata>? _dependencyMetadata;
 
   /// The configuration for invoking the C compiler.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   @override
   CCompilerConfig get cCompiler {
     _ensureNotDryRun();
@@ -137,7 +137,7 @@ class BuildConfig implements api.BuildConfig {
 
   /// The build mode that the code should be compiled in.
   ///
-  /// Not available in [dryRun].
+  /// Not available during a [dryRun].
   @override
   BuildMode get buildMode {
     _ensureNotDryRun();

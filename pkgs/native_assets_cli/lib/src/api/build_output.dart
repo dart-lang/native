@@ -17,10 +17,12 @@ import 'target.dart';
 
 /// The output of a `build.dart` invocation.
 ///
-/// The Dart and Flutter SDK consume this data.
+/// A package can choose to have a toplevel `build.dart` script. If such a
+/// script exists, it will be automatically run, by the Flutter and Dart SDK
+/// tools. The script is expect to produce a specific output which [BuildOutput]
+/// can produce.
 abstract class BuildOutput {
-  /// The [timestamp] indicates the time the build this output belongs to
-  /// started.
+  // Start time for the build of this output.
   ///
   /// The [timestamp] is rounded down to whole seconds, because
   /// [File.lastModified] is rounded to whole seconds and caching logic compares
@@ -42,7 +44,7 @@ abstract class BuildOutput {
 
   /// The files used by this build.
   ///
-  /// If any of the files in [dependencies2] is modified after [timestamp], the
+  /// If any of the files in [dependencies2] are modified after [timestamp], the
   /// build will be re-run.
   // TODO: Rename to `dependencies` after removing old one.
   Iterable<Uri> get dependencies2;
@@ -52,24 +54,25 @@ abstract class BuildOutput {
 
   /// Metadata can to be passed to `build.dart` invocations of dependent
   /// packages.
-  // TODO(dacoharkes): Then we also need to make the accessors and setters
-  // in BuildConfig methods.
-  T getMetadata<T>(String key);
+  // TODO(dacoharkes): Rename to metadata.
+  Object? metadata2(String key);
 
   /// Create a build output.
   ///
-  /// The [timestamp] indicates the time the build this output belongs to
-  /// started. If omitted, [timestamp] defaults to the time the build started.
-  /// The [timestamp] is rounded down to whole seconds, because
-  /// [File.lastModified] is rounded to whole seconds and caching logic compares
-  /// these timestamps.
+  /// The [timestamp] must be before any any [dependencies2] are read by the
+  /// build this output belongs to. If the [BuildOutput] object is created at
+  /// the beginning of the `build.dart` script, it can be omitted and will
+  /// default to [DateTime.now]. The [timestamp] is rounded down to whole
+  /// seconds, because [File.lastModified] is rounded to whole seconds and
+  /// caching logic compares these timestamps.
   ///
-  /// The [Asset]s produced by this build or dry run can be passed in [assets]
-  /// or [addAssets]. In dry runs, the assets for all [Architecture]s for the
-  /// [OS] specified in the dry run must be provided.
+  /// The [Asset]s produced by this build or dry-run can be provided to the
+  /// constructor as [assets], or can be added later using [addAssets]. In dry
+  /// runs, the assets for all [Architecture]s for the [OS] specified in the dry
+  /// run must be provided.
   ///
   /// The files used by this build must be passed in [dependencies2] or
-  /// [addDependencies]. If any of these files is modified after [timestamp],
+  /// [addDependencies]. If any of these files are modified after [timestamp],
   /// the build will be re-run.
   ///
   /// Metadata can be passed to `build.dart` invocations of dependent packages
@@ -93,19 +96,19 @@ abstract class BuildOutput {
             : metadata as model.Metadata?,
       );
 
-  /// Add [Asset]s produced by this build or dry run.
+  /// Adds [Asset]s produced by this build or dry run.
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
   void addAssets(Iterable<Asset> assets);
 
-  /// Add files used by this build.
+  /// Adds files used by this build.
   ///
-  /// If any of the files is modified after [timestamp], the build will be
+  /// If any of the files are modified after [timestamp], the build will be
   /// re-run.
   void addDependencies(Iterable<Uri> dependencies);
 
-  /// Add metadata to be passed to `build.dart` invocations of dependent
+  /// Adds metadata to be passed to `build.dart` invocations of dependent
   /// packages.
   void addMetadata(String key, Object value);
 
