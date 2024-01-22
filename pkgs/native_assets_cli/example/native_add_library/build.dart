@@ -33,13 +33,13 @@ void main(List<String> args) async {
       ..onRecord.listen((record) => print(record.message)),
   );
   if (!buildConfig.dryRun) {
+    const assetName = 'data_asset_build.json';
     buildOutput.assets.add(
       Asset(
-        id: 'package:$packageName/ajsonfile',
+        id: 'package:$packageName/$assetName',
         linkMode: LinkMode.dynamic,
         target: buildConfig.target,
-        path: AssetAbsolutePath(
-            buildConfig.packageRoot.resolve('data_asset_build.json')),
+        path: AssetAbsolutePath(buildConfig.packageRoot.resolve(assetName)),
       ),
     );
   }

@@ -13,21 +13,23 @@ void main(List<String> args) async {
     linkInput.resourceIdentifiers,
   );
 
+  // Add a new json file to the assets
+  const assetName = 'data_asset_link.json';
   shakenAssets.add(
     Asset(
-      id: 'package:$packageName/a_json_file',
+      id: 'package:$packageName/$assetName',
       linkMode: LinkMode.dynamic,
       target: Target.androidArm,
       path: AssetAbsolutePath(
-        linkInput.buildConfig.packageRoot.resolve('data_asset_link.json'),
+        linkInput.buildConfig.packageRoot.resolve(assetName),
       ),
     ),
   );
 
-  final linkOutput = BuildOutput(assets: shakenAssets);
-  await linkOutput.writeToFile(output: linkInput.output);
+  await BuildOutput(assets: shakenAssets).writeToFile(output: linkInput.output);
 }
 
+/// Filters out json files from the assets.
 class MyResourceShaker {
   List<Asset> shake(
     List<Asset> assets,
