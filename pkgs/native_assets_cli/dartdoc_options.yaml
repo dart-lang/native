@@ -1,0 +1,3 @@
+dartdoc:
+  nodoc:
+    - 'lib/native_assets_cli_internal.dart'
