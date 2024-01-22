@@ -137,11 +137,15 @@ class Asset implements api.Asset {
   @override
   final AssetPath path;
 
+  // Whether this asset should be copied after building.
+  final bool copy;
+
   Asset({
     required this.id,
     required this.linkMode,
     required this.target,
     required this.path,
+    this.copy = true,
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
@@ -149,6 +153,7 @@ class Asset implements api.Asset {
         path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
         target: Target.fromString(as<String>(yamlMap[_targetKey])),
         linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
+        copy: as<bool>(yamlMap[_copyKey]),
       );
 
   static List<Asset> listFromYamlString(String yaml) {
@@ -172,12 +177,14 @@ class Asset implements api.Asset {
     String? id,
     Target? target,
     AssetPath? path,
+    bool? copy,
   }) =>
       Asset(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
+        copy: copy ?? this.copy,
       );
 
   @override
@@ -188,25 +195,26 @@ class Asset implements api.Asset {
     return other.id == id &&
         other.linkMode == linkMode &&
         other.target == target &&
-        other.path == path;
+        other.path == path &&
+        other.copy == copy;
   }
 
   @override
-  int get hashCode => Object.hash(id, linkMode, target, path);
+  int get hashCode => Object.hash(id, linkMode, target, path, copy);
 
   Map<String, Object> toYaml() => {
         _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
+        _copyKey: copy.toString(),
       };
 
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
-
-  // Future<bool> exists() => path.exists();
+  static const _copyKey = 'copy';
 
   @override
   String toString() => 'Asset(${toYaml()})';

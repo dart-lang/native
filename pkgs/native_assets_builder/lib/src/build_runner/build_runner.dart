@@ -105,6 +105,13 @@ class NativeAssetsBuildRunner {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild =
         await packageLayout.packagesWithNativeAssets(step);
+    List<Package> packagesWithLink;
+    if (step == PipelineStep.build) {
+      packagesWithLink =
+          await packageLayout.packagesWithNativeAssets(PipelineStep.link);
+    } else {
+      packagesWithLink = [];
+    }
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     final buildResult = BuildResult._failure();
@@ -149,7 +156,7 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         resourceIdentifiers,
       );
-      buildResult.add(buildOutput);
+      buildResult.add(buildOutput, !packagesWithLink.contains(package));
       success &= packageSuccess;
 
       metadata[config.packageName] = buildOutput.metadata;
@@ -201,7 +208,7 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         null,
       );
-      buildResult.add(buildOutput);
+      buildResult.add(buildOutput, true);
       success &= packageSuccess;
     }
     return buildResult.withSuccess(success);
@@ -492,8 +499,8 @@ final class BuildResult {
           success: false,
         );
 
-  void add(BuildOutput buildOutput) {
-    assets.addAll(buildOutput.assets);
+  void add(BuildOutput buildOutput, bool shouldCopy) {
+    assets.addAll(buildOutput.assets.map((e) => e.copyWith(copy: shouldCopy)));
     dependencies.addAll(buildOutput.dependencies.dependencies);
     dependencies.sort(_uriCompare);
   }
