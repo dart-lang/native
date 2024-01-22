@@ -34,6 +34,7 @@ class BuildOutput implements api.BuildOutput {
   @override
   Iterable<Uri> get dependencies2 => dependencies.dependencies;
 
+  @override
   final Metadata metadata;
 
   BuildOutput({

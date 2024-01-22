@@ -47,6 +47,9 @@ abstract class BuildOutput {
   // TODO: Rename to `dependencies` after removing old one.
   Iterable<Uri> get dependencies2;
 
+  @Deprecated('Use getMetadata')
+  Metadata get metadata;
+
   /// Metadata can to be passed to `build.dart` invocations of dependent
   /// packages.
   // TODO(dacoharkes): Then we also need to make the accessors and setters

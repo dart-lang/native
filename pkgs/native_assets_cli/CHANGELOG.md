@@ -1,3 +1,7 @@
+## 0.4.2-wip
+
+- New API.
+
 ## 0.4.1
 
 - **Breaking change** Removed all code not used in `build.dart` scripts out of
