@@ -1,6 +1,10 @@
-## 0.4.2-wip
+## 0.4.3-wip
 
 - New API.
+
+## 0.4.2
+
+- Fix dartdoc generation. Hide the implementation details.
 
 ## 0.4.1
 
