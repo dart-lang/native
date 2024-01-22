@@ -56,34 +56,40 @@ void main() {
     path_type: absolute
     uri: ${fooUri.toFilePath()}
   target: android_x64
+  copy: true
 - id: foo3
   link_mode: dynamic
   path:
     path_type: system
     uri: ${foo3Uri.toFilePath()}
   target: android_x64
+  copy: true
 - id: foo4
   link_mode: dynamic
   path:
     path_type: executable
   target: android_x64
+  copy: true
 - id: foo5
   link_mode: dynamic
   path:
     path_type: process
   target: android_x64
+  copy: true
 - id: bar
   link_mode: static
   path:
     path_type: absolute
     uri: ${barUri.toFilePath()}
   target: linux_arm64
+  copy: true
 - id: bla
   link_mode: dynamic
   path:
     path_type: absolute
     uri: ${blaUri.toFilePath()}
-  target: windows_x64''';
+  target: windows_x64
+  copy: true''';
 
   test('asset yaml', () {
     final yaml = assets.toYamlString();

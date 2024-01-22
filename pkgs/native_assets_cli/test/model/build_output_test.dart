@@ -50,12 +50,14 @@ assets:
       path_type: absolute
       uri: path/to/libfoo.so
     target: android_x64
+    copy: true
   - id: foo2
     link_mode: dynamic
     path:
       path_type: system
       uri: path/to/libfoo2.so
     target: android_x64
+    copy: true
 dependencies:
   - path/to/file.ext
 metadata:

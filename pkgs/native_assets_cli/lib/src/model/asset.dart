@@ -207,7 +207,7 @@ class Asset implements api.Asset {
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
-        _copyKey: copy.toString(),
+        _copyKey: copy,
       };
 
   static const _idKey = 'id';
