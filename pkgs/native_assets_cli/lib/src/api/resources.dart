@@ -10,9 +10,11 @@ class ResourceIdentifiers {
 
   ResourceIdentifiers({required this.identifiers});
 
+  /// Read resources from a resources.json file
   factory ResourceIdentifiers.fromFile(String path) =>
       ResourceIdentifiers.fromFileContents(File(path).readAsStringSync());
 
+  /// Read resources from the contents of a resources.json file
   factory ResourceIdentifiers.fromFileContents(String fileContents) {
     final fileJson = (jsonDecode(fileContents) as Map)['identifiers'] as List;
     return ResourceIdentifiers(
