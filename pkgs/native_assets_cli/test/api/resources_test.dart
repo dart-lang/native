@@ -11,7 +11,8 @@ void main() {
   "identifiers": []
 }''';
   test('empty resources parsing', () {
-    final resourceIdentifiers = ResourceIdentifiers.fromFile(resourceFile);
+    final resourceIdentifiers =
+        ResourceIdentifiers.fromFileContents(resourceFile);
     expect(resourceIdentifiers.identifiers, isEmpty);
   });
 }

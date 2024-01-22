@@ -3,13 +3,17 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:io';
 
 class ResourceIdentifiers {
   final List<Identifier> identifiers;
 
   ResourceIdentifiers({required this.identifiers});
 
-  factory ResourceIdentifiers.fromFile(String fileContents) {
+  factory ResourceIdentifiers.fromFile(String path) =>
+      ResourceIdentifiers.fromFileContents(File(path).readAsStringSync());
+
+  factory ResourceIdentifiers.fromFileContents(String fileContents) {
     final fileJson = (jsonDecode(fileContents) as Map)['identifiers'] as List;
     return ResourceIdentifiers(
         identifiers: fileJson
