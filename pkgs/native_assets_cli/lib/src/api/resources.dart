@@ -9,12 +9,14 @@ class ResourceIdentifiers {
 
   ResourceIdentifiers({required this.identifiers});
 
-  factory ResourceIdentifiers.fromFile(String fileContents) =>
-      ResourceIdentifiers(
-          identifiers: (jsonDecode(fileContents) as List)
-              .map((e) => e as Map<String, dynamic>)
-              .map(Identifier.fromJson)
-              .toList());
+  factory ResourceIdentifiers.fromFile(String fileContents) {
+    final fileJson = (jsonDecode(fileContents) as Map)['identifiers'] as List;
+    return ResourceIdentifiers(
+        identifiers: fileJson
+            .map((e) => e as Map<String, dynamic>)
+            .map(Identifier.fromJson)
+            .toList());
+  }
 }
 
 class Identifier {
