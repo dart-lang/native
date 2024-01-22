@@ -2,6 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// TODO(https://github.com/dart-lang/native/issues/882): A new version of
+// `package:native_assets_cli` needs to be published first.
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:logging/logging.dart';
