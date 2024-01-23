@@ -196,6 +196,8 @@ abstract class BuildConfig {
         environment: environment,
         workingDirectory: workingDirectory,
       );
+
+  Uri getDylibName(String name);
 }
 
 abstract class CCompilerConfig {

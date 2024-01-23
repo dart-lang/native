@@ -5,6 +5,8 @@
 import 'asset.dart';
 import 'build_config.dart';
 import 'build_output.dart';
+import 'link_mode.dart';
+import 'target.dart';
 
 final class BuildState {
   /// Run a native assets build.
@@ -82,27 +84,51 @@ final class BuildState {
     await output.writeToFile(outDir: config.outDir);
   }
 
-  final BuildConfig config;
-  final BuildOutput output;
+  final BuildConfig _config;
+  final BuildOutput _output;
 
   BuildState._({
-    required this.config,
-    required this.output,
-  });
-
-  /// Adds assets to build output.
-  ///
-  /// See [BuildOutput.addAssets] for more info.
-  void addAssets(Iterable<Asset> assets) => output.addAssets(assets);
+    required BuildConfig config,
+    required BuildOutput output,
+  })  : _output = output,
+        _config = config;
 
   /// Adds dependencies to build output.
   ///
   /// See [BuildOutput.addDependencies] for more info.
   void addDependencies(Iterable<Uri> dependencies) =>
-      output.addDependencies(dependencies);
+      _output.addDependencies(dependencies);
 
   /// Adds metadata to build output.
   ///
   /// See [BuildOutput.addMetadata] for more info.
-  void addMetadata(String key, Object value) => output.addMetadata(key, value);
+  void addMetadata(String key, Object value) => _output.addMetadata(key, value);
+
+  /// Adds asset to build output.
+  ///
+  /// See [BuildOutput.addAssets] for more info.
+  void addAsset({required String id, required AssetPath path}) {
+    if (_config.dryRun) {
+      _output.addAssets([
+        Asset(
+          id: 'package:config.packageName$id',
+          linkMode: LinkMode.dynamic,
+          target: _config.target,
+          path: path,
+        )
+      ]);
+    } else {
+      _output.addAssets(Target.values
+          .where((target) => target.os == _config.targetOs)
+          .map((target) => Asset(
+                id: 'package:config.packageName$id',
+                linkMode: LinkMode.dynamic,
+                target: target,
+                path: path,
+              ))
+          .toList());
+    }
+  }
+
+  Uri getDylibName(String somefile) => _config.getDylibName(somefile);
 }

@@ -592,6 +592,10 @@ architectures, build modes, etc. Therefore, the list of native assets produced
 can _only_ depend on OS.''');
     }
   }
+
+  @override
+  Uri getDylibName(String name) =>
+      outDir.resolve(targetOs.dylibFileName(packageName));
 }
 
 class CCompilerConfig implements api.CCompilerConfig {
