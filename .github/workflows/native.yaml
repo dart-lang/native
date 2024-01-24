@@ -28,6 +28,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
         sdk: [stable, dev]
