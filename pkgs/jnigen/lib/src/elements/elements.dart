@@ -115,6 +115,12 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final String finalName;
 
+  ///This class is renamed to an allowed name in Dart
+  ///
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late final String renamed;
+
   /// Name of the type class.
   ///
   /// Populated by [Renamer].
@@ -490,6 +496,10 @@ class Method extends ClassMember implements Element<Method> {
   @JsonKey(includeFromJson: false)
   late String finalName;
 
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late final String renamed;
+
   @JsonKey(includeFromJson: false)
   late bool isOverridden;
 
@@ -530,6 +540,10 @@ class Param implements Element<Param> {
   @JsonKey(includeFromJson: false)
   late String finalName;
 
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late final String renamed;
+
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
 
   @override
@@ -569,6 +583,10 @@ class Field extends ClassMember implements Element<Field> {
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late final String finalName;
+
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late final String renamed;
 
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
 

@@ -8,6 +8,11 @@ extension StringUtil on String {
     return '${this[0].toUpperCase()}${substring(1)}';
   }
 
+  /// Remove special characters from the beginning fo the variable name
+  String get rename{
+    return RegExp(r'^[a-zA-Z]').hasMatch(this[0]) ? this : substring(1);
+  }
+
   /// Reverses an ASCII string.
   String get reversed => split('').reversed.join();
 }

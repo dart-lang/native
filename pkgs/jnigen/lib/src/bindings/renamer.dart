@@ -5,6 +5,7 @@
 import '../config/config.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
+import '../util/string_util.dart';
 import 'visitor.dart';
 
 const Set<String> _keywords = {
@@ -142,8 +143,8 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
-    this.config,
-  ) : renamed = {...config.importedClasses.values};
+      this.config,
+      ) : renamed = {...config.importedClasses.values};
 
   /// Returns class name as useful in dart.
   ///
@@ -168,6 +169,8 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
     node.finalName = uniquifyName ? node.uniqueName : className;
+
+    node.renamed = node.finalName.rename;
     // TODO(#143): $ at the beginning is a temporary fix for the name collision.
     node.typeClassName = '\$${node.finalName}Type';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');
@@ -215,6 +218,8 @@ class _MethodRenamer implements Visitor<Method, void> {
       node.finalName = _renameConflict(nameCounts, name);
       node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
     }
+
+    node.renamed = node.finalName.rename;
     log.fine('Method ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');
 
@@ -244,6 +249,8 @@ class _FieldRenamer implements Visitor<Field, void> {
       nameCounts,
       node.name,
     );
+
+    node.renamed = node.finalName.rename;
     log.fine('Field ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');
   }
@@ -257,5 +264,7 @@ class _ParamRenamer implements Visitor<Param, void> {
   @override
   void visit(Param node) {
     node.finalName = _keywordRename(node.name);
+
+    node.renamed = node.finalName.rename;
   }
 }
