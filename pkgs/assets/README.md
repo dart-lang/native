@@ -1,0 +1,1 @@
+This is a placeholder for a Dart asset bundle system.
