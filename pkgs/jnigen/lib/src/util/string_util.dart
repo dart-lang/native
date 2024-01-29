@@ -8,7 +8,7 @@ extension StringUtil on String {
     return '${this[0].toUpperCase()}${substring(1)}';
   }
 
-  /// Replace any special characters from the beginning of the variable name into an'_'
+  /// Replace any special characters from the beginning of the variable name into an '_'
   String get rename{
     return RegExp(r'^[a-zA-Z]').hasMatch(this[0]) ? this : replaceRange(0, 1, "_");
   }

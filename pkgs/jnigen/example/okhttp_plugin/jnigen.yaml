@@ -1,0 +1,18 @@
+android_sdk_config:
+  # The add_gradle_deps: true property allow the bindings to compile the Android dependencies and classpath to the jnigen
+  add_gradle_deps: true
+
+output:
+  dart:
+    path: lib/src/okhttp3.dart
+    structure: single_file
+  bindings_type: dart_only
+
+classes:
+  - 'okio'
+  - 'okhttp3.OkHttpClient'
+  - 'okhttp3.Request'
+  - 'okhttp3.Response'
+  - 'okhttp3.ResponseBody'
+  - 'okhttp3.HttpUrl'
+  - 'okhttp3.Call'
