@@ -5,7 +5,8 @@
 /// This library should not be used by `build.dart` scripts.
 ///
 /// Only `package:native_assets_builder` should use this.
-library native_assets_cli;
+/// @nodoc
+library native_assets_cli_internal;
 
 export 'src/model/asset.dart';
 export 'src/model/build_config.dart';

@@ -12,3 +12,6 @@ coverage/
 *.dylib
 *.exe
 *.so
+
+# Dartdoc dir
+doc/
