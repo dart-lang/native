@@ -105,13 +105,7 @@ class NativeAssetsBuildRunner {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild =
         await packageLayout.packagesWithNativeAssets(step);
-    List<Package> packagesWithLink;
-    if (step == PipelineStep.build) {
-      packagesWithLink =
-          await packageLayout.packagesWithNativeAssets(PipelineStep.link);
-    } else {
-      packagesWithLink = [];
-    }
+    final packagesWithLink = await packageLayout.packagesWithLink(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     final buildResult = BuildResult._failure();
