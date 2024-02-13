@@ -33,7 +33,6 @@ jobs:
         os: [ubuntu, macos, windows]
         sdk: [stable, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
-        dependencies: [published, path]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
         exclude:
@@ -42,9 +41,6 @@ jobs:
             sdk: dev
           - os: windows
             sdk: dev
-          # Only run path deps on dev
-          - sdk: stable
-            dependencies: published
 
     runs-on: ${{ matrix.os }}-latest
 
@@ -63,11 +59,6 @@ jobs:
         with:
           ndk-version: r26b
         if: ${{ matrix.sdk == 'stable' }}
-
-      - run: dart run ../../tools/check_pubspec_overrides.dart
-
-      - run: dart run ../../tools/delete_pubspec_overrides.dart
-        if: ${{ matrix.dependencies == 'published' }}
 
       - run: dart pub get
 
@@ -133,11 +124,11 @@ jobs:
 
       - name: Install coverage
         run: dart pub global activate coverage
-        if: ${{ matrix.sdk == 'stable' && matrix.dependencies == 'published' }}
+        if: ${{ matrix.sdk == 'stable' }}
 
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
-        if: ${{ matrix.sdk == 'stable' && matrix.dependencies == 'published' }}
+        if: ${{ matrix.sdk == 'stable' }}
 
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
@@ -145,7 +136,7 @@ jobs:
           flag-name: ${{ matrix.package }}_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-        if: ${{ matrix.sdk == 'stable' && matrix.dependencies == 'published' }}
+        if: ${{ matrix.sdk == 'stable' }}
 
   coverage-finished:
     needs: [build]

@@ -1,3 +1,7 @@
+## 0.4.3-wip
+
+- Bump examples dependencies to path dependencies.
+
 ## 0.4.2
 
 - Fix dartdoc generation. Hide the implementation details.

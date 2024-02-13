@@ -4,7 +4,6 @@
 - lib/src/native_add_bindings_generated.dart
 - lib/src/native_add.dart
 - pubspec.yaml
-- pubspec_overrides.yaml
 - src/native_add.c
 - src/native_add.h
 - test/native_add_test.dart
