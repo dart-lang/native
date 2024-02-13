@@ -1,3 +1,7 @@
+## 0.3.3-wip
+
+- Bump `package:native_assets_cli` to path dependency.
+
 ## 0.3.2
 
 - Reintroduce `AssetRelativePath`, it's used in `dart build`.
