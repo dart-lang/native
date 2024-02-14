@@ -1,6 +1,6 @@
 ## 0.4.3-wip
 
-- Bump examples dependencies to path dependencies.
+- Bump examples dependencies to path dependencies. (2x)
 
 ## 0.4.2
 
