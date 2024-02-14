@@ -1,7 +1,6 @@
-## 0.4.0-wip
+## 0.4.0
 
 - **Breaking change**: Split out the `KernelAsset`s from normal `Asset`s.
-- Bump `package:native_assets_cli` to path dependency.
 
 ## 0.3.2
 
