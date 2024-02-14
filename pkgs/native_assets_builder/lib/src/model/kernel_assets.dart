@@ -21,7 +21,7 @@ import '../utils/yaml.dart';
 class KernelAssets {
   final List<KernelAsset> _assets;
 
-  KernelAssets(Iterable<KernelAsset> assets) : _assets = [...assets];
+  KernelAssets([Iterable<KernelAsset>? assets]) : _assets = [...?assets];
 
   String toNativeAssetsFile() {
     final assetsPerTarget = <Target, List<KernelAsset>>{};
