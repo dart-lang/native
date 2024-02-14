@@ -19,13 +19,13 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import '../utils/yaml.dart';
 
 class KernelAssets {
-  final List<KernelAsset> assets;
+  final List<KernelAsset> _assets;
 
-  KernelAssets(this.assets);
+  KernelAssets(Iterable<KernelAsset> assets) : _assets = [...assets];
 
   String toNativeAssetsFile() {
     final assetsPerTarget = <Target, List<KernelAsset>>{};
-    for (final asset in assets) {
+    for (final asset in _assets) {
       final assets = assetsPerTarget[asset.target] ?? [];
       assets.add(asset);
       assetsPerTarget[asset.target] = assets;

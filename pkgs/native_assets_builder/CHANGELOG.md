@@ -1,3 +1,7 @@
+## 0.5.0
+
+- **Breaking change**: Hide implementation of `KernelAssets`.
+
 ## 0.4.0
 
 - **Breaking change**: Split out the `KernelAsset`s from normal `Asset`s.
