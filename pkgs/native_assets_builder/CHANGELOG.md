@@ -1,3 +1,11 @@
+## 0.5.0
+
+- **Breaking change**: Hide implementation of `KernelAssets`.
+
+## 0.4.0
+
+- **Breaking change**: Split out the `KernelAsset`s from normal `Asset`s.
+
 ## 0.3.2
 
 - Reintroduce `AssetRelativePath`, it's used in `dart build`.

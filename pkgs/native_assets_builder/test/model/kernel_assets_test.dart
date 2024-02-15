@@ -4,9 +4,8 @@
 
 // ignore_for_file: undefined_hidden_name
 
-import 'package:native_assets_builder/src/model/asset.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart'
-    hide AssetIterable, AssetRelativePath;
+import 'package:native_assets_builder/src/model/kernel_assets.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -15,50 +14,43 @@ void main() {
   final foo3Uri = Uri(path: 'libfoo3.so');
   final barUri = Uri(path: 'path/to/libbar.a');
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
-  final assets = [
-    Asset(
+  final assets = KernelAssets([
+    KernelAsset(
       id: 'foo',
-      path: AssetAbsolutePath(fooUri),
+      path: KernelAssetAbsolutePath(fooUri),
       target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
     ),
-    Asset(
+    KernelAsset(
       id: 'foo2',
-      path: AssetRelativePath(foo2Uri),
+      path: KernelAssetRelativePath(foo2Uri),
       target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
     ),
-    Asset(
+    KernelAsset(
       id: 'foo3',
-      path: AssetSystemPath(foo3Uri),
+      path: KernelAssetSystemPath(foo3Uri),
       target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
     ),
-    Asset(
+    KernelAsset(
       id: 'foo4',
-      path: AssetInExecutable(),
+      path: KernelAssetInExecutable(),
       target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
     ),
-    Asset(
+    KernelAsset(
       id: 'foo5',
-      path: AssetInProcess(),
+      path: KernelAssetInProcess(),
       target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
     ),
-    Asset(
+    KernelAsset(
       id: 'bar',
-      path: AssetAbsolutePath(barUri),
+      path: KernelAssetAbsolutePath(barUri),
       target: Target.linuxArm64,
-      linkMode: LinkMode.static,
     ),
-    Asset(
+    KernelAsset(
       id: 'bla',
-      path: AssetAbsolutePath(blaUri),
+      path: KernelAssetAbsolutePath(blaUri),
       target: Target.windowsX64,
-      linkMode: LinkMode.dynamic,
     ),
-  ];
+  ]);
 
   final assetsDartEncoding = '''format-version:
   - 1
@@ -91,14 +83,5 @@ native-assets:
   test('asset yaml', () async {
     final fileContents = assets.toNativeAssetsFile();
     expect(fileContents, assetsDartEncoding);
-  });
-
-  test('List<Asset> whereLinkMode', () async {
-    final assets2 = assets.whereLinkMode(LinkMode.dynamic);
-    expect(assets2.length, 6);
-  });
-
-  test('satisfy coverage', () async {
-    expect(() => assets[1].toYaml(), throwsUnimplementedError);
   });
 }
