@@ -99,7 +99,7 @@ class BuildConfig implements api.BuildConfig {
   late final LinkModePreference _linkModePreference;
 
   @override
-  Object? metadata(String packageName, String key) {
+  Object? metadatum(String packageName, String key) {
     _ensureNotDryRun();
     return _dependencyMetadata?[packageName]?.metadata[key];
   }

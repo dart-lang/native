@@ -39,16 +39,12 @@ abstract class BuildOutput {
   /// build will be re-run.
   Iterable<Uri> get dependencies;
 
-  /// Metadata can to be passed to `build.dart` invocations of dependent
-  /// packages.
-  Object? metadata(String key);
-
   /// Create a build output.
   ///
   /// The [timestamp] must be before any any [dependencies] are read by the
   /// build this output belongs to. If the [BuildOutput] object is created at
-  /// the beginning of the `build.dart` script, it can be omitted and will
-  /// default to [DateTime.now]. The [timestamp] is rounded down to whole
+  /// the beginning of the `build.dart` script, [timestamp] can be omitted and
+  /// will default to [DateTime.now]. The [timestamp] is rounded down to whole
   /// seconds, because [File.lastModified] is rounded to whole seconds and
   /// caching logic compares these timestamps.
   ///
@@ -59,7 +55,8 @@ abstract class BuildOutput {
   ///
   /// The files used by this build must be passed in [dependencies] or
   /// [addDependencies]. If any of these files are modified after [timestamp],
-  /// the build will be re-run.
+  /// the build will be re-run. Typically these dependencies contain the
+  /// `build.dart` script itself, and the source files used in the build.
   ///
   /// Metadata can be passed to `build.dart` invocations of dependent packages
   /// via [metadata] or [addMetadata].
@@ -80,7 +77,19 @@ abstract class BuildOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
+  void addAsset(Asset asset);
+
+  /// Adds [Asset]s produced by this build or dry run.
+  ///
+  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
+  /// the dry run must be provided.
   void addAssets(Iterable<Asset> assets);
+
+  /// Adds file used by this build.
+  ///
+  /// If any of the files are modified after [timestamp], the build will be
+  /// re-run.
+  void addDependency(Uri dependency);
 
   /// Adds files used by this build.
   ///
@@ -90,7 +99,11 @@ abstract class BuildOutput {
 
   /// Adds metadata to be passed to `build.dart` invocations of dependent
   /// packages.
-  void addMetadata(String key, Object value);
+  void addMetadatum(String key, Object value);
+
+  /// Adds metadata to be passed to `build.dart` invocations of dependent
+  /// packages.
+  void addMetadata(Map<String, Object> metadata);
 
   /// The version of [BuildOutput].
   ///

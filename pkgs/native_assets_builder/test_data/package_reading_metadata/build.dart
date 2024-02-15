@@ -9,9 +9,10 @@ void main(List<String> args) async {
   final config = await Config.fromArgs(args: args);
   final buildConfig = BuildConfig.fromConfig(config);
   if (!buildConfig.dryRun) {
-    final someValue = buildConfig.metadata('package_with_metadata', 'some_key');
+    final someValue =
+        buildConfig.metadatum('package_with_metadata', 'some_key');
     assert(someValue != null);
-    final someInt = buildConfig.metadata('package_with_metadata', 'some_int');
+    final someInt = buildConfig.metadatum('package_with_metadata', 'some_int');
     assert(someInt != null);
     print({
       'some_int': someInt,

@@ -80,7 +80,7 @@ abstract class BuildConfig {
   /// Returns `null` if metadata was not provided.
   ///
   /// Not available during a [dryRun].
-  Object? metadata(String packageName, String key);
+  Object? metadatum(String packageName, String key);
 
   /// The configuration for invoking the C compiler.
   ///

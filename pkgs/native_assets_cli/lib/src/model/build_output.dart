@@ -49,6 +49,10 @@ class BuildOutput implements api.BuildOutput {
         _metadata = metadata ?? Metadata({});
 
   @override
+  void addDependency(Uri dependency) =>
+      _dependencies.dependencies.add(dependency);
+
+  @override
   void addDependencies(Iterable<Uri> dependencies) =>
       _dependencies.dependencies.addAll(dependencies);
 
@@ -153,14 +157,21 @@ class BuildOutput implements api.BuildOutput {
       );
 
   @override
-  void addMetadata(String key, Object value) {
+  void addMetadatum(String key, Object value) {
     _metadata.metadata[key] = value;
   }
 
   @override
-  Object? metadata(String key) => _metadata.metadata[key];
+  void addMetadata(Map<String, Object> metadata) {
+    _metadata.metadata.addAll(metadata);
+  }
 
   Metadata get metadataModel => _metadata;
+
+  @override
+  void addAsset(api.Asset asset) {
+    _assets.add(asset as Asset);
+  }
 
   @override
   void addAssets(Iterable<api.Asset> assets) {
