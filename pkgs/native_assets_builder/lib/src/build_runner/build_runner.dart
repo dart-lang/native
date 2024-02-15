@@ -204,7 +204,7 @@ class NativeAssetsBuildRunner {
     final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
     final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
         DateTime.fromMillisecondsSinceEpoch(0);
-    final dependencies = buildOutput?.dependencies;
+    final dependencies = buildOutput?.dependenciesModel;
     final lastChange = await dependencies?.lastModified() ?? DateTime.now();
 
     if (lastBuilt.isAfter(lastChange)) {
@@ -213,8 +213,8 @@ class NativeAssetsBuildRunner {
       // All build flags go into [outDir]. Therefore we do not have to check
       // here whether the config is equal.
       final assets = buildOutput!.assets;
-      final dependencies = buildOutput.dependencies.dependencies;
-      final metadata = buildOutput.metadata;
+      final dependencies = buildOutput.dependencies;
+      final metadata = buildOutput.metadataModel;
       return (assets, dependencies, metadata, true);
     }
 
@@ -285,8 +285,8 @@ ${result.stdout}
       final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
       final assets = buildOutput?.assets ?? [];
       success &= validateAssetsPackage(assets, config.packageName);
-      final dependencies = buildOutput?.dependencies.dependencies ?? [];
-      final metadata = dryRun ? null : buildOutput?.metadata;
+      final dependencies = buildOutput?.dependencies ?? [];
+      final metadata = dryRun ? null : buildOutput?.metadataModel;
       return (assets, dependencies, metadata, success);
     } on FormatException catch (e) {
       logger.severe('''
@@ -400,7 +400,7 @@ build_output.yaml contained a format error.
     };
   }
 
-  bool validateAssetsPackage(List<Asset> assets, String packageName) {
+  bool validateAssetsPackage(Iterable<Asset> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.id)
         .where((n) => !n.startsWith('package:$packageName/'))
@@ -419,8 +419,8 @@ build_output.yaml contained a format error.
 }
 
 typedef _PackageBuildRecord = (
-  List<Asset>,
-  List<Uri> dependencies,
+  Iterable<Asset>,
+  Iterable<Uri> dependencies,
   Metadata?,
   bool success,
 );

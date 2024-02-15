@@ -29,6 +29,8 @@ class BuildOutput implements api.BuildOutput {
 
   final Dependencies _dependencies;
 
+  Dependencies get dependenciesModel => _dependencies;
+
   @override
   Iterable<Uri> get dependencies => _dependencies.dependencies;
 
@@ -157,6 +159,8 @@ class BuildOutput implements api.BuildOutput {
 
   @override
   Object? metadata(String key) => _metadata.metadata[key];
+
+  Metadata get metadataModel => _metadata;
 
   @override
   void addAssets(Iterable<api.Asset> assets) {
