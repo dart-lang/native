@@ -1,7 +1,6 @@
 ## 0.3.5-wip
 
-- Bump `package:native_assets_cli` to 0.4.1.
-- Temporary deprecation lint suppresion for `package:native_assets_cli`.
+- Bump `package:native_assets_cli` to path dependency.
 
 ## 0.3.4+1
 

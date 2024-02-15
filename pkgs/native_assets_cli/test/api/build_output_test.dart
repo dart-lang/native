@@ -35,10 +35,10 @@ void main() {
           linkMode: LinkMode.dynamic,
         ),
       ],
-      dependencies2: [
+      dependencies: [
         Uri.file('path/to/file.ext'),
       ],
-      metadata2: {
+      metadata: {
         'key': 'value',
       },
     );

@@ -5,15 +5,13 @@
 import 'package:collection/collection.dart';
 import 'package:yaml/yaml.dart';
 
-import '../api/dependencies.dart' as api;
 import '../utils/file.dart';
 import '../utils/uri.dart';
 import '../utils/yaml.dart';
 
 // ignore: deprecated_member_use_from_same_package
-class Dependencies implements api.Dependencies {
+class Dependencies {
   /// The dependencies a build relied on.
-  @override
   final List<Uri> dependencies;
 
   const Dependencies(this.dependencies);

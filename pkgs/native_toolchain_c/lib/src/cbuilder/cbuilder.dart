@@ -2,10 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// TODO(https://github.com/dart-lang/native/issues/882): A new version of
-// `package:native_assets_cli` needs to be published first.
-// ignore_for_file: deprecated_member_use
-
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -259,12 +255,14 @@ class CBuilder implements Builder {
             if (target.os == buildConfig.targetOs) target
       ];
       for (final target in targets) {
-        buildOutput.assets.add(Asset(
-          id: assetId!,
-          linkMode: linkMode,
-          target: target,
-          path: AssetAbsolutePath(libUri),
-        ));
+        buildOutput.addAssets([
+          Asset(
+            id: assetId!,
+            linkMode: linkMode,
+            target: target,
+            path: AssetAbsolutePath(libUri),
+          )
+        ]);
       }
     }
     if (!buildConfig.dryRun) {
@@ -277,7 +275,7 @@ class CBuilder implements Builder {
           )
           .toList();
 
-      buildOutput.dependencies.dependencies.addAll({
+      buildOutput.addDependencies({
         // Note: We use a Set here to deduplicate the dependencies.
         ...sources,
         ...includeFiles,

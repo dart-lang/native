@@ -5,13 +5,11 @@
 import 'package:collection/collection.dart';
 import 'package:yaml/yaml.dart';
 
-import '../api/metadata.dart' as api;
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 
 // ignore: deprecated_member_use_from_same_package
-class Metadata implements api.Metadata {
-  @override
+class Metadata {
   final Map<String, Object> metadata;
 
   const Metadata(this.metadata);

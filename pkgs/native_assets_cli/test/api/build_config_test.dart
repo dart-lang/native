@@ -153,7 +153,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      dependencyMetadata2: {
+      dependencyMetadata: {
         'bar': {
           'key': 'value',
           'foo': ['asdf', 'fdsa'],
@@ -173,7 +173,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      dependencyMetadata2: {
+      dependencyMetadata: {
         'bar': {
           'key': 'value',
         },

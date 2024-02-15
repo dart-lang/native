@@ -16,7 +16,6 @@ import '../model/target.dart' as model;
 import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
-import 'metadata.dart';
 import 'target.dart';
 
 /// The configuration for a `build.dart` invocation.
@@ -74,16 +73,6 @@ abstract class BuildConfig {
   /// Preferred linkMode method for library.
   LinkModePreference get linkModePreference;
 
-  /// Metadata from direct dependencies.
-  ///
-  /// The key in the map is the package name of the dependency.
-  ///
-  /// The key in the nested map is the key for the metadata from the dependency.
-  ///
-  /// Not available during a [dryRun].
-  @Deprecated('Use getMetadata.')
-  Map<String, Metadata>? get dependencyMetadata;
-
   /// Get the metadata from a direct dependency.
   ///
   /// The [packageName] of is the package name of the direct dependency.
@@ -133,9 +122,7 @@ abstract class BuildConfig {
     int? targetAndroidNdkApi,
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
-    @Deprecated('Use dependencyMetadata2.')
-    Map<String, Metadata>? dependencyMetadata,
-    Map<String, Map<String, Object>>? dependencyMetadata2,
+    Map<String, Map<String, Object>>? dependencyMetadata,
   }) =>
       model.BuildConfig(
         outDir: outDir,
@@ -148,12 +135,12 @@ abstract class BuildConfig {
         targetAndroidNdkApi: targetAndroidNdkApi,
         cCompiler: cCompiler as model.CCompilerConfig?,
         linkModePreference: linkModePreference as model.LinkModePreference,
-        dependencyMetadata: dependencyMetadata2 != null
+        dependencyMetadata: dependencyMetadata != null
             ? {
-                for (final entry in dependencyMetadata2.entries)
+                for (final entry in dependencyMetadata.entries)
                   entry.key: model.Metadata(entry.value.cast())
               }
-            : dependencyMetadata?.cast(),
+            : {},
       );
 
   factory BuildConfig.dryRun({

@@ -22,20 +22,17 @@ class BuildOutput implements api.BuildOutput {
   @override
   final DateTime timestamp;
 
-  @override
-  final List<Asset> assets;
+  final List<Asset> _assets;
 
   @override
-  Iterable<Asset> get assets2 => assets;
+  Iterable<Asset> get assets => _assets;
+
+  final Dependencies _dependencies;
 
   @override
-  final Dependencies dependencies;
+  Iterable<Uri> get dependencies => _dependencies.dependencies;
 
-  @override
-  Iterable<Uri> get dependencies2 => dependencies.dependencies;
-
-  @override
-  final Metadata metadata;
+  final Metadata _metadata;
 
   BuildOutput({
     DateTime? timestamp,
@@ -43,15 +40,15 @@ class BuildOutput implements api.BuildOutput {
     Dependencies? dependencies,
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
-        assets = assets ?? [],
+        _assets = assets ?? [],
         // ignore: prefer_const_constructors
-        dependencies = dependencies ?? Dependencies([]),
+        _dependencies = dependencies ?? Dependencies([]),
         // ignore: prefer_const_constructors
-        metadata = metadata ?? Metadata({});
+        _metadata = metadata ?? Metadata({});
 
   @override
   void addDependencies(Iterable<Uri> dependencies) =>
-      this.dependencies.dependencies.addAll(dependencies);
+      _dependencies.dependencies.addAll(dependencies);
 
   static const _assetsKey = 'assets';
   static const _dependenciesKey = 'dependencies';
@@ -92,9 +89,10 @@ class BuildOutput implements api.BuildOutput {
 
   Map<String, Object> toYaml() => {
         _timestampKey: timestamp.toString(),
-        _assetsKey: assets.toYaml(),
-        _dependenciesKey: dependencies.toYaml(),
-        _metadataKey: metadata.toYaml(),
+        _assetsKey: _assets.toYaml(),
+        if (_dependencies.dependencies.isNotEmpty)
+          _dependenciesKey: _dependencies.toYaml(),
+        _metadataKey: _metadata.toYaml(),
         _versionKey: version.toString(),
       }..sortOnKey();
 
@@ -139,29 +137,29 @@ class BuildOutput implements api.BuildOutput {
       return false;
     }
     return other.timestamp == timestamp &&
-        const ListEquality<Asset>().equals(other.assets, assets) &&
-        other.dependencies == dependencies &&
-        other.metadata == metadata;
+        const ListEquality<Asset>().equals(other._assets, _assets) &&
+        other._dependencies == _dependencies &&
+        other._metadata == _metadata;
   }
 
   @override
   int get hashCode => Object.hash(
         timestamp.hashCode,
-        const ListEquality<Asset>().hash(assets),
-        dependencies,
-        metadata,
+        const ListEquality<Asset>().hash(_assets),
+        _dependencies,
+        _metadata,
       );
 
   @override
   void addMetadata(String key, Object value) {
-    metadata.metadata[key] = value;
+    _metadata.metadata[key] = value;
   }
 
   @override
-  Object? metadata2(String key) => metadata.metadata[key];
+  Object? metadata(String key) => _metadata.metadata[key];
 
   @override
   void addAssets(Iterable<api.Asset> assets) {
-    this.assets.addAll(assets.cast());
+    _assets.addAll(assets.cast());
   }
 }

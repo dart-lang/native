@@ -2,10 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// TODO(https://github.com/dart-lang/native/issues/882): A new version of
-// `package:native_assets_cli` needs to be published first.
-// ignore_for_file: deprecated_member_use
-
 @OnPlatform({
   'mac-os': Timeout.factor(2),
   'windows': Timeout.factor(10),
@@ -305,7 +301,7 @@ void main() {
       logger: logger,
     );
 
-    expect(buildOutput.dependencies.dependencies, contains(includesHUri));
+    expect(buildOutput.dependencies, contains(includesHUri));
 
     final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());

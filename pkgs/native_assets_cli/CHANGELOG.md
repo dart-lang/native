@@ -1,7 +1,7 @@
 ## 0.4.3-wip
 
 - **Breaking change** New API.
-- Bump examples dependencies to path dependencies. (2x)
+- Bump examples dependencies to path dependencies.
 
 ## 0.4.2
 

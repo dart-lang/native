@@ -78,12 +78,12 @@ void main() async {
             await File.fromUri((assets.first.path as AssetAbsolutePath).uri)
                 .exists(),
             false);
-        expect(dependencies.dependencies, <Uri>[]);
+        expect(dependencies, <Uri>[]);
       } else {
         expect(assets.length, 1);
         expect(await assets.allExist(), true);
         expect(
-          dependencies.dependencies,
+          dependencies,
           [
             testPackageUri.resolve('src/$name.c'),
             testPackageUri.resolve('build.dart'),

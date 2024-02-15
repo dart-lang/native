@@ -11,8 +11,6 @@ import '../model/build_output.dart' as model;
 import '../model/dependencies.dart' as model;
 import '../model/metadata.dart' as model;
 import 'asset.dart';
-import 'dependencies.dart';
-import 'metadata.dart';
 import 'target.dart';
 
 /// The output of a `build.dart` invocation.
@@ -29,37 +27,27 @@ abstract class BuildOutput {
   /// these timestamps.
   DateTime get timestamp;
 
-  @Deprecated('Use assets2')
-  List<Asset> get assets;
-
   /// The assets produced by this build.
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  // TODO: Rename to `assets` after removing old one.
-  Iterable<Asset> get assets2;
-
-  @Deprecated('Use dependencies2')
-  Dependencies get dependencies;
+  Iterable<Asset> get assets;
 
   /// The files used by this build.
   ///
-  /// If any of the files in [dependencies2] are modified after [timestamp], the
+  /// If any of the files in [dependencies] are modified after [timestamp], the
   /// build will be re-run.
   // TODO: Rename to `dependencies` after removing old one.
-  Iterable<Uri> get dependencies2;
-
-  @Deprecated('Use getMetadata')
-  Metadata get metadata;
+  Iterable<Uri> get dependencies;
 
   /// Metadata can to be passed to `build.dart` invocations of dependent
   /// packages.
   // TODO(dacoharkes): Rename to metadata.
-  Object? metadata2(String key);
+  Object? metadata(String key);
 
   /// Create a build output.
   ///
-  /// The [timestamp] must be before any any [dependencies2] are read by the
+  /// The [timestamp] must be before any any [dependencies] are read by the
   /// build this output belongs to. If the [BuildOutput] object is created at
   /// the beginning of the `build.dart` script, it can be omitted and will
   /// default to [DateTime.now]. The [timestamp] is rounded down to whole
@@ -71,29 +59,23 @@ abstract class BuildOutput {
   /// runs, the assets for all [Architecture]s for the [OS] specified in the dry
   /// run must be provided.
   ///
-  /// The files used by this build must be passed in [dependencies2] or
+  /// The files used by this build must be passed in [dependencies] or
   /// [addDependencies]. If any of these files are modified after [timestamp],
   /// the build will be re-run.
   ///
   /// Metadata can be passed to `build.dart` invocations of dependent packages
-  /// via [metadata2] or [addMetadata].
+  /// via [metadata] or [addMetadata].
   factory BuildOutput({
     DateTime? timestamp,
     Iterable<Asset>? assets,
-    @Deprecated('Use addDependencies.') Dependencies? dependencies,
-    Iterable<Uri>? dependencies2,
-    @Deprecated('Use addMetadata.') Metadata? metadata,
-    Map<String, Object>? metadata2,
+    Iterable<Uri>? dependencies,
+    Map<String, Object>? metadata,
   }) =>
       model.BuildOutput(
         timestamp: timestamp,
         assets: assets?.cast<model.Asset>().toList(),
-        dependencies: dependencies2 != null
-            ? model.Dependencies(dependencies2.toList())
-            : dependencies as model.Dependencies?,
-        metadata: metadata2 != null
-            ? model.Metadata(metadata2)
-            : metadata as model.Metadata?,
+        dependencies: model.Dependencies([...?dependencies]),
+        metadata: model.Metadata({...?metadata}),
       );
 
   /// Adds [Asset]s produced by this build or dry run.

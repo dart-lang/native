@@ -165,8 +165,7 @@ version: ${BuildOutput.version}'''),
     // Remove once dependencies are made immutable.
     final buildOutput = BuildOutput();
     expect(
-      () => buildOutput.dependencies.dependencies
-          .add(Uri.file('path/to/file.ext')),
+      () => buildOutput.addDependencies([Uri.file('path/to/file.ext')]),
       returnsNormally,
     );
   });

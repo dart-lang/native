@@ -98,19 +98,6 @@ class BuildConfig implements api.BuildConfig {
   LinkModePreference get linkModePreference => _linkModePreference;
   late final LinkModePreference _linkModePreference;
 
-  /// Metadata from direct dependencies.
-  ///
-  /// The key in the map is the package name of the dependency.
-  ///
-  /// The key in the nested map is the key for the metadata from the dependency.
-  ///
-  /// Not available during a [dryRun].
-  @override
-  Map<String, Metadata>? get dependencyMetadata {
-    _ensureNotDryRun();
-    return _dependencyMetadata;
-  }
-
   @override
   Object? metadata(String packageName, String key) {
     _ensureNotDryRun();
@@ -146,9 +133,6 @@ class BuildConfig implements api.BuildConfig {
 
   late final BuildMode _buildMode;
 
-  /// The underlying config.
-  ///
-  /// Can be used for easier access to values on [dependencyMetadata].
   @override
   Config get config => _config;
   late final Config _config;
@@ -519,7 +503,7 @@ class BuildConfig implements api.BuildConfig {
         if (_targetAndroidNdkApi != null)
           targetAndroidNdkApiConfigKey: _targetAndroidNdkApi!,
         if (cCompilerYaml.isNotEmpty) CCompilerConfig.configKey: cCompilerYaml,
-        if (_dependencyMetadata != null)
+        if (_dependencyMetadata != null && _dependencyMetadata!.isNotEmpty)
           dependencyMetadataConfigKey: {
             for (final entry in _dependencyMetadata!.entries)
               entry.key: entry.value.toYaml(),
@@ -548,7 +532,7 @@ class BuildConfig implements api.BuildConfig {
       if (other.targetAndroidNdkApi != targetAndroidNdkApi) return false;
       if (other.cCompiler != cCompiler) return false;
       if (!const DeepCollectionEquality()
-          .equals(other.dependencyMetadata, _dependencyMetadata)) return false;
+          .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
     }
     return true;
   }
@@ -563,7 +547,7 @@ class BuildConfig implements api.BuildConfig {
         dryRun,
         if (!dryRun) ...[
           buildMode,
-          const DeepCollectionEquality().hash(dependencyMetadata),
+          const DeepCollectionEquality().hash(_dependencyMetadata),
           targetArchitecture,
           targetIOSSdk,
           targetAndroidNdkApi,
