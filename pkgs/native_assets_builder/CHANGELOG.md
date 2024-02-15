@@ -1,3 +1,7 @@
+## 0.5.1-wip
+
+- Bump `package:native_assets_cli` to path dependency.
+
 ## 0.5.0
 
 - **Breaking change**: Hide implementation of `KernelAssets`.

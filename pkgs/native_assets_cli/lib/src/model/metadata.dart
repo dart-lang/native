@@ -8,7 +8,6 @@ import 'package:yaml/yaml.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 
-// ignore: deprecated_member_use_from_same_package
 class Metadata {
   final Map<String, Object> metadata;
 

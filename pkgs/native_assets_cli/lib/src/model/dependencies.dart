@@ -9,7 +9,6 @@ import '../utils/file.dart';
 import '../utils/uri.dart';
 import '../utils/yaml.dart';
 
-// ignore: deprecated_member_use_from_same_package
 class Dependencies {
   /// The dependencies a build relied on.
   final List<Uri> dependencies;
