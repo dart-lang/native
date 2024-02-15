@@ -37,12 +37,10 @@ abstract class BuildOutput {
   ///
   /// If any of the files in [dependencies] are modified after [timestamp], the
   /// build will be re-run.
-  // TODO: Rename to `dependencies` after removing old one.
   Iterable<Uri> get dependencies;
 
   /// Metadata can to be passed to `build.dart` invocations of dependent
   /// packages.
-  // TODO(dacoharkes): Rename to metadata.
   Object? metadata(String key);
 
   /// Create a build output.

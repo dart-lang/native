@@ -298,7 +298,7 @@ class Target implements api.Target {
   ///
   /// Note that for some of these a Dart SDK is not available and they are only
   /// used as target architectures for Flutter apps.
-  static const values = {
+  static const Set<Target> values = {
     androidArm,
     androidArm64,
     androidIA32,

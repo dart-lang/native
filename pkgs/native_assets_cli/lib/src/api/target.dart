@@ -98,30 +98,7 @@ abstract class Target implements Comparable<Target> {
   ///
   /// Note that for some of these a Dart SDK is not available and they are only
   /// used as target architectures for Flutter apps.
-  static const values = <Target>{
-    androidArm,
-    androidArm64,
-    androidIA32,
-    androidX64,
-    androidRiscv64,
-    fuchsiaArm64,
-    fuchsiaX64,
-    iOSArm,
-    iOSArm64,
-    iOSX64,
-    linuxArm,
-    linuxArm64,
-    linuxIA32,
-    linuxRiscv32,
-    linuxRiscv64,
-    linuxX64,
-    macOSArm64,
-    macOSX64,
-    windowsArm64,
-    windowsIA32,
-    windowsX64,
-    // TODO(dacoharkes): Add support for `wasm`.
-  };
+  static const Set<Target> values = model.Target.values;
 
   /// The current [Target].
   ///
