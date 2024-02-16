@@ -42,7 +42,7 @@ void main() {
     }),
   );
 
-  final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
+  const yamlEncodingV1_0_0 = '''timestamp: 2022-11-10 13:25:01.000
 assets:
   - id: foo
     link_mode: dynamic
@@ -60,12 +60,40 @@ dependencies:
   - path/to/file.ext
 metadata:
   key: value
+version: 1.0.0''';
+
+  final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
+assets:
+  - id: foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_x64
+    type: c_code
+  - id: foo2
+    link_mode: dynamic
+    path:
+      path_type: system
+      uri: path/to/libfoo2.so
+    target: android_x64
+    type: c_code
+dependencies:
+  - path/to/file.ext
+metadata:
+  key: value
 version: ${BuildOutputImpl.version}''';
 
   test('built info yaml', () {
     final yaml = buildOutput.toYamlString().replaceAll('\\', '/');
     expect(yaml, yamlEncoding);
     final buildOutput2 = BuildOutputImpl.fromYamlString(yaml);
+    expect(buildOutput.hashCode, buildOutput2.hashCode);
+    expect(buildOutput, buildOutput2);
+  });
+
+  test('built info yaml v1.0.0 keeps working', () {
+    final buildOutput2 = BuildOutputImpl.fromYamlString(yamlEncodingV1_0_0);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
@@ -104,7 +132,7 @@ version: ${BuildOutputImpl.version}''';
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(BuildConfigImpl.version.toString()),
+              e.message.contains(BuildOutputImpl.version.toString()),
         )),
       );
     });

@@ -194,17 +194,18 @@ final class CCodeAssetImpl implements CCodeAsset {
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
+        _typeKey: _type,
       };
 
+  static const _typeKey = 'type';
+  static const _type = 'c_code';
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
 
-  // Future<bool> exists() => path.exists();
-
   @override
-  String toString() => 'Asset(${toYaml()})';
+  String toString() => 'CCodeAsset(${toYaml()})';
 }
 
 extension AssetIterable on Iterable<CCodeAssetImpl> {

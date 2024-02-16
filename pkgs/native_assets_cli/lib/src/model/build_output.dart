@@ -99,7 +99,7 @@ class BuildOutputImpl implements BuildOutput {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version version = Version(1, 0, 0);
+  static Version version = Version(1, 1, 0);
 
   static const fileName = 'build_output.yaml';
 
