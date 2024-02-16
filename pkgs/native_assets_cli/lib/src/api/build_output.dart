@@ -14,7 +14,7 @@ import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
-import 'asset.dart';
+import 'c_code_asset.dart';
 import 'target.dart';
 
 part '../model/build_output.dart';

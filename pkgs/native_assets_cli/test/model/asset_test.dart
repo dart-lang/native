@@ -4,7 +4,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/api/asset.dart';
+import 'package:native_assets_cli/src/api/c_code_asset.dart';
 import 'package:test/test.dart';
 
 void main() {

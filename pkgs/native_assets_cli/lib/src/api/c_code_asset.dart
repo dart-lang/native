@@ -8,7 +8,7 @@ import '../utils/yaml.dart';
 import 'link_mode.dart';
 import 'target.dart';
 
-part '../model/asset.dart';
+part '../model/c_code_asset.dart';
 
 abstract final class AssetPath {}
 
