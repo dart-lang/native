@@ -6,10 +6,9 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-const packageName = 'native_add_library';
-
 void main(List<String> args) async {
-  await build(args, (buildConfig, buildOutput) async {
+  await build(args, (config, output) async {
+    final packageName = config.packageName;
     final cbuilder = CBuilder.library(
       name: packageName,
       assetId: 'package:$packageName/$packageName.dart',
@@ -18,8 +17,8 @@ void main(List<String> args) async {
       ],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      buildConfig: config,
+      buildOutput: output,
       logger: Logger('')
         ..level = Level.ALL
         ..onRecord.listen((record) => print(record.message)),
