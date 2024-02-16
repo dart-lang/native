@@ -2,33 +2,28 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:yaml/yaml.dart';
+part of '../api/asset.dart';
 
-import '../api/asset.dart' as api;
-import '../utils/yaml.dart';
-import 'link_mode.dart';
-import 'target.dart';
-
-abstract class AssetPath implements api.AssetPath {
-  factory AssetPath(String pathType, Uri? uri) {
+abstract final class AssetPathImpl implements AssetPath {
+  factory AssetPathImpl(String pathType, Uri? uri) {
     switch (pathType) {
-      case AssetAbsolutePath._pathTypeValue:
-        return AssetAbsolutePath(uri!);
-      case AssetSystemPath._pathTypeValue:
-        return AssetSystemPath(uri!);
-      case AssetInExecutable._pathTypeValue:
-        return AssetInExecutable();
-      case AssetInProcess._pathTypeValue:
-        return AssetInProcess();
+      case AssetAbsolutePathImpl._pathTypeValue:
+        return AssetAbsolutePathImpl(uri!);
+      case AssetSystemPathImpl._pathTypeValue:
+        return AssetSystemPathImpl(uri!);
+      case AssetInExecutableImpl._pathTypeValue:
+        return AssetInExecutableImpl();
+      case AssetInProcessImpl._pathTypeValue:
+        return AssetInProcessImpl();
     }
     throw FormatException('Unknown pathType: $pathType.');
   }
 
-  factory AssetPath.fromYaml(YamlMap yamlMap) {
+  factory AssetPathImpl.fromYaml(YamlMap yamlMap) {
     final pathType = as<String>(yamlMap[_pathTypeKey]);
     final uriString = as<String?>(yamlMap[_uriKey]);
     final uri = uriString != null ? Uri(path: uriString) : null;
-    return AssetPath(pathType, uri);
+    return AssetPathImpl(pathType, uri);
   }
 
   Map<String, Object> toYaml();
@@ -38,18 +33,18 @@ abstract class AssetPath implements api.AssetPath {
 }
 
 /// Asset at absolute path [uri].
-class AssetAbsolutePath implements AssetPath, api.AssetAbsolutePath {
+final class AssetAbsolutePathImpl implements AssetPathImpl, AssetAbsolutePath {
   @override
   final Uri uri;
 
-  AssetAbsolutePath(this.uri);
+  AssetAbsolutePathImpl(this.uri);
 
   static const _pathTypeValue = 'absolute';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPath._pathTypeKey: _pathTypeValue,
-        AssetPath._uriKey: uri.toFilePath(),
+        AssetPathImpl._pathTypeKey: _pathTypeValue,
+        AssetPathImpl._uriKey: uri.toFilePath(),
       };
 
   @override
@@ -57,7 +52,7 @@ class AssetAbsolutePath implements AssetPath, api.AssetAbsolutePath {
 
   @override
   bool operator ==(Object other) {
-    if (other is! AssetAbsolutePath) {
+    if (other is! AssetAbsolutePathImpl) {
       return false;
     }
     return uri == other.uri;
@@ -67,18 +62,18 @@ class AssetAbsolutePath implements AssetPath, api.AssetAbsolutePath {
 /// Asset is avaliable on the system `PATH`.
 ///
 /// [uri] only contains a file name.
-class AssetSystemPath implements AssetPath, api.AssetSystemPath {
+final class AssetSystemPathImpl implements AssetPathImpl, AssetSystemPath {
   @override
   final Uri uri;
 
-  AssetSystemPath(this.uri);
+  AssetSystemPathImpl(this.uri);
 
   static const _pathTypeValue = 'system';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPath._pathTypeKey: _pathTypeValue,
-        AssetPath._uriKey: uri.toFilePath(),
+        AssetPathImpl._pathTypeKey: _pathTypeValue,
+        AssetPathImpl._uriKey: uri.toFilePath(),
       };
 
   @override
@@ -86,7 +81,7 @@ class AssetSystemPath implements AssetPath, api.AssetSystemPath {
 
   @override
   bool operator ==(Object other) {
-    if (other is! AssetSystemPath) {
+    if (other is! AssetSystemPathImpl) {
       return false;
     }
     return uri == other.uri;
@@ -95,85 +90,85 @@ class AssetSystemPath implements AssetPath, api.AssetSystemPath {
 
 /// Asset is loaded in the process and symbols are available through
 /// `DynamicLibrary.process()`.
-class AssetInProcess implements AssetPath, api.AssetInProcess {
-  AssetInProcess._();
+final class AssetInProcessImpl implements AssetPathImpl, AssetInProcess {
+  AssetInProcessImpl._();
 
-  static final AssetInProcess _singleton = AssetInProcess._();
+  static final AssetInProcessImpl _singleton = AssetInProcessImpl._();
 
-  factory AssetInProcess() => _singleton;
+  factory AssetInProcessImpl() => _singleton;
 
   static const _pathTypeValue = 'process';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPath._pathTypeKey: _pathTypeValue,
+        AssetPathImpl._pathTypeKey: _pathTypeValue,
       };
 }
 
 /// Asset is embedded in executable and symbols are available through
 /// `DynamicLibrary.executable()`.
-class AssetInExecutable implements AssetPath, api.AssetInExecutable {
-  AssetInExecutable._();
+final class AssetInExecutableImpl implements AssetPathImpl, AssetInExecutable {
+  AssetInExecutableImpl._();
 
-  static final AssetInExecutable _singleton = AssetInExecutable._();
+  static final AssetInExecutableImpl _singleton = AssetInExecutableImpl._();
 
-  factory AssetInExecutable() => _singleton;
+  factory AssetInExecutableImpl() => _singleton;
 
   static const _pathTypeValue = 'executable';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPath._pathTypeKey: _pathTypeValue,
+        AssetPathImpl._pathTypeKey: _pathTypeValue,
       };
 }
 
-class Asset implements api.Asset {
+final class AssetImpl implements Asset {
   @override
-  final LinkMode linkMode;
+  final LinkModeImpl linkMode;
   @override
   final String id;
   @override
   final Target target;
   @override
-  final AssetPath path;
+  final AssetPathImpl path;
 
-  Asset({
+  AssetImpl({
     required this.id,
     required this.linkMode,
     required this.target,
     required this.path,
   });
 
-  factory Asset.fromYaml(YamlMap yamlMap) => Asset(
+  factory AssetImpl.fromYaml(YamlMap yamlMap) => AssetImpl(
         id: as<String>(yamlMap[_idKey]),
-        path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
-        target: Target.fromString(as<String>(yamlMap[_targetKey])),
-        linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
+        path: AssetPathImpl.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
+        target: TargetImpl.fromString(as<String>(yamlMap[_targetKey])),
+        linkMode: LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey])),
       );
 
-  static List<Asset> listFromYamlString(String yaml) {
+  static List<AssetImpl> listFromYamlString(String yaml) {
     final yamlObject = loadYaml(yaml);
     if (yamlObject == null) {
       return [];
     }
     return [
       for (final yamlElement in as<YamlList>(yamlObject))
-        Asset.fromYaml(as<YamlMap>(yamlElement)),
+        AssetImpl.fromYaml(as<YamlMap>(yamlElement)),
     ];
   }
 
-  static List<Asset> listFromYamlList(YamlList yamlList) => [
+  static List<AssetImpl> listFromYamlList(YamlList yamlList) => [
         for (final yamlElement in yamlList)
-          Asset.fromYaml(as<YamlMap>(yamlElement)),
+          AssetImpl.fromYaml(as<YamlMap>(yamlElement)),
       ];
 
-  Asset copyWith({
-    LinkMode? linkMode,
+  AssetImpl copyWith({
+    LinkModeImpl? linkMode,
     String? id,
     Target? target,
-    AssetPath? path,
+    AssetPathImpl? path,
   }) =>
-      Asset(
+      AssetImpl(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
@@ -182,7 +177,7 @@ class Asset implements api.Asset {
 
   @override
   bool operator ==(Object other) {
-    if (other is! Asset) {
+    if (other is! AssetImpl) {
       return false;
     }
     return other.id == id &&
@@ -212,7 +207,7 @@ class Asset implements api.Asset {
   String toString() => 'Asset(${toYaml()})';
 }
 
-extension AssetIterable on Iterable<Asset> {
+extension AssetIterable on Iterable<AssetImpl> {
   List<Object> toYaml() => [for (final item in this) item.toYaml()];
 
   String toYamlString() => yamlEncode(toYaml());

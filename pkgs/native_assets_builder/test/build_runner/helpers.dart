@@ -34,8 +34,8 @@ Future<BuildResult> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -51,9 +51,9 @@ Future<BuildResult> build(
     logger: logger,
     dartExecutable: dartExecutable,
   ).build(
-    buildMode: BuildMode.release,
+    buildMode: BuildModeImpl.release,
     linkModePreference: linkModePreference,
-    target: Target.current,
+    target: TargetImpl.current,
     workingDirectory: packageUri,
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
@@ -75,8 +75,8 @@ Future<DryRunResult> dryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -92,7 +92,7 @@ Future<DryRunResult> dryRun(
     dartExecutable: dartExecutable,
   ).dryRun(
     linkModePreference: linkModePreference,
-    targetOs: Target.current.os,
+    targetOs: TargetImpl.current.os,
     workingDirectory: packageUri,
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,
@@ -105,9 +105,9 @@ Future<DryRunResult> dryRun(
   return result;
 }
 
-Future<void> expectAssetsExist(List<Asset> assets) async {
+Future<void> expectAssetsExist(List<AssetImpl> assets) async {
   for (final asset in assets) {
-    final uri = (asset.path as AssetAbsolutePath).uri;
+    final uri = (asset.path as AssetAbsolutePathImpl).uri;
     expect(
         uri.toFilePath(),
         contains('${Platform.pathSeparator}.dart_tool${Platform.pathSeparator}'
@@ -118,11 +118,11 @@ Future<void> expectAssetsExist(List<Asset> assets) async {
 }
 
 Future<void> expectSymbols({
-  required Asset asset,
+  required AssetImpl asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {
-    final assetUri = (asset.path as AssetAbsolutePath).uri;
+    final assetUri = (asset.path as AssetAbsolutePathImpl).uri;
     final nmResult = await runProcess(
       executable: Uri(path: 'nm'),
       arguments: [

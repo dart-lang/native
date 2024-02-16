@@ -7,8 +7,8 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 void main(List<String> args) async {
-  final buildConfig = await BuildConfig.fromArgs(args);
-  await File.fromUri(buildConfig.outDir.resolve(BuildOutput.fileName))
+  final buildConfig = await BuildConfigImpl.fromArgs(args);
+  await File.fromUri(buildConfig.outDir.resolve(BuildOutputImpl.fileName))
       .writeAsString(_wrongContents);
 }
 

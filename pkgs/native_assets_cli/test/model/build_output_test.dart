@@ -18,20 +18,20 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  final buildOutput = BuildOutput(
+  final buildOutput = BuildOutputImpl(
     timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     assets: [
-      Asset(
+      AssetImpl(
         id: 'foo',
-        path: AssetAbsolutePath(Uri(path: 'path/to/libfoo.so')),
-        target: Target.androidX64,
-        linkMode: LinkMode.dynamic,
+        path: AssetAbsolutePathImpl(Uri(path: 'path/to/libfoo.so')),
+        target: TargetImpl.androidX64,
+        linkMode: LinkModeImpl.dynamic,
       ),
-      Asset(
+      AssetImpl(
         id: 'foo2',
-        path: AssetSystemPath(Uri(path: 'path/to/libfoo2.so')),
-        target: Target.androidX64,
-        linkMode: LinkMode.dynamic,
+        path: AssetSystemPathImpl(Uri(path: 'path/to/libfoo2.so')),
+        target: TargetImpl.androidX64,
+        linkMode: LinkModeImpl.dynamic,
       ),
     ],
     dependencies: Dependencies([
@@ -60,12 +60,12 @@ dependencies:
   - path/to/file.ext
 metadata:
   key: value
-version: ${BuildOutput.version}''';
+version: ${BuildOutputImpl.version}''';
 
   test('built info yaml', () {
     final yaml = buildOutput.toYamlString().replaceAll('\\', '/');
     expect(yaml, yamlEncoding);
-    final buildOutput2 = BuildOutput.fromYamlString(yaml);
+    final buildOutput2 = BuildOutputImpl.fromYamlString(yaml);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
@@ -73,10 +73,10 @@ version: ${BuildOutput.version}''';
   test('BuildOutput.toString', buildOutput.toString);
 
   test('BuildOutput.hashCode', () {
-    final buildOutput2 = BuildOutput.fromYamlString(yamlEncoding);
+    final buildOutput2 = BuildOutputImpl.fromYamlString(yamlEncoding);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
 
-    final buildOutput3 = BuildOutput(
+    final buildOutput3 = BuildOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     );
     expect(buildOutput.hashCode != buildOutput3.hashCode, true);
@@ -85,12 +85,12 @@ version: ${BuildOutput.version}''';
   test('BuildOutput.readFromFile BuildOutput.writeToFile', () async {
     final outDir = tempUri.resolve('out_dir/');
     await buildOutput.writeToFile(outDir: outDir);
-    final buildOutput2 = await BuildOutput.readFromFile(outDir: outDir);
+    final buildOutput2 = await BuildOutputImpl.readFromFile(outDir: outDir);
     expect(buildOutput2, buildOutput);
   });
 
   test('Round timestamp', () {
-    final buildOutput3 = BuildOutput(
+    final buildOutput3 = BuildOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.372257'),
     );
     expect(buildOutput3.timestamp, DateTime.parse('2022-11-10 13:25:01.000'));
@@ -99,12 +99,12 @@ version: ${BuildOutput.version}''';
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildOutput version $version', () {
       expect(
-        () => BuildOutput.fromYamlString('version: $version'),
+        () => BuildOutputImpl.fromYamlString('version: $version'),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(BuildConfig.version.toString()),
+              e.message.contains(BuildConfigImpl.version.toString()),
         )),
       );
     });
@@ -112,7 +112,7 @@ version: ${BuildOutput.version}''';
 
   test('format exception', () {
     expect(
-      () => BuildOutput.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
+      () => BuildOutputImpl.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -124,11 +124,11 @@ assets:
 dependencies: []
 metadata:
   key: value
-version: ${BuildOutput.version}'''),
+version: ${BuildOutputImpl.version}'''),
       throwsFormatException,
     );
     expect(
-      () => BuildOutput.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
+      () => BuildOutputImpl.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -140,11 +140,11 @@ dependencies:
   1: foo
 metadata:
   key: value
-version: ${BuildOutput.version}'''),
+version: ${BuildOutputImpl.version}'''),
       throwsFormatException,
     );
     expect(
-      () => BuildOutput.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
+      () => BuildOutputImpl.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -155,7 +155,7 @@ assets:
 dependencies: []
 metadata:
   123: value
-version: ${BuildOutput.version}'''),
+version: ${BuildOutputImpl.version}'''),
       throwsFormatException,
     );
   });
@@ -163,7 +163,7 @@ version: ${BuildOutput.version}'''),
   test('BuildOutput dependencies can be modified', () {
     // TODO(https://github.com/dart-lang/native/issues/25):
     // Remove once dependencies are made immutable.
-    final buildOutput = BuildOutput();
+    final buildOutput = BuildOutputImpl();
     expect(
       () => buildOutput.addDependencies([Uri.file('path/to/file.ext')]),
       returnsNormally,

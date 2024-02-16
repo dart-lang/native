@@ -26,7 +26,7 @@ void main() async {
 
       final dryRunAssets = (await dryRun(packageUri, logger, dartExecutable))
           .assets
-          .where((element) => element.target == Target.current)
+          .where((element) => element.target == TargetImpl.current)
           .toList();
       final result = await build(packageUri, logger, dartExecutable);
 
@@ -41,7 +41,7 @@ void main() async {
       }
 
       final dryRunDir = packageUri.resolve(
-          '.dart_tool/native_assets_builder/dry_run_${Target.current.os}_dynamic/');
+          '.dart_tool/native_assets_builder/dry_run_${TargetImpl.current.os}_dynamic/');
       expect(File.fromUri(dryRunDir.resolve('config.yaml')), exists);
       expect(File.fromUri(dryRunDir.resolve('out/build_output.yaml')), exists);
       //

@@ -2,23 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../api/link_mode.dart' as api;
+part of '../api/link_mode.dart';
 
-class LinkMode implements api.LinkMode {
+class LinkModeImpl implements LinkMode {
   final String name;
 
-  const LinkMode._(this.name);
+  const LinkModeImpl._(this.name);
 
-  static const LinkMode dynamic = LinkMode._('dynamic');
-  static const LinkMode static = LinkMode._('static');
+  static const LinkModeImpl dynamic = LinkModeImpl._('dynamic');
+  static const LinkModeImpl static = LinkModeImpl._('static');
 
-  /// Known values for [LinkMode].
-  static const List<LinkMode> values = [
+  /// Known values for [LinkModeImpl].
+  static const List<LinkModeImpl> values = [
     dynamic,
     static,
   ];
 
-  factory LinkMode.fromName(String name) =>
+  factory LinkModeImpl.fromName(String name) =>
       values.where((element) => element.name == name).first;
 
   @override

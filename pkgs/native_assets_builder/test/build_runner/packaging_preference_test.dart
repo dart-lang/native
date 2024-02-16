@@ -26,35 +26,35 @@ void main() async {
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.dynamic,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
       );
 
       final resultPreferDynamic = await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.preferDynamic,
+        linkModePreference: LinkModePreferenceImpl.preferDynamic,
       );
 
       final resultStatic = await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.static,
+        linkModePreference: LinkModePreferenceImpl.static,
       );
 
       final resultPreferStatic = await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.preferStatic,
+        linkModePreference: LinkModePreferenceImpl.preferStatic,
       );
 
       // This package honors preferences.
-      expect(resultDynamic.assets.single.linkMode, LinkMode.dynamic);
-      expect(resultPreferDynamic.assets.single.linkMode, LinkMode.dynamic);
-      expect(resultStatic.assets.single.linkMode, LinkMode.static);
-      expect(resultPreferStatic.assets.single.linkMode, LinkMode.static);
+      expect(resultDynamic.assets.single.linkMode, LinkModeImpl.dynamic);
+      expect(resultPreferDynamic.assets.single.linkMode, LinkModeImpl.dynamic);
+      expect(resultStatic.assets.single.linkMode, LinkModeImpl.static);
+      expect(resultPreferStatic.assets.single.linkMode, LinkModeImpl.static);
     });
   });
 }

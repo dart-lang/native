@@ -2,19 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import '../model/target.dart' as model;
 import 'link_mode.dart';
+
+part '../model/target.dart';
 
 /// The hardware architectures the Dart VM runs on.
 abstract class Architecture {
-  static const Architecture arm = model.Architecture.arm;
-  static const Architecture arm64 = model.Architecture.arm64;
-  static const Architecture ia32 = model.Architecture.ia32;
-  static const Architecture riscv32 = model.Architecture.riscv32;
-  static const Architecture riscv64 = model.Architecture.riscv64;
-  static const Architecture x64 = model.Architecture.x64;
+  static const Architecture arm = ArchitectureImpl.arm;
+  static const Architecture arm64 = ArchitectureImpl.arm64;
+  static const Architecture ia32 = ArchitectureImpl.ia32;
+  static const Architecture riscv32 = ArchitectureImpl.riscv32;
+  static const Architecture riscv64 = ArchitectureImpl.riscv64;
+  static const Architecture x64 = ArchitectureImpl.x64;
 
   /// Known values for [Architecture].
   static const List<Architecture> values = [
@@ -29,17 +31,17 @@ abstract class Architecture {
   /// The current [Architecture].
   ///
   /// Read from the [Platform.version] string.
-  static Architecture get current => model.Architecture.current;
+  static Architecture get current => ArchitectureImpl.current;
 }
 
 /// The operating systems the Dart VM runs on.
 abstract class OS {
-  static const OS android = model.OS.android;
-  static const OS fuchsia = model.OS.fuchsia;
-  static const OS iOS = model.OS.iOS;
-  static const OS linux = model.OS.linux;
-  static const OS macOS = model.OS.macOS;
-  static const OS windows = model.OS.windows;
+  static const OS android = OSImpl.android;
+  static const OS fuchsia = OSImpl.fuchsia;
+  static const OS iOS = OSImpl.iOS;
+  static const OS linux = OSImpl.linux;
+  static const OS macOS = OSImpl.macOS;
+  static const OS windows = OSImpl.windows;
 
   /// Known values for [OS].
   static const List<OS> values = [
@@ -65,45 +67,45 @@ abstract class OS {
   /// The current [OS].
   ///
   /// Read from the [Platform.version] string.
-  static OS get current => model.OS.current;
+  static OS get current => OSImpl.current;
 }
 
 /// Application binary interface.
 ///
 /// The Dart VM can run on a variety of [Target]s, see [Target.values].
 abstract class Target implements Comparable<Target> {
-  static const Target androidArm = model.Target.androidArm;
-  static const Target androidArm64 = model.Target.androidArm64;
-  static const Target androidIA32 = model.Target.androidIA32;
-  static const Target androidX64 = model.Target.androidX64;
-  static const Target androidRiscv64 = model.Target.androidRiscv64;
-  static const Target fuchsiaArm64 = model.Target.fuchsiaArm64;
-  static const Target fuchsiaX64 = model.Target.fuchsiaX64;
-  static const Target iOSArm = model.Target.iOSArm;
-  static const Target iOSArm64 = model.Target.iOSArm64;
-  static const Target iOSX64 = model.Target.iOSX64;
-  static const Target linuxArm = model.Target.linuxArm;
-  static const Target linuxArm64 = model.Target.linuxArm64;
-  static const Target linuxIA32 = model.Target.linuxIA32;
-  static const Target linuxRiscv32 = model.Target.linuxRiscv32;
-  static const Target linuxRiscv64 = model.Target.linuxRiscv64;
-  static const Target linuxX64 = model.Target.linuxX64;
-  static const Target macOSArm64 = model.Target.macOSArm64;
-  static const Target macOSX64 = model.Target.macOSX64;
-  static const Target windowsArm64 = model.Target.windowsArm64;
-  static const Target windowsIA32 = model.Target.windowsIA32;
-  static const Target windowsX64 = model.Target.windowsX64;
+  static const Target androidArm = TargetImpl.androidArm;
+  static const Target androidArm64 = TargetImpl.androidArm64;
+  static const Target androidIA32 = TargetImpl.androidIA32;
+  static const Target androidX64 = TargetImpl.androidX64;
+  static const Target androidRiscv64 = TargetImpl.androidRiscv64;
+  static const Target fuchsiaArm64 = TargetImpl.fuchsiaArm64;
+  static const Target fuchsiaX64 = TargetImpl.fuchsiaX64;
+  static const Target iOSArm = TargetImpl.iOSArm;
+  static const Target iOSArm64 = TargetImpl.iOSArm64;
+  static const Target iOSX64 = TargetImpl.iOSX64;
+  static const Target linuxArm = TargetImpl.linuxArm;
+  static const Target linuxArm64 = TargetImpl.linuxArm64;
+  static const Target linuxIA32 = TargetImpl.linuxIA32;
+  static const Target linuxRiscv32 = TargetImpl.linuxRiscv32;
+  static const Target linuxRiscv64 = TargetImpl.linuxRiscv64;
+  static const Target linuxX64 = TargetImpl.linuxX64;
+  static const Target macOSArm64 = TargetImpl.macOSArm64;
+  static const Target macOSX64 = TargetImpl.macOSX64;
+  static const Target windowsArm64 = TargetImpl.windowsArm64;
+  static const Target windowsIA32 = TargetImpl.windowsIA32;
+  static const Target windowsX64 = TargetImpl.windowsX64;
 
   /// All Targets that native assets can be built for.
   ///
   /// Note that for some of these a Dart SDK is not available and they are only
   /// used as target architectures for Flutter apps.
-  static const Set<Target> values = model.Target.values;
+  static const Set<Target> values = TargetImpl.values;
 
   /// The current [Target].
   ///
   /// Read from the [Platform.version] string.
-  static Target get current => model.Target.current;
+  static Target get current => TargetImpl.current;
 
   Architecture get architecture;
 

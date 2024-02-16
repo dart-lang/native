@@ -14,12 +14,12 @@ const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
   String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
-  final arKey = unparseKey(CCompilerConfig.arConfigKeyFull);
-  final ccKey = unparseKey(CCompilerConfig.ccConfigKeyFull);
-  final ldKey = unparseKey(CCompilerConfig.ldConfigKeyFull);
-  final envScriptKey = unparseKey(CCompilerConfig.envScriptConfigKeyFull);
+  final arKey = unparseKey(CCompilerConfigImpl.arConfigKeyFull);
+  final ccKey = unparseKey(CCompilerConfigImpl.ccConfigKeyFull);
+  final ldKey = unparseKey(CCompilerConfigImpl.ldConfigKeyFull);
+  final envScriptKey = unparseKey(CCompilerConfigImpl.envScriptConfigKeyFull);
   final envScriptArgsKey =
-      unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull);
+      unparseKey(CCompilerConfigImpl.envScriptArgsConfigKeyFull);
 
   final cc = Platform.environment[ccKey]?.fileUri;
 
@@ -52,7 +52,7 @@ void main() async {
         logger,
         dartExecutable,
         // Manually pass in a compiler.
-        cCompilerConfig: CCompilerConfig(
+        cCompilerConfig: CCompilerConfigImpl(
           ar: Platform.environment[arKey]?.fileUri,
           cc: cc,
           envScript: Platform.environment[envScriptKey]?.fileUri,

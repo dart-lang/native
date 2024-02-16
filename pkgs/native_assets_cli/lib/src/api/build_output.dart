@@ -4,14 +4,20 @@
 
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
+import 'package:yaml/yaml.dart';
 
-import '../model/asset.dart' as model;
-import '../model/build_output.dart' as model;
-import '../model/dependencies.dart' as model;
-import '../model/metadata.dart' as model;
+import '../model/dependencies.dart';
+import '../model/metadata.dart';
+import '../utils/datetime.dart';
+import '../utils/file.dart';
+import '../utils/map.dart';
+import '../utils/yaml.dart';
 import 'asset.dart';
 import 'target.dart';
+
+part '../model/build_output.dart';
 
 /// The output of a `build.dart` invocation.
 ///
@@ -66,11 +72,11 @@ abstract class BuildOutput {
     Iterable<Uri>? dependencies,
     Map<String, Object>? metadata,
   }) =>
-      model.BuildOutput(
+      BuildOutputImpl(
         timestamp: timestamp,
-        assets: assets?.cast<model.Asset>().toList(),
-        dependencies: model.Dependencies([...?dependencies]),
-        metadata: model.Metadata({...?metadata}),
+        assets: assets?.cast<AssetImpl>().toList(),
+        dependencies: Dependencies([...?dependencies]),
+        metadata: Metadata({...?metadata}),
       );
 
   /// Adds [Asset]s produced by this build or dry run.
@@ -113,7 +119,7 @@ abstract class BuildOutput {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version get version => model.BuildOutput.version;
+  static Version get version => BuildOutputImpl.version;
 
   /// Write out this build output to a file inside [outDir].
   Future<void> writeToFile({required Uri outDir});

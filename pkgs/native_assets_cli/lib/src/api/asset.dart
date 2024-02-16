@@ -2,43 +2,45 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../model/asset.dart' as model;
-import '../model/link_mode.dart' as model;
-import '../model/target.dart' as model;
+import 'package:yaml/yaml.dart';
+
+import '../utils/yaml.dart';
 import 'link_mode.dart';
 import 'target.dart';
 
-abstract class AssetPath {}
+part '../model/asset.dart';
+
+abstract final class AssetPath {}
 
 /// Asset at absolute path [uri].
-abstract class AssetAbsolutePath implements AssetPath {
+abstract final class AssetAbsolutePath implements AssetPath {
   Uri get uri;
 
-  factory AssetAbsolutePath(Uri uri) = model.AssetAbsolutePath;
+  factory AssetAbsolutePath(Uri uri) = AssetAbsolutePathImpl;
 }
 
 /// Asset is avaliable on the system `PATH`.
 ///
 /// [uri] only contains a file name.
-abstract class AssetSystemPath implements AssetPath {
+abstract final class AssetSystemPath implements AssetPath {
   Uri get uri;
 
-  factory AssetSystemPath(Uri uri) = model.AssetSystemPath;
+  factory AssetSystemPath(Uri uri) = AssetSystemPathImpl;
 }
 
 /// Asset is loaded in the process and symbols are available through
 /// `DynamicLibrary.process()`.
-abstract class AssetInProcess implements AssetPath {
-  factory AssetInProcess() = model.AssetInProcess;
+abstract final class AssetInProcess implements AssetPath {
+  factory AssetInProcess() = AssetInProcessImpl;
 }
 
 /// Asset is embedded in executable and symbols are available through
 /// `DynamicLibrary.executable()`.
-abstract class AssetInExecutable implements AssetPath {
-  factory AssetInExecutable() = model.AssetInExecutable;
+abstract final class AssetInExecutable implements AssetPath {
+  factory AssetInExecutable() = AssetInExecutableImpl;
 }
 
-abstract class Asset {
+abstract final class Asset {
   LinkMode get linkMode;
   String get id;
   Target get target;
@@ -50,10 +52,10 @@ abstract class Asset {
     required Target target,
     required AssetPath path,
   }) =>
-      model.Asset(
+      AssetImpl(
         id: id,
-        linkMode: linkMode as model.LinkMode,
-        target: target as model.Target,
-        path: path as model.AssetPath,
+        linkMode: linkMode as LinkModeImpl,
+        target: target as TargetImpl,
+        path: path as AssetPathImpl,
       );
 }

@@ -4,6 +4,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -12,41 +13,41 @@ void main() {
   final barUri = Uri(path: 'path/to/libbar.a');
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
   final assets = [
-    Asset(
+    AssetImpl(
       id: 'foo',
-      path: AssetAbsolutePath(fooUri),
-      target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
+      path: AssetAbsolutePathImpl(fooUri),
+      target: TargetImpl.androidX64,
+      linkMode: LinkModeImpl.dynamic,
     ),
-    Asset(
+    AssetImpl(
       id: 'foo3',
-      path: AssetSystemPath(foo3Uri),
-      target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
+      path: AssetSystemPathImpl(foo3Uri),
+      target: TargetImpl.androidX64,
+      linkMode: LinkModeImpl.dynamic,
     ),
-    Asset(
+    AssetImpl(
       id: 'foo4',
-      path: AssetInExecutable(),
-      target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
+      path: AssetInExecutableImpl(),
+      target: TargetImpl.androidX64,
+      linkMode: LinkModeImpl.dynamic,
     ),
-    Asset(
+    AssetImpl(
       id: 'foo5',
-      path: AssetInProcess(),
-      target: Target.androidX64,
-      linkMode: LinkMode.dynamic,
+      path: AssetInProcessImpl(),
+      target: TargetImpl.androidX64,
+      linkMode: LinkModeImpl.dynamic,
     ),
-    Asset(
+    AssetImpl(
       id: 'bar',
-      path: AssetAbsolutePath(barUri),
-      target: Target.linuxArm64,
-      linkMode: LinkMode.static,
+      path: AssetAbsolutePathImpl(barUri),
+      target: TargetImpl.linuxArm64,
+      linkMode: LinkModeImpl.static,
     ),
-    Asset(
+    AssetImpl(
       id: 'bla',
-      path: AssetAbsolutePath(blaUri),
-      target: Target.windowsX64,
-      linkMode: LinkMode.dynamic,
+      path: AssetAbsolutePathImpl(blaUri),
+      target: TargetImpl.windowsX64,
+      linkMode: LinkModeImpl.dynamic,
     ),
   ];
 
@@ -88,13 +89,13 @@ void main() {
   test('asset yaml', () {
     final yaml = assets.toYamlString();
     expect(yaml, assetsYamlEncoding);
-    final assets2 = Asset.listFromYamlString(yaml);
+    final assets2 = AssetImpl.listFromYamlString(yaml);
     expect(assets, assets2);
   });
 
   test('AssetPath factory', () async {
     expect(
-      () => AssetPath('wrong', null),
+      () => AssetPathImpl('wrong', null),
       throwsA(predicate(
         (e) => e is FormatException && e.message.contains('Unknown pathType'),
       )),
@@ -112,7 +113,7 @@ void main() {
 
   test('List<Asset> hashCode', () async {
     final assets2 = assets.take(3).toList();
-    const equality = ListEquality<Asset>();
+    const equality = ListEquality<AssetImpl>();
     expect(equality.hash(assets) != equality.hash(assets2), true);
   });
 
@@ -121,7 +122,7 @@ void main() {
   });
 
   test('Asset listFromYamlString', () async {
-    final assets = Asset.listFromYamlString('');
-    expect(assets, <Asset>[]);
+    final assets = AssetImpl.listFromYamlString('');
+    expect(assets, <AssetImpl>[]);
   });
 }

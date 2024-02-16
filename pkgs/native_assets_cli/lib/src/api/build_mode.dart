@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../model/build_mode.dart' as model;
+part '../model/build_mode.dart';
 
 abstract class BuildMode {
   String get name;
 
-  static const BuildMode debug = model.BuildMode.debug;
-  static const BuildMode release = model.BuildMode.release;
+  static const BuildMode debug = BuildModeImpl.debug;
+  static const BuildMode release = BuildModeImpl.release;
 
   static const values = <BuildMode>[
     debug,

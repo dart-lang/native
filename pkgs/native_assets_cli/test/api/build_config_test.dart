@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
+import 'package:native_assets_cli/src/api/build_config.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -199,8 +199,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
     );
-    final configFileContents =
-        (buildConfig as internal.BuildConfig).toYamlString();
+    final configFileContents = (buildConfig as BuildConfigImpl).toYamlString();
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);

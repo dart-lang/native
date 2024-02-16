@@ -10,25 +10,27 @@ import 'package:test/test.dart';
 
 void main() {
   test('OS naming conventions', () async {
-    expect(OS.android.dylibFileName('foo'), 'libfoo.so');
-    expect(OS.android.staticlibFileName('foo'), 'libfoo.a');
-    expect(OS.windows.dylibFileName('foo'), 'foo.dll');
-    expect(OS.windows.libraryFileName('foo', LinkMode.dynamic), 'foo.dll');
-    expect(OS.windows.staticlibFileName('foo'), 'foo.lib');
-    expect(OS.windows.libraryFileName('foo', LinkMode.static), 'foo.lib');
-    expect(OS.windows.executableFileName('foo'), 'foo.exe');
+    expect(OSImpl.android.dylibFileName('foo'), 'libfoo.so');
+    expect(OSImpl.android.staticlibFileName('foo'), 'libfoo.a');
+    expect(OSImpl.windows.dylibFileName('foo'), 'foo.dll');
+    expect(
+        OSImpl.windows.libraryFileName('foo', LinkModeImpl.dynamic), 'foo.dll');
+    expect(OSImpl.windows.staticlibFileName('foo'), 'foo.lib');
+    expect(
+        OSImpl.windows.libraryFileName('foo', LinkModeImpl.static), 'foo.lib');
+    expect(OSImpl.windows.executableFileName('foo'), 'foo.exe');
   });
 
   test('Target current', () async {
-    final current = Target.current;
+    final current = TargetImpl.current;
     expect(current.toString(), Abi.current().toString());
   });
 
   test('Target fromDartPlatform', () async {
-    final current = Target.fromDartPlatform(Platform.version);
+    final current = TargetImpl.fromDartPlatform(Platform.version);
     expect(current.toString(), Abi.current().toString());
     expect(
-      () => Target.fromDartPlatform('bogus'),
+      () => TargetImpl.fromDartPlatform('bogus'),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -37,7 +39,7 @@ void main() {
       )),
     );
     expect(
-      () => Target.fromDartPlatform(
+      () => TargetImpl.fromDartPlatform(
         '3.0.0 (be) (Wed Apr 5 14:19:42 2023 +0000) on "myfancyos_ia32"',
       ),
       throwsA(predicate(
@@ -51,19 +53,20 @@ void main() {
 
   test('Target cross compilation', () async {
     // All hosts can cross compile to Android.
-    expect(
-        Target.current.supportedTargetTargets(), contains(Target.androidArm64));
-    expect(
-        Target.macOSArm64.supportedTargetTargets(), contains(Target.iOSArm64));
+    expect(TargetImpl.current.supportedTargetTargets(),
+        contains(TargetImpl.androidArm64));
+    expect(TargetImpl.macOSArm64.supportedTargetTargets(),
+        contains(TargetImpl.iOSArm64));
   });
 
   test('Target fromArchitectureAndOs', () async {
-    final current =
-        Target.fromArchitectureAndOs(Architecture.current, OS.current);
+    final current = TargetImpl.fromArchitectureAndOs(
+        ArchitectureImpl.current, OSImpl.current);
     expect(current.toString(), Abi.current().toString());
 
     expect(
-      () => Target.fromArchitectureAndOs(Architecture.arm, OS.windows),
+      () => TargetImpl.fromArchitectureAndOs(
+          ArchitectureImpl.arm, OSImpl.windows),
       throwsA(predicate(
         (e) =>
             e is ArgumentError &&

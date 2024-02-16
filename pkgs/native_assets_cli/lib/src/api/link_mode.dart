@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../model/link_mode.dart' as model;
+part '../model/link_mode.dart';
 
 abstract class LinkMode {
-  static const LinkMode dynamic = model.LinkMode.dynamic;
-  static const LinkMode static = model.LinkMode.static;
+  static const LinkMode dynamic = LinkModeImpl.dynamic;
+  static const LinkMode static = LinkModeImpl.static;
 
   /// Known values for [LinkMode].
   static const List<LinkMode> values = [

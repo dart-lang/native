@@ -2,21 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_config/cli_config.dart';
+import 'package:collection/collection.dart';
+import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-import '../model/build_config.dart' as model;
-import '../model/build_mode.dart' as model;
-import '../model/ios_sdk.dart' as model;
-import '../model/link_mode_preference.dart' as model;
-import '../model/metadata.dart' as model;
-import '../model/target.dart' as model;
+import '../model/metadata.dart';
+import '../utils/map.dart';
+import '../utils/yaml.dart';
 import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'target.dart';
+
+part '../model/build_config.dart';
 
 /// The configuration for a `build.dart` invocation.
 ///
@@ -24,7 +26,7 @@ import 'target.dart';
 /// script exists, it will be automatically run, by the Flutter and Dart SDK
 /// tools. The script will then be run with specific commandline arguments,
 /// which [BuildConfig] can parse and provide more convenient access to.
-abstract class BuildConfig {
+abstract final class BuildConfig {
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
   Uri get outDir;
@@ -109,7 +111,7 @@ abstract class BuildConfig {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version get version => model.BuildConfig.version;
+  static Version get version => BuildConfigImpl.version;
 
   factory BuildConfig({
     required Uri outDir,
@@ -124,21 +126,21 @@ abstract class BuildConfig {
     required LinkModePreference linkModePreference,
     Map<String, Map<String, Object>>? dependencyMetadata,
   }) =>
-      model.BuildConfig(
+      BuildConfigImpl(
         outDir: outDir,
         packageName: packageName,
         packageRoot: packageRoot,
-        buildMode: buildMode as model.BuildMode,
-        targetArchitecture: targetArchitecture as model.Architecture,
-        targetOs: targetOs as model.OS,
-        targetIOSSdk: targetIOSSdk as model.IOSSdk?,
+        buildMode: buildMode as BuildModeImpl,
+        targetArchitecture: targetArchitecture as ArchitectureImpl,
+        targetOs: targetOs as OSImpl,
+        targetIOSSdk: targetIOSSdk as IOSSdkImpl?,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        cCompiler: cCompiler as model.CCompilerConfig?,
-        linkModePreference: linkModePreference as model.LinkModePreference,
+        cCompiler: cCompiler as CCompilerConfigImpl?,
+        linkModePreference: linkModePreference as LinkModePreferenceImpl,
         dependencyMetadata: dependencyMetadata != null
             ? {
                 for (final entry in dependencyMetadata.entries)
-                  entry.key: model.Metadata(entry.value.cast())
+                  entry.key: Metadata(entry.value.cast())
               }
             : {},
       );
@@ -150,16 +152,16 @@ abstract class BuildConfig {
     required OS targetOs,
     required LinkModePreference linkModePreference,
   }) =>
-      model.BuildConfig.dryRun(
+      BuildConfigImpl.dryRun(
         outDir: outDir,
         packageName: packageName,
         packageRoot: packageRoot,
-        targetOs: targetOs as model.OS,
-        linkModePreference: linkModePreference as model.LinkModePreference,
+        targetOs: targetOs as OSImpl,
+        linkModePreference: linkModePreference as LinkModePreferenceImpl,
       );
 
   factory BuildConfig.fromConfig(Config config) =>
-      model.BuildConfig.fromConfig(config);
+      BuildConfigImpl.fromConfig(config);
 
   /// Constructs a config by parsing CLI arguments and loading the config file.
   ///
@@ -178,7 +180,7 @@ abstract class BuildConfig {
     Map<String, String>? environment,
     Uri? workingDirectory,
   }) =>
-      model.BuildConfig.fromArgs(
+      BuildConfigImpl.fromArgs(
         args,
         environment: environment,
         workingDirectory: workingDirectory,
@@ -207,5 +209,5 @@ abstract class CCompilerConfig {
     Uri? ld,
     Uri? envScript,
     List<String>? envScriptArgs,
-  }) = model.CCompilerConfig;
+  }) = CCompilerConfigImpl;
 }

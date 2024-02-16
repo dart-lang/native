@@ -42,19 +42,19 @@ void main() async {
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_name=$name',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
-          '-Dtarget_os=${OS.current}',
-          '-Dversion=${BuildConfig.version}',
+          '-Dtarget_os=${OSImpl.current}',
+          '-Dversion=${BuildConfigImpl.version}',
           '-Dlink_mode_preference=dynamic',
           '-Ddry_run=$dryRun',
           if (!dryRun) ...[
-            '-Dtarget_architecture=${Architecture.current}',
+            '-Dtarget_architecture=${ArchitectureImpl.current}',
             '-Dbuild_mode=debug',
             if (cc != null) '-Dcc=${cc!.toFilePath()}',
             if (envScript != null)
-              '-D${CCompilerConfig.envScriptConfigKeyFull}='
+              '-D${CCompilerConfigImpl.envScriptConfigKeyFull}='
                   '${envScript!.toFilePath()}',
             if (envScriptArgs != null)
-              '-D${CCompilerConfig.envScriptArgsConfigKeyFull}='
+              '-D${CCompilerConfigImpl.envScriptArgsConfigKeyFull}='
                   '${envScriptArgs!.join(' ')}',
           ],
         ],
@@ -68,14 +68,14 @@ void main() async {
       expect(processResult.exitCode, 0);
 
       final buildOutputUri = tempUri.resolve('build_output.yaml');
-      final buildOutput = BuildOutput.fromYamlString(
+      final buildOutput = BuildOutputImpl.fromYamlString(
           await File.fromUri(buildOutputUri).readAsString());
       final assets = buildOutput.assets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(1));
         expect(
-            await File.fromUri((assets.first.path as AssetAbsolutePath).uri)
+            await File.fromUri((assets.first.path as AssetAbsolutePathImpl).uri)
                 .exists(),
             false);
         expect(dependencies, <Uri>[]);

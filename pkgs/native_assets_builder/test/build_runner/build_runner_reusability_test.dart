@@ -29,28 +29,28 @@ void main() async {
       );
 
       await buildRunner.dryRun(
-        targetOs: Target.current.os,
-        linkModePreference: LinkModePreference.dynamic,
+        targetOs: TargetImpl.current.os,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
       );
       await buildRunner.dryRun(
-        targetOs: Target.current.os,
-        linkModePreference: LinkModePreference.dynamic,
+        targetOs: TargetImpl.current.os,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
       );
       await buildRunner.build(
-        buildMode: BuildMode.release,
-        linkModePreference: LinkModePreference.dynamic,
-        target: Target.current,
+        buildMode: BuildModeImpl.release,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
+        target: TargetImpl.current,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
       );
       await buildRunner.build(
-        buildMode: BuildMode.release,
-        linkModePreference: LinkModePreference.dynamic,
-        target: Target.current,
+        buildMode: BuildModeImpl.release,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
+        target: TargetImpl.current,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
       );

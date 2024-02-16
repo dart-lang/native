@@ -2,50 +2,49 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../api/link_mode_preference.dart' as api;
-import 'link_mode.dart';
+part of '../api/link_mode_preference.dart';
 
-class LinkModePreference implements api.LinkModePreference {
+class LinkModePreferenceImpl implements LinkModePreference {
   @override
   final String name;
 
   @override
-  final LinkMode preferredLinkMode;
+  final LinkModeImpl preferredLinkMode;
 
   @override
-  final List<LinkMode> potentialLinkMode;
+  final List<LinkModeImpl> potentialLinkMode;
 
-  const LinkModePreference(
+  const LinkModePreferenceImpl(
     this.name, {
     required this.preferredLinkMode,
     required this.potentialLinkMode,
   });
 
-  factory LinkModePreference.fromString(String name) =>
+  factory LinkModePreferenceImpl.fromString(String name) =>
       values.where((element) => element.name == name).first;
 
-  static const dynamic = LinkModePreference(
+  static const dynamic = LinkModePreferenceImpl(
     'dynamic',
-    preferredLinkMode: LinkMode.dynamic,
-    potentialLinkMode: [LinkMode.dynamic],
+    preferredLinkMode: LinkModeImpl.dynamic,
+    potentialLinkMode: [LinkModeImpl.dynamic],
   );
 
-  static const static = LinkModePreference(
+  static const static = LinkModePreferenceImpl(
     'static',
-    preferredLinkMode: LinkMode.static,
-    potentialLinkMode: [LinkMode.static],
+    preferredLinkMode: LinkModeImpl.static,
+    potentialLinkMode: [LinkModeImpl.static],
   );
 
-  static const preferDynamic = LinkModePreference(
+  static const preferDynamic = LinkModePreferenceImpl(
     'prefer-dynamic',
-    preferredLinkMode: LinkMode.dynamic,
-    potentialLinkMode: LinkMode.values,
+    preferredLinkMode: LinkModeImpl.dynamic,
+    potentialLinkMode: LinkModeImpl.values,
   );
 
-  static const preferStatic = LinkModePreference(
+  static const preferStatic = LinkModePreferenceImpl(
     'prefer-static',
-    preferredLinkMode: LinkMode.static,
-    potentialLinkMode: LinkMode.values,
+    preferredLinkMode: LinkModeImpl.static,
+    potentialLinkMode: LinkModeImpl.values,
   );
 
   static const values = [

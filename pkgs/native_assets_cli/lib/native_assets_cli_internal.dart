@@ -8,13 +8,19 @@
 /// @nodoc
 library native_assets_cli_internal;
 
-export 'src/model/asset.dart';
-export 'src/model/build_config.dart';
-export 'src/model/build_mode.dart';
-export 'src/model/build_output.dart';
+export 'src/api/asset.dart'
+    show
+        AssetAbsolutePathImpl,
+        AssetImpl,
+        AssetInExecutableImpl,
+        AssetInProcessImpl,
+        AssetSystemPathImpl;
+export 'src/api/build_config.dart' show BuildConfigImpl, CCompilerConfigImpl;
+export 'src/api/build_mode.dart' show BuildModeImpl;
+export 'src/api/build_output.dart' show BuildOutputImpl;
+export 'src/api/ios_sdk.dart' show IOSSdkImpl;
+export 'src/api/link_mode.dart' show LinkModeImpl;
+export 'src/api/link_mode_preference.dart' show LinkModePreferenceImpl;
+export 'src/api/target.dart' show ArchitectureImpl, OSImpl, TargetImpl;
 export 'src/model/dependencies.dart';
-export 'src/model/ios_sdk.dart';
-export 'src/model/link_mode.dart';
-export 'src/model/link_mode_preference.dart';
 export 'src/model/metadata.dart';
-export 'src/model/target.dart';

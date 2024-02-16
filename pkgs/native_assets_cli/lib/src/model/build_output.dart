@@ -2,30 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+part of '../api/build_output.dart';
 
-import 'package:collection/collection.dart';
-import 'package:pub_semver/pub_semver.dart';
-import 'package:yaml/yaml.dart';
-
-import '../api/asset.dart' as api;
-import '../api/build_output.dart' as api;
-import '../utils/datetime.dart';
-import '../utils/file.dart';
-import '../utils/map.dart';
-import '../utils/yaml.dart';
-import 'asset.dart';
-import 'dependencies.dart';
-import 'metadata.dart';
-
-class BuildOutput implements api.BuildOutput {
+class BuildOutputImpl implements BuildOutput {
   @override
   final DateTime timestamp;
 
-  final List<Asset> _assets;
+  final List<AssetImpl> _assets;
 
   @override
-  Iterable<Asset> get assets => _assets;
+  Iterable<AssetImpl> get assets => _assets;
 
   final Dependencies _dependencies;
 
@@ -36,9 +22,9 @@ class BuildOutput implements api.BuildOutput {
 
   final Metadata _metadata;
 
-  BuildOutput({
+  BuildOutputImpl({
     DateTime? timestamp,
-    List<Asset>? assets,
+    List<AssetImpl>? assets,
     Dependencies? dependencies,
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
@@ -62,12 +48,12 @@ class BuildOutput implements api.BuildOutput {
   static const _timestampKey = 'timestamp';
   static const _versionKey = 'version';
 
-  factory BuildOutput.fromYamlString(String yaml) {
+  factory BuildOutputImpl.fromYamlString(String yaml) {
     final yamlObject = loadYaml(yaml);
-    return BuildOutput.fromYaml(as<YamlMap>(yamlObject));
+    return BuildOutputImpl.fromYaml(as<YamlMap>(yamlObject));
   }
 
-  factory BuildOutput.fromYaml(YamlMap yamlMap) {
+  factory BuildOutputImpl.fromYaml(YamlMap yamlMap) {
     final outputVersion = Version.parse(as<String>(yamlMap['version']));
     if (outputVersion.major > version.major) {
       throw FormatException(
@@ -84,9 +70,9 @@ class BuildOutput implements api.BuildOutput {
       );
     }
 
-    return BuildOutput(
+    return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(yamlMap[_timestampKey])),
-      assets: Asset.listFromYamlList(as<YamlList>(yamlMap[_assetsKey])),
+      assets: AssetImpl.listFromYamlList(as<YamlList>(yamlMap[_assetsKey])),
       dependencies:
           Dependencies.fromYaml(as<YamlList?>(yamlMap[_dependenciesKey])),
       metadata: Metadata.fromYaml(as<YamlMap?>(yamlMap[_metadataKey])),
@@ -104,7 +90,7 @@ class BuildOutput implements api.BuildOutput {
 
   String toYamlString() => yamlEncode(toYaml());
 
-  /// The version of [BuildOutput].
+  /// The version of [BuildOutputImpl].
   ///
   /// This class is used in the protocol between the Dart and Flutter SDKs
   /// and packages through `build.dart` invocations.
@@ -117,13 +103,13 @@ class BuildOutput implements api.BuildOutput {
   static const fileName = 'build_output.yaml';
 
   /// Writes the YAML file from [outDir]/[fileName].
-  static Future<BuildOutput?> readFromFile({required Uri outDir}) async {
+  static Future<BuildOutputImpl?> readFromFile({required Uri outDir}) async {
     final buildOutputUri = outDir.resolve(fileName);
     final buildOutputFile = File.fromUri(buildOutputUri);
     if (!await buildOutputFile.exists()) {
       return null;
     }
-    return BuildOutput.fromYamlString(await buildOutputFile.readAsString());
+    return BuildOutputImpl.fromYamlString(await buildOutputFile.readAsString());
   }
 
   /// Writes the [toYamlString] to [outDir]/[fileName].
@@ -139,11 +125,11 @@ class BuildOutput implements api.BuildOutput {
 
   @override
   bool operator ==(Object other) {
-    if (other is! BuildOutput) {
+    if (other is! BuildOutputImpl) {
       return false;
     }
     return other.timestamp == timestamp &&
-        const ListEquality<Asset>().equals(other._assets, _assets) &&
+        const ListEquality<AssetImpl>().equals(other._assets, _assets) &&
         other._dependencies == _dependencies &&
         other._metadata == _metadata;
   }
@@ -151,7 +137,7 @@ class BuildOutput implements api.BuildOutput {
   @override
   int get hashCode => Object.hash(
         timestamp.hashCode,
-        const ListEquality<Asset>().hash(_assets),
+        const ListEquality<AssetImpl>().hash(_assets),
         _dependencies,
         _metadata,
       );
@@ -169,12 +155,12 @@ class BuildOutput implements api.BuildOutput {
   Metadata get metadataModel => _metadata;
 
   @override
-  void addAsset(api.Asset asset) {
-    _assets.add(asset as Asset);
+  void addAsset(Asset asset) {
+    _assets.add(asset as AssetImpl);
   }
 
   @override
-  void addAssets(Iterable<api.Asset> assets) {
+  void addAssets(Iterable<Asset> assets) {
     _assets.addAll(assets.cast());
   }
 }
