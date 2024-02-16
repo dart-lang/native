@@ -194,11 +194,11 @@ final class CCodeAssetImpl implements CCodeAsset {
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
-        _typeKey: _type,
+        typeKey: type,
       };
 
-  static const _typeKey = 'type';
-  static const _type = 'c_code';
+  static const typeKey = 'type';
+  static const type = 'c_code';
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';

@@ -70,10 +70,24 @@ class BuildOutputImpl implements BuildOutput {
       );
     }
 
+    final assets = <CCodeAssetImpl>[];
+    for (final yamlElement in as<YamlList>(yamlMap[_assetsKey])) {
+      final yamlMap = as<YamlMap>(yamlElement);
+      final type = yamlMap[CCodeAssetImpl.typeKey];
+      switch (type) {
+        case CCodeAssetImpl.type:
+        case null: // Backwards compatibility with v1.0.0.
+          assets.add(CCodeAssetImpl.fromYaml(yamlMap));
+        default:
+          throw FormatException(
+            "Unexpected asset type '$type' in YAML.",
+          );
+      }
+    }
+
     return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(yamlMap[_timestampKey])),
-      assets:
-          CCodeAssetImpl.listFromYamlList(as<YamlList>(yamlMap[_assetsKey])),
+      assets: assets,
       dependencies:
           Dependencies.fromYaml(as<YamlList?>(yamlMap[_dependenciesKey])),
       metadata: Metadata.fromYaml(as<YamlMap?>(yamlMap[_metadataKey])),
