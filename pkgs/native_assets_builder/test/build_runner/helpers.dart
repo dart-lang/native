@@ -105,7 +105,7 @@ Future<DryRunResult> dryRun(
   return result;
 }
 
-Future<void> expectAssetsExist(List<AssetImpl> assets) async {
+Future<void> expectAssetsExist(List<CCodeAssetImpl> assets) async {
   for (final asset in assets) {
     final uri = (asset.path as AssetAbsolutePathImpl).uri;
     expect(
@@ -118,7 +118,7 @@ Future<void> expectAssetsExist(List<AssetImpl> assets) async {
 }
 
 Future<void> expectSymbols({
-  required AssetImpl asset,
+  required CCodeAssetImpl asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {

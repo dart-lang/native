@@ -40,19 +40,23 @@ abstract final class AssetInExecutable implements AssetPath {
   factory AssetInExecutable() = AssetInExecutableImpl;
 }
 
-abstract final class Asset {
+/// A code asset which respects the C application binary interface (ABI).
+///
+/// Typical other languages which produce code assets that respect the C ABI
+/// include C++ and Rust.
+abstract final class CCodeAsset {
   LinkMode get linkMode;
   String get id;
   Target get target;
   AssetPath get path;
 
-  factory Asset({
+  factory CCodeAsset({
     required String id,
     required LinkMode linkMode,
     required Target target,
     required AssetPath path,
   }) =>
-      AssetImpl(
+      CCodeAssetImpl(
         id: id,
         linkMode: linkMode as LinkModeImpl,
         target: target as TargetImpl,

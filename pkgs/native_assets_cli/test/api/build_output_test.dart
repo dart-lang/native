@@ -22,13 +22,13 @@ void main() {
     BuildOutput(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
-        Asset(
+        CCodeAsset(
           id: 'foo',
           path: AssetAbsolutePath(Uri(path: 'path/to/libfoo.so')),
           target: Target.androidX64,
           linkMode: LinkMode.dynamic,
         ),
-        Asset(
+        CCodeAsset(
           id: 'foo2',
           path: AssetSystemPath(Uri(path: 'path/to/libfoo2.so')),
           target: Target.androidX64,

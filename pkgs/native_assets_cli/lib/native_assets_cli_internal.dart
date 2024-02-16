@@ -11,7 +11,7 @@ library native_assets_cli_internal;
 export 'src/api/asset.dart'
     show
         AssetAbsolutePathImpl,
-        AssetImpl,
+        CCodeAssetImpl,
         AssetInExecutableImpl,
         AssetInProcessImpl,
         AssetSystemPathImpl;

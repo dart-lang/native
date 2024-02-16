@@ -41,7 +41,7 @@ void main(List<String> args) async {
 
     output.addAssets([
       for (final target in targets)
-        Asset(
+        CCodeAsset(
           id: 'library:$packageName/asset.txt',
           linkMode: LinkMode.dynamic,
           target: target,

@@ -113,7 +113,7 @@ extension on String {
   Uri asFileUri() => Uri.file(this);
 }
 
-extension AssetIterable on Iterable<Asset> {
+extension AssetIterable on Iterable<CCodeAsset> {
   Future<bool> allExist() async {
     final allResults = await Future.wait(map((e) => e.exists()));
     final missing = allResults.contains(false);
@@ -121,7 +121,7 @@ extension AssetIterable on Iterable<Asset> {
   }
 }
 
-extension on Asset {
+extension on CCodeAsset {
   Future<bool> exists() async {
     final path_ = path;
     return switch (path_) {

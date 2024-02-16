@@ -8,10 +8,10 @@ class BuildOutputImpl implements BuildOutput {
   @override
   final DateTime timestamp;
 
-  final List<AssetImpl> _assets;
+  final List<CCodeAssetImpl> _assets;
 
   @override
-  Iterable<AssetImpl> get assets => _assets;
+  Iterable<CCodeAssetImpl> get assets => _assets;
 
   final Dependencies _dependencies;
 
@@ -24,7 +24,7 @@ class BuildOutputImpl implements BuildOutput {
 
   BuildOutputImpl({
     DateTime? timestamp,
-    List<AssetImpl>? assets,
+    List<CCodeAssetImpl>? assets,
     Dependencies? dependencies,
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
@@ -72,7 +72,8 @@ class BuildOutputImpl implements BuildOutput {
 
     return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(yamlMap[_timestampKey])),
-      assets: AssetImpl.listFromYamlList(as<YamlList>(yamlMap[_assetsKey])),
+      assets:
+          CCodeAssetImpl.listFromYamlList(as<YamlList>(yamlMap[_assetsKey])),
       dependencies:
           Dependencies.fromYaml(as<YamlList?>(yamlMap[_dependenciesKey])),
       metadata: Metadata.fromYaml(as<YamlMap?>(yamlMap[_metadataKey])),
@@ -129,7 +130,7 @@ class BuildOutputImpl implements BuildOutput {
       return false;
     }
     return other.timestamp == timestamp &&
-        const ListEquality<AssetImpl>().equals(other._assets, _assets) &&
+        const ListEquality<CCodeAssetImpl>().equals(other._assets, _assets) &&
         other._dependencies == _dependencies &&
         other._metadata == _metadata;
   }
@@ -137,7 +138,7 @@ class BuildOutputImpl implements BuildOutput {
   @override
   int get hashCode => Object.hash(
         timestamp.hashCode,
-        const ListEquality<AssetImpl>().hash(_assets),
+        const ListEquality<CCodeAssetImpl>().hash(_assets),
         _dependencies,
         _metadata,
       );
@@ -155,12 +156,12 @@ class BuildOutputImpl implements BuildOutput {
   Metadata get metadataModel => _metadata;
 
   @override
-  void addAsset(Asset asset) {
-    _assets.add(asset as AssetImpl);
+  void addAsset(CCodeAsset asset) {
+    _assets.add(asset as CCodeAssetImpl);
   }
 
   @override
-  void addAssets(Iterable<Asset> assets) {
+  void addAssets(Iterable<CCodeAsset> assets) {
     _assets.addAll(assets.cast());
   }
 }

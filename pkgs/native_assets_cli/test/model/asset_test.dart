@@ -13,43 +13,78 @@ void main() {
   final barUri = Uri(path: 'path/to/libbar.a');
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
   final assets = [
-    AssetImpl(
+    CCodeAssetImpl(
       id: 'foo',
       path: AssetAbsolutePathImpl(fooUri),
       target: TargetImpl.androidX64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    AssetImpl(
+    CCodeAssetImpl(
       id: 'foo3',
       path: AssetSystemPathImpl(foo3Uri),
       target: TargetImpl.androidX64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    AssetImpl(
+    CCodeAssetImpl(
       id: 'foo4',
       path: AssetInExecutableImpl(),
       target: TargetImpl.androidX64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    AssetImpl(
+    CCodeAssetImpl(
       id: 'foo5',
       path: AssetInProcessImpl(),
       target: TargetImpl.androidX64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    AssetImpl(
+    CCodeAssetImpl(
       id: 'bar',
       path: AssetAbsolutePathImpl(barUri),
       target: TargetImpl.linuxArm64,
       linkMode: LinkModeImpl.static,
     ),
-    AssetImpl(
+    CCodeAssetImpl(
       id: 'bla',
       path: AssetAbsolutePathImpl(blaUri),
       target: TargetImpl.windowsX64,
       linkMode: LinkModeImpl.dynamic,
     ),
   ];
+
+  final assetsYamlEncodingV1_0_0 = '''- id: foo
+  link_mode: dynamic
+  path:
+    path_type: absolute
+    uri: ${fooUri.toFilePath()}
+  target: android_x64
+- id: foo3
+  link_mode: dynamic
+  path:
+    path_type: system
+    uri: ${foo3Uri.toFilePath()}
+  target: android_x64
+- id: foo4
+  link_mode: dynamic
+  path:
+    path_type: executable
+  target: android_x64
+- id: foo5
+  link_mode: dynamic
+  path:
+    path_type: process
+  target: android_x64
+- id: bar
+  link_mode: static
+  path:
+    path_type: absolute
+    uri: ${barUri.toFilePath()}
+  target: linux_arm64
+- id: bla
+  link_mode: dynamic
+  path:
+    path_type: absolute
+    uri: ${blaUri.toFilePath()}
+  target: windows_x64''';
 
   final assetsYamlEncoding = '''- id: foo
   link_mode: dynamic
@@ -89,7 +124,12 @@ void main() {
   test('asset yaml', () {
     final yaml = assets.toYamlString();
     expect(yaml, assetsYamlEncoding);
-    final assets2 = AssetImpl.listFromYamlString(yaml);
+    final assets2 = CCodeAssetImpl.listFromYamlString(yaml);
+    expect(assets, assets2);
+  });
+
+  test('build_output protocol v1.0.0 keeps working', () {
+    final assets2 = CCodeAssetImpl.listFromYamlString(assetsYamlEncodingV1_0_0);
     expect(assets, assets2);
   });
 
@@ -113,7 +153,7 @@ void main() {
 
   test('List<Asset> hashCode', () async {
     final assets2 = assets.take(3).toList();
-    const equality = ListEquality<AssetImpl>();
+    const equality = ListEquality<CCodeAssetImpl>();
     expect(equality.hash(assets) != equality.hash(assets2), true);
   });
 
@@ -122,7 +162,7 @@ void main() {
   });
 
   test('Asset listFromYamlString', () async {
-    final assets = AssetImpl.listFromYamlString('');
-    expect(assets, <AssetImpl>[]);
+    final assets = CCodeAssetImpl.listFromYamlString('');
+    expect(assets, <CCodeAssetImpl>[]);
   });
 }

@@ -122,7 +122,7 @@ final class AssetInExecutableImpl implements AssetPathImpl, AssetInExecutable {
       };
 }
 
-final class AssetImpl implements Asset {
+final class CCodeAssetImpl implements CCodeAsset {
   @override
   final LinkModeImpl linkMode;
   @override
@@ -132,43 +132,43 @@ final class AssetImpl implements Asset {
   @override
   final AssetPathImpl path;
 
-  AssetImpl({
+  CCodeAssetImpl({
     required this.id,
     required this.linkMode,
     required this.target,
     required this.path,
   });
 
-  factory AssetImpl.fromYaml(YamlMap yamlMap) => AssetImpl(
+  factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) => CCodeAssetImpl(
         id: as<String>(yamlMap[_idKey]),
         path: AssetPathImpl.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
         target: TargetImpl.fromString(as<String>(yamlMap[_targetKey])),
         linkMode: LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey])),
       );
 
-  static List<AssetImpl> listFromYamlString(String yaml) {
+  static List<CCodeAssetImpl> listFromYamlString(String yaml) {
     final yamlObject = loadYaml(yaml);
     if (yamlObject == null) {
       return [];
     }
     return [
       for (final yamlElement in as<YamlList>(yamlObject))
-        AssetImpl.fromYaml(as<YamlMap>(yamlElement)),
+        CCodeAssetImpl.fromYaml(as<YamlMap>(yamlElement)),
     ];
   }
 
-  static List<AssetImpl> listFromYamlList(YamlList yamlList) => [
+  static List<CCodeAssetImpl> listFromYamlList(YamlList yamlList) => [
         for (final yamlElement in yamlList)
-          AssetImpl.fromYaml(as<YamlMap>(yamlElement)),
+          CCodeAssetImpl.fromYaml(as<YamlMap>(yamlElement)),
       ];
 
-  AssetImpl copyWith({
+  CCodeAssetImpl copyWith({
     LinkModeImpl? linkMode,
     String? id,
     Target? target,
     AssetPathImpl? path,
   }) =>
-      AssetImpl(
+      CCodeAssetImpl(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
@@ -177,7 +177,7 @@ final class AssetImpl implements Asset {
 
   @override
   bool operator ==(Object other) {
-    if (other is! AssetImpl) {
+    if (other is! CCodeAssetImpl) {
       return false;
     }
     return other.id == id &&
@@ -207,7 +207,7 @@ final class AssetImpl implements Asset {
   String toString() => 'Asset(${toYaml()})';
 }
 
-extension AssetIterable on Iterable<AssetImpl> {
+extension AssetIterable on Iterable<CCodeAssetImpl> {
   List<Object> toYaml() => [for (final item in this) item.toYaml()];
 
   String toYamlString() => yamlEncode(toYaml());

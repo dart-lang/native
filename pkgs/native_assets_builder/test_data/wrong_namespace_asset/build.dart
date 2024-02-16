@@ -8,7 +8,7 @@ void main(List<String> args) async {
   final buildConfig = await BuildConfig.fromArgs(args);
   final buildOutput = BuildOutput(
     assets: [
-      Asset(
+      CCodeAsset(
         id: 'package:other_package/foo',
         linkMode: LinkMode.dynamic,
         target: Target.current,

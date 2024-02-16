@@ -60,7 +60,7 @@ class AssetDownloader implements Builder {
         await response.pipe(File.fromUri(targetUri).openWrite());
       }
       buildOutput.addAssets([
-        Asset(
+        CCodeAsset(
           id: assetId,
           linkMode: LinkMode.dynamic,
           path: AssetAbsolutePath(targetUri),

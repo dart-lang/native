@@ -8,37 +8,37 @@ import 'package:test/test.dart';
 void main() {
   test('Asset constructors', () async {
     final assets = [
-      Asset(
+      CCodeAsset(
         id: 'foo',
         path: AssetAbsolutePath(Uri.file('path/to/libfoo.so')),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
       ),
-      Asset(
+      CCodeAsset(
         id: 'foo3',
         path: AssetSystemPath(Uri(path: 'libfoo3.so')),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
       ),
-      Asset(
+      CCodeAsset(
         id: 'foo4',
         path: AssetInExecutable(),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
       ),
-      Asset(
+      CCodeAsset(
         id: 'foo5',
         path: AssetInProcess(),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
       ),
-      Asset(
+      CCodeAsset(
         id: 'bar',
         path: AssetAbsolutePath(Uri(path: 'path/to/libbar.a')),
         target: Target.linuxArm64,
         linkMode: LinkMode.static,
       ),
-      Asset(
+      CCodeAsset(
         id: 'bla',
         path: AssetAbsolutePath(Uri(path: 'path/with spaces/bla.dll')),
         target: Target.windowsX64,

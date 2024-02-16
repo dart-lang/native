@@ -256,7 +256,7 @@ class CBuilder implements Builder {
       ];
       for (final target in targets) {
         buildOutput.addAssets([
-          Asset(
+          CCodeAsset(
             id: assetId!,
             linkMode: linkMode,
             target: target,

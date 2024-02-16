@@ -8,7 +8,7 @@ library native_assets_cli;
 
 export 'src/api/asset.dart'
     show
-        Asset,
+        CCodeAsset,
         AssetAbsolutePath,
         AssetInExecutable,
         AssetInProcess,

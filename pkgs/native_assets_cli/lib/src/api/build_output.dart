@@ -37,7 +37,7 @@ abstract class BuildOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  Iterable<Asset> get assets;
+  Iterable<CCodeAsset> get assets;
 
   /// The files used by this build.
   ///
@@ -54,7 +54,7 @@ abstract class BuildOutput {
   /// seconds, because [File.lastModified] is rounded to whole seconds and
   /// caching logic compares these timestamps.
   ///
-  /// The [Asset]s produced by this build or dry-run can be provided to the
+  /// The [CCodeAsset]s produced by this build or dry-run can be provided to the
   /// constructor as [assets], or can be added later using [addAssets]. In dry
   /// runs, the assets for all [Architecture]s for the [OS] specified in the dry
   /// run must be provided.
@@ -68,28 +68,28 @@ abstract class BuildOutput {
   /// via [metadata] or [addMetadata].
   factory BuildOutput({
     DateTime? timestamp,
-    Iterable<Asset>? assets,
+    Iterable<CCodeAsset>? assets,
     Iterable<Uri>? dependencies,
     Map<String, Object>? metadata,
   }) =>
       BuildOutputImpl(
         timestamp: timestamp,
-        assets: assets?.cast<AssetImpl>().toList(),
+        assets: assets?.cast<CCodeAssetImpl>().toList(),
         dependencies: Dependencies([...?dependencies]),
         metadata: Metadata({...?metadata}),
       );
 
-  /// Adds [Asset]s produced by this build or dry run.
+  /// Adds [CCodeAsset]s produced by this build or dry run.
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  void addAsset(Asset asset);
+  void addAsset(CCodeAsset asset);
 
-  /// Adds [Asset]s produced by this build or dry run.
+  /// Adds [CCodeAsset]s produced by this build or dry run.
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  void addAssets(Iterable<Asset> assets);
+  void addAssets(Iterable<CCodeAsset> assets);
 
   /// Adds file used by this build.
   ///

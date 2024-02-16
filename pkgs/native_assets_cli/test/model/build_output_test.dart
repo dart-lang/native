@@ -21,13 +21,13 @@ void main() {
   final buildOutput = BuildOutputImpl(
     timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     assets: [
-      AssetImpl(
+      CCodeAssetImpl(
         id: 'foo',
         path: AssetAbsolutePathImpl(Uri(path: 'path/to/libfoo.so')),
         target: TargetImpl.androidX64,
         linkMode: LinkModeImpl.dynamic,
       ),
-      AssetImpl(
+      CCodeAssetImpl(
         id: 'foo2',
         path: AssetSystemPathImpl(Uri(path: 'path/to/libfoo2.so')),
         target: TargetImpl.androidX64,

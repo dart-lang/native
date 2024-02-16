@@ -77,7 +77,7 @@ class NativeAssetsBuildRunner {
       buildPlan = plan;
       packageGraph = planner.packageGraph;
     }
-    final assets = <AssetImpl>[];
+    final assets = <CCodeAssetImpl>[];
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
     var success = true;
@@ -163,7 +163,7 @@ class NativeAssetsBuildRunner {
       }
       buildPlan = plan;
     }
-    final assets = <AssetImpl>[];
+    final assets = <CCodeAssetImpl>[];
     var success = true;
     for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
@@ -296,7 +296,7 @@ build_output.yaml contained a format error.
 ${e.message}
         ''');
       success = false;
-      return (<AssetImpl>[], <Uri>[], const Metadata({}), false);
+      return (<CCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
       // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
       // type errors in native_assets_cli, release a new version of that package
       // and then remove this.
@@ -307,7 +307,7 @@ Building native assets for package:${config.packageName} failed.
 build_output.yaml contained a format error.
         ''');
       success = false;
-      return (<AssetImpl>[], <Uri>[], const Metadata({}), false);
+      return (<CCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
     } finally {
       if (!success) {
         final buildOutputFile =
@@ -401,7 +401,8 @@ build_output.yaml contained a format error.
     };
   }
 
-  bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
+  bool validateAssetsPackage(
+      Iterable<CCodeAssetImpl> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.id)
         .where((n) => !n.startsWith('package:$packageName/'))
@@ -420,7 +421,7 @@ build_output.yaml contained a format error.
 }
 
 typedef _PackageBuildRecord = (
-  Iterable<AssetImpl>,
+  Iterable<CCodeAssetImpl>,
   Iterable<Uri> dependencies,
   Metadata?,
   bool success,
@@ -429,7 +430,7 @@ typedef _PackageBuildRecord = (
 /// The result from a [NativeAssetsBuildRunner.dryRun].
 abstract interface class DryRunResult {
   /// The native assets for all [TargetImpl]s for the build or dry run.
-  List<AssetImpl> get assets;
+  List<CCodeAssetImpl> get assets;
 
   /// Whether all builds completed without errors.
   ///
@@ -439,7 +440,7 @@ abstract interface class DryRunResult {
 
 final class _DryRunResultImpl implements DryRunResult {
   @override
-  final List<AssetImpl> assets;
+  final List<CCodeAssetImpl> assets;
 
   @override
   final bool success;
@@ -463,7 +464,7 @@ abstract class BuildResult implements DryRunResult {
 
 final class _BuildResultImpl implements BuildResult {
   @override
-  final List<AssetImpl> assets;
+  final List<CCodeAssetImpl> assets;
 
   @override
   final List<Uri> dependencies;
