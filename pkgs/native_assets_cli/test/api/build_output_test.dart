@@ -25,14 +25,14 @@ void main() {
         CCodeAsset(
           id: 'foo',
           file: Uri(path: 'path/to/libfoo.so'),
-          path: AssetAbsolutePath(),
+          dynamicLoading: BundledDylib(),
           os: OS.android,
           architecture: Architecture.x64,
           linkMode: LinkMode.dynamic,
         ),
         CCodeAsset(
           id: 'foo2',
-          path: AssetSystemPath(Uri(path: 'path/to/libfoo2.so')),
+          dynamicLoading: SystemDylib(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,
           linkMode: LinkMode.dynamic,

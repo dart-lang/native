@@ -29,8 +29,6 @@ part of 'asset.dart';
 /// Assets are also called "native assets" to differentiate them from the Dart
 /// code also bundled with an application.
 abstract final class CCodeAsset implements Asset {
-  LinkMode get linkMode;
-
   /// The operating system this asset can run on.
   OS get os;
 
@@ -39,13 +37,19 @@ abstract final class CCodeAsset implements Asset {
   /// Not available during a [BuildConfig.dryRun].
   Architecture? get architecture;
 
-  AssetPath get path;
+  /// The link mode for this native code.
+  ///
+  /// Either dynamic loading or static linking.
+  LinkMode get linkMode;
+
+  /// The dynamic loading method when the [linkMode] is [LinkMode.dynamic].
+  DynamicLoading get dynamicLoading;
 
   factory CCodeAsset({
     required String id,
     required LinkMode linkMode,
     required OS os,
-    required AssetPath path,
+    required DynamicLoading dynamicLoading,
     Uri? file,
     Architecture? architecture,
   }) =>
@@ -54,35 +58,39 @@ abstract final class CCodeAsset implements Asset {
         linkMode: linkMode as LinkModeImpl,
         os: os as OSImpl,
         architecture: architecture as ArchitectureImpl?,
-        path: path as AssetPathImpl,
+        dynamicLoading: dynamicLoading as DynamicLoadingImpl,
         file: file,
       );
 }
 
-abstract final class AssetPath {}
+/// The dynamic loading method when the [CCodeAsset.linkMode] is
+/// [LinkMode.dynamic].
+abstract final class DynamicLoading {}
 
-/// Asset at absolute path.
-abstract final class AssetAbsolutePath implements AssetPath {
-  factory AssetAbsolutePath() = AssetAbsolutePathImpl;
+/// The asset file should be bundled by Dart/Flutter.
+///
+/// An asset with this dynamic loading method must provide a [Asset.file].
+abstract final class BundledDylib implements DynamicLoading {
+  factory BundledDylib() = BundledDylibImpl;
 }
 
-/// Asset is avaliable on the system `PATH`.
+/// Asset is avaliable on the target system `PATH`.
 ///
 /// [uri] only contains a file name.
-abstract final class AssetSystemPath implements AssetPath {
+abstract final class SystemDylib implements DynamicLoading {
   Uri get uri;
 
-  factory AssetSystemPath(Uri uri) = AssetSystemPathImpl;
+  factory SystemDylib(Uri uri) = SystemDylibImpl;
 }
 
 /// Asset is loaded in the process and symbols are available through
 /// `DynamicLibrary.process()`.
-abstract final class AssetInProcess implements AssetPath {
-  factory AssetInProcess() = AssetInProcessImpl;
+abstract final class LookupInProcess implements DynamicLoading {
+  factory LookupInProcess() = LookupInProcessImpl;
 }
 
 /// Asset is embedded in executable and symbols are available through
 /// `DynamicLibrary.executable()`.
-abstract final class AssetInExecutable implements AssetPath {
-  factory AssetInExecutable() = AssetInExecutableImpl;
+abstract final class LookupInExecutable implements DynamicLoading {
+  factory LookupInExecutable() = LookupInExecutableImpl;
 }

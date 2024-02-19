@@ -16,7 +16,7 @@ void main(List<String> args) async {
         linkMode: LinkMode.dynamic,
         os: Target.current.os,
         architecture: Target.current.architecture,
-        path: AssetAbsolutePath(),
+        dynamicLoading: BundledDylib(),
       ),
     ],
   );

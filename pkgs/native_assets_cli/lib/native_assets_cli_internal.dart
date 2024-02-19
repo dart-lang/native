@@ -10,11 +10,11 @@ library native_assets_cli_internal;
 
 export 'src/api/asset.dart'
     show
-        AssetAbsolutePathImpl,
-        AssetInExecutableImpl,
-        AssetInProcessImpl,
-        AssetSystemPathImpl,
-        CCodeAssetImpl;
+        BundledDylibImpl,
+        CCodeAssetImpl,
+        LookupInExecutableImpl,
+        LookupInProcessImpl,
+        SystemDylibImpl;
 export 'src/api/build_config.dart' show BuildConfigImpl, CCompilerConfigImpl;
 export 'src/api/build_mode.dart' show BuildModeImpl;
 export 'src/api/build_output.dart' show BuildOutputImpl;

@@ -255,7 +255,7 @@ class CBuilder implements Builder {
           os: buildConfig.targetOs,
           architecture:
               buildConfig.dryRun ? null : buildConfig.targetArchitecture,
-          path: AssetAbsolutePath(),
+          dynamicLoading: BundledDylib(),
         )
       ]);
     }

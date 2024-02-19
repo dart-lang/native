@@ -16,28 +16,28 @@ void main() {
     CCodeAssetImpl(
       id: 'foo',
       file: fooUri,
-      path: AssetAbsolutePathImpl(),
+      dynamicLoading: BundledDylibImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
       id: 'foo3',
-      path: AssetSystemPathImpl(foo3Uri),
+      dynamicLoading: SystemDylibImpl(foo3Uri),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
       id: 'foo4',
-      path: AssetInExecutableImpl(),
+      dynamicLoading: LookupInExecutableImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
       id: 'foo5',
-      path: AssetInProcessImpl(),
+      dynamicLoading: LookupInProcessImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
@@ -45,7 +45,7 @@ void main() {
     CCodeAssetImpl(
       id: 'bar',
       file: barUri,
-      path: AssetAbsolutePathImpl(),
+      dynamicLoading: BundledDylibImpl(),
       os: OSImpl.linux,
       architecture: ArchitectureImpl.arm64,
       linkMode: LinkModeImpl.static,
@@ -53,7 +53,7 @@ void main() {
     CCodeAssetImpl(
       id: 'bla',
       file: blaUri,
-      path: AssetAbsolutePathImpl(),
+      dynamicLoading: BundledDylibImpl(),
       os: OSImpl.windows,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
@@ -96,50 +96,50 @@ void main() {
   target: windows_x64''';
 
   final assetsYamlEncoding = '''- architecture: x64
+  dynamic_loading:
+    type: bundle
   file: ${fooUri.toFilePath()}
   id: foo
   link_mode: dynamic
   os: android
-  path:
-    path_type: absolute
   type: c_code
 - architecture: x64
+  dynamic_loading:
+    type: system
+    uri: ${foo3Uri.toFilePath()}
   id: foo3
   link_mode: dynamic
   os: android
-  path:
-    path_type: system
-    uri: ${foo3Uri.toFilePath()}
   type: c_code
 - architecture: x64
+  dynamic_loading:
+    type: executable
   id: foo4
   link_mode: dynamic
   os: android
-  path:
-    path_type: executable
   type: c_code
 - architecture: x64
+  dynamic_loading:
+    type: process
   id: foo5
   link_mode: dynamic
   os: android
-  path:
-    path_type: process
   type: c_code
 - architecture: arm64
+  dynamic_loading:
+    type: bundle
   file: ${barUri.toFilePath()}
   id: bar
   link_mode: static
   os: linux
-  path:
-    path_type: absolute
   type: c_code
 - architecture: x64
+  dynamic_loading:
+    type: bundle
   file: ${blaUri.toFilePath()}
   id: bla
   link_mode: dynamic
   os: windows
-  path:
-    path_type: absolute
   type: c_code''';
 
   test('asset yaml', () {
@@ -156,9 +156,9 @@ void main() {
 
   test('AssetPath factory', () async {
     expect(
-      () => AssetPathImpl('wrong', null),
+      () => DynamicLoadingImpl('wrong', null),
       throwsA(predicate(
-        (e) => e is FormatException && e.message.contains('Unknown pathType'),
+        (e) => e is FormatException && e.message.contains('Unknown type'),
       )),
     );
   });

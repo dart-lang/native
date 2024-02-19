@@ -4,71 +4,65 @@
 
 part of '../api/asset.dart';
 
-abstract final class AssetPathImpl implements AssetPath {
-  factory AssetPathImpl(String pathType, Uri? uri) {
-    switch (pathType) {
-      case AssetAbsolutePathImpl._pathTypeValue:
-        return AssetAbsolutePathImpl();
-      case AssetSystemPathImpl._pathTypeValue:
-        return AssetSystemPathImpl(uri!);
-      case AssetInExecutableImpl._pathTypeValue:
-        return AssetInExecutableImpl();
-      case AssetInProcessImpl._pathTypeValue:
-        return AssetInProcessImpl();
+abstract final class DynamicLoadingImpl implements DynamicLoading {
+  factory DynamicLoadingImpl(String type, Uri? uri) {
+    switch (type) {
+      case BundledDylibImpl._typeValueV1_0_0:
+      // For backwards compatibility.
+      case BundledDylibImpl._typeValue:
+        return BundledDylibImpl();
+      case SystemDylibImpl._typeValue:
+        return SystemDylibImpl(uri!);
+      case LookupInExecutableImpl._typeValue:
+        return LookupInExecutableImpl();
+      case LookupInProcessImpl._typeValue:
+        return LookupInProcessImpl();
     }
-    throw FormatException('Unknown pathType: $pathType.');
+    throw FormatException('Unknown type: $type.');
   }
 
-  factory AssetPathImpl.fromYaml(YamlMap yamlMap) {
-    final pathType = as<String>(yamlMap[_pathTypeKey]);
+  factory DynamicLoadingImpl.fromYaml(YamlMap yamlMap) {
+    final type = as<String>(yamlMap[_typeKey] ?? yamlMap[_pathTypeKey]);
     final uriString = as<String?>(yamlMap[_uriKey]);
     final uri = uriString != null ? Uri(path: uriString) : null;
-    return AssetPathImpl(pathType, uri);
+    return DynamicLoadingImpl(type, uri);
   }
 
   Map<String, Object> toYaml();
 
   static const _pathTypeKey = 'path_type';
+  static const _typeKey = 'type';
   static const _uriKey = 'uri';
 }
 
-final class AssetAbsolutePathImpl implements AssetPathImpl, AssetAbsolutePath {
-  AssetAbsolutePathImpl();
+final class BundledDylibImpl implements DynamicLoadingImpl, BundledDylib {
+  BundledDylibImpl._();
 
-  static const _pathTypeValue = 'absolute';
+  static final BundledDylibImpl _singleton = BundledDylibImpl._();
+
+  factory BundledDylibImpl() => _singleton;
+
+  static const _typeValueV1_0_0 = 'absolute';
+  static const _typeValue = 'bundle';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPathImpl._pathTypeKey: _pathTypeValue,
+        DynamicLoadingImpl._typeKey: _typeValue,
       };
-
-  @override
-  int get hashCode => 133711;
-
-  @override
-  bool operator ==(Object other) {
-    if (other is! AssetAbsolutePathImpl) {
-      return false;
-    }
-    return true;
-  }
 }
 
-/// Asset is avaliable on the system `PATH`.
-///
-/// [uri] only contains a file name.
-final class AssetSystemPathImpl implements AssetPathImpl, AssetSystemPath {
+final class SystemDylibImpl implements DynamicLoadingImpl, SystemDylib {
   @override
   final Uri uri;
 
-  AssetSystemPathImpl(this.uri);
+  SystemDylibImpl(this.uri);
 
-  static const _pathTypeValue = 'system';
+  static const _typeValue = 'system';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPathImpl._pathTypeKey: _pathTypeValue,
-        AssetPathImpl._uriKey: uri.toFilePath(),
+        DynamicLoadingImpl._typeKey: _typeValue,
+        DynamicLoadingImpl._uriKey: uri.toFilePath(),
       };
 
   @override
@@ -76,44 +70,41 @@ final class AssetSystemPathImpl implements AssetPathImpl, AssetSystemPath {
 
   @override
   bool operator ==(Object other) {
-    if (other is! AssetSystemPathImpl) {
+    if (other is! SystemDylibImpl) {
       return false;
     }
     return uri == other.uri;
   }
 }
 
-/// Asset is loaded in the process and symbols are available through
-/// `DynamicLibrary.process()`.
-final class AssetInProcessImpl implements AssetPathImpl, AssetInProcess {
-  AssetInProcessImpl._();
+final class LookupInProcessImpl implements DynamicLoadingImpl, LookupInProcess {
+  LookupInProcessImpl._();
 
-  static final AssetInProcessImpl _singleton = AssetInProcessImpl._();
+  static final LookupInProcessImpl _singleton = LookupInProcessImpl._();
 
-  factory AssetInProcessImpl() => _singleton;
+  factory LookupInProcessImpl() => _singleton;
 
-  static const _pathTypeValue = 'process';
+  static const _typeValue = 'process';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPathImpl._pathTypeKey: _pathTypeValue,
+        DynamicLoadingImpl._typeKey: _typeValue,
       };
 }
 
-/// Asset is embedded in executable and symbols are available through
-/// `DynamicLibrary.executable()`.
-final class AssetInExecutableImpl implements AssetPathImpl, AssetInExecutable {
-  AssetInExecutableImpl._();
+final class LookupInExecutableImpl
+    implements DynamicLoadingImpl, LookupInExecutable {
+  LookupInExecutableImpl._();
 
-  static final AssetInExecutableImpl _singleton = AssetInExecutableImpl._();
+  static final LookupInExecutableImpl _singleton = LookupInExecutableImpl._();
 
-  factory AssetInExecutableImpl() => _singleton;
+  factory LookupInExecutableImpl() => _singleton;
 
-  static const _pathTypeValue = 'executable';
+  static const _typeValue = 'executable';
 
   @override
   Map<String, Object> toYaml() => {
-        AssetPathImpl._pathTypeKey: _pathTypeValue,
+        DynamicLoadingImpl._typeKey: _typeValue,
       };
 }
 
@@ -128,7 +119,7 @@ final class CCodeAssetImpl implements CCodeAsset {
   final String id;
 
   @override
-  final AssetPathImpl path;
+  final DynamicLoadingImpl dynamicLoading;
 
   @override
   final OSImpl os;
@@ -141,20 +132,23 @@ final class CCodeAssetImpl implements CCodeAsset {
     required this.id,
     required this.linkMode,
     required this.os,
-    required this.path,
+    required this.dynamicLoading,
     this.architecture,
   });
 
   factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) {
-    final path = AssetPathImpl.fromYaml(as<YamlMap>(yamlMap[_pathKey]));
+    final dynamicLoading = DynamicLoadingImpl.fromYaml(
+      as<YamlMap>(yamlMap[_dynamicLoadingKey] ?? yamlMap[_pathKey]),
+    );
     final fileString = as<String?>(yamlMap[_fileKey]);
     final Uri? file;
     if (fileString != null) {
       file = Uri(path: fileString);
-    } else if (path is AssetAbsolutePathImpl) {
+    } else if (dynamicLoading is BundledDylibImpl &&
+        yamlMap[_pathKey] != null) {
       // Compatibility with v1.0.0.
-      final oldPath =
-          as<String?>((yamlMap[_pathKey] as YamlMap)[AssetPathImpl._uriKey]);
+      final oldPath = as<String?>(
+          (yamlMap[_pathKey] as YamlMap)[DynamicLoadingImpl._uriKey]);
       file = oldPath != null ? Uri(path: oldPath) : null;
     } else {
       file = null;
@@ -178,7 +172,7 @@ final class CCodeAssetImpl implements CCodeAsset {
     }
     return CCodeAssetImpl(
       id: as<String>(yamlMap[_idKey]),
-      path: path,
+      dynamicLoading: dynamicLoading,
       os: os,
       architecture: architecture,
       linkMode: LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey])),
@@ -207,7 +201,7 @@ final class CCodeAssetImpl implements CCodeAsset {
     String? id,
     OSImpl? os,
     ArchitectureImpl? architecture,
-    AssetPathImpl? path,
+    DynamicLoadingImpl? dynamicLoading,
     Uri? file,
   }) =>
       CCodeAssetImpl(
@@ -215,7 +209,7 @@ final class CCodeAssetImpl implements CCodeAsset {
         linkMode: linkMode ?? this.linkMode,
         os: os ?? this.os,
         architecture: this.architecture ?? architecture,
-        path: path ?? this.path,
+        dynamicLoading: dynamicLoading ?? this.dynamicLoading,
         file: file ?? this.file,
       );
 
@@ -228,7 +222,7 @@ final class CCodeAssetImpl implements CCodeAsset {
         other.linkMode == linkMode &&
         other.architecture == architecture &&
         other.os == os &&
-        other.path == path &&
+        other.dynamicLoading == dynamicLoading &&
         other.file == file;
   }
 
@@ -238,17 +232,17 @@ final class CCodeAssetImpl implements CCodeAsset {
         linkMode,
         architecture,
         os,
-        path,
+        dynamicLoading,
         file,
       );
 
   Map<String, Object> toYaml() => {
         if (architecture != null) _architectureKey: architecture.toString(),
+        _dynamicLoadingKey: dynamicLoading.toYaml(),
         if (file != null) _fileKey: file!.toFilePath(),
         _idKey: id,
         _linkModeKey: linkMode.name,
         _osKey: os.toString(),
-        _pathKey: path.toYaml(),
         typeKey: type,
       };
 
@@ -257,6 +251,7 @@ final class CCodeAssetImpl implements CCodeAsset {
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
+  static const _dynamicLoadingKey = 'dynamic_loading';
   static const _targetKey = 'target';
   static const _fileKey = 'file';
   static const _osKey = 'os';

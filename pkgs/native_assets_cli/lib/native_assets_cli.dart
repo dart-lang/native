@@ -9,11 +9,11 @@ library native_assets_cli;
 export 'src/api/asset.dart'
     show
         Asset,
-        AssetAbsolutePath,
-        AssetInExecutable,
-        AssetInProcess,
-        AssetSystemPath,
-        CCodeAsset;
+        BundledDylib,
+        CCodeAsset,
+        LookupInExecutable,
+        LookupInProcess,
+        SystemDylib;
 export 'src/api/build.dart';
 export 'src/api/build_config.dart' show BuildConfig, CCompilerConfig;
 export 'src/api/build_mode.dart' show BuildMode;

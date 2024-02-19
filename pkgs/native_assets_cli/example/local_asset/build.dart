@@ -38,7 +38,7 @@ void main(List<String> args) async {
         linkMode: LinkMode.dynamic,
         os: config.targetOs,
         architecture: config.dryRun ? null : config.targetArchitecture,
-        path: AssetAbsolutePath(),
+        dynamicLoading: BundledDylib(),
       )
     ]);
   });

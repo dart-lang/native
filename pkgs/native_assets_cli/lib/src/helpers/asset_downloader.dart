@@ -60,7 +60,7 @@ class AssetDownloader implements Builder {
         id: assetId,
         file: targetUri,
         linkMode: LinkMode.dynamic,
-        path: AssetAbsolutePath(),
+        dynamicLoading: BundledDylib(),
         os: config.targetOs,
         architecture: config.dryRun ? null : config.targetArchitecture,
       )
