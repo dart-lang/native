@@ -112,6 +112,11 @@ final class BuildConfigImpl implements BuildConfig {
   late final BuildModeImpl _buildMode;
 
   @override
+  Iterable<String> get supportedAssetTypes => _supportedAssetTypes;
+
+  late final List<String> _supportedAssetTypes;
+
+  @override
   Config get config => _config;
   late final Config _config;
 
@@ -127,6 +132,7 @@ final class BuildConfigImpl implements BuildConfig {
     CCompilerConfigImpl? cCompiler,
     required LinkModePreferenceImpl linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
   }) {
     final nonValidated = BuildConfigImpl._()
       .._outDir = outDir
@@ -140,7 +146,12 @@ final class BuildConfigImpl implements BuildConfig {
       .._cCompiler = cCompiler ?? CCompilerConfigImpl()
       .._linkModePreference = linkModePreference
       .._dependencyMetadata = dependencyMetadata
-      .._dryRun = false;
+      .._dryRun = false
+      .._supportedAssetTypes = [
+        ...?supportedAssetTypes,
+        // Backwards compatibility.
+        if (supportedAssetTypes == null) CCodeAsset.type,
+      ];
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfigImpl.fromConfig(config);
@@ -152,6 +163,7 @@ final class BuildConfigImpl implements BuildConfig {
     required Uri packageRoot,
     required OSImpl targetOs,
     required LinkModePreferenceImpl linkModePreference,
+    Iterable<String>? supportedAssetTypes,
   }) {
     final nonValidated = BuildConfigImpl._()
       .._outDir = outDir
@@ -160,7 +172,12 @@ final class BuildConfigImpl implements BuildConfig {
       .._targetOs = targetOs
       .._linkModePreference = linkModePreference
       .._cCompiler = CCompilerConfigImpl()
-      .._dryRun = true;
+      .._dryRun = true
+      .._supportedAssetTypes = [
+        ...?supportedAssetTypes,
+        // Backwards compatibility.
+        if (supportedAssetTypes == null) CCodeAsset.type,
+      ];
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfigImpl.fromConfig(config);
@@ -184,6 +201,7 @@ final class BuildConfigImpl implements BuildConfig {
     CCompilerConfigImpl? cCompiler,
     required LinkModePreferenceImpl linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
   }) {
     final input = [
       packageName,
@@ -202,7 +220,8 @@ final class BuildConfigImpl implements BuildConfig {
         for (final entry in dependencyMetadata.entries) ...[
           entry.key,
           json.encode(entry.value.toYaml()),
-        ]
+        ],
+      ...?supportedAssetTypes,
     ].join('###');
     final sha256String = sha256.convert(utf8.encode(input)).toString();
     // 256 bit hashes lead to 64 hex character strings.
@@ -222,7 +241,7 @@ final class BuildConfigImpl implements BuildConfig {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version version = Version(1, 0, 0);
+  static Version version = Version(1, 1, 0);
 
   factory BuildConfigImpl.fromConfig(Config config) {
     final result = BuildConfigImpl._().._cCompiler = CCompilerConfigImpl._();
@@ -276,6 +295,7 @@ final class BuildConfigImpl implements BuildConfig {
   static const _versionKey = 'version';
   static const targetAndroidNdkApiConfigKey = 'target_android_ndk_api';
   static const dryRunConfigKey = 'dry_run';
+  static const supportedAssetTypesKey = 'supported_asset_types';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var osSet = false;
@@ -431,6 +451,9 @@ final class BuildConfigImpl implements BuildConfig {
       (config) {
         _dependencyMetadata = _readDependencyMetadataFromConfig(config);
       },
+      (config) => _supportedAssetTypes =
+          config.optionalStringList(supportedAssetTypesKey) ??
+              [CCodeAsset.type],
     ];
   }
 
@@ -472,6 +495,7 @@ final class BuildConfigImpl implements BuildConfig {
       packageRootConfigKey: _packageRoot.toFilePath(),
       OSImpl.configKey: _targetOs.toString(),
       LinkModePreferenceImpl.configKey: _linkModePreference.toString(),
+      supportedAssetTypesKey: _supportedAssetTypes,
       _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
@@ -505,6 +529,8 @@ final class BuildConfigImpl implements BuildConfig {
     if (other.dryRun != dryRun) return false;
     if (other.targetOs != targetOs) return false;
     if (other.linkModePreference != linkModePreference) return false;
+    if (!const DeepCollectionEquality()
+        .equals(other._supportedAssetTypes, _supportedAssetTypes)) return false;
     if (!dryRun) {
       if (other.buildMode != buildMode) return false;
       if (other.targetArchitecture != targetArchitecture) return false;
@@ -525,6 +551,7 @@ final class BuildConfigImpl implements BuildConfig {
         targetOs,
         linkModePreference,
         dryRun,
+        const DeepCollectionEquality().hash(_supportedAssetTypes),
         if (!dryRun) ...[
           buildMode,
           const DeepCollectionEquality().hash(_dependencyMetadata),

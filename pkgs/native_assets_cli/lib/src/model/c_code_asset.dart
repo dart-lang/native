@@ -243,11 +243,10 @@ final class CCodeAssetImpl implements CCodeAsset {
         _idKey: id,
         _linkModeKey: linkMode.name,
         _osKey: os.toString(),
-        typeKey: type,
+        typeKey: CCodeAsset.type,
       };
 
   static const typeKey = 'type';
-  static const type = 'c_code';
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';

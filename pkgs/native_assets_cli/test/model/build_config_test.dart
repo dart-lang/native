@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -254,11 +255,68 @@ link_mode_preference: prefer-static
 out_dir: ${outDir.toFilePath()}
 package_name: $packageName
 package_root: ${tempUri.toFilePath()}
+supported_asset_types:
+  - ${CCodeAsset.type}
 target_architecture: arm64
 target_ios_sdk: iphoneos
 target_os: ios
 version: ${BuildConfigImpl.version}''';
     expect(yamlString, equals(expectedYamlString));
+
+    final buildConfig2 = BuildConfigImpl.fromConfig(
+      Config.fromConfigFileContents(
+        fileContents: yamlString,
+      ),
+    );
+    expect(buildConfig2, buildConfig1);
+  });
+
+  test('BuildConfig fromYaml v1.0.0 keeps working', () {
+    final outDir = outDirUri;
+    final yamlString = '''build_mode: release
+c_compiler:
+  cc: ${fakeClang.toFilePath()}
+  ld: ${fakeLd.toFilePath()}
+dependency_metadata:
+  bar:
+    key: value
+  foo:
+    a: 321
+    z:
+      - z
+      - a
+link_mode_preference: prefer-static
+out_dir: ${outDir.toFilePath()}
+package_name: $packageName
+package_root: ${tempUri.toFilePath()}
+target_architecture: arm64
+target_ios_sdk: iphoneos
+target_os: ios
+version: 1.0.0''';
+    final buildConfig1 = BuildConfigImpl(
+      outDir: outDir,
+      packageName: packageName,
+      packageRoot: tempUri,
+      targetArchitecture: ArchitectureImpl.arm64,
+      targetOs: OSImpl.iOS,
+      targetIOSSdk: IOSSdkImpl.iPhoneOs,
+      cCompiler: CCompilerConfigImpl(
+        cc: fakeClang,
+        ld: fakeLd,
+      ),
+      buildMode: BuildModeImpl.release,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
+      // This map should be sorted on key for two layers.
+      dependencyMetadata: {
+        'foo': const Metadata({
+          'z': ['z', 'a'],
+          'a': 321,
+        }),
+        'bar': const Metadata({
+          'key': 'value',
+        }),
+      },
+    );
 
     final buildConfig2 = BuildConfigImpl.fromConfig(
       Config.fromConfigFileContents(

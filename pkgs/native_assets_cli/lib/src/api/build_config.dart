@@ -13,6 +13,7 @@ import 'package:pub_semver/pub_semver.dart';
 import '../model/metadata.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
+import 'asset.dart';
 import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
@@ -39,11 +40,6 @@ abstract final class BuildConfig {
   /// Often a package's native assets are built because a package is a
   /// dependency of another. For this it is convenient to know the packageRoot.
   Uri get packageRoot;
-
-  // /// The target being compiled for.
-  // ///
-  // /// Not available during a [dryRun].
-  // Target get target;
 
   /// The architecture being compiled for.
   ///
@@ -102,6 +98,12 @@ abstract final class BuildConfig {
 
   /// The underlying config.
   Config get config;
+
+  /// The asset types the invoker of this build supports.
+  ///
+  /// Currently known values:
+  /// * [CCodeAsset.type]
+  Iterable<String> get supportedAssetTypes;
 
   /// The version of [BuildConfig].
   ///

@@ -75,7 +75,7 @@ class BuildOutputImpl implements BuildOutput {
       final yamlMap = as<YamlMap>(yamlElement);
       final type = yamlMap[CCodeAssetImpl.typeKey];
       switch (type) {
-        case CCodeAssetImpl.type:
+        case CCodeAsset.type:
         case null: // Backwards compatibility with v1.0.0.
           assets.add(CCodeAssetImpl.fromYaml(yamlMap));
         default:

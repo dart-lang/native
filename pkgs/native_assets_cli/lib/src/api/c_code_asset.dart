@@ -61,6 +61,8 @@ abstract final class CCodeAsset implements Asset {
         dynamicLoading: dynamicLoading as DynamicLoadingImpl,
         file: file,
       );
+
+  static const String type = 'c_code';
 }
 
 /// The dynamic loading method when the [CCodeAsset.linkMode] is
