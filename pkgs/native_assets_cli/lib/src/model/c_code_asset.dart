@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../api/c_code_asset.dart';
+part of '../api/asset.dart';
 
 abstract final class AssetPathImpl implements AssetPath {
   factory AssetPathImpl(String pathType, Uri? uri) {
     switch (pathType) {
       case AssetAbsolutePathImpl._pathTypeValue:
-        return AssetAbsolutePathImpl(uri!);
+        return AssetAbsolutePathImpl();
       case AssetSystemPathImpl._pathTypeValue:
         return AssetSystemPathImpl(uri!);
       case AssetInExecutableImpl._pathTypeValue:
@@ -32,30 +32,25 @@ abstract final class AssetPathImpl implements AssetPath {
   static const _uriKey = 'uri';
 }
 
-/// Asset at absolute path [uri].
 final class AssetAbsolutePathImpl implements AssetPathImpl, AssetAbsolutePath {
-  @override
-  final Uri uri;
-
-  AssetAbsolutePathImpl(this.uri);
+  AssetAbsolutePathImpl();
 
   static const _pathTypeValue = 'absolute';
 
   @override
   Map<String, Object> toYaml() => {
         AssetPathImpl._pathTypeKey: _pathTypeValue,
-        AssetPathImpl._uriKey: uri.toFilePath(),
       };
 
   @override
-  int get hashCode => Object.hash(uri, 133711);
+  int get hashCode => 133711;
 
   @override
   bool operator ==(Object other) {
     if (other is! AssetAbsolutePathImpl) {
       return false;
     }
-    return uri == other.uri;
+    return true;
   }
 }
 
@@ -124,6 +119,8 @@ final class AssetInExecutableImpl implements AssetPathImpl, AssetInExecutable {
 
 final class CCodeAssetImpl implements CCodeAsset {
   @override
+  final Uri? file;
+  @override
   final LinkModeImpl linkMode;
   @override
   final String id;
@@ -133,18 +130,35 @@ final class CCodeAssetImpl implements CCodeAsset {
   final AssetPathImpl path;
 
   CCodeAssetImpl({
+    this.file,
     required this.id,
     required this.linkMode,
     required this.target,
     required this.path,
   });
 
-  factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) => CCodeAssetImpl(
-        id: as<String>(yamlMap[_idKey]),
-        path: AssetPathImpl.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
-        target: TargetImpl.fromString(as<String>(yamlMap[_targetKey])),
-        linkMode: LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey])),
-      );
+  factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) {
+    final path = AssetPathImpl.fromYaml(as<YamlMap>(yamlMap[_pathKey]));
+    final fileString = as<String?>(yamlMap[_fileKey]);
+    final Uri? file;
+    if (fileString != null) {
+      file = Uri(path: fileString);
+    } else if (path is AssetAbsolutePathImpl) {
+      // Compatibility with v1.0.0.
+      final oldPath =
+          as<String?>((yamlMap[_pathKey] as YamlMap)[AssetPathImpl._uriKey]);
+      file = oldPath != null ? Uri(path: oldPath) : null;
+    } else {
+      file = null;
+    }
+    return CCodeAssetImpl(
+      id: as<String>(yamlMap[_idKey]),
+      path: path,
+      target: TargetImpl.fromString(as<String>(yamlMap[_targetKey])),
+      linkMode: LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey])),
+      file: file,
+    );
+  }
 
   static List<CCodeAssetImpl> listFromYamlString(String yaml) {
     final yamlObject = loadYaml(yaml);
@@ -167,12 +181,14 @@ final class CCodeAssetImpl implements CCodeAsset {
     String? id,
     Target? target,
     AssetPathImpl? path,
+    Uri? file,
   }) =>
       CCodeAssetImpl(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
+        file: file ?? this.file,
       );
 
   @override
@@ -183,13 +199,21 @@ final class CCodeAssetImpl implements CCodeAsset {
     return other.id == id &&
         other.linkMode == linkMode &&
         other.target == target &&
-        other.path == path;
+        other.path == path &&
+        other.file == file;
   }
 
   @override
-  int get hashCode => Object.hash(id, linkMode, target, path);
+  int get hashCode => Object.hash(
+        id,
+        linkMode,
+        target,
+        path,
+        file,
+      );
 
   Map<String, Object> toYaml() => {
+        if (file != null) _fileKey: file!.toFilePath(),
         _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
@@ -203,6 +227,7 @@ final class CCodeAssetImpl implements CCodeAsset {
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
+  static const _fileKey = 'file';
 
   @override
   String toString() => 'CCodeAsset(${toYaml()})';

@@ -258,9 +258,10 @@ class CBuilder implements Builder {
         buildOutput.addAssets([
           CCodeAsset(
             id: assetId!,
+            file: libUri,
             linkMode: linkMode,
             target: target,
-            path: AssetAbsolutePath(libUri),
+            path: AssetAbsolutePath(),
           )
         ]);
       }

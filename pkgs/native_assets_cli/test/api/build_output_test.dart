@@ -24,7 +24,8 @@ void main() {
       assets: [
         CCodeAsset(
           id: 'foo',
-          path: AssetAbsolutePath(Uri(path: 'path/to/libfoo.so')),
+          file: Uri(path: 'path/to/libfoo.so'),
+          path: AssetAbsolutePath(),
           target: Target.androidX64,
           linkMode: LinkMode.dynamic,
         ),

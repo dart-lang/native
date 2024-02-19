@@ -2,21 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:yaml/yaml.dart';
-
-import '../utils/yaml.dart';
-import 'link_mode.dart';
-import 'target.dart';
-
-part '../model/c_code_asset.dart';
+part of 'asset.dart';
 
 abstract final class AssetPath {}
 
-/// Asset at absolute path [uri].
+/// Asset at absolute path.
 abstract final class AssetAbsolutePath implements AssetPath {
-  Uri get uri;
-
-  factory AssetAbsolutePath(Uri uri) = AssetAbsolutePathImpl;
+  factory AssetAbsolutePath() = AssetAbsolutePathImpl;
 }
 
 /// Asset is avaliable on the system `PATH`.
@@ -40,13 +32,32 @@ abstract final class AssetInExecutable implements AssetPath {
   factory AssetInExecutable() = AssetInExecutableImpl;
 }
 
-/// A code asset which respects the C application binary interface (ABI).
+/// A code [Asset] which respects the C application binary interface (ABI).
 ///
 /// Typical other languages which produce code assets that respect the C ABI
 /// include C++ and Rust.
-abstract final class CCodeAsset {
+///
+/// There are several example types of assets:
+/// * Assets which designate symbols present in the target system, process, or
+///   executable. They are identified by their name.
+/// * Dynamic libraries bundled into the application.
+///
+/// An application is compiled to run on a certain target OS and architecture.
+/// If different targets require different assets, the package developer must
+/// specify which asset to bundle for which target.
+///
+/// An asset has different ways of being accessible in the final application. It
+/// is either brought in "manually" by having the package developer specify a
+/// path of the asset on the current system, it can be part of the Dart or
+/// Flutter SDK, or it can be already present in the target system. If the asset
+/// is bundled "manually", the Dart or Flutter SDK will take care of copying the
+/// asset from its specified location on the current system into the application
+/// bundle.
+///
+/// Assets are also called "native assets" to differentiate them from the Dart
+/// code also bundled with an application.
+abstract final class CCodeAsset implements Asset {
   LinkMode get linkMode;
-  String get id;
   Target get target;
   AssetPath get path;
 
@@ -55,11 +66,13 @@ abstract final class CCodeAsset {
     required LinkMode linkMode,
     required Target target,
     required AssetPath path,
+    Uri? file,
   }) =>
       CCodeAssetImpl(
         id: id,
         linkMode: linkMode as LinkModeImpl,
         target: target as TargetImpl,
         path: path as AssetPathImpl,
+        file: file,
       );
 }

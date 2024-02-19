@@ -43,9 +43,10 @@ void main(List<String> args) async {
       for (final target in targets)
         CCodeAsset(
           id: 'library:$packageName/asset.txt',
+          file: assetPath,
           linkMode: LinkMode.dynamic,
           target: target,
-          path: AssetAbsolutePath(assetPath),
+          path: AssetAbsolutePath(),
         )
     ]);
   });

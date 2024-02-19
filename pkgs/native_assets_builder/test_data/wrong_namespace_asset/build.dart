@@ -10,13 +10,12 @@ void main(List<String> args) async {
     assets: [
       CCodeAsset(
         id: 'package:other_package/foo',
+        file: buildConfig.outDir.resolve(
+          Target.current.os.dylibFileName('foo'),
+        ),
         linkMode: LinkMode.dynamic,
         target: Target.current,
-        path: AssetAbsolutePath(
-          buildConfig.outDir.resolve(
-            Target.current.os.dylibFileName('foo'),
-          ),
-        ),
+        path: AssetAbsolutePath(),
       ),
     ],
   );

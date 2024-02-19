@@ -10,7 +10,8 @@ void main() {
     final assets = [
       CCodeAsset(
         id: 'foo',
-        path: AssetAbsolutePath(Uri.file('path/to/libfoo.so')),
+        file: Uri.file('path/to/libfoo.so'),
+        path: AssetAbsolutePath(),
         target: Target.androidX64,
         linkMode: LinkMode.dynamic,
       ),
@@ -34,13 +35,15 @@ void main() {
       ),
       CCodeAsset(
         id: 'bar',
-        path: AssetAbsolutePath(Uri(path: 'path/to/libbar.a')),
+        file: Uri(path: 'path/to/libbar.a'),
+        path: AssetAbsolutePath(),
         target: Target.linuxArm64,
         linkMode: LinkMode.static,
       ),
       CCodeAsset(
         id: 'bla',
-        path: AssetAbsolutePath(Uri(path: 'path/with spaces/bla.dll')),
+        file: Uri(path: 'path/with spaces/bla.dll'),
+        path: AssetAbsolutePath(),
         target: Target.windowsX64,
         linkMode: LinkMode.dynamic,
       ),

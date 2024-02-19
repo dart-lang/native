@@ -74,10 +74,7 @@ void main() async {
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(1));
-        expect(
-            await File.fromUri((assets.first.path as AssetAbsolutePathImpl).uri)
-                .exists(),
-            false);
+        expect(await File.fromUri(assets.first.file!).exists(), false);
         expect(dependencies, <Uri>[]);
       } else {
         expect(assets.length, 1);

@@ -4,7 +4,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/api/c_code_asset.dart';
+import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -15,7 +15,8 @@ void main() {
   final assets = [
     CCodeAssetImpl(
       id: 'foo',
-      path: AssetAbsolutePathImpl(fooUri),
+      file: fooUri,
+      path: AssetAbsolutePathImpl(),
       target: TargetImpl.androidX64,
       linkMode: LinkModeImpl.dynamic,
     ),
@@ -39,13 +40,15 @@ void main() {
     ),
     CCodeAssetImpl(
       id: 'bar',
-      path: AssetAbsolutePathImpl(barUri),
+      file: barUri,
+      path: AssetAbsolutePathImpl(),
       target: TargetImpl.linuxArm64,
       linkMode: LinkModeImpl.static,
     ),
     CCodeAssetImpl(
       id: 'bla',
-      path: AssetAbsolutePathImpl(blaUri),
+      file: blaUri,
+      path: AssetAbsolutePathImpl(),
       target: TargetImpl.windowsX64,
       linkMode: LinkModeImpl.dynamic,
     ),
@@ -86,11 +89,11 @@ void main() {
     uri: ${blaUri.toFilePath()}
   target: windows_x64''';
 
-  final assetsYamlEncoding = '''- id: foo
+  final assetsYamlEncoding = '''- file: ${fooUri.toFilePath()}
+  id: foo
   link_mode: dynamic
   path:
     path_type: absolute
-    uri: ${fooUri.toFilePath()}
   target: android_x64
   type: c_code
 - id: foo3
@@ -112,18 +115,18 @@ void main() {
     path_type: process
   target: android_x64
   type: c_code
-- id: bar
+- file: ${barUri.toFilePath()}
+  id: bar
   link_mode: static
   path:
     path_type: absolute
-    uri: ${barUri.toFilePath()}
   target: linux_arm64
   type: c_code
-- id: bla
+- file: ${blaUri.toFilePath()}
+  id: bla
   link_mode: dynamic
   path:
     path_type: absolute
-    uri: ${blaUri.toFilePath()}
   target: windows_x64
   type: c_code''';
 

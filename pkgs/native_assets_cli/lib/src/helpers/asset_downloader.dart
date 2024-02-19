@@ -62,8 +62,9 @@ class AssetDownloader implements Builder {
       buildOutput.addAssets([
         CCodeAsset(
           id: assetId,
+          file: targetUri,
           linkMode: LinkMode.dynamic,
-          path: AssetAbsolutePath(targetUri),
+          path: AssetAbsolutePath(),
           target: target,
         )
       ]);

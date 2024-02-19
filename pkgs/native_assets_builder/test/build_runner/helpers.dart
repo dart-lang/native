@@ -107,7 +107,7 @@ Future<DryRunResult> dryRun(
 
 Future<void> expectAssetsExist(List<CCodeAssetImpl> assets) async {
   for (final asset in assets) {
-    final uri = (asset.path as AssetAbsolutePathImpl).uri;
+    final uri = asset.file!;
     expect(
         uri.toFilePath(),
         contains('${Platform.pathSeparator}.dart_tool${Platform.pathSeparator}'
@@ -122,7 +122,7 @@ Future<void> expectSymbols({
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {
-    final assetUri = (asset.path as AssetAbsolutePathImpl).uri;
+    final assetUri = asset.file!;
     final nmResult = await runProcess(
       executable: Uri(path: 'nm'),
       arguments: [

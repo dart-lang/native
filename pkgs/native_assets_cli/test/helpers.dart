@@ -121,12 +121,12 @@ extension AssetIterable on Iterable<CCodeAsset> {
   }
 }
 
-extension on CCodeAsset {
+extension on Asset {
   Future<bool> exists() async {
-    final path_ = path;
+    final path_ = file;
     return switch (path_) {
-      AssetAbsolutePath _ => await path_.uri.fileSystemEntity.exists(),
-      _ => true,
+      null => true,
+      _ => await path_.fileSystemEntity.exists(),
     };
   }
 }
