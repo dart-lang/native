@@ -44,7 +44,7 @@ class CBuilder implements Builder {
 
   /// Name of the library or executable to build.
   ///
-  /// The filename will be decided by [BuildConfig.target] and
+  /// The filename will be decided by [BuildConfig.targetOs] and
   /// [OS.libraryFileName] or [OS.executableFileName].
   ///
   /// File will be placed in [BuildConfig.outDir].
@@ -247,24 +247,17 @@ class CBuilder implements Builder {
     }
 
     if (assetId != null) {
-      final targets = [
-        if (!buildConfig.dryRun)
-          buildConfig.target
-        else
-          for (final target in Target.values)
-            if (target.os == buildConfig.targetOs) target
-      ];
-      for (final target in targets) {
-        buildOutput.addAssets([
-          CCodeAsset(
-            id: assetId!,
-            file: libUri,
-            linkMode: linkMode,
-            target: target,
-            path: AssetAbsolutePath(),
-          )
-        ]);
-      }
+      buildOutput.addAssets([
+        CCodeAsset(
+          id: assetId!,
+          file: buildConfig.dryRun ? null : libUri,
+          linkMode: linkMode,
+          os: buildConfig.targetOs,
+          architecture:
+              buildConfig.dryRun ? null : buildConfig.targetArchitecture,
+          path: AssetAbsolutePath(),
+        )
+      ]);
     }
     if (!buildConfig.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)

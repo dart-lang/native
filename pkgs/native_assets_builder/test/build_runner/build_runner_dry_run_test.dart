@@ -24,10 +24,8 @@ void main() async {
         logger: logger,
       );
 
-      final dryRunAssets = (await dryRun(packageUri, logger, dartExecutable))
-          .assets
-          .where((element) => element.target == TargetImpl.current)
-          .toList();
+      final dryRunAssets =
+          (await dryRun(packageUri, logger, dartExecutable)).assets.toList();
       final result = await build(packageUri, logger, dartExecutable);
 
       expect(dryRunAssets.length, result.assets.length);
@@ -36,7 +34,10 @@ void main() async {
         final buildAsset = result.assets[0];
         expect(dryRunAsset.linkMode, buildAsset.linkMode);
         expect(dryRunAsset.id, buildAsset.id);
-        expect(dryRunAsset.target, buildAsset.target);
+        expect(buildAsset.architecture, isNotNull);
+        expect(buildAsset.file, isNotNull);
+        expect(dryRunAsset.file, isNull);
+        expect(dryRunAsset.os, buildAsset.os);
         // The target folders are different, so the paths are different.
       }
 

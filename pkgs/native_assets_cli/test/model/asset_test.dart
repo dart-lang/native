@@ -17,39 +17,45 @@ void main() {
       id: 'foo',
       file: fooUri,
       path: AssetAbsolutePathImpl(),
-      target: TargetImpl.androidX64,
+      os: OSImpl.android,
+      architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
       id: 'foo3',
       path: AssetSystemPathImpl(foo3Uri),
-      target: TargetImpl.androidX64,
+      os: OSImpl.android,
+      architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
       id: 'foo4',
       path: AssetInExecutableImpl(),
-      target: TargetImpl.androidX64,
+      os: OSImpl.android,
+      architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
       id: 'foo5',
       path: AssetInProcessImpl(),
-      target: TargetImpl.androidX64,
+      os: OSImpl.android,
+      architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
       id: 'bar',
       file: barUri,
       path: AssetAbsolutePathImpl(),
-      target: TargetImpl.linuxArm64,
+      os: OSImpl.linux,
+      architecture: ArchitectureImpl.arm64,
       linkMode: LinkModeImpl.static,
     ),
     CCodeAssetImpl(
       id: 'bla',
       file: blaUri,
       path: AssetAbsolutePathImpl(),
-      target: TargetImpl.windowsX64,
+      os: OSImpl.windows,
+      architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
   ];
@@ -89,45 +95,51 @@ void main() {
     uri: ${blaUri.toFilePath()}
   target: windows_x64''';
 
-  final assetsYamlEncoding = '''- file: ${fooUri.toFilePath()}
+  final assetsYamlEncoding = '''- architecture: x64
+  file: ${fooUri.toFilePath()}
   id: foo
   link_mode: dynamic
+  os: android
   path:
     path_type: absolute
-  target: android_x64
   type: c_code
-- id: foo3
+- architecture: x64
+  id: foo3
   link_mode: dynamic
+  os: android
   path:
     path_type: system
     uri: ${foo3Uri.toFilePath()}
-  target: android_x64
   type: c_code
-- id: foo4
+- architecture: x64
+  id: foo4
   link_mode: dynamic
+  os: android
   path:
     path_type: executable
-  target: android_x64
   type: c_code
-- id: foo5
+- architecture: x64
+  id: foo5
   link_mode: dynamic
+  os: android
   path:
     path_type: process
-  target: android_x64
   type: c_code
-- file: ${barUri.toFilePath()}
+- architecture: arm64
+  file: ${barUri.toFilePath()}
   id: bar
   link_mode: static
+  os: linux
   path:
     path_type: absolute
-  target: linux_arm64
   type: c_code
-- file: ${blaUri.toFilePath()}
+- architecture: x64
+  file: ${blaUri.toFilePath()}
   id: bla
   link_mode: dynamic
+  os: windows
   path:
     path_type: absolute
-  target: windows_x64
   type: c_code''';
 
   test('asset yaml', () {

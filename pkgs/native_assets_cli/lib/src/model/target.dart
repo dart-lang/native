@@ -258,7 +258,9 @@ class TargetImpl implements Target {
   }
 
   factory TargetImpl.fromArchitectureAndOs(
-      ArchitectureImpl architecture, OSImpl os) {
+    ArchitectureImpl architecture,
+    OSImpl os,
+  ) {
     for (final value in values) {
       if (value.os == os && value.architecture == architecture) {
         return value;

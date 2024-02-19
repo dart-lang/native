@@ -10,8 +10,8 @@ import '../../native_assets_cli.dart';
 
 abstract class Builder {
   Future<void> run({
-    required BuildConfig buildConfig,
-    required BuildOutput buildOutput,
+    required BuildConfig config,
+    required BuildOutput output,
     required Logger? logger,
   });
 }
@@ -19,7 +19,7 @@ abstract class Builder {
 // TODO(dacoharkes): Should we really add this? It seems too specific.
 // E.g. what about varying file names, zipped downloads etc. etc. ?
 class AssetDownloader implements Builder {
-  final Uri Function(Target) downloadUri;
+  final Uri Function(OS, Architecture) downloadUri;
 
   /// Asset identifier.
   ///
@@ -33,41 +33,37 @@ class AssetDownloader implements Builder {
 
   @override
   Future<void> run({
-    required BuildConfig buildConfig,
-    required BuildOutput buildOutput,
+    required BuildConfig config,
+    required BuildOutput output,
     required Logger? logger,
   }) async {
     final assetId = this.assetId.startsWith('package:')
         ? this.assetId
-        : 'package:${buildConfig.packageName}/${this.assetId}';
-    final List<Target> targets;
-    if (buildConfig.dryRun) {
-      targets = [
-        for (final target in Target.values)
-          if (target.os == buildConfig.targetOs) target
-      ];
-    } else {
-      targets = [buildConfig.target];
-    }
-    for (final target in targets) {
-      final downloadUri2 = downloadUri(buildConfig.target);
+        : 'package:${config.packageName}/${this.assetId}';
+
+    Uri? targetUri;
+    if (!config.dryRun) {
+      final downloadUri2 = downloadUri(
+        config.targetOs,
+        config.targetArchitecture,
+      );
       final fileName =
           downloadUri2.pathSegments.lastWhere((element) => element.isNotEmpty);
-      final targetUri = buildConfig.outDir.resolve(fileName);
-      if (!buildConfig.dryRun) {
-        final request = await HttpClient().getUrl(downloadUri2);
-        final response = await request.close();
-        await response.pipe(File.fromUri(targetUri).openWrite());
-      }
-      buildOutput.addAssets([
-        CCodeAsset(
-          id: assetId,
-          file: targetUri,
-          linkMode: LinkMode.dynamic,
-          path: AssetAbsolutePath(),
-          target: target,
-        )
-      ]);
+      targetUri = config.outDir.resolve(fileName);
+      final request = await HttpClient().getUrl(downloadUri2);
+      final response = await request.close();
+      await response.pipe(File.fromUri(targetUri).openWrite());
     }
+
+    output.addAssets([
+      CCodeAsset(
+        id: assetId,
+        file: targetUri,
+        linkMode: LinkMode.dynamic,
+        path: AssetAbsolutePath(),
+        os: config.targetOs,
+        architecture: config.dryRun ? null : config.targetArchitecture,
+      )
+    ]);
   }
 }

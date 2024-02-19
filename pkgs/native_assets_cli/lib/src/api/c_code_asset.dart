@@ -58,20 +58,29 @@ abstract final class AssetInExecutable implements AssetPath {
 /// code also bundled with an application.
 abstract final class CCodeAsset implements Asset {
   LinkMode get linkMode;
-  Target get target;
+
+  /// The operating system this asset can run on.
+  OS get os;
+
+  /// The architecture this asset can run on.
+  ///
+  /// Not available during a [BuildConfig.dryRun].
+  Architecture get architecture;
   AssetPath get path;
 
   factory CCodeAsset({
     required String id,
     required LinkMode linkMode,
-    required Target target,
+    required OS os,
     required AssetPath path,
     Uri? file,
+    Architecture? architecture,
   }) =>
       CCodeAssetImpl(
         id: id,
         linkMode: linkMode as LinkModeImpl,
-        target: target as TargetImpl,
+        os: os as OSImpl,
+        architecture: architecture as ArchitectureImpl?,
         path: path as AssetPathImpl,
         file: file,
       );

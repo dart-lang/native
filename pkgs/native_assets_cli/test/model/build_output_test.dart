@@ -25,13 +25,15 @@ void main() {
         id: 'foo',
         file: Uri(path: 'path/to/libfoo.so'),
         path: AssetAbsolutePathImpl(),
-        target: TargetImpl.androidX64,
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
         linkMode: LinkModeImpl.dynamic,
       ),
       CCodeAssetImpl(
         id: 'foo2',
         path: AssetSystemPathImpl(Uri(path: 'path/to/libfoo2.so')),
-        target: TargetImpl.androidX64,
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
         linkMode: LinkModeImpl.dynamic,
       ),
     ],
@@ -65,19 +67,21 @@ version: 1.0.0''';
 
   final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
 assets:
-  - file: path/to/libfoo.so
+  - architecture: x64
+    file: path/to/libfoo.so
     id: foo
     link_mode: dynamic
+    os: android
     path:
       path_type: absolute
-    target: android_x64
     type: c_code
-  - id: foo2
+  - architecture: x64
+    id: foo2
     link_mode: dynamic
+    os: android
     path:
       path_type: system
       uri: path/to/libfoo2.so
-    target: android_x64
     type: c_code
 dependencies:
   - path/to/file.ext

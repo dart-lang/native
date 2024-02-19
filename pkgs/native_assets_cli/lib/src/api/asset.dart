@@ -4,6 +4,8 @@
 
 import 'package:yaml/yaml.dart';
 
+import '../../native_assets_cli.dart';
+import '../../native_assets_cli_internal.dart';
 import '../utils/yaml.dart';
 import 'link_mode.dart';
 import 'target.dart';

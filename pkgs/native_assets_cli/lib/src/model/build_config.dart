@@ -24,13 +24,6 @@ final class BuildConfigImpl implements BuildConfig {
   Uri get packageRoot => _packageRoot;
   late final Uri _packageRoot;
 
-  /// The target being compiled for.
-  ///
-  /// Not available during a [dryRun].
-  @override
-  late final TargetImpl target =
-      TargetImpl.fromArchitectureAndOs(targetArchitecture, targetOs);
-
   /// The architecture being compiled for.
   ///
   /// Not available during a [dryRun].

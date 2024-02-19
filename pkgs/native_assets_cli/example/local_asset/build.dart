@@ -18,18 +18,10 @@ void main(List<String> args) async {
       );
     }
 
-    final Iterable<Target> targets;
     final packageName = config.packageName;
     final assetPath = config.outDir.resolve(assetName);
     final assetSourcePath = config.packageRoot.resolveUri(packageAssetPath);
-    if (config.dryRun) {
-      // Dry run invocations report assets for all architectures for that OS.
-      targets = Target.values.where(
-        (element) => element.os == config.targetOs,
-      );
-    } else {
-      targets = [config.target];
-
+    if (!config.dryRun) {
       // Insert code that downloads or builds the asset to `assetPath`.
       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 
@@ -40,14 +32,14 @@ void main(List<String> args) async {
     }
 
     output.addAssets([
-      for (final target in targets)
-        CCodeAsset(
-          id: 'library:$packageName/asset.txt',
-          file: assetPath,
-          linkMode: LinkMode.dynamic,
-          target: target,
-          path: AssetAbsolutePath(),
-        )
+      CCodeAsset(
+        id: 'library:$packageName/asset.txt',
+        file: assetPath,
+        linkMode: LinkMode.dynamic,
+        os: config.targetOs,
+        architecture: config.dryRun ? null : config.targetArchitecture,
+        path: AssetAbsolutePath(),
+      )
     ]);
   });
 }

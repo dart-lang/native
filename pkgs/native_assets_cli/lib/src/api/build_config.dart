@@ -40,10 +40,10 @@ abstract final class BuildConfig {
   /// dependency of another. For this it is convenient to know the packageRoot.
   Uri get packageRoot;
 
-  /// The target being compiled for.
-  ///
-  /// Not available during a [dryRun].
-  Target get target;
+  // /// The target being compiled for.
+  // ///
+  // /// Not available during a [dryRun].
+  // Target get target;
 
   /// The architecture being compiled for.
   ///
