@@ -125,6 +125,44 @@ class OSImpl implements OS {
     Abi.windowsX64: OSImpl.windows,
   };
 
+  static const _osTargets = {
+    OSImpl.android: {
+      ArchitectureImpl.arm,
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.ia32,
+      ArchitectureImpl.x64,
+      ArchitectureImpl.riscv64,
+    },
+    OSImpl.fuchsia: {
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.x64,
+    },
+    OSImpl.iOS: {
+      ArchitectureImpl.arm,
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.x64,
+    },
+    OSImpl.linux: {
+      ArchitectureImpl.arm,
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.ia32,
+      ArchitectureImpl.riscv32,
+      ArchitectureImpl.riscv64,
+      ArchitectureImpl.x64,
+    },
+    OSImpl.macOS: {
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.x64,
+    },
+    OSImpl.windows: {
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.ia32,
+      ArchitectureImpl.x64,
+    },
+  };
+
+  Iterable<ArchitectureImpl> get architectures => _osTargets[this]!;
+
   /// Typical cross compilation between OSes.
   static const _osCrossCompilationDefault = {
     OSImpl.macOS: [OSImpl.macOS, OSImpl.iOS, OSImpl.android],
@@ -318,7 +356,6 @@ class TargetImpl implements Target {
     windowsArm64,
     windowsIA32,
     windowsX64,
-    // TODO(dacoharkes): Add support for `wasm`.
   };
 
   /// Mapping from strings as used in [TargetImpl.toString] to [TargetImpl]s.

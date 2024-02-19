@@ -4,34 +4,6 @@
 
 part of 'asset.dart';
 
-abstract final class AssetPath {}
-
-/// Asset at absolute path.
-abstract final class AssetAbsolutePath implements AssetPath {
-  factory AssetAbsolutePath() = AssetAbsolutePathImpl;
-}
-
-/// Asset is avaliable on the system `PATH`.
-///
-/// [uri] only contains a file name.
-abstract final class AssetSystemPath implements AssetPath {
-  Uri get uri;
-
-  factory AssetSystemPath(Uri uri) = AssetSystemPathImpl;
-}
-
-/// Asset is loaded in the process and symbols are available through
-/// `DynamicLibrary.process()`.
-abstract final class AssetInProcess implements AssetPath {
-  factory AssetInProcess() = AssetInProcessImpl;
-}
-
-/// Asset is embedded in executable and symbols are available through
-/// `DynamicLibrary.executable()`.
-abstract final class AssetInExecutable implements AssetPath {
-  factory AssetInExecutable() = AssetInExecutableImpl;
-}
-
 /// A code [Asset] which respects the C application binary interface (ABI).
 ///
 /// Typical other languages which produce code assets that respect the C ABI
@@ -65,7 +37,8 @@ abstract final class CCodeAsset implements Asset {
   /// The architecture this asset can run on.
   ///
   /// Not available during a [BuildConfig.dryRun].
-  Architecture get architecture;
+  Architecture? get architecture;
+
   AssetPath get path;
 
   factory CCodeAsset({
@@ -84,4 +57,32 @@ abstract final class CCodeAsset implements Asset {
         path: path as AssetPathImpl,
         file: file,
       );
+}
+
+abstract final class AssetPath {}
+
+/// Asset at absolute path.
+abstract final class AssetAbsolutePath implements AssetPath {
+  factory AssetAbsolutePath() = AssetAbsolutePathImpl;
+}
+
+/// Asset is avaliable on the system `PATH`.
+///
+/// [uri] only contains a file name.
+abstract final class AssetSystemPath implements AssetPath {
+  Uri get uri;
+
+  factory AssetSystemPath(Uri uri) = AssetSystemPathImpl;
+}
+
+/// Asset is loaded in the process and symbols are available through
+/// `DynamicLibrary.process()`.
+abstract final class AssetInProcess implements AssetPath {
+  factory AssetInProcess() = AssetInProcessImpl;
+}
+
+/// Asset is embedded in executable and symbols are available through
+/// `DynamicLibrary.executable()`.
+abstract final class AssetInExecutable implements AssetPath {
+  factory AssetInExecutable() = AssetInExecutableImpl;
 }

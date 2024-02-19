@@ -133,13 +133,8 @@ final class CCodeAssetImpl implements CCodeAsset {
   @override
   final OSImpl os;
 
-  final ArchitectureImpl? _architecture;
-
   @override
-  ArchitectureImpl get architecture => _architecture!;
-
-  @override
-  // Target get target => TargetImpl.fromArchitectureAndOs(_architecture!, os);
+  final ArchitectureImpl? architecture;
 
   CCodeAssetImpl({
     this.file,
@@ -147,8 +142,8 @@ final class CCodeAssetImpl implements CCodeAsset {
     required this.linkMode,
     required this.os,
     required this.path,
-    ArchitectureImpl? architecture,
-  }) : _architecture = architecture;
+    this.architecture,
+  });
 
   factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) {
     final path = AssetPathImpl.fromYaml(as<YamlMap>(yamlMap[_pathKey]));
@@ -219,7 +214,7 @@ final class CCodeAssetImpl implements CCodeAsset {
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         os: os ?? this.os,
-        architecture: architecture ?? _architecture,
+        architecture: this.architecture ?? architecture,
         path: path ?? this.path,
         file: file ?? this.file,
       );
@@ -248,7 +243,7 @@ final class CCodeAssetImpl implements CCodeAsset {
       );
 
   Map<String, Object> toYaml() => {
-        if (_architecture != null) _architectureKey: _architecture.toString(),
+        if (architecture != null) _architectureKey: architecture.toString(),
         if (file != null) _fileKey: file!.toFilePath(),
         _idKey: id,
         _linkModeKey: linkMode.name,

@@ -180,7 +180,21 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         dryRun: true,
       );
-      assets.addAll(packageAssets);
+      for (final asset in packageAssets) {
+        if (asset.architecture != null) {
+          // Backwards compatibility, if an architecture is provided use that.
+          assets.add(asset);
+        } else {
+          // Dry run does not report architecture. Dart VM branches on OS and
+          // Target when looking up assets, so populate assets for all
+          // architectures.
+          for (final architecture in asset.os.architectures) {
+            assets.add(asset.copyWith(
+              architecture: architecture,
+            ));
+          }
+        }
+      }
       success &= packageSuccess;
     }
     return _DryRunResultImpl(
