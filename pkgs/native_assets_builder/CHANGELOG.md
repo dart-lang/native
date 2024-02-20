@@ -1,6 +1,6 @@
-## 0.5.1-wip
+## 0.6.0-wip
 
-- Bump `package:native_assets_cli` to path dependency.
+- **Breaking change**: New API.
 
 ## 0.5.0
 
