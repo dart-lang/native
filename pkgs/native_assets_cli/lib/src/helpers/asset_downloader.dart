@@ -45,7 +45,7 @@ class AssetDownloader implements Builder {
     if (!config.dryRun) {
       final downloadUri2 = downloadUri(
         config.targetOs,
-        config.targetArchitecture,
+        config.targetArchitecture!,
       );
       final fileName =
           downloadUri2.pathSegments.lastWhere((element) => element.isNotEmpty);
@@ -62,7 +62,7 @@ class AssetDownloader implements Builder {
         linkMode: LinkMode.dynamic,
         dynamicLoading: BundledDylib(),
         os: config.targetOs,
-        architecture: config.dryRun ? null : config.targetArchitecture,
+        architecture: config.targetArchitecture,
       )
     ]);
   }

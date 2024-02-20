@@ -541,7 +541,7 @@ version: 1.0.0''';
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '037109b9824b2559502fa7bd42e1b6f8');
+      expect(name1, 'e8da644fa538c7b63e61feb102974b93');
 
       // Build folder different due to metadata.
       final name2 = BuildConfigImpl.checksum(
@@ -616,7 +616,7 @@ version: 1.0.0''';
     );
   });
 
-  test('BuildConfig dry_run access invalid args', () {
+  test('BuildConfig dry_run target arch', () {
     final outDir = outDirUri;
     final config = Config(fileParsed: {
       'link_mode_preference': 'prefer-static',
@@ -628,15 +628,10 @@ version: 1.0.0''';
       'version': BuildConfigImpl.latestVersion.toString(),
     });
     final buildConfig = BuildConfigImpl.fromConfig(config);
-    expect(
-      () => buildConfig.targetArchitecture,
-      throwsA(predicate(
-        (e) => e is StateError && e.message.contains('In Flutter projects'),
-      )),
-    );
+    expect(buildConfig.targetArchitecture, isNull);
   });
 
-  test('BuildConfig dry_run access invalid args', () {
+  test('BuildConfig dry_run toString', () {
     final buildConfig = BuildConfigImpl.dryRun(
       packageName: packageName,
       outDir: outDirUri,

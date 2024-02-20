@@ -28,12 +28,9 @@ final class BuildConfigImpl implements BuildConfig {
   ///
   /// Not available during a [dryRun].
   @override
-  ArchitectureImpl get targetArchitecture {
-    _ensureNotDryRun();
-    return _targetArchitecture;
-  }
+  ArchitectureImpl? get targetArchitecture => _targetArchitecture;
 
-  late final ArchitectureImpl _targetArchitecture;
+  late final ArchitectureImpl? _targetArchitecture;
 
   /// The operating system being compiled for.
   @override
@@ -139,6 +136,7 @@ final class BuildConfigImpl implements BuildConfig {
     Iterable<String>? supportedAssetTypes,
   }) {
     final nonValidated = BuildConfigImpl._()
+      .._version = latestVersion
       .._outDir = outDir
       .._packageName = packageName
       .._packageRoot = packageRoot
@@ -170,10 +168,12 @@ final class BuildConfigImpl implements BuildConfig {
     Iterable<String>? supportedAssetTypes,
   }) {
     final nonValidated = BuildConfigImpl._()
+      .._version = latestVersion
       .._outDir = outDir
       .._packageName = packageName
       .._packageRoot = packageRoot
       .._targetOs = targetOs
+      .._targetArchitecture = null
       .._linkModePreference = linkModePreference
       .._cCompiler = CCompilerConfigImpl()
       .._dryRun = true
@@ -206,8 +206,10 @@ final class BuildConfigImpl implements BuildConfig {
     required LinkModePreferenceImpl linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
+    Version? version,
   }) {
     final input = [
+      version ?? latestVersion,
       packageName,
       targetArchitecture.toString(),
       targetOs.toString(),
@@ -353,6 +355,7 @@ final class BuildConfigImpl implements BuildConfig {
       (config) {
         if (dryRun) {
           _throwIfNotNullInDryRun<String>(ArchitectureImpl.configKey);
+          _targetArchitecture = null;
         } else {
           final validArchitectures = [
             if (!osSet)

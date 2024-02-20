@@ -43,8 +43,8 @@ abstract final class BuildConfig {
 
   /// The architecture being compiled for.
   ///
-  /// Not available during a [dryRun].
-  Architecture get targetArchitecture;
+  /// Not specified (`null`) during a [dryRun].
+  Architecture? get targetArchitecture;
 
   /// The operating system being compiled for.
   OS get targetOs;
