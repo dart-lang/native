@@ -115,7 +115,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
       'target_os': 'android',
-      'version': BuildOutputImpl.version.toString(),
+      'version': BuildOutputImpl.latestVersion.toString(),
     });
 
     final fromConfig = BuildConfigImpl.fromConfig(config);
@@ -138,7 +138,7 @@ void main() async {
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
-      'version': BuildOutputImpl.version.toString(),
+      'version': BuildOutputImpl.latestVersion.toString(),
     });
 
     final fromConfig = BuildConfigImpl.fromConfig(config);
@@ -260,7 +260,7 @@ supported_asset_types:
 target_architecture: arm64
 target_ios_sdk: iphoneos
 target_os: ios
-version: ${BuildConfigImpl.version}''';
+version: ${BuildConfigImpl.latestVersion}''';
     expect(yamlString, equals(expectedYamlString));
 
     final buildConfig2 = BuildConfigImpl.fromConfig(
@@ -339,7 +339,7 @@ version: 1.0.0''';
     );
     expect(
       () => BuildConfigImpl.fromConfig(Config(fileParsed: {
-        'version': BuildConfigImpl.version.toString(),
+        'version': BuildConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -357,7 +357,7 @@ version: 1.0.0''';
     );
     expect(
       () => BuildConfigImpl.fromConfig(Config(fileParsed: {
-        'version': BuildConfigImpl.version.toString(),
+        'version': BuildConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
@@ -382,7 +382,7 @@ version: 1.0.0''';
     expect(
       () => BuildConfigImpl.fromConfig(Config(fileParsed: {
         'out_dir': outDirUri.toFilePath(),
-        'version': BuildConfigImpl.version.toString(),
+        'version': BuildConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -519,7 +519,7 @@ version: 1.0.0''';
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(BuildConfigImpl.version.toString()),
+              e.message.contains(BuildConfigImpl.latestVersion.toString()),
         )),
       );
     });
@@ -584,7 +584,7 @@ version: 1.0.0''';
       'target_os': 'windows',
       'target_architecture': 'arm',
       'build_mode': 'debug',
-      'version': BuildConfigImpl.version.toString(),
+      'version': BuildConfigImpl.latestVersion.toString(),
     });
     expect(
       () => BuildConfigImpl.fromConfig(config),
@@ -605,7 +605,7 @@ version: 1.0.0''';
       'target_architecture': 'arm64',
       'build_mode': 'debug',
       'dry_run': true,
-      'version': BuildConfigImpl.version.toString(),
+      'version': BuildConfigImpl.latestVersion.toString(),
     });
     expect(
       () => BuildConfigImpl.fromConfig(config),
@@ -625,7 +625,7 @@ version: 1.0.0''';
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'dry_run': true,
-      'version': BuildConfigImpl.version.toString(),
+      'version': BuildConfigImpl.latestVersion.toString(),
     });
     final buildConfig = BuildConfigImpl.fromConfig(config);
     expect(

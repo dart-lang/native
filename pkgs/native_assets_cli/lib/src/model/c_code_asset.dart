@@ -28,7 +28,7 @@ abstract final class DynamicLoadingImpl implements DynamicLoading {
     return DynamicLoadingImpl(type, uri);
   }
 
-  Map<String, Object> toYaml();
+  Map<String, Object> toYaml(Version version, Uri? file);
 
   static const _pathTypeKey = 'path_type';
   static const _typeKey = 'type';
@@ -46,8 +46,12 @@ final class BundledDylibImpl implements DynamicLoadingImpl, BundledDylib {
   static const _typeValue = 'bundle';
 
   @override
-  Map<String, Object> toYaml() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
+  Map<String, Object> toYaml(Version version, Uri? file) => {
+        if (version == Version(1, 0, 0)) ...{
+          DynamicLoadingImpl._pathTypeKey: _typeValueV1_0_0,
+          DynamicLoadingImpl._uriKey: file!.toFilePath(),
+        } else
+          DynamicLoadingImpl._typeKey: _typeValue,
       };
 }
 
@@ -60,8 +64,11 @@ final class SystemDylibImpl implements DynamicLoadingImpl, SystemDylib {
   static const _typeValue = 'system';
 
   @override
-  Map<String, Object> toYaml() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
+  Map<String, Object> toYaml(Version version, Uri? file) => {
+        if (version == Version(1, 0, 0))
+          DynamicLoadingImpl._pathTypeKey: _typeValue
+        else
+          DynamicLoadingImpl._typeKey: _typeValue,
         DynamicLoadingImpl._uriKey: uri.toFilePath(),
       };
 
@@ -87,8 +94,11 @@ final class LookupInProcessImpl implements DynamicLoadingImpl, LookupInProcess {
   static const _typeValue = 'process';
 
   @override
-  Map<String, Object> toYaml() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
+  Map<String, Object> toYaml(Version version, Uri? file) => {
+        if (version == Version(1, 0, 0))
+          DynamicLoadingImpl._pathTypeKey: _typeValue
+        else
+          DynamicLoadingImpl._typeKey: _typeValue,
       };
 }
 
@@ -103,8 +113,11 @@ final class LookupInExecutableImpl
   static const _typeValue = 'executable';
 
   @override
-  Map<String, Object> toYaml() => {
-        DynamicLoadingImpl._typeKey: _typeValue,
+  Map<String, Object> toYaml(Version version, Uri? file) => {
+        if (version == Version(1, 0, 0))
+          DynamicLoadingImpl._pathTypeKey: _typeValue
+        else
+          DynamicLoadingImpl._typeKey: _typeValue,
       };
 }
 
@@ -236,15 +249,26 @@ final class CCodeAssetImpl implements CCodeAsset {
         file,
       );
 
-  Map<String, Object> toYaml() => {
-        if (architecture != null) _architectureKey: architecture.toString(),
-        _dynamicLoadingKey: dynamicLoading.toYaml(),
-        if (file != null) _fileKey: file!.toFilePath(),
+  Map<String, Object> toYaml(Version version) {
+    if (version == Version(1, 0, 0)) {
+      return {
         _idKey: id,
         _linkModeKey: linkMode.name,
-        _osKey: os.toString(),
-        typeKey: CCodeAsset.type,
-      };
+        _pathKey: dynamicLoading.toYaml(version, file),
+        _targetKey:
+            TargetImpl.fromArchitectureAndOs(architecture!, os).toString(),
+      }..sortOnKey();
+    }
+    return {
+      if (architecture != null) _architectureKey: architecture.toString(),
+      _dynamicLoadingKey: dynamicLoading.toYaml(version, file),
+      if (file != null) _fileKey: file!.toFilePath(),
+      _idKey: id,
+      _linkModeKey: linkMode.name,
+      _osKey: os.toString(),
+      typeKey: CCodeAsset.type,
+    }..sortOnKey();
+  }
 
   static const typeKey = 'type';
   static const _idKey = 'id';
@@ -257,11 +281,5 @@ final class CCodeAssetImpl implements CCodeAsset {
   static const _architectureKey = 'architecture';
 
   @override
-  String toString() => 'CCodeAsset(${toYaml()})';
-}
-
-extension AssetIterable on Iterable<CCodeAssetImpl> {
-  List<Object> toYaml() => [for (final item in this) item.toYaml()];
-
-  String toYamlString() => yamlEncode(toYaml());
+  String toString() => 'CCodeAsset(${toYaml(BuildOutputImpl.latestVersion)})';
 }

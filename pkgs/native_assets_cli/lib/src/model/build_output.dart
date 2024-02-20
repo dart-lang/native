@@ -55,18 +55,18 @@ class BuildOutputImpl implements BuildOutput {
 
   factory BuildOutputImpl.fromYaml(YamlMap yamlMap) {
     final outputVersion = Version.parse(as<String>(yamlMap['version']));
-    if (outputVersion.major > version.major) {
+    if (outputVersion.major > latestVersion.major) {
       throw FormatException(
         'The output version $outputVersion is newer than the '
-        'package:native_assets_cli config version $version in Dart or Flutter, '
-        'please update the Dart or Flutter SDK.',
+        'package:native_assets_cli config version $latestVersion in Dart or '
+        'Flutter, please update the Dart or Flutter SDK.',
       );
     }
-    if (outputVersion.major < version.major) {
+    if (outputVersion.major < latestVersion.major) {
       throw FormatException(
         'The output version $outputVersion is newer than this '
-        'package:native_assets_cli config version $version in Dart or Flutter, '
-        'please update native_assets_cli.',
+        'package:native_assets_cli config version $latestVersion in Dart or '
+        'Flutter, please update native_assets_cli.',
       );
     }
 
@@ -94,26 +94,34 @@ class BuildOutputImpl implements BuildOutput {
     );
   }
 
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toYaml(Version version) => {
         _timestampKey: timestamp.toString(),
-        _assetsKey: _assets.toYaml(),
+        _assetsKey: [
+          for (final asset in _assets) asset.toYaml(version),
+        ],
         if (_dependencies.dependencies.isNotEmpty)
           _dependenciesKey: _dependencies.toYaml(),
         _metadataKey: _metadata.toYaml(),
         _versionKey: version.toString(),
       }..sortOnKey();
 
-  String toYamlString() => yamlEncode(toYaml());
+  String toYamlString(Version version) => yamlEncode(toYaml(version));
 
   /// The version of [BuildOutputImpl].
   ///
-  /// This class is used in the protocol between the Dart and Flutter SDKs
-  /// and packages through `build.dart` invocations.
+  /// This class is used in the protocol between the Dart and Flutter SDKs and
+  /// packages through `build.dart` invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version version = Version(1, 1, 0);
+  ///
+  /// [BuildOutput.latestVersion] is tied to [BuildConfig.latestVersion]. This
+  /// enables making the yaml serialization in `build.dart` dependent on the
+  /// version of the Dart or Flutter SDK. When there is a need to split the
+  /// versions of BuildConfig and BuildOutput, the BuildConfig should start
+  /// passing the highest supported version of BuildOutput.
+  static Version latestVersion = BuildConfigImpl.latestVersion;
 
   static const fileName = 'build_output.yaml';
 
@@ -127,16 +135,17 @@ class BuildOutputImpl implements BuildOutput {
     return BuildOutputImpl.fromYamlString(await buildOutputFile.readAsString());
   }
 
-  /// Writes the [toYamlString] to [outDir]/[fileName].
+  /// Writes the [toYamlString] to [BuildConfig.outDir]/[fileName].
   @override
-  Future<void> writeToFile({required Uri outDir}) async {
+  Future<void> writeToFile({required BuildConfig config}) async {
+    final outDir = config.outDir;
     final buildOutputUri = outDir.resolve(fileName);
-    await File.fromUri(buildOutputUri)
-        .writeAsStringCreateDirectory(toYamlString());
+    final yamlString = toYamlString((config as BuildConfigImpl).version);
+    await File.fromUri(buildOutputUri).writeAsStringCreateDirectory(yamlString);
   }
 
   @override
-  String toString() => toYamlString();
+  String toString() => toYamlString(BuildConfigImpl.latestVersion);
 
   @override
   bool operator ==(Object other) {

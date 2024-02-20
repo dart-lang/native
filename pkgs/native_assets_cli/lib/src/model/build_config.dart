@@ -116,6 +116,10 @@ final class BuildConfigImpl implements BuildConfig {
 
   late final List<String> _supportedAssetTypes;
 
+  Version get version => _version;
+
+  late final Version _version;
+
   @override
   Config get config => _config;
   late final Config _config;
@@ -241,7 +245,7 @@ final class BuildConfigImpl implements BuildConfig {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version version = Version(1, 1, 0);
+  static Version latestVersion = Version(1, 1, 0);
 
   factory BuildConfigImpl.fromConfig(Config config) {
     final result = BuildConfigImpl._().._cCompiler = CCompilerConfigImpl._();
@@ -302,21 +306,22 @@ final class BuildConfigImpl implements BuildConfig {
     var ccSet = false;
     return [
       (config) {
-        final configVersion = Version.parse(config.string('version'));
-        if (configVersion.major > version.major) {
+        final version = Version.parse(config.string('version'));
+        if (version.major > latestVersion.major) {
           throw FormatException(
-            'The config version $configVersion is newer than this '
-            'package:native_assets_cli config version $version, '
+            'The config version $version is newer than this '
+            'package:native_assets_cli config version $latestVersion, '
             'please update native_assets_cli.',
           );
         }
-        if (configVersion.major < version.major) {
+        if (version.major < latestVersion.major) {
           throw FormatException(
-            'The config version $configVersion is newer than this '
-            'package:native_assets_cli config version $version, '
+            'The config version $version is newer than this '
+            'package:native_assets_cli config version $latestVersion, '
             'please update the Dart or Flutter SDK.',
           );
         }
+        _version = version;
       },
       (config) => _config = config,
       (config) => _dryRun = config.optionalBool(dryRunConfigKey),
@@ -496,7 +501,7 @@ final class BuildConfigImpl implements BuildConfig {
       OSImpl.configKey: _targetOs.toString(),
       LinkModePreferenceImpl.configKey: _linkModePreference.toString(),
       supportedAssetTypesKey: _supportedAssetTypes,
-      _versionKey: version.toString(),
+      _versionKey: latestVersion.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
         BuildModeImpl.configKey: _buildMode.toString(),

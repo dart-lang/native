@@ -5,6 +5,7 @@
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
+import 'package:native_assets_cli/src/utils/yaml.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -143,7 +144,9 @@ void main() {
   type: c_code''';
 
   test('asset yaml', () {
-    final yaml = assets.toYamlString();
+    final yaml = yamlEncode([
+      for (final item in assets) item.toYaml(BuildOutputImpl.latestVersion)
+    ]);
     expect(yaml, assetsYamlEncoding);
     final assets2 = CCodeAssetImpl.listFromYamlString(yaml);
     expect(assets, assets2);

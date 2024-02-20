@@ -15,6 +15,7 @@ import '../utils/file.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'asset.dart';
+import 'build_config.dart';
 import 'target.dart';
 
 part '../model/build_output.dart';
@@ -119,8 +120,8 @@ abstract class BuildOutput {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version get version => BuildOutputImpl.version;
+  static Version get latestVersion => BuildOutputImpl.latestVersion;
 
-  /// Write out this build output to a file inside [outDir].
-  Future<void> writeToFile({required Uri outDir});
+  /// Write out this build output to a file inside [BuildConfig.outDir].
+  Future<void> writeToFile({required BuildConfig config});
 }

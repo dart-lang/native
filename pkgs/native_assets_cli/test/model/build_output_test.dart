@@ -5,6 +5,8 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/src/utils/yaml.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -87,20 +89,27 @@ dependencies:
   - path/to/file.ext
 metadata:
   key: value
-version: ${BuildOutputImpl.version}''';
+version: ${BuildOutputImpl.latestVersion}''';
 
   test('built info yaml', () {
-    final yaml = buildOutput.toYamlString().replaceAll('\\', '/');
+    final yaml = buildOutput
+        .toYamlString(BuildOutputImpl.latestVersion)
+        .replaceAll('\\', '/');
     expect(yaml, yamlEncoding);
     final buildOutput2 = BuildOutputImpl.fromYamlString(yaml);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
-  test('built info yaml v1.0.0 keeps working', () {
+  test('built info yaml v1.0.0 parsing keeps working', () {
     final buildOutput2 = BuildOutputImpl.fromYamlString(yamlEncodingV1_0_0);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
+  });
+
+  test('built info yaml v1.0.0 serialization keeps working', () {
+    final yamlEncoding = yamlEncode(buildOutput.toYaml(Version(1, 0, 0)));
+    expect(yamlEncoding, yamlEncodingV1_0_0);
   });
 
   test('BuildOutput.toString', buildOutput.toString);
@@ -117,7 +126,19 @@ version: ${BuildOutputImpl.version}''';
 
   test('BuildOutput.readFromFile BuildOutput.writeToFile', () async {
     final outDir = tempUri.resolve('out_dir/');
-    await buildOutput.writeToFile(outDir: outDir);
+    final packageRoot = tempUri.resolve('package_root/');
+    await Directory.fromUri(outDir).create();
+    await Directory.fromUri(packageRoot).create();
+    final config = BuildConfigImpl(
+      outDir: outDir,
+      packageName: 'dontcare',
+      packageRoot: packageRoot,
+      buildMode: BuildModeImpl.debug,
+      targetArchitecture: ArchitectureImpl.arm64,
+      targetOs: OSImpl.macOS,
+      linkModePreference: LinkModePreferenceImpl.dynamic,
+    );
+    await buildOutput.writeToFile(config: config);
     final buildOutput2 = await BuildOutputImpl.readFromFile(outDir: outDir);
     expect(buildOutput2, buildOutput);
   });
@@ -137,7 +158,7 @@ version: ${BuildOutputImpl.version}''';
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(BuildOutputImpl.version.toString()),
+              e.message.contains(BuildOutputImpl.latestVersion.toString()),
         )),
       );
     });
@@ -157,7 +178,7 @@ assets:
 dependencies: []
 metadata:
   key: value
-version: ${BuildOutputImpl.version}'''),
+version: ${BuildOutputImpl.latestVersion}'''),
       throwsFormatException,
     );
     expect(
@@ -173,7 +194,7 @@ dependencies:
   1: foo
 metadata:
   key: value
-version: ${BuildOutputImpl.version}'''),
+version: ${BuildOutputImpl.latestVersion}'''),
       throwsFormatException,
     );
     expect(
@@ -188,7 +209,7 @@ assets:
 dependencies: []
 metadata:
   123: value
-version: ${BuildOutputImpl.version}'''),
+version: ${BuildOutputImpl.latestVersion}'''),
       throwsFormatException,
     );
   });

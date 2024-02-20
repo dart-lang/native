@@ -86,5 +86,5 @@ Future<void> build(
   final config = await BuildConfig.fromArgs(commandlineArguments);
   final output = BuildOutput();
   await builder(config, output);
-  await output.writeToFile(outDir: config.outDir);
+  await output.writeToFile(config: config);
 }

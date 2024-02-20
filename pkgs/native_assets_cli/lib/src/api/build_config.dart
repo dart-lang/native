@@ -113,7 +113,7 @@ abstract final class BuildConfig {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
-  static Version get version => BuildConfigImpl.version;
+  static Version get latestVersion => BuildConfigImpl.latestVersion;
 
   factory BuildConfig({
     required Uri outDir,

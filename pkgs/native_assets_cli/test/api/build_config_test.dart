@@ -113,7 +113,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
       'target_os': 'android',
-      'version': BuildOutput.version.toString(),
+      'version': BuildOutput.latestVersion.toString(),
     });
 
     final fromConfig = BuildConfig.fromConfig(config);
@@ -136,7 +136,7 @@ void main() async {
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
-      'version': BuildOutput.version.toString(),
+      'version': BuildOutput.latestVersion.toString(),
     });
 
     final fromConfig = BuildConfig.fromConfig(config);
@@ -211,6 +211,6 @@ void main() async {
   });
 
   test('BuildConfig.version', () {
-    BuildConfig.version.toString();
+    BuildConfig.latestVersion.toString();
   });
 }

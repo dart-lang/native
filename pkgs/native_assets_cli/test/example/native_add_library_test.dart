@@ -43,7 +43,7 @@ void main() async {
           '-Dpackage_name=$name',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
           '-Dtarget_os=${OSImpl.current}',
-          '-Dversion=${BuildConfigImpl.version}',
+          '-Dversion=${BuildConfigImpl.latestVersion}',
           '-Dlink_mode_preference=dynamic',
           '-Ddry_run=$dryRun',
           if (!dryRun) ...[
