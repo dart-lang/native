@@ -9,6 +9,8 @@
   Backwards compatibility: `path` is parsed as `dynamic_linking`.
   Backwards compatibility: the nested `path_type` is parsed as `type`.
   Backwards compatibility older SDKs: emit the old format if an older BuildConfig was passed in.
+- Added `DataAsset`s.
+  Backwards compatibility: These are ignored on older SDKs.
 
 ## 1.0.0
 

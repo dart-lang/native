@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -26,7 +27,8 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         expect(result.assets.length, 1);
-        await expectSymbols(asset: result.assets.single, symbols: ['add']);
+        await expectSymbols(
+            asset: result.assets.single as CCodeAssetImpl, symbols: ['add']);
         expect(
           result.dependencies,
           [
@@ -69,7 +71,8 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         expect(result.assets.length, 1);
-        await expectSymbols(asset: result.assets.single, symbols: ['add']);
+        await expectSymbols(
+            asset: result.assets.single as CCodeAssetImpl, symbols: ['add']);
         expect(
           result.dependencies,
           [

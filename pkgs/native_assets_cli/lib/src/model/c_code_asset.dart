@@ -121,7 +121,7 @@ final class LookupInExecutableImpl
       };
 }
 
-final class CCodeAssetImpl implements CCodeAsset {
+final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
   @override
   final Uri? file;
 
@@ -193,17 +193,6 @@ final class CCodeAssetImpl implements CCodeAsset {
     );
   }
 
-  static List<CCodeAssetImpl> listFromYamlString(String yaml) {
-    final yamlObject = loadYaml(yaml);
-    if (yamlObject == null) {
-      return [];
-    }
-    return [
-      for (final yamlElement in as<YamlList>(yamlObject))
-        CCodeAssetImpl.fromYaml(as<YamlMap>(yamlElement)),
-    ];
-  }
-
   CCodeAssetImpl copyWith({
     LinkModeImpl? linkMode,
     String? id,
@@ -244,6 +233,7 @@ final class CCodeAssetImpl implements CCodeAsset {
         file,
       );
 
+  @override
   Map<String, Object> toYaml(Version version) {
     if (version == Version(1, 0, 0)) {
       return {

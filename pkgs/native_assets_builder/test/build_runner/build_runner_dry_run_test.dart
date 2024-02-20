@@ -41,14 +41,16 @@ void main() async {
       for (var i = 0; i < dryRunAssets.length; i++) {
         final dryRunAsset = dryRunAssets[i];
         final buildAsset = result.assets[0];
-        expect(dryRunAsset.linkMode, buildAsset.linkMode);
         expect(dryRunAsset.id, buildAsset.id);
         // The build runner expands CCodeAssets to all architectures.
-        expect(dryRunAsset.architecture, isNotNull);
-        expect(buildAsset.architecture, isNotNull);
         expect(buildAsset.file, isNotNull);
         expect(dryRunAsset.file, isNull);
-        expect(dryRunAsset.os, buildAsset.os);
+        if (dryRunAsset is CCodeAssetImpl && buildAsset is CCodeAssetImpl) {
+          expect(dryRunAsset.architecture, isNotNull);
+          expect(buildAsset.architecture, isNotNull);
+          expect(dryRunAsset.os, buildAsset.os);
+          expect(dryRunAsset.linkMode, buildAsset.linkMode);
+        }
       }
 
       final dryRunDir = packageUri.resolve(

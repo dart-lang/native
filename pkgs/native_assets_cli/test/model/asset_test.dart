@@ -7,13 +7,16 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:native_assets_cli/src/utils/yaml.dart';
 import 'package:test/test.dart';
+import 'package:yaml/yaml.dart';
 
 void main() {
   final fooUri = Uri.file('path/to/libfoo.so');
   final foo3Uri = Uri(path: 'libfoo3.so');
   final barUri = Uri(path: 'path/to/libbar.a');
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
-  final assets = [
+  final dataUri = Uri.file('path/to/data.txt');
+  final data2Uri = Uri.file('path/to/data.json');
+  final cCodeAssets = [
     CCodeAssetImpl(
       id: 'foo',
       file: fooUri,
@@ -59,6 +62,20 @@ void main() {
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
+  ];
+  final dataAssets = [
+    DataAssetImpl(
+      id: 'my_data_asset',
+      file: dataUri,
+    ),
+    DataAssetImpl(
+      id: 'my_data_asset2',
+      file: data2Uri,
+    ),
+  ];
+  final assets = [
+    ...cCodeAssets,
+    ...dataAssets,
   ];
 
   final assetsYamlEncodingV1_0_0 = '''- id: foo
@@ -141,20 +158,27 @@ void main() {
   id: bla
   link_mode: dynamic
   os: windows
-  type: c_code''';
+  type: c_code
+- id: my_data_asset
+  file: path/to/data.txt
+  type: data
+- id: my_data_asset2
+  file: path/to/data.json
+  type: data''';
 
   test('asset yaml', () {
     final yaml = yamlEncode([
       for (final item in assets) item.toYaml(BuildOutputImpl.latestVersion)
     ]);
     expect(yaml, assetsYamlEncoding);
-    final assets2 = CCodeAssetImpl.listFromYamlString(yaml);
+    final assets2 = AssetImpl.listFromYamlList(loadYaml(yaml) as YamlList);
     expect(assets, assets2);
   });
 
   test('build_output protocol v1.0.0 keeps working', () {
-    final assets2 = CCodeAssetImpl.listFromYamlString(assetsYamlEncodingV1_0_0);
-    expect(assets, assets2);
+    final assets2 = AssetImpl.listFromYamlList(
+        loadYaml(assetsYamlEncodingV1_0_0) as YamlList);
+    expect(cCodeAssets, assets2);
   });
 
   test('AssetPath factory', () async {
@@ -167,26 +191,23 @@ void main() {
   });
 
   test('Asset hashCode copyWith', () async {
-    final asset = assets.first;
+    final asset = cCodeAssets.first;
     final asset2 = asset.copyWith(id: 'foo321');
     expect(asset.hashCode != asset2.hashCode, true);
 
     final asset3 = asset.copyWith();
     expect(asset.hashCode, asset3.hashCode);
+
+    expect(dataAssets[0].hashCode, isNot(dataAssets[1].hashCode));
   });
 
   test('List<Asset> hashCode', () async {
-    final assets2 = assets.take(3).toList();
+    final assets2 = cCodeAssets.take(3).toList();
     const equality = ListEquality<CCodeAssetImpl>();
-    expect(equality.hash(assets) != equality.hash(assets2), true);
+    expect(equality.hash(cCodeAssets) != equality.hash(assets2), true);
   });
 
   test('Asset toString', () async {
     assets.toString();
-  });
-
-  test('Asset listFromYamlString', () async {
-    final assets = CCodeAssetImpl.listFromYamlString('');
-    expect(assets, <CCodeAssetImpl>[]);
   });
 }

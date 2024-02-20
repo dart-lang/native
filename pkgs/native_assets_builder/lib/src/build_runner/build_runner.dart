@@ -77,7 +77,7 @@ class NativeAssetsBuildRunner {
       buildPlan = plan;
       packageGraph = planner.packageGraph;
     }
-    final assets = <CCodeAssetImpl>[];
+    final assets = <AssetImpl>[];
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
     var success = true;
@@ -163,7 +163,7 @@ class NativeAssetsBuildRunner {
       }
       buildPlan = plan;
     }
-    final assets = <CCodeAssetImpl>[];
+    final assets = <AssetImpl>[];
     var success = true;
     for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
@@ -181,18 +181,23 @@ class NativeAssetsBuildRunner {
         dryRun: true,
       );
       for (final asset in packageAssets) {
-        if (asset.architecture != null) {
-          // Backwards compatibility, if an architecture is provided use that.
-          assets.add(asset);
-        } else {
-          // Dry run does not report architecture. Dart VM branches on OS and
-          // Target when looking up assets, so populate assets for all
-          // architectures.
-          for (final architecture in asset.os.architectures) {
-            assets.add(asset.copyWith(
-              architecture: architecture,
-            ));
-          }
+        switch (asset) {
+          case CCodeAssetImpl _:
+            if (asset.architecture != null) {
+              // Backwards compatibility, if an architecture is provided use it.
+              assets.add(asset);
+            } else {
+              // Dry run does not report architecture. Dart VM branches on OS
+              // and Target when looking up assets, so populate assets for all
+              // architectures.
+              for (final architecture in asset.os.architectures) {
+                assets.add(asset.copyWith(
+                  architecture: architecture,
+                ));
+              }
+            }
+          case DataAssetImpl _:
+            assets.add(asset);
         }
       }
       success &= packageSuccess;
@@ -415,8 +420,7 @@ build_output.yaml contained a format error.
     };
   }
 
-  bool validateAssetsPackage(
-      Iterable<CCodeAssetImpl> assets, String packageName) {
+  bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.id)
         .where((n) => !n.startsWith('package:$packageName/'))
@@ -435,7 +439,7 @@ build_output.yaml contained a format error.
 }
 
 typedef _PackageBuildRecord = (
-  Iterable<CCodeAssetImpl>,
+  Iterable<AssetImpl>,
   Iterable<Uri> dependencies,
   Metadata?,
   bool success,
@@ -444,7 +448,7 @@ typedef _PackageBuildRecord = (
 /// The result from a [NativeAssetsBuildRunner.dryRun].
 abstract interface class DryRunResult {
   /// The native assets for all [TargetImpl]s for the build or dry run.
-  List<CCodeAssetImpl> get assets;
+  List<AssetImpl> get assets;
 
   /// Whether all builds completed without errors.
   ///
@@ -454,7 +458,7 @@ abstract interface class DryRunResult {
 
 final class _DryRunResultImpl implements DryRunResult {
   @override
-  final List<CCodeAssetImpl> assets;
+  final List<AssetImpl> assets;
 
   @override
   final bool success;
@@ -478,7 +482,7 @@ abstract class BuildResult implements DryRunResult {
 
 final class _BuildResultImpl implements BuildResult {
   @override
-  final List<CCodeAssetImpl> assets;
+  final List<AssetImpl> assets;
 
   @override
   final List<Uri> dependencies;

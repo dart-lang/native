@@ -13,9 +13,12 @@ import 'link_mode.dart';
 import 'target.dart';
 
 part 'c_code_asset.dart';
+part 'data_asset.dart';
+part '../model/asset.dart';
 part '../model/c_code_asset.dart';
+part '../model/data_asset.dart';
 
-/// Data bundled with a Dart or Flutter application.
+/// Data or code bundled with a Dart or Flutter application.
 ///
 /// An asset is data or code which is accessible from a Dart or Flutter
 /// application. To retrieve an asset at runtime, the [id] is used. This enables

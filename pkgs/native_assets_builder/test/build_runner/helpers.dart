@@ -61,7 +61,7 @@ Future<BuildResult> build(
     runPackageName: runPackageName,
   );
   if (result.success) {
-    await expectAssetsExist(result.assets);
+    await expectAssetsExist(result.assets.cast<CCodeAssetImpl>());
   }
 
   if (subscription != null) {

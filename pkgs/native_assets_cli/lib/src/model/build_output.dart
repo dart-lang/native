@@ -8,10 +8,10 @@ class BuildOutputImpl implements BuildOutput {
   @override
   final DateTime timestamp;
 
-  final List<CCodeAssetImpl> _assets;
+  final List<AssetImpl> _assets;
 
   @override
-  Iterable<CCodeAssetImpl> get assets => _assets;
+  Iterable<AssetImpl> get assets => _assets;
 
   final Dependencies _dependencies;
 
@@ -24,7 +24,7 @@ class BuildOutputImpl implements BuildOutput {
 
   BuildOutputImpl({
     DateTime? timestamp,
-    List<CCodeAssetImpl>? assets,
+    List<AssetImpl>? assets,
     Dependencies? dependencies,
     Metadata? metadata,
   })  : timestamp = (timestamp ?? DateTime.now()).roundDownToSeconds(),
@@ -70,18 +70,8 @@ class BuildOutputImpl implements BuildOutput {
       );
     }
 
-    final assets = <CCodeAssetImpl>[];
-    for (final yamlElement in as<YamlList>(yamlMap[_assetsKey])) {
-      final yamlMap = as<YamlMap>(yamlElement);
-      final type = yamlMap[CCodeAssetImpl.typeKey];
-      switch (type) {
-        case CCodeAsset.type:
-        case null: // Backwards compatibility with v1.0.0.
-          assets.add(CCodeAssetImpl.fromYaml(yamlMap));
-        default:
-        // Do nothing, some other launcher might define it's own asset types.
-      }
-    }
+    final assets =
+        AssetImpl.listFromYamlList(as<YamlList>(yamlMap[_assetsKey]));
 
     return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(yamlMap[_timestampKey])),
@@ -151,7 +141,7 @@ class BuildOutputImpl implements BuildOutput {
       return false;
     }
     return other.timestamp == timestamp &&
-        const ListEquality<CCodeAssetImpl>().equals(other._assets, _assets) &&
+        const ListEquality<AssetImpl>().equals(other._assets, _assets) &&
         other._dependencies == _dependencies &&
         other._metadata == _metadata;
   }
@@ -159,7 +149,7 @@ class BuildOutputImpl implements BuildOutput {
   @override
   int get hashCode => Object.hash(
         timestamp.hashCode,
-        const ListEquality<CCodeAssetImpl>().hash(_assets),
+        const ListEquality<AssetImpl>().hash(_assets),
         _dependencies,
         _metadata,
       );
@@ -177,12 +167,12 @@ class BuildOutputImpl implements BuildOutput {
   Metadata get metadataModel => _metadata;
 
   @override
-  void addAsset(CCodeAsset asset) {
-    _assets.add(asset as CCodeAssetImpl);
+  void addAsset(Asset asset) {
+    _assets.add(asset as AssetImpl);
   }
 
   @override
-  void addAssets(Iterable<CCodeAsset> assets) {
+  void addAssets(Iterable<Asset> assets) {
     _assets.addAll(assets.cast());
   }
 }

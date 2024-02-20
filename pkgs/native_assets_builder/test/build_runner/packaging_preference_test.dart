@@ -51,10 +51,22 @@ void main() async {
       );
 
       // This package honors preferences.
-      expect(resultDynamic.assets.single.linkMode, LinkModeImpl.dynamic);
-      expect(resultPreferDynamic.assets.single.linkMode, LinkModeImpl.dynamic);
-      expect(resultStatic.assets.single.linkMode, LinkModeImpl.static);
-      expect(resultPreferStatic.assets.single.linkMode, LinkModeImpl.static);
+      expect(
+        (resultDynamic.assets.single as CCodeAssetImpl).linkMode,
+        LinkModeImpl.dynamic,
+      );
+      expect(
+        (resultPreferDynamic.assets.single as CCodeAssetImpl).linkMode,
+        LinkModeImpl.dynamic,
+      );
+      expect(
+        (resultStatic.assets.single as CCodeAssetImpl).linkMode,
+        LinkModeImpl.static,
+      );
+      expect(
+        (resultPreferStatic.assets.single as CCodeAssetImpl).linkMode,
+        LinkModeImpl.static,
+      );
     });
   });
 }

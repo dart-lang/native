@@ -38,7 +38,7 @@ abstract class BuildOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  Iterable<CCodeAsset> get assets;
+  Iterable<Asset> get assets;
 
   /// The files used by this build.
   ///
@@ -69,13 +69,13 @@ abstract class BuildOutput {
   /// via [metadata] or [addMetadata].
   factory BuildOutput({
     DateTime? timestamp,
-    Iterable<CCodeAsset>? assets,
+    Iterable<Asset>? assets,
     Iterable<Uri>? dependencies,
     Map<String, Object>? metadata,
   }) =>
       BuildOutputImpl(
         timestamp: timestamp,
-        assets: assets?.cast<CCodeAssetImpl>().toList(),
+        assets: assets?.cast<AssetImpl>().toList(),
         dependencies: Dependencies([...?dependencies]),
         metadata: Metadata({...?metadata}),
       );
@@ -84,13 +84,13 @@ abstract class BuildOutput {
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  void addAsset(CCodeAsset asset);
+  void addAsset(Asset asset);
 
   /// Adds [CCodeAsset]s produced by this build or dry run.
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  void addAssets(Iterable<CCodeAsset> assets);
+  void addAssets(Iterable<Asset> assets);
 
   /// Adds file used by this build.
   ///
