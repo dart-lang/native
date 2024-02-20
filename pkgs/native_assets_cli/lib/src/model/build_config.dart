@@ -149,11 +149,8 @@ final class BuildConfigImpl implements BuildConfig {
       .._linkModePreference = linkModePreference
       .._dependencyMetadata = dependencyMetadata
       .._dryRun = false
-      .._supportedAssetTypes = [
-        ...?supportedAssetTypes,
-        // Backwards compatibility.
-        if (supportedAssetTypes == null) CCodeAsset.type,
-      ];
+      .._supportedAssetTypes =
+          _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfigImpl.fromConfig(config);
@@ -177,11 +174,8 @@ final class BuildConfigImpl implements BuildConfig {
       .._linkModePreference = linkModePreference
       .._cCompiler = CCompilerConfigImpl()
       .._dryRun = true
-      .._supportedAssetTypes = [
-        ...?supportedAssetTypes,
-        // Backwards compatibility.
-        if (supportedAssetTypes == null) CCodeAsset.type,
-      ];
+      .._supportedAssetTypes =
+          _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
     final parsedConfigFile = nonValidated.toYaml();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfigImpl.fromConfig(config);
@@ -227,7 +221,7 @@ final class BuildConfigImpl implements BuildConfig {
           entry.key,
           json.encode(entry.value.toYaml()),
         ],
-      ...?supportedAssetTypes,
+      ..._supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
     ].join('###');
     final sha256String = sha256.convert(utf8.encode(input)).toString();
     // 256 bit hashes lead to 64 hex character strings.
@@ -236,6 +230,14 @@ final class BuildConfigImpl implements BuildConfig {
     const nameLength = 32;
     return sha256String.substring(0, nameLength);
   }
+
+  static List<String> _supportedAssetTypesBackwardsCompatibility(
+    Iterable<String>? supportedAssetTypes,
+  ) =>
+      [
+        ...?supportedAssetTypes,
+        if (supportedAssetTypes == null) CCodeAsset.type,
+      ];
 
   BuildConfigImpl._();
 

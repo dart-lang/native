@@ -204,11 +204,6 @@ final class CCodeAssetImpl implements CCodeAsset {
     ];
   }
 
-  static List<CCodeAssetImpl> listFromYamlList(YamlList yamlList) => [
-        for (final yamlElement in yamlList)
-          CCodeAssetImpl.fromYaml(as<YamlMap>(yamlElement)),
-      ];
-
   CCodeAssetImpl copyWith({
     LinkModeImpl? linkMode,
     String? id,

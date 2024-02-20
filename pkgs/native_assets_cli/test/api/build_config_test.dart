@@ -61,6 +61,7 @@ void main() async {
       ),
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
+      supportedAssetTypes: [CCodeAsset.type],
     );
 
     final config2 = BuildConfig(
@@ -72,6 +73,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
+      supportedAssetTypes: [CCodeAsset.type],
     );
 
     expect(config1, equals(config1));
@@ -89,6 +91,7 @@ void main() async {
         true);
     expect(config1.cCompiler != config2.cCompiler, true);
     expect(config1.linkModePreference, config2.linkModePreference);
+    expect(config1.supportedAssetTypes, config2.supportedAssetTypes);
   });
 
   test('BuildConfig fromConfig', () {
@@ -127,6 +130,7 @@ void main() async {
       packageRoot: packageRootUri,
       targetOs: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
+      supportedAssetTypes: [CCodeAsset.type],
     );
 
     final config = Config(fileParsed: {
@@ -186,6 +190,8 @@ void main() async {
     expect(buildConfig1, equals(buildConfig1));
     expect(buildConfig1 == buildConfig2, false);
     expect(buildConfig1.hashCode == buildConfig2.hashCode, false);
+
+    expect(buildConfig1.metadatum('bar', 'key'), 'value');
   });
 
   test('BuildConfig fromArgs', () async {

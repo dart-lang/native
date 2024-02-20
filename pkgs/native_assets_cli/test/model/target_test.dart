@@ -75,4 +75,14 @@ void main() {
       )),
     );
   });
+
+  test('OS.architectures', () {
+    expect(OSImpl.android.architectures, [
+      ArchitectureImpl.arm,
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.ia32,
+      ArchitectureImpl.x64,
+      ArchitectureImpl.riscv64,
+    ]);
+  });
 }

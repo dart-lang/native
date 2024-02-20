@@ -538,10 +538,11 @@ version: 1.0.0''';
         targetOs: OSImpl.linux,
         buildMode: BuildModeImpl.release,
         linkModePreference: LinkModePreferenceImpl.dynamic,
+        supportedAssetTypes: [CCodeAsset.type],
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, 'e8da644fa538c7b63e61feb102974b93');
+      expect(name1, '4dec7292cfab417c27529307d949773f');
 
       // Build folder different due to metadata.
       final name2 = BuildConfigImpl.checksum(
@@ -612,6 +613,26 @@ version: 1.0.0''';
       throwsA(predicate(
         (e) =>
             e is FormatException && e.message.contains('In Flutter projects'),
+      )),
+    );
+  });
+
+  test('BuildConfig dry_run access invalid args', () {
+    final outDir = outDirUri;
+    final config = Config(fileParsed: {
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDir.toFilePath(),
+      'package_name': packageName,
+      'package_root': tempUri.toFilePath(),
+      'target_os': 'android',
+      'dry_run': true,
+      'version': BuildConfigImpl.latestVersion.toString(),
+    });
+    final buildConfig = BuildConfigImpl.fromConfig(config);
+    expect(
+      () => buildConfig.targetAndroidNdkApi,
+      throwsA(predicate(
+        (e) => e is StateError && e.message.contains('In Flutter projects'),
       )),
     );
   });

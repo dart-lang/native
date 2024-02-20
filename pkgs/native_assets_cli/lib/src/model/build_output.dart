@@ -79,9 +79,7 @@ class BuildOutputImpl implements BuildOutput {
         case null: // Backwards compatibility with v1.0.0.
           assets.add(CCodeAssetImpl.fromYaml(yamlMap));
         default:
-          throw FormatException(
-            "Unexpected asset type '$type' in YAML.",
-          );
+        // Do nothing, some other launcher might define it's own asset types.
       }
     }
 

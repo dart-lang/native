@@ -127,6 +127,7 @@ abstract final class BuildConfig {
     CCompilerConfig? cCompiler,
     required LinkModePreference linkModePreference,
     Map<String, Map<String, Object>>? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl(
         outDir: outDir,
@@ -145,6 +146,7 @@ abstract final class BuildConfig {
                   entry.key: Metadata(entry.value.cast())
               }
             : {},
+        supportedAssetTypes: supportedAssetTypes,
       );
 
   factory BuildConfig.dryRun({
@@ -153,6 +155,7 @@ abstract final class BuildConfig {
     required Uri packageRoot,
     required OS targetOs,
     required LinkModePreference linkModePreference,
+    Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
         outDir: outDir,
@@ -160,6 +163,7 @@ abstract final class BuildConfig {
         packageRoot: packageRoot,
         targetOs: targetOs as OSImpl,
         linkModePreference: linkModePreference as LinkModePreferenceImpl,
+        supportedAssetTypes: supportedAssetTypes,
       );
 
   factory BuildConfig.fromConfig(Config config) =>

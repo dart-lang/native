@@ -26,4 +26,5 @@ dependencies:
 
 dev_dependencies:
   dart_flutter_team_lints: ^2.1.1
+  file_testing: ^3.0.0
   test: ^1.21.0

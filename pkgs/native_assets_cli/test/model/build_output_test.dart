@@ -38,6 +38,20 @@ void main() {
         architecture: ArchitectureImpl.x64,
         linkMode: LinkModeImpl.dynamic,
       ),
+      CCodeAssetImpl(
+        id: 'foo3',
+        dynamicLoading: LookupInProcessImpl(),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+        linkMode: LinkModeImpl.dynamic,
+      ),
+      CCodeAssetImpl(
+        id: 'foo4',
+        dynamicLoading: LookupInExecutableImpl(),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+        linkMode: LinkModeImpl.dynamic,
+      ),
     ],
     dependencies: Dependencies([
       Uri.file('path/to/file.ext'),
@@ -61,6 +75,16 @@ assets:
       path_type: system
       uri: path/to/libfoo2.so
     target: android_x64
+  - id: foo3
+    link_mode: dynamic
+    path:
+      path_type: process
+    target: android_x64
+  - id: foo4
+    link_mode: dynamic
+    path:
+      path_type: executable
+    target: android_x64
 dependencies:
   - path/to/file.ext
 metadata:
@@ -82,6 +106,20 @@ assets:
       type: system
       uri: path/to/libfoo2.so
     id: foo2
+    link_mode: dynamic
+    os: android
+    type: c_code
+  - architecture: x64
+    dynamic_loading:
+      type: process
+    id: foo3
+    link_mode: dynamic
+    os: android
+    type: c_code
+  - architecture: x64
+    dynamic_loading:
+      type: executable
+    id: foo4
     link_mode: dynamic
     os: android
     type: c_code
@@ -223,5 +261,74 @@ version: ${BuildOutputImpl.latestVersion}'''),
       () => buildOutput.addDependencies([Uri.file('path/to/file.ext')]),
       returnsNormally,
     );
+  });
+
+  test('BuildOutput setters', () {
+    final buildOutput = BuildOutputImpl(
+      timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
+      assets: [
+        CCodeAssetImpl(
+          id: 'foo',
+          file: Uri(path: 'path/to/libfoo.so'),
+          dynamicLoading: BundledDylibImpl(),
+          os: OSImpl.android,
+          architecture: ArchitectureImpl.x64,
+          linkMode: LinkModeImpl.dynamic,
+        ),
+        CCodeAssetImpl(
+          id: 'foo2',
+          dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+          os: OSImpl.android,
+          architecture: ArchitectureImpl.x64,
+          linkMode: LinkModeImpl.dynamic,
+        ),
+      ],
+      dependencies: Dependencies([
+        Uri.file('path/to/file.ext'),
+        Uri.file('path/to/file2.ext'),
+      ]),
+      metadata: const Metadata({
+        'key': 'value',
+        'key2': 'value2',
+      }),
+    );
+
+    final buildOutput2 = BuildOutputImpl(
+      timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
+    );
+    buildOutput2.addAsset(
+      CCodeAssetImpl(
+        id: 'foo',
+        file: Uri(path: 'path/to/libfoo.so'),
+        dynamicLoading: BundledDylibImpl(),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+        linkMode: LinkModeImpl.dynamic,
+      ),
+    );
+    buildOutput2.addAssets([
+      CCodeAssetImpl(
+        id: 'foo2',
+        dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+        linkMode: LinkModeImpl.dynamic,
+      ),
+    ]);
+    buildOutput2.addDependency(
+      Uri.file('path/to/file.ext'),
+    );
+    buildOutput2.addDependencies([
+      Uri.file('path/to/file2.ext'),
+    ]);
+    buildOutput2.addMetadata({
+      'key': 'value',
+    });
+    buildOutput2.addMetadatum('key2', 'value2');
+
+    expect(buildOutput2, equals(buildOutput));
+    expect(
+        buildOutput2.dependenciesModel, equals(buildOutput.dependenciesModel));
+    expect(buildOutput2.metadataModel, equals(buildOutput.metadataModel));
   });
 }
