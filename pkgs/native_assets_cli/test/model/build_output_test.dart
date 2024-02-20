@@ -108,7 +108,8 @@ version: ${BuildOutputImpl.latestVersion}''';
   });
 
   test('built info yaml v1.0.0 serialization keeps working', () {
-    final yamlEncoding = yamlEncode(buildOutput.toYaml(Version(1, 0, 0)));
+    final yamlEncoding =
+        yamlEncode(buildOutput.toYaml(Version(1, 0, 0))).replaceAll('\\', '/');
     expect(yamlEncoding, yamlEncodingV1_0_0);
   });
 
