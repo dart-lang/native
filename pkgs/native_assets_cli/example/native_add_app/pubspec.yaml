@@ -6,7 +6,7 @@ version: 0.1.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/native_add_app
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   native_add_library:

@@ -509,12 +509,12 @@ final class BuildConfigImpl implements BuildConfig {
         if (_targetIOSSdk != null)
           IOSSdkImpl.configKey: _targetIOSSdk.toString(),
         if (_targetAndroidNdkApi != null)
-          targetAndroidNdkApiConfigKey: _targetAndroidNdkApi!,
+          targetAndroidNdkApiConfigKey: _targetAndroidNdkApi,
         if (cCompilerYaml.isNotEmpty)
           CCompilerConfigImpl.configKey: cCompilerYaml,
-        if (_dependencyMetadata != null && _dependencyMetadata!.isNotEmpty)
+        if (_dependencyMetadata != null && _dependencyMetadata.isNotEmpty)
           dependencyMetadataConfigKey: {
-            for (final entry in _dependencyMetadata!.entries)
+            for (final entry in _dependencyMetadata.entries)
               entry.key: entry.value.toYaml(),
           },
       },
@@ -646,11 +646,11 @@ class CCompilerConfigImpl implements CCompilerConfig {
       '$configKey.$envScriptArgsConfigKey';
 
   Map<String, Object> toYaml() => {
-        if (_ar != null) arConfigKey: _ar!.toFilePath(),
-        if (_cc != null) ccConfigKey: _cc!.toFilePath(),
-        if (_ld != null) ldConfigKey: _ld!.toFilePath(),
-        if (_envScript != null) envScriptConfigKey: _envScript!.toFilePath(),
-        if (_envScriptArgs != null) envScriptArgsConfigKey: _envScriptArgs!,
+        if (_ar != null) arConfigKey: _ar.toFilePath(),
+        if (_cc != null) ccConfigKey: _cc.toFilePath(),
+        if (_ld != null) ldConfigKey: _ld.toFilePath(),
+        if (_envScript != null) envScriptConfigKey: _envScript.toFilePath(),
+        if (_envScriptArgs != null) envScriptArgsConfigKey: _envScriptArgs,
       }.sortOnKey();
 
   @override
