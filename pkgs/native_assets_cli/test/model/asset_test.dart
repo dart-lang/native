@@ -169,7 +169,7 @@ void main() {
   test('asset yaml', () {
     final yaml = yamlEncode([
       for (final item in assets) item.toYaml(BuildOutputImpl.latestVersion)
-    ]);
+    ]).replaceAll('\\', '/');
     expect(yaml, assetsYamlEncoding);
     final assets2 = AssetImpl.listFromYamlList(loadYaml(yaml) as YamlList);
     expect(assets, assets2);
