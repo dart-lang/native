@@ -160,16 +160,16 @@ void main() {
   os: windows
   type: c_code
 - id: my_data_asset
-  file: path/to/data.txt
+  file: ${dataUri.toFilePath()}
   type: data
 - id: my_data_asset2
-  file: path/to/data.json
+  file: ${data2Uri.toFilePath()}
   type: data''';
 
   test('asset yaml', () {
     final yaml = yamlEncode([
       for (final item in assets) item.toYaml(BuildOutputImpl.latestVersion)
-    ]).replaceAll('\\', '/');
+    ]);
     expect(yaml, assetsYamlEncoding);
     final assets2 = AssetImpl.listFromYamlList(loadYaml(yaml) as YamlList);
     expect(assets, assets2);
