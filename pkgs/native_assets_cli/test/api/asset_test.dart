@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -52,6 +53,10 @@ void main() {
         os: OS.windows,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
+      ),
+      DataAsset(
+        id: 'package:my_package/data/some_text.txt',
+        file: Uri(path: 'data/some_text.txt'),
       ),
     ];
     assets.toString();
