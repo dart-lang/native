@@ -185,5 +185,5 @@ final class OSImpl implements OS {
   /// The current [OSImpl].
   ///
   /// Read from the [Platform.version] string.
-  static final OSImpl current = TargetImpl.current.os;
+  static final OSImpl current = Target.current.os;
 }

@@ -316,7 +316,7 @@ final class BuildConfigImpl implements BuildConfig {
             if (!osSet)
               ...ArchitectureImpl.values
             else
-              for (final target in TargetImpl.values)
+              for (final target in Target.values)
                 if (target.os == _targetOs) target.architecture
           ];
           _targetArchitecture = ArchitectureImpl.fromString(

@@ -18,37 +18,37 @@ void main() {
     KernelAsset(
       id: 'foo',
       path: KernelAssetAbsolutePath(fooUri),
-      target: TargetImpl.androidX64,
+      target: Target.androidX64,
     ),
     KernelAsset(
       id: 'foo2',
       path: KernelAssetRelativePath(foo2Uri),
-      target: TargetImpl.androidX64,
+      target: Target.androidX64,
     ),
     KernelAsset(
       id: 'foo3',
       path: KernelAssetSystemPath(foo3Uri),
-      target: TargetImpl.androidX64,
+      target: Target.androidX64,
     ),
     KernelAsset(
       id: 'foo4',
       path: KernelAssetInExecutable(),
-      target: TargetImpl.androidX64,
+      target: Target.androidX64,
     ),
     KernelAsset(
       id: 'foo5',
       path: KernelAssetInProcess(),
-      target: TargetImpl.androidX64,
+      target: Target.androidX64,
     ),
     KernelAsset(
       id: 'bar',
       path: KernelAssetAbsolutePath(barUri),
-      target: TargetImpl.linuxArm64,
+      target: Target.linuxArm64,
     ),
     KernelAsset(
       id: 'bla',
       path: KernelAssetAbsolutePath(blaUri),
-      target: TargetImpl.windowsX64,
+      target: Target.windowsX64,
     ),
   ]);
 

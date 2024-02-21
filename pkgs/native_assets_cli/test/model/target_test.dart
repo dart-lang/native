@@ -22,15 +22,15 @@ void main() {
   });
 
   test('Target current', () async {
-    final current = TargetImpl.current;
+    final current = Target.current;
     expect(current.toString(), Abi.current().toString());
   });
 
   test('Target fromDartPlatform', () async {
-    final current = TargetImpl.fromDartPlatform(Platform.version);
+    final current = Target.fromDartPlatform(Platform.version);
     expect(current.toString(), Abi.current().toString());
     expect(
-      () => TargetImpl.fromDartPlatform('bogus'),
+      () => Target.fromDartPlatform('bogus'),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -39,7 +39,7 @@ void main() {
       )),
     );
     expect(
-      () => TargetImpl.fromDartPlatform(
+      () => Target.fromDartPlatform(
         '3.0.0 (be) (Wed Apr 5 14:19:42 2023 +0000) on "myfancyos_ia32"',
       ),
       throwsA(predicate(
@@ -53,20 +53,19 @@ void main() {
 
   test('Target cross compilation', () async {
     // All hosts can cross compile to Android.
-    expect(TargetImpl.current.supportedTargetTargets(),
-        contains(TargetImpl.androidArm64));
-    expect(TargetImpl.macOSArm64.supportedTargetTargets(),
-        contains(TargetImpl.iOSArm64));
+    expect(
+        Target.current.supportedTargetTargets(), contains(Target.androidArm64));
+    expect(
+        Target.macOSArm64.supportedTargetTargets(), contains(Target.iOSArm64));
   });
 
   test('Target fromArchitectureAndOs', () async {
-    final current = TargetImpl.fromArchitectureAndOs(
-        ArchitectureImpl.current, OSImpl.current);
+    final current =
+        Target.fromArchitectureAndOs(ArchitectureImpl.current, OSImpl.current);
     expect(current.toString(), Abi.current().toString());
 
     expect(
-      () => TargetImpl.fromArchitectureAndOs(
-          ArchitectureImpl.arm, OSImpl.windows),
+      () => Target.fromArchitectureAndOs(ArchitectureImpl.arm, OSImpl.windows),
       throwsA(predicate(
         (e) =>
             e is ArgumentError &&

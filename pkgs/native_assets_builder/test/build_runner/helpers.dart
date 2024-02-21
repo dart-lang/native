@@ -53,7 +53,7 @@ Future<BuildResult> build(
   ).build(
     buildMode: BuildModeImpl.release,
     linkModePreference: linkModePreference,
-    target: TargetImpl.current,
+    target: Target.current,
     workingDirectory: packageUri,
     cCompilerConfig: cCompilerConfig,
     includeParentEnvironment: includeParentEnvironment,
@@ -92,7 +92,7 @@ Future<DryRunResult> dryRun(
     dartExecutable: dartExecutable,
   ).dryRun(
     linkModePreference: linkModePreference,
-    targetOs: TargetImpl.current.os,
+    targetOs: Target.current.os,
     workingDirectory: packageUri,
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,

@@ -37,7 +37,7 @@ class NativeAssetsBuildRunner {
   /// [runPackageName] are built.
   Future<BuildResult> build({
     required LinkModePreferenceImpl linkModePreference,
-    required TargetImpl target,
+    required Target target,
     required Uri workingDirectory,
     required BuildModeImpl buildMode,
     CCompilerConfigImpl? cCompilerConfig,
@@ -341,7 +341,7 @@ build_output.yaml contained a format error.
   static Future<BuildConfigImpl> _cliConfig({
     required String packageName,
     required Uri packageRoot,
-    required TargetImpl target,
+    required Target target,
     IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
     required BuildModeImpl buildMode,
@@ -447,7 +447,7 @@ typedef _PackageBuildRecord = (
 
 /// The result from a [NativeAssetsBuildRunner.dryRun].
 abstract interface class DryRunResult {
-  /// The native assets for all [TargetImpl]s for the build or dry run.
+  /// The native assets for all [Target]s for the build or dry run.
   List<AssetImpl> get assets;
 
   /// Whether all builds completed without errors.

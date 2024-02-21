@@ -8,19 +8,19 @@ import 'dart:io';
 import '../api/architecture.dart';
 import '../api/os.dart';
 
-final class TargetImpl implements Comparable<TargetImpl> {
+final class Target implements Comparable<Target> {
   final Abi abi;
 
-  const TargetImpl._(this.abi);
+  const Target._(this.abi);
 
-  factory TargetImpl.fromString(String target) => _stringToTarget[target]!;
+  factory Target.fromString(String target) => _stringToTarget[target]!;
 
-  /// The [TargetImpl] corresponding the substring of [Platform.version]
-  /// describing the [TargetImpl].
+  /// The [Target] corresponding the substring of [Platform.version]
+  /// describing the [Target].
   ///
   /// The [Platform.version] strings are formatted as follows:
   /// `<version> (<date>) on "<Target>"`.
-  factory TargetImpl.fromDartPlatform(String versionStringFull) {
+  factory Target.fromDartPlatform(String versionStringFull) {
     final split = versionStringFull.split('"');
     if (split.length < 2) {
       throw FormatException(
@@ -35,7 +35,7 @@ final class TargetImpl implements Comparable<TargetImpl> {
     return target;
   }
 
-  factory TargetImpl.fromArchitectureAndOs(
+  factory Target.fromArchitectureAndOs(
     ArchitectureImpl architecture,
     OSImpl os,
   ) {
@@ -48,29 +48,29 @@ final class TargetImpl implements Comparable<TargetImpl> {
         "'${os}_$architecture'");
   }
 
-  static const androidArm = TargetImpl._(Abi.androidArm);
-  static const androidArm64 = TargetImpl._(Abi.androidArm64);
-  static const androidIA32 = TargetImpl._(Abi.androidIA32);
-  static const androidX64 = TargetImpl._(Abi.androidX64);
-  static const androidRiscv64 = TargetImpl._(Abi.androidRiscv64);
-  static const fuchsiaArm64 = TargetImpl._(Abi.fuchsiaArm64);
-  static const fuchsiaX64 = TargetImpl._(Abi.fuchsiaX64);
-  static const iOSArm = TargetImpl._(Abi.iosArm);
-  static const iOSArm64 = TargetImpl._(Abi.iosArm64);
-  static const iOSX64 = TargetImpl._(Abi.iosX64);
-  static const linuxArm = TargetImpl._(Abi.linuxArm);
-  static const linuxArm64 = TargetImpl._(Abi.linuxArm64);
-  static const linuxIA32 = TargetImpl._(Abi.linuxIA32);
-  static const linuxRiscv32 = TargetImpl._(Abi.linuxRiscv32);
-  static const linuxRiscv64 = TargetImpl._(Abi.linuxRiscv64);
-  static const linuxX64 = TargetImpl._(Abi.linuxX64);
-  static const macOSArm64 = TargetImpl._(Abi.macosArm64);
-  static const macOSX64 = TargetImpl._(Abi.macosX64);
-  static const windowsArm64 = TargetImpl._(Abi.windowsArm64);
-  static const windowsIA32 = TargetImpl._(Abi.windowsIA32);
-  static const windowsX64 = TargetImpl._(Abi.windowsX64);
+  static const androidArm = Target._(Abi.androidArm);
+  static const androidArm64 = Target._(Abi.androidArm64);
+  static const androidIA32 = Target._(Abi.androidIA32);
+  static const androidX64 = Target._(Abi.androidX64);
+  static const androidRiscv64 = Target._(Abi.androidRiscv64);
+  static const fuchsiaArm64 = Target._(Abi.fuchsiaArm64);
+  static const fuchsiaX64 = Target._(Abi.fuchsiaX64);
+  static const iOSArm = Target._(Abi.iosArm);
+  static const iOSArm64 = Target._(Abi.iosArm64);
+  static const iOSX64 = Target._(Abi.iosX64);
+  static const linuxArm = Target._(Abi.linuxArm);
+  static const linuxArm64 = Target._(Abi.linuxArm64);
+  static const linuxIA32 = Target._(Abi.linuxIA32);
+  static const linuxRiscv32 = Target._(Abi.linuxRiscv32);
+  static const linuxRiscv64 = Target._(Abi.linuxRiscv64);
+  static const linuxX64 = Target._(Abi.linuxX64);
+  static const macOSArm64 = Target._(Abi.macosArm64);
+  static const macOSX64 = Target._(Abi.macosX64);
+  static const windowsArm64 = Target._(Abi.windowsArm64);
+  static const windowsIA32 = Target._(Abi.windowsIA32);
+  static const windowsX64 = Target._(Abi.windowsX64);
 
-  static const Set<TargetImpl> values = {
+  static const Set<Target> values = {
     androidArm,
     androidArm64,
     androidIA32,
@@ -94,21 +94,19 @@ final class TargetImpl implements Comparable<TargetImpl> {
     windowsX64,
   };
 
-  /// Mapping from strings as used in [TargetImpl.toString] to [TargetImpl]s.
-  static final Map<String, TargetImpl> _stringToTarget = Map.fromEntries(
-      TargetImpl.values.map((target) => MapEntry(target.toString(), target)));
+  /// Mapping from strings as used in [Target.toString] to [Target]s.
+  static final Map<String, Target> _stringToTarget = Map.fromEntries(
+      Target.values.map((target) => MapEntry(target.toString(), target)));
 
   /// Mapping from lowercased strings as used in [Platform.version] to
-  /// [TargetImpl]s.
-  static final Map<String, TargetImpl> _dartVMstringToTarget = Map.fromEntries(
-      TargetImpl.values
-          .map((target) => MapEntry(target.dartVMToString(), target)));
+  /// [Target]s.
+  static final Map<String, Target> _dartVMstringToTarget = Map.fromEntries(
+      Target.values.map((target) => MapEntry(target.dartVMToString(), target)));
 
-  /// The current [TargetImpl].
+  /// The current [Target].
   ///
   /// Read from the [Platform.version] string.
-  static final TargetImpl current =
-      TargetImpl.fromDartPlatform(Platform.version);
+  static final Target current = Target.fromDartPlatform(Platform.version);
 
   ArchitectureImpl get architecture => ArchitectureImpl.fromAbi(abi);
 
@@ -126,25 +124,25 @@ final class TargetImpl implements Comparable<TargetImpl> {
 
   /// Compares `this` to [other].
   ///
-  /// If [other] is also an [TargetImpl], consistent with sorting on [toString].
+  /// If [other] is also an [Target], consistent with sorting on [toString].
   @override
-  int compareTo(TargetImpl other) => toString().compareTo(other.toString());
+  int compareTo(Target other) => toString().compareTo(other.toString());
 
-  /// A list of supported target [TargetImpl]s from this host [os].
-  List<TargetImpl> supportedTargetTargets(
+  /// A list of supported target [Target]s from this host [os].
+  List<Target> supportedTargetTargets(
           {Map<OSImpl, List<OSImpl>> osCrossCompilation =
               OSImpl.osCrossCompilationDefault}) =>
-      TargetImpl.values
+      Target.values
           .where((target) =>
               // Only valid cross compilation.
               osCrossCompilation[os]!.contains(target.os) &&
               // And no deprecated architectures.
-              target != TargetImpl.iOSArm)
+              target != Target.iOSArm)
           .sorted;
 }
 
-/// Common methods for manipulating iterables of [TargetImpl]s.
-extension on Iterable<TargetImpl> {
-  /// The [TargetImpl]s in `this` sorted by name alphabetically.
-  List<TargetImpl> get sorted => [for (final target in this) target]..sort();
+/// Common methods for manipulating iterables of [Target]s.
+extension on Iterable<Target> {
+  /// The [Target]s in `this` sorted by name alphabetically.
+  List<Target> get sorted => [for (final target in this) target]..sort();
 }

@@ -171,7 +171,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
     final OSImpl os;
     if (targetString != null) {
       // Compatibility with v1.0.0.
-      final target = TargetImpl.fromString(targetString);
+      final target = Target.fromString(targetString);
       os = target.os;
       architecture = target.architecture;
     } else {
@@ -240,8 +240,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
         _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: dynamicLoading.toYaml(version, file),
-        _targetKey:
-            TargetImpl.fromArchitectureAndOs(architecture!, os).toString(),
+        _targetKey: Target.fromArchitectureAndOs(architecture!, os).toString(),
       }..sortOnKey();
     }
     return {

@@ -24,7 +24,7 @@ class KernelAssets {
   KernelAssets([Iterable<KernelAsset>? assets]) : _assets = [...?assets];
 
   String toNativeAssetsFile() {
-    final assetsPerTarget = <TargetImpl, List<KernelAsset>>{};
+    final assetsPerTarget = <Target, List<KernelAsset>>{};
     for (final asset in _assets) {
       final assets = assetsPerTarget[asset.target] ?? [];
       assets.add(asset);
@@ -47,7 +47,7 @@ class KernelAssets {
 
 class KernelAsset {
   final String id;
-  final TargetImpl target;
+  final Target target;
   final KernelAssetPath path;
 
   KernelAsset({

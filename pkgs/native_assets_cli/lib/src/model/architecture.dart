@@ -64,5 +64,5 @@ final class ArchitectureImpl implements Architecture {
   factory ArchitectureImpl.fromString(String target) =>
       _stringToArchitecture[target]!;
 
-  static final ArchitectureImpl current = TargetImpl.current.architecture;
+  static final ArchitectureImpl current = Target.current.architecture;
 }
