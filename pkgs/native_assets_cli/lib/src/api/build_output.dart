@@ -115,7 +115,7 @@ abstract class BuildOutput {
 
   /// The version of [BuildOutput].
   ///
-  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// The build output is used in the protocol between the Dart and Flutter SDKs
   /// and packages through `build.dart` invocations.
   static Version get latestVersion => BuildOutputImpl.latestVersion;
 

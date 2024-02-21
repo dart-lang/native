@@ -21,7 +21,9 @@ import 'link_mode_preference.dart';
 import 'os.dart';
 import 'target.dart';
 
+part 'c_compiler_config.dart';
 part '../model/build_config.dart';
+part '../model/c_compiler_config.dart';
 
 /// The configuration for a `build.dart` invocation.
 ///
@@ -109,7 +111,7 @@ abstract final class BuildConfig {
 
   /// The version of [BuildConfig].
   ///
-  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// The build config is used in the protocol between the Dart and Flutter SDKs
   /// and packages through `build.dart` invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
@@ -193,29 +195,4 @@ abstract final class BuildConfig {
         environment: environment,
         workingDirectory: workingDirectory,
       );
-}
-
-abstract class CCompilerConfig {
-  /// Path to a C compiler.
-  Uri? get cc;
-
-  /// Path to a native linker.
-  Uri? get ld;
-
-  /// Path to a native archiver.
-  Uri? get ar;
-
-  /// Path to script that sets environment variables for [cc], [ld], and [ar].
-  Uri? get envScript;
-
-  /// Arguments for [envScript].
-  List<String>? get envScriptArgs;
-
-  factory CCompilerConfig({
-    Uri? ar,
-    Uri? cc,
-    Uri? ld,
-    Uri? envScript,
-    List<String>? envScriptArgs,
-  }) = CCompilerConfigImpl;
 }
