@@ -25,6 +25,6 @@ export 'src/api/ios_sdk.dart' show IOSSdkImpl;
 export 'src/api/link_mode.dart' show LinkModeImpl;
 export 'src/api/link_mode_preference.dart' show LinkModePreferenceImpl;
 export 'src/api/os.dart' show OSImpl;
-export 'src/api/target.dart' show TargetImpl;
 export 'src/model/dependencies.dart';
 export 'src/model/metadata.dart';
+export 'src/model/target.dart';

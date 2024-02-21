@@ -5,7 +5,7 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import 'target.dart';
+import '../model/target.dart';
 
 part '../model/architecture.dart';
 

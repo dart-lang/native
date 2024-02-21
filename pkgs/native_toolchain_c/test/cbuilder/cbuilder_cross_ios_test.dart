@@ -24,14 +24,14 @@ void main() {
   }
 
   const targets = [
-    Target.iOSArm64,
-    Target.iOSX64,
+    Architecture.arm64,
+    Architecture.x64,
   ];
 
   // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
-    Target.iOSArm64: 'arm64',
-    Target.iOSX64: '64-bit x86-64',
+    Architecture.arm64: 'arm64',
+    Architecture.x64: '64-bit x86-64',
   };
 
   const name = 'add';
@@ -39,11 +39,11 @@ void main() {
   for (final linkMode in LinkMode.values) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
-        if (target == Target.iOSX64 && targetIOSSdk == IOSSdk.iPhoneOs) {
+        if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOs) {
           continue;
         }
 
-        final libName = target.os.libraryFileName(name, linkMode);
+        final libName = OS.iOS.libraryFileName(name, linkMode);
         for (final installName in [
           null,
           if (linkMode == LinkMode.dynamic)
@@ -60,8 +60,8 @@ void main() {
               outDir: tempUri,
               packageName: name,
               packageRoot: tempUri,
-              targetArchitecture: target.architecture,
-              targetOs: target.os,
+              targetArchitecture: target,
+              targetOs: OS.iOS,
               buildMode: BuildMode.release,
               linkModePreference: linkMode == LinkMode.dynamic
                   ? LinkModePreference.dynamic
@@ -100,7 +100,7 @@ void main() {
               logger: logger,
             );
             expect(otoolResult.exitCode, 0);
-            if (targetIOSSdk == IOSSdk.iPhoneOs || target == Target.iOSX64) {
+            if (targetIOSSdk == IOSSdk.iPhoneOs || target == Architecture.x64) {
               // The x64 simulator behaves as device, presumably because the
               // devices are never x64.
               expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));

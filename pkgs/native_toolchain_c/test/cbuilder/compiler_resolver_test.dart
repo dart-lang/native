@@ -76,7 +76,8 @@ void main() {
     final resolver = CompilerResolver(
       buildConfig: buildConfig,
       logger: logger,
-      host: Target.androidArm64, // This is never a host.
+      hostOS: OS.android, // This is never a host.
+      hostArchitecture: Architecture.arm64, // This is never a host.
     );
     expect(resolver.resolveCompiler, throwsA(isA<ToolError>()));
     expect(resolver.resolveArchiver, throwsA(isA<ToolError>()));

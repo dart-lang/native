@@ -24,14 +24,14 @@ void main() {
   }
 
   const targets = [
-    Target.macOSArm64,
-    Target.macOSX64,
+    Architecture.arm64,
+    Architecture.x64,
   ];
 
   // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
-    Target.macOSArm64: 'arm64',
-    Target.macOSX64: '64-bit x86-64',
+    Architecture.arm64: 'arm64',
+    Architecture.x64: '64-bit x86-64',
   };
 
   for (final linkMode in LinkMode.values) {
@@ -46,8 +46,8 @@ void main() {
           outDir: tempUri,
           packageName: name,
           packageRoot: tempUri,
-          targetArchitecture: target.architecture,
-          targetOs: target.os,
+          targetArchitecture: target,
+          targetOs: OS.macOS,
           buildMode: BuildMode.release,
           linkModePreference: linkMode == LinkMode.dynamic
               ? LinkModePreference.dynamic
@@ -67,7 +67,7 @@ void main() {
         );
 
         final libUri =
-            tempUri.resolve(target.os.libraryFileName(name, linkMode));
+            tempUri.resolve(OS.macOS.libraryFileName(name, linkMode));
         final result = await runProcess(
           executable: Uri.file('objdump'),
           arguments: ['-t', libUri.path],

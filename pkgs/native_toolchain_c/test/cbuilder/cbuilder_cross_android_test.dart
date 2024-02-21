@@ -13,28 +13,28 @@ import '../helpers.dart';
 
 void main() {
   const targets = [
-    Target.androidArm,
-    Target.androidArm64,
-    Target.androidIA32,
-    Target.androidX64,
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
     // TODO(rmacnak): Enable when stable NDK 27 is available.
-    // Target.androidRiscv64,
+    // Architecture.riscv64,
   ];
 
   const readElfMachine = {
-    Target.androidArm: 'ARM',
-    Target.androidArm64: 'AArch64',
-    Target.androidIA32: 'Intel 80386',
-    Target.androidX64: 'Advanced Micro Devices X86-64',
-    Target.androidRiscv64: 'RISC-V',
+    Architecture.arm: 'ARM',
+    Architecture.arm64: 'AArch64',
+    Architecture.ia32: 'Intel 80386',
+    Architecture.x64: 'Advanced Micro Devices X86-64',
+    Architecture.riscv64: 'RISC-V',
   };
 
   const objdumpFileFormat = {
-    Target.androidArm: 'elf32-littlearm',
-    Target.androidArm64: 'elf64-littleaarch64',
-    Target.androidIA32: 'elf32-i386',
-    Target.androidX64: 'elf64-x86-64',
-    Target.androidRiscv64: 'elf64-littleriscv',
+    Architecture.arm: 'elf32-littlearm',
+    Architecture.arm64: 'elf64-littleaarch64',
+    Architecture.ia32: 'elf32-i386',
+    Architecture.x64: 'elf64-x86-64',
+    Architecture.riscv64: 'elf64-littleriscv',
   };
 
   /// From https://docs.flutter.dev/reference/supported-platforms.
@@ -91,7 +91,7 @@ void main() {
   }
 
   test('CBuilder API levels binary difference', () async {
-    const target = Target.androidArm64;
+    const target = Architecture.arm64;
     const linkMode = LinkMode.dynamic;
     const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
     const apiLevel2 = flutterAndroidNdkVersionHighestSupported;
@@ -117,7 +117,7 @@ void main() {
 
 Future<Uri> buildLib(
   Uri tempUri,
-  Target target,
+  Architecture targetArchitecture,
   int androidNdkApi,
   LinkMode linkMode,
 ) async {
@@ -128,8 +128,8 @@ Future<Uri> buildLib(
     outDir: tempUri,
     packageName: name,
     packageRoot: tempUri,
-    targetArchitecture: target.architecture,
-    targetOs: target.os,
+    targetArchitecture: targetArchitecture,
+    targetOs: OS.android,
     targetAndroidNdkApi: androidNdkApi,
     buildMode: BuildMode.release,
     linkModePreference: linkMode == LinkMode.dynamic
@@ -149,6 +149,6 @@ Future<Uri> buildLib(
     logger: logger,
   );
 
-  final libUri = tempUri.resolve(target.os.libraryFileName(name, linkMode));
+  final libUri = tempUri.resolve(OS.android.libraryFileName(name, linkMode));
   return libUri;
 }

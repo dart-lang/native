@@ -5,9 +5,9 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
+import '../model/target.dart';
 import 'architecture.dart';
 import 'link_mode.dart';
-import 'target.dart';
 
 part '../model/os.dart';
 

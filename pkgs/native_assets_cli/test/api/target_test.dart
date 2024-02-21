@@ -8,11 +8,6 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Target current', () async {
-    final current = Target.current;
-    expect(current.toString(), Abi.current().toString());
-  });
-
   test('OS current', () async {
     final current = OS.current;
     expect(current.toString(), Abi.current().toString().split('_').first);

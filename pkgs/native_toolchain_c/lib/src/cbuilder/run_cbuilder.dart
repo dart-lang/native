@@ -27,7 +27,6 @@ class RunCBuilder {
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
   final Uri outDir;
-  // final Target target;
 
   /// The install name of the [dynamicLibrary].
   ///

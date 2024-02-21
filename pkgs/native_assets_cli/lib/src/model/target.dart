@@ -2,9 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../api/target.dart';
+import 'dart:ffi' show Abi;
+import 'dart:io';
 
-final class TargetImpl implements Target {
+import '../api/architecture.dart';
+import '../api/os.dart';
+
+final class TargetImpl implements Comparable<TargetImpl> {
   final Abi abi;
 
   const TargetImpl._(this.abi);
@@ -106,10 +110,8 @@ final class TargetImpl implements Target {
   static final TargetImpl current =
       TargetImpl.fromDartPlatform(Platform.version);
 
-  @override
   ArchitectureImpl get architecture => ArchitectureImpl.fromAbi(abi);
 
-  @override
   OSImpl get os => OSImpl.fromAbi(abi);
 
   String get _architectureString => architecture.dartPlatform;
@@ -126,7 +128,7 @@ final class TargetImpl implements Target {
   ///
   /// If [other] is also an [TargetImpl], consistent with sorting on [toString].
   @override
-  int compareTo(Target other) => toString().compareTo(other.toString());
+  int compareTo(TargetImpl other) => toString().compareTo(other.toString());
 
   /// A list of supported target [TargetImpl]s from this host [os].
   List<TargetImpl> supportedTargetTargets(

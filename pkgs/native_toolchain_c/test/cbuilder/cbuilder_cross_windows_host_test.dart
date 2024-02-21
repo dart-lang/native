@@ -25,8 +25,8 @@ void main() {
   }
 
   const targets = [
-    Target.windowsIA32,
-    Target.windowsX64,
+    Architecture.ia32,
+    Architecture.x64,
   ];
 
   late Uri dumpbinUri;
@@ -37,8 +37,8 @@ void main() {
   });
 
   const dumpbinMachine = {
-    Target.windowsIA32: 'x86',
-    Target.windowsX64: 'x64',
+    Architecture.ia32: 'x86',
+    Architecture.x64: 'x64',
   };
 
   const dumpbinFileType = {
@@ -58,8 +58,8 @@ void main() {
           outDir: tempUri,
           packageName: name,
           packageRoot: tempUri,
-          targetOs: target.os,
-          targetArchitecture: target.architecture,
+          targetOs: OS.windows,
+          targetArchitecture: target,
           buildMode: BuildMode.release,
           linkModePreference: linkMode == LinkMode.dynamic
               ? LinkModePreference.dynamic
@@ -79,7 +79,7 @@ void main() {
         );
 
         final libUri =
-            tempUri.resolve(target.os.libraryFileName(name, linkMode));
+            tempUri.resolve(OS.windows.libraryFileName(name, linkMode));
         expect(await File.fromUri(libUri).exists(), true);
         final result = await runProcess(
           executable: dumpbinUri,
