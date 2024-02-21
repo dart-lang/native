@@ -19,7 +19,7 @@ part '../model/target.dart';
 /// Please note that the [Target] does _not_ uniquely define a compilation
 /// target. For example, the [IOSSdk], [BuildConfig.targetIOSSdk], and
 /// [BuildConfig.targetAndroidNdkApi] also influence the compilation.
-abstract class Target implements Comparable<Target> {
+abstract final class Target implements Comparable<Target> {
   static const Target androidArm = TargetImpl.androidArm;
   static const Target androidArm64 = TargetImpl.androidArm64;
   static const Target androidIA32 = TargetImpl.androidIA32;

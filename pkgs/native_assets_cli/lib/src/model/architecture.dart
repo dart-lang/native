@@ -4,7 +4,7 @@
 
 part of '../api/architecture.dart';
 
-class ArchitectureImpl implements Architecture {
+final class ArchitectureImpl implements Architecture {
   /// This architecture as used in [Platform.version].
   final String dartPlatform;
 

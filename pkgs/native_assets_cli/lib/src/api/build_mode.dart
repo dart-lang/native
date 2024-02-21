@@ -4,7 +4,7 @@
 
 part '../model/build_mode.dart';
 
-abstract class BuildMode {
+abstract final class BuildMode {
   String get name;
 
   static const BuildMode debug = BuildModeImpl.debug;

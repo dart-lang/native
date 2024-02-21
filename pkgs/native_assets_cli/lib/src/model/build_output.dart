@@ -4,7 +4,7 @@
 
 part of '../api/build_output.dart';
 
-class BuildOutputImpl implements BuildOutput {
+final class BuildOutputImpl implements BuildOutput {
   @override
   final DateTime timestamp;
 

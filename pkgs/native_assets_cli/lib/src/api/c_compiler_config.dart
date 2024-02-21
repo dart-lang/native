@@ -4,7 +4,7 @@
 
 part of 'build_config.dart';
 
-abstract class CCompilerConfig {
+abstract final class CCompilerConfig {
   /// Path to a C compiler.
   Uri? get cc;
 

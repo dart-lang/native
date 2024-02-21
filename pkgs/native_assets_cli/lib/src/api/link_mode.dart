@@ -7,7 +7,7 @@ import 'asset.dart';
 part '../model/link_mode.dart';
 
 /// The link mode for [CCodeAsset]s.
-abstract class LinkMode {
+abstract final class LinkMode {
   /// Dynamic loading.
   ///
   /// Supported in the Dart and Flutter SDK.

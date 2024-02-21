@@ -27,7 +27,7 @@ part '../model/build_output.dart';
 /// script exists, it will be automatically run, by the Flutter and Dart SDK
 /// tools. The script is expect to produce a specific output which [BuildOutput]
 /// can produce.
-abstract class BuildOutput {
+abstract final class BuildOutput {
   // Start time for the build of this output.
   ///
   /// The [timestamp] is rounded down to whole seconds, because

@@ -4,7 +4,7 @@
 
 part of '../api/link_mode_preference.dart';
 
-class LinkModePreferenceImpl implements LinkModePreference {
+final class LinkModePreferenceImpl implements LinkModePreference {
   @override
   final String name;
 

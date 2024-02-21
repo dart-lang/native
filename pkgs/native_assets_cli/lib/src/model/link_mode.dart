@@ -4,7 +4,7 @@
 
 part of '../api/link_mode.dart';
 
-class LinkModeImpl implements LinkMode {
+final class LinkModeImpl implements LinkMode {
   final String name;
 
   const LinkModeImpl._(this.name);

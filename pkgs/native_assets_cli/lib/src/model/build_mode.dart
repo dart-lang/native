@@ -4,7 +4,7 @@
 
 part of '../api/build_mode.dart';
 
-class BuildModeImpl implements BuildMode {
+final class BuildModeImpl implements BuildMode {
   @override
   final String name;
 

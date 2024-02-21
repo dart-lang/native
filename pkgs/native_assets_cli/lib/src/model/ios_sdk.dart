@@ -4,7 +4,7 @@
 
 part of '../api/ios_sdk.dart';
 
-class IOSSdkImpl implements IOSSdk {
+final class IOSSdkImpl implements IOSSdk {
   final String xcodebuildSdk;
 
   const IOSSdkImpl._(this.xcodebuildSdk);

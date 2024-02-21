@@ -4,7 +4,7 @@
 
 part of '../api/build_config.dart';
 
-class CCompilerConfigImpl implements CCompilerConfig {
+final class CCompilerConfigImpl implements CCompilerConfig {
   /// Path to a C compiler.
   @override
   Uri? get cc => _cc;

@@ -4,7 +4,7 @@
 
 part of '../api/os.dart';
 
-class OSImpl implements OS {
+final class OSImpl implements OS {
   /// This OS as used in [Platform.version]
   final String dartPlatform;
 

@@ -7,7 +7,7 @@ part '../model/ios_sdk.dart';
 /// For an iOS target, a build is either done for the device or the simulator.
 ///
 /// Only fat binaries or xcframeworks can contain both targets.
-abstract class IOSSdk {
+abstract final class IOSSdk {
   static const IOSSdk iPhoneOs = IOSSdkImpl.iPhoneOs;
   static const IOSSdk iPhoneSimulator = IOSSdkImpl.iPhoneSimulator;
 

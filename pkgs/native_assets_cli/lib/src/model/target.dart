@@ -4,7 +4,7 @@
 
 part of '../api/target.dart';
 
-class TargetImpl implements Target {
+final class TargetImpl implements Target {
   final Abi abi;
 
   const TargetImpl._(this.abi);

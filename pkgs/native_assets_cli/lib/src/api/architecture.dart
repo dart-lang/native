@@ -10,7 +10,7 @@ import 'target.dart';
 part '../model/architecture.dart';
 
 /// The hardware architectures the Dart VM runs on.
-abstract class Architecture {
+abstract final class Architecture {
   /// The [arm](https://en.wikipedia.org/wiki/ARM_architecture_family)
   /// architecture.
   static const Architecture arm = ArchitectureImpl.arm;
