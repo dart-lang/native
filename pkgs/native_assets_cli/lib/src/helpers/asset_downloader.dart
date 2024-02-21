@@ -55,7 +55,7 @@ class AssetDownloader implements Builder {
       await response.pipe(File.fromUri(targetUri).openWrite());
     }
 
-    output.addAssets([
+    output.addAsset(
       CCodeAsset(
         id: assetId,
         file: targetUri,
@@ -63,7 +63,7 @@ class AssetDownloader implements Builder {
         dynamicLoading: BundledDylib(),
         os: config.targetOs,
         architecture: config.targetArchitecture,
-      )
-    ]);
+      ),
+    );
   }
 }

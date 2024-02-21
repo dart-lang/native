@@ -32,7 +32,7 @@ part '../model/c_compiler_config.dart';
 /// tools. The script will then be run with specific commandline arguments,
 /// which [BuildConfig] can parse and provide more convenient access to.
 abstract final class BuildConfig {
-  /// The folder in which all output and intermediate artifacts should be
+  /// The directory in which all output and intermediate artifacts should be
   /// placed.
   Uri get outDir;
 
@@ -75,7 +75,7 @@ abstract final class BuildConfig {
   /// The preferred linkMode method for [CCodeAsset]s.
   LinkModePreference get linkModePreference;
 
-  /// Get the metadata from a direct dependency.
+  /// Metadata from a direct dependency.
   ///
   /// The [packageName] of is the package name of the direct dependency.
   ///
@@ -107,6 +107,7 @@ abstract final class BuildConfig {
   ///
   /// Currently known values:
   /// * [CCodeAsset.type]
+  /// * [DataAsset.type]
   Iterable<String> get supportedAssetTypes;
 
   /// The version of [BuildConfig].
@@ -114,10 +115,33 @@ abstract final class BuildConfig {
   /// The build config is used in the protocol between the Dart and Flutter SDKs
   /// and packages through `build.dart` invocations.
   ///
-  /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the YAML
-  /// representation in the protocol.
+  /// We're trying to avoid breaking changes. However, in the case that we have
+  /// to, the major version mismatch between the Dart or Flutter SDK and a
+  /// `build.dart` script will lead to a nice error message.
   static Version get latestVersion => BuildConfigImpl.latestVersion;
+
+  /// Constructs a config by parsing CLI arguments and loading the config file.
+  ///
+  /// The [args] must be commandline arguments.
+  ///
+  /// If provided, [environment] must be a map containing environment variables.
+  /// If not provided, [environment] defaults to [Platform.environment].
+  ///
+  /// If provided, [workingDirectory] is used to resolves paths inside
+  /// [environment].
+  /// If not provided, [workingDirectory] defaults to [Directory.current].
+  ///
+  /// This async constructor is intended to be used directly in CLI files.
+  static Future<BuildConfig> fromArgs(
+    List<String> args, {
+    Map<String, String>? environment,
+    Uri? workingDirectory,
+  }) =>
+      BuildConfigImpl.fromArgs(
+        args,
+        environment: environment,
+        workingDirectory: workingDirectory,
+      );
 
   factory BuildConfig({
     required Uri outDir,
@@ -172,27 +196,4 @@ abstract final class BuildConfig {
 
   factory BuildConfig.fromConfig(Config config) =>
       BuildConfigImpl.fromConfig(config);
-
-  /// Constructs a config by parsing CLI arguments and loading the config file.
-  ///
-  /// The [args] must be commandline arguments.
-  ///
-  /// If provided, [environment] must be a map containing environment variables.
-  /// If not provided, [environment] defaults to [Platform.environment].
-  ///
-  /// If provided, [workingDirectory] is used to resolves paths inside
-  /// [environment].
-  /// If not provided, [workingDirectory] defaults to [Directory.current].
-  ///
-  /// This async constructor is intended to be used directly in CLI files.
-  static Future<BuildConfig> fromArgs(
-    List<String> args, {
-    Map<String, String>? environment,
-    Uri? workingDirectory,
-  }) =>
-      BuildConfigImpl.fromArgs(
-        args,
-        environment: environment,
-        workingDirectory: workingDirectory,
-      );
 }

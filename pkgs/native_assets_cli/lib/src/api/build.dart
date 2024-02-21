@@ -67,7 +67,7 @@ import 'build_output.dart';
 ///       ]);
 ///     }
 ///
-///     output.addAssets([
+///     output.addAsset(
 ///       CCodeAsset(
 ///         id: 'library:$packageName/asset.txt',
 ///         file: assetPath,
@@ -75,8 +75,8 @@ import 'build_output.dart';
 ///         os: config.targetOs,
 ///         architecture: config.targetArchitecture,
 ///         dynamicLoading: BundledDylib(),
-///       )
-///     ]);
+///       ),
+///     );
 ///   });
 /// }
 /// ```

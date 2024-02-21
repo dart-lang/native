@@ -4,6 +4,7 @@
 
 part of 'build_config.dart';
 
+/// The configuration for a C toolchain.
 abstract final class CCompilerConfig {
   /// Path to a C compiler.
   Uri? get cc;

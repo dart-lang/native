@@ -4,12 +4,34 @@
 
 part '../model/build_mode.dart';
 
+/// The build mode for compiling native code assets.
+///
+/// The Dart SDK does not have build modes. All `build.dart` invocations
+/// are invoked with [release].
+///
+/// The Flutter SDK build modes map as the following to `build.dart` build
+/// modes:
+/// * Flutter debug -> [debug].
+/// * Flutter release -> [release].
+/// * Flutter profile -> [release].
+/// * Flutter jit release -> [release].
 abstract final class BuildMode {
+  /// The name for this build mode.
   String get name;
 
+  /// The debug build mode.
+  ///
+  /// Used by the Flutter SDK in its debug mode.
   static const BuildMode debug = BuildModeImpl.debug;
+
+  /// The release build mode.
+  ///
+  /// Used by the Flutter SDK in its release, profile, and jit release modes.
+  ///
+  /// Used by the Dart SDK for every build.
   static const BuildMode release = BuildModeImpl.release;
 
+  /// All known build modes.
   static const values = <BuildMode>[
     debug,
     release,

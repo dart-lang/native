@@ -8,9 +8,19 @@ part '../model/ios_sdk.dart';
 ///
 /// Only fat binaries or xcframeworks can contain both targets.
 abstract final class IOSSdk {
+  /// The iphoneos SDK in Xcode.
+  ///
+  /// The SDK location can be found on the host machine with
+  /// `xcrun --sdk iphoneos --show-sdk-path`.
   static const IOSSdk iPhoneOs = IOSSdkImpl.iPhoneOs;
+
+  /// The iphonesimulator SDK in Xcode.
+  ///
+  /// The SDK location can be found on the host machine with
+  /// `xcrun --sdk iphonesimulator --show-sdk-path`.
   static const IOSSdk iPhoneSimulator = IOSSdkImpl.iPhoneSimulator;
 
+  /// All known values for [IOSSdk].
   static const values = <IOSSdk>[
     iPhoneOs,
     iPhoneSimulator,

@@ -29,15 +29,15 @@ part '../model/data_asset.dart';
 abstract final class Asset {
   /// The identifier for this asset.
   ///
-  /// An [Asset] must have a string identifier called `assetId`. Dart code that
-  /// uses an asset, references the asset using this `assetId`.
+  /// An [Asset] must have a string identifier called "asset id". Dart code that
+  /// uses an asset, references the asset using this asset id.
   ///
-  /// A package must prefix all `assetId`s it defines with:
+  /// A package must prefix all asset ids it defines with:
   /// `package:<package>/`, `<package>` being the current package's name. This
   /// ensures assets don't conflict between packages.
   ///
   /// Additionally, the convention is that an asset referenced from
-  /// `lib/src/foo.dart` in `package:foo` has the `assetId`
+  /// `lib/src/foo.dart` in `package:foo` has the asset id
   /// `'package:foo/src/foo.dart'`.
   String get id;
 
@@ -49,6 +49,7 @@ abstract final class Asset {
   /// The file can be omitted in the [BuildOutput] for [BuildConfig.dryRun].
   ///
   /// The file can also be omitted for asset types which refer to an asset
-  /// already present on the target system or an asset in Dart or Flutter.
+  /// already present on the target system or an asset already present in Dart
+  /// or Flutter.
   Uri? get file;
 }

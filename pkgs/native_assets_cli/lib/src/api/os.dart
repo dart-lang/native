@@ -11,7 +11,7 @@ import 'target.dart';
 
 part '../model/os.dart';
 
-/// The operating systems the Dart VM runs on.
+/// An operating system the Dart VM runs on.
 abstract final class OS {
   /// The
   /// [Android](https://en.wikipedia.org/wiki/Android_%28operating_system%29)

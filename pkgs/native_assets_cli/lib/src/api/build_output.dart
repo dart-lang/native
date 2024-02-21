@@ -23,12 +23,11 @@ part '../model/build_output.dart';
 
 /// The output of a `build.dart` invocation.
 ///
-/// A package can choose to have a toplevel `build.dart` script. If such a
-/// script exists, it will be automatically run, by the Flutter and Dart SDK
-/// tools. The script is expect to produce a specific output which [BuildOutput]
-/// can produce.
+/// A package can have a toplevel `build.dart` script. If such a script exists,
+/// it will be automatically run, by the Flutter and Dart SDK tools. The script
+/// is expect to produce a specific output which [BuildOutput] can produce.
 abstract final class BuildOutput {
-  // Start time for the build of this output.
+  /// Start time for the build of this output.
   ///
   /// The [timestamp] is rounded down to whole seconds, because
   /// [File.lastModified] is rounded to whole seconds and caching logic compares

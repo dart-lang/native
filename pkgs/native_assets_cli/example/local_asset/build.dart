@@ -31,7 +31,7 @@ void main(List<String> args) async {
       ]);
     }
 
-    output.addAssets([
+    output.addAsset(
       CCodeAsset(
         id: 'library:$packageName/asset.txt',
         file: assetPath,
@@ -39,7 +39,7 @@ void main(List<String> args) async {
         os: config.targetOs,
         architecture: config.targetArchitecture,
         dynamicLoading: BundledDylib(),
-      )
-    ]);
+      ),
+    );
   });
 }
