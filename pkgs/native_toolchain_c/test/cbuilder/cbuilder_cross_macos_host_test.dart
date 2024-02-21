@@ -47,7 +47,7 @@ void main() {
           packageName: name,
           packageRoot: tempUri,
           targetArchitecture: target,
-          targetOs: OS.macOS,
+          targetOS: OS.macOS,
           buildMode: BuildMode.release,
           linkModePreference: linkMode == LinkMode.dynamic
               ? LinkModePreference.dynamic

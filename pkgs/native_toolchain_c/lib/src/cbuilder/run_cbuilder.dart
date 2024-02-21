@@ -62,7 +62,7 @@ class RunCBuilder {
                 .whereType<Uri>()
                 .length ==
             1) {
-    if (buildConfig.targetOs == OS.windows && cppLinkStdLib != null) {
+    if (buildConfig.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -79,7 +79,7 @@ class RunCBuilder {
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
   Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
-    if (iosSdk == IOSSdk.iPhoneOs) {
+    if (iosSdk == IOSSdk.iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
           .where((i) => i.tool == iPhoneOSSdk)
           .first
@@ -122,7 +122,7 @@ class RunCBuilder {
     }
 
     late final IOSSdk targetIosSdk;
-    if (buildConfig.targetOs == OS.iOS) {
+    if (buildConfig.targetOS == OS.iOS) {
       targetIosSdk = buildConfig.targetIOSSdk!;
     }
 
@@ -130,7 +130,7 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     late final int targetAndroidNdkApi;
-    if (buildConfig.targetOs == OS.android) {
+    if (buildConfig.targetOS == OS.android) {
       final minimumApi =
           buildConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
       targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, minimumApi);
@@ -141,21 +141,21 @@ class RunCBuilder {
     await runProcess(
       executable: compiler.uri,
       arguments: [
-        if (buildConfig.targetOs == OS.android) ...[
+        if (buildConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '$targetAndroidNdkApi',
           '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
-        if (buildConfig.targetOs == OS.macOS)
+        if (buildConfig.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
-        if (buildConfig.targetOs == OS.iOS)
+        if (buildConfig.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
-        if (buildConfig.targetOs == OS.iOS) ...[
+        if (buildConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk, logger: logger)).toFilePath(),
         ],
-        if (buildConfig.targetOs == OS.macOS) ...[
+        if (buildConfig.targetOS == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
@@ -190,7 +190,7 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[buildConfig.targetOs]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[buildConfig.targetOS]!
         ],
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
@@ -307,7 +307,7 @@ class RunCBuilder {
 
   static const appleClangIosTargetFlags = {
     Architecture.arm64: {
-      IOSSdk.iPhoneOs: 'arm64-apple-ios',
+      IOSSdk.iPhoneOS: 'arm64-apple-ios',
       IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
     },
     Architecture.x64: {

@@ -52,8 +52,8 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOs,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
       cCompiler: CCompilerConfig(
         cc: fakeClang,
         ld: fakeLd,
@@ -69,7 +69,7 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.android,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -81,7 +81,7 @@ void main() async {
     expect(config1.outDir != config2.outDir, true);
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
-    expect(config1.targetOs != config2.targetOs, true);
+    expect(config1.targetOS != config2.targetOS, true);
     expect(config1.targetIOSSdk != config2.targetIOSSdk, true);
     expect(config1.cCompiler.cc != config2.cCompiler.cc, true);
     expect(config1.cCompiler.ld != config2.cCompiler.ld, true);
@@ -100,7 +100,7 @@ void main() async {
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.android,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -128,7 +128,7 @@ void main() async {
       outDir: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetOs: OS.android,
+      targetOS: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
       supportedAssetTypes: [CCodeAsset.type],
     );
@@ -153,7 +153,7 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.android,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -173,7 +173,7 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.android,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
@@ -200,7 +200,7 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.android,
+      targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,

@@ -129,7 +129,7 @@ Future<Uri> buildLib(
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: targetArchitecture,
-    targetOs: OS.android,
+    targetOS: OS.android,
     targetAndroidNdkApi: androidNdkApi,
     buildMode: BuildMode.release,
     linkModePreference: linkMode == LinkMode.dynamic

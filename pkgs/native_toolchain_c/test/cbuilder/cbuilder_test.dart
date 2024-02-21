@@ -48,7 +48,7 @@ void main() {
           packageName: name,
           packageRoot: tempUri,
           targetArchitecture: Architecture.current,
-          targetOs: OS.current,
+          targetOS: OS.current,
           buildMode: buildMode,
           // Ignored by executables.
           linkModePreference: LinkModePreference.dynamic,
@@ -87,7 +87,7 @@ void main() {
           (message) => message.contains(helloWorldCUri.toFilePath()),
         );
 
-        switch ((buildConfig.targetOs, pic)) {
+        switch ((buildConfig.targetOS, pic)) {
           case (OS.windows, _) || (_, null):
             expect(compilerInvocation, isNot(contains('-fPIC')));
             expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -119,7 +119,7 @@ void main() {
                 outDir: tempUri,
                 packageName: name,
                 packageRoot: tempUri,
-                targetOs: OS.current,
+                targetOS: OS.current,
                 linkModePreference: LinkModePreference.dynamic,
               )
             : BuildConfig(
@@ -127,7 +127,7 @@ void main() {
                 packageName: name,
                 packageRoot: tempUri,
                 targetArchitecture: Architecture.current,
-                targetOs: OS.current,
+                targetOS: OS.current,
                 buildMode: BuildMode.release,
                 linkModePreference: LinkModePreference.dynamic,
                 cCompiler: CCompilerConfig(
@@ -161,7 +161,7 @@ void main() {
           final compilerInvocation = logMessages.singleWhere(
             (message) => message.contains(addCUri.toFilePath()),
           );
-          switch ((buildConfig.targetOs, pic)) {
+          switch ((buildConfig.targetOS, pic)) {
             case (OS.windows, _) || (_, null):
               expect(compilerInvocation, isNot(contains('-fPIC')));
               expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -219,7 +219,7 @@ void main() {
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
@@ -231,7 +231,7 @@ void main() {
     );
     final buildOutput = BuildOutput();
 
-    final flag = switch (buildConfig.targetOs) {
+    final flag = switch (buildConfig.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
       _ => '-DFOO=USER_FLAG',
     };
@@ -277,7 +277,7 @@ void main() {
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
@@ -322,7 +322,7 @@ void main() {
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
@@ -333,7 +333,7 @@ void main() {
     );
     final buildOutput = BuildOutput();
 
-    final stdFlag = switch (buildConfig.targetOs) {
+    final stdFlag = switch (buildConfig.targetOS) {
       OS.windows => '/std:$std',
       _ => '-std=$std',
     };
@@ -381,7 +381,7 @@ void main() {
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
@@ -392,7 +392,7 @@ void main() {
     );
     final buildOutput = BuildOutput();
 
-    final defaultStdLibLinkFlag = switch (buildConfig.targetOs) {
+    final defaultStdLibLinkFlag = switch (buildConfig.targetOS) {
       OS.windows => null,
       OS.linux => '-l stdc++',
       OS.macOS => '-l c++',
@@ -445,7 +445,7 @@ void main() {
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
@@ -462,7 +462,7 @@ void main() {
       cppLinkStdLib: 'stdc++',
     );
 
-    if (buildConfig.targetOs == OS.windows) {
+    if (buildConfig.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
           buildConfig: buildConfig,
@@ -515,7 +515,7 @@ Future<void> testDefines({
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: Architecture.current,
-    targetOs: OS.current,
+    targetOS: OS.current,
     buildMode: buildMode,
     // Ignored by executables.
     linkModePreference: LinkModePreference.dynamic,

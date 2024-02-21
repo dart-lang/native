@@ -54,8 +54,8 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOs,
+      targetOS: OSImpl.iOS,
+      targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         cc: fakeClang,
         ld: fakeLd,
@@ -70,7 +70,7 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.android,
+      targetOS: OSImpl.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -81,7 +81,7 @@ void main() async {
     expect(config1.outDir != config2.outDir, true);
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
-    expect(config1.targetOs != config2.targetOs, true);
+    expect(config1.targetOS != config2.targetOS, true);
     expect(config1.targetIOSSdk != config2.targetIOSSdk, true);
     expect(config1.cCompiler.cc != config2.cCompiler.cc, true);
     expect(config1.cCompiler.ld != config2.cCompiler.ld, true);
@@ -99,7 +99,7 @@ void main() async {
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.android,
+      targetOS: OSImpl.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -127,7 +127,7 @@ void main() async {
       outDir: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
-      targetOs: OSImpl.android,
+      targetOS: OSImpl.android,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
@@ -151,8 +151,8 @@ void main() async {
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOs,
+      targetOS: OSImpl.iOS,
+      targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         cc: fakeClang,
         ld: fakeLd,
@@ -173,7 +173,7 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.android,
+      targetOS: OSImpl.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -193,7 +193,7 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.android,
+      targetOS: OSImpl.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -219,8 +219,8 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOs,
+      targetOS: OSImpl.iOS,
+      targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         cc: fakeClang,
         ld: fakeLd,
@@ -298,8 +298,8 @@ version: 1.0.0''';
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOs,
+      targetOS: OSImpl.iOS,
+      targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         cc: fakeClang,
         ld: fakeLd,
@@ -418,8 +418,8 @@ version: 1.0.0''';
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOs,
+      targetOS: OSImpl.iOS,
+      targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
         cc: fakeClang,
         ld: fakeLd,
@@ -436,7 +436,7 @@ version: 1.0.0''';
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.android,
+      targetOS: OSImpl.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -458,7 +458,7 @@ version: 1.0.0''';
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.android,
+      targetOS: OSImpl.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -486,7 +486,7 @@ version: 1.0.0''';
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.x64,
-      targetOs: OSImpl.windows,
+      targetOS: OSImpl.windows,
       cCompiler: CCompilerConfigImpl(
         cc: fakeCl,
         envScript: fakeVcVars,
@@ -535,7 +535,7 @@ version: 1.0.0''';
         packageName: packageName,
         packageRoot: nativeAddUri,
         targetArchitecture: ArchitectureImpl.x64,
-        targetOs: OSImpl.linux,
+        targetOS: OSImpl.linux,
         buildMode: BuildModeImpl.release,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         supportedAssetTypes: [CCodeAsset.type],
@@ -549,7 +549,7 @@ version: 1.0.0''';
         packageName: packageName,
         packageRoot: nativeAddUri,
         targetArchitecture: ArchitectureImpl.x64,
-        targetOs: OSImpl.linux,
+        targetOS: OSImpl.linux,
         buildMode: BuildModeImpl.release,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         dependencyMetadata: {
@@ -564,7 +564,7 @@ version: 1.0.0''';
           packageName: packageName,
           packageRoot: nativeAddUri,
           targetArchitecture: ArchitectureImpl.x64,
-          targetOs: OSImpl.linux,
+          targetOS: OSImpl.linux,
           buildMode: BuildModeImpl.release,
           linkModePreference: LinkModePreferenceImpl.dynamic,
           cCompiler: CCompilerConfigImpl(
@@ -657,7 +657,7 @@ version: 1.0.0''';
       packageName: packageName,
       outDir: outDirUri,
       packageRoot: tempUri,
-      targetOs: OSImpl.windows,
+      targetOS: OSImpl.windows,
       linkModePreference: LinkModePreferenceImpl.dynamic,
     );
     buildConfig.toYamlString();

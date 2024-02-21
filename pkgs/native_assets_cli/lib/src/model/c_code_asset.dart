@@ -240,7 +240,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
         _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: dynamicLoading.toYaml(version, file),
-        _targetKey: Target.fromArchitectureAndOs(architecture!, os).toString(),
+        _targetKey: Target.fromArchitectureAndOS(architecture!, os).toString(),
       }..sortOnKey();
     }
     return {

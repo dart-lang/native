@@ -44,7 +44,7 @@ class AssetDownloader implements Builder {
     Uri? targetUri;
     if (!config.dryRun) {
       final downloadUri2 = downloadUri(
-        config.targetOs,
+        config.targetOS,
         config.targetArchitecture!,
       );
       final fileName =
@@ -61,7 +61,7 @@ class AssetDownloader implements Builder {
         file: targetUri,
         linkMode: LinkMode.dynamic,
         dynamicLoading: BundledDylib(),
-        os: config.targetOs,
+        os: config.targetOS,
         architecture: config.targetArchitecture,
       ),
     );

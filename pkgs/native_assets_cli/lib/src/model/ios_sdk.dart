@@ -9,11 +9,11 @@ final class IOSSdkImpl implements IOSSdk {
 
   const IOSSdkImpl._(this.xcodebuildSdk);
 
-  static const iPhoneOs = IOSSdkImpl._('iphoneos');
+  static const iPhoneOS = IOSSdkImpl._('iphoneos');
   static const iPhoneSimulator = IOSSdkImpl._('iphonesimulator');
 
   static const values = [
-    iPhoneOs,
+    iPhoneOS,
     iPhoneSimulator,
   ];
 

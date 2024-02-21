@@ -12,7 +12,7 @@ abstract final class IOSSdk {
   ///
   /// The SDK location can be found on the host machine with
   /// `xcrun --sdk iphoneos --show-sdk-path`.
-  static const IOSSdk iPhoneOs = IOSSdkImpl.iPhoneOs;
+  static const IOSSdk iPhoneOS = IOSSdkImpl.iPhoneOS;
 
   /// The iphonesimulator SDK in Xcode.
   ///
@@ -22,7 +22,7 @@ abstract final class IOSSdk {
 
   /// All known values for [IOSSdk].
   static const values = <IOSSdk>[
-    iPhoneOs,
+    iPhoneOS,
     iPhoneSimulator,
   ];
 }

@@ -29,13 +29,13 @@ void main() async {
       );
 
       await buildRunner.dryRun(
-        targetOs: Target.current.os,
+        targetOS: Target.current.os,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
       );
       await buildRunner.dryRun(
-        targetOs: Target.current.os,
+        targetOS: Target.current.os,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,

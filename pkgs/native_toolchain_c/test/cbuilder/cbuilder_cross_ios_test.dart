@@ -39,7 +39,7 @@ void main() {
   for (final linkMode in LinkMode.values) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
-        if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOs) {
+        if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {
           continue;
         }
 
@@ -61,7 +61,7 @@ void main() {
               packageName: name,
               packageRoot: tempUri,
               targetArchitecture: target,
-              targetOs: OS.iOS,
+              targetOS: OS.iOS,
               buildMode: BuildMode.release,
               linkModePreference: linkMode == LinkMode.dynamic
                   ? LinkModePreference.dynamic
@@ -100,7 +100,7 @@ void main() {
               logger: logger,
             );
             expect(otoolResult.exitCode, 0);
-            if (targetIOSSdk == IOSSdk.iPhoneOs || target == Architecture.x64) {
+            if (targetIOSSdk == IOSSdk.iPhoneOS || target == Architecture.x64) {
               // The x64 simulator behaves as device, presumably because the
               // devices are never x64.
               expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));

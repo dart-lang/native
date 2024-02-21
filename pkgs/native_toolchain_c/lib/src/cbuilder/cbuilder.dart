@@ -44,7 +44,7 @@ class CBuilder implements Builder {
 
   /// Name of the library or executable to build.
   ///
-  /// The filename will be decided by [BuildConfig.targetOs] and
+  /// The filename will be decided by [BuildConfig.targetOS] and
   /// [OS.libraryFileName] or [OS.executableFileName].
   ///
   /// File will be placed in [BuildConfig.outDir].
@@ -201,9 +201,9 @@ class CBuilder implements Builder {
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode = buildConfig.linkModePreference.preferredLinkMode;
     final libUri =
-        outDir.resolve(buildConfig.targetOs.libraryFileName(name, linkMode));
+        outDir.resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
     final exeUri =
-        outDir.resolve(buildConfig.targetOs.executableFileName(name));
+        outDir.resolve(buildConfig.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -252,7 +252,7 @@ class CBuilder implements Builder {
           id: assetId!,
           file: buildConfig.dryRun ? null : libUri,
           linkMode: linkMode,
-          os: buildConfig.targetOs,
+          os: buildConfig.targetOS,
           architecture:
               buildConfig.dryRun ? null : buildConfig.targetArchitecture,
           dynamicLoading: BundledDylib(),

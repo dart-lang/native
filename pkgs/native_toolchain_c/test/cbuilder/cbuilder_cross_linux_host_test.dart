@@ -49,7 +49,7 @@ void main() {
           packageName: name,
           packageRoot: tempUri,
           targetArchitecture: target,
-          targetOs: OS.linux,
+          targetOS: OS.linux,
           buildMode: BuildMode.release,
           linkModePreference: linkMode == LinkMode.dynamic
               ? LinkModePreference.dynamic

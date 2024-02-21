@@ -51,11 +51,11 @@ abstract final class BuildConfig {
   Architecture? get targetArchitecture;
 
   /// The operating system being compiled for.
-  OS get targetOs;
+  OS get targetOS;
 
   /// When compiling for iOS, whether to target device or simulator.
   ///
-  /// Required when [targetOs] equals [OS.iOS].
+  /// Required when [targetOS] equals [OS.iOS].
   ///
   /// Not available during a [dryRun].
   IOSSdk? get targetIOSSdk;
@@ -63,7 +63,7 @@ abstract final class BuildConfig {
   /// When compiling for Android, the minimum Android SDK API version to that
   /// the compiled code will be compatible with.
   ///
-  /// Required when [targetOs] equals [OS.android].
+  /// Required when [targetOS] equals [OS.android].
   ///
   /// Not available during a [dryRun].
   ///
@@ -149,7 +149,7 @@ abstract final class BuildConfig {
     required Uri packageRoot,
     required BuildMode buildMode,
     required Architecture targetArchitecture,
-    required OS targetOs,
+    required OS targetOS,
     IOSSdk? targetIOSSdk,
     int? targetAndroidNdkApi,
     CCompilerConfig? cCompiler,
@@ -163,7 +163,7 @@ abstract final class BuildConfig {
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
         targetArchitecture: targetArchitecture as ArchitectureImpl,
-        targetOs: targetOs as OSImpl,
+        targetOS: targetOS as OSImpl,
         targetIOSSdk: targetIOSSdk as IOSSdkImpl?,
         targetAndroidNdkApi: targetAndroidNdkApi,
         cCompiler: cCompiler as CCompilerConfigImpl?,
@@ -181,7 +181,7 @@ abstract final class BuildConfig {
     required Uri outDir,
     required String packageName,
     required Uri packageRoot,
-    required OS targetOs,
+    required OS targetOS,
     required LinkModePreference linkModePreference,
     Iterable<String>? supportedAssetTypes,
   }) =>
@@ -189,7 +189,7 @@ abstract final class BuildConfig {
         outDir: outDir,
         packageName: packageName,
         packageRoot: packageRoot,
-        targetOs: targetOs as OSImpl,
+        targetOS: targetOS as OSImpl,
         linkModePreference: linkModePreference as LinkModePreferenceImpl,
         supportedAssetTypes: supportedAssetTypes,
       );

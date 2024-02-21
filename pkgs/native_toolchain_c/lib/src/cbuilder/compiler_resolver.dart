@@ -47,26 +47,26 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOs = buildConfig.targetOs;
+    final targetOS = buildConfig.targetOS;
     final targetArchitecture = buildConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOs}_$targetArchitecture'.";
+        "'${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
-    final targetOs = buildConfig.targetOs;
+    final targetOS = buildConfig.targetOS;
     final targetArch = buildConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArch == hostArchitecture &&
-        targetOs == hostOS &&
+        targetOS == hostOS &&
         hostOS == OS.linux) return clang;
-    if (targetOs == OS.macOS || targetOs == OS.iOS) return appleClang;
-    if (targetOs == OS.android) return androidNdkClang;
+    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleClang;
+    if (targetOS == OS.android) return androidNdkClang;
     if (hostOS == OS.linux) {
       switch (targetArch) {
         case Architecture.arm:
@@ -131,28 +131,28 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOs = buildConfig.targetOs;
+    final targetOS = buildConfig.targetOS;
     final targetArchitecture = buildConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOs}_$targetArchitecture'.";
+        "'${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
-    final targetOs = buildConfig.targetOs;
+    final targetOS = buildConfig.targetOS;
     final targetArchitecture = buildConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArchitecture == hostArchitecture &&
-        targetOs == hostOS &&
+        targetOS == hostOS &&
         hostOS == OS.linux) {
       return llvmAr;
     }
-    if (targetOs == OS.macOS || targetOs == OS.iOS) return appleAr;
-    if (targetOs == OS.android) return androidNdkLlvmAr;
+    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleAr;
+    if (targetOS == OS.android) return androidNdkLlvmAr;
     if (hostOS == OS.linux) {
       switch (targetArchitecture) {
         case Architecture.arm:

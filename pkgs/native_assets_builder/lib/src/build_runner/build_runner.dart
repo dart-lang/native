@@ -133,7 +133,7 @@ class NativeAssetsBuildRunner {
   /// [runPackageName] are built.
   Future<DryRunResult> dryRun({
     required LinkModePreferenceImpl linkModePreference,
-    required OSImpl targetOs,
+    required OSImpl targetOS,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
@@ -169,7 +169,7 @@ class NativeAssetsBuildRunner {
       final config = await _cliConfigDryRun(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
-        targetOs: targetOs,
+        targetOS: targetOS,
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
       );
@@ -353,7 +353,7 @@ build_output.yaml contained a format error.
     final buildDirName = BuildConfigImpl.checksum(
       packageName: packageName,
       packageRoot: packageRoot,
-      targetOs: target.os,
+      targetOS: target.os,
       targetArchitecture: target.architecture,
       buildMode: buildMode,
       linkModePreference: linkMode,
@@ -372,7 +372,7 @@ build_output.yaml contained a format error.
       outDir: outDirUri,
       packageName: packageName,
       packageRoot: packageRoot,
-      targetOs: target.os,
+      targetOS: target.os,
       targetArchitecture: target.architecture,
       buildMode: buildMode,
       linkModePreference: linkMode,
@@ -386,11 +386,11 @@ build_output.yaml contained a format error.
   static Future<BuildConfigImpl> _cliConfigDryRun({
     required String packageName,
     required Uri packageRoot,
-    required OSImpl targetOs,
+    required OSImpl targetOS,
     required LinkModePreferenceImpl linkMode,
     required Uri buildParentDir,
   }) async {
-    final buildDirName = 'dry_run_${targetOs}_$linkMode';
+    final buildDirName = 'dry_run_${targetOS}_$linkMode';
     final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
@@ -400,7 +400,7 @@ build_output.yaml contained a format error.
       outDir: outDirUri,
       packageName: packageName,
       packageRoot: packageRoot,
-      targetOs: targetOs,
+      targetOS: targetOS,
       linkModePreference: linkMode,
     );
   }

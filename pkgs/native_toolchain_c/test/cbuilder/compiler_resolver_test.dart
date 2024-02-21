@@ -45,7 +45,7 @@ void main() {
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
@@ -69,7 +69,7 @@ void main() {
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.windows,
+      targetOS: OS.windows,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
     );

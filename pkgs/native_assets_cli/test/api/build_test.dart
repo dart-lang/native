@@ -45,8 +45,8 @@ void main() async {
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.iOS,
-      targetIOSSdk: IOSSdk.iPhoneOs,
+      targetOS: OS.iOS,
+      targetIOSSdk: IOSSdk.iPhoneOS,
       cCompiler: CCompilerConfig(
         cc: fakeClang,
         ld: fakeLd,

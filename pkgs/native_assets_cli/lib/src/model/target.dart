@@ -35,7 +35,7 @@ final class Target implements Comparable<Target> {
     return target;
   }
 
-  factory Target.fromArchitectureAndOs(
+  factory Target.fromArchitectureAndOS(
     ArchitectureImpl architecture,
     OSImpl os,
   ) {

@@ -59,13 +59,13 @@ void main() {
         Target.macOSArm64.supportedTargetTargets(), contains(Target.iOSArm64));
   });
 
-  test('Target fromArchitectureAndOs', () async {
+  test('Target fromArchitectureAndOS', () async {
     final current =
-        Target.fromArchitectureAndOs(ArchitectureImpl.current, OSImpl.current);
+        Target.fromArchitectureAndOS(ArchitectureImpl.current, OSImpl.current);
     expect(current.toString(), Abi.current().toString());
 
     expect(
-      () => Target.fromArchitectureAndOs(ArchitectureImpl.arm, OSImpl.windows),
+      () => Target.fromArchitectureAndOS(ArchitectureImpl.arm, OSImpl.windows),
       throwsA(predicate(
         (e) =>
             e is ArgumentError &&

@@ -34,7 +34,7 @@ void main() {
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       linkModePreference: LinkModePreference.dynamic,
       buildMode: BuildMode.release,
       cCompiler: CCompilerConfig(

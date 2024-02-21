@@ -58,7 +58,7 @@ void main() {
           outDir: tempUri,
           packageName: name,
           packageRoot: tempUri,
-          targetOs: OS.windows,
+          targetOS: OS.windows,
           targetArchitecture: target,
           buildMode: BuildMode.release,
           linkModePreference: linkMode == LinkMode.dynamic

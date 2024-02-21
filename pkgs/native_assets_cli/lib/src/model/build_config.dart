@@ -22,8 +22,8 @@ final class BuildConfigImpl implements BuildConfig {
   late final ArchitectureImpl? _targetArchitecture;
 
   @override
-  OSImpl get targetOs => _targetOs;
-  late final OSImpl _targetOs;
+  OSImpl get targetOS => _targetOS;
+  late final OSImpl _targetOS;
 
   @override
   IOSSdkImpl? get targetIOSSdk {
@@ -92,7 +92,7 @@ final class BuildConfigImpl implements BuildConfig {
     required Uri packageRoot,
     required BuildModeImpl buildMode,
     required ArchitectureImpl targetArchitecture,
-    required OSImpl targetOs,
+    required OSImpl targetOS,
     IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
     CCompilerConfigImpl? cCompiler,
@@ -107,7 +107,7 @@ final class BuildConfigImpl implements BuildConfig {
       .._packageRoot = packageRoot
       .._buildMode = buildMode
       .._targetArchitecture = targetArchitecture
-      .._targetOs = targetOs
+      .._targetOS = targetOS
       .._targetIOSSdk = targetIOSSdk
       .._targetAndroidNdkApi = targetAndroidNdkApi
       .._cCompiler = cCompiler ?? CCompilerConfigImpl()
@@ -125,7 +125,7 @@ final class BuildConfigImpl implements BuildConfig {
     required Uri outDir,
     required String packageName,
     required Uri packageRoot,
-    required OSImpl targetOs,
+    required OSImpl targetOS,
     required LinkModePreferenceImpl linkModePreference,
     Iterable<String>? supportedAssetTypes,
   }) {
@@ -134,7 +134,7 @@ final class BuildConfigImpl implements BuildConfig {
       .._outDir = outDir
       .._packageName = packageName
       .._packageRoot = packageRoot
-      .._targetOs = targetOs
+      .._targetOS = targetOS
       .._targetArchitecture = null
       .._linkModePreference = linkModePreference
       .._cCompiler = CCompilerConfigImpl()
@@ -157,7 +157,7 @@ final class BuildConfigImpl implements BuildConfig {
     required String packageName,
     required Uri packageRoot,
     required ArchitectureImpl targetArchitecture,
-    required OSImpl targetOs,
+    required OSImpl targetOS,
     required BuildModeImpl buildMode,
     IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
@@ -171,7 +171,7 @@ final class BuildConfigImpl implements BuildConfig {
       version ?? latestVersion,
       packageName,
       targetArchitecture.toString(),
-      targetOs.toString(),
+      targetOS.toString(),
       targetIOSSdk.toString(),
       targetAndroidNdkApi.toString(),
       buildMode.toString(),
@@ -299,7 +299,7 @@ final class BuildConfigImpl implements BuildConfig {
         }
       },
       (config) {
-        _targetOs = OSImpl.fromString(
+        _targetOS = OSImpl.fromString(
           config.string(
             OSImpl.configKey,
             validValues: OSImpl.values.map((e) => '$e'),
@@ -317,7 +317,7 @@ final class BuildConfigImpl implements BuildConfig {
               ...ArchitectureImpl.values
             else
               for (final target in Target.values)
-                if (target.os == _targetOs) target.architecture
+                if (target.os == _targetOS) target.architecture
           ];
           _targetArchitecture = ArchitectureImpl.fromString(
             config.string(
@@ -331,7 +331,7 @@ final class BuildConfigImpl implements BuildConfig {
         if (dryRun) {
           _throwIfNotNullInDryRun<String>(IOSSdkImpl.configKey);
         } else {
-          _targetIOSSdk = (osSet && _targetOs == OSImpl.iOS)
+          _targetIOSSdk = (osSet && _targetOS == OSImpl.iOS)
               ? IOSSdkImpl.fromString(
                   config.string(
                     IOSSdkImpl.configKey,
@@ -345,7 +345,7 @@ final class BuildConfigImpl implements BuildConfig {
         if (dryRun) {
           _throwIfNotNullInDryRun<int>(targetAndroidNdkApiConfigKey);
         } else {
-          _targetAndroidNdkApi = (osSet && _targetOs == OSImpl.android)
+          _targetAndroidNdkApi = (osSet && _targetOS == OSImpl.android)
               ? config.int(targetAndroidNdkApiConfigKey)
               : null;
         }
@@ -456,7 +456,7 @@ final class BuildConfigImpl implements BuildConfig {
       outDirConfigKey: _outDir.toFilePath(),
       packageNameConfigKey: _packageName,
       packageRootConfigKey: _packageRoot.toFilePath(),
-      OSImpl.configKey: _targetOs.toString(),
+      OSImpl.configKey: _targetOS.toString(),
       LinkModePreferenceImpl.configKey: _linkModePreference.toString(),
       supportedAssetTypesKey: _supportedAssetTypes,
       _versionKey: latestVersion.toString(),
@@ -490,7 +490,7 @@ final class BuildConfigImpl implements BuildConfig {
     if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
-    if (other.targetOs != targetOs) return false;
+    if (other.targetOS != targetOS) return false;
     if (other.linkModePreference != linkModePreference) return false;
     if (!const DeepCollectionEquality()
         .equals(other._supportedAssetTypes, _supportedAssetTypes)) return false;
@@ -511,7 +511,7 @@ final class BuildConfigImpl implements BuildConfig {
         outDir,
         packageName,
         packageRoot,
-        targetOs,
+        targetOS,
         linkModePreference,
         dryRun,
         const DeepCollectionEquality().hash(_supportedAssetTypes),

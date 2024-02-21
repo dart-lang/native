@@ -174,7 +174,7 @@ version: ${BuildOutputImpl.latestVersion}''';
       packageRoot: packageRoot,
       buildMode: BuildModeImpl.debug,
       targetArchitecture: ArchitectureImpl.arm64,
-      targetOs: OSImpl.macOS,
+      targetOS: OSImpl.macOS,
       linkModePreference: LinkModePreferenceImpl.dynamic,
     );
     await buildOutput.writeToFile(config: config);

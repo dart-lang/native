@@ -92,7 +92,7 @@ Future<DryRunResult> dryRun(
     dartExecutable: dartExecutable,
   ).dryRun(
     linkModePreference: linkModePreference,
-    targetOs: Target.current.os,
+    targetOS: Target.current.os,
     workingDirectory: packageUri,
     includeParentEnvironment: includeParentEnvironment,
     packageLayout: packageLayout,
