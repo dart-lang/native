@@ -68,7 +68,7 @@ abstract final class BuildConfig {
   /// in the Android documentation.
   int? get targetAndroidNdkApi;
 
-  /// Preferred linkMode method for library.
+  /// The preferred linkMode method for [CCodeAsset]s.
   LinkModePreference get linkModePreference;
 
   /// Get the metadata from a direct dependency.

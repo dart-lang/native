@@ -5,43 +5,26 @@
 part of '../api/build_config.dart';
 
 final class BuildConfigImpl implements BuildConfig {
-  /// The folder in which all output and intermediate artifacts should be
-  /// placed.
   @override
   Uri get outDir => _outDir;
   late final Uri _outDir;
 
-  /// The name of the package the native assets are built for.
   @override
   String get packageName => _packageName;
   late final String _packageName;
 
-  /// The root of the package the native assets are built for.
-  ///
-  /// Often a package's native assets are built because a package is a
-  /// dependency of another. For this it is convenient to know the packageRoot.
   @override
   Uri get packageRoot => _packageRoot;
   late final Uri _packageRoot;
 
-  /// The architecture being compiled for.
-  ///
-  /// Not available during a [dryRun].
   @override
   ArchitectureImpl? get targetArchitecture => _targetArchitecture;
-
   late final ArchitectureImpl? _targetArchitecture;
 
-  /// The operating system being compiled for.
   @override
   OSImpl get targetOs => _targetOs;
   late final OSImpl _targetOs;
 
-  /// When compiling for iOS, whether to target device or simulator.
-  ///
-  /// Required when [targetOs] equals [OSImpl.iOS].
-  ///
-  /// Not available during a [dryRun].
   @override
   IOSSdkImpl? get targetIOSSdk {
     _ensureNotDryRun();
@@ -50,16 +33,6 @@ final class BuildConfigImpl implements BuildConfig {
 
   late final IOSSdkImpl? _targetIOSSdk;
 
-  /// When compiling for Android, the minimum Android SDK API version to that
-  /// the compiled code will be compatible with.
-  ///
-  /// Required when [targetOs] equals [OSImpl.android].
-  ///
-  /// Not available during a [dryRun].
-  ///
-  /// For more information about the Android API version, refer to
-  /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
-  /// in the Android documentation.
   @override
   int? get targetAndroidNdkApi {
     _ensureNotDryRun();
@@ -68,7 +41,6 @@ final class BuildConfigImpl implements BuildConfig {
 
   late final int? _targetAndroidNdkApi;
 
-  /// Preferred linkMode method for library.
   @override
   LinkModePreferenceImpl get linkModePreference => _linkModePreference;
   late final LinkModePreferenceImpl _linkModePreference;
@@ -81,9 +53,6 @@ final class BuildConfigImpl implements BuildConfig {
 
   late final Map<String, Metadata>? _dependencyMetadata;
 
-  /// The configuration for invoking the C compiler.
-  ///
-  /// Not available during a [dryRun].
   @override
   CCompilerConfigImpl get cCompiler {
     _ensureNotDryRun();
@@ -92,14 +61,10 @@ final class BuildConfigImpl implements BuildConfig {
 
   late final CCompilerConfigImpl _cCompiler;
 
-  /// Don't run the build, only report the native assets produced.
   @override
   bool get dryRun => _dryRun ?? false;
   late final bool? _dryRun;
 
-  /// The build mode that the code should be compiled in.
-  ///
-  /// Not available during a [dryRun].
   @override
   BuildModeImpl get buildMode {
     _ensureNotDryRun();
@@ -271,18 +236,6 @@ final class BuildConfigImpl implements BuildConfig {
     return result;
   }
 
-  /// Constructs a config by parsing CLI arguments and loading the config file.
-  ///
-  /// The [args] must be commandline arguments.
-  ///
-  /// If provided, [environment] must be a map containing environment variables.
-  /// If not provided, [environment] defaults to [Platform.environment].
-  ///
-  /// If provided, [workingDirectory] is used to resolves paths inside
-  /// [environment].
-  /// If not provided, [workingDirectory] defaults to [Directory.current].
-  ///
-  /// This async constructor is intended to be used directly in CLI files.
   static Future<BuildConfigImpl> fromArgs(
     List<String> args, {
     Map<String, String>? environment,

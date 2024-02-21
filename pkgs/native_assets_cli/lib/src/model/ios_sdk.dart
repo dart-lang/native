@@ -4,9 +4,6 @@
 
 part of '../api/ios_sdk.dart';
 
-/// For an iOS target, a build is either done for the device or the simulator.
-///
-/// Only fat binaries or xcframeworks can contain both targets.
 class IOSSdkImpl implements IOSSdk {
   final String xcodebuildSdk;
 
@@ -23,7 +20,6 @@ class IOSSdkImpl implements IOSSdk {
   factory IOSSdkImpl.fromString(String target) =>
       values.firstWhere((e) => e.xcodebuildSdk == target);
 
-  /// The `package:config` key preferably used.
   static const String configKey = 'target_ios_sdk';
 
   @override

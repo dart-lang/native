@@ -113,7 +113,7 @@ class BuildOutputImpl implements BuildOutput {
 
   static const fileName = 'build_output.yaml';
 
-  /// Writes the YAML file from [outDir]/[fileName].
+  /// Reads the YAML file from [outDir]/[fileName].
   static Future<BuildOutputImpl?> readFromFile({required Uri outDir}) async {
     final buildOutputUri = outDir.resolve(fileName);
     final buildOutputFile = File.fromUri(buildOutputUri);

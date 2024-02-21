@@ -54,7 +54,6 @@ class LinkModePreferenceImpl implements LinkModePreference {
     preferStatic,
   ];
 
-  /// The `package:config` key preferably used.
   static const String configKey = 'link_mode_preference';
 
   @override

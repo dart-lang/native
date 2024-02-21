@@ -5,17 +5,31 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
+import 'build_config.dart';
+import 'ios_sdk.dart';
 import 'link_mode.dart';
 
 part '../model/target.dart';
 
 /// The hardware architectures the Dart VM runs on.
 abstract class Architecture {
+  /// The [arm](https://en.wikipedia.org/wiki/ARM_architecture_family)
+  /// architecture.
   static const Architecture arm = ArchitectureImpl.arm;
+
+  /// The [AArch64](https://en.wikipedia.org/wiki/AArch64) architecture.
   static const Architecture arm64 = ArchitectureImpl.arm64;
+
+  /// The [IA-32](https://en.wikipedia.org/wiki/IA-32) architecture.
   static const Architecture ia32 = ArchitectureImpl.ia32;
+
+  /// The [RISC-V](https://en.wikipedia.org/wiki/RISC-V) 32 bit architecture.
   static const Architecture riscv32 = ArchitectureImpl.riscv32;
+
+  /// The [RISC-V](https://en.wikipedia.org/wiki/RISC-V) 64 bit architecture.
   static const Architecture riscv64 = ArchitectureImpl.riscv64;
+
+  /// The [x86-64](https://en.wikipedia.org/wiki/X86-64) architecture.
   static const Architecture x64 = ArchitectureImpl.x64;
 
   /// Known values for [Architecture].
@@ -36,11 +50,27 @@ abstract class Architecture {
 
 /// The operating systems the Dart VM runs on.
 abstract class OS {
+  /// The
+  /// [Android](https://en.wikipedia.org/wiki/Android_%28operating_system%29)
+  /// operating system.
   static const OS android = OSImpl.android;
+
+  /// The [Fuchsia](https://en.wikipedia.org/wiki/Google_Fuchsia) operating
+  /// system.
   static const OS fuchsia = OSImpl.fuchsia;
+
+  /// The [iOS](https://en.wikipedia.org/wiki/IOS) operating system.
   static const OS iOS = OSImpl.iOS;
+
+  /// The [Linux](https://en.wikipedia.org/wiki/Linux) operating system.
   static const OS linux = OSImpl.linux;
+
+  /// The [macOS](https://en.wikipedia.org/wiki/MacOS) operating system.
   static const OS macOS = OSImpl.macOS;
+
+  /// The
+  /// [Microsoft Windows](https://en.wikipedia.org/wiki/Microsoft_Windows)
+  /// operating system.
   static const OS windows = OSImpl.windows;
 
   /// Known values for [OS].
@@ -53,26 +83,31 @@ abstract class OS {
     windows,
   ];
 
-  /// The default dynamic library file name on this [OS].
+  /// The default dynamic library file name on this os.
   String dylibFileName(String name);
 
-  /// The default static library file name on this [OS].
+  /// The default static library file name on this os.
   String staticlibFileName(String name);
 
+  /// The default library file name on this os.
   String libraryFileName(String name, LinkMode linkMode);
 
-  /// The default executable file name on this [OS].
+  /// The default executable file name on this os.
   String executableFileName(String name);
 
   /// The current [OS].
   ///
-  /// Read from the [Platform.version] string.
+  /// Consisten with the [Platform.version] string.
   static OS get current => OSImpl.current;
 }
 
 /// Application binary interface.
 ///
 /// The Dart VM can run on a variety of [Target]s, see [Target.values].
+///
+/// Please note that the [Target] does _not_ uniquely define a compilation
+/// target. For example, the [IOSSdk], [BuildConfig.targetIOSSdk], and
+/// [BuildConfig.targetAndroidNdkApi] also influence the compilation.
 abstract class Target implements Comparable<Target> {
   static const Target androidArm = TargetImpl.androidArm;
   static const Target androidArm64 = TargetImpl.androidArm64;
@@ -96,7 +131,7 @@ abstract class Target implements Comparable<Target> {
   static const Target windowsIA32 = TargetImpl.windowsIA32;
   static const Target windowsX64 = TargetImpl.windowsX64;
 
-  /// All Targets that native assets can be built for.
+  /// All the application binary interfaces (ABIs) the Dart VM runs on.
   ///
   /// Note that for some of these a Dart SDK is not available and they are only
   /// used as target architectures for Flutter apps.
@@ -104,10 +139,12 @@ abstract class Target implements Comparable<Target> {
 
   /// The current [Target].
   ///
-  /// Read from the [Platform.version] string.
+  /// Consistent with the [Platform.version] string.
   static Target get current => TargetImpl.current;
 
+  /// The architecture for this target.
   Architecture get architecture;
 
+  /// The operating system for this target.
   OS get os;
 }

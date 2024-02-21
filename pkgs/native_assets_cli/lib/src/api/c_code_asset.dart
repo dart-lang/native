@@ -9,22 +9,25 @@ part of 'asset.dart';
 /// Typical other languages which produce code assets that respect the C ABI
 /// include C++ and Rust.
 ///
-/// There are several example types of assets:
-/// * Assets which designate symbols present in the target system, process, or
-///   executable. They are identified by their name.
-/// * Dynamic libraries bundled into the application.
+/// There are several types of C code assets:
+/// * Assets which designate symbols present in the target system
+///   ([SystemDylib]), process ([LookupInProcess]), or executable
+///   ([LookupInExecutable]). These assets are identified by their [id], and do
+///   not have a [file].
+/// * Dynamic libraries bundled into the application ([BundledDylib]). These
+///   assets must provide a [file] to be bundled.
 ///
-/// An application is compiled to run on a certain target OS and architecture.
-/// If different targets require different assets, the package developer must
-/// specify which asset to bundle for which target.
+/// An application is compiled to run on a specific target [os] and
+/// [architecture]. Different targets require different assets, so the package
+/// developer must specify which asset to bundle for which target.
 ///
 /// An asset has different ways of being accessible in the final application. It
 /// is either brought in "manually" by having the package developer specify a
-/// path of the asset on the current system, it can be part of the Dart or
-/// Flutter SDK, or it can be already present in the target system. If the asset
-/// is bundled "manually", the Dart or Flutter SDK will take care of copying the
-/// asset from its specified location on the current system into the application
-/// bundle.
+/// [file] path of the asset on the current system, it can be part of the Dart
+/// or Flutter SDK ([LookupInProcess]), or it can be already present in the
+/// target system ([SystemDylib]). If the asset is bundled "manually", the Dart
+/// or Flutter SDK will take care of copying the asset [file] from its specified
+/// location on the current system into the application bundle.
 ///
 /// Assets are also called "native assets" to differentiate them from the Dart
 /// code also bundled with an application.
@@ -71,14 +74,13 @@ abstract final class DynamicLoading {}
 
 /// The asset file should be bundled by Dart/Flutter.
 ///
-/// An asset with this dynamic loading method must provide a [Asset.file].
+/// An asset with this dynamic loading method must provide a [Asset.file]. The
+/// Dart and Flutter SDK will bundle this code in the final application.
 abstract final class BundledDylib implements DynamicLoading {
   factory BundledDylib() = BundledDylibImpl;
 }
 
 /// Asset is avaliable on the target system `PATH`.
-///
-/// [uri] only contains a file name.
 abstract final class SystemDylib implements DynamicLoading {
   Uri get uri;
 

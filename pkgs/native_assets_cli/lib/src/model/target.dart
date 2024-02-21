@@ -4,7 +4,6 @@
 
 part of '../api/target.dart';
 
-/// The hardware architectures the Dart VM runs on.
 class ArchitectureImpl implements Architecture {
   /// This architecture as used in [Platform.version].
   final String dartPlatform;
@@ -20,7 +19,6 @@ class ArchitectureImpl implements Architecture {
   static const ArchitectureImpl riscv64 = ArchitectureImpl._('riscv64');
   static const ArchitectureImpl x64 = ArchitectureImpl._('x64');
 
-  /// Known values for [ArchitectureImpl].
   static const List<ArchitectureImpl> values = [
     arm,
     arm64,
@@ -54,14 +52,11 @@ class ArchitectureImpl implements Architecture {
     Abi.windowsX64: ArchitectureImpl.x64,
   };
 
-  /// The `package:config` key preferably used.
   static const String configKey = 'target_architecture';
 
   @override
   String toString() => dartPlatform;
 
-  /// Mapping from strings as used in [ArchitectureImpl.toString] to
-  /// [ArchitectureImpl]s.
   static final Map<String, ArchitectureImpl> _stringToArchitecture =
       Map.fromEntries(ArchitectureImpl.values.map(
           (architecture) => MapEntry(architecture.toString(), architecture)));
@@ -69,13 +64,9 @@ class ArchitectureImpl implements Architecture {
   factory ArchitectureImpl.fromString(String target) =>
       _stringToArchitecture[target]!;
 
-  /// The current [ArchitectureImpl].
-  ///
-  /// Read from the [Platform.version] string.
   static final ArchitectureImpl current = TargetImpl.current.architecture;
 }
 
-/// The operating systems the Dart VM runs on.
 class OSImpl implements OS {
   /// This OS as used in [Platform.version]
   final String dartPlatform;
@@ -91,7 +82,6 @@ class OSImpl implements OS {
   static const OSImpl macOS = OSImpl._('macos');
   static const OSImpl windows = OSImpl._('windows');
 
-  /// Known values for [OSImpl].
   static const List<OSImpl> values = [
     android,
     fuchsia,
@@ -170,7 +160,6 @@ class OSImpl implements OS {
     OSImpl.windows: [OSImpl.windows, OSImpl.android],
   };
 
-  /// The default dynamic library file name on this [OSImpl].
   @override
   String dylibFileName(String name) {
     final prefix = _dylibPrefix[this]!;
@@ -178,7 +167,6 @@ class OSImpl implements OS {
     return '$prefix$name.$extension';
   }
 
-  /// The default static library file name on this [OSImpl].
   @override
   String staticlibFileName(String name) {
     final prefix = _staticlibPrefix[this]!;
@@ -195,7 +183,6 @@ class OSImpl implements OS {
     return staticlibFileName(name);
   }
 
-  /// The default executable file name on this [OSImpl].
   @override
   String executableFileName(String name) {
     final extension = _executableExtension[this]!;
@@ -246,7 +233,6 @@ class OSImpl implements OS {
     OSImpl.windows: 'exe',
   };
 
-  /// The `package:config` key preferably used.
   static const String configKey = 'target_os';
 
   @override
@@ -265,9 +251,6 @@ class OSImpl implements OS {
   static final OSImpl current = TargetImpl.current.os;
 }
 
-/// Application binary interface.
-///
-/// The Dart VM can run on a variety of [TargetImpl]s, see [TargetImpl.values].
 class TargetImpl implements Target {
   final Abi abi;
 
@@ -330,10 +313,6 @@ class TargetImpl implements Target {
   static const windowsIA32 = TargetImpl._(Abi.windowsIA32);
   static const windowsX64 = TargetImpl._(Abi.windowsX64);
 
-  /// All Targets that we can build for.
-  ///
-  /// Note that for some of these a Dart SDK is not available and they are only
-  /// used as target architectures for Flutter apps.
   static const Set<TargetImpl> values = {
     androidArm,
     androidArm64,
@@ -384,7 +363,6 @@ class TargetImpl implements Target {
 
   String get _osString => os.dartPlatform;
 
-  /// A string representation of this object.
   @override
   String toString() => dartVMToString();
 
@@ -411,7 +389,7 @@ class TargetImpl implements Target {
 }
 
 /// Common methods for manipulating iterables of [TargetImpl]s.
-extension TargetList on Iterable<TargetImpl> {
+extension on Iterable<TargetImpl> {
   /// The [TargetImpl]s in `this` sorted by name alphabetically.
   List<TargetImpl> get sorted => [for (final target in this) target]..sort();
 }

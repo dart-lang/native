@@ -21,7 +21,6 @@ class BuildModeImpl implements BuildMode {
   factory BuildModeImpl.fromString(String target) =>
       values.firstWhere((e) => e.name == target);
 
-  /// The `package:config` key preferably used.
   static const String configKey = 'build_mode';
 
   @override

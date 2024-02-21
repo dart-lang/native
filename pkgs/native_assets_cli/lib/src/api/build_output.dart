@@ -55,18 +55,20 @@ abstract class BuildOutput {
   /// seconds, because [File.lastModified] is rounded to whole seconds and
   /// caching logic compares these timestamps.
   ///
-  /// The [CCodeAsset]s produced by this build or dry-run can be provided to the
-  /// constructor as [assets], or can be added later using [addAssets]. In dry
-  /// runs, the assets for all [Architecture]s for the [OS] specified in the dry
-  /// run must be provided.
+  /// The [Asset]s produced by this build or dry-run can be provided to the
+  /// constructor as [assets], or can be added later using [addAsset] and
+  /// [addAssets]. In dry runs, the [Architecture] for [CCodeAsset]s can be
+  /// omitted.
   ///
-  /// The files used by this build must be passed in [dependencies] or
+  /// The files used by this build must be provided to the constructor as
+  /// [dependencies], or can be added later with [addDependency] and
   /// [addDependencies]. If any of these files are modified after [timestamp],
   /// the build will be re-run. Typically these dependencies contain the
   /// `build.dart` script itself, and the source files used in the build.
   ///
-  /// Metadata can be passed to `build.dart` invocations of dependent packages
-  /// via [metadata] or [addMetadata].
+  /// Metadata can be passed to `build.dart` invocations of dependent packages.
+  /// It must be provided to the constructor as [metadata], or added later with
+  /// [addMetadatum] and [addMetadata].
   factory BuildOutput({
     DateTime? timestamp,
     Iterable<Asset>? assets,
@@ -80,16 +82,14 @@ abstract class BuildOutput {
         metadata: Metadata({...?metadata}),
       );
 
-  /// Adds [CCodeAsset]s produced by this build or dry run.
+  /// Adds [Asset]s produced by this build or dry run.
   ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
+  /// In dry runs, the [Architecture] for [CCodeAsset]s can be omitted.
   void addAsset(Asset asset);
 
-  /// Adds [CCodeAsset]s produced by this build or dry run.
+  /// Adds [Asset]s produced by this build or dry run.
   ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
+  /// In dry runs, the [Architecture] for [CCodeAsset]s can be omitted.
   void addAssets(Iterable<Asset> assets);
 
   /// Adds file used by this build.
@@ -116,12 +116,11 @@ abstract class BuildOutput {
   ///
   /// This class is used in the protocol between the Dart and Flutter SDKs
   /// and packages through `build.dart` invocations.
-  ///
-  /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the YAML
-  /// representation in the protocol.
   static Version get latestVersion => BuildOutputImpl.latestVersion;
 
   /// Write out this build output to a file inside [BuildConfig.outDir].
+  ///
+  /// This takes into account the [BuildConfig.latestVersion] to write the
+  /// build output in a format the SDK that invoked the script supports.
   Future<void> writeToFile({required BuildConfig config});
 }
