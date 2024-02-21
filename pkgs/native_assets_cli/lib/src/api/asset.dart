@@ -5,11 +5,13 @@
 import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
-import '../../native_assets_cli.dart';
-import '../../native_assets_cli_internal.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
+import 'architecture.dart';
+import 'build_config.dart';
+import 'build_output.dart';
 import 'link_mode.dart';
+import 'os.dart';
 import 'target.dart';
 
 part 'c_code_asset.dart';

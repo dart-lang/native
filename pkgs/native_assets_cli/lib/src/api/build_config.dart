@@ -13,10 +13,12 @@ import 'package:pub_semver/pub_semver.dart';
 import '../model/metadata.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
+import 'architecture.dart';
 import 'asset.dart';
 import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
+import 'os.dart';
 import 'target.dart';
 
 part '../model/build_config.dart';

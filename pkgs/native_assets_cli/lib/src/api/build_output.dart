@@ -14,9 +14,10 @@ import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/map.dart';
 import '../utils/yaml.dart';
+import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
-import 'target.dart';
+import 'os.dart';
 
 part '../model/build_output.dart';
 

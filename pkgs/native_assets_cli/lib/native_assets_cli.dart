@@ -6,6 +6,7 @@
 /// native assets CLI, e.g. a `build.dart` script.
 library native_assets_cli;
 
+export 'src/api/architecture.dart' show Architecture;
 export 'src/api/asset.dart'
     show
         Asset,
@@ -21,4 +22,5 @@ export 'src/api/build_output.dart' show BuildOutput;
 export 'src/api/ios_sdk.dart' show IOSSdk;
 export 'src/api/link_mode.dart' show LinkMode;
 export 'src/api/link_mode_preference.dart' show LinkModePreference;
-export 'src/api/target.dart' show Architecture, OS, Target;
+export 'src/api/os.dart' show OS;
+export 'src/api/target.dart' show Target;
