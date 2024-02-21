@@ -11,11 +11,11 @@ void main(List<String> args) async {
       CCodeAsset(
         id: 'package:other_package/foo',
         file: buildConfig.outDir.resolve(
-          Target.current.os.dylibFileName('foo'),
+          OS.current.dylibFileName('foo'),
         ),
         linkMode: LinkMode.dynamic,
-        os: Target.current.os,
-        architecture: Target.current.architecture,
+        os: OS.current,
+        architecture: Architecture.current,
         dynamicLoading: BundledDylib(),
       ),
     ],

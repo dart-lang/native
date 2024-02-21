@@ -20,7 +20,7 @@ class CompilerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final os = Target.current.os;
+    final os = OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
@@ -64,7 +64,7 @@ class LinkerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final os = Target.current.os;
+    final os = OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
@@ -115,7 +115,7 @@ class ArchiverRecognizer implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     logger?.finer('Trying to recognize $uri.');
-    final os = Target.current.os;
+    final os = OS.current;
     final filePath = uri.toFilePath();
     Tool? tool;
     if (filePath.contains('-gcc-ar')) {

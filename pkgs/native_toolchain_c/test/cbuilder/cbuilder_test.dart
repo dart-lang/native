@@ -71,7 +71,7 @@ void main() {
         );
 
         final executableUri =
-            tempUri.resolve(Target.current.os.executableFileName(name));
+            tempUri.resolve(OS.current.executableFileName(name));
         expect(await File.fromUri(executableUri).exists(), true);
         final result = await runProcess(
           executable: executableUri,
@@ -150,7 +150,7 @@ void main() {
           logger: logger,
         );
 
-        final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+        final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
         expect(await File.fromUri(dylibUri).exists(), !dryRun);
         if (!dryRun) {
           final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
@@ -247,8 +247,7 @@ void main() {
       logger: logger,
     );
 
-    final executableUri =
-        tempUri.resolve(Target.current.os.executableFileName(name));
+    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
     final result = await runProcess(
       executable: executableUri,
@@ -303,7 +302,7 @@ void main() {
 
     expect(buildOutput.dependencies, contains(includesHUri));
 
-    final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
     final x = dylib.lookup<Int>('x');
     expect(x.value, 42);
@@ -351,7 +350,7 @@ void main() {
       logger: logger,
     );
 
-    final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
 
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
     final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
@@ -411,8 +410,7 @@ void main() {
       logger: logger,
     );
 
-    final executableUri =
-        tempUri.resolve(Target.current.os.executableFileName(name));
+    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
     final result = await runProcess(
       executable: executableUri,
@@ -481,7 +479,7 @@ void main() {
       );
 
       final executableUri =
-          tempUri.resolve(Target.current.os.executableFileName(name));
+          tempUri.resolve(OS.current.executableFileName(name));
       expect(await File.fromUri(executableUri).exists(), true);
       final result = await runProcess(
         executable: executableUri,
@@ -544,8 +542,7 @@ Future<void> testDefines({
     logger: logger,
   );
 
-  final executableUri =
-      tempUri.resolve(Target.current.os.executableFileName(name));
+  final executableUri = tempUri.resolve(OS.current.executableFileName(name));
   expect(await File.fromUri(executableUri).exists(), true);
   final result = await runProcess(
     executable: executableUri,
