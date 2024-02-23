@@ -2,9 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// This library should not be used by `build.dart` scripts.
+/// Internal API for invoking `build.dart` hooks.
 ///
-/// Only `package:native_assets_builder` should use this.
+/// This library is intended for use by:
+///  * `package:native_assets_builder`,
+///  * `dartdev` (in the Dart SDK), and,
+///  * `flutter_tools` (in the Flutter SDK).
+///
+/// > [!CAUTION]
+/// > Unless you are building a custom SDK that embeds Dart you should
+/// > not be importing this library!
+///
 /// @nodoc
 library native_assets_cli_internal;
 
