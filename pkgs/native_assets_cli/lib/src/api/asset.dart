@@ -32,13 +32,12 @@ abstract final class Asset {
   /// An [Asset] must have a string identifier called "asset id". Dart code that
   /// uses an asset, references the asset using this asset id.
   ///
-  /// A package must prefix all asset ids it defines with:
-  /// `package:<package>/`, `<package>` being the current package's name. This
-  /// ensures assets don't conflict between packages.
+  /// A package must prefix all asset ids it defines with: `package:<package>/`,
+  /// `<package>` being the current package's name. This ensures assets don't
+  /// conflict between packages.
   ///
-  /// Additionally, the convention is that an asset referenced from
-  /// `lib/src/foo.dart` in `package:foo` has the asset id
-  /// `'package:foo/src/foo.dart'`.
+  /// Additionally, the default asset id for an asset reference from
+  /// `lib/src/foo.dart` is `'package:foo/src/foo.dart'`.
   String get id;
 
   /// The file to be bundled with the Dart or Flutter application.
