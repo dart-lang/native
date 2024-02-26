@@ -18,6 +18,7 @@ import 'architecture.dart';
 import 'asset.dart';
 import 'build_mode.dart';
 import 'ios_sdk.dart';
+import 'link_mode.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
 
@@ -34,7 +35,7 @@ part '../model/c_compiler_config.dart';
 abstract final class BuildConfig {
   /// The directory in which all output and intermediate artifacts should be
   /// placed.
-  Uri get outDir;
+  Uri get outputDirectory;
 
   /// The name of the package the native assets are built for.
   String get packageName;
@@ -72,7 +73,7 @@ abstract final class BuildConfig {
   /// in the Android documentation.
   int? get targetAndroidNdkApi;
 
-  /// The preferred linkMode method for [CCodeAsset]s.
+  /// The preferred [LinkMode] method for [CCodeAsset]s.
   LinkModePreference get linkModePreference;
 
   /// Metadata from a direct dependency.
@@ -99,9 +100,6 @@ abstract final class BuildConfig {
   ///
   /// Not available during a [dryRun].
   BuildMode get buildMode;
-
-  /// The underlying config.
-  Config get config;
 
   /// The asset types the invoker of this build supports.
   ///
@@ -132,7 +130,7 @@ abstract final class BuildConfig {
   /// If not provided, [workingDirectory] defaults to [Directory.current].
   ///
   /// This async constructor is intended to be used directly in CLI files.
-  static Future<BuildConfig> fromArgs(
+  static Future<BuildConfig> fromArguments(
     List<String> args, {
     Map<String, String>? environment,
     Uri? workingDirectory,
@@ -143,8 +141,19 @@ abstract final class BuildConfig {
         workingDirectory: workingDirectory,
       );
 
+  /// Construct a config for a non-dry run by providing values for each field.
+  ///
+  /// `build.dart` hooks will most likely use [BuildConfig.fromArguments].
+  /// However, for unit testing code which consumes a [BuildConfig], this
+  /// constructor facilitates easy construction.
+  ///
+  /// For the documentation of the parameters, see the equally named fields.
+  ///
+  /// Parameter [dependencyMetadata] must be a nested map
+  /// `{'packageName' : {'key' : 'value'}}`
+  /// where `packageName` and `key` correspond to the parameters in [metadatum].
   factory BuildConfig({
-    required Uri outDir,
+    required Uri outputDirectory,
     required String packageName,
     required Uri packageRoot,
     required BuildMode buildMode,
@@ -158,7 +167,7 @@ abstract final class BuildConfig {
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl(
-        outDir: outDir,
+        outDir: outputDirectory,
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
@@ -177,6 +186,13 @@ abstract final class BuildConfig {
         supportedAssetTypes: supportedAssetTypes,
       );
 
+  /// Construct a config for a dry run by providing values for each field.
+  ///
+  /// `build.dart` hooks will most likely use [BuildConfig.fromArguments].
+  /// However, for unit testing code which consumes a [BuildConfig], this
+  /// constructor facilitates easy construction.
+  ///
+  /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({
     required Uri outDir,
     required String packageName,
@@ -193,7 +209,4 @@ abstract final class BuildConfig {
         linkModePreference: linkModePreference as LinkModePreferenceImpl,
         supportedAssetTypes: supportedAssetTypes,
       );
-
-  factory BuildConfig.fromConfig(Config config) =>
-      BuildConfigImpl.fromConfig(config);
 }

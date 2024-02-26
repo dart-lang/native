@@ -45,7 +45,7 @@ void main() {
         const name = 'add';
 
         final buildConfig = BuildConfig(
-          outDir: tempUri,
+          outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,
           targetArchitecture: target,

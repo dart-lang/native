@@ -41,7 +41,7 @@ void main() async {
     await File.fromUri(fakeVcVars).create();
 
     final config1 = BuildConfig(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,

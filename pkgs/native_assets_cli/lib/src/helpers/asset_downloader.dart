@@ -49,7 +49,7 @@ class AssetDownloader implements Builder {
       );
       final fileName =
           downloadUri2.pathSegments.lastWhere((element) => element.isNotEmpty);
-      targetUri = config.outDir.resolve(fileName);
+      targetUri = config.outputDirectory.resolve(fileName);
       final request = await HttpClient().getUrl(downloadUri2);
       final response = await request.close();
       await response.pipe(File.fromUri(targetUri).openWrite());

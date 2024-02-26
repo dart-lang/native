@@ -6,7 +6,7 @@ part of '../api/build_config.dart';
 
 final class BuildConfigImpl implements BuildConfig {
   @override
-  Uri get outDir => _outDir;
+  Uri get outputDirectory => _outDir;
   late final Uri _outDir;
 
   @override
@@ -82,7 +82,6 @@ final class BuildConfigImpl implements BuildConfig {
 
   late final Version _version;
 
-  @override
   Config get config => _config;
   late final Config _config;
 
@@ -146,13 +145,14 @@ final class BuildConfigImpl implements BuildConfig {
     return BuildConfigImpl.fromConfig(config);
   }
 
-  /// Constructs a checksum for a [BuildConfigImpl] based on the fields
-  /// of a buildconfig that influence the build.
+  /// Constructs a checksum for a [BuildConfigImpl] based on the fields of a
+  /// buildconfig that influence the build.
   ///
-  /// This can be used for an [outDir], but should not be used for dry-runs.
+  /// This can be used for an [outputDirectory], but should not be used for
+  /// dry-runs.
   ///
-  /// In particular, it only takes the package name from [packageRoot],
-  /// so that the hash is equal across checkouts and ignores [outDir] itself.
+  /// In particular, it only takes the package name from [packageRoot], so that
+  /// the hash is equal across checkouts and ignores [outputDirectory] itself.
   static String checksum({
     required String packageName,
     required Uri packageRoot,
@@ -486,7 +486,7 @@ final class BuildConfigImpl implements BuildConfig {
     if (other is! BuildConfigImpl) {
       return false;
     }
-    if (other.outDir != outDir) return false;
+    if (other.outputDirectory != outputDirectory) return false;
     if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
@@ -508,7 +508,7 @@ final class BuildConfigImpl implements BuildConfig {
 
   @override
   int get hashCode => Object.hashAll([
-        outDir,
+        outputDirectory,
         packageName,
         packageRoot,
         targetOS,

@@ -4,13 +4,12 @@
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-void main(List<String> args) async {
-  final buildConfig = await BuildConfig.fromArgs(args);
-  final buildOutput = BuildOutput(
-    assets: [
+void main(List<String> arguments) async {
+  await build(arguments, (config, output) async {
+    output.addAsset(
       CCodeAsset(
         id: 'package:other_package/foo',
-        file: buildConfig.outDir.resolve(
+        file: config.outputDirectory.resolve(
           OS.current.dylibFileName('foo'),
         ),
         linkMode: LinkMode.dynamic,
@@ -18,7 +17,6 @@ void main(List<String> args) async {
         architecture: Architecture.current,
         dynamicLoading: BundledDylib(),
       ),
-    ],
-  );
-  await buildOutput.writeToFile(config: buildConfig);
+    );
+  });
 }

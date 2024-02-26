@@ -81,11 +81,11 @@ import 'build_output.dart';
 /// }
 /// ```
 Future<void> build(
-  List<String> commandlineArguments,
-  Future<void> Function(BuildConfig, BuildOutput) builder,
+  List<String> arguments,
+  Future<void> Function(BuildConfig config, BuildOutput output) builder,
 ) async {
-  final config = await BuildConfig.fromArgs(commandlineArguments);
-  final output = BuildOutput();
+  final config = await BuildConfig.fromArguments(arguments);
+  final output = BuildOutputImpl();
   await builder(config, output);
   await output.writeToFile(config: config);
 }

@@ -123,10 +123,9 @@ final class BuildOutputImpl implements BuildOutput {
     return BuildOutputImpl.fromYamlString(await buildOutputFile.readAsString());
   }
 
-  /// Writes the [toYamlString] to [BuildConfig.outDir]/[fileName].
-  @override
+  /// Writes the [toYamlString] to [BuildConfig.outputDirectory]/[fileName].
   Future<void> writeToFile({required BuildConfig config}) async {
-    final outDir = config.outDir;
+    final outDir = config.outputDirectory;
     final buildOutputUri = outDir.resolve(fileName);
     final yamlString = toYamlString((config as BuildConfigImpl).version);
     await File.fromUri(buildOutputUri).writeAsStringCreateDirectory(yamlString);

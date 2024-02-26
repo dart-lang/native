@@ -47,7 +47,7 @@ class CBuilder implements Builder {
   /// The filename will be decided by [BuildConfig.targetOS] and
   /// [OS.libraryFileName] or [OS.executableFileName].
   ///
-  /// File will be placed in [BuildConfig.outDir].
+  /// File will be placed in [BuildConfig.outputDirectory].
   final String name;
 
   /// Asset identifier.
@@ -196,7 +196,7 @@ class CBuilder implements Builder {
     required BuildOutput buildOutput,
     required Logger? logger,
   }) async {
-    final outDir = buildConfig.outDir;
+    final outDir = buildConfig.outputDirectory;
     final packageRoot = buildConfig.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode = buildConfig.linkModePreference.preferredLinkMode;

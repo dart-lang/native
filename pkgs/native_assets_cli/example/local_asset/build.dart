@@ -19,7 +19,7 @@ void main(List<String> args) async {
     }
 
     final packageName = config.packageName;
-    final assetPath = config.outDir.resolve(assetName);
+    final assetPath = config.outputDirectory.resolve(assetName);
     final assetSourcePath = config.packageRoot.resolveUri(packageAssetPath);
     if (!config.dryRun) {
       // Insert code that downloads or builds the asset to `assetPath`.

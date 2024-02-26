@@ -44,7 +44,7 @@ void main() {
         final logger = createCapturingLogger(logMessages);
 
         final buildConfig = BuildConfig(
-          outDir: tempUri,
+          outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,
           targetArchitecture: Architecture.current,
@@ -123,7 +123,7 @@ void main() {
                 linkModePreference: LinkModePreference.dynamic,
               )
             : BuildConfig(
-                outDir: tempUri,
+                outputDirectory: tempUri,
                 packageName: name,
                 packageRoot: tempUri,
                 targetArchitecture: Architecture.current,
@@ -215,7 +215,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig(
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -273,7 +273,7 @@ void main() {
     const name = 'includes';
 
     final buildConfig = BuildConfig(
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -318,7 +318,7 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final buildConfig = BuildConfig(
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -377,7 +377,7 @@ void main() {
 
     final buildConfig = BuildConfig(
       buildMode: BuildMode.release,
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -441,7 +441,7 @@ void main() {
 
     final buildConfig = BuildConfig(
       buildMode: BuildMode.release,
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -511,7 +511,7 @@ Future<void> testDefines({
   const name = 'defines';
 
   final buildConfig = BuildConfig(
-    outDir: tempUri,
+    outputDirectory: tempUri,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: Architecture.current,

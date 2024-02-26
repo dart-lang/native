@@ -215,7 +215,7 @@ class NativeAssetsBuildRunner {
     bool includeParentEnvironment,
   ) async {
     final packageName = config.packageName;
-    final outDir = config.outDir;
+    final outDir = config.outputDirectory;
     if (!await Directory.fromUri(outDir).exists()) {
       await Directory.fromUri(outDir).create(recursive: true);
     }
@@ -253,7 +253,7 @@ class NativeAssetsBuildRunner {
     bool includeParentEnvironment, {
     required bool dryRun,
   }) async {
-    final outDir = config.outDir;
+    final outDir = config.outputDirectory;
     final configFile = outDir.resolve('../config.yaml');
     final buildDotDart = config.packageRoot.resolve('build.dart');
     final configFileContents = config.toYamlString();

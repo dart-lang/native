@@ -41,7 +41,7 @@ void main() {
       ...await vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
     final buildConfig = BuildConfig(
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
@@ -65,7 +65,7 @@ void main() {
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
     final buildConfig = BuildConfig(
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,

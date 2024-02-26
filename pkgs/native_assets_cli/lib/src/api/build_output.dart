@@ -48,10 +48,10 @@ abstract final class BuildOutput {
 
   /// Create a build output.
   ///
-  /// The [timestamp] must be before any any [dependencies] are read by the
-  /// build this output belongs to. If the [BuildOutput] object is created at
-  /// the beginning of the `build.dart` script, [timestamp] can be omitted and
-  /// will default to [DateTime.now]. The [timestamp] is rounded down to whole
+  /// The [timestamp] must be before any [dependencies] are read by the build
+  /// this output belongs to. If the [BuildOutput] object is created at the
+  /// beginning of the `build.dart` script, [timestamp] can be omitted and will
+  /// default to [DateTime.now]. The [timestamp] is rounded down to whole
   /// seconds, because [File.lastModified] is rounded to whole seconds and
   /// caching logic compares these timestamps.
   ///
@@ -83,13 +83,9 @@ abstract final class BuildOutput {
       );
 
   /// Adds [Asset]s produced by this build or dry run.
-  ///
-  /// In dry runs, the [Architecture] for [CCodeAsset]s can be omitted.
   void addAsset(Asset asset);
 
   /// Adds [Asset]s produced by this build or dry run.
-  ///
-  /// In dry runs, the [Architecture] for [CCodeAsset]s can be omitted.
   void addAssets(Iterable<Asset> assets);
 
   /// Adds file used by this build.
@@ -118,9 +114,10 @@ abstract final class BuildOutput {
   /// and packages through `build.dart` invocations.
   static Version get latestVersion => BuildOutputImpl.latestVersion;
 
-  /// Write out this build output to a file inside [BuildConfig.outDir].
+  /// Write out this build output to a file inside
+  /// [BuildConfig.outputDirectory].
   ///
-  /// This takes into account the [BuildConfig.latestVersion] to write the
-  /// build output in a format the SDK that invoked the script supports.
-  Future<void> writeToFile({required BuildConfig config});
+  /// This takes into account the [BuildConfig.latestVersion] to write the build
+  /// output in a format the SDK that invoked the script supports.
+  // Future<void> writeToFile({required BuildConfig config});
 }

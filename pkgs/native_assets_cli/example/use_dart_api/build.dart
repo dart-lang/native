@@ -8,25 +8,25 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 const packageName = 'use_dart_api';
 
-void main(List<String> args) async {
-  final buildConfig = await BuildConfig.fromArgs(args);
-  final buildOutput = BuildOutput();
-  final cbuilder = CBuilder.library(
-    name: packageName,
-    assetId: 'package:$packageName/src/${packageName}_bindings_generated.dart',
-    sources: [
-      'src/$packageName.c',
-      'src/dart_api_dl.c',
-    ],
-  );
-  await cbuilder.run(
-    buildConfig: buildConfig,
-    buildOutput: buildOutput,
-    logger: Logger('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) {
-        print('${record.level.name}: ${record.time}: ${record.message}');
-      }),
-  );
-  await buildOutput.writeToFile(config: buildConfig);
+void main(List<String> arguments) async {
+  await build(arguments, (config, output) async {
+    final cbuilder = CBuilder.library(
+      name: packageName,
+      assetId:
+          'package:$packageName/src/${packageName}_bindings_generated.dart',
+      sources: [
+        'src/$packageName.c',
+        'src/dart_api_dl.c',
+      ],
+    );
+    await cbuilder.run(
+      buildConfig: config,
+      buildOutput: output,
+      logger: Logger('')
+        ..level = Level.ALL
+        ..onRecord.listen((record) {
+          print('${record.level.name}: ${record.time}: ${record.message}');
+        }),
+    );
+  });
 }

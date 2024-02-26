@@ -48,7 +48,7 @@ void main() async {
 
   test('BuildConfig ==', () {
     final config1 = BuildConfig(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -65,7 +65,7 @@ void main() async {
     );
 
     final config2 = BuildConfig(
-      outDir: outDir2Uri,
+      outputDirectory: outDir2Uri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -78,7 +78,7 @@ void main() async {
 
     expect(config1, equals(config1));
     expect(config1 == config2, false);
-    expect(config1.outDir != config2.outDir, true);
+    expect(config1.outputDirectory != config2.outputDirectory, true);
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
     expect(config1.targetOS != config2.targetOS, true);
@@ -96,7 +96,7 @@ void main() async {
 
   test('BuildConfig fromConfig', () {
     final buildConfig2 = BuildConfig(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: Architecture.arm64,
@@ -119,7 +119,7 @@ void main() async {
       'version': BuildOutput.latestVersion.toString(),
     });
 
-    final fromConfig = BuildConfig.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromConfig(config);
     expect(fromConfig, equals(buildConfig2));
   });
 
@@ -143,13 +143,13 @@ void main() async {
       'version': BuildOutput.latestVersion.toString(),
     });
 
-    final fromConfig = BuildConfig.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromConfig(config);
     expect(fromConfig, equals(buildConfig2));
   });
 
   test('BuildConfig == dependency metadata', () {
     final buildConfig1 = BuildConfig(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -169,7 +169,7 @@ void main() async {
     );
 
     final buildConfig2 = BuildConfig(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -196,7 +196,7 @@ void main() async {
 
   test('BuildConfig fromArgs', () async {
     final buildConfig = BuildConfig(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
@@ -209,7 +209,7 @@ void main() async {
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
-    final buildConfigFromArgs = await BuildConfig.fromArgs(
+    final buildConfigFromArgs = await BuildConfig.fromArguments(
       ['--config', configUri.toFilePath()],
       environment: {}, // Don't inherit the test environment.
     );
