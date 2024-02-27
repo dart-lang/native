@@ -7,20 +7,21 @@ part of '../api/build_config.dart';
 final class CCompilerConfigImpl implements CCompilerConfig {
   /// Path to a C compiler.
   @override
-  Uri? get cc => _cc;
-  late final Uri? _cc;
+  Uri? get compiler => _compiler;
+  late final Uri? _compiler;
 
   /// Path to a native linker.
   @override
-  Uri? get ld => _ld;
-  late final Uri? _ld;
+  Uri? get linker => _linker;
+  late final Uri? _linker;
 
   /// Path to a native archiver.
   @override
-  Uri? get ar => _ar;
-  late final Uri? _ar;
+  Uri? get archiver => _archiver;
+  late final Uri? _archiver;
 
-  /// Path to script that sets environment variables for [cc], [ld], and [ar].
+  /// Path to script that sets environment variables for [compiler], [linker],
+  /// and [archiver].
   @override
   Uri? get envScript => _envScript;
   late final Uri? _envScript;
@@ -31,16 +32,16 @@ final class CCompilerConfigImpl implements CCompilerConfig {
   late final List<String>? _envScriptArgs;
 
   factory CCompilerConfigImpl({
-    Uri? ar,
-    Uri? cc,
-    Uri? ld,
+    Uri? archiver,
+    Uri? compiler,
+    Uri? linker,
     Uri? envScript,
     List<String>? envScriptArgs,
   }) =>
       CCompilerConfigImpl._()
-        .._ar = ar
-        .._cc = cc
-        .._ld = ld
+        .._archiver = archiver
+        .._compiler = compiler
+        .._linker = linker
         .._envScript = envScript
         .._envScriptArgs = envScriptArgs;
 
@@ -60,9 +61,9 @@ final class CCompilerConfigImpl implements CCompilerConfig {
       '$configKey.$envScriptArgsConfigKey';
 
   Map<String, Object> toYaml() => {
-        if (_ar != null) arConfigKey: _ar.toFilePath(),
-        if (_cc != null) ccConfigKey: _cc.toFilePath(),
-        if (_ld != null) ldConfigKey: _ld.toFilePath(),
+        if (_archiver != null) arConfigKey: _archiver.toFilePath(),
+        if (_compiler != null) ccConfigKey: _compiler.toFilePath(),
+        if (_linker != null) ldConfigKey: _linker.toFilePath(),
         if (_envScript != null) envScriptConfigKey: _envScript.toFilePath(),
         if (_envScriptArgs != null) envScriptArgsConfigKey: _envScriptArgs,
       }.sortOnKey();
@@ -72,9 +73,9 @@ final class CCompilerConfigImpl implements CCompilerConfig {
     if (other is! CCompilerConfigImpl) {
       return false;
     }
-    if (other.ar != ar) return false;
-    if (other.cc != cc) return false;
-    if (other.ld != ld) return false;
+    if (other.archiver != archiver) return false;
+    if (other.compiler != compiler) return false;
+    if (other.linker != linker) return false;
     if (other.envScript != envScript) return false;
     if (!const ListEquality<String>()
         .equals(other.envScriptArgs, envScriptArgs)) {
@@ -85,9 +86,9 @@ final class CCompilerConfigImpl implements CCompilerConfig {
 
   @override
   int get hashCode => Object.hash(
-        _ar,
-        _cc,
-        _ld,
+        _archiver,
+        _compiler,
+        _linker,
         _envScript,
         const ListEquality<String>().hash(envScriptArgs),
       );

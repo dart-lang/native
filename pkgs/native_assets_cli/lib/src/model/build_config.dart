@@ -176,11 +176,11 @@ final class BuildConfigImpl implements BuildConfig {
       targetAndroidNdkApi.toString(),
       buildMode.toString(),
       linkModePreference.toString(),
-      cCompiler?.ar.toString(),
-      cCompiler?.cc.toString(),
+      cCompiler?.archiver.toString(),
+      cCompiler?.compiler.toString(),
       cCompiler?.envScript.toString(),
       cCompiler?.envScriptArgs.toString(),
-      cCompiler?.ld.toString(),
+      cCompiler?.linker.toString(),
       if (dependencyMetadata != null)
         for (final entry in dependencyMetadata.entries) ...[
           entry.key,
@@ -354,7 +354,7 @@ final class BuildConfigImpl implements BuildConfig {
         if (dryRun) {
           _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.arConfigKeyFull);
         } else {
-          cCompiler._ar = config.optionalPath(
+          cCompiler._archiver = config.optionalPath(
             CCompilerConfigImpl.arConfigKeyFull,
             mustExist: true,
           );
@@ -364,7 +364,7 @@ final class BuildConfigImpl implements BuildConfig {
         if (dryRun) {
           _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.ccConfigKeyFull);
         } else {
-          cCompiler._cc = config.optionalPath(
+          cCompiler._compiler = config.optionalPath(
             CCompilerConfigImpl.ccConfigKeyFull,
             mustExist: true,
           );
@@ -375,7 +375,7 @@ final class BuildConfigImpl implements BuildConfig {
         if (dryRun) {
           _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.ccConfigKeyFull);
         } else {
-          cCompiler._ld = config.optionalPath(
+          cCompiler._linker = config.optionalPath(
             CCompilerConfigImpl.ldConfigKeyFull,
             mustExist: true,
           );
@@ -386,8 +386,8 @@ final class BuildConfigImpl implements BuildConfig {
           _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.ccConfigKeyFull);
         } else {
           cCompiler._envScript = (ccSet &&
-                  cCompiler.cc != null &&
-                  cCompiler.cc!.toFilePath().endsWith('cl.exe'))
+                  cCompiler.compiler != null &&
+                  cCompiler.compiler!.toFilePath().endsWith('cl.exe'))
               ? config.path(CCompilerConfigImpl.envScriptConfigKeyFull,
                   mustExist: true)
               : null;

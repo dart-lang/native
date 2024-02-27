@@ -48,9 +48,9 @@ void main() async {
       targetOS: OS.iOS,
       targetIOSSdk: IOSSdk.iPhoneOS,
       cCompiler: CCompilerConfig(
-        cc: fakeClang,
-        ld: fakeLd,
-        ar: fakeAr,
+        compiler: fakeClang,
+        linker: fakeLd,
+        archiver: fakeAr,
       ),
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferDynamic,

@@ -57,9 +57,9 @@ void main() async {
       targetOS: OSImpl.iOS,
       targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
-        cc: fakeClang,
-        ld: fakeLd,
-        ar: fakeAr,
+        compiler: fakeClang,
+        linker: fakeLd,
+        archiver: fakeAr,
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -83,9 +83,9 @@ void main() async {
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
     expect(config1.targetOS != config2.targetOS, true);
     expect(config1.targetIOSSdk != config2.targetIOSSdk, true);
-    expect(config1.cCompiler.cc != config2.cCompiler.cc, true);
-    expect(config1.cCompiler.ld != config2.cCompiler.ld, true);
-    expect(config1.cCompiler.ar != config2.cCompiler.ar, true);
+    expect(config1.cCompiler.compiler != config2.cCompiler.compiler, true);
+    expect(config1.cCompiler.linker != config2.cCompiler.linker, true);
+    expect(config1.cCompiler.archiver != config2.cCompiler.archiver, true);
     expect(config1.cCompiler.envScript == config2.cCompiler.envScript, true);
     expect(config1.cCompiler.envScriptArgs == config2.cCompiler.envScriptArgs,
         true);
@@ -154,8 +154,8 @@ void main() async {
       targetOS: OSImpl.iOS,
       targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
-        cc: fakeClang,
-        ld: fakeLd,
+        compiler: fakeClang,
+        linker: fakeLd,
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -222,8 +222,8 @@ void main() async {
       targetOS: OSImpl.iOS,
       targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
-        cc: fakeClang,
-        ld: fakeLd,
+        compiler: fakeClang,
+        linker: fakeLd,
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -301,8 +301,8 @@ version: 1.0.0''';
       targetOS: OSImpl.iOS,
       targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
-        cc: fakeClang,
-        ld: fakeLd,
+        compiler: fakeClang,
+        linker: fakeLd,
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -421,8 +421,8 @@ version: 1.0.0''';
       targetOS: OSImpl.iOS,
       targetIOSSdk: IOSSdkImpl.iPhoneOS,
       cCompiler: CCompilerConfigImpl(
-        cc: fakeClang,
-        ld: fakeLd,
+        compiler: fakeClang,
+        linker: fakeLd,
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
@@ -488,7 +488,7 @@ version: 1.0.0''';
       targetArchitecture: ArchitectureImpl.x64,
       targetOS: OSImpl.windows,
       cCompiler: CCompilerConfigImpl(
-        cc: fakeCl,
+        compiler: fakeCl,
         envScript: fakeVcVars,
         envScriptArgs: ['x64'],
       ),
@@ -568,7 +568,7 @@ version: 1.0.0''';
           buildMode: BuildModeImpl.release,
           linkModePreference: LinkModePreferenceImpl.dynamic,
           cCompiler: CCompilerConfigImpl(
-            cc: fakeClangUri,
+            compiler: fakeClangUri,
           ));
       printOnFailure([name1, name3].toString());
       expect(name1 != name3, true);

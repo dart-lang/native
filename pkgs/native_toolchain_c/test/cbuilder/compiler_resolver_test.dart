@@ -49,17 +49,17 @@ void main() {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        ar: ar,
-        cc: cc,
-        ld: ld,
+        archiver: ar,
+        compiler: cc,
+        linker: ld,
         envScript: envScript,
       ),
     );
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.cCompiler.cc);
-    expect(archiver.uri, buildConfig.cCompiler.ar);
+    expect(compiler.uri, buildConfig.cCompiler.compiler);
+    expect(archiver.uri, buildConfig.cCompiler.archiver);
   });
 
   test('No compiler found', () async {

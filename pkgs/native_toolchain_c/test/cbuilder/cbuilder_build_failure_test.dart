@@ -38,7 +38,7 @@ void main() {
       linkModePreference: LinkModePreference.dynamic,
       buildMode: BuildMode.release,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),

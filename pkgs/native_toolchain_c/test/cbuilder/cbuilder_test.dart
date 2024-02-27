@@ -53,7 +53,7 @@ void main() {
           // Ignored by executables.
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: CCompilerConfig(
-            cc: cc,
+            compiler: cc,
             envScript: envScript,
             envScriptArgs: envScriptArgs,
           ),
@@ -131,7 +131,7 @@ void main() {
                 buildMode: BuildMode.release,
                 linkModePreference: LinkModePreference.dynamic,
                 cCompiler: CCompilerConfig(
-                  cc: cc,
+                  compiler: cc,
                   envScript: envScript,
                   envScriptArgs: envScriptArgs,
                 ),
@@ -224,7 +224,7 @@ void main() {
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -281,7 +281,7 @@ void main() {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -326,7 +326,7 @@ void main() {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -385,7 +385,7 @@ void main() {
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -449,7 +449,7 @@ void main() {
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -520,7 +520,7 @@ Future<void> testDefines({
     // Ignored by executables.
     linkModePreference: LinkModePreference.dynamic,
     cCompiler: CCompilerConfig(
-      cc: cc,
+      compiler: cc,
       envScript: envScript,
       envScriptArgs: envScriptArgs,
     ),

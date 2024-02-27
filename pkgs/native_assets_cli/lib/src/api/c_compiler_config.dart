@@ -7,24 +7,25 @@ part of 'build_config.dart';
 /// The configuration for a C toolchain.
 abstract final class CCompilerConfig {
   /// Path to a C compiler.
-  Uri? get cc;
+  Uri? get compiler;
 
   /// Path to a native linker.
-  Uri? get ld;
+  Uri? get linker;
 
   /// Path to a native archiver.
-  Uri? get ar;
+  Uri? get archiver;
 
-  /// Path to script that sets environment variables for [cc], [ld], and [ar].
+  /// Path to script that sets environment variables for [compiler], [linker],
+  /// and [archiver].
   Uri? get envScript;
 
   /// Arguments for [envScript].
   List<String>? get envScriptArgs;
 
   factory CCompilerConfig({
-    Uri? ar,
-    Uri? cc,
-    Uri? ld,
+    Uri? archiver,
+    Uri? compiler,
+    Uri? linker,
     Uri? envScript,
     List<String>? envScriptArgs,
   }) = CCompilerConfigImpl;

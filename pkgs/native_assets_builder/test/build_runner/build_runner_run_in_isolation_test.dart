@@ -53,11 +53,11 @@ void main() async {
         dartExecutable,
         // Manually pass in a compiler.
         cCompilerConfig: CCompilerConfigImpl(
-          ar: Platform.environment[arKey]?.fileUri,
-          cc: cc,
+          archiver: Platform.environment[arKey]?.fileUri,
+          compiler: cc,
           envScript: Platform.environment[envScriptKey]?.fileUri,
           envScriptArgs: Platform.environment[envScriptArgsKey]?.split(' '),
-          ld: Platform.environment[ldKey]?.fileUri,
+          linker: Platform.environment[ldKey]?.fileUri,
         ),
         // Prevent any other environment variables.
         includeParentEnvironment: false,

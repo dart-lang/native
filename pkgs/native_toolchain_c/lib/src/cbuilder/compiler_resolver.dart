@@ -97,7 +97,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
-    final configCcUri = buildConfig.cCompiler.cc;
+    final configCcUri = buildConfig.cCompiler.compiler;
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
       logger?.finer('Using compiler ${configCcUri.toFilePath()} '
@@ -182,7 +182,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
-    final configArUri = buildConfig.cCompiler.ar;
+    final configArUri = buildConfig.cCompiler.archiver;
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
       logger?.finer('Using archiver ${configArUri.toFilePath()} '
