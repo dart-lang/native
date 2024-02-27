@@ -10,7 +10,6 @@ import com.github.dart_lang.jnigen.apisummarizer.elements.*;
 import com.github.dart_lang.jnigen.apisummarizer.util.SkipException;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
 import java.util.*;
-import java.util.stream.Collectors;
 import org.objectweb.asm.*;
 import org.objectweb.asm.signature.SignatureReader;
 
@@ -23,11 +22,11 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     return param;
   }
 
-  public List<ClassDecl> getVisited() {
+  public Map<String, ClassDecl> getVisited() {
     return visited;
   }
 
-  List<ClassDecl> visited = new ArrayList<>();
+  Map<String, ClassDecl> visited = new HashMap<>();
   Stack<ClassDecl> visiting = new Stack<>();
 
   /// Actual access for the inner classes as originally defined.
@@ -64,14 +63,11 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
   public void visitInnerClass(String name, String outerName, String innerName, int access) {
     var binaryName = name.replace('/', '.');
     actualAccess.put(binaryName, access);
-    var alreadyVisitedInnerClass =
-        visited.stream()
-            .filter(decl -> decl.binaryName.equals(binaryName))
-            .collect(Collectors.toList());
-    // If the order of visit is outer first inner second.
-    // We still want to correct the modifiers.
-    if (!alreadyVisitedInnerClass.isEmpty()) {
-      alreadyVisitedInnerClass.get(0).modifiers = TypeUtils.access(access);
+
+    if (visited.containsKey(binaryName)) {
+      // If the order of visit is outer first inner second.
+      // We still want to correct the modifiers.
+      visited.get(binaryName).modifiers = TypeUtils.access(access);
     }
   }
 
@@ -159,7 +155,8 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
 
   @Override
   public void visitEnd() {
-    visited.add(popVisiting());
+    var classToAdd = popVisiting();
+    visited.put(classToAdd.binaryName, classToAdd);
   }
 
   private ClassDecl peekVisiting() {

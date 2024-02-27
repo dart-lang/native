@@ -145,9 +145,12 @@ void main() async {
   group('Test summary generation from combination', () {
     final targetDir = tempDir.createTempSync("combination_test_");
     final classesJarPath = join(targetDir.path, 'classes.jar');
-    // remove a class from source files and create a source JAR
     final sourceFiles = javaFiles.toList();
-    sourceFiles.removeLast();
+    // Remove com/github/dart_lang/jnigen/pkg2/Example.java.
+    // Instead we expect the summary to find this class from the
+    // [classesJarPath].
+    sourceFiles.removeWhere((element) =>
+        element.contains('pkg2') && element.contains('Example.java'));
     final sourceJarPath = join(targetDir.path, 'sources.jar');
     setUpAll(() async {
       await createJar(

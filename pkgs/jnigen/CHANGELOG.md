@@ -5,6 +5,8 @@
 - **Breaking Change** ([#792](https://github.com/dart-lang/native/issues/792)]):
   `static final String` fields get converted to `JString` getters instead of
   `static const String` fields in Dart.
+- Fixed a bug where a package would either be searched from sources or classes
+  but not both.
 
 ## 0.7.0
 

@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
+import java.util.Map;
 
 public class JsonWriter {
-  public static void writeJSON(List<ClassDecl> classes, OutputStream output) {
+  public static void writeJSON(Map<String, ClassDecl> classes, OutputStream output) {
     var mapper = new ObjectMapper();
     Log.info("Writing JSON for %d classes", classes.size());
     mapper.enable(SerializationFeature.INDENT_OUTPUT);

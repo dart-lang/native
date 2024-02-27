@@ -63,7 +63,6 @@ public class ClassFinder {
       classes.add(fqnWithSlashesSuffix);
       return Optional.of(classes);
     }
-
     // consider fqnWithSlashes as a directory
     List<String> children =
         entries.tailSet(fqnWithSlashesSlash).stream()
@@ -77,9 +76,9 @@ public class ClassFinder {
   }
 
   public static <E> void findFilesInPath(
+      Map<String, List<E>> classes,
       String searchLocation,
       String suffix,
-      Map<String, List<E>> classes,
       Function<List<Path>, List<E>> mapper) {
     Path searchPath = Path.of(searchLocation);
 
@@ -142,7 +141,7 @@ public class ClassFinder {
     for (var searchPath : searchPaths) {
       File searchFile = new File(searchPath);
       if (searchFile.isDirectory()) {
-        findFilesInPath(searchPath, suffix, classes, fileMapper);
+        findFilesInPath(classes, searchPath, suffix, fileMapper);
       } else if (searchFile.isFile() && searchPath.endsWith(".jar")) {
         var jarFile = wrapCheckedException(JarFile::new, searchPath);
         var useful = findFilesInJar(classes, jarFile, suffix, entryMapper);
