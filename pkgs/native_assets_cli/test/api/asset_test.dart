@@ -10,7 +10,7 @@ void main() {
   test('Asset constructors', () async {
     final assets = [
       CCodeAsset(
-        id: 'foo',
+        id: 'package:my_package/foo',
         file: Uri.file('path/to/libfoo.so'),
         dynamicLoading: BundledDylib(),
         os: OS.android,
@@ -18,28 +18,28 @@ void main() {
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'foo3',
+        id: 'package:my_package/foo3',
         dynamicLoading: SystemDylib(Uri(path: 'libfoo3.so')),
         os: OS.android,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'foo4',
+        id: 'package:my_package/foo4',
         dynamicLoading: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'foo5',
+        id: 'package:my_package/foo5',
         dynamicLoading: LookupInProcess(),
         os: OS.android,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'bar',
+        id: 'package:my_package/bar',
         file: Uri(path: 'path/to/libbar.a'),
         dynamicLoading: BundledDylib(),
         os: OS.linux,
@@ -47,7 +47,7 @@ void main() {
         linkMode: LinkMode.static,
       ),
       CCodeAsset(
-        id: 'bla',
+        id: 'package:my_package/bla',
         file: Uri(path: 'path/with spaces/bla.dll'),
         dynamicLoading: BundledDylib(),
         os: OS.windows,

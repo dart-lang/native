@@ -18,7 +18,7 @@ void main() {
   final data2Uri = Uri.file('path/to/data.json');
   final cCodeAssets = [
     CCodeAssetImpl(
-      id: 'foo',
+      id: 'package:my_package/foo',
       file: fooUri,
       dynamicLoading: BundledDylibImpl(),
       os: OSImpl.android,
@@ -26,28 +26,28 @@ void main() {
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
-      id: 'foo3',
+      id: 'package:my_package/foo3',
       dynamicLoading: SystemDylibImpl(foo3Uri),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
-      id: 'foo4',
+      id: 'package:my_package/foo4',
       dynamicLoading: LookupInExecutableImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
-      id: 'foo5',
+      id: 'package:my_package/foo5',
       dynamicLoading: LookupInProcessImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
     CCodeAssetImpl(
-      id: 'bar',
+      id: 'package:my_package/bar',
       file: barUri,
       dynamicLoading: BundledDylibImpl(),
       os: OSImpl.linux,
@@ -55,7 +55,7 @@ void main() {
       linkMode: LinkModeImpl.static,
     ),
     CCodeAssetImpl(
-      id: 'bla',
+      id: 'package:my_package/bla',
       file: blaUri,
       dynamicLoading: BundledDylibImpl(),
       os: OSImpl.windows,
@@ -65,11 +65,11 @@ void main() {
   ];
   final dataAssets = [
     DataAssetImpl(
-      id: 'my_data_asset',
+      id: 'package:my_package/my_data_asset',
       file: dataUri,
     ),
     DataAssetImpl(
-      id: 'my_data_asset2',
+      id: 'package:my_package/my_data_asset2',
       file: data2Uri,
     ),
   ];
@@ -78,35 +78,35 @@ void main() {
     ...dataAssets,
   ];
 
-  final assetsYamlEncodingV1_0_0 = '''- id: foo
+  final assetsYamlEncodingV1_0_0 = '''- id: package:my_package/foo
   link_mode: dynamic
   path:
     path_type: absolute
     uri: ${fooUri.toFilePath()}
   target: android_x64
-- id: foo3
+- id: package:my_package/foo3
   link_mode: dynamic
   path:
     path_type: system
     uri: ${foo3Uri.toFilePath()}
   target: android_x64
-- id: foo4
+- id: package:my_package/foo4
   link_mode: dynamic
   path:
     path_type: executable
   target: android_x64
-- id: foo5
+- id: package:my_package/foo5
   link_mode: dynamic
   path:
     path_type: process
   target: android_x64
-- id: bar
+- id: package:my_package/bar
   link_mode: static
   path:
     path_type: absolute
     uri: ${barUri.toFilePath()}
   target: linux_arm64
-- id: bla
+- id: package:my_package/bla
   link_mode: dynamic
   path:
     path_type: absolute
@@ -117,7 +117,7 @@ void main() {
   dynamic_loading:
     type: bundle
   file: ${fooUri.toFilePath()}
-  id: foo
+  id: package:my_package/foo
   link_mode: dynamic
   os: android
   type: c_code
@@ -125,21 +125,21 @@ void main() {
   dynamic_loading:
     type: system
     uri: ${foo3Uri.toFilePath()}
-  id: foo3
+  id: package:my_package/foo3
   link_mode: dynamic
   os: android
   type: c_code
 - architecture: x64
   dynamic_loading:
     type: executable
-  id: foo4
+  id: package:my_package/foo4
   link_mode: dynamic
   os: android
   type: c_code
 - architecture: x64
   dynamic_loading:
     type: process
-  id: foo5
+  id: package:my_package/foo5
   link_mode: dynamic
   os: android
   type: c_code
@@ -147,7 +147,7 @@ void main() {
   dynamic_loading:
     type: bundle
   file: ${barUri.toFilePath()}
-  id: bar
+  id: package:my_package/bar
   link_mode: static
   os: linux
   type: c_code
@@ -155,14 +155,14 @@ void main() {
   dynamic_loading:
     type: bundle
   file: ${blaUri.toFilePath()}
-  id: bla
+  id: package:my_package/bla
   link_mode: dynamic
   os: windows
   type: c_code
-- id: my_data_asset
+- id: package:my_package/my_data_asset
   file: ${dataUri.toFilePath()}
   type: data
-- id: my_data_asset2
+- id: package:my_package/my_data_asset2
   file: ${data2Uri.toFilePath()}
   type: data''';
 
