@@ -113,11 +113,4 @@ abstract final class BuildOutput {
   /// The build output is used in the protocol between the Dart and Flutter SDKs
   /// and packages through `build.dart` invocations.
   static Version get latestVersion => BuildOutputImpl.latestVersion;
-
-  /// Write out this build output to a file inside
-  /// [BuildConfig.outputDirectory].
-  ///
-  /// This takes into account the [BuildConfig.latestVersion] to write the build
-  /// output in a format the SDK that invoked the script supports.
-  // Future<void> writeToFile({required BuildConfig config});
 }
