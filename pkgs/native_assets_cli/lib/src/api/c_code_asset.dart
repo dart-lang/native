@@ -9,11 +9,25 @@ part of 'asset.dart';
 /// Typical other languages which produce code assets that respect the C ABI
 /// include C++ and Rust.
 ///
+/// C code assets can be accessed at runtime through native external functions
+/// via their asset [id]:
+///
+/// ```dart
+/// import 'dart:ffi';
+///
+/// void main() {
+///   final result = add(14, 28);
+///   print(result);
+/// }
+///
+/// @Native<Int Function(Int, Int)>(assetId: 'package:my_package/add.dart')
+/// external int add(int a, int b);
+/// ```
+///
 /// There are several types of C code assets:
 /// * Assets which designate symbols present in the target system
 ///   ([SystemDylib]), process ([LookupInProcess]), or executable
-///   ([LookupInExecutable]). These assets are identified by their [id], and do
-///   not have a [file].
+///   ([LookupInExecutable]). These assets do not have a [file].
 /// * Dynamic libraries bundled into the application ([BundledDylib]). These
 ///   assets must provide a [file] to be bundled.
 ///
@@ -28,9 +42,6 @@ part of 'asset.dart';
 /// target system ([SystemDylib]). If the asset is bundled "manually", the Dart
 /// or Flutter SDK will take care of copying the asset [file] from its specified
 /// location on the current system into the application bundle.
-///
-/// Assets are also called "native assets" to differentiate them from the Dart
-/// code also bundled with an application.
 abstract final class CCodeAsset implements Asset {
   /// The operating system this asset can run on.
   OS get os;
