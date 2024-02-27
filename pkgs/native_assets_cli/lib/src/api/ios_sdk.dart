@@ -5,8 +5,6 @@
 part '../model/ios_sdk.dart';
 
 /// For an iOS target, a build is either done for the device or the simulator.
-///
-/// Only fat binaries or xcframeworks can contain both targets.
 abstract final class IOSSdk {
   /// The iphoneos SDK in Xcode.
   ///
