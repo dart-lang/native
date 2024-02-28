@@ -58,7 +58,8 @@ abstract final class BuildConfig {
   ///
   /// Required when [targetOS] equals [OS.iOS].
   ///
-  /// Not available during a [dryRun].
+  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
+  /// during a [dryRun].
   IOSSdk? get targetIOSSdk;
 
   /// When compiling for Android, the minimum Android SDK API version to that
@@ -66,7 +67,8 @@ abstract final class BuildConfig {
   ///
   /// Required when [targetOS] equals [OS.android].
   ///
-  /// Not available during a [dryRun].
+  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
+  /// during a [dryRun].
   ///
   /// For more information about the Android API version, refer to
   /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
@@ -82,12 +84,14 @@ abstract final class BuildConfig {
   ///
   /// Returns `null` if metadata was not provided.
   ///
-  /// Not available during a [dryRun].
+  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
+  /// during a [dryRun].
   Object? metadatum(String packageName, String key);
 
   /// The configuration for invoking the C compiler.
   ///
-  /// Not available during a [dryRun].
+  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
+  /// during a [dryRun].
   CCompilerConfig get cCompiler;
 
   /// Indicates whether a run should build (wet run) or report potential assets
@@ -99,7 +103,8 @@ abstract final class BuildConfig {
 
   /// The build mode that the code should be compiled in.
   ///
-  /// Not available during a [dryRun].
+  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
+  /// during a [dryRun].
   BuildMode get buildMode;
 
   /// The asset types the invoker of this build supports.
