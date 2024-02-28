@@ -61,7 +61,7 @@ void main() {
     assets.toString();
   });
 
-  test('LinkMode state errors', () {
+  test('Errors', () {
     expect(
       () => CCodeAsset(
         id: 'package:my_package/foo',
@@ -77,6 +77,17 @@ void main() {
       () => CCodeAsset(
         id: 'package:my_package/foo',
         file: Uri.file('path/to/libfoo.so'),
+        os: OS.android,
+        architecture: Architecture.x64,
+        linkMode: LinkMode.dynamic,
+      ),
+      throwsArgumentError,
+    );
+    expect(
+      () => CCodeAsset(
+        id: 'package:my_package/foo',
+        file: Uri.file('path/to/libfoo.so'),
+        dynamicLoading: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,

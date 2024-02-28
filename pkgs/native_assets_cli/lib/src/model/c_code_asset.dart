@@ -169,6 +169,15 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
         'Must be null if linkMode == LinkMode.static.',
       );
     }
+    if (linkMode == LinkMode.dynamic &&
+        dynamicLoading is! BundledDylib &&
+        file != null) {
+      throw ArgumentError.value(
+        file,
+        'file',
+        'Must be null if dynamicLoading is not BundledDylib.',
+      );
+    }
   }
 
   factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) {

@@ -57,8 +57,19 @@ abstract final class CCodeAsset implements Asset {
   LinkMode get linkMode;
 
   /// The dynamic loading method when the [linkMode] is [LinkMode.dynamic].
+  ///
+  /// Throws a [StateError] when accessed with [linkMode] is [LinkMode.static].
   DynamicLoading get dynamicLoading;
 
+  /// Consructs a c code asset.
+  ///
+  /// If [linkMode] is [LinkMode.dynamic], a non-null [dynamicLoading] must be
+  /// provided. If [linkMode] is [LinkMode.static], [dynamicLoading] must not be
+  /// provided.
+  ///
+  /// If [linkMode] is [LinkMode.dynamic] and[dynamicLoading] is not
+  /// [BundledDylib], a [file] must not be provided. If [dynamicLoading] is
+  /// [BundledDylib], a [file] must be provided in non-[BuildConfig.dryRun]s.
   factory CCodeAsset({
     required String id,
     required LinkMode linkMode,
