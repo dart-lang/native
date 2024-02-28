@@ -90,7 +90,8 @@ abstract final class BuildConfig {
   /// Not available during a [dryRun].
   CCompilerConfig get cCompiler;
 
-  /// Whether the current run is a "dry run".
+  /// Indicates whether a run should build (wet run) or report potential assets
+  /// (dry run).
   ///
   /// If so, the build won't actually be run, but will report the native assets
   /// which would have been produced.

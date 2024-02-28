@@ -23,4 +23,3 @@ export 'src/api/ios_sdk.dart' show IOSSdk;
 export 'src/api/link_mode.dart' show LinkMode;
 export 'src/api/link_mode_preference.dart' show LinkModePreference;
 export 'src/api/os.dart' show OS;
-// export 'src/api/target.dart' show Target;
