@@ -67,7 +67,7 @@ abstract final class CCodeAsset implements Asset {
   /// provided. If [linkMode] is [LinkMode.static], [dynamicLoading] must not be
   /// provided.
   ///
-  /// If [linkMode] is [LinkMode.dynamic] and[dynamicLoading] is not
+  /// If [linkMode] is [LinkMode.dynamic] and [dynamicLoading] is not
   /// [BundledDylib], a [file] must not be provided. If [dynamicLoading] is
   /// [BundledDylib], a [file] must be provided in non-[BuildConfig.dryRun]s.
   factory CCodeAsset({
