@@ -41,7 +41,6 @@ void main() {
       CCodeAsset(
         id: 'package:my_package/bar',
         file: Uri(path: 'path/to/libbar.a'),
-        dynamicLoading: BundledDylib(),
         os: OS.linux,
         architecture: Architecture.arm64,
         linkMode: LinkMode.static,
@@ -60,5 +59,41 @@ void main() {
       ),
     ];
     assets.toString();
+  });
+
+  test('LinkMode state errors', () {
+    expect(
+      () => CCodeAsset(
+        id: 'package:my_package/foo',
+        file: Uri.file('path/to/libfoo.so'),
+        dynamicLoading: BundledDylib(),
+        os: OS.android,
+        architecture: Architecture.x64,
+        linkMode: LinkMode.static,
+      ),
+      throwsArgumentError,
+    );
+    expect(
+      () => CCodeAsset(
+        id: 'package:my_package/foo',
+        file: Uri.file('path/to/libfoo.so'),
+        os: OS.android,
+        architecture: Architecture.x64,
+        linkMode: LinkMode.dynamic,
+      ),
+      throwsArgumentError,
+    );
+
+    final staticLinkingAsset = CCodeAsset(
+      id: 'package:my_package/foo',
+      file: Uri.file('path/to/libfoo.so'),
+      os: OS.android,
+      architecture: Architecture.x64,
+      linkMode: LinkMode.static,
+    );
+    expect(
+      () => staticLinkingAsset.dynamicLoading,
+      throwsStateError,
+    );
   });
 }

@@ -132,7 +132,14 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
   final String id;
 
   @override
-  final DynamicLoadingImpl dynamicLoading;
+  DynamicLoadingImpl get dynamicLoading {
+    if (linkMode == LinkMode.static) {
+      throw StateError('LinkMode is LinkMode.static.');
+    }
+    return _dynamicLoading!;
+  }
+
+  final DynamicLoadingImpl? _dynamicLoading;
 
   @override
   final OSImpl os;
@@ -145,14 +152,32 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
     required this.id,
     required this.linkMode,
     required this.os,
-    required this.dynamicLoading,
+    DynamicLoadingImpl? dynamicLoading,
     this.architecture,
-  });
+  }) : _dynamicLoading = dynamicLoading {
+    if (linkMode == LinkMode.dynamic && dynamicLoading == null) {
+      throw ArgumentError.value(
+        dynamicLoading,
+        'dynamicLoading',
+        'Must not be null if linkMode == LinkMode.dynamic.',
+      );
+    }
+    if (linkMode == LinkMode.static && dynamicLoading != null) {
+      throw ArgumentError.value(
+        dynamicLoading,
+        'dynamicLoading',
+        'Must be null if linkMode == LinkMode.static.',
+      );
+    }
+  }
 
   factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) {
-    final dynamicLoading = DynamicLoadingImpl.fromYaml(
-      as<YamlMap>(yamlMap[_dynamicLoadingKey] ?? yamlMap[_pathKey]),
-    );
+    final linkMode = LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey]));
+    final dynamicLoadingYaml =
+        as<YamlMap?>(yamlMap[_dynamicLoadingKey] ?? yamlMap[_pathKey]);
+    final dynamicLoading = dynamicLoadingYaml == null
+        ? null
+        : DynamicLoadingImpl.fromYaml(dynamicLoadingYaml);
     final fileString = as<String?>(yamlMap[_fileKey]);
     final Uri? file;
     if (fileString != null) {
@@ -183,12 +208,13 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
         architecture = null;
       }
     }
+
     return CCodeAssetImpl(
       id: as<String>(yamlMap[_idKey]),
-      dynamicLoading: dynamicLoading,
+      dynamicLoading: linkMode == LinkMode.dynamic ? dynamicLoading : null,
       os: os,
       architecture: architecture,
-      linkMode: LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey])),
+      linkMode: linkMode,
       file: file,
     );
   }
@@ -219,7 +245,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
         other.linkMode == linkMode &&
         other.architecture == architecture &&
         other.os == os &&
-        other.dynamicLoading == dynamicLoading &&
+        other._dynamicLoading == _dynamicLoading &&
         other.file == file;
   }
 
@@ -229,7 +255,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
         linkMode,
         architecture,
         os,
-        dynamicLoading,
+        _dynamicLoading,
         file,
       );
 
@@ -245,7 +271,8 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
     }
     return {
       if (architecture != null) _architectureKey: architecture.toString(),
-      _dynamicLoadingKey: dynamicLoading.toYaml(version, file),
+      if (linkMode == LinkMode.dynamic)
+        _dynamicLoadingKey: dynamicLoading.toYaml(version, file),
       if (file != null) _fileKey: file!.toFilePath(),
       _idKey: id,
       _linkModeKey: linkMode.name,

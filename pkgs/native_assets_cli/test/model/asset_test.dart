@@ -49,7 +49,6 @@ void main() {
     CCodeAssetImpl(
       id: 'package:my_package/bar',
       file: barUri,
-      dynamicLoading: BundledDylibImpl(),
       os: OSImpl.linux,
       architecture: ArchitectureImpl.arm64,
       linkMode: LinkModeImpl.static,
@@ -144,8 +143,6 @@ void main() {
   os: android
   type: c_code
 - architecture: arm64
-  dynamic_loading:
-    type: bundle
   file: ${barUri.toFilePath()}
   id: package:my_package/bar
   link_mode: static

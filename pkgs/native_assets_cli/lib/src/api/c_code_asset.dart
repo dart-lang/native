@@ -63,7 +63,7 @@ abstract final class CCodeAsset implements Asset {
     required String id,
     required LinkMode linkMode,
     required OS os,
-    required DynamicLoading dynamicLoading,
+    DynamicLoading? dynamicLoading,
     Uri? file,
     Architecture? architecture,
   }) =>
@@ -72,7 +72,7 @@ abstract final class CCodeAsset implements Asset {
         linkMode: linkMode as LinkModeImpl,
         os: os as OSImpl,
         architecture: architecture as ArchitectureImpl?,
-        dynamicLoading: dynamicLoading as DynamicLoadingImpl,
+        dynamicLoading: dynamicLoading as DynamicLoadingImpl?,
         file: file,
       );
 
