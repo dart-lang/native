@@ -62,7 +62,7 @@ public class SummarizerDoclet implements Doclet {
 
   public class SummarizingScanner extends ElementScanner9<Void, SummaryCollector> {
     List<Package> packages = new ArrayList<>();
-    Map<String, ClassDecl> types = new HashMap<>();
+    Map<String, ClassDecl> types = new LinkedHashMap<>();
     ElementBuilders builders = new ElementBuilders(utils);
 
     // Each element in collector is a stack

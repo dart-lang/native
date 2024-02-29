@@ -26,7 +26,7 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     return visited;
   }
 
-  Map<String, ClassDecl> visited = new HashMap<>();
+  Map<String, ClassDecl> visited = new LinkedHashMap<>();
   Stack<ClassDecl> visiting = new Stack<>();
 
   /// Actual access for the inner classes as originally defined.
@@ -65,8 +65,8 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     actualAccess.put(binaryName, access);
 
     if (visited.containsKey(binaryName)) {
-      // If the order of visit is outer first inner second.
-      // We still want to correct the modifiers.
+      // If the order of visit is outerClass-first, innerClass-second then only
+      // correct the modifiers.
       visited.get(binaryName).modifiers = TypeUtils.access(access);
     }
   }

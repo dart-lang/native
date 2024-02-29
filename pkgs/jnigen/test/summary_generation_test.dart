@@ -171,6 +171,24 @@ void main() async {
       classPath: [classesJarPath],
       sourcePath: [sourceJarPath],
     );
+    test('Prefer source over bytecode for generation', () async {
+      final config = getSummaryGenerationConfig(
+          sourcePath: [sourceJarPath], classPath: [classesJarPath]);
+      final classes = await getSummary(config);
+      // Fully qualified name for a class that exists both in .class and in
+      // .java formats.
+      const binaryName = 'com.github.dart_lang.jnigen.simple_package.Example';
+      final addIntsMethod = classes.decls[binaryName]!.methods
+          .firstWhere((method) => method.name == 'addInts');
+      // No method parameter name remains in the bytecode. Instead generic names
+      // are used. [addInts] method has two parameters named `a` and `b`.
+      // Checking if these two names are preserved, which means that the source
+      // is used for summary when both source and the bytecode exist.
+      expect(
+        addIntsMethod.params.map((param) => param.name).toList(),
+        ['a', 'b'],
+      );
+    });
   });
 
   tearDownAll(() => deleteTempDirWithDelay(tempDir));

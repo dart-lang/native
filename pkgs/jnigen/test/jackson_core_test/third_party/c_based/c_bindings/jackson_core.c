@@ -32,6 +32,114 @@ void setJniGetters(JniContext* (*cg)(void), JNIEnv* (*eg)(void)) {
   env_getter = eg;
 }
 
+// com.fasterxml.jackson.core.JsonFactory$Feature
+jclass _c_JsonFactory_Feature = NULL;
+
+jmethodID _m_JsonFactory_Feature__values = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonFactory_Feature__values() {
+  load_env();
+  load_class_global_ref(&_c_JsonFactory_Feature,
+                        "com/fasterxml/jackson/core/JsonFactory$Feature");
+  if (_c_JsonFactory_Feature == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__values,
+                     "values",
+                     "()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
+  if (_m_JsonFactory_Feature__values == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_JsonFactory_Feature, _m_JsonFactory_Feature__values);
+  return to_global_ref_result(_result);
+}
+
+jmethodID _m_JsonFactory_Feature__valueOf = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonFactory_Feature__valueOf(jobject name) {
+  load_env();
+  load_class_global_ref(&_c_JsonFactory_Feature,
+                        "com/fasterxml/jackson/core/JsonFactory$Feature");
+  if (_c_JsonFactory_Feature == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_method(
+      _c_JsonFactory_Feature, &_m_JsonFactory_Feature__valueOf, "valueOf",
+      "(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
+  if (_m_JsonFactory_Feature__valueOf == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_JsonFactory_Feature, _m_JsonFactory_Feature__valueOf, name);
+  return to_global_ref_result(_result);
+}
+
+jmethodID _m_JsonFactory_Feature__collectDefaults = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonFactory_Feature__collectDefaults() {
+  load_env();
+  load_class_global_ref(&_c_JsonFactory_Feature,
+                        "com/fasterxml/jackson/core/JsonFactory$Feature");
+  if (_c_JsonFactory_Feature == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_JsonFactory_Feature,
+                     &_m_JsonFactory_Feature__collectDefaults,
+                     "collectDefaults", "()I");
+  if (_m_JsonFactory_Feature__collectDefaults == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  int32_t _result = (*jniEnv)->CallStaticIntMethod(
+      jniEnv, _c_JsonFactory_Feature, _m_JsonFactory_Feature__collectDefaults);
+  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_JsonFactory_Feature__enabledByDefault = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonFactory_Feature__enabledByDefault(jobject self_) {
+  load_env();
+  load_class_global_ref(&_c_JsonFactory_Feature,
+                        "com/fasterxml/jackson/core/JsonFactory$Feature");
+  if (_c_JsonFactory_Feature == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__enabledByDefault,
+              "enabledByDefault", "()Z");
+  if (_m_JsonFactory_Feature__enabledByDefault == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_JsonFactory_Feature__enabledByDefault);
+  return (JniResult){.value = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_JsonFactory_Feature__enabledIn = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonFactory_Feature__enabledIn(jobject self_, int32_t flags) {
+  load_env();
+  load_class_global_ref(&_c_JsonFactory_Feature,
+                        "com/fasterxml/jackson/core/JsonFactory$Feature");
+  if (_c_JsonFactory_Feature == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__enabledIn,
+              "enabledIn", "(I)Z");
+  if (_m_JsonFactory_Feature__enabledIn == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  uint8_t _result = (*jniEnv)->CallBooleanMethod(
+      jniEnv, self_, _m_JsonFactory_Feature__enabledIn, flags);
+  return (JniResult){.value = {.z = _result}, .exception = check_exception()};
+}
+
+jmethodID _m_JsonFactory_Feature__getMask = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonFactory_Feature__getMask(jobject self_) {
+  load_env();
+  load_class_global_ref(&_c_JsonFactory_Feature,
+                        "com/fasterxml/jackson/core/JsonFactory$Feature");
+  if (_c_JsonFactory_Feature == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__getMask,
+              "getMask", "()I");
+  if (_m_JsonFactory_Feature__getMask == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  int32_t _result =
+      (*jniEnv)->CallIntMethod(jniEnv, self_, _m_JsonFactory_Feature__getMask);
+  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
+}
+
 // com.fasterxml.jackson.core.JsonFactory
 jclass _c_JsonFactory = NULL;
 
@@ -1466,112 +1574,152 @@ JniResult get_JsonFactory__DEFAULT_ROOT_VALUE_SEPARATOR() {
   return to_global_ref_result(_result);
 }
 
-// com.fasterxml.jackson.core.JsonFactory$Feature
-jclass _c_JsonFactory_Feature = NULL;
+// com.fasterxml.jackson.core.JsonParser$Feature
+jclass _c_JsonParser_Feature = NULL;
 
-jmethodID _m_JsonFactory_Feature__values = NULL;
+jmethodID _m_JsonParser_Feature__values = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory_Feature__values() {
+JniResult JsonParser_Feature__values() {
   load_env();
-  load_class_global_ref(&_c_JsonFactory_Feature,
-                        "com/fasterxml/jackson/core/JsonFactory$Feature");
-  if (_c_JsonFactory_Feature == NULL)
+  load_class_global_ref(&_c_JsonParser_Feature,
+                        "com/fasterxml/jackson/core/JsonParser$Feature");
+  if (_c_JsonParser_Feature == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__values,
+  load_static_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__values,
                      "values",
-                     "()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
-  if (_m_JsonFactory_Feature__values == NULL)
+                     "()[Lcom/fasterxml/jackson/core/JsonParser$Feature;");
+  if (_m_JsonParser_Feature__values == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_JsonFactory_Feature, _m_JsonFactory_Feature__values);
+      jniEnv, _c_JsonParser_Feature, _m_JsonParser_Feature__values);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_JsonFactory_Feature__valueOf = NULL;
+jmethodID _m_JsonParser_Feature__valueOf = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory_Feature__valueOf(jobject name) {
+JniResult JsonParser_Feature__valueOf(jobject name) {
   load_env();
-  load_class_global_ref(&_c_JsonFactory_Feature,
-                        "com/fasterxml/jackson/core/JsonFactory$Feature");
-  if (_c_JsonFactory_Feature == NULL)
+  load_class_global_ref(&_c_JsonParser_Feature,
+                        "com/fasterxml/jackson/core/JsonParser$Feature");
+  if (_c_JsonParser_Feature == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   load_static_method(
-      _c_JsonFactory_Feature, &_m_JsonFactory_Feature__valueOf, "valueOf",
-      "(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
-  if (_m_JsonFactory_Feature__valueOf == NULL)
+      _c_JsonParser_Feature, &_m_JsonParser_Feature__valueOf, "valueOf",
+      "(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;");
+  if (_m_JsonParser_Feature__valueOf == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_JsonFactory_Feature, _m_JsonFactory_Feature__valueOf, name);
+      jniEnv, _c_JsonParser_Feature, _m_JsonParser_Feature__valueOf, name);
   return to_global_ref_result(_result);
 }
 
-jmethodID _m_JsonFactory_Feature__collectDefaults = NULL;
+jmethodID _m_JsonParser_Feature__collectDefaults = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory_Feature__collectDefaults() {
+JniResult JsonParser_Feature__collectDefaults() {
   load_env();
-  load_class_global_ref(&_c_JsonFactory_Feature,
-                        "com/fasterxml/jackson/core/JsonFactory$Feature");
-  if (_c_JsonFactory_Feature == NULL)
+  load_class_global_ref(&_c_JsonParser_Feature,
+                        "com/fasterxml/jackson/core/JsonParser$Feature");
+  if (_c_JsonParser_Feature == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_JsonFactory_Feature,
-                     &_m_JsonFactory_Feature__collectDefaults,
-                     "collectDefaults", "()I");
-  if (_m_JsonFactory_Feature__collectDefaults == NULL)
+  load_static_method(_c_JsonParser_Feature,
+                     &_m_JsonParser_Feature__collectDefaults, "collectDefaults",
+                     "()I");
+  if (_m_JsonParser_Feature__collectDefaults == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   int32_t _result = (*jniEnv)->CallStaticIntMethod(
-      jniEnv, _c_JsonFactory_Feature, _m_JsonFactory_Feature__collectDefaults);
+      jniEnv, _c_JsonParser_Feature, _m_JsonParser_Feature__collectDefaults);
   return (JniResult){.value = {.i = _result}, .exception = check_exception()};
 }
 
-jmethodID _m_JsonFactory_Feature__enabledByDefault = NULL;
+jmethodID _m_JsonParser_Feature__enabledByDefault = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory_Feature__enabledByDefault(jobject self_) {
+JniResult JsonParser_Feature__enabledByDefault(jobject self_) {
   load_env();
-  load_class_global_ref(&_c_JsonFactory_Feature,
-                        "com/fasterxml/jackson/core/JsonFactory$Feature");
-  if (_c_JsonFactory_Feature == NULL)
+  load_class_global_ref(&_c_JsonParser_Feature,
+                        "com/fasterxml/jackson/core/JsonParser$Feature");
+  if (_c_JsonParser_Feature == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__enabledByDefault,
+  load_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__enabledByDefault,
               "enabledByDefault", "()Z");
-  if (_m_JsonFactory_Feature__enabledByDefault == NULL)
+  if (_m_JsonParser_Feature__enabledByDefault == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_JsonFactory_Feature__enabledByDefault);
+      jniEnv, self_, _m_JsonParser_Feature__enabledByDefault);
   return (JniResult){.value = {.z = _result}, .exception = check_exception()};
 }
 
-jmethodID _m_JsonFactory_Feature__enabledIn = NULL;
+jmethodID _m_JsonParser_Feature__enabledIn = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory_Feature__enabledIn(jobject self_, int32_t flags) {
+JniResult JsonParser_Feature__enabledIn(jobject self_, int32_t flags) {
   load_env();
-  load_class_global_ref(&_c_JsonFactory_Feature,
-                        "com/fasterxml/jackson/core/JsonFactory$Feature");
-  if (_c_JsonFactory_Feature == NULL)
+  load_class_global_ref(&_c_JsonParser_Feature,
+                        "com/fasterxml/jackson/core/JsonParser$Feature");
+  if (_c_JsonParser_Feature == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__enabledIn,
+  load_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__enabledIn,
               "enabledIn", "(I)Z");
-  if (_m_JsonFactory_Feature__enabledIn == NULL)
+  if (_m_JsonParser_Feature__enabledIn == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_JsonFactory_Feature__enabledIn, flags);
+      jniEnv, self_, _m_JsonParser_Feature__enabledIn, flags);
   return (JniResult){.value = {.z = _result}, .exception = check_exception()};
 }
 
-jmethodID _m_JsonFactory_Feature__getMask = NULL;
+jmethodID _m_JsonParser_Feature__getMask = NULL;
 FFI_PLUGIN_EXPORT
-JniResult JsonFactory_Feature__getMask(jobject self_) {
+JniResult JsonParser_Feature__getMask(jobject self_) {
   load_env();
-  load_class_global_ref(&_c_JsonFactory_Feature,
-                        "com/fasterxml/jackson/core/JsonFactory$Feature");
-  if (_c_JsonFactory_Feature == NULL)
+  load_class_global_ref(&_c_JsonParser_Feature,
+                        "com/fasterxml/jackson/core/JsonParser$Feature");
+  if (_c_JsonParser_Feature == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonFactory_Feature, &_m_JsonFactory_Feature__getMask,
-              "getMask", "()I");
-  if (_m_JsonFactory_Feature__getMask == NULL)
+  load_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__getMask, "getMask",
+              "()I");
+  if (_m_JsonParser_Feature__getMask == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   int32_t _result =
-      (*jniEnv)->CallIntMethod(jniEnv, self_, _m_JsonFactory_Feature__getMask);
+      (*jniEnv)->CallIntMethod(jniEnv, self_, _m_JsonParser_Feature__getMask);
   return (JniResult){.value = {.i = _result}, .exception = check_exception()};
+}
+
+// com.fasterxml.jackson.core.JsonParser$NumberType
+jclass _c_JsonParser_NumberType = NULL;
+
+jmethodID _m_JsonParser_NumberType__values = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonParser_NumberType__values() {
+  load_env();
+  load_class_global_ref(&_c_JsonParser_NumberType,
+                        "com/fasterxml/jackson/core/JsonParser$NumberType");
+  if (_c_JsonParser_NumberType == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_method(_c_JsonParser_NumberType,
+                     &_m_JsonParser_NumberType__values, "values",
+                     "()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
+  if (_m_JsonParser_NumberType__values == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_JsonParser_NumberType, _m_JsonParser_NumberType__values);
+  return to_global_ref_result(_result);
+}
+
+jmethodID _m_JsonParser_NumberType__valueOf = NULL;
+FFI_PLUGIN_EXPORT
+JniResult JsonParser_NumberType__valueOf(jobject name) {
+  load_env();
+  load_class_global_ref(&_c_JsonParser_NumberType,
+                        "com/fasterxml/jackson/core/JsonParser$NumberType");
+  if (_c_JsonParser_NumberType == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  load_static_method(
+      _c_JsonParser_NumberType, &_m_JsonParser_NumberType__valueOf, "valueOf",
+      "(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
+  if (_m_JsonParser_NumberType__valueOf == NULL)
+    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
+  jobject _result = (*jniEnv)->CallStaticObjectMethod(
+      jniEnv, _c_JsonParser_NumberType, _m_JsonParser_NumberType__valueOf,
+      name);
+  return to_global_ref_result(_result);
 }
 
 // com.fasterxml.jackson.core.JsonParser
@@ -3419,154 +3567,6 @@ JniResult get_JsonParser__DEFAULT_READ_CAPABILITIES() {
                     "Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;");
   jobject _result = (*jniEnv)->GetStaticObjectField(
       jniEnv, _c_JsonParser, _f_JsonParser__DEFAULT_READ_CAPABILITIES);
-  return to_global_ref_result(_result);
-}
-
-// com.fasterxml.jackson.core.JsonParser$Feature
-jclass _c_JsonParser_Feature = NULL;
-
-jmethodID _m_JsonParser_Feature__values = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_Feature__values() {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_Feature,
-                        "com/fasterxml/jackson/core/JsonParser$Feature");
-  if (_c_JsonParser_Feature == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__values,
-                     "values",
-                     "()[Lcom/fasterxml/jackson/core/JsonParser$Feature;");
-  if (_m_JsonParser_Feature__values == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_JsonParser_Feature, _m_JsonParser_Feature__values);
-  return to_global_ref_result(_result);
-}
-
-jmethodID _m_JsonParser_Feature__valueOf = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_Feature__valueOf(jobject name) {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_Feature,
-                        "com/fasterxml/jackson/core/JsonParser$Feature");
-  if (_c_JsonParser_Feature == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(
-      _c_JsonParser_Feature, &_m_JsonParser_Feature__valueOf, "valueOf",
-      "(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;");
-  if (_m_JsonParser_Feature__valueOf == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_JsonParser_Feature, _m_JsonParser_Feature__valueOf, name);
-  return to_global_ref_result(_result);
-}
-
-jmethodID _m_JsonParser_Feature__collectDefaults = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_Feature__collectDefaults() {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_Feature,
-                        "com/fasterxml/jackson/core/JsonParser$Feature");
-  if (_c_JsonParser_Feature == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_JsonParser_Feature,
-                     &_m_JsonParser_Feature__collectDefaults, "collectDefaults",
-                     "()I");
-  if (_m_JsonParser_Feature__collectDefaults == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  int32_t _result = (*jniEnv)->CallStaticIntMethod(
-      jniEnv, _c_JsonParser_Feature, _m_JsonParser_Feature__collectDefaults);
-  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
-}
-
-jmethodID _m_JsonParser_Feature__enabledByDefault = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_Feature__enabledByDefault(jobject self_) {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_Feature,
-                        "com/fasterxml/jackson/core/JsonParser$Feature");
-  if (_c_JsonParser_Feature == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__enabledByDefault,
-              "enabledByDefault", "()Z");
-  if (_m_JsonParser_Feature__enabledByDefault == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_JsonParser_Feature__enabledByDefault);
-  return (JniResult){.value = {.z = _result}, .exception = check_exception()};
-}
-
-jmethodID _m_JsonParser_Feature__enabledIn = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_Feature__enabledIn(jobject self_, int32_t flags) {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_Feature,
-                        "com/fasterxml/jackson/core/JsonParser$Feature");
-  if (_c_JsonParser_Feature == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__enabledIn,
-              "enabledIn", "(I)Z");
-  if (_m_JsonParser_Feature__enabledIn == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_JsonParser_Feature__enabledIn, flags);
-  return (JniResult){.value = {.z = _result}, .exception = check_exception()};
-}
-
-jmethodID _m_JsonParser_Feature__getMask = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_Feature__getMask(jobject self_) {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_Feature,
-                        "com/fasterxml/jackson/core/JsonParser$Feature");
-  if (_c_JsonParser_Feature == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_JsonParser_Feature, &_m_JsonParser_Feature__getMask, "getMask",
-              "()I");
-  if (_m_JsonParser_Feature__getMask == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  int32_t _result =
-      (*jniEnv)->CallIntMethod(jniEnv, self_, _m_JsonParser_Feature__getMask);
-  return (JniResult){.value = {.i = _result}, .exception = check_exception()};
-}
-
-// com.fasterxml.jackson.core.JsonParser$NumberType
-jclass _c_JsonParser_NumberType = NULL;
-
-jmethodID _m_JsonParser_NumberType__values = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_NumberType__values() {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_NumberType,
-                        "com/fasterxml/jackson/core/JsonParser$NumberType");
-  if (_c_JsonParser_NumberType == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(_c_JsonParser_NumberType,
-                     &_m_JsonParser_NumberType__values, "values",
-                     "()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
-  if (_m_JsonParser_NumberType__values == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_JsonParser_NumberType, _m_JsonParser_NumberType__values);
-  return to_global_ref_result(_result);
-}
-
-jmethodID _m_JsonParser_NumberType__valueOf = NULL;
-FFI_PLUGIN_EXPORT
-JniResult JsonParser_NumberType__valueOf(jobject name) {
-  load_env();
-  load_class_global_ref(&_c_JsonParser_NumberType,
-                        "com/fasterxml/jackson/core/JsonParser$NumberType");
-  if (_c_JsonParser_NumberType == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_static_method(
-      _c_JsonParser_NumberType, &_m_JsonParser_NumberType__valueOf, "valueOf",
-      "(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
-  if (_m_JsonParser_NumberType__valueOf == NULL)
-    return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(
-      jniEnv, _c_JsonParser_NumberType, _m_JsonParser_NumberType__valueOf,
-      name);
   return to_global_ref_result(_result);
 }
 

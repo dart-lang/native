@@ -33,9 +33,13 @@ class Classes implements Element<Classes> {
 
   final Map<String, ClassDecl> decls;
 
-  factory Classes.fromJson(Map<String, dynamic> json) {
-    return Classes(
-        json.map((key, value) => MapEntry(key, ClassDecl.fromJson(value))));
+  factory Classes.fromJson(List<dynamic> json) {
+    final decls = <String, ClassDecl>{};
+    for (final declJson in json) {
+      final classDecl = ClassDecl.fromJson(declJson);
+      decls[classDecl.binaryName] = classDecl;
+    }
+    return Classes(decls);
   }
 
   @override

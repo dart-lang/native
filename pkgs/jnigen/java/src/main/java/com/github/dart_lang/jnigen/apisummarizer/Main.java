@@ -116,13 +116,13 @@ public class Main {
 
     switch (options.backend) {
       case DOCLET:
-        JsonWriter.writeJSON(runDoclet(javaDoc, sourceFiles, options), output);
+        JsonWriter.writeJSON(runDoclet(javaDoc, sourceFiles, options).values(), output);
         break;
       case ASM:
-        JsonWriter.writeJSON(AsmSummarizer.run(classStreamProviders), output);
+        JsonWriter.writeJSON(AsmSummarizer.run(classStreamProviders).values(), output);
         break;
       case AUTO:
-        Map<String, ClassDecl> classes = new HashMap<>();
+        Map<String, ClassDecl> classes = new LinkedHashMap<>();
         // Preferring DOCLET as the source of summary a class exists in
         // both ASM and DOCLET.
         if (!classStreamProviders.isEmpty()) {
@@ -131,7 +131,7 @@ public class Main {
         if (!sourceFiles.isEmpty()) {
           classes.putAll(runDoclet(javaDoc, sourceFiles, options));
         }
-        JsonWriter.writeJSON(classes, output);
+        JsonWriter.writeJSON(classes.values(), output);
         break;
     }
   }
