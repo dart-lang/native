@@ -408,7 +408,7 @@ jobs:
         run: |
           dart pub get
           dart run jni:setup
-          wget 'https://dart.dev/guides/language/specifications/DartLangSpec-v2.2.pdf'
+          wget 'https://raw.githubusercontent.com/dart-lang/site-www/a7f170389e210adc2aef810cc9a6fdbfa78059a5/src/guides/language/specifications/DartLangSpec-v2.2.pdf'
           dart run bin/pdf_info.dart DartLangSpec-v2.2.pdf
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin/dart_example
       - name: Build flutter example for pdfbox_plugin

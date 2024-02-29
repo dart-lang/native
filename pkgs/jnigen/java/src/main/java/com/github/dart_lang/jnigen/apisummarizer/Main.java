@@ -15,10 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import javax.tools.DocumentationTool;
 import javax.tools.JavaFileObject;
 import javax.tools.ToolProvider;
@@ -36,7 +33,7 @@ public class Main {
 
   static SummarizerOptions options;
 
-  public static List<ClassDecl> runDocletWithClass(
+  public static Map<String, ClassDecl> runDocletWithClass(
       DocumentationTool javaDoc,
       Class<? extends Doclet> docletClass,
       List<JavaFileObject> fileObjects,
@@ -58,7 +55,7 @@ public class Main {
     return SummarizerDoclet.getClasses();
   }
 
-  public static List<ClassDecl> runDoclet(
+  public static Map<String, ClassDecl> runDoclet(
       DocumentationTool javaDoc, List<JavaFileObject> javaFileObjects, SummarizerOptions options) {
     return runDocletWithClass(javaDoc, SummarizerDoclet.class, javaFileObjects, options);
   }
@@ -96,26 +93,14 @@ public class Main {
           sourceClasses, sourcePaths, javaDoc.getStandardFileManager(null, null, null));
     }
 
-    // remove found classes from binaryClasses, so that they don't need to be searched again.
-    // TODO: Tidy up this logic, move to ClassFinder class
-    for (var qualifiedName : options.args) {
-      if (sourceClasses.get(qualifiedName) != null) {
-        binaryClasses.remove(qualifiedName);
-      }
-    }
-
     if (options.backend != Backend.DOCLET) {
       ClassFinder.findJavaClasses(binaryClasses, classPaths);
     }
 
-    // remove duplicates (found as both source & binary), and determine if any class is not found.
     var notFound = new ArrayList<String>();
     for (var qualifiedName : options.args) {
       var foundSource = sourceClasses.get(qualifiedName) != null;
       var foundBinary = binaryClasses.get(qualifiedName) != null;
-      if (foundSource) {
-        binaryClasses.remove(qualifiedName);
-      }
       if (!foundBinary && !foundSource) {
         notFound.add(qualifiedName);
       }
@@ -131,20 +116,22 @@ public class Main {
 
     switch (options.backend) {
       case DOCLET:
-        JsonWriter.writeJSON(runDoclet(javaDoc, sourceFiles, options), output);
+        JsonWriter.writeJSON(runDoclet(javaDoc, sourceFiles, options).values(), output);
         break;
       case ASM:
-        JsonWriter.writeJSON(AsmSummarizer.run(classStreamProviders), output);
+        JsonWriter.writeJSON(AsmSummarizer.run(classStreamProviders).values(), output);
         break;
       case AUTO:
-        List<ClassDecl> decls = new ArrayList<>();
-        if (!sourceFiles.isEmpty()) {
-          decls.addAll(runDoclet(javaDoc, sourceFiles, options));
-        }
+        Map<String, ClassDecl> classes = new LinkedHashMap<>();
+        // Preferring DOCLET as the source of summary a class exists in
+        // both ASM and DOCLET.
         if (!classStreamProviders.isEmpty()) {
-          decls.addAll(AsmSummarizer.run(classStreamProviders));
+          classes.putAll(AsmSummarizer.run(classStreamProviders));
         }
-        JsonWriter.writeJSON(decls, output);
+        if (!sourceFiles.isEmpty()) {
+          classes.putAll(runDoclet(javaDoc, sourceFiles, options));
+        }
+        JsonWriter.writeJSON(classes.values(), output);
         break;
     }
   }

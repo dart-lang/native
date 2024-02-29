@@ -38,11 +38,11 @@ public class SummarizerDoclet implements Doclet {
     return SourceVersion.RELEASE_11;
   }
 
-  public static List<ClassDecl> getClasses() {
+  public static Map<String, ClassDecl> getClasses() {
     return classes;
   }
 
-  public static List<ClassDecl> classes;
+  public static Map<String, ClassDecl> classes;
 
   @Override
   public boolean run(DocletEnvironment docletEnvironment) {
@@ -62,7 +62,7 @@ public class SummarizerDoclet implements Doclet {
 
   public class SummarizingScanner extends ElementScanner9<Void, SummaryCollector> {
     List<Package> packages = new ArrayList<>();
-    List<ClassDecl> types = new ArrayList<>();
+    Map<String, ClassDecl> types = new LinkedHashMap<>();
     ElementBuilders builders = new ElementBuilders(utils);
 
     // Each element in collector is a stack
@@ -100,7 +100,8 @@ public class SummarizerDoclet implements Doclet {
             var cls = builders.classDecl(e);
             collector.types.push(cls);
             super.visitType(e, collector);
-            types.add(collector.types.pop());
+            var puttingClass = collector.types.pop();
+            types.put(puttingClass.binaryName, puttingClass);
           } catch (SkipException skip) {
             Log.info("Skip type: %s", e.getQualifiedName());
           }

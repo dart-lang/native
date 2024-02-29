@@ -41,6 +41,192 @@ import "package:jni/jni.dart" as jni;
 
 import "JsonToken.dart" as jsontoken_;
 
+/// from: com.fasterxml.jackson.core.JsonParser$Feature
+///
+/// Enumeration that defines all on/off features for parsers.
+class JsonParser_Feature extends jni.JObject {
+  @override
+  late final jni.JObjType<JsonParser_Feature> $type = type;
+
+  JsonParser_Feature.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonParser$Feature");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $JsonParser_FeatureType();
+  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"values",
+      r"()[Lcom/fasterxml/jackson/core/JsonParser$Feature;");
+
+  /// from: static public com.fasterxml.jackson.core.JsonParser.Feature[] values()
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JArray<JsonParser_Feature> values() {
+    return const jni.JArrayType($JsonParser_FeatureType()).fromRef(
+        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"valueOf",
+      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;");
+
+  /// from: static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)
+  /// The returned object must be released after use, by calling the [release] method.
+  static JsonParser_Feature valueOf(
+    jni.JString name,
+  ) {
+    return const $JsonParser_FeatureType().fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
+            jni.JniCallType.objectType, [name.reference]).object);
+  }
+
+  static final _id_collectDefaults = jni.Jni.accessors
+      .getStaticMethodIDOf(_class.reference, r"collectDefaults", r"()I");
+
+  /// from: static public int collectDefaults()
+  ///
+  /// Method that calculates bit set (flags) of all features that
+  /// are enabled by default.
+  ///@return Bit mask of all features that are enabled by default
+  static int collectDefaults() {
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+        _id_collectDefaults, jni.JniCallType.intType, []).integer;
+  }
+
+  static final _id_enabledByDefault = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"enabledByDefault", r"()Z");
+
+  /// from: public boolean enabledByDefault()
+  bool enabledByDefault() {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledByDefault,
+        jni.JniCallType.booleanType, []).boolean;
+  }
+
+  static final _id_enabledIn =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"enabledIn", r"(I)Z");
+
+  /// from: public boolean enabledIn(int flags)
+  bool enabledIn(
+    int flags,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledIn,
+        jni.JniCallType.booleanType, [jni.JValueInt(flags)]).boolean;
+  }
+
+  static final _id_getMask =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getMask", r"()I");
+
+  /// from: public int getMask()
+  int getMask() {
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_getMask, jni.JniCallType.intType, []).integer;
+  }
+}
+
+final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
+  const $JsonParser_FeatureType();
+
+  @override
+  String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$Feature;";
+
+  @override
+  JsonParser_Feature fromRef(jni.JObjectPtr ref) =>
+      JsonParser_Feature.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($JsonParser_FeatureType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($JsonParser_FeatureType) &&
+        other is $JsonParser_FeatureType;
+  }
+}
+
+/// from: com.fasterxml.jackson.core.JsonParser$NumberType
+///
+/// Enumeration of possible "native" (optimal) types that can be
+/// used for numbers.
+class JsonParser_NumberType extends jni.JObject {
+  @override
+  late final jni.JObjType<JsonParser_NumberType> $type = type;
+
+  JsonParser_NumberType.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonParser$NumberType");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $JsonParser_NumberTypeType();
+  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"values",
+      r"()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
+
+  /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JArray<JsonParser_NumberType> values() {
+    return const jni.JArrayType($JsonParser_NumberTypeType()).fromRef(
+        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"valueOf",
+      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
+
+  /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)
+  /// The returned object must be released after use, by calling the [release] method.
+  static JsonParser_NumberType valueOf(
+    jni.JString name,
+  ) {
+    return const $JsonParser_NumberTypeType().fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
+            jni.JniCallType.objectType, [name.reference]).object);
+  }
+}
+
+final class $JsonParser_NumberTypeType
+    extends jni.JObjType<JsonParser_NumberType> {
+  const $JsonParser_NumberTypeType();
+
+  @override
+  String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$NumberType;";
+
+  @override
+  JsonParser_NumberType fromRef(jni.JObjectPtr ref) =>
+      JsonParser_NumberType.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($JsonParser_NumberTypeType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($JsonParser_NumberTypeType) &&
+        other is $JsonParser_NumberTypeType;
+  }
+}
+
 /// from: com.fasterxml.jackson.core.JsonParser
 ///
 /// Base class that defines public API for reading JSON content.
@@ -2511,191 +2697,5 @@ final class $JsonParserType extends jni.JObjType<JsonParser> {
   @override
   bool operator ==(Object other) {
     return other.runtimeType == ($JsonParserType) && other is $JsonParserType;
-  }
-}
-
-/// from: com.fasterxml.jackson.core.JsonParser$Feature
-///
-/// Enumeration that defines all on/off features for parsers.
-class JsonParser_Feature extends jni.JObject {
-  @override
-  late final jni.JObjType<JsonParser_Feature> $type = type;
-
-  JsonParser_Feature.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class =
-      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonParser$Feature");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $JsonParser_FeatureType();
-  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"values",
-      r"()[Lcom/fasterxml/jackson/core/JsonParser$Feature;");
-
-  /// from: static public com.fasterxml.jackson.core.JsonParser.Feature[] values()
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<JsonParser_Feature> values() {
-    return const jni.JArrayType($JsonParser_FeatureType()).fromRef(
-        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"valueOf",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;");
-
-  /// from: static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)
-  /// The returned object must be released after use, by calling the [release] method.
-  static JsonParser_Feature valueOf(
-    jni.JString name,
-  ) {
-    return const $JsonParser_FeatureType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
-  }
-
-  static final _id_collectDefaults = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"collectDefaults", r"()I");
-
-  /// from: static public int collectDefaults()
-  ///
-  /// Method that calculates bit set (flags) of all features that
-  /// are enabled by default.
-  ///@return Bit mask of all features that are enabled by default
-  static int collectDefaults() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
-        _id_collectDefaults, jni.JniCallType.intType, []).integer;
-  }
-
-  static final _id_enabledByDefault = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"enabledByDefault", r"()Z");
-
-  /// from: public boolean enabledByDefault()
-  bool enabledByDefault() {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledByDefault,
-        jni.JniCallType.booleanType, []).boolean;
-  }
-
-  static final _id_enabledIn =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"enabledIn", r"(I)Z");
-
-  /// from: public boolean enabledIn(int flags)
-  bool enabledIn(
-    int flags,
-  ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledIn,
-        jni.JniCallType.booleanType, [jni.JValueInt(flags)]).boolean;
-  }
-
-  static final _id_getMask =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getMask", r"()I");
-
-  /// from: public int getMask()
-  int getMask() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getMask, jni.JniCallType.intType, []).integer;
-  }
-}
-
-final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
-  const $JsonParser_FeatureType();
-
-  @override
-  String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$Feature;";
-
-  @override
-  JsonParser_Feature fromRef(jni.JObjectPtr ref) =>
-      JsonParser_Feature.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($JsonParser_FeatureType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_FeatureType) &&
-        other is $JsonParser_FeatureType;
-  }
-}
-
-/// from: com.fasterxml.jackson.core.JsonParser$NumberType
-///
-/// Enumeration of possible "native" (optimal) types that can be
-/// used for numbers.
-class JsonParser_NumberType extends jni.JObject {
-  @override
-  late final jni.JObjType<JsonParser_NumberType> $type = type;
-
-  JsonParser_NumberType.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class =
-      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonParser$NumberType");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $JsonParser_NumberTypeType();
-  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"values",
-      r"()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
-
-  /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<JsonParser_NumberType> values() {
-    return const jni.JArrayType($JsonParser_NumberTypeType()).fromRef(
-        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"valueOf",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;");
-
-  /// from: static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)
-  /// The returned object must be released after use, by calling the [release] method.
-  static JsonParser_NumberType valueOf(
-    jni.JString name,
-  ) {
-    return const $JsonParser_NumberTypeType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
-  }
-}
-
-final class $JsonParser_NumberTypeType
-    extends jni.JObjType<JsonParser_NumberType> {
-  const $JsonParser_NumberTypeType();
-
-  @override
-  String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$NumberType;";
-
-  @override
-  JsonParser_NumberType fromRef(jni.JObjectPtr ref) =>
-      JsonParser_NumberType.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($JsonParser_NumberTypeType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($JsonParser_NumberTypeType) &&
-        other is $JsonParser_NumberTypeType;
   }
 }
