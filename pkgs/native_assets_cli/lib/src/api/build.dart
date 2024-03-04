@@ -22,7 +22,7 @@ import 'build_output.dart';
 ///     final packageName = config.packageName;
 ///     final cbuilder = CBuilder.library(
 ///       name: packageName,
-///       assetId: 'package:$packageName/$packageName.dart',
+///       assetName: '$packageName.dart',
 ///       sources: [
 ///         'src/$packageName.c',
 ///       ],
