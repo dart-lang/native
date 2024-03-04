@@ -11,7 +11,7 @@ void main(List<String> args) async {
     final packageName = config.packageName;
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: 'package:$packageName/$packageName.dart',
+      assetName: '$packageName.dart',
       sources: [
         'src/$packageName.c',
       ],
