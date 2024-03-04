@@ -56,10 +56,19 @@ void main(List<String> args) async {
   final library = parse(config);
 
   // Generate file for the parsed bindings.
-  final gen = File(config.output);
-  library.generateFile(gen);
-  _logger
-      .info(successPen('Finished, Bindings generated in ${gen.absolute.path}'));
+  final fileToBeGenerated = File(config.output);
+
+  // Consider regenif config has been updated
+  final bool inputHasBeenUpdated = _inputHasBeenUpdated(
+      fileToBeGenerated, [config.filename!, ...config.headers.entryPoints]);
+  if (!inputHasBeenUpdated) {
+    _logger.info('Bindings are up-to-date. No changes to headers detected.');
+    return;
+  }
+
+  library.generateFile(fileToBeGenerated);
+  _logger.info(successPen(
+      'Finished, Bindings generated in ${fileToBeGenerated.absolute.path}'));
 
   if (config.symbolFile != null) {
     final symbolFileGen = File(config.symbolFile!.output);
@@ -68,6 +77,25 @@ void main(List<String> args) async {
     _logger.info(successPen(
         'Finished, Symbol Output generated in ${symbolFileGen.absolute.path}'));
   }
+}
+
+bool _inputHasBeenUpdated(
+    File fileToBeGenerated, List<String> configAndHeaders) {
+  // if file does not exist, consider it needs to be generated.
+  if (!fileToBeGenerated.existsSync()) {
+    _logger.info('Bindings file does not exist, generating bindings.');
+    return true;
+  }
+
+  for (final configOrHeader in configAndHeaders) {
+    final headerMTime = File(configOrHeader).lastModifiedSync();
+
+    if (fileToBeGenerated.existsSync() &&
+        headerMTime.isAfter(fileToBeGenerated.lastModifiedSync())) {
+      return true; // file needs to be regenerated.
+    }
+  }
+  return false;
 }
 
 Config getConfig(ArgResults result, PackageConfig? packageConfig) {

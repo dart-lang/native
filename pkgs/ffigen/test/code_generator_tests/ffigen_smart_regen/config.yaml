@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../ffigen.schema.json
+
+output: 'generated_bindings.dart'
+name: 'OnlyRegenIfUpdated'
+description: 'Holds bindings to the test header files.'
+headers:
+  entry-points:
+    - 'test/code_generator_tests/ffigen_smart_regen/headers/header1.h'
+  include-directives:
+    - '**header*.h'
+comments: true

@@ -1,3 +1,8 @@
+## 12.0.1
+
+- ffigen now only regenerates the dart bindings only if input (the `config.yaml` 
+and header files) mtimes is greater than the output mtimes.
+
 ## 12.0.0-wip
 
 - Global variables are now compatible with the `ffi-native` option.
