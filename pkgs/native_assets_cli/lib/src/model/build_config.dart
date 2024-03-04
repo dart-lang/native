@@ -26,9 +26,14 @@ final class BuildConfigImpl implements BuildConfig {
   late final OSImpl _targetOS;
 
   @override
-  IOSSdkImpl? get targetIOSSdk {
+  IOSSdkImpl get targetIOSSdk {
     _ensureNotDryRun();
-    return _targetIOSSdk;
+    if (_targetOS != OS.iOS) {
+      throw StateError(
+        'This field is not available in if targetOS is not OS.iOS.',
+      );
+    }
+    return _targetIOSSdk!;
   }
 
   late final IOSSdkImpl? _targetIOSSdk;
@@ -497,7 +502,9 @@ final class BuildConfigImpl implements BuildConfig {
     if (!dryRun) {
       if (other.buildMode != buildMode) return false;
       if (other.targetArchitecture != targetArchitecture) return false;
-      if (other.targetIOSSdk != targetIOSSdk) return false;
+      if (targetOS == OS.iOS && other.targetIOSSdk != targetIOSSdk) {
+        return false;
+      }
       if (other.targetAndroidNdkApi != targetAndroidNdkApi) return false;
       if (other.cCompiler != cCompiler) return false;
       if (!const DeepCollectionEquality()
@@ -519,7 +526,7 @@ final class BuildConfigImpl implements BuildConfig {
           buildMode,
           const DeepCollectionEquality().hash(_dependencyMetadata),
           targetArchitecture,
-          targetIOSSdk,
+          if (targetOS == OS.iOS) targetIOSSdk,
           targetAndroidNdkApi,
           cCompiler,
         ],

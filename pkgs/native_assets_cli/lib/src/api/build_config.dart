@@ -56,11 +56,12 @@ abstract final class BuildConfig {
 
   /// When compiling for iOS, whether to target device or simulator.
   ///
-  /// Always non-null when [targetOS] is [OS.iOS].
+  /// Not available if [targetOS] is [OS.iOS]. Will throw a [StateError] if
+  /// accessed during a [dryRun].
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
-  IOSSdk? get targetIOSSdk;
+  IOSSdk get targetIOSSdk;
 
   /// When compiling for Android, the minimum Android SDK API version to that
   /// the compiled code will be compatible with.

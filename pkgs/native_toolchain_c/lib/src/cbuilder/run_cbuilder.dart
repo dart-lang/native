@@ -123,7 +123,7 @@ class RunCBuilder {
 
     late final IOSSdk targetIosSdk;
     if (buildConfig.targetOS == OS.iOS) {
-      targetIosSdk = buildConfig.targetIOSSdk!;
+      targetIosSdk = buildConfig.targetIOSSdk;
     }
 
     // The Android Gradle plugin does not honor API level 19 and 20 when

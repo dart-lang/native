@@ -82,7 +82,8 @@ void main() async {
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
     expect(config1.targetOS != config2.targetOS, true);
-    expect(config1.targetIOSSdk != config2.targetIOSSdk, true);
+    expect(config1.targetIOSSdk, IOSSdk.iPhoneOS);
+    expect(() => config2.targetIOSSdk, throwsStateError);
     expect(config1.cCompiler.compiler != config2.cCompiler.compiler, true);
     expect(config1.cCompiler.linker != config2.cCompiler.linker, true);
     expect(config1.cCompiler.archiver != config2.cCompiler.archiver, true);
