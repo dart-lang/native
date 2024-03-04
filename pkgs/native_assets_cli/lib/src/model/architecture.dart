@@ -57,12 +57,12 @@ final class ArchitectureImpl implements Architecture {
   @override
   String toString() => dartPlatform;
 
-  static final Map<String, ArchitectureImpl> _stringToArchitecture =
-      Map.fromEntries(ArchitectureImpl.values.map(
-          (architecture) => MapEntry(architecture.toString(), architecture)));
+  static final Map<String, ArchitectureImpl> _architectureByName = {
+    for (var architecture in values) architecture.dartPlatform: architecture
+  };
 
   factory ArchitectureImpl.fromString(String target) =>
-      _stringToArchitecture[target]!;
+      _architectureByName[target]!;
 
   static final ArchitectureImpl current = Target.current.architecture;
 }

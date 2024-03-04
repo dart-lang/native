@@ -37,14 +37,7 @@ abstract final class OS {
   static const OS windows = OSImpl.windows;
 
   /// Known values for [OS].
-  static const List<OS> values = [
-    android,
-    fuchsia,
-    iOS,
-    linux,
-    macOS,
-    windows,
-  ];
+  static const List<OS> values = OSImpl.values;
 
   /// The default dynamic library file name on this os.
   String dylibFileName(String name);

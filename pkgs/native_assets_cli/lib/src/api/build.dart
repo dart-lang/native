@@ -5,7 +5,10 @@
 import 'build_config.dart';
 import 'build_output.dart';
 
-/// Run a native assets build.
+/// Runs a native assets build.
+///
+/// Can build native assets which are not already available, or expose existing
+/// files. Each individual asset is assigned a unique asset ID.
 ///
 /// Example using `package:native_toolchain_c`:
 ///

@@ -4,7 +4,7 @@
 
 part of 'asset.dart';
 
-/// A code [Asset] which respects the C application binary interface (ABI).
+/// A code [Asset] which respects the native application binary interface (ABI).
 ///
 /// Typical other languages which produce code assets that respect the C ABI
 /// include C++ and Rust.
@@ -61,7 +61,7 @@ abstract final class CCodeAsset implements Asset {
   /// Throws a [StateError] when accessed with [linkMode] is [LinkMode.static].
   DynamicLoading get dynamicLoading;
 
-  /// Consructs a c code asset.
+  /// Constructs a C code asset.
   ///
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
   /// and [name].

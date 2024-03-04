@@ -56,7 +56,7 @@ abstract final class BuildConfig {
 
   /// When compiling for iOS, whether to target device or simulator.
   ///
-  /// Required when [targetOS] equals [OS.iOS].
+  /// Always non-null when [targetOS] is [OS.iOS].
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
@@ -94,20 +94,21 @@ abstract final class BuildConfig {
   /// during a [dryRun].
   CCompilerConfig get cCompiler;
 
-  /// Indicates whether a run should build (wet run) or report potential assets
-  /// (dry run).
+  /// Whether this run is a dry-run, which doesn't build anything.
   ///
-  /// If so, the build won't actually be run, but will report the native assets
-  /// which would have been produced.
+  /// A dry-run only reports information about which assets a build would
+  /// create, but doesn't actually create files.
   bool get dryRun;
 
-  /// The build mode that the code should be compiled in.
+  /// The [BuildMode] that the code should be compiled in.
+  ///
+  /// Currently [BuildMode.debug] and [BuildMode.release] are the only modes.
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
   BuildMode get buildMode;
 
-  /// The asset types the invoker of this build supports.
+  /// The asset types that the invoker of this build supports.
   ///
   /// Currently known values:
   /// * [CCodeAsset.type]
@@ -147,7 +148,7 @@ abstract final class BuildConfig {
         workingDirectory: workingDirectory,
       );
 
-  /// Construct a config for a non-dry run by providing values for each field.
+  /// Constructs a config for a non-dry run by providing values for each field.
   ///
   /// `build.dart` hooks will most likely use [BuildConfig.fromArguments].
   /// However, for unit testing code which consumes a [BuildConfig], this
@@ -192,7 +193,7 @@ abstract final class BuildConfig {
         supportedAssetTypes: supportedAssetTypes,
       );
 
-  /// Construct a config for a dry run by providing values for each field.
+  /// Constructs a config for a dry run by providing values for each field.
   ///
   /// `build.dart` hooks will most likely use [BuildConfig.fromArguments].
   /// However, for unit testing code which consumes a [BuildConfig], this

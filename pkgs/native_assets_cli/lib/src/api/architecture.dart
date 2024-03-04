@@ -9,7 +9,7 @@ import '../model/target.dart';
 
 part '../model/architecture.dart';
 
-/// A hardware architecture the Dart VM runs on.
+/// A hardware architecture which the Dart VM can run on.
 abstract final class Architecture {
   /// The [arm](https://en.wikipedia.org/wiki/ARM_architecture_family)
   /// architecture.
@@ -31,14 +31,7 @@ abstract final class Architecture {
   static const Architecture x64 = ArchitectureImpl.x64;
 
   /// Known values for [Architecture].
-  static const List<Architecture> values = [
-    arm,
-    arm64,
-    ia32,
-    riscv32,
-    riscv64,
-    x64,
-  ];
+  static const List<Architecture> values = ArchitectureImpl.values;
 
   /// The current [Architecture].
   ///
