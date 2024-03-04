@@ -55,7 +55,7 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.assets].
   ///
   /// If omitted, no asset will be added to the build output.
-  final String? assetId;
+  final String? assetName;
 
   /// Sources to build the library or executable.
   ///
@@ -154,7 +154,7 @@ class CBuilder implements Builder {
 
   CBuilder.library({
     required this.name,
-    required this.assetId,
+    required this.assetName,
     this.sources = const [],
     this.includes = const [],
     this.dartBuildFiles = const ['build.dart'],
@@ -183,7 +183,7 @@ class CBuilder implements Builder {
     this.language = Language.c,
     this.cppLinkStdLib,
   })  : _type = _CBuilderType.executable,
-        assetId = null,
+        assetName = null,
         installName = null,
         pic = pie;
 
@@ -246,10 +246,11 @@ class CBuilder implements Builder {
       await task.run();
     }
 
-    if (assetId != null) {
+    if (assetName != null) {
       buildOutput.addAssets([
         CCodeAsset(
-          id: assetId!,
+          package: buildConfig.packageName,
+          name: assetName!,
           file: buildConfig.dryRun ? null : libUri,
           linkMode: linkMode,
           os: buildConfig.targetOS,

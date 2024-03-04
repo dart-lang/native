@@ -24,11 +24,11 @@ class AssetDownloader implements Builder {
   /// Asset identifier.
   ///
   /// If omitted, no asset will be added to the build output.
-  final String assetId;
+  final String assetName;
 
   AssetDownloader({
     required this.downloadUri,
-    required this.assetId,
+    required this.assetName,
   });
 
   @override
@@ -37,10 +37,6 @@ class AssetDownloader implements Builder {
     required BuildOutput output,
     required Logger? logger,
   }) async {
-    final assetId = this.assetId.startsWith('package:')
-        ? this.assetId
-        : 'package:${config.packageName}/${this.assetId}';
-
     Uri? targetUri;
     if (!config.dryRun) {
       final downloadUri2 = downloadUri(
@@ -57,7 +53,8 @@ class AssetDownloader implements Builder {
 
     output.addAsset(
       CCodeAsset(
-        id: assetId,
+        package: config.packageName,
+        name: assetName,
         file: targetUri,
         linkMode: LinkMode.dynamic,
         dynamicLoading: BundledDylib(),

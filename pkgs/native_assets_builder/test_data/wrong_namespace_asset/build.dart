@@ -8,7 +8,8 @@ void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
     output.addAsset(
       CCodeAsset(
-        id: 'package:other_package/foo',
+        package: 'other_package',
+        name: 'foo',
         file: config.outputDirectory.resolve(
           OS.current.dylibFileName('foo'),
         ),

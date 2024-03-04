@@ -23,7 +23,8 @@ void main() {
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
         CCodeAsset(
-          id: 'package:my_package/foo',
+          package: 'my_package',
+          name: 'foo',
           file: Uri(path: 'path/to/libfoo.so'),
           dynamicLoading: BundledDylib(),
           os: OS.android,
@@ -31,7 +32,8 @@ void main() {
           linkMode: LinkMode.dynamic,
         ),
         CCodeAsset(
-          id: 'package:my_package/foo2',
+          package: 'my_package',
+          name: 'foo2',
           dynamicLoading: SystemDylib(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,

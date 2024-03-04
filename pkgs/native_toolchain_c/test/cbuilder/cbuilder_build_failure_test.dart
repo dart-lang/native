@@ -48,7 +48,7 @@ void main() {
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
-      assetId: name,
+      assetName: name,
     );
     expect(
       () => cbuilder.run(

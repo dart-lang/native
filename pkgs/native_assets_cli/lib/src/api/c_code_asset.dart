@@ -63,6 +63,9 @@ abstract final class CCodeAsset implements Asset {
 
   /// Consructs a c code asset.
   ///
+  /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
+  /// and [name].
+  ///
   /// If [linkMode] is [LinkMode.dynamic], a non-null [dynamicLoading] must be
   /// provided. If [linkMode] is [LinkMode.static], [dynamicLoading] must not be
   /// provided.
@@ -71,7 +74,8 @@ abstract final class CCodeAsset implements Asset {
   /// [BundledDylib], a [file] must not be provided. If [dynamicLoading] is
   /// [BundledDylib], a [file] must be provided in non-[BuildConfig.dryRun]s.
   factory CCodeAsset({
-    required String id,
+    required String package,
+    required String name,
     required LinkMode linkMode,
     required OS os,
     DynamicLoading? dynamicLoading,
@@ -79,7 +83,7 @@ abstract final class CCodeAsset implements Asset {
     Architecture? architecture,
   }) =>
       CCodeAssetImpl(
-        id: id,
+        id: 'package:$package/$name',
         linkMode: linkMode as LinkModeImpl,
         os: os as OSImpl,
         architecture: architecture as ArchitectureImpl?,

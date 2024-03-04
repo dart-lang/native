@@ -69,7 +69,7 @@ void main() {
 
         final cbuilder = CBuilder.library(
           name: name,
-          assetId: name,
+          assetName: name,
           sources: [addCUri.toFilePath()],
         );
         await cbuilder.run(

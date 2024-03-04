@@ -141,7 +141,7 @@ void main() {
         final cbuilder = CBuilder.library(
           sources: [addCUri.toFilePath()],
           name: name,
-          assetId: name,
+          assetName: name,
           pic: pic,
         );
         await cbuilder.run(
@@ -290,7 +290,7 @@ void main() {
 
     final cbuilder = CBuilder.library(
       name: name,
-      assetId: name,
+      assetName: name,
       includes: [includeDirectoryUri.toFilePath()],
       sources: [includesCUri.toFilePath()],
     );
@@ -341,7 +341,7 @@ void main() {
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
-      assetId: name,
+      assetName: name,
       std: std,
     );
     await cbuilder.run(

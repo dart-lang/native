@@ -13,12 +13,17 @@ part of 'asset.dart';
 /// An data asset must provide a [Asset.file]. The Dart and Flutter SDK will
 /// bundle this code in the final application.
 abstract final class DataAsset implements Asset {
+  /// Construct a data asset.
+  ///
+  /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
+  /// and [name].
   factory DataAsset({
-    required String id,
+    required String package,
+    required String name,
     required Uri file,
   }) =>
       DataAssetImpl(
-        id: id,
+        id: 'package:$package/$name',
         file: file,
       );
 

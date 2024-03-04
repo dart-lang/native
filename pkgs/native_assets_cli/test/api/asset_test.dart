@@ -10,7 +10,8 @@ void main() {
   test('Asset constructors', () async {
     final assets = [
       CCodeAsset(
-        id: 'package:my_package/foo',
+        package: 'my_package',
+        name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
         dynamicLoading: BundledDylib(),
         os: OS.android,
@@ -18,35 +19,40 @@ void main() {
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'package:my_package/foo3',
+        package: 'my_package',
+        name: 'foo3',
         dynamicLoading: SystemDylib(Uri(path: 'libfoo3.so')),
         os: OS.android,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'package:my_package/foo4',
+        package: 'my_package',
+        name: 'foo4',
         dynamicLoading: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'package:my_package/foo5',
+        package: 'my_package',
+        name: 'foo5',
         dynamicLoading: LookupInProcess(),
         os: OS.android,
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
       CCodeAsset(
-        id: 'package:my_package/bar',
+        package: 'my_package',
+        name: 'bar',
         file: Uri(path: 'path/to/libbar.a'),
         os: OS.linux,
         architecture: Architecture.arm64,
         linkMode: LinkMode.static,
       ),
       CCodeAsset(
-        id: 'package:my_package/bla',
+        package: 'my_package',
+        name: 'bla',
         file: Uri(path: 'path/with spaces/bla.dll'),
         dynamicLoading: BundledDylib(),
         os: OS.windows,
@@ -54,7 +60,8 @@ void main() {
         linkMode: LinkMode.dynamic,
       ),
       DataAsset(
-        id: 'package:my_package/data/some_text.txt',
+        package: 'my_package',
+        name: 'data/some_text.txt',
         file: Uri(path: 'data/some_text.txt'),
       ),
     ];
@@ -64,7 +71,8 @@ void main() {
   test('Errors', () {
     expect(
       () => CCodeAsset(
-        id: 'package:my_package/foo',
+        package: 'my_package',
+        name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
         dynamicLoading: BundledDylib(),
         os: OS.android,
@@ -75,7 +83,8 @@ void main() {
     );
     expect(
       () => CCodeAsset(
-        id: 'package:my_package/foo',
+        package: 'my_package',
+        name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
         os: OS.android,
         architecture: Architecture.x64,
@@ -85,7 +94,8 @@ void main() {
     );
     expect(
       () => CCodeAsset(
-        id: 'package:my_package/foo',
+        package: 'my_package',
+        name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
         dynamicLoading: LookupInExecutable(),
         os: OS.android,
@@ -96,7 +106,8 @@ void main() {
     );
 
     final staticLinkingAsset = CCodeAsset(
-      id: 'package:my_package/foo',
+      package: 'my_package',
+      name: 'foo',
       file: Uri.file('path/to/libfoo.so'),
       os: OS.android,
       architecture: Architecture.x64,
