@@ -664,4 +664,23 @@ version: 1.0.0''';
     buildConfig.toYamlString();
     // No crash.
   });
+
+  test('invalid architecture', () {
+    final config = Config(fileParsed: {
+      'build_mode': 'release',
+      'dry_run': false,
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDirUri.toFilePath(),
+      'package_name': packageName,
+      'package_root': packageRootUri.toFilePath(),
+      'target_android_ndk_api': 30,
+      'target_architecture': 'invalid_architecture',
+      'target_os': 'android',
+      'version': BuildOutputImpl.latestVersion.toString(),
+    });
+    expect(
+      () => BuildConfigImpl.fromConfig(config),
+      throwsFormatException,
+    );
+  });
 }
