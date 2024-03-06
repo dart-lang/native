@@ -84,4 +84,24 @@ native-assets:
     final fileContents = assets.toNativeAssetsFile();
     expect(fileContents, assetsDartEncoding);
   });
+
+  test('path equality', () {
+    expect(KernelAssetAbsolutePath(Uri.parse('/path/to/libbar.a')),
+        KernelAssetAbsolutePath(Uri.parse('/path/to/libbar.a')));
+
+    expect(KernelAssetAbsolutePath(Uri.parse('/path/to/libbar.a')),
+        isNot(KernelAssetAbsolutePath(Uri.parse('/path/to/libbar2.a'))));
+
+    expect(KernelAssetRelativePath(Uri.parse('path/to/libbar.a')),
+        KernelAssetRelativePath(Uri.parse('path/to/libbar.a')));
+
+    expect(KernelAssetRelativePath(Uri.parse('path/to/libbar.a')),
+        isNot(KernelAssetRelativePath(Uri.parse('path/to/libbar2.a'))));
+
+    expect(KernelAssetSystemPath(Uri.parse('path/to/libbar.a')),
+        KernelAssetSystemPath(Uri.parse('path/to/libbar.a')));
+
+    expect(KernelAssetSystemPath(Uri.parse('path/to/libbar.a')),
+        isNot(KernelAssetSystemPath(Uri.parse('path/to/libbar2.a'))));
+  });
 }
