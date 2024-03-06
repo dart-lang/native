@@ -66,9 +66,9 @@ class SuspendFun extends jni.JObject {
     final $p = ReceivePort();
     final $c =
         jni.JObject.fromRef(ProtectedJniExtensions.newPortContinuation($p));
-    _sayHello(reference, $c.reference).object;
+    _sayHello(reference.pointer, $c.reference.pointer).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
-    final $k = const jni.JStringType().getClass().reference;
+    final $k = const jni.JStringType().getClass().reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o, $k)) {
       throw "Failed";
     }
@@ -93,9 +93,11 @@ class SuspendFun extends jni.JObject {
     final $p = ReceivePort();
     final $c =
         jni.JObject.fromRef(ProtectedJniExtensions.newPortContinuation($p));
-    _sayHello1(reference, string.reference, $c.reference).object;
+    _sayHello1(
+            reference.pointer, string.reference.pointer, $c.reference.pointer)
+        .object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
-    final $k = const jni.JStringType().getClass().reference;
+    final $k = const jni.JStringType().getClass().reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o, $k)) {
       throw "Failed";
     }

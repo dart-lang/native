@@ -48,9 +48,9 @@ class JInteger extends JNumber {
   static final _class = Jni.findJClass(r"java/lang/Integer");
 
   static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(I)V");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(I)V");
 
   JInteger(int num)
       : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference, _ctorId, [JValueInt(num)]).object);
+            _class.reference.pointer, _ctorId, [JValueInt(num)]).object);
 }

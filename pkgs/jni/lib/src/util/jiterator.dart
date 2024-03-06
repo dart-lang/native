@@ -67,17 +67,17 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
   $E get current => _current as $E;
 
   static final _hasNextId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"hasNext", r"()Z");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"hasNext", r"()Z");
   bool _hasNext() {
     return Jni.accessors.callMethodWithArgs(
-        reference, _hasNextId, JniCallType.booleanType, []).boolean;
+        reference.pointer, _hasNextId, JniCallType.booleanType, []).boolean;
   }
 
-  static final _nextId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"next", r"()Ljava/lang/Object;");
+  static final _nextId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"next", r"()Ljava/lang/Object;");
   $E _next() {
     return E.fromRef(Jni.accessors.callMethodWithArgs(
-        reference, _nextId, JniCallType.objectType, []).object);
+        reference.pointer, _nextId, JniCallType.objectType, []).object);
   }
 
   @override

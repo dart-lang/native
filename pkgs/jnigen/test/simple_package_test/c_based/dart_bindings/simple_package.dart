@@ -129,7 +129,7 @@ class Example_Nested extends jni.JObject {
 
   /// from: public void usesAnonymousInnerClass()
   void usesAnonymousInnerClass() {
-    return _usesAnonymousInnerClass(reference).check();
+    return _usesAnonymousInnerClass(reference.pointer).check();
   }
 
   static final _getValue = jniLookup<
@@ -140,7 +140,7 @@ class Example_Nested extends jni.JObject {
 
   /// from: public boolean getValue()
   bool getValue() {
-    return _getValue(reference).boolean;
+    return _getValue(reference.pointer).boolean;
   }
 
   static final _setValue = jniLookup<
@@ -153,7 +153,7 @@ class Example_Nested extends jni.JObject {
   void setValue(
     bool value,
   ) {
-    return _setValue(reference, value ? 1 : 0).check();
+    return _setValue(reference.pointer, value ? 1 : 0).check();
   }
 }
 
@@ -211,10 +211,10 @@ class Example_NonStaticNested extends jni.JObject {
       .asFunction<jni.JniResult Function(jni.JObjectPtr, int)>();
 
   /// from: public boolean ok
-  bool get ok => _get_ok(reference).boolean;
+  bool get ok => _get_ok(reference.pointer).boolean;
 
   /// from: public boolean ok
-  set ok(bool value) => _set_ok(reference, value ? 1 : 0).check();
+  set ok(bool value) => _set_ok(reference.pointer, value ? 1 : 0).check();
 
   static final _new0 = jniLookup<
               ffi
@@ -227,7 +227,8 @@ class Example_NonStaticNested extends jni.JObject {
   factory Example_NonStaticNested(
     Example $parent,
   ) {
-    return Example_NonStaticNested.fromRef(_new0($parent.reference).object);
+    return Example_NonStaticNested.fromRef(
+        _new0($parent.reference.pointer).object);
   }
 }
 
@@ -321,13 +322,13 @@ class Example extends jni.JObject {
 
   /// from: protected java.util.Random protectedField
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject get protectedField =>
-      const jni.JObjectType().fromRef(_get_protectedField(reference).object);
+  jni.JObject get protectedField => const jni.JObjectType()
+      .fromRef(_get_protectedField(reference.pointer).object);
 
   /// from: protected java.util.Random protectedField
   /// The returned object must be released after use, by calling the [release] method.
   set protectedField(jni.JObject value) =>
-      _set_protectedField(reference, value.reference).check();
+      _set_protectedField(reference.pointer, value.reference.pointer).check();
 
   static final _getAmount =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -402,7 +403,7 @@ class Example extends jni.JObject {
   static void setName(
     jni.JString newName,
   ) {
-    return _setName(newName.reference).check();
+    return _setName(newName.reference.pointer).check();
   }
 
   static final _setNestedInstance = jniLookup<
@@ -415,7 +416,7 @@ class Example extends jni.JObject {
   static void setNestedInstance(
     Example_Nested newNested,
   ) {
-    return _setNestedInstance(newNested.reference).check();
+    return _setNestedInstance(newNested.reference.pointer).check();
   }
 
   static final _max4 = jniLookup<
@@ -463,7 +464,7 @@ class Example extends jni.JObject {
 
   /// from: public int getNumber()
   int getNumber() {
-    return _getNumber(reference).integer;
+    return _getNumber(reference.pointer).integer;
   }
 
   static final _setNumber = jniLookup<
@@ -476,7 +477,7 @@ class Example extends jni.JObject {
   void setNumber(
     int number,
   ) {
-    return _setNumber(reference, number).check();
+    return _setNumber(reference.pointer, number).check();
   }
 
   static final _getIsUp = jniLookup<
@@ -487,7 +488,7 @@ class Example extends jni.JObject {
 
   /// from: public boolean getIsUp()
   bool getIsUp() {
-    return _getIsUp(reference).boolean;
+    return _getIsUp(reference.pointer).boolean;
   }
 
   static final _setUp = jniLookup<
@@ -500,7 +501,7 @@ class Example extends jni.JObject {
   void setUp(
     bool isUp,
   ) {
-    return _setUp(reference, isUp ? 1 : 0).check();
+    return _setUp(reference.pointer, isUp ? 1 : 0).check();
   }
 
   static final _getCodename = jniLookup<
@@ -512,7 +513,8 @@ class Example extends jni.JObject {
   /// from: public java.lang.String getCodename()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getCodename() {
-    return const jni.JStringType().fromRef(_getCodename(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getCodename(reference.pointer).object);
   }
 
   static final _setCodename = jniLookup<
@@ -527,7 +529,7 @@ class Example extends jni.JObject {
   void setCodename(
     jni.JString codename,
   ) {
-    return _setCodename(reference, codename.reference).check();
+    return _setCodename(reference.pointer, codename.reference.pointer).check();
   }
 
   static final _getRandom = jniLookup<
@@ -539,7 +541,8 @@ class Example extends jni.JObject {
   /// from: public java.util.Random getRandom()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getRandom() {
-    return const jni.JObjectType().fromRef(_getRandom(reference).object);
+    return const jni.JObjectType()
+        .fromRef(_getRandom(reference.pointer).object);
   }
 
   static final _setRandom = jniLookup<
@@ -554,7 +557,7 @@ class Example extends jni.JObject {
   void setRandom(
     jni.JObject random,
   ) {
-    return _setRandom(reference, random.reference).check();
+    return _setRandom(reference.pointer, random.reference.pointer).check();
   }
 
   static final _getRandomLong = jniLookup<
@@ -565,7 +568,7 @@ class Example extends jni.JObject {
 
   /// from: public long getRandomLong()
   int getRandomLong() {
-    return _getRandomLong(reference).long;
+    return _getRandomLong(reference.pointer).long;
   }
 
   static final _add4Longs = jniLookup<
@@ -582,7 +585,7 @@ class Example extends jni.JObject {
     int c,
     int d,
   ) {
-    return _add4Longs(reference, a, b, c, d).long;
+    return _add4Longs(reference.pointer, a, b, c, d).long;
   }
 
   static final _add8Longs = jniLookup<
@@ -612,7 +615,7 @@ class Example extends jni.JObject {
     int g,
     int h,
   ) {
-    return _add8Longs(reference, a, b, c, d, e, f, g, h).long;
+    return _add8Longs(reference.pointer, a, b, c, d, e, f, g, h).long;
   }
 
   static final _getRandomNumericString = jniLookup<
@@ -628,8 +631,9 @@ class Example extends jni.JObject {
   jni.JString getRandomNumericString(
     jni.JObject random,
   ) {
-    return const jni.JStringType()
-        .fromRef(_getRandomNumericString(reference, random.reference).object);
+    return const jni.JStringType().fromRef(
+        _getRandomNumericString(reference.pointer, random.reference.pointer)
+            .object);
   }
 
   static final _protectedMethod = jniLookup<
@@ -647,7 +651,9 @@ class Example extends jni.JObject {
     jni.JString a,
     jni.JString b,
   ) {
-    return _protectedMethod(reference, a.reference, b.reference).check();
+    return _protectedMethod(
+            reference.pointer, a.reference.pointer, b.reference.pointer)
+        .check();
   }
 
   static final _finalMethod = jniLookup<
@@ -658,7 +664,7 @@ class Example extends jni.JObject {
 
   /// from: public final void finalMethod()
   void finalMethod() {
-    return _finalMethod(reference).check();
+    return _finalMethod(reference.pointer).check();
   }
 
   static final _getList = jniLookup<
@@ -671,7 +677,7 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JList<jni.JString> getList() {
     return const jni.JListType(jni.JStringType())
-        .fromRef(_getList(reference).object);
+        .fromRef(_getList(reference.pointer).object);
   }
 
   static final _joinStrings = jniLookup<
@@ -692,8 +698,9 @@ class Example extends jni.JObject {
     jni.JList<jni.JString> values,
     jni.JString delim,
   ) {
-    return const jni.JStringType().fromRef(
-        _joinStrings(reference, values.reference, delim.reference).object);
+    return const jni.JStringType().fromRef(_joinStrings(reference.pointer,
+            values.reference.pointer, delim.reference.pointer)
+        .object);
   }
 
   static final _methodWithSeveralParams = jniLookup<
@@ -730,8 +737,14 @@ class Example extends jni.JObject {
       (lt.$type as jni.JListType).E,
       t.$type,
     ]) as jni.JObjType<$T>;
-    return _methodWithSeveralParams(reference, ch, s.reference, a.reference,
-            t.reference, lt.reference, wm.reference)
+    return _methodWithSeveralParams(
+            reference.pointer,
+            ch,
+            s.reference.pointer,
+            a.reference.pointer,
+            t.reference.pointer,
+            lt.reference.pointer,
+            wm.reference.pointer)
         .check();
   }
 
@@ -786,7 +799,7 @@ class Example extends jni.JObject {
     jni.JString codename,
   ) {
     return Example.fromRef(
-        _new3(number, isUp ? 1 : 0, codename.reference).object);
+        _new3(number, isUp ? 1 : 0, codename.reference.pointer).object);
   }
 
   static final _new4 = jniLookup<
@@ -819,7 +832,7 @@ class Example extends jni.JObject {
 
   /// from: public int whichExample()
   int whichExample() {
-    return _whichExample(reference).integer;
+    return _whichExample(reference.pointer).integer;
   }
 
   static final _addInts = jniLookup<
@@ -854,7 +867,7 @@ class Example extends jni.JObject {
   static int addAll(
     jni.JArray<jni.jint> arr,
   ) {
-    return _addAll(arr.reference).integer;
+    return _addAll(arr.reference.pointer).integer;
   }
 
   static final _getSelf = jniLookup<
@@ -866,7 +879,7 @@ class Example extends jni.JObject {
   /// from: public com.github.dart_lang.jnigen.simple_package.Example getSelf()
   /// The returned object must be released after use, by calling the [release] method.
   Example getSelf() {
-    return const $ExampleType().fromRef(_getSelf(reference).object);
+    return const $ExampleType().fromRef(_getSelf(reference.pointer).object);
   }
 
   static final _throwException =
@@ -887,7 +900,7 @@ class Example extends jni.JObject {
 
   /// from: public void overloaded()
   void overloaded() {
-    return _overloaded(reference).check();
+    return _overloaded(reference.pointer).check();
   }
 
   static final _overloaded1 = jniLookup<
@@ -903,7 +916,7 @@ class Example extends jni.JObject {
     int a,
     jni.JString b,
   ) {
-    return _overloaded1(reference, a, b.reference).check();
+    return _overloaded1(reference.pointer, a, b.reference.pointer).check();
   }
 
   static final _overloaded2 = jniLookup<
@@ -916,7 +929,7 @@ class Example extends jni.JObject {
   void overloaded2(
     int a,
   ) {
-    return _overloaded2(reference, a).check();
+    return _overloaded2(reference.pointer, a).check();
   }
 
   static final _overloaded3 = jniLookup<
@@ -934,7 +947,9 @@ class Example extends jni.JObject {
     jni.JList<jni.JInteger> a,
     jni.JString b,
   ) {
-    return _overloaded3(reference, a.reference, b.reference).check();
+    return _overloaded3(
+            reference.pointer, a.reference.pointer, b.reference.pointer)
+        .check();
   }
 
   static final _overloaded4 = jniLookup<
@@ -949,7 +964,7 @@ class Example extends jni.JObject {
   void overloaded4(
     jni.JList<jni.JInteger> a,
   ) {
-    return _overloaded4(reference, a.reference).check();
+    return _overloaded4(reference.pointer, a.reference.pointer).check();
   }
 }
 
@@ -1069,7 +1084,7 @@ class Example1 extends jni.JObject {
 
   /// from: public int whichExample()
   int whichExample() {
-    return _whichExample(reference).integer;
+    return _whichExample(reference.pointer).integer;
   }
 }
 
@@ -1149,12 +1164,13 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
 
   /// from: public T grandParentValue
   /// The returned object must be released after use, by calling the [release] method.
-  $T get grandParentValue => T.fromRef(_get_grandParentValue(reference).object);
+  $T get grandParentValue =>
+      T.fromRef(_get_grandParentValue(reference.pointer).object);
 
   /// from: public T grandParentValue
   /// The returned object must be released after use, by calling the [release] method.
   set grandParentValue($T value) =>
-      _set_grandParentValue(reference, value.reference).check();
+      _set_grandParentValue(reference.pointer, value.reference.pointer).check();
 
   static final _get_parentValue = jniLookup<
           ffi.NativeFunction<
@@ -1176,12 +1192,12 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  $S get parentValue => S.fromRef(_get_parentValue(reference).object);
+  $S get parentValue => S.fromRef(_get_parentValue(reference.pointer).object);
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S value) =>
-      _set_parentValue(reference, value.reference).check();
+      _set_parentValue(reference.pointer, value.reference.pointer).check();
 
   static final _get_value = jniLookup<
           ffi.NativeFunction<
@@ -1203,11 +1219,12 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  $U get value => U.fromRef(_get_value(reference).object);
+  $U get value => U.fromRef(_get_value(reference.pointer).object);
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($U value) => _set_value(reference, value.reference).check();
+  set value($U value) =>
+      _set_value(reference.pointer, value.reference.pointer).check();
 
   static final _new0 = jniLookup<
           ffi.NativeFunction<
@@ -1235,8 +1252,8 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
     U ??= jni.lowestCommonSuperType([
       newValue.$type,
     ]) as jni.JObjType<$U>;
-    return GrandParent_Parent_Child.fromRef(
-        T, S, U, _new0($parent.reference, newValue.reference).object);
+    return GrandParent_Parent_Child.fromRef(T, S, U,
+        _new0($parent.reference.pointer, newValue.reference.pointer).object);
   }
 }
 
@@ -1327,12 +1344,12 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
 
   /// from: public T parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  $T get parentValue => T.fromRef(_get_parentValue(reference).object);
+  $T get parentValue => T.fromRef(_get_parentValue(reference.pointer).object);
 
   /// from: public T parentValue
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($T value) =>
-      _set_parentValue(reference, value.reference).check();
+      _set_parentValue(reference.pointer, value.reference.pointer).check();
 
   static final _get_value = jniLookup<
           ffi.NativeFunction<
@@ -1353,11 +1370,12 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  $S get value => S.fromRef(_get_value(reference).object);
+  $S get value => S.fromRef(_get_value(reference.pointer).object);
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($S value) => _set_value(reference, value.reference).check();
+  set value($S value) =>
+      _set_value(reference.pointer, value.reference.pointer).check();
 
   static final _new0 = jniLookup<
           ffi.NativeFunction<
@@ -1381,8 +1399,8 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     S ??= jni.lowestCommonSuperType([
       newValue.$type,
     ]) as jni.JObjType<$S>;
-    return GrandParent_Parent.fromRef(
-        T, S, _new0($parent.reference, newValue.reference).object);
+    return GrandParent_Parent.fromRef(T, S,
+        _new0($parent.reference.pointer, newValue.reference.pointer).object);
   }
 }
 
@@ -1470,12 +1488,12 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  $S get parentValue => S.fromRef(_get_parentValue(reference).object);
+  $S get parentValue => S.fromRef(_get_parentValue(reference.pointer).object);
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S value) =>
-      _set_parentValue(reference, value.reference).check();
+      _set_parentValue(reference.pointer, value.reference.pointer).check();
 
   static final _get_value = jniLookup<
           ffi.NativeFunction<
@@ -1497,11 +1515,12 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  $U get value => U.fromRef(_get_value(reference).object);
+  $U get value => U.fromRef(_get_value(reference.pointer).object);
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($U value) => _set_value(reference, value.reference).check();
+  set value($U value) =>
+      _set_value(reference.pointer, value.reference.pointer).check();
 
   static final _new0 = jniLookup<
               ffi.NativeFunction<
@@ -1531,7 +1550,8 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     return GrandParent_StaticParent_Child.fromRef(
         S,
         U,
-        _new0($parent.reference, parentValue.reference, value.reference)
+        _new0($parent.reference.pointer, parentValue.reference.pointer,
+                value.reference.pointer)
             .object);
   }
 }
@@ -1614,11 +1634,12 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  $S get value => S.fromRef(_get_value(reference).object);
+  $S get value => S.fromRef(_get_value(reference.pointer).object);
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($S value) => _set_value(reference, value.reference).check();
+  set value($S value) =>
+      _set_value(reference.pointer, value.reference.pointer).check();
 
   static final _new0 = jniLookup<
               ffi
@@ -1635,7 +1656,8 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
     S ??= jni.lowestCommonSuperType([
       value.$type,
     ]) as jni.JObjType<$S>;
-    return GrandParent_StaticParent.fromRef(S, _new0(value.reference).object);
+    return GrandParent_StaticParent.fromRef(
+        S, _new0(value.reference.pointer).object);
   }
 }
 
@@ -1712,11 +1734,12 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
 
   /// from: public T value
   /// The returned object must be released after use, by calling the [release] method.
-  $T get value => T.fromRef(_get_value(reference).object);
+  $T get value => T.fromRef(_get_value(reference.pointer).object);
 
   /// from: public T value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($T value) => _set_value(reference, value.reference).check();
+  set value($T value) =>
+      _set_value(reference.pointer, value.reference.pointer).check();
 
   static final _new0 = jniLookup<
               ffi
@@ -1733,7 +1756,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     T ??= jni.lowestCommonSuperType([
       value.$type,
     ]) as jni.JObjType<$T>;
-    return GrandParent.fromRef(T, _new0(value.reference).object);
+    return GrandParent.fromRef(T, _new0(value.reference.pointer).object);
   }
 
   static final _stringParent = jniLookup<
@@ -1746,7 +1769,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_Parent<jni.JObject, jni.JString> stringParent() {
     return const $GrandParent_ParentType(jni.JObjectType(), jni.JStringType())
-        .fromRef(_stringParent(reference).object);
+        .fromRef(_stringParent(reference.pointer).object);
   }
 
   static final _varParent = jniLookup<
@@ -1766,8 +1789,8 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     S ??= jni.lowestCommonSuperType([
       nestedValue.$type,
     ]) as jni.JObjType<$S>;
-    return $GrandParent_ParentType(const jni.JObjectType(), S)
-        .fromRef(_varParent(reference, nestedValue.reference).object);
+    return $GrandParent_ParentType(const jni.JObjectType(), S).fromRef(
+        _varParent(reference.pointer, nestedValue.reference.pointer).object);
   }
 
   static final _stringStaticParent =
@@ -1798,7 +1821,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       value.$type,
     ]) as jni.JObjType<$S>;
     return $GrandParent_StaticParentType(S)
-        .fromRef(_varStaticParent(value.reference).object);
+        .fromRef(_varStaticParent(value.reference.pointer).object);
   }
 
   static final _staticParentWithSameType = jniLookup<
@@ -1811,7 +1834,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_StaticParent<$T> staticParentWithSameType() {
     return $GrandParent_StaticParentType(T)
-        .fromRef(_staticParentWithSameType(reference).object);
+        .fromRef(_staticParentWithSameType(reference.pointer).object);
   }
 }
 
@@ -1892,11 +1915,12 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public K key
   /// The returned object must be released after use, by calling the [release] method.
-  $K get key => K.fromRef(_get_key(reference).object);
+  $K get key => K.fromRef(_get_key(reference.pointer).object);
 
   /// from: public K key
   /// The returned object must be released after use, by calling the [release] method.
-  set key($K value) => _set_key(reference, value.reference).check();
+  set key($K value) =>
+      _set_key(reference.pointer, value.reference.pointer).check();
 
   static final _get_value = jniLookup<
           ffi.NativeFunction<
@@ -1917,11 +1941,12 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public V value
   /// The returned object must be released after use, by calling the [release] method.
-  $V get value => V.fromRef(_get_value(reference).object);
+  $V get value => V.fromRef(_get_value(reference.pointer).object);
 
   /// from: public V value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($V value) => _set_value(reference, value.reference).check();
+  set value($V value) =>
+      _set_value(reference.pointer, value.reference.pointer).check();
 
   static final _new0 = jniLookup<
           ffi.NativeFunction<
@@ -1951,7 +1976,11 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
       ($parent.$type as $MyMapType).V,
     ]) as jni.JObjType<$V>;
     return MyMap_MyEntry.fromRef(
-        K, V, _new0($parent.reference, key.reference, value.reference).object);
+        K,
+        V,
+        _new0($parent.reference.pointer, key.reference.pointer,
+                value.reference.pointer)
+            .object);
   }
 }
 
@@ -2044,7 +2073,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   $V get0(
     $K key,
   ) {
-    return V.fromRef(_get0(reference, key.reference).object);
+    return V.fromRef(_get0(reference.pointer, key.reference.pointer).object);
   }
 
   static final _put = jniLookup<
@@ -2061,7 +2090,9 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     $K key,
     $V value,
   ) {
-    return V.fromRef(_put(reference, key.reference, value.reference).object);
+    return V.fromRef(
+        _put(reference.pointer, key.reference.pointer, value.reference.pointer)
+            .object);
   }
 
   static final _entryStack = jniLookup<
@@ -2075,7 +2106,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   MyStack<MyMap_MyEntry<jni.JObject, jni.JObject>> entryStack() {
     return const $MyStackType(
             $MyMap_MyEntryType(jni.JObjectType(), jni.JObjectType()))
-        .fromRef(_entryStack(reference).object);
+        .fromRef(_entryStack(reference.pointer).object);
   }
 }
 
@@ -2161,7 +2192,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     T ??= jni.lowestCommonSuperType([
       ((arr.$type as jni.JArrayType).elementType as jni.JObjType),
     ]) as jni.JObjType<$T>;
-    return $MyStackType(T).fromRef(_fromArray(arr.reference).object);
+    return $MyStackType(T).fromRef(_fromArray(arr.reference.pointer).object);
   }
 
   static final _fromArrayOfArrayOfGrandParents = jniLookup<
@@ -2183,7 +2214,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           .T,
     ]) as jni.JObjType<$S>;
     return $MyStackType(S)
-        .fromRef(_fromArrayOfArrayOfGrandParents(arr.reference).object);
+        .fromRef(_fromArrayOfArrayOfGrandParents(arr.reference.pointer).object);
   }
 
   static final _of =
@@ -2212,7 +2243,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     T ??= jni.lowestCommonSuperType([
       obj.$type,
     ]) as jni.JObjType<$T>;
-    return $MyStackType(T).fromRef(_of1(obj.reference).object);
+    return $MyStackType(T).fromRef(_of1(obj.reference.pointer).object);
   }
 
   static final _of2 = jniLookup<
@@ -2234,7 +2265,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       obj2.$type,
       obj.$type,
     ]) as jni.JObjType<$T>;
-    return $MyStackType(T).fromRef(_of2(obj.reference, obj2.reference).object);
+    return $MyStackType(T)
+        .fromRef(_of2(obj.reference.pointer, obj2.reference.pointer).object);
   }
 
   static final _push = jniLookup<
@@ -2249,7 +2281,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   void push(
     $T item,
   ) {
-    return _push(reference, item.reference).check();
+    return _push(reference.pointer, item.reference.pointer).check();
   }
 
   static final _pop = jniLookup<
@@ -2260,7 +2292,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   /// from: public T pop()
   /// The returned object must be released after use, by calling the [release] method.
   $T pop() {
-    return T.fromRef(_pop(reference).object);
+    return T.fromRef(_pop(reference.pointer).object);
   }
 
   static final _size = jniLookup<
@@ -2270,7 +2302,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
 
   /// from: public int size()
   int size() {
-    return _size(reference).integer;
+    return _size(reference.pointer).integer;
   }
 }
 
@@ -2518,7 +2550,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   void voidCallback(
     jni.JString s,
   ) {
-    return _voidCallback(reference, s.reference).check();
+    return _voidCallback(reference.pointer, s.reference.pointer).check();
   }
 
   static final _stringCallback = jniLookup<
@@ -2534,8 +2566,8 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   jni.JString stringCallback(
     jni.JString s,
   ) {
-    return const jni.JStringType()
-        .fromRef(_stringCallback(reference, s.reference).object);
+    return const jni.JStringType().fromRef(
+        _stringCallback(reference.pointer, s.reference.pointer).object);
   }
 
   static final _varCallback = jniLookup<
@@ -2551,7 +2583,8 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   $T varCallback(
     $T t,
   ) {
-    return T.fromRef(_varCallback(reference, t.reference).object);
+    return T
+        .fromRef(_varCallback(reference.pointer, t.reference.pointer).object);
   }
 
   static final _manyPrimitives = jniLookup<
@@ -2573,7 +2606,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     int c,
     double d,
   ) {
-    return _manyPrimitives(reference, a, b ? 1 : 0, c, d).long;
+    return _manyPrimitives(reference.pointer, a, b ? 1 : 0, c, d).long;
   }
 
   /// Maps a specific port to the implemented interface.
@@ -2618,13 +2651,19 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
         final $r = _$impls[$p]!.stringCallback(
           $a[0].castTo(const jni.JStringType(), releaseOriginal: true),
         );
-        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+        return ($r as jni.JObject)
+            .castTo(const jni.JObjectType())
+            .reference
+            .toPointer();
       }
       if ($d == r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;") {
         final $r = _$impls[$p]!.varCallback(
           $a[0].castTo(_$impls[$p]!.T, releaseOriginal: true),
         );
-        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+        return ($r as jni.JObject)
+            .castTo(const jni.JObjectType())
+            .reference
+            .toPointer();
       }
       if ($d == r"manyPrimitives(IZCD)J") {
         final $r = _$impls[$p]!.manyPrimitives(
@@ -2641,7 +2680,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
               .castTo(const jni.JDoubleType(), releaseOriginal: true)
               .doubleValue(releaseOriginal: true),
         );
-        return jni.JLong($r).toPointer();
+        return jni.JLong($r).reference.toPointer();
       }
     } catch (e) {
       return ProtectedJniExtensions.newDartException(e.toString());
@@ -2816,8 +2855,8 @@ class MyInterfaceConsumer extends jni.JObject {
       t.$type,
       (myInterface.$type as $MyInterfaceType).T,
     ]) as jni.JObjType<$T>;
-    return _consumeOnAnotherThread(
-            myInterface.reference, s.reference, a, b ? 1 : 0, c, d, t.reference)
+    return _consumeOnAnotherThread(myInterface.reference.pointer,
+            s.reference.pointer, a, b ? 1 : 0, c, d, t.reference.pointer)
         .check();
   }
 
@@ -2851,8 +2890,8 @@ class MyInterfaceConsumer extends jni.JObject {
       t.$type,
       (myInterface.$type as $MyInterfaceType).T,
     ]) as jni.JObjType<$T>;
-    return _consumeOnSameThread(
-            myInterface.reference, s.reference, a, b ? 1 : 0, c, d, t.reference)
+    return _consumeOnSameThread(myInterface.reference.pointer,
+            s.reference.pointer, a, b ? 1 : 0, c, d, t.reference.pointer)
         .check();
   }
 }
@@ -2902,7 +2941,7 @@ class MyRunnable extends jni.JObject {
 
   /// from: public abstract void run()
   void run() {
-    return _run(reference).check();
+    return _run(reference.pointer).check();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -3050,12 +3089,12 @@ class MyRunnableRunner extends jni.JObject {
   /// from: public java.lang.Throwable error
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get error =>
-      const jni.JObjectType().fromRef(_get_error(reference).object);
+      const jni.JObjectType().fromRef(_get_error(reference.pointer).object);
 
   /// from: public java.lang.Throwable error
   /// The returned object must be released after use, by calling the [release] method.
   set error(jni.JObject value) =>
-      _set_error(reference, value.reference).check();
+      _set_error(reference.pointer, value.reference.pointer).check();
 
   static final _new0 = jniLookup<
               ffi
@@ -3068,7 +3107,7 @@ class MyRunnableRunner extends jni.JObject {
   factory MyRunnableRunner(
     MyRunnable runnable,
   ) {
-    return MyRunnableRunner.fromRef(_new0(runnable.reference).object);
+    return MyRunnableRunner.fromRef(_new0(runnable.reference.pointer).object);
   }
 
   static final _runOnSameThread = jniLookup<
@@ -3079,7 +3118,7 @@ class MyRunnableRunner extends jni.JObject {
 
   /// from: public void runOnSameThread()
   void runOnSameThread() {
-    return _runOnSameThread(reference).check();
+    return _runOnSameThread(reference.pointer).check();
   }
 
   static final _runOnAnotherThread = jniLookup<
@@ -3090,7 +3129,7 @@ class MyRunnableRunner extends jni.JObject {
 
   /// from: public void runOnAnotherThread()
   void runOnAnotherThread() {
-    return _runOnAnotherThread(reference).check();
+    return _runOnAnotherThread(reference.pointer).check();
   }
 }
 
@@ -3155,7 +3194,7 @@ class JsonSerializable_Case extends jni.JObject {
     jni.JString name,
   ) {
     return const $JsonSerializable_CaseType()
-        .fromRef(_valueOf(name.reference).object);
+        .fromRef(_valueOf(name.reference.pointer).object);
   }
 }
 
@@ -3207,7 +3246,8 @@ class JsonSerializable extends jni.JObject {
   /// from: public abstract com.github.dart_lang.jnigen.annotations.JsonSerializable$Case value()
   /// The returned object must be released after use, by calling the [release] method.
   JsonSerializable_Case value() {
-    return const $JsonSerializable_CaseType().fromRef(_value(reference).object);
+    return const $JsonSerializable_CaseType()
+        .fromRef(_value(reference.pointer).object);
   }
 
   /// Maps a specific port to the implemented interface.
@@ -3245,7 +3285,10 @@ class JsonSerializable extends jni.JObject {
       if ($d ==
           r"value()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;") {
         final $r = _$impls[$p]!.value();
-        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+        return ($r as jni.JObject)
+            .castTo(const jni.JObjectType())
+            .reference
+            .toPointer();
       }
     } catch (e) {
       return ProtectedJniExtensions.newDartException(e.toString());
@@ -3404,7 +3447,7 @@ class Color extends jni.JObject {
   static Color valueOf(
     jni.JString name,
   ) {
-    return const $ColorType().fromRef(_valueOf(name.reference).object);
+    return const $ColorType().fromRef(_valueOf(name.reference.pointer).object);
   }
 }
 
@@ -3539,7 +3582,8 @@ class Exceptions extends jni.JObject {
   /// from: public java.lang.Object objectMethod()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject objectMethod() {
-    return const jni.JObjectType().fromRef(_objectMethod(reference).object);
+    return const jni.JObjectType()
+        .fromRef(_objectMethod(reference.pointer).object);
   }
 
   static final _intMethod = jniLookup<
@@ -3550,7 +3594,7 @@ class Exceptions extends jni.JObject {
 
   /// from: public int intMethod()
   int intMethod() {
-    return _intMethod(reference).integer;
+    return _intMethod(reference.pointer).integer;
   }
 
   static final _objectArrayMethod = jniLookup<
@@ -3563,7 +3607,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.JObject> objectArrayMethod() {
     return const jni.JArrayType(jni.JObjectType())
-        .fromRef(_objectArrayMethod(reference).object);
+        .fromRef(_objectArrayMethod(reference.pointer).object);
   }
 
   static final _intArrayMethod = jniLookup<
@@ -3576,7 +3620,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jint> intArrayMethod() {
     return const jni.JArrayType(jni.jintType())
-        .fromRef(_intArrayMethod(reference).object);
+        .fromRef(_intArrayMethod(reference.pointer).object);
   }
 
   static final _throwNullPointerException = jniLookup<
@@ -3587,7 +3631,7 @@ class Exceptions extends jni.JObject {
 
   /// from: public int throwNullPointerException()
   int throwNullPointerException() {
-    return _throwNullPointerException(reference).integer;
+    return _throwNullPointerException(reference.pointer).integer;
   }
 
   static final _throwFileNotFoundException = jniLookup<
@@ -3600,7 +3644,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwFileNotFoundException() {
     return const jni.JObjectType()
-        .fromRef(_throwFileNotFoundException(reference).object);
+        .fromRef(_throwFileNotFoundException(reference.pointer).object);
   }
 
   static final _throwClassCastException = jniLookup<
@@ -3613,7 +3657,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwClassCastException() {
     return const jni.JObjectType()
-        .fromRef(_throwClassCastException(reference).object);
+        .fromRef(_throwClassCastException(reference.pointer).object);
   }
 
   static final _throwArrayIndexException = jniLookup<
@@ -3624,7 +3668,7 @@ class Exceptions extends jni.JObject {
 
   /// from: public int throwArrayIndexException()
   int throwArrayIndexException() {
-    return _throwArrayIndexException(reference).integer;
+    return _throwArrayIndexException(reference.pointer).integer;
   }
 
   static final _throwArithmeticException = jniLookup<
@@ -3635,7 +3679,7 @@ class Exceptions extends jni.JObject {
 
   /// from: public int throwArithmeticException()
   int throwArithmeticException() {
-    return _throwArithmeticException(reference).integer;
+    return _throwArithmeticException(reference.pointer).integer;
   }
 
   static final _throwLoremIpsum =
@@ -3750,7 +3794,8 @@ class Fields extends jni.JObject {
 
   /// from: static public java.lang.String name
   /// The returned object must be released after use, by calling the [release] method.
-  static set name(jni.JString value) => _set_name(value.reference).check();
+  static set name(jni.JString value) =>
+      _set_name(value.reference.pointer).check();
 
   static final _get_i = jniLookup<
           ffi.NativeFunction<
@@ -3772,11 +3817,12 @@ class Fields extends jni.JObject {
   /// from: public java.lang.Integer i
   /// The returned object must be released after use, by calling the [release] method.
   jni.JInteger get i =>
-      const jni.JIntegerType().fromRef(_get_i(reference).object);
+      const jni.JIntegerType().fromRef(_get_i(reference.pointer).object);
 
   /// from: public java.lang.Integer i
   /// The returned object must be released after use, by calling the [release] method.
-  set i(jni.JInteger value) => _set_i(reference, value.reference).check();
+  set i(jni.JInteger value) =>
+      _set_i(reference.pointer, value.reference.pointer).check();
 
   static final _get_trillion = jniLookup<
           ffi.NativeFunction<
@@ -3795,10 +3841,10 @@ class Fields extends jni.JObject {
       .asFunction<jni.JniResult Function(jni.JObjectPtr, int)>();
 
   /// from: public long trillion
-  int get trillion => _get_trillion(reference).long;
+  int get trillion => _get_trillion(reference.pointer).long;
 
   /// from: public long trillion
-  set trillion(int value) => _set_trillion(reference, value).check();
+  set trillion(int value) => _set_trillion(reference.pointer, value).check();
 
   static final _get_isAchillesDead = jniLookup<
           ffi.NativeFunction<
@@ -3817,11 +3863,11 @@ class Fields extends jni.JObject {
       .asFunction<jni.JniResult Function(jni.JObjectPtr, int)>();
 
   /// from: public boolean isAchillesDead
-  bool get isAchillesDead => _get_isAchillesDead(reference).boolean;
+  bool get isAchillesDead => _get_isAchillesDead(reference.pointer).boolean;
 
   /// from: public boolean isAchillesDead
   set isAchillesDead(bool value) =>
-      _set_isAchillesDead(reference, value ? 1 : 0).check();
+      _set_isAchillesDead(reference.pointer, value ? 1 : 0).check();
 
   static final _get_bestFighterInGreece = jniLookup<
           ffi.NativeFunction<
@@ -3843,12 +3889,13 @@ class Fields extends jni.JObject {
   /// from: public java.lang.String bestFighterInGreece
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString get bestFighterInGreece => const jni.JStringType()
-      .fromRef(_get_bestFighterInGreece(reference).object);
+      .fromRef(_get_bestFighterInGreece(reference.pointer).object);
 
   /// from: public java.lang.String bestFighterInGreece
   /// The returned object must be released after use, by calling the [release] method.
   set bestFighterInGreece(jni.JString value) =>
-      _set_bestFighterInGreece(reference, value.reference).check();
+      _set_bestFighterInGreece(reference.pointer, value.reference.pointer)
+          .check();
 
   static final _get_random = jniLookup<
           ffi.NativeFunction<
@@ -3870,12 +3917,12 @@ class Fields extends jni.JObject {
   /// from: public java.util.Random random
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get random =>
-      const jni.JObjectType().fromRef(_get_random(reference).object);
+      const jni.JObjectType().fromRef(_get_random(reference.pointer).object);
 
   /// from: public java.util.Random random
   /// The returned object must be released after use, by calling the [release] method.
   set random(jni.JObject value) =>
-      _set_random(reference, value.reference).check();
+      _set_random(reference.pointer, value.reference.pointer).check();
 
   static final _get_euroSymbol =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3957,10 +4004,10 @@ class Fields_Nested extends jni.JObject {
       .asFunction<jni.JniResult Function(jni.JObjectPtr, int)>();
 
   /// from: public long hundred
-  int get hundred => _get_hundred(reference).long;
+  int get hundred => _get_hundred(reference.pointer).long;
 
   /// from: public long hundred
-  set hundred(int value) => _set_hundred(reference, value).check();
+  set hundred(int value) => _set_hundred(reference.pointer, value).check();
 
   static final _get_BEST_GOD =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3981,7 +4028,7 @@ class Fields_Nested extends jni.JObject {
   /// from: static public java.lang.String BEST_GOD
   /// The returned object must be released after use, by calling the [release] method.
   static set BEST_GOD(jni.JString value) =>
-      _set_BEST_GOD(value.reference).check();
+      _set_BEST_GOD(value.reference.pointer).check();
 
   static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "Fields_Nested__new0")

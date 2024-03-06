@@ -121,7 +121,7 @@ void run({required TestRunnerCallback testRunner}) {
         isA<int>(),
       );
       expect(
-        Jni.env.GetObjectRefType(random.reference),
+        Jni.env.GetObjectRefType(random.reference.pointer),
         equals(JObjectRefType.JNIGlobalRefType),
       );
     });

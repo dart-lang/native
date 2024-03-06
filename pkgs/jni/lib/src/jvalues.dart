@@ -11,7 +11,7 @@ import 'jni.dart';
 
 void _fillJValue(Pointer<JValue> pos, dynamic arg) {
   if (arg is JObject) {
-    pos.ref.l = arg.reference;
+    pos.ref.l = arg.reference.pointer;
     return;
   }
 

@@ -86,7 +86,7 @@ class PDDocument extends jni.JObject {
   factory PDDocument.new1(
     jni.JObject memUsageSetting,
   ) {
-    return PDDocument.fromRef(_new1(memUsageSetting.reference).object);
+    return PDDocument.fromRef(_new1(memUsageSetting.reference.pointer).object);
   }
 
   static final _new2 = jniLookup<
@@ -103,7 +103,7 @@ class PDDocument extends jni.JObject {
   factory PDDocument.new2(
     jni.JObject doc,
   ) {
-    return PDDocument.fromRef(_new2(doc.reference).object);
+    return PDDocument.fromRef(_new2(doc.reference.pointer).object);
   }
 
   static final _new3 = jniLookup<
@@ -124,7 +124,8 @@ class PDDocument extends jni.JObject {
     jni.JObject doc,
     jni.JObject source,
   ) {
-    return PDDocument.fromRef(_new3(doc.reference, source.reference).object);
+    return PDDocument.fromRef(
+        _new3(doc.reference.pointer, source.reference.pointer).object);
   }
 
   static final _new4 = jniLookup<
@@ -149,8 +150,9 @@ class PDDocument extends jni.JObject {
     jni.JObject source,
     jni.JObject permission,
   ) {
-    return PDDocument.fromRef(
-        _new4(doc.reference, source.reference, permission.reference).object);
+    return PDDocument.fromRef(_new4(doc.reference.pointer,
+            source.reference.pointer, permission.reference.pointer)
+        .object);
   }
 
   static final _addPage = jniLookup<
@@ -169,7 +171,7 @@ class PDDocument extends jni.JObject {
   void addPage(
     jni.JObject page,
   ) {
-    return _addPage(reference, page.reference).check();
+    return _addPage(reference.pointer, page.reference.pointer).check();
   }
 
   static final _addSignature = jniLookup<
@@ -195,7 +197,8 @@ class PDDocument extends jni.JObject {
   void addSignature(
     jni.JObject sigObject,
   ) {
-    return _addSignature(reference, sigObject.reference).check();
+    return _addSignature(reference.pointer, sigObject.reference.pointer)
+        .check();
   }
 
   static final _addSignature1 = jniLookup<
@@ -225,7 +228,8 @@ class PDDocument extends jni.JObject {
     jni.JObject sigObject,
     jni.JObject options,
   ) {
-    return _addSignature1(reference, sigObject.reference, options.reference)
+    return _addSignature1(reference.pointer, sigObject.reference.pointer,
+            options.reference.pointer)
         .check();
   }
 
@@ -255,8 +259,8 @@ class PDDocument extends jni.JObject {
     jni.JObject sigObject,
     jni.JObject signatureInterface,
   ) {
-    return _addSignature2(
-            reference, sigObject.reference, signatureInterface.reference)
+    return _addSignature2(reference.pointer, sigObject.reference.pointer,
+            signatureInterface.reference.pointer)
         .check();
   }
 
@@ -291,8 +295,8 @@ class PDDocument extends jni.JObject {
     jni.JObject signatureInterface,
     jni.JObject options,
   ) {
-    return _addSignature3(reference, sigObject.reference,
-            signatureInterface.reference, options.reference)
+    return _addSignature3(reference.pointer, sigObject.reference.pointer,
+            signatureInterface.reference.pointer, options.reference.pointer)
         .check();
   }
 
@@ -322,8 +326,8 @@ class PDDocument extends jni.JObject {
     jni.JObject signatureInterface,
     jni.JObject options,
   ) {
-    return _addSignatureField(reference, sigFields.reference,
-            signatureInterface.reference, options.reference)
+    return _addSignatureField(reference.pointer, sigFields.reference.pointer,
+            signatureInterface.reference.pointer, options.reference.pointer)
         .check();
   }
 
@@ -342,7 +346,7 @@ class PDDocument extends jni.JObject {
   void removePage(
     jni.JObject page,
   ) {
-    return _removePage(reference, page.reference).check();
+    return _removePage(reference.pointer, page.reference.pointer).check();
   }
 
   static final _removePage1 = jniLookup<
@@ -358,7 +362,7 @@ class PDDocument extends jni.JObject {
   void removePage1(
     int pageNumber,
   ) {
-    return _removePage1(reference, pageNumber).check();
+    return _removePage1(reference.pointer, pageNumber).check();
   }
 
   static final _importPage = jniLookup<
@@ -397,7 +401,7 @@ class PDDocument extends jni.JObject {
     jni.JObject page,
   ) {
     return const jni.JObjectType()
-        .fromRef(_importPage(reference, page.reference).object);
+        .fromRef(_importPage(reference.pointer, page.reference.pointer).object);
   }
 
   static final _getDocument = jniLookup<
@@ -412,7 +416,8 @@ class PDDocument extends jni.JObject {
   /// This will get the low level document.
   ///@return The document that this layer sits on top of.
   jni.JObject getDocument() {
-    return const jni.JObjectType().fromRef(_getDocument(reference).object);
+    return const jni.JObjectType()
+        .fromRef(_getDocument(reference.pointer).object);
   }
 
   static final _getDocumentInformation = jniLookup<
@@ -433,7 +438,7 @@ class PDDocument extends jni.JObject {
   ///@return The documents /Info dictionary, never null.
   pddocumentinformation_.PDDocumentInformation getDocumentInformation() {
     return const pddocumentinformation_.$PDDocumentInformationType()
-        .fromRef(_getDocumentInformation(reference).object);
+        .fromRef(_getDocumentInformation(reference.pointer).object);
   }
 
   static final _setDocumentInformation = jniLookup<
@@ -455,7 +460,8 @@ class PDDocument extends jni.JObject {
   void setDocumentInformation(
     pddocumentinformation_.PDDocumentInformation info,
   ) {
-    return _setDocumentInformation(reference, info.reference).check();
+    return _setDocumentInformation(reference.pointer, info.reference.pointer)
+        .check();
   }
 
   static final _getDocumentCatalog = jniLookup<
@@ -471,7 +477,7 @@ class PDDocument extends jni.JObject {
   ///@return The documents /Root dictionary
   jni.JObject getDocumentCatalog() {
     return const jni.JObjectType()
-        .fromRef(_getDocumentCatalog(reference).object);
+        .fromRef(_getDocumentCatalog(reference.pointer).object);
   }
 
   static final _isEncrypted = jniLookup<
@@ -485,7 +491,7 @@ class PDDocument extends jni.JObject {
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
   bool isEncrypted() {
-    return _isEncrypted(reference).boolean;
+    return _isEncrypted(reference.pointer).boolean;
   }
 
   static final _getEncryption = jniLookup<
@@ -503,7 +509,8 @@ class PDDocument extends jni.JObject {
   /// PDStandardEncryption object.
   ///@return The encryption dictionary(most likely a PDStandardEncryption object)
   jni.JObject getEncryption() {
-    return const jni.JObjectType().fromRef(_getEncryption(reference).object);
+    return const jni.JObjectType()
+        .fromRef(_getEncryption(reference.pointer).object);
   }
 
   static final _setEncryptionDictionary = jniLookup<
@@ -523,7 +530,9 @@ class PDDocument extends jni.JObject {
   void setEncryptionDictionary(
     jni.JObject encryption,
   ) {
-    return _setEncryptionDictionary(reference, encryption.reference).check();
+    return _setEncryptionDictionary(
+            reference.pointer, encryption.reference.pointer)
+        .check();
   }
 
   static final _getLastSignatureDictionary = jniLookup<
@@ -541,7 +550,7 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if no document catalog can be found.
   jni.JObject getLastSignatureDictionary() {
     return const jni.JObjectType()
-        .fromRef(_getLastSignatureDictionary(reference).object);
+        .fromRef(_getLastSignatureDictionary(reference.pointer).object);
   }
 
   static final _getSignatureFields = jniLookup<
@@ -558,7 +567,7 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if no document catalog can be found.
   jni.JList<jni.JObject> getSignatureFields() {
     return const jni.JListType(jni.JObjectType())
-        .fromRef(_getSignatureFields(reference).object);
+        .fromRef(_getSignatureFields(reference.pointer).object);
   }
 
   static final _getSignatureDictionaries = jniLookup<
@@ -575,7 +584,7 @@ class PDDocument extends jni.JObject {
   ///@throws IOException if no document catalog can be found.
   jni.JList<jni.JObject> getSignatureDictionaries() {
     return const jni.JListType(jni.JObjectType())
-        .fromRef(_getSignatureDictionaries(reference).object);
+        .fromRef(_getSignatureDictionaries(reference.pointer).object);
   }
 
   static final _registerTrueTypeFontForClosing = jniLookup<
@@ -596,7 +605,9 @@ class PDDocument extends jni.JObject {
   void registerTrueTypeFontForClosing(
     jni.JObject ttf,
   ) {
-    return _registerTrueTypeFontForClosing(reference, ttf.reference).check();
+    return _registerTrueTypeFontForClosing(
+            reference.pointer, ttf.reference.pointer)
+        .check();
   }
 
   static final _load = jniLookup<
@@ -616,7 +627,8 @@ class PDDocument extends jni.JObject {
   static PDDocument load(
     jni.JObject file,
   ) {
-    return const $PDDocumentType().fromRef(_load(file.reference).object);
+    return const $PDDocumentType()
+        .fromRef(_load(file.reference.pointer).object);
   }
 
   static final _load1 = jniLookup<
@@ -640,8 +652,9 @@ class PDDocument extends jni.JObject {
     jni.JObject file,
     jni.JObject memUsageSetting,
   ) {
-    return const $PDDocumentType()
-        .fromRef(_load1(file.reference, memUsageSetting.reference).object);
+    return const $PDDocumentType().fromRef(
+        _load1(file.reference.pointer, memUsageSetting.reference.pointer)
+            .object);
   }
 
   static final _load2 = jniLookup<
@@ -665,8 +678,8 @@ class PDDocument extends jni.JObject {
     jni.JObject file,
     jni.JString password,
   ) {
-    return const $PDDocumentType()
-        .fromRef(_load2(file.reference, password.reference).object);
+    return const $PDDocumentType().fromRef(
+        _load2(file.reference.pointer, password.reference.pointer).object);
   }
 
   static final _load3 = jniLookup<
@@ -694,9 +707,9 @@ class PDDocument extends jni.JObject {
     jni.JString password,
     jni.JObject memUsageSetting,
   ) {
-    return const $PDDocumentType().fromRef(
-        _load3(file.reference, password.reference, memUsageSetting.reference)
-            .object);
+    return const $PDDocumentType().fromRef(_load3(file.reference.pointer,
+            password.reference.pointer, memUsageSetting.reference.pointer)
+        .object);
   }
 
   static final _load4 = jniLookup<
@@ -726,8 +739,11 @@ class PDDocument extends jni.JObject {
     jni.JObject keyStore,
     jni.JString alias,
   ) {
-    return const $PDDocumentType().fromRef(_load4(file.reference,
-            password.reference, keyStore.reference, alias.reference)
+    return const $PDDocumentType().fromRef(_load4(
+            file.reference.pointer,
+            password.reference.pointer,
+            keyStore.reference.pointer,
+            alias.reference.pointer)
         .object);
   }
 
@@ -766,11 +782,11 @@ class PDDocument extends jni.JObject {
     jni.JObject memUsageSetting,
   ) {
     return const $PDDocumentType().fromRef(_load5(
-            file.reference,
-            password.reference,
-            keyStore.reference,
-            alias.reference,
-            memUsageSetting.reference)
+            file.reference.pointer,
+            password.reference.pointer,
+            keyStore.reference.pointer,
+            alias.reference.pointer,
+            memUsageSetting.reference.pointer)
         .object);
   }
 
@@ -792,7 +808,8 @@ class PDDocument extends jni.JObject {
   static PDDocument load6(
     jni.JObject input,
   ) {
-    return const $PDDocumentType().fromRef(_load6(input.reference).object);
+    return const $PDDocumentType()
+        .fromRef(_load6(input.reference.pointer).object);
   }
 
   static final _load7 = jniLookup<
@@ -817,8 +834,9 @@ class PDDocument extends jni.JObject {
     jni.JObject input,
     jni.JObject memUsageSetting,
   ) {
-    return const $PDDocumentType()
-        .fromRef(_load7(input.reference, memUsageSetting.reference).object);
+    return const $PDDocumentType().fromRef(
+        _load7(input.reference.pointer, memUsageSetting.reference.pointer)
+            .object);
   }
 
   static final _load8 = jniLookup<
@@ -843,8 +861,8 @@ class PDDocument extends jni.JObject {
     jni.JObject input,
     jni.JString password,
   ) {
-    return const $PDDocumentType()
-        .fromRef(_load8(input.reference, password.reference).object);
+    return const $PDDocumentType().fromRef(
+        _load8(input.reference.pointer, password.reference.pointer).object);
   }
 
   static final _load9 = jniLookup<
@@ -875,8 +893,11 @@ class PDDocument extends jni.JObject {
     jni.JObject keyStore,
     jni.JString alias,
   ) {
-    return const $PDDocumentType().fromRef(_load9(input.reference,
-            password.reference, keyStore.reference, alias.reference)
+    return const $PDDocumentType().fromRef(_load9(
+            input.reference.pointer,
+            password.reference.pointer,
+            keyStore.reference.pointer,
+            alias.reference.pointer)
         .object);
   }
 
@@ -906,9 +927,9 @@ class PDDocument extends jni.JObject {
     jni.JString password,
     jni.JObject memUsageSetting,
   ) {
-    return const $PDDocumentType().fromRef(
-        _load10(input.reference, password.reference, memUsageSetting.reference)
-            .object);
+    return const $PDDocumentType().fromRef(_load10(input.reference.pointer,
+            password.reference.pointer, memUsageSetting.reference.pointer)
+        .object);
   }
 
   static final _load11 = jniLookup<
@@ -948,11 +969,11 @@ class PDDocument extends jni.JObject {
     jni.JObject memUsageSetting,
   ) {
     return const $PDDocumentType().fromRef(_load11(
-            input.reference,
-            password.reference,
-            keyStore.reference,
-            alias.reference,
-            memUsageSetting.reference)
+            input.reference.pointer,
+            password.reference.pointer,
+            keyStore.reference.pointer,
+            alias.reference.pointer,
+            memUsageSetting.reference.pointer)
         .object);
   }
 
@@ -973,7 +994,8 @@ class PDDocument extends jni.JObject {
   static PDDocument load12(
     jni.JArray<jni.jbyte> input,
   ) {
-    return const $PDDocumentType().fromRef(_load12(input.reference).object);
+    return const $PDDocumentType()
+        .fromRef(_load12(input.reference.pointer).object);
   }
 
   static final _load13 = jniLookup<
@@ -997,8 +1019,8 @@ class PDDocument extends jni.JObject {
     jni.JArray<jni.jbyte> input,
     jni.JString password,
   ) {
-    return const $PDDocumentType()
-        .fromRef(_load13(input.reference, password.reference).object);
+    return const $PDDocumentType().fromRef(
+        _load13(input.reference.pointer, password.reference.pointer).object);
   }
 
   static final _load14 = jniLookup<
@@ -1029,8 +1051,11 @@ class PDDocument extends jni.JObject {
     jni.JObject keyStore,
     jni.JString alias,
   ) {
-    return const $PDDocumentType().fromRef(_load14(input.reference,
-            password.reference, keyStore.reference, alias.reference)
+    return const $PDDocumentType().fromRef(_load14(
+            input.reference.pointer,
+            password.reference.pointer,
+            keyStore.reference.pointer,
+            alias.reference.pointer)
         .object);
   }
 
@@ -1070,11 +1095,11 @@ class PDDocument extends jni.JObject {
     jni.JObject memUsageSetting,
   ) {
     return const $PDDocumentType().fromRef(_load15(
-            input.reference,
-            password.reference,
-            keyStore.reference,
-            alias.reference,
-            memUsageSetting.reference)
+            input.reference.pointer,
+            password.reference.pointer,
+            keyStore.reference.pointer,
+            alias.reference.pointer,
+            memUsageSetting.reference.pointer)
         .object);
   }
 
@@ -1098,7 +1123,7 @@ class PDDocument extends jni.JObject {
   void save(
     jni.JString fileName,
   ) {
-    return _save(reference, fileName.reference).check();
+    return _save(reference.pointer, fileName.reference.pointer).check();
   }
 
   static final _save1 = jniLookup<
@@ -1121,7 +1146,7 @@ class PDDocument extends jni.JObject {
   void save1(
     jni.JObject file,
   ) {
-    return _save1(reference, file.reference).check();
+    return _save1(reference.pointer, file.reference.pointer).check();
   }
 
   static final _save2 = jniLookup<
@@ -1145,7 +1170,7 @@ class PDDocument extends jni.JObject {
   void save2(
     jni.JObject output,
   ) {
-    return _save2(reference, output.reference).check();
+    return _save2(reference.pointer, output.reference.pointer).check();
   }
 
   static final _saveIncremental = jniLookup<
@@ -1174,7 +1199,8 @@ class PDDocument extends jni.JObject {
   void saveIncremental(
     jni.JObject output,
   ) {
-    return _saveIncremental(reference, output.reference).check();
+    return _saveIncremental(reference.pointer, output.reference.pointer)
+        .check();
   }
 
   static final _saveIncremental1 = jniLookup<
@@ -1211,8 +1237,8 @@ class PDDocument extends jni.JObject {
     jni.JObject output,
     jni.JSet<jni.JObject> objectsToWrite,
   ) {
-    return _saveIncremental1(
-            reference, output.reference, objectsToWrite.reference)
+    return _saveIncremental1(reference.pointer, output.reference.pointer,
+            objectsToWrite.reference.pointer)
         .check();
   }
 
@@ -1268,8 +1294,9 @@ class PDDocument extends jni.JObject {
   jni.JObject saveIncrementalForExternalSigning(
     jni.JObject output,
   ) {
-    return const jni.JObjectType().fromRef(
-        _saveIncrementalForExternalSigning(reference, output.reference).object);
+    return const jni.JObjectType().fromRef(_saveIncrementalForExternalSigning(
+            reference.pointer, output.reference.pointer)
+        .object);
   }
 
   static final _getPage = jniLookup<
@@ -1292,7 +1319,7 @@ class PDDocument extends jni.JObject {
     int pageIndex,
   ) {
     return const jni.JObjectType()
-        .fromRef(_getPage(reference, pageIndex).object);
+        .fromRef(_getPage(reference.pointer, pageIndex).object);
   }
 
   static final _getPages = jniLookup<
@@ -1307,7 +1334,7 @@ class PDDocument extends jni.JObject {
   /// Returns the page tree.
   ///@return the page tree
   jni.JObject getPages() {
-    return const jni.JObjectType().fromRef(_getPages(reference).object);
+    return const jni.JObjectType().fromRef(_getPages(reference.pointer).object);
   }
 
   static final _getNumberOfPages = jniLookup<
@@ -1321,7 +1348,7 @@ class PDDocument extends jni.JObject {
   /// This will return the total page count of the PDF document.
   ///@return The total number of pages in the PDF document.
   int getNumberOfPages() {
-    return _getNumberOfPages(reference).integer;
+    return _getNumberOfPages(reference.pointer).integer;
   }
 
   static final _close = jniLookup<
@@ -1335,7 +1362,7 @@ class PDDocument extends jni.JObject {
   /// This will close the underlying COSDocument object.
   ///@throws IOException If there is an error releasing resources.
   void close() {
-    return _close(reference).check();
+    return _close(reference.pointer).check();
   }
 
   static final _protect = jniLookup<
@@ -1361,7 +1388,7 @@ class PDDocument extends jni.JObject {
   void protect(
     jni.JObject policy,
   ) {
-    return _protect(reference, policy.reference).check();
+    return _protect(reference.pointer, policy.reference.pointer).check();
   }
 
   static final _getCurrentAccessPermission = jniLookup<
@@ -1380,7 +1407,7 @@ class PDDocument extends jni.JObject {
   ///@return the access permissions for the current user on the document.
   jni.JObject getCurrentAccessPermission() {
     return const jni.JObjectType()
-        .fromRef(_getCurrentAccessPermission(reference).object);
+        .fromRef(_getCurrentAccessPermission(reference.pointer).object);
   }
 
   static final _isAllSecurityToBeRemoved = jniLookup<
@@ -1394,7 +1421,7 @@ class PDDocument extends jni.JObject {
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
   bool isAllSecurityToBeRemoved() {
-    return _isAllSecurityToBeRemoved(reference).boolean;
+    return _isAllSecurityToBeRemoved(reference.pointer).boolean;
   }
 
   static final _setAllSecurityToBeRemoved = jniLookup<
@@ -1410,7 +1437,8 @@ class PDDocument extends jni.JObject {
   void setAllSecurityToBeRemoved(
     bool removeAllSecurity,
   ) {
-    return _setAllSecurityToBeRemoved(reference, removeAllSecurity ? 1 : 0)
+    return _setAllSecurityToBeRemoved(
+            reference.pointer, removeAllSecurity ? 1 : 0)
         .check();
   }
 
@@ -1426,7 +1454,8 @@ class PDDocument extends jni.JObject {
   /// Provides the document ID.
   ///@return the document ID
   jni.JLong getDocumentId() {
-    return const jni.JLongType().fromRef(_getDocumentId(reference).object);
+    return const jni.JLongType()
+        .fromRef(_getDocumentId(reference.pointer).object);
   }
 
   static final _setDocumentId = jniLookup<
@@ -1444,7 +1473,7 @@ class PDDocument extends jni.JObject {
   void setDocumentId(
     jni.JLong docId,
   ) {
-    return _setDocumentId(reference, docId.reference).check();
+    return _setDocumentId(reference.pointer, docId.reference.pointer).check();
   }
 
   static final _getVersion = jniLookup<
@@ -1458,7 +1487,7 @@ class PDDocument extends jni.JObject {
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
   double getVersion() {
-    return _getVersion(reference).float;
+    return _getVersion(reference.pointer).float;
   }
 
   static final _setVersion = jniLookup<
@@ -1474,7 +1503,7 @@ class PDDocument extends jni.JObject {
   void setVersion(
     double newVersion,
   ) {
-    return _setVersion(reference, newVersion).check();
+    return _setVersion(reference.pointer, newVersion).check();
   }
 
   static final _getResourceCache = jniLookup<
@@ -1489,7 +1518,8 @@ class PDDocument extends jni.JObject {
   /// Returns the resource cache associated with this document, or null if there is none.
   ///@return the resource cache or null.
   jni.JObject getResourceCache() {
-    return const jni.JObjectType().fromRef(_getResourceCache(reference).object);
+    return const jni.JObjectType()
+        .fromRef(_getResourceCache(reference.pointer).object);
   }
 
   static final _setResourceCache = jniLookup<
@@ -1507,7 +1537,8 @@ class PDDocument extends jni.JObject {
   void setResourceCache(
     jni.JObject resourceCache,
   ) {
-    return _setResourceCache(reference, resourceCache.reference).check();
+    return _setResourceCache(reference.pointer, resourceCache.reference.pointer)
+        .check();
   }
 }
 

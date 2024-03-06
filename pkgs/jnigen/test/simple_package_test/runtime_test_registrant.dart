@@ -655,7 +655,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             }
             expect(
               Jni.env.IsInstanceOf(
-                runner.error.reference,
+                runner.error.reference.pointer,
                 Jni.findClass('java/lang/reflect/UndeclaredThrowableException'),
               ),
               isTrue,
@@ -664,7 +664,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 'getCause', '()Ljava/lang/Throwable;', []);
             expect(
               Jni.env.IsInstanceOf(
-                cause.reference,
+                cause.reference.pointer,
                 Jni.findClass(
                     'com/github/dart_lang/jni/PortProxy\$DartException'),
               ),

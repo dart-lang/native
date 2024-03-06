@@ -48,18 +48,18 @@ class JBoolean extends JObject {
   static final _class = Jni.findJClass(r"java/lang/Boolean");
 
   static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(Z)V");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(Z)V");
   JBoolean(bool boolean)
       : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference, _ctorId, [boolean ? 1 : 0]).object);
+            _class.reference.pointer, _ctorId, [boolean ? 1 : 0]).object);
 
-  static final _booleanValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"booleanValue", r"()Z");
+  static final _booleanValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"booleanValue", r"()Z");
 
   bool booleanValue({bool releaseOriginal = false}) {
-    ensureNotNull();
-    final ret = Jni.accessors.callMethodWithArgs(
-        reference, _booleanValueId, JniCallType.booleanType, []).boolean;
+    reference.ensureNotNull();
+    final ret = Jni.accessors.callMethodWithArgs(reference.pointer,
+        _booleanValueId, JniCallType.booleanType, []).boolean;
     if (releaseOriginal) {
       release();
     }

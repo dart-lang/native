@@ -45,19 +45,19 @@ class JCharacter extends JObject {
   static final _class = Jni.findJClass(r"java/lang/Character");
 
   static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(C)V");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(C)V");
 
   JCharacter(int c)
       : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference, _ctorId, [JValueChar(c)]).object);
+            _class.reference.pointer, _ctorId, [JValueChar(c)]).object);
 
-  static final _charValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"charValue", r"()C");
+  static final _charValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"charValue", r"()C");
 
   int charValue({bool releaseOriginal = false}) {
-    ensureNotNull();
+    reference.ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
-        reference, _charValueId, JniCallType.charType, []).char;
+        reference.pointer, _charValueId, JniCallType.charType, []).char;
     if (releaseOriginal) {
       release();
     }

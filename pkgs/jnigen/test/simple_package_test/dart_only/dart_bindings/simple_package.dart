@@ -41,28 +41,29 @@ class Example_Nested_NestedTwice extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $Example_Nested_NestedTwiceType();
   static final _id_ZERO = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"ZERO",
     r"I",
   );
 
   /// from: static public int ZERO
   static int get ZERO => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_ZERO, jni.JniCallType.intType)
+      .getStaticField(
+          _class.reference.pointer, _id_ZERO, jni.JniCallType.intType)
       .integer;
 
   /// from: static public int ZERO
   static set ZERO(int value) =>
-      jni.Jni.env.SetStaticIntField(_class.reference, _id_ZERO, value);
+      jni.Jni.env.SetStaticIntField(_class.reference.pointer, _id_ZERO, value);
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested_NestedTwice() {
     return Example_Nested_NestedTwice.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -108,44 +109,44 @@ class Example_Nested extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example_NestedType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(Z)V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"(Z)V");
 
   /// from: public void <init>(boolean value)
   /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested(
     bool value,
   ) {
-    return Example_Nested.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, [value ? 1 : 0]).object);
+    return Example_Nested.fromRef(jni.Jni.accessors.newObjectWithArgs(
+        _class.reference.pointer, _id_new0, [value ? 1 : 0]).object);
   }
 
-  static final _id_usesAnonymousInnerClass = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"usesAnonymousInnerClass", r"()V");
+  static final _id_usesAnonymousInnerClass = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"usesAnonymousInnerClass", r"()V");
 
   /// from: public void usesAnonymousInnerClass()
   void usesAnonymousInnerClass() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
         _id_usesAnonymousInnerClass, jni.JniCallType.voidType, []).check();
   }
 
-  static final _id_getValue =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getValue", r"()Z");
+  static final _id_getValue = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"getValue", r"()Z");
 
   /// from: public boolean getValue()
   bool getValue() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getValue, jni.JniCallType.booleanType, []).boolean;
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer, _id_getValue,
+        jni.JniCallType.booleanType, []).boolean;
   }
 
-  static final _id_setValue =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"setValue", r"(Z)V");
+  static final _id_setValue = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"setValue", r"(Z)V");
 
   /// from: public void setValue(boolean value)
   void setValue(
     bool value,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_setValue,
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer, _id_setValue,
         jni.JniCallType.voidType, [value ? 1 : 0]).check();
   }
 }
@@ -191,22 +192,24 @@ class Example_NonStaticNested extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $Example_NonStaticNestedType();
   static final _id_ok = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"ok",
     r"Z",
   );
 
   /// from: public boolean ok
   bool get ok => jni.Jni.accessors
-      .getField(reference, _id_ok, jni.JniCallType.booleanType)
+      .getField(reference.pointer, _id_ok, jni.JniCallType.booleanType)
       .boolean;
 
   /// from: public boolean ok
   set ok(bool value) =>
-      jni.Jni.env.SetBooleanField(reference, _id_ok, value ? 1 : 0);
+      jni.Jni.env.SetBooleanField(reference.pointer, _id_ok, value ? 1 : 0);
 
-  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"<init>", r"(Lcom/github/dart_lang/jnigen/simple_package/Example;)V");
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/simple_package/Example;)V");
 
   /// from: public void <init>(com.github.dart_lang.jnigen.simple_package.Example $parent)
   /// The returned object must be released after use, by calling the [release] method.
@@ -214,7 +217,9 @@ class Example_NonStaticNested extends jni.JObject {
     Example $parent,
   ) {
     return Example_NonStaticNested.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new0, [$parent.reference]).object);
+        _class.reference.pointer,
+        _id_new0,
+        [$parent.reference.pointer]).object);
   }
 }
 
@@ -273,21 +278,21 @@ class Example extends jni.JObject {
   /// from: static public final char SEMICOLON
   static const SEMICOLON = 59;
   static final _id_SEMICOLON_STRING = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"SEMICOLON_STRING",
     r"Ljava/lang/String;",
   );
 
   /// from: static public final java.lang.String SEMICOLON_STRING
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get SEMICOLON_STRING => const jni.JStringType().fromRef(jni
-      .Jni.accessors
-      .getStaticField(
-          _class.reference, _id_SEMICOLON_STRING, jni.JniCallType.objectType)
-      .object);
+  static jni.JString get SEMICOLON_STRING =>
+      const jni.JStringType().fromRef(jni.Jni.accessors
+          .getStaticField(_class.reference.pointer, _id_SEMICOLON_STRING,
+              jni.JniCallType.objectType)
+          .object);
 
   static final _id_unusedRandom = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"unusedRandom",
     r"Ljava/util/Random;",
   );
@@ -296,12 +301,12 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get unusedRandom =>
       const jni.JObjectType().fromRef(jni.Jni.accessors
-          .getStaticField(
-              _class.reference, _id_unusedRandom, jni.JniCallType.objectType)
+          .getStaticField(_class.reference.pointer, _id_unusedRandom,
+              jni.JniCallType.objectType)
           .object);
 
   static final _id_protectedField = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"protectedField",
     r"Ljava/util/Random;",
   );
@@ -310,54 +315,55 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get protectedField =>
       const jni.JObjectType().fromRef(jni.Jni.accessors
-          .getField(reference, _id_protectedField, jni.JniCallType.objectType)
+          .getField(
+              reference.pointer, _id_protectedField, jni.JniCallType.objectType)
           .object);
 
   /// from: protected java.util.Random protectedField
   /// The returned object must be released after use, by calling the [release] method.
-  set protectedField(jni.JObject value) => jni.Jni.env
-      .SetObjectField(reference, _id_protectedField, value.reference);
+  set protectedField(jni.JObject value) => jni.Jni.env.SetObjectField(
+      reference.pointer, _id_protectedField, value.reference.pointer);
 
   static final _id_getAmount = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"getAmount", r"()I");
+      .getStaticMethodIDOf(_class.reference.pointer, r"getAmount", r"()I");
 
   /// from: static public int getAmount()
   static int getAmount() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference, _id_getAmount, jni.JniCallType.intType, []).integer;
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
+        _id_getAmount, jni.JniCallType.intType, []).integer;
   }
 
-  static final _id_getPi =
-      jni.Jni.accessors.getStaticMethodIDOf(_class.reference, r"getPi", r"()D");
+  static final _id_getPi = jni.Jni.accessors
+      .getStaticMethodIDOf(_class.reference.pointer, r"getPi", r"()D");
 
   /// from: static public double getPi()
   static double getPi() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
         _id_getPi, jni.JniCallType.doubleType, []).doubleFloat;
   }
 
   static final _id_getAsterisk = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"getAsterisk", r"()C");
+      .getStaticMethodIDOf(_class.reference.pointer, r"getAsterisk", r"()C");
 
   /// from: static public char getAsterisk()
   static int getAsterisk() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference, _id_getAsterisk, jni.JniCallType.charType, []).char;
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
+        _id_getAsterisk, jni.JniCallType.charType, []).char;
   }
 
   static final _id_getName = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference, r"getName", r"()Ljava/lang/String;");
+      _class.reference.pointer, r"getName", r"()Ljava/lang/String;");
 
   /// from: static public java.lang.String getName()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getName() {
     return const jni.JStringType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_getName,
+        .callStaticMethodWithArgs(_class.reference.pointer, _id_getName,
             jni.JniCallType.objectType, []).object);
   }
 
   static final _id_getNestedInstance = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"getNestedInstance",
       r"()Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;");
 
@@ -365,37 +371,40 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static Example_Nested getNestedInstance() {
     return const $Example_NestedType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_getNestedInstance,
-            jni.JniCallType.objectType, []).object);
+        .callStaticMethodWithArgs(_class.reference.pointer,
+            _id_getNestedInstance, jni.JniCallType.objectType, []).object);
   }
 
   static final _id_setAmount = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"setAmount", r"(I)V");
+      .getStaticMethodIDOf(_class.reference.pointer, r"setAmount", r"(I)V");
 
   /// from: static public void setAmount(int newAmount)
   static void setAmount(
     int newAmount,
   ) {
     return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference,
+        _class.reference.pointer,
         _id_setAmount,
         jni.JniCallType.voidType,
         [jni.JValueInt(newAmount)]).check();
   }
 
   static final _id_setName = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference, r"setName", r"(Ljava/lang/String;)V");
+      _class.reference.pointer, r"setName", r"(Ljava/lang/String;)V");
 
   /// from: static public void setName(java.lang.String newName)
   static void setName(
     jni.JString newName,
   ) {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
-        _id_setName, jni.JniCallType.voidType, [newName.reference]).check();
+    return jni.Jni.accessors.callStaticMethodWithArgs(
+        _class.reference.pointer,
+        _id_setName,
+        jni.JniCallType.voidType,
+        [newName.reference.pointer]).check();
   }
 
   static final _id_setNestedInstance = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"setNestedInstance",
       r"(Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;)V");
 
@@ -404,14 +413,14 @@ class Example extends jni.JObject {
     Example_Nested newNested,
   ) {
     return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference,
+        _class.reference.pointer,
         _id_setNestedInstance,
         jni.JniCallType.voidType,
-        [newNested.reference]).check();
+        [newNested.reference.pointer]).check();
   }
 
   static final _id_max4 = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"max4", r"(IIII)I");
+      .getStaticMethodIDOf(_class.reference.pointer, r"max4", r"(IIII)I");
 
   /// from: static public int max4(int a, int b, int c, int d)
   static int max4(
@@ -421,7 +430,7 @@ class Example extends jni.JObject {
     int d,
   ) {
     return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference, _id_max4, jni.JniCallType.intType, [
+        _class.reference.pointer, _id_max4, jni.JniCallType.intType, [
       jni.JValueInt(a),
       jni.JValueInt(b),
       jni.JValueInt(c),
@@ -430,7 +439,7 @@ class Example extends jni.JObject {
   }
 
   static final _id_max8 = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"max8", r"(IIIIIIII)I");
+      .getStaticMethodIDOf(_class.reference.pointer, r"max8", r"(IIIIIIII)I");
 
   /// from: static public int max8(int a, int b, int c, int d, int e, int f, int g, int h)
   static int max8(
@@ -444,7 +453,7 @@ class Example extends jni.JObject {
     int h,
   ) {
     return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference, _id_max8, jni.JniCallType.intType, [
+        _class.reference.pointer, _id_max8, jni.JniCallType.intType, [
       jni.JValueInt(a),
       jni.JValueInt(b),
       jni.JValueInt(c),
@@ -456,99 +465,112 @@ class Example extends jni.JObject {
     ]).integer;
   }
 
-  static final _id_getNumber =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getNumber", r"()I");
+  static final _id_getNumber = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"getNumber", r"()I");
 
   /// from: public int getNumber()
   int getNumber() {
     return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getNumber, jni.JniCallType.intType, []).integer;
+        reference.pointer, _id_getNumber, jni.JniCallType.intType, []).integer;
   }
 
-  static final _id_setNumber =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"setNumber", r"(I)V");
+  static final _id_setNumber = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"setNumber", r"(I)V");
 
   /// from: public void setNumber(int number)
   void setNumber(
     int number,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_setNumber,
-        jni.JniCallType.voidType, [jni.JValueInt(number)]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_setNumber,
+        jni.JniCallType.voidType,
+        [jni.JValueInt(number)]).check();
   }
 
-  static final _id_getIsUp =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getIsUp", r"()Z");
+  static final _id_getIsUp = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"getIsUp", r"()Z");
 
   /// from: public boolean getIsUp()
   bool getIsUp() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getIsUp, jni.JniCallType.booleanType, []).boolean;
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer, _id_getIsUp,
+        jni.JniCallType.booleanType, []).boolean;
   }
 
-  static final _id_setUp =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"setUp", r"(Z)V");
+  static final _id_setUp = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"setUp", r"(Z)V");
 
   /// from: public void setUp(boolean isUp)
   void setUp(
     bool isUp,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_setUp, jni.JniCallType.voidType, [isUp ? 1 : 0]).check();
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer, _id_setUp,
+        jni.JniCallType.voidType, [isUp ? 1 : 0]).check();
   }
 
-  static final _id_getCodename = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getCodename", r"()Ljava/lang/String;");
+  static final _id_getCodename = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"getCodename", r"()Ljava/lang/String;");
 
   /// from: public java.lang.String getCodename()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getCodename() {
     return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getCodename, jni.JniCallType.objectType, []).object);
+        reference.pointer,
+        _id_getCodename,
+        jni.JniCallType.objectType, []).object);
   }
 
   static final _id_setCodename = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"setCodename", r"(Ljava/lang/String;)V");
+      _class.reference.pointer, r"setCodename", r"(Ljava/lang/String;)V");
 
   /// from: public void setCodename(java.lang.String codename)
   void setCodename(
     jni.JString codename,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_setCodename,
-        jni.JniCallType.voidType, [codename.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_setCodename,
+        jni.JniCallType.voidType,
+        [codename.reference.pointer]).check();
   }
 
-  static final _id_getRandom = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getRandom", r"()Ljava/util/Random;");
+  static final _id_getRandom = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"getRandom", r"()Ljava/util/Random;");
 
   /// from: public java.util.Random getRandom()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getRandom() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getRandom, jni.JniCallType.objectType, []).object);
+        reference.pointer,
+        _id_getRandom,
+        jni.JniCallType.objectType, []).object);
   }
 
-  static final _id_setRandom = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"setRandom", r"(Ljava/util/Random;)V");
+  static final _id_setRandom = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"setRandom", r"(Ljava/util/Random;)V");
 
   /// from: public void setRandom(java.util.Random random)
   void setRandom(
     jni.JObject random,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_setRandom,
-        jni.JniCallType.voidType, [random.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_setRandom,
+        jni.JniCallType.voidType,
+        [random.reference.pointer]).check();
   }
 
   static final _id_getRandomLong = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getRandomLong", r"()J");
+      .getMethodIDOf(_class.reference.pointer, r"getRandomLong", r"()J");
 
   /// from: public long getRandomLong()
   int getRandomLong() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getRandomLong, jni.JniCallType.longType, []).long;
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_getRandomLong, jni.JniCallType.longType, []).long;
   }
 
   static final _id_add4Longs = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"add4Longs", r"(JJJJ)J");
+      .getMethodIDOf(_class.reference.pointer, r"add4Longs", r"(JJJJ)J");
 
   /// from: public long add4Longs(long a, long b, long c, long d)
   int add4Longs(
@@ -557,12 +579,12 @@ class Example extends jni.JObject {
     int c,
     int d,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_add4Longs, jni.JniCallType.longType, [a, b, c, d]).long;
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_add4Longs, jni.JniCallType.longType, [a, b, c, d]).long;
   }
 
   static final _id_add8Longs = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"add8Longs", r"(JJJJJJJJ)J");
+      .getMethodIDOf(_class.reference.pointer, r"add8Longs", r"(JJJJJJJJ)J");
 
   /// from: public long add8Longs(long a, long b, long c, long d, long e, long f, long g, long h)
   int add8Longs(
@@ -575,12 +597,12 @@ class Example extends jni.JObject {
     int g,
     int h,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_add8Longs,
-        jni.JniCallType.longType, [a, b, c, d, e, f, g, h]).long;
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_add8Longs, jni.JniCallType.longType, [a, b, c, d, e, f, g, h]).long;
   }
 
   static final _id_getRandomNumericString = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"getRandomNumericString",
       r"(Ljava/util/Random;)Ljava/lang/String;");
 
@@ -590,14 +612,14 @@ class Example extends jni.JObject {
     jni.JObject random,
   ) {
     return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
+        reference.pointer,
         _id_getRandomNumericString,
         jni.JniCallType.objectType,
-        [random.reference]).object);
+        [random.reference.pointer]).object);
   }
 
   static final _id_protectedMethod = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"protectedMethod",
       r"(Ljava/lang/String;Ljava/lang/String;)V");
 
@@ -606,32 +628,35 @@ class Example extends jni.JObject {
     jni.JString a,
     jni.JString b,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_protectedMethod,
-        jni.JniCallType.voidType, [a.reference, b.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_protectedMethod,
+        jni.JniCallType.voidType,
+        [a.reference.pointer, b.reference.pointer]).check();
   }
 
-  static final _id_finalMethod =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"finalMethod", r"()V");
+  static final _id_finalMethod = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"finalMethod", r"()V");
 
   /// from: public final void finalMethod()
   void finalMethod() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_finalMethod, jni.JniCallType.voidType, []).check();
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_finalMethod, jni.JniCallType.voidType, []).check();
   }
 
-  static final _id_getList = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getList", r"()Ljava/util/List;");
+  static final _id_getList = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"getList", r"()Ljava/util/List;");
 
   /// from: public java.util.List<java.lang.String> getList()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JList<jni.JString> getList() {
     return const jni.JListType(jni.JStringType()).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_getList, jni.JniCallType.objectType, []).object);
+        .callMethodWithArgs(reference.pointer, _id_getList,
+            jni.JniCallType.objectType, []).object);
   }
 
   static final _id_joinStrings = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"joinStrings",
       r"(Ljava/util/List;Ljava/lang/String;)Ljava/lang/String;");
 
@@ -644,14 +669,14 @@ class Example extends jni.JObject {
     jni.JString delim,
   ) {
     return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
+        reference.pointer,
         _id_joinStrings,
         jni.JniCallType.objectType,
-        [values.reference, delim.reference]).object);
+        [values.reference.pointer, delim.reference.pointer]).object);
   }
 
   static final _id_methodWithSeveralParams = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"methodWithSeveralParams",
       r"(CLjava/lang/String;[ILjava/lang/CharSequence;Ljava/util/List;Ljava/util/Map;)V");
 
@@ -669,29 +694,29 @@ class Example extends jni.JObject {
       (lt.$type as jni.JListType).E,
       t.$type,
     ]) as jni.JObjType<$T>;
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_methodWithSeveralParams, jni.JniCallType.voidType, [
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_methodWithSeveralParams, jni.JniCallType.voidType, [
       jni.JValueChar(ch),
-      s.reference,
-      a.reference,
-      t.reference,
-      lt.reference,
-      wm.reference
+      s.reference.pointer,
+      a.reference.pointer,
+      t.reference.pointer,
+      lt.reference.pointer,
+      wm.reference.pointer
     ]).check();
   }
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 
-  static final _id_new1 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(I)V");
+  static final _id_new1 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"(I)V");
 
   /// from: public void <init>(int number)
   /// The returned object must be released after use, by calling the [release] method.
@@ -699,11 +724,11 @@ class Example extends jni.JObject {
     int number,
   ) {
     return Example.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new1, [jni.JValueInt(number)]).object);
+        _class.reference.pointer, _id_new1, [jni.JValueInt(number)]).object);
   }
 
-  static final _id_new2 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(IZ)V");
+  static final _id_new2 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"(IZ)V");
 
   /// from: public void <init>(int number, boolean isUp)
   /// The returned object must be released after use, by calling the [release] method.
@@ -711,12 +736,14 @@ class Example extends jni.JObject {
     int number,
     bool isUp,
   ) {
-    return Example.fromRef(jni.Jni.accessors.newObjectWithArgs(_class.reference,
-        _id_new2, [jni.JValueInt(number), isUp ? 1 : 0]).object);
+    return Example.fromRef(jni.Jni.accessors.newObjectWithArgs(
+        _class.reference.pointer,
+        _id_new2,
+        [jni.JValueInt(number), isUp ? 1 : 0]).object);
   }
 
-  static final _id_new3 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"<init>", r"(IZLjava/lang/String;)V");
+  static final _id_new3 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"<init>", r"(IZLjava/lang/String;)V");
 
   /// from: public void <init>(int number, boolean isUp, java.lang.String codename)
   /// The returned object must be released after use, by calling the [release] method.
@@ -726,13 +753,15 @@ class Example extends jni.JObject {
     jni.JString codename,
   ) {
     return Example.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference,
-        _id_new3,
-        [jni.JValueInt(number), isUp ? 1 : 0, codename.reference]).object);
+        _class.reference.pointer, _id_new3, [
+      jni.JValueInt(number),
+      isUp ? 1 : 0,
+      codename.reference.pointer
+    ]).object);
   }
 
   static final _id_new4 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"<init>", r"(IIIIIIII)V");
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"(IIIIIIII)V");
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f, int g, int h)
   /// The returned object must be released after use, by calling the [release] method.
@@ -746,8 +775,8 @@ class Example extends jni.JObject {
     int g,
     int h,
   ) {
-    return Example.fromRef(
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new4, [
+    return Example.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference.pointer, _id_new4, [
       jni.JValueInt(a),
       jni.JValueInt(b),
       jni.JValueInt(c),
@@ -760,16 +789,16 @@ class Example extends jni.JObject {
   }
 
   static final _id_whichExample = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"whichExample", r"()I");
+      .getMethodIDOf(_class.reference.pointer, r"whichExample", r"()I");
 
   /// from: public int whichExample()
   int whichExample() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_whichExample, jni.JniCallType.intType, []).integer;
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_whichExample, jni.JniCallType.intType, []).integer;
   }
 
   static final _id_addInts = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"addInts", r"(II)I");
+      .getStaticMethodIDOf(_class.reference.pointer, r"addInts", r"(II)I");
 
   /// from: static public int addInts(int a, int b)
   static int addInts(
@@ -777,87 +806,92 @@ class Example extends jni.JObject {
     int b,
   ) {
     return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference,
+        _class.reference.pointer,
         _id_addInts,
         jni.JniCallType.intType,
         [jni.JValueInt(a), jni.JValueInt(b)]).integer;
   }
 
   static final _id_getArr = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"getArr", r"()[I");
+      .getStaticMethodIDOf(_class.reference.pointer, r"getArr", r"()[I");
 
   /// from: static public int[] getArr()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> getArr() {
     return const jni.JArrayType(jni.jintType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_getArr,
+        .callStaticMethodWithArgs(_class.reference.pointer, _id_getArr,
             jni.JniCallType.objectType, []).object);
   }
 
   static final _id_addAll = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"addAll", r"([I)I");
+      .getStaticMethodIDOf(_class.reference.pointer, r"addAll", r"([I)I");
 
   /// from: static public int addAll(int[] arr)
   static int addAll(
     jni.JArray<jni.jint> arr,
   ) {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
-        _id_addAll, jni.JniCallType.intType, [arr.reference]).integer;
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
+        _id_addAll, jni.JniCallType.intType, [arr.reference.pointer]).integer;
   }
 
-  static final _id_getSelf = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"getSelf", r"()Lcom/github/dart_lang/jnigen/simple_package/Example;");
+  static final _id_getSelf = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer,
+      r"getSelf",
+      r"()Lcom/github/dart_lang/jnigen/simple_package/Example;");
 
   /// from: public com.github.dart_lang.jnigen.simple_package.Example getSelf()
   /// The returned object must be released after use, by calling the [release] method.
   Example getSelf() {
     return const $ExampleType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getSelf, jni.JniCallType.objectType, []).object);
+        reference.pointer, _id_getSelf, jni.JniCallType.objectType, []).object);
   }
 
   static final _id_throwException = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"throwException", r"()V");
+      .getStaticMethodIDOf(_class.reference.pointer, r"throwException", r"()V");
 
   /// from: static public void throwException()
   static void throwException() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
         _id_throwException, jni.JniCallType.voidType, []).check();
   }
 
-  static final _id_overloaded =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"overloaded", r"()V");
+  static final _id_overloaded = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"overloaded", r"()V");
 
   /// from: public void overloaded()
   void overloaded() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_overloaded, jni.JniCallType.voidType, []).check();
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_overloaded, jni.JniCallType.voidType, []).check();
   }
 
   static final _id_overloaded1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"overloaded", r"(ILjava/lang/String;)V");
+      _class.reference.pointer, r"overloaded", r"(ILjava/lang/String;)V");
 
   /// from: public void overloaded(int a, java.lang.String b)
   void overloaded1(
     int a,
     jni.JString b,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded1,
-        jni.JniCallType.voidType, [jni.JValueInt(a), b.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_overloaded1,
+        jni.JniCallType.voidType,
+        [jni.JValueInt(a), b.reference.pointer]).check();
   }
 
-  static final _id_overloaded2 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"overloaded", r"(I)V");
+  static final _id_overloaded2 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"overloaded", r"(I)V");
 
   /// from: public void overloaded(int a)
   void overloaded2(
     int a,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded2,
-        jni.JniCallType.voidType, [jni.JValueInt(a)]).check();
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_overloaded2, jni.JniCallType.voidType, [jni.JValueInt(a)]).check();
   }
 
   static final _id_overloaded3 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"overloaded",
       r"(Ljava/util/List;Ljava/lang/String;)V");
 
@@ -866,19 +900,25 @@ class Example extends jni.JObject {
     jni.JList<jni.JInteger> a,
     jni.JString b,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded3,
-        jni.JniCallType.voidType, [a.reference, b.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_overloaded3,
+        jni.JniCallType.voidType,
+        [a.reference.pointer, b.reference.pointer]).check();
   }
 
-  static final _id_overloaded4 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"overloaded", r"(Ljava/util/List;)V");
+  static final _id_overloaded4 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"overloaded", r"(Ljava/util/List;)V");
 
   /// from: public void overloaded(java.util.List<java.lang.Integer> a)
   void overloaded4(
     jni.JList<jni.JInteger> a,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_overloaded4,
-        jni.JniCallType.voidType, [a.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_overloaded4,
+        jni.JniCallType.voidType,
+        [a.reference.pointer]).check();
   }
 }
 
@@ -922,28 +962,29 @@ class C2 extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $C2Type();
   static final _id_CONSTANT = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"CONSTANT",
     r"I",
   );
 
   /// from: static public int CONSTANT
   static int get CONSTANT => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_CONSTANT, jni.JniCallType.intType)
+      .getStaticField(
+          _class.reference.pointer, _id_CONSTANT, jni.JniCallType.intType)
       .integer;
 
   /// from: static public int CONSTANT
-  static set CONSTANT(int value) =>
-      jni.Jni.env.SetStaticIntField(_class.reference, _id_CONSTANT, value);
+  static set CONSTANT(int value) => jni.Jni.env
+      .SetStaticIntField(_class.reference.pointer, _id_CONSTANT, value);
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory C2() {
     return C2.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -985,23 +1026,23 @@ class Example1 extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example1Type();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example1() {
     return Example1.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 
   static final _id_whichExample = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"whichExample", r"()I");
+      .getMethodIDOf(_class.reference.pointer, r"whichExample", r"()I");
 
   /// from: public int whichExample()
   int whichExample() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_whichExample, jni.JniCallType.intType, []).integer;
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_whichExample, jni.JniCallType.intType, []).integer;
   }
 }
 
@@ -1065,7 +1106,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   }
 
   static final _id_grandParentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"grandParentValue",
     r"Ljava/lang/Object;",
   );
@@ -1073,16 +1114,17 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   /// from: public T grandParentValue
   /// The returned object must be released after use, by calling the [release] method.
   $T get grandParentValue => T.fromRef(jni.Jni.accessors
-      .getField(reference, _id_grandParentValue, jni.JniCallType.objectType)
+      .getField(
+          reference.pointer, _id_grandParentValue, jni.JniCallType.objectType)
       .object);
 
   /// from: public T grandParentValue
   /// The returned object must be released after use, by calling the [release] method.
-  set grandParentValue($T value) => jni.Jni.env
-      .SetObjectField(reference, _id_grandParentValue, value.reference);
+  set grandParentValue($T value) => jni.Jni.env.SetObjectField(
+      reference.pointer, _id_grandParentValue, value.reference.pointer);
 
   static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"parentValue",
     r"Ljava/lang/Object;",
   );
@@ -1090,16 +1132,16 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
   $S get parentValue => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_parentValue, jni.JniCallType.objectType)
       .object);
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  set parentValue($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
+  set parentValue($S value) => jni.Jni.env.SetObjectField(
+      reference.pointer, _id_parentValue, value.reference.pointer);
 
   static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"value",
     r"Ljava/lang/Object;",
   );
@@ -1107,16 +1149,16 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
   $U get value => U.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_value, jni.JniCallType.objectType)
       .object);
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($U value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+  set value($U value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_value, value.reference.pointer);
 
   static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V");
 
@@ -1142,8 +1184,8 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
         T,
         S,
         U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
-            [$parent.reference, newValue.reference]).object);
+        jni.Jni.accessors.newObjectWithArgs(_class.reference.pointer, _id_new0,
+            [$parent.reference.pointer, newValue.reference.pointer]).object);
   }
 }
 
@@ -1218,7 +1260,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   }
 
   static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"parentValue",
     r"Ljava/lang/Object;",
   );
@@ -1226,16 +1268,16 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   /// from: public T parentValue
   /// The returned object must be released after use, by calling the [release] method.
   $T get parentValue => T.fromRef(jni.Jni.accessors
-      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_parentValue, jni.JniCallType.objectType)
       .object);
 
   /// from: public T parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  set parentValue($T value) =>
-      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
+  set parentValue($T value) => jni.Jni.env.SetObjectField(
+      reference.pointer, _id_parentValue, value.reference.pointer);
 
   static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"value",
     r"Ljava/lang/Object;",
   );
@@ -1243,16 +1285,16 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
   $S get value => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_value, jni.JniCallType.objectType)
       .object);
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+  set value($S value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_value, value.reference.pointer);
 
   static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V");
 
@@ -1273,8 +1315,8 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     return GrandParent_Parent.fromRef(
         T,
         S,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
-            [$parent.reference, newValue.reference]).object);
+        jni.Jni.accessors.newObjectWithArgs(_class.reference.pointer, _id_new0,
+            [$parent.reference.pointer, newValue.reference.pointer]).object);
   }
 }
 
@@ -1346,7 +1388,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   }
 
   static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"parentValue",
     r"Ljava/lang/Object;",
   );
@@ -1354,16 +1396,16 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
   $S get parentValue => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_parentValue, jni.JniCallType.objectType)
       .object);
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  set parentValue($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
+  set parentValue($S value) => jni.Jni.env.SetObjectField(
+      reference.pointer, _id_parentValue, value.reference.pointer);
 
   static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"value",
     r"Ljava/lang/Object;",
   );
@@ -1371,16 +1413,16 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
   $U get value => U.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_value, jni.JniCallType.objectType)
       .object);
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($U value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+  set value($U value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_value, value.reference.pointer);
 
   static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V");
 
@@ -1403,10 +1445,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     return GrandParent_StaticParent_Child.fromRef(
         S,
         U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0, [
-          $parent.reference,
-          parentValue.reference,
-          value.reference
+        jni.Jni.accessors
+            .newObjectWithArgs(_class.reference.pointer, _id_new0, [
+          $parent.reference.pointer,
+          parentValue.reference.pointer,
+          value.reference.pointer
         ]).object);
   }
 }
@@ -1473,7 +1516,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   }
 
   static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"value",
     r"Ljava/lang/Object;",
   );
@@ -1481,16 +1524,16 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
   $S get value => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_value, jni.JniCallType.objectType)
       .object);
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+  set value($S value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_value, value.reference.pointer);
 
-  static final _id_new0 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"<init>", r"(Ljava/lang/Object;)V");
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"<init>", r"(Ljava/lang/Object;)V");
 
   /// from: public void <init>(S value)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1503,8 +1546,8 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
     ]) as jni.JObjType<$S>;
     return GrandParent_StaticParent.fromRef(
         S,
-        jni.Jni.accessors.newObjectWithArgs(
-            _class.reference, _id_new0, [value.reference]).object);
+        jni.Jni.accessors.newObjectWithArgs(_class.reference.pointer, _id_new0,
+            [value.reference.pointer]).object);
   }
 }
 
@@ -1566,7 +1609,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   }
 
   static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"value",
     r"Ljava/lang/Object;",
   );
@@ -1574,16 +1617,16 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// from: public T value
   /// The returned object must be released after use, by calling the [release] method.
   $T get value => T.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_value, jni.JniCallType.objectType)
       .object);
 
   /// from: public T value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($T value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+  set value($T value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_value, value.reference.pointer);
 
-  static final _id_new0 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"<init>", r"(Ljava/lang/Object;)V");
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"<init>", r"(Ljava/lang/Object;)V");
 
   /// from: public void <init>(T value)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1596,12 +1639,12 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     ]) as jni.JObjType<$T>;
     return GrandParent.fromRef(
         T,
-        jni.Jni.accessors.newObjectWithArgs(
-            _class.reference, _id_new0, [value.reference]).object);
+        jni.Jni.accessors.newObjectWithArgs(_class.reference.pointer, _id_new0,
+            [value.reference.pointer]).object);
   }
 
   static final _id_stringParent = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"stringParent",
       r"()Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;");
 
@@ -1609,12 +1652,12 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_Parent<jni.JObject, jni.JString> stringParent() {
     return const $GrandParent_ParentType(jni.JObjectType(), jni.JStringType())
-        .fromRef(jni.Jni.accessors.callMethodWithArgs(reference,
+        .fromRef(jni.Jni.accessors.callMethodWithArgs(reference.pointer,
             _id_stringParent, jni.JniCallType.objectType, []).object);
   }
 
   static final _id_varParent = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"varParent",
       r"(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;");
 
@@ -1628,12 +1671,15 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       nestedValue.$type,
     ]) as jni.JObjType<$S>;
     return $GrandParent_ParentType(const jni.JObjectType(), S).fromRef(
-        jni.Jni.accessors.callMethodWithArgs(reference, _id_varParent,
-            jni.JniCallType.objectType, [nestedValue.reference]).object);
+        jni.Jni.accessors.callMethodWithArgs(
+            reference.pointer,
+            _id_varParent,
+            jni.JniCallType.objectType,
+            [nestedValue.reference.pointer]).object);
   }
 
   static final _id_stringStaticParent = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"stringStaticParent",
       r"()Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;");
 
@@ -1641,12 +1687,12 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static GrandParent_StaticParent<jni.JString> stringStaticParent() {
     return const $GrandParent_StaticParentType(jni.JStringType()).fromRef(
-        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
             _id_stringStaticParent, jni.JniCallType.objectType, []).object);
   }
 
   static final _id_varStaticParent = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"varStaticParent",
       r"(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;");
 
@@ -1660,12 +1706,12 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       value.$type,
     ]) as jni.JObjType<$S>;
     return $GrandParent_StaticParentType(S).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_varStaticParent,
-            jni.JniCallType.objectType, [value.reference]).object);
+        .callStaticMethodWithArgs(_class.reference.pointer, _id_varStaticParent,
+            jni.JniCallType.objectType, [value.reference.pointer]).object);
   }
 
   static final _id_staticParentWithSameType = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"staticParentWithSameType",
       r"()Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;");
 
@@ -1673,7 +1719,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_StaticParent<$T> staticParentWithSameType() {
     return $GrandParent_StaticParentType(T).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_staticParentWithSameType,
+        .callMethodWithArgs(reference.pointer, _id_staticParentWithSameType,
             jni.JniCallType.objectType, []).object);
   }
 }
@@ -1740,7 +1786,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _id_key = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"key",
     r"Ljava/lang/Object;",
   );
@@ -1748,16 +1794,16 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public K key
   /// The returned object must be released after use, by calling the [release] method.
   $K get key => K.fromRef(jni.Jni.accessors
-      .getField(reference, _id_key, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_key, jni.JniCallType.objectType)
       .object);
 
   /// from: public K key
   /// The returned object must be released after use, by calling the [release] method.
-  set key($K value) =>
-      jni.Jni.env.SetObjectField(reference, _id_key, value.reference);
+  set key($K value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_key, value.reference.pointer);
 
   static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"value",
     r"Ljava/lang/Object;",
   );
@@ -1765,16 +1811,16 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public V value
   /// The returned object must be released after use, by calling the [release] method.
   $V get value => V.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_value, jni.JniCallType.objectType)
       .object);
 
   /// from: public V value
   /// The returned object must be released after use, by calling the [release] method.
-  set value($V value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+  set value($V value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_value, value.reference.pointer);
 
   static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"<init>",
       r"(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/Object;Ljava/lang/Object;)V");
 
@@ -1798,8 +1844,12 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     return MyMap_MyEntry.fromRef(
         K,
         V,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
-            [$parent.reference, key.reference, value.reference]).object);
+        jni.Jni.accessors.newObjectWithArgs(
+            _class.reference.pointer, _id_new0, [
+          $parent.reference.pointer,
+          key.reference.pointer,
+          value.reference.pointer
+        ]).object);
   }
 }
 
@@ -1869,8 +1919,8 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     );
   }
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1882,23 +1932,27 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
         K,
         V,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+            .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 
   static final _id_get0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"get", r"(Ljava/lang/Object;)Ljava/lang/Object;");
+      _class.reference.pointer,
+      r"get",
+      r"(Ljava/lang/Object;)Ljava/lang/Object;");
 
   /// from: public V get(K key)
   /// The returned object must be released after use, by calling the [release] method.
   $V get0(
     $K key,
   ) {
-    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(reference, _id_get0,
-        jni.JniCallType.objectType, [key.reference]).object);
+    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_get0, jni.JniCallType.objectType, [key.reference.pointer]).object);
   }
 
-  static final _id_put = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"put", r"(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+  static final _id_put = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer,
+      r"put",
+      r"(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
 
   /// from: public V put(K key, V value)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1906,12 +1960,15 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     $K key,
     $V value,
   ) {
-    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(reference, _id_put,
-        jni.JniCallType.objectType, [key.reference, value.reference]).object);
+    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_put,
+        jni.JniCallType.objectType,
+        [key.reference.pointer, value.reference.pointer]).object);
   }
 
   static final _id_entryStack = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"entryStack",
       r"()Lcom/github/dart_lang/jnigen/generics/MyStack;");
 
@@ -1920,8 +1977,8 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   MyStack<MyMap_MyEntry<jni.JObject, jni.JObject>> entryStack() {
     return const $MyStackType(
             $MyMap_MyEntryType(jni.JObjectType(), jni.JObjectType()))
-        .fromRef(jni.Jni.accessors.callMethodWithArgs(
-            reference, _id_entryStack, jni.JniCallType.objectType, []).object);
+        .fromRef(jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+            _id_entryStack, jni.JniCallType.objectType, []).object);
   }
 }
 
@@ -1983,8 +2040,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     );
   }
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1994,11 +2051,11 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     return MyStack.fromRef(
         T,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+            .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 
   static final _id_fromArray = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"fromArray",
       r"([Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;");
 
@@ -2012,14 +2069,16 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       ((arr.$type as jni.JArrayType).elementType as jni.JObjType),
     ]) as jni.JObjType<$T>;
     return $MyStackType(T).fromRef(jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference,
+        _class.reference.pointer,
         _id_fromArray,
         jni.JniCallType.objectType,
-        [arr.reference]).object);
+        [arr.reference.pointer]).object);
   }
 
   static final _id_fromArrayOfArrayOfGrandParents = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"fromArrayOfArrayOfGrandParents",
+      .getStaticMethodIDOf(
+          _class.reference.pointer,
+          r"fromArrayOfArrayOfGrandParents",
           r"([[Lcom/github/dart_lang/jnigen/generics/GrandParent;)Lcom/github/dart_lang/jnigen/generics/MyStack;");
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<S> fromArrayOfArrayOfGrandParents(com.github.dart_lang.jnigen.generics.GrandParent<S>[][] arr)
@@ -2035,14 +2094,16 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
           .T,
     ]) as jni.JObjType<$S>;
     return $MyStackType(S).fromRef(jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference,
+        _class.reference.pointer,
         _id_fromArrayOfArrayOfGrandParents,
         jni.JniCallType.objectType,
-        [arr.reference]).object);
+        [arr.reference.pointer]).object);
   }
 
-  static final _id_of = jni.Jni.accessors.getStaticMethodIDOf(_class.reference,
-      r"of", r"()Lcom/github/dart_lang/jnigen/generics/MyStack;");
+  static final _id_of = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference.pointer,
+      r"of",
+      r"()Lcom/github/dart_lang/jnigen/generics/MyStack;");
 
   /// from: static public com.github.dart_lang.jnigen.generics.MyStack<T> of()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2050,11 +2111,13 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     required jni.JObjType<$T> T,
   }) {
     return $MyStackType(T).fromRef(jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference, _id_of, jni.JniCallType.objectType, []).object);
+        _class.reference.pointer,
+        _id_of,
+        jni.JniCallType.objectType, []).object);
   }
 
   static final _id_of1 = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"of",
       r"(Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;");
 
@@ -2068,14 +2131,14 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       obj.$type,
     ]) as jni.JObjType<$T>;
     return $MyStackType(T).fromRef(jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference,
+        _class.reference.pointer,
         _id_of1,
         jni.JniCallType.objectType,
-        [obj.reference]).object);
+        [obj.reference.pointer]).object);
   }
 
   static final _id_of2 = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"of",
       r"(Ljava/lang/Object;Ljava/lang/Object;)Lcom/github/dart_lang/jnigen/generics/MyStack;");
 
@@ -2091,40 +2154,40 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       obj.$type,
     ]) as jni.JObjType<$T>;
     return $MyStackType(T).fromRef(jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference,
+        _class.reference.pointer,
         _id_of2,
         jni.JniCallType.objectType,
-        [obj.reference, obj2.reference]).object);
+        [obj.reference.pointer, obj2.reference.pointer]).object);
   }
 
-  static final _id_push = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"push", r"(Ljava/lang/Object;)V");
+  static final _id_push = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"push", r"(Ljava/lang/Object;)V");
 
   /// from: public void push(T item)
   void push(
     $T item,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_push,
-        jni.JniCallType.voidType, [item.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer, _id_push,
+        jni.JniCallType.voidType, [item.reference.pointer]).check();
   }
 
   static final _id_pop = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"pop", r"()Ljava/lang/Object;");
+      .getMethodIDOf(_class.reference.pointer, r"pop", r"()Ljava/lang/Object;");
 
   /// from: public T pop()
   /// The returned object must be released after use, by calling the [release] method.
   $T pop() {
     return T.fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_pop, jni.JniCallType.objectType, []).object);
+        reference.pointer, _id_pop, jni.JniCallType.objectType, []).object);
   }
 
-  static final _id_size =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"size", r"()I");
+  static final _id_size = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"size", r"()I");
 
   /// from: public int size()
   int size() {
     return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_size, jni.JniCallType.intType, []).integer;
+        reference.pointer, _id_size, jni.JniCallType.intType, []).integer;
   }
 }
 
@@ -2183,8 +2246,8 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
     );
   }
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2194,7 +2257,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
     return StringKeyedMap.fromRef(
         V,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+            .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -2245,14 +2308,14 @@ class StringStack extends MyStack<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringStackType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory StringStack() {
     return StringStack.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -2304,8 +2367,8 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
     );
   }
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2315,7 +2378,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
     return StringValuedMap.fromRef(
         K,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+            .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -2377,18 +2440,21 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   }
 
   static final _id_voidCallback = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"voidCallback", r"(Ljava/lang/String;)V");
+      _class.reference.pointer, r"voidCallback", r"(Ljava/lang/String;)V");
 
   /// from: public abstract void voidCallback(java.lang.String s)
   void voidCallback(
     jni.JString s,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_voidCallback,
-        jni.JniCallType.voidType, [s.reference]).check();
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_voidCallback,
+        jni.JniCallType.voidType,
+        [s.reference.pointer]).check();
   }
 
   static final _id_stringCallback = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"stringCallback",
       r"(Ljava/lang/String;)Ljava/lang/String;");
 
@@ -2398,14 +2464,14 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     jni.JString s,
   ) {
     return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
+        reference.pointer,
         _id_stringCallback,
         jni.JniCallType.objectType,
-        [s.reference]).object);
+        [s.reference.pointer]).object);
   }
 
   static final _id_varCallback = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"varCallback",
       r"(Ljava/lang/Object;)Ljava/lang/Object;");
 
@@ -2414,12 +2480,15 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   $T varCallback(
     $T t,
   ) {
-    return T.fromRef(jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_varCallback, jni.JniCallType.objectType, [t.reference]).object);
+    return T.fromRef(jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_varCallback,
+        jni.JniCallType.objectType,
+        [t.reference.pointer]).object);
   }
 
   static final _id_manyPrimitives = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"manyPrimitives", r"(IZCD)J");
+      .getMethodIDOf(_class.reference.pointer, r"manyPrimitives", r"(IZCD)J");
 
   /// from: public abstract long manyPrimitives(int a, boolean b, char c, double d)
   int manyPrimitives(
@@ -2429,7 +2498,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     double d,
   ) {
     return jni.Jni.accessors.callMethodWithArgs(
-        reference,
+        reference.pointer,
         _id_manyPrimitives,
         jni.JniCallType.longType,
         [jni.JValueInt(a), b ? 1 : 0, jni.JValueChar(c), d]).long;
@@ -2477,13 +2546,19 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
         final $r = _$impls[$p]!.stringCallback(
           $a[0].castTo(const jni.JStringType(), releaseOriginal: true),
         );
-        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+        return ($r as jni.JObject)
+            .castTo(const jni.JObjectType())
+            .reference
+            .toPointer();
       }
       if ($d == r"varCallback(Ljava/lang/Object;)Ljava/lang/Object;") {
         final $r = _$impls[$p]!.varCallback(
           $a[0].castTo(_$impls[$p]!.T, releaseOriginal: true),
         );
-        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+        return ($r as jni.JObject)
+            .castTo(const jni.JObjectType())
+            .reference
+            .toPointer();
       }
       if ($d == r"manyPrimitives(IZCD)J") {
         final $r = _$impls[$p]!.manyPrimitives(
@@ -2500,7 +2575,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
               .castTo(const jni.JDoubleType(), releaseOriginal: true)
               .doubleValue(releaseOriginal: true),
         );
-        return jni.JLong($r).toPointer();
+        return jni.JLong($r).reference.toPointer();
       }
     } catch (e) {
       return ProtectedJniExtensions.newDartException(e.toString());
@@ -2638,18 +2713,18 @@ class MyInterfaceConsumer extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyInterfaceConsumerType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory MyInterfaceConsumer() {
     return MyInterfaceConsumer.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 
   static final _id_consumeOnAnotherThread = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"consumeOnAnotherThread",
       r"(Lcom/github/dart_lang/jnigen/interfaces/MyInterface;Ljava/lang/String;IZCDLjava/lang/Object;)V");
 
@@ -2668,20 +2743,20 @@ class MyInterfaceConsumer extends jni.JObject {
       t.$type,
       (myInterface.$type as $MyInterfaceType).T,
     ]) as jni.JObjType<$T>;
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
         _id_consumeOnAnotherThread, jni.JniCallType.voidType, [
-      myInterface.reference,
-      s.reference,
+      myInterface.reference.pointer,
+      s.reference.pointer,
       jni.JValueInt(a),
       b ? 1 : 0,
       jni.JValueChar(c),
       d,
-      t.reference
+      t.reference.pointer
     ]).check();
   }
 
   static final _id_consumeOnSameThread = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"consumeOnSameThread",
       r"(Lcom/github/dart_lang/jnigen/interfaces/MyInterface;Ljava/lang/String;IZCDLjava/lang/Object;)V");
 
@@ -2700,15 +2775,15 @@ class MyInterfaceConsumer extends jni.JObject {
       t.$type,
       (myInterface.$type as $MyInterfaceType).T,
     ]) as jni.JObjType<$T>;
-    return jni.Jni.accessors.callStaticMethodWithArgs(
-        _class.reference, _id_consumeOnSameThread, jni.JniCallType.voidType, [
-      myInterface.reference,
-      s.reference,
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
+        _id_consumeOnSameThread, jni.JniCallType.voidType, [
+      myInterface.reference.pointer,
+      s.reference.pointer,
       jni.JValueInt(a),
       b ? 1 : 0,
       jni.JValueChar(c),
       d,
-      t.reference
+      t.reference.pointer
     ]).check();
   }
 }
@@ -2755,12 +2830,12 @@ class MyRunnable extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $MyRunnableType();
   static final _id_run =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"run", r"()V");
+      jni.Jni.accessors.getMethodIDOf(_class.reference.pointer, r"run", r"()V");
 
   /// from: public abstract void run()
   void run() {
     return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_run, jni.JniCallType.voidType, []).check();
+        reference.pointer, _id_run, jni.JniCallType.voidType, []).check();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -2892,7 +2967,7 @@ class MyRunnableRunner extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $MyRunnableRunnerType();
   static final _id_error = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"error",
     r"Ljava/lang/Throwable;",
   );
@@ -2900,16 +2975,18 @@ class MyRunnableRunner extends jni.JObject {
   /// from: public java.lang.Throwable error
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get error => const jni.JObjectType().fromRef(jni.Jni.accessors
-      .getField(reference, _id_error, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_error, jni.JniCallType.objectType)
       .object);
 
   /// from: public java.lang.Throwable error
   /// The returned object must be released after use, by calling the [release] method.
-  set error(jni.JObject value) =>
-      jni.Jni.env.SetObjectField(reference, _id_error, value.reference);
+  set error(jni.JObject value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_error, value.reference.pointer);
 
-  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"<init>", r"(Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;)V");
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;)V");
 
   /// from: public void <init>(com.github.dart_lang.jnigen.interfaces.MyRunnable runnable)
   /// The returned object must be released after use, by calling the [release] method.
@@ -2917,24 +2994,26 @@ class MyRunnableRunner extends jni.JObject {
     MyRunnable runnable,
   ) {
     return MyRunnableRunner.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new0, [runnable.reference]).object);
+        _class.reference.pointer,
+        _id_new0,
+        [runnable.reference.pointer]).object);
   }
 
   static final _id_runOnSameThread = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"runOnSameThread", r"()V");
+      .getMethodIDOf(_class.reference.pointer, r"runOnSameThread", r"()V");
 
   /// from: public void runOnSameThread()
   void runOnSameThread() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_runOnSameThread, jni.JniCallType.voidType, []).check();
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
+        _id_runOnSameThread, jni.JniCallType.voidType, []).check();
   }
 
   static final _id_runOnAnotherThread = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"runOnAnotherThread", r"()V");
+      .getMethodIDOf(_class.reference.pointer, r"runOnAnotherThread", r"()V");
 
   /// from: public void runOnAnotherThread()
   void runOnAnotherThread() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
         _id_runOnAnotherThread, jni.JniCallType.voidType, []).check();
   }
 }
@@ -2980,7 +3059,7 @@ class JsonSerializable_Case extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $JsonSerializable_CaseType();
   static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"values",
       r"()[Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;");
 
@@ -2988,12 +3067,12 @@ class JsonSerializable_Case extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonSerializable_Case> values() {
     return const jni.JArrayType($JsonSerializable_CaseType()).fromRef(
-        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
-            jni.JniCallType.objectType, []).object);
+        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
+            _id_values, jni.JniCallType.objectType, []).object);
   }
 
   static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"valueOf",
       r"(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;");
 
@@ -3003,8 +3082,8 @@ class JsonSerializable_Case extends jni.JObject {
     jni.JString name,
   ) {
     return const $JsonSerializable_CaseType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
+        .callStaticMethodWithArgs(_class.reference.pointer, _id_valueOf,
+            jni.JniCallType.objectType, [name.reference.pointer]).object);
   }
 }
 
@@ -3051,7 +3130,7 @@ class JsonSerializable extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $JsonSerializableType();
   static final _id_value = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"value",
       r"()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;");
 
@@ -3059,8 +3138,8 @@ class JsonSerializable extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   JsonSerializable_Case value() {
     return const $JsonSerializable_CaseType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_value, jni.JniCallType.objectType, []).object);
+        .callMethodWithArgs(reference.pointer, _id_value,
+            jni.JniCallType.objectType, []).object);
   }
 
   /// Maps a specific port to the implemented interface.
@@ -3098,7 +3177,10 @@ class JsonSerializable extends jni.JObject {
       if ($d ==
           r"value()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;") {
         final $r = _$impls[$p]!.value();
-        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+        return ($r as jni.JObject)
+            .castTo(const jni.JObjectType())
+            .reference
+            .toPointer();
       }
     } catch (e) {
       return ProtectedJniExtensions.newDartException(e.toString());
@@ -3193,14 +3275,14 @@ class MyDataClass extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyDataClassType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory MyDataClass() {
     return MyDataClass.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -3244,7 +3326,7 @@ class Color extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $ColorType();
   static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"values",
       r"()[Lcom/github/dart_lang/jnigen/simple_package/Color;");
 
@@ -3252,12 +3334,12 @@ class Color extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<Color> values() {
     return const jni.JArrayType($ColorType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_values,
+        .callStaticMethodWithArgs(_class.reference.pointer, _id_values,
             jni.JniCallType.objectType, []).object);
   }
 
   static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"valueOf",
       r"(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/simple_package/Color;");
 
@@ -3267,8 +3349,8 @@ class Color extends jni.JObject {
     jni.JString name,
   ) {
     return const $ColorType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
+        .callStaticMethodWithArgs(_class.reference.pointer, _id_valueOf,
+            jni.JniCallType.objectType, [name.reference.pointer]).object);
   }
 }
 
@@ -3310,18 +3392,18 @@ class Exceptions extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExceptionsType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions() {
     return Exceptions.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 
-  static final _id_new1 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(F)V");
+  static final _id_new1 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"(F)V");
 
   /// from: public void <init>(float x)
   /// The returned object must be released after use, by calling the [release] method.
@@ -3329,11 +3411,11 @@ class Exceptions extends jni.JObject {
     double x,
   ) {
     return Exceptions.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new1, [jni.JValueFloat(x)]).object);
+        _class.reference.pointer, _id_new1, [jni.JValueFloat(x)]).object);
   }
 
   static final _id_new2 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"<init>", r"(IIIIII)V");
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"(IIIIII)V");
 
   /// from: public void <init>(int a, int b, int c, int d, int e, int f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -3345,8 +3427,8 @@ class Exceptions extends jni.JObject {
     int e,
     int f,
   ) {
-    return Exceptions.fromRef(
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new2, [
+    return Exceptions.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference.pointer, _id_new2, [
       jni.JValueInt(a),
       jni.JValueInt(b),
       jni.JValueInt(c),
@@ -3357,100 +3439,104 @@ class Exceptions extends jni.JObject {
   }
 
   static final _id_staticObjectMethod = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference, r"staticObjectMethod", r"()Ljava/lang/Object;");
+      _class.reference.pointer, r"staticObjectMethod", r"()Ljava/lang/Object;");
 
   /// from: static public java.lang.Object staticObjectMethod()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject staticObjectMethod() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_staticObjectMethod,
-            jni.JniCallType.objectType, []).object);
+        .callStaticMethodWithArgs(_class.reference.pointer,
+            _id_staticObjectMethod, jni.JniCallType.objectType, []).object);
   }
 
-  static final _id_staticIntMethod = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"staticIntMethod", r"()I");
+  static final _id_staticIntMethod = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference.pointer, r"staticIntMethod", r"()I");
 
   /// from: static public int staticIntMethod()
   static int staticIntMethod() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
         _id_staticIntMethod, jni.JniCallType.intType, []).integer;
   }
 
   static final _id_staticObjectArrayMethod = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"staticObjectArrayMethod",
+      .getStaticMethodIDOf(_class.reference.pointer, r"staticObjectArrayMethod",
           r"()[Ljava/lang/Object;");
 
   /// from: static public java.lang.Object[] staticObjectArrayMethod()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JObject> staticObjectArrayMethod() {
     return const jni.JArrayType(jni.JObjectType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_staticObjectArrayMethod,
+        .callStaticMethodWithArgs(
+            _class.reference.pointer,
+            _id_staticObjectArrayMethod,
             jni.JniCallType.objectType, []).object);
   }
 
-  static final _id_staticIntArrayMethod = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"staticIntArrayMethod", r"()[I");
+  static final _id_staticIntArrayMethod = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference.pointer, r"staticIntArrayMethod", r"()[I");
 
   /// from: static public int[] staticIntArrayMethod()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> staticIntArrayMethod() {
     return const jni.JArrayType(jni.jintType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_staticIntArrayMethod,
-            jni.JniCallType.objectType, []).object);
+        .callStaticMethodWithArgs(_class.reference.pointer,
+            _id_staticIntArrayMethod, jni.JniCallType.objectType, []).object);
   }
 
   static final _id_objectMethod = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"objectMethod", r"()Ljava/lang/Object;");
+      _class.reference.pointer, r"objectMethod", r"()Ljava/lang/Object;");
 
   /// from: public java.lang.Object objectMethod()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject objectMethod() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_objectMethod, jni.JniCallType.objectType, []).object);
+        reference.pointer,
+        _id_objectMethod,
+        jni.JniCallType.objectType, []).object);
   }
 
-  static final _id_intMethod =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"intMethod", r"()I");
+  static final _id_intMethod = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"intMethod", r"()I");
 
   /// from: public int intMethod()
   int intMethod() {
     return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_intMethod, jni.JniCallType.intType, []).integer;
+        reference.pointer, _id_intMethod, jni.JniCallType.intType, []).integer;
   }
 
   static final _id_objectArrayMethod = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"objectArrayMethod", r"()[Ljava/lang/Object;");
+      _class.reference.pointer, r"objectArrayMethod", r"()[Ljava/lang/Object;");
 
   /// from: public java.lang.Object[] objectArrayMethod()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.JObject> objectArrayMethod() {
     return const jni.JArrayType(jni.JObjectType()).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_objectArrayMethod,
+        .callMethodWithArgs(reference.pointer, _id_objectArrayMethod,
             jni.JniCallType.objectType, []).object);
   }
 
   static final _id_intArrayMethod = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"intArrayMethod", r"()[I");
+      .getMethodIDOf(_class.reference.pointer, r"intArrayMethod", r"()[I");
 
   /// from: public int[] intArrayMethod()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jint> intArrayMethod() {
     return const jni.JArrayType(jni.jintType()).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_intArrayMethod,
+        .callMethodWithArgs(reference.pointer, _id_intArrayMethod,
             jni.JniCallType.objectType, []).object);
   }
 
-  static final _id_throwNullPointerException = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"throwNullPointerException", r"()I");
+  static final _id_throwNullPointerException = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"throwNullPointerException", r"()I");
 
   /// from: public int throwNullPointerException()
   int throwNullPointerException() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
         _id_throwNullPointerException, jni.JniCallType.intType, []).integer;
   }
 
   static final _id_throwFileNotFoundException = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"throwFileNotFoundException",
       r"()Ljava/io/InputStream;");
 
@@ -3458,13 +3544,13 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwFileNotFoundException() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
+        reference.pointer,
         _id_throwFileNotFoundException,
         jni.JniCallType.objectType, []).object);
   }
 
   static final _id_throwClassCastException = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"throwClassCastException",
       r"()Ljava/io/FileInputStream;");
 
@@ -3472,35 +3558,35 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwClassCastException() {
     return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
+        reference.pointer,
         _id_throwClassCastException,
         jni.JniCallType.objectType, []).object);
   }
 
-  static final _id_throwArrayIndexException = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"throwArrayIndexException", r"()I");
+  static final _id_throwArrayIndexException = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"throwArrayIndexException", r"()I");
 
   /// from: public int throwArrayIndexException()
   int throwArrayIndexException() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
         _id_throwArrayIndexException, jni.JniCallType.intType, []).integer;
   }
 
-  static final _id_throwArithmeticException = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"throwArithmeticException", r"()I");
+  static final _id_throwArithmeticException = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"throwArithmeticException", r"()I");
 
   /// from: public int throwArithmeticException()
   int throwArithmeticException() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
+    return jni.Jni.accessors.callMethodWithArgs(reference.pointer,
         _id_throwArithmeticException, jni.JniCallType.intType, []).integer;
   }
 
-  static final _id_throwLoremIpsum = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"throwLoremIpsum", r"()V");
+  static final _id_throwLoremIpsum = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference.pointer, r"throwLoremIpsum", r"()V");
 
   /// from: static public void throwLoremIpsum()
   static void throwLoremIpsum() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
         _id_throwLoremIpsum, jni.JniCallType.voidType, []).check();
   }
 }
@@ -3545,70 +3631,74 @@ class Fields extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $FieldsType();
   static final _id_amount = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"amount",
     r"I",
   );
 
   /// from: static public int amount
   static int get amount => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_amount, jni.JniCallType.intType)
+      .getStaticField(
+          _class.reference.pointer, _id_amount, jni.JniCallType.intType)
       .integer;
 
   /// from: static public int amount
-  static set amount(int value) =>
-      jni.Jni.env.SetStaticIntField(_class.reference, _id_amount, value);
+  static set amount(int value) => jni.Jni.env
+      .SetStaticIntField(_class.reference.pointer, _id_amount, value);
 
   static final _id_pi = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"pi",
     r"D",
   );
 
   /// from: static public double pi
   static double get pi => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_pi, jni.JniCallType.doubleType)
+      .getStaticField(
+          _class.reference.pointer, _id_pi, jni.JniCallType.doubleType)
       .doubleFloat;
 
   /// from: static public double pi
   static set pi(double value) =>
-      jni.Jni.env.SetStaticDoubleField(_class.reference, _id_pi, value);
+      jni.Jni.env.SetStaticDoubleField(_class.reference.pointer, _id_pi, value);
 
   static final _id_asterisk = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"asterisk",
     r"C",
   );
 
   /// from: static public char asterisk
   static int get asterisk => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_asterisk, jni.JniCallType.charType)
+      .getStaticField(
+          _class.reference.pointer, _id_asterisk, jni.JniCallType.charType)
       .char;
 
   /// from: static public char asterisk
-  static set asterisk(int value) =>
-      jni.Jni.env.SetStaticCharField(_class.reference, _id_asterisk, value);
+  static set asterisk(int value) => jni.Jni.env
+      .SetStaticCharField(_class.reference.pointer, _id_asterisk, value);
 
   static final _id_name = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"name",
     r"Ljava/lang/String;",
   );
 
   /// from: static public java.lang.String name
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get name => const jni.JStringType().fromRef(jni
-      .Jni.accessors
-      .getStaticField(_class.reference, _id_name, jni.JniCallType.objectType)
-      .object);
+  static jni.JString get name =>
+      const jni.JStringType().fromRef(jni.Jni.accessors
+          .getStaticField(
+              _class.reference.pointer, _id_name, jni.JniCallType.objectType)
+          .object);
 
   /// from: static public java.lang.String name
   /// The returned object must be released after use, by calling the [release] method.
-  static set name(jni.JString value) => jni.Jni.env
-      .SetStaticObjectField(_class.reference, _id_name, value.reference);
+  static set name(jni.JString value) => jni.Jni.env.SetStaticObjectField(
+      _class.reference.pointer, _id_name, value.reference.pointer);
 
   static final _id_i = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"i",
     r"Ljava/lang/Integer;",
   );
@@ -3616,64 +3706,66 @@ class Fields extends jni.JObject {
   /// from: public java.lang.Integer i
   /// The returned object must be released after use, by calling the [release] method.
   jni.JInteger get i => const jni.JIntegerType().fromRef(jni.Jni.accessors
-      .getField(reference, _id_i, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_i, jni.JniCallType.objectType)
       .object);
 
   /// from: public java.lang.Integer i
   /// The returned object must be released after use, by calling the [release] method.
-  set i(jni.JInteger value) =>
-      jni.Jni.env.SetObjectField(reference, _id_i, value.reference);
+  set i(jni.JInteger value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_i, value.reference.pointer);
 
   static final _id_trillion = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"trillion",
     r"J",
   );
 
   /// from: public long trillion
   int get trillion => jni.Jni.accessors
-      .getField(reference, _id_trillion, jni.JniCallType.longType)
+      .getField(reference.pointer, _id_trillion, jni.JniCallType.longType)
       .long;
 
   /// from: public long trillion
   set trillion(int value) =>
-      jni.Jni.env.SetLongField(reference, _id_trillion, value);
+      jni.Jni.env.SetLongField(reference.pointer, _id_trillion, value);
 
   static final _id_isAchillesDead = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"isAchillesDead",
     r"Z",
   );
 
   /// from: public boolean isAchillesDead
   bool get isAchillesDead => jni.Jni.accessors
-      .getField(reference, _id_isAchillesDead, jni.JniCallType.booleanType)
+      .getField(
+          reference.pointer, _id_isAchillesDead, jni.JniCallType.booleanType)
       .boolean;
 
   /// from: public boolean isAchillesDead
-  set isAchillesDead(bool value) =>
-      jni.Jni.env.SetBooleanField(reference, _id_isAchillesDead, value ? 1 : 0);
+  set isAchillesDead(bool value) => jni.Jni.env
+      .SetBooleanField(reference.pointer, _id_isAchillesDead, value ? 1 : 0);
 
   static final _id_bestFighterInGreece = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"bestFighterInGreece",
     r"Ljava/lang/String;",
   );
 
   /// from: public java.lang.String bestFighterInGreece
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JString get bestFighterInGreece => const jni.JStringType().fromRef(jni
-      .Jni.accessors
-      .getField(reference, _id_bestFighterInGreece, jni.JniCallType.objectType)
-      .object);
+  jni.JString get bestFighterInGreece =>
+      const jni.JStringType().fromRef(jni.Jni.accessors
+          .getField(reference.pointer, _id_bestFighterInGreece,
+              jni.JniCallType.objectType)
+          .object);
 
   /// from: public java.lang.String bestFighterInGreece
   /// The returned object must be released after use, by calling the [release] method.
-  set bestFighterInGreece(jni.JString value) => jni.Jni.env
-      .SetObjectField(reference, _id_bestFighterInGreece, value.reference);
+  set bestFighterInGreece(jni.JString value) => jni.Jni.env.SetObjectField(
+      reference.pointer, _id_bestFighterInGreece, value.reference.pointer);
 
   static final _id_random = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"random",
     r"Ljava/util/Random;",
   );
@@ -3681,16 +3773,16 @@ class Fields extends jni.JObject {
   /// from: public java.util.Random random
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get random => const jni.JObjectType().fromRef(jni.Jni.accessors
-      .getField(reference, _id_random, jni.JniCallType.objectType)
+      .getField(reference.pointer, _id_random, jni.JniCallType.objectType)
       .object);
 
   /// from: public java.util.Random random
   /// The returned object must be released after use, by calling the [release] method.
-  set random(jni.JObject value) =>
-      jni.Jni.env.SetObjectField(reference, _id_random, value.reference);
+  set random(jni.JObject value) => jni.Jni.env
+      .SetObjectField(reference.pointer, _id_random, value.reference.pointer);
 
   static final _id_euroSymbol = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"euroSymbol",
     r"C",
   );
@@ -3698,21 +3790,21 @@ class Fields extends jni.JObject {
   /// from: static public char euroSymbol
   static int get euroSymbol => jni.Jni.accessors
       .getStaticField(
-          _class.reference, _id_euroSymbol, jni.JniCallType.charType)
+          _class.reference.pointer, _id_euroSymbol, jni.JniCallType.charType)
       .char;
 
   /// from: static public char euroSymbol
-  static set euroSymbol(int value) =>
-      jni.Jni.env.SetStaticCharField(_class.reference, _id_euroSymbol, value);
+  static set euroSymbol(int value) => jni.Jni.env
+      .SetStaticCharField(_class.reference.pointer, _id_euroSymbol, value);
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields() {
     return Fields.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -3756,47 +3848,47 @@ class Fields_Nested extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $Fields_NestedType();
   static final _id_hundred = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"hundred",
     r"J",
   );
 
   /// from: public long hundred
   int get hundred => jni.Jni.accessors
-      .getField(reference, _id_hundred, jni.JniCallType.longType)
+      .getField(reference.pointer, _id_hundred, jni.JniCallType.longType)
       .long;
 
   /// from: public long hundred
   set hundred(int value) =>
-      jni.Jni.env.SetLongField(reference, _id_hundred, value);
+      jni.Jni.env.SetLongField(reference.pointer, _id_hundred, value);
 
   static final _id_BEST_GOD = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+    _class.reference.pointer,
     r"BEST_GOD",
     r"Ljava/lang/String;",
   );
 
   /// from: static public java.lang.String BEST_GOD
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get BEST_GOD =>
-      const jni.JStringType().fromRef(jni.Jni.accessors
-          .getStaticField(
-              _class.reference, _id_BEST_GOD, jni.JniCallType.objectType)
-          .object);
+  static jni.JString get BEST_GOD => const jni.JStringType().fromRef(jni
+      .Jni.accessors
+      .getStaticField(
+          _class.reference.pointer, _id_BEST_GOD, jni.JniCallType.objectType)
+      .object);
 
   /// from: static public java.lang.String BEST_GOD
   /// The returned object must be released after use, by calling the [release] method.
-  static set BEST_GOD(jni.JString value) => jni.Jni.env
-      .SetStaticObjectField(_class.reference, _id_BEST_GOD, value.reference);
+  static set BEST_GOD(jni.JString value) => jni.Jni.env.SetStaticObjectField(
+      _class.reference.pointer, _id_BEST_GOD, value.reference.pointer);
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields_Nested() {
     return Fields_Nested.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -3856,8 +3948,8 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
     );
   }
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3869,7 +3961,7 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
         S,
         K,
         jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+            .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
@@ -3923,14 +4015,14 @@ class StringMap extends StringKeyedMap<jni.JString> {
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringMapType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory StringMap() {
     return StringMap.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 }
 
