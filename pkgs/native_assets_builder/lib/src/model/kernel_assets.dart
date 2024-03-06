@@ -70,8 +70,9 @@ class KernelAssetAbsolutePath implements KernelAssetPath {
   static const _pathTypeValue = 'absolute';
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-        (other is KernelAssetAbsolutePath && other.uri == uri);
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KernelAssetAbsolutePath && other.uri == uri);
 
   @override
   int get hashCode => uri.hashCode;
@@ -102,8 +103,9 @@ class KernelAssetRelativePath implements KernelAssetPath {
   static const _pathTypeValue = 'relative';
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-        (other is KernelAssetRelativePath && other.uri == uri);
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KernelAssetRelativePath && other.uri == uri);
 
   @override
   int get hashCode => uri.hashCode;
@@ -123,15 +125,15 @@ class KernelAssetSystemPath implements KernelAssetPath {
   static const _pathTypeValue = 'system';
 
   @override
-  bool operator ==(Object other) => identical(this, other) ||
-        (other is KernelAssetSystemPath && other.uri == uri);
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KernelAssetSystemPath && other.uri == uri);
 
   @override
   int get hashCode => uri.hashCode;
 
   @override
   String toString() => 'KernelAssetAbsolutePath($uri)';
-
 
   @override
   List<String> toYaml() => [_pathTypeValue, uri.toFilePath()];
