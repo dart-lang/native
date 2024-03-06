@@ -149,19 +149,17 @@ abstract final class Jni {
       final optsPtr = (count != 0) ? allocator<JavaVMOption>(count) : nullptr;
       args.ref.options = optsPtr;
       for (int i = 0; i < options.length; i++) {
-        optsPtr.elementAt(i).ref.optionString =
-            options[i].toNativeChars(allocator);
+        (optsPtr + i).ref.optionString = options[i].toNativeChars(allocator);
       }
       if (dylibPath != null) {
-        optsPtr
-                .elementAt(count - 1 - (classPath.isNotEmpty ? 1 : 0))
+        (optsPtr + count - 1 - (classPath.isNotEmpty ? 1 : 0))
                 .ref
                 .optionString =
             "-Djava.library.path=$dylibPath".toNativeChars(allocator);
       }
       if (classPath.isNotEmpty) {
         final classPathString = classPath.join(Platform.isWindows ? ';' : ":");
-        optsPtr.elementAt(count - 1).ref.optionString =
+        (optsPtr + count - 1).ref.optionString =
             "-Djava.class.path=$classPathString".toNativeChars(allocator);
       }
       args.ref.nOptions = count;

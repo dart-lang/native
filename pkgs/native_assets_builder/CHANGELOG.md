@@ -1,6 +1,14 @@
-## 0.4.0
+## 0.6.0
 
 - Add support for `link.dart`.
+
+## 0.5.0
+
+- **Breaking change**: Hide implementation of `KernelAssets`.
+
+## 0.4.0
+
+- **Breaking change**: Split out the `KernelAsset`s from normal `Asset`s.
 
 ## 0.3.2
 

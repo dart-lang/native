@@ -1,5 +1,6 @@
-## 0.5.0
+## 0.4.3-wip
 
+- Bump examples dependencies to path dependencies. (2x)
 - Add support for `link.dart`.
 
 ## 0.4.2

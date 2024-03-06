@@ -26,57 +26,57 @@ import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-/// from: com.github.dart_lang.jnigen.simple_package.Color
-class Color extends jni.JObject {
+/// from: com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice
+class Example_Nested_NestedTwice extends jni.JObject {
   @override
-  late final jni.JObjType<Color> $type = type;
+  late final jni.JObjType<Example_Nested_NestedTwice> $type = type;
 
-  Color.fromRef(
+  Example_Nested_NestedTwice.fromRef(
     jni.JObjectPtr ref,
   ) : super.fromRef(ref);
 
-  static final _class =
-      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/simple_package/Color");
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice");
 
   /// The type which includes information such as the signature of this class.
-  static const type = $ColorType();
-  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"values",
-      r"()[Lcom/github/dart_lang/jnigen/simple_package/Color;");
+  static const type = $Example_Nested_NestedTwiceType();
+  static final _id_ZERO = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"ZERO",
+    r"I",
+  );
 
-  /// from: static public com.github.dart_lang.jnigen.simple_package.Color[] values()
+  /// from: static public int ZERO
+  static int get ZERO => jni.Jni.accessors
+      .getStaticField(_class.reference, _id_ZERO, jni.JniCallType.intType)
+      .integer;
+
+  /// from: static public int ZERO
+  static set ZERO(int value) =>
+      jni.Jni.env.SetStaticIntField(_class.reference, _id_ZERO, value);
+
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<Color> values() {
-    return const jni.JArrayType($ColorType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_values,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"valueOf",
-      r"(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/simple_package/Color;");
-
-  /// from: static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String name)
-  /// The returned object must be released after use, by calling the [release] method.
-  static Color valueOf(
-    jni.JString name,
-  ) {
-    return const $ColorType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
+  factory Example_Nested_NestedTwice() {
+    return Example_Nested_NestedTwice.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
   }
 }
 
-final class $ColorType extends jni.JObjType<Color> {
-  const $ColorType();
+final class $Example_Nested_NestedTwiceType
+    extends jni.JObjType<Example_Nested_NestedTwice> {
+  const $Example_Nested_NestedTwiceType();
 
   @override
-  String get signature => r"Lcom/github/dart_lang/jnigen/simple_package/Color;";
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;";
 
   @override
-  Color fromRef(jni.JObjectPtr ref) => Color.fromRef(ref);
+  Example_Nested_NestedTwice fromRef(jni.JObjectPtr ref) =>
+      Example_Nested_NestedTwice.fromRef(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -85,11 +85,164 @@ final class $ColorType extends jni.JObjType<Color> {
   final superCount = 1;
 
   @override
-  int get hashCode => ($ColorType).hashCode;
+  int get hashCode => ($Example_Nested_NestedTwiceType).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == ($ColorType) && other is $ColorType;
+    return other.runtimeType == ($Example_Nested_NestedTwiceType) &&
+        other is $Example_Nested_NestedTwiceType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Example$Nested
+class Example_Nested extends jni.JObject {
+  @override
+  late final jni.JObjType<Example_Nested> $type = type;
+
+  Example_Nested.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/simple_package/Example$Nested");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Example_NestedType();
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(Z)V");
+
+  /// from: public void <init>(boolean value)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example_Nested(
+    bool value,
+  ) {
+    return Example_Nested.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_new0, [value ? 1 : 0]).object);
+  }
+
+  static final _id_usesAnonymousInnerClass = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"usesAnonymousInnerClass", r"()V");
+
+  /// from: public void usesAnonymousInnerClass()
+  void usesAnonymousInnerClass() {
+    return jni.Jni.accessors.callMethodWithArgs(reference,
+        _id_usesAnonymousInnerClass, jni.JniCallType.voidType, []).check();
+  }
+
+  static final _id_getValue =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getValue", r"()Z");
+
+  /// from: public boolean getValue()
+  bool getValue() {
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_getValue, jni.JniCallType.booleanType, []).boolean;
+  }
+
+  static final _id_setValue =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"setValue", r"(Z)V");
+
+  /// from: public void setValue(boolean value)
+  void setValue(
+    bool value,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_setValue,
+        jni.JniCallType.voidType, [value ? 1 : 0]).check();
+  }
+}
+
+final class $Example_NestedType extends jni.JObjType<Example_Nested> {
+  const $Example_NestedType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;";
+
+  @override
+  Example_Nested fromRef(jni.JObjectPtr ref) => Example_Nested.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Example_NestedType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_NestedType) &&
+        other is $Example_NestedType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested
+class Example_NonStaticNested extends jni.JObject {
+  @override
+  late final jni.JObjType<Example_NonStaticNested> $type = type;
+
+  Example_NonStaticNested.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Example_NonStaticNestedType();
+  static final _id_ok = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"ok",
+    r"Z",
+  );
+
+  /// from: public boolean ok
+  bool get ok => jni.Jni.accessors
+      .getField(reference, _id_ok, jni.JniCallType.booleanType)
+      .boolean;
+
+  /// from: public boolean ok
+  set ok(bool value) =>
+      jni.Jni.env.SetBooleanField(reference, _id_ok, value ? 1 : 0);
+
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(_class.reference,
+      r"<init>", r"(Lcom/github/dart_lang/jnigen/simple_package/Example;)V");
+
+  /// from: public void <init>(com.github.dart_lang.jnigen.simple_package.Example $parent)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example_NonStaticNested(
+    Example $parent,
+  ) {
+    return Example_NonStaticNested.fromRef(jni.Jni.accessors.newObjectWithArgs(
+        _class.reference, _id_new0, [$parent.reference]).object);
+  }
+}
+
+final class $Example_NonStaticNestedType
+    extends jni.JObjType<Example_NonStaticNested> {
+  const $Example_NonStaticNestedType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;";
+
+  @override
+  Example_NonStaticNested fromRef(jni.JObjectPtr ref) =>
+      Example_NonStaticNested.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Example_NonStaticNestedType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Example_NonStaticNestedType) &&
+        other is $Example_NonStaticNestedType;
   }
 }
 
@@ -754,756 +907,6 @@ final class $ExampleType extends jni.JObjType<Example> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.simple_package.Example$Nested
-class Example_Nested extends jni.JObject {
-  @override
-  late final jni.JObjType<Example_Nested> $type = type;
-
-  Example_Nested.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/simple_package/Example$Nested");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $Example_NestedType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(Z)V");
-
-  /// from: public void <init>(boolean value)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Example_Nested(
-    bool value,
-  ) {
-    return Example_Nested.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, [value ? 1 : 0]).object);
-  }
-
-  static final _id_usesAnonymousInnerClass = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"usesAnonymousInnerClass", r"()V");
-
-  /// from: public void usesAnonymousInnerClass()
-  void usesAnonymousInnerClass() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_usesAnonymousInnerClass, jni.JniCallType.voidType, []).check();
-  }
-
-  static final _id_getValue =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getValue", r"()Z");
-
-  /// from: public boolean getValue()
-  bool getValue() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getValue, jni.JniCallType.booleanType, []).boolean;
-  }
-
-  static final _id_setValue =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"setValue", r"(Z)V");
-
-  /// from: public void setValue(boolean value)
-  void setValue(
-    bool value,
-  ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_setValue,
-        jni.JniCallType.voidType, [value ? 1 : 0]).check();
-  }
-}
-
-final class $Example_NestedType extends jni.JObjType<Example_Nested> {
-  const $Example_NestedType();
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;";
-
-  @override
-  Example_Nested fromRef(jni.JObjectPtr ref) => Example_Nested.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($Example_NestedType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example_NestedType) &&
-        other is $Example_NestedType;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice
-class Example_Nested_NestedTwice extends jni.JObject {
-  @override
-  late final jni.JObjType<Example_Nested_NestedTwice> $type = type;
-
-  Example_Nested_NestedTwice.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $Example_Nested_NestedTwiceType();
-  static final _id_ZERO = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
-    r"ZERO",
-    r"I",
-  );
-
-  /// from: static public int ZERO
-  static int get ZERO => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_ZERO, jni.JniCallType.intType)
-      .integer;
-
-  /// from: static public int ZERO
-  static set ZERO(int value) =>
-      jni.Jni.env.SetStaticIntField(_class.reference, _id_ZERO, value);
-
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
-
-  /// from: public void <init>()
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Example_Nested_NestedTwice() {
-    return Example_Nested_NestedTwice.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
-  }
-}
-
-final class $Example_Nested_NestedTwiceType
-    extends jni.JObjType<Example_Nested_NestedTwice> {
-  const $Example_Nested_NestedTwiceType();
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;";
-
-  @override
-  Example_Nested_NestedTwice fromRef(jni.JObjectPtr ref) =>
-      Example_Nested_NestedTwice.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($Example_Nested_NestedTwiceType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example_Nested_NestedTwiceType) &&
-        other is $Example_Nested_NestedTwiceType;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested
-class Example_NonStaticNested extends jni.JObject {
-  @override
-  late final jni.JObjType<Example_NonStaticNested> $type = type;
-
-  Example_NonStaticNested.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $Example_NonStaticNestedType();
-  static final _id_ok = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"ok",
-    r"Z",
-  );
-
-  /// from: public boolean ok
-  bool get ok => jni.Jni.accessors
-      .getField(reference, _id_ok, jni.JniCallType.booleanType)
-      .boolean;
-
-  /// from: public boolean ok
-  set ok(bool value) =>
-      jni.Jni.env.SetBooleanField(reference, _id_ok, value ? 1 : 0);
-
-  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"<init>", r"(Lcom/github/dart_lang/jnigen/simple_package/Example;)V");
-
-  /// from: public void <init>(com.github.dart_lang.jnigen.simple_package.Example $parent)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Example_NonStaticNested(
-    Example $parent,
-  ) {
-    return Example_NonStaticNested.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new0, [$parent.reference]).object);
-  }
-}
-
-final class $Example_NonStaticNestedType
-    extends jni.JObjType<Example_NonStaticNested> {
-  const $Example_NonStaticNestedType();
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;";
-
-  @override
-  Example_NonStaticNested fromRef(jni.JObjectPtr ref) =>
-      Example_NonStaticNested.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($Example_NonStaticNestedType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example_NonStaticNestedType) &&
-        other is $Example_NonStaticNestedType;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.simple_package.Exceptions
-class Exceptions extends jni.JObject {
-  @override
-  late final jni.JObjType<Exceptions> $type = type;
-
-  Exceptions.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/simple_package/Exceptions");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $ExceptionsType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
-
-  /// from: public void <init>()
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Exceptions() {
-    return Exceptions.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
-  }
-
-  static final _id_new1 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(F)V");
-
-  /// from: public void <init>(float x)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Exceptions.new1(
-    double x,
-  ) {
-    return Exceptions.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new1, [jni.JValueFloat(x)]).object);
-  }
-
-  static final _id_new2 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"<init>", r"(IIIIII)V");
-
-  /// from: public void <init>(int a, int b, int c, int d, int e, int f)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Exceptions.new2(
-    int a,
-    int b,
-    int c,
-    int d,
-    int e,
-    int f,
-  ) {
-    return Exceptions.fromRef(
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new2, [
-      jni.JValueInt(a),
-      jni.JValueInt(b),
-      jni.JValueInt(c),
-      jni.JValueInt(d),
-      jni.JValueInt(e),
-      jni.JValueInt(f)
-    ]).object);
-  }
-
-  static final _id_staticObjectMethod = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference, r"staticObjectMethod", r"()Ljava/lang/Object;");
-
-  /// from: static public java.lang.Object staticObjectMethod()
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JObject staticObjectMethod() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_staticObjectMethod,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_staticIntMethod = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"staticIntMethod", r"()I");
-
-  /// from: static public int staticIntMethod()
-  static int staticIntMethod() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
-        _id_staticIntMethod, jni.JniCallType.intType, []).integer;
-  }
-
-  static final _id_staticObjectArrayMethod = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"staticObjectArrayMethod",
-          r"()[Ljava/lang/Object;");
-
-  /// from: static public java.lang.Object[] staticObjectArrayMethod()
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<jni.JObject> staticObjectArrayMethod() {
-    return const jni.JArrayType(jni.JObjectType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_staticObjectArrayMethod,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_staticIntArrayMethod = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"staticIntArrayMethod", r"()[I");
-
-  /// from: static public int[] staticIntArrayMethod()
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<jni.jint> staticIntArrayMethod() {
-    return const jni.JArrayType(jni.jintType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_staticIntArrayMethod,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_objectMethod = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"objectMethod", r"()Ljava/lang/Object;");
-
-  /// from: public java.lang.Object objectMethod()
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject objectMethod() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_objectMethod, jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_intMethod =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"intMethod", r"()I");
-
-  /// from: public int intMethod()
-  int intMethod() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_intMethod, jni.JniCallType.intType, []).integer;
-  }
-
-  static final _id_objectArrayMethod = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"objectArrayMethod", r"()[Ljava/lang/Object;");
-
-  /// from: public java.lang.Object[] objectArrayMethod()
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JArray<jni.JObject> objectArrayMethod() {
-    return const jni.JArrayType(jni.JObjectType()).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_objectArrayMethod,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_intArrayMethod = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"intArrayMethod", r"()[I");
-
-  /// from: public int[] intArrayMethod()
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JArray<jni.jint> intArrayMethod() {
-    return const jni.JArrayType(jni.jintType()).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_intArrayMethod,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_throwNullPointerException = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"throwNullPointerException", r"()I");
-
-  /// from: public int throwNullPointerException()
-  int throwNullPointerException() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_throwNullPointerException, jni.JniCallType.intType, []).integer;
-  }
-
-  static final _id_throwFileNotFoundException = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"throwFileNotFoundException",
-      r"()Ljava/io/InputStream;");
-
-  /// from: public java.io.InputStream throwFileNotFoundException()
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject throwFileNotFoundException() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_throwFileNotFoundException,
-        jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_throwClassCastException = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"throwClassCastException",
-      r"()Ljava/io/FileInputStream;");
-
-  /// from: public java.io.FileInputStream throwClassCastException()
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject throwClassCastException() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_throwClassCastException,
-        jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_throwArrayIndexException = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"throwArrayIndexException", r"()I");
-
-  /// from: public int throwArrayIndexException()
-  int throwArrayIndexException() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_throwArrayIndexException, jni.JniCallType.intType, []).integer;
-  }
-
-  static final _id_throwArithmeticException = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"throwArithmeticException", r"()I");
-
-  /// from: public int throwArithmeticException()
-  int throwArithmeticException() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_throwArithmeticException, jni.JniCallType.intType, []).integer;
-  }
-
-  static final _id_throwLoremIpsum = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"throwLoremIpsum", r"()V");
-
-  /// from: static public void throwLoremIpsum()
-  static void throwLoremIpsum() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
-        _id_throwLoremIpsum, jni.JniCallType.voidType, []).check();
-  }
-}
-
-final class $ExceptionsType extends jni.JObjType<Exceptions> {
-  const $ExceptionsType();
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/simple_package/Exceptions;";
-
-  @override
-  Exceptions fromRef(jni.JObjectPtr ref) => Exceptions.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($ExceptionsType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ExceptionsType) && other is $ExceptionsType;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.simple_package.Fields
-class Fields extends jni.JObject {
-  @override
-  late final jni.JObjType<Fields> $type = type;
-
-  Fields.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class =
-      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/simple_package/Fields");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $FieldsType();
-  static final _id_amount = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
-    r"amount",
-    r"I",
-  );
-
-  /// from: static public int amount
-  static int get amount => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_amount, jni.JniCallType.intType)
-      .integer;
-
-  /// from: static public int amount
-  static set amount(int value) =>
-      jni.Jni.env.SetStaticIntField(_class.reference, _id_amount, value);
-
-  static final _id_pi = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
-    r"pi",
-    r"D",
-  );
-
-  /// from: static public double pi
-  static double get pi => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_pi, jni.JniCallType.doubleType)
-      .doubleFloat;
-
-  /// from: static public double pi
-  static set pi(double value) =>
-      jni.Jni.env.SetStaticDoubleField(_class.reference, _id_pi, value);
-
-  static final _id_asterisk = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
-    r"asterisk",
-    r"C",
-  );
-
-  /// from: static public char asterisk
-  static int get asterisk => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_asterisk, jni.JniCallType.charType)
-      .char;
-
-  /// from: static public char asterisk
-  static set asterisk(int value) =>
-      jni.Jni.env.SetStaticCharField(_class.reference, _id_asterisk, value);
-
-  static final _id_name = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
-    r"name",
-    r"Ljava/lang/String;",
-  );
-
-  /// from: static public java.lang.String name
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get name => const jni.JStringType().fromRef(jni
-      .Jni.accessors
-      .getStaticField(_class.reference, _id_name, jni.JniCallType.objectType)
-      .object);
-
-  /// from: static public java.lang.String name
-  /// The returned object must be released after use, by calling the [release] method.
-  static set name(jni.JString value) => jni.Jni.env
-      .SetStaticObjectField(_class.reference, _id_name, value.reference);
-
-  static final _id_i = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"i",
-    r"Ljava/lang/Integer;",
-  );
-
-  /// from: public java.lang.Integer i
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JInteger get i => const jni.JIntegerType().fromRef(jni.Jni.accessors
-      .getField(reference, _id_i, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public java.lang.Integer i
-  /// The returned object must be released after use, by calling the [release] method.
-  set i(jni.JInteger value) =>
-      jni.Jni.env.SetObjectField(reference, _id_i, value.reference);
-
-  static final _id_trillion = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"trillion",
-    r"J",
-  );
-
-  /// from: public long trillion
-  int get trillion => jni.Jni.accessors
-      .getField(reference, _id_trillion, jni.JniCallType.longType)
-      .long;
-
-  /// from: public long trillion
-  set trillion(int value) =>
-      jni.Jni.env.SetLongField(reference, _id_trillion, value);
-
-  static final _id_isAchillesDead = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"isAchillesDead",
-    r"Z",
-  );
-
-  /// from: public boolean isAchillesDead
-  bool get isAchillesDead => jni.Jni.accessors
-      .getField(reference, _id_isAchillesDead, jni.JniCallType.booleanType)
-      .boolean;
-
-  /// from: public boolean isAchillesDead
-  set isAchillesDead(bool value) =>
-      jni.Jni.env.SetBooleanField(reference, _id_isAchillesDead, value ? 1 : 0);
-
-  static final _id_bestFighterInGreece = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"bestFighterInGreece",
-    r"Ljava/lang/String;",
-  );
-
-  /// from: public java.lang.String bestFighterInGreece
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JString get bestFighterInGreece => const jni.JStringType().fromRef(jni
-      .Jni.accessors
-      .getField(reference, _id_bestFighterInGreece, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public java.lang.String bestFighterInGreece
-  /// The returned object must be released after use, by calling the [release] method.
-  set bestFighterInGreece(jni.JString value) => jni.Jni.env
-      .SetObjectField(reference, _id_bestFighterInGreece, value.reference);
-
-  static final _id_random = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"random",
-    r"Ljava/util/Random;",
-  );
-
-  /// from: public java.util.Random random
-  /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject get random => const jni.JObjectType().fromRef(jni.Jni.accessors
-      .getField(reference, _id_random, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public java.util.Random random
-  /// The returned object must be released after use, by calling the [release] method.
-  set random(jni.JObject value) =>
-      jni.Jni.env.SetObjectField(reference, _id_random, value.reference);
-
-  static final _id_euroSymbol = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
-    r"euroSymbol",
-    r"C",
-  );
-
-  /// from: static public char euroSymbol
-  static int get euroSymbol => jni.Jni.accessors
-      .getStaticField(
-          _class.reference, _id_euroSymbol, jni.JniCallType.charType)
-      .char;
-
-  /// from: static public char euroSymbol
-  static set euroSymbol(int value) =>
-      jni.Jni.env.SetStaticCharField(_class.reference, _id_euroSymbol, value);
-
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
-
-  /// from: public void <init>()
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Fields() {
-    return Fields.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
-  }
-}
-
-final class $FieldsType extends jni.JObjType<Fields> {
-  const $FieldsType();
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/simple_package/Fields;";
-
-  @override
-  Fields fromRef(jni.JObjectPtr ref) => Fields.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($FieldsType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FieldsType) && other is $FieldsType;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.simple_package.Fields$Nested
-class Fields_Nested extends jni.JObject {
-  @override
-  late final jni.JObjType<Fields_Nested> $type = type;
-
-  Fields_Nested.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/simple_package/Fields$Nested");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $Fields_NestedType();
-  static final _id_hundred = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"hundred",
-    r"J",
-  );
-
-  /// from: public long hundred
-  int get hundred => jni.Jni.accessors
-      .getField(reference, _id_hundred, jni.JniCallType.longType)
-      .long;
-
-  /// from: public long hundred
-  set hundred(int value) =>
-      jni.Jni.env.SetLongField(reference, _id_hundred, value);
-
-  static final _id_BEST_GOD = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
-    r"BEST_GOD",
-    r"Ljava/lang/String;",
-  );
-
-  /// from: static public java.lang.String BEST_GOD
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get BEST_GOD =>
-      const jni.JStringType().fromRef(jni.Jni.accessors
-          .getStaticField(
-              _class.reference, _id_BEST_GOD, jni.JniCallType.objectType)
-          .object);
-
-  /// from: static public java.lang.String BEST_GOD
-  /// The returned object must be released after use, by calling the [release] method.
-  static set BEST_GOD(jni.JString value) => jni.Jni.env
-      .SetStaticObjectField(_class.reference, _id_BEST_GOD, value.reference);
-
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
-
-  /// from: public void <init>()
-  /// The returned object must be released after use, by calling the [release] method.
-  factory Fields_Nested() {
-    return Fields_Nested.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
-  }
-}
-
-final class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
-  const $Fields_NestedType();
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/simple_package/Fields$Nested;";
-
-  @override
-  Fields_Nested fromRef(jni.JObjectPtr ref) => Fields_Nested.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($Fields_NestedType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Fields_NestedType) &&
-        other is $Fields_NestedType;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.pkg2.C2
 class C2 extends jni.JObject {
   @override
@@ -1626,70 +1029,144 @@ final class $Example1Type extends jni.JObjType<Example1> {
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GenericTypeParams
-class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
-    extends jni.JObject {
+/// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child
+class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
+    $U extends jni.JObject> extends jni.JObject {
   @override
-  late final jni.JObjType<GenericTypeParams<$S, $K>> $type = type(S, K);
+  late final jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> $type =
+      type(T, S, U);
 
+  final jni.JObjType<$T> T;
   final jni.JObjType<$S> S;
-  final jni.JObjType<$K> K;
+  final jni.JObjType<$U> U;
 
-  GenericTypeParams.fromRef(
+  GrandParent_Parent_Child.fromRef(
+    this.T,
     this.S,
-    this.K,
+    this.U,
     jni.JObjectPtr ref,
   ) : super.fromRef(ref);
 
   static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/generics/GenericTypeParams");
+      r"com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child");
 
   /// The type which includes information such as the signature of this class.
-  static $GenericTypeParamsType<$S, $K>
-      type<$S extends jni.JObject, $K extends jni.JObject>(
+  static $GrandParent_Parent_ChildType<$T, $S, $U> type<$T extends jni.JObject,
+      $S extends jni.JObject, $U extends jni.JObject>(
+    jni.JObjType<$T> T,
     jni.JObjType<$S> S,
-    jni.JObjType<$K> K,
+    jni.JObjType<$U> U,
   ) {
-    return $GenericTypeParamsType(
+    return $GrandParent_Parent_ChildType(
+      T,
       S,
-      K,
+      U,
     );
   }
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_grandParentValue = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"grandParentValue",
+    r"Ljava/lang/Object;",
+  );
 
-  /// from: public void <init>()
+  /// from: public T grandParentValue
   /// The returned object must be released after use, by calling the [release] method.
-  factory GenericTypeParams({
-    required jni.JObjType<$S> S,
-    required jni.JObjType<$K> K,
+  $T get grandParentValue => T.fromRef(jni.Jni.accessors
+      .getField(reference, _id_grandParentValue, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public T grandParentValue
+  /// The returned object must be released after use, by calling the [release] method.
+  set grandParentValue($T value) => jni.Jni.env
+      .SetObjectField(reference, _id_grandParentValue, value.reference);
+
+  static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"parentValue",
+    r"Ljava/lang/Object;",
+  );
+
+  /// from: public S parentValue
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get parentValue => S.fromRef(jni.Jni.accessors
+      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public S parentValue
+  /// The returned object must be released after use, by calling the [release] method.
+  set parentValue($S value) =>
+      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
+
+  static final _id_value = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"value",
+    r"Ljava/lang/Object;",
+  );
+
+  /// from: public U value
+  /// The returned object must be released after use, by calling the [release] method.
+  $U get value => U.fromRef(jni.Jni.accessors
+      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public U value
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($U value) =>
+      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V");
+
+  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $parent, U newValue)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_Parent_Child(
+    GrandParent_Parent<$T, $S> $parent,
+    $U newValue, {
+    jni.JObjType<$T>? T,
+    jni.JObjType<$S>? S,
+    jni.JObjType<$U>? U,
   }) {
-    return GenericTypeParams.fromRef(
+    T ??= jni.lowestCommonSuperType([
+      ($parent.$type as $GrandParent_ParentType).T,
+    ]) as jni.JObjType<$T>;
+    S ??= jni.lowestCommonSuperType([
+      ($parent.$type as $GrandParent_ParentType).S,
+    ]) as jni.JObjType<$S>;
+    U ??= jni.lowestCommonSuperType([
+      newValue.$type,
+    ]) as jni.JObjType<$U>;
+    return GrandParent_Parent_Child.fromRef(
+        T,
         S,
-        K,
-        jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        U,
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
+            [$parent.reference, newValue.reference]).object);
   }
 }
 
-final class $GenericTypeParamsType<$S extends jni.JObject,
-    $K extends jni.JObject> extends jni.JObjType<GenericTypeParams<$S, $K>> {
+final class $GrandParent_Parent_ChildType<$T extends jni.JObject,
+        $S extends jni.JObject, $U extends jni.JObject>
+    extends jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
+  final jni.JObjType<$T> T;
   final jni.JObjType<$S> S;
-  final jni.JObjType<$K> K;
+  final jni.JObjType<$U> U;
 
-  const $GenericTypeParamsType(
+  const $GrandParent_Parent_ChildType(
+    this.T,
     this.S,
-    this.K,
+    this.U,
   );
 
   @override
   String get signature =>
-      r"Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;";
+      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;";
 
   @override
-  GenericTypeParams<$S, $K> fromRef(jni.JObjectPtr ref) =>
-      GenericTypeParams.fromRef(S, K, ref);
+  GrandParent_Parent_Child<$T, $S, $U> fromRef(jni.JObjectPtr ref) =>
+      GrandParent_Parent_Child.fromRef(T, S, U, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1698,14 +1175,369 @@ final class $GenericTypeParamsType<$S extends jni.JObject,
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash($GenericTypeParamsType, S, K);
+  int get hashCode => Object.hash($GrandParent_Parent_ChildType, T, S, U);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == ($GenericTypeParamsType<$S, $K>) &&
-        other is $GenericTypeParamsType<$S, $K> &&
+    return other.runtimeType == ($GrandParent_Parent_ChildType<$T, $S, $U>) &&
+        other is $GrandParent_Parent_ChildType<$T, $S, $U> &&
+        T == other.T &&
         S == other.S &&
-        K == other.K;
+        U == other.U;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent
+class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
+    extends jni.JObject {
+  @override
+  late final jni.JObjType<GrandParent_Parent<$T, $S>> $type = type(T, S);
+
+  final jni.JObjType<$T> T;
+  final jni.JObjType<$S> S;
+
+  GrandParent_Parent.fromRef(
+    this.T,
+    this.S,
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/generics/GrandParent$Parent");
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent_ParentType<$T, $S>
+      type<$T extends jni.JObject, $S extends jni.JObject>(
+    jni.JObjType<$T> T,
+    jni.JObjType<$S> S,
+  ) {
+    return $GrandParent_ParentType(
+      T,
+      S,
+    );
+  }
+
+  static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"parentValue",
+    r"Ljava/lang/Object;",
+  );
+
+  /// from: public T parentValue
+  /// The returned object must be released after use, by calling the [release] method.
+  $T get parentValue => T.fromRef(jni.Jni.accessors
+      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public T parentValue
+  /// The returned object must be released after use, by calling the [release] method.
+  set parentValue($T value) =>
+      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
+
+  static final _id_value = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"value",
+    r"Ljava/lang/Object;",
+  );
+
+  /// from: public S value
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get value => S.fromRef(jni.Jni.accessors
+      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public S value
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($S value) =>
+      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V");
+
+  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $parent, S newValue)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_Parent(
+    GrandParent<$T> $parent,
+    $S newValue, {
+    jni.JObjType<$T>? T,
+    jni.JObjType<$S>? S,
+  }) {
+    T ??= jni.lowestCommonSuperType([
+      ($parent.$type as $GrandParentType).T,
+    ]) as jni.JObjType<$T>;
+    S ??= jni.lowestCommonSuperType([
+      newValue.$type,
+    ]) as jni.JObjType<$S>;
+    return GrandParent_Parent.fromRef(
+        T,
+        S,
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
+            [$parent.reference, newValue.reference]).object);
+  }
+}
+
+final class $GrandParent_ParentType<$T extends jni.JObject,
+    $S extends jni.JObject> extends jni.JObjType<GrandParent_Parent<$T, $S>> {
+  final jni.JObjType<$T> T;
+  final jni.JObjType<$S> S;
+
+  const $GrandParent_ParentType(
+    this.T,
+    this.S,
+  );
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;";
+
+  @override
+  GrandParent_Parent<$T, $S> fromRef(jni.JObjectPtr ref) =>
+      GrandParent_Parent.fromRef(T, S, ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash($GrandParent_ParentType, T, S);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_ParentType<$T, $S>) &&
+        other is $GrandParent_ParentType<$T, $S> &&
+        T == other.T &&
+        S == other.S;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child
+class GrandParent_StaticParent_Child<$S extends jni.JObject,
+    $U extends jni.JObject> extends jni.JObject {
+  @override
+  late final jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> $type =
+      type(S, U);
+
+  final jni.JObjType<$S> S;
+  final jni.JObjType<$U> U;
+
+  GrandParent_StaticParent_Child.fromRef(
+    this.S,
+    this.U,
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child");
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent_StaticParent_ChildType<$S, $U>
+      type<$S extends jni.JObject, $U extends jni.JObject>(
+    jni.JObjType<$S> S,
+    jni.JObjType<$U> U,
+  ) {
+    return $GrandParent_StaticParent_ChildType(
+      S,
+      U,
+    );
+  }
+
+  static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"parentValue",
+    r"Ljava/lang/Object;",
+  );
+
+  /// from: public S parentValue
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get parentValue => S.fromRef(jni.Jni.accessors
+      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public S parentValue
+  /// The returned object must be released after use, by calling the [release] method.
+  set parentValue($S value) =>
+      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
+
+  static final _id_value = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"value",
+    r"Ljava/lang/Object;",
+  );
+
+  /// from: public U value
+  /// The returned object must be released after use, by calling the [release] method.
+  $U get value => U.fromRef(jni.Jni.accessors
+      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public U value
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($U value) =>
+      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+
+  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"<init>",
+      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V");
+
+  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $parent, S parentValue, U value)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_StaticParent_Child(
+    GrandParent_StaticParent<$S> $parent,
+    $S parentValue,
+    $U value, {
+    jni.JObjType<$S>? S,
+    jni.JObjType<$U>? U,
+  }) {
+    S ??= jni.lowestCommonSuperType([
+      parentValue.$type,
+      ($parent.$type as $GrandParent_StaticParentType).S,
+    ]) as jni.JObjType<$S>;
+    U ??= jni.lowestCommonSuperType([
+      value.$type,
+    ]) as jni.JObjType<$U>;
+    return GrandParent_StaticParent_Child.fromRef(
+        S,
+        U,
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0, [
+          $parent.reference,
+          parentValue.reference,
+          value.reference
+        ]).object);
+  }
+}
+
+final class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
+        $U extends jni.JObject>
+    extends jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
+  final jni.JObjType<$S> S;
+  final jni.JObjType<$U> U;
+
+  const $GrandParent_StaticParent_ChildType(
+    this.S,
+    this.U,
+  );
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;";
+
+  @override
+  GrandParent_StaticParent_Child<$S, $U> fromRef(jni.JObjectPtr ref) =>
+      GrandParent_StaticParent_Child.fromRef(S, U, ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash($GrandParent_StaticParent_ChildType, S, U);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_StaticParent_ChildType<$S, $U>) &&
+        other is $GrandParent_StaticParent_ChildType<$S, $U> &&
+        S == other.S &&
+        U == other.U;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent
+class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
+  @override
+  late final jni.JObjType<GrandParent_StaticParent<$S>> $type = type(S);
+
+  final jni.JObjType<$S> S;
+
+  GrandParent_StaticParent.fromRef(
+    this.S,
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/generics/GrandParent$StaticParent");
+
+  /// The type which includes information such as the signature of this class.
+  static $GrandParent_StaticParentType<$S> type<$S extends jni.JObject>(
+    jni.JObjType<$S> S,
+  ) {
+    return $GrandParent_StaticParentType(
+      S,
+    );
+  }
+
+  static final _id_value = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"value",
+    r"Ljava/lang/Object;",
+  );
+
+  /// from: public S value
+  /// The returned object must be released after use, by calling the [release] method.
+  $S get value => S.fromRef(jni.Jni.accessors
+      .getField(reference, _id_value, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public S value
+  /// The returned object must be released after use, by calling the [release] method.
+  set value($S value) =>
+      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
+
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"<init>", r"(Ljava/lang/Object;)V");
+
+  /// from: public void <init>(S value)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GrandParent_StaticParent(
+    $S value, {
+    jni.JObjType<$S>? S,
+  }) {
+    S ??= jni.lowestCommonSuperType([
+      value.$type,
+    ]) as jni.JObjType<$S>;
+    return GrandParent_StaticParent.fromRef(
+        S,
+        jni.Jni.accessors.newObjectWithArgs(
+            _class.reference, _id_new0, [value.reference]).object);
+  }
+}
+
+final class $GrandParent_StaticParentType<$S extends jni.JObject>
+    extends jni.JObjType<GrandParent_StaticParent<$S>> {
+  final jni.JObjType<$S> S;
+
+  const $GrandParent_StaticParentType(
+    this.S,
+  );
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;";
+
+  @override
+  GrandParent_StaticParent<$S> fromRef(jni.JObjectPtr ref) =>
+      GrandParent_StaticParent.fromRef(S, ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash($GrandParent_StaticParentType, S);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GrandParent_StaticParentType<$S>) &&
+        other is $GrandParent_StaticParentType<$S> &&
+        S == other.S;
   }
 }
 
@@ -1877,638 +1709,6 @@ final class $GrandParentType<$T extends jni.JObject>
   }
 }
 
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent
-class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
-    extends jni.JObject {
-  @override
-  late final jni.JObjType<GrandParent_Parent<$T, $S>> $type = type(T, S);
-
-  final jni.JObjType<$T> T;
-  final jni.JObjType<$S> S;
-
-  GrandParent_Parent.fromRef(
-    this.T,
-    this.S,
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/generics/GrandParent$Parent");
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent_ParentType<$T, $S>
-      type<$T extends jni.JObject, $S extends jni.JObject>(
-    jni.JObjType<$T> T,
-    jni.JObjType<$S> S,
-  ) {
-    return $GrandParent_ParentType(
-      T,
-      S,
-    );
-  }
-
-  static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"parentValue",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public T parentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  $T get parentValue => T.fromRef(jni.Jni.accessors
-      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public T parentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  set parentValue($T value) =>
-      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
-
-  static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"value",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public S value
-  /// The returned object must be released after use, by calling the [release] method.
-  $S get value => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public S value
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
-
-  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"<init>",
-      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V");
-
-  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $parent, S newValue)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_Parent(
-    GrandParent<$T> $parent,
-    $S newValue, {
-    jni.JObjType<$T>? T,
-    jni.JObjType<$S>? S,
-  }) {
-    T ??= jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParentType).T,
-    ]) as jni.JObjType<$T>;
-    S ??= jni.lowestCommonSuperType([
-      newValue.$type,
-    ]) as jni.JObjType<$S>;
-    return GrandParent_Parent.fromRef(
-        T,
-        S,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
-            [$parent.reference, newValue.reference]).object);
-  }
-}
-
-final class $GrandParent_ParentType<$T extends jni.JObject,
-    $S extends jni.JObject> extends jni.JObjType<GrandParent_Parent<$T, $S>> {
-  final jni.JObjType<$T> T;
-  final jni.JObjType<$S> S;
-
-  const $GrandParent_ParentType(
-    this.T,
-    this.S,
-  );
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;";
-
-  @override
-  GrandParent_Parent<$T, $S> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_Parent.fromRef(T, S, ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => Object.hash($GrandParent_ParentType, T, S);
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_ParentType<$T, $S>) &&
-        other is $GrandParent_ParentType<$T, $S> &&
-        T == other.T &&
-        S == other.S;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child
-class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
-    $U extends jni.JObject> extends jni.JObject {
-  @override
-  late final jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> $type =
-      type(T, S, U);
-
-  final jni.JObjType<$T> T;
-  final jni.JObjType<$S> S;
-  final jni.JObjType<$U> U;
-
-  GrandParent_Parent_Child.fromRef(
-    this.T,
-    this.S,
-    this.U,
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child");
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent_Parent_ChildType<$T, $S, $U> type<$T extends jni.JObject,
-      $S extends jni.JObject, $U extends jni.JObject>(
-    jni.JObjType<$T> T,
-    jni.JObjType<$S> S,
-    jni.JObjType<$U> U,
-  ) {
-    return $GrandParent_Parent_ChildType(
-      T,
-      S,
-      U,
-    );
-  }
-
-  static final _id_grandParentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"grandParentValue",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public T grandParentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  $T get grandParentValue => T.fromRef(jni.Jni.accessors
-      .getField(reference, _id_grandParentValue, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public T grandParentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  set grandParentValue($T value) => jni.Jni.env
-      .SetObjectField(reference, _id_grandParentValue, value.reference);
-
-  static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"parentValue",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public S parentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  $S get parentValue => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public S parentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  set parentValue($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
-
-  static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"value",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public U value
-  /// The returned object must be released after use, by calling the [release] method.
-  $U get value => U.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public U value
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($U value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
-
-  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"<init>",
-      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V");
-
-  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $parent, U newValue)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_Parent_Child(
-    GrandParent_Parent<$T, $S> $parent,
-    $U newValue, {
-    jni.JObjType<$T>? T,
-    jni.JObjType<$S>? S,
-    jni.JObjType<$U>? U,
-  }) {
-    T ??= jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent_ParentType).T,
-    ]) as jni.JObjType<$T>;
-    S ??= jni.lowestCommonSuperType([
-      ($parent.$type as $GrandParent_ParentType).S,
-    ]) as jni.JObjType<$S>;
-    U ??= jni.lowestCommonSuperType([
-      newValue.$type,
-    ]) as jni.JObjType<$U>;
-    return GrandParent_Parent_Child.fromRef(
-        T,
-        S,
-        U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0,
-            [$parent.reference, newValue.reference]).object);
-  }
-}
-
-final class $GrandParent_Parent_ChildType<$T extends jni.JObject,
-        $S extends jni.JObject, $U extends jni.JObject>
-    extends jni.JObjType<GrandParent_Parent_Child<$T, $S, $U>> {
-  final jni.JObjType<$T> T;
-  final jni.JObjType<$S> S;
-  final jni.JObjType<$U> U;
-
-  const $GrandParent_Parent_ChildType(
-    this.T,
-    this.S,
-    this.U,
-  );
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;";
-
-  @override
-  GrandParent_Parent_Child<$T, $S, $U> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_Parent_Child.fromRef(T, S, U, ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => Object.hash($GrandParent_Parent_ChildType, T, S, U);
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_Parent_ChildType<$T, $S, $U>) &&
-        other is $GrandParent_Parent_ChildType<$T, $S, $U> &&
-        T == other.T &&
-        S == other.S &&
-        U == other.U;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent
-class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
-  @override
-  late final jni.JObjType<GrandParent_StaticParent<$S>> $type = type(S);
-
-  final jni.JObjType<$S> S;
-
-  GrandParent_StaticParent.fromRef(
-    this.S,
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/generics/GrandParent$StaticParent");
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParentType<$S> type<$S extends jni.JObject>(
-    jni.JObjType<$S> S,
-  ) {
-    return $GrandParent_StaticParentType(
-      S,
-    );
-  }
-
-  static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"value",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public S value
-  /// The returned object must be released after use, by calling the [release] method.
-  $S get value => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public S value
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
-
-  static final _id_new0 = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"<init>", r"(Ljava/lang/Object;)V");
-
-  /// from: public void <init>(S value)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_StaticParent(
-    $S value, {
-    jni.JObjType<$S>? S,
-  }) {
-    S ??= jni.lowestCommonSuperType([
-      value.$type,
-    ]) as jni.JObjType<$S>;
-    return GrandParent_StaticParent.fromRef(
-        S,
-        jni.Jni.accessors.newObjectWithArgs(
-            _class.reference, _id_new0, [value.reference]).object);
-  }
-}
-
-final class $GrandParent_StaticParentType<$S extends jni.JObject>
-    extends jni.JObjType<GrandParent_StaticParent<$S>> {
-  final jni.JObjType<$S> S;
-
-  const $GrandParent_StaticParentType(
-    this.S,
-  );
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;";
-
-  @override
-  GrandParent_StaticParent<$S> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_StaticParent.fromRef(S, ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => Object.hash($GrandParent_StaticParentType, S);
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_StaticParentType<$S>) &&
-        other is $GrandParent_StaticParentType<$S> &&
-        S == other.S;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child
-class GrandParent_StaticParent_Child<$S extends jni.JObject,
-    $U extends jni.JObject> extends jni.JObject {
-  @override
-  late final jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> $type =
-      type(S, U);
-
-  final jni.JObjType<$S> S;
-  final jni.JObjType<$U> U;
-
-  GrandParent_StaticParent_Child.fromRef(
-    this.S,
-    this.U,
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class = jni.Jni.findJClass(
-      r"com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child");
-
-  /// The type which includes information such as the signature of this class.
-  static $GrandParent_StaticParent_ChildType<$S, $U>
-      type<$S extends jni.JObject, $U extends jni.JObject>(
-    jni.JObjType<$S> S,
-    jni.JObjType<$U> U,
-  ) {
-    return $GrandParent_StaticParent_ChildType(
-      S,
-      U,
-    );
-  }
-
-  static final _id_parentValue = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"parentValue",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public S parentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  $S get parentValue => S.fromRef(jni.Jni.accessors
-      .getField(reference, _id_parentValue, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public S parentValue
-  /// The returned object must be released after use, by calling the [release] method.
-  set parentValue($S value) =>
-      jni.Jni.env.SetObjectField(reference, _id_parentValue, value.reference);
-
-  static final _id_value = jni.Jni.accessors.getFieldIDOf(
-    _class.reference,
-    r"value",
-    r"Ljava/lang/Object;",
-  );
-
-  /// from: public U value
-  /// The returned object must be released after use, by calling the [release] method.
-  $U get value => U.fromRef(jni.Jni.accessors
-      .getField(reference, _id_value, jni.JniCallType.objectType)
-      .object);
-
-  /// from: public U value
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($U value) =>
-      jni.Jni.env.SetObjectField(reference, _id_value, value.reference);
-
-  static final _id_new0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"<init>",
-      r"(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V");
-
-  /// from: public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $parent, S parentValue, U value)
-  /// The returned object must be released after use, by calling the [release] method.
-  factory GrandParent_StaticParent_Child(
-    GrandParent_StaticParent<$S> $parent,
-    $S parentValue,
-    $U value, {
-    jni.JObjType<$S>? S,
-    jni.JObjType<$U>? U,
-  }) {
-    S ??= jni.lowestCommonSuperType([
-      parentValue.$type,
-      ($parent.$type as $GrandParent_StaticParentType).S,
-    ]) as jni.JObjType<$S>;
-    U ??= jni.lowestCommonSuperType([
-      value.$type,
-    ]) as jni.JObjType<$U>;
-    return GrandParent_StaticParent_Child.fromRef(
-        S,
-        U,
-        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new0, [
-          $parent.reference,
-          parentValue.reference,
-          value.reference
-        ]).object);
-  }
-}
-
-final class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
-        $U extends jni.JObject>
-    extends jni.JObjType<GrandParent_StaticParent_Child<$S, $U>> {
-  final jni.JObjType<$S> S;
-  final jni.JObjType<$U> U;
-
-  const $GrandParent_StaticParent_ChildType(
-    this.S,
-    this.U,
-  );
-
-  @override
-  String get signature =>
-      r"Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;";
-
-  @override
-  GrandParent_StaticParent_Child<$S, $U> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_StaticParent_Child.fromRef(S, U, ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => Object.hash($GrandParent_StaticParent_ChildType, S, U);
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent_StaticParent_ChildType<$S, $U>) &&
-        other is $GrandParent_StaticParent_ChildType<$S, $U> &&
-        S == other.S &&
-        U == other.U;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.generics.MyMap
-class MyMap<$K extends jni.JObject, $V extends jni.JObject>
-    extends jni.JObject {
-  @override
-  late final jni.JObjType<MyMap<$K, $V>> $type = type(K, V);
-
-  final jni.JObjType<$K> K;
-  final jni.JObjType<$V> V;
-
-  MyMap.fromRef(
-    this.K,
-    this.V,
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class =
-      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/generics/MyMap");
-
-  /// The type which includes information such as the signature of this class.
-  static $MyMapType<$K, $V>
-      type<$K extends jni.JObject, $V extends jni.JObject>(
-    jni.JObjType<$K> K,
-    jni.JObjType<$V> V,
-  ) {
-    return $MyMapType(
-      K,
-      V,
-    );
-  }
-
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
-
-  /// from: public void <init>()
-  /// The returned object must be released after use, by calling the [release] method.
-  factory MyMap({
-    required jni.JObjType<$K> K,
-    required jni.JObjType<$V> V,
-  }) {
-    return MyMap.fromRef(
-        K,
-        V,
-        jni.Jni.accessors
-            .newObjectWithArgs(_class.reference, _id_new0, []).object);
-  }
-
-  static final _id_get0 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"get", r"(Ljava/lang/Object;)Ljava/lang/Object;");
-
-  /// from: public V get(K key)
-  /// The returned object must be released after use, by calling the [release] method.
-  $V get0(
-    $K key,
-  ) {
-    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(reference, _id_get0,
-        jni.JniCallType.objectType, [key.reference]).object);
-  }
-
-  static final _id_put = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"put", r"(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
-
-  /// from: public V put(K key, V value)
-  /// The returned object must be released after use, by calling the [release] method.
-  $V put(
-    $K key,
-    $V value,
-  ) {
-    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(reference, _id_put,
-        jni.JniCallType.objectType, [key.reference, value.reference]).object);
-  }
-
-  static final _id_entryStack = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"entryStack",
-      r"()Lcom/github/dart_lang/jnigen/generics/MyStack;");
-
-  /// from: public com.github.dart_lang.jnigen.generics.MyStack<com.github.dart_lang.jnigen.generics.MyMap<K,V>.MyEntry> entryStack()
-  /// The returned object must be released after use, by calling the [release] method.
-  MyStack<MyMap_MyEntry<jni.JObject, jni.JObject>> entryStack() {
-    return const $MyStackType(
-            $MyMap_MyEntryType(jni.JObjectType(), jni.JObjectType()))
-        .fromRef(jni.Jni.accessors.callMethodWithArgs(
-            reference, _id_entryStack, jni.JniCallType.objectType, []).object);
-  }
-}
-
-final class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
-    extends jni.JObjType<MyMap<$K, $V>> {
-  final jni.JObjType<$K> K;
-  final jni.JObjType<$V> V;
-
-  const $MyMapType(
-    this.K,
-    this.V,
-  );
-
-  @override
-  String get signature => r"Lcom/github/dart_lang/jnigen/generics/MyMap;";
-
-  @override
-  MyMap<$K, $V> fromRef(jni.JObjectPtr ref) => MyMap.fromRef(K, V, ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => Object.hash($MyMapType, K, V);
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($MyMapType<$K, $V>) &&
-        other is $MyMapType<$K, $V> &&
-        K == other.K &&
-        V == other.V;
-  }
-}
-
 /// from: com.github.dart_lang.jnigen.generics.MyMap$MyEntry
 class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
     extends jni.JObject {
@@ -2634,6 +1834,126 @@ final class $MyMap_MyEntryType<$K extends jni.JObject, $V extends jni.JObject>
   bool operator ==(Object other) {
     return other.runtimeType == ($MyMap_MyEntryType<$K, $V>) &&
         other is $MyMap_MyEntryType<$K, $V> &&
+        K == other.K &&
+        V == other.V;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.generics.MyMap
+class MyMap<$K extends jni.JObject, $V extends jni.JObject>
+    extends jni.JObject {
+  @override
+  late final jni.JObjType<MyMap<$K, $V>> $type = type(K, V);
+
+  final jni.JObjType<$K> K;
+  final jni.JObjType<$V> V;
+
+  MyMap.fromRef(
+    this.K,
+    this.V,
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/generics/MyMap");
+
+  /// The type which includes information such as the signature of this class.
+  static $MyMapType<$K, $V>
+      type<$K extends jni.JObject, $V extends jni.JObject>(
+    jni.JObjType<$K> K,
+    jni.JObjType<$V> V,
+  ) {
+    return $MyMapType(
+      K,
+      V,
+    );
+  }
+
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MyMap({
+    required jni.JObjType<$K> K,
+    required jni.JObjType<$V> V,
+  }) {
+    return MyMap.fromRef(
+        K,
+        V,
+        jni.Jni.accessors
+            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+  }
+
+  static final _id_get0 = jni.Jni.accessors.getMethodIDOf(
+      _class.reference, r"get", r"(Ljava/lang/Object;)Ljava/lang/Object;");
+
+  /// from: public V get(K key)
+  /// The returned object must be released after use, by calling the [release] method.
+  $V get0(
+    $K key,
+  ) {
+    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(reference, _id_get0,
+        jni.JniCallType.objectType, [key.reference]).object);
+  }
+
+  static final _id_put = jni.Jni.accessors.getMethodIDOf(_class.reference,
+      r"put", r"(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+
+  /// from: public V put(K key, V value)
+  /// The returned object must be released after use, by calling the [release] method.
+  $V put(
+    $K key,
+    $V value,
+  ) {
+    return V.fromRef(jni.Jni.accessors.callMethodWithArgs(reference, _id_put,
+        jni.JniCallType.objectType, [key.reference, value.reference]).object);
+  }
+
+  static final _id_entryStack = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"entryStack",
+      r"()Lcom/github/dart_lang/jnigen/generics/MyStack;");
+
+  /// from: public com.github.dart_lang.jnigen.generics.MyStack<com.github.dart_lang.jnigen.generics.MyMap<K,V>.MyEntry> entryStack()
+  /// The returned object must be released after use, by calling the [release] method.
+  MyStack<MyMap_MyEntry<jni.JObject, jni.JObject>> entryStack() {
+    return const $MyStackType(
+            $MyMap_MyEntryType(jni.JObjectType(), jni.JObjectType()))
+        .fromRef(jni.Jni.accessors.callMethodWithArgs(
+            reference, _id_entryStack, jni.JniCallType.objectType, []).object);
+  }
+}
+
+final class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
+    extends jni.JObjType<MyMap<$K, $V>> {
+  final jni.JObjType<$K> K;
+  final jni.JObjType<$V> V;
+
+  const $MyMapType(
+    this.K,
+    this.V,
+  );
+
+  @override
+  String get signature => r"Lcom/github/dart_lang/jnigen/generics/MyMap;";
+
+  @override
+  MyMap<$K, $V> fromRef(jni.JObjectPtr ref) => MyMap.fromRef(K, V, ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash($MyMapType, K, V);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($MyMapType<$K, $V>) &&
+        other is $MyMapType<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -2908,55 +2228,6 @@ final class $StringKeyedMapType<$V extends jni.JObject>
     return other.runtimeType == ($StringKeyedMapType<$V>) &&
         other is $StringKeyedMapType<$V> &&
         V == other.V;
-  }
-}
-
-/// from: com.github.dart_lang.jnigen.generics.StringMap
-class StringMap extends StringKeyedMap<jni.JString> {
-  @override
-  late final jni.JObjType<StringMap> $type = type;
-
-  StringMap.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(const jni.JStringType(), ref);
-
-  static final _class =
-      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/generics/StringMap");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $StringMapType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
-
-  /// from: public void <init>()
-  /// The returned object must be released after use, by calling the [release] method.
-  factory StringMap() {
-    return StringMap.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
-  }
-}
-
-final class $StringMapType extends jni.JObjType<StringMap> {
-  const $StringMapType();
-
-  @override
-  String get signature => r"Lcom/github/dart_lang/jnigen/generics/StringMap;";
-
-  @override
-  StringMap fromRef(jni.JObjectPtr ref) => StringMap.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const $StringKeyedMapType(jni.JStringType());
-
-  @override
-  final superCount = 3;
-
-  @override
-  int get hashCode => ($StringMapType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StringMapType) && other is $StringMapType;
   }
 }
 
@@ -3765,6 +3036,149 @@ final class $JsonSerializable_CaseType
   }
 }
 
+/// from: com.github.dart_lang.jnigen.annotations.JsonSerializable
+class JsonSerializable extends jni.JObject {
+  @override
+  late final jni.JObjType<JsonSerializable> $type = type;
+
+  JsonSerializable.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/annotations/JsonSerializable");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $JsonSerializableType();
+  static final _id_value = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"value",
+      r"()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;");
+
+  /// from: public abstract com.github.dart_lang.jnigen.annotations.JsonSerializable$Case value()
+  /// The returned object must be released after use, by calling the [release] method.
+  JsonSerializable_Case value() {
+    return const $JsonSerializable_CaseType().fromRef(jni.Jni.accessors
+        .callMethodWithArgs(
+            reference, _id_value, jni.JniCallType.objectType, []).object);
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final Map<int, $JsonSerializableImpl> _$impls = {};
+  ReceivePort? _$p;
+
+  static jni.JObjectPtr _$invoke(
+    int port,
+    jni.JObjectPtr descriptor,
+    jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      $MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final ffi.Pointer<
+          ffi.NativeFunction<
+              jni.JObjectPtr Function(
+                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
+      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
+
+  static ffi.Pointer<ffi.Void> _$invokeMethod(
+    int $p,
+    $MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d ==
+          r"value()Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;") {
+        final $r = _$impls[$p]!.value();
+        return ($r as jni.JObject).castTo(const jni.JObjectType()).toPointer();
+      }
+    } catch (e) {
+      return ProtectedJniExtensions.newDartException(e.toString());
+    }
+    return jni.nullptr;
+  }
+
+  factory JsonSerializable.implement(
+    $JsonSerializableImpl $impl,
+  ) {
+    final $p = ReceivePort();
+    final $x = JsonSerializable.fromRef(
+      ProtectedJniExtensions.newPortProxy(
+        r"com.github.dart_lang.jnigen.annotations.JsonSerializable",
+        $p,
+        _$invokePointer,
+      ),
+    ).._$p = $p;
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+    $p.listen(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = $MethodInvocation.fromMessage($m as List<dynamic>);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    return $x;
+  }
+}
+
+abstract interface class $JsonSerializableImpl {
+  factory $JsonSerializableImpl({
+    required JsonSerializable_Case Function() value,
+  }) = _$JsonSerializableImpl;
+
+  JsonSerializable_Case value();
+}
+
+class _$JsonSerializableImpl implements $JsonSerializableImpl {
+  _$JsonSerializableImpl({
+    required JsonSerializable_Case Function() value,
+  }) : _value = value;
+
+  final JsonSerializable_Case Function() _value;
+
+  JsonSerializable_Case value() {
+    return _value();
+  }
+}
+
+final class $JsonSerializableType extends jni.JObjType<JsonSerializable> {
+  const $JsonSerializableType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/annotations/JsonSerializable;";
+
+  @override
+  JsonSerializable fromRef(jni.JObjectPtr ref) => JsonSerializable.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($JsonSerializableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($JsonSerializableType) &&
+        other is $JsonSerializableType;
+  }
+}
+
 /// from: com.github.dart_lang.jnigen.annotations.MyDataClass
 class MyDataClass extends jni.JObject {
   @override
@@ -3812,5 +3226,734 @@ final class $MyDataClassType extends jni.JObjType<MyDataClass> {
   @override
   bool operator ==(Object other) {
     return other.runtimeType == ($MyDataClassType) && other is $MyDataClassType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Color
+class Color extends jni.JObject {
+  @override
+  late final jni.JObjType<Color> $type = type;
+
+  Color.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/simple_package/Color");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $ColorType();
+  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"values",
+      r"()[Lcom/github/dart_lang/jnigen/simple_package/Color;");
+
+  /// from: static public com.github.dart_lang.jnigen.simple_package.Color[] values()
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JArray<Color> values() {
+    return const jni.JArrayType($ColorType()).fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_values,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"valueOf",
+      r"(Ljava/lang/String;)Lcom/github/dart_lang/jnigen/simple_package/Color;");
+
+  /// from: static public com.github.dart_lang.jnigen.simple_package.Color valueOf(java.lang.String name)
+  /// The returned object must be released after use, by calling the [release] method.
+  static Color valueOf(
+    jni.JString name,
+  ) {
+    return const $ColorType().fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
+            jni.JniCallType.objectType, [name.reference]).object);
+  }
+}
+
+final class $ColorType extends jni.JObjType<Color> {
+  const $ColorType();
+
+  @override
+  String get signature => r"Lcom/github/dart_lang/jnigen/simple_package/Color;";
+
+  @override
+  Color fromRef(jni.JObjectPtr ref) => Color.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($ColorType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($ColorType) && other is $ColorType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Exceptions
+class Exceptions extends jni.JObject {
+  @override
+  late final jni.JObjType<Exceptions> $type = type;
+
+  Exceptions.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/simple_package/Exceptions");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $ExceptionsType();
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Exceptions() {
+    return Exceptions.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+  }
+
+  static final _id_new1 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(F)V");
+
+  /// from: public void <init>(float x)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Exceptions.new1(
+    double x,
+  ) {
+    return Exceptions.fromRef(jni.Jni.accessors.newObjectWithArgs(
+        _class.reference, _id_new1, [jni.JValueFloat(x)]).object);
+  }
+
+  static final _id_new2 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"<init>", r"(IIIIII)V");
+
+  /// from: public void <init>(int a, int b, int c, int d, int e, int f)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Exceptions.new2(
+    int a,
+    int b,
+    int c,
+    int d,
+    int e,
+    int f,
+  ) {
+    return Exceptions.fromRef(
+        jni.Jni.accessors.newObjectWithArgs(_class.reference, _id_new2, [
+      jni.JValueInt(a),
+      jni.JValueInt(b),
+      jni.JValueInt(c),
+      jni.JValueInt(d),
+      jni.JValueInt(e),
+      jni.JValueInt(f)
+    ]).object);
+  }
+
+  static final _id_staticObjectMethod = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference, r"staticObjectMethod", r"()Ljava/lang/Object;");
+
+  /// from: static public java.lang.Object staticObjectMethod()
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JObject staticObjectMethod() {
+    return const jni.JObjectType().fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_staticObjectMethod,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_staticIntMethod = jni.Jni.accessors
+      .getStaticMethodIDOf(_class.reference, r"staticIntMethod", r"()I");
+
+  /// from: static public int staticIntMethod()
+  static int staticIntMethod() {
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+        _id_staticIntMethod, jni.JniCallType.intType, []).integer;
+  }
+
+  static final _id_staticObjectArrayMethod = jni.Jni.accessors
+      .getStaticMethodIDOf(_class.reference, r"staticObjectArrayMethod",
+          r"()[Ljava/lang/Object;");
+
+  /// from: static public java.lang.Object[] staticObjectArrayMethod()
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JArray<jni.JObject> staticObjectArrayMethod() {
+    return const jni.JArrayType(jni.JObjectType()).fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_staticObjectArrayMethod,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_staticIntArrayMethod = jni.Jni.accessors
+      .getStaticMethodIDOf(_class.reference, r"staticIntArrayMethod", r"()[I");
+
+  /// from: static public int[] staticIntArrayMethod()
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JArray<jni.jint> staticIntArrayMethod() {
+    return const jni.JArrayType(jni.jintType()).fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_staticIntArrayMethod,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_objectMethod = jni.Jni.accessors.getMethodIDOf(
+      _class.reference, r"objectMethod", r"()Ljava/lang/Object;");
+
+  /// from: public java.lang.Object objectMethod()
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JObject objectMethod() {
+    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_objectMethod, jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_intMethod =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"intMethod", r"()I");
+
+  /// from: public int intMethod()
+  int intMethod() {
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_intMethod, jni.JniCallType.intType, []).integer;
+  }
+
+  static final _id_objectArrayMethod = jni.Jni.accessors.getMethodIDOf(
+      _class.reference, r"objectArrayMethod", r"()[Ljava/lang/Object;");
+
+  /// from: public java.lang.Object[] objectArrayMethod()
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JArray<jni.JObject> objectArrayMethod() {
+    return const jni.JArrayType(jni.JObjectType()).fromRef(jni.Jni.accessors
+        .callMethodWithArgs(reference, _id_objectArrayMethod,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_intArrayMethod = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"intArrayMethod", r"()[I");
+
+  /// from: public int[] intArrayMethod()
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JArray<jni.jint> intArrayMethod() {
+    return const jni.JArrayType(jni.jintType()).fromRef(jni.Jni.accessors
+        .callMethodWithArgs(reference, _id_intArrayMethod,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_throwNullPointerException = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"throwNullPointerException", r"()I");
+
+  /// from: public int throwNullPointerException()
+  int throwNullPointerException() {
+    return jni.Jni.accessors.callMethodWithArgs(reference,
+        _id_throwNullPointerException, jni.JniCallType.intType, []).integer;
+  }
+
+  static final _id_throwFileNotFoundException = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"throwFileNotFoundException",
+      r"()Ljava/io/InputStream;");
+
+  /// from: public java.io.InputStream throwFileNotFoundException()
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JObject throwFileNotFoundException() {
+    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
+        reference,
+        _id_throwFileNotFoundException,
+        jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_throwClassCastException = jni.Jni.accessors.getMethodIDOf(
+      _class.reference,
+      r"throwClassCastException",
+      r"()Ljava/io/FileInputStream;");
+
+  /// from: public java.io.FileInputStream throwClassCastException()
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JObject throwClassCastException() {
+    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
+        reference,
+        _id_throwClassCastException,
+        jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_throwArrayIndexException = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"throwArrayIndexException", r"()I");
+
+  /// from: public int throwArrayIndexException()
+  int throwArrayIndexException() {
+    return jni.Jni.accessors.callMethodWithArgs(reference,
+        _id_throwArrayIndexException, jni.JniCallType.intType, []).integer;
+  }
+
+  static final _id_throwArithmeticException = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"throwArithmeticException", r"()I");
+
+  /// from: public int throwArithmeticException()
+  int throwArithmeticException() {
+    return jni.Jni.accessors.callMethodWithArgs(reference,
+        _id_throwArithmeticException, jni.JniCallType.intType, []).integer;
+  }
+
+  static final _id_throwLoremIpsum = jni.Jni.accessors
+      .getStaticMethodIDOf(_class.reference, r"throwLoremIpsum", r"()V");
+
+  /// from: static public void throwLoremIpsum()
+  static void throwLoremIpsum() {
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+        _id_throwLoremIpsum, jni.JniCallType.voidType, []).check();
+  }
+}
+
+final class $ExceptionsType extends jni.JObjType<Exceptions> {
+  const $ExceptionsType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Exceptions;";
+
+  @override
+  Exceptions fromRef(jni.JObjectPtr ref) => Exceptions.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($ExceptionsType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($ExceptionsType) && other is $ExceptionsType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Fields
+class Fields extends jni.JObject {
+  @override
+  late final jni.JObjType<Fields> $type = type;
+
+  Fields.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/simple_package/Fields");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $FieldsType();
+  static final _id_amount = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"amount",
+    r"I",
+  );
+
+  /// from: static public int amount
+  static int get amount => jni.Jni.accessors
+      .getStaticField(_class.reference, _id_amount, jni.JniCallType.intType)
+      .integer;
+
+  /// from: static public int amount
+  static set amount(int value) =>
+      jni.Jni.env.SetStaticIntField(_class.reference, _id_amount, value);
+
+  static final _id_pi = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"pi",
+    r"D",
+  );
+
+  /// from: static public double pi
+  static double get pi => jni.Jni.accessors
+      .getStaticField(_class.reference, _id_pi, jni.JniCallType.doubleType)
+      .doubleFloat;
+
+  /// from: static public double pi
+  static set pi(double value) =>
+      jni.Jni.env.SetStaticDoubleField(_class.reference, _id_pi, value);
+
+  static final _id_asterisk = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"asterisk",
+    r"C",
+  );
+
+  /// from: static public char asterisk
+  static int get asterisk => jni.Jni.accessors
+      .getStaticField(_class.reference, _id_asterisk, jni.JniCallType.charType)
+      .char;
+
+  /// from: static public char asterisk
+  static set asterisk(int value) =>
+      jni.Jni.env.SetStaticCharField(_class.reference, _id_asterisk, value);
+
+  static final _id_name = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"name",
+    r"Ljava/lang/String;",
+  );
+
+  /// from: static public java.lang.String name
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JString get name => const jni.JStringType().fromRef(jni
+      .Jni.accessors
+      .getStaticField(_class.reference, _id_name, jni.JniCallType.objectType)
+      .object);
+
+  /// from: static public java.lang.String name
+  /// The returned object must be released after use, by calling the [release] method.
+  static set name(jni.JString value) => jni.Jni.env
+      .SetStaticObjectField(_class.reference, _id_name, value.reference);
+
+  static final _id_i = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"i",
+    r"Ljava/lang/Integer;",
+  );
+
+  /// from: public java.lang.Integer i
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JInteger get i => const jni.JIntegerType().fromRef(jni.Jni.accessors
+      .getField(reference, _id_i, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public java.lang.Integer i
+  /// The returned object must be released after use, by calling the [release] method.
+  set i(jni.JInteger value) =>
+      jni.Jni.env.SetObjectField(reference, _id_i, value.reference);
+
+  static final _id_trillion = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"trillion",
+    r"J",
+  );
+
+  /// from: public long trillion
+  int get trillion => jni.Jni.accessors
+      .getField(reference, _id_trillion, jni.JniCallType.longType)
+      .long;
+
+  /// from: public long trillion
+  set trillion(int value) =>
+      jni.Jni.env.SetLongField(reference, _id_trillion, value);
+
+  static final _id_isAchillesDead = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"isAchillesDead",
+    r"Z",
+  );
+
+  /// from: public boolean isAchillesDead
+  bool get isAchillesDead => jni.Jni.accessors
+      .getField(reference, _id_isAchillesDead, jni.JniCallType.booleanType)
+      .boolean;
+
+  /// from: public boolean isAchillesDead
+  set isAchillesDead(bool value) =>
+      jni.Jni.env.SetBooleanField(reference, _id_isAchillesDead, value ? 1 : 0);
+
+  static final _id_bestFighterInGreece = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"bestFighterInGreece",
+    r"Ljava/lang/String;",
+  );
+
+  /// from: public java.lang.String bestFighterInGreece
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JString get bestFighterInGreece => const jni.JStringType().fromRef(jni
+      .Jni.accessors
+      .getField(reference, _id_bestFighterInGreece, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public java.lang.String bestFighterInGreece
+  /// The returned object must be released after use, by calling the [release] method.
+  set bestFighterInGreece(jni.JString value) => jni.Jni.env
+      .SetObjectField(reference, _id_bestFighterInGreece, value.reference);
+
+  static final _id_random = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"random",
+    r"Ljava/util/Random;",
+  );
+
+  /// from: public java.util.Random random
+  /// The returned object must be released after use, by calling the [release] method.
+  jni.JObject get random => const jni.JObjectType().fromRef(jni.Jni.accessors
+      .getField(reference, _id_random, jni.JniCallType.objectType)
+      .object);
+
+  /// from: public java.util.Random random
+  /// The returned object must be released after use, by calling the [release] method.
+  set random(jni.JObject value) =>
+      jni.Jni.env.SetObjectField(reference, _id_random, value.reference);
+
+  static final _id_euroSymbol = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"euroSymbol",
+    r"C",
+  );
+
+  /// from: static public char euroSymbol
+  static int get euroSymbol => jni.Jni.accessors
+      .getStaticField(
+          _class.reference, _id_euroSymbol, jni.JniCallType.charType)
+      .char;
+
+  /// from: static public char euroSymbol
+  static set euroSymbol(int value) =>
+      jni.Jni.env.SetStaticCharField(_class.reference, _id_euroSymbol, value);
+
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Fields() {
+    return Fields.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+  }
+}
+
+final class $FieldsType extends jni.JObjType<Fields> {
+  const $FieldsType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Fields;";
+
+  @override
+  Fields fromRef(jni.JObjectPtr ref) => Fields.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($FieldsType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($FieldsType) && other is $FieldsType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.simple_package.Fields$Nested
+class Fields_Nested extends jni.JObject {
+  @override
+  late final jni.JObjType<Fields_Nested> $type = type;
+
+  Fields_Nested.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/simple_package/Fields$Nested");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $Fields_NestedType();
+  static final _id_hundred = jni.Jni.accessors.getFieldIDOf(
+    _class.reference,
+    r"hundred",
+    r"J",
+  );
+
+  /// from: public long hundred
+  int get hundred => jni.Jni.accessors
+      .getField(reference, _id_hundred, jni.JniCallType.longType)
+      .long;
+
+  /// from: public long hundred
+  set hundred(int value) =>
+      jni.Jni.env.SetLongField(reference, _id_hundred, value);
+
+  static final _id_BEST_GOD = jni.Jni.accessors.getStaticFieldIDOf(
+    _class.reference,
+    r"BEST_GOD",
+    r"Ljava/lang/String;",
+  );
+
+  /// from: static public java.lang.String BEST_GOD
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JString get BEST_GOD =>
+      const jni.JStringType().fromRef(jni.Jni.accessors
+          .getStaticField(
+              _class.reference, _id_BEST_GOD, jni.JniCallType.objectType)
+          .object);
+
+  /// from: static public java.lang.String BEST_GOD
+  /// The returned object must be released after use, by calling the [release] method.
+  static set BEST_GOD(jni.JString value) => jni.Jni.env
+      .SetStaticObjectField(_class.reference, _id_BEST_GOD, value.reference);
+
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Fields_Nested() {
+    return Fields_Nested.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+  }
+}
+
+final class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
+  const $Fields_NestedType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/simple_package/Fields$Nested;";
+
+  @override
+  Fields_Nested fromRef(jni.JObjectPtr ref) => Fields_Nested.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($Fields_NestedType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Fields_NestedType) &&
+        other is $Fields_NestedType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.generics.GenericTypeParams
+class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
+    extends jni.JObject {
+  @override
+  late final jni.JObjType<GenericTypeParams<$S, $K>> $type = type(S, K);
+
+  final jni.JObjType<$S> S;
+  final jni.JObjType<$K> K;
+
+  GenericTypeParams.fromRef(
+    this.S,
+    this.K,
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class = jni.Jni.findJClass(
+      r"com/github/dart_lang/jnigen/generics/GenericTypeParams");
+
+  /// The type which includes information such as the signature of this class.
+  static $GenericTypeParamsType<$S, $K>
+      type<$S extends jni.JObject, $K extends jni.JObject>(
+    jni.JObjType<$S> S,
+    jni.JObjType<$K> K,
+  ) {
+    return $GenericTypeParamsType(
+      S,
+      K,
+    );
+  }
+
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GenericTypeParams({
+    required jni.JObjType<$S> S,
+    required jni.JObjType<$K> K,
+  }) {
+    return GenericTypeParams.fromRef(
+        S,
+        K,
+        jni.Jni.accessors
+            .newObjectWithArgs(_class.reference, _id_new0, []).object);
+  }
+}
+
+final class $GenericTypeParamsType<$S extends jni.JObject,
+    $K extends jni.JObject> extends jni.JObjType<GenericTypeParams<$S, $K>> {
+  final jni.JObjType<$S> S;
+  final jni.JObjType<$K> K;
+
+  const $GenericTypeParamsType(
+    this.S,
+    this.K,
+  );
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;";
+
+  @override
+  GenericTypeParams<$S, $K> fromRef(jni.JObjectPtr ref) =>
+      GenericTypeParams.fromRef(S, K, ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => Object.hash($GenericTypeParamsType, S, K);
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($GenericTypeParamsType<$S, $K>) &&
+        other is $GenericTypeParamsType<$S, $K> &&
+        S == other.S &&
+        K == other.K;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.generics.StringMap
+class StringMap extends StringKeyedMap<jni.JString> {
+  @override
+  late final jni.JObjType<StringMap> $type = type;
+
+  StringMap.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(const jni.JStringType(), ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/github/dart_lang/jnigen/generics/StringMap");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $StringMapType();
+  static final _id_new0 =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+
+  /// from: public void <init>()
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringMap() {
+    return StringMap.fromRef(jni.Jni.accessors
+        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+  }
+}
+
+final class $StringMapType extends jni.JObjType<StringMap> {
+  const $StringMapType();
+
+  @override
+  String get signature => r"Lcom/github/dart_lang/jnigen/generics/StringMap;";
+
+  @override
+  StringMap fromRef(jni.JObjectPtr ref) => StringMap.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const $StringKeyedMapType(jni.JStringType());
+
+  @override
+  final superCount = 3;
+
+  @override
+  int get hashCode => ($StringMapType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringMapType) && other is $StringMapType;
   }
 }

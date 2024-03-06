@@ -9,11 +9,12 @@ import static com.github.dart_lang.jnigen.apisummarizer.util.ExceptionUtil.wrapC
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
 import com.github.dart_lang.jnigen.apisummarizer.util.InputStreamProvider;
 import java.util.List;
+import java.util.Map;
 import org.objectweb.asm.ClassReader;
 
 public class AsmSummarizer {
 
-  public static List<ClassDecl> run(List<InputStreamProvider> inputProviders) {
+  public static Map<String, ClassDecl> run(List<InputStreamProvider> inputProviders) {
     var visitor = new AsmClassVisitor();
     for (var provider : inputProviders) {
       var inputStream = provider.getInputStream();

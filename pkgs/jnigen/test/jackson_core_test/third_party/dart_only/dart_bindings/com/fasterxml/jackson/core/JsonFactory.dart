@@ -41,6 +41,120 @@ import "package:jni/jni.dart" as jni;
 
 import "JsonParser.dart" as jsonparser_;
 
+/// from: com.fasterxml.jackson.core.JsonFactory$Feature
+///
+/// Enumeration that defines all on/off features that can only be
+/// changed for JsonFactory.
+class JsonFactory_Feature extends jni.JObject {
+  @override
+  late final jni.JObjType<JsonFactory_Feature> $type = type;
+
+  JsonFactory_Feature.fromRef(
+    jni.JObjectPtr ref,
+  ) : super.fromRef(ref);
+
+  static final _class =
+      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonFactory$Feature");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $JsonFactory_FeatureType();
+  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"values",
+      r"()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
+
+  /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JArray<JsonFactory_Feature> values() {
+    return const jni.JArrayType($JsonFactory_FeatureType()).fromRef(
+        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
+            jni.JniCallType.objectType, []).object);
+  }
+
+  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
+      _class.reference,
+      r"valueOf",
+      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
+
+  /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)
+  /// The returned object must be released after use, by calling the [release] method.
+  static JsonFactory_Feature valueOf(
+    jni.JString name,
+  ) {
+    return const $JsonFactory_FeatureType().fromRef(jni.Jni.accessors
+        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
+            jni.JniCallType.objectType, [name.reference]).object);
+  }
+
+  static final _id_collectDefaults = jni.Jni.accessors
+      .getStaticMethodIDOf(_class.reference, r"collectDefaults", r"()I");
+
+  /// from: static public int collectDefaults()
+  ///
+  /// Method that calculates bit set (flags) of all features that
+  /// are enabled by default.
+  ///@return Bit field of features enabled by default
+  static int collectDefaults() {
+    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
+        _id_collectDefaults, jni.JniCallType.intType, []).integer;
+  }
+
+  static final _id_enabledByDefault = jni.Jni.accessors
+      .getMethodIDOf(_class.reference, r"enabledByDefault", r"()Z");
+
+  /// from: public boolean enabledByDefault()
+  bool enabledByDefault() {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledByDefault,
+        jni.JniCallType.booleanType, []).boolean;
+  }
+
+  static final _id_enabledIn =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"enabledIn", r"(I)Z");
+
+  /// from: public boolean enabledIn(int flags)
+  bool enabledIn(
+    int flags,
+  ) {
+    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledIn,
+        jni.JniCallType.booleanType, [jni.JValueInt(flags)]).boolean;
+  }
+
+  static final _id_getMask =
+      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getMask", r"()I");
+
+  /// from: public int getMask()
+  int getMask() {
+    return jni.Jni.accessors.callMethodWithArgs(
+        reference, _id_getMask, jni.JniCallType.intType, []).integer;
+  }
+}
+
+final class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
+  const $JsonFactory_FeatureType();
+
+  @override
+  String get signature => r"Lcom/fasterxml/jackson/core/JsonFactory$Feature;";
+
+  @override
+  JsonFactory_Feature fromRef(jni.JObjectPtr ref) =>
+      JsonFactory_Feature.fromRef(ref);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($JsonFactory_FeatureType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($JsonFactory_FeatureType) &&
+        other is $JsonFactory_FeatureType;
+  }
+}
+
 /// from: com.fasterxml.jackson.core.JsonFactory
 ///
 /// The main factory class of Jackson package, used to configure and
@@ -1788,119 +1902,5 @@ final class $JsonFactoryType extends jni.JObjType<JsonFactory> {
   @override
   bool operator ==(Object other) {
     return other.runtimeType == ($JsonFactoryType) && other is $JsonFactoryType;
-  }
-}
-
-/// from: com.fasterxml.jackson.core.JsonFactory$Feature
-///
-/// Enumeration that defines all on/off features that can only be
-/// changed for JsonFactory.
-class JsonFactory_Feature extends jni.JObject {
-  @override
-  late final jni.JObjType<JsonFactory_Feature> $type = type;
-
-  JsonFactory_Feature.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
-
-  static final _class =
-      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonFactory$Feature");
-
-  /// The type which includes information such as the signature of this class.
-  static const type = $JsonFactory_FeatureType();
-  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"values",
-      r"()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
-
-  /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()
-  /// The returned object must be released after use, by calling the [release] method.
-  static jni.JArray<JsonFactory_Feature> values() {
-    return const jni.JArrayType($JsonFactory_FeatureType()).fromRef(
-        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
-            jni.JniCallType.objectType, []).object);
-  }
-
-  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"valueOf",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
-
-  /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)
-  /// The returned object must be released after use, by calling the [release] method.
-  static JsonFactory_Feature valueOf(
-    jni.JString name,
-  ) {
-    return const $JsonFactory_FeatureType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
-  }
-
-  static final _id_collectDefaults = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"collectDefaults", r"()I");
-
-  /// from: static public int collectDefaults()
-  ///
-  /// Method that calculates bit set (flags) of all features that
-  /// are enabled by default.
-  ///@return Bit field of features enabled by default
-  static int collectDefaults() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
-        _id_collectDefaults, jni.JniCallType.intType, []).integer;
-  }
-
-  static final _id_enabledByDefault = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"enabledByDefault", r"()Z");
-
-  /// from: public boolean enabledByDefault()
-  bool enabledByDefault() {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledByDefault,
-        jni.JniCallType.booleanType, []).boolean;
-  }
-
-  static final _id_enabledIn =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"enabledIn", r"(I)Z");
-
-  /// from: public boolean enabledIn(int flags)
-  bool enabledIn(
-    int flags,
-  ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledIn,
-        jni.JniCallType.booleanType, [jni.JValueInt(flags)]).boolean;
-  }
-
-  static final _id_getMask =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getMask", r"()I");
-
-  /// from: public int getMask()
-  int getMask() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getMask, jni.JniCallType.intType, []).integer;
-  }
-}
-
-final class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
-  const $JsonFactory_FeatureType();
-
-  @override
-  String get signature => r"Lcom/fasterxml/jackson/core/JsonFactory$Feature;";
-
-  @override
-  JsonFactory_Feature fromRef(jni.JObjectPtr ref) =>
-      JsonFactory_Feature.fromRef(ref);
-
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($JsonFactory_FeatureType).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($JsonFactory_FeatureType) &&
-        other is $JsonFactory_FeatureType;
   }
 }
