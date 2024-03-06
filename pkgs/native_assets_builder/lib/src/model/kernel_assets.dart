@@ -70,6 +70,14 @@ class KernelAssetAbsolutePath implements KernelAssetPath {
   static const _pathTypeValue = 'absolute';
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KernelAssetAbsolutePath && other.uri == uri);
+
+  @override
+  int get hashCode => uri.hashCode;
+
+  @override
   List<String> toYaml() => [_pathTypeValue, uri.toFilePath()];
 }
 
@@ -95,10 +103,18 @@ class KernelAssetRelativePath implements KernelAssetPath {
   static const _pathTypeValue = 'relative';
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KernelAssetRelativePath && other.uri == uri);
+
+  @override
+  int get hashCode => uri.hashCode;
+
+  @override
   List<String> toYaml() => [_pathTypeValue, uri.toFilePath()];
 }
 
-/// Asset is avaliable on the system `PATH`.
+/// Asset is available on the system `PATH`.
 ///
 /// [uri] only contains a file name.
 class KernelAssetSystemPath implements KernelAssetPath {
@@ -107,6 +123,17 @@ class KernelAssetSystemPath implements KernelAssetPath {
   KernelAssetSystemPath(this.uri);
 
   static const _pathTypeValue = 'system';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KernelAssetSystemPath && other.uri == uri);
+
+  @override
+  int get hashCode => uri.hashCode;
+
+  @override
+  String toString() => 'KernelAssetAbsolutePath($uri)';
 
   @override
   List<String> toYaml() => [_pathTypeValue, uri.toFilePath()];
