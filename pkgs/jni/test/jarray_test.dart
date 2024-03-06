@@ -259,9 +259,9 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JArray(JObject.type, 3)..releasedBy(arena);
       expect(array.length, 3);
-      expect(array[0].reference, nullptr);
-      expect(array[1].reference, nullptr);
-      expect(array[2].reference, nullptr);
+      expect(array[0].reference.pointer, nullptr);
+      expect(array[1].reference.pointer, nullptr);
+      expect(array[2].reference.pointer, nullptr);
     });
   });
   testRunner("Java 2d array", () {
