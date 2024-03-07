@@ -27,16 +27,12 @@ void main() async {
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-        );
+        final result = await build(packageUri, logger, dartExecutable,
+            capturedLogs: logMessages);
         expect(
-          logMessages.join('\n'),
-          contains('native_add${Platform.pathSeparator}build.dart'),
-        );
+            logMessages.join('\n'),
+            stringContainsInOrder(
+                ['native_add${Platform.pathSeparator}build.dart']));
         expect(result.assets.length, 1);
       }
 
