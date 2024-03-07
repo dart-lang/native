@@ -26,7 +26,7 @@ abstract class LinkConfig extends PipelineConfig {
   Uri get configFile;
 
   @override
-  Uri get outDir;
+  Uri get outDirectory;
 
   @override
   String get outputName;

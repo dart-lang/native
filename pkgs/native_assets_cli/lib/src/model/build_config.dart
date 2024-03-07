@@ -29,12 +29,12 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
   String get outputName => 'build_output.yaml';
 
   @override
-  Uri get configFile => outDir.resolve('../config.yaml');
+  Uri get configFile => outDirectory.resolve('../config.yaml');
 
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
   @override
-  Uri get outDir => _outDir;
+  Uri get outDirectory => _outDir;
   late final Uri _outDir;
 
   /// The name of the package the native assets are built for.
@@ -212,10 +212,10 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
   /// Constructs a checksum for a [BuildConfig] based on the fields
   /// of a buildconfig that influence the build.
   ///
-  /// This can be used for an [outDir], but should not be used for dry-runs.
+  /// This can be used for an [outDirectory], but should not be used for dry-runs.
   ///
   /// In particular, it only takes the package name from [packageRoot],
-  /// so that the hash is equal across checkouts and ignores [outDir] itself.
+  /// so that the hash is equal across checkouts and ignores [outDirectory] itself.
   static String checksum({
     required String packageName,
     required Uri packageRoot,
@@ -539,7 +539,7 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
     if (other is! BuildConfig) {
       return false;
     }
-    if (other.outDir != outDir) return false;
+    if (other.outDirectory != outDirectory) return false;
     if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
@@ -559,7 +559,7 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
 
   @override
   int get hashCode => Object.hashAll([
-        outDir,
+        outDirectory,
         packageName,
         packageRoot,
         targetOs,

@@ -58,7 +58,7 @@ class RunCBuilder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
-  })  : outDir = buildConfig.outDir,
+  })  : outDir = buildConfig.outDirectory,
         target = buildConfig.target,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()

@@ -39,10 +39,10 @@ class LinkConfig extends api.LinkConfig {
   });
 
   @override
-  Uri get configFile => outDir.resolve('../link_config.yaml');
+  Uri get configFile => outDirectory.resolve('../link_config.yaml');
 
   @override
-  Uri get outDir => buildConfig.outDir;
+  Uri get outDirectory => buildConfig.outDirectory;
 
   @override
   String get outputName => 'link_output.yaml';
@@ -99,7 +99,7 @@ class LinkConfigArgs {
     }
 
     final readFromFile =
-        await BuildOutput.readFromFile(outputUri: config.output);
+        await BuildOutput.readFromFile(outputUri: config.outDir);
     return LinkConfig(
       this,
       assets: readFromFile!.assets,

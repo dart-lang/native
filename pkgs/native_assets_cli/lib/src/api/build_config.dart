@@ -23,7 +23,7 @@ abstract class BuildConfig extends PipelineConfig {
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
   @override
-  Uri get outDir;
+  Uri get outDirectory;
 
   /// The name of the package the native assets are built for.
   @override

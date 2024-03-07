@@ -77,7 +77,7 @@ void main() async {
 
     expect(config1, equals(config1));
     expect(config1 == config2, false);
-    expect(config1.outDir != config2.outDir, true);
+    expect(config1.outDirectory != config2.outDirectory, true);
     expect(config1.packageRoot, config2.packageRoot);
     expect(config1.targetArchitecture == config2.targetArchitecture, true);
     expect(config1.targetOs != config2.targetOs, true);

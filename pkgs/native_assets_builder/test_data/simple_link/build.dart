@@ -23,5 +23,5 @@ void main(List<String> args) async {
       );
     },
   ));
-  await buildOutput.writeToFile(output: buildConfig.output);
+  await buildOutput.writeToFile(outDir: buildConfig.outDir);
 }
