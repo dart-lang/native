@@ -90,7 +90,7 @@ class PackageLayout {
   /// a `build.dart`.
   ///
   /// `package:native` itself is excluded.
-  Future<List<Package>> packagesWithNativeAssets(PipelineStep step) async {
+  Future<List<Package>> packagesWithAssets(PipelineStep step) async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
@@ -106,16 +106,16 @@ class PackageLayout {
   Future<List<Package>> packagesWithLink(PipelineStep step) async {
     List<Package> packagesWithLink;
     if (step == PipelineStep.build) {
-      packagesWithLink = await packagesWithNativeAssets(PipelineStep.link);
+      packagesWithLink = await packagesWithAssets(PipelineStep.link);
     } else {
       packagesWithLink = [];
     }
     return packagesWithLink;
   }
 
-  late final Future<List<Package>> packagesWithNativeBuild =
-      packagesWithNativeAssets(PipelineStep.build);
+  late final Future<List<Package>> packagesWithNativeAssets =
+      packagesWithAssets(PipelineStep.build);
 
-  late final Future<List<Package>> packagesWithNativeLink =
-      packagesWithNativeAssets(PipelineStep.link);
+  late final Future<List<Package>> packagesWithNativeLinkAssets =
+      packagesWithAssets(PipelineStep.link);
 }

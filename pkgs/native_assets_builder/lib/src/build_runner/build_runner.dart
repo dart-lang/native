@@ -103,8 +103,7 @@ class NativeAssetsBuildRunner {
     String? runPackageName,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final packagesWithBuild =
-        await packageLayout.packagesWithNativeAssets(step);
+    final packagesWithBuild = await packageLayout.packagesWithAssets(step);
     final packagesWithLink = await packageLayout.packagesWithLink(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
@@ -175,7 +174,7 @@ class NativeAssetsBuildRunner {
     String? runPackageName,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final packagesWithBuild = await packageLayout.packagesWithNativeBuild;
+    final packagesWithBuild = await packageLayout.packagesWithNativeAssets;
     final (buildPlan, _, planSuccess) = await _plannedPackages(
       packagesWithBuild,
       packageLayout,
