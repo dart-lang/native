@@ -104,7 +104,6 @@ class NativeAssetsBuildRunner {
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild = await packageLayout.packagesWithAssets(step);
-    final packagesWithLink = await packageLayout.packagesWithLink(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     final buildResult = BuildResult._failure();
@@ -215,13 +214,13 @@ class NativeAssetsBuildRunner {
     bool includeParentEnvironment,
     Uri? resources,
   ) async {
-    final outDir = config.outDirectory;
+    final outDir = config.outDir;
     if (!await Directory.fromUri(outDir).exists()) {
       await Directory.fromUri(outDir).create(recursive: true);
     }
 
-    final buildOutput =
-        await BuildOutput.readFromFile(outputUri: config.outDir);
+    final buildOutput = await BuildOutput.readFromFile(
+        outputUri: config.outDir.resolve(config.outputName));
     if (buildOutput != null) {
       final lastBuilt = buildOutput.timestamp.roundDownToSeconds();
       final lastChange = await buildOutput.dependencies.lastModified();
@@ -257,7 +256,8 @@ class NativeAssetsBuildRunner {
     final configFileContents = config.toYamlString();
     logger.info('config.yaml contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final buildOutputFile = File.fromUri(config.outDir);
+    final buildOutputFile =
+        File.fromUri(config.outDir.resolve(config.outputName));
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -300,9 +300,9 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput =
-          await BuildOutput.readFromFile(outputUri: config.outDir) ??
-              BuildOutput();
+      final buildOutput = await BuildOutput.readFromFile(
+              outputUri: config.outDir.resolve(config.outputName)) ??
+          BuildOutput();
       success &= validateAssetsPackage(
         buildOutput.assets,
         config.packageName,

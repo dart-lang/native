@@ -103,16 +103,6 @@ class PackageLayout {
     return result;
   }
 
-  Future<List<Package>> packagesWithLink(PipelineStep step) async {
-    List<Package> packagesWithLink;
-    if (step == PipelineStep.build) {
-      packagesWithLink = await packagesWithAssets(PipelineStep.link);
-    } else {
-      packagesWithLink = [];
-    }
-    return packagesWithLink;
-  }
-
   late final Future<List<Package>> packagesWithNativeAssets =
       packagesWithAssets(PipelineStep.build);
 
