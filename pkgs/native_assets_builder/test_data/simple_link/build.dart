@@ -11,7 +11,7 @@ void main(List<String> args) async {
 
   final buildOutput = BuildOutput(
       assets: List.generate(
-    4,
+    10,
     (index) {
       final filename = 'data_$index.json';
       return Asset(
@@ -20,8 +20,9 @@ void main(List<String> args) async {
         linkMode: LinkMode.dynamic, //remove
         target: buildConfig.target, //remove
         path: AssetAbsolutePath(Uri.file(filename)), // change to URI only
+        linkInPackage: index < 4 ? 'simple_link' : '',
       );
     },
   ));
-  await buildOutput.writeToFile(outDir: buildConfig.outDir);
+  await buildOutput.writeToFile(outDir: buildConfig.outputFile);
 }

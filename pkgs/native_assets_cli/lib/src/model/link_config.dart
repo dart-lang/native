@@ -99,7 +99,7 @@ class LinkConfigArgs {
     }
 
     final buildOutput =
-        await BuildOutput.readFromFile(outputUri: config.outDir);
+        await BuildOutput.readFromFile(outputUri: config.outputFile);
     return LinkConfig(
       this,
       assets: buildOutput!.assets

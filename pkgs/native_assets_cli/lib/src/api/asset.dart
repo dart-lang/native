@@ -43,17 +43,20 @@ abstract class Asset {
   String get id;
   Target get target;
   AssetPath get path;
+  String get linkInPackage;
 
   factory Asset({
     required String id,
     required LinkMode linkMode,
     required Target target,
     required AssetPath path,
+    String linkInPackage = '',
   }) =>
       model.Asset(
         id: id,
         linkMode: linkMode as model.LinkMode,
         target: target as model.Target,
         path: path as model.AssetPath,
+        linkInPackage: linkInPackage,
       );
 }

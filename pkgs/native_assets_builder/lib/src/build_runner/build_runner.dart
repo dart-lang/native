@@ -214,13 +214,13 @@ class NativeAssetsBuildRunner {
     bool includeParentEnvironment,
     Uri? resources,
   ) async {
-    final outDir = config.outDir;
+    final outDir = config.outDirectory;
     if (!await Directory.fromUri(outDir).exists()) {
       await Directory.fromUri(outDir).create(recursive: true);
     }
 
     final buildOutput = await BuildOutput.readFromFile(
-        outputUri: config.outDir.resolve(config.outputName));
+        outputUri: config.outputFile.resolve(config.outputName));
     if (buildOutput != null) {
       final lastBuilt = buildOutput.timestamp.roundDownToSeconds();
       final lastChange = await buildOutput.dependencies.lastModified();
@@ -257,7 +257,7 @@ class NativeAssetsBuildRunner {
     logger.info('config.yaml contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
     final buildOutputFile =
-        File.fromUri(config.outDir.resolve(config.outputName));
+        File.fromUri(config.outputFile.resolve(config.outputName));
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -301,7 +301,7 @@ ${result.stdout}
 
     try {
       final buildOutput = await BuildOutput.readFromFile(
-              outputUri: config.outDir.resolve(config.outputName)) ??
+              outputUri: config.outputFile.resolve(config.outputName)) ??
           BuildOutput();
       success &= validateAssetsPackage(
         buildOutput.assets,

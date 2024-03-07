@@ -7,7 +7,7 @@ import '../utils/yaml.dart';
 abstract class PipelineConfig {
   Uri get configFile;
 
-  Uri get outDir => outDirectory.resolve(outputName);
+  Uri get outputFile => outDirectory.resolve(outputName);
 
   Uri get outDirectory;
 

@@ -136,8 +136,7 @@ class Asset implements api.Asset {
   final Target target;
   @override
   final AssetPath path;
-
-  // Whether this asset should be copied after building.
+  @override
   final String linkInPackage;
 
   Asset({

@@ -17,8 +17,7 @@ void main(List<String> args) async {
 
   final linkOutput = BuildOutput(
       assets: shakenAssets.map((e) {
-    final path = e.path as AssetAbsolutePath;
-    final filePath = path.uri.toFilePath();
+    final filePath = (e.path as AssetAbsolutePath).uri.toFilePath();
     final uri =
         linkConfig.buildConfig.outDirectory.resolve(p.basename(filePath));
     File(filePath).copySync(uri.toFilePath());
@@ -30,7 +29,7 @@ void main(List<String> args) async {
     );
   }).toList());
 
-  await linkOutput.writeToFile(outDir: linkConfig.outDir);
+  await linkOutput.writeToFile(outDir: linkConfig.outputFile);
 }
 
 class MyResourceShaker {

@@ -46,5 +46,5 @@ void main(List<String> args) async {
 
   // Write the output according to the native assets protocol so that Dart or
   // Flutter can find the native assets produced by this script.
-  await buildOutput.writeToFile(outDir: buildConfig.outDir);
+  await buildOutput.writeToFile(outDir: buildConfig.outputFile);
 }

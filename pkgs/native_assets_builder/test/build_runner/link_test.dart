@@ -31,7 +31,8 @@ void main() async {
           capturedLogs: logMessages,
           copyAssets: false,
         );
-        expect(buildResult.assets.length, 4);
+        const buildAssets = 10;
+        expect(buildResult.assets.length, buildAssets);
 
         final linkResult = await link(
           packageUri,
@@ -39,7 +40,11 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
         );
-        expect(linkResult.assets.length, 2);
+        const assetsForOtherLinker = 6;
+        const inputForLinker = buildAssets - assetsForOtherLinker;
+        const skippedAssets = 2;
+        const linkedAssets = inputForLinker - skippedAssets;
+        expect(linkResult.assets.length, linkedAssets);
       }
     });
   });

@@ -26,7 +26,8 @@ void main(List<String> args) async {
     ),
   );
 
-  await BuildOutput(assets: shakenAssets).writeToFile(outDir: linkInput.outDir);
+  await BuildOutput(assets: shakenAssets)
+      .writeToFile(outDir: linkInput.outputFile);
 }
 
 /// Filters out json files from the assets.

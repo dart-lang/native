@@ -13,12 +13,12 @@ void main(List<String> args) async {
         linkMode: LinkMode.dynamic,
         target: Target.current,
         path: AssetAbsolutePath(
-          buildConfig.outDir.resolve(
+          buildConfig.outputFile.resolve(
             Target.current.os.dylibFileName('foo'),
           ),
         ),
       ),
     ],
   );
-  await buildOutput.writeToFile(outDir: buildConfig.outDir);
+  await buildOutput.writeToFile(outDir: buildConfig.outputFile);
 }
