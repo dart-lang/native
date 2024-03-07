@@ -164,7 +164,7 @@ class NativeAssetsBuildRunner {
   ///
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
-  Future<BuildResult> dryBuild({
+  Future<BuildResult> dryRun({
     required LinkModePreference linkModePreference,
     required OS targetOs,
     required Uri workingDirectory,

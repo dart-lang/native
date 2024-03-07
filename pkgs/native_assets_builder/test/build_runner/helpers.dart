@@ -127,7 +127,7 @@ Future<BuildResult> dryRun(
       final result = await NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
-      ).dryBuild(
+      ).dryRun(
         linkModePreference: linkModePreference,
         targetOs: Target.current.os,
         workingDirectory: packageUri,

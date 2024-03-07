@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:native_assets_builder/src/build_runner/build_planner.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -90,7 +89,7 @@ void main() async {
         final packageLayout =
             await PackageLayout.fromRootPackageRoot(nativeAddUri);
         final packagesWithNativeAssets =
-            await packageLayout.packagesWithAssets(PipelineStep.build);
+            await packageLayout.packagesWithNativeAssets;
         final nativeAssetsBuildPlanner =
             await NativeAssetsBuildPlanner.fromRootPackageRoot(
           rootPackageRoot: nativeAddUri,
