@@ -149,7 +149,7 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         resourceIdentifiers,
       );
-      buildResult.add(buildOutput, !packagesWithLink.contains(package));
+      buildResult.add(buildOutput);
       success &= packageSuccess;
 
       metadata[config.packageName] = buildOutput.metadata;
@@ -201,7 +201,7 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         null,
       );
-      buildResult.add(buildOutput, true);
+      buildResult.add(buildOutput);
       success &= packageSuccess;
     }
     return buildResult.withSuccess(success);
@@ -492,8 +492,8 @@ final class BuildResult {
           success: false,
         );
 
-  void add(BuildOutput buildOutput, bool shouldCopy) {
-    assets.addAll(buildOutput.assets.map((e) => e.copyWith(copy: shouldCopy)));
+  void add(BuildOutput buildOutput) {
+    assets.addAll(buildOutput.assets);
     dependencies.addAll(buildOutput.dependencies.dependencies);
     dependencies.sort(_uriCompare);
   }

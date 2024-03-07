@@ -138,14 +138,14 @@ class Asset implements api.Asset {
   final AssetPath path;
 
   // Whether this asset should be copied after building.
-  final bool copy;
+  final String linkInPackage;
 
   Asset({
     required this.id,
     required this.linkMode,
     required this.target,
     required this.path,
-    this.copy = true,
+    this.linkInPackage = '',
   });
 
   factory Asset.fromYaml(YamlMap yamlMap) => Asset(
@@ -153,7 +153,7 @@ class Asset implements api.Asset {
         path: AssetPath.fromYaml(as<YamlMap>(yamlMap[_pathKey])),
         target: Target.fromString(as<String>(yamlMap[_targetKey])),
         linkMode: LinkMode.fromName(as<String>(yamlMap[_linkModeKey])),
-        copy: as<bool>(yamlMap[_copyKey]),
+        linkInPackage: as<String>(yamlMap[_linkKey]),
       );
 
   static List<Asset> listFromYamlString(String yaml) {
@@ -177,14 +177,14 @@ class Asset implements api.Asset {
     String? id,
     Target? target,
     AssetPath? path,
-    bool? copy,
+    String? linkInPackage,
   }) =>
       Asset(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         target: target ?? this.target,
         path: path ?? this.path,
-        copy: copy ?? this.copy,
+        linkInPackage: linkInPackage ?? this.linkInPackage,
       );
 
   @override
@@ -196,25 +196,25 @@ class Asset implements api.Asset {
         other.linkMode == linkMode &&
         other.target == target &&
         other.path == path &&
-        other.copy == copy;
+        other.linkInPackage == linkInPackage;
   }
 
   @override
-  int get hashCode => Object.hash(id, linkMode, target, path, copy);
+  int get hashCode => Object.hash(id, linkMode, target, path, linkInPackage);
 
   Map<String, Object> toYaml() => {
         _idKey: id,
         _linkModeKey: linkMode.name,
         _pathKey: path.toYaml(),
         _targetKey: target.toString(),
-        _copyKey: copy,
+        _linkKey: linkInPackage,
       };
 
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
   static const _targetKey = 'target';
-  static const _copyKey = 'copy';
+  static const _linkKey = 'linkInPackage';
 
   @override
   String toString() => 'Asset(${toYaml()})';
