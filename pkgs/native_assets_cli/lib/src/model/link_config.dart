@@ -98,11 +98,13 @@ class LinkConfigArgs {
       resources = ResourceIdentifiers.fromFile(resourceIdentifierUri!.path);
     }
 
-    final readFromFile =
+    final buildOutput =
         await BuildOutput.readFromFile(outputUri: config.outDir);
     return LinkConfig(
       this,
-      assets: readFromFile!.assets,
+      assets: buildOutput!.assets
+          .where((element) => element.linkInPackage == config.packageName)
+          .toList(),
       buildConfig: config,
       resourceIdentifiers: resources,
     );
