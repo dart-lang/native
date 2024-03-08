@@ -10,42 +10,47 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('simple_link linking', timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('simple_link/');
+  test(
+    'simple_link linking',
+    timeout: longTimeout,
+    skip: 'Until https://dart-review.googlesource.com/c/sdk/+/338380 is merged',
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('simple_link/');
 
-      // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
-
-      // Trigger a build, should invoke build for libraries with native assets.
-      {
-        final logMessages = <String>[];
-        final buildResult = await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-          copyAssets: false,
+        // First, run `pub get`, we need pub to resolve our dependencies.
+        await runPubGet(
+          workingDirectory: packageUri,
+          logger: logger,
         );
-        const buildAssets = 10;
-        expect(buildResult.assets.length, buildAssets);
 
-        final linkResult = await link(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-        );
-        const assetsForOtherLinker = 6;
-        const inputForLinker = buildAssets - assetsForOtherLinker;
-        const skippedAssets = 2;
-        const linkedAssets = inputForLinker - skippedAssets;
-        expect(linkResult.assets.length, linkedAssets);
-      }
-    });
-  });
+        // Trigger a build, should invoke build for libraries with native assets.
+        {
+          final logMessages = <String>[];
+          final buildResult = await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            capturedLogs: logMessages,
+            copyAssets: false,
+          );
+          const buildAssets = 10;
+          expect(buildResult.assets.length, buildAssets);
+
+          final linkResult = await link(
+            packageUri,
+            logger,
+            dartExecutable,
+            capturedLogs: logMessages,
+          );
+          const assetsForOtherLinker = 6;
+          const inputForLinker = buildAssets - assetsForOtherLinker;
+          const skippedAssets = 2;
+          const linkedAssets = inputForLinker - skippedAssets;
+          expect(linkResult.assets.length, linkedAssets);
+        }
+      });
+    },
+  );
 }
