@@ -20,9 +20,7 @@ void main(List<String> args) async {
       id: 'package:$packageName/$assetName',
       linkMode: LinkMode.dynamic,
       target: Target.androidArm,
-      path: AssetAbsolutePath(
-        linkInput.buildConfig.packageRoot.resolve(assetName),
-      ),
+      path: AssetAbsolutePath(linkInput.packageRoot.resolve(assetName)),
     ),
   );
 
