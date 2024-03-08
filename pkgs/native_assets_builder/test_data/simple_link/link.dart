@@ -18,8 +18,7 @@ void main(List<String> args) async {
   final linkOutput = BuildOutput(
       assets: shakenAssets.map((e) {
     final filePath = (e.path as AssetAbsolutePath).uri.toFilePath();
-    final uri =
-        linkConfig.buildConfig.outDirectory.resolve(p.basename(filePath));
+    final uri = linkConfig.outDirectory.resolve(p.basename(filePath));
     File(filePath).copySync(uri.toFilePath());
     return Asset(
       id: e.id,

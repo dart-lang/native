@@ -25,31 +25,25 @@ void main() async {
           logger: logger,
         );
 
-        // Trigger a build, should invoke build for libraries with native assets.
-        {
-          final logMessages = <String>[];
-          final buildResult = await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            capturedLogs: logMessages,
-            copyAssets: false,
-          );
-          const buildAssets = 10;
-          expect(buildResult.assets.length, buildAssets);
+        final buildResult = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          copyAssets: false,
+        );
+        const buildAssets = 10;
+        expect(buildResult.assets.length, buildAssets);
 
-          final linkResult = await link(
-            packageUri,
-            logger,
-            dartExecutable,
-            capturedLogs: logMessages,
-          );
-          const assetsForOtherLinker = 6;
-          const inputForLinker = buildAssets - assetsForOtherLinker;
-          const skippedAssets = 2;
-          const linkedAssets = inputForLinker - skippedAssets;
-          expect(linkResult.assets.length, linkedAssets);
-        }
+        final linkResult = await link(
+          packageUri,
+          logger,
+          dartExecutable,
+        );
+        const assetsForOtherLinker = 6;
+        const inputForLinker = buildAssets - assetsForOtherLinker;
+        const skippedAssets = 2;
+        const linkedAssets = inputForLinker - skippedAssets;
+        expect(linkResult.assets.length, linkedAssets);
       });
     },
   );
