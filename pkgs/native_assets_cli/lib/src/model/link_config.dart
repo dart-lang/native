@@ -16,15 +16,14 @@ import 'pipeline_step.dart';
 
 /// The input to the linking script.
 ///
-/// It consists of the [buildConfig] already passed to the build script, the
+/// It consists of the [_buildConfig] already passed to the build script, the
 /// [assets] from the build step, and the [resourceIdentifiers]
 /// generated during the kernel compilation.
 class LinkConfig extends api.LinkConfig {
   @override
   final List<Asset> assets;
 
-  @override
-  final BuildConfig buildConfig;
+  final BuildConfig _buildConfig;
 
   @override
   final ResourceIdentifiers? resourceIdentifiers;
@@ -34,24 +33,24 @@ class LinkConfig extends api.LinkConfig {
   LinkConfig(
     this._args, {
     required this.assets,
-    required this.buildConfig,
+    required BuildConfig buildConfig,
     required this.resourceIdentifiers,
-  });
+  }) : _buildConfig = buildConfig;
 
   @override
   Uri get configFile => outDirectory.resolve('../link_config.yaml');
 
   @override
-  Uri get outDirectory => buildConfig.outDirectory;
+  Uri get outDirectory => _buildConfig.outDirectory;
 
   @override
   String get outputName => 'link_output.yaml';
 
   @override
-  String get packageName => buildConfig.packageName;
+  String get packageName => _buildConfig.packageName;
 
   @override
-  Uri get packageRoot => buildConfig.packageRoot;
+  Uri get packageRoot => _buildConfig.packageRoot;
 
   @override
   Map<String, Object> toYaml() => _args.toYaml();
