@@ -13,7 +13,7 @@ void main(List<String> args) async {
         linkMode: LinkMode.dynamic,
         target: Target.current,
         path: AssetAbsolutePath(
-          buildConfig.outputFile.resolve(
+          buildConfig.outDirectory.resolve(
             Target.current.os.dylibFileName('foo'),
           ),
         ),
