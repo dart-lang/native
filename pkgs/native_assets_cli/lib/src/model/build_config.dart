@@ -212,10 +212,12 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
   /// Constructs a checksum for a [BuildConfig] based on the fields
   /// of a buildconfig that influence the build.
   ///
-  /// This can be used for an [outDirectory], but should not be used for dry-runs.
+  /// This can be used for an [outDirectory], but should not be used for
+  /// dry-runs.
   ///
   /// In particular, it only takes the package name from [packageRoot],
-  /// so that the hash is equal across checkouts and ignores [outDirectory] itself.
+  /// so that the hash is equal across checkouts and ignores [outDirectory]
+  /// itself.
   static String checksum({
     required String packageName,
     required Uri packageRoot,
