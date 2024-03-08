@@ -85,7 +85,7 @@ class PDDocumentInformation extends jni.JObject {
   factory PDDocumentInformation.new1(
     jni.JObject dic,
   ) {
-    return PDDocumentInformation.fromRef(_new1(dic.reference).object);
+    return PDDocumentInformation.fromRef(_new1(dic.reference.pointer).object);
   }
 
   static final _getCOSObject = jniLookup<
@@ -100,7 +100,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
   jni.JObject getCOSObject() {
-    return const jni.JObjectType().fromRef(_getCOSObject(reference).object);
+    return const jni.JObjectType()
+        .fromRef(_getCOSObject(reference.pointer).object);
   }
 
   static final _getPropertyStringValue = jniLookup<
@@ -126,8 +127,9 @@ class PDDocumentInformation extends jni.JObject {
   jni.JObject getPropertyStringValue(
     jni.JString propertyKey,
   ) {
-    return const jni.JObjectType().fromRef(
-        _getPropertyStringValue(reference, propertyKey.reference).object);
+    return const jni.JObjectType().fromRef(_getPropertyStringValue(
+            reference.pointer, propertyKey.reference.pointer)
+        .object);
   }
 
   static final _getTitle = jniLookup<
@@ -142,7 +144,7 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
   jni.JString getTitle() {
-    return const jni.JStringType().fromRef(_getTitle(reference).object);
+    return const jni.JStringType().fromRef(_getTitle(reference.pointer).object);
   }
 
   static final _setTitle = jniLookup<
@@ -160,7 +162,7 @@ class PDDocumentInformation extends jni.JObject {
   void setTitle(
     jni.JString title,
   ) {
-    return _setTitle(reference, title.reference).check();
+    return _setTitle(reference.pointer, title.reference.pointer).check();
   }
 
   static final _getAuthor = jniLookup<
@@ -175,7 +177,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the author of the document.  This will return null if no author exists.
   ///@return The author of the document.
   jni.JString getAuthor() {
-    return const jni.JStringType().fromRef(_getAuthor(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getAuthor(reference.pointer).object);
   }
 
   static final _setAuthor = jniLookup<
@@ -193,7 +196,7 @@ class PDDocumentInformation extends jni.JObject {
   void setAuthor(
     jni.JString author,
   ) {
-    return _setAuthor(reference, author.reference).check();
+    return _setAuthor(reference.pointer, author.reference.pointer).check();
   }
 
   static final _getSubject = jniLookup<
@@ -208,7 +211,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the subject of the document.  This will return null if no subject exists.
   ///@return The subject of the document.
   jni.JString getSubject() {
-    return const jni.JStringType().fromRef(_getSubject(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getSubject(reference.pointer).object);
   }
 
   static final _setSubject = jniLookup<
@@ -226,7 +230,7 @@ class PDDocumentInformation extends jni.JObject {
   void setSubject(
     jni.JString subject,
   ) {
-    return _setSubject(reference, subject.reference).check();
+    return _setSubject(reference.pointer, subject.reference.pointer).check();
   }
 
   static final _getKeywords = jniLookup<
@@ -241,7 +245,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the keywords of the document.  This will return null if no keywords exists.
   ///@return The keywords of the document.
   jni.JString getKeywords() {
-    return const jni.JStringType().fromRef(_getKeywords(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getKeywords(reference.pointer).object);
   }
 
   static final _setKeywords = jniLookup<
@@ -259,7 +264,7 @@ class PDDocumentInformation extends jni.JObject {
   void setKeywords(
     jni.JString keywords,
   ) {
-    return _setKeywords(reference, keywords.reference).check();
+    return _setKeywords(reference.pointer, keywords.reference.pointer).check();
   }
 
   static final _getCreator = jniLookup<
@@ -274,7 +279,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the creator of the document.  This will return null if no creator exists.
   ///@return The creator of the document.
   jni.JString getCreator() {
-    return const jni.JStringType().fromRef(_getCreator(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getCreator(reference.pointer).object);
   }
 
   static final _setCreator = jniLookup<
@@ -292,7 +298,7 @@ class PDDocumentInformation extends jni.JObject {
   void setCreator(
     jni.JString creator,
   ) {
-    return _setCreator(reference, creator.reference).check();
+    return _setCreator(reference.pointer, creator.reference.pointer).check();
   }
 
   static final _getProducer = jniLookup<
@@ -307,7 +313,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the producer of the document.  This will return null if no producer exists.
   ///@return The producer of the document.
   jni.JString getProducer() {
-    return const jni.JStringType().fromRef(_getProducer(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getProducer(reference.pointer).object);
   }
 
   static final _setProducer = jniLookup<
@@ -325,7 +332,7 @@ class PDDocumentInformation extends jni.JObject {
   void setProducer(
     jni.JString producer,
   ) {
-    return _setProducer(reference, producer.reference).check();
+    return _setProducer(reference.pointer, producer.reference.pointer).check();
   }
 
   static final _getCreationDate = jniLookup<
@@ -340,7 +347,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
   jni.JObject getCreationDate() {
-    return const jni.JObjectType().fromRef(_getCreationDate(reference).object);
+    return const jni.JObjectType()
+        .fromRef(_getCreationDate(reference.pointer).object);
   }
 
   static final _setCreationDate = jniLookup<
@@ -359,7 +367,7 @@ class PDDocumentInformation extends jni.JObject {
   void setCreationDate(
     jni.JObject date,
   ) {
-    return _setCreationDate(reference, date.reference).check();
+    return _setCreationDate(reference.pointer, date.reference.pointer).check();
   }
 
   static final _getModificationDate = jniLookup<
@@ -375,7 +383,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The modification date of the document.
   jni.JObject getModificationDate() {
     return const jni.JObjectType()
-        .fromRef(_getModificationDate(reference).object);
+        .fromRef(_getModificationDate(reference.pointer).object);
   }
 
   static final _setModificationDate = jniLookup<
@@ -394,7 +402,8 @@ class PDDocumentInformation extends jni.JObject {
   void setModificationDate(
     jni.JObject date,
   ) {
-    return _setModificationDate(reference, date.reference).check();
+    return _setModificationDate(reference.pointer, date.reference.pointer)
+        .check();
   }
 
   static final _getTrapped = jniLookup<
@@ -410,7 +419,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will return null if one is not found.
   ///@return The trapped value for the document.
   jni.JString getTrapped() {
-    return const jni.JStringType().fromRef(_getTrapped(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getTrapped(reference.pointer).object);
   }
 
   static final _getMetadataKeys = jniLookup<
@@ -427,7 +437,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@since Apache PDFBox 1.3.0
   jni.JSet<jni.JString> getMetadataKeys() {
     return const jni.JSetType(jni.JStringType())
-        .fromRef(_getMetadataKeys(reference).object);
+        .fromRef(_getMetadataKeys(reference.pointer).object);
   }
 
   static final _getCustomMetadataValue = jniLookup<
@@ -450,7 +460,8 @@ class PDDocumentInformation extends jni.JObject {
     jni.JString fieldName,
   ) {
     return const jni.JStringType().fromRef(
-        _getCustomMetadataValue(reference, fieldName.reference).object);
+        _getCustomMetadataValue(reference.pointer, fieldName.reference.pointer)
+            .object);
   }
 
   static final _setCustomMetadataValue = jniLookup<
@@ -471,8 +482,8 @@ class PDDocumentInformation extends jni.JObject {
     jni.JString fieldName,
     jni.JString fieldValue,
   ) {
-    return _setCustomMetadataValue(
-            reference, fieldName.reference, fieldValue.reference)
+    return _setCustomMetadataValue(reference.pointer,
+            fieldName.reference.pointer, fieldValue.reference.pointer)
         .check();
   }
 
@@ -493,7 +504,7 @@ class PDDocumentInformation extends jni.JObject {
   void setTrapped(
     jni.JString value,
   ) {
-    return _setTrapped(reference, value.reference).check();
+    return _setTrapped(reference.pointer, value.reference.pointer).check();
   }
 }
 

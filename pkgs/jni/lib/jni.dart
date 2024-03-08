@@ -66,7 +66,6 @@ export 'src/jvalues.dart' hide JValueArgs, toJValues;
 export 'src/types.dart';
 export 'src/jarray.dart';
 export 'src/jobject.dart';
-export 'src/jreference.dart' show JReferenceUseExtension;
 
 export 'src/lang/lang.dart';
 export 'src/nio/nio.dart';

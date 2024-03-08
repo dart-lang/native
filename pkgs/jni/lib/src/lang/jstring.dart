@@ -47,7 +47,7 @@ class JString extends JObject {
   JString.fromRef(JStringPtr reference) : super.fromRef(reference);
 
   /// The number of Unicode characters in this Java string.
-  int get length => Jni.env.GetStringLength(reference);
+  int get length => Jni.env.GetStringLength(reference.pointer);
 
   /// Construct a [JString] from the contents of Dart string [s].
   JString.fromString(String s) : super.fromRef(Jni.env.toJStringPtr(s));
@@ -57,8 +57,8 @@ class JString extends JObject {
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
   String toDartString({bool releaseOriginal = false}) {
-    ensureNotNull();
-    final result = Jni.env.toDartString(reference);
+    reference.ensureNotNull();
+    final result = Jni.env.toDartString(reference.pointer);
     if (releaseOriginal) {
       release();
     }

@@ -77,7 +77,8 @@ class JsonToken extends jni.JObject {
   static JsonToken valueOf(
     jni.JString name,
   ) {
-    return const $JsonTokenType().fromRef(_valueOf(name.reference).object);
+    return const $JsonTokenType()
+        .fromRef(_valueOf(name.reference.pointer).object);
   }
 
   static final _id = jniLookup<
@@ -87,7 +88,7 @@ class JsonToken extends jni.JObject {
 
   /// from: public final int id()
   int id() {
-    return _id(reference).integer;
+    return _id(reference.pointer).integer;
   }
 
   static final _asString = jniLookup<
@@ -99,7 +100,7 @@ class JsonToken extends jni.JObject {
   /// from: public final java.lang.String asString()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
-    return const jni.JStringType().fromRef(_asString(reference).object);
+    return const jni.JStringType().fromRef(_asString(reference.pointer).object);
   }
 
   static final _asCharArray = jniLookup<
@@ -112,7 +113,7 @@ class JsonToken extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
     return const jni.JArrayType(jni.jcharType())
-        .fromRef(_asCharArray(reference).object);
+        .fromRef(_asCharArray(reference.pointer).object);
   }
 
   static final _asByteArray = jniLookup<
@@ -125,7 +126,7 @@ class JsonToken extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
     return const jni.JArrayType(jni.jbyteType())
-        .fromRef(_asByteArray(reference).object);
+        .fromRef(_asByteArray(reference.pointer).object);
   }
 
   static final _isNumeric = jniLookup<
@@ -139,7 +140,7 @@ class JsonToken extends jni.JObject {
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
   bool isNumeric() {
-    return _isNumeric(reference).boolean;
+    return _isNumeric(reference.pointer).boolean;
   }
 
   static final _isStructStart = jniLookup<
@@ -158,7 +159,7 @@ class JsonToken extends jni.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   bool isStructStart() {
-    return _isStructStart(reference).boolean;
+    return _isStructStart(reference.pointer).boolean;
   }
 
   static final _isStructEnd = jniLookup<
@@ -177,7 +178,7 @@ class JsonToken extends jni.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   bool isStructEnd() {
-    return _isStructEnd(reference).boolean;
+    return _isStructEnd(reference.pointer).boolean;
   }
 
   static final _isScalarValue = jniLookup<
@@ -195,7 +196,7 @@ class JsonToken extends jni.JObject {
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   bool isScalarValue() {
-    return _isScalarValue(reference).boolean;
+    return _isScalarValue(reference.pointer).boolean;
   }
 
   static final _isBoolean = jniLookup<
@@ -209,7 +210,7 @@ class JsonToken extends jni.JObject {
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
   bool isBoolean() {
-    return _isBoolean(reference).boolean;
+    return _isBoolean(reference.pointer).boolean;
   }
 }
 

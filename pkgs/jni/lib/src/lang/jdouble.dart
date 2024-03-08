@@ -47,8 +47,8 @@ class JDouble extends JNumber {
   static final _class = Jni.findJClass(r"java/lang/Double");
 
   static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(D)V");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(D)V");
   JDouble(double num)
-      : super.fromRef(Jni.accessors
-            .newObjectWithArgs(_class.reference, _ctorId, [num]).object);
+      : super.fromRef(Jni.accessors.newObjectWithArgs(
+            _class.reference.pointer, _ctorId, [num]).object);
 }

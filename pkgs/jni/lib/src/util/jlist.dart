@@ -68,16 +68,16 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
 
   static final _arrayListClassRef = Jni.findJClass(r"java/util/ArrayList");
   static final _ctorId = Jni.accessors
-      .getMethodIDOf(_arrayListClassRef.reference, r"<init>", r"()V");
+      .getMethodIDOf(_arrayListClassRef.reference.pointer, r"<init>", r"()V");
   JList.array(this.E)
       : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _arrayListClassRef.reference, _ctorId, []).object);
+            _arrayListClassRef.reference.pointer, _ctorId, []).object);
 
   static final _sizeId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"size", r"()I");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"size", r"()I");
   @override
-  int get length => Jni.accessors
-      .callMethodWithArgs(reference, _sizeId, JniCallType.intType, []).integer;
+  int get length => Jni.accessors.callMethodWithArgs(
+      reference.pointer, _sizeId, JniCallType.intType, []).integer;
 
   @override
   set length(int newLength) {
@@ -90,113 +90,122 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
     }
   }
 
-  static final _getId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"get", r"(I)Ljava/lang/Object;");
+  static final _getId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"get", r"(I)Ljava/lang/Object;");
   @override
   $E operator [](int index) {
     RangeError.checkValidIndex(index, this);
-    return E.fromRef(Jni.accessors.callMethodWithArgs(
-        reference, _getId, JniCallType.objectType, [JValueInt(index)]).object);
+    return E.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer, _getId,
+        JniCallType.objectType, [JValueInt(index)]).object);
   }
 
-  static final _setId = Jni.accessors.getMethodIDOf(
-      _class.reference, r"set", r"(ILjava/lang/Object;)Ljava/lang/Object;");
+  static final _setId = Jni.accessors.getMethodIDOf(_class.reference.pointer,
+      r"set", r"(ILjava/lang/Object;)Ljava/lang/Object;");
   @override
   void operator []=(int index, $E value) {
     RangeError.checkValidIndex(index, this);
-    E.fromRef(Jni.accessors.callMethodWithArgs(reference, _setId,
-        JniCallType.objectType, [JValueInt(index), value.reference]).object);
+    E.fromRef(Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _setId,
+        JniCallType.objectType,
+        [JValueInt(index), value.reference.pointer]).object);
   }
 
-  static final _addId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"add", r"(Ljava/lang/Object;)Z");
+  static final _addId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"add", r"(Ljava/lang/Object;)Z");
   @override
   void add($E element) {
-    Jni.accessors.callMethodWithArgs(reference, _addId, JniCallType.booleanType,
-        [element.reference]).check();
+    Jni.accessors.callMethodWithArgs(reference.pointer, _addId,
+        JniCallType.booleanType, [element.reference.pointer]).check();
   }
 
   static final _collectionClass = Jni.findJClass("java/util/Collection");
-  static final _addAllId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"addAll", r"(Ljava/util/Collection;)Z");
+  static final _addAllId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"addAll", r"(Ljava/util/Collection;)Z");
   @override
   void addAll(Iterable<$E> iterable) {
     if (iterable is JObject &&
-        Jni.env.IsInstanceOf(
-            (iterable as JObject).reference, _collectionClass.reference)) {
-      Jni.accessors.callMethodWithArgs(reference, _addAllId,
-          JniCallType.booleanType, [(iterable as JObject).reference]).boolean;
+        Jni.env.IsInstanceOf((iterable as JObject).reference.pointer,
+            _collectionClass.reference.pointer)) {
+      Jni.accessors.callMethodWithArgs(
+          reference.pointer,
+          _addAllId,
+          JniCallType.booleanType,
+          [(iterable as JObject).reference.pointer]).boolean;
       return;
     }
     return super.addAll(iterable);
   }
 
   static final _clearId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"clear", r"()V");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"clear", r"()V");
   @override
   void clear() {
     Jni.accessors.callMethodWithArgs(
-        reference, _clearId, JniCallType.voidType, []).check();
+        reference.pointer, _clearId, JniCallType.voidType, []).check();
   }
 
-  static final _containsId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"contains", r"(Ljava/lang/Object;)Z");
+  static final _containsId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"contains", r"(Ljava/lang/Object;)Z");
   @override
   bool contains(Object? element) {
     if (element is! JObject) return false;
-    return Jni.accessors.callMethodWithArgs(reference, _containsId,
-        JniCallType.booleanType, [element.reference]).boolean;
+    return Jni.accessors.callMethodWithArgs(reference.pointer, _containsId,
+        JniCallType.booleanType, [element.reference.pointer]).boolean;
   }
 
-  static final _getRangeId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"subList", r"(II)Ljava/util/List;");
+  static final _getRangeId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"subList", r"(II)Ljava/util/List;");
   @override
   JList<$E> getRange(int start, int end) {
     RangeError.checkValidRange(start, end, this.length);
     return JListType(E).fromRef(
-      Jni.accessors.callMethodWithArgs(reference, _getRangeId,
+      Jni.accessors.callMethodWithArgs(reference.pointer, _getRangeId,
           JniCallType.objectType, [JValueInt(start), JValueInt(end)]).object,
     );
   }
 
-  static final _indexOfId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"indexOf", r"(Ljava/lang/Object;)I");
+  static final _indexOfId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"indexOf", r"(Ljava/lang/Object;)I");
   @override
   int indexOf(Object? element, [int start = 0]) {
     if (element is! JObject) return -1;
     if (start < 0) start = 0;
     if (start == 0) {
-      return Jni.accessors.callMethodWithArgs(reference, _indexOfId,
-          JniCallType.intType, [element.reference]).integer;
+      return Jni.accessors.callMethodWithArgs(reference.pointer, _indexOfId,
+          JniCallType.intType, [element.reference.pointer]).integer;
     }
     return Jni.accessors.callMethodWithArgs(
-      getRange(start, length).reference,
+      getRange(start, length).reference.pointer,
       _indexOfId,
       JniCallType.intType,
-      [element.reference],
+      [element.reference.pointer],
     ).integer;
   }
 
-  static final _insertId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"add", r"(ILjava/lang/Object;)V");
+  static final _insertId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"add", r"(ILjava/lang/Object;)V");
   @override
   void insert(int index, $E element) {
-    Jni.accessors.callMethodWithArgs(reference, _insertId, JniCallType.voidType,
-        [JValueInt(index), element.reference]).check();
+    Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _insertId,
+        JniCallType.voidType,
+        [JValueInt(index), element.reference.pointer]).check();
   }
 
   static final _insertAllId = Jni.accessors.getMethodIDOf(
-      _class.reference, r"addAll", r"(ILjava/util/Collection;)Z");
+      _class.reference.pointer, r"addAll", r"(ILjava/util/Collection;)Z");
   @override
   void insertAll(int index, Iterable<$E> iterable) {
     if (iterable is JObject &&
-        Jni.env.IsInstanceOf(
-            (iterable as JObject).reference, _collectionClass.reference)) {
+        Jni.env.IsInstanceOf((iterable as JObject).reference.pointer,
+            _collectionClass.reference.pointer)) {
       Jni.accessors.callMethodWithArgs(
-        reference,
+        reference.pointer,
         _insertAllId,
         JniCallType.booleanType,
-        [JValueInt(index), (iterable as JObject).reference],
+        [JValueInt(index), (iterable as JObject).reference.pointer],
       ).boolean;
       return;
     }
@@ -204,57 +213,57 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   }
 
   static final _isEmptyId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"isEmpty", r"()Z");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"isEmpty", r"()Z");
   @override
   bool get isEmpty => Jni.accessors.callMethodWithArgs(
-      reference, _isEmptyId, JniCallType.booleanType, []).boolean;
+      reference.pointer, _isEmptyId, JniCallType.booleanType, []).boolean;
 
   @override
   bool get isNotEmpty => !isEmpty;
 
-  static final _iteratorId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"iterator", r"()Ljava/util/Iterator;");
+  static final _iteratorId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"iterator", r"()Ljava/util/Iterator;");
   @override
   JIterator<$E> get iterator =>
       JIteratorType(E).fromRef(Jni.accessors.callMethodWithArgs(
-          reference, _iteratorId, JniCallType.objectType, []).object);
+          reference.pointer, _iteratorId, JniCallType.objectType, []).object);
 
   static final _lastIndexOfId = Jni.accessors.getMethodIDOf(
-      _class.reference, r"lastIndexOf", r"(Ljava/lang/Object;)I");
+      _class.reference.pointer, r"lastIndexOf", r"(Ljava/lang/Object;)I");
   @override
   int lastIndexOf(Object? element, [int? start]) {
     if (element is! JObject) return -1;
     if (start == null || start >= this.length) start = this.length - 1;
     if (start == this.length - 1) {
-      return Jni.accessors.callMethodWithArgs(reference, _lastIndexOfId,
-          JniCallType.intType, [element.reference]).integer;
+      return Jni.accessors.callMethodWithArgs(reference.pointer, _lastIndexOfId,
+          JniCallType.intType, [element.reference.pointer]).integer;
     }
     final range = getRange(start, length);
     final res = Jni.accessors.callMethodWithArgs(
-      range.reference,
+      range.reference.pointer,
       _lastIndexOfId,
       JniCallType.intType,
-      [element.reference],
+      [element.reference.pointer],
     ).integer;
     range.release();
     return res;
   }
 
-  static final _removeId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"remove", r"(Ljava/lang/Object;)Z");
+  static final _removeId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"remove", r"(Ljava/lang/Object;)Z");
   @override
   bool remove(Object? element) {
     if (element is! JObject) return false;
-    return Jni.accessors.callMethodWithArgs(reference, _removeId,
-        JniCallType.booleanType, [element.reference]).boolean;
+    return Jni.accessors.callMethodWithArgs(reference.pointer, _removeId,
+        JniCallType.booleanType, [element.reference.pointer]).boolean;
   }
 
-  static final _removeAtId = Jni.accessors
-      .getMethodIDOf(_class.reference, r"remove", r"(I)Ljava/lang/Object;");
+  static final _removeAtId = Jni.accessors.getMethodIDOf(
+      _class.reference.pointer, r"remove", r"(I)Ljava/lang/Object;");
   @override
   $E removeAt(int index) {
-    return E.fromRef(Jni.accessors.callMethodWithArgs(reference, _removeAtId,
-        JniCallType.objectType, [JValueInt(index)]).object);
+    return E.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer,
+        _removeAtId, JniCallType.objectType, [JValueInt(index)]).object);
   }
 
   @override

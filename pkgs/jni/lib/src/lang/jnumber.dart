@@ -55,84 +55,84 @@ class JNumber extends JObject {
   /// The type which includes information such as the signature of this class.
   static const type = JNumberType();
   static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   JNumber()
       : super.fromRef(Jni.accessors
-            .newObjectWithArgs(_class.reference, _ctorId, []).object);
+            .newObjectWithArgs(_class.reference.pointer, _ctorId, []).object);
 
-  static final _intValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"intValue", r"()I");
+  static final _intValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"intValue", r"()I");
 
   int intValue({bool releaseOriginal = false}) {
-    ensureNotNull();
+    reference.ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
-        reference, _intValueId, JniCallType.intType, []).integer;
+        reference.pointer, _intValueId, JniCallType.intType, []).integer;
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  static final _longValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"longValue", r"()J");
+  static final _longValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"longValue", r"()J");
 
   int longValue({bool releaseOriginal = false}) {
-    ensureNotNull();
+    reference.ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
-        reference, _longValueId, JniCallType.longType, []).long;
+        reference.pointer, _longValueId, JniCallType.longType, []).long;
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  static final _floatValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"floatValue", r"()F");
+  static final _floatValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"floatValue", r"()F");
 
   double floatValue({bool releaseOriginal = false}) {
-    ensureNotNull();
+    reference.ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
-        reference, _floatValueId, JniCallType.floatType, []).float;
+        reference.pointer, _floatValueId, JniCallType.floatType, []).float;
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  static final _doubleValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"doubleValue", r"()D");
+  static final _doubleValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"doubleValue", r"()D");
 
   double doubleValue({bool releaseOriginal = false}) {
-    ensureNotNull();
-    final ret = Jni.accessors.callMethodWithArgs(
-        reference, _doubleValueId, JniCallType.doubleType, []).doubleFloat;
+    reference.ensureNotNull();
+    final ret = Jni.accessors.callMethodWithArgs(reference.pointer,
+        _doubleValueId, JniCallType.doubleType, []).doubleFloat;
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  static final _byteValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"byteValue", r"()B");
+  static final _byteValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"byteValue", r"()B");
 
   int byteValue({bool releaseOriginal = false}) {
-    ensureNotNull();
+    reference.ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
-        reference, _byteValueId, JniCallType.byteType, []).byte;
+        reference.pointer, _byteValueId, JniCallType.byteType, []).byte;
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  static final _shortValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"shortValue", r"()S");
+  static final _shortValueId = Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"shortValue", r"()S");
 
   int shortValue({bool releaseOriginal = false}) {
-    ensureNotNull();
+    reference.ensureNotNull();
     final ret = Jni.accessors.callMethodWithArgs(
-        reference, _shortValueId, JniCallType.shortType, []).short;
+        reference.pointer, _shortValueId, JniCallType.shortType, []).short;
     if (releaseOriginal) {
       release();
     }

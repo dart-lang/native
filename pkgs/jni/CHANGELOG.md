@@ -1,5 +1,7 @@
 ## 0.8.0-wip
 
+- **Breaking Change**: `JObject.reference` now returns a `JReference` instead of
+  `Pointer<Void>`.
 - **Breaking Change** ([#548](https://github.com/dart-lang/native/issues/548)):
   Converted various `Exception`s into `Error`s:
   - `UseAfterReleaseException` -> `UseAfterReleaseError`

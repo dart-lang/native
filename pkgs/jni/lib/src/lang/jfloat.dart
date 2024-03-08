@@ -48,9 +48,9 @@ class JFloat extends JNumber {
   static final _class = Jni.findJClass(r"java/lang/Float");
 
   static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(F)V");
+      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(F)V");
 
   JFloat(double num)
       : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference, _ctorId, [JValueFloat(num)]).object);
+            _class.reference.pointer, _ctorId, [JValueFloat(num)]).object);
 }

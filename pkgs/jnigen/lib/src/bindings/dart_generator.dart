@@ -35,11 +35,11 @@ const _typeParamPrefix = '\$';
 
 // Misc.
 const _protectedExtension = 'ProtectedJniExtensions';
-const _classRef = '_class.reference';
+const _classRef = '_class.reference.pointer';
 const _env = '$_jni.Jni.env';
 const _accessors = '$_jni.Jni.accessors';
 const _lookup = 'jniLookup';
-const _selfPointer = 'reference';
+const _selfPointer = 'reference.pointer';
 
 // Docs.
 const _releaseInstruction =
@@ -1307,7 +1307,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     final \$c = $_jObject.fromRef($_protectedExtension.newPortContinuation(\$p));
     $callExpr;
     final \$o = $_jPointer.fromAddress(await \$p.first);
-    final \$k = $returnTypeClass.getClass().reference;
+    final \$k = $returnTypeClass.getClass().reference.pointer;
     if (!$_jni.Jni.env.IsInstanceOf(\$o, \$k)) {
       throw "Failed";
     }
@@ -1385,9 +1385,9 @@ class _ParamDef extends Visitor<Param, String> {
 
 /// Method parameter used in calling the native method.
 ///
-/// For example `foo.reference` in:
+/// For example `foo.reference.pointer` in:
 /// ```dart
-/// void bar(Foo foo) => _bar(foo.reference);
+/// void bar(Foo foo) => _bar(foo.reference.pointer);
 /// ```
 class _ParamCall extends Visitor<Param, String> {
   final bool isCBased;
@@ -1702,7 +1702,7 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 /// `toPointer` detaches the object from the [NativeFinalizer] and Java
 /// will clean up the global reference afterwards.
 ///
-/// For example `$r.toJInteger().toPointer()` when the return
+/// For example `$r.toJInteger().reference.toPointer()` when the return
 /// type is `integer`.
 class _InterfaceReturnBox extends TypeVisitor<String> {
   const _InterfaceReturnBox();
@@ -1712,7 +1712,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
     // should not be [setAsReleased].
-    return '(\$r as $_jObject).castTo(const ${_jObject}Type()).toPointer()';
+    return '(\$r as $_jObject).castTo(const ${_jObject}Type()).reference.toPointer()';
   }
 
   @override
@@ -1720,6 +1720,6 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     if (node.name == 'void') {
       return '$_jni.nullptr';
     }
-    return '$_jni.J${node.boxedName}(\$r).toPointer()';
+    return '$_jni.J${node.boxedName}(\$r).reference.toPointer()';
   }
 }

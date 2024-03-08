@@ -4,7 +4,6 @@
 
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
 import 'package:jni/src/third_party/generated_bindings.dart';
 
 import 'errors.dart';
@@ -16,7 +15,7 @@ extension ProtectedJReference on JReference {
       throw DoubleReleaseError();
     }
     _released = true;
-    JReference._finalizer.detach(this);
+    JGlobalReference._finalizer.detach(this);
   }
 
   void ensureNotNull() {
@@ -25,33 +24,37 @@ extension ProtectedJReference on JReference {
     }
   }
 
-  /// Similar to [reference].
+  /// Similar to [pointer].
   ///
   /// Detaches the finalizer so the underlying pointer will not be deleted.
   JObjectPtr toPointer() {
     setAsReleased();
-    return _reference;
+    return _pointer;
   }
 }
 
-/// A managed JNI global reference.
-///
-/// Uses a [NativeFinalizer] to delete the JNI global reference when finalized.
-abstract class JReference implements Finalizable {
-  static final _finalizer =
-      NativeFinalizer(Jni.env.ptr.ref.DeleteGlobalRef.cast());
-
-  JReference.fromRef(this._reference) {
-    _finalizer.attach(this, _reference, detach: this);
-  }
-
+sealed class JReference {
+  final JObjectPtr _pointer;
   bool _released = false;
 
-  /// Whether the underlying JNI reference is `null` or not.
-  bool get isNull => reference == nullptr;
+  JReference(this._pointer);
+
+  /// The underlying JNI reference.
+  ///
+  /// Throws [UseAfterReleaseError] if the object is previously released.
+  ///
+  /// Be careful when storing this in a variable since it might have gotten
+  /// released upon use.
+  JObjectPtr get pointer {
+    if (_released) throw UseAfterReleaseError();
+    return _pointer;
+  }
 
   /// Whether the underlying JNI reference is deleted or not.
   bool get isReleased => _released;
+
+  /// Whether the underlying JNI reference is `null` or not.
+  bool get isNull;
 
   /// Deletes the underlying JNI reference and marks this as released.
   ///
@@ -60,35 +63,28 @@ abstract class JReference implements Finalizable {
   /// Further uses of this object will throw [UseAfterReleaseError].
   void release() {
     setAsReleased();
-    Jni.env.DeleteGlobalRef(_reference);
+    _deleteReference();
   }
 
-  /// The underlying JNI global object reference.
-  ///
-  /// Throws [UseAfterReleaseError] if the object is previously released.
-  ///
-  /// Be careful when storing this in a variable since it might have gotten
-  /// released upon use.
-  JObjectPtr get reference {
-    if (_released) throw UseAfterReleaseError();
-    return _reference;
-  }
-
-  final JObjectPtr _reference;
-
-  /// Registers this object to be released at the end of [arena]'s lifetime.
-  void releasedBy(Arena arena) => arena.onReleaseAll(release);
+  void _deleteReference();
 }
 
-extension JReferenceUseExtension<T extends JReference> on T {
-  /// Applies [callback] on [this] object and then delete the underlying JNI
-  /// reference, returning the result of [callback].
-  R use<R>(R Function(T) callback) {
-    try {
-      final result = callback(this);
-      return result;
-    } finally {
-      release();
-    }
+/// A managed JNI global reference.
+///
+/// Uses a [NativeFinalizer] to delete the JNI global reference when finalized.
+class JGlobalReference extends JReference implements Finalizable {
+  static final _finalizer =
+      NativeFinalizer(Jni.env.ptr.ref.DeleteGlobalRef.cast());
+
+  JGlobalReference(super._reference) {
+    _finalizer.attach(this, _pointer, detach: this);
+  }
+
+  @override
+  bool get isNull => pointer == nullptr;
+
+  @override
+  void _deleteReference() {
+    Jni.env.DeleteGlobalRef(_pointer);
   }
 }

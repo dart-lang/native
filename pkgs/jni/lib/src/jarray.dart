@@ -75,7 +75,9 @@ class JArray<E> extends JObject {
       final clazz = (type as JObjType).getClass();
       final array = JArray<E>.fromRef(
         type,
-        Jni.accessors.newObjectArray(length, clazz.reference, nullptr).object,
+        Jni.accessors
+            .newObjectArray(length, clazz.reference.pointer, nullptr)
+            .object,
       );
       clazz.release();
       return array;
@@ -97,7 +99,8 @@ class JArray<E> extends JObject {
     final array = JArray<E>.fromRef(
       fill.$type as JObjType<E>,
       Jni.accessors
-          .newObjectArray(length, clazz.reference, fill.reference)
+          .newObjectArray(
+              length, clazz.reference.pointer, fill.reference.pointer)
           .object,
     );
     clazz.release();
@@ -108,12 +111,12 @@ class JArray<E> extends JObject {
 
   JniResult elementAt(int index, int type) {
     RangeError.checkValidIndex(index, this);
-    return Jni.accessors.getArrayElement(reference, index, type);
+    return Jni.accessors.getArrayElement(reference.pointer, index, type);
   }
 
   /// The number of elements in this array.
   int get length {
-    return _length ??= Jni.env.GetArrayLength(reference);
+    return _length ??= Jni.env.GetArrayLength(reference.pointer);
   }
 }
 
@@ -138,7 +141,7 @@ extension BoolArray on JArray<jboolean> {
     RangeError.checkValidIndex(index, this);
     _allocate<JBooleanMarker>(sizeOf<JBooleanMarker>(), (ptr) {
       ptr.value = value ? 1 : 0;
-      Jni.env.SetBooleanArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetBooleanArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -151,7 +154,7 @@ extension BoolArray on JArray<jboolean> {
       it.forEachIndexed((index, element) {
         ptr[index] = element ? 1 : 0;
       });
-      Jni.env.SetBooleanArrayRegion(reference, start, size, ptr);
+      Jni.env.SetBooleanArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -165,7 +168,7 @@ extension ByteArray on JArray<jbyte> {
     RangeError.checkValidIndex(index, this);
     _allocate<JByteMarker>(sizeOf<JByteMarker>(), (ptr) {
       ptr.value = value;
-      Jni.env.SetByteArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetByteArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -178,7 +181,7 @@ extension ByteArray on JArray<jbyte> {
       it.forEachIndexed((index, element) {
         ptr[index] = element;
       });
-      Jni.env.SetByteArrayRegion(reference, start, size, ptr);
+      Jni.env.SetByteArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -194,7 +197,7 @@ extension CharArray on JArray<jchar> {
     RangeError.checkValidIndex(index, this);
     _allocate<JCharMarker>(sizeOf<JCharMarker>(), (ptr) {
       ptr.value = value.codeUnits.first;
-      Jni.env.SetCharArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetCharArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -207,7 +210,7 @@ extension CharArray on JArray<jchar> {
       it.forEachIndexed((index, element) {
         ptr[index] = element.codeUnits.first;
       });
-      Jni.env.SetCharArrayRegion(reference, start, size, ptr);
+      Jni.env.SetCharArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -221,7 +224,7 @@ extension ShortArray on JArray<jshort> {
     RangeError.checkValidIndex(index, this);
     _allocate<JShortMarker>(sizeOf<JShortMarker>(), (ptr) {
       ptr.value = value;
-      Jni.env.SetShortArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetShortArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -234,7 +237,7 @@ extension ShortArray on JArray<jshort> {
       it.forEachIndexed((index, element) {
         ptr[index] = element;
       });
-      Jni.env.SetShortArrayRegion(reference, start, size, ptr);
+      Jni.env.SetShortArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -248,7 +251,7 @@ extension IntArray on JArray<jint> {
     RangeError.checkValidIndex(index, this);
     _allocate<JIntMarker>(sizeOf<JIntMarker>(), (ptr) {
       ptr.value = value;
-      Jni.env.SetIntArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetIntArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -261,7 +264,7 @@ extension IntArray on JArray<jint> {
       it.forEachIndexed((index, element) {
         ptr[index] = element;
       });
-      Jni.env.SetIntArrayRegion(reference, start, size, ptr);
+      Jni.env.SetIntArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -275,7 +278,7 @@ extension LongArray on JArray<jlong> {
     RangeError.checkValidIndex(index, this);
     _allocate<JLongMarker>(sizeOf<JLongMarker>(), (ptr) {
       ptr.value = value;
-      Jni.env.SetLongArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetLongArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -288,7 +291,7 @@ extension LongArray on JArray<jlong> {
       it.forEachIndexed((index, element) {
         ptr[index] = element;
       });
-      Jni.env.SetLongArrayRegion(reference, start, size, ptr);
+      Jni.env.SetLongArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -302,7 +305,7 @@ extension FloatArray on JArray<jfloat> {
     RangeError.checkValidIndex(index, this);
     _allocate<JFloatMarker>(sizeOf<JFloatMarker>(), (ptr) {
       ptr.value = value;
-      Jni.env.SetFloatArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetFloatArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -315,7 +318,7 @@ extension FloatArray on JArray<jfloat> {
       it.forEachIndexed((index, element) {
         ptr[index] = element;
       });
-      Jni.env.SetFloatArrayRegion(reference, start, size, ptr);
+      Jni.env.SetFloatArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -329,7 +332,7 @@ extension DoubleArray on JArray<jdouble> {
     RangeError.checkValidIndex(index, this);
     _allocate<JDoubleMarker>(sizeOf<JDoubleMarker>(), (ptr) {
       ptr.value = value;
-      Jni.env.SetDoubleArrayRegion(reference, index, 1, ptr);
+      Jni.env.SetDoubleArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
@@ -342,7 +345,7 @@ extension DoubleArray on JArray<jdouble> {
       it.forEachIndexed((index, element) {
         ptr[index] = element;
       });
-      Jni.env.SetDoubleArrayRegion(reference, start, size, ptr);
+      Jni.env.SetDoubleArrayRegion(reference.pointer, start, size, ptr);
     });
   }
 }
@@ -355,7 +358,8 @@ extension ObjectArray<T extends JObject> on JArray<T> {
 
   void operator []=(int index, T value) {
     RangeError.checkValidIndex(index, this);
-    Jni.env.SetObjectArrayElement(reference, index, value.reference);
+    Jni.env.SetObjectArrayElement(
+        reference.pointer, index, value.reference.pointer);
   }
 
   void setRange(int start, int end, Iterable<T> iterable, [int skipCount = 0]) {

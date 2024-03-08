@@ -99,7 +99,8 @@ class EmojiCompat_Config extends jni.JObject {
   factory EmojiCompat_Config(
     EmojiCompat_MetadataRepoLoader metadataLoader,
   ) {
-    return EmojiCompat_Config.fromRef(_new0(metadataLoader.reference).object);
+    return EmojiCompat_Config.fromRef(
+        _new0(metadataLoader.reference.pointer).object);
   }
 
   static final _registerInitCallback = jniLookup<
@@ -121,7 +122,8 @@ class EmojiCompat_Config extends jni.JObject {
     EmojiCompat_InitCallback initCallback,
   ) {
     return const $EmojiCompat_ConfigType().fromRef(
-        _registerInitCallback(reference, initCallback.reference).object);
+        _registerInitCallback(reference.pointer, initCallback.reference.pointer)
+            .object);
   }
 
   static final _unregisterInitCallback = jniLookup<
@@ -142,8 +144,9 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config unregisterInitCallback(
     EmojiCompat_InitCallback initCallback,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(
-        _unregisterInitCallback(reference, initCallback.reference).object);
+    return const $EmojiCompat_ConfigType().fromRef(_unregisterInitCallback(
+            reference.pointer, initCallback.reference.pointer)
+        .object);
   }
 
   static final _setReplaceAll = jniLookup<
@@ -164,7 +167,7 @@ class EmojiCompat_Config extends jni.JObject {
     bool replaceAll,
   ) {
     return const $EmojiCompat_ConfigType()
-        .fromRef(_setReplaceAll(reference, replaceAll ? 1 : 0).object);
+        .fromRef(_setReplaceAll(reference.pointer, replaceAll ? 1 : 0).object);
   }
 
   static final _setUseEmojiAsDefaultStyle = jniLookup<
@@ -191,9 +194,9 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setUseEmojiAsDefaultStyle(
     bool useEmojiAsDefaultStyle,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(
-        _setUseEmojiAsDefaultStyle(reference, useEmojiAsDefaultStyle ? 1 : 0)
-            .object);
+    return const $EmojiCompat_ConfigType().fromRef(_setUseEmojiAsDefaultStyle(
+            reference.pointer, useEmojiAsDefaultStyle ? 1 : 0)
+        .object);
   }
 
   static final _setUseEmojiAsDefaultStyle1 = jniLookup<
@@ -225,9 +228,9 @@ class EmojiCompat_Config extends jni.JObject {
     jni.JList<jni.JInteger> emojiAsDefaultStyleExceptions,
   ) {
     return const $EmojiCompat_ConfigType().fromRef(_setUseEmojiAsDefaultStyle1(
-            reference,
+            reference.pointer,
             useEmojiAsDefaultStyle ? 1 : 0,
-            emojiAsDefaultStyleExceptions.reference)
+            emojiAsDefaultStyleExceptions.reference.pointer)
         .object);
   }
 
@@ -250,7 +253,7 @@ class EmojiCompat_Config extends jni.JObject {
   ) {
     return const $EmojiCompat_ConfigType().fromRef(
         _setEmojiSpanIndicatorEnabled(
-                reference, emojiSpanIndicatorEnabled ? 1 : 0)
+                reference.pointer, emojiSpanIndicatorEnabled ? 1 : 0)
             .object);
   }
 
@@ -270,7 +273,7 @@ class EmojiCompat_Config extends jni.JObject {
     int color,
   ) {
     return const $EmojiCompat_ConfigType()
-        .fromRef(_setEmojiSpanIndicatorColor(reference, color).object);
+        .fromRef(_setEmojiSpanIndicatorColor(reference.pointer, color).object);
   }
 
   static final _setMetadataLoadStrategy = jniLookup<
@@ -318,7 +321,7 @@ class EmojiCompat_Config extends jni.JObject {
     int strategy,
   ) {
     return const $EmojiCompat_ConfigType()
-        .fromRef(_setMetadataLoadStrategy(reference, strategy).object);
+        .fromRef(_setMetadataLoadStrategy(reference.pointer, strategy).object);
   }
 
   static final _setSpanFactory = jniLookup<
@@ -338,8 +341,8 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setSpanFactory(
     EmojiCompat_SpanFactory factory0,
   ) {
-    return const $EmojiCompat_ConfigType()
-        .fromRef(_setSpanFactory(reference, factory0.reference).object);
+    return const $EmojiCompat_ConfigType().fromRef(
+        _setSpanFactory(reference.pointer, factory0.reference.pointer).object);
   }
 
   static final _setGlyphChecker = jniLookup<
@@ -360,8 +363,9 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setGlyphChecker(
     EmojiCompat_GlyphChecker glyphChecker,
   ) {
-    return const $EmojiCompat_ConfigType()
-        .fromRef(_setGlyphChecker(reference, glyphChecker.reference).object);
+    return const $EmojiCompat_ConfigType().fromRef(
+        _setGlyphChecker(reference.pointer, glyphChecker.reference.pointer)
+            .object);
   }
 
   static final _getMetadataRepoLoader = jniLookup<
@@ -376,7 +380,7 @@ class EmojiCompat_Config extends jni.JObject {
   /// Returns the MetadataRepoLoader.
   EmojiCompat_MetadataRepoLoader getMetadataRepoLoader() {
     return const $EmojiCompat_MetadataRepoLoaderType()
-        .fromRef(_getMetadataRepoLoader(reference).object);
+        .fromRef(_getMetadataRepoLoader(reference.pointer).object);
   }
 }
 
@@ -448,8 +452,8 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
   jni.JObject createSpan(
     jni.JObject rasterizer,
   ) {
-    return const jni.JObjectType()
-        .fromRef(_createSpan(reference, rasterizer.reference).object);
+    return const jni.JObjectType().fromRef(
+        _createSpan(reference.pointer, rasterizer.reference.pointer).object);
   }
 }
 
@@ -549,7 +553,8 @@ class EmojiCompat_GlyphChecker extends jni.JObject {
     int end,
     int sdkAdded,
   ) {
-    return _hasGlyph(reference, charSequence.reference, start, end, sdkAdded)
+    return _hasGlyph(reference.pointer, charSequence.reference.pointer, start,
+            end, sdkAdded)
         .boolean;
   }
 }
@@ -615,7 +620,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
   /// Called when EmojiCompat is initialized and the emoji data is loaded. When used on devices
   /// running API 18 or below, this function is always called.
   void onInitialized() {
-    return _onInitialized(reference).check();
+    return _onInitialized(reference.pointer).check();
   }
 
   static final _onFailed = jniLookup<
@@ -633,7 +638,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
   void onFailed(
     jni.JObject throwable,
   ) {
-    return _onFailed(reference, throwable.reference).check();
+    return _onFailed(reference.pointer, throwable.reference.pointer).check();
   }
 }
 
@@ -735,7 +740,7 @@ class EmojiCompat_MetadataRepoLoader extends jni.JObject {
   void load(
     EmojiCompat_MetadataRepoLoaderCallback loaderCallback,
   ) {
-    return _load(reference, loaderCallback.reference).check();
+    return _load(reference.pointer, loaderCallback.reference.pointer).check();
   }
 }
 
@@ -807,7 +812,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
   void onLoaded(
     jni.JObject metadataRepo,
   ) {
-    return _onLoaded(reference, metadataRepo.reference).check();
+    return _onLoaded(reference.pointer, metadataRepo.reference.pointer).check();
   }
 
   static final _onFailed = jniLookup<
@@ -826,7 +831,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
   void onFailed(
     jni.JObject throwable,
   ) {
-    return _onFailed(reference, throwable.reference).check();
+    return _onFailed(reference.pointer, throwable.reference.pointer).check();
   }
 }
 
@@ -935,8 +940,8 @@ class EmojiCompat_SpanFactory extends jni.JObject {
   jni.JObject createSpan(
     jni.JObject rasterizer,
   ) {
-    return const jni.JObjectType()
-        .fromRef(_createSpan(reference, rasterizer.reference).object);
+    return const jni.JObjectType().fromRef(
+        _createSpan(reference.pointer, rasterizer.reference.pointer).object);
   }
 }
 
@@ -1247,7 +1252,8 @@ class EmojiCompat extends jni.JObject {
   static EmojiCompat init(
     jni.JObject context,
   ) {
-    return const $EmojiCompatType().fromRef(_init(context.reference).object);
+    return const $EmojiCompatType()
+        .fromRef(_init(context.reference.pointer).object);
   }
 
   static final _init1 = jniLookup<
@@ -1266,8 +1272,9 @@ class EmojiCompat extends jni.JObject {
     jni.JObject context,
     DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory defaultFactory,
   ) {
-    return const $EmojiCompatType()
-        .fromRef(_init1(context.reference, defaultFactory.reference).object);
+    return const $EmojiCompatType().fromRef(
+        _init1(context.reference.pointer, defaultFactory.reference.pointer)
+            .object);
   }
 
   static final _init2 = jniLookup<
@@ -1288,7 +1295,8 @@ class EmojiCompat extends jni.JObject {
   static EmojiCompat init2(
     EmojiCompat_Config config,
   ) {
-    return const $EmojiCompatType().fromRef(_init2(config.reference).object);
+    return const $EmojiCompatType()
+        .fromRef(_init2(config.reference.pointer).object);
   }
 
   static final _isConfigured =
@@ -1326,7 +1334,8 @@ class EmojiCompat extends jni.JObject {
   static EmojiCompat reset(
     EmojiCompat_Config config,
   ) {
-    return const $EmojiCompatType().fromRef(_reset(config.reference).object);
+    return const $EmojiCompatType()
+        .fromRef(_reset(config.reference.pointer).object);
   }
 
   static final _reset1 = jniLookup<
@@ -1344,7 +1353,7 @@ class EmojiCompat extends jni.JObject {
     EmojiCompat emojiCompat,
   ) {
     return const $EmojiCompatType()
-        .fromRef(_reset1(emojiCompat.reference).object);
+        .fromRef(_reset1(emojiCompat.reference.pointer).object);
   }
 
   static final _skipDefaultConfigurationLookup =
@@ -1399,7 +1408,7 @@ class EmojiCompat extends jni.JObject {
   ///@throws IllegalStateException when Config\#setMetadataLoadStrategy(int) is not set
   /// to \#LOAD_STRATEGY_MANUAL
   void load() {
-    return _load(reference).check();
+    return _load(reference.pointer).check();
   }
 
   static final _registerInitCallback = jniLookup<
@@ -1424,7 +1433,9 @@ class EmojiCompat extends jni.JObject {
   void registerInitCallback(
     EmojiCompat_InitCallback initCallback,
   ) {
-    return _registerInitCallback(reference, initCallback.reference).check();
+    return _registerInitCallback(
+            reference.pointer, initCallback.reference.pointer)
+        .check();
   }
 
   static final _unregisterInitCallback = jniLookup<
@@ -1443,7 +1454,9 @@ class EmojiCompat extends jni.JObject {
   void unregisterInitCallback(
     EmojiCompat_InitCallback initCallback,
   ) {
-    return _unregisterInitCallback(reference, initCallback.reference).check();
+    return _unregisterInitCallback(
+            reference.pointer, initCallback.reference.pointer)
+        .check();
   }
 
   static final _getLoadState = jniLookup<
@@ -1459,7 +1472,7 @@ class EmojiCompat extends jni.JObject {
   ///@return one of \#LOAD_STATE_DEFAULT, \#LOAD_STATE_LOADING,
   /// \#LOAD_STATE_SUCCEEDED, \#LOAD_STATE_FAILED
   int getLoadState() {
-    return _getLoadState(reference).integer;
+    return _getLoadState(reference.pointer).integer;
   }
 
   static final _isEmojiSpanIndicatorEnabled = jniLookup<
@@ -1473,7 +1486,7 @@ class EmojiCompat extends jni.JObject {
   /// @return whether a background should be drawn for the emoji for debugging
   ///@hide
   bool isEmojiSpanIndicatorEnabled() {
-    return _isEmojiSpanIndicatorEnabled(reference).boolean;
+    return _isEmojiSpanIndicatorEnabled(reference.pointer).boolean;
   }
 
   static final _getEmojiSpanIndicatorColor = jniLookup<
@@ -1487,7 +1500,7 @@ class EmojiCompat extends jni.JObject {
   /// @return color of background drawn if EmojiCompat\#isEmojiSpanIndicatorEnabled is true
   ///@hide
   int getEmojiSpanIndicatorColor() {
-    return _getEmojiSpanIndicatorColor(reference).integer;
+    return _getEmojiSpanIndicatorColor(reference.pointer).integer;
   }
 
   static final _getEmojiStart = jniLookup<
@@ -1515,7 +1528,9 @@ class EmojiCompat extends jni.JObject {
     jni.JObject charSequence,
     int offset,
   ) {
-    return _getEmojiStart(reference, charSequence.reference, offset).integer;
+    return _getEmojiStart(
+            reference.pointer, charSequence.reference.pointer, offset)
+        .integer;
   }
 
   static final _getEmojiEnd = jniLookup<
@@ -1535,7 +1550,9 @@ class EmojiCompat extends jni.JObject {
     jni.JObject charSequence,
     int offset,
   ) {
-    return _getEmojiEnd(reference, charSequence.reference, offset).integer;
+    return _getEmojiEnd(
+            reference.pointer, charSequence.reference.pointer, offset)
+        .integer;
   }
 
   static final _handleOnKeyDown = jniLookup<
@@ -1569,7 +1586,8 @@ class EmojiCompat extends jni.JObject {
     int keyCode,
     jni.JObject event,
   ) {
-    return _handleOnKeyDown(editable.reference, keyCode, event.reference)
+    return _handleOnKeyDown(
+            editable.reference.pointer, keyCode, event.reference.pointer)
         .boolean;
   }
 
@@ -1608,8 +1626,12 @@ class EmojiCompat extends jni.JObject {
     int afterLength,
     bool inCodePoints,
   ) {
-    return _handleDeleteSurroundingText(inputConnection.reference,
-            editable.reference, beforeLength, afterLength, inCodePoints ? 1 : 0)
+    return _handleDeleteSurroundingText(
+            inputConnection.reference.pointer,
+            editable.reference.pointer,
+            beforeLength,
+            afterLength,
+            inCodePoints ? 1 : 0)
         .boolean;
   }
 
@@ -1632,7 +1654,8 @@ class EmojiCompat extends jni.JObject {
   bool hasEmojiGlyph(
     jni.JObject sequence,
   ) {
-    return _hasEmojiGlyph(reference, sequence.reference).boolean;
+    return _hasEmojiGlyph(reference.pointer, sequence.reference.pointer)
+        .boolean;
   }
 
   static final _hasEmojiGlyph1 = jniLookup<
@@ -1659,7 +1682,8 @@ class EmojiCompat extends jni.JObject {
     jni.JObject sequence,
     int metadataVersion,
   ) {
-    return _hasEmojiGlyph1(reference, sequence.reference, metadataVersion)
+    return _hasEmojiGlyph1(
+            reference.pointer, sequence.reference.pointer, metadataVersion)
         .boolean;
   }
 
@@ -1690,7 +1714,8 @@ class EmojiCompat extends jni.JObject {
     jni.JObject sequence,
     int metadataVersion,
   ) {
-    return _getEmojiMatch(reference, sequence.reference, metadataVersion)
+    return _getEmojiMatch(
+            reference.pointer, sequence.reference.pointer, metadataVersion)
         .integer;
   }
 
@@ -1714,8 +1739,8 @@ class EmojiCompat extends jni.JObject {
   jni.JObject process(
     jni.JObject charSequence,
   ) {
-    return const jni.JObjectType()
-        .fromRef(_process(reference, charSequence.reference).object);
+    return const jni.JObjectType().fromRef(
+        _process(reference.pointer, charSequence.reference.pointer).object);
   }
 
   static final _process1 = jniLookup<
@@ -1761,7 +1786,8 @@ class EmojiCompat extends jni.JObject {
     int end,
   ) {
     return const jni.JObjectType().fromRef(
-        _process1(reference, charSequence.reference, start, end).object);
+        _process1(reference.pointer, charSequence.reference.pointer, start, end)
+            .object);
   }
 
   static final _process2 = jniLookup<
@@ -1811,9 +1837,9 @@ class EmojiCompat extends jni.JObject {
     int end,
     int maxEmojiCount,
   ) {
-    return const jni.JObjectType().fromRef(
-        _process2(reference, charSequence.reference, start, end, maxEmojiCount)
-            .object);
+    return const jni.JObjectType().fromRef(_process2(reference.pointer,
+            charSequence.reference.pointer, start, end, maxEmojiCount)
+        .object);
   }
 
   static final _process3 = jniLookup<
@@ -1869,8 +1895,13 @@ class EmojiCompat extends jni.JObject {
     int maxEmojiCount,
     int replaceStrategy,
   ) {
-    return const jni.JObjectType().fromRef(_process3(reference,
-            charSequence.reference, start, end, maxEmojiCount, replaceStrategy)
+    return const jni.JObjectType().fromRef(_process3(
+            reference.pointer,
+            charSequence.reference.pointer,
+            start,
+            end,
+            maxEmojiCount,
+            replaceStrategy)
         .object);
   }
 
@@ -1889,7 +1920,7 @@ class EmojiCompat extends jni.JObject {
   ///@throws IllegalStateException if not initialized yet
   jni.JString getAssetSignature() {
     return const jni.JStringType()
-        .fromRef(_getAssetSignature(reference).object);
+        .fromRef(_getAssetSignature(reference.pointer).object);
   }
 
   static final _updateEditorInfo = jniLookup<
@@ -1920,7 +1951,8 @@ class EmojiCompat extends jni.JObject {
   void updateEditorInfo(
     jni.JObject outAttrs,
   ) {
-    return _updateEditorInfo(reference, outAttrs.reference).check();
+    return _updateEditorInfo(reference.pointer, outAttrs.reference.pointer)
+        .check();
   }
 }
 
@@ -1981,7 +2013,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
     DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper helper,
   ) {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromRef(
-        _new0(helper.reference).object);
+        _new0(helper.reference.pointer).object);
   }
 
   static final _create = jniLookup<
@@ -2002,7 +2034,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
     jni.JObject context,
   ) {
     return const $EmojiCompat_ConfigType()
-        .fromRef(_create(reference, context.reference).object);
+        .fromRef(_create(reference.pointer, context.reference.pointer).object);
   }
 }
 
@@ -2086,7 +2118,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   ) {
     return const jni.JArrayType(jni.JObjectType()).fromRef(
         _getSigningSignatures(
-                reference, packageManager.reference, providerPackage.reference)
+                reference.pointer,
+                packageManager.reference.pointer,
+                providerPackage.reference.pointer)
             .object);
   }
 
@@ -2113,7 +2147,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   ) {
     return const jni.JListType(jni.JObjectType()).fromRef(
         _queryIntentContentProviders(
-                reference, packageManager.reference, intent.reference, flags)
+                reference.pointer,
+                packageManager.reference.pointer,
+                intent.reference.pointer,
+                flags)
             .object);
   }
 
@@ -2135,8 +2172,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   jni.JObject getProviderInfo(
     jni.JObject resolveInfo,
   ) {
-    return const jni.JObjectType()
-        .fromRef(_getProviderInfo(reference, resolveInfo.reference).object);
+    return const jni.JObjectType().fromRef(
+        _getProviderInfo(reference.pointer, resolveInfo.reference.pointer)
+            .object);
   }
 }
 
@@ -2222,7 +2260,10 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   ) {
     return const jni.JListType(jni.JObjectType()).fromRef(
         _queryIntentContentProviders(
-                reference, packageManager.reference, intent.reference, flags)
+                reference.pointer,
+                packageManager.reference.pointer,
+                intent.reference.pointer,
+                flags)
             .object);
   }
 
@@ -2240,8 +2281,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   jni.JObject getProviderInfo(
     jni.JObject resolveInfo,
   ) {
-    return const jni.JObjectType()
-        .fromRef(_getProviderInfo(reference, resolveInfo.reference).object);
+    return const jni.JObjectType().fromRef(
+        _getProviderInfo(reference.pointer, resolveInfo.reference.pointer)
+            .object);
   }
 }
 
@@ -2327,7 +2369,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   ) {
     return const jni.JArrayType(jni.JObjectType()).fromRef(
         _getSigningSignatures1(
-                reference, packageManager.reference, providerPackage.reference)
+                reference.pointer,
+                packageManager.reference.pointer,
+                providerPackage.reference.pointer)
             .object);
   }
 }
@@ -2435,7 +2479,8 @@ class DefaultEmojiCompatConfig extends jni.JObject {
   static jni.JObject create(
     jni.JObject context,
   ) {
-    return const jni.JObjectType().fromRef(_create(context.reference).object);
+    return const jni.JObjectType()
+        .fromRef(_create(context.reference.pointer).object);
   }
 }
 
@@ -2496,7 +2541,7 @@ class Build_Partition extends jni.JObject {
   /// from: public java.lang.String getName()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getName() {
-    return const jni.JStringType().fromRef(_getName(reference).object);
+    return const jni.JStringType().fromRef(_getName(reference.pointer).object);
   }
 
   static final _getFingerprint = jniLookup<
@@ -2508,7 +2553,8 @@ class Build_Partition extends jni.JObject {
   /// from: public java.lang.String getFingerprint()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getFingerprint() {
-    return const jni.JStringType().fromRef(_getFingerprint(reference).object);
+    return const jni.JStringType()
+        .fromRef(_getFingerprint(reference.pointer).object);
   }
 
   static final _getBuildTimeMillis = jniLookup<
@@ -2519,7 +2565,7 @@ class Build_Partition extends jni.JObject {
 
   /// from: public long getBuildTimeMillis()
   int getBuildTimeMillis() {
-    return _getBuildTimeMillis(reference).long;
+    return _getBuildTimeMillis(reference.pointer).long;
   }
 
   static final _equals1 = jniLookup<
@@ -2534,7 +2580,7 @@ class Build_Partition extends jni.JObject {
   bool equals1(
     jni.JObject object,
   ) {
-    return _equals1(reference, object.reference).boolean;
+    return _equals1(reference.pointer, object.reference.pointer).boolean;
   }
 
   static final _hashCode1 = jniLookup<
@@ -2545,7 +2591,7 @@ class Build_Partition extends jni.JObject {
 
   /// from: public int hashCode()
   int hashCode1() {
-    return _hashCode1(reference).integer;
+    return _hashCode1(reference.pointer).integer;
   }
 }
 
@@ -3319,7 +3365,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     V ??= jni.lowestCommonSuperType([
       (map.$type as jni.JMapType).V,
     ]) as jni.JObjType<$V>;
-    return HashMap.fromRef(K, V, _new3(map.reference).object);
+    return HashMap.fromRef(K, V, _new3(map.reference.pointer).object);
   }
 
   static final _size = jniLookup<
@@ -3329,7 +3375,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public int size()
   int size() {
-    return _size(reference).integer;
+    return _size(reference.pointer).integer;
   }
 
   static final _isEmpty = jniLookup<
@@ -3340,7 +3386,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public boolean isEmpty()
   bool isEmpty() {
-    return _isEmpty(reference).boolean;
+    return _isEmpty(reference.pointer).boolean;
   }
 
   static final _get0 = jniLookup<
@@ -3356,7 +3402,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   $V get0(
     jni.JObject object,
   ) {
-    return V.fromRef(_get0(reference, object.reference).object);
+    return V.fromRef(_get0(reference.pointer, object.reference.pointer).object);
   }
 
   static final _containsKey = jniLookup<
@@ -3371,7 +3417,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   bool containsKey(
     jni.JObject object,
   ) {
-    return _containsKey(reference, object.reference).boolean;
+    return _containsKey(reference.pointer, object.reference.pointer).boolean;
   }
 
   static final _put = jniLookup<
@@ -3390,8 +3436,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     $V object1,
   ) {
-    return V
-        .fromRef(_put(reference, object.reference, object1.reference).object);
+    return V.fromRef(_put(reference.pointer, object.reference.pointer,
+            object1.reference.pointer)
+        .object);
   }
 
   static final _putAll = jniLookup<
@@ -3406,7 +3453,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   void putAll(
     jni.JMap<$K, $V> map,
   ) {
-    return _putAll(reference, map.reference).check();
+    return _putAll(reference.pointer, map.reference.pointer).check();
   }
 
   static final _remove = jniLookup<
@@ -3422,7 +3469,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   $V remove(
     jni.JObject object,
   ) {
-    return V.fromRef(_remove(reference, object.reference).object);
+    return V
+        .fromRef(_remove(reference.pointer, object.reference.pointer).object);
   }
 
   static final _clear = jniLookup<
@@ -3432,7 +3480,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public void clear()
   void clear() {
-    return _clear(reference).check();
+    return _clear(reference.pointer).check();
   }
 
   static final _containsValue = jniLookup<
@@ -3447,7 +3495,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   bool containsValue(
     jni.JObject object,
   ) {
-    return _containsValue(reference, object.reference).boolean;
+    return _containsValue(reference.pointer, object.reference.pointer).boolean;
   }
 
   static final _keySet = jniLookup<
@@ -3458,7 +3506,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public java.util.Set keySet()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<$K> keySet() {
-    return jni.JSetType(K).fromRef(_keySet(reference).object);
+    return jni.JSetType(K).fromRef(_keySet(reference.pointer).object);
   }
 
   static final _values = jniLookup<
@@ -3469,7 +3517,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public java.util.Collection values()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject values() {
-    return const jni.JObjectType().fromRef(_values(reference).object);
+    return const jni.JObjectType().fromRef(_values(reference.pointer).object);
   }
 
   static final _entrySet = jniLookup<
@@ -3482,7 +3530,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<jni.JObject> entrySet() {
     return const jni.JSetType(jni.JObjectType())
-        .fromRef(_entrySet(reference).object);
+        .fromRef(_entrySet(reference.pointer).object);
   }
 
   static final _getOrDefault = jniLookup<
@@ -3501,8 +3549,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     jni.JObject object,
     $V object1,
   ) {
-    return V.fromRef(
-        _getOrDefault(reference, object.reference, object1.reference).object);
+    return V.fromRef(_getOrDefault(reference.pointer, object.reference.pointer,
+            object1.reference.pointer)
+        .object);
   }
 
   static final _putIfAbsent = jniLookup<
@@ -3521,8 +3570,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     $V object1,
   ) {
-    return V.fromRef(
-        _putIfAbsent(reference, object.reference, object1.reference).object);
+    return V.fromRef(_putIfAbsent(reference.pointer, object.reference.pointer,
+            object1.reference.pointer)
+        .object);
   }
 
   static final _remove1 = jniLookup<
@@ -3540,7 +3590,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     jni.JObject object,
     jni.JObject object1,
   ) {
-    return _remove1(reference, object.reference, object1.reference).boolean;
+    return _remove1(reference.pointer, object.reference.pointer,
+            object1.reference.pointer)
+        .boolean;
   }
 
   static final _replace = jniLookup<
@@ -3560,8 +3612,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $V object1,
     $V object2,
   ) {
-    return _replace(
-            reference, object.reference, object1.reference, object2.reference)
+    return _replace(reference.pointer, object.reference.pointer,
+            object1.reference.pointer, object2.reference.pointer)
         .boolean;
   }
 
@@ -3581,8 +3633,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     $V object1,
   ) {
-    return V.fromRef(
-        _replace1(reference, object.reference, object1.reference).object);
+    return V.fromRef(_replace1(reference.pointer, object.reference.pointer,
+            object1.reference.pointer)
+        .object);
   }
 
   static final _computeIfAbsent = jniLookup<
@@ -3601,9 +3654,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     jni.JObject function,
   ) {
-    return V.fromRef(
-        _computeIfAbsent(reference, object.reference, function.reference)
-            .object);
+    return V.fromRef(_computeIfAbsent(reference.pointer,
+            object.reference.pointer, function.reference.pointer)
+        .object);
   }
 
   static final _computeIfPresent = jniLookup<
@@ -3622,9 +3675,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     jni.JObject biFunction,
   ) {
-    return V.fromRef(
-        _computeIfPresent(reference, object.reference, biFunction.reference)
-            .object);
+    return V.fromRef(_computeIfPresent(reference.pointer,
+            object.reference.pointer, biFunction.reference.pointer)
+        .object);
   }
 
   static final _compute = jniLookup<
@@ -3643,8 +3696,9 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     jni.JObject biFunction,
   ) {
-    return V.fromRef(
-        _compute(reference, object.reference, biFunction.reference).object);
+    return V.fromRef(_compute(reference.pointer, object.reference.pointer,
+            biFunction.reference.pointer)
+        .object);
   }
 
   static final _merge = jniLookup<
@@ -3665,8 +3719,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $V object1,
     jni.JObject biFunction,
   ) {
-    return V.fromRef(_merge(reference, object.reference, object1.reference,
-            biFunction.reference)
+    return V.fromRef(_merge(reference.pointer, object.reference.pointer,
+            object1.reference.pointer, biFunction.reference.pointer)
         .object);
   }
 
@@ -3682,7 +3736,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   void forEach(
     jni.JObject biConsumer,
   ) {
-    return _forEach(reference, biConsumer.reference).check();
+    return _forEach(reference.pointer, biConsumer.reference.pointer).check();
   }
 
   static final _replaceAll = jniLookup<
@@ -3697,7 +3751,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   void replaceAll(
     jni.JObject biFunction,
   ) {
-    return _replaceAll(reference, biFunction.reference).check();
+    return _replaceAll(reference.pointer, biFunction.reference.pointer).check();
   }
 
   static final _clone = jniLookup<
@@ -3708,7 +3762,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public java.lang.Object clone()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject clone() {
-    return const jni.JObjectType().fromRef(_clone(reference).object);
+    return const jni.JObjectType().fromRef(_clone(reference.pointer).object);
   }
 }
 
@@ -3771,7 +3825,9 @@ class AndroidUtils extends jni.JObject {
     jni.JObject text,
     int duration,
   ) {
-    return _showToast(mainActivity.reference, text.reference, duration).check();
+    return _showToast(
+            mainActivity.reference.pointer, text.reference.pointer, duration)
+        .check();
   }
 }
 

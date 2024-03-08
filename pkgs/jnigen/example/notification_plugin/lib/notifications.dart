@@ -70,8 +70,8 @@ class Notifications extends jni.JObject {
     jni.JString title,
     jni.JString text,
   ) {
-    return _showNotification(
-            context.reference, notificationID, title.reference, text.reference)
+    return _showNotification(context.reference.pointer, notificationID,
+            title.reference.pointer, text.reference.pointer)
         .check();
   }
 }

@@ -40,18 +40,20 @@ class SuspendFun extends jni.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = jni.Jni.accessors
+      .getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
     return SuspendFun.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+        .newObjectWithArgs(_class.reference.pointer, _id_new0, []).object);
   }
 
-  static final _id_sayHello = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"sayHello", r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
+  static final _id_sayHello = jni.Jni.accessors.getMethodIDOf(
+      _class.reference.pointer,
+      r"sayHello",
+      r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
 
   /// from: public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)
   /// The returned object must be released after use, by calling the [release] method.
@@ -59,10 +61,10 @@ class SuspendFun extends jni.JObject {
     final $p = ReceivePort();
     final $c =
         jni.JObject.fromRef(ProtectedJniExtensions.newPortContinuation($p));
-    jni.Jni.accessors.callMethodWithArgs(reference, _id_sayHello,
-        jni.JniCallType.objectType, [$c.reference]).object;
+    jni.Jni.accessors.callMethodWithArgs(reference.pointer, _id_sayHello,
+        jni.JniCallType.objectType, [$c.reference.pointer]).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
-    final $k = const jni.JStringType().getClass().reference;
+    final $k = const jni.JStringType().getClass().reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o, $k)) {
       throw "Failed";
     }
@@ -70,7 +72,7 @@ class SuspendFun extends jni.JObject {
   }
 
   static final _id_sayHello1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
+      _class.reference.pointer,
       r"sayHello",
       r"(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;");
 
@@ -82,10 +84,13 @@ class SuspendFun extends jni.JObject {
     final $p = ReceivePort();
     final $c =
         jni.JObject.fromRef(ProtectedJniExtensions.newPortContinuation($p));
-    jni.Jni.accessors.callMethodWithArgs(reference, _id_sayHello1,
-        jni.JniCallType.objectType, [string.reference, $c.reference]).object;
+    jni.Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _id_sayHello1,
+        jni.JniCallType.objectType,
+        [string.reference.pointer, $c.reference.pointer]).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
-    final $k = const jni.JStringType().getClass().reference;
+    final $k = const jni.JStringType().getClass().reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o, $k)) {
       throw "Failed";
     }
