@@ -36,9 +36,9 @@ class Notifications extends jni.JObject {
   @override
   late final jni.JObjType<Notifications> $type = type;
 
-  Notifications.fromRef(
+  Notifications.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $NotificationsType();
@@ -49,7 +49,7 @@ class Notifications extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
-    return Notifications.fromRef(_new0().object);
+    return Notifications.fromReference(_new0().object);
   }
 
   static final _showNotification = jniLookup<
@@ -83,7 +83,8 @@ final class $NotificationsType extends jni.JObjType<Notifications> {
   String get signature => r"Lcom/example/notification_plugin/Notifications;";
 
   @override
-  Notifications fromRef(jni.JObjectPtr ref) => Notifications.fromRef(ref);
+  Notifications fromReference(jni.JObjectPtr ref) =>
+      Notifications.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

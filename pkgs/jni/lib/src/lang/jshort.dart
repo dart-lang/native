@@ -16,7 +16,7 @@ final class JShortType extends JObjType<JShort> {
   String get signature => r"Ljava/lang/Short;";
 
   @override
-  JShort fromRef(JObjectPtr ref) => JShort.fromRef(ref);
+  JShort fromReference(JObjectPtr ref) => JShort.fromReference(ref);
 
   @override
   JObjType get superType => const JNumberType();
@@ -38,9 +38,9 @@ class JShort extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JShort> $type = type;
 
-  JShort.fromRef(
+  JShort.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JShortType();
@@ -51,6 +51,6 @@ class JShort extends JNumber {
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(S)V");
 
   JShort(int num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [JValueShort(num)]).object);
 }

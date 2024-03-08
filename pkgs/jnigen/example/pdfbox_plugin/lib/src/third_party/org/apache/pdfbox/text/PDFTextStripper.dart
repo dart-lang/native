@@ -56,9 +56,9 @@ class PDFTextStripper extends jni.JObject {
   @override
   late final jni.JObjType<PDFTextStripper> $type = type;
 
-  PDFTextStripper.fromRef(
+  PDFTextStripper.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDFTextStripperType();
@@ -77,7 +77,7 @@ class PDFTextStripper extends jni.JObject {
   ///
   /// The platform's line separator.
   jni.JString get LINE_SEPARATOR => const jni.JStringType()
-      .fromRef(_get_LINE_SEPARATOR(reference.pointer).object);
+      .fromReference(_get_LINE_SEPARATOR(reference.pointer).object);
 
   static final _get_charactersByArticle = jniLookup<
           ffi.NativeFunction<
@@ -113,7 +113,7 @@ class PDFTextStripper extends jni.JObject {
   ///
   /// Most PDFs won't have any beads, so charactersByArticle will contain a single entry.
   jni.JObject get charactersByArticle => const jni.JObjectType()
-      .fromRef(_get_charactersByArticle(reference.pointer).object);
+      .fromReference(_get_charactersByArticle(reference.pointer).object);
 
   /// from: protected java.util.ArrayList<java.util.List<org.apache.pdfbox.text.TextPosition>> charactersByArticle
   /// The returned object must be released after use, by calling the [release] method.
@@ -154,7 +154,7 @@ class PDFTextStripper extends jni.JObject {
   /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
   /// The returned object must be released after use, by calling the [release] method.
   pddocument_.PDDocument get document => const pddocument_.$PDDocumentType()
-      .fromRef(_get_document(reference.pointer).object);
+      .fromReference(_get_document(reference.pointer).object);
 
   /// from: protected org.apache.pdfbox.pdmodel.PDDocument document
   /// The returned object must be released after use, by calling the [release] method.
@@ -180,8 +180,8 @@ class PDFTextStripper extends jni.JObject {
 
   /// from: protected java.io.Writer output
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject get output =>
-      const jni.JObjectType().fromRef(_get_output(reference.pointer).object);
+  jni.JObject get output => const jni.JObjectType()
+      .fromReference(_get_output(reference.pointer).object);
 
   /// from: protected java.io.Writer output
   /// The returned object must be released after use, by calling the [release] method.
@@ -198,7 +198,7 @@ class PDFTextStripper extends jni.JObject {
   /// Instantiate a new PDFTextStripper object.
   ///@throws IOException If there is an error loading the properties.
   factory PDFTextStripper() {
-    return PDFTextStripper.fromRef(_new0().object);
+    return PDFTextStripper.fromReference(_new0().object);
   }
 
   static final _getText = jniLookup<
@@ -225,8 +225,8 @@ class PDFTextStripper extends jni.JObject {
   jni.JString getText(
     pddocument_.PDDocument doc,
   ) {
-    return const jni.JStringType()
-        .fromRef(_getText(reference.pointer, doc.reference.pointer).object);
+    return const jni.JStringType().fromReference(
+        _getText(reference.pointer, doc.reference.pointer).object);
   }
 
   static final _writeText = jniLookup<
@@ -644,7 +644,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return The desired line separator string.
   jni.JString getLineSeparator() {
     return const jni.JStringType()
-        .fromRef(_getLineSeparator(reference.pointer).object);
+        .fromReference(_getLineSeparator(reference.pointer).object);
   }
 
   static final _getWordSeparator = jniLookup<
@@ -660,7 +660,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return The desired word separator string.
   jni.JString getWordSeparator() {
     return const jni.JStringType()
-        .fromRef(_getWordSeparator(reference.pointer).object);
+        .fromReference(_getWordSeparator(reference.pointer).object);
   }
 
   static final _setWordSeparator = jniLookup<
@@ -725,7 +725,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return The stream that output is being written to.
   jni.JObject getOutput() {
     return const jni.JObjectType()
-        .fromRef(_getOutput(reference.pointer).object);
+        .fromReference(_getOutput(reference.pointer).object);
   }
 
   static final _getCharactersByArticle = jniLookup<
@@ -742,7 +742,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return A double List of TextPositions for all text strings on the page.
   jni.JList<jni.JList<jni.JObject>> getCharactersByArticle() {
     return const jni.JListType(jni.JListType(jni.JObjectType()))
-        .fromRef(_getCharactersByArticle(reference.pointer).object);
+        .fromReference(_getCharactersByArticle(reference.pointer).object);
   }
 
   static final _setSuppressDuplicateOverlappingText = jniLookup<
@@ -810,7 +810,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return The ending bookmark.
   jni.JObject getEndBookmark() {
     return const jni.JObjectType()
-        .fromRef(_getEndBookmark(reference.pointer).object);
+        .fromReference(_getEndBookmark(reference.pointer).object);
   }
 
   static final _setEndBookmark = jniLookup<
@@ -845,7 +845,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return The starting bookmark.
   jni.JObject getStartBookmark() {
     return const jni.JObjectType()
-        .fromRef(_getStartBookmark(reference.pointer).object);
+        .fromReference(_getStartBookmark(reference.pointer).object);
   }
 
   static final _setStartBookmark = jniLookup<
@@ -1085,7 +1085,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return the paragraph start string
   jni.JString getParagraphStart() {
     return const jni.JStringType()
-        .fromRef(_getParagraphStart(reference.pointer).object);
+        .fromReference(_getParagraphStart(reference.pointer).object);
   }
 
   static final _setParagraphStart = jniLookup<
@@ -1119,7 +1119,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return the paragraph end string
   jni.JString getParagraphEnd() {
     return const jni.JStringType()
-        .fromRef(_getParagraphEnd(reference.pointer).object);
+        .fromReference(_getParagraphEnd(reference.pointer).object);
   }
 
   static final _setParagraphEnd = jniLookup<
@@ -1153,7 +1153,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return the page start string
   jni.JString getPageStart() {
     return const jni.JStringType()
-        .fromRef(_getPageStart(reference.pointer).object);
+        .fromReference(_getPageStart(reference.pointer).object);
   }
 
   static final _setPageStart = jniLookup<
@@ -1188,7 +1188,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return the page end string
   jni.JString getPageEnd() {
     return const jni.JStringType()
-        .fromRef(_getPageEnd(reference.pointer).object);
+        .fromReference(_getPageEnd(reference.pointer).object);
   }
 
   static final _setPageEnd = jniLookup<
@@ -1223,7 +1223,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return the article start string
   jni.JString getArticleStart() {
     return const jni.JStringType()
-        .fromRef(_getArticleStart(reference.pointer).object);
+        .fromReference(_getArticleStart(reference.pointer).object);
   }
 
   static final _setArticleStart = jniLookup<
@@ -1259,7 +1259,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return the article end string
   jni.JString getArticleEnd() {
     return const jni.JStringType()
-        .fromRef(_getArticleEnd(reference.pointer).object);
+        .fromReference(_getArticleEnd(reference.pointer).object);
   }
 
   static final _setArticleEnd = jniLookup<
@@ -1398,7 +1398,7 @@ class PDFTextStripper extends jni.JObject {
   ///@return a list of Pattern objects.
   jni.JList<jni.JObject> getListItemPatterns() {
     return const jni.JListType(jni.JObjectType())
-        .fromRef(_getListItemPatterns(reference.pointer).object);
+        .fromReference(_getListItemPatterns(reference.pointer).object);
   }
 
   static final _matchPattern = jniLookup<
@@ -1426,7 +1426,7 @@ class PDFTextStripper extends jni.JObject {
     jni.JString string,
     jni.JList<jni.JObject> patterns,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _matchPattern(string.reference.pointer, patterns.reference.pointer)
             .object);
   }
@@ -1439,7 +1439,8 @@ final class $PDFTextStripperType extends jni.JObjType<PDFTextStripper> {
   String get signature => r"Lorg/apache/pdfbox/text/PDFTextStripper;";
 
   @override
-  PDFTextStripper fromRef(jni.JObjectPtr ref) => PDFTextStripper.fromRef(ref);
+  PDFTextStripper fromReference(jni.JObjectPtr ref) =>
+      PDFTextStripper.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

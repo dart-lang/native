@@ -15,7 +15,7 @@ final class JLongType extends JObjType<JLong> {
   String get signature => r"Ljava/lang/Long;";
 
   @override
-  JLong fromRef(JObjectPtr ref) => JLong.fromRef(ref);
+  JLong fromReference(JObjectPtr ref) => JLong.fromReference(ref);
 
   @override
   JObjType get superType => const JNumberType();
@@ -37,9 +37,9 @@ class JLong extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JLong> $type = type;
 
-  JLong.fromRef(
+  JLong.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JLongType();
@@ -50,6 +50,6 @@ class JLong extends JNumber {
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(J)V");
 
   JLong(int num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [num]).object);
 }

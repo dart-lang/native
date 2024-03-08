@@ -25,7 +25,7 @@ final class JObjectType extends JObjType<JObject> {
   String get signature => "Ljava/lang/Object;";
 
   @override
-  JObject fromRef(Pointer<Void> ref) => JObject.fromRef(ref);
+  JObject fromReference(Pointer<Void> ref) => JObject.fromReference(ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -124,7 +124,7 @@ T _callOrGet<T>(int? callType, JniResult Function(int) function) {
       final ref = function(finalCallType).object;
       final ctor = T == String
           ? (ref) => Jni.env.toDartString(ref, releaseOriginal: true)
-          : (T == JObject ? JObject.fromRef : JString.fromRef);
+          : (T == JObject ? JObject.fromReference : JString.fromReference);
       result = ctor(ref) as T;
       break;
     case const (Pointer<Void>): // JObjectPtr
@@ -170,7 +170,7 @@ class JObject {
   static const JObjType<JObject> type = JObjectType();
 
   /// Construct a new [JObject] with [ref] as its underlying reference.
-  JObject.fromRef(JObjectPtr ref) : reference = JGlobalReference(ref);
+  JObject.fromReference(JObjectPtr ref) : reference = JGlobalReference(ref);
 
   JClass? _jClass;
 
@@ -193,7 +193,7 @@ class JObject {
     if (classRef == nullptr) {
       Jni.accessors.throwException(Jni.env.ExceptionOccurred());
     }
-    return JClass.fromRef(classRef);
+    return JClass.fromReference(classRef);
   }
 
   /// Get [JFieldIDPtr] of instance field identified by [fieldName] & [signature].
@@ -318,12 +318,12 @@ class JObject {
   }) {
     if (releaseOriginal) {
       _jClass?.release();
-      final ret = type.fromRef(reference.pointer);
+      final ret = type.fromReference(reference.pointer);
       reference.setAsReleased();
       return ret;
     }
     final newRef = Jni.env.NewGlobalRef(reference.pointer);
-    return type.fromRef(newRef);
+    return type.fromReference(newRef);
   }
 
   static final _objectClass = Jni.findJClass('java/lang/Object');
@@ -349,7 +349,7 @@ class JObject {
       _objectClass.reference.pointer, r"toString", r"()Ljava/lang/String;");
   @override
   String toString() {
-    return JString.fromRef(Jni.accessors.callMethodWithArgs(
+    return JString.fromReference(Jni.accessors.callMethodWithArgs(
             reference.pointer, _toStringId, JniCallType.objectType, []).object)
         .toDartString(releaseOriginal: true);
   }
@@ -365,7 +365,7 @@ class JClass {
   final JReference reference;
 
   /// Construct a new [JClass] with [ref] as its underlying reference.
-  JClass.fromRef(JObjectPtr ref) : reference = JGlobalReference(ref);
+  JClass.fromReference(JObjectPtr ref) : reference = JGlobalReference(ref);
 
   /// Get [JFieldIDPtr] of static field [fieldName] with [signature].
   JFieldIDPtr getStaticFieldID(String fieldName, String signature) {
@@ -441,7 +441,7 @@ class JClass {
         final res = Jni.accessors
             .newObject(reference.pointer, ctor, jArgs.values)
             .object;
-        return JObject.fromRef(res);
+        return JObject.fromReference(res);
       });
 
   bool get isReleased => reference.isReleased;

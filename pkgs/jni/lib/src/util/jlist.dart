@@ -26,7 +26,7 @@ final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
   String get signature => r"Ljava/util/List;";
 
   @override
-  JList<$E> fromRef(JObjectPtr ref) => JList.fromRef(E, ref);
+  JList<$E> fromReference(JObjectPtr ref) => JList.fromReference(E, ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -50,10 +50,10 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
 
   final JObjType<$E> E;
 
-  JList.fromRef(
+  JList.fromReference(
     this.E,
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class = Jni.findJClass(r"java/util/List");
 
@@ -70,7 +70,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   static final _ctorId = Jni.accessors
       .getMethodIDOf(_arrayListClassRef.reference.pointer, r"<init>", r"()V");
   JList.array(this.E)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _arrayListClassRef.reference.pointer, _ctorId, []).object);
 
   static final _sizeId =
@@ -83,7 +83,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   set length(int newLength) {
     RangeError.checkNotNegative(newLength);
     while (length < newLength) {
-      add(E.fromRef(nullptr));
+      add(E.fromReference(nullptr));
     }
     while (newLength < length) {
       removeAt(length - 1);
@@ -95,8 +95,8 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @override
   $E operator [](int index) {
     RangeError.checkValidIndex(index, this);
-    return E.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer, _getId,
-        JniCallType.objectType, [JValueInt(index)]).object);
+    return E.fromReference(Jni.accessors.callMethodWithArgs(reference.pointer,
+        _getId, JniCallType.objectType, [JValueInt(index)]).object);
   }
 
   static final _setId = Jni.accessors.getMethodIDOf(_class.reference.pointer,
@@ -104,7 +104,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @override
   void operator []=(int index, $E value) {
     RangeError.checkValidIndex(index, this);
-    E.fromRef(Jni.accessors.callMethodWithArgs(
+    E.fromReference(Jni.accessors.callMethodWithArgs(
         reference.pointer,
         _setId,
         JniCallType.objectType,
@@ -159,7 +159,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
   @override
   JList<$E> getRange(int start, int end) {
     RangeError.checkValidRange(start, end, this.length);
-    return JListType(E).fromRef(
+    return JListType(E).fromReference(
       Jni.accessors.callMethodWithArgs(reference.pointer, _getRangeId,
           JniCallType.objectType, [JValueInt(start), JValueInt(end)]).object,
     );
@@ -225,7 +225,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
       _class.reference.pointer, r"iterator", r"()Ljava/util/Iterator;");
   @override
   JIterator<$E> get iterator =>
-      JIteratorType(E).fromRef(Jni.accessors.callMethodWithArgs(
+      JIteratorType(E).fromReference(Jni.accessors.callMethodWithArgs(
           reference.pointer, _iteratorId, JniCallType.objectType, []).object);
 
   static final _lastIndexOfId = Jni.accessors.getMethodIDOf(
@@ -262,7 +262,7 @@ class JList<$E extends JObject> extends JObject with ListMixin<$E> {
       _class.reference.pointer, r"remove", r"(I)Ljava/lang/Object;");
   @override
   $E removeAt(int index) {
-    return E.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer,
+    return E.fromReference(Jni.accessors.callMethodWithArgs(reference.pointer,
         _removeAtId, JniCallType.objectType, [JValueInt(index)]).object);
   }
 

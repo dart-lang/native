@@ -21,7 +21,7 @@ final class JByteBufferType extends JObjType<JByteBuffer> {
   String get signature => r"Ljava/nio/ByteBuffer;";
 
   @override
-  JByteBuffer fromRef(JObjectPtr ref) => JByteBuffer.fromRef(ref);
+  JByteBuffer fromReference(JObjectPtr ref) => JByteBuffer.fromReference(ref);
 
   @override
   JObjType get superType => const JBufferType();
@@ -92,9 +92,9 @@ class JByteBuffer extends JBuffer {
   // ignore: overridden_fields
   late final JObjType<JByteBuffer> $type = type;
 
-  JByteBuffer.fromRef(
+  JByteBuffer.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class = Jni.findJClass(r"java/nio/ByteBuffer");
 
@@ -109,7 +109,7 @@ class JByteBuffer extends JBuffer {
   /// Throws:
   /// * [IllegalArgumentException] - If the capacity is a negative integer
   factory JByteBuffer.allocateDirect(int capacity) {
-    return JByteBuffer.fromRef(
+    return JByteBuffer.fromReference(
       Jni.accessors.callStaticMethodWithArgs(
           _class.reference.pointer,
           _allocateDirectId,
@@ -126,7 +126,7 @@ class JByteBuffer extends JBuffer {
   /// Throws:
   /// * [IllegalArgumentException] - If the capacity is a negative integer
   factory JByteBuffer.allocate(int capacity) {
-    return const JByteBufferType().fromRef(Jni.accessors
+    return const JByteBufferType().fromReference(Jni.accessors
         .callStaticMethodWithArgs(_class.reference.pointer, _allocateId,
             JniCallType.objectType, [JValueInt(capacity)]).object);
   }
@@ -147,7 +147,7 @@ class JByteBuffer extends JBuffer {
     int? length,
   ]) {
     if (offset == null && length == null) {
-      return const JByteBufferType().fromRef(
+      return const JByteBufferType().fromReference(
         Jni.accessors.callStaticMethodWithArgs(
           _class.reference.pointer,
           _wrapWholeId,
@@ -158,7 +158,7 @@ class JByteBuffer extends JBuffer {
     }
     offset ??= 0;
     length ??= array.length - offset;
-    return const JByteBufferType().fromRef(
+    return const JByteBufferType().fromReference(
       Jni.accessors.callStaticMethodWithArgs(
         _class.reference.pointer,
         _wrapId,
@@ -183,8 +183,9 @@ class JByteBuffer extends JBuffer {
   /// Creates a new byte buffer whose content is a shared subsequence of this
   /// buffer's content.
   JByteBuffer slice() {
-    return const JByteBufferType().fromRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _sliceId, JniCallType.objectType, []).object);
+    return const JByteBufferType().fromReference(Jni.accessors
+        .callMethodWithArgs(
+            reference.pointer, _sliceId, JniCallType.objectType, []).object);
   }
 
   static final _duplicateId = Jni.accessors.getMethodIDOf(
@@ -192,8 +193,9 @@ class JByteBuffer extends JBuffer {
 
   /// Creates a new byte buffer that shares this buffer's content.
   JByteBuffer duplicate() {
-    return const JByteBufferType().fromRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _duplicateId, JniCallType.objectType, []).object);
+    return const JByteBufferType().fromReference(Jni.accessors
+        .callMethodWithArgs(reference.pointer, _duplicateId,
+            JniCallType.objectType, []).object);
   }
 
   static final _asReadOnlyBufferId = Jni.accessors.getMethodIDOf(
@@ -203,10 +205,9 @@ class JByteBuffer extends JBuffer {
 
   /// Creates a new, read-only byte buffer that shares this buffer's content.
   JByteBuffer asReadOnlyBuffer() {
-    return const JByteBufferType().fromRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer,
-        _asReadOnlyBufferId,
-        JniCallType.objectType, []).object);
+    return const JByteBufferType().fromReference(Jni.accessors
+        .callMethodWithArgs(reference.pointer, _asReadOnlyBufferId,
+            JniCallType.objectType, []).object);
   }
 
   static final _getId =
@@ -243,7 +244,7 @@ class JByteBuffer extends JBuffer {
 
   @override
   JArray<jbyte> get array {
-    return const JArrayType(jbyteType()).fromRef(Jni.accessors
+    return const JArrayType(jbyteType()).fromReference(Jni.accessors
         .callMethodWithArgs(
             reference.pointer, _arrayId, JniCallType.objectType, []).object);
   }

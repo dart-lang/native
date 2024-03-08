@@ -49,9 +49,9 @@ class JsonToken extends jni.JObject {
   @override
   late final jni.JObjType<JsonToken> $type = type;
 
-  JsonToken.fromRef(
+  JsonToken.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonTokenType();
@@ -63,7 +63,8 @@ class JsonToken extends jni.JObject {
   /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonToken> values() {
-    return const jni.JArrayType($JsonTokenType()).fromRef(_values().object);
+    return const jni.JArrayType($JsonTokenType())
+        .fromReference(_values().object);
   }
 
   static final _valueOf = jniLookup<
@@ -78,7 +79,7 @@ class JsonToken extends jni.JObject {
     jni.JString name,
   ) {
     return const $JsonTokenType()
-        .fromRef(_valueOf(name.reference.pointer).object);
+        .fromReference(_valueOf(name.reference.pointer).object);
   }
 
   static final _id = jniLookup<
@@ -100,7 +101,8 @@ class JsonToken extends jni.JObject {
   /// from: public final java.lang.String asString()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
-    return const jni.JStringType().fromRef(_asString(reference.pointer).object);
+    return const jni.JStringType()
+        .fromReference(_asString(reference.pointer).object);
   }
 
   static final _asCharArray = jniLookup<
@@ -113,7 +115,7 @@ class JsonToken extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
     return const jni.JArrayType(jni.jcharType())
-        .fromRef(_asCharArray(reference.pointer).object);
+        .fromReference(_asCharArray(reference.pointer).object);
   }
 
   static final _asByteArray = jniLookup<
@@ -126,7 +128,7 @@ class JsonToken extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
     return const jni.JArrayType(jni.jbyteType())
-        .fromRef(_asByteArray(reference.pointer).object);
+        .fromReference(_asByteArray(reference.pointer).object);
   }
 
   static final _isNumeric = jniLookup<
@@ -221,7 +223,7 @@ final class $JsonTokenType extends jni.JObjType<JsonToken> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonToken;";
 
   @override
-  JsonToken fromRef(jni.JObjectPtr ref) => JsonToken.fromRef(ref);
+  JsonToken fromReference(jni.JObjectPtr ref) => JsonToken.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

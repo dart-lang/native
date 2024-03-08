@@ -32,9 +32,9 @@ class Example extends jni.JObject {
   @override
   late final jni.JObjType<Example> $type = type;
 
-  Example.fromRef(
+  Example.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
@@ -45,7 +45,7 @@ class Example extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
-    return Example.fromRef(_new0().object);
+    return Example.fromReference(_new0().object);
   }
 
   static final _thinkBeforeAnswering = jniLookup<
@@ -60,15 +60,15 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> thinkBeforeAnswering() async {
     final $p = ReceivePort();
-    final $c =
-        jni.JObject.fromRef(ProtectedJniExtensions.newPortContinuation($p));
+    final $c = jni.JObject.fromReference(
+        ProtectedJniExtensions.newPortContinuation($p));
     _thinkBeforeAnswering(reference.pointer, $c.reference.pointer).object;
     final $o = jni.JObjectPtr.fromAddress(await $p.first);
     final $k = const jni.JStringType().getClass().reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o, $k)) {
       throw "Failed";
     }
-    return const jni.JStringType().fromRef($o);
+    return const jni.JStringType().fromReference($o);
   }
 }
 
@@ -79,7 +79,7 @@ final class $ExampleType extends jni.JObjType<Example> {
   String get signature => r"LExample;";
 
   @override
-  Example fromRef(jni.JObjectPtr ref) => Example.fromRef(ref);
+  Example fromReference(jni.JObjectPtr ref) => Example.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

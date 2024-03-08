@@ -16,7 +16,7 @@ final class JIntegerType extends JObjType<JInteger> {
   String get signature => r"Ljava/lang/Integer;";
 
   @override
-  JInteger fromRef(JObjectPtr ref) => JInteger.fromRef(ref);
+  JInteger fromReference(JObjectPtr ref) => JInteger.fromReference(ref);
 
   @override
   JObjType get superType => const JNumberType();
@@ -38,9 +38,9 @@ class JInteger extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JInteger> $type = type;
 
-  JInteger.fromRef(
+  JInteger.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JIntegerType();
@@ -51,6 +51,6 @@ class JInteger extends JNumber {
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(I)V");
 
   JInteger(int num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [JValueInt(num)]).object);
 }

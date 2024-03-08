@@ -62,7 +62,7 @@ String backAndForth() {
 }
 
 void quit() {
-  JObject.fromRef(Jni.getCurrentActivity())
+  JObject.fromReference(Jni.getCurrentActivity())
       .use((ac) => ac.callMethodByName<void>("finish", "()V", []));
 }
 
@@ -107,7 +107,7 @@ void main() {
               "android/os/Build", "DEVICE", "Ljava/lang/String;")),
       Example(
         "Package name",
-        () => JObject.fromRef(Jni.getCurrentActivity()).use((activity) =>
+        () => JObject.fromReference(Jni.getCurrentActivity()).use((activity) =>
             activity.callMethodByName<String>(
                 "getPackageName", "()Ljava/lang/String;", [])),
       ),

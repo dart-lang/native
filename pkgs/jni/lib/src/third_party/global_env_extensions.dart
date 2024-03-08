@@ -58,17 +58,17 @@ class GlobalJniEnv {
 
   JClassPtr FindClass(ffi.Pointer<ffi.Char> name) => _FindClass(name).value;
 
-  late final _FromReflectedMethod = ptr.ref.FromReflectedMethod
+  late final _fromReferencelectedMethod = ptr.ref.fromReferencelectedMethod
       .asFunction<JniPointerResult Function(JObjectPtr method)>();
 
-  JMethodIDPtr FromReflectedMethod(JObjectPtr method) =>
-      _FromReflectedMethod(method).methodID;
+  JMethodIDPtr fromReferencelectedMethod(JObjectPtr method) =>
+      _fromReferencelectedMethod(method).methodID;
 
-  late final _FromReflectedField = ptr.ref.FromReflectedField
+  late final _fromReferencelectedField = ptr.ref.fromReferencelectedField
       .asFunction<JniPointerResult Function(JObjectPtr field)>();
 
-  JFieldIDPtr FromReflectedField(JObjectPtr field) =>
-      _FromReflectedField(field).fieldID;
+  JFieldIDPtr fromReferencelectedField(JObjectPtr field) =>
+      _fromReferencelectedField(field).fieldID;
 
   late final _ToReflectedMethod = ptr.ref.ToReflectedMethod.asFunction<
       JniResult Function(JClassPtr cls, JMethodIDPtr methodId, int isStatic)>();

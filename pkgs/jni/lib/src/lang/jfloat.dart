@@ -16,7 +16,7 @@ final class JFloatType extends JObjType<JFloat> {
   String get signature => r"Ljava/lang/Float;";
 
   @override
-  JFloat fromRef(JObjectPtr ref) => JFloat.fromRef(ref);
+  JFloat fromReference(JObjectPtr ref) => JFloat.fromReference(ref);
 
   @override
   JObjType get superType => const JNumberType();
@@ -38,9 +38,9 @@ class JFloat extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JFloat> $type = type;
 
-  JFloat.fromRef(
+  JFloat.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JFloatType();
@@ -51,6 +51,6 @@ class JFloat extends JNumber {
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(F)V");
 
   JFloat(double num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [JValueFloat(num)]).object);
 }

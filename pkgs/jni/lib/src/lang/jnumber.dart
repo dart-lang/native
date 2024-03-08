@@ -24,7 +24,7 @@ final class JNumberType extends JObjType<JNumber> {
   String get signature => r"Ljava/lang/Number;";
 
   @override
-  JNumber fromRef(JObjectPtr ref) => JNumber.fromRef(ref);
+  JNumber fromReference(JObjectPtr ref) => JNumber.fromReference(ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -46,9 +46,9 @@ class JNumber extends JObject {
   // ignore: overridden_fields
   late final JObjType<JNumber> $type = type;
 
-  JNumber.fromRef(
+  JNumber.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class = Jni.findJClass(r"java/lang/Number");
 
@@ -58,7 +58,7 @@ class JNumber extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"()V");
 
   JNumber()
-      : super.fromRef(Jni.accessors
+      : super.fromReference(Jni.accessors
             .newObjectWithArgs(_class.reference.pointer, _ctorId, []).object);
 
   static final _intValueId = Jni.accessors

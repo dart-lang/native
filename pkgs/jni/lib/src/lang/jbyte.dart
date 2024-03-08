@@ -16,7 +16,7 @@ final class JByteType extends JObjType<JByte> {
   String get signature => r"Ljava/lang/Byte;";
 
   @override
-  JByte fromRef(JObjectPtr ref) => JByte.fromRef(ref);
+  JByte fromReference(JObjectPtr ref) => JByte.fromReference(ref);
 
   @override
   JObjType get superType => const JNumberType();
@@ -38,9 +38,9 @@ class JByte extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JByte> $type = type;
 
-  JByte.fromRef(
+  JByte.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JByteType();
@@ -50,6 +50,6 @@ class JByte extends JNumber {
   static final _ctorId =
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(B)V");
   JByte(int num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [JValueByte(num)]).object);
 }

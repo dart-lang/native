@@ -16,7 +16,7 @@ final class JBooleanType extends JObjType<JBoolean> {
   String get signature => r"Ljava/lang/Boolean;";
 
   @override
-  JBoolean fromRef(JObjectPtr ref) => JBoolean.fromRef(ref);
+  JBoolean fromReference(JObjectPtr ref) => JBoolean.fromReference(ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -38,9 +38,9 @@ class JBoolean extends JObject {
   // ignore: overridden_fields
   late final JObjType<JBoolean> $type = type;
 
-  JBoolean.fromRef(
+  JBoolean.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JBooleanType();
@@ -50,7 +50,7 @@ class JBoolean extends JObject {
   static final _ctorId =
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(Z)V");
   JBoolean(bool boolean)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [boolean ? 1 : 0]).object);
 
   static final _booleanValueId = Jni.accessors

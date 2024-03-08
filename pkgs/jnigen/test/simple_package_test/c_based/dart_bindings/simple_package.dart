@@ -36,9 +36,9 @@ class Example_Nested_NestedTwice extends jni.JObject {
   @override
   late final jni.JObjType<Example_Nested_NestedTwice> $type = type;
 
-  Example_Nested_NestedTwice.fromRef(
+  Example_Nested_NestedTwice.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example_Nested_NestedTwiceType();
@@ -65,7 +65,7 @@ class Example_Nested_NestedTwice extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example_Nested_NestedTwice() {
-    return Example_Nested_NestedTwice.fromRef(_new0().object);
+    return Example_Nested_NestedTwice.fromReference(_new0().object);
   }
 }
 
@@ -78,8 +78,8 @@ final class $Example_Nested_NestedTwiceType
       r"Lcom/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice;";
 
   @override
-  Example_Nested_NestedTwice fromRef(jni.JObjectPtr ref) =>
-      Example_Nested_NestedTwice.fromRef(ref);
+  Example_Nested_NestedTwice fromReference(jni.JObjectPtr ref) =>
+      Example_Nested_NestedTwice.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -102,9 +102,9 @@ class Example_Nested extends jni.JObject {
   @override
   late final jni.JObjType<Example_Nested> $type = type;
 
-  Example_Nested.fromRef(
+  Example_Nested.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example_NestedType();
@@ -118,7 +118,7 @@ class Example_Nested extends jni.JObject {
   factory Example_Nested(
     bool value,
   ) {
-    return Example_Nested.fromRef(_new0(value ? 1 : 0).object);
+    return Example_Nested.fromReference(_new0(value ? 1 : 0).object);
   }
 
   static final _usesAnonymousInnerClass = jniLookup<
@@ -165,7 +165,8 @@ final class $Example_NestedType extends jni.JObjType<Example_Nested> {
       r"Lcom/github/dart_lang/jnigen/simple_package/Example$Nested;";
 
   @override
-  Example_Nested fromRef(jni.JObjectPtr ref) => Example_Nested.fromRef(ref);
+  Example_Nested fromReference(jni.JObjectPtr ref) =>
+      Example_Nested.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -188,9 +189,9 @@ class Example_NonStaticNested extends jni.JObject {
   @override
   late final jni.JObjType<Example_NonStaticNested> $type = type;
 
-  Example_NonStaticNested.fromRef(
+  Example_NonStaticNested.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example_NonStaticNestedType();
@@ -227,7 +228,7 @@ class Example_NonStaticNested extends jni.JObject {
   factory Example_NonStaticNested(
     Example $parent,
   ) {
-    return Example_NonStaticNested.fromRef(
+    return Example_NonStaticNested.fromReference(
         _new0($parent.reference.pointer).object);
   }
 }
@@ -241,8 +242,8 @@ final class $Example_NonStaticNestedType
       r"Lcom/github/dart_lang/jnigen/simple_package/Example$NonStaticNested;";
 
   @override
-  Example_NonStaticNested fromRef(jni.JObjectPtr ref) =>
-      Example_NonStaticNested.fromRef(ref);
+  Example_NonStaticNested fromReference(jni.JObjectPtr ref) =>
+      Example_NonStaticNested.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -265,9 +266,9 @@ class Example extends jni.JObject {
   @override
   late final jni.JObjType<Example> $type = type;
 
-  Example.fromRef(
+  Example.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
@@ -291,7 +292,7 @@ class Example extends jni.JObject {
   /// from: static public final java.lang.String SEMICOLON_STRING
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SEMICOLON_STRING =>
-      const jni.JStringType().fromRef(_get_SEMICOLON_STRING().object);
+      const jni.JStringType().fromReference(_get_SEMICOLON_STRING().object);
 
   static final _get_unusedRandom =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -301,7 +302,7 @@ class Example extends jni.JObject {
   /// from: static public final java.util.Random unusedRandom
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get unusedRandom =>
-      const jni.JObjectType().fromRef(_get_unusedRandom().object);
+      const jni.JObjectType().fromReference(_get_unusedRandom().object);
 
   static final _get_protectedField = jniLookup<
           ffi.NativeFunction<
@@ -323,7 +324,7 @@ class Example extends jni.JObject {
   /// from: protected java.util.Random protectedField
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject get protectedField => const jni.JObjectType()
-      .fromRef(_get_protectedField(reference.pointer).object);
+      .fromReference(_get_protectedField(reference.pointer).object);
 
   /// from: protected java.util.Random protectedField
   /// The returned object must be released after use, by calling the [release] method.
@@ -367,7 +368,7 @@ class Example extends jni.JObject {
   /// from: static public java.lang.String getName()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getName() {
-    return const jni.JStringType().fromRef(_getName().object);
+    return const jni.JStringType().fromReference(_getName().object);
   }
 
   static final _getNestedInstance =
@@ -378,7 +379,8 @@ class Example extends jni.JObject {
   /// from: static public com.github.dart_lang.jnigen.simple_package.Example.Nested getNestedInstance()
   /// The returned object must be released after use, by calling the [release] method.
   static Example_Nested getNestedInstance() {
-    return const $Example_NestedType().fromRef(_getNestedInstance().object);
+    return const $Example_NestedType()
+        .fromReference(_getNestedInstance().object);
   }
 
   static final _setAmount =
@@ -514,7 +516,7 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getCodename() {
     return const jni.JStringType()
-        .fromRef(_getCodename(reference.pointer).object);
+        .fromReference(_getCodename(reference.pointer).object);
   }
 
   static final _setCodename = jniLookup<
@@ -542,7 +544,7 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getRandom() {
     return const jni.JObjectType()
-        .fromRef(_getRandom(reference.pointer).object);
+        .fromReference(_getRandom(reference.pointer).object);
   }
 
   static final _setRandom = jniLookup<
@@ -631,7 +633,7 @@ class Example extends jni.JObject {
   jni.JString getRandomNumericString(
     jni.JObject random,
   ) {
-    return const jni.JStringType().fromRef(
+    return const jni.JStringType().fromReference(
         _getRandomNumericString(reference.pointer, random.reference.pointer)
             .object);
   }
@@ -677,7 +679,7 @@ class Example extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JList<jni.JString> getList() {
     return const jni.JListType(jni.JStringType())
-        .fromRef(_getList(reference.pointer).object);
+        .fromReference(_getList(reference.pointer).object);
   }
 
   static final _joinStrings = jniLookup<
@@ -698,7 +700,7 @@ class Example extends jni.JObject {
     jni.JList<jni.JString> values,
     jni.JString delim,
   ) {
-    return const jni.JStringType().fromRef(_joinStrings(reference.pointer,
+    return const jni.JStringType().fromReference(_joinStrings(reference.pointer,
             values.reference.pointer, delim.reference.pointer)
         .object);
   }
@@ -755,7 +757,7 @@ class Example extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
-    return Example.fromRef(_new0().object);
+    return Example.fromReference(_new0().object);
   }
 
   static final _new1 =
@@ -768,7 +770,7 @@ class Example extends jni.JObject {
   factory Example.new1(
     int number,
   ) {
-    return Example.fromRef(_new1(number).object);
+    return Example.fromReference(_new1(number).object);
   }
 
   static final _new2 = jniLookup<
@@ -782,7 +784,7 @@ class Example extends jni.JObject {
     int number,
     bool isUp,
   ) {
-    return Example.fromRef(_new2(number, isUp ? 1 : 0).object);
+    return Example.fromReference(_new2(number, isUp ? 1 : 0).object);
   }
 
   static final _new3 = jniLookup<
@@ -798,7 +800,7 @@ class Example extends jni.JObject {
     bool isUp,
     jni.JString codename,
   ) {
-    return Example.fromRef(
+    return Example.fromReference(
         _new3(number, isUp ? 1 : 0, codename.reference.pointer).object);
   }
 
@@ -821,7 +823,7 @@ class Example extends jni.JObject {
     int g,
     int h,
   ) {
-    return Example.fromRef(_new4(a, b, c, d, e, f, g, h).object);
+    return Example.fromReference(_new4(a, b, c, d, e, f, g, h).object);
   }
 
   static final _whichExample = jniLookup<
@@ -855,7 +857,7 @@ class Example extends jni.JObject {
   /// from: static public int[] getArr()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> getArr() {
-    return const jni.JArrayType(jni.jintType()).fromRef(_getArr().object);
+    return const jni.JArrayType(jni.jintType()).fromReference(_getArr().object);
   }
 
   static final _addAll = jniLookup<
@@ -879,7 +881,8 @@ class Example extends jni.JObject {
   /// from: public com.github.dart_lang.jnigen.simple_package.Example getSelf()
   /// The returned object must be released after use, by calling the [release] method.
   Example getSelf() {
-    return const $ExampleType().fromRef(_getSelf(reference.pointer).object);
+    return const $ExampleType()
+        .fromReference(_getSelf(reference.pointer).object);
   }
 
   static final _throwException =
@@ -976,7 +979,7 @@ final class $ExampleType extends jni.JObjType<Example> {
       r"Lcom/github/dart_lang/jnigen/simple_package/Example;";
 
   @override
-  Example fromRef(jni.JObjectPtr ref) => Example.fromRef(ref);
+  Example fromReference(jni.JObjectPtr ref) => Example.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -998,9 +1001,9 @@ class C2 extends jni.JObject {
   @override
   late final jni.JObjType<C2> $type = type;
 
-  C2.fromRef(
+  C2.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $C2Type();
@@ -1027,7 +1030,7 @@ class C2 extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory C2() {
-    return C2.fromRef(_new0().object);
+    return C2.fromReference(_new0().object);
   }
 }
 
@@ -1038,7 +1041,7 @@ final class $C2Type extends jni.JObjType<C2> {
   String get signature => r"Lcom/github/dart_lang/jnigen/pkg2/C2;";
 
   @override
-  C2 fromRef(jni.JObjectPtr ref) => C2.fromRef(ref);
+  C2 fromReference(jni.JObjectPtr ref) => C2.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1060,9 +1063,9 @@ class Example1 extends jni.JObject {
   @override
   late final jni.JObjType<Example1> $type = type;
 
-  Example1.fromRef(
+  Example1.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Example1Type();
@@ -1073,7 +1076,7 @@ class Example1 extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example1() {
-    return Example1.fromRef(_new0().object);
+    return Example1.fromReference(_new0().object);
   }
 
   static final _whichExample = jniLookup<
@@ -1095,7 +1098,7 @@ final class $Example1Type extends jni.JObjType<Example1> {
   String get signature => r"Lcom/github/dart_lang/jnigen/pkg2/Example;";
 
   @override
-  Example1 fromRef(jni.JObjectPtr ref) => Example1.fromRef(ref);
+  Example1 fromReference(jni.JObjectPtr ref) => Example1.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1123,12 +1126,12 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   final jni.JObjType<$S> S;
   final jni.JObjType<$U> U;
 
-  GrandParent_Parent_Child.fromRef(
+  GrandParent_Parent_Child.fromReference(
     this.T,
     this.S,
     this.U,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $GrandParent_Parent_ChildType<$T, $S, $U> type<$T extends jni.JObject,
@@ -1165,7 +1168,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
   /// from: public T grandParentValue
   /// The returned object must be released after use, by calling the [release] method.
   $T get grandParentValue =>
-      T.fromRef(_get_grandParentValue(reference.pointer).object);
+      T.fromReference(_get_grandParentValue(reference.pointer).object);
 
   /// from: public T grandParentValue
   /// The returned object must be released after use, by calling the [release] method.
@@ -1192,7 +1195,8 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  $S get parentValue => S.fromRef(_get_parentValue(reference.pointer).object);
+  $S get parentValue =>
+      S.fromReference(_get_parentValue(reference.pointer).object);
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
@@ -1219,7 +1223,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  $U get value => U.fromRef(_get_value(reference.pointer).object);
+  $U get value => U.fromReference(_get_value(reference.pointer).object);
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
@@ -1252,7 +1256,7 @@ class GrandParent_Parent_Child<$T extends jni.JObject, $S extends jni.JObject,
     U ??= jni.lowestCommonSuperType([
       newValue.$type,
     ]) as jni.JObjType<$U>;
-    return GrandParent_Parent_Child.fromRef(T, S, U,
+    return GrandParent_Parent_Child.fromReference(T, S, U,
         _new0($parent.reference.pointer, newValue.reference.pointer).object);
   }
 }
@@ -1275,8 +1279,8 @@ final class $GrandParent_Parent_ChildType<$T extends jni.JObject,
       r"Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent$Child;";
 
   @override
-  GrandParent_Parent_Child<$T, $S, $U> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_Parent_Child.fromRef(T, S, U, ref);
+  GrandParent_Parent_Child<$T, $S, $U> fromReference(jni.JObjectPtr ref) =>
+      GrandParent_Parent_Child.fromReference(T, S, U, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1306,11 +1310,11 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
   final jni.JObjType<$T> T;
   final jni.JObjType<$S> S;
 
-  GrandParent_Parent.fromRef(
+  GrandParent_Parent.fromReference(
     this.T,
     this.S,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $GrandParent_ParentType<$T, $S>
@@ -1344,7 +1348,8 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
 
   /// from: public T parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  $T get parentValue => T.fromRef(_get_parentValue(reference.pointer).object);
+  $T get parentValue =>
+      T.fromReference(_get_parentValue(reference.pointer).object);
 
   /// from: public T parentValue
   /// The returned object must be released after use, by calling the [release] method.
@@ -1370,7 +1375,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  $S get value => S.fromRef(_get_value(reference.pointer).object);
+  $S get value => S.fromReference(_get_value(reference.pointer).object);
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
@@ -1399,7 +1404,7 @@ class GrandParent_Parent<$T extends jni.JObject, $S extends jni.JObject>
     S ??= jni.lowestCommonSuperType([
       newValue.$type,
     ]) as jni.JObjType<$S>;
-    return GrandParent_Parent.fromRef(T, S,
+    return GrandParent_Parent.fromReference(T, S,
         _new0($parent.reference.pointer, newValue.reference.pointer).object);
   }
 }
@@ -1419,8 +1424,8 @@ final class $GrandParent_ParentType<$T extends jni.JObject,
       r"Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;";
 
   @override
-  GrandParent_Parent<$T, $S> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_Parent.fromRef(T, S, ref);
+  GrandParent_Parent<$T, $S> fromReference(jni.JObjectPtr ref) =>
+      GrandParent_Parent.fromReference(T, S, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1450,11 +1455,11 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
   final jni.JObjType<$S> S;
   final jni.JObjType<$U> U;
 
-  GrandParent_StaticParent_Child.fromRef(
+  GrandParent_StaticParent_Child.fromReference(
     this.S,
     this.U,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $GrandParent_StaticParent_ChildType<$S, $U>
@@ -1488,7 +1493,8 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
-  $S get parentValue => S.fromRef(_get_parentValue(reference.pointer).object);
+  $S get parentValue =>
+      S.fromReference(_get_parentValue(reference.pointer).object);
 
   /// from: public S parentValue
   /// The returned object must be released after use, by calling the [release] method.
@@ -1515,7 +1521,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
-  $U get value => U.fromRef(_get_value(reference.pointer).object);
+  $U get value => U.fromReference(_get_value(reference.pointer).object);
 
   /// from: public U value
   /// The returned object must be released after use, by calling the [release] method.
@@ -1547,7 +1553,7 @@ class GrandParent_StaticParent_Child<$S extends jni.JObject,
     U ??= jni.lowestCommonSuperType([
       value.$type,
     ]) as jni.JObjType<$U>;
-    return GrandParent_StaticParent_Child.fromRef(
+    return GrandParent_StaticParent_Child.fromReference(
         S,
         U,
         _new0($parent.reference.pointer, parentValue.reference.pointer,
@@ -1572,8 +1578,8 @@ final class $GrandParent_StaticParent_ChildType<$S extends jni.JObject,
       r"Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child;";
 
   @override
-  GrandParent_StaticParent_Child<$S, $U> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_StaticParent_Child.fromRef(S, U, ref);
+  GrandParent_StaticParent_Child<$S, $U> fromReference(jni.JObjectPtr ref) =>
+      GrandParent_StaticParent_Child.fromReference(S, U, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1600,10 +1606,10 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
 
   final jni.JObjType<$S> S;
 
-  GrandParent_StaticParent.fromRef(
+  GrandParent_StaticParent.fromReference(
     this.S,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $GrandParent_StaticParentType<$S> type<$S extends jni.JObject>(
@@ -1634,7 +1640,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
-  $S get value => S.fromRef(_get_value(reference.pointer).object);
+  $S get value => S.fromReference(_get_value(reference.pointer).object);
 
   /// from: public S value
   /// The returned object must be released after use, by calling the [release] method.
@@ -1656,7 +1662,7 @@ class GrandParent_StaticParent<$S extends jni.JObject> extends jni.JObject {
     S ??= jni.lowestCommonSuperType([
       value.$type,
     ]) as jni.JObjType<$S>;
-    return GrandParent_StaticParent.fromRef(
+    return GrandParent_StaticParent.fromReference(
         S, _new0(value.reference.pointer).object);
   }
 }
@@ -1674,8 +1680,8 @@ final class $GrandParent_StaticParentType<$S extends jni.JObject>
       r"Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;";
 
   @override
-  GrandParent_StaticParent<$S> fromRef(jni.JObjectPtr ref) =>
-      GrandParent_StaticParent.fromRef(S, ref);
+  GrandParent_StaticParent<$S> fromReference(jni.JObjectPtr ref) =>
+      GrandParent_StaticParent.fromReference(S, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1701,10 +1707,10 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
 
   final jni.JObjType<$T> T;
 
-  GrandParent.fromRef(
+  GrandParent.fromReference(
     this.T,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $GrandParentType<$T> type<$T extends jni.JObject>(
@@ -1734,7 +1740,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
 
   /// from: public T value
   /// The returned object must be released after use, by calling the [release] method.
-  $T get value => T.fromRef(_get_value(reference.pointer).object);
+  $T get value => T.fromReference(_get_value(reference.pointer).object);
 
   /// from: public T value
   /// The returned object must be released after use, by calling the [release] method.
@@ -1756,7 +1762,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     T ??= jni.lowestCommonSuperType([
       value.$type,
     ]) as jni.JObjType<$T>;
-    return GrandParent.fromRef(T, _new0(value.reference.pointer).object);
+    return GrandParent.fromReference(T, _new0(value.reference.pointer).object);
   }
 
   static final _stringParent = jniLookup<
@@ -1769,7 +1775,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_Parent<jni.JObject, jni.JString> stringParent() {
     return const $GrandParent_ParentType(jni.JObjectType(), jni.JStringType())
-        .fromRef(_stringParent(reference.pointer).object);
+        .fromReference(_stringParent(reference.pointer).object);
   }
 
   static final _varParent = jniLookup<
@@ -1789,7 +1795,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
     S ??= jni.lowestCommonSuperType([
       nestedValue.$type,
     ]) as jni.JObjType<$S>;
-    return $GrandParent_ParentType(const jni.JObjectType(), S).fromRef(
+    return $GrandParent_ParentType(const jni.JObjectType(), S).fromReference(
         _varParent(reference.pointer, nestedValue.reference.pointer).object);
   }
 
@@ -1802,7 +1808,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static GrandParent_StaticParent<jni.JString> stringStaticParent() {
     return const $GrandParent_StaticParentType(jni.JStringType())
-        .fromRef(_stringStaticParent().object);
+        .fromReference(_stringStaticParent().object);
   }
 
   static final _varStaticParent = jniLookup<
@@ -1821,7 +1827,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
       value.$type,
     ]) as jni.JObjType<$S>;
     return $GrandParent_StaticParentType(S)
-        .fromRef(_varStaticParent(value.reference.pointer).object);
+        .fromReference(_varStaticParent(value.reference.pointer).object);
   }
 
   static final _staticParentWithSameType = jniLookup<
@@ -1834,7 +1840,7 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent_StaticParent<$T> staticParentWithSameType() {
     return $GrandParent_StaticParentType(T)
-        .fromRef(_staticParentWithSameType(reference.pointer).object);
+        .fromReference(_staticParentWithSameType(reference.pointer).object);
   }
 }
 
@@ -1850,7 +1856,8 @@ final class $GrandParentType<$T extends jni.JObject>
   String get signature => r"Lcom/github/dart_lang/jnigen/generics/GrandParent;";
 
   @override
-  GrandParent<$T> fromRef(jni.JObjectPtr ref) => GrandParent.fromRef(T, ref);
+  GrandParent<$T> fromReference(jni.JObjectPtr ref) =>
+      GrandParent.fromReference(T, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1878,11 +1885,11 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;
 
-  MyMap_MyEntry.fromRef(
+  MyMap_MyEntry.fromReference(
     this.K,
     this.V,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $MyMap_MyEntryType<$K, $V>
@@ -1915,7 +1922,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public K key
   /// The returned object must be released after use, by calling the [release] method.
-  $K get key => K.fromRef(_get_key(reference.pointer).object);
+  $K get key => K.fromReference(_get_key(reference.pointer).object);
 
   /// from: public K key
   /// The returned object must be released after use, by calling the [release] method.
@@ -1941,7 +1948,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
 
   /// from: public V value
   /// The returned object must be released after use, by calling the [release] method.
-  $V get value => V.fromRef(_get_value(reference.pointer).object);
+  $V get value => V.fromReference(_get_value(reference.pointer).object);
 
   /// from: public V value
   /// The returned object must be released after use, by calling the [release] method.
@@ -1975,7 +1982,7 @@ class MyMap_MyEntry<$K extends jni.JObject, $V extends jni.JObject>
       value.$type,
       ($parent.$type as $MyMapType).V,
     ]) as jni.JObjType<$V>;
-    return MyMap_MyEntry.fromRef(
+    return MyMap_MyEntry.fromReference(
         K,
         V,
         _new0($parent.reference.pointer, key.reference.pointer,
@@ -1999,8 +2006,8 @@ final class $MyMap_MyEntryType<$K extends jni.JObject, $V extends jni.JObject>
       r"Lcom/github/dart_lang/jnigen/generics/MyMap$MyEntry;";
 
   @override
-  MyMap_MyEntry<$K, $V> fromRef(jni.JObjectPtr ref) =>
-      MyMap_MyEntry.fromRef(K, V, ref);
+  MyMap_MyEntry<$K, $V> fromReference(jni.JObjectPtr ref) =>
+      MyMap_MyEntry.fromReference(K, V, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2029,11 +2036,11 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;
 
-  MyMap.fromRef(
+  MyMap.fromReference(
     this.K,
     this.V,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $MyMapType<$K, $V>
@@ -2057,7 +2064,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return MyMap.fromRef(K, V, _new0().object);
+    return MyMap.fromReference(K, V, _new0().object);
   }
 
   static final _get0 = jniLookup<
@@ -2073,7 +2080,8 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   $V get0(
     $K key,
   ) {
-    return V.fromRef(_get0(reference.pointer, key.reference.pointer).object);
+    return V
+        .fromReference(_get0(reference.pointer, key.reference.pointer).object);
   }
 
   static final _put = jniLookup<
@@ -2090,7 +2098,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
     $K key,
     $V value,
   ) {
-    return V.fromRef(
+    return V.fromReference(
         _put(reference.pointer, key.reference.pointer, value.reference.pointer)
             .object);
   }
@@ -2106,7 +2114,7 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   MyStack<MyMap_MyEntry<jni.JObject, jni.JObject>> entryStack() {
     return const $MyStackType(
             $MyMap_MyEntryType(jni.JObjectType(), jni.JObjectType()))
-        .fromRef(_entryStack(reference.pointer).object);
+        .fromReference(_entryStack(reference.pointer).object);
   }
 }
 
@@ -2124,7 +2132,8 @@ final class $MyMapType<$K extends jni.JObject, $V extends jni.JObject>
   String get signature => r"Lcom/github/dart_lang/jnigen/generics/MyMap;";
 
   @override
-  MyMap<$K, $V> fromRef(jni.JObjectPtr ref) => MyMap.fromRef(K, V, ref);
+  MyMap<$K, $V> fromReference(jni.JObjectPtr ref) =>
+      MyMap.fromReference(K, V, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2151,10 +2160,10 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
 
   final jni.JObjType<$T> T;
 
-  MyStack.fromRef(
+  MyStack.fromReference(
     this.T,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $MyStackType<$T> type<$T extends jni.JObject>(
@@ -2174,7 +2183,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   factory MyStack({
     required jni.JObjType<$T> T,
   }) {
-    return MyStack.fromRef(T, _new0().object);
+    return MyStack.fromReference(T, _new0().object);
   }
 
   static final _fromArray = jniLookup<
@@ -2192,7 +2201,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     T ??= jni.lowestCommonSuperType([
       ((arr.$type as jni.JArrayType).elementType as jni.JObjType),
     ]) as jni.JObjType<$T>;
-    return $MyStackType(T).fromRef(_fromArray(arr.reference.pointer).object);
+    return $MyStackType(T)
+        .fromReference(_fromArray(arr.reference.pointer).object);
   }
 
   static final _fromArrayOfArrayOfGrandParents = jniLookup<
@@ -2213,8 +2223,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
               .elementType as jni.JObjType) as $GrandParentType)
           .T,
     ]) as jni.JObjType<$S>;
-    return $MyStackType(S)
-        .fromRef(_fromArrayOfArrayOfGrandParents(arr.reference.pointer).object);
+    return $MyStackType(S).fromReference(
+        _fromArrayOfArrayOfGrandParents(arr.reference.pointer).object);
   }
 
   static final _of =
@@ -2226,7 +2236,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   static MyStack<$T> of<$T extends jni.JObject>({
     required jni.JObjType<$T> T,
   }) {
-    return $MyStackType(T).fromRef(_of().object);
+    return $MyStackType(T).fromReference(_of().object);
   }
 
   static final _of1 = jniLookup<
@@ -2243,7 +2253,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
     T ??= jni.lowestCommonSuperType([
       obj.$type,
     ]) as jni.JObjType<$T>;
-    return $MyStackType(T).fromRef(_of1(obj.reference.pointer).object);
+    return $MyStackType(T).fromReference(_of1(obj.reference.pointer).object);
   }
 
   static final _of2 = jniLookup<
@@ -2265,8 +2275,8 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
       obj2.$type,
       obj.$type,
     ]) as jni.JObjType<$T>;
-    return $MyStackType(T)
-        .fromRef(_of2(obj.reference.pointer, obj2.reference.pointer).object);
+    return $MyStackType(T).fromReference(
+        _of2(obj.reference.pointer, obj2.reference.pointer).object);
   }
 
   static final _push = jniLookup<
@@ -2292,7 +2302,7 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
   /// from: public T pop()
   /// The returned object must be released after use, by calling the [release] method.
   $T pop() {
-    return T.fromRef(_pop(reference.pointer).object);
+    return T.fromReference(_pop(reference.pointer).object);
   }
 
   static final _size = jniLookup<
@@ -2318,7 +2328,8 @@ final class $MyStackType<$T extends jni.JObject>
   String get signature => r"Lcom/github/dart_lang/jnigen/generics/MyStack;";
 
   @override
-  MyStack<$T> fromRef(jni.JObjectPtr ref) => MyStack.fromRef(T, ref);
+  MyStack<$T> fromReference(jni.JObjectPtr ref) =>
+      MyStack.fromReference(T, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2344,10 +2355,10 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
 
   final jni.JObjType<$V> V;
 
-  StringKeyedMap.fromRef(
+  StringKeyedMap.fromReference(
     this.V,
     jni.JObjectPtr ref,
-  ) : super.fromRef(const jni.JStringType(), V, ref);
+  ) : super.fromReference(const jni.JStringType(), V, ref);
 
   /// The type which includes information such as the signature of this class.
   static $StringKeyedMapType<$V> type<$V extends jni.JObject>(
@@ -2367,7 +2378,7 @@ class StringKeyedMap<$V extends jni.JObject> extends MyMap<jni.JString, $V> {
   factory StringKeyedMap({
     required jni.JObjType<$V> V,
   }) {
-    return StringKeyedMap.fromRef(V, _new0().object);
+    return StringKeyedMap.fromReference(V, _new0().object);
   }
 }
 
@@ -2384,8 +2395,8 @@ final class $StringKeyedMapType<$V extends jni.JObject>
       r"Lcom/github/dart_lang/jnigen/generics/StringKeyedMap;";
 
   @override
-  StringKeyedMap<$V> fromRef(jni.JObjectPtr ref) =>
-      StringKeyedMap.fromRef(V, ref);
+  StringKeyedMap<$V> fromReference(jni.JObjectPtr ref) =>
+      StringKeyedMap.fromReference(V, ref);
 
   @override
   jni.JObjType get superType => $MyMapType(const jni.JStringType(), V);
@@ -2409,9 +2420,9 @@ class StringStack extends MyStack<jni.JString> {
   @override
   late final jni.JObjType<StringStack> $type = type;
 
-  StringStack.fromRef(
+  StringStack.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(const jni.JStringType(), ref);
+  ) : super.fromReference(const jni.JStringType(), ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringStackType();
@@ -2422,7 +2433,7 @@ class StringStack extends MyStack<jni.JString> {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory StringStack() {
-    return StringStack.fromRef(_new0().object);
+    return StringStack.fromReference(_new0().object);
   }
 }
 
@@ -2433,7 +2444,8 @@ final class $StringStackType extends jni.JObjType<StringStack> {
   String get signature => r"Lcom/github/dart_lang/jnigen/generics/StringStack;";
 
   @override
-  StringStack fromRef(jni.JObjectPtr ref) => StringStack.fromRef(ref);
+  StringStack fromReference(jni.JObjectPtr ref) =>
+      StringStack.fromReference(ref);
 
   @override
   jni.JObjType get superType => const $MyStackType(jni.JStringType());
@@ -2457,10 +2469,10 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
 
   final jni.JObjType<$K> K;
 
-  StringValuedMap.fromRef(
+  StringValuedMap.fromReference(
     this.K,
     jni.JObjectPtr ref,
-  ) : super.fromRef(K, const jni.JStringType(), ref);
+  ) : super.fromReference(K, const jni.JStringType(), ref);
 
   /// The type which includes information such as the signature of this class.
   static $StringValuedMapType<$K> type<$K extends jni.JObject>(
@@ -2480,7 +2492,7 @@ class StringValuedMap<$K extends jni.JObject> extends MyMap<$K, jni.JString> {
   factory StringValuedMap({
     required jni.JObjType<$K> K,
   }) {
-    return StringValuedMap.fromRef(K, _new0().object);
+    return StringValuedMap.fromReference(K, _new0().object);
   }
 }
 
@@ -2497,8 +2509,8 @@ final class $StringValuedMapType<$K extends jni.JObject>
       r"Lcom/github/dart_lang/jnigen/generics/StringValuedMap;";
 
   @override
-  StringValuedMap<$K> fromRef(jni.JObjectPtr ref) =>
-      StringValuedMap.fromRef(K, ref);
+  StringValuedMap<$K> fromReference(jni.JObjectPtr ref) =>
+      StringValuedMap.fromReference(K, ref);
 
   @override
   jni.JObjType get superType => $MyMapType(K, const jni.JStringType());
@@ -2524,10 +2536,10 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
 
   final jni.JObjType<$T> T;
 
-  MyInterface.fromRef(
+  MyInterface.fromReference(
     this.T,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $MyInterfaceType<$T> type<$T extends jni.JObject>(
@@ -2566,7 +2578,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   jni.JString stringCallback(
     jni.JString s,
   ) {
-    return const jni.JStringType().fromRef(
+    return const jni.JStringType().fromReference(
         _stringCallback(reference.pointer, s.reference.pointer).object);
   }
 
@@ -2583,8 +2595,8 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   $T varCallback(
     $T t,
   ) {
-    return T
-        .fromRef(_varCallback(reference.pointer, t.reference.pointer).object);
+    return T.fromReference(
+        _varCallback(reference.pointer, t.reference.pointer).object);
   }
 
   static final _manyPrimitives = jniLookup<
@@ -2692,7 +2704,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
     $MyInterfaceImpl<$T> $impl,
   ) {
     final $p = ReceivePort();
-    final $x = MyInterface.fromRef(
+    final $x = MyInterface.fromReference(
       $impl.T,
       ProtectedJniExtensions.newPortProxy(
         r"com.github.dart_lang.jnigen.interfaces.MyInterface",
@@ -2785,7 +2797,8 @@ final class $MyInterfaceType<$T extends jni.JObject>
       r"Lcom/github/dart_lang/jnigen/interfaces/MyInterface;";
 
   @override
-  MyInterface<$T> fromRef(jni.JObjectPtr ref) => MyInterface.fromRef(T, ref);
+  MyInterface<$T> fromReference(jni.JObjectPtr ref) =>
+      MyInterface.fromReference(T, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2809,9 +2822,9 @@ class MyInterfaceConsumer extends jni.JObject {
   @override
   late final jni.JObjType<MyInterfaceConsumer> $type = type;
 
-  MyInterfaceConsumer.fromRef(
+  MyInterfaceConsumer.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyInterfaceConsumerType();
@@ -2822,7 +2835,7 @@ class MyInterfaceConsumer extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory MyInterfaceConsumer() {
-    return MyInterfaceConsumer.fromRef(_new0().object);
+    return MyInterfaceConsumer.fromReference(_new0().object);
   }
 
   static final _consumeOnAnotherThread = jniLookup<
@@ -2904,8 +2917,8 @@ final class $MyInterfaceConsumerType extends jni.JObjType<MyInterfaceConsumer> {
       r"Lcom/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer;";
 
   @override
-  MyInterfaceConsumer fromRef(jni.JObjectPtr ref) =>
-      MyInterfaceConsumer.fromRef(ref);
+  MyInterfaceConsumer fromReference(jni.JObjectPtr ref) =>
+      MyInterfaceConsumer.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2928,9 +2941,9 @@ class MyRunnable extends jni.JObject {
   @override
   late final jni.JObjType<MyRunnable> $type = type;
 
-  MyRunnable.fromRef(
+  MyRunnable.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyRunnableType();
@@ -2990,7 +3003,7 @@ class MyRunnable extends jni.JObject {
     $MyRunnableImpl $impl,
   ) {
     final $p = ReceivePort();
-    final $x = MyRunnable.fromRef(
+    final $x = MyRunnable.fromReference(
       ProtectedJniExtensions.newPortProxy(
         r"com.github.dart_lang.jnigen.interfaces.MyRunnable",
         $p,
@@ -3041,7 +3054,7 @@ final class $MyRunnableType extends jni.JObjType<MyRunnable> {
       r"Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;";
 
   @override
-  MyRunnable fromRef(jni.JObjectPtr ref) => MyRunnable.fromRef(ref);
+  MyRunnable fromReference(jni.JObjectPtr ref) => MyRunnable.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3063,9 +3076,9 @@ class MyRunnableRunner extends jni.JObject {
   @override
   late final jni.JObjType<MyRunnableRunner> $type = type;
 
-  MyRunnableRunner.fromRef(
+  MyRunnableRunner.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyRunnableRunnerType();
@@ -3088,8 +3101,8 @@ class MyRunnableRunner extends jni.JObject {
 
   /// from: public java.lang.Throwable error
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject get error =>
-      const jni.JObjectType().fromRef(_get_error(reference.pointer).object);
+  jni.JObject get error => const jni.JObjectType()
+      .fromReference(_get_error(reference.pointer).object);
 
   /// from: public java.lang.Throwable error
   /// The returned object must be released after use, by calling the [release] method.
@@ -3107,7 +3120,8 @@ class MyRunnableRunner extends jni.JObject {
   factory MyRunnableRunner(
     MyRunnable runnable,
   ) {
-    return MyRunnableRunner.fromRef(_new0(runnable.reference.pointer).object);
+    return MyRunnableRunner.fromReference(
+        _new0(runnable.reference.pointer).object);
   }
 
   static final _runOnSameThread = jniLookup<
@@ -3141,7 +3155,8 @@ final class $MyRunnableRunnerType extends jni.JObjType<MyRunnableRunner> {
       r"Lcom/github/dart_lang/jnigen/interfaces/MyRunnableRunner;";
 
   @override
-  MyRunnableRunner fromRef(jni.JObjectPtr ref) => MyRunnableRunner.fromRef(ref);
+  MyRunnableRunner fromReference(jni.JObjectPtr ref) =>
+      MyRunnableRunner.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3164,9 +3179,9 @@ class JsonSerializable_Case extends jni.JObject {
   @override
   late final jni.JObjType<JsonSerializable_Case> $type = type;
 
-  JsonSerializable_Case.fromRef(
+  JsonSerializable_Case.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonSerializable_CaseType();
@@ -3179,7 +3194,7 @@ class JsonSerializable_Case extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonSerializable_Case> values() {
     return const jni.JArrayType($JsonSerializable_CaseType())
-        .fromRef(_values().object);
+        .fromReference(_values().object);
   }
 
   static final _valueOf = jniLookup<
@@ -3194,7 +3209,7 @@ class JsonSerializable_Case extends jni.JObject {
     jni.JString name,
   ) {
     return const $JsonSerializable_CaseType()
-        .fromRef(_valueOf(name.reference.pointer).object);
+        .fromReference(_valueOf(name.reference.pointer).object);
   }
 }
 
@@ -3207,8 +3222,8 @@ final class $JsonSerializable_CaseType
       r"Lcom/github/dart_lang/jnigen/annotations/JsonSerializable$Case;";
 
   @override
-  JsonSerializable_Case fromRef(jni.JObjectPtr ref) =>
-      JsonSerializable_Case.fromRef(ref);
+  JsonSerializable_Case fromReference(jni.JObjectPtr ref) =>
+      JsonSerializable_Case.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3231,9 +3246,9 @@ class JsonSerializable extends jni.JObject {
   @override
   late final jni.JObjType<JsonSerializable> $type = type;
 
-  JsonSerializable.fromRef(
+  JsonSerializable.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonSerializableType();
@@ -3247,7 +3262,7 @@ class JsonSerializable extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   JsonSerializable_Case value() {
     return const $JsonSerializable_CaseType()
-        .fromRef(_value(reference.pointer).object);
+        .fromReference(_value(reference.pointer).object);
   }
 
   /// Maps a specific port to the implemented interface.
@@ -3300,7 +3315,7 @@ class JsonSerializable extends jni.JObject {
     $JsonSerializableImpl $impl,
   ) {
     final $p = ReceivePort();
-    final $x = JsonSerializable.fromRef(
+    final $x = JsonSerializable.fromReference(
       ProtectedJniExtensions.newPortProxy(
         r"com.github.dart_lang.jnigen.annotations.JsonSerializable",
         $p,
@@ -3351,7 +3366,8 @@ final class $JsonSerializableType extends jni.JObjType<JsonSerializable> {
       r"Lcom/github/dart_lang/jnigen/annotations/JsonSerializable;";
 
   @override
-  JsonSerializable fromRef(jni.JObjectPtr ref) => JsonSerializable.fromRef(ref);
+  JsonSerializable fromReference(jni.JObjectPtr ref) =>
+      JsonSerializable.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3374,9 +3390,9 @@ class MyDataClass extends jni.JObject {
   @override
   late final jni.JObjType<MyDataClass> $type = type;
 
-  MyDataClass.fromRef(
+  MyDataClass.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $MyDataClassType();
@@ -3387,7 +3403,7 @@ class MyDataClass extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory MyDataClass() {
-    return MyDataClass.fromRef(_new0().object);
+    return MyDataClass.fromReference(_new0().object);
   }
 }
 
@@ -3399,7 +3415,8 @@ final class $MyDataClassType extends jni.JObjType<MyDataClass> {
       r"Lcom/github/dart_lang/jnigen/annotations/MyDataClass;";
 
   @override
-  MyDataClass fromRef(jni.JObjectPtr ref) => MyDataClass.fromRef(ref);
+  MyDataClass fromReference(jni.JObjectPtr ref) =>
+      MyDataClass.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3421,9 +3438,9 @@ class Color extends jni.JObject {
   @override
   late final jni.JObjType<Color> $type = type;
 
-  Color.fromRef(
+  Color.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $ColorType();
@@ -3434,7 +3451,7 @@ class Color extends jni.JObject {
   /// from: static public com.github.dart_lang.jnigen.simple_package.Color[] values()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<Color> values() {
-    return const jni.JArrayType($ColorType()).fromRef(_values().object);
+    return const jni.JArrayType($ColorType()).fromReference(_values().object);
   }
 
   static final _valueOf = jniLookup<
@@ -3447,7 +3464,8 @@ class Color extends jni.JObject {
   static Color valueOf(
     jni.JString name,
   ) {
-    return const $ColorType().fromRef(_valueOf(name.reference.pointer).object);
+    return const $ColorType()
+        .fromReference(_valueOf(name.reference.pointer).object);
   }
 }
 
@@ -3458,7 +3476,7 @@ final class $ColorType extends jni.JObjType<Color> {
   String get signature => r"Lcom/github/dart_lang/jnigen/simple_package/Color;";
 
   @override
-  Color fromRef(jni.JObjectPtr ref) => Color.fromRef(ref);
+  Color fromReference(jni.JObjectPtr ref) => Color.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3480,9 +3498,9 @@ class Exceptions extends jni.JObject {
   @override
   late final jni.JObjType<Exceptions> $type = type;
 
-  Exceptions.fromRef(
+  Exceptions.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExceptionsType();
@@ -3493,7 +3511,7 @@ class Exceptions extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions() {
-    return Exceptions.fromRef(_new0().object);
+    return Exceptions.fromReference(_new0().object);
   }
 
   static final _new1 =
@@ -3506,7 +3524,7 @@ class Exceptions extends jni.JObject {
   factory Exceptions.new1(
     double x,
   ) {
-    return Exceptions.fromRef(_new1(x).object);
+    return Exceptions.fromReference(_new1(x).object);
   }
 
   static final _new2 = jniLookup<
@@ -3525,7 +3543,7 @@ class Exceptions extends jni.JObject {
     int e,
     int f,
   ) {
-    return Exceptions.fromRef(_new2(a, b, c, d, e, f).object);
+    return Exceptions.fromReference(_new2(a, b, c, d, e, f).object);
   }
 
   static final _staticObjectMethod =
@@ -3536,7 +3554,7 @@ class Exceptions extends jni.JObject {
   /// from: static public java.lang.Object staticObjectMethod()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject staticObjectMethod() {
-    return const jni.JObjectType().fromRef(_staticObjectMethod().object);
+    return const jni.JObjectType().fromReference(_staticObjectMethod().object);
   }
 
   static final _staticIntMethod =
@@ -3558,7 +3576,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JObject> staticObjectArrayMethod() {
     return const jni.JArrayType(jni.JObjectType())
-        .fromRef(_staticObjectArrayMethod().object);
+        .fromReference(_staticObjectArrayMethod().object);
   }
 
   static final _staticIntArrayMethod =
@@ -3570,7 +3588,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.jint> staticIntArrayMethod() {
     return const jni.JArrayType(jni.jintType())
-        .fromRef(_staticIntArrayMethod().object);
+        .fromReference(_staticIntArrayMethod().object);
   }
 
   static final _objectMethod = jniLookup<
@@ -3583,7 +3601,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject objectMethod() {
     return const jni.JObjectType()
-        .fromRef(_objectMethod(reference.pointer).object);
+        .fromReference(_objectMethod(reference.pointer).object);
   }
 
   static final _intMethod = jniLookup<
@@ -3607,7 +3625,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.JObject> objectArrayMethod() {
     return const jni.JArrayType(jni.JObjectType())
-        .fromRef(_objectArrayMethod(reference.pointer).object);
+        .fromReference(_objectArrayMethod(reference.pointer).object);
   }
 
   static final _intArrayMethod = jniLookup<
@@ -3620,7 +3638,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jint> intArrayMethod() {
     return const jni.JArrayType(jni.jintType())
-        .fromRef(_intArrayMethod(reference.pointer).object);
+        .fromReference(_intArrayMethod(reference.pointer).object);
   }
 
   static final _throwNullPointerException = jniLookup<
@@ -3644,7 +3662,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwFileNotFoundException() {
     return const jni.JObjectType()
-        .fromRef(_throwFileNotFoundException(reference.pointer).object);
+        .fromReference(_throwFileNotFoundException(reference.pointer).object);
   }
 
   static final _throwClassCastException = jniLookup<
@@ -3657,7 +3675,7 @@ class Exceptions extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject throwClassCastException() {
     return const jni.JObjectType()
-        .fromRef(_throwClassCastException(reference.pointer).object);
+        .fromReference(_throwClassCastException(reference.pointer).object);
   }
 
   static final _throwArrayIndexException = jniLookup<
@@ -3701,7 +3719,7 @@ final class $ExceptionsType extends jni.JObjType<Exceptions> {
       r"Lcom/github/dart_lang/jnigen/simple_package/Exceptions;";
 
   @override
-  Exceptions fromRef(jni.JObjectPtr ref) => Exceptions.fromRef(ref);
+  Exceptions fromReference(jni.JObjectPtr ref) => Exceptions.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3723,9 +3741,9 @@ class Fields extends jni.JObject {
   @override
   late final jni.JObjType<Fields> $type = type;
 
-  Fields.fromRef(
+  Fields.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $FieldsType();
@@ -3790,7 +3808,7 @@ class Fields extends jni.JObject {
   /// from: static public java.lang.String name
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get name =>
-      const jni.JStringType().fromRef(_get_name().object);
+      const jni.JStringType().fromReference(_get_name().object);
 
   /// from: static public java.lang.String name
   /// The returned object must be released after use, by calling the [release] method.
@@ -3817,7 +3835,7 @@ class Fields extends jni.JObject {
   /// from: public java.lang.Integer i
   /// The returned object must be released after use, by calling the [release] method.
   jni.JInteger get i =>
-      const jni.JIntegerType().fromRef(_get_i(reference.pointer).object);
+      const jni.JIntegerType().fromReference(_get_i(reference.pointer).object);
 
   /// from: public java.lang.Integer i
   /// The returned object must be released after use, by calling the [release] method.
@@ -3889,7 +3907,7 @@ class Fields extends jni.JObject {
   /// from: public java.lang.String bestFighterInGreece
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString get bestFighterInGreece => const jni.JStringType()
-      .fromRef(_get_bestFighterInGreece(reference.pointer).object);
+      .fromReference(_get_bestFighterInGreece(reference.pointer).object);
 
   /// from: public java.lang.String bestFighterInGreece
   /// The returned object must be released after use, by calling the [release] method.
@@ -3916,8 +3934,8 @@ class Fields extends jni.JObject {
 
   /// from: public java.util.Random random
   /// The returned object must be released after use, by calling the [release] method.
-  jni.JObject get random =>
-      const jni.JObjectType().fromRef(_get_random(reference.pointer).object);
+  jni.JObject get random => const jni.JObjectType()
+      .fromReference(_get_random(reference.pointer).object);
 
   /// from: public java.util.Random random
   /// The returned object must be released after use, by calling the [release] method.
@@ -3947,7 +3965,7 @@ class Fields extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields() {
-    return Fields.fromRef(_new0().object);
+    return Fields.fromReference(_new0().object);
   }
 }
 
@@ -3959,7 +3977,7 @@ final class $FieldsType extends jni.JObjType<Fields> {
       r"Lcom/github/dart_lang/jnigen/simple_package/Fields;";
 
   @override
-  Fields fromRef(jni.JObjectPtr ref) => Fields.fromRef(ref);
+  Fields fromReference(jni.JObjectPtr ref) => Fields.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3981,9 +3999,9 @@ class Fields_Nested extends jni.JObject {
   @override
   late final jni.JObjType<Fields_Nested> $type = type;
 
-  Fields_Nested.fromRef(
+  Fields_Nested.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Fields_NestedType();
@@ -4023,7 +4041,7 @@ class Fields_Nested extends jni.JObject {
   /// from: static public java.lang.String BEST_GOD
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BEST_GOD =>
-      const jni.JStringType().fromRef(_get_BEST_GOD().object);
+      const jni.JStringType().fromReference(_get_BEST_GOD().object);
 
   /// from: static public java.lang.String BEST_GOD
   /// The returned object must be released after use, by calling the [release] method.
@@ -4037,7 +4055,7 @@ class Fields_Nested extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Fields_Nested() {
-    return Fields_Nested.fromRef(_new0().object);
+    return Fields_Nested.fromReference(_new0().object);
   }
 }
 
@@ -4049,7 +4067,8 @@ final class $Fields_NestedType extends jni.JObjType<Fields_Nested> {
       r"Lcom/github/dart_lang/jnigen/simple_package/Fields$Nested;";
 
   @override
-  Fields_Nested fromRef(jni.JObjectPtr ref) => Fields_Nested.fromRef(ref);
+  Fields_Nested fromReference(jni.JObjectPtr ref) =>
+      Fields_Nested.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -4076,11 +4095,11 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
   final jni.JObjType<$S> S;
   final jni.JObjType<$K> K;
 
-  GenericTypeParams.fromRef(
+  GenericTypeParams.fromReference(
     this.S,
     this.K,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $GenericTypeParamsType<$S, $K>
@@ -4104,7 +4123,7 @@ class GenericTypeParams<$S extends jni.JObject, $K extends jni.JObject>
     required jni.JObjType<$S> S,
     required jni.JObjType<$K> K,
   }) {
-    return GenericTypeParams.fromRef(S, K, _new0().object);
+    return GenericTypeParams.fromReference(S, K, _new0().object);
   }
 }
 
@@ -4123,8 +4142,8 @@ final class $GenericTypeParamsType<$S extends jni.JObject,
       r"Lcom/github/dart_lang/jnigen/generics/GenericTypeParams;";
 
   @override
-  GenericTypeParams<$S, $K> fromRef(jni.JObjectPtr ref) =>
-      GenericTypeParams.fromRef(S, K, ref);
+  GenericTypeParams<$S, $K> fromReference(jni.JObjectPtr ref) =>
+      GenericTypeParams.fromReference(S, K, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -4149,9 +4168,9 @@ class StringMap extends StringKeyedMap<jni.JString> {
   @override
   late final jni.JObjType<StringMap> $type = type;
 
-  StringMap.fromRef(
+  StringMap.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(const jni.JStringType(), ref);
+  ) : super.fromReference(const jni.JStringType(), ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $StringMapType();
@@ -4162,7 +4181,7 @@ class StringMap extends StringKeyedMap<jni.JString> {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory StringMap() {
-    return StringMap.fromRef(_new0().object);
+    return StringMap.fromReference(_new0().object);
   }
 }
 
@@ -4173,7 +4192,7 @@ final class $StringMapType extends jni.JObjType<StringMap> {
   String get signature => r"Lcom/github/dart_lang/jnigen/generics/StringMap;";
 
   @override
-  StringMap fromRef(jni.JObjectPtr ref) => StringMap.fromRef(ref);
+  StringMap fromReference(jni.JObjectPtr ref) => StringMap.fromReference(ref);
 
   @override
   jni.JObjType get superType => const $StringKeyedMapType(jni.JStringType());

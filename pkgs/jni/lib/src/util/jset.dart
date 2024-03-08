@@ -23,7 +23,7 @@ final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
   String get signature => r"Ljava/util/Set;";
 
   @override
-  JSet<$E> fromRef(JObjectPtr ref) => JSet.fromRef(E, ref);
+  JSet<$E> fromReference(JObjectPtr ref) => JSet.fromReference(E, ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -49,10 +49,10 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
 
   final JObjType<$E> E;
 
-  JSet.fromRef(
+  JSet.fromReference(
     this.E,
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class = Jni.findJClass(r"java/util/Set");
 
@@ -69,7 +69,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   static final _ctorId = Jni.accessors
       .getMethodIDOf(_hashSetClass.reference.pointer, r"<init>", r"()V");
   JSet.hash(this.E)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _hashSetClass.reference.pointer, _ctorId, []).object);
 
   static final _addId = Jni.accessors.getMethodIDOf(
@@ -148,7 +148,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
       _class.reference.pointer, r"iterator", r"()Ljava/util/Iterator;");
   @override
   JIterator<$E> get iterator =>
-      JIteratorType(E).fromRef(Jni.accessors.callMethodWithArgs(
+      JIteratorType(E).fromReference(Jni.accessors.callMethodWithArgs(
           reference.pointer, _iteratorId, JniCallType.objectType, []).object);
 
   static final _sizeId =

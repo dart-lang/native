@@ -13,7 +13,7 @@ final class JCharacterType extends JObjType<JCharacter> {
   String get signature => r"Ljava/lang/Character;";
 
   @override
-  JCharacter fromRef(JObjectPtr ref) => JCharacter.fromRef(ref);
+  JCharacter fromReference(JObjectPtr ref) => JCharacter.fromReference(ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -35,9 +35,9 @@ class JCharacter extends JObject {
   // ignore: overridden_fields
   late final JObjType<JCharacter> $type = type;
 
-  JCharacter.fromRef(
+  JCharacter.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JCharacterType();
@@ -48,7 +48,7 @@ class JCharacter extends JObject {
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(C)V");
 
   JCharacter(int c)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [JValueChar(c)]).object);
 
   static final _charValueId = Jni.accessors

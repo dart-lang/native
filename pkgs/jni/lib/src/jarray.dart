@@ -24,7 +24,8 @@ final class JArrayType<T> extends JObjType<JArray<T>> {
   String get signature => '[${elementType.signature}';
 
   @override
-  JArray<T> fromRef(Pointer<Void> ref) => JArray.fromRef(elementType, ref);
+  JArray<T> fromReference(Pointer<Void> ref) =>
+      JArray.fromReference(elementType, ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -54,8 +55,8 @@ class JArray<E> extends JObject {
       JArrayType(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
-  JArray.fromRef(this.elementType, JArrayPtr reference)
-      : super.fromRef(reference);
+  JArray.fromReference(this.elementType, JArrayPtr reference)
+      : super.fromReference(reference);
 
   /// Creates a [JArray] of the given length from the given [type].
   ///
@@ -73,7 +74,7 @@ class JArray<E> extends JObject {
     };
     if (!primitiveCallTypes.containsKey(type.signature) && type is JObjType) {
       final clazz = (type as JObjType).getClass();
-      final array = JArray<E>.fromRef(
+      final array = JArray<E>.fromReference(
         type,
         Jni.accessors
             .newObjectArray(length, clazz.reference.pointer, nullptr)
@@ -82,7 +83,7 @@ class JArray<E> extends JObject {
       clazz.release();
       return array;
     }
-    return JArray.fromRef(
+    return JArray.fromReference(
       type,
       Jni.accessors
           .newPrimitiveArray(length, primitiveCallTypes[type.signature]!)
@@ -96,7 +97,7 @@ class JArray<E> extends JObject {
   static JArray<E> filled<E extends JObject>(int length, E fill) {
     RangeError.checkNotNegative(length);
     final clazz = fill.$type.getClass();
-    final array = JArray<E>.fromRef(
+    final array = JArray<E>.fromReference(
       fill.$type as JObjType<E>,
       Jni.accessors
           .newObjectArray(
@@ -353,7 +354,7 @@ extension DoubleArray on JArray<jdouble> {
 extension ObjectArray<T extends JObject> on JArray<T> {
   T operator [](int index) {
     return (elementType as JObjType<T>)
-        .fromRef(elementAt(index, JniCallType.objectType).object);
+        .fromReference(elementAt(index, JniCallType.objectType).object);
   }
 
   void operator []=(int index, T value) {

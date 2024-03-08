@@ -25,7 +25,7 @@ final class JMapType<$K extends JObject, $V extends JObject>
   String get signature => r"Ljava/util/Map;";
 
   @override
-  JMap<$K, $V> fromRef(JObjectPtr ref) => JMap.fromRef(K, V, ref);
+  JMap<$K, $V> fromReference(JObjectPtr ref) => JMap.fromReference(K, V, ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -54,11 +54,11 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   final JObjType<$K> K;
   final JObjType<$V> V;
 
-  JMap.fromRef(
+  JMap.fromReference(
     this.K,
     this.V,
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class = Jni.findJClass(r"java/util/Map");
 
@@ -77,7 +77,7 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   static final _ctorId = Jni.accessors
       .getMethodIDOf(_hashMapClass.reference.pointer, r"<init>", r"()V");
   JMap.hash(this.K, this.V)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _hashMapClass.reference.pointer, _ctorId, []).object);
 
   static final _getId = Jni.accessors.getMethodIDOf(_class.reference.pointer,
@@ -87,8 +87,11 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     if (key is! JObject) {
       return null;
     }
-    final value = V.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer,
-        _getId, JniCallType.objectType, [key.reference.pointer]).object);
+    final value = V.fromReference(Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _getId,
+        JniCallType.objectType,
+        [key.reference.pointer]).object);
     return value.isNull ? null : value;
   }
 
@@ -157,8 +160,9 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   static final _keysId = Jni.accessors
       .getMethodIDOf(_class.reference.pointer, r"keySet", r"()Ljava/util/Set;");
   @override
-  JSet<$K> get keys => JSetType(K).fromRef(Jni.accessors.callMethodWithArgs(
-      reference.pointer, _keysId, JniCallType.objectType, []).object);
+  JSet<$K> get keys =>
+      JSetType(K).fromReference(Jni.accessors.callMethodWithArgs(
+          reference.pointer, _keysId, JniCallType.objectType, []).object);
 
   static final _sizeId =
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"size", r"()I");
@@ -173,8 +177,11 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     if (key is! JObject) {
       return null;
     }
-    final value = V.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer,
-        _removeId, JniCallType.objectType, [key.reference.pointer]).object);
+    final value = V.fromReference(Jni.accessors.callMethodWithArgs(
+        reference.pointer,
+        _removeId,
+        JniCallType.objectType,
+        [key.reference.pointer]).object);
     return value.isNull ? null : value;
   }
 }

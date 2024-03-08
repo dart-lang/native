@@ -16,7 +16,7 @@ final class JBufferType extends JObjType<JBuffer> {
   String get signature => r"Ljava/nio/Buffer;";
 
   @override
-  JBuffer fromRef(JObjectPtr ref) => JBuffer.fromRef(ref);
+  JBuffer fromReference(JObjectPtr ref) => JBuffer.fromReference(ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -49,9 +49,9 @@ class JBuffer extends JObject {
   // ignore: overridden_fields
   late final JObjType<JBuffer> $type = type;
 
-  JBuffer.fromRef(
+  JBuffer.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class = Jni.findJClass(r"java/nio/Buffer");
 
@@ -224,7 +224,7 @@ class JBuffer extends JObject {
   /// * [UnsupportedOperationException] - If this buffer is not backed by an
   ///   accessible array
   JObject get array {
-    return const JObjectType().fromRef(Jni.accessors.callMethodWithArgs(
+    return const JObjectType().fromReference(Jni.accessors.callMethodWithArgs(
         reference.pointer, _arrayId, JniCallType.objectType, []).object);
   }
 

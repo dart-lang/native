@@ -50,9 +50,9 @@ class JsonFactory_Feature extends jni.JObject {
   @override
   late final jni.JObjType<JsonFactory_Feature> $type = type;
 
-  JsonFactory_Feature.fromRef(
+  JsonFactory_Feature.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonFactory_FeatureType();
@@ -65,7 +65,7 @@ class JsonFactory_Feature extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonFactory_Feature> values() {
     return const jni.JArrayType($JsonFactory_FeatureType())
-        .fromRef(_values().object);
+        .fromReference(_values().object);
   }
 
   static final _valueOf = jniLookup<
@@ -80,7 +80,7 @@ class JsonFactory_Feature extends jni.JObject {
     jni.JString name,
   ) {
     return const $JsonFactory_FeatureType()
-        .fromRef(_valueOf(name.reference.pointer).object);
+        .fromReference(_valueOf(name.reference.pointer).object);
   }
 
   static final _collectDefaults =
@@ -140,8 +140,8 @@ final class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonFactory$Feature;";
 
   @override
-  JsonFactory_Feature fromRef(jni.JObjectPtr ref) =>
-      JsonFactory_Feature.fromRef(ref);
+  JsonFactory_Feature fromReference(jni.JObjectPtr ref) =>
+      JsonFactory_Feature.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -182,9 +182,9 @@ class JsonFactory extends jni.JObject {
   @override
   late final jni.JObjType<JsonFactory> $type = type;
 
-  JsonFactory.fromRef(
+  JsonFactory.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonFactoryType();
@@ -199,7 +199,7 @@ class JsonFactory extends jni.JObject {
   /// Name used to identify JSON format
   /// (and returned by \#getFormatName()
   static jni.JString get FORMAT_NAME_JSON =>
-      const jni.JStringType().fromRef(_get_FORMAT_NAME_JSON().object);
+      const jni.JStringType().fromReference(_get_FORMAT_NAME_JSON().object);
 
   static final _get_DEFAULT_FACTORY_FEATURE_FLAGS =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -244,7 +244,7 @@ class JsonFactory extends jni.JObject {
   /// from: static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get DEFAULT_ROOT_VALUE_SEPARATOR => const jni.JObjectType()
-      .fromRef(_get_DEFAULT_ROOT_VALUE_SEPARATOR().object);
+      .fromReference(_get_DEFAULT_ROOT_VALUE_SEPARATOR().object);
 
   static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "JsonFactory__new0")
@@ -262,7 +262,7 @@ class JsonFactory extends jni.JObject {
   /// and this reuse only works within context of a single
   /// factory instance.
   factory JsonFactory() {
-    return JsonFactory.fromRef(_new0().object);
+    return JsonFactory.fromReference(_new0().object);
   }
 
   static final _new1 = jniLookup<
@@ -276,7 +276,7 @@ class JsonFactory extends jni.JObject {
   factory JsonFactory.new1(
     jni.JObject oc,
   ) {
-    return JsonFactory.fromRef(_new1(oc.reference.pointer).object);
+    return JsonFactory.fromReference(_new1(oc.reference.pointer).object);
   }
 
   static final _new2 = jniLookup<
@@ -298,7 +298,7 @@ class JsonFactory extends jni.JObject {
     JsonFactory src,
     jni.JObject codec,
   ) {
-    return JsonFactory.fromRef(
+    return JsonFactory.fromReference(
         _new2(src.reference.pointer, codec.reference.pointer).object);
   }
 
@@ -317,7 +317,7 @@ class JsonFactory extends jni.JObject {
   factory JsonFactory.new3(
     jni.JObject b,
   ) {
-    return JsonFactory.fromRef(_new3(b.reference.pointer).object);
+    return JsonFactory.fromReference(_new3(b.reference.pointer).object);
   }
 
   static final _new4 = jniLookup<
@@ -338,7 +338,7 @@ class JsonFactory extends jni.JObject {
     jni.JObject b,
     bool bogus,
   ) {
-    return JsonFactory.fromRef(
+    return JsonFactory.fromReference(
         _new4(b.reference.pointer, bogus ? 1 : 0).object);
   }
 
@@ -356,7 +356,8 @@ class JsonFactory extends jni.JObject {
   ///@return Builder instance to use
   ///@since 2.10
   jni.JObject rebuild() {
-    return const jni.JObjectType().fromRef(_rebuild(reference.pointer).object);
+    return const jni.JObjectType()
+        .fromReference(_rebuild(reference.pointer).object);
   }
 
   static final _builder =
@@ -376,7 +377,7 @@ class JsonFactory extends jni.JObject {
   /// will be fixed in 3.0.
   ///@return Builder instance to use
   static jni.JObject builder() {
-    return const jni.JObjectType().fromRef(_builder().object);
+    return const jni.JObjectType().fromReference(_builder().object);
   }
 
   static final _copy = jniLookup<
@@ -401,7 +402,8 @@ class JsonFactory extends jni.JObject {
   ///@return Copy of this factory instance
   ///@since 2.1
   JsonFactory copy() {
-    return const $JsonFactoryType().fromRef(_copy(reference.pointer).object);
+    return const $JsonFactoryType()
+        .fromReference(_copy(reference.pointer).object);
   }
 
   static final _readResolve = jniLookup<
@@ -421,7 +423,7 @@ class JsonFactory extends jni.JObject {
   ///@return Newly constructed instance
   jni.JObject readResolve() {
     return const jni.JObjectType()
-        .fromRef(_readResolve(reference.pointer).object);
+        .fromReference(_readResolve(reference.pointer).object);
   }
 
   static final _requiresPropertyOrdering = jniLookup<
@@ -525,7 +527,7 @@ class JsonFactory extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatReadFeatureType() {
     return const jni.JObjectType()
-        .fromRef(_getFormatReadFeatureType(reference.pointer).object);
+        .fromReference(_getFormatReadFeatureType(reference.pointer).object);
   }
 
   static final _getFormatWriteFeatureType = jniLookup<
@@ -538,7 +540,7 @@ class JsonFactory extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatWriteFeatureType() {
     return const jni.JObjectType()
-        .fromRef(_getFormatWriteFeatureType(reference.pointer).object);
+        .fromReference(_getFormatWriteFeatureType(reference.pointer).object);
   }
 
   static final _canUseSchema = jniLookup<
@@ -583,7 +585,7 @@ class JsonFactory extends jni.JObject {
   ///@return Name of the format handled by parsers, generators this factory creates
   jni.JString getFormatName() {
     return const jni.JStringType()
-        .fromRef(_getFormatName(reference.pointer).object);
+        .fromReference(_getFormatName(reference.pointer).object);
   }
 
   static final _hasFormat = jniLookup<
@@ -599,8 +601,8 @@ class JsonFactory extends jni.JObject {
   jni.JObject hasFormat(
     jni.JObject acc,
   ) {
-    return const jni.JObjectType()
-        .fromRef(_hasFormat(reference.pointer, acc.reference.pointer).object);
+    return const jni.JObjectType().fromReference(
+        _hasFormat(reference.pointer, acc.reference.pointer).object);
   }
 
   static final _requiresCustomCodec = jniLookup<
@@ -637,7 +639,7 @@ class JsonFactory extends jni.JObject {
   jni.JObject hasJSONFormat(
     jni.JObject acc,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _hasJSONFormat(reference.pointer, acc.reference.pointer).object);
   }
 
@@ -650,7 +652,8 @@ class JsonFactory extends jni.JObject {
   /// from: public com.fasterxml.jackson.core.Version version()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject version() {
-    return const jni.JObjectType().fromRef(_version(reference.pointer).object);
+    return const jni.JObjectType()
+        .fromReference(_version(reference.pointer).object);
   }
 
   static final _configure = jniLookup<
@@ -674,7 +677,7 @@ class JsonFactory extends jni.JObject {
     JsonFactory_Feature f,
     bool state,
   ) {
-    return const $JsonFactoryType().fromRef(
+    return const $JsonFactoryType().fromReference(
         _configure(reference.pointer, f.reference.pointer, state ? 1 : 0)
             .object);
   }
@@ -699,7 +702,7 @@ class JsonFactory extends jni.JObject {
     JsonFactory_Feature f,
   ) {
     return const $JsonFactoryType()
-        .fromRef(_enable(reference.pointer, f.reference.pointer).object);
+        .fromReference(_enable(reference.pointer, f.reference.pointer).object);
   }
 
   static final _disable = jniLookup<
@@ -722,7 +725,7 @@ class JsonFactory extends jni.JObject {
     JsonFactory_Feature f,
   ) {
     return const $JsonFactoryType()
-        .fromRef(_disable(reference.pointer, f.reference.pointer).object);
+        .fromReference(_disable(reference.pointer, f.reference.pointer).object);
   }
 
   static final _isEnabled = jniLookup<
@@ -808,7 +811,7 @@ class JsonFactory extends jni.JObject {
     jsonparser_.JsonParser_Feature f,
     bool state,
   ) {
-    return const $JsonFactoryType().fromRef(
+    return const $JsonFactoryType().fromReference(
         _configure1(reference.pointer, f.reference.pointer, state ? 1 : 0)
             .object);
   }
@@ -832,7 +835,7 @@ class JsonFactory extends jni.JObject {
     jsonparser_.JsonParser_Feature f,
   ) {
     return const $JsonFactoryType()
-        .fromRef(_enable1(reference.pointer, f.reference.pointer).object);
+        .fromReference(_enable1(reference.pointer, f.reference.pointer).object);
   }
 
   static final _disable1 = jniLookup<
@@ -853,8 +856,8 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return const $JsonFactoryType()
-        .fromRef(_disable1(reference.pointer, f.reference.pointer).object);
+    return const $JsonFactoryType().fromReference(
+        _disable1(reference.pointer, f.reference.pointer).object);
   }
 
   static final _isEnabled1 = jniLookup<
@@ -910,7 +913,7 @@ class JsonFactory extends jni.JObject {
   ///@return InputDecorator configured, if any
   jni.JObject getInputDecorator() {
     return const jni.JObjectType()
-        .fromRef(_getInputDecorator(reference.pointer).object);
+        .fromReference(_getInputDecorator(reference.pointer).object);
   }
 
   static final _setInputDecorator = jniLookup<
@@ -931,7 +934,7 @@ class JsonFactory extends jni.JObject {
   JsonFactory setInputDecorator(
     jni.JObject d,
   ) {
-    return const $JsonFactoryType().fromRef(
+    return const $JsonFactoryType().fromReference(
         _setInputDecorator(reference.pointer, d.reference.pointer).object);
   }
 
@@ -955,7 +958,7 @@ class JsonFactory extends jni.JObject {
     jni.JObject f,
     bool state,
   ) {
-    return const $JsonFactoryType().fromRef(
+    return const $JsonFactoryType().fromReference(
         _configure2(reference.pointer, f.reference.pointer, state ? 1 : 0)
             .object);
   }
@@ -979,7 +982,7 @@ class JsonFactory extends jni.JObject {
     jni.JObject f,
   ) {
     return const $JsonFactoryType()
-        .fromRef(_enable2(reference.pointer, f.reference.pointer).object);
+        .fromReference(_enable2(reference.pointer, f.reference.pointer).object);
   }
 
   static final _disable2 = jniLookup<
@@ -1000,8 +1003,8 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable2(
     jni.JObject f,
   ) {
-    return const $JsonFactoryType()
-        .fromRef(_disable2(reference.pointer, f.reference.pointer).object);
+    return const $JsonFactoryType().fromReference(
+        _disable2(reference.pointer, f.reference.pointer).object);
   }
 
   static final _isEnabled3 = jniLookup<
@@ -1057,7 +1060,7 @@ class JsonFactory extends jni.JObject {
   ///@return Configured {@code CharacterEscapes}, if any; {@code null} if none
   jni.JObject getCharacterEscapes() {
     return const jni.JObjectType()
-        .fromRef(_getCharacterEscapes(reference.pointer).object);
+        .fromReference(_getCharacterEscapes(reference.pointer).object);
   }
 
   static final _setCharacterEscapes = jniLookup<
@@ -1078,7 +1081,7 @@ class JsonFactory extends jni.JObject {
   JsonFactory setCharacterEscapes(
     jni.JObject esc,
   ) {
-    return const $JsonFactoryType().fromRef(
+    return const $JsonFactoryType().fromReference(
         _setCharacterEscapes(reference.pointer, esc.reference.pointer).object);
   }
 
@@ -1097,7 +1100,7 @@ class JsonFactory extends jni.JObject {
   ///    {@code null} if none.
   jni.JObject getOutputDecorator() {
     return const jni.JObjectType()
-        .fromRef(_getOutputDecorator(reference.pointer).object);
+        .fromReference(_getOutputDecorator(reference.pointer).object);
   }
 
   static final _setOutputDecorator = jniLookup<
@@ -1118,7 +1121,7 @@ class JsonFactory extends jni.JObject {
   JsonFactory setOutputDecorator(
     jni.JObject d,
   ) {
-    return const $JsonFactoryType().fromRef(
+    return const $JsonFactoryType().fromReference(
         _setOutputDecorator(reference.pointer, d.reference.pointer).object);
   }
 
@@ -1141,7 +1144,7 @@ class JsonFactory extends jni.JObject {
   JsonFactory setRootValueSeparator(
     jni.JString sep,
   ) {
-    return const $JsonFactoryType().fromRef(
+    return const $JsonFactoryType().fromReference(
         _setRootValueSeparator(reference.pointer, sep.reference.pointer)
             .object);
   }
@@ -1158,7 +1161,7 @@ class JsonFactory extends jni.JObject {
   /// @return Root value separator configured, if any
   jni.JString getRootValueSeparator() {
     return const jni.JStringType()
-        .fromRef(_getRootValueSeparator(reference.pointer).object);
+        .fromReference(_getRootValueSeparator(reference.pointer).object);
   }
 
   static final _setCodec = jniLookup<
@@ -1182,8 +1185,8 @@ class JsonFactory extends jni.JObject {
   JsonFactory setCodec(
     jni.JObject oc,
   ) {
-    return const $JsonFactoryType()
-        .fromRef(_setCodec(reference.pointer, oc.reference.pointer).object);
+    return const $JsonFactoryType().fromReference(
+        _setCodec(reference.pointer, oc.reference.pointer).object);
   }
 
   static final _getCodec = jniLookup<
@@ -1195,7 +1198,8 @@ class JsonFactory extends jni.JObject {
   /// from: public com.fasterxml.jackson.core.ObjectCodec getCodec()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getCodec() {
-    return const jni.JObjectType().fromRef(_getCodec(reference.pointer).object);
+    return const jni.JObjectType()
+        .fromReference(_getCodec(reference.pointer).object);
   }
 
   static final _createParser = jniLookup<
@@ -1228,8 +1232,8 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser(
     jni.JObject f,
   ) {
-    return const jsonparser_.$JsonParserType()
-        .fromRef(_createParser(reference.pointer, f.reference.pointer).object);
+    return const jsonparser_.$JsonParserType().fromReference(
+        _createParser(reference.pointer, f.reference.pointer).object);
   }
 
   static final _createParser1 = jniLookup<
@@ -1260,7 +1264,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser1(
     jni.JObject url,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createParser1(reference.pointer, url.reference.pointer).object);
   }
 
@@ -1295,7 +1299,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser2(
     jni.JObject in0,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createParser2(reference.pointer, in0.reference.pointer).object);
   }
 
@@ -1323,8 +1327,8 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser3(
     jni.JObject r,
   ) {
-    return const jsonparser_.$JsonParserType()
-        .fromRef(_createParser3(reference.pointer, r.reference.pointer).object);
+    return const jsonparser_.$JsonParserType().fromReference(
+        _createParser3(reference.pointer, r.reference.pointer).object);
   }
 
   static final _createParser4 = jniLookup<
@@ -1344,7 +1348,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createParser4(reference.pointer, data.reference.pointer).object);
   }
 
@@ -1373,7 +1377,7 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createParser5(reference.pointer, data.reference.pointer, offset, len)
             .object);
   }
@@ -1395,7 +1399,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser6(
     jni.JString content,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createParser6(reference.pointer, content.reference.pointer).object);
   }
 
@@ -1416,7 +1420,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser7(
     jni.JArray<jni.jchar> content,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createParser7(reference.pointer, content.reference.pointer).object);
   }
 
@@ -1441,7 +1445,7 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(_createParser8(
+    return const jsonparser_.$JsonParserType().fromReference(_createParser8(
             reference.pointer, content.reference.pointer, offset, len)
         .object);
   }
@@ -1466,7 +1470,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser9(
     jni.JObject in0,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createParser9(reference.pointer, in0.reference.pointer).object);
   }
 
@@ -1493,8 +1497,8 @@ class JsonFactory extends jni.JObject {
   /// at this point.
   ///@since 2.9
   jsonparser_.JsonParser createNonBlockingByteArrayParser() {
-    return const jsonparser_.$JsonParserType()
-        .fromRef(_createNonBlockingByteArrayParser(reference.pointer).object);
+    return const jsonparser_.$JsonParserType().fromReference(
+        _createNonBlockingByteArrayParser(reference.pointer).object);
   }
 
   static final _createGenerator = jniLookup<
@@ -1532,7 +1536,7 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(_createGenerator(
+    return const jni.JObjectType().fromReference(_createGenerator(
             reference.pointer, out.reference.pointer, enc.reference.pointer)
         .object);
   }
@@ -1556,7 +1560,7 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator1(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _createGenerator1(reference.pointer, out.reference.pointer).object);
   }
 
@@ -1585,7 +1589,7 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator2(
     jni.JObject w,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _createGenerator2(reference.pointer, w.reference.pointer).object);
   }
 
@@ -1618,7 +1622,7 @@ class JsonFactory extends jni.JObject {
     jni.JObject f,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(_createGenerator3(
+    return const jni.JObjectType().fromReference(_createGenerator3(
             reference.pointer, f.reference.pointer, enc.reference.pointer)
         .object);
   }
@@ -1643,7 +1647,7 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(_createGenerator4(
+    return const jni.JObjectType().fromReference(_createGenerator4(
             reference.pointer, out.reference.pointer, enc.reference.pointer)
         .object);
   }
@@ -1667,7 +1671,7 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator5(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _createGenerator5(reference.pointer, out.reference.pointer).object);
   }
 
@@ -1703,7 +1707,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser(
     jni.JObject f,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createJsonParser(reference.pointer, f.reference.pointer).object);
   }
 
@@ -1738,7 +1742,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser1(
     jni.JObject url,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createJsonParser1(reference.pointer, url.reference.pointer).object);
   }
 
@@ -1776,7 +1780,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser2(
     jni.JObject in0,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createJsonParser2(reference.pointer, in0.reference.pointer).object);
   }
 
@@ -1807,7 +1811,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser3(
     jni.JObject r,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createJsonParser3(reference.pointer, r.reference.pointer).object);
   }
 
@@ -1831,7 +1835,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createJsonParser4(reference.pointer, data.reference.pointer).object);
   }
 
@@ -1863,7 +1867,7 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(_createJsonParser5(
+    return const jsonparser_.$JsonParserType().fromReference(_createJsonParser5(
             reference.pointer, data.reference.pointer, offset, len)
         .object);
   }
@@ -1889,7 +1893,7 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser6(
     jni.JString content,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(
+    return const jsonparser_.$JsonParserType().fromReference(
         _createJsonParser6(reference.pointer, content.reference.pointer)
             .object);
   }
@@ -1931,7 +1935,7 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(_createJsonGenerator(
+    return const jni.JObjectType().fromReference(_createJsonGenerator(
             reference.pointer, out.reference.pointer, enc.reference.pointer)
         .object);
   }
@@ -1963,7 +1967,7 @@ class JsonFactory extends jni.JObject {
   jni.JObject createJsonGenerator1(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _createJsonGenerator1(reference.pointer, out.reference.pointer).object);
   }
 
@@ -1989,7 +1993,7 @@ class JsonFactory extends jni.JObject {
   jni.JObject createJsonGenerator2(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _createJsonGenerator2(reference.pointer, out.reference.pointer).object);
   }
 }
@@ -2001,7 +2005,8 @@ final class $JsonFactoryType extends jni.JObjType<JsonFactory> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonFactory;";
 
   @override
-  JsonFactory fromRef(jni.JObjectPtr ref) => JsonFactory.fromRef(ref);
+  JsonFactory fromReference(jni.JObjectPtr ref) =>
+      JsonFactory.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

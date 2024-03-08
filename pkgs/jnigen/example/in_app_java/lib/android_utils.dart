@@ -33,9 +33,9 @@ class EmojiCompat_CodepointSequenceMatchResult extends jni.JObject {
   late final jni.JObjType<EmojiCompat_CodepointSequenceMatchResult> $type =
       type;
 
-  EmojiCompat_CodepointSequenceMatchResult.fromRef(
+  EmojiCompat_CodepointSequenceMatchResult.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_CodepointSequenceMatchResultType();
@@ -50,8 +50,8 @@ final class $EmojiCompat_CodepointSequenceMatchResultType
       r"Landroidx/emoji2/text/EmojiCompat$CodepointSequenceMatchResult;";
 
   @override
-  EmojiCompat_CodepointSequenceMatchResult fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_CodepointSequenceMatchResult.fromRef(ref);
+  EmojiCompat_CodepointSequenceMatchResult fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_CodepointSequenceMatchResult.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -79,9 +79,9 @@ class EmojiCompat_Config extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_Config> $type = type;
 
-  EmojiCompat_Config.fromRef(
+  EmojiCompat_Config.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_ConfigType();
@@ -99,7 +99,7 @@ class EmojiCompat_Config extends jni.JObject {
   factory EmojiCompat_Config(
     EmojiCompat_MetadataRepoLoader metadataLoader,
   ) {
-    return EmojiCompat_Config.fromRef(
+    return EmojiCompat_Config.fromReference(
         _new0(metadataLoader.reference.pointer).object);
   }
 
@@ -121,7 +121,7 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config registerInitCallback(
     EmojiCompat_InitCallback initCallback,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(
+    return const $EmojiCompat_ConfigType().fromReference(
         _registerInitCallback(reference.pointer, initCallback.reference.pointer)
             .object);
   }
@@ -144,9 +144,10 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config unregisterInitCallback(
     EmojiCompat_InitCallback initCallback,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(_unregisterInitCallback(
-            reference.pointer, initCallback.reference.pointer)
-        .object);
+    return const $EmojiCompat_ConfigType().fromReference(
+        _unregisterInitCallback(
+                reference.pointer, initCallback.reference.pointer)
+            .object);
   }
 
   static final _setReplaceAll = jniLookup<
@@ -166,8 +167,8 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setReplaceAll(
     bool replaceAll,
   ) {
-    return const $EmojiCompat_ConfigType()
-        .fromRef(_setReplaceAll(reference.pointer, replaceAll ? 1 : 0).object);
+    return const $EmojiCompat_ConfigType().fromReference(
+        _setReplaceAll(reference.pointer, replaceAll ? 1 : 0).object);
   }
 
   static final _setUseEmojiAsDefaultStyle = jniLookup<
@@ -194,9 +195,10 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setUseEmojiAsDefaultStyle(
     bool useEmojiAsDefaultStyle,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(_setUseEmojiAsDefaultStyle(
-            reference.pointer, useEmojiAsDefaultStyle ? 1 : 0)
-        .object);
+    return const $EmojiCompat_ConfigType().fromReference(
+        _setUseEmojiAsDefaultStyle(
+                reference.pointer, useEmojiAsDefaultStyle ? 1 : 0)
+            .object);
   }
 
   static final _setUseEmojiAsDefaultStyle1 = jniLookup<
@@ -227,11 +229,12 @@ class EmojiCompat_Config extends jni.JObject {
     bool useEmojiAsDefaultStyle,
     jni.JList<jni.JInteger> emojiAsDefaultStyleExceptions,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(_setUseEmojiAsDefaultStyle1(
-            reference.pointer,
-            useEmojiAsDefaultStyle ? 1 : 0,
-            emojiAsDefaultStyleExceptions.reference.pointer)
-        .object);
+    return const $EmojiCompat_ConfigType().fromReference(
+        _setUseEmojiAsDefaultStyle1(
+                reference.pointer,
+                useEmojiAsDefaultStyle ? 1 : 0,
+                emojiAsDefaultStyleExceptions.reference.pointer)
+            .object);
   }
 
   static final _setEmojiSpanIndicatorEnabled = jniLookup<
@@ -251,7 +254,7 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setEmojiSpanIndicatorEnabled(
     bool emojiSpanIndicatorEnabled,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(
+    return const $EmojiCompat_ConfigType().fromReference(
         _setEmojiSpanIndicatorEnabled(
                 reference.pointer, emojiSpanIndicatorEnabled ? 1 : 0)
             .object);
@@ -272,8 +275,8 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setEmojiSpanIndicatorColor(
     int color,
   ) {
-    return const $EmojiCompat_ConfigType()
-        .fromRef(_setEmojiSpanIndicatorColor(reference.pointer, color).object);
+    return const $EmojiCompat_ConfigType().fromReference(
+        _setEmojiSpanIndicatorColor(reference.pointer, color).object);
   }
 
   static final _setMetadataLoadStrategy = jniLookup<
@@ -320,8 +323,8 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setMetadataLoadStrategy(
     int strategy,
   ) {
-    return const $EmojiCompat_ConfigType()
-        .fromRef(_setMetadataLoadStrategy(reference.pointer, strategy).object);
+    return const $EmojiCompat_ConfigType().fromReference(
+        _setMetadataLoadStrategy(reference.pointer, strategy).object);
   }
 
   static final _setSpanFactory = jniLookup<
@@ -341,7 +344,7 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setSpanFactory(
     EmojiCompat_SpanFactory factory0,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(
+    return const $EmojiCompat_ConfigType().fromReference(
         _setSpanFactory(reference.pointer, factory0.reference.pointer).object);
   }
 
@@ -363,7 +366,7 @@ class EmojiCompat_Config extends jni.JObject {
   EmojiCompat_Config setGlyphChecker(
     EmojiCompat_GlyphChecker glyphChecker,
   ) {
-    return const $EmojiCompat_ConfigType().fromRef(
+    return const $EmojiCompat_ConfigType().fromReference(
         _setGlyphChecker(reference.pointer, glyphChecker.reference.pointer)
             .object);
   }
@@ -380,7 +383,7 @@ class EmojiCompat_Config extends jni.JObject {
   /// Returns the MetadataRepoLoader.
   EmojiCompat_MetadataRepoLoader getMetadataRepoLoader() {
     return const $EmojiCompat_MetadataRepoLoaderType()
-        .fromRef(_getMetadataRepoLoader(reference.pointer).object);
+        .fromReference(_getMetadataRepoLoader(reference.pointer).object);
   }
 }
 
@@ -391,8 +394,8 @@ final class $EmojiCompat_ConfigType extends jni.JObjType<EmojiCompat_Config> {
   String get signature => r"Landroidx/emoji2/text/EmojiCompat$Config;";
 
   @override
-  EmojiCompat_Config fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_Config.fromRef(ref);
+  EmojiCompat_Config fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_Config.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -417,9 +420,9 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_DefaultSpanFactory> $type = type;
 
-  EmojiCompat_DefaultSpanFactory.fromRef(
+  EmojiCompat_DefaultSpanFactory.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_DefaultSpanFactoryType();
@@ -430,7 +433,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_DefaultSpanFactory() {
-    return EmojiCompat_DefaultSpanFactory.fromRef(_new0().object);
+    return EmojiCompat_DefaultSpanFactory.fromReference(_new0().object);
   }
 
   static final _createSpan = jniLookup<
@@ -452,7 +455,7 @@ class EmojiCompat_DefaultSpanFactory extends jni.JObject {
   jni.JObject createSpan(
     jni.JObject rasterizer,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _createSpan(reference.pointer, rasterizer.reference.pointer).object);
   }
 }
@@ -466,8 +469,8 @@ final class $EmojiCompat_DefaultSpanFactoryType
       r"Landroidx/emoji2/text/EmojiCompat$DefaultSpanFactory;";
 
   @override
-  EmojiCompat_DefaultSpanFactory fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_DefaultSpanFactory.fromRef(ref);
+  EmojiCompat_DefaultSpanFactory fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_DefaultSpanFactory.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -492,9 +495,9 @@ class EmojiCompat_GlyphChecker extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_GlyphChecker> $type = type;
 
-  EmojiCompat_GlyphChecker.fromRef(
+  EmojiCompat_GlyphChecker.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_GlyphCheckerType();
@@ -567,8 +570,8 @@ final class $EmojiCompat_GlyphCheckerType
   String get signature => r"Landroidx/emoji2/text/EmojiCompat$GlyphChecker;";
 
   @override
-  EmojiCompat_GlyphChecker fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_GlyphChecker.fromRef(ref);
+  EmojiCompat_GlyphChecker fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_GlyphChecker.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -593,9 +596,9 @@ class EmojiCompat_InitCallback extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_InitCallback> $type = type;
 
-  EmojiCompat_InitCallback.fromRef(
+  EmojiCompat_InitCallback.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_InitCallbackType();
@@ -606,7 +609,7 @@ class EmojiCompat_InitCallback extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_InitCallback() {
-    return EmojiCompat_InitCallback.fromRef(_new0().object);
+    return EmojiCompat_InitCallback.fromReference(_new0().object);
   }
 
   static final _onInitialized = jniLookup<
@@ -650,8 +653,8 @@ final class $EmojiCompat_InitCallbackType
   String get signature => r"Landroidx/emoji2/text/EmojiCompat$InitCallback;";
 
   @override
-  EmojiCompat_InitCallback fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_InitCallback.fromRef(ref);
+  EmojiCompat_InitCallback fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_InitCallback.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -674,9 +677,9 @@ class EmojiCompat_LoadStrategy extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_LoadStrategy> $type = type;
 
-  EmojiCompat_LoadStrategy.fromRef(
+  EmojiCompat_LoadStrategy.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_LoadStrategyType();
@@ -690,8 +693,8 @@ final class $EmojiCompat_LoadStrategyType
   String get signature => r"Landroidx/emoji2/text/EmojiCompat$LoadStrategy;";
 
   @override
-  EmojiCompat_LoadStrategy fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_LoadStrategy.fromRef(ref);
+  EmojiCompat_LoadStrategy fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_LoadStrategy.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -716,9 +719,9 @@ class EmojiCompat_MetadataRepoLoader extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_MetadataRepoLoader> $type = type;
 
-  EmojiCompat_MetadataRepoLoader.fromRef(
+  EmojiCompat_MetadataRepoLoader.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_MetadataRepoLoaderType();
@@ -753,8 +756,8 @@ final class $EmojiCompat_MetadataRepoLoaderType
       r"Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoader;";
 
   @override
-  EmojiCompat_MetadataRepoLoader fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_MetadataRepoLoader.fromRef(ref);
+  EmojiCompat_MetadataRepoLoader fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_MetadataRepoLoader.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -780,9 +783,9 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_MetadataRepoLoaderCallback> $type = type;
 
-  EmojiCompat_MetadataRepoLoaderCallback.fromRef(
+  EmojiCompat_MetadataRepoLoaderCallback.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_MetadataRepoLoaderCallbackType();
@@ -793,7 +796,7 @@ class EmojiCompat_MetadataRepoLoaderCallback extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat_MetadataRepoLoaderCallback() {
-    return EmojiCompat_MetadataRepoLoaderCallback.fromRef(_new0().object);
+    return EmojiCompat_MetadataRepoLoaderCallback.fromReference(_new0().object);
   }
 
   static final _onLoaded = jniLookup<
@@ -844,8 +847,8 @@ final class $EmojiCompat_MetadataRepoLoaderCallbackType
       r"Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;";
 
   @override
-  EmojiCompat_MetadataRepoLoaderCallback fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_MetadataRepoLoaderCallback.fromRef(ref);
+  EmojiCompat_MetadataRepoLoaderCallback fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_MetadataRepoLoaderCallback.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -868,9 +871,9 @@ class EmojiCompat_ReplaceStrategy extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_ReplaceStrategy> $type = type;
 
-  EmojiCompat_ReplaceStrategy.fromRef(
+  EmojiCompat_ReplaceStrategy.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_ReplaceStrategyType();
@@ -884,8 +887,8 @@ final class $EmojiCompat_ReplaceStrategyType
   String get signature => r"Landroidx/emoji2/text/EmojiCompat$ReplaceStrategy;";
 
   @override
-  EmojiCompat_ReplaceStrategy fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_ReplaceStrategy.fromRef(ref);
+  EmojiCompat_ReplaceStrategy fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_ReplaceStrategy.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -915,9 +918,9 @@ class EmojiCompat_SpanFactory extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat_SpanFactory> $type = type;
 
-  EmojiCompat_SpanFactory.fromRef(
+  EmojiCompat_SpanFactory.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompat_SpanFactoryType();
@@ -940,7 +943,7 @@ class EmojiCompat_SpanFactory extends jni.JObject {
   jni.JObject createSpan(
     jni.JObject rasterizer,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _createSpan(reference.pointer, rasterizer.reference.pointer).object);
   }
 }
@@ -953,8 +956,8 @@ final class $EmojiCompat_SpanFactoryType
   String get signature => r"Landroidx/emoji2/text/EmojiCompat$SpanFactory;";
 
   @override
-  EmojiCompat_SpanFactory fromRef(jni.JObjectPtr ref) =>
-      EmojiCompat_SpanFactory.fromRef(ref);
+  EmojiCompat_SpanFactory fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat_SpanFactory.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1025,9 +1028,9 @@ class EmojiCompat extends jni.JObject {
   @override
   late final jni.JObjType<EmojiCompat> $type = type;
 
-  EmojiCompat.fromRef(
+  EmojiCompat.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $EmojiCompatType();
@@ -1046,7 +1049,7 @@ class EmojiCompat extends jni.JObject {
   /// see whether the widget has the ability to display a certain emoji using
   /// \#hasEmojiGlyph(CharSequence, int).
   static jni.JString get EDITOR_INFO_METAVERSION_KEY => const jni.JStringType()
-      .fromRef(_get_EDITOR_INFO_METAVERSION_KEY().object);
+      .fromReference(_get_EDITOR_INFO_METAVERSION_KEY().object);
 
   static final _get_EDITOR_INFO_REPLACE_ALL_KEY =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -1059,7 +1062,7 @@ class EmojiCompat extends jni.JObject {
   /// Key in EditorInfo\#extras that represents EmojiCompat.Config\#setReplaceAll(boolean) configuration parameter. The key is added only if
   /// EmojiCompat is used by the widget. If exists, the value is a boolean.
   static jni.JString get EDITOR_INFO_REPLACE_ALL_KEY => const jni.JStringType()
-      .fromRef(_get_EDITOR_INFO_REPLACE_ALL_KEY().object);
+      .fromReference(_get_EDITOR_INFO_REPLACE_ALL_KEY().object);
 
   /// from: static public final int LOAD_STATE_DEFAULT
   ///
@@ -1253,7 +1256,7 @@ class EmojiCompat extends jni.JObject {
     jni.JObject context,
   ) {
     return const $EmojiCompatType()
-        .fromRef(_init(context.reference.pointer).object);
+        .fromReference(_init(context.reference.pointer).object);
   }
 
   static final _init1 = jniLookup<
@@ -1272,7 +1275,7 @@ class EmojiCompat extends jni.JObject {
     jni.JObject context,
     DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory defaultFactory,
   ) {
-    return const $EmojiCompatType().fromRef(
+    return const $EmojiCompatType().fromReference(
         _init1(context.reference.pointer, defaultFactory.reference.pointer)
             .object);
   }
@@ -1296,7 +1299,7 @@ class EmojiCompat extends jni.JObject {
     EmojiCompat_Config config,
   ) {
     return const $EmojiCompatType()
-        .fromRef(_init2(config.reference.pointer).object);
+        .fromReference(_init2(config.reference.pointer).object);
   }
 
   static final _isConfigured =
@@ -1335,7 +1338,7 @@ class EmojiCompat extends jni.JObject {
     EmojiCompat_Config config,
   ) {
     return const $EmojiCompatType()
-        .fromRef(_reset(config.reference.pointer).object);
+        .fromReference(_reset(config.reference.pointer).object);
   }
 
   static final _reset1 = jniLookup<
@@ -1353,7 +1356,7 @@ class EmojiCompat extends jni.JObject {
     EmojiCompat emojiCompat,
   ) {
     return const $EmojiCompatType()
-        .fromRef(_reset1(emojiCompat.reference.pointer).object);
+        .fromReference(_reset1(emojiCompat.reference.pointer).object);
   }
 
   static final _skipDefaultConfigurationLookup =
@@ -1383,7 +1386,7 @@ class EmojiCompat extends jni.JObject {
   ///@return EmojiCompat instance
   ///@throws IllegalStateException if called before \#init(EmojiCompat.Config)
   static EmojiCompat get0() {
-    return const $EmojiCompatType().fromRef(_get0().object);
+    return const $EmojiCompatType().fromReference(_get0().object);
   }
 
   static final _load = jniLookup<
@@ -1739,7 +1742,7 @@ class EmojiCompat extends jni.JObject {
   jni.JObject process(
     jni.JObject charSequence,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _process(reference.pointer, charSequence.reference.pointer).object);
   }
 
@@ -1785,7 +1788,7 @@ class EmojiCompat extends jni.JObject {
     int start,
     int end,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _process1(reference.pointer, charSequence.reference.pointer, start, end)
             .object);
   }
@@ -1837,7 +1840,7 @@ class EmojiCompat extends jni.JObject {
     int end,
     int maxEmojiCount,
   ) {
-    return const jni.JObjectType().fromRef(_process2(reference.pointer,
+    return const jni.JObjectType().fromReference(_process2(reference.pointer,
             charSequence.reference.pointer, start, end, maxEmojiCount)
         .object);
   }
@@ -1895,7 +1898,7 @@ class EmojiCompat extends jni.JObject {
     int maxEmojiCount,
     int replaceStrategy,
   ) {
-    return const jni.JObjectType().fromRef(_process3(
+    return const jni.JObjectType().fromReference(_process3(
             reference.pointer,
             charSequence.reference.pointer,
             start,
@@ -1920,7 +1923,7 @@ class EmojiCompat extends jni.JObject {
   ///@throws IllegalStateException if not initialized yet
   jni.JString getAssetSignature() {
     return const jni.JStringType()
-        .fromRef(_getAssetSignature(reference.pointer).object);
+        .fromReference(_getAssetSignature(reference.pointer).object);
   }
 
   static final _updateEditorInfo = jniLookup<
@@ -1963,7 +1966,8 @@ final class $EmojiCompatType extends jni.JObjType<EmojiCompat> {
   String get signature => r"Landroidx/emoji2/text/EmojiCompat;";
 
   @override
-  EmojiCompat fromRef(jni.JObjectPtr ref) => EmojiCompat.fromRef(ref);
+  EmojiCompat fromReference(jni.JObjectPtr ref) =>
+      EmojiCompat.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -1992,9 +1996,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
       .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory>
       $type = type;
 
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type =
@@ -2012,8 +2016,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory(
     DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper helper,
   ) {
-    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromRef(
-        _new0(helper.reference.pointer).object);
+    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
+        .fromReference(_new0(helper.reference.pointer).object);
   }
 
   static final _create = jniLookup<
@@ -2033,8 +2037,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory
   EmojiCompat_Config create(
     jni.JObject context,
   ) {
-    return const $EmojiCompat_ConfigType()
-        .fromRef(_create(reference.pointer, context.reference.pointer).object);
+    return const $EmojiCompat_ConfigType().fromReference(
+        _create(reference.pointer, context.reference.pointer).object);
   }
 }
 
@@ -2048,9 +2052,10 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactoryType
       r"Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory;";
 
   @override
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory fromReference(
           jni.JObjectPtr ref) =>
-      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromRef(ref);
+      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigFactory.fromReference(
+          ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2081,9 +2086,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
       .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper> $type =
       type;
 
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type =
@@ -2095,8 +2100,8 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper() {
-    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromRef(
-        _new0().object);
+    return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
+        .fromReference(_new0().object);
   }
 
   static final _getSigningSignatures = jniLookup<
@@ -2116,7 +2121,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
     jni.JObject packageManager,
     jni.JString providerPackage,
   ) {
-    return const jni.JArrayType(jni.JObjectType()).fromRef(
+    return const jni.JArrayType(jni.JObjectType()).fromReference(
         _getSigningSignatures(
                 reference.pointer,
                 packageManager.reference.pointer,
@@ -2145,7 +2150,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
     jni.JObject intent,
     int flags,
   ) {
-    return const jni.JListType(jni.JObjectType()).fromRef(
+    return const jni.JListType(jni.JObjectType()).fromReference(
         _queryIntentContentProviders(
                 reference.pointer,
                 packageManager.reference.pointer,
@@ -2172,7 +2177,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
   jni.JObject getProviderInfo(
     jni.JObject resolveInfo,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _getProviderInfo(reference.pointer, resolveInfo.reference.pointer)
             .object);
   }
@@ -2188,9 +2193,10 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelperType
       r"Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper;";
 
   @override
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper fromReference(
           jni.JObjectPtr ref) =>
-      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromRef(ref);
+      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper.fromReference(
+          ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2221,9 +2227,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
       .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19>
       $type = type;
 
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19.fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type =
@@ -2236,7 +2242,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
-        .fromRef(_new0().object);
+        .fromReference(_new0().object);
   }
 
   static final _queryIntentContentProviders = jniLookup<
@@ -2258,7 +2264,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
     jni.JObject intent,
     int flags,
   ) {
-    return const jni.JListType(jni.JObjectType()).fromRef(
+    return const jni.JListType(jni.JObjectType()).fromReference(
         _queryIntentContentProviders(
                 reference.pointer,
                 packageManager.reference.pointer,
@@ -2281,7 +2287,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
   jni.JObject getProviderInfo(
     jni.JObject resolveInfo,
   ) {
-    return const jni.JObjectType().fromRef(
+    return const jni.JObjectType().fromReference(
         _getProviderInfo(reference.pointer, resolveInfo.reference.pointer)
             .object);
   }
@@ -2297,10 +2303,10 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19Type
       r"Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19;";
 
   @override
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19 fromReference(
           jni.JObjectPtr ref) =>
-      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19.fromRef(
-          ref);
+      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
+          .fromReference(ref);
 
   @override
   jni.JObjType get superType =>
@@ -2334,9 +2340,9 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
       .JObjType<DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28>
       $type = type;
 
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28.fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type =
@@ -2349,7 +2355,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28() {
     return DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
-        .fromRef(_new0().object);
+        .fromReference(_new0().object);
   }
 
   static final _getSigningSignatures1 = jniLookup<
@@ -2367,7 +2373,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
     jni.JObject packageManager,
     jni.JString providerPackage,
   ) {
-    return const jni.JArrayType(jni.JObjectType()).fromRef(
+    return const jni.JArrayType(jni.JObjectType()).fromReference(
         _getSigningSignatures1(
                 reference.pointer,
                 packageManager.reference.pointer,
@@ -2386,10 +2392,10 @@ final class $DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28Type
       r"Landroidx/emoji2/text/DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28;";
 
   @override
-  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 fromRef(
+  DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28 fromReference(
           jni.JObjectPtr ref) =>
-      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28.fromRef(
-          ref);
+      DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API28
+          .fromReference(ref);
 
   @override
   jni.JObjType get superType =>
@@ -2452,9 +2458,9 @@ class DefaultEmojiCompatConfig extends jni.JObject {
   @override
   late final jni.JObjType<DefaultEmojiCompatConfig> $type = type;
 
-  DefaultEmojiCompatConfig.fromRef(
+  DefaultEmojiCompatConfig.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $DefaultEmojiCompatConfigType();
@@ -2480,7 +2486,7 @@ class DefaultEmojiCompatConfig extends jni.JObject {
     jni.JObject context,
   ) {
     return const jni.JObjectType()
-        .fromRef(_create(context.reference.pointer).object);
+        .fromReference(_create(context.reference.pointer).object);
   }
 }
 
@@ -2492,8 +2498,8 @@ final class $DefaultEmojiCompatConfigType
   String get signature => r"Landroidx/emoji2/text/DefaultEmojiCompatConfig;";
 
   @override
-  DefaultEmojiCompatConfig fromRef(jni.JObjectPtr ref) =>
-      DefaultEmojiCompatConfig.fromRef(ref);
+  DefaultEmojiCompatConfig fromReference(jni.JObjectPtr ref) =>
+      DefaultEmojiCompatConfig.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2516,9 +2522,9 @@ class Build_Partition extends jni.JObject {
   @override
   late final jni.JObjType<Build_Partition> $type = type;
 
-  Build_Partition.fromRef(
+  Build_Partition.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Build_PartitionType();
@@ -2529,8 +2535,8 @@ class Build_Partition extends jni.JObject {
 
   /// from: static public final java.lang.String PARTITION_NAME_SYSTEM
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get PARTITION_NAME_SYSTEM =>
-      const jni.JStringType().fromRef(_get_PARTITION_NAME_SYSTEM().object);
+  static jni.JString get PARTITION_NAME_SYSTEM => const jni.JStringType()
+      .fromReference(_get_PARTITION_NAME_SYSTEM().object);
 
   static final _getName = jniLookup<
               ffi
@@ -2541,7 +2547,8 @@ class Build_Partition extends jni.JObject {
   /// from: public java.lang.String getName()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getName() {
-    return const jni.JStringType().fromRef(_getName(reference.pointer).object);
+    return const jni.JStringType()
+        .fromReference(_getName(reference.pointer).object);
   }
 
   static final _getFingerprint = jniLookup<
@@ -2554,7 +2561,7 @@ class Build_Partition extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString getFingerprint() {
     return const jni.JStringType()
-        .fromRef(_getFingerprint(reference.pointer).object);
+        .fromReference(_getFingerprint(reference.pointer).object);
   }
 
   static final _getBuildTimeMillis = jniLookup<
@@ -2602,7 +2609,8 @@ final class $Build_PartitionType extends jni.JObjType<Build_Partition> {
   String get signature => r"Landroid/os/Build$Partition;";
 
   @override
-  Build_Partition fromRef(jni.JObjectPtr ref) => Build_Partition.fromRef(ref);
+  Build_Partition fromReference(jni.JObjectPtr ref) =>
+      Build_Partition.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2625,9 +2633,9 @@ class Build_VERSION extends jni.JObject {
   @override
   late final jni.JObjType<Build_VERSION> $type = type;
 
-  Build_VERSION.fromRef(
+  Build_VERSION.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Build_VERSIONType();
@@ -2639,7 +2647,7 @@ class Build_VERSION extends jni.JObject {
   /// from: static public final java.lang.String BASE_OS
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BASE_OS =>
-      const jni.JStringType().fromRef(_get_BASE_OS().object);
+      const jni.JStringType().fromReference(_get_BASE_OS().object);
 
   static final _get_CODENAME =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2649,7 +2657,7 @@ class Build_VERSION extends jni.JObject {
   /// from: static public final java.lang.String CODENAME
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CODENAME =>
-      const jni.JStringType().fromRef(_get_CODENAME().object);
+      const jni.JStringType().fromReference(_get_CODENAME().object);
 
   static final _get_INCREMENTAL =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2659,7 +2667,7 @@ class Build_VERSION extends jni.JObject {
   /// from: static public final java.lang.String INCREMENTAL
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get INCREMENTAL =>
-      const jni.JStringType().fromRef(_get_INCREMENTAL().object);
+      const jni.JStringType().fromReference(_get_INCREMENTAL().object);
 
   static final _get_MEDIA_PERFORMANCE_CLASS =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2686,7 +2694,7 @@ class Build_VERSION extends jni.JObject {
   /// from: static public final java.lang.String RELEASE
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE =>
-      const jni.JStringType().fromRef(_get_RELEASE().object);
+      const jni.JStringType().fromReference(_get_RELEASE().object);
 
   static final _get_RELEASE_OR_CODENAME =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2696,7 +2704,7 @@ class Build_VERSION extends jni.JObject {
   /// from: static public final java.lang.String RELEASE_OR_CODENAME
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RELEASE_OR_CODENAME =>
-      const jni.JStringType().fromRef(_get_RELEASE_OR_CODENAME().object);
+      const jni.JStringType().fromReference(_get_RELEASE_OR_CODENAME().object);
 
   static final _get_RELEASE_OR_PREVIEW_DISPLAY =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2705,8 +2713,8 @@ class Build_VERSION extends jni.JObject {
 
   /// from: static public final java.lang.String RELEASE_OR_PREVIEW_DISPLAY
   /// The returned object must be released after use, by calling the [release] method.
-  static jni.JString get RELEASE_OR_PREVIEW_DISPLAY =>
-      const jni.JStringType().fromRef(_get_RELEASE_OR_PREVIEW_DISPLAY().object);
+  static jni.JString get RELEASE_OR_PREVIEW_DISPLAY => const jni.JStringType()
+      .fromReference(_get_RELEASE_OR_PREVIEW_DISPLAY().object);
 
   static final _get_SDK =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2716,7 +2724,7 @@ class Build_VERSION extends jni.JObject {
   /// from: static public final java.lang.String SDK
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SDK =>
-      const jni.JStringType().fromRef(_get_SDK().object);
+      const jni.JStringType().fromReference(_get_SDK().object);
 
   static final _get_SDK_INT =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2734,7 +2742,7 @@ class Build_VERSION extends jni.JObject {
   /// from: static public final java.lang.String SECURITY_PATCH
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SECURITY_PATCH =>
-      const jni.JStringType().fromRef(_get_SECURITY_PATCH().object);
+      const jni.JStringType().fromReference(_get_SECURITY_PATCH().object);
 
   static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "Build_VERSION__new0")
@@ -2743,7 +2751,7 @@ class Build_VERSION extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION() {
-    return Build_VERSION.fromRef(_new0().object);
+    return Build_VERSION.fromReference(_new0().object);
   }
 }
 
@@ -2754,7 +2762,8 @@ final class $Build_VERSIONType extends jni.JObjType<Build_VERSION> {
   String get signature => r"Landroid/os/Build$VERSION;";
 
   @override
-  Build_VERSION fromRef(jni.JObjectPtr ref) => Build_VERSION.fromRef(ref);
+  Build_VERSION fromReference(jni.JObjectPtr ref) =>
+      Build_VERSION.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2777,9 +2786,9 @@ class Build_VERSION_CODES extends jni.JObject {
   @override
   late final jni.JObjType<Build_VERSION_CODES> $type = type;
 
-  Build_VERSION_CODES.fromRef(
+  Build_VERSION_CODES.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $Build_VERSION_CODESType();
@@ -2892,7 +2901,7 @@ class Build_VERSION_CODES extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Build_VERSION_CODES() {
-    return Build_VERSION_CODES.fromRef(_new0().object);
+    return Build_VERSION_CODES.fromReference(_new0().object);
   }
 }
 
@@ -2903,8 +2912,8 @@ final class $Build_VERSION_CODESType extends jni.JObjType<Build_VERSION_CODES> {
   String get signature => r"Landroid/os/Build$VERSION_CODES;";
 
   @override
-  Build_VERSION_CODES fromRef(jni.JObjectPtr ref) =>
-      Build_VERSION_CODES.fromRef(ref);
+  Build_VERSION_CODES fromReference(jni.JObjectPtr ref) =>
+      Build_VERSION_CODES.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -2927,9 +2936,9 @@ class Build extends jni.JObject {
   @override
   late final jni.JObjType<Build> $type = type;
 
-  Build.fromRef(
+  Build.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $BuildType();
@@ -2941,7 +2950,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String BOARD
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BOARD =>
-      const jni.JStringType().fromRef(_get_BOARD().object);
+      const jni.JStringType().fromReference(_get_BOARD().object);
 
   static final _get_BOOTLOADER =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2951,7 +2960,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String BOOTLOADER
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BOOTLOADER =>
-      const jni.JStringType().fromRef(_get_BOOTLOADER().object);
+      const jni.JStringType().fromReference(_get_BOOTLOADER().object);
 
   static final _get_BRAND =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2961,7 +2970,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String BRAND
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get BRAND =>
-      const jni.JStringType().fromRef(_get_BRAND().object);
+      const jni.JStringType().fromReference(_get_BRAND().object);
 
   static final _get_CPU_ABI =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2971,7 +2980,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String CPU_ABI
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CPU_ABI =>
-      const jni.JStringType().fromRef(_get_CPU_ABI().object);
+      const jni.JStringType().fromReference(_get_CPU_ABI().object);
 
   static final _get_CPU_ABI2 =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2981,7 +2990,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String CPU_ABI2
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get CPU_ABI2 =>
-      const jni.JStringType().fromRef(_get_CPU_ABI2().object);
+      const jni.JStringType().fromReference(_get_CPU_ABI2().object);
 
   static final _get_DEVICE =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -2991,7 +3000,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String DEVICE
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get DEVICE =>
-      const jni.JStringType().fromRef(_get_DEVICE().object);
+      const jni.JStringType().fromReference(_get_DEVICE().object);
 
   static final _get_DISPLAY =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3001,7 +3010,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String DISPLAY
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get DISPLAY =>
-      const jni.JStringType().fromRef(_get_DISPLAY().object);
+      const jni.JStringType().fromReference(_get_DISPLAY().object);
 
   static final _get_FINGERPRINT =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3011,7 +3020,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String FINGERPRINT
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get FINGERPRINT =>
-      const jni.JStringType().fromRef(_get_FINGERPRINT().object);
+      const jni.JStringType().fromReference(_get_FINGERPRINT().object);
 
   static final _get_HARDWARE =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3021,7 +3030,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String HARDWARE
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get HARDWARE =>
-      const jni.JStringType().fromRef(_get_HARDWARE().object);
+      const jni.JStringType().fromReference(_get_HARDWARE().object);
 
   static final _get_HOST =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__HOST")
@@ -3030,7 +3039,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String HOST
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get HOST =>
-      const jni.JStringType().fromRef(_get_HOST().object);
+      const jni.JStringType().fromReference(_get_HOST().object);
 
   static final _get_ID =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__ID")
@@ -3039,7 +3048,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String ID
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get ID =>
-      const jni.JStringType().fromRef(_get_ID().object);
+      const jni.JStringType().fromReference(_get_ID().object);
 
   static final _get_MANUFACTURER =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3049,7 +3058,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String MANUFACTURER
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get MANUFACTURER =>
-      const jni.JStringType().fromRef(_get_MANUFACTURER().object);
+      const jni.JStringType().fromReference(_get_MANUFACTURER().object);
 
   static final _get_MODEL =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3059,7 +3068,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String MODEL
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get MODEL =>
-      const jni.JStringType().fromRef(_get_MODEL().object);
+      const jni.JStringType().fromReference(_get_MODEL().object);
 
   static final _get_ODM_SKU =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3069,7 +3078,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String ODM_SKU
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get ODM_SKU =>
-      const jni.JStringType().fromRef(_get_ODM_SKU().object);
+      const jni.JStringType().fromReference(_get_ODM_SKU().object);
 
   static final _get_PRODUCT =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3079,7 +3088,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String PRODUCT
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get PRODUCT =>
-      const jni.JStringType().fromRef(_get_PRODUCT().object);
+      const jni.JStringType().fromReference(_get_PRODUCT().object);
 
   static final _get_RADIO =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3089,7 +3098,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String RADIO
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get RADIO =>
-      const jni.JStringType().fromRef(_get_RADIO().object);
+      const jni.JStringType().fromReference(_get_RADIO().object);
 
   static final _get_SERIAL =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3099,7 +3108,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String SERIAL
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SERIAL =>
-      const jni.JStringType().fromRef(_get_SERIAL().object);
+      const jni.JStringType().fromReference(_get_SERIAL().object);
 
   static final _get_SKU =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__SKU")
@@ -3108,7 +3117,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String SKU
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SKU =>
-      const jni.JStringType().fromRef(_get_SKU().object);
+      const jni.JStringType().fromReference(_get_SKU().object);
 
   static final _get_SOC_MANUFACTURER =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3118,7 +3127,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String SOC_MANUFACTURER
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SOC_MANUFACTURER =>
-      const jni.JStringType().fromRef(_get_SOC_MANUFACTURER().object);
+      const jni.JStringType().fromReference(_get_SOC_MANUFACTURER().object);
 
   static final _get_SOC_MODEL =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3128,7 +3137,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String SOC_MODEL
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get SOC_MODEL =>
-      const jni.JStringType().fromRef(_get_SOC_MODEL().object);
+      const jni.JStringType().fromReference(_get_SOC_MODEL().object);
 
   static final _get_SUPPORTED_32_BIT_ABIS =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3139,7 +3148,7 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_32_BIT_ABIS =>
       const jni.JArrayType(jni.JStringType())
-          .fromRef(_get_SUPPORTED_32_BIT_ABIS().object);
+          .fromReference(_get_SUPPORTED_32_BIT_ABIS().object);
 
   static final _get_SUPPORTED_64_BIT_ABIS =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3150,7 +3159,7 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_64_BIT_ABIS =>
       const jni.JArrayType(jni.JStringType())
-          .fromRef(_get_SUPPORTED_64_BIT_ABIS().object);
+          .fromReference(_get_SUPPORTED_64_BIT_ABIS().object);
 
   static final _get_SUPPORTED_ABIS =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3161,7 +3170,7 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<jni.JString> get SUPPORTED_ABIS =>
       const jni.JArrayType(jni.JStringType())
-          .fromRef(_get_SUPPORTED_ABIS().object);
+          .fromReference(_get_SUPPORTED_ABIS().object);
 
   static final _get_TAGS =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__TAGS")
@@ -3170,7 +3179,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String TAGS
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get TAGS =>
-      const jni.JStringType().fromRef(_get_TAGS().object);
+      const jni.JStringType().fromReference(_get_TAGS().object);
 
   static final _get_TIME =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__TIME")
@@ -3186,7 +3195,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String TYPE
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get TYPE =>
-      const jni.JStringType().fromRef(_get_TYPE().object);
+      const jni.JStringType().fromReference(_get_TYPE().object);
 
   static final _get_UNKNOWN =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
@@ -3196,7 +3205,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String UNKNOWN
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get UNKNOWN =>
-      const jni.JStringType().fromRef(_get_UNKNOWN().object);
+      const jni.JStringType().fromReference(_get_UNKNOWN().object);
 
   static final _get_USER =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("get_Build__USER")
@@ -3205,7 +3214,7 @@ class Build extends jni.JObject {
   /// from: static public final java.lang.String USER
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString get USER =>
-      const jni.JStringType().fromRef(_get_USER().object);
+      const jni.JStringType().fromReference(_get_USER().object);
 
   static final _new0 =
       jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Build__new0")
@@ -3214,7 +3223,7 @@ class Build extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Build() {
-    return Build.fromRef(_new0().object);
+    return Build.fromReference(_new0().object);
   }
 
   static final _getSerial =
@@ -3225,7 +3234,7 @@ class Build extends jni.JObject {
   /// from: static public java.lang.String getSerial()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getSerial() {
-    return const jni.JStringType().fromRef(_getSerial().object);
+    return const jni.JStringType().fromReference(_getSerial().object);
   }
 
   static final _getFingerprintedPartitions =
@@ -3237,7 +3246,7 @@ class Build extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JList<Build_Partition> getFingerprintedPartitions() {
     return const jni.JListType($Build_PartitionType())
-        .fromRef(_getFingerprintedPartitions().object);
+        .fromReference(_getFingerprintedPartitions().object);
   }
 
   static final _getRadioVersion =
@@ -3248,7 +3257,7 @@ class Build extends jni.JObject {
   /// from: static public java.lang.String getRadioVersion()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JString getRadioVersion() {
-    return const jni.JStringType().fromRef(_getRadioVersion().object);
+    return const jni.JStringType().fromReference(_getRadioVersion().object);
   }
 }
 
@@ -3259,7 +3268,7 @@ final class $BuildType extends jni.JObjType<Build> {
   String get signature => r"Landroid/os/Build;";
 
   @override
-  Build fromRef(jni.JObjectPtr ref) => Build.fromRef(ref);
+  Build fromReference(jni.JObjectPtr ref) => Build.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3285,11 +3294,11 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   final jni.JObjType<$K> K;
   final jni.JObjType<$V> V;
 
-  HashMap.fromRef(
+  HashMap.fromReference(
     this.K,
     this.V,
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static $HashMapType<$K, $V>
@@ -3316,7 +3325,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return HashMap.fromRef(K, V, _new0(i, f).object);
+    return HashMap.fromReference(K, V, _new0(i, f).object);
   }
 
   static final _new1 =
@@ -3331,7 +3340,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return HashMap.fromRef(K, V, _new1(i).object);
+    return HashMap.fromReference(K, V, _new1(i).object);
   }
 
   static final _new2 =
@@ -3344,7 +3353,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     required jni.JObjType<$K> K,
     required jni.JObjType<$V> V,
   }) {
-    return HashMap.fromRef(K, V, _new2().object);
+    return HashMap.fromReference(K, V, _new2().object);
   }
 
   static final _new3 = jniLookup<
@@ -3365,7 +3374,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     V ??= jni.lowestCommonSuperType([
       (map.$type as jni.JMapType).V,
     ]) as jni.JObjType<$V>;
-    return HashMap.fromRef(K, V, _new3(map.reference.pointer).object);
+    return HashMap.fromReference(K, V, _new3(map.reference.pointer).object);
   }
 
   static final _size = jniLookup<
@@ -3402,7 +3411,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   $V get0(
     jni.JObject object,
   ) {
-    return V.fromRef(_get0(reference.pointer, object.reference.pointer).object);
+    return V.fromReference(
+        _get0(reference.pointer, object.reference.pointer).object);
   }
 
   static final _containsKey = jniLookup<
@@ -3436,7 +3446,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     $V object1,
   ) {
-    return V.fromRef(_put(reference.pointer, object.reference.pointer,
+    return V.fromReference(_put(reference.pointer, object.reference.pointer,
             object1.reference.pointer)
         .object);
   }
@@ -3469,8 +3479,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   $V remove(
     jni.JObject object,
   ) {
-    return V
-        .fromRef(_remove(reference.pointer, object.reference.pointer).object);
+    return V.fromReference(
+        _remove(reference.pointer, object.reference.pointer).object);
   }
 
   static final _clear = jniLookup<
@@ -3506,7 +3516,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public java.util.Set keySet()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<$K> keySet() {
-    return jni.JSetType(K).fromRef(_keySet(reference.pointer).object);
+    return jni.JSetType(K).fromReference(_keySet(reference.pointer).object);
   }
 
   static final _values = jniLookup<
@@ -3517,7 +3527,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public java.util.Collection values()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject values() {
-    return const jni.JObjectType().fromRef(_values(reference.pointer).object);
+    return const jni.JObjectType()
+        .fromReference(_values(reference.pointer).object);
   }
 
   static final _entrySet = jniLookup<
@@ -3530,7 +3541,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   jni.JSet<jni.JObject> entrySet() {
     return const jni.JSetType(jni.JObjectType())
-        .fromRef(_entrySet(reference.pointer).object);
+        .fromReference(_entrySet(reference.pointer).object);
   }
 
   static final _getOrDefault = jniLookup<
@@ -3549,8 +3560,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     jni.JObject object,
     $V object1,
   ) {
-    return V.fromRef(_getOrDefault(reference.pointer, object.reference.pointer,
-            object1.reference.pointer)
+    return V.fromReference(_getOrDefault(reference.pointer,
+            object.reference.pointer, object1.reference.pointer)
         .object);
   }
 
@@ -3570,8 +3581,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     $V object1,
   ) {
-    return V.fromRef(_putIfAbsent(reference.pointer, object.reference.pointer,
-            object1.reference.pointer)
+    return V.fromReference(_putIfAbsent(reference.pointer,
+            object.reference.pointer, object1.reference.pointer)
         .object);
   }
 
@@ -3633,8 +3644,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     $V object1,
   ) {
-    return V.fromRef(_replace1(reference.pointer, object.reference.pointer,
-            object1.reference.pointer)
+    return V.fromReference(_replace1(reference.pointer,
+            object.reference.pointer, object1.reference.pointer)
         .object);
   }
 
@@ -3654,7 +3665,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     jni.JObject function,
   ) {
-    return V.fromRef(_computeIfAbsent(reference.pointer,
+    return V.fromReference(_computeIfAbsent(reference.pointer,
             object.reference.pointer, function.reference.pointer)
         .object);
   }
@@ -3675,7 +3686,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     jni.JObject biFunction,
   ) {
-    return V.fromRef(_computeIfPresent(reference.pointer,
+    return V.fromReference(_computeIfPresent(reference.pointer,
             object.reference.pointer, biFunction.reference.pointer)
         .object);
   }
@@ -3696,7 +3707,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $K object,
     jni.JObject biFunction,
   ) {
-    return V.fromRef(_compute(reference.pointer, object.reference.pointer,
+    return V.fromReference(_compute(reference.pointer, object.reference.pointer,
             biFunction.reference.pointer)
         .object);
   }
@@ -3719,7 +3730,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
     $V object1,
     jni.JObject biFunction,
   ) {
-    return V.fromRef(_merge(reference.pointer, object.reference.pointer,
+    return V.fromReference(_merge(reference.pointer, object.reference.pointer,
             object1.reference.pointer, biFunction.reference.pointer)
         .object);
   }
@@ -3762,7 +3773,8 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   /// from: public java.lang.Object clone()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject clone() {
-    return const jni.JObjectType().fromRef(_clone(reference.pointer).object);
+    return const jni.JObjectType()
+        .fromReference(_clone(reference.pointer).object);
   }
 }
 
@@ -3780,7 +3792,8 @@ final class $HashMapType<$K extends jni.JObject, $V extends jni.JObject>
   String get signature => r"Ljava/util/HashMap;";
 
   @override
-  HashMap<$K, $V> fromRef(jni.JObjectPtr ref) => HashMap.fromRef(K, V, ref);
+  HashMap<$K, $V> fromReference(jni.JObjectPtr ref) =>
+      HashMap.fromReference(K, V, ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -3805,9 +3818,9 @@ class AndroidUtils extends jni.JObject {
   @override
   late final jni.JObjType<AndroidUtils> $type = type;
 
-  AndroidUtils.fromRef(
+  AndroidUtils.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $AndroidUtilsType();
@@ -3838,7 +3851,8 @@ final class $AndroidUtilsType extends jni.JObjType<AndroidUtils> {
   String get signature => r"Lcom/example/in_app_java/AndroidUtils;";
 
   @override
-  AndroidUtils fromRef(jni.JObjectPtr ref) => AndroidUtils.fromRef(ref);
+  AndroidUtils fromReference(jni.JObjectPtr ref) =>
+      AndroidUtils.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

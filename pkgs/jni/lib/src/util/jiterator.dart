@@ -19,7 +19,8 @@ final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
   String get signature => r"Ljava/util/Iterator;";
 
   @override
-  JIterator<$E> fromRef(JObjectPtr ref) => JIterator.fromRef(E, ref);
+  JIterator<$E> fromReference(JObjectPtr ref) =>
+      JIterator.fromReference(E, ref);
 
   @override
   JObjType get superType => const JObjectType();
@@ -45,10 +46,10 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
 
   final JObjType<$E> E;
 
-  JIterator.fromRef(
+  JIterator.fromReference(
     this.E,
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class = Jni.findJClass(r"java/util/Iterator");
 
@@ -76,7 +77,7 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
   static final _nextId = Jni.accessors.getMethodIDOf(
       _class.reference.pointer, r"next", r"()Ljava/lang/Object;");
   $E _next() {
-    return E.fromRef(Jni.accessors.callMethodWithArgs(
+    return E.fromReference(Jni.accessors.callMethodWithArgs(
         reference.pointer, _nextId, JniCallType.objectType, []).object);
   }
 

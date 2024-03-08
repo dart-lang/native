@@ -519,12 +519,12 @@ final class JNINativeInterface extends ffi.Struct {
           ffi.NativeFunction<
               JMethodIDPtr Function(
                   ffi.Pointer<JniEnv1> env, JObjectPtr method)>>
-      FromReflectedMethod;
+      fromReferencelectedMethod;
 
   external ffi.Pointer<
           ffi.NativeFunction<
               JFieldIDPtr Function(ffi.Pointer<JniEnv1> env, JObjectPtr field)>>
-      FromReflectedField;
+      fromReferencelectedField;
 
   /// spec doesn't show jboolean parameter
   external ffi.Pointer<
@@ -2046,11 +2046,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi
       .Pointer<ffi.NativeFunction<JniPointerResult Function(JObjectPtr method)>>
-      FromReflectedMethod;
+      fromReferencelectedMethod;
 
   external ffi
       .Pointer<ffi.NativeFunction<JniPointerResult Function(JObjectPtr field)>>
-      FromReflectedField;
+      fromReferencelectedField;
 
   external ffi.Pointer<
       ffi.NativeFunction<

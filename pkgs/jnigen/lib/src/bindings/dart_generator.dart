@@ -354,10 +354,10 @@ class $name$typeParamsDef extends $superName {
 
   $typeClassesDef
 
-  $name.fromRef(
+  $name.fromReference(
     $ctorTypeClassesDef
     $_jPointer ref,
-  ): super.fromRef(
+  ): super.fromReference(
     $superTypeClassesCall
     ref
   );
@@ -467,7 +467,7 @@ class $name$typeParamsDef extends $superName {
           .join(_newLine(depth: 3));
       s.write('''
     final \$p = ReceivePort();
-    final \$x = $name.fromRef(
+    final \$x = $name.fromReference(
       $typeClassesCall
       $_protectedExtension.newPortProxy(
         r"${node.binaryName}",
@@ -601,7 +601,7 @@ final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall> {
   String get signature => r"$signature";
 
   @override
-  $name$typeParamsCall fromRef($_jPointer ref) => $name.fromRef(
+  $name$typeParamsCall fromReference($_jPointer ref) => $name.fromReference(
     $typeClassesCall
     ref
   );
@@ -970,7 +970,7 @@ class _FromNative extends TypeVisitor<String> {
   @override
   String visitNonPrimitiveType(ReferredType node) {
     final typeClass = node.accept(_TypeClassGenerator(resolver)).name;
-    return '$typeClass.fromRef($value)';
+    return '$typeClass.fromReference($value)';
   }
 }
 
@@ -1257,7 +1257,7 @@ class _MethodGenerator extends Visitor<Method, void> {
       s.write('''
   factory $ctorName($paramsDef$typeClassDef) {
     $typeInference
-    return ${node.classDecl.finalName}.fromRef(
+    return ${node.classDecl.finalName}.fromReference(
       $typeClassCall
       $ctorExpr.object
     );
@@ -1304,7 +1304,7 @@ class _MethodGenerator extends Visitor<Method, void> {
       s.write('''async {
     $typeInference
     final \$p = ReceivePort();
-    final \$c = $_jObject.fromRef($_protectedExtension.newPortContinuation(\$p));
+    final \$c = $_jObject.fromReference($_protectedExtension.newPortContinuation(\$p));
     $callExpr;
     final \$o = $_jPointer.fromAddress(await \$p.first);
     final \$k = $returnTypeClass.getClass().reference.pointer;

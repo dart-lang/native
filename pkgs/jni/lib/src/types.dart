@@ -24,7 +24,7 @@ abstract class JObjType<T extends JObject> extends JType<T> {
   const JObjType();
 
   /// Creates an object from this type using the reference.
-  T fromRef(Pointer<Void> ref);
+  T fromReference(Pointer<Void> ref);
 
   JClass getClass() {
     if (signature.startsWith('L') && signature.endsWith(';')) {

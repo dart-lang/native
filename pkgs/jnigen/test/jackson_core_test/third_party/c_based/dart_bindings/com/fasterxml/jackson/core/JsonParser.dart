@@ -49,9 +49,9 @@ class JsonParser_Feature extends jni.JObject {
   @override
   late final jni.JObjType<JsonParser_Feature> $type = type;
 
-  JsonParser_Feature.fromRef(
+  JsonParser_Feature.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParser_FeatureType();
@@ -64,7 +64,7 @@ class JsonParser_Feature extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonParser_Feature> values() {
     return const jni.JArrayType($JsonParser_FeatureType())
-        .fromRef(_values().object);
+        .fromReference(_values().object);
   }
 
   static final _valueOf = jniLookup<
@@ -79,7 +79,7 @@ class JsonParser_Feature extends jni.JObject {
     jni.JString name,
   ) {
     return const $JsonParser_FeatureType()
-        .fromRef(_valueOf(name.reference.pointer).object);
+        .fromReference(_valueOf(name.reference.pointer).object);
   }
 
   static final _collectDefaults =
@@ -139,8 +139,8 @@ final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$Feature;";
 
   @override
-  JsonParser_Feature fromRef(jni.JObjectPtr ref) =>
-      JsonParser_Feature.fromRef(ref);
+  JsonParser_Feature fromReference(jni.JObjectPtr ref) =>
+      JsonParser_Feature.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -166,9 +166,9 @@ class JsonParser_NumberType extends jni.JObject {
   @override
   late final jni.JObjType<JsonParser_NumberType> $type = type;
 
-  JsonParser_NumberType.fromRef(
+  JsonParser_NumberType.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParser_NumberTypeType();
@@ -181,7 +181,7 @@ class JsonParser_NumberType extends jni.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonParser_NumberType> values() {
     return const jni.JArrayType($JsonParser_NumberTypeType())
-        .fromRef(_values().object);
+        .fromReference(_values().object);
   }
 
   static final _valueOf = jniLookup<
@@ -196,7 +196,7 @@ class JsonParser_NumberType extends jni.JObject {
     jni.JString name,
   ) {
     return const $JsonParser_NumberTypeType()
-        .fromRef(_valueOf(name.reference.pointer).object);
+        .fromReference(_valueOf(name.reference.pointer).object);
   }
 }
 
@@ -208,8 +208,8 @@ final class $JsonParser_NumberTypeType
   String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$NumberType;";
 
   @override
-  JsonParser_NumberType fromRef(jni.JObjectPtr ref) =>
-      JsonParser_NumberType.fromRef(ref);
+  JsonParser_NumberType fromReference(jni.JObjectPtr ref) =>
+      JsonParser_NumberType.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -237,9 +237,9 @@ class JsonParser extends jni.JObject {
   @override
   late final jni.JObjType<JsonParser> $type = type;
 
-  JsonParser.fromRef(
+  JsonParser.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParserType();
@@ -255,8 +255,8 @@ class JsonParser extends jni.JObject {
   /// basis for format-specific readers (or as bogus instance if non-null
   /// set needs to be passed).
   ///@since 2.12
-  static jni.JObject get DEFAULT_READ_CAPABILITIES =>
-      const jni.JObjectType().fromRef(_get_DEFAULT_READ_CAPABILITIES().object);
+  static jni.JObject get DEFAULT_READ_CAPABILITIES => const jni.JObjectType()
+      .fromReference(_get_DEFAULT_READ_CAPABILITIES().object);
 
   static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
           "JsonParser__new0")
@@ -265,7 +265,7 @@ class JsonParser extends jni.JObject {
   /// from: protected void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory JsonParser() {
-    return JsonParser.fromRef(_new0().object);
+    return JsonParser.fromReference(_new0().object);
   }
 
   static final _new1 =
@@ -278,7 +278,7 @@ class JsonParser extends jni.JObject {
   factory JsonParser.new1(
     int features,
   ) {
-    return JsonParser.fromRef(_new1(features).object);
+    return JsonParser.fromReference(_new1(features).object);
   }
 
   static final _getCodec = jniLookup<
@@ -295,7 +295,8 @@ class JsonParser extends jni.JObject {
   /// method (and its variants).
   ///@return Codec assigned to this parser, if any; {@code null} if none
   jni.JObject getCodec() {
-    return const jni.JObjectType().fromRef(_getCodec(reference.pointer).object);
+    return const jni.JObjectType()
+        .fromReference(_getCodec(reference.pointer).object);
   }
 
   static final _setCodec = jniLookup<
@@ -343,7 +344,7 @@ class JsonParser extends jni.JObject {
   ///@return Input source this parser was configured with
   jni.JObject getInputSource() {
     return const jni.JObjectType()
-        .fromRef(_getInputSource(reference.pointer).object);
+        .fromReference(_getInputSource(reference.pointer).object);
   }
 
   static final _setRequestPayloadOnError = jniLookup<
@@ -455,7 +456,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.1
   jni.JObject getSchema() {
     return const jni.JObjectType()
-        .fromRef(_getSchema(reference.pointer).object);
+        .fromReference(_getSchema(reference.pointer).object);
   }
 
   static final _canUseSchema = jniLookup<
@@ -537,7 +538,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.9
   jni.JObject getNonBlockingInputFeeder() {
     return const jni.JObjectType()
-        .fromRef(_getNonBlockingInputFeeder(reference.pointer).object);
+        .fromReference(_getNonBlockingInputFeeder(reference.pointer).object);
   }
 
   static final _getReadCapabilities = jniLookup<
@@ -555,7 +556,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.12
   jni.JObject getReadCapabilities() {
     return const jni.JObjectType()
-        .fromRef(_getReadCapabilities(reference.pointer).object);
+        .fromReference(_getReadCapabilities(reference.pointer).object);
   }
 
   static final _version = jniLookup<
@@ -572,7 +573,8 @@ class JsonParser extends jni.JObject {
   ///@return Version of this generator (derived from version declared for
   ///   {@code jackson-core} jar that contains the class
   jni.JObject version() {
-    return const jni.JObjectType().fromRef(_version(reference.pointer).object);
+    return const jni.JObjectType()
+        .fromReference(_version(reference.pointer).object);
   }
 
   static final _close = jniLookup<
@@ -640,7 +642,7 @@ class JsonParser extends jni.JObject {
   ///@return Stream input context (JsonStreamContext) associated with this parser
   jni.JObject getParsingContext() {
     return const jni.JObjectType()
-        .fromRef(_getParsingContext(reference.pointer).object);
+        .fromReference(_getParsingContext(reference.pointer).object);
   }
 
   static final _currentLocation = jniLookup<
@@ -666,7 +668,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.13
   jni.JObject currentLocation() {
     return const jni.JObjectType()
-        .fromRef(_currentLocation(reference.pointer).object);
+        .fromReference(_currentLocation(reference.pointer).object);
   }
 
   static final _currentTokenLocation = jniLookup<
@@ -692,7 +694,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.13 (will eventually replace \#getTokenLocation)
   jni.JObject currentTokenLocation() {
     return const jni.JObjectType()
-        .fromRef(_currentTokenLocation(reference.pointer).object);
+        .fromReference(_currentTokenLocation(reference.pointer).object);
   }
 
   static final _getCurrentLocation = jniLookup<
@@ -709,7 +711,7 @@ class JsonParser extends jni.JObject {
   ///@return Location of the last processed input unit (byte or character)
   jni.JObject getCurrentLocation() {
     return const jni.JObjectType()
-        .fromRef(_getCurrentLocation(reference.pointer).object);
+        .fromReference(_getCurrentLocation(reference.pointer).object);
   }
 
   static final _getTokenLocation = jniLookup<
@@ -726,7 +728,7 @@ class JsonParser extends jni.JObject {
   ///@return Starting location of the token parser currently points to
   jni.JObject getTokenLocation() {
     return const jni.JObjectType()
-        .fromRef(_getTokenLocation(reference.pointer).object);
+        .fromReference(_getTokenLocation(reference.pointer).object);
   }
 
   static final _currentValue = jniLookup<
@@ -751,7 +753,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.13 (added as replacement for older \#getCurrentValue()
   jni.JObject currentValue() {
     return const jni.JObjectType()
-        .fromRef(_currentValue(reference.pointer).object);
+        .fromReference(_currentValue(reference.pointer).object);
   }
 
   static final _assignCurrentValue = jniLookup<
@@ -790,7 +792,7 @@ class JsonParser extends jni.JObject {
   ///@return Location of the last processed input unit (byte or character)
   jni.JObject getCurrentValue() {
     return const jni.JObjectType()
-        .fromRef(_getCurrentValue(reference.pointer).object);
+        .fromReference(_getCurrentValue(reference.pointer).object);
   }
 
   static final _setCurrentValue = jniLookup<
@@ -886,7 +888,7 @@ class JsonParser extends jni.JObject {
     JsonParser_Feature f,
   ) {
     return const $JsonParserType()
-        .fromRef(_enable(reference.pointer, f.reference.pointer).object);
+        .fromReference(_enable(reference.pointer, f.reference.pointer).object);
   }
 
   static final _disable = jniLookup<
@@ -908,7 +910,7 @@ class JsonParser extends jni.JObject {
     JsonParser_Feature f,
   ) {
     return const $JsonParserType()
-        .fromRef(_disable(reference.pointer, f.reference.pointer).object);
+        .fromReference(_disable(reference.pointer, f.reference.pointer).object);
   }
 
   static final _configure = jniLookup<
@@ -931,7 +933,7 @@ class JsonParser extends jni.JObject {
     JsonParser_Feature f,
     bool state,
   ) {
-    return const $JsonParserType().fromRef(
+    return const $JsonParserType().fromReference(
         _configure(reference.pointer, f.reference.pointer, state ? 1 : 0)
             .object);
   }
@@ -1008,7 +1010,7 @@ class JsonParser extends jni.JObject {
     int mask,
   ) {
     return const $JsonParserType()
-        .fromRef(_setFeatureMask(reference.pointer, mask).object);
+        .fromReference(_setFeatureMask(reference.pointer, mask).object);
   }
 
   static final _overrideStdFeatures = jniLookup<
@@ -1036,8 +1038,8 @@ class JsonParser extends jni.JObject {
     int values,
     int mask,
   ) {
-    return const $JsonParserType()
-        .fromRef(_overrideStdFeatures(reference.pointer, values, mask).object);
+    return const $JsonParserType().fromReference(
+        _overrideStdFeatures(reference.pointer, values, mask).object);
   }
 
   static final _getFormatFeatures = jniLookup<
@@ -1079,7 +1081,7 @@ class JsonParser extends jni.JObject {
     int values,
     int mask,
   ) {
-    return const $JsonParserType().fromRef(
+    return const $JsonParserType().fromReference(
         _overrideFormatFeatures(reference.pointer, values, mask).object);
   }
 
@@ -1102,7 +1104,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jsontoken_.JsonToken nextToken() {
     return const jsontoken_.$JsonTokenType()
-        .fromRef(_nextToken(reference.pointer).object);
+        .fromReference(_nextToken(reference.pointer).object);
   }
 
   static final _nextValue = jniLookup<
@@ -1132,7 +1134,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jsontoken_.JsonToken nextValue() {
     return const jsontoken_.$JsonTokenType()
-        .fromRef(_nextValue(reference.pointer).object);
+        .fromReference(_nextValue(reference.pointer).object);
   }
 
   static final _nextFieldName = jniLookup<
@@ -1185,7 +1187,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.5
   jni.JString nextFieldName1() {
     return const jni.JStringType()
-        .fromRef(_nextFieldName1(reference.pointer).object);
+        .fromReference(_nextFieldName1(reference.pointer).object);
   }
 
   static final _nextTextValue = jniLookup<
@@ -1212,7 +1214,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JString nextTextValue() {
     return const jni.JStringType()
-        .fromRef(_nextTextValue(reference.pointer).object);
+        .fromReference(_nextTextValue(reference.pointer).object);
   }
 
   static final _nextIntValue = jniLookup<
@@ -1304,7 +1306,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JBoolean nextBooleanValue() {
     return const jni.JBooleanType()
-        .fromRef(_nextBooleanValue(reference.pointer).object);
+        .fromReference(_nextBooleanValue(reference.pointer).object);
   }
 
   static final _skipChildren = jniLookup<
@@ -1333,7 +1335,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   JsonParser skipChildren() {
     return const $JsonParserType()
-        .fromRef(_skipChildren(reference.pointer).object);
+        .fromReference(_skipChildren(reference.pointer).object);
   }
 
   static final _finishToken = jniLookup<
@@ -1381,7 +1383,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.8
   jsontoken_.JsonToken currentToken() {
     return const jsontoken_.$JsonTokenType()
-        .fromRef(_currentToken(reference.pointer).object);
+        .fromReference(_currentToken(reference.pointer).object);
   }
 
   static final _currentTokenId = jniLookup<
@@ -1420,7 +1422,7 @@ class JsonParser extends jni.JObject {
   ///   if any: null before any tokens have been read, and
   jsontoken_.JsonToken getCurrentToken() {
     return const jsontoken_.$JsonTokenType()
-        .fromRef(_getCurrentToken(reference.pointer).object);
+        .fromReference(_getCurrentToken(reference.pointer).object);
   }
 
   static final _getCurrentTokenId = jniLookup<
@@ -1642,7 +1644,7 @@ class JsonParser extends jni.JObject {
   ///@return Last cleared token, if any; {@code null} otherwise
   jsontoken_.JsonToken getLastClearedToken() {
     return const jsontoken_.$JsonTokenType()
-        .fromRef(_getLastClearedToken(reference.pointer).object);
+        .fromReference(_getLastClearedToken(reference.pointer).object);
   }
 
   static final _overrideCurrentName = jniLookup<
@@ -1685,7 +1687,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JString getCurrentName() {
     return const jni.JStringType()
-        .fromRef(_getCurrentName(reference.pointer).object);
+        .fromReference(_getCurrentName(reference.pointer).object);
   }
 
   static final _currentName = jniLookup<
@@ -1708,7 +1710,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.10
   jni.JString currentName() {
     return const jni.JStringType()
-        .fromRef(_currentName(reference.pointer).object);
+        .fromReference(_currentName(reference.pointer).object);
   }
 
   static final _getText = jniLookup<
@@ -1729,7 +1731,8 @@ class JsonParser extends jni.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   jni.JString getText() {
-    return const jni.JStringType().fromRef(_getText(reference.pointer).object);
+    return const jni.JStringType()
+        .fromReference(_getText(reference.pointer).object);
   }
 
   static final _getText1 = jniLookup<
@@ -1801,7 +1804,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JArray<jni.jchar> getTextCharacters() {
     return const jni.JArrayType(jni.jcharType())
-        .fromRef(_getTextCharacters(reference.pointer).object);
+        .fromReference(_getTextCharacters(reference.pointer).object);
   }
 
   static final _getTextLength = jniLookup<
@@ -1889,7 +1892,7 @@ class JsonParser extends jni.JObject {
   ///    content read fails (possible if values are extracted lazily)
   jni.JNumber getNumberValue() {
     return const jni.JNumberType()
-        .fromRef(_getNumberValue(reference.pointer).object);
+        .fromReference(_getNumberValue(reference.pointer).object);
   }
 
   static final _getNumberValueExact = jniLookup<
@@ -1917,7 +1920,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.12
   jni.JNumber getNumberValueExact() {
     return const jni.JNumberType()
-        .fromRef(_getNumberValueExact(reference.pointer).object);
+        .fromReference(_getNumberValueExact(reference.pointer).object);
   }
 
   static final _getNumberType = jniLookup<
@@ -1938,7 +1941,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   JsonParser_NumberType getNumberType() {
     return const $JsonParser_NumberTypeType()
-        .fromRef(_getNumberType(reference.pointer).object);
+        .fromReference(_getNumberType(reference.pointer).object);
   }
 
   static final _getByteValue = jniLookup<
@@ -2077,7 +2080,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JObject getBigIntegerValue() {
     return const jni.JObjectType()
-        .fromRef(_getBigIntegerValue(reference.pointer).object);
+        .fromReference(_getBigIntegerValue(reference.pointer).object);
   }
 
   static final _getFloatValue = jniLookup<
@@ -2153,7 +2156,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JObject getDecimalValue() {
     return const jni.JObjectType()
-        .fromRef(_getDecimalValue(reference.pointer).object);
+        .fromReference(_getDecimalValue(reference.pointer).object);
   }
 
   static final _getBooleanValue = jniLookup<
@@ -2204,7 +2207,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JObject getEmbeddedObject() {
     return const jni.JObjectType()
-        .fromRef(_getEmbeddedObject(reference.pointer).object);
+        .fromReference(_getEmbeddedObject(reference.pointer).object);
   }
 
   static final _getBinaryValue = jniLookup<
@@ -2241,7 +2244,7 @@ class JsonParser extends jni.JObject {
   jni.JArray<jni.jbyte> getBinaryValue(
     jni.JObject bv,
   ) {
-    return const jni.JArrayType(jni.jbyteType()).fromRef(
+    return const jni.JArrayType(jni.jbyteType()).fromReference(
         _getBinaryValue(reference.pointer, bv.reference.pointer).object);
   }
 
@@ -2262,7 +2265,7 @@ class JsonParser extends jni.JObject {
   ///   JsonParseException for decoding problems
   jni.JArray<jni.jbyte> getBinaryValue1() {
     return const jni.JArrayType(jni.jbyteType())
-        .fromRef(_getBinaryValue1(reference.pointer).object);
+        .fromReference(_getBinaryValue1(reference.pointer).object);
   }
 
   static final _readBinaryValue = jniLookup<
@@ -2551,7 +2554,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.1
   jni.JString getValueAsString() {
     return const jni.JStringType()
-        .fromRef(_getValueAsString(reference.pointer).object);
+        .fromReference(_getValueAsString(reference.pointer).object);
   }
 
   static final _getValueAsString1 = jniLookup<
@@ -2580,7 +2583,7 @@ class JsonParser extends jni.JObject {
   jni.JString getValueAsString1(
     jni.JString def,
   ) {
-    return const jni.JStringType().fromRef(
+    return const jni.JStringType().fromReference(
         _getValueAsString1(reference.pointer, def.reference.pointer).object);
   }
 
@@ -2654,7 +2657,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.3
   jni.JObject getObjectId() {
     return const jni.JObjectType()
-        .fromRef(_getObjectId(reference.pointer).object);
+        .fromReference(_getObjectId(reference.pointer).object);
   }
 
   static final _getTypeId = jniLookup<
@@ -2681,7 +2684,7 @@ class JsonParser extends jni.JObject {
   ///@since 2.3
   jni.JObject getTypeId() {
     return const jni.JObjectType()
-        .fromRef(_getTypeId(reference.pointer).object);
+        .fromReference(_getTypeId(reference.pointer).object);
   }
 
   static final _readValueAs = jniLookup<
@@ -2724,7 +2727,7 @@ class JsonParser extends jni.JObject {
     jni.JObject valueType, {
     required jni.JObjType<$T> T,
   }) {
-    return T.fromRef(
+    return T.fromReference(
         _readValueAs(reference.pointer, valueType.reference.pointer).object);
   }
 
@@ -2765,7 +2768,7 @@ class JsonParser extends jni.JObject {
     jni.JObject valueTypeRef, {
     required jni.JObjType<$T> T,
   }) {
-    return T.fromRef(
+    return T.fromReference(
         _readValueAs1(reference.pointer, valueTypeRef.reference.pointer)
             .object);
   }
@@ -2793,7 +2796,7 @@ class JsonParser extends jni.JObject {
     jni.JObject valueType, {
     required jni.JObjType<$T> T,
   }) {
-    return jni.JIteratorType(T).fromRef(
+    return jni.JIteratorType(T).fromReference(
         _readValuesAs(reference.pointer, valueType.reference.pointer).object);
   }
 
@@ -2820,7 +2823,7 @@ class JsonParser extends jni.JObject {
     jni.JObject valueTypeRef, {
     required jni.JObjType<$T> T,
   }) {
-    return jni.JIteratorType(T).fromRef(
+    return jni.JIteratorType(T).fromReference(
         _readValuesAs1(reference.pointer, valueTypeRef.reference.pointer)
             .object);
   }
@@ -2846,7 +2849,7 @@ class JsonParser extends jni.JObject {
   $T readValueAsTree<$T extends jni.JObject>({
     required jni.JObjType<$T> T,
   }) {
-    return T.fromRef(_readValueAsTree(reference.pointer).object);
+    return T.fromReference(_readValueAsTree(reference.pointer).object);
   }
 }
 
@@ -2857,7 +2860,7 @@ final class $JsonParserType extends jni.JObjType<JsonParser> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonParser;";
 
   @override
-  JsonParser fromRef(jni.JObjectPtr ref) => JsonParser.fromRef(ref);
+  JsonParser fromReference(jni.JObjectPtr ref) => JsonParser.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

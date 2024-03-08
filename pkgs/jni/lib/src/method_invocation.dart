@@ -24,8 +24,8 @@ class $MethodInvocation {
   ) {
     return $MethodInvocation._(
       Pointer<CallbackResult>.fromAddress(resultAddress),
-      JString.fromRef(Pointer<Void>.fromAddress(descriptorAddress)),
-      JArray.fromRef(
+      JString.fromReference(Pointer<Void>.fromAddress(descriptorAddress)),
+      JArray.fromReference(
         const JObjectType(),
         Pointer<Void>.fromAddress(argsAddress),
       ),

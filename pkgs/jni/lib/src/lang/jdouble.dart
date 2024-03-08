@@ -15,7 +15,7 @@ final class JDoubleType extends JObjType<JDouble> {
   String get signature => r"Ljava/lang/Double;";
 
   @override
-  JDouble fromRef(JObjectPtr ref) => JDouble.fromRef(ref);
+  JDouble fromReference(JObjectPtr ref) => JDouble.fromReference(ref);
 
   @override
   JObjType get superType => const JNumberType();
@@ -37,9 +37,9 @@ class JDouble extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JDouble> $type = type;
 
-  JDouble.fromRef(
+  JDouble.fromReference(
     JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = JDoubleType();
@@ -49,6 +49,6 @@ class JDouble extends JNumber {
   static final _ctorId =
       Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(D)V");
   JDouble(double num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
+      : super.fromReference(Jni.accessors.newObjectWithArgs(
             _class.reference.pointer, _ctorId, [num]).object);
 }

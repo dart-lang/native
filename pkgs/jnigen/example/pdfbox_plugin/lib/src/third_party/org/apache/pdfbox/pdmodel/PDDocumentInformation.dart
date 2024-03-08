@@ -53,9 +53,9 @@ class PDDocumentInformation extends jni.JObject {
   @override
   late final jni.JObjType<PDDocumentInformation> $type = type;
 
-  PDDocumentInformation.fromRef(
+  PDDocumentInformation.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentInformationType();
@@ -68,7 +68,7 @@ class PDDocumentInformation extends jni.JObject {
   ///
   /// Default Constructor.
   factory PDDocumentInformation() {
-    return PDDocumentInformation.fromRef(_new0().object);
+    return PDDocumentInformation.fromReference(_new0().object);
   }
 
   static final _new1 = jniLookup<
@@ -85,7 +85,8 @@ class PDDocumentInformation extends jni.JObject {
   factory PDDocumentInformation.new1(
     jni.JObject dic,
   ) {
-    return PDDocumentInformation.fromRef(_new1(dic.reference.pointer).object);
+    return PDDocumentInformation.fromReference(
+        _new1(dic.reference.pointer).object);
   }
 
   static final _getCOSObject = jniLookup<
@@ -101,7 +102,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The underlying info dictionary.
   jni.JObject getCOSObject() {
     return const jni.JObjectType()
-        .fromRef(_getCOSObject(reference.pointer).object);
+        .fromReference(_getCOSObject(reference.pointer).object);
   }
 
   static final _getPropertyStringValue = jniLookup<
@@ -127,7 +128,7 @@ class PDDocumentInformation extends jni.JObject {
   jni.JObject getPropertyStringValue(
     jni.JString propertyKey,
   ) {
-    return const jni.JObjectType().fromRef(_getPropertyStringValue(
+    return const jni.JObjectType().fromReference(_getPropertyStringValue(
             reference.pointer, propertyKey.reference.pointer)
         .object);
   }
@@ -144,7 +145,8 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
   jni.JString getTitle() {
-    return const jni.JStringType().fromRef(_getTitle(reference.pointer).object);
+    return const jni.JStringType()
+        .fromReference(_getTitle(reference.pointer).object);
   }
 
   static final _setTitle = jniLookup<
@@ -178,7 +180,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The author of the document.
   jni.JString getAuthor() {
     return const jni.JStringType()
-        .fromRef(_getAuthor(reference.pointer).object);
+        .fromReference(_getAuthor(reference.pointer).object);
   }
 
   static final _setAuthor = jniLookup<
@@ -212,7 +214,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The subject of the document.
   jni.JString getSubject() {
     return const jni.JStringType()
-        .fromRef(_getSubject(reference.pointer).object);
+        .fromReference(_getSubject(reference.pointer).object);
   }
 
   static final _setSubject = jniLookup<
@@ -246,7 +248,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The keywords of the document.
   jni.JString getKeywords() {
     return const jni.JStringType()
-        .fromRef(_getKeywords(reference.pointer).object);
+        .fromReference(_getKeywords(reference.pointer).object);
   }
 
   static final _setKeywords = jniLookup<
@@ -280,7 +282,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The creator of the document.
   jni.JString getCreator() {
     return const jni.JStringType()
-        .fromRef(_getCreator(reference.pointer).object);
+        .fromReference(_getCreator(reference.pointer).object);
   }
 
   static final _setCreator = jniLookup<
@@ -314,7 +316,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The producer of the document.
   jni.JString getProducer() {
     return const jni.JStringType()
-        .fromRef(_getProducer(reference.pointer).object);
+        .fromReference(_getProducer(reference.pointer).object);
   }
 
   static final _setProducer = jniLookup<
@@ -348,7 +350,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The creation date of the document.
   jni.JObject getCreationDate() {
     return const jni.JObjectType()
-        .fromRef(_getCreationDate(reference.pointer).object);
+        .fromReference(_getCreationDate(reference.pointer).object);
   }
 
   static final _setCreationDate = jniLookup<
@@ -383,7 +385,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The modification date of the document.
   jni.JObject getModificationDate() {
     return const jni.JObjectType()
-        .fromRef(_getModificationDate(reference.pointer).object);
+        .fromReference(_getModificationDate(reference.pointer).object);
   }
 
   static final _setModificationDate = jniLookup<
@@ -420,7 +422,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@return The trapped value for the document.
   jni.JString getTrapped() {
     return const jni.JStringType()
-        .fromRef(_getTrapped(reference.pointer).object);
+        .fromReference(_getTrapped(reference.pointer).object);
   }
 
   static final _getMetadataKeys = jniLookup<
@@ -437,7 +439,7 @@ class PDDocumentInformation extends jni.JObject {
   ///@since Apache PDFBox 1.3.0
   jni.JSet<jni.JString> getMetadataKeys() {
     return const jni.JSetType(jni.JStringType())
-        .fromRef(_getMetadataKeys(reference.pointer).object);
+        .fromReference(_getMetadataKeys(reference.pointer).object);
   }
 
   static final _getCustomMetadataValue = jniLookup<
@@ -459,7 +461,7 @@ class PDDocumentInformation extends jni.JObject {
   jni.JString getCustomMetadataValue(
     jni.JString fieldName,
   ) {
-    return const jni.JStringType().fromRef(
+    return const jni.JStringType().fromReference(
         _getCustomMetadataValue(reference.pointer, fieldName.reference.pointer)
             .object);
   }
@@ -516,8 +518,8 @@ final class $PDDocumentInformationType
   String get signature => r"Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;";
 
   @override
-  PDDocumentInformation fromRef(jni.JObjectPtr ref) =>
-      PDDocumentInformation.fromRef(ref);
+  PDDocumentInformation fromReference(jni.JObjectPtr ref) =>
+      PDDocumentInformation.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

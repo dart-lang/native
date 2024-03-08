@@ -47,9 +47,9 @@ class JsonToken extends jni.JObject {
   @override
   late final jni.JObjType<JsonToken> $type = type;
 
-  JsonToken.fromRef(
+  JsonToken.fromReference(
     jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  ) : super.fromReference(ref);
 
   static final _class =
       jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonToken");
@@ -64,9 +64,9 @@ class JsonToken extends jni.JObject {
   /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonToken> values() {
-    return const jni.JArrayType($JsonTokenType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference.pointer, _id_values,
-            jni.JniCallType.objectType, []).object);
+    return const jni.JArrayType($JsonTokenType()).fromReference(
+        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference.pointer,
+            _id_values, jni.JniCallType.objectType, []).object);
   }
 
   static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
@@ -79,7 +79,7 @@ class JsonToken extends jni.JObject {
   static JsonToken valueOf(
     jni.JString name,
   ) {
-    return const $JsonTokenType().fromRef(jni.Jni.accessors
+    return const $JsonTokenType().fromReference(jni.Jni.accessors
         .callStaticMethodWithArgs(_class.reference.pointer, _id_valueOf,
             jni.JniCallType.objectType, [name.reference.pointer]).object);
   }
@@ -99,10 +99,9 @@ class JsonToken extends jni.JObject {
   /// from: public final java.lang.String asString()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
-    return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference.pointer,
-        _id_asString,
-        jni.JniCallType.objectType, []).object);
+    return const jni.JStringType().fromReference(jni.Jni.accessors
+        .callMethodWithArgs(reference.pointer, _id_asString,
+            jni.JniCallType.objectType, []).object);
   }
 
   static final _id_asCharArray = jni.Jni.accessors
@@ -111,7 +110,7 @@ class JsonToken extends jni.JObject {
   /// from: public final char[] asCharArray()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
-    return const jni.JArrayType(jni.jcharType()).fromRef(jni.Jni.accessors
+    return const jni.JArrayType(jni.jcharType()).fromReference(jni.Jni.accessors
         .callMethodWithArgs(reference.pointer, _id_asCharArray,
             jni.JniCallType.objectType, []).object);
   }
@@ -122,7 +121,7 @@ class JsonToken extends jni.JObject {
   /// from: public final byte[] asByteArray()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
-    return const jni.JArrayType(jni.jbyteType()).fromRef(jni.Jni.accessors
+    return const jni.JArrayType(jni.jbyteType()).fromReference(jni.Jni.accessors
         .callMethodWithArgs(reference.pointer, _id_asByteArray,
             jni.JniCallType.objectType, []).object);
   }
@@ -209,7 +208,7 @@ final class $JsonTokenType extends jni.JObjType<JsonToken> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonToken;";
 
   @override
-  JsonToken fromRef(jni.JObjectPtr ref) => JsonToken.fromRef(ref);
+  JsonToken fromReference(jni.JObjectPtr ref) => JsonToken.fromReference(ref);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
