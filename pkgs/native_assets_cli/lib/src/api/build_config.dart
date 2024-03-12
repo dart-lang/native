@@ -76,7 +76,7 @@ abstract final class BuildConfig {
   /// in the Android documentation.
   int? get targetAndroidNdkApi;
 
-  /// The preferred [LinkMode] method for [CCodeAsset]s.
+  /// The preferred [LinkMode] method for [NativeCodeAsset]s.
   LinkModePreference get linkModePreference;
 
   /// Metadata from a direct dependency.
@@ -112,7 +112,7 @@ abstract final class BuildConfig {
   /// The asset types that the invoker of this build supports.
   ///
   /// Currently known values:
-  /// * [CCodeAsset.type]
+  /// * [NativeCodeAsset.type]
   /// * [DataAsset.type]
   Iterable<String> get supportedAssetTypes;
 

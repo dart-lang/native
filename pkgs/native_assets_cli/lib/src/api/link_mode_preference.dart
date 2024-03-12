@@ -7,7 +7,7 @@ import 'link_mode.dart';
 
 part '../model/link_mode_preference.dart';
 
-/// The preferred linkMode method for [CCodeAsset]s.
+/// The preferred linkMode method for [NativeCodeAsset]s.
 abstract final class LinkModePreference {
   /// The name for this link mode.
   String get name;

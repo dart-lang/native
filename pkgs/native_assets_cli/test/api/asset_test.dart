@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 void main() {
   test('Asset constructors', () async {
     final assets = [
-      CCodeAsset(
+      NativeCodeAsset(
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
@@ -18,7 +18,7 @@ void main() {
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
-      CCodeAsset(
+      NativeCodeAsset(
         package: 'my_package',
         name: 'foo3',
         dynamicLoading: SystemDylib(Uri(path: 'libfoo3.so')),
@@ -26,7 +26,7 @@ void main() {
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
-      CCodeAsset(
+      NativeCodeAsset(
         package: 'my_package',
         name: 'foo4',
         dynamicLoading: LookupInExecutable(),
@@ -34,7 +34,7 @@ void main() {
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
-      CCodeAsset(
+      NativeCodeAsset(
         package: 'my_package',
         name: 'foo5',
         dynamicLoading: LookupInProcess(),
@@ -42,7 +42,7 @@ void main() {
         architecture: Architecture.x64,
         linkMode: LinkMode.dynamic,
       ),
-      CCodeAsset(
+      NativeCodeAsset(
         package: 'my_package',
         name: 'bar',
         file: Uri(path: 'path/to/libbar.a'),
@@ -50,7 +50,7 @@ void main() {
         architecture: Architecture.arm64,
         linkMode: LinkMode.static,
       ),
-      CCodeAsset(
+      NativeCodeAsset(
         package: 'my_package',
         name: 'bla',
         file: Uri(path: 'path/with spaces/bla.dll'),
@@ -70,7 +70,7 @@ void main() {
 
   test('Errors', () {
     expect(
-      () => CCodeAsset(
+      () => NativeCodeAsset(
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
@@ -82,7 +82,7 @@ void main() {
       throwsArgumentError,
     );
     expect(
-      () => CCodeAsset(
+      () => NativeCodeAsset(
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
@@ -93,7 +93,7 @@ void main() {
       throwsArgumentError,
     );
     expect(
-      () => CCodeAsset(
+      () => NativeCodeAsset(
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
@@ -105,7 +105,7 @@ void main() {
       throwsArgumentError,
     );
 
-    final staticLinkingAsset = CCodeAsset(
+    final staticLinkingAsset = NativeCodeAsset(
       package: 'my_package',
       name: 'foo',
       file: Uri.file('path/to/libfoo.so'),

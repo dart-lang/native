@@ -1,7 +1,7 @@
 ## 1.1.0
 
 - Assets now have a `type`.
-  Backwards compatibility: assets without a type are interpreted as `c_code` assets.
+  Backwards compatibility: assets without a type are interpreted as `native_code` assets.
 - Assets now have an optional `file`.
   Backwards compatibility: assets that have an `AssetAbsolutePath` will have that path used as `file`.
 - **Breaking change** Assets now have a `dynamic_loading` field instead of `path_type`.

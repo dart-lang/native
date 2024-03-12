@@ -121,7 +121,7 @@ final class LookupInExecutableImpl
       };
 }
 
-final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
+final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   @override
   final Uri? file;
 
@@ -147,7 +147,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
   @override
   final ArchitectureImpl? architecture;
 
-  CCodeAssetImpl({
+  NativeCodeAssetImpl({
     this.file,
     required this.id,
     required this.linkMode,
@@ -180,7 +180,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
     }
   }
 
-  factory CCodeAssetImpl.fromYaml(YamlMap yamlMap) {
+  factory NativeCodeAssetImpl.fromYaml(YamlMap yamlMap) {
     final linkMode = LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey]));
     final dynamicLoadingYaml =
         as<YamlMap?>(yamlMap[_dynamicLoadingKey] ?? yamlMap[_pathKey]);
@@ -218,7 +218,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
       }
     }
 
-    return CCodeAssetImpl(
+    return NativeCodeAssetImpl(
       id: as<String>(yamlMap[_idKey]),
       dynamicLoading: linkMode == LinkMode.dynamic ? dynamicLoading : null,
       os: os,
@@ -228,7 +228,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
     );
   }
 
-  CCodeAssetImpl copyWith({
+  NativeCodeAssetImpl copyWith({
     LinkModeImpl? linkMode,
     String? id,
     OSImpl? os,
@@ -236,7 +236,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
     DynamicLoadingImpl? dynamicLoading,
     Uri? file,
   }) =>
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: id ?? this.id,
         linkMode: linkMode ?? this.linkMode,
         os: os ?? this.os,
@@ -247,7 +247,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
 
   @override
   bool operator ==(Object other) {
-    if (other is! CCodeAssetImpl) {
+    if (other is! NativeCodeAssetImpl) {
       return false;
     }
     return other.id == id &&
@@ -286,7 +286,7 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
       _idKey: id,
       _linkModeKey: linkMode.name,
       _osKey: os.toString(),
-      typeKey: CCodeAsset.type,
+      typeKey: NativeCodeAsset.type,
     }..sortOnKey();
   }
 
@@ -301,5 +301,6 @@ final class CCodeAssetImpl implements CCodeAsset, AssetImpl {
   static const _architectureKey = 'architecture';
 
   @override
-  String toString() => 'CCodeAsset(${toYaml(BuildOutputImpl.latestVersion)})';
+  String toString() =>
+      'NativeCodeAsset(${toYaml(BuildOutputImpl.latestVersion)})';
 }

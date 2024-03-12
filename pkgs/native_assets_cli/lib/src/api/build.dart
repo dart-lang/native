@@ -72,7 +72,7 @@ import 'build_output.dart';
 ///
 ///     output.addAsset(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
-///       CCodeAsset(
+///       NativeCodeAsset(
 ///         id: 'library:$packageName/asset.txt',
 ///         file: assetPath,
 ///         linkMode: LinkMode.dynamic,

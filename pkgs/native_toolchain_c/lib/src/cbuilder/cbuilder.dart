@@ -248,7 +248,7 @@ class CBuilder implements Builder {
 
     if (assetName != null) {
       buildOutput.addAssets([
-        CCodeAsset(
+        NativeCodeAsset(
           package: buildConfig.packageName,
           name: assetName!,
           file: buildConfig.dryRun ? null : libUri,

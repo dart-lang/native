@@ -182,7 +182,7 @@ class NativeAssetsBuildRunner {
       );
       for (final asset in packageAssets) {
         switch (asset) {
-          case CCodeAssetImpl _:
+          case NativeCodeAssetImpl _:
             if (asset.architecture != null) {
               // Backwards compatibility, if an architecture is provided use it.
               assets.add(asset);
@@ -315,7 +315,7 @@ build_output.yaml contained a format error.
 ${e.message}
         ''');
       success = false;
-      return (<CCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
+      return (<NativeCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
       // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
       // type errors in native_assets_cli, release a new version of that package
       // and then remove this.
@@ -326,7 +326,7 @@ Building native assets for package:${config.packageName} failed.
 build_output.yaml contained a format error.
         ''');
       success = false;
-      return (<CCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
+      return (<NativeCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
     } finally {
       if (!success) {
         final buildOutputFile =

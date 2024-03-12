@@ -206,7 +206,7 @@ final class BuildConfigImpl implements BuildConfig {
   ) =>
       [
         ...?supportedAssetTypes,
-        if (supportedAssetTypes == null) CCodeAsset.type,
+        if (supportedAssetTypes == null) NativeCodeAsset.type,
       ];
 
   BuildConfigImpl._();
@@ -421,7 +421,7 @@ final class BuildConfigImpl implements BuildConfig {
       },
       (config) => _supportedAssetTypes =
           config.optionalStringList(supportedAssetTypesKey) ??
-              [CCodeAsset.type],
+              [NativeCodeAsset.type],
     ];
   }
 

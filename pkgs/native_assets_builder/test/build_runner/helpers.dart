@@ -61,7 +61,7 @@ Future<BuildResult> build(
     runPackageName: runPackageName,
   );
   if (result.success) {
-    await expectAssetsExist(result.assets.cast<CCodeAssetImpl>());
+    await expectAssetsExist(result.assets.cast<NativeCodeAssetImpl>());
   }
 
   if (subscription != null) {
@@ -105,7 +105,7 @@ Future<DryRunResult> dryRun(
   return result;
 }
 
-Future<void> expectAssetsExist(List<CCodeAssetImpl> assets) async {
+Future<void> expectAssetsExist(List<NativeCodeAssetImpl> assets) async {
   for (final asset in assets) {
     final uri = asset.file!;
     expect(
@@ -118,7 +118,7 @@ Future<void> expectAssetsExist(List<CCodeAssetImpl> assets) async {
 }
 
 Future<void> expectSymbols({
-  required CCodeAssetImpl asset,
+  required NativeCodeAssetImpl asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {

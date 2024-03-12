@@ -6,7 +6,7 @@ import 'asset.dart';
 
 part '../model/link_mode.dart';
 
-/// The link mode for [CCodeAsset]s.
+/// The link mode for [NativeCodeAsset]s.
 abstract final class LinkMode {
   /// Dynamic loading.
   ///

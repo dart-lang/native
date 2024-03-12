@@ -23,7 +23,7 @@ void main() {
   final buildOutput = BuildOutputImpl(
     timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     assets: [
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: 'package:my_package/foo',
         file: Uri(path: 'path/to/libfoo.so'),
         dynamicLoading: BundledDylibImpl(),
@@ -31,21 +31,21 @@ void main() {
         architecture: ArchitectureImpl.x64,
         linkMode: LinkModeImpl.dynamic,
       ),
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: 'package:my_package/foo2',
         dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
         linkMode: LinkModeImpl.dynamic,
       ),
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: 'package:my_package/foo3',
         dynamicLoading: LookupInProcessImpl(),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
         linkMode: LinkModeImpl.dynamic,
       ),
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: 'package:my_package/foo4',
         dynamicLoading: LookupInExecutableImpl(),
         os: OSImpl.android,
@@ -100,7 +100,7 @@ assets:
     id: package:my_package/foo
     link_mode: dynamic
     os: android
-    type: c_code
+    type: native_code
   - architecture: x64
     dynamic_loading:
       type: system
@@ -108,21 +108,21 @@ assets:
     id: package:my_package/foo2
     link_mode: dynamic
     os: android
-    type: c_code
+    type: native_code
   - architecture: x64
     dynamic_loading:
       type: process
     id: package:my_package/foo3
     link_mode: dynamic
     os: android
-    type: c_code
+    type: native_code
   - architecture: x64
     dynamic_loading:
       type: executable
     id: package:my_package/foo4
     link_mode: dynamic
     os: android
-    type: c_code
+    type: native_code
 dependencies:
   - path/to/file.ext
 metadata:
@@ -267,7 +267,7 @@ version: ${BuildOutputImpl.latestVersion}'''),
     final buildOutput = BuildOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
-        CCodeAssetImpl(
+        NativeCodeAssetImpl(
           id: 'package:my_package/foo',
           file: Uri(path: 'path/to/libfoo.so'),
           dynamicLoading: BundledDylibImpl(),
@@ -275,7 +275,7 @@ version: ${BuildOutputImpl.latestVersion}'''),
           architecture: ArchitectureImpl.x64,
           linkMode: LinkModeImpl.dynamic,
         ),
-        CCodeAssetImpl(
+        NativeCodeAssetImpl(
           id: 'package:my_package/foo2',
           dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
           os: OSImpl.android,
@@ -297,7 +297,7 @@ version: ${BuildOutputImpl.latestVersion}'''),
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     );
     buildOutput2.addAsset(
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: 'package:my_package/foo',
         file: Uri(path: 'path/to/libfoo.so'),
         dynamicLoading: BundledDylibImpl(),
@@ -307,7 +307,7 @@ version: ${BuildOutputImpl.latestVersion}'''),
       ),
     );
     buildOutput2.addAssets([
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: 'package:my_package/foo2',
         dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
         os: OSImpl.android,

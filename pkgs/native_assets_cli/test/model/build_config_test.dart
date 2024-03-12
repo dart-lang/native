@@ -257,7 +257,7 @@ out_dir: ${outDir.toFilePath()}
 package_name: $packageName
 package_root: ${tempUri.toFilePath()}
 supported_asset_types:
-  - ${CCodeAsset.type}
+  - ${NativeCodeAsset.type}
 target_architecture: arm64
 target_ios_sdk: iphoneos
 target_os: ios
@@ -539,11 +539,11 @@ version: 1.0.0''';
         targetOS: OSImpl.linux,
         buildMode: BuildModeImpl.release,
         linkModePreference: LinkModePreferenceImpl.dynamic,
-        supportedAssetTypes: [CCodeAsset.type],
+        supportedAssetTypes: [NativeCodeAsset.type],
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '4dec7292cfab417c27529307d949773f');
+      expect(name1, 'd95547e3b45e88a475739eb4fe03600a');
 
       // Build folder different due to metadata.
       final name2 = BuildConfigImpl.checksum(

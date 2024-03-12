@@ -11,9 +11,9 @@ export 'src/api/asset.dart'
     show
         Asset,
         BundledDylib,
-        CCodeAsset,
         LookupInExecutable,
         LookupInProcess,
+        NativeCodeAsset,
         SystemDylib;
 export 'src/api/build.dart';
 export 'src/api/build_config.dart' show BuildConfig, CCompilerConfig;

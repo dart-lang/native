@@ -14,10 +14,10 @@ import 'build_output.dart';
 import 'link_mode.dart';
 import 'os.dart';
 
-part 'c_code_asset.dart';
+part 'native_code_asset.dart';
 part 'data_asset.dart';
 part '../model/asset.dart';
-part '../model/c_code_asset.dart';
+part '../model/native_code_asset.dart';
 part '../model/data_asset.dart';
 
 /// Data or code bundled with a Dart or Flutter application.
@@ -36,7 +36,7 @@ abstract final class Asset {
   /// different packages.
   ///
   /// The default asset id for an asset reference from `lib/src/foo.dart` is
-  /// `'package:foo/src/foo.dart'`. For example a [CCodeAsset] can be accessed
+  /// `'package:foo/src/foo.dart'`. For example a [NativeCodeAsset] can be accessed
   /// via `@Native` with the `assetId` argument omitted:
   ///
   /// ```dart

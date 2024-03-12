@@ -76,7 +76,8 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         await expectSymbols(
-            asset: result.assets.single as CCodeAssetImpl, symbols: ['add']);
+            asset: result.assets.single as NativeCodeAssetImpl,
+            symbols: ['add']);
       }
 
       await copyTestProjects(
@@ -87,7 +88,7 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         await expectSymbols(
-          asset: result.assets.single as CCodeAssetImpl,
+          asset: result.assets.single as NativeCodeAssetImpl,
           symbols: ['add', 'subtract'],
         );
       }
@@ -104,7 +105,8 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         await expectSymbols(
-            asset: result.assets.single as CCodeAssetImpl, symbols: ['add']);
+            asset: result.assets.single as NativeCodeAssetImpl,
+            symbols: ['add']);
       }
 
       await copyTestProjects(
@@ -114,7 +116,7 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         await expectSymbols(
-            asset: result.assets.single as CCodeAssetImpl,
+            asset: result.assets.single as NativeCodeAssetImpl,
             symbols: ['add', 'multiply']);
       }
     });

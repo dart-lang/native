@@ -16,8 +16,8 @@ void main() {
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
   final dataUri = Uri.file('path/to/data.txt');
   final data2Uri = Uri.file('path/to/data.json');
-  final cCodeAssets = [
-    CCodeAssetImpl(
+  final nativeCodeAssets = [
+    NativeCodeAssetImpl(
       id: 'package:my_package/foo',
       file: fooUri,
       dynamicLoading: BundledDylibImpl(),
@@ -25,35 +25,35 @@ void main() {
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    CCodeAssetImpl(
+    NativeCodeAssetImpl(
       id: 'package:my_package/foo3',
       dynamicLoading: SystemDylibImpl(foo3Uri),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    CCodeAssetImpl(
+    NativeCodeAssetImpl(
       id: 'package:my_package/foo4',
       dynamicLoading: LookupInExecutableImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    CCodeAssetImpl(
+    NativeCodeAssetImpl(
       id: 'package:my_package/foo5',
       dynamicLoading: LookupInProcessImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
       linkMode: LinkModeImpl.dynamic,
     ),
-    CCodeAssetImpl(
+    NativeCodeAssetImpl(
       id: 'package:my_package/bar',
       file: barUri,
       os: OSImpl.linux,
       architecture: ArchitectureImpl.arm64,
       linkMode: LinkModeImpl.static,
     ),
-    CCodeAssetImpl(
+    NativeCodeAssetImpl(
       id: 'package:my_package/bla',
       file: blaUri,
       dynamicLoading: BundledDylibImpl(),
@@ -73,7 +73,7 @@ void main() {
     ),
   ];
   final assets = [
-    ...cCodeAssets,
+    ...nativeCodeAssets,
     ...dataAssets,
   ];
 
@@ -119,7 +119,7 @@ void main() {
   id: package:my_package/foo
   link_mode: dynamic
   os: android
-  type: c_code
+  type: native_code
 - architecture: x64
   dynamic_loading:
     type: system
@@ -127,27 +127,27 @@ void main() {
   id: package:my_package/foo3
   link_mode: dynamic
   os: android
-  type: c_code
+  type: native_code
 - architecture: x64
   dynamic_loading:
     type: executable
   id: package:my_package/foo4
   link_mode: dynamic
   os: android
-  type: c_code
+  type: native_code
 - architecture: x64
   dynamic_loading:
     type: process
   id: package:my_package/foo5
   link_mode: dynamic
   os: android
-  type: c_code
+  type: native_code
 - architecture: arm64
   file: ${barUri.toFilePath()}
   id: package:my_package/bar
   link_mode: static
   os: linux
-  type: c_code
+  type: native_code
 - architecture: x64
   dynamic_loading:
     type: bundle
@@ -155,7 +155,7 @@ void main() {
   id: package:my_package/bla
   link_mode: dynamic
   os: windows
-  type: c_code
+  type: native_code
 - id: package:my_package/my_data_asset
   file: ${dataUri.toFilePath()}
   type: data
@@ -175,7 +175,7 @@ void main() {
   test('build_output protocol v1.0.0 keeps working', () {
     final assets2 = AssetImpl.listFromYamlList(
         loadYaml(assetsYamlEncodingV1_0_0) as YamlList);
-    expect(cCodeAssets, assets2);
+    expect(nativeCodeAssets, assets2);
   });
 
   test('AssetPath factory', () async {
@@ -188,7 +188,7 @@ void main() {
   });
 
   test('Asset hashCode copyWith', () async {
-    final asset = cCodeAssets.first;
+    final asset = nativeCodeAssets.first;
     final asset2 = asset.copyWith(id: 'foo321');
     expect(asset.hashCode != asset2.hashCode, true);
 
@@ -199,9 +199,9 @@ void main() {
   });
 
   test('List<Asset> hashCode', () async {
-    final assets2 = cCodeAssets.take(3).toList();
-    const equality = ListEquality<CCodeAssetImpl>();
-    expect(equality.hash(cCodeAssets) != equality.hash(assets2), true);
+    final assets2 = nativeCodeAssets.take(3).toList();
+    const equality = ListEquality<NativeCodeAssetImpl>();
+    expect(equality.hash(nativeCodeAssets) != equality.hash(assets2), true);
   });
 
   test('Asset toString', () async {

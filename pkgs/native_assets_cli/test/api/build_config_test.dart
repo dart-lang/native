@@ -61,7 +61,7 @@ void main() async {
       ),
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [CCodeAsset.type],
+      supportedAssetTypes: [NativeCodeAsset.type],
     );
 
     final config2 = BuildConfig.build(
@@ -73,7 +73,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [CCodeAsset.type],
+      supportedAssetTypes: [NativeCodeAsset.type],
     );
 
     expect(config1, equals(config1));
@@ -131,7 +131,7 @@ void main() async {
       packageRoot: packageRootUri,
       targetOS: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
-      supportedAssetTypes: [CCodeAsset.type],
+      supportedAssetTypes: [NativeCodeAsset.type],
     );
 
     final config = Config(fileParsed: {

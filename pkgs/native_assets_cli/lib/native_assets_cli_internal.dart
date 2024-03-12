@@ -21,10 +21,10 @@ export 'src/api/asset.dart'
     show
         AssetImpl,
         BundledDylibImpl,
-        CCodeAssetImpl,
         DataAssetImpl,
         LookupInExecutableImpl,
         LookupInProcessImpl,
+        NativeCodeAssetImpl,
         SystemDylibImpl;
 export 'src/api/build_config.dart' show BuildConfigImpl, CCompilerConfigImpl;
 export 'src/api/build_mode.dart' show BuildModeImpl;

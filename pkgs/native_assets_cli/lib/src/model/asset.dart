@@ -11,11 +11,11 @@ abstract final class AssetImpl implements Asset {
     final assets = <AssetImpl>[];
     for (final yamlElement in list) {
       final yamlMap = as<YamlMap>(yamlElement);
-      final type = yamlMap[CCodeAssetImpl.typeKey];
+      final type = yamlMap[NativeCodeAssetImpl.typeKey];
       switch (type) {
-        case CCodeAsset.type:
+        case NativeCodeAsset.type:
         case null: // Backwards compatibility with v1.0.0.
-          assets.add(CCodeAssetImpl.fromYaml(yamlMap));
+          assets.add(NativeCodeAssetImpl.fromYaml(yamlMap));
         case DataAsset.type:
           assets.add(DataAssetImpl.fromYaml(yamlMap));
         default:

@@ -33,7 +33,7 @@ void main(List<String> args) async {
 
     output.addAsset(
       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
-      CCodeAsset(
+      NativeCodeAsset(
         package: packageName,
         name: 'asset.txt',
         file: assetPath,

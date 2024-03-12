@@ -6,11 +6,12 @@ part of 'asset.dart';
 
 /// A code [Asset] which respects the native application binary interface (ABI).
 ///
-/// Typical other languages which produce code assets that respect the C ABI
-/// include C++ and Rust.
+/// Typical languages which produce code assets that respect the native ABI
+/// include C, C++ (with `extern "C"`), Rust (with `extern "C"`), and a subset
+/// of language features of Objective-C.
 ///
-/// C code assets can be accessed at runtime through native external functions
-/// via their asset [id]:
+/// Native code assets can be accessed at runtime through native external
+/// functions via their asset [id]:
 ///
 /// ```dart
 /// import 'dart:ffi';
@@ -24,7 +25,7 @@ part of 'asset.dart';
 /// external int add(int a, int b);
 /// ```
 ///
-/// There are several types of C code assets:
+/// There are several types of native code assets:
 /// * Assets which designate symbols present in the target system
 ///   ([SystemDylib]), process ([LookupInProcess]), or executable
 ///   ([LookupInExecutable]). These assets do not have a [file].
@@ -42,7 +43,7 @@ part of 'asset.dart';
 /// target system ([SystemDylib]). If the asset is bundled "manually", the Dart
 /// or Flutter SDK will take care of copying the asset [file] from its specified
 /// location on the current system into the application bundle.
-abstract final class CCodeAsset implements Asset {
+abstract final class NativeCodeAsset implements Asset {
   /// The operating system this asset can run on.
   OS get os;
 
@@ -61,7 +62,7 @@ abstract final class CCodeAsset implements Asset {
   /// Throws a [StateError] when accessed with [linkMode] is [LinkMode.static].
   DynamicLoading get dynamicLoading;
 
-  /// Constructs a C code asset.
+  /// Constructs a native code asset.
   ///
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
   /// and [name].
@@ -73,7 +74,7 @@ abstract final class CCodeAsset implements Asset {
   /// If [linkMode] is [LinkMode.dynamic] and [dynamicLoading] is not
   /// [BundledDylib], a [file] must not be provided. If [dynamicLoading] is
   /// [BundledDylib], a [file] must be provided in non-[BuildConfig.dryRun]s.
-  factory CCodeAsset({
+  factory NativeCodeAsset({
     required String package,
     required String name,
     required LinkMode linkMode,
@@ -82,7 +83,7 @@ abstract final class CCodeAsset implements Asset {
     Uri? file,
     Architecture? architecture,
   }) =>
-      CCodeAssetImpl(
+      NativeCodeAssetImpl(
         id: 'package:$package/$name',
         linkMode: linkMode as LinkModeImpl,
         os: os as OSImpl,
@@ -91,10 +92,10 @@ abstract final class CCodeAsset implements Asset {
         file: file,
       );
 
-  static const String type = 'c_code';
+  static const String type = 'native_code';
 }
 
-/// The dynamic loading method when the [CCodeAsset.linkMode] is
+/// The dynamic loading method when the [NativeCodeAsset.linkMode] is
 /// [LinkMode.dynamic].
 abstract final class DynamicLoading {}
 
