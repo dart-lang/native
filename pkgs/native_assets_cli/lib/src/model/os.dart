@@ -113,7 +113,7 @@ final class OSImpl implements OS {
 
   @override
   String libraryFileName(String name, LinkMode linkMode) {
-    if (linkMode == LinkModeImpl.dynamic) {
+    if (linkMode == LinkModeImpl.dynamicLoading) {
       return dylibFileName(name);
     }
     assert(linkMode == LinkModeImpl.static);

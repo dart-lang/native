@@ -23,28 +23,28 @@ void main() {
       dynamicLoading: BundledDylibImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamic,
+      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo3',
       dynamicLoading: SystemDylibImpl(foo3Uri),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamic,
+      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo4',
       dynamicLoading: LookupInExecutableImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamic,
+      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo5',
       dynamicLoading: LookupInProcessImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamic,
+      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/bar',
@@ -59,7 +59,7 @@ void main() {
       dynamicLoading: BundledDylibImpl(),
       os: OSImpl.windows,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamic,
+      linkMode: LinkModeImpl.dynamicLoading,
     ),
   ];
   final dataAssets = [

@@ -16,7 +16,7 @@ void main() {
         dynamicLoading: BundledDylib(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamic,
+        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
@@ -24,7 +24,7 @@ void main() {
         dynamicLoading: SystemDylib(Uri(path: 'libfoo3.so')),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamic,
+        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
@@ -32,7 +32,7 @@ void main() {
         dynamicLoading: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamic,
+        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
@@ -40,7 +40,7 @@ void main() {
         dynamicLoading: LookupInProcess(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamic,
+        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
@@ -57,7 +57,7 @@ void main() {
         dynamicLoading: BundledDylib(),
         os: OS.windows,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamic,
+        linkMode: LinkMode.dynamicLoading,
       ),
       DataAsset(
         package: 'my_package',
@@ -88,7 +88,7 @@ void main() {
         file: Uri.file('path/to/libfoo.so'),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamic,
+        linkMode: LinkMode.dynamicLoading,
       ),
       throwsArgumentError,
     );
@@ -100,7 +100,7 @@ void main() {
         dynamicLoading: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamic,
+        linkMode: LinkMode.dynamicLoading,
       ),
       throwsArgumentError,
     );

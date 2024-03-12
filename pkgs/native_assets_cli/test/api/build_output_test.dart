@@ -29,7 +29,7 @@ void main() {
           dynamicLoading: BundledDylib(),
           os: OS.android,
           architecture: Architecture.x64,
-          linkMode: LinkMode.dynamic,
+          linkMode: LinkMode.dynamicLoading,
         ),
         NativeCodeAsset(
           package: 'my_package',
@@ -37,7 +37,7 @@ void main() {
           dynamicLoading: SystemDylib(Uri(path: 'path/to/libfoo2.so')),
           os: OS.android,
           architecture: Architecture.x64,
-          linkMode: LinkMode.dynamic,
+          linkMode: LinkMode.dynamicLoading,
         ),
       ],
       dependencies: [

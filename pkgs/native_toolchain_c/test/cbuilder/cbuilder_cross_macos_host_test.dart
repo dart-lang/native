@@ -34,7 +34,7 @@ void main() {
     Architecture.x64: '64-bit x86-64',
   };
 
-  for (final linkMode in [LinkMode.dynamic, LinkMode.static]) {
+  for (final linkMode in [LinkMode.dynamicLoading, LinkMode.static]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
@@ -49,7 +49,7 @@ void main() {
           targetArchitecture: target,
           targetOS: OS.macOS,
           buildMode: BuildMode.release,
-          linkModePreference: linkMode == LinkMode.dynamic
+          linkModePreference: linkMode == LinkMode.dynamicLoading
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
         );

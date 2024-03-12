@@ -57,7 +57,8 @@ abstract final class NativeCodeAsset implements Asset {
   /// Either dynamic loading or static linking.
   LinkMode get linkMode;
 
-  /// The dynamic loading method when the [linkMode] is [LinkMode.dynamic].
+  /// The dynamic loading method when the [linkMode] is
+  /// [LinkMode.dynamicLoading].
   ///
   /// Throws a [StateError] when accessed with [linkMode] is [LinkMode.static].
   DynamicLoading get dynamicLoading;
@@ -67,11 +68,11 @@ abstract final class NativeCodeAsset implements Asset {
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
   /// and [name].
   ///
-  /// If [linkMode] is [LinkMode.dynamic], a non-null [dynamicLoading] must be
-  /// provided. If [linkMode] is [LinkMode.static], [dynamicLoading] must not be
-  /// provided.
+  /// If [linkMode] is [LinkMode.dynamicLoading], a non-null [dynamicLoading]
+  /// must be provided. If [linkMode] is [LinkMode.static], [dynamicLoading]
+  /// must not be provided.
   ///
-  /// If [linkMode] is [LinkMode.dynamic] and [dynamicLoading] is not
+  /// If [linkMode] is [LinkMode.dynamicLoading] and [dynamicLoading] is not
   /// [BundledDylib], a [file] must not be provided. If [dynamicLoading] is
   /// [BundledDylib], a [file] must be provided in non-[BuildConfig.dryRun]s.
   factory NativeCodeAsset({
@@ -96,7 +97,7 @@ abstract final class NativeCodeAsset implements Asset {
 }
 
 /// The dynamic loading method when the [NativeCodeAsset.linkMode] is
-/// [LinkMode.dynamic].
+/// [LinkMode.dynamicLoading].
 abstract final class DynamicLoading {}
 
 /// The asset file should be bundled by Dart/Flutter.

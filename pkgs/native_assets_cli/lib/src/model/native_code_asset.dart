@@ -155,7 +155,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     DynamicLoadingImpl? dynamicLoading,
     this.architecture,
   }) : _dynamicLoading = dynamicLoading {
-    if (linkMode == LinkMode.dynamic && dynamicLoading == null) {
+    if (linkMode == LinkMode.dynamicLoading && dynamicLoading == null) {
       throw ArgumentError.value(
         dynamicLoading,
         'dynamicLoading',
@@ -169,7 +169,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
         'Must be null if linkMode == LinkMode.static.',
       );
     }
-    if (linkMode == LinkMode.dynamic &&
+    if (linkMode == LinkMode.dynamicLoading &&
         dynamicLoading is! BundledDylib &&
         file != null) {
       throw ArgumentError.value(
@@ -220,7 +220,8 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
 
     return NativeCodeAssetImpl(
       id: as<String>(yamlMap[_idKey]),
-      dynamicLoading: linkMode == LinkMode.dynamic ? dynamicLoading : null,
+      dynamicLoading:
+          linkMode == LinkMode.dynamicLoading ? dynamicLoading : null,
       os: os,
       architecture: architecture,
       linkMode: linkMode,
@@ -280,7 +281,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     }
     return {
       if (architecture != null) _architectureKey: architecture.toString(),
-      if (linkMode == LinkMode.dynamic)
+      if (linkMode == LinkMode.dynamicLoading)
         _dynamicLoadingKey: dynamicLoading.toYaml(version, file),
       if (file != null) _fileKey: file!.toFilePath(),
       _idKey: id,

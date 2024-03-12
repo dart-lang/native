@@ -15,7 +15,7 @@ abstract final class LinkMode {
   /// Note: Dynamic loading is not equal to dynamic linking. Dynamic linking
   /// would have to run the linker at compile-time, which is currently not
   /// supported in the Dart and Flutter SDK.
-  static const LinkMode dynamic = LinkModeImpl.dynamic;
+  static const LinkMode dynamicLoading = LinkModeImpl.dynamicLoading;
 
   /// Static linking.
   ///

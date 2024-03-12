@@ -9,12 +9,12 @@ final class LinkModeImpl implements LinkMode {
 
   const LinkModeImpl._(this.name);
 
-  static const LinkModeImpl dynamic = LinkModeImpl._('dynamic');
+  static const LinkModeImpl dynamicLoading = LinkModeImpl._('dynamic');
   static const LinkModeImpl static = LinkModeImpl._('static');
 
   /// Known values for [LinkModeImpl].
   static const List<LinkModeImpl> _values = [
-    dynamic,
+    dynamicLoading,
     static,
   ];
 
