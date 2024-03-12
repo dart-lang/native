@@ -5,7 +5,7 @@
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
-  final buildConfig = await BuildConfig.fromArguments(args);
+  final buildConfig = BuildConfig(args);
   if (!buildConfig.dryRun) {
     final someValue =
         buildConfig.metadatum('package_with_metadata', 'some_key');

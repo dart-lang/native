@@ -138,7 +138,7 @@ abstract final class BuildConfig {
   /// If not provided, [workingDirectory] defaults to [Directory.current].
   ///
   /// This async constructor is intended to be used directly in CLI files.
-  factory BuildConfig.fromArguments(
+  factory BuildConfig(
     List<String> arguments, {
     Map<String, String>? environment,
     Uri? workingDirectory,
@@ -151,16 +151,16 @@ abstract final class BuildConfig {
 
   /// Constructs a config for a non-dry run by providing values for each field.
   ///
-  /// `build.dart` hooks will most likely use [BuildConfig.fromArguments].
-  /// However, for unit testing code which consumes a [BuildConfig], this
-  /// constructor facilitates easy construction.
+  /// `build.dart` hooks will most likely use the unnamed constructor. However,
+  /// for unit testing code which consumes a [BuildConfig], this constructor
+  /// facilitates easy construction.
   ///
   /// For the documentation of the parameters, see the equally named fields.
   ///
-  /// Parameter [dependencyMetadata] must be a nested map
-  /// `{'packageName' : {'key' : 'value'}}`
-  /// where `packageName` and `key` correspond to the parameters in [metadatum].
-  factory BuildConfig({
+  /// Parameter [dependencyMetadata] must be a nested map `{'packageName' :
+  /// {'key' : 'value'}}` where `packageName` and `key` correspond to the
+  /// parameters in [metadatum].
+  factory BuildConfig.build({
     required Uri outputDirectory,
     required String packageName,
     required Uri packageRoot,
@@ -196,9 +196,9 @@ abstract final class BuildConfig {
 
   /// Constructs a config for a dry run by providing values for each field.
   ///
-  /// `build.dart` hooks will most likely use [BuildConfig.fromArguments].
-  /// However, for unit testing code which consumes a [BuildConfig], this
-  /// constructor facilitates easy construction.
+  /// `build.dart` hooks will most likely use the unnamed constructor. However,
+  /// for unit testing code which consumes a [BuildConfig], this constructor
+  /// facilitates easy construction.
   ///
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({

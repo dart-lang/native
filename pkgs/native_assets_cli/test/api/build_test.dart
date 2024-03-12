@@ -40,7 +40,7 @@ void main() async {
     fakeVcVars = tempUri.resolve('vcvarsall.bat');
     await File.fromUri(fakeVcVars).create();
 
-    final config1 = BuildConfig(
+    final config1 = BuildConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,

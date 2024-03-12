@@ -43,7 +43,7 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildConfig = BuildConfig(
+        final buildConfig = BuildConfig.build(
           outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,
@@ -122,7 +122,7 @@ void main() {
                 targetOS: OS.current,
                 linkModePreference: LinkModePreference.dynamic,
               )
-            : BuildConfig(
+            : BuildConfig.build(
                 outputDirectory: tempUri,
                 packageName: name,
                 packageRoot: tempUri,
@@ -214,7 +214,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
@@ -272,7 +272,7 @@ void main() {
         packageUri.resolve('test/cbuilder/testfiles/includes/src/includes.c');
     const name = 'includes';
 
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
@@ -317,7 +317,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
@@ -375,7 +375,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
       packageName: name,
@@ -439,7 +439,7 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       buildMode: BuildMode.release,
       outputDirectory: tempUri,
       packageName: name,
@@ -510,7 +510,7 @@ Future<void> testDefines({
   }
   const name = 'defines';
 
-  final buildConfig = BuildConfig(
+  final buildConfig = BuildConfig.build(
     outputDirectory: tempUri,
     packageName: name,
     packageRoot: tempUri,

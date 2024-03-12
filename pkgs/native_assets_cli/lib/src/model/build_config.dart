@@ -533,7 +533,7 @@ final class BuildConfigImpl implements BuildConfig {
       ]);
 
   @override
-  String toString() => 'BuildConfig(${toYaml()})';
+  String toString() => 'BuildConfig.build(${toYaml()})';
 
   void _ensureNotDryRun() {
     if (dryRun) {

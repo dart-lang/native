@@ -47,7 +47,7 @@ void main() async {
   });
 
   test('BuildConfig ==', () {
-    final config1 = BuildConfig(
+    final config1 = BuildConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -64,7 +64,7 @@ void main() async {
       supportedAssetTypes: [CCodeAsset.type],
     );
 
-    final config2 = BuildConfig(
+    final config2 = BuildConfig.build(
       outputDirectory: outDir2Uri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -96,7 +96,7 @@ void main() async {
   });
 
   test('BuildConfig fromConfig', () {
-    final buildConfig2 = BuildConfig(
+    final buildConfig2 = BuildConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
@@ -149,7 +149,7 @@ void main() async {
   });
 
   test('BuildConfig == dependency metadata', () {
-    final buildConfig1 = BuildConfig(
+    final buildConfig1 = BuildConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -169,7 +169,7 @@ void main() async {
       },
     );
 
-    final buildConfig2 = BuildConfig(
+    final buildConfig2 = BuildConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -196,7 +196,7 @@ void main() async {
   });
 
   test('BuildConfig fromArgs', () async {
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -210,7 +210,7 @@ void main() async {
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
-    final buildConfigFromArgs = BuildConfig.fromArguments(
+    final buildConfigFromArgs = BuildConfig(
       ['--config', configUri.toFilePath()],
       environment: {}, // Don't inherit the test environment.
     );

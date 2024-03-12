@@ -56,7 +56,7 @@ void main() {
             final tempUri = await tempDirForTest();
             final addCUri =
                 packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-            final buildConfig = BuildConfig(
+            final buildConfig = BuildConfig.build(
               outputDirectory: tempUri,
               packageName: name,
               packageRoot: tempUri,

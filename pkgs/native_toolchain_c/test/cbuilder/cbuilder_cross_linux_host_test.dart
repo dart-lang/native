@@ -44,7 +44,7 @@ void main() {
             packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
 
-        final buildConfig = BuildConfig(
+        final buildConfig = BuildConfig.build(
           outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,

@@ -40,7 +40,7 @@ void main() {
     final envScript = [
       ...await vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
@@ -64,7 +64,7 @@ void main() {
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
