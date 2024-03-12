@@ -36,7 +36,7 @@ void main() {
     Architecture.riscv64: 'RISC-V',
   };
 
-  for (final linkMode in LinkMode.values) {
+  for (final linkMode in [LinkMode.dynamic, LinkMode.static]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();

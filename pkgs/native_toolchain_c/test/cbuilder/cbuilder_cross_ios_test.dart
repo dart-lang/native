@@ -36,7 +36,7 @@ void main() {
 
   const name = 'add';
 
-  for (final linkMode in LinkMode.values) {
+  for (final linkMode in [LinkMode.dynamic, LinkMode.static]) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
         if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {

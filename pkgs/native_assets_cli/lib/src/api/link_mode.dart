@@ -22,10 +22,4 @@ abstract final class LinkMode {
   /// Not yet supported in the Dart and Flutter SDK.
   // TODO(https://github.com/dart-lang/sdk/issues/49418): Support static linking.
   static const LinkMode static = LinkModeImpl.static;
-
-  /// Known values for [LinkMode].
-  static const List<LinkMode> values = [
-    dynamic,
-    static,
-  ];
 }

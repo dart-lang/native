@@ -199,7 +199,7 @@ class CBuilder implements Builder {
     final outDir = buildConfig.outputDirectory;
     final packageRoot = buildConfig.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = buildConfig.linkModePreference.preferredLinkMode;
+    final linkMode = _linkMode(buildConfig.linkModePreference);
     final libUri =
         outDir.resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
     final exeUri =
@@ -283,4 +283,14 @@ class CBuilder implements Builder {
 enum _CBuilderType {
   executable,
   library,
+}
+
+LinkMode _linkMode(LinkModePreference preference) {
+  if (preference == LinkModePreference.dynamic ||
+      preference == LinkModePreference.preferDynamic) {
+    return LinkMode.dynamic;
+  }
+  assert(preference == LinkModePreference.static ||
+      preference == LinkModePreference.preferStatic);
+  return LinkMode.static;
 }

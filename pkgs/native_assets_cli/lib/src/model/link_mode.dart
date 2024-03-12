@@ -13,13 +13,13 @@ final class LinkModeImpl implements LinkMode {
   static const LinkModeImpl static = LinkModeImpl._('static');
 
   /// Known values for [LinkModeImpl].
-  static const List<LinkModeImpl> values = [
+  static const List<LinkModeImpl> _values = [
     dynamic,
     static,
   ];
 
   factory LinkModeImpl.fromName(String name) =>
-      values.where((element) => element.name == name).first;
+      _values.where((element) => element.name == name).first;
 
   @override
   String toString() => name;

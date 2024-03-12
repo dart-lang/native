@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'asset.dart';
-import 'link_mode.dart';
 
 part '../model/link_mode_preference.dart';
 
@@ -11,12 +10,6 @@ part '../model/link_mode_preference.dart';
 abstract final class LinkModePreference {
   /// The name for this link mode.
   String get name;
-
-  /// The preferred [LinkMode] for this link mode preference.
-  LinkMode get preferredLinkMode;
-
-  /// The potential [LinkMode]s for this link mode preference.
-  List<LinkMode> get potentialLinkMode;
 
   /// Provide native assets as dynamic libraries.
   ///
