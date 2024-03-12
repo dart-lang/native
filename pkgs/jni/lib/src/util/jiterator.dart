@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../accessors.dart';
-import '../jni.dart';
 import '../jobject.dart';
-import '../third_party/generated_bindings.dart';
+import '../jreference.dart';
 import '../types.dart';
 
 final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
@@ -19,8 +17,8 @@ final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
   String get signature => r"Ljava/util/Iterator;";
 
   @override
-  JIterator<$E> fromReference(JObjectPtr ref) =>
-      JIterator.fromReference(E, ref);
+  JIterator<$E> fromReference(JReference reference) =>
+      JIterator.fromReference(E, reference);
 
   @override
   JObjType get superType => const JObjectType();
@@ -48,10 +46,10 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
 
   JIterator.fromReference(
     this.E,
-    JObjectPtr ref,
-  ) : super.fromReference(ref);
+    JReference reference,
+  ) : super.fromReference(reference);
 
-  static final _class = Jni.findJClass(r"java/util/Iterator");
+  static final _class = JClass.forName(r"java/util/Iterator");
 
   /// The type which includes information such as the signature of this class.
   static JIteratorType<$E> type<$E extends JObject>(
@@ -67,18 +65,15 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
   @override
   $E get current => _current as $E;
 
-  static final _hasNextId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"hasNext", r"()Z");
+  static final _hasNextId = _class.instanceMethod(r"hasNext", r"()Z");
   bool _hasNext() {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _hasNextId, JniCallType.booleanType, []).boolean;
+    return _hasNextId(this, const jbooleanType(), []);
   }
 
-  static final _nextId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"next", r"()Ljava/lang/Object;");
+  static final _nextId =
+      _class.instanceMethod(r"next", r"()Ljava/lang/Object;");
   $E _next() {
-    return E.fromReference(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _nextId, JniCallType.objectType, []).object);
+    return _nextId(this, E, []);
   }
 
   @override

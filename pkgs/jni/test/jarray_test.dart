@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
@@ -289,7 +290,7 @@ void run({required TestRunnerCallback testRunner}) {
       final string = "abc".toJString()..releasedBy(arena);
       final array = JArray.filled(3, string)..releasedBy(arena);
       expect(
-        () => JArray.filled(-3, JString.fromReference(nullptr)),
+        () => JArray.filled(-3, JString.fromReference(jNullReference)),
         throwsA(isA<RangeError>()),
       );
       expect(array.length, 3);

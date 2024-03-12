@@ -62,8 +62,8 @@ library jni;
 
 export 'src/errors.dart';
 export 'src/jni.dart' hide ProtectedJniExtensions;
-export 'src/jvalues.dart' hide JValueArgs, toJValues;
-export 'src/types.dart';
+export 'src/jvalues.dart';
+export 'src/types.dart' hide referenceType;
 export 'src/jarray.dart';
 export 'src/jobject.dart';
 

@@ -5,6 +5,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
@@ -201,8 +202,8 @@ void run({required TestRunnerCallback testRunner}) {
       final b = testDataBuffer(arena);
       expect(a.$type, b.$type);
       expect(a.$type.hashCode, b.$type.hashCode);
-      final c = JBuffer.fromReference(nullptr);
-      final d = JBuffer.fromReference(nullptr);
+      final c = JBuffer.fromReference(jNullReference);
+      final d = JBuffer.fromReference(jNullReference);
       expect(c.$type, d.$type);
       expect(c.$type.hashCode, d.$type.hashCode);
 

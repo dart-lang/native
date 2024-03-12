@@ -10,9 +10,8 @@ import 'package:ffi/ffi.dart';
 import 'package:path/path.dart';
 
 import 'errors.dart';
-import 'jobject.dart';
+import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
-import 'jvalues.dart';
 import 'accessors.dart';
 
 String _getLibraryFileName(String base) {
@@ -193,80 +192,21 @@ abstract final class Jni {
   static final accessors = JniAccessors(_bindings.GetAccessors());
 
   /// Returns current application context on Android.
-  static JObjectPtr getCachedApplicationContext() {
-    return _bindings.GetApplicationContext();
+  static JReference getCachedApplicationContext() {
+    return JGlobalReference(_bindings.GetApplicationContext());
   }
 
-  /// Returns current activity
-  static JObjectPtr getCurrentActivity() => _bindings.GetCurrentActivity();
+  /// Returns current activity.
+  static JReference getCurrentActivity() =>
+      JGlobalReference(_bindings.GetCurrentActivity());
 
   /// Get the initial classLoader of the application.
   ///
   /// This is especially useful on Android, where
   /// JNI threads cannot access application classes using
   /// the usual `JniEnv.FindClass` method.
-  static JObjectPtr getApplicationClassLoader() => _bindings.GetClassLoader();
-
-  /// Returns class reference found through system-specific mechanism
-  static JClassPtr findClass(String qualifiedName) => using((arena) {
-        final cls = accessors.getClass(qualifiedName.toNativeChars(arena));
-        return cls.checkedClassRef;
-      });
-
-  /// Returns class for [qualifiedName] found by platform-specific mechanism,
-  /// wrapped in a [JClass].
-  static JClass findJClass(String qualifiedName) =>
-      JClass.fromReference(findClass(qualifiedName));
-
-  /// Constructs an instance of class with given arguments.
-  ///
-  /// Use it when one instance is needed, but the constructor or class aren't
-  /// required themselves.
-  static JObject newInstance(
-      String qualifiedName, String ctorSignature, List<dynamic> args) {
-    final cls = findJClass(qualifiedName);
-    final ctor = cls.getCtorID(ctorSignature);
-    final obj = cls.newInstance(ctor, args);
-    cls.release();
-    return obj;
-  }
-
-  /// Converts passed arguments to JValue array.
-  ///
-  /// long, bool, double and JObject types are converted out of the box.
-  /// Wrap values in types such as [JValueInt] to convert to other primitive
-  /// types such as `int`, `short` and `char`.
-  static Pointer<JValue> jvalues(List<dynamic> args,
-      {Allocator allocator = calloc}) {
-    return toJValues(args, allocator: allocator);
-  }
-
-  /// Returns the value of static field identified by [fieldName] & [signature].
-  ///
-  /// See [JObject.getField] for more explanations about [callType] and [T].
-  static T retrieveStaticField<T>(
-      String className, String fieldName, String signature,
-      [int? callType]) {
-    final cls = findJClass(className);
-    final result = cls.getStaticFieldByName<T>(fieldName, signature, callType);
-    cls.release();
-    return result;
-  }
-
-  /// Calls static method identified by [methodName] and [signature]
-  /// on [className] with [args] as and [callType].
-  ///
-  /// For more explanation on [args] and [callType], see [JObject.getField]
-  /// and [JObject.callMethod] respectively.
-  static T invokeStaticMethod<T>(
-      String className, String methodName, String signature, List<dynamic> args,
-      [int? callType]) {
-    final cls = findJClass(className);
-    final result =
-        cls.callStaticMethodByName<T>(methodName, signature, args, callType);
-    cls.release();
-    return result;
-  }
+  static JReference getApplicationClassLoader() =>
+      JGlobalReference(_bindings.GetClassLoader());
 }
 
 typedef _SetJniGettersNativeType = Void Function(Pointer<Void>, Pointer<Void>);
@@ -290,37 +230,37 @@ extension ProtectedJniExtensions on Jni {
   }
 
   /// Returns a new DartException.
-  static JObjectPtr newDartException(String message) {
+  static Pointer<Void> newDartException(String message) {
     return Jni._bindings
         .DartException__ctor(Jni.env.toJStringPtr(message))
         .object;
   }
 
   /// Returns a new PortContinuation.
-  static JObjectPtr newPortContinuation(ReceivePort port) {
-    return Jni._bindings
-        .PortContinuation__ctor(port.sendPort.nativePort)
-        .object;
+  static JReference newPortContinuation(ReceivePort port) {
+    return JGlobalReference(
+      Jni._bindings.PortContinuation__ctor(port.sendPort.nativePort).object,
+    );
   }
 
   /// Returns a new PortProxy for a class with the given [binaryName].
-  static JObjectPtr newPortProxy(
+  static JReference newPortProxy(
       String binaryName,
       ReceivePort port,
       Pointer<
               NativeFunction<
                   Pointer<Void> Function(Uint64, Pointer<Void>, Pointer<Void>)>>
           functionPtr) {
-    return Jni._bindings
+    return JGlobalReference(Jni._bindings
         .PortProxy__newInstance(
           Jni.env.toJStringPtr(binaryName),
           port.sendPort.nativePort,
           functionPtr.address,
         )
-        .object;
+        .object);
   }
 
-  /// Returns the result of a callback..
+  /// Returns the result of a callback.
   static void returnResult(
       Pointer<CallbackResult> result, JObjectPtr object) async {
     Jni._bindings.resultFor(result, object);
@@ -357,13 +297,6 @@ extension AdditionalEnvMethods on GlobalJniEnv {
         }
         return result;
       });
-
-  /// Deletes all references in [refs].
-  void deleteAllRefs(List<JObjectPtr> refs) {
-    for (final ref in refs) {
-      DeleteGlobalRef(ref);
-    }
-  }
 }
 
 extension StringMethodsForJni on String {

@@ -88,3 +88,22 @@ final class JGlobalReference extends JReference implements Finalizable {
     Jni.env.DeleteGlobalRef(_pointer);
   }
 }
+
+final jNullReference = _JNullReference();
+
+final class _JNullReference extends JReference {
+  _JNullReference() : super(nullptr);
+
+  @override
+  void _deleteReference() {
+    // No need to delete `null`.
+  }
+
+  @override
+  void release() {
+    // No need to release `null`.
+  }
+
+  @override
+  bool get isNull => true;
+}
