@@ -8,7 +8,6 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  cli_config: ^0.2.0
   logging: ^1.1.1
   native_assets_cli:
     path: ../../../native_assets_cli/
