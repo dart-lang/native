@@ -210,7 +210,7 @@ void main() async {
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
-    final buildConfigFromArgs = await BuildConfig.fromArguments(
+    final buildConfigFromArgs = BuildConfig.fromArguments(
       ['--config', configUri.toFilePath()],
       environment: {}, // Don't inherit the test environment.
     );

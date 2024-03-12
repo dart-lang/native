@@ -128,7 +128,7 @@ abstract final class BuildConfig {
 
   /// Constructs a config by parsing CLI arguments and loading the config file.
   ///
-  /// The [args] must be commandline arguments.
+  /// The [arguments] must be commandline arguments.
   ///
   /// If provided, [environment] must be a map containing environment variables.
   /// If not provided, [environment] defaults to [Platform.environment].
@@ -138,13 +138,13 @@ abstract final class BuildConfig {
   /// If not provided, [workingDirectory] defaults to [Directory.current].
   ///
   /// This async constructor is intended to be used directly in CLI files.
-  static Future<BuildConfig> fromArguments(
-    List<String> args, {
+  factory BuildConfig.fromArguments(
+    List<String> arguments, {
     Map<String, String>? environment,
     Uri? workingDirectory,
   }) =>
-      BuildConfigImpl.fromArgs(
-        args,
+      BuildConfigImpl.fromArguments(
+        arguments,
         environment: environment,
         workingDirectory: workingDirectory,
       );

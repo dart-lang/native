@@ -241,13 +241,13 @@ final class BuildConfigImpl implements BuildConfig {
     return result;
   }
 
-  static Future<BuildConfigImpl> fromArgs(
+  static BuildConfigImpl fromArguments(
     List<String> args, {
     Map<String, String>? environment,
     Uri? workingDirectory,
-  }) async {
-    final config = await Config.fromArgs(
-      args: args,
+  }) {
+    final config = Config.fromArgumentsSync(
+      arguments: args,
       environment: environment,
       workingDirectory: workingDirectory,
     );
