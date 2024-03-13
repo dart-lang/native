@@ -110,7 +110,8 @@ void run({required TestRunnerCallback testRunner}) {
                 integerClass,
                 "parseInt".toNativeChars(arena),
                 "(Ljava/lang/String;)I".toNativeChars(arena));
-            final args = toJValues(["hello"], allocator: arena);
+            final args = toJValues(["hello".toJString()..releasedBy(arena)],
+                allocator: arena);
             expect(
                 () => env.CallStaticIntMethodA(
                     integerClass, parseIntMethod, args),
@@ -171,7 +172,9 @@ void run({required TestRunnerCallback testRunner}) {
     final systemOut = using((arena) {
       final systemClass =
           env.FindClass("java/lang/System".toNativeChars(arena));
-      final outField = env.GetFieldID(systemClass, "out".toNativeChars(arena),
+      final outField = env.GetStaticFieldID(
+          systemClass,
+          "out".toNativeChars(arena),
           "Ljava/io/PrintStream;".toNativeChars(arena));
       env.DeleteGlobalRef(systemClass);
       return env.GetStaticObjectField(systemClass, outField);
@@ -210,9 +213,13 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final systemClass =
           env.FindClass("java/lang/System".toNativeChars(arena));
-      final outField = env.GetFieldID(systemClass, "out".toNativeChars(arena),
+      final outField = env.GetStaticFieldID(
+          systemClass,
+          "out".toNativeChars(arena),
           "Ljava/io/PrintStream;".toNativeChars(arena));
-      final errField = env.GetFieldID(systemClass, "err".toNativeChars(arena),
+      final errField = env.GetStaticFieldID(
+          systemClass,
+          "err".toNativeChars(arena),
           "Ljava/io/PrintStream;".toNativeChars(arena));
       final systemOut = env.GetStaticObjectField(systemClass, outField);
       final systemErr = env.GetStaticObjectField(systemClass, errField);

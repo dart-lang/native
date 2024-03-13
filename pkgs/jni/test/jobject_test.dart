@@ -49,7 +49,7 @@ void run({required TestRunnerCallback testRunner}) {
       jint.type,
       [],
     );
-    expect(intValue, equals(176));
+    expect(intValue, 176);
 
     // Release any JObject and JClass instances using `.release()` after use.
     // This is not strictly required since JNI objects / classes have
@@ -70,7 +70,7 @@ void run({required TestRunnerCallback testRunner}) {
 
     // Dart string is a copy, original object can be released.
     result.release();
-    expect(resultString, equals("1f"));
+    expect(resultString, "1f");
 
     // Also don't forget to release the class.
     integerClass.release();
@@ -119,7 +119,7 @@ void run({required TestRunnerCallback testRunner}) {
         bits += r % 2;
         r = (r / 2).floor();
       }
-      expect(jbc, equals(bits));
+      expect(jbc, bits);
     }
     random.release();
     longClass.release();
@@ -132,25 +132,23 @@ void run({required TestRunnerCallback testRunner}) {
       jint.type,
       [JValueShort(1234), JValueShort(1324)],
     );
-    expect(m, equals(1234 - 1324));
+    expect(m, 1234 - 1324);
     shortClass.release();
   });
 
   testRunner("Java char from string", () {
     final characterClass = JCharacter.type.jClass;
-    final m = characterClass
-        .staticMethodId("isLowerCase", "(C)Z")
-        .call(characterClass, const jcharType(), [JValueChar.fromString('X')]);
+    final m = characterClass.staticMethodId("isLowerCase", "(C)Z").call(
+        characterClass, const jbooleanType(), [JValueChar.fromString('X')]);
     expect(m, isFalse);
     characterClass.release();
   });
 
   testRunner("Get static field", () {
     final shortClass = JShort.type.jClass;
-    final maxLong = shortClass
-        .staticFieldId("MAX_VALUE", "S")
-        .get(shortClass, const jshortType());
-    expect(maxLong, equals(32767));
+    final maxLong =
+        shortClass.staticFieldId("MAX_VALUE", "S").get(shortClass, jshort.type);
+    expect(maxLong, 32767);
     shortClass.release();
   });
 
@@ -160,7 +158,7 @@ void run({required TestRunnerCallback testRunner}) {
     final strFromJava = longClass
         .staticMethodId("toOctalString", "(J)Ljava/lang/String;")
         .call(longClass, JString.type, [n]);
-    expect(strFromJava, equals(n.toRadixString(8)));
+    expect(strFromJava.toDartString(releaseOriginal: true), n.toRadixString(8));
     longClass.release();
   });
 
@@ -168,8 +166,8 @@ void run({required TestRunnerCallback testRunner}) {
     final byteClass = JByte.type.jClass;
     final parseByte =
         byteClass.staticMethodId("parseByte", "(Ljava/lang/String;)B");
-    final twelve = parseByte(byteClass, const jbyteType(), ["12"]);
-    expect(twelve, equals(12));
+    final twelve = parseByte(byteClass, const jbyteType(), ["12".toJString()]);
+    expect(twelve, 12);
     byteClass.release();
   });
 
@@ -215,7 +213,7 @@ void run({required TestRunnerCallback testRunner}) {
               .instanceMethodId("ordinal", "()I")
               .call(http, jint.type, []),
         );
-    expect(ordinal, equals(1));
+    expect(ordinal, 1);
     proxyTypeClass.release();
   });
 
@@ -265,7 +263,7 @@ void run({required TestRunnerCallback testRunner}) {
         final integerClass = JInteger.type.jClass;
         return JClass.forName("java/lang/Integer")
             .staticMethodId("parseInt", "(Ljava/lang/String;)I")
-            .call(integerClass, jint.type, ["X"]);
+            .call(integerClass, jint.type, ["X".toJString()]);
       },
       throwsA(isA<JniException>()),
     );
@@ -288,6 +286,6 @@ void run({required TestRunnerCallback testRunner}) {
     final longClass = JLong.type.jClass;
     final maxLong =
         longClass.staticFieldId("MAX_VALUE", "J").get(longClass, jlong.type);
-    expect(maxLong, equals(maxLongInJava));
+    expect(maxLong, maxLongInJava);
   });
 }

@@ -10,7 +10,7 @@ import 'package:jni/jni.dart';
 // more customization in future.
 import 'package:notification_plugin/notifications.dart';
 
-JObject activity = JObject.fromRef(Jni.getCurrentActivity());
+JObject activity = JObject.fromReference(Jni.getCurrentActivity());
 
 int i = 0;
 
