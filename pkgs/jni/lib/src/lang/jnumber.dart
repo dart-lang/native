@@ -52,11 +52,11 @@ class JNumber extends JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = JNumberType();
-  static final _ctorId = _class.constructor(r"()V");
+  static final _ctorId = _class.constructorId(r"()V");
 
   JNumber() : super.fromReference(_ctorId(_class, referenceType, []));
 
-  static final _intValueId = _class.instanceMethod(r"intValue", r"()I");
+  static final _intValueId = _class.instanceMethodId(r"intValue", r"()I");
 
   int intValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();
@@ -67,7 +67,7 @@ class JNumber extends JObject {
     return ret;
   }
 
-  static final _longValueId = _class.instanceMethod(r"longValue", r"()J");
+  static final _longValueId = _class.instanceMethodId(r"longValue", r"()J");
 
   int longValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();
@@ -78,7 +78,7 @@ class JNumber extends JObject {
     return ret;
   }
 
-  static final _floatValueId = _class.instanceMethod(r"floatValue", r"()F");
+  static final _floatValueId = _class.instanceMethodId(r"floatValue", r"()F");
 
   double floatValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();
@@ -89,7 +89,7 @@ class JNumber extends JObject {
     return ret;
   }
 
-  static final _doubleValueId = _class.instanceMethod(r"doubleValue", r"()D");
+  static final _doubleValueId = _class.instanceMethodId(r"doubleValue", r"()D");
 
   double doubleValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();
@@ -100,7 +100,7 @@ class JNumber extends JObject {
     return ret;
   }
 
-  static final _byteValueId = _class.instanceMethod(r"byteValue", r"()B");
+  static final _byteValueId = _class.instanceMethodId(r"byteValue", r"()B");
 
   int byteValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();
@@ -111,7 +111,7 @@ class JNumber extends JObject {
     return ret;
   }
 
-  static final _shortValueId = _class.instanceMethod(r"shortValue", r"()S");
+  static final _shortValueId = _class.instanceMethodId(r"shortValue", r"()S");
 
   int shortValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();

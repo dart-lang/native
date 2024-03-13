@@ -4,9 +4,7 @@
 
 import 'dart:ffi';
 
-import 'errors.dart';
-import 'jni.dart';
-import 'third_party/generated_bindings.dart';
+import 'package:jni/jni.dart';
 
 void _check(JThrowablePtr exception) {
   if (exception != nullptr) {
@@ -52,9 +50,17 @@ extension JniResultMethods on JniResult {
     return value.d;
   }
 
-  JObjectPtr get object {
+  JObjectPtr get objectPointer {
     check();
     return value.l;
+  }
+
+  JReference get reference {
+    return JGlobalReference(objectPointer);
+  }
+
+  T object<T extends JObject>(JObjType<T> type) {
+    return type.fromReference(reference);
   }
 
   bool get boolean {

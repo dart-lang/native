@@ -233,13 +233,15 @@ extension ProtectedJniExtensions on Jni {
   static Pointer<Void> newDartException(String message) {
     return Jni._bindings
         .DartException__ctor(Jni.env.toJStringPtr(message))
-        .object;
+        .objectPointer;
   }
 
   /// Returns a new PortContinuation.
   static JReference newPortContinuation(ReceivePort port) {
     return JGlobalReference(
-      Jni._bindings.PortContinuation__ctor(port.sendPort.nativePort).object,
+      Jni._bindings
+          .PortContinuation__ctor(port.sendPort.nativePort)
+          .objectPointer,
     );
   }
 
@@ -257,7 +259,7 @@ extension ProtectedJniExtensions on Jni {
           port.sendPort.nativePort,
           functionPtr.address,
         )
-        .object);
+        .objectPointer);
   }
 
   /// Returns the result of a callback.

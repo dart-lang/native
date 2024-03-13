@@ -45,7 +45,7 @@ class JShort extends JNumber {
 
   static final _class = JClass.forName(r"java/lang/Short");
 
-  static final _ctorId = _class.constructor(r"(S)V");
+  static final _ctorId = _class.constructorId(r"(S)V");
 
   JShort(int num)
       : super.fromReference(_ctorId(_class, referenceType, [JValueShort(num)]));

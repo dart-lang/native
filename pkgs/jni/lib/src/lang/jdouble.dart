@@ -45,7 +45,7 @@ class JDouble extends JNumber {
 
   static final _class = JClass.forName(r"java/lang/Double");
 
-  static final _ctorId = _class.constructor(r"(D)V");
+  static final _ctorId = _class.constructorId(r"(D)V");
   JDouble(double num)
       : super.fromReference(_ctorId(_class, referenceType, [num]));
 }

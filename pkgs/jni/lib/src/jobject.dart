@@ -78,7 +78,7 @@ class JObject {
     bool releaseOriginal = false,
   }) {
     if (releaseOriginal) {
-      final ret = type.fromReference(reference);
+      final ret = type.fromReference(JGlobalReference(reference.pointer));
       reference.setAsReleased();
       return ret;
     }
@@ -88,13 +88,13 @@ class JObject {
 
   static final _class = JClass.forName('java/lang/Object');
 
-  static final _hashCodeId = _class.instanceMethod(r"hashCode", r"()I");
+  static final _hashCodeId = _class.instanceMethodId(r"hashCode", r"()I");
 
   @override
   int get hashCode => _hashCodeId(this, const jintType(), []);
 
   static final _equalsId =
-      _class.instanceMethod(r"equals", r"(Ljava/lang/Object;)Z");
+      _class.instanceMethodId(r"equals", r"(Ljava/lang/Object;)Z");
   @override
   bool operator ==(Object other) {
     if (other is! JObject) {
@@ -104,7 +104,7 @@ class JObject {
   }
 
   static final _toStringId =
-      _class.instanceMethod(r"toString", r"()Ljava/lang/String;");
+      _class.instanceMethodId(r"toString", r"()Ljava/lang/String;");
   @override
   String toString() {
     return _toStringId(this, const JStringType(), [])

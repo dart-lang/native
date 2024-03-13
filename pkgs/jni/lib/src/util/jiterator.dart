@@ -65,13 +65,13 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
   @override
   $E get current => _current as $E;
 
-  static final _hasNextId = _class.instanceMethod(r"hasNext", r"()Z");
+  static final _hasNextId = _class.instanceMethodId(r"hasNext", r"()Z");
   bool _hasNext() {
     return _hasNextId(this, const jbooleanType(), []);
   }
 
   static final _nextId =
-      _class.instanceMethod(r"next", r"()Ljava/lang/Object;");
+      _class.instanceMethodId(r"next", r"()Ljava/lang/Object;");
   $E _next() {
     return _nextId(this, E, []);
   }

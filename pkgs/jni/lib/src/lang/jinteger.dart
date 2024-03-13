@@ -46,7 +46,7 @@ class JInteger extends JNumber {
 
   static final _class = JClass.forName(r"java/lang/Integer");
 
-  static final _ctorId = _class.constructor("(I)V");
+  static final _ctorId = _class.constructorId("(I)V");
 
   JInteger(int num)
       : super.fromReference(_ctorId(_class, referenceType, [JValueInt(num)]));

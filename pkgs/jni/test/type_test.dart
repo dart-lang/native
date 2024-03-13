@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:jni/jni.dart';
-import 'package:jni/src/jreference.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';

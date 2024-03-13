@@ -45,11 +45,12 @@ class JBoolean extends JObject {
 
   static final _class = JClass.forName(r"java/lang/Boolean");
 
-  static final _ctorId = _class.constructor(r"(Z)V");
+  static final _ctorId = _class.constructorId(r"(Z)V");
   JBoolean(bool boolean)
       : super.fromReference(_ctorId(_class, referenceType, [boolean ? 1 : 0]));
 
-  static final _booleanValueId = _class.instanceMethod(r"booleanValue", r"()Z");
+  static final _booleanValueId =
+      _class.instanceMethodId(r"booleanValue", r"()Z");
 
   bool booleanValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();

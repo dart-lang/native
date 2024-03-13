@@ -47,7 +47,7 @@ int randomUsingEnv(int n) => using((arena) {
 double randomDouble() {
   final math = JClass.forName("java/lang/Math");
   final random =
-      math.staticMethod("random", "()D").call(math, const jdoubleType(), []);
+      math.staticMethodId("random", "()D").call(math, const jdoubleType(), []);
   math.release();
   return random;
 }
@@ -55,7 +55,7 @@ double randomDouble() {
 int uptime() {
   return JClass.forName("android/os/SystemClock").use(
     (systemClock) => systemClock
-        .staticMethod("uptimeMillis", "()J")
+        .staticMethodId("uptimeMillis", "()J")
         .call(systemClock, const jlongType(), []),
   );
 }
@@ -68,7 +68,7 @@ String backAndForth() {
 
 void quit() {
   JObject.fromReference(Jni.getCurrentActivity()).use((ac) => ac.jClass
-      .instanceMethod("finish", "()V")
+      .instanceMethodId("finish", "()V")
       .call(ac, const jvoidType(), []));
 }
 
@@ -82,7 +82,7 @@ void showToast(String text) {
   // android/app/src/main/java/com/github/dart_lang/jni_example/Toaster.java
   final toasterClass =
       JClass.forName('com/github/dart_lang/jni_example/Toaster');
-  final makeText = toasterClass.staticMethod(
+  final makeText = toasterClass.staticMethodId(
       'makeText',
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
@@ -93,7 +93,7 @@ void showToast(String text) {
     '😀',
     0,
   ]);
-  final show = toasterClass.instanceMethod('show', '()V');
+  final show = toasterClass.instanceMethodId('show', '()V');
   show(toaster, const jvoidType(), []);
 }
 
@@ -113,12 +113,12 @@ void main() {
       Example(
           "Device name",
           () => JClass.forName("android/os/Build")
-              .staticField("DEVICE", const JStringType().signature)),
+              .staticFieldId("DEVICE", const JStringType().signature)),
       Example(
         "Package name",
         () => JObject.fromReference(Jni.getCurrentActivity()).use((activity) =>
             activity.jClass
-                .instanceMethod("getPackageName", "()Ljava/lang/String;")
+                .instanceMethodId("getPackageName", "()Ljava/lang/String;")
                 .call(activity, JString.type, [])),
       ),
       Example("Show toast", () => showToast("Hello from JNI!"),

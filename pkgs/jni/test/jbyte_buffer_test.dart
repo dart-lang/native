@@ -5,7 +5,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 

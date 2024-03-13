@@ -80,7 +80,7 @@ class JArray<E> extends JObject {
         JGlobalReference(
           Jni.accessors
               .newObjectArray(length, clazz.reference.pointer, nullptr)
-              .object,
+              .objectPointer,
         ),
       );
       clazz.release();
@@ -92,7 +92,7 @@ class JArray<E> extends JObject {
         Jni.accessors
             .newPrimitiveArray(
                 length, primitiveCallTypes[elementType.signature]!)
-            .object,
+            .objectPointer,
       ),
     );
   }
@@ -110,7 +110,7 @@ class JArray<E> extends JObject {
       JGlobalReference(Jni.accessors
           .newObjectArray(
               length, clazz.reference.pointer, fill.reference.pointer)
-          .object),
+          .objectPointer),
     );
     clazz.release();
     return array;
@@ -361,8 +361,8 @@ extension DoubleArray on JArray<jdouble> {
 
 extension ObjectArray<T extends JObject> on JArray<T> {
   T operator [](int index) {
-    return (elementType as JObjType<T>).fromReference(
-        JGlobalReference(_elementAt(index, JniCallType.objectType).object));
+    return (elementType as JObjType<T>).fromReference(JGlobalReference(
+        _elementAt(index, JniCallType.objectType).objectPointer));
   }
 
   void operator []=(int index, T value) {

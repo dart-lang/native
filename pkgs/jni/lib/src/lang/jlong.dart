@@ -44,7 +44,7 @@ class JLong extends JNumber {
 
   static final _class = JClass.forName(r"java/lang/Long");
 
-  static final _ctorId = _class.constructor(r"(J)V");
+  static final _ctorId = _class.constructorId(r"(J)V");
 
   JLong(int num) : super.fromReference(_ctorId(_class, referenceType, [num]));
 }

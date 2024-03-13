@@ -73,12 +73,12 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   }
 
   static final _hashMapClass = JClass.forName(r"java/util/HashMap");
-  static final _ctorId = _hashMapClass.constructor(r"()V");
+  static final _ctorId = _hashMapClass.constructorId(r"()V");
   JMap.hash(this.K, this.V)
       : super.fromReference(_ctorId(_hashMapClass, referenceType, []));
 
-  static final _getId =
-      _class.instanceMethod(r"get", r"(Ljava/lang/Object;)Ljava/lang/Object;");
+  static final _getId = _class.instanceMethodId(
+      r"get", r"(Ljava/lang/Object;)Ljava/lang/Object;");
   @override
   $V? operator [](Object? key) {
     if (key is! JObject) {
@@ -88,7 +88,7 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     return value.isNull ? null : value;
   }
 
-  static final _putId = _class.instanceMethod(
+  static final _putId = _class.instanceMethodId(
       r"put", r"(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
   @override
   void operator []=($K key, $V value) {
@@ -96,7 +96,7 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   }
 
   static final _addAllId =
-      _class.instanceMethod(r"putAll", r"(Ljava/util/Map;)V");
+      _class.instanceMethodId(r"putAll", r"(Ljava/util/Map;)V");
   @override
   void addAll(Map<$K, $V> other) {
     if (other is JMap<$K, $V>) {
@@ -106,14 +106,14 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     super.addAll(other);
   }
 
-  static final _clearId = _class.instanceMethod(r"clear", r"()V");
+  static final _clearId = _class.instanceMethodId(r"clear", r"()V");
   @override
   void clear() {
     _clearId(this, const jvoidType(), []);
   }
 
   static final _containsKeyId =
-      _class.instanceMethod(r"containsKey", r"(Ljava/lang/Object;)Z");
+      _class.instanceMethodId(r"containsKey", r"(Ljava/lang/Object;)Z");
   @override
   bool containsKey(Object? key) {
     if (key is! JObject) {
@@ -123,7 +123,7 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   }
 
   static final _containsValueId =
-      _class.instanceMethod(r"containsValue", r"(Ljava/lang/Object;)Z");
+      _class.instanceMethodId(r"containsValue", r"(Ljava/lang/Object;)Z");
   @override
   bool containsValue(Object? value) {
     if (value is! JObject) {
@@ -133,22 +133,23 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
         this, const jbooleanType(), [value.reference.pointer]);
   }
 
-  static final isEmptyId = _class.instanceMethod(r"isEmpty", r"()Z");
+  static final isEmptyId = _class.instanceMethodId(r"isEmpty", r"()Z");
   @override
   bool get isEmpty => isEmptyId(this, const jbooleanType(), []);
 
   @override
   bool get isNotEmpty => !isEmpty;
 
-  static final _keysId = _class.instanceMethod(r"keySet", r"()Ljava/util/Set;");
+  static final _keysId =
+      _class.instanceMethodId(r"keySet", r"()Ljava/util/Set;");
   @override
   JSet<$K> get keys => _keysId(this, JSetType(K), []);
 
-  static final _sizeId = _class.instanceMethod(r"size", r"()I");
+  static final _sizeId = _class.instanceMethodId(r"size", r"()I");
   @override
   int get length => _sizeId(this, const jintType(), []);
 
-  static final _removeId = _class.instanceMethod(
+  static final _removeId = _class.instanceMethodId(
       r"remove", r"(Ljava/lang/Object;)Ljava/lang/Object;");
   @override
   $V? remove(Object? key) {

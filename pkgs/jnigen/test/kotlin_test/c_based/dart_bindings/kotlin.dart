@@ -37,8 +37,8 @@ class SuspendFun extends jni.JObject {
   late final jni.JObjType<SuspendFun> $type = type;
 
   SuspendFun.fromReference(
-    jni.JObjectPtr ref,
-  ) : super.fromReference(ref);
+    jni.JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
@@ -49,7 +49,7 @@ class SuspendFun extends jni.JObject {
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
-    return SuspendFun.fromReference(_new0().object);
+    return SuspendFun.fromReference(_new0().reference);
   }
 
   static final _sayHello = jniLookup<
@@ -66,10 +66,11 @@ class SuspendFun extends jni.JObject {
     final $p = ReceivePort();
     final $c = jni.JObject.fromReference(
         ProtectedJniExtensions.newPortContinuation($p));
-    _sayHello(reference.pointer, $c.reference.pointer).object;
-    final $o = jni.JObjectPtr.fromAddress(await $p.first);
-    final $k = const jni.JStringType().getClass().reference.pointer;
-    if (!jni.Jni.env.IsInstanceOf($o, $k)) {
+    _sayHello(reference.pointer, $c.reference.pointer)
+        .object(const jni.JObjectType());
+    final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
+    final $k = const jni.JStringType().jClass.reference.pointer;
+    if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
       throw "Failed";
     }
     return const jni.JStringType().fromReference($o);
@@ -95,10 +96,10 @@ class SuspendFun extends jni.JObject {
         ProtectedJniExtensions.newPortContinuation($p));
     _sayHello1(
             reference.pointer, string.reference.pointer, $c.reference.pointer)
-        .object;
-    final $o = jni.JObjectPtr.fromAddress(await $p.first);
-    final $k = const jni.JStringType().getClass().reference.pointer;
-    if (!jni.Jni.env.IsInstanceOf($o, $k)) {
+        .object(const jni.JObjectType());
+    final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
+    final $k = const jni.JStringType().jClass.reference.pointer;
+    if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
       throw "Failed";
     }
     return const jni.JStringType().fromReference($o);
@@ -112,7 +113,8 @@ final class $SuspendFunType extends jni.JObjType<SuspendFun> {
   String get signature => r"Lcom/github/dart_lang/jnigen/SuspendFun;";
 
   @override
-  SuspendFun fromReference(jni.JObjectPtr ref) => SuspendFun.fromReference(ref);
+  SuspendFun fromReference(jni.JReference reference) =>
+      SuspendFun.fromReference(reference);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

@@ -46,7 +46,7 @@ const secureRandomSeedBound = 4294967296;
 final random = Random.secure();
 
 final randomClass = JClass.forName('java/util/Random');
-JObject newRandom() => randomClass.constructor('(J)V').call(
+JObject newRandom() => randomClass.constructorId('(J)V').call(
     randomClass, const JObjectType(), [random.nextInt(secureRandomSeedBound)]);
 
 void run({required TestRunnerCallback testRunner}) {
@@ -96,7 +96,7 @@ void run({required TestRunnerCallback testRunner}) {
   // So we are checking if we can run this for large number of times.
   testRunner('Verify a call returning primitive can be run any times', () {
     final random = newRandom();
-    final nextInt = randomClass.instanceMethod('nextInt', '()I');
+    final nextInt = randomClass.instanceMethodId('nextInt', '()I');
     for (int i = 0; i < k256; i++) {
       final rInt = nextInt(random, const jintType(), []);
       expect(rInt, isA<int>());
@@ -106,7 +106,7 @@ void run({required TestRunnerCallback testRunner}) {
   void testRefValidityAfterGC(int delayInSeconds) {
     testRunner('Validate reference after GC & ${delayInSeconds}s sleep', () {
       final random = newRandom();
-      final nextInt = randomClass.instanceMethod('nextInt', '()I');
+      final nextInt = randomClass.instanceMethodId('nextInt', '()I');
       doGC();
       sleep(Duration(seconds: delayInSeconds));
       expect(

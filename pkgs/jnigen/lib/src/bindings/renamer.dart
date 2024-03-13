@@ -87,18 +87,7 @@ const Map<String, int> _definedSyms = {
   'use': 1,
   'release': 1,
   'releasedBy': 1,
-  'getFieldID': 1,
-  'getStaticFieldID': 1,
-  'getMethodID': 1,
-  'getStaticMethodID': 1,
-  'getField': 1,
-  'getFieldByName': 1,
-  'getStaticField': 1,
-  'getStaticFieldByName': 1,
-  'callMethod': 1,
-  'callMethodByName': 1,
-  'callStaticMethod': 1,
-  'callStaticMethodByName': 1,
+  'jClass': 1,
 };
 
 /// Appends 0 to [name] if [name] is a keyword.

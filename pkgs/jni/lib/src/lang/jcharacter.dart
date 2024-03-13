@@ -42,12 +42,12 @@ class JCharacter extends JObject {
 
   static final _class = JClass.forName(r"java/lang/Character");
 
-  static final _ctorId = _class.constructor(r"(C)V");
+  static final _ctorId = _class.constructorId(r"(C)V");
 
   JCharacter(int c)
       : super.fromReference(_ctorId(_class, referenceType, [JValueChar(c)]));
 
-  static final _charValueId = _class.instanceMethod(r"charValue", r"()C");
+  static final _charValueId = _class.instanceMethodId(r"charValue", r"()C");
 
   int charValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();

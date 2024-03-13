@@ -45,7 +45,7 @@ class JByte extends JNumber {
 
   static final _class = JClass.forName(r"java/lang/Byte");
 
-  static final _ctorId = _class.constructor(r"(B)V");
+  static final _ctorId = _class.constructorId(r"(B)V");
   JByte(int num)
       : super.fromReference(_ctorId(_class, referenceType, [JValueByte(num)]));
 }

@@ -57,7 +57,7 @@ class JBuffer extends JObject {
   /// The type which includes information such as the signature of this class.
   static const type = JBufferType();
 
-  static final _capacityId = _class.instanceMethod(r"capacity", r"()I");
+  static final _capacityId = _class.instanceMethodId(r"capacity", r"()I");
 
   /// The number of elements this buffer contains.
   ///
@@ -66,7 +66,7 @@ class JBuffer extends JObject {
     return _capacityId(this, const jintType(), []);
   }
 
-  static final _positionId = _class.instanceMethod(r"position", r"()I");
+  static final _positionId = _class.instanceMethodId(r"position", r"()I");
 
   /// The index of the next element to be read or written.
   ///
@@ -76,7 +76,7 @@ class JBuffer extends JObject {
   }
 
   static final _setPositionId =
-      _class.instanceMethod(r"position", r"(I)Ljava/nio/Buffer;");
+      _class.instanceMethodId(r"position", r"(I)Ljava/nio/Buffer;");
 
   /// Throws:
   /// * [IllegalArgumentException] - If the preconditions on [newPosition] do
@@ -85,7 +85,7 @@ class JBuffer extends JObject {
     _setPositionId(this, const JObjectType(), [JValueInt(position)]).release();
   }
 
-  static final _limitId = _class.instanceMethod(r"limit", r"()I");
+  static final _limitId = _class.instanceMethodId(r"limit", r"()I");
 
   /// The index of the first element that should not be read or written.
   ///
@@ -95,7 +95,7 @@ class JBuffer extends JObject {
   }
 
   static final _setLimitId =
-      _class.instanceMethod(r"limit", r"(I)Ljava/nio/Buffer;");
+      _class.instanceMethodId(r"limit", r"(I)Ljava/nio/Buffer;");
 
   /// Throws:
   /// * [IllegalArgumentException] - If the preconditions on [newLimit] do not
@@ -104,7 +104,8 @@ class JBuffer extends JObject {
     _setLimitId(this, const JObjectType(), [JValueInt(newLimit)]).release();
   }
 
-  static final _markId = _class.instanceMethod(r"mark", r"()Ljava/nio/Buffer;");
+  static final _markId =
+      _class.instanceMethodId(r"mark", r"()Ljava/nio/Buffer;");
 
   /// Sets this buffer's mark at its [position].
   ///
@@ -115,7 +116,7 @@ class JBuffer extends JObject {
   }
 
   static final _resetId =
-      _class.instanceMethod(r"reset", r"()Ljava/nio/Buffer;");
+      _class.instanceMethodId(r"reset", r"()Ljava/nio/Buffer;");
 
   /// Resets this buffer's [position] to the previously-marked position.
   ///
@@ -126,7 +127,7 @@ class JBuffer extends JObject {
   }
 
   static final _clearId =
-      _class.instanceMethod(r"clear", r"()Ljava/nio/Buffer;");
+      _class.instanceMethodId(r"clear", r"()Ljava/nio/Buffer;");
 
   /// Clears this buffer.
   ///
@@ -136,7 +137,8 @@ class JBuffer extends JObject {
     _clearId(this, const JObjectType(), []).release();
   }
 
-  static final _flipId = _class.instanceMethod(r"flip", r"()Ljava/nio/Buffer;");
+  static final _flipId =
+      _class.instanceMethodId(r"flip", r"()Ljava/nio/Buffer;");
 
   /// Flips this buffer.
   ///
@@ -147,7 +149,7 @@ class JBuffer extends JObject {
   }
 
   static final _rewindId =
-      _class.instanceMethod(r"rewind", r"()Ljava/nio/Buffer;");
+      _class.instanceMethodId(r"rewind", r"()Ljava/nio/Buffer;");
 
   /// Rewinds this buffer.
   ///
@@ -156,7 +158,7 @@ class JBuffer extends JObject {
     _rewindId(this, const JObjectType(), []).release();
   }
 
-  static final _remainingId = _class.instanceMethod(r"remaining", r"()I");
+  static final _remainingId = _class.instanceMethodId(r"remaining", r"()I");
 
   /// The number of elements between the current [position] and the
   /// [limit].
@@ -164,7 +166,8 @@ class JBuffer extends JObject {
     return _remainingId(this, const jintType(), []);
   }
 
-  static final _hasRemainingId = _class.instanceMethod(r"hasRemaining", r"()Z");
+  static final _hasRemainingId =
+      _class.instanceMethodId(r"hasRemaining", r"()Z");
 
   /// Whether there are any elements between the current [position] and
   /// the [limit].
@@ -172,14 +175,14 @@ class JBuffer extends JObject {
     return _hasRemainingId(this, const jbooleanType(), []);
   }
 
-  static final _isReadOnlyId = _class.instanceMethod(r"isReadOnly", r"()Z");
+  static final _isReadOnlyId = _class.instanceMethodId(r"isReadOnly", r"()Z");
 
   /// Whether or not this buffer is read-only.
   bool get isReadOnly {
     return _isReadOnlyId(this, const jbooleanType(), []);
   }
 
-  static final _hasArrayId = _class.instanceMethod(r"hasArray", r"()Z");
+  static final _hasArrayId = _class.instanceMethodId(r"hasArray", r"()Z");
 
   /// Whether or not this buffer is backed by an accessible array.
   bool get hasArray {
@@ -187,7 +190,7 @@ class JBuffer extends JObject {
   }
 
   static final _arrayId =
-      _class.instanceMethod(r"array", r"()Ljava/lang/Object;");
+      _class.instanceMethodId(r"array", r"()Ljava/lang/Object;");
 
   /// The array that backs this buffer.
   ///
@@ -203,7 +206,7 @@ class JBuffer extends JObject {
     return _arrayId(this, const JObjectType(), []);
   }
 
-  static final _arrayOffsetId = _class.instanceMethod(r"arrayOffset", r"()I");
+  static final _arrayOffsetId = _class.instanceMethodId(r"arrayOffset", r"()I");
 
   /// The offset within this buffer's backing array of the first element
   /// of the buffer.
@@ -217,7 +220,7 @@ class JBuffer extends JObject {
     return _arrayOffsetId(this, const jintType(), []);
   }
 
-  static final _isDirectId = _class.instanceMethod(r"isDirect", r"()Z");
+  static final _isDirectId = _class.instanceMethodId(r"isDirect", r"()Z");
 
   /// Whether or not this buffer is direct.
   bool get isDirect {

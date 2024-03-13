@@ -37,7 +37,7 @@ void main() {
 void run({required TestRunnerCallback testRunner}) {
   JObject newRandom(JClass randomClass) {
     return randomClass
-        .constructor('()V')
+        .constructorId('()V')
         .call(randomClass, const JObjectType(), []);
   }
 
@@ -54,7 +54,7 @@ void run({required TestRunnerCallback testRunner}) {
     r.release();
     expect(
         () => rc
-            .instanceMethod("nextInt", "(I)I")
+            .instanceMethodId("nextInt", "(I)I")
             .call(r, const jintType(), [JValueInt(256)]),
         throwsA(isA<UseAfterReleaseError>()));
   });
@@ -64,7 +64,7 @@ void run({required TestRunnerCallback testRunner}) {
     final r = newRandom(rc);
     expect(
         () => rc
-            .instanceMethod("nextInt", "(I)I")
+            .instanceMethodId("nextInt", "(I)I")
             .call(r, const jintType(), [JValueInt(-1)]),
         throwsA(isA<JniException>()));
   });

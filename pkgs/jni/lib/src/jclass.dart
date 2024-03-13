@@ -19,30 +19,30 @@ class JClass extends JObject {
           return JGlobalReference(cls.checkedClassRef);
         }));
 
-  JConstructor constructor(String signature) {
-    return JConstructor._(this, signature);
+  JConstructorId constructorId(String signature) {
+    return JConstructorId._(this, signature);
   }
 
-  JInstanceMethod instanceMethod(String name, String signature) {
-    return JInstanceMethod._(this, name, signature);
+  JInstanceMethodId instanceMethodId(String name, String signature) {
+    return JInstanceMethodId._(this, name, signature);
   }
 
-  JStaticMethod staticMethod(String name, String signature) {
-    return JStaticMethod._(this, name, signature);
+  JStaticMethodId staticMethodId(String name, String signature) {
+    return JStaticMethodId._(this, name, signature);
   }
 
-  JInstanceField instanceField(String name, String signature) {
-    return JInstanceField._(this, name, signature);
+  JInstanceFieldId instanceFieldId(String name, String signature) {
+    return JInstanceFieldId._(this, name, signature);
   }
 
-  JStaticField staticField(String name, String signature) {
-    return JStaticField._(this, name, signature);
+  JStaticFieldId staticFieldId(String name, String signature) {
+    return JStaticFieldId._(this, name, signature);
   }
 }
 
 /// A thin wrapper over a [JFieldIDPtr] of an instance field.
-extension type JInstanceField._fromPointer(JFieldIDPtr pointer) {
-  JInstanceField._(JClass jClass, String name, String signature)
+extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
+  JInstanceFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) => Jni.accessors
             .getFieldID(
               jClass.reference.pointer,
@@ -62,8 +62,8 @@ extension type JInstanceField._fromPointer(JFieldIDPtr pointer) {
 }
 
 /// A thin wrapper over a [JFieldIDPtr] of an static field.
-extension type JStaticField._fromPointer(JFieldIDPtr pointer) {
-  JStaticField._(JClass jClass, String name, String signature)
+extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
+  JStaticFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) => Jni.accessors
             .getStaticFieldID(
               jClass.reference.pointer,
@@ -83,8 +83,8 @@ extension type JStaticField._fromPointer(JFieldIDPtr pointer) {
 }
 
 /// A thin wrapper over a [JMethodIDPtr] of an instance method.
-extension type JInstanceMethod._fromPointer(JMethodIDPtr pointer) {
-  JInstanceMethod._(
+extension type JInstanceMethodId._fromPointer(JMethodIDPtr pointer) {
+  JInstanceMethodId._(
     JClass jClass,
     String name,
     String signature,
@@ -108,8 +108,8 @@ extension type JInstanceMethod._fromPointer(JMethodIDPtr pointer) {
 }
 
 /// A thin wrapper over a [JMethodIDPtr] of a static mehtod.
-extension type JStaticMethod._fromPointer(JMethodIDPtr pointer) {
-  JStaticMethod._(
+extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
+  JStaticMethodId._(
     JClass jClass,
     String name,
     String signature,
@@ -133,8 +133,8 @@ extension type JStaticMethod._fromPointer(JMethodIDPtr pointer) {
 }
 
 /// A thin wrapper over a [JMethodIDPtr] of a constructor.
-extension type JConstructor._fromPointer(JMethodIDPtr pointer) {
-  JConstructor._(
+extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
+  JConstructorId._(
     JClass jClass,
     String signature,
   ) : pointer = using((arena) => Jni.accessors

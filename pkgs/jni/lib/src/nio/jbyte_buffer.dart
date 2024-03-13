@@ -102,7 +102,7 @@ class JByteBuffer extends JBuffer {
   static const type = JByteBufferType();
 
   static final _allocateDirectId =
-      _class.staticMethod(r"allocateDirect", r"(I)Ljava/nio/ByteBuffer;");
+      _class.staticMethodId(r"allocateDirect", r"(I)Ljava/nio/ByteBuffer;");
 
   /// Allocates a new direct byte buffer.
   ///
@@ -114,7 +114,7 @@ class JByteBuffer extends JBuffer {
   }
 
   static final _allocateId =
-      _class.staticMethod(r"allocate", r"(I)Ljava/nio/ByteBuffer;");
+      _class.staticMethodId(r"allocate", r"(I)Ljava/nio/ByteBuffer;");
 
   /// Allocates a new byte buffer.
   ///
@@ -125,9 +125,9 @@ class JByteBuffer extends JBuffer {
   }
 
   static final _wrapWholeId =
-      _class.staticMethod(r"wrap", r"([B)Ljava/nio/ByteBuffer;");
+      _class.staticMethodId(r"wrap", r"([B)Ljava/nio/ByteBuffer;");
   static final _wrapId =
-      _class.staticMethod(r"wrap", r"([BII)Ljava/nio/ByteBuffer;");
+      _class.staticMethodId(r"wrap", r"([BII)Ljava/nio/ByteBuffer;");
 
   /// Wraps a byte array into a buffer.
   ///
@@ -165,7 +165,7 @@ class JByteBuffer extends JBuffer {
   }
 
   static final _sliceId =
-      _class.instanceMethod(r"slice", r"()Ljava/nio/ByteBuffer;");
+      _class.instanceMethodId(r"slice", r"()Ljava/nio/ByteBuffer;");
 
   /// Creates a new byte buffer whose content is a shared subsequence of this
   /// buffer's content.
@@ -174,7 +174,7 @@ class JByteBuffer extends JBuffer {
   }
 
   static final _duplicateId =
-      _class.instanceMethod(r"duplicate", r"()Ljava/nio/ByteBuffer;");
+      _class.instanceMethodId(r"duplicate", r"()Ljava/nio/ByteBuffer;");
 
   /// Creates a new byte buffer that shares this buffer's content.
   JByteBuffer duplicate() {
@@ -182,14 +182,14 @@ class JByteBuffer extends JBuffer {
   }
 
   static final _asReadOnlyBufferId =
-      _class.instanceMethod(r"asReadOnlyBuffer", r"()Ljava/nio/ByteBuffer;");
+      _class.instanceMethodId(r"asReadOnlyBuffer", r"()Ljava/nio/ByteBuffer;");
 
   /// Creates a new, read-only byte buffer that shares this buffer's content.
   JByteBuffer asReadOnlyBuffer() {
     return _asReadOnlyBufferId(this, const JByteBufferType(), []);
   }
 
-  static final _getId = _class.instanceMethod(r"get", r"()B");
+  static final _getId = _class.instanceMethodId(r"get", r"()B");
 
   /// Reads the byte at this buffer's current [position], and then increments the
   /// [position].
@@ -202,7 +202,7 @@ class JByteBuffer extends JBuffer {
   }
 
   static final _putId =
-      _class.instanceMethod(r"put", r"(B)Ljava/nio/ByteBuffer;");
+      _class.instanceMethodId(r"put", r"(B)Ljava/nio/ByteBuffer;");
 
   /// Writes the given byte into this buffer at the current [position], and then
   /// increments the [position].
@@ -215,7 +215,7 @@ class JByteBuffer extends JBuffer {
     _putId(this, const JObjectType(), [JValueByte(b)]).release();
   }
 
-  static final _arrayId = _class.instanceMethod(r"array", r"()[B");
+  static final _arrayId = _class.instanceMethodId(r"array", r"()[B");
 
   @override
   JArray<jbyte> get array {
