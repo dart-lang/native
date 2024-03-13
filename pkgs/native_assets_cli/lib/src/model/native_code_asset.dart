@@ -4,15 +4,67 @@
 
 part of '../api/asset.dart';
 
-abstract final class DynamicLoadingImpl implements DynamicLoading {
+abstract final class LinkModeImpl implements LinkMode {
+  /// v1.0.0 Includes the parent keys.
+  ///
+  /// ```
+  /// link_mode: dynamic
+  /// path:
+  ///   path_type: system
+  ///   uri: ${foo3Uri.toFilePath()}
+  /// ```
+  Map<String, Object> toYamlV1_0_0(Uri? file);
+
+  /// v1.1.0 does not include the toplevel keys.
+  ///
+  /// ```
+  ///   type: dynamic_loading_system
+  ///   uri: ${foo3Uri.toFilePath()}
+  /// ```
+  Map<String, Object> toYaml();
+
+  factory LinkModeImpl(String type, Uri? uri) {
+    switch (type) {
+      case DynamicLoadingBundledDylibImpl._typeValueV1_0_0:
+      case DynamicLoadingBundledDylibImpl._typeValue:
+        return DynamicLoadingBundledDylibImpl();
+      case DynamicLoadingSystemDylibImpl._typeValueV1_0_0:
+      case DynamicLoadingSystemDylibImpl._typeValue:
+        return DynamicLoadingSystemDylibImpl(uri!);
+      case LookupInExecutableImpl._typeValueV1_0_0:
+      case LookupInExecutableImpl._typeValue:
+        return LookupInExecutableImpl();
+      case LookupInProcessImpl._typeValueV1_0_0:
+      case LookupInProcessImpl._typeValue:
+        return LookupInProcessImpl();
+      case StaticLinkingImpl._typeValue:
+        return StaticLinkingImpl();
+    }
+    throw FormatException('Unknown type: $type.');
+  }
+
+  /// v1.1.0 only.
+  factory LinkModeImpl.fromYaml(YamlMap yamlMap) {
+    final type = as<String>(yamlMap[_typeKey]);
+    final uriString = as<String?>(yamlMap[_uriKey]);
+    final uri = uriString != null ? Uri(path: uriString) : null;
+    return LinkModeImpl(type, uri);
+  }
+
+  static const _typeKey = 'type';
+  static const _uriKey = 'uri';
+}
+
+abstract final class DynamicLoadingImpl
+    implements LinkModeImpl, DynamicLoading {
   factory DynamicLoadingImpl(String type, Uri? uri) {
     switch (type) {
-      case BundledDylibImpl._typeValueV1_0_0:
+      case DynamicLoadingBundledDylibImpl._typeValueV1_0_0:
       // For backwards compatibility.
-      case BundledDylibImpl._typeValue:
-        return BundledDylibImpl();
-      case SystemDylibImpl._typeValue:
-        return SystemDylibImpl(uri!);
+      case DynamicLoadingBundledDylibImpl._typeValue:
+        return DynamicLoadingBundledDylibImpl();
+      case DynamicLoadingSystemDylibImpl._typeValue:
+        return DynamicLoadingSystemDylibImpl(uri!);
       case LookupInExecutableImpl._typeValue:
         return LookupInExecutableImpl();
       case LookupInProcessImpl._typeValue:
@@ -21,55 +73,63 @@ abstract final class DynamicLoadingImpl implements DynamicLoading {
     throw FormatException('Unknown type: $type.');
   }
 
-  factory DynamicLoadingImpl.fromYaml(YamlMap yamlMap) {
-    final type = as<String>(yamlMap[_typeKey] ?? yamlMap[_pathTypeKey]);
-    final uriString = as<String?>(yamlMap[_uriKey]);
-    final uri = uriString != null ? Uri(path: uriString) : null;
-    return DynamicLoadingImpl(type, uri);
-  }
-
-  Map<String, Object> toYaml(Version version, Uri? file);
-
-  static const _pathTypeKey = 'path_type';
+  static const _pathTypeKeyV1_0_0 = 'path_type';
   static const _typeKey = 'type';
   static const _uriKey = 'uri';
+
+  static const _typeValueV1_0_0 = 'dynamic';
 }
 
-final class BundledDylibImpl implements DynamicLoadingImpl, BundledDylib {
-  BundledDylibImpl._();
+final class DynamicLoadingBundledDylibImpl
+    implements DynamicLoadingImpl, DynamicLoadingBundledDylib {
+  DynamicLoadingBundledDylibImpl._();
 
-  static final BundledDylibImpl _singleton = BundledDylibImpl._();
+  static final DynamicLoadingBundledDylibImpl _singleton =
+      DynamicLoadingBundledDylibImpl._();
 
-  factory BundledDylibImpl() => _singleton;
+  factory DynamicLoadingBundledDylibImpl() => _singleton;
 
   static const _typeValueV1_0_0 = 'absolute';
-  static const _typeValue = 'bundle';
+  static const _typeValue = 'dynamic_loading_bundle';
 
   @override
-  Map<String, Object> toYaml(Version version, Uri? file) => {
-        if (version == Version(1, 0, 0)) ...{
-          DynamicLoadingImpl._pathTypeKey: _typeValueV1_0_0,
+  Map<String, Object> toYaml() => {
+        DynamicLoadingImpl._typeKey: _typeValue,
+      };
+
+  @override
+  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+        NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
+        NativeCodeAssetImpl._pathKey: {
+          DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
           DynamicLoadingImpl._uriKey: file!.toFilePath(),
-        } else
-          DynamicLoadingImpl._typeKey: _typeValue,
+        }
       };
 }
 
-final class SystemDylibImpl implements DynamicLoadingImpl, SystemDylib {
+final class DynamicLoadingSystemDylibImpl
+    implements DynamicLoadingImpl, DynamicLoadingSystemDylib {
   @override
   final Uri uri;
 
-  SystemDylibImpl(this.uri);
+  DynamicLoadingSystemDylibImpl(this.uri);
 
-  static const _typeValue = 'system';
+  static const _typeValue = 'dynamic_loading_system';
+  static const _typeValueV1_0_0 = 'system';
 
   @override
-  Map<String, Object> toYaml(Version version, Uri? file) => {
-        if (version == Version(1, 0, 0))
-          DynamicLoadingImpl._pathTypeKey: _typeValue
-        else
-          DynamicLoadingImpl._typeKey: _typeValue,
+  Map<String, Object> toYaml() => {
+        DynamicLoadingImpl._typeKey: _typeValue,
         DynamicLoadingImpl._uriKey: uri.toFilePath(),
+      };
+
+  @override
+  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+        NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
+        NativeCodeAssetImpl._pathKey: {
+          DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
+          DynamicLoadingImpl._uriKey: uri.toFilePath(),
+        }
       };
 
   @override
@@ -77,7 +137,7 @@ final class SystemDylibImpl implements DynamicLoadingImpl, SystemDylib {
 
   @override
   bool operator ==(Object other) {
-    if (other is! SystemDylibImpl) {
+    if (other is! DynamicLoadingSystemDylibImpl) {
       return false;
     }
     return uri == other.uri;
@@ -91,14 +151,20 @@ final class LookupInProcessImpl implements DynamicLoadingImpl, LookupInProcess {
 
   factory LookupInProcessImpl() => _singleton;
 
-  static const _typeValue = 'process';
+  static const _typeValue = 'dynamic_loading_process';
+  static const _typeValueV1_0_0 = 'process';
 
   @override
-  Map<String, Object> toYaml(Version version, Uri? file) => {
-        if (version == Version(1, 0, 0))
-          DynamicLoadingImpl._pathTypeKey: _typeValue
-        else
-          DynamicLoadingImpl._typeKey: _typeValue,
+  Map<String, Object> toYaml() => {
+        DynamicLoadingImpl._typeKey: _typeValue,
+      };
+
+  @override
+  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+        NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
+        NativeCodeAssetImpl._pathKey: {
+          DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
+        }
       };
 }
 
@@ -110,14 +176,40 @@ final class LookupInExecutableImpl
 
   factory LookupInExecutableImpl() => _singleton;
 
-  static const _typeValue = 'executable';
+  static const _typeValue = 'dynamic_loading_executable';
+  static const _typeValueV1_0_0 = 'executable';
 
   @override
-  Map<String, Object> toYaml(Version version, Uri? file) => {
-        if (version == Version(1, 0, 0))
-          DynamicLoadingImpl._pathTypeKey: _typeValue
-        else
-          DynamicLoadingImpl._typeKey: _typeValue,
+  Map<String, Object> toYaml() => {
+        DynamicLoadingImpl._typeKey: _typeValue,
+      };
+
+  @override
+  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+        NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
+        NativeCodeAssetImpl._pathKey: {
+          DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
+        }
+      };
+}
+
+final class StaticLinkingImpl implements LinkModeImpl, StaticLinking {
+  StaticLinkingImpl._();
+
+  static final StaticLinkingImpl _singleton = StaticLinkingImpl._();
+
+  factory StaticLinkingImpl() => _singleton;
+
+  static const _typeValue = 'static';
+
+  @override
+  Map<String, Object> toYaml() => {
+        DynamicLoadingImpl._typeKey: _typeValue,
+      };
+
+  @override
+  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+        NativeCodeAssetImpl._linkModeKey: _typeValue,
       };
 }
 
@@ -132,16 +224,6 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   final String id;
 
   @override
-  DynamicLoadingImpl get dynamicLoading {
-    if (linkMode == LinkMode.static) {
-      throw StateError('LinkMode is LinkMode.static.');
-    }
-    return _dynamicLoading!;
-  }
-
-  final DynamicLoadingImpl? _dynamicLoading;
-
-  @override
   final OSImpl os;
 
   @override
@@ -152,25 +234,10 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     required this.id,
     required this.linkMode,
     required this.os,
-    DynamicLoadingImpl? dynamicLoading,
     this.architecture,
-  }) : _dynamicLoading = dynamicLoading {
-    if (linkMode == LinkMode.dynamicLoading && dynamicLoading == null) {
-      throw ArgumentError.value(
-        dynamicLoading,
-        'dynamicLoading',
-        'Must not be null if linkMode == LinkMode.dynamic.',
-      );
-    }
-    if (linkMode == LinkMode.static && dynamicLoading != null) {
-      throw ArgumentError.value(
-        dynamicLoading,
-        'dynamicLoading',
-        'Must be null if linkMode == LinkMode.static.',
-      );
-    }
-    if (linkMode == LinkMode.dynamicLoading &&
-        dynamicLoading is! BundledDylib &&
+  }) {
+    if (linkMode is DynamicLoading &&
+        linkMode is! DynamicLoadingBundledDylib &&
         file != null) {
       throw ArgumentError.value(
         file,
@@ -181,17 +248,32 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   }
 
   factory NativeCodeAssetImpl.fromYaml(YamlMap yamlMap) {
-    final linkMode = LinkModeImpl.fromName(as<String>(yamlMap[_linkModeKey]));
-    final dynamicLoadingYaml =
-        as<YamlMap?>(yamlMap[_dynamicLoadingKey] ?? yamlMap[_pathKey]);
-    final dynamicLoading = dynamicLoadingYaml == null
-        ? null
-        : DynamicLoadingImpl.fromYaml(dynamicLoadingYaml);
+    final LinkModeImpl linkMode;
+    final linkModeYaml = yamlMap[_linkModeKey];
+    if (linkModeYaml is String) {
+      // v1.0.0
+      if (linkModeYaml == StaticLinkingImpl._typeValue) {
+        linkMode = StaticLinkingImpl();
+      } else {
+        assert(linkModeYaml == DynamicLoadingImpl._typeValueV1_0_0);
+        final pathYaml = as<YamlMap>(yamlMap[_pathKey]);
+        final type =
+            as<String>(pathYaml[DynamicLoadingImpl._pathTypeKeyV1_0_0]);
+        final uriString = as<String?>(pathYaml[DynamicLoadingImpl._uriKey]);
+        final uri = uriString != null ? Uri(path: uriString) : null;
+        linkMode = LinkModeImpl(type, uri);
+      }
+    } else {
+      // v1.1.0
+      linkMode = LinkModeImpl.fromYaml(as<YamlMap>(linkModeYaml));
+    }
+
     final fileString = as<String?>(yamlMap[_fileKey]);
     final Uri? file;
     if (fileString != null) {
       file = Uri(path: fileString);
-    } else if (dynamicLoading is BundledDylibImpl &&
+    } else if ((linkMode is DynamicLoadingBundledDylibImpl ||
+            linkMode is StaticLinkingImpl) &&
         yamlMap[_pathKey] != null) {
       // Compatibility with v1.0.0.
       final oldPath = as<String?>(
@@ -220,8 +302,6 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
 
     return NativeCodeAssetImpl(
       id: as<String>(yamlMap[_idKey]),
-      dynamicLoading:
-          linkMode == LinkMode.dynamicLoading ? dynamicLoading : null,
       os: os,
       architecture: architecture,
       linkMode: linkMode,
@@ -234,7 +314,6 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     String? id,
     OSImpl? os,
     ArchitectureImpl? architecture,
-    DynamicLoadingImpl? dynamicLoading,
     Uri? file,
   }) =>
       NativeCodeAssetImpl(
@@ -242,7 +321,6 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
         linkMode: linkMode ?? this.linkMode,
         os: os ?? this.os,
         architecture: this.architecture ?? architecture,
-        dynamicLoading: dynamicLoading ?? this.dynamicLoading,
         file: file ?? this.file,
       );
 
@@ -255,7 +333,6 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
         other.linkMode == linkMode &&
         other.architecture == architecture &&
         other.os == os &&
-        other._dynamicLoading == _dynamicLoading &&
         other.file == file;
   }
 
@@ -265,7 +342,6 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
         linkMode,
         architecture,
         os,
-        _dynamicLoading,
         file,
       );
 
@@ -274,18 +350,15 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     if (version == Version(1, 0, 0)) {
       return {
         _idKey: id,
-        _linkModeKey: linkMode.name,
-        _pathKey: dynamicLoading.toYaml(version, file),
+        ...linkMode.toYamlV1_0_0(file),
         _targetKey: Target.fromArchitectureAndOS(architecture!, os).toString(),
       }..sortOnKey();
     }
     return {
       if (architecture != null) _architectureKey: architecture.toString(),
-      if (linkMode == LinkMode.dynamicLoading)
-        _dynamicLoadingKey: dynamicLoading.toYaml(version, file),
       if (file != null) _fileKey: file!.toFilePath(),
       _idKey: id,
-      _linkModeKey: linkMode.name,
+      _linkModeKey: linkMode.toYaml(),
       _osKey: os.toString(),
       typeKey: NativeCodeAsset.type,
     }..sortOnKey();
@@ -295,7 +368,6 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
   static const _idKey = 'id';
   static const _linkModeKey = 'link_mode';
   static const _pathKey = 'path';
-  static const _dynamicLoadingKey = 'dynamic_loading';
   static const _targetKey = 'target';
   static const _fileKey = 'file';
   static const _osKey = 'os';

@@ -27,10 +27,11 @@ part of 'asset.dart';
 ///
 /// There are several types of native code assets:
 /// * Assets which designate symbols present in the target system
-///   ([SystemDylib]), process ([LookupInProcess]), or executable
+///   ([DynamicLoadingSystemDylib]), process ([LookupInProcess]), or executable
 ///   ([LookupInExecutable]). These assets do not have a [file].
-/// * Dynamic libraries bundled into the application ([BundledDylib]). These
-///   assets must provide a [file] to be bundled.
+/// * Dynamic libraries bundled into the application
+///   ([DynamicLoadingBundledDylib]). These assets must provide a [file] to be
+///   bundled.
 ///
 /// An application is compiled to run on a specific target [os] and
 /// [architecture]. Different targets require different assets, so the package
@@ -40,9 +41,10 @@ part of 'asset.dart';
 /// is either brought in "manually" by having the package developer specify a
 /// [file] path of the asset on the current system, it can be part of the Dart
 /// or Flutter SDK ([LookupInProcess]), or it can be already present in the
-/// target system ([SystemDylib]). If the asset is bundled "manually", the Dart
-/// or Flutter SDK will take care of copying the asset [file] from its specified
-/// location on the current system into the application bundle.
+/// target system ([DynamicLoadingSystemDylib]). If the asset is bundled
+/// "manually", the Dart or Flutter SDK will take care of copying the asset
+/// [file] from its specified location on the current system into the
+/// application bundle.
 abstract final class NativeCodeAsset implements Asset {
   /// The operating system this asset can run on.
   OS get os;
@@ -57,30 +59,15 @@ abstract final class NativeCodeAsset implements Asset {
   /// Either dynamic loading or static linking.
   LinkMode get linkMode;
 
-  /// The dynamic loading method when the [linkMode] is
-  /// [LinkMode.dynamicLoading].
-  ///
-  /// Throws a [StateError] when accessed with [linkMode] is [LinkMode.static].
-  DynamicLoading get dynamicLoading;
-
   /// Constructs a native code asset.
   ///
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
   /// and [name].
-  ///
-  /// If [linkMode] is [LinkMode.dynamicLoading], a non-null [dynamicLoading]
-  /// must be provided. If [linkMode] is [LinkMode.static], [dynamicLoading]
-  /// must not be provided.
-  ///
-  /// If [linkMode] is [LinkMode.dynamicLoading] and [dynamicLoading] is not
-  /// [BundledDylib], a [file] must not be provided. If [dynamicLoading] is
-  /// [BundledDylib], a [file] must be provided in non-[BuildConfig.dryRun]s.
   factory NativeCodeAsset({
     required String package,
     required String name,
     required LinkMode linkMode,
     required OS os,
-    DynamicLoading? dynamicLoading,
     Uri? file,
     Architecture? architecture,
   }) =>
@@ -89,40 +76,79 @@ abstract final class NativeCodeAsset implements Asset {
         linkMode: linkMode as LinkModeImpl,
         os: os as OSImpl,
         architecture: architecture as ArchitectureImpl?,
-        dynamicLoading: dynamicLoading as DynamicLoadingImpl?,
         file: file,
       );
 
   static const String type = 'native_code';
 }
 
-/// The dynamic loading method when the [NativeCodeAsset.linkMode] is
-/// [LinkMode.dynamicLoading].
-abstract final class DynamicLoading {}
+/// The link mode for a [NativeCodeAsset].
+///
+/// Known linking modes:
+///
+/// * [DynamicLoading]
+///   * [DynamicLoadingBundledDylib]
+///   * [DynamicLoadingSystemDylib]
+///   * [LookupInProcess]
+///   * [LookupInExecutable]
+/// * [StaticLinking]
+///
+/// See the documentation on the above classes.
+abstract final class LinkMode {}
 
-/// The asset file should be bundled by Dart/Flutter.
+/// The [NativeCodeAsset] will be loaded at runtime.
+///
+/// Nothing happens at native code linking time.
+///
+/// Supported in the Dart and Flutter SDK.
+///
+/// Note: Dynamic loading is not equal to dynamic linking. Dynamic linking
+/// would have to run the linker at compile-time, which is currently not
+/// supported in the Dart and Flutter SDK.
+abstract final class DynamicLoading implements LinkMode {}
+
+/// The dynamic library is bundled by Dart/Flutter at build time.
+///
+/// At runtime, the dynamic library will be loaded and the symbols will be
+/// looked up in this dynamic library.
 ///
 /// An asset with this dynamic loading method must provide a [Asset.file]. The
 /// Dart and Flutter SDK will bundle this code in the final application.
-abstract final class BundledDylib implements DynamicLoading {
-  factory BundledDylib() = BundledDylibImpl;
+abstract final class DynamicLoadingBundledDylib implements DynamicLoading {
+  factory DynamicLoadingBundledDylib() = DynamicLoadingBundledDylibImpl;
 }
 
-/// Asset is avaliable on the target system `PATH`.
-abstract final class SystemDylib implements DynamicLoading {
+/// The dynamic library is avaliable on the target system `PATH`.
+///
+/// At buildtime, nothing happens.
+///
+/// At runtime, the dynamic library will be loaded and the symbols will be
+/// looked up in this dynamic library.
+abstract final class DynamicLoadingSystemDylib implements DynamicLoading {
   Uri get uri;
 
-  factory SystemDylib(Uri uri) = SystemDylibImpl;
+  factory DynamicLoadingSystemDylib(Uri uri) = DynamicLoadingSystemDylibImpl;
 }
 
-/// Asset is loaded in the process and symbols are available through
+/// The native code is loaded in the process and symbols are available through
 /// `DynamicLibrary.process()`.
 abstract final class LookupInProcess implements DynamicLoading {
   factory LookupInProcess() = LookupInProcessImpl;
 }
 
-/// Asset is embedded in executable and symbols are available through
+/// The native code is embedded in executable and symbols are available through
 /// `DynamicLibrary.executable()`.
 abstract final class LookupInExecutable implements DynamicLoading {
   factory LookupInExecutable() = LookupInExecutableImpl;
+}
+
+/// Static linking.
+///
+/// At native linking time, native function names will be resolved to static
+/// libraries.
+///
+/// Not yet supported in the Dart and Flutter SDK.
+// TODO(https://github.com/dart-lang/sdk/issues/49418): Support static linking.
+abstract final class StaticLinking implements LinkMode {
+  factory StaticLinking() = StaticLinkingImpl;
 }

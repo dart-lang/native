@@ -13,10 +13,9 @@ void main(List<String> arguments) async {
         file: config.outputDirectory.resolve(
           OS.current.dylibFileName('foo'),
         ),
-        linkMode: LinkMode.dynamicLoading,
+        linkMode: DynamicLoadingBundledDylib(),
         os: OS.current,
         architecture: Architecture.current,
-        dynamicLoading: BundledDylib(),
       ),
     );
   });

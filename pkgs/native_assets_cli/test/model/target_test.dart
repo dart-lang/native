@@ -13,11 +13,12 @@ void main() {
     expect(OSImpl.android.dylibFileName('foo'), 'libfoo.so');
     expect(OSImpl.android.staticlibFileName('foo'), 'libfoo.a');
     expect(OSImpl.windows.dylibFileName('foo'), 'foo.dll');
-    expect(OSImpl.windows.libraryFileName('foo', LinkModeImpl.dynamicLoading),
+    expect(
+        OSImpl.windows.libraryFileName('foo', DynamicLoadingBundledDylibImpl()),
         'foo.dll');
     expect(OSImpl.windows.staticlibFileName('foo'), 'foo.lib');
     expect(
-        OSImpl.windows.libraryFileName('foo', LinkModeImpl.static), 'foo.lib');
+        OSImpl.windows.libraryFileName('foo', StaticLinkingImpl()), 'foo.lib');
     expect(OSImpl.windows.executableFileName('foo'), 'foo.exe');
   });
 

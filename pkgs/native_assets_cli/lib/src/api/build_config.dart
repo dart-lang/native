@@ -18,7 +18,6 @@ import 'architecture.dart';
 import 'asset.dart';
 import 'build_mode.dart';
 import 'ios_sdk.dart';
-import 'link_mode.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
 

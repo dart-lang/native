@@ -41,12 +41,12 @@ void main() {
     Architecture.x64: 'x64',
   };
 
-  const dumpbinFileType = {
-    LinkMode.dynamicLoading: 'DLL',
-    LinkMode.static: 'LIBRARY',
+  final dumpbinFileType = {
+    DynamicLoadingBundledDylib(): 'DLL',
+    StaticLinking(): 'LIBRARY',
   };
 
-  for (final linkMode in [LinkMode.dynamicLoading, LinkMode.static]) {
+  for (final linkMode in [DynamicLoadingBundledDylib(), StaticLinking()]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
@@ -61,7 +61,7 @@ void main() {
           targetOS: OS.windows,
           targetArchitecture: target,
           buildMode: BuildMode.release,
-          linkModePreference: linkMode == LinkMode.dynamicLoading
+          linkModePreference: linkMode == DynamicLoadingBundledDylib()
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
         );

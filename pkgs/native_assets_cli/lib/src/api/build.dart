@@ -75,10 +75,9 @@ import 'build_output.dart';
 ///       NativeCodeAsset(
 ///         id: 'library:$packageName/asset.txt',
 ///         file: assetPath,
-///         linkMode: LinkMode.dynamic,
+///         linkMode: BundledDylib(),
 ///         os: config.targetOS,
 ///         architecture: config.targetArchitecture,
-///         dynamicLoading: BundledDylib(),
 ///       ),
 ///     );
 ///   });

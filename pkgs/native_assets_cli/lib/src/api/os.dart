@@ -7,7 +7,7 @@ import 'dart:io';
 
 import '../model/target.dart';
 import 'architecture.dart';
-import 'link_mode.dart';
+import 'asset.dart';
 
 part '../model/os.dart';
 

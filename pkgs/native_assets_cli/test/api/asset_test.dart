@@ -13,34 +13,30 @@ void main() {
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
-        dynamicLoading: BundledDylib(),
+        linkMode: DynamicLoadingBundledDylib(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
         name: 'foo3',
-        dynamicLoading: SystemDylib(Uri(path: 'libfoo3.so')),
+        linkMode: DynamicLoadingSystemDylib(Uri(path: 'libfoo3.so')),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
         name: 'foo4',
-        dynamicLoading: LookupInExecutable(),
+        linkMode: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
         name: 'foo5',
-        dynamicLoading: LookupInProcess(),
+        linkMode: LookupInProcess(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamicLoading,
       ),
       NativeCodeAsset(
         package: 'my_package',
@@ -48,16 +44,15 @@ void main() {
         file: Uri(path: 'path/to/libbar.a'),
         os: OS.linux,
         architecture: Architecture.arm64,
-        linkMode: LinkMode.static,
+        linkMode: StaticLinking(),
       ),
       NativeCodeAsset(
         package: 'my_package',
         name: 'bla',
         file: Uri(path: 'path/with spaces/bla.dll'),
-        dynamicLoading: BundledDylib(),
+        linkMode: DynamicLoadingBundledDylib(),
         os: OS.windows,
         architecture: Architecture.x64,
-        linkMode: LinkMode.dynamicLoading,
       ),
       DataAsset(
         package: 'my_package',
@@ -74,48 +69,11 @@ void main() {
         package: 'my_package',
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
-        dynamicLoading: BundledDylib(),
+        linkMode: LookupInExecutable(),
         os: OS.android,
         architecture: Architecture.x64,
-        linkMode: LinkMode.static,
       ),
       throwsArgumentError,
-    );
-    expect(
-      () => NativeCodeAsset(
-        package: 'my_package',
-        name: 'foo',
-        file: Uri.file('path/to/libfoo.so'),
-        os: OS.android,
-        architecture: Architecture.x64,
-        linkMode: LinkMode.dynamicLoading,
-      ),
-      throwsArgumentError,
-    );
-    expect(
-      () => NativeCodeAsset(
-        package: 'my_package',
-        name: 'foo',
-        file: Uri.file('path/to/libfoo.so'),
-        dynamicLoading: LookupInExecutable(),
-        os: OS.android,
-        architecture: Architecture.x64,
-        linkMode: LinkMode.dynamicLoading,
-      ),
-      throwsArgumentError,
-    );
-
-    final staticLinkingAsset = NativeCodeAsset(
-      package: 'my_package',
-      name: 'foo',
-      file: Uri.file('path/to/libfoo.so'),
-      os: OS.android,
-      architecture: Architecture.x64,
-      linkMode: LinkMode.static,
-    );
-    expect(
-      () => staticLinkingAsset.dynamicLoading,
-      throwsStateError,
     );
   });
 }

@@ -53,19 +53,19 @@ void main() async {
       // This package honors preferences.
       expect(
         (resultDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        LinkModeImpl.dynamicLoading,
+        DynamicLoadingBundledDylibImpl(),
       );
       expect(
         (resultPreferDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        LinkModeImpl.dynamicLoading,
+        DynamicLoadingBundledDylibImpl(),
       );
       expect(
         (resultStatic.assets.single as NativeCodeAssetImpl).linkMode,
-        LinkModeImpl.static,
+        StaticLinkingImpl(),
       );
       expect(
         (resultPreferStatic.assets.single as NativeCodeAssetImpl).linkMode,
-        LinkModeImpl.static,
+        StaticLinkingImpl(),
       );
     });
   });

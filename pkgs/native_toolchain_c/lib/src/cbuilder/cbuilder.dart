@@ -222,11 +222,11 @@ class CBuilder implements Builder {
         sources: sources,
         includes: includes,
         dynamicLibrary: _type == _CBuilderType.library &&
-                linkMode == LinkMode.dynamicLoading
+                linkMode == DynamicLoadingBundledDylib()
             ? libUri
             : null,
         staticLibrary:
-            _type == _CBuilderType.library && linkMode == LinkMode.static
+            _type == _CBuilderType.library && linkMode == StaticLinking()
                 ? libUri
                 : null,
         executable: _type == _CBuilderType.executable ? exeUri : null,
@@ -256,8 +256,6 @@ class CBuilder implements Builder {
           os: buildConfig.targetOS,
           architecture:
               buildConfig.dryRun ? null : buildConfig.targetArchitecture,
-          dynamicLoading:
-              linkMode == LinkMode.dynamicLoading ? BundledDylib() : null,
         )
       ]);
     }
@@ -289,9 +287,9 @@ enum _CBuilderType {
 LinkMode _linkMode(LinkModePreference preference) {
   if (preference == LinkModePreference.dynamic ||
       preference == LinkModePreference.preferDynamic) {
-    return LinkMode.dynamicLoading;
+    return DynamicLoadingBundledDylib();
   }
   assert(preference == LinkModePreference.static ||
       preference == LinkModePreference.preferStatic);
-  return LinkMode.static;
+  return StaticLinking();
 }

@@ -26,31 +26,28 @@ void main() {
       NativeCodeAssetImpl(
         id: 'package:my_package/foo',
         file: Uri(path: 'path/to/libfoo.so'),
-        dynamicLoading: BundledDylibImpl(),
+        linkMode: DynamicLoadingBundledDylibImpl(),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
-        linkMode: LinkModeImpl.dynamicLoading,
       ),
       NativeCodeAssetImpl(
         id: 'package:my_package/foo2',
-        dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+        linkMode:
+            DynamicLoadingSystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
-        linkMode: LinkModeImpl.dynamicLoading,
       ),
       NativeCodeAssetImpl(
         id: 'package:my_package/foo3',
-        dynamicLoading: LookupInProcessImpl(),
+        linkMode: LookupInProcessImpl(),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
-        linkMode: LinkModeImpl.dynamicLoading,
       ),
       NativeCodeAssetImpl(
         id: 'package:my_package/foo4',
-        dynamicLoading: LookupInExecutableImpl(),
+        linkMode: LookupInExecutableImpl(),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
-        linkMode: LinkModeImpl.dynamicLoading,
       ),
     ],
     dependencies: Dependencies([
@@ -94,33 +91,29 @@ version: 1.0.0''';
   final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
 assets:
   - architecture: x64
-    dynamic_loading:
-      type: bundle
     file: path/to/libfoo.so
     id: package:my_package/foo
-    link_mode: dynamic
+    link_mode:
+      type: dynamic_loading_bundle
     os: android
     type: native_code
   - architecture: x64
-    dynamic_loading:
-      type: system
-      uri: path/to/libfoo2.so
     id: package:my_package/foo2
-    link_mode: dynamic
+    link_mode:
+      type: dynamic_loading_system
+      uri: path/to/libfoo2.so
     os: android
     type: native_code
   - architecture: x64
-    dynamic_loading:
-      type: process
     id: package:my_package/foo3
-    link_mode: dynamic
+    link_mode:
+      type: dynamic_loading_process
     os: android
     type: native_code
   - architecture: x64
-    dynamic_loading:
-      type: executable
     id: package:my_package/foo4
-    link_mode: dynamic
+    link_mode:
+      type: dynamic_loading_executable
     os: android
     type: native_code
 dependencies:
@@ -217,7 +210,7 @@ assets:
 dependencies: []
 metadata:
   key: value
-version: ${BuildOutputImpl.latestVersion}'''),
+version: 1.0.0'''),
       throwsFormatException,
     );
     expect(
@@ -233,7 +226,7 @@ dependencies:
   1: foo
 metadata:
   key: value
-version: ${BuildOutputImpl.latestVersion}'''),
+version: 1.0.0'''),
       throwsFormatException,
     );
     expect(
@@ -248,14 +241,12 @@ assets:
 dependencies: []
 metadata:
   123: value
-version: ${BuildOutputImpl.latestVersion}'''),
+version: 1.0.0'''),
       throwsFormatException,
     );
   });
 
   test('BuildOutput dependencies can be modified', () {
-    // TODO(https://github.com/dart-lang/native/issues/25):
-    // Remove once dependencies are made immutable.
     final buildOutput = BuildOutputImpl();
     expect(
       () => buildOutput.addDependencies([Uri.file('path/to/file.ext')]),
@@ -270,17 +261,16 @@ version: ${BuildOutputImpl.latestVersion}'''),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo',
           file: Uri(path: 'path/to/libfoo.so'),
-          dynamicLoading: BundledDylibImpl(),
+          linkMode: DynamicLoadingBundledDylibImpl(),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
-          linkMode: LinkModeImpl.dynamicLoading,
         ),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo2',
-          dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+          linkMode:
+              DynamicLoadingSystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
-          linkMode: LinkModeImpl.dynamicLoading,
         ),
       ],
       dependencies: Dependencies([
@@ -300,19 +290,18 @@ version: ${BuildOutputImpl.latestVersion}'''),
       NativeCodeAssetImpl(
         id: 'package:my_package/foo',
         file: Uri(path: 'path/to/libfoo.so'),
-        dynamicLoading: BundledDylibImpl(),
+        linkMode: DynamicLoadingBundledDylibImpl(),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
-        linkMode: LinkModeImpl.dynamicLoading,
       ),
     );
     buildOutput2.addAssets([
       NativeCodeAssetImpl(
         id: 'package:my_package/foo2',
-        dynamicLoading: SystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+        linkMode:
+            DynamicLoadingSystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
-        linkMode: LinkModeImpl.dynamicLoading,
       ),
     ]);
     buildOutput2.addDependency(

@@ -37,10 +37,9 @@ void main(List<String> args) async {
         package: packageName,
         name: 'asset.txt',
         file: assetPath,
-        linkMode: LinkMode.dynamicLoading,
+        linkMode: DynamicLoadingBundledDylib(),
         os: config.targetOS,
         architecture: config.targetArchitecture,
-        dynamicLoading: BundledDylib(),
       ),
     );
   });

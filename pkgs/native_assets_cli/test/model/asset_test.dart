@@ -20,46 +20,41 @@ void main() {
     NativeCodeAssetImpl(
       id: 'package:my_package/foo',
       file: fooUri,
-      dynamicLoading: BundledDylibImpl(),
+      linkMode: DynamicLoadingBundledDylibImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo3',
-      dynamicLoading: SystemDylibImpl(foo3Uri),
+      linkMode: DynamicLoadingSystemDylibImpl(foo3Uri),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo4',
-      dynamicLoading: LookupInExecutableImpl(),
+      linkMode: LookupInExecutableImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo5',
-      dynamicLoading: LookupInProcessImpl(),
+      linkMode: LookupInProcessImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamicLoading,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/bar',
       file: barUri,
       os: OSImpl.linux,
       architecture: ArchitectureImpl.arm64,
-      linkMode: LinkModeImpl.static,
+      linkMode: StaticLinkingImpl(),
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/bla',
       file: blaUri,
-      dynamicLoading: BundledDylibImpl(),
+      linkMode: DynamicLoadingBundledDylibImpl(),
       os: OSImpl.windows,
       architecture: ArchitectureImpl.x64,
-      linkMode: LinkModeImpl.dynamicLoading,
     ),
   ];
   final dataAssets = [
@@ -113,47 +108,43 @@ void main() {
   target: windows_x64''';
 
   final assetsYamlEncoding = '''- architecture: x64
-  dynamic_loading:
-    type: bundle
   file: ${fooUri.toFilePath()}
   id: package:my_package/foo
-  link_mode: dynamic
+  link_mode:
+    type: dynamic_loading_bundle
   os: android
   type: native_code
 - architecture: x64
-  dynamic_loading:
-    type: system
-    uri: ${foo3Uri.toFilePath()}
   id: package:my_package/foo3
-  link_mode: dynamic
+  link_mode:
+    type: dynamic_loading_system
+    uri: ${foo3Uri.toFilePath()}
   os: android
   type: native_code
 - architecture: x64
-  dynamic_loading:
-    type: executable
   id: package:my_package/foo4
-  link_mode: dynamic
+  link_mode:
+    type: dynamic_loading_executable
   os: android
   type: native_code
 - architecture: x64
-  dynamic_loading:
-    type: process
   id: package:my_package/foo5
-  link_mode: dynamic
+  link_mode:
+    type: dynamic_loading_process
   os: android
   type: native_code
 - architecture: arm64
   file: ${barUri.toFilePath()}
   id: package:my_package/bar
-  link_mode: static
+  link_mode:
+    type: static
   os: linux
   type: native_code
 - architecture: x64
-  dynamic_loading:
-    type: bundle
   file: ${blaUri.toFilePath()}
   id: package:my_package/bla
-  link_mode: dynamic
+  link_mode:
+    type: dynamic_loading_bundle
   os: windows
   type: native_code
 - id: package:my_package/my_data_asset

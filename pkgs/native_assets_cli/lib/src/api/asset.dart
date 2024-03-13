@@ -11,7 +11,6 @@ import '../utils/yaml.dart';
 import 'architecture.dart';
 import 'build_config.dart';
 import 'build_output.dart';
-import 'link_mode.dart';
 import 'os.dart';
 
 part 'native_code_asset.dart';
