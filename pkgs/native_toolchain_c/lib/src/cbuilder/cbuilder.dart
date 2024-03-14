@@ -222,7 +222,7 @@ class CBuilder implements Builder {
         sources: sources,
         includes: includes,
         dynamicLibrary: _type == _CBuilderType.library &&
-                linkMode == DynamicLoadingBundledDylib()
+                linkMode == DynamicLoadingBundled()
             ? libUri
             : null,
         staticLibrary:
@@ -287,7 +287,7 @@ enum _CBuilderType {
 LinkMode _linkMode(LinkModePreference preference) {
   if (preference == LinkModePreference.dynamic ||
       preference == LinkModePreference.preferDynamic) {
-    return DynamicLoadingBundledDylib();
+    return DynamicLoadingBundled();
   }
   assert(preference == LinkModePreference.static ||
       preference == LinkModePreference.preferStatic);

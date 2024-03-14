@@ -36,7 +36,7 @@ void main() {
     Architecture.riscv64: 'RISC-V',
   };
 
-  for (final linkMode in [DynamicLoadingBundledDylib(), StaticLinking()]) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
@@ -51,7 +51,7 @@ void main() {
           targetArchitecture: target,
           targetOS: OS.linux,
           buildMode: BuildMode.release,
-          linkModePreference: linkMode == DynamicLoadingBundledDylib()
+          linkModePreference: linkMode == DynamicLoadingBundled()
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
         );

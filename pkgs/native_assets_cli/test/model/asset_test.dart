@@ -20,13 +20,13 @@ void main() {
     NativeCodeAssetImpl(
       id: 'package:my_package/foo',
       file: fooUri,
-      linkMode: DynamicLoadingBundledDylibImpl(),
+      linkMode: DynamicLoadingBundledImpl(),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
     ),
     NativeCodeAssetImpl(
       id: 'package:my_package/foo3',
-      linkMode: DynamicLoadingSystemDylibImpl(foo3Uri),
+      linkMode: DynamicLoadingSystemImpl(foo3Uri),
       os: OSImpl.android,
       architecture: ArchitectureImpl.x64,
     ),
@@ -52,7 +52,7 @@ void main() {
     NativeCodeAssetImpl(
       id: 'package:my_package/bla',
       file: blaUri,
-      linkMode: DynamicLoadingBundledDylibImpl(),
+      linkMode: DynamicLoadingBundledImpl(),
       os: OSImpl.windows,
       architecture: ArchitectureImpl.x64,
     ),

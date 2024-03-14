@@ -42,11 +42,11 @@ void main() {
   };
 
   final dumpbinFileType = {
-    DynamicLoadingBundledDylib(): 'DLL',
+    DynamicLoadingBundled(): 'DLL',
     StaticLinking(): 'LIBRARY',
   };
 
-  for (final linkMode in [DynamicLoadingBundledDylib(), StaticLinking()]) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
@@ -61,7 +61,7 @@ void main() {
           targetOS: OS.windows,
           targetArchitecture: target,
           buildMode: BuildMode.release,
-          linkModePreference: linkMode == DynamicLoadingBundledDylib()
+          linkModePreference: linkMode == DynamicLoadingBundled()
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
         );

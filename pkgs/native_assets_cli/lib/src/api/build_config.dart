@@ -16,6 +16,7 @@ import '../utils/map.dart';
 import '../utils/yaml.dart';
 import 'architecture.dart';
 import 'asset.dart';
+import 'build.dart';
 import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
@@ -127,6 +128,9 @@ abstract final class BuildConfig {
 
   /// Constructs a config by parsing CLI arguments and loading the config file.
   ///
+  /// `build.dart` hooks will most likely use [build] instead of this
+  /// constructor.
+  ///
   /// The [arguments] must be commandline arguments.
   ///
   /// If provided, [environment] must be a map containing environment variables.
@@ -150,9 +154,9 @@ abstract final class BuildConfig {
 
   /// Constructs a config for a non-dry run by providing values for each field.
   ///
-  /// `build.dart` hooks will most likely use the unnamed constructor. However,
-  /// for unit testing code which consumes a [BuildConfig], this constructor
-  /// facilitates easy construction.
+  /// `build.dart` hooks will most likely use [build] instead of this
+  /// constructor. However, for unit testing code which consumes a
+  /// [BuildConfig], this constructor facilitates easy construction.
   ///
   /// For the documentation of the parameters, see the equally named fields.
   ///
@@ -195,9 +199,9 @@ abstract final class BuildConfig {
 
   /// Constructs a config for a dry run by providing values for each field.
   ///
-  /// `build.dart` hooks will most likely use the unnamed constructor. However,
-  /// for unit testing code which consumes a [BuildConfig], this constructor
-  /// facilitates easy construction.
+  /// `build.dart` hooks will most likely use [build] instead of this
+  /// constructor. However, for unit testing code which consumes a
+  /// [BuildConfig], this constructor facilitates easy construction.
   ///
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({

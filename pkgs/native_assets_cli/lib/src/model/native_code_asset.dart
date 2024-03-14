@@ -5,7 +5,19 @@
 part of '../api/asset.dart';
 
 abstract final class LinkModeImpl implements LinkMode {
-  /// v1.0.0 Includes the parent keys.
+  /// Serialization of the current version.
+  ///
+  /// v1.1.0 does not include the toplevel keys.
+  ///
+  /// ```
+  ///   type: dynamic_loading_system
+  ///   uri: ${foo3Uri.toFilePath()}
+  /// ```
+  Map<String, Object> toYaml();
+
+  /// Backwards compatibility with v1.0.0 of the protocol
+  ///
+  /// Includes the parent keys.
   ///
   /// ```
   /// link_mode: dynamic
@@ -15,22 +27,14 @@ abstract final class LinkModeImpl implements LinkMode {
   /// ```
   Map<String, Object> toYamlV1_0_0(Uri? file);
 
-  /// v1.1.0 does not include the toplevel keys.
-  ///
-  /// ```
-  ///   type: dynamic_loading_system
-  ///   uri: ${foo3Uri.toFilePath()}
-  /// ```
-  Map<String, Object> toYaml();
-
   factory LinkModeImpl(String type, Uri? uri) {
     switch (type) {
-      case DynamicLoadingBundledDylibImpl._typeValueV1_0_0:
-      case DynamicLoadingBundledDylibImpl._typeValue:
-        return DynamicLoadingBundledDylibImpl();
-      case DynamicLoadingSystemDylibImpl._typeValueV1_0_0:
-      case DynamicLoadingSystemDylibImpl._typeValue:
-        return DynamicLoadingSystemDylibImpl(uri!);
+      case DynamicLoadingBundledImpl._typeValueV1_0_0:
+      case DynamicLoadingBundledImpl._typeValue:
+        return DynamicLoadingBundledImpl();
+      case DynamicLoadingSystemImpl._typeValueV1_0_0:
+      case DynamicLoadingSystemImpl._typeValue:
+        return DynamicLoadingSystemImpl(uri!);
       case LookupInExecutableImpl._typeValueV1_0_0:
       case LookupInExecutableImpl._typeValue:
         return LookupInExecutableImpl();
@@ -59,12 +63,12 @@ abstract final class DynamicLoadingImpl
     implements LinkModeImpl, DynamicLoading {
   factory DynamicLoadingImpl(String type, Uri? uri) {
     switch (type) {
-      case DynamicLoadingBundledDylibImpl._typeValueV1_0_0:
+      case DynamicLoadingBundledImpl._typeValueV1_0_0:
       // For backwards compatibility.
-      case DynamicLoadingBundledDylibImpl._typeValue:
-        return DynamicLoadingBundledDylibImpl();
-      case DynamicLoadingSystemDylibImpl._typeValue:
-        return DynamicLoadingSystemDylibImpl(uri!);
+      case DynamicLoadingBundledImpl._typeValue:
+        return DynamicLoadingBundledImpl();
+      case DynamicLoadingSystemImpl._typeValue:
+        return DynamicLoadingSystemImpl(uri!);
       case LookupInExecutableImpl._typeValue:
         return LookupInExecutableImpl();
       case LookupInProcessImpl._typeValue:
@@ -80,14 +84,14 @@ abstract final class DynamicLoadingImpl
   static const _typeValueV1_0_0 = 'dynamic';
 }
 
-final class DynamicLoadingBundledDylibImpl
-    implements DynamicLoadingImpl, DynamicLoadingBundledDylib {
-  DynamicLoadingBundledDylibImpl._();
+final class DynamicLoadingBundledImpl
+    implements DynamicLoadingImpl, DynamicLoadingBundled {
+  DynamicLoadingBundledImpl._();
 
-  static final DynamicLoadingBundledDylibImpl _singleton =
-      DynamicLoadingBundledDylibImpl._();
+  static final DynamicLoadingBundledImpl _singleton =
+      DynamicLoadingBundledImpl._();
 
-  factory DynamicLoadingBundledDylibImpl() => _singleton;
+  factory DynamicLoadingBundledImpl() => _singleton;
 
   static const _typeValueV1_0_0 = 'absolute';
   static const _typeValue = 'dynamic_loading_bundle';
@@ -107,12 +111,12 @@ final class DynamicLoadingBundledDylibImpl
       };
 }
 
-final class DynamicLoadingSystemDylibImpl
-    implements DynamicLoadingImpl, DynamicLoadingSystemDylib {
+final class DynamicLoadingSystemImpl
+    implements DynamicLoadingImpl, DynamicLoadingSystem {
   @override
   final Uri uri;
 
-  DynamicLoadingSystemDylibImpl(this.uri);
+  DynamicLoadingSystemImpl(this.uri);
 
   static const _typeValue = 'dynamic_loading_system';
   static const _typeValueV1_0_0 = 'system';
@@ -137,7 +141,7 @@ final class DynamicLoadingSystemDylibImpl
 
   @override
   bool operator ==(Object other) {
-    if (other is! DynamicLoadingSystemDylibImpl) {
+    if (other is! DynamicLoadingSystemImpl) {
       return false;
     }
     return uri == other.uri;
@@ -237,7 +241,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     this.architecture,
   }) {
     if (linkMode is DynamicLoading &&
-        linkMode is! DynamicLoadingBundledDylib &&
+        linkMode is! DynamicLoadingBundled &&
         file != null) {
       throw ArgumentError.value(
         file,
@@ -272,7 +276,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     final Uri? file;
     if (fileString != null) {
       file = Uri(path: fileString);
-    } else if ((linkMode is DynamicLoadingBundledDylibImpl ||
+    } else if ((linkMode is DynamicLoadingBundledImpl ||
             linkMode is StaticLinkingImpl) &&
         yamlMap[_pathKey] != null) {
       // Compatibility with v1.0.0.

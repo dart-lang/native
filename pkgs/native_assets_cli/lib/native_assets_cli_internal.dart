@@ -21,8 +21,8 @@ export 'src/api/asset.dart'
     show
         AssetImpl,
         DataAssetImpl,
-        DynamicLoadingBundledDylibImpl,
-        DynamicLoadingSystemDylibImpl,
+        DynamicLoadingBundledImpl,
+        DynamicLoadingSystemImpl,
         LinkModeImpl,
         LookupInExecutableImpl,
         LookupInProcessImpl,

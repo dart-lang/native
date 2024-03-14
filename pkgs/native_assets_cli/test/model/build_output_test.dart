@@ -26,14 +26,13 @@ void main() {
       NativeCodeAssetImpl(
         id: 'package:my_package/foo',
         file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledDylibImpl(),
+        linkMode: DynamicLoadingBundledImpl(),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
       ),
       NativeCodeAssetImpl(
         id: 'package:my_package/foo2',
-        linkMode:
-            DynamicLoadingSystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+        linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
       ),
@@ -261,14 +260,13 @@ version: 1.0.0'''),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo',
           file: Uri(path: 'path/to/libfoo.so'),
-          linkMode: DynamicLoadingBundledDylibImpl(),
+          linkMode: DynamicLoadingBundledImpl(),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
         ),
         NativeCodeAssetImpl(
           id: 'package:my_package/foo2',
-          linkMode:
-              DynamicLoadingSystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+          linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
           os: OSImpl.android,
           architecture: ArchitectureImpl.x64,
         ),
@@ -290,7 +288,7 @@ version: 1.0.0'''),
       NativeCodeAssetImpl(
         id: 'package:my_package/foo',
         file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledDylibImpl(),
+        linkMode: DynamicLoadingBundledImpl(),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
       ),
@@ -298,8 +296,7 @@ version: 1.0.0'''),
     buildOutput2.addAssets([
       NativeCodeAssetImpl(
         id: 'package:my_package/foo2',
-        linkMode:
-            DynamicLoadingSystemDylibImpl(Uri(path: 'path/to/libfoo2.so')),
+        linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
         os: OSImpl.android,
         architecture: ArchitectureImpl.x64,
       ),

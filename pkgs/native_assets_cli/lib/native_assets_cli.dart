@@ -10,8 +10,8 @@ export 'src/api/architecture.dart' show Architecture;
 export 'src/api/asset.dart'
     show
         Asset,
-        DynamicLoadingBundledDylib,
-        DynamicLoadingSystemDylib,
+        DynamicLoadingBundled,
+        DynamicLoadingSystem,
         LinkMode,
         LookupInExecutable,
         LookupInProcess,

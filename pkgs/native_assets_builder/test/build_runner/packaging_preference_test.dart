@@ -53,11 +53,11 @@ void main() async {
       // This package honors preferences.
       expect(
         (resultDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        DynamicLoadingBundledDylibImpl(),
+        DynamicLoadingBundledImpl(),
       );
       expect(
         (resultPreferDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        DynamicLoadingBundledDylibImpl(),
+        DynamicLoadingBundledImpl(),
       );
       expect(
         (resultStatic.assets.single as NativeCodeAssetImpl).linkMode,

@@ -36,7 +36,7 @@ void main() {
 
   const name = 'add';
 
-  for (final linkMode in [DynamicLoadingBundledDylib(), StaticLinking()]) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
         if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {
@@ -46,7 +46,7 @@ void main() {
         final libName = OS.iOS.libraryFileName(name, linkMode);
         for (final installName in [
           null,
-          if (linkMode == DynamicLoadingBundledDylib())
+          if (linkMode == DynamicLoadingBundled())
             Uri.file('@executable_path/Frameworks/$libName'),
         ]) {
           test(
@@ -63,7 +63,7 @@ void main() {
               targetArchitecture: target,
               targetOS: OS.iOS,
               buildMode: BuildMode.release,
-              linkModePreference: linkMode == DynamicLoadingBundledDylib()
+              linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
               targetIOSSdk: targetIOSSdk,
@@ -116,7 +116,7 @@ void main() {
               expect(platform, contains(platformIosSimulator.toString()));
             }
 
-            if (linkMode == DynamicLoadingBundledDylib()) {
+            if (linkMode == DynamicLoadingBundled()) {
               final libInstallName = await runOtoolInstallName(libUri, libName);
               if (installName == null) {
                 // If no install path is passed, we have an absolute path.

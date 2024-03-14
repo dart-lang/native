@@ -27,10 +27,10 @@ part of 'asset.dart';
 ///
 /// There are several types of native code assets:
 /// * Assets which designate symbols present in the target system
-///   ([DynamicLoadingSystemDylib]), process ([LookupInProcess]), or executable
+///   ([DynamicLoadingSystem]), process ([LookupInProcess]), or executable
 ///   ([LookupInExecutable]). These assets do not have a [file].
 /// * Dynamic libraries bundled into the application
-///   ([DynamicLoadingBundledDylib]). These assets must provide a [file] to be
+///   ([DynamicLoadingBundled]). These assets must provide a [file] to be
 ///   bundled.
 ///
 /// An application is compiled to run on a specific target [os] and
@@ -41,7 +41,7 @@ part of 'asset.dart';
 /// is either brought in "manually" by having the package developer specify a
 /// [file] path of the asset on the current system, it can be part of the Dart
 /// or Flutter SDK ([LookupInProcess]), or it can be already present in the
-/// target system ([DynamicLoadingSystemDylib]). If the asset is bundled
+/// target system ([DynamicLoadingSystem]). If the asset is bundled
 /// "manually", the Dart or Flutter SDK will take care of copying the asset
 /// [file] from its specified location on the current system into the
 /// application bundle.
@@ -87,8 +87,8 @@ abstract final class NativeCodeAsset implements Asset {
 /// Known linking modes:
 ///
 /// * [DynamicLoading]
-///   * [DynamicLoadingBundledDylib]
-///   * [DynamicLoadingSystemDylib]
+///   * [DynamicLoadingBundled]
+///   * [DynamicLoadingSystem]
 ///   * [LookupInProcess]
 ///   * [LookupInExecutable]
 /// * [StaticLinking]
@@ -114,8 +114,8 @@ abstract final class DynamicLoading implements LinkMode {}
 ///
 /// An asset with this dynamic loading method must provide a [Asset.file]. The
 /// Dart and Flutter SDK will bundle this code in the final application.
-abstract final class DynamicLoadingBundledDylib implements DynamicLoading {
-  factory DynamicLoadingBundledDylib() = DynamicLoadingBundledDylibImpl;
+abstract final class DynamicLoadingBundled implements DynamicLoading {
+  factory DynamicLoadingBundled() = DynamicLoadingBundledImpl;
 }
 
 /// The dynamic library is avaliable on the target system `PATH`.
@@ -124,10 +124,10 @@ abstract final class DynamicLoadingBundledDylib implements DynamicLoading {
 ///
 /// At runtime, the dynamic library will be loaded and the symbols will be
 /// looked up in this dynamic library.
-abstract final class DynamicLoadingSystemDylib implements DynamicLoading {
+abstract final class DynamicLoadingSystem implements DynamicLoading {
   Uri get uri;
 
-  factory DynamicLoadingSystemDylib(Uri uri) = DynamicLoadingSystemDylibImpl;
+  factory DynamicLoadingSystem(Uri uri) = DynamicLoadingSystemImpl;
 }
 
 /// The native code is loaded in the process and symbols are available through

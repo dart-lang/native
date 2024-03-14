@@ -46,7 +46,7 @@ void main() {
   /// From https://docs.flutter.dev/reference/supported-platforms.
   const flutterAndroidNdkVersionHighestSupported = 34;
 
-  for (final linkMode in [DynamicLoadingBundledDylib(), StaticLinking()]) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       for (final apiLevel in [
         flutterAndroidNdkVersionLowestBestEffort,
@@ -92,7 +92,7 @@ void main() {
 
   test('CBuilder API levels binary difference', () async {
     const target = Architecture.arm64;
-    final linkMode = DynamicLoadingBundledDylib();
+    final linkMode = DynamicLoadingBundled();
     const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
     const apiLevel2 = flutterAndroidNdkVersionHighestSupported;
     final tempUri = await tempDirForTest();
@@ -132,7 +132,7 @@ Future<Uri> buildLib(
     targetOS: OS.android,
     targetAndroidNdkApi: androidNdkApi,
     buildMode: BuildMode.release,
-    linkModePreference: linkMode == DynamicLoadingBundledDylib()
+    linkModePreference: linkMode == DynamicLoadingBundled()
         ? LinkModePreference.dynamic
         : LinkModePreference.static,
   );
