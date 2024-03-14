@@ -5,6 +5,8 @@
   - `JObject.reference` now returns a `JReference` instead of `Pointer<Void>`.
   - `.fromRef` constructors are now called `.fromReference` and they take a
     `JReference` instead of `Pointer<Void>`.
+  - `JObject` reflective field retrieving and method calling methods are
+    removed. Use `JClass` API instead.
   - The following `Jni.accessors` methods have been removed:
 
     - `getClassOf`
