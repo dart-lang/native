@@ -46,6 +46,7 @@ class NativeAssetsBuildRunner {
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -98,6 +99,7 @@ class NativeAssetsBuildRunner {
         cCompilerConfig: cCompilerConfig,
         targetIOSSdk: targetIOSSdk,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
       );
       final (
         packageAssets,
@@ -138,6 +140,7 @@ class NativeAssetsBuildRunner {
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -172,6 +175,7 @@ class NativeAssetsBuildRunner {
         targetOS: targetOS,
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
+        supportedAssetTypes: supportedAssetTypes,
       );
       final (packageAssets, _, _, packageSuccess) = await _buildPackage(
         config,
@@ -349,6 +353,7 @@ build_output.yaml contained a format error.
     required Uri buildParentDir,
     CCompilerConfigImpl? cCompilerConfig,
     DependencyMetadata? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
   }) async {
     final buildDirName = BuildConfigImpl.checksum(
       packageName: packageName,
@@ -361,6 +366,7 @@ build_output.yaml contained a format error.
       cCompiler: cCompilerConfig,
       dependencyMetadata: dependencyMetadata,
       targetAndroidNdkApi: targetAndroidNdkApi,
+      supportedAssetTypes: supportedAssetTypes,
     );
     final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
@@ -389,6 +395,7 @@ build_output.yaml contained a format error.
     required OSImpl targetOS,
     required LinkModePreferenceImpl linkMode,
     required Uri buildParentDir,
+    Iterable<String>? supportedAssetTypes,
   }) async {
     final buildDirName = 'dry_run_${targetOS}_$linkMode';
     final outDirUri = buildParentDir.resolve('$buildDirName/out/');
@@ -402,6 +409,7 @@ build_output.yaml contained a format error.
       packageRoot: packageRoot,
       targetOS: targetOS,
       linkModePreference: linkMode,
+      supportedAssetTypes: supportedAssetTypes,
     );
   }
 
