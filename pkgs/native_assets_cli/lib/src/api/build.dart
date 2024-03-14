@@ -1,6 +1,6 @@
 // Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+/// for details. All rights reserved. Use of this source code is governed by a
+/// BSD-style license that can be found in the LICENSE file.
 
 import 'build_config.dart';
 import 'build_output.dart';
@@ -58,7 +58,7 @@ import 'build_output.dart';
 ///     }
 ///
 ///     final packageName = config.packageName;
-///     final assetPath = config.outDir.resolve(assetName);
+///     final assetPath = config.outputDirectory.resolve(assetName);
 ///     final assetSourcePath = config.packageRoot.resolveUri(packageAssetPath);
 ///     if (!config.dryRun) {
 ///       // Insert code that downloads or builds the asset to `assetPath`.
@@ -73,9 +73,10 @@ import 'build_output.dart';
 ///     output.addAsset(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
 ///       NativeCodeAsset(
-///         id: 'library:$packageName/asset.txt',
+///         package: packageName,
+///         name: 'asset.txt',
 ///         file: assetPath,
-///         linkMode: BundledDylib(),
+///         linkMode: DynamicLoadingBundled(),
 ///         os: config.targetOS,
 ///         architecture: config.targetArchitecture,
 ///       ),
