@@ -20,9 +20,9 @@
 
   - `Jni.findJClass` is replaced with `JClass.forName(String name)`
   - `JClass` has been refactored. Instead of directly calling methods, getting
-    and setting fields, use `JClass.instanceMethod`, `JClass.staticMethod`,
-    `JClass.constructor`, `JClass.instanceField`, and `JClass.staticField` to
-    first get access to the member.
+    and setting fields, use `JClass.instanceMethodId`, `JClass.staticMethodId`,
+    `JClass.constructorId`, `JClass.instanceFieldId`, and `JClass.staticFieldId`
+    to first get access to the member.
   - Renamed `JObject.getClass()` to `JObject.jClass`.
   - Removed `Jni.deleteAllRefs`.
 
