@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../accessors.dart';
-import '../jni.dart';
+import '../jreference.dart';
 import '../jvalues.dart';
-import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
@@ -16,7 +14,7 @@ final class JShortType extends JObjType<JShort> {
   String get signature => r"Ljava/lang/Short;";
 
   @override
-  JShort fromRef(JObjectPtr ref) => JShort.fromRef(ref);
+  JShort fromReference(JReference reference) => JShort.fromReference(reference);
 
   @override
   JObjType get superType => const JNumberType();
@@ -38,19 +36,17 @@ class JShort extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JShort> $type = type;
 
-  JShort.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JShort.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = JShortType();
 
-  static final _class = Jni.findJClass(r"java/lang/Short");
+  static final _class = JClass.forName(r"java/lang/Short");
 
-  static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(S)V");
+  static final _ctorId = _class.constructorId(r"(S)V");
 
   JShort(int num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference.pointer, _ctorId, [JValueShort(num)]).object);
+      : super.fromReference(_ctorId(_class, referenceType, [JValueShort(num)]));
 }

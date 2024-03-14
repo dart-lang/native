@@ -2,13 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-
 import 'package:jni/src/jreference.dart';
 
 import '../jni.dart';
 import '../jobject.dart';
-import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
 final class JStringType extends JObjType<JString> {
@@ -18,7 +15,8 @@ final class JStringType extends JObjType<JString> {
   String get signature => "Ljava/lang/String;";
 
   @override
-  JString fromRef(Pointer<Void> ref) => JString.fromRef(ref);
+  JString fromReference(JReference reference) =>
+      JString.fromReference(reference);
 
   @override
   JObjType get superType => const JObjectType();
@@ -44,13 +42,14 @@ class JString extends JObject {
   static const JObjType<JString> type = JStringType();
 
   /// Construct a new [JString] with [reference] as its underlying reference.
-  JString.fromRef(JStringPtr reference) : super.fromRef(reference);
+  JString.fromReference(JReference reference) : super.fromReference(reference);
 
   /// The number of Unicode characters in this Java string.
   int get length => Jni.env.GetStringLength(reference.pointer);
 
   /// Construct a [JString] from the contents of Dart string [s].
-  JString.fromString(String s) : super.fromRef(Jni.env.toJStringPtr(s));
+  JString.fromString(String s)
+      : super.fromReference(JGlobalReference(Jni.env.toJStringPtr(s)));
 
   /// Returns the contents as a Dart String.
   ///

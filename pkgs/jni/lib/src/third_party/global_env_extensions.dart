@@ -75,7 +75,7 @@ class GlobalJniEnv {
 
   JObjectPtr ToReflectedMethod(
           JClassPtr cls, JMethodIDPtr methodId, int isStatic) =>
-      _ToReflectedMethod(cls, methodId, isStatic).object;
+      _ToReflectedMethod(cls, methodId, isStatic).objectPointer;
 
   late final _GetSuperclass = ptr.ref.GetSuperclass
       .asFunction<JniClassLookupResult Function(JClassPtr clazz)>();
@@ -93,7 +93,7 @@ class GlobalJniEnv {
 
   JObjectPtr ToReflectedField(
           JClassPtr cls, JFieldIDPtr fieldID, int isStatic) =>
-      _ToReflectedField(cls, fieldID, isStatic).object;
+      _ToReflectedField(cls, fieldID, isStatic).objectPointer;
 
   late final _Throw =
       ptr.ref.Throw.asFunction<JniResult Function(JThrowablePtr obj)>();
@@ -109,7 +109,7 @@ class GlobalJniEnv {
   late final _ExceptionOccurred =
       ptr.ref.ExceptionOccurred.asFunction<JniResult Function()>();
 
-  JThrowablePtr ExceptionOccurred() => _ExceptionOccurred().object;
+  JThrowablePtr ExceptionOccurred() => _ExceptionOccurred().objectPointer;
 
   late final _ExceptionDescribe =
       ptr.ref.ExceptionDescribe.asFunction<JThrowablePtr Function()>();
@@ -134,12 +134,13 @@ class GlobalJniEnv {
   late final _PopLocalFrame =
       ptr.ref.PopLocalFrame.asFunction<JniResult Function(JObjectPtr result)>();
 
-  JObjectPtr PopLocalFrame(JObjectPtr result) => _PopLocalFrame(result).object;
+  JObjectPtr PopLocalFrame(JObjectPtr result) =>
+      _PopLocalFrame(result).objectPointer;
 
   late final _NewGlobalRef =
       ptr.ref.NewGlobalRef.asFunction<JniResult Function(JObjectPtr obj)>();
 
-  JObjectPtr NewGlobalRef(JObjectPtr obj) => _NewGlobalRef(obj).object;
+  JObjectPtr NewGlobalRef(JObjectPtr obj) => _NewGlobalRef(obj).objectPointer;
 
   late final _DeleteGlobalRef = ptr.ref.DeleteGlobalRef
       .asFunction<JThrowablePtr Function(JObjectPtr globalRef)>();
@@ -161,7 +162,7 @@ class GlobalJniEnv {
   late final _NewLocalRef =
       ptr.ref.NewLocalRef.asFunction<JniResult Function(JObjectPtr obj)>();
 
-  JObjectPtr NewLocalRef(JObjectPtr obj) => _NewLocalRef(obj).object;
+  JObjectPtr NewLocalRef(JObjectPtr obj) => _NewLocalRef(obj).objectPointer;
 
   late final _EnsureLocalCapacity = ptr.ref.EnsureLocalCapacity
       .asFunction<JniResult Function(int capacity)>();
@@ -172,13 +173,13 @@ class GlobalJniEnv {
   late final _AllocObject =
       ptr.ref.AllocObject.asFunction<JniResult Function(JClassPtr clazz)>();
 
-  JObjectPtr AllocObject(JClassPtr clazz) => _AllocObject(clazz).object;
+  JObjectPtr AllocObject(JClassPtr clazz) => _AllocObject(clazz).objectPointer;
 
   late final _NewObject = ptr.ref.NewObject
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
   JObjectPtr NewObject(JClassPtr clazz, JMethodIDPtr methodID) =>
-      _NewObject(clazz, methodID).object;
+      _NewObject(clazz, methodID).objectPointer;
 
   late final _NewObjectA = ptr.ref.NewObjectA.asFunction<
       JniResult Function(
@@ -186,7 +187,7 @@ class GlobalJniEnv {
 
   JObjectPtr NewObjectA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
-      _NewObjectA(clazz, methodID, args).object;
+      _NewObjectA(clazz, methodID, args).objectPointer;
 
   late final _GetObjectClass = ptr.ref.GetObjectClass
       .asFunction<JniClassLookupResult Function(JObjectPtr obj)>();
@@ -211,7 +212,7 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
 
   JObjectPtr CallObjectMethod(JObjectPtr obj, JMethodIDPtr methodID) =>
-      _CallObjectMethod(obj, methodID).object;
+      _CallObjectMethod(obj, methodID).objectPointer;
 
   late final _CallObjectMethodA = ptr.ref.CallObjectMethodA.asFunction<
       JniResult Function(
@@ -219,7 +220,7 @@ class GlobalJniEnv {
 
   JObjectPtr CallObjectMethodA(
           JObjectPtr obj, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
-      _CallObjectMethodA(obj, methodID, args).object;
+      _CallObjectMethodA(obj, methodID, args).objectPointer;
 
   late final _CallBooleanMethod = ptr.ref.CallBooleanMethod
       .asFunction<JniResult Function(JObjectPtr obj, JMethodIDPtr methodID)>();
@@ -354,7 +355,7 @@ class GlobalJniEnv {
 
   JObjectPtr CallNonvirtualObjectMethod(
           JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID) =>
-      _CallNonvirtualObjectMethod(obj, clazz, methodID).object;
+      _CallNonvirtualObjectMethod(obj, clazz, methodID).objectPointer;
 
   late final _CallNonvirtualObjectMethodA = ptr.ref.CallNonvirtualObjectMethodA
       .asFunction<
@@ -363,7 +364,7 @@ class GlobalJniEnv {
 
   JObjectPtr CallNonvirtualObjectMethodA(JObjectPtr obj, JClassPtr clazz,
           JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
-      _CallNonvirtualObjectMethodA(obj, clazz, methodID, args).object;
+      _CallNonvirtualObjectMethodA(obj, clazz, methodID, args).objectPointer;
 
   late final _CallNonvirtualBooleanMethod = ptr.ref.CallNonvirtualBooleanMethod
       .asFunction<
@@ -539,7 +540,7 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
 
   JObjectPtr GetObjectField(JObjectPtr obj, JFieldIDPtr fieldID) =>
-      _GetObjectField(obj, fieldID).object;
+      _GetObjectField(obj, fieldID).objectPointer;
 
   late final _GetBooleanField = ptr.ref.GetBooleanField
       .asFunction<JniResult Function(JObjectPtr obj, JFieldIDPtr fieldID)>();
@@ -658,7 +659,7 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
 
   JObjectPtr CallStaticObjectMethod(JClassPtr clazz, JMethodIDPtr methodID) =>
-      _CallStaticObjectMethod(clazz, methodID).object;
+      _CallStaticObjectMethod(clazz, methodID).objectPointer;
 
   late final _CallStaticObjectMethodA = ptr.ref.CallStaticObjectMethodA
       .asFunction<
@@ -667,7 +668,7 @@ class GlobalJniEnv {
 
   JObjectPtr CallStaticObjectMethodA(
           JClassPtr clazz, JMethodIDPtr methodID, ffi.Pointer<JValue> args) =>
-      _CallStaticObjectMethodA(clazz, methodID, args).object;
+      _CallStaticObjectMethodA(clazz, methodID, args).objectPointer;
 
   late final _CallStaticBooleanMethod = ptr.ref.CallStaticBooleanMethod
       .asFunction<JniResult Function(JClassPtr clazz, JMethodIDPtr methodID)>();
@@ -811,7 +812,7 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
 
   JObjectPtr GetStaticObjectField(JClassPtr clazz, JFieldIDPtr fieldID) =>
-      _GetStaticObjectField(clazz, fieldID).object;
+      _GetStaticObjectField(clazz, fieldID).objectPointer;
 
   late final _GetStaticBooleanField = ptr.ref.GetStaticBooleanField
       .asFunction<JniResult Function(JClassPtr clazz, JFieldIDPtr fieldID)>();
@@ -923,7 +924,7 @@ class GlobalJniEnv {
       JniResult Function(ffi.Pointer<JCharMarker> unicodeChars, int len)>();
 
   JStringPtr NewString(ffi.Pointer<JCharMarker> unicodeChars, int len) =>
-      _NewString(unicodeChars, len).object;
+      _NewString(unicodeChars, len).objectPointer;
 
   late final _GetStringLength = ptr.ref.GetStringLength
       .asFunction<JniResult Function(JStringPtr string)>();
@@ -949,7 +950,7 @@ class GlobalJniEnv {
       .asFunction<JniResult Function(ffi.Pointer<ffi.Char> bytes)>();
 
   JStringPtr NewStringUTF(ffi.Pointer<ffi.Char> bytes) =>
-      _NewStringUTF(bytes).object;
+      _NewStringUTF(bytes).objectPointer;
 
   late final _GetStringUTFLength = ptr.ref.GetStringUTFLength
       .asFunction<JniResult Function(JStringPtr string)>();
@@ -982,13 +983,13 @@ class GlobalJniEnv {
 
   JObjectArrayPtr NewObjectArray(
           int length, JClassPtr elementClass, JObjectPtr initialElement) =>
-      _NewObjectArray(length, elementClass, initialElement).object;
+      _NewObjectArray(length, elementClass, initialElement).objectPointer;
 
   late final _GetObjectArrayElement = ptr.ref.GetObjectArrayElement
       .asFunction<JniResult Function(JObjectArrayPtr array, int index)>();
 
   JObjectPtr GetObjectArrayElement(JObjectArrayPtr array, int index) =>
-      _GetObjectArrayElement(array, index).object;
+      _GetObjectArrayElement(array, index).objectPointer;
 
   late final _SetObjectArrayElement = ptr.ref.SetObjectArrayElement.asFunction<
       JThrowablePtr Function(
@@ -1002,42 +1003,45 @@ class GlobalJniEnv {
       ptr.ref.NewBooleanArray.asFunction<JniResult Function(int length)>();
 
   JBooleanArrayPtr NewBooleanArray(int length) =>
-      _NewBooleanArray(length).object;
+      _NewBooleanArray(length).objectPointer;
 
   late final _NewByteArray =
       ptr.ref.NewByteArray.asFunction<JniResult Function(int length)>();
 
-  JByteArrayPtr NewByteArray(int length) => _NewByteArray(length).object;
+  JByteArrayPtr NewByteArray(int length) => _NewByteArray(length).objectPointer;
 
   late final _NewCharArray =
       ptr.ref.NewCharArray.asFunction<JniResult Function(int length)>();
 
-  JCharArrayPtr NewCharArray(int length) => _NewCharArray(length).object;
+  JCharArrayPtr NewCharArray(int length) => _NewCharArray(length).objectPointer;
 
   late final _NewShortArray =
       ptr.ref.NewShortArray.asFunction<JniResult Function(int length)>();
 
-  JShortArrayPtr NewShortArray(int length) => _NewShortArray(length).object;
+  JShortArrayPtr NewShortArray(int length) =>
+      _NewShortArray(length).objectPointer;
 
   late final _NewIntArray =
       ptr.ref.NewIntArray.asFunction<JniResult Function(int length)>();
 
-  JIntArrayPtr NewIntArray(int length) => _NewIntArray(length).object;
+  JIntArrayPtr NewIntArray(int length) => _NewIntArray(length).objectPointer;
 
   late final _NewLongArray =
       ptr.ref.NewLongArray.asFunction<JniResult Function(int length)>();
 
-  JLongArrayPtr NewLongArray(int length) => _NewLongArray(length).object;
+  JLongArrayPtr NewLongArray(int length) => _NewLongArray(length).objectPointer;
 
   late final _NewFloatArray =
       ptr.ref.NewFloatArray.asFunction<JniResult Function(int length)>();
 
-  JFloatArrayPtr NewFloatArray(int length) => _NewFloatArray(length).object;
+  JFloatArrayPtr NewFloatArray(int length) =>
+      _NewFloatArray(length).objectPointer;
 
   late final _NewDoubleArray =
       ptr.ref.NewDoubleArray.asFunction<JniResult Function(int length)>();
 
-  JDoubleArrayPtr NewDoubleArray(int length) => _NewDoubleArray(length).object;
+  JDoubleArrayPtr NewDoubleArray(int length) =>
+      _NewDoubleArray(length).objectPointer;
 
   late final _GetBooleanArrayElements = ptr.ref.GetBooleanArrayElements
       .asFunction<
@@ -1385,7 +1389,8 @@ class GlobalJniEnv {
   late final _NewWeakGlobalRef =
       ptr.ref.NewWeakGlobalRef.asFunction<JniResult Function(JObjectPtr obj)>();
 
-  JWeakPtr NewWeakGlobalRef(JObjectPtr obj) => _NewWeakGlobalRef(obj).object;
+  JWeakPtr NewWeakGlobalRef(JObjectPtr obj) =>
+      _NewWeakGlobalRef(obj).objectPointer;
 
   late final _DeleteWeakGlobalRef = ptr.ref.DeleteWeakGlobalRef
       .asFunction<JThrowablePtr Function(JWeakPtr obj)>();
@@ -1401,7 +1406,7 @@ class GlobalJniEnv {
       JniResult Function(ffi.Pointer<ffi.Void> address, int capacity)>();
 
   JObjectPtr NewDirectByteBuffer(ffi.Pointer<ffi.Void> address, int capacity) =>
-      _NewDirectByteBuffer(address, capacity).object;
+      _NewDirectByteBuffer(address, capacity).objectPointer;
 
   late final _GetDirectBufferAddress = ptr.ref.GetDirectBufferAddress
       .asFunction<JniPointerResult Function(JObjectPtr buf)>();

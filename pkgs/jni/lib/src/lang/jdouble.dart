@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../accessors.dart';
-import '../jni.dart';
-import '../third_party/generated_bindings.dart';
+import '../jreference.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
@@ -15,7 +13,8 @@ final class JDoubleType extends JObjType<JDouble> {
   String get signature => r"Ljava/lang/Double;";
 
   @override
-  JDouble fromRef(JObjectPtr ref) => JDouble.fromRef(ref);
+  JDouble fromReference(JReference reference) =>
+      JDouble.fromReference(reference);
 
   @override
   JObjType get superType => const JNumberType();
@@ -37,18 +36,16 @@ class JDouble extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JDouble> $type = type;
 
-  JDouble.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JDouble.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = JDoubleType();
 
-  static final _class = Jni.findJClass(r"java/lang/Double");
+  static final _class = JClass.forName(r"java/lang/Double");
 
-  static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(D)V");
+  static final _ctorId = _class.constructorId(r"(D)V");
   JDouble(double num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference.pointer, _ctorId, [num]).object);
+      : super.fromReference(_ctorId(_class, referenceType, [num]));
 }

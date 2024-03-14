@@ -35,38 +35,37 @@ void main() {
 }
 
 void run({required TestRunnerCallback testRunner}) {
+  JObject newRandom(JClass randomClass) {
+    return randomClass
+        .constructorId('()V')
+        .call(randomClass, const JObjectType(), []);
+  }
+
   testRunner("double free throws exception", () {
-    final r = Jni.newInstance("java/util/Random", "()V", []);
+    final rc = JClass.forName('java/util/Random');
+    final r = newRandom(rc);
     r.release();
     expect(r.release, throwsA(isA<DoubleReleaseError>()));
   });
 
   testRunner("Use after free throws exception", () {
-    final r = Jni.newInstance("java/util/Random", "()V", []);
+    final rc = JClass.forName('java/util/Random');
+    final r = newRandom(rc);
     r.release();
-    expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(256)]),
+    expect(
+        () => rc
+            .instanceMethodId("nextInt", "(I)I")
+            .call(r, const jintType(), [JValueInt(256)]),
         throwsA(isA<UseAfterReleaseError>()));
   });
 
-  testRunner("void fieldType throws exception", () {
-    final r = Jni.newInstance("java/util/Random", "()V", []);
-    expect(() => r.getField<void>(nullptr, JniCallType.voidType),
-        throwsArgumentError);
-    expect(() => r.getStaticField<void>(nullptr, JniCallType.voidType),
-        throwsArgumentError);
-  });
-
-  testRunner("Wrong callType throws error", () {
-    final r = Jni.newInstance("java/util/Random", "()V", []);
-    expect(
-        () => r.callMethodByName<int>(
-            "nextInt", "(I)I", [JValueInt(256)], JniCallType.doubleType),
-        throwsA(isA<InvalidCallTypeError>()));
-  });
-
   testRunner("An exception in JNI throws JniException in Dart", () {
-    final r = Jni.newInstance("java/util/Random", "()V", []);
-    expect(() => r.callMethodByName<int>("nextInt", "(I)I", [JValueInt(-1)]),
+    final rc = JClass.forName('java/util/Random');
+    final r = newRandom(rc);
+    expect(
+        () => rc
+            .instanceMethodId("nextInt", "(I)I")
+            .call(r, const jintType(), [JValueInt(-1)]),
         throwsA(isA<JniException>()));
   });
 }

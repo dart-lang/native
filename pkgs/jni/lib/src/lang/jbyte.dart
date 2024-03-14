@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../accessors.dart';
-import '../jni.dart';
+import '../jreference.dart';
 import '../jvalues.dart';
-import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
@@ -16,7 +14,7 @@ final class JByteType extends JObjType<JByte> {
   String get signature => r"Ljava/lang/Byte;";
 
   @override
-  JByte fromRef(JObjectPtr ref) => JByte.fromRef(ref);
+  JByte fromReference(JReference reference) => JByte.fromReference(reference);
 
   @override
   JObjType get superType => const JNumberType();
@@ -38,18 +36,16 @@ class JByte extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JByte> $type = type;
 
-  JByte.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JByte.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = JByteType();
 
-  static final _class = Jni.findJClass(r"java/lang/Byte");
+  static final _class = JClass.forName(r"java/lang/Byte");
 
-  static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(B)V");
+  static final _ctorId = _class.constructorId(r"(B)V");
   JByte(int num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference.pointer, _ctorId, [JValueByte(num)]).object);
+      : super.fromReference(_ctorId(_class, referenceType, [JValueByte(num)]));
 }

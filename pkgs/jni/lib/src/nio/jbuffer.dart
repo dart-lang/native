@@ -2,11 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../accessors.dart';
-import '../jni.dart';
 import '../jobject.dart';
+import '../jreference.dart';
 import '../jvalues.dart';
-import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
 final class JBufferType extends JObjType<JBuffer> {
@@ -16,7 +14,8 @@ final class JBufferType extends JObjType<JBuffer> {
   String get signature => r"Ljava/nio/Buffer;";
 
   @override
-  JBuffer fromRef(JObjectPtr ref) => JBuffer.fromRef(ref);
+  JBuffer fromReference(JReference reference) =>
+      JBuffer.fromReference(reference);
 
   @override
   JObjType get superType => const JObjectType();
@@ -49,169 +48,149 @@ class JBuffer extends JObject {
   // ignore: overridden_fields
   late final JObjType<JBuffer> $type = type;
 
-  JBuffer.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JBuffer.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
-  static final _class = Jni.findJClass(r"java/nio/Buffer");
+  static final _class = JClass.forName(r"java/nio/Buffer");
 
   /// The type which includes information such as the signature of this class.
   static const type = JBufferType();
 
-  static final _capacityId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"capacity", r"()I");
+  static final _capacityId = _class.instanceMethodId(r"capacity", r"()I");
 
   /// The number of elements this buffer contains.
   ///
   /// It is never negative and never changes.
   int get capacity {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _capacityId, JniCallType.intType, []).integer;
+    return _capacityId(this, const jintType(), []);
   }
 
-  static final _positionId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"position", r"()I");
+  static final _positionId = _class.instanceMethodId(r"position", r"()I");
 
   /// The index of the next element to be read or written.
   ///
   /// It is never negative and is never greater than its [limit].
   int get position {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _positionId, JniCallType.intType, []).integer;
+    return _positionId(this, const jintType(), []);
   }
 
-  static final _setPositionId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"position", r"(I)Ljava/nio/Buffer;");
+  static final _setPositionId =
+      _class.instanceMethodId(r"position", r"(I)Ljava/nio/Buffer;");
 
   /// Throws:
   /// * [IllegalArgumentException] - If the preconditions on [newPosition] do
   ///   not hold.
   set position(int position) {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(reference.pointer,
-        _setPositionId, JniCallType.objectType, [JValueInt(position)]).object);
+    _setPositionId(this, const JObjectType(), [JValueInt(position)]).release();
   }
 
-  static final _limitId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"limit", r"()I");
+  static final _limitId = _class.instanceMethodId(r"limit", r"()I");
 
   /// The index of the first element that should not be read or written.
   ///
   /// It is never negative and is never greater than its [capacity].
   int get limit {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _limitId, JniCallType.intType, []).integer;
+    return _limitId(this, const jintType(), []);
   }
 
-  static final _setLimitId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"limit", r"(I)Ljava/nio/Buffer;");
+  static final _setLimitId =
+      _class.instanceMethodId(r"limit", r"(I)Ljava/nio/Buffer;");
 
   /// Throws:
   /// * [IllegalArgumentException] - If the preconditions on [newLimit] do not
   ///   hold.
   set limit(int newLimit) {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(reference.pointer,
-        _setLimitId, JniCallType.objectType, [JValueInt(newLimit)]).object);
+    _setLimitId(this, const JObjectType(), [JValueInt(newLimit)]).release();
   }
 
-  static final _markId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"mark", r"()Ljava/nio/Buffer;");
+  static final _markId =
+      _class.instanceMethodId(r"mark", r"()Ljava/nio/Buffer;");
 
   /// Sets this buffer's mark at its [position].
   ///
   /// Mark is the index to which its [position] will be reset when the [reset]
   /// method is invoked.
   void mark() {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _markId, JniCallType.objectType, []).object);
+    _markId(this, const JObjectType(), []).release();
   }
 
-  static final _resetId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"reset", r"()Ljava/nio/Buffer;");
+  static final _resetId =
+      _class.instanceMethodId(r"reset", r"()Ljava/nio/Buffer;");
 
   /// Resets this buffer's [position] to the previously-marked position.
   ///
   /// Throws:
   /// * [InvalidMarkException] - If the mark has not been set
   void reset() {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _resetId, JniCallType.objectType, []).object);
+    _resetId(this, const JObjectType(), []).release();
   }
 
-  static final _clearId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"clear", r"()Ljava/nio/Buffer;");
+  static final _clearId =
+      _class.instanceMethodId(r"clear", r"()Ljava/nio/Buffer;");
 
   /// Clears this buffer.
   ///
   /// The [position] is set to zero, the [limit] is set to
   /// the [capacity], and the mark is discarded.
   void clear() {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _clearId, JniCallType.objectType, []).object);
+    _clearId(this, const JObjectType(), []).release();
   }
 
-  static final _flipId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"flip", r"()Ljava/nio/Buffer;");
+  static final _flipId =
+      _class.instanceMethodId(r"flip", r"()Ljava/nio/Buffer;");
 
   /// Flips this buffer.
   ///
   /// The limit is set to the current [position] and then the [position] is set
   /// to zero. If the mark is defined then it is discarded.
   void flip() {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _flipId, JniCallType.objectType, []).object);
+    _flipId(this, const JObjectType(), []).release();
   }
 
-  static final _rewindId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"rewind", r"()Ljava/nio/Buffer;");
+  static final _rewindId =
+      _class.instanceMethodId(r"rewind", r"()Ljava/nio/Buffer;");
 
   /// Rewinds this buffer.
   ///
   /// The [position] is set to zero and the mark is discarded.
   void rewind() {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _rewindId, JniCallType.objectType, []).object);
+    _rewindId(this, const JObjectType(), []).release();
   }
 
-  static final _remainingId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"remaining", r"()I");
+  static final _remainingId = _class.instanceMethodId(r"remaining", r"()I");
 
   /// The number of elements between the current [position] and the
   /// [limit].
   int get remaining {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _remainingId, JniCallType.intType, []).integer;
+    return _remainingId(this, const jintType(), []);
   }
 
-  static final _hasRemainingId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"hasRemaining", r"()Z");
+  static final _hasRemainingId =
+      _class.instanceMethodId(r"hasRemaining", r"()Z");
 
   /// Whether there are any elements between the current [position] and
   /// the [limit].
   bool get hasRemaining {
-    return Jni.accessors.callMethodWithArgs(reference.pointer, _hasRemainingId,
-        JniCallType.booleanType, []).boolean;
+    return _hasRemainingId(this, const jbooleanType(), []);
   }
 
-  static final _isReadOnlyId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"isReadOnly", r"()Z");
+  static final _isReadOnlyId = _class.instanceMethodId(r"isReadOnly", r"()Z");
 
   /// Whether or not this buffer is read-only.
   bool get isReadOnly {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _isReadOnlyId, JniCallType.booleanType, []).boolean;
+    return _isReadOnlyId(this, const jbooleanType(), []);
   }
 
-  static final _hasArrayId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"hasArray", r"()Z");
+  static final _hasArrayId = _class.instanceMethodId(r"hasArray", r"()Z");
 
   /// Whether or not this buffer is backed by an accessible array.
   bool get hasArray {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _hasArrayId, JniCallType.booleanType, []).boolean;
+    return _hasArrayId(this, const jbooleanType(), []);
   }
 
-  static final _arrayId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"array", r"()Ljava/lang/Object;");
+  static final _arrayId =
+      _class.instanceMethodId(r"array", r"()Ljava/lang/Object;");
 
   /// The array that backs this buffer.
   ///
@@ -224,12 +203,10 @@ class JBuffer extends JObject {
   /// * [UnsupportedOperationException] - If this buffer is not backed by an
   ///   accessible array
   JObject get array {
-    return const JObjectType().fromRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _arrayId, JniCallType.objectType, []).object);
+    return _arrayId(this, const JObjectType(), []);
   }
 
-  static final _arrayOffsetId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"arrayOffset", r"()I");
+  static final _arrayOffsetId = _class.instanceMethodId(r"arrayOffset", r"()I");
 
   /// The offset within this buffer's backing array of the first element
   /// of the buffer.
@@ -240,16 +217,13 @@ class JBuffer extends JObject {
   /// * [UnsupportedOperationException] - If this buffer is not backed by an
   ///   accessible array
   int get arrayOffset {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _arrayOffsetId, JniCallType.intType, []).integer;
+    return _arrayOffsetId(this, const jintType(), []);
   }
 
-  static final _isDirectId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"isDirect", r"()Z");
+  static final _isDirectId = _class.instanceMethodId(r"isDirect", r"()Z");
 
   /// Whether or not this buffer is direct.
   bool get isDirect {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _isDirectId, JniCallType.booleanType, []).boolean;
+    return _isDirectId(this, const jbooleanType(), []);
   }
 }

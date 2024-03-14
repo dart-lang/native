@@ -25,7 +25,8 @@ String toJavaStringUsingEnv(int n) => using((arena) {
       i.ref.i = n;
       final res = env.CallStaticObjectMethodA(cls, mId, i);
       final str = env.toDartString(res);
-      env.deleteAllRefs([res, cls]);
+      env.DeleteGlobalRef(res);
+      env.DeleteGlobalRef(cls);
       return str;
     });
 
@@ -37,21 +38,25 @@ int randomUsingEnv(int n) => using((arena) {
       final random = env.NewObject(randomCls, ctor);
       final nextInt = env.GetMethodID(randomCls, "nextInt".toNativeChars(arena),
           "(I)I".toNativeChars(arena));
-      final res = env.CallIntMethodA(random, nextInt, Jni.jvalues([n]));
-      env.deleteAllRefs([randomCls, random]);
+      final res =
+          env.CallIntMethodA(random, nextInt, toJValues([n], allocator: arena));
+      env.DeleteGlobalRef(randomCls);
+      env.DeleteGlobalRef(random);
       return res;
     });
 double randomDouble() {
-  final math = Jni.findJClass("java/lang/Math");
-  final random = math.callStaticMethodByName<double>("random", "()D", []);
+  final math = JClass.forName("java/lang/Math");
+  final random =
+      math.staticMethodId("random", "()D").call(math, const jdoubleType(), []);
   math.release();
   return random;
 }
 
 int uptime() {
-  return Jni.findJClass("android/os/SystemClock").use(
-    (systemClock) => systemClock.callStaticMethodByName<int>(
-        "uptimeMillis", "()J", [], JniCallType.longType),
+  return JClass.forName("android/os/SystemClock").use(
+    (systemClock) => systemClock
+        .staticMethodId("uptimeMillis", "()J")
+        .call(systemClock, const jlongType(), []),
   );
 }
 
@@ -62,8 +67,9 @@ String backAndForth() {
 }
 
 void quit() {
-  JObject.fromRef(Jni.getCurrentActivity())
-      .use((ac) => ac.callMethodByName<void>("finish", "()V", []));
+  JObject.fromReference(Jni.getCurrentActivity()).use((ac) => ac.jClass
+      .instanceMethodId("finish", "()V")
+      .call(ac, const jvoidType(), []));
 }
 
 void showToast(String text) {
@@ -74,18 +80,21 @@ void showToast(String text) {
   // In this example, Toaster class wraps android.widget.Toast so that it
   // can be called from any thread. See
   // android/app/src/main/java/com/github/dart_lang/jni_example/Toaster.java
-  Jni.invokeStaticMethod<JObject>(
-      "com/github/dart_lang/jni_example/Toaster",
-      "makeText",
-      "(Landroid/app/Activity;Landroid/content/Context;"
-          "Ljava/lang/CharSequence;I)"
-          "Lcom/github/dart_lang/jni_example/Toaster;",
-      [
-        Jni.getCurrentActivity(),
-        Jni.getCachedApplicationContext(),
-        "😀",
-        0,
-      ]).callMethodByName<void>("show", "()V", []);
+  final toasterClass =
+      JClass.forName('com/github/dart_lang/jni_example/Toaster');
+  final makeText = toasterClass.staticMethodId(
+      'makeText',
+      '(Landroid/app/Activity;Landroid/content/Context;'
+          'Ljava/lang/CharSequence;I)'
+          'Lcom/github/dart_lang/jni_example/Toaster;');
+  final toaster = makeText.call(toasterClass, const JObjectType(), [
+    Jni.getCurrentActivity(),
+    Jni.getCachedApplicationContext(),
+    '😀',
+    0,
+  ]);
+  final show = toasterClass.instanceMethodId('show', '()V');
+  show(toaster, const jvoidType(), []);
 }
 
 void main() {
@@ -103,13 +112,14 @@ void main() {
       Example("Back and forth string conversion", () => backAndForth()),
       Example(
           "Device name",
-          () => Jni.retrieveStaticField<String>(
-              "android/os/Build", "DEVICE", "Ljava/lang/String;")),
+          () => JClass.forName("android/os/Build")
+              .staticFieldId("DEVICE", const JStringType().signature)),
       Example(
         "Package name",
-        () => JObject.fromRef(Jni.getCurrentActivity()).use((activity) =>
-            activity.callMethodByName<String>(
-                "getPackageName", "()Ljava/lang/String;", [])),
+        () => JObject.fromReference(Jni.getCurrentActivity()).use((activity) =>
+            activity.jClass
+                .instanceMethodId("getPackageName", "()Ljava/lang/String;")
+                .call(activity, JString.type, [])),
       ),
       Example("Show toast", () => showToast("Hello from JNI!"),
           runInitially: false),

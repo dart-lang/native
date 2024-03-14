@@ -1,9 +1,6 @@
-import '../accessors.dart';
-import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
-import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
 final class JCharacterType extends JObjType<JCharacter> {
@@ -13,7 +10,8 @@ final class JCharacterType extends JObjType<JCharacter> {
   String get signature => r"Ljava/lang/Character;";
 
   @override
-  JCharacter fromRef(JObjectPtr ref) => JCharacter.fromRef(ref);
+  JCharacter fromReference(JReference reference) =>
+      JCharacter.fromReference(reference);
 
   @override
   JObjType get superType => const JObjectType();
@@ -35,29 +33,25 @@ class JCharacter extends JObject {
   // ignore: overridden_fields
   late final JObjType<JCharacter> $type = type;
 
-  JCharacter.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JCharacter.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = JCharacterType();
 
-  static final _class = Jni.findJClass(r"java/lang/Character");
+  static final _class = JClass.forName(r"java/lang/Character");
 
-  static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(C)V");
+  static final _ctorId = _class.constructorId(r"(C)V");
 
   JCharacter(int c)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference.pointer, _ctorId, [JValueChar(c)]).object);
+      : super.fromReference(_ctorId(_class, referenceType, [JValueChar(c)]));
 
-  static final _charValueId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"charValue", r"()C");
+  static final _charValueId = _class.instanceMethodId(r"charValue", r"()C");
 
   int charValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();
-    final ret = Jni.accessors.callMethodWithArgs(
-        reference.pointer, _charValueId, JniCallType.charType, []).char;
+    final ret = _charValueId(this, const jcharType(), []);
     if (releaseOriginal) {
       release();
     }

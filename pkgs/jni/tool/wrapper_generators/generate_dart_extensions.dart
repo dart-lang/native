@@ -38,13 +38,15 @@ const localEnvType = 'JNINativeInterface';
 const jvmType = 'JNIInvokeInterface';
 
 String getCheckedGetter(Type returnType) {
+  const objectPointerGetter = 'objectPointer';
+
   if (returnType is PointerType) {
     final child = returnType.child.getCType(dummyWriter);
     return 'getPointer<$child>()';
   }
   final cType = returnType.getCType(dummyWriter);
   if (cType.endsWith("ArrayPtr")) {
-    return 'object';
+    return objectPointerGetter;
   }
   const mappings = {
     'JBooleanMarker': 'boolean',
@@ -56,15 +58,15 @@ String getCheckedGetter(Type returnType) {
     'JLongMarker': 'long',
     'JFloatMarker': 'float',
     'JDoubleMarker': 'doubleFloat',
-    'JObjectPtr': 'object',
-    'JThrowablePtr': 'object',
-    'JStringPtr': 'object',
+    'JObjectPtr': objectPointerGetter,
+    'JThrowablePtr': objectPointerGetter,
+    'JStringPtr': objectPointerGetter,
     'JClassPtr': 'value',
     'JFieldIDPtr': 'fieldID',
     'JMethodIDPtr': 'methodID',
     'ffi.Int32': 'integer',
     'ffi.Void': 'check()',
-    'JWeakPtr': 'object',
+    'JWeakPtr': objectPointerGetter,
   };
   if (mappings.containsKey(cType)) {
     return mappings[cType]!;

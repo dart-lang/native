@@ -8,15 +8,15 @@ import 'dart:ffi';
 
 import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
-import 'package:jni/src/accessors.dart';
+import 'package:jni/internal_helpers_for_jnigen.dart';
 import 'package:jni/src/third_party/generated_bindings.dart';
 
 import 'jni.dart';
 import 'jobject.dart';
 import 'types.dart';
 
-final class JArrayType<T> extends JObjType<JArray<T>> {
-  final JType<T> elementType;
+final class JArrayType<E> extends JObjType<JArray<E>> {
+  final JType<E> elementType;
 
   const JArrayType(this.elementType);
 
@@ -24,7 +24,8 @@ final class JArrayType<T> extends JObjType<JArray<T>> {
   String get signature => '[${elementType.signature}';
 
   @override
-  JArray<T> fromRef(Pointer<Void> ref) => JArray.fromRef(elementType, ref);
+  JArray<E> fromReference(JReference reference) =>
+      JArray.fromReference(elementType, reference);
 
   @override
   JObjType get superType => const JObjectType();
@@ -37,8 +38,8 @@ final class JArrayType<T> extends JObjType<JArray<T>> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JArrayType<T>) &&
-        other is JArrayType<T> &&
+    return other.runtimeType == (JArrayType<E>) &&
+        other is JArrayType<E> &&
         elementType == other.elementType;
   }
 }
@@ -54,13 +55,13 @@ class JArray<E> extends JObject {
       JArrayType(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
-  JArray.fromRef(this.elementType, JArrayPtr reference)
-      : super.fromRef(reference);
+  JArray.fromReference(this.elementType, JReference reference)
+      : super.fromReference(reference);
 
-  /// Creates a [JArray] of the given length from the given [type].
+  /// Creates a [JArray] of the given length from the given [elementType].
   ///
   /// The [length] must be a non-negative integer.
-  factory JArray(JType<E> type, int length) {
+  factory JArray(JType<E> elementType, int length) {
     const primitiveCallTypes = {
       'B': JniCallType.byteType,
       'Z': JniCallType.booleanType,
@@ -71,37 +72,45 @@ class JArray<E> extends JObject {
       'F': JniCallType.floatType,
       'D': JniCallType.doubleType,
     };
-    if (!primitiveCallTypes.containsKey(type.signature) && type is JObjType) {
-      final clazz = (type as JObjType).getClass();
-      final array = JArray<E>.fromRef(
-        type,
-        Jni.accessors
-            .newObjectArray(length, clazz.reference.pointer, nullptr)
-            .object,
+    if (!primitiveCallTypes.containsKey(elementType.signature) &&
+        elementType is JObjType) {
+      final clazz = (elementType as JObjType).jClass;
+      final array = JArray<E>.fromReference(
+        elementType,
+        JGlobalReference(
+          Jni.accessors
+              .newObjectArray(length, clazz.reference.pointer, nullptr)
+              .objectPointer,
+        ),
       );
       clazz.release();
       return array;
     }
-    return JArray.fromRef(
-      type,
-      Jni.accessors
-          .newPrimitiveArray(length, primitiveCallTypes[type.signature]!)
-          .object,
+    return JArray.fromReference(
+      elementType,
+      JGlobalReference(
+        Jni.accessors
+            .newPrimitiveArray(
+                length, primitiveCallTypes[elementType.signature]!)
+            .objectPointer,
+      ),
     );
   }
 
   /// Creates a [JArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
-  static JArray<E> filled<E extends JObject>(int length, E fill) {
+  static JArray<$E> filled<$E extends JObject>(int length, $E fill,
+      {JObjType<$E>? E}) {
     RangeError.checkNotNegative(length);
-    final clazz = fill.$type.getClass();
-    final array = JArray<E>.fromRef(
-      fill.$type as JObjType<E>,
-      Jni.accessors
+    E ??= fill.$type as JObjType<$E>;
+    final clazz = E.jClass;
+    final array = JArray<$E>.fromReference(
+      E,
+      JGlobalReference(Jni.accessors
           .newObjectArray(
               length, clazz.reference.pointer, fill.reference.pointer)
-          .object,
+          .objectPointer),
     );
     clazz.release();
     return array;
@@ -109,7 +118,7 @@ class JArray<E> extends JObject {
 
   int? _length;
 
-  JniResult elementAt(int index, int type) {
+  JniResult _elementAt(int index, int type) {
     RangeError.checkValidIndex(index, this);
     return Jni.accessors.getArrayElement(reference.pointer, index, type);
   }
@@ -134,7 +143,7 @@ extension NativeArray<E extends JPrimitive> on JArray<E> {
 
 extension BoolArray on JArray<jboolean> {
   bool operator [](int index) {
-    return elementAt(index, JniCallType.booleanType).boolean;
+    return _elementAt(index, JniCallType.booleanType).boolean;
   }
 
   void operator []=(int index, bool value) {
@@ -161,7 +170,7 @@ extension BoolArray on JArray<jboolean> {
 
 extension ByteArray on JArray<jbyte> {
   int operator [](int index) {
-    return elementAt(index, JniCallType.byteType).byte;
+    return _elementAt(index, JniCallType.byteType).byte;
   }
 
   void operator []=(int index, int value) {
@@ -189,7 +198,7 @@ extension ByteArray on JArray<jbyte> {
 extension CharArray on JArray<jchar> {
   String operator [](int index) {
     return String.fromCharCode(
-      elementAt(index, JniCallType.charType).char,
+      _elementAt(index, JniCallType.charType).char,
     );
   }
 
@@ -217,7 +226,7 @@ extension CharArray on JArray<jchar> {
 
 extension ShortArray on JArray<jshort> {
   int operator [](int index) {
-    return elementAt(index, JniCallType.shortType).short;
+    return _elementAt(index, JniCallType.shortType).short;
   }
 
   void operator []=(int index, int value) {
@@ -244,7 +253,7 @@ extension ShortArray on JArray<jshort> {
 
 extension IntArray on JArray<jint> {
   int operator [](int index) {
-    return elementAt(index, JniCallType.intType).integer;
+    return _elementAt(index, JniCallType.intType).integer;
   }
 
   void operator []=(int index, int value) {
@@ -271,7 +280,7 @@ extension IntArray on JArray<jint> {
 
 extension LongArray on JArray<jlong> {
   int operator [](int index) {
-    return elementAt(index, JniCallType.longType).long;
+    return _elementAt(index, JniCallType.longType).long;
   }
 
   void operator []=(int index, int value) {
@@ -298,7 +307,7 @@ extension LongArray on JArray<jlong> {
 
 extension FloatArray on JArray<jfloat> {
   double operator [](int index) {
-    return elementAt(index, JniCallType.floatType).float;
+    return _elementAt(index, JniCallType.floatType).float;
   }
 
   void operator []=(int index, double value) {
@@ -325,7 +334,7 @@ extension FloatArray on JArray<jfloat> {
 
 extension DoubleArray on JArray<jdouble> {
   double operator [](int index) {
-    return elementAt(index, JniCallType.doubleType).doubleFloat;
+    return _elementAt(index, JniCallType.doubleType).doubleFloat;
   }
 
   void operator []=(int index, double value) {
@@ -352,8 +361,8 @@ extension DoubleArray on JArray<jdouble> {
 
 extension ObjectArray<T extends JObject> on JArray<T> {
   T operator [](int index) {
-    return (elementType as JObjType<T>)
-        .fromRef(elementAt(index, JniCallType.objectType).object);
+    return (elementType as JObjType<T>).fromReference(JGlobalReference(
+        _elementAt(index, JniCallType.objectType).objectPointer));
   }
 
   void operator []=(int index, T value) {

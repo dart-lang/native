@@ -5,12 +5,11 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import '../accessors.dart';
 import '../jarray.dart';
 import '../jni.dart';
+import '../jobject.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
-import '../third_party/generated_bindings.dart';
 import '../types.dart';
 import 'jbuffer.dart';
 
@@ -21,7 +20,8 @@ final class JByteBufferType extends JObjType<JByteBuffer> {
   String get signature => r"Ljava/nio/ByteBuffer;";
 
   @override
-  JByteBuffer fromRef(JObjectPtr ref) => JByteBuffer.fromRef(ref);
+  JByteBuffer fromReference(JReference reference) =>
+      JByteBuffer.fromReference(reference);
 
   @override
   JObjType get superType => const JBufferType();
@@ -92,49 +92,42 @@ class JByteBuffer extends JBuffer {
   // ignore: overridden_fields
   late final JObjType<JByteBuffer> $type = type;
 
-  JByteBuffer.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JByteBuffer.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
-  static final _class = Jni.findJClass(r"java/nio/ByteBuffer");
+  static final _class = JClass.forName(r"java/nio/ByteBuffer");
 
   /// The type which includes information such as the signature of this class.
   static const type = JByteBufferType();
 
-  static final _allocateDirectId = Jni.accessors.getStaticMethodIDOf(
-      _class.reference.pointer, r"allocateDirect", r"(I)Ljava/nio/ByteBuffer;");
+  static final _allocateDirectId =
+      _class.staticMethodId(r"allocateDirect", r"(I)Ljava/nio/ByteBuffer;");
 
   /// Allocates a new direct byte buffer.
   ///
   /// Throws:
   /// * [IllegalArgumentException] - If the capacity is a negative integer
   factory JByteBuffer.allocateDirect(int capacity) {
-    return JByteBuffer.fromRef(
-      Jni.accessors.callStaticMethodWithArgs(
-          _class.reference.pointer,
-          _allocateDirectId,
-          JniCallType.objectType,
-          [JValueInt(capacity)]).object,
-    );
+    return _allocateDirectId(
+        _class, const JByteBufferType(), [JValueInt(capacity)]);
   }
 
-  static final _allocateId = Jni.accessors.getStaticMethodIDOf(
-      _class.reference.pointer, r"allocate", r"(I)Ljava/nio/ByteBuffer;");
+  static final _allocateId =
+      _class.staticMethodId(r"allocate", r"(I)Ljava/nio/ByteBuffer;");
 
   /// Allocates a new byte buffer.
   ///
   /// Throws:
   /// * [IllegalArgumentException] - If the capacity is a negative integer
   factory JByteBuffer.allocate(int capacity) {
-    return const JByteBufferType().fromRef(Jni.accessors
-        .callStaticMethodWithArgs(_class.reference.pointer, _allocateId,
-            JniCallType.objectType, [JValueInt(capacity)]).object);
+    return _allocateId(_class, const JByteBufferType(), [JValueInt(capacity)]);
   }
 
-  static final _wrapWholeId = Jni.accessors.getStaticMethodIDOf(
-      _class.reference.pointer, r"wrap", r"([B)Ljava/nio/ByteBuffer;");
-  static final _wrapId = Jni.accessors.getStaticMethodIDOf(
-      _class.reference.pointer, r"wrap", r"([BII)Ljava/nio/ByteBuffer;");
+  static final _wrapWholeId =
+      _class.staticMethodId(r"wrap", r"([B)Ljava/nio/ByteBuffer;");
+  static final _wrapId =
+      _class.staticMethodId(r"wrap", r"([BII)Ljava/nio/ByteBuffer;");
 
   /// Wraps a byte array into a buffer.
   ///
@@ -147,24 +140,18 @@ class JByteBuffer extends JBuffer {
     int? length,
   ]) {
     if (offset == null && length == null) {
-      return const JByteBufferType().fromRef(
-        Jni.accessors.callStaticMethodWithArgs(
-          _class.reference.pointer,
-          _wrapWholeId,
-          JniCallType.objectType,
-          [array.reference.pointer],
-        ).object,
+      return _wrapWholeId(
+        _class,
+        const JByteBufferType(),
+        [array.reference.pointer],
       );
     }
     offset ??= 0;
     length ??= array.length - offset;
-    return const JByteBufferType().fromRef(
-      Jni.accessors.callStaticMethodWithArgs(
-        _class.reference.pointer,
-        _wrapId,
-        JniCallType.objectType,
-        [array.reference.pointer, JValueInt(offset), JValueInt(length)],
-      ).object,
+    return _wrapId(
+      _class,
+      const JByteBufferType(),
+      [array.reference.pointer, JValueInt(offset), JValueInt(length)],
     );
   }
 
@@ -177,40 +164,32 @@ class JByteBuffer extends JBuffer {
     return buffer;
   }
 
-  static final _sliceId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"slice", r"()Ljava/nio/ByteBuffer;");
+  static final _sliceId =
+      _class.instanceMethodId(r"slice", r"()Ljava/nio/ByteBuffer;");
 
   /// Creates a new byte buffer whose content is a shared subsequence of this
   /// buffer's content.
   JByteBuffer slice() {
-    return const JByteBufferType().fromRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _sliceId, JniCallType.objectType, []).object);
+    return _sliceId(this, const JByteBufferType(), []);
   }
 
-  static final _duplicateId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"duplicate", r"()Ljava/nio/ByteBuffer;");
+  static final _duplicateId =
+      _class.instanceMethodId(r"duplicate", r"()Ljava/nio/ByteBuffer;");
 
   /// Creates a new byte buffer that shares this buffer's content.
   JByteBuffer duplicate() {
-    return const JByteBufferType().fromRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer, _duplicateId, JniCallType.objectType, []).object);
+    return _duplicateId(this, const JByteBufferType(), []);
   }
 
-  static final _asReadOnlyBufferId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer,
-      r"asReadOnlyBuffer",
-      r"()Ljava/nio/ByteBuffer;");
+  static final _asReadOnlyBufferId =
+      _class.instanceMethodId(r"asReadOnlyBuffer", r"()Ljava/nio/ByteBuffer;");
 
   /// Creates a new, read-only byte buffer that shares this buffer's content.
   JByteBuffer asReadOnlyBuffer() {
-    return const JByteBufferType().fromRef(Jni.accessors.callMethodWithArgs(
-        reference.pointer,
-        _asReadOnlyBufferId,
-        JniCallType.objectType, []).object);
+    return _asReadOnlyBufferId(this, const JByteBufferType(), []);
   }
 
-  static final _getId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"get", r"()B");
+  static final _getId = _class.instanceMethodId(r"get", r"()B");
 
   /// Reads the byte at this buffer's current [position], and then increments the
   /// [position].
@@ -219,12 +198,11 @@ class JByteBuffer extends JBuffer {
   ///  * [BufferOverflowException] - If the buffer's current [position] is not
   ///    smaller than its [limit]
   int get nextByte {
-    return Jni.accessors.callMethodWithArgs(
-        reference.pointer, _getId, JniCallType.byteType, []).byte;
+    return _getId(this, const jbyteType(), []);
   }
 
-  static final _putId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"put", r"(B)Ljava/nio/ByteBuffer;");
+  static final _putId =
+      _class.instanceMethodId(r"put", r"(B)Ljava/nio/ByteBuffer;");
 
   /// Writes the given byte into this buffer at the current [position], and then
   /// increments the [position].
@@ -234,18 +212,14 @@ class JByteBuffer extends JBuffer {
   ///   smaller than its [limit]
   /// * [ReadOnlyBufferException] - If this buffer is read-only
   set nextByte(int b) {
-    Jni.env.DeleteGlobalRef(Jni.accessors.callMethodWithArgs(reference.pointer,
-        _putId, JniCallType.objectType, [JValueByte(b)]).object);
+    _putId(this, const JObjectType(), [JValueByte(b)]).release();
   }
 
-  static final _arrayId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"array", r"()[B");
+  static final _arrayId = _class.instanceMethodId(r"array", r"()[B");
 
   @override
   JArray<jbyte> get array {
-    return const JArrayType(jbyteType()).fromRef(Jni.accessors
-        .callMethodWithArgs(
-            reference.pointer, _arrayId, JniCallType.objectType, []).object);
+    return _arrayId(this, const JArrayType(jbyteType()), []);
   }
 
   void _ensureIsDirect() {

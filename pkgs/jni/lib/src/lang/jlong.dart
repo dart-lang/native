@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../accessors.dart';
-import '../jni.dart';
-import '../third_party/generated_bindings.dart';
+import '../jreference.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
@@ -15,7 +13,7 @@ final class JLongType extends JObjType<JLong> {
   String get signature => r"Ljava/lang/Long;";
 
   @override
-  JLong fromRef(JObjectPtr ref) => JLong.fromRef(ref);
+  JLong fromReference(JReference reference) => JLong.fromReference(reference);
 
   @override
   JObjType get superType => const JNumberType();
@@ -37,19 +35,16 @@ class JLong extends JNumber {
   // ignore: overridden_fields
   late final JObjType<JLong> $type = type;
 
-  JLong.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JLong.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = JLongType();
 
-  static final _class = Jni.findJClass(r"java/lang/Long");
+  static final _class = JClass.forName(r"java/lang/Long");
 
-  static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"<init>", r"(J)V");
+  static final _ctorId = _class.constructorId(r"(J)V");
 
-  JLong(int num)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference.pointer, _ctorId, [num]).object);
+  JLong(int num) : super.fromReference(_ctorId(_class, referenceType, [num]));
 }

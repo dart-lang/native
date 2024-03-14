@@ -33,7 +33,7 @@ extension ProtectedJReference on JReference {
   }
 }
 
-sealed class JReference {
+abstract final class JReference {
   final JObjectPtr _pointer;
   bool _released = false;
 
@@ -72,7 +72,7 @@ sealed class JReference {
 /// A managed JNI global reference.
 ///
 /// Uses a [NativeFinalizer] to delete the JNI global reference when finalized.
-class JGlobalReference extends JReference implements Finalizable {
+final class JGlobalReference extends JReference implements Finalizable {
   static final _finalizer =
       NativeFinalizer(Jni.env.ptr.ref.DeleteGlobalRef.cast());
 
@@ -87,4 +87,23 @@ class JGlobalReference extends JReference implements Finalizable {
   void _deleteReference() {
     Jni.env.DeleteGlobalRef(_pointer);
   }
+}
+
+final jNullReference = _JNullReference();
+
+final class _JNullReference extends JReference {
+  _JNullReference() : super(nullptr);
+
+  @override
+  void _deleteReference() {
+    // No need to delete `null`.
+  }
+
+  @override
+  void release() {
+    // No need to release `null`.
+  }
+
+  @override
+  bool get isNull => true;
 }

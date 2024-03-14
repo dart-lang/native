@@ -1,5 +1,10 @@
 ## 0.8.0-wip
 
+- **Breaking Change** ([#981](https://github.com/dart-lang/native/issues/981)):
+  - `fromRef` is now `fromReference`, and it gets a `JReference` instead of a
+    `Pointer<Void>`.
+  - Check out the internal changes to `JObject` in
+    [`package:jni`'s changelog](https://github.com/dart-lang/native/blob/main/pkgs/jni/CHANGELOG.md#080-wip).
 - **Breaking Change**: The generated impl class for interfaces is now an
   `interface`.
 - **Breaking Change** ([#792](https://github.com/dart-lang/native/issues/792)]):

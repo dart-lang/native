@@ -60,19 +60,19 @@
 /// This library provides classes and functions for JNI interop from Dart.
 library jni;
 
-export 'src/errors.dart';
-export 'src/jni.dart' hide ProtectedJniExtensions;
-export 'src/jvalues.dart' hide JValueArgs, toJValues;
-export 'src/types.dart';
-export 'src/jarray.dart';
-export 'src/jobject.dart';
-
-export 'src/lang/lang.dart';
-export 'src/nio/nio.dart';
-export 'src/util/util.dart';
-
-export 'src/third_party/generated_bindings.dart'
-    hide JniBindings, JniEnv, JniEnv1, JniExceptionDetails;
+export 'dart:ffi' show nullptr;
 
 export 'package:ffi/ffi.dart' show using, Arena;
-export 'dart:ffi' show nullptr;
+
+export 'src/errors.dart';
+export 'src/jarray.dart';
+export 'src/jni.dart' hide ProtectedJniExtensions;
+export 'src/jobject.dart';
+export 'src/jreference.dart';
+export 'src/jvalues.dart';
+export 'src/lang/lang.dart';
+export 'src/nio/nio.dart';
+export 'src/third_party/generated_bindings.dart'
+    hide JniBindings, JniEnv, JniEnv1, JniExceptionDetails;
+export 'src/types.dart' hide referenceType;
+export 'src/util/util.dart';

@@ -4,10 +4,8 @@
 
 import 'dart:collection';
 
-import '../accessors.dart';
-import '../jni.dart';
 import '../jobject.dart';
-import '../third_party/jni_bindings_generated.dart';
+import '../jreference.dart';
 import '../types.dart';
 import 'jset.dart';
 
@@ -25,7 +23,8 @@ final class JMapType<$K extends JObject, $V extends JObject>
   String get signature => r"Ljava/util/Map;";
 
   @override
-  JMap<$K, $V> fromRef(JObjectPtr ref) => JMap.fromRef(K, V, ref);
+  JMap<$K, $V> fromReference(JReference reference) =>
+      JMap.fromReference(K, V, reference);
 
   @override
   JObjType get superType => const JObjectType();
@@ -54,13 +53,13 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
   final JObjType<$K> K;
   final JObjType<$V> V;
 
-  JMap.fromRef(
+  JMap.fromReference(
     this.K,
     this.V,
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+    JReference reference,
+  ) : super.fromReference(reference);
 
-  static final _class = Jni.findJClass(r"java/util/Map");
+  static final _class = JClass.forName(r"java/util/Map");
 
   /// The type which includes information such as the signature of this class.
   static JMapType<$K, $V> type<$K extends JObject, $V extends JObject>(
@@ -73,108 +72,91 @@ class JMap<$K extends JObject, $V extends JObject> extends JObject
     );
   }
 
-  static final _hashMapClass = Jni.findJClass(r"java/util/HashMap");
-  static final _ctorId = Jni.accessors
-      .getMethodIDOf(_hashMapClass.reference.pointer, r"<init>", r"()V");
+  static final _hashMapClass = JClass.forName(r"java/util/HashMap");
+  static final _ctorId = _hashMapClass.constructorId(r"()V");
   JMap.hash(this.K, this.V)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _hashMapClass.reference.pointer, _ctorId, []).object);
+      : super.fromReference(_ctorId(_hashMapClass, referenceType, []));
 
-  static final _getId = Jni.accessors.getMethodIDOf(_class.reference.pointer,
+  static final _getId = _class.instanceMethodId(
       r"get", r"(Ljava/lang/Object;)Ljava/lang/Object;");
   @override
   $V? operator [](Object? key) {
     if (key is! JObject) {
       return null;
     }
-    final value = V.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer,
-        _getId, JniCallType.objectType, [key.reference.pointer]).object);
+    final value = _getId(this, V, [key.reference.pointer]);
     return value.isNull ? null : value;
   }
 
-  static final _putId = Jni.accessors.getMethodIDOf(_class.reference.pointer,
+  static final _putId = _class.instanceMethodId(
       r"put", r"(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
   @override
   void operator []=($K key, $V value) {
-    Jni.accessors.callMethodWithArgs(
-        reference.pointer,
-        _putId,
-        JniCallType.objectType,
-        [key.reference.pointer, value.reference.pointer]).object;
+    _putId(this, V, [key.reference.pointer, value.reference.pointer]);
   }
 
-  static final _addAllId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"putAll", r"(Ljava/util/Map;)V");
+  static final _addAllId =
+      _class.instanceMethodId(r"putAll", r"(Ljava/util/Map;)V");
   @override
   void addAll(Map<$K, $V> other) {
     if (other is JMap<$K, $V>) {
-      Jni.accessors.callMethodWithArgs(reference.pointer, _addAllId,
-          JniCallType.voidType, [other.reference.pointer]).check();
+      _addAllId(this, const jvoidType(), [other.reference.pointer]);
       return;
     }
     super.addAll(other);
   }
 
-  static final _clearId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"clear", r"()V");
+  static final _clearId = _class.instanceMethodId(r"clear", r"()V");
   @override
   void clear() {
-    Jni.accessors.callMethodWithArgs(
-        reference.pointer, _clearId, JniCallType.voidType, []).check();
+    _clearId(this, const jvoidType(), []);
   }
 
-  static final _containsKeyId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"containsKey", r"(Ljava/lang/Object;)Z");
+  static final _containsKeyId =
+      _class.instanceMethodId(r"containsKey", r"(Ljava/lang/Object;)Z");
   @override
   bool containsKey(Object? key) {
     if (key is! JObject) {
       return false;
     }
-    return Jni.accessors.callMethodWithArgs(reference.pointer, _containsKeyId,
-        JniCallType.booleanType, [key.reference.pointer]).boolean;
+    return _containsKeyId(this, const jbooleanType(), [key.reference.pointer]);
   }
 
-  static final _containsValueId = Jni.accessors.getMethodIDOf(
-      _class.reference.pointer, r"containsValue", r"(Ljava/lang/Object;)Z");
+  static final _containsValueId =
+      _class.instanceMethodId(r"containsValue", r"(Ljava/lang/Object;)Z");
   @override
   bool containsValue(Object? value) {
     if (value is! JObject) {
       return false;
     }
-    return Jni.accessors.callMethodWithArgs(reference.pointer, _containsValueId,
-        JniCallType.booleanType, [value.reference.pointer]).boolean;
+    return _containsValueId(
+        this, const jbooleanType(), [value.reference.pointer]);
   }
 
-  static final isEmptyId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"isEmpty", r"()Z");
+  static final isEmptyId = _class.instanceMethodId(r"isEmpty", r"()Z");
   @override
-  bool get isEmpty => Jni.accessors.callMethodWithArgs(
-      reference.pointer, isEmptyId, JniCallType.booleanType, []).boolean;
+  bool get isEmpty => isEmptyId(this, const jbooleanType(), []);
 
   @override
   bool get isNotEmpty => !isEmpty;
 
-  static final _keysId = Jni.accessors
-      .getMethodIDOf(_class.reference.pointer, r"keySet", r"()Ljava/util/Set;");
+  static final _keysId =
+      _class.instanceMethodId(r"keySet", r"()Ljava/util/Set;");
   @override
-  JSet<$K> get keys => JSetType(K).fromRef(Jni.accessors.callMethodWithArgs(
-      reference.pointer, _keysId, JniCallType.objectType, []).object);
+  JSet<$K> get keys => _keysId(this, JSetType(K), []);
 
-  static final _sizeId =
-      Jni.accessors.getMethodIDOf(_class.reference.pointer, r"size", r"()I");
+  static final _sizeId = _class.instanceMethodId(r"size", r"()I");
   @override
-  int get length => Jni.accessors.callMethodWithArgs(
-      reference.pointer, _sizeId, JniCallType.intType, []).integer;
+  int get length => _sizeId(this, const jintType(), []);
 
-  static final _removeId = Jni.accessors.getMethodIDOf(_class.reference.pointer,
+  static final _removeId = _class.instanceMethodId(
       r"remove", r"(Ljava/lang/Object;)Ljava/lang/Object;");
   @override
   $V? remove(Object? key) {
     if (key is! JObject) {
       return null;
     }
-    final value = V.fromRef(Jni.accessors.callMethodWithArgs(reference.pointer,
-        _removeId, JniCallType.objectType, [key.reference.pointer]).object);
+    final value = _removeId(this, V, [key.reference.pointer]);
     return value.isNull ? null : value;
   }
 }

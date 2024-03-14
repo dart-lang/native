@@ -1,7 +1,33 @@
 ## 0.8.0-wip
 
-- **Breaking Change**: `JObject.reference` now returns a `JReference` instead of
-  `Pointer<Void>`.
+- **Breaking Change** ([#981](https://github.com/dart-lang/native/issues/981)):
+
+  - `JObject.reference` now returns a `JReference` instead of `Pointer<Void>`.
+  - `.fromRef` constructors are now called `.fromReference` and they take a
+    `JReference` instead of `Pointer<Void>`.
+  - `JObject` reflective field retrieving and method calling methods are
+    removed. Use `JClass` API instead.
+  - The following `Jni.accessors` methods have been removed:
+
+    - `getClassOf`
+    - `getMethodIDOf`
+    - `getStaticMethodIDOf`
+    - `getFieldIDOf`
+    - `getStaticFieldIDOf`
+    - `newObjectWithArgs`
+    - `callMethodWithArgs`
+    - `callStaticMethodWithArgs`
+
+    Instead use the `JClass` API.
+
+  - `Jni.findJClass` is replaced with `JClass.forName(String name)`
+  - `JClass` has been refactored. Instead of directly calling methods, getting
+    and setting fields, use `JClass.instanceMethodId`, `JClass.staticMethodId`,
+    `JClass.constructorId`, `JClass.instanceFieldId`, and `JClass.staticFieldId`
+    to first get access to the member.
+  - Renamed `JObject.getClass()` to `JObject.jClass`.
+  - Removed `Jni.deleteAllRefs`.
+
 - **Breaking Change** ([#548](https://github.com/dart-lang/native/issues/548)):
   Converted various `Exception`s into `Error`s:
   - `UseAfterReleaseException` -> `UseAfterReleaseError`
@@ -13,19 +39,19 @@
   - `JvmExistsException` -> `JniVmExistsError`
   - `NoJvmInstanceException` -> `NoJvmInstanceError`
 - **Breaking Change**: Removed `InvalidJStringException`.
-- **Breaking Change**: The default return `callType` of type parameter `int` for
-  methods such as `JObject.callMethodByName<int>` is now Java's `long` instead
-  of `int` to be consistent with the way arguments work.
 - **Breaking Change**: `JType` is now `sealed`.
 - **Breaking Change**: Primitive types and their type classes are now `final`.
 - **Breaking Change**: `JArray.filled` now uses the generated type class of the
   `fill` object and not its Java runtime type.
 
 ## 0.7.2
+
 - Fixed a bug where reading non-null terminated strings would overflow.
 
 ## 0.7.1
-- Removed macOS Flutter plugin until package:jni supports it ([#780](https://github.com/dart-lang/native/issues/780)).
+
+- Removed macOS Flutter plugin until package:jni supports it
+  ([#780](https://github.com/dart-lang/native/issues/780)).
 
 ## 0.7.0
 

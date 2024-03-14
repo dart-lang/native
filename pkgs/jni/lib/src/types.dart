@@ -4,18 +4,68 @@
 
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
+import 'package:jni/internal_helpers_for_jnigen.dart';
+
 import 'jni.dart';
 import 'jobject.dart';
+import 'jvalues.dart';
+import 'third_party/generated_bindings.dart';
 
+part 'jclass.dart';
 part 'jprimitives.dart';
 
-sealed class JType<T> {
+sealed class JType<JavaT> {
   const JType();
 
   String get signature;
 }
 
-abstract class JObjType<T extends JObject> extends JType<T> {
+/// Able to be a return type of a method that can be called.
+mixin JCallable<JavaT, DartT> on JType<JavaT> {
+  DartT _staticCall(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
+  DartT _instanceCall(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args);
+}
+
+/// Able to be constructed.
+mixin JConstructable<JavaT, DartT> on JType<JavaT> {
+  DartT _newObject(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
+}
+
+/// Able to be the type of a field that can be get and set.s
+mixin JAccessible<JavaT, DartT> on JType<JavaT> {
+  DartT _staticGet(JClassPtr clazz, JFieldIDPtr fieldID);
+  DartT _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID);
+  void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, DartT val);
+  void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
+}
+
+/// Only used for jnigen.
+///
+/// Makes constructing objects easier inside the generated bindings by allowing
+/// a [JReference] to be created. This allows [JObject]s to use constructors
+/// that call `super.fromReference` instead of factories.
+const referenceType = _ReferenceType();
+
+final class _ReferenceType extends JType<JReference>
+    with JConstructable<JReference, JReference> {
+  const _ReferenceType();
+
+  @override
+  JReference _newObject(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return JGlobalReference(Jni.env.NewObjectA(clazz, methodID, args));
+  }
+
+  @override
+  String get signature => 'Ljava/lang/Object;';
+}
+
+abstract class JObjType<T extends JObject> extends JType<T>
+    with JCallable<T, T>, JConstructable<T, T>, JAccessible<T, T> {
   /// Number of super types. Distance to the root type.
   int get superCount;
 
@@ -24,13 +74,53 @@ abstract class JObjType<T extends JObject> extends JType<T> {
   const JObjType();
 
   /// Creates an object from this type using the reference.
-  T fromRef(Pointer<Void> ref);
+  T fromReference(JReference reference);
 
-  JClass getClass() {
+  JClass get jClass {
     if (signature.startsWith('L') && signature.endsWith(';')) {
-      return Jni.findJClass(signature.substring(1, signature.length - 1));
+      return JClass.forName(signature.substring(1, signature.length - 1));
     }
-    return Jni.findJClass(signature);
+    return JClass.forName(signature);
+  }
+
+  @override
+  T _staticCall(JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return fromReference(JGlobalReference(
+        Jni.env.CallStaticObjectMethodA(clazz, methodID, args)));
+  }
+
+  @override
+  T _instanceCall(JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return fromReference(
+        JGlobalReference(Jni.env.CallObjectMethodA(obj, methodID, args)));
+  }
+
+  @override
+  T _newObject(JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return fromReference(
+        JGlobalReference(Jni.env.NewObjectA(clazz, methodID, args)));
+  }
+
+  @override
+  T _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return fromReference(
+        JGlobalReference(Jni.env.GetObjectField(obj, fieldID)));
+  }
+
+  @override
+  void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, T val) {
+    Jni.env.SetObjectField(obj, fieldID, val.reference.pointer);
+  }
+
+  @override
+  T _staticGet(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return fromReference(
+        JGlobalReference(Jni.env.GetStaticObjectField(clazz, fieldID)));
+  }
+
+  @override
+  void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, T val) {
+    Jni.env.SetStaticObjectField(clazz, fieldID, val.reference.pointer);
   }
 }
 
