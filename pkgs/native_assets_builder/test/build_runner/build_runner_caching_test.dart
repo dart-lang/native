@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -74,7 +75,9 @@ void main() async {
 
       {
         final result = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(asset: result.assets.single, symbols: ['add']);
+        await expectSymbols(
+            asset: result.assets.single as NativeCodeAssetImpl,
+            symbols: ['add']);
       }
 
       await copyTestProjects(
@@ -85,7 +88,7 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         await expectSymbols(
-          asset: result.assets.single,
+          asset: result.assets.single as NativeCodeAssetImpl,
           symbols: ['add', 'subtract'],
         );
       }
@@ -101,7 +104,9 @@ void main() async {
 
       {
         final result = await build(packageUri, logger, dartExecutable);
-        await expectSymbols(asset: result.assets.single, symbols: ['add']);
+        await expectSymbols(
+            asset: result.assets.single as NativeCodeAssetImpl,
+            symbols: ['add']);
       }
 
       await copyTestProjects(
@@ -111,7 +116,8 @@ void main() async {
       {
         final result = await build(packageUri, logger, dartExecutable);
         await expectSymbols(
-            asset: result.assets.single, symbols: ['add', 'multiply']);
+            asset: result.assets.single as NativeCodeAssetImpl,
+            symbols: ['add', 'multiply']);
       }
     });
   });

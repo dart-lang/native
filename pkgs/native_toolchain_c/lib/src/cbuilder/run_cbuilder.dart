@@ -27,7 +27,6 @@ class RunCBuilder {
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
   final Uri outDir;
-  final Target target;
 
   /// The install name of the [dynamicLibrary].
   ///
@@ -58,13 +57,12 @@ class RunCBuilder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
-  })  : outDir = buildConfig.outDir,
-        target = buildConfig.target,
+  })  : outDir = buildConfig.outputDirectory,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
             1) {
-    if (target.os == OS.windows && cppLinkStdLib != null) {
+    if (buildConfig.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -81,7 +79,7 @@ class RunCBuilder {
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
   Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
-    if (iosSdk == IOSSdk.iPhoneOs) {
+    if (iosSdk == IOSSdk.iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
           .where((i) => i.tool == iPhoneOSSdk)
           .first
@@ -124,37 +122,40 @@ class RunCBuilder {
     }
 
     late final IOSSdk targetIosSdk;
-    if (target.os == OS.iOS) {
-      targetIosSdk = buildConfig.targetIOSSdk!;
+    if (buildConfig.targetOS == OS.iOS) {
+      targetIosSdk = buildConfig.targetIOSSdk;
     }
 
     // The Android Gradle plugin does not honor API level 19 and 20 when
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     late final int targetAndroidNdkApi;
-    if (target.os == OS.android) {
-      final minimumApi = target == Target.androidRiscv64 ? 35 : 21;
+    if (buildConfig.targetOS == OS.android) {
+      final minimumApi =
+          buildConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
       targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, minimumApi);
     }
+
+    final architecture = buildConfig.targetArchitecture;
 
     await runProcess(
       executable: compiler.uri,
       arguments: [
-        if (target.os == OS.android) ...[
+        if (buildConfig.targetOS == OS.android) ...[
           '--target='
-              '${androidNdkClangTargetFlags[target]!}'
+              '${androidNdkClangTargetFlags[architecture]!}'
               '$targetAndroidNdkApi',
           '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
-        if (target.os == OS.macOS)
-          '--target=${appleClangMacosTargetFlags[target]!}',
-        if (target.os == OS.iOS)
-          '--target=${appleClangIosTargetFlags[target]![targetIosSdk]!}',
-        if (target.os == OS.iOS) ...[
+        if (buildConfig.targetOS == OS.macOS)
+          '--target=${appleClangMacosTargetFlags[architecture]!}',
+        if (buildConfig.targetOS == OS.iOS)
+          '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
+        if (buildConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk, logger: logger)).toFilePath(),
         ],
-        if (target.os == OS.macOS) ...[
+        if (buildConfig.targetOS == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
@@ -189,7 +190,7 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[target.os]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[buildConfig.targetOS]!
         ],
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
@@ -292,24 +293,24 @@ class RunCBuilder {
   }
 
   static const androidNdkClangTargetFlags = {
-    Target.androidArm: 'armv7a-linux-androideabi',
-    Target.androidArm64: 'aarch64-linux-android',
-    Target.androidIA32: 'i686-linux-android',
-    Target.androidX64: 'x86_64-linux-android',
-    Target.androidRiscv64: 'riscv64-linux-android',
+    Architecture.arm: 'armv7a-linux-androideabi',
+    Architecture.arm64: 'aarch64-linux-android',
+    Architecture.ia32: 'i686-linux-android',
+    Architecture.x64: 'x86_64-linux-android',
+    Architecture.riscv64: 'riscv64-linux-android',
   };
 
   static const appleClangMacosTargetFlags = {
-    Target.macOSArm64: 'arm64-apple-darwin',
-    Target.macOSX64: 'x86_64-apple-darwin',
+    Architecture.arm64: 'arm64-apple-darwin',
+    Architecture.x64: 'x86_64-apple-darwin',
   };
 
   static const appleClangIosTargetFlags = {
-    Target.iOSArm64: {
-      IOSSdk.iPhoneOs: 'arm64-apple-ios',
+    Architecture.arm64: {
+      IOSSdk.iPhoneOS: 'arm64-apple-ios',
       IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
     },
-    Target.iOSX64: {
+    Architecture.x64: {
       IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
     },
   };

@@ -1,3 +1,7 @@
+## 0.6.0-wip
+
+- **Breaking change** Completely rewritten API in `native_assets_cli`.
+
 ## 0.5.0
 
 - **Breaking change**: Hide implementation of `KernelAssets`.

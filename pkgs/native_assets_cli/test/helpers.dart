@@ -78,35 +78,35 @@ String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
 ///
 /// Provided on Dart CI.
 final Uri? ar = Platform
-    .environment[unparseKey(internal.CCompilerConfig.arConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfigImpl.arConfigKeyFull)]
     ?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
 final Uri? cc = Platform
-    .environment[unparseKey(internal.CCompilerConfig.ccConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfigImpl.ccConfigKeyFull)]
     ?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
 final Uri? ld = Platform
-    .environment[unparseKey(internal.CCompilerConfig.ldConfigKeyFull)]
+    .environment[unparseKey(internal.CCompilerConfigImpl.ldConfigKeyFull)]
     ?.asFileUri();
 
 /// Path to script that sets environment variables for [cc], [ld], and [ar].
 ///
 /// Provided on Dart CI.
-final Uri? envScript = Platform
-    .environment[unparseKey(internal.CCompilerConfig.envScriptConfigKeyFull)]
+final Uri? envScript = Platform.environment[
+        unparseKey(internal.CCompilerConfigImpl.envScriptConfigKeyFull)]
     ?.asFileUri();
 
 /// Arguments for [envScript] provided by environment.
 ///
 /// Provided on Dart CI.
 final List<String>? envScriptArgs = Platform.environment[
-        unparseKey(internal.CCompilerConfig.envScriptArgsConfigKeyFull)]
+        unparseKey(internal.CCompilerConfigImpl.envScriptArgsConfigKeyFull)]
     ?.split(' ');
 
 extension on String {
@@ -123,10 +123,10 @@ extension AssetIterable on Iterable<Asset> {
 
 extension on Asset {
   Future<bool> exists() async {
-    final path_ = path;
+    final path_ = file;
     return switch (path_) {
-      AssetAbsolutePath _ => await path_.uri.fileSystemEntity.exists(),
-      _ => true,
+      null => true,
+      _ => await path_.fileSystemEntity.exists(),
     };
   }
 }

@@ -1,6 +1,6 @@
-## 0.3.5-wip
+## 0.4.0-wip
 
-- Bump `package:native_assets_cli` to 0.4.1.
+- **Breaking change** Completely rewritten API in `native_assets_cli`.
 
 ## 0.3.4+1
 

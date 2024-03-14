@@ -10,13 +10,15 @@ import 'package:test/test.dart';
 
 void main() {
   test('OS naming conventions', () async {
-    expect(OS.android.dylibFileName('foo'), 'libfoo.so');
-    expect(OS.android.staticlibFileName('foo'), 'libfoo.a');
-    expect(OS.windows.dylibFileName('foo'), 'foo.dll');
-    expect(OS.windows.libraryFileName('foo', LinkMode.dynamic), 'foo.dll');
-    expect(OS.windows.staticlibFileName('foo'), 'foo.lib');
-    expect(OS.windows.libraryFileName('foo', LinkMode.static), 'foo.lib');
-    expect(OS.windows.executableFileName('foo'), 'foo.exe');
+    expect(OSImpl.android.dylibFileName('foo'), 'libfoo.so');
+    expect(OSImpl.android.staticlibFileName('foo'), 'libfoo.a');
+    expect(OSImpl.windows.dylibFileName('foo'), 'foo.dll');
+    expect(OSImpl.windows.libraryFileName('foo', DynamicLoadingBundledImpl()),
+        'foo.dll');
+    expect(OSImpl.windows.staticlibFileName('foo'), 'foo.lib');
+    expect(
+        OSImpl.windows.libraryFileName('foo', StaticLinkingImpl()), 'foo.lib');
+    expect(OSImpl.windows.executableFileName('foo'), 'foo.exe');
   });
 
   test('Target current', () async {
@@ -57,13 +59,13 @@ void main() {
         Target.macOSArm64.supportedTargetTargets(), contains(Target.iOSArm64));
   });
 
-  test('Target fromArchitectureAndOs', () async {
+  test('Target fromArchitectureAndOS', () async {
     final current =
-        Target.fromArchitectureAndOs(Architecture.current, OS.current);
+        Target.fromArchitectureAndOS(ArchitectureImpl.current, OSImpl.current);
     expect(current.toString(), Abi.current().toString());
 
     expect(
-      () => Target.fromArchitectureAndOs(Architecture.arm, OS.windows),
+      () => Target.fromArchitectureAndOS(ArchitectureImpl.arm, OSImpl.windows),
       throwsA(predicate(
         (e) =>
             e is ArgumentError &&
@@ -71,5 +73,15 @@ void main() {
             (e.message as String).contains('windows'),
       )),
     );
+  });
+
+  test('OS.architectures', () {
+    expect(OSImpl.android.architectures, [
+      ArchitectureImpl.arm,
+      ArchitectureImpl.arm64,
+      ArchitectureImpl.ia32,
+      ArchitectureImpl.x64,
+      ArchitectureImpl.riscv64,
+    ]);
   });
 }

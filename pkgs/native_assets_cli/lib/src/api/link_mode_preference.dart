@@ -2,34 +2,33 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../model/link_mode_preference.dart' as model;
-import 'link_mode.dart';
+import 'asset.dart';
 
-abstract class LinkModePreference {
+part '../model/link_mode_preference.dart';
+
+/// The preferred linkMode method for [NativeCodeAsset]s.
+abstract final class LinkModePreference {
+  /// The name for this link mode.
   String get name;
-
-  LinkMode get preferredLinkMode;
-
-  List<LinkMode> get potentialLinkMode;
 
   /// Provide native assets as dynamic libraries.
   ///
   /// Fails if not all native assets can only be provided as static library.
   /// Required to run Dart in JIT mode.
-  static const LinkModePreference dynamic = model.LinkModePreference.dynamic;
+  static const LinkModePreference dynamic = LinkModePreferenceImpl.dynamic;
 
   /// Provide native assets as static libraries.
   ///
   /// Fails if not all native assets can only be provided as dynamic library.
   /// Required for potential link-time tree-shaking of native code.
   /// Therefore, preferred to in Dart AOT mode.
-  static const LinkModePreference static = model.LinkModePreference.static;
+  static const LinkModePreference static = LinkModePreferenceImpl.static;
 
   /// Provide native assets as dynamic libraries, if possible.
   ///
   /// Otherwise, build native assets as static libraries
   static const LinkModePreference preferDynamic =
-      model.LinkModePreference.preferDynamic;
+      LinkModePreferenceImpl.preferDynamic;
 
   /// Provide native assets as static libraries, if possible.
   ///
@@ -37,12 +36,5 @@ abstract class LinkModePreference {
   /// compilation, if there are any native assets which can only be provided as
   /// dynamic libraries.
   static const LinkModePreference preferStatic =
-      model.LinkModePreference.preferStatic;
-
-  static const values = <LinkModePreference>[
-    dynamic,
-    static,
-    preferDynamic,
-    preferStatic,
-  ];
+      LinkModePreferenceImpl.preferStatic;
 }

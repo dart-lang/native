@@ -7,6 +7,6 @@ import 'package:test/test.dart';
 
 void main() {
   test('LinkMode toString', () async {
-    LinkMode.static.toString();
+    StaticLinking().toString();
   });
 }

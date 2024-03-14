@@ -36,16 +36,17 @@ class NativeAssetsBuildRunner {
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
   Future<BuildResult> build({
-    required LinkModePreference linkModePreference,
+    required LinkModePreferenceImpl linkModePreference,
     required Target target,
     required Uri workingDirectory,
-    required BuildMode buildMode,
-    CCompilerConfig? cCompilerConfig,
-    IOSSdk? targetIOSSdk,
+    required BuildModeImpl buildMode,
+    CCompilerConfigImpl? cCompilerConfig,
+    IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -77,7 +78,7 @@ class NativeAssetsBuildRunner {
       buildPlan = plan;
       packageGraph = planner.packageGraph;
     }
-    final assets = <Asset>[];
+    final assets = <AssetImpl>[];
     final dependencies = <Uri>[];
     final metadata = <String, Metadata>{};
     var success = true;
@@ -98,6 +99,7 @@ class NativeAssetsBuildRunner {
         cCompilerConfig: cCompilerConfig,
         targetIOSSdk: targetIOSSdk,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        supportedAssetTypes: supportedAssetTypes,
       );
       final (
         packageAssets,
@@ -132,12 +134,13 @@ class NativeAssetsBuildRunner {
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
   Future<DryRunResult> dryRun({
-    required LinkModePreference linkModePreference,
-    required OS targetOs,
+    required LinkModePreferenceImpl linkModePreference,
+    required OSImpl targetOS,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
     PackageLayout? packageLayout,
     String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithNativeAssets =
@@ -163,15 +166,16 @@ class NativeAssetsBuildRunner {
       }
       buildPlan = plan;
     }
-    final assets = <Asset>[];
+    final assets = <AssetImpl>[];
     var success = true;
     for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
-        targetOs: targetOs,
+        targetOS: targetOS,
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
+        supportedAssetTypes: supportedAssetTypes,
       );
       final (packageAssets, _, _, packageSuccess) = await _buildPackage(
         config,
@@ -180,7 +184,26 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         dryRun: true,
       );
-      assets.addAll(packageAssets);
+      for (final asset in packageAssets) {
+        switch (asset) {
+          case NativeCodeAssetImpl _:
+            if (asset.architecture != null) {
+              // Backwards compatibility, if an architecture is provided use it.
+              assets.add(asset);
+            } else {
+              // Dry run does not report architecture. Dart VM branches on OS
+              // and Target when looking up assets, so populate assets for all
+              // architectures.
+              for (final architecture in asset.os.architectures) {
+                assets.add(asset.copyWith(
+                  architecture: architecture,
+                ));
+              }
+            }
+          case DataAssetImpl _:
+            assets.add(asset);
+        }
+      }
       success &= packageSuccess;
     }
     return _DryRunResultImpl(
@@ -190,21 +213,21 @@ class NativeAssetsBuildRunner {
   }
 
   Future<_PackageBuildRecord> _buildPackageCached(
-    BuildConfig config,
+    BuildConfigImpl config,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
   ) async {
     final packageName = config.packageName;
-    final outDir = config.outDir;
+    final outDir = config.outputDirectory;
     if (!await Directory.fromUri(outDir).exists()) {
       await Directory.fromUri(outDir).create(recursive: true);
     }
 
-    final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
+    final buildOutput = await BuildOutputImpl.readFromFile(outDir: outDir);
     final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
         DateTime.fromMillisecondsSinceEpoch(0);
-    final dependencies = buildOutput?.dependencies;
+    final dependencies = buildOutput?.dependenciesModel;
     final lastChange = await dependencies?.lastModified() ?? DateTime.now();
 
     if (lastBuilt.isAfter(lastChange)) {
@@ -213,8 +236,8 @@ class NativeAssetsBuildRunner {
       // All build flags go into [outDir]. Therefore we do not have to check
       // here whether the config is equal.
       final assets = buildOutput!.assets;
-      final dependencies = buildOutput.dependencies.dependencies;
-      final metadata = buildOutput.metadata;
+      final dependencies = buildOutput.dependencies;
+      final metadata = buildOutput.metadataModel;
       return (assets, dependencies, metadata, true);
     }
 
@@ -228,19 +251,20 @@ class NativeAssetsBuildRunner {
   }
 
   Future<_PackageBuildRecord> _buildPackage(
-    BuildConfig config,
+    BuildConfigImpl config,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment, {
     required bool dryRun,
   }) async {
-    final outDir = config.outDir;
+    final outDir = config.outputDirectory;
     final configFile = outDir.resolve('../config.yaml');
     final buildDotDart = config.packageRoot.resolve('build.dart');
     final configFileContents = config.toYamlString();
     logger.info('config.yaml contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final buildOutputFile = File.fromUri(outDir.resolve(BuildOutput.fileName));
+    final buildOutputFile =
+        File.fromUri(outDir.resolve(BuildOutputImpl.fileName));
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -282,11 +306,11 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
+      final buildOutput = await BuildOutputImpl.readFromFile(outDir: outDir);
       final assets = buildOutput?.assets ?? [];
       success &= validateAssetsPackage(assets, config.packageName);
-      final dependencies = buildOutput?.dependencies.dependencies ?? [];
-      final metadata = dryRun ? null : buildOutput?.metadata;
+      final dependencies = buildOutput?.dependencies ?? [];
+      final metadata = dryRun ? null : buildOutput?.metadataModel;
       return (assets, dependencies, metadata, success);
     } on FormatException catch (e) {
       logger.severe('''
@@ -295,7 +319,7 @@ build_output.yaml contained a format error.
 ${e.message}
         ''');
       success = false;
-      return (<Asset>[], <Uri>[], const Metadata({}), false);
+      return (<NativeCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
       // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
       // type errors in native_assets_cli, release a new version of that package
       // and then remove this.
@@ -306,11 +330,11 @@ Building native assets for package:${config.packageName} failed.
 build_output.yaml contained a format error.
         ''');
       success = false;
-      return (<Asset>[], <Uri>[], const Metadata({}), false);
+      return (<NativeCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
     } finally {
       if (!success) {
         final buildOutputFile =
-            File.fromUri(outDir.resolve(BuildOutput.fileName));
+            File.fromUri(outDir.resolve(BuildOutputImpl.fileName));
         if (await buildOutputFile.exists()) {
           await buildOutputFile.delete();
         }
@@ -318,22 +342,23 @@ build_output.yaml contained a format error.
     }
   }
 
-  static Future<BuildConfig> _cliConfig({
+  static Future<BuildConfigImpl> _cliConfig({
     required String packageName,
     required Uri packageRoot,
     required Target target,
-    IOSSdk? targetIOSSdk,
+    IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
-    required BuildMode buildMode,
-    required LinkModePreference linkMode,
+    required BuildModeImpl buildMode,
+    required LinkModePreferenceImpl linkMode,
     required Uri buildParentDir,
-    CCompilerConfig? cCompilerConfig,
+    CCompilerConfigImpl? cCompilerConfig,
     DependencyMetadata? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
   }) async {
-    final buildDirName = BuildConfig.checksum(
+    final buildDirName = BuildConfigImpl.checksum(
       packageName: packageName,
       packageRoot: packageRoot,
-      targetOs: target.os,
+      targetOS: target.os,
       targetArchitecture: target.architecture,
       buildMode: buildMode,
       linkModePreference: linkMode,
@@ -341,6 +366,7 @@ build_output.yaml contained a format error.
       cCompiler: cCompilerConfig,
       dependencyMetadata: dependencyMetadata,
       targetAndroidNdkApi: targetAndroidNdkApi,
+      supportedAssetTypes: supportedAssetTypes,
     );
     final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
@@ -348,11 +374,11 @@ build_output.yaml contained a format error.
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
       await outDir.create(recursive: true);
     }
-    return BuildConfig(
+    return BuildConfigImpl(
       outDir: outDirUri,
       packageName: packageName,
       packageRoot: packageRoot,
-      targetOs: target.os,
+      targetOS: target.os,
       targetArchitecture: target.architecture,
       buildMode: buildMode,
       linkModePreference: linkMode,
@@ -363,25 +389,27 @@ build_output.yaml contained a format error.
     );
   }
 
-  static Future<BuildConfig> _cliConfigDryRun({
+  static Future<BuildConfigImpl> _cliConfigDryRun({
     required String packageName,
     required Uri packageRoot,
-    required OS targetOs,
-    required LinkModePreference linkMode,
+    required OSImpl targetOS,
+    required LinkModePreferenceImpl linkMode,
     required Uri buildParentDir,
+    Iterable<String>? supportedAssetTypes,
   }) async {
-    final buildDirName = 'dry_run_${targetOs}_$linkMode';
+    final buildDirName = 'dry_run_${targetOS}_$linkMode';
     final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       await outDir.create(recursive: true);
     }
-    return BuildConfig.dryRun(
+    return BuildConfigImpl.dryRun(
       outDir: outDirUri,
       packageName: packageName,
       packageRoot: packageRoot,
-      targetOs: targetOs,
+      targetOS: targetOS,
       linkModePreference: linkMode,
+      supportedAssetTypes: supportedAssetTypes,
     );
   }
 
@@ -400,7 +428,7 @@ build_output.yaml contained a format error.
     };
   }
 
-  bool validateAssetsPackage(List<Asset> assets, String packageName) {
+  bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.id)
         .where((n) => !n.startsWith('package:$packageName/'))
@@ -419,8 +447,8 @@ build_output.yaml contained a format error.
 }
 
 typedef _PackageBuildRecord = (
-  List<Asset>,
-  List<Uri> dependencies,
+  Iterable<AssetImpl>,
+  Iterable<Uri> dependencies,
   Metadata?,
   bool success,
 );
@@ -428,7 +456,7 @@ typedef _PackageBuildRecord = (
 /// The result from a [NativeAssetsBuildRunner.dryRun].
 abstract interface class DryRunResult {
   /// The native assets for all [Target]s for the build or dry run.
-  List<Asset> get assets;
+  List<AssetImpl> get assets;
 
   /// Whether all builds completed without errors.
   ///
@@ -438,7 +466,7 @@ abstract interface class DryRunResult {
 
 final class _DryRunResultImpl implements DryRunResult {
   @override
-  final List<Asset> assets;
+  final List<AssetImpl> assets;
 
   @override
   final bool success;
@@ -462,7 +490,7 @@ abstract class BuildResult implements DryRunResult {
 
 final class _BuildResultImpl implements BuildResult {
   @override
-  final List<Asset> assets;
+  final List<AssetImpl> assets;
 
   @override
   final List<Uri> dependencies;

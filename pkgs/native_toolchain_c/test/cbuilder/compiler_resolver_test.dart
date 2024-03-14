@@ -40,43 +40,44 @@ void main() {
     final envScript = [
       ...await vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        ar: ar,
-        cc: cc,
-        ld: ld,
+        archiver: ar,
+        compiler: cc,
+        linker: ld,
         envScript: envScript,
       ),
     );
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.cCompiler.cc);
-    expect(archiver.uri, buildConfig.cCompiler.ar);
+    expect(compiler.uri, buildConfig.cCompiler.compiler);
+    expect(archiver.uri, buildConfig.cCompiler.archiver);
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
       targetArchitecture: Architecture.arm64,
-      targetOs: OS.windows,
+      targetOS: OS.windows,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
     );
     final resolver = CompilerResolver(
       buildConfig: buildConfig,
       logger: logger,
-      host: Target.androidArm64, // This is never a host.
+      hostOS: OS.android, // This is never a host.
+      hostArchitecture: Architecture.arm64, // This is never a host.
     );
     expect(resolver.resolveCompiler, throwsA(isA<ToolError>()));
     expect(resolver.resolveArchiver, throwsA(isA<ToolError>()));

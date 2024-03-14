@@ -92,7 +92,7 @@ class _AndroidNdkResolver implements ToolResolver {
     for (final hostArchDir in hostArchDirs) {
       final clangUri = hostArchDir.uri
           .resolve('bin/')
-          .resolve(Target.current.os.executableFileName('clang'));
+          .resolve(OS.current.executableFileName('clang'));
       if (await File.fromUri(clangUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(
           ToolInstance(
@@ -104,7 +104,7 @@ class _AndroidNdkResolver implements ToolResolver {
       }
       final arUri = hostArchDir.uri
           .resolve('bin/')
-          .resolve(Target.current.os.executableFileName('llvm-ar'));
+          .resolve(OS.current.executableFileName('llvm-ar'));
       if (await File.fromUri(arUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(
           ToolInstance(
@@ -116,7 +116,7 @@ class _AndroidNdkResolver implements ToolResolver {
       }
       final ldUri = hostArchDir.uri
           .resolve('bin/')
-          .resolve(Target.current.os.executableFileName('ld.lld'));
+          .resolve(OS.current.executableFileName('ld.lld'));
       if (await File.fromUri(arUri).exists()) {
         result.add(await CliVersionResolver.lookupVersion(
           ToolInstance(

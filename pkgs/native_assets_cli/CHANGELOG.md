@@ -1,6 +1,8 @@
-## 0.4.3-wip
+## 0.5.0-wip
 
-- Bump examples dependencies to path dependencies. (2x)
+- **Breaking change** Completely rewritten API.
+  https://github.com/dart-lang/native/pull/946
+- Bump examples dependencies to path dependencies.
 
 ## 0.4.2
 

@@ -88,11 +88,11 @@ class PackageGraph {
 
   PackageGraph(this.map);
 
-  /// Construct a graph from the JSON produced by `dart pub deps --json`.
+  /// Constructs a graph from the JSON produced by `dart pub deps --json`.
   factory PackageGraph.fromPubDepsJsonString(String json) =>
       PackageGraph.fromPubDepsJson(jsonDecode(json) as Map<dynamic, dynamic>);
 
-  /// Construct a graph from the JSON produced by `dart pub deps --json`.
+  /// Constructs a graph from the JSON produced by `dart pub deps --json`.
   factory PackageGraph.fromPubDepsJson(Map<dynamic, dynamic> map) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;

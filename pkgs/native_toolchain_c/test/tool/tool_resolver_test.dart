@@ -59,9 +59,8 @@ void main() {
 
   test('RelativeToolResolver', () async {
     final tempUri = await tempDirForTest();
-    final barExeUri =
-        tempUri.resolve(Target.current.os.executableFileName('bar'));
-    final bazExeName = Target.current.os.executableFileName('baz');
+    final barExeUri = tempUri.resolve(OS.current.executableFileName('bar'));
+    final bazExeName = OS.current.executableFileName('baz');
     final bazExeUri = tempUri.resolve(bazExeName);
     await File.fromUri(barExeUri).writeAsString('dummy');
     await File.fromUri(bazExeUri).writeAsString('dummy');
@@ -90,9 +89,8 @@ void main() {
 
   test('logger', () async {
     final tempUri = await tempDirForTest();
-    final barExeUri =
-        tempUri.resolve(Target.current.os.executableFileName('bar'));
-    final bazExeName = Target.current.os.executableFileName('baz');
+    final barExeUri = tempUri.resolve(OS.current.executableFileName('bar'));
+    final bazExeName = OS.current.executableFileName('baz');
     final bazExeUri = tempUri.resolve(bazExeName);
     await File.fromUri(barExeUri).writeAsString('dummy');
     final barResolver = InstallLocationResolver(

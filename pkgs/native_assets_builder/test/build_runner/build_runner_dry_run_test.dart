@@ -24,20 +24,34 @@ void main() async {
         logger: logger,
       );
 
-      final dryRunAssets = (await dryRun(packageUri, logger, dartExecutable))
-          .assets
-          .where((element) => element.target == Target.current)
-          .toList();
-      final result = await build(packageUri, logger, dartExecutable);
+      final dryRunResult = await dryRun(
+        packageUri,
+        logger,
+        dartExecutable,
+      );
+      final dryRunAssets = dryRunResult.assets.toList();
+      final result = await build(
+        packageUri,
+        logger,
+        dartExecutable,
+      );
 
-      expect(dryRunAssets.length, result.assets.length);
+      // Every OS has more than one architecture.
+      expect(dryRunAssets.length, greaterThan(result.assets.length));
       for (var i = 0; i < dryRunAssets.length; i++) {
-        final dryRunAsset = dryRunAssets[0];
+        final dryRunAsset = dryRunAssets[i];
         final buildAsset = result.assets[0];
-        expect(dryRunAsset.linkMode, buildAsset.linkMode);
         expect(dryRunAsset.id, buildAsset.id);
-        expect(dryRunAsset.target, buildAsset.target);
-        // The target folders are different, so the paths are different.
+        // The build runner expands NativeCodeAssets to all architectures.
+        expect(buildAsset.file, isNotNull);
+        expect(dryRunAsset.file, isNull);
+        if (dryRunAsset is NativeCodeAssetImpl &&
+            buildAsset is NativeCodeAssetImpl) {
+          expect(dryRunAsset.architecture, isNotNull);
+          expect(buildAsset.architecture, isNotNull);
+          expect(dryRunAsset.os, buildAsset.os);
+          expect(dryRunAsset.linkMode, buildAsset.linkMode);
+        }
       }
 
       final dryRunDir = packageUri.resolve(
