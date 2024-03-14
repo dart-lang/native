@@ -1419,19 +1419,19 @@ JniResult Build_Partition__getBuildTimeMillis(jobject self_) {
   return (JniResult){.value = {.j = _result}, .exception = check_exception()};
 }
 
-jmethodID _m_Build_Partition__equals1 = NULL;
+jmethodID _m_Build_Partition__equals = NULL;
 FFI_PLUGIN_EXPORT
-JniResult Build_Partition__equals1(jobject self_, jobject object) {
+JniResult Build_Partition__equals(jobject self_, jobject object) {
   load_env();
   load_class_global_ref(&_c_Build_Partition, "android/os/Build$Partition");
   if (_c_Build_Partition == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
-  load_method(_c_Build_Partition, &_m_Build_Partition__equals1, "equals",
+  load_method(_c_Build_Partition, &_m_Build_Partition__equals, "equals",
               "(Ljava/lang/Object;)Z");
-  if (_m_Build_Partition__equals1 == NULL)
+  if (_m_Build_Partition__equals == NULL)
     return (JniResult){.value = {.j = 0}, .exception = check_exception()};
   uint8_t _result = (*jniEnv)->CallBooleanMethod(
-      jniEnv, self_, _m_Build_Partition__equals1, object);
+      jniEnv, self_, _m_Build_Partition__equals, object);
   return (JniResult){.value = {.z = _result}, .exception = check_exception()};
 }
 

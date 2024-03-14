@@ -2542,19 +2542,19 @@ class Build_Partition extends jni.JObject {
     return _getBuildTimeMillis(reference.pointer).long;
   }
 
-  static final _equals1 = jniLookup<
+  static final _equals = jniLookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("Build_Partition__equals1")
+                  ffi.Pointer<ffi.Void>)>>("Build_Partition__equals")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean equals(java.lang.Object object)
-  bool equals1(
+  bool equals(
     jni.JObject object,
   ) {
-    return _equals1(reference.pointer, object.reference.pointer).boolean;
+    return _equals(reference.pointer, object.reference.pointer).boolean;
   }
 
   static final _hashCode1 = jniLookup<
