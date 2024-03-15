@@ -38,7 +38,9 @@ void main() async {
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
-          'hook/build.dart',
+          // TODO(https://github.com/dart-lang/native/issues/823): Update after
+          // change is rolled into Dart SDK.
+          'build.dart',
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_name=$name',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
@@ -83,7 +85,9 @@ void main() async {
           dependencies,
           [
             testPackageUri.resolve('data/asset.txt'),
-            testPackageUri.resolve('hook/build.dart'),
+            // TODO(https://github.com/dart-lang/native/issues/823): Update after
+            // change is rolled into Dart SDK.
+            testPackageUri.resolve('build.dart'),
           ],
         );
       }
