@@ -250,7 +250,7 @@ class $name implements ${w.ffiLibraryPrefix}.Finalizable {
   /// Return a pointer to this object.
   $idType get pointer => _id;
 
-  $idType _retainAndReturnId() {
+  $idType retainAndReturnPointer() {
     _lib.$retain(_id.cast());
     return _id;
   }

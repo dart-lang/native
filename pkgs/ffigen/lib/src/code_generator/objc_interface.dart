@@ -412,7 +412,7 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
       ObjCInterface.generateGetId(value, objCRetain);
 
   static String generateGetId(String value, bool objCRetain) =>
-      objCRetain ? '$value._retainAndReturnId()' : '$value._id';
+      objCRetain ? '$value.retainAndReturnPointer()' : '$value._id';
 
   @override
   String convertFfiDartTypeToDartType(
