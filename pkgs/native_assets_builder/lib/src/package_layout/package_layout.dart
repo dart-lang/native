@@ -86,15 +86,20 @@ class PackageLayout {
   /// All packages in [packageConfig] with native assets.
   ///
   /// Whether a package has native assets is defined by whether it contains
-  /// a `build.dart`.
+  /// a `hook/build.dart`.
   ///
-  /// `package:native` itself is excluded.
+  /// For backwards compatibility, a toplevel `build.dart` is also supported.
   late final Future<List<Package>> packagesWithNativeAssets = () async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
-        if (await File.fromUri(packageRoot.resolve('build.dart')).exists()) {
+        if (await File.fromUri(
+              packageRoot.resolve('hook/').resolve('build.dart'),
+            ).exists() ||
+            await File.fromUri(
+              packageRoot.resolve('build.dart'),
+            ).exists()) {
           result.add(package);
         }
       }

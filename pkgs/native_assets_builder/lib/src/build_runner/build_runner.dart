@@ -259,7 +259,8 @@ class NativeAssetsBuildRunner {
   }) async {
     final outDir = config.outputDirectory;
     final configFile = outDir.resolve('../config.yaml');
-    final buildDotDart = config.packageRoot.resolve('build.dart');
+    final buildHook = config.packageRoot.resolve('hook/').resolve('build.dart');
+    final buildHookLegacy = config.packageRoot.resolve('build.dart');
     final configFileContents = config.toYamlString();
     logger.info('config.yaml contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
@@ -269,9 +270,13 @@ class NativeAssetsBuildRunner {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
     }
+
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
-      buildDotDart.toFilePath(),
+      if (await File.fromUri(buildHook).exists())
+        buildHook.toFilePath()
+      else
+        buildHookLegacy.toFilePath(),
       '--config=${configFile.toFilePath()}',
     ];
     final result = await runProcess(

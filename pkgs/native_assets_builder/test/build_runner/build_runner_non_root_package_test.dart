@@ -48,13 +48,16 @@ void main() async {
         expect(
           result.dependencies,
           [
-            packageUri.resolve('build.dart'),
+            packageUri.resolve('hook/build.dart'),
             packageUri.resolve('src/native_add.c'),
           ],
         );
         expect(
           logMessages.join('\n'),
-          contains('native_add${Platform.pathSeparator}build.dart'),
+          contains(
+            'native_add${Platform.pathSeparator}hook'
+            '${Platform.pathSeparator}build.dart',
+          ),
         );
       }
     });

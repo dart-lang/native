@@ -2,6 +2,8 @@
 
 - **Breaking change** Completely rewritten API.
   https://github.com/dart-lang/native/pull/946
+- **Breaking change** Move `build.dart` to `hook/build.dart`.
+  https://github.com/dart-lang/native/issues/823
 - Bump examples dependencies to path dependencies.
 
 ## 0.4.2

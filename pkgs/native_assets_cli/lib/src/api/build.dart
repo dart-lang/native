@@ -66,7 +66,7 @@ import 'build_output.dart';
 ///
 ///       output.addDependencies([
 ///         assetSourcePath,
-///         config.packageRoot.resolve('build.dart'),
+///         config.packageRoot.resolve('hook/build.dart'),
 ///       ]);
 ///     }
 ///

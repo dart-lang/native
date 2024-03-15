@@ -1,5 +1,5 @@
 name: package_with_metadata
-description: Sets some metadata in its build.dart
+description: Sets some metadata in its hook/build.dart
 version: 0.1.0
 
 publish_to: none

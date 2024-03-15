@@ -38,7 +38,7 @@ void main() async {
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
-          'build.dart',
+          'hook/build.dart',
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_name=$name',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
@@ -83,7 +83,7 @@ void main() async {
           dependencies,
           [
             testPackageUri.resolve('data/asset.txt'),
-            testPackageUri.resolve('build.dart'),
+            testPackageUri.resolve('hook/build.dart'),
           ],
         );
       }

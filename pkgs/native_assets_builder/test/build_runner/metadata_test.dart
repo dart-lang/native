@@ -31,8 +31,10 @@ void main() async {
         expect(
             logMessages.join('\n'),
             stringContainsInOrder([
-              'package_with_metadata${Platform.pathSeparator}build.dart',
-              'package_reading_metadata${Platform.pathSeparator}build.dart',
+              'package_with_metadata${Platform.pathSeparator}hook'
+                  '${Platform.pathSeparator}build.dart',
+              'package_reading_metadata${Platform.pathSeparator}hook'
+                  '${Platform.pathSeparator}build.dart',
               '{some_int: 3, some_key: some_value}',
             ]));
       }
