@@ -250,7 +250,11 @@ class $name implements ${w.ffiLibraryPrefix}.Finalizable {
   /// Return a pointer to this object.
   $idType get pointer => _id;
 
-  $idType _retainAndReturnId() {
+  /// Retain a reference to this object and then return the pointer. This
+  /// reference must be released when you are done with it. If you wrap this
+  /// reference in another object, make sure to release it but not retain it:
+  /// `castFromPointer(lib, pointer, retain: false, release: true)`
+  $idType retainAndReturnPointer() {
     _lib.$retain(_id.cast());
     return _id;
   }
