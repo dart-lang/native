@@ -67,7 +67,7 @@ void run({required TestRunnerCallback testRunner}) {
         // The actual expect here does not matter. I am just being paranoid
         // against assigning to `_` because compiler may optimize it. (It has
         // side effect of calling FFI but still.)
-        expect(random.reference, isNot(nullptr));
+        expect(random.reference.pointer, isNot(nullptr));
       });
     }
   });
@@ -76,7 +76,7 @@ void run({required TestRunnerCallback testRunner}) {
       () {
     for (int i = 0; i < k256; i++) {
       final random = newRandom();
-      expect(random.reference, isNot(nullptr));
+      expect(random.reference.pointer, isNot(nullptr));
       random.release();
     }
   });
@@ -86,7 +86,7 @@ void run({required TestRunnerCallback testRunner}) {
       using((arena) {
         for (int i = 0; i < 256; i++) {
           final r = newRandom()..releasedBy(arena);
-          expect(r.reference, isNot(nullptr));
+          expect(r.reference.pointer, isNot(nullptr));
         }
       });
     }
@@ -102,6 +102,20 @@ void run({required TestRunnerCallback testRunner}) {
       expect(rInt, isA<int>());
     }
   });
+
+  void testFinalizer() {
+    testRunner('Finalizer correctly removes the references', () {
+      // We are checking if we can run this for large number of times.
+      // More than the number of available global references.
+      for (var i = 0; i < k256; ++i) {
+        final random = newRandom();
+        expect(random.reference.pointer, isNot(nullptr));
+        if (i % k4 == 0) {
+          doGC();
+        }
+      }
+    });
+  }
 
   void testRefValidityAfterGC(int delayInSeconds) {
     testRunner('Validate reference after GC & ${delayInSeconds}s sleep', () {
@@ -122,6 +136,7 @@ void run({required TestRunnerCallback testRunner}) {
 
   // Dart_ExecuteInternalCommand doesn't exist in Android.
   if (!Platform.isAndroid) {
+    testFinalizer();
     testRefValidityAfterGC(1);
     testRefValidityAfterGC(10);
   }

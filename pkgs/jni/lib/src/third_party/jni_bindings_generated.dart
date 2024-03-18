@@ -224,6 +224,42 @@ class JniBindings {
   late final _resultFor = _resultForPtr
       .asFunction<void Function(ffi.Pointer<CallbackResult>, JObjectPtr)>();
 
+  Dart_FinalizableHandle newFinalizableHandle(
+    Object object,
+    JObjectPtr reference,
+    int refType,
+  ) {
+    return _newFinalizableHandle(
+      object,
+      reference,
+      refType,
+    );
+  }
+
+  late final _newFinalizableHandlePtr = _lookup<
+      ffi.NativeFunction<
+          Dart_FinalizableHandle Function(
+              ffi.Handle, JObjectPtr, ffi.Int32)>>('newFinalizableHandle');
+  late final _newFinalizableHandle = _newFinalizableHandlePtr
+      .asFunction<Dart_FinalizableHandle Function(Object, JObjectPtr, int)>();
+
+  void deleteFinalizableHandle(
+    Dart_FinalizableHandle finalizableHandle,
+    Object object,
+  ) {
+    return _deleteFinalizableHandle(
+      finalizableHandle,
+      object,
+    );
+  }
+
+  late final _deleteFinalizableHandlePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              Dart_FinalizableHandle, ffi.Handle)>>('deleteFinalizableHandle');
+  late final _deleteFinalizableHandle = _deleteFinalizableHandlePtr
+      .asFunction<void Function(Dart_FinalizableHandle, Object)>();
+
   ffi.Pointer<GlobalJniEnvStruct> GetGlobalEnv() {
     return _GetGlobalEnv();
   }
@@ -2002,6 +2038,10 @@ final class _opaque_pthread_cond_t extends ffi.Struct {
   @ffi.Array.multi([40])
   external ffi.Array<ffi.Char> __opaque;
 }
+
+typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+
+final class _Dart_FinalizableHandle extends ffi.Opaque {}
 
 final class GlobalJniEnvStruct extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;

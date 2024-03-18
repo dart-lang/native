@@ -5,6 +5,8 @@
 #pragma once
 
 // Note: include appropriate system jni.h as found by CMake, not third_party/jni.h.
+#include "include/dart_api_dl.h"
+
 #include <jni.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -388,3 +390,12 @@ JniResult PortProxy__newInstance(jobject binaryName,
                                  int64_t functionPtr);
 
 FFI_PLUGIN_EXPORT void resultFor(CallbackResult* result, jobject object);
+
+FFI_PLUGIN_EXPORT
+Dart_FinalizableHandle newFinalizableHandle(Dart_Handle object,
+                                            jobject reference,
+                                            jobjectRefType refType);
+
+FFI_PLUGIN_EXPORT
+void deleteFinalizableHandle(Dart_FinalizableHandle finalizableHandle,
+                             Dart_Handle object);

@@ -8,8 +8,6 @@
 
 #include "dartjni.h"
 
-#include "include/dart_api_dl.h"
-
 void initAllLocks(JniLocks* locks) {
   init_lock(&locks->classLoadingLock);
 }
@@ -666,6 +664,46 @@ void resultFor(CallbackResult* result, jobject object) {
   release_lock(&result->lock);
 }
 
+void doNotFinalize(void* isolate_callback_data, void* peer) {}
+
+void finalizeLocal(void* isolate_callback_data, void* peer) {
+  attach_thread();
+  (*jniEnv)->DeleteLocalRef(jniEnv, peer);
+}
+
+void finalizeGlobal(void* isolate_callback_data, void* peer) {
+  attach_thread();
+  (*jniEnv)->DeleteGlobalRef(jniEnv, peer);
+}
+
+void finalizeWeakGlobal(void* isolate_callback_data, void* peer) {
+  attach_thread();
+  (*jniEnv)->DeleteWeakGlobalRef(jniEnv, peer);
+}
+
+FFI_PLUGIN_EXPORT
+Dart_FinalizableHandle newFinalizableHandle(Dart_Handle object,
+                                            jobject reference,
+                                            jobjectRefType refType) {
+  switch (refType) {
+    case JNIInvalidRefType:
+      return Dart_NewFinalizableHandle_DL(object, reference, 0, doNotFinalize);
+    case JNILocalRefType:
+      return Dart_NewFinalizableHandle_DL(object, reference, 0, finalizeLocal);
+    case JNIGlobalRefType:
+      return Dart_NewFinalizableHandle_DL(object, reference, 0, finalizeGlobal);
+    case JNIWeakGlobalRefType:
+      return Dart_NewFinalizableHandle_DL(object, reference, 0,
+                                          finalizeWeakGlobal);
+  }
+}
+
+FFI_PLUGIN_EXPORT
+void deleteFinalizableHandle(Dart_FinalizableHandle finalizableHandle,
+                             Dart_Handle object) {
+  return Dart_DeleteFinalizableHandle_DL(finalizableHandle, object);
+}
+
 jclass _c_Object = NULL;
 jclass _c_Long = NULL;
 
@@ -753,4 +791,12 @@ Java_com_github_dart_1lang_jni_PortCleaner_clean(JNIEnv* env,
   Dart_CObject close_signal;
   close_signal.type = Dart_CObject_kNull;
   Dart_PostCObject_DL(port, &close_signal);
+}
+
+JNIEXPORT jobject JNICALL
+Java_com_github_dart_1lang_jni_JniUtils_fromReferenceAddress(JNIEnv* env,
+                                                             jclass clazz,
+                                                             jlong id) {
+  attach_thread();
+  return (jobject)(id);
 }
