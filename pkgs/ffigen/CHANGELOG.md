@@ -3,6 +3,8 @@
 - Global variables are now compatible with the `ffi-native` option.
 - Exposing symbol addresses of functions and globals is now compatible with the
   `ffi-native` option.
+- Add `retainAndReturnPointer` method to ObjC objects and blocks, and add
+  `castFromPointer` method to blocks.
 
 ## 11.0.0
 

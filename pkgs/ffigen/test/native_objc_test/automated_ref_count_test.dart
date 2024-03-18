@@ -283,8 +283,8 @@ void main() {
     }
 
     manualRetainInner2(Pointer<Int32> counter, Pointer<ObjCObject> rawPointer) {
-      final obj = ArcTestObject.castFromPointer(
-          lib, rawPointer, retain: false, release: true);
+      final obj = ArcTestObject.castFromPointer(lib, rawPointer,
+          retain: false, release: true);
       expect(counter.value, 1);
     }
 
