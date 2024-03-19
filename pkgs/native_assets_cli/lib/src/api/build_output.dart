@@ -2,18 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:yaml/yaml.dart';
+import 'package:yaml/yaml.dart' show loadYaml;
 
 import '../model/dependencies.dart';
 import '../model/metadata.dart';
 import '../utils/datetime.dart';
 import '../utils/file.dart';
+import '../utils/json.dart';
 import '../utils/map.dart';
-import '../utils/yaml.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';

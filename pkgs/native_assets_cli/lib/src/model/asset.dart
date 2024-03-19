@@ -5,19 +5,19 @@
 part of '../api/asset.dart';
 
 abstract final class AssetImpl implements Asset {
-  Map<String, Object> toYaml(Version version);
+  Map<String, Object> toJson(Version version);
 
-  static List<AssetImpl> listFromYamlList(YamlList list) {
+  static List<AssetImpl> listFromJsonList(List<Object?> list) {
     final assets = <AssetImpl>[];
-    for (final yamlElement in list) {
-      final yamlMap = as<YamlMap>(yamlElement);
-      final type = yamlMap[NativeCodeAssetImpl.typeKey];
+    for (final jsonElement in list) {
+      final jsonMap = as<Map<Object?, Object?>>(jsonElement);
+      final type = jsonMap[NativeCodeAssetImpl.typeKey];
       switch (type) {
         case NativeCodeAsset.type:
         case null: // Backwards compatibility with v1.0.0.
-          assets.add(NativeCodeAssetImpl.fromYaml(yamlMap));
+          assets.add(NativeCodeAssetImpl.fromJson(jsonMap));
         case DataAsset.type:
-          assets.add(DataAssetImpl.fromYaml(yamlMap));
+          assets.add(DataAssetImpl.fromJson(jsonMap));
         default:
         // Do nothing, some other launcher might define it's own asset types.
       }

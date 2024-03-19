@@ -146,7 +146,7 @@ void main() async {
     expect(fromConfig, equals(buildConfig2));
   });
 
-  test('BuildConfig toYaml fromConfig', () {
+  test('BuildConfig toJson fromConfig', () {
     final buildConfig1 = BuildConfigImpl(
       outDir: outDirUri,
       packageName: packageName,
@@ -162,7 +162,7 @@ void main() async {
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
-    final configFile = buildConfig1.toYaml();
+    final configFile = buildConfig1.toJson();
     final config = Config(fileParsed: configFile);
     final fromConfig = BuildConfigImpl.fromConfig(config);
     expect(fromConfig, equals(buildConfig1));
@@ -213,7 +213,7 @@ void main() async {
     expect(buildConfig1.hashCode == buildConfig2.hashCode, false);
   });
 
-  test('BuildConfig toYaml fromYaml', () {
+  test('BuildConfig toJson fromJson', () {
     final outDir = outDirUri;
     final buildConfig1 = BuildConfigImpl(
       outDir: outDir,
@@ -239,7 +239,8 @@ void main() async {
         }),
       },
     );
-    final yamlString = buildConfig1.toYamlString();
+
+    final yamlString = yamlEncode(buildConfig1.toJson());
     final expectedYamlString = '''build_mode: release
 c_compiler:
   cc: ${fakeClang.toFilePath()}
@@ -264,6 +265,42 @@ target_os: ios
 version: ${BuildConfigImpl.latestVersion}''';
     expect(yamlString, equals(expectedYamlString));
 
+    final jsonString = buildConfig1.toJsonString();
+    final expectedJsonString = '''{
+  "build_mode": "release",
+  "c_compiler": {
+    "cc": "${fakeClang.toFilePath()}",
+    "ld": "${fakeLd.toFilePath()}"
+  },
+  "dependency_metadata": {
+    "bar": {
+      "key": "value"
+    },
+    "foo": {
+      "a": 321,
+      "z": [
+        "z",
+        "a"
+      ]
+    }
+  },
+  "link_mode_preference": "prefer-static",
+  "out_dir": "${outDir.toFilePath()}",
+  "package_name": "$packageName",
+  "package_root": "${tempUri.toFilePath()}",
+  "supported_asset_types": [
+    "${NativeCodeAsset.type}"
+  ],
+  "target_architecture": "arm64",
+  "target_ios_sdk": "iphoneos",
+  "target_os": "ios",
+  "version": "${BuildConfigImpl.latestVersion}"
+}''';
+    expect(
+      jsonString.replaceAll('\\\\', '/'),
+      equals(expectedJsonString.replaceAll('\\', '/')),
+    );
+
     final buildConfig2 = BuildConfigImpl.fromConfig(
       Config.fromConfigFileContents(
         fileContents: yamlString,
@@ -272,7 +309,7 @@ version: ${BuildConfigImpl.latestVersion}''';
     expect(buildConfig2, buildConfig1);
   });
 
-  test('BuildConfig fromYaml v1.0.0 keeps working', () {
+  test('BuildConfig from yaml v1.0.0 keeps working', () {
     final outDir = outDirUri;
     final yamlString = '''build_mode: release
 c_compiler:
@@ -442,7 +479,7 @@ version: 1.0.0''';
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
-    final configFileContents = buildConfig.toYamlString();
+    final configFileContents = buildConfig.toJsonString();
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
@@ -497,7 +534,7 @@ version: 1.0.0''';
       linkModePreference: LinkModePreferenceImpl.dynamic,
     );
 
-    final configFile = buildConfig1.toYaml();
+    final configFile = buildConfig1.toJson();
     final config = Config(fileParsed: configFile);
     final fromConfig = BuildConfigImpl.fromConfig(config);
     expect(fromConfig, equals(buildConfig1));
@@ -543,7 +580,7 @@ version: 1.0.0''';
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, 'd95547e3b45e88a475739eb4fe03600a');
+      expect(name1, '6723f3af2ba4cd70660494965ac55c2a');
 
       // Build folder different due to metadata.
       final name2 = BuildConfigImpl.checksum(
@@ -661,7 +698,7 @@ version: 1.0.0''';
       targetOS: OSImpl.windows,
       linkModePreference: LinkModePreferenceImpl.dynamic,
     );
-    buildConfig.toYamlString();
+    buildConfig.toJsonString();
     // No crash.
   });
 

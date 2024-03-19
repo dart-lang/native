@@ -55,9 +55,9 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferDynamic,
     );
-    final configYaml = (config1 as BuildConfigImpl).toYamlString();
-    buildConfigUri = tempUri.resolve('build_config.yaml');
-    await File.fromUri(buildConfigUri).writeAsString(configYaml);
+    final configJson = (config1 as BuildConfigImpl).toJsonString();
+    buildConfigUri = tempUri.resolve('build_config.json');
+    await File.fromUri(buildConfigUri).writeAsString(configJson);
   });
 
   test('build method', () async {

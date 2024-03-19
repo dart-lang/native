@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
+import 'package:yaml/yaml.dart';
+import 'package:yaml_edit/yaml_edit.dart';
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -138,4 +140,16 @@ extension UriExtension on Uri {
     }
     return File.fromUri(this);
   }
+}
+
+String yamlEncode(Object yamlEncoding) {
+  final editor = YamlEditor('');
+  editor.update(
+    [],
+    wrapAsYamlNode(
+      yamlEncoding,
+      collectionStyle: CollectionStyle.BLOCK,
+    ),
+  );
+  return editor.toString();
 }

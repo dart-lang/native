@@ -56,8 +56,8 @@ void main() async {
 
       final dryRunDir = packageUri.resolve(
           '.dart_tool/native_assets_builder/dry_run_${Target.current.os}_dynamic/');
-      expect(File.fromUri(dryRunDir.resolve('config.yaml')), exists);
-      expect(File.fromUri(dryRunDir.resolve('out/build_output.yaml')), exists);
+      expect(File.fromUri(dryRunDir.resolve('config.json')), exists);
+      expect(File.fromUri(dryRunDir.resolve('out/build_output.json')), exists);
       //
     });
   });
