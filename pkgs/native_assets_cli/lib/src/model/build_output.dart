@@ -48,13 +48,20 @@ final class BuildOutputImpl implements BuildOutput {
   static const _timestampKey = 'timestamp';
   static const _versionKey = 'version';
 
-  factory BuildOutputImpl.fromYamlString(String yaml) {
-    final yamlObject = loadYaml(yaml);
-    return BuildOutputImpl.fromYaml(as<YamlMap>(yamlObject));
+  factory BuildOutputImpl.fromJsonString(String jsonString) {
+    final Object? json;
+    if (jsonString.startsWith('{')) {
+      json = jsonDecode(jsonString);
+    } else {
+      // TODO(https://github.com/dart-lang/native/issues/1000): At some point
+      // remove the YAML fallback.
+      json = loadYaml(jsonString);
+    }
+    return BuildOutputImpl.fromJson(as<Map<Object?, Object?>>(json));
   }
 
-  factory BuildOutputImpl.fromYaml(YamlMap yamlMap) {
-    final outputVersion = Version.parse(as<String>(yamlMap['version']));
+  factory BuildOutputImpl.fromJson(Map<Object?, Object?> jsonMap) {
+    final outputVersion = Version.parse(as<String>(jsonMap['version']));
     if (outputVersion.major > latestVersion.major) {
       throw FormatException(
         'The output version $outputVersion is newer than the '
@@ -71,29 +78,31 @@ final class BuildOutputImpl implements BuildOutput {
     }
 
     final assets =
-        AssetImpl.listFromYamlList(as<YamlList>(yamlMap[_assetsKey]));
+        AssetImpl.listFromJsonList(as<List<Object?>>(jsonMap[_assetsKey]));
 
     return BuildOutputImpl(
-      timestamp: DateTime.parse(as<String>(yamlMap[_timestampKey])),
+      timestamp: DateTime.parse(as<String>(jsonMap[_timestampKey])),
       assets: assets,
       dependencies:
-          Dependencies.fromYaml(as<YamlList?>(yamlMap[_dependenciesKey])),
-      metadata: Metadata.fromYaml(as<YamlMap?>(yamlMap[_metadataKey])),
+          Dependencies.fromJson(as<List<Object?>?>(jsonMap[_dependenciesKey])),
+      metadata:
+          Metadata.fromJson(as<Map<Object?, Object?>?>(jsonMap[_metadataKey])),
     );
   }
 
-  Map<String, Object> toYaml(Version version) => {
+  Map<String, Object> toJson(Version version) => {
         _timestampKey: timestamp.toString(),
         _assetsKey: [
-          for (final asset in _assets) asset.toYaml(version),
+          for (final asset in _assets) asset.toJson(version),
         ],
         if (_dependencies.dependencies.isNotEmpty)
-          _dependenciesKey: _dependencies.toYaml(),
-        _metadataKey: _metadata.toYaml(),
+          _dependenciesKey: _dependencies.toJson(),
+        _metadataKey: _metadata.toJson(),
         _versionKey: version.toString(),
       }..sortOnKey();
 
-  String toYamlString(Version version) => yamlEncode(toYaml(version));
+  String toJsonString(Version version) =>
+      const JsonEncoder.withIndent('  ').convert(toJson(version));
 
   /// The version of [BuildOutputImpl].
   ///
@@ -105,34 +114,50 @@ final class BuildOutputImpl implements BuildOutput {
   /// representation in the protocol.
   ///
   /// [BuildOutput.latestVersion] is tied to [BuildConfig.latestVersion]. This
-  /// enables making the yaml serialization in `build.dart` dependent on the
+  /// enables making the JSON serialization in `build.dart` dependent on the
   /// version of the Dart or Flutter SDK. When there is a need to split the
   /// versions of BuildConfig and BuildOutput, the BuildConfig should start
   /// passing the highest supported version of BuildOutput.
   static Version latestVersion = BuildConfigImpl.latestVersion;
 
-  static const fileName = 'build_output.yaml';
+  static const fileName = 'build_output.json';
+  static const fileNameV1_1_0 = 'build_output.yaml';
 
-  /// Reads the YAML file from [outDir]/[fileName].
+  /// Reads the JSON file from [outDir]/[fileName].
   static Future<BuildOutputImpl?> readFromFile({required Uri outDir}) async {
     final buildOutputUri = outDir.resolve(fileName);
     final buildOutputFile = File.fromUri(buildOutputUri);
-    if (!await buildOutputFile.exists()) {
-      return null;
+    if (await buildOutputFile.exists()) {
+      return BuildOutputImpl.fromJsonString(
+          await buildOutputFile.readAsString());
     }
-    return BuildOutputImpl.fromYamlString(await buildOutputFile.readAsString());
+
+    final buildOutputUriV1_1_0 = outDir.resolve(fileNameV1_1_0);
+    final buildOutputFileV1_1_0 = File.fromUri(buildOutputUriV1_1_0);
+    if (await buildOutputFileV1_1_0.exists()) {
+      return BuildOutputImpl.fromJsonString(
+          await buildOutputFileV1_1_0.readAsString());
+    }
+
+    return null;
   }
 
-  /// Writes the [toYamlString] to [BuildConfig.outputDirectory]/[fileName].
+  /// Writes the [toJsonString] to [BuildConfig.outputDirectory]/[fileName].
   Future<void> writeToFile({required BuildConfig config}) async {
+    final configVersion = (config as BuildConfigImpl).version;
     final outDir = config.outputDirectory;
-    final buildOutputUri = outDir.resolve(fileName);
-    final yamlString = toYamlString((config as BuildConfigImpl).version);
-    await File.fromUri(buildOutputUri).writeAsStringCreateDirectory(yamlString);
+    final Uri buildOutputUri;
+    if (configVersion <= Version(1, 1, 0)) {
+      buildOutputUri = outDir.resolve(fileNameV1_1_0);
+    } else {
+      buildOutputUri = outDir.resolve(fileName);
+    }
+    final jsonString = toJsonString(configVersion);
+    await File.fromUri(buildOutputUri).writeAsStringCreateDirectory(jsonString);
   }
 
   @override
-  String toString() => toYamlString(BuildConfigImpl.latestVersion);
+  String toString() => toJsonString(BuildConfigImpl.latestVersion);
 
   @override
   bool operator ==(Object other) {

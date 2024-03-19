@@ -16,9 +16,10 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
     required this.id,
   });
 
-  factory DataAssetImpl.fromYaml(YamlMap yamlMap) => DataAssetImpl(
-        id: as<String>(yamlMap[_idKey]),
-        file: Uri(path: as<String>(yamlMap[_fileKey])),
+  factory DataAssetImpl.fromJson(Map<Object?, Object?> jsonMap) =>
+      DataAssetImpl(
+        id: as<String>(jsonMap[_idKey]),
+        file: Uri(path: as<String>(jsonMap[_fileKey])),
       );
 
   @override
@@ -36,7 +37,7 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
       );
 
   @override
-  Map<String, Object> toYaml(Version version) => {
+  Map<String, Object> toJson(Version version) => {
         _idKey: id,
         _fileKey: file.toFilePath(),
         typeKey: DataAsset.type,
@@ -47,5 +48,5 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
   static const _fileKey = 'file';
 
   @override
-  String toString() => 'DataAsset(${toYaml(BuildOutput.latestVersion)})';
+  String toString() => 'DataAsset(${toJson(BuildOutput.latestVersion)})';
 }

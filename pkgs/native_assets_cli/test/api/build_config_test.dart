@@ -206,8 +206,8 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
     );
-    final configFileContents = (buildConfig as BuildConfigImpl).toYamlString();
-    final configUri = tempUri.resolve('config.yaml');
+    final configFileContents = (buildConfig as BuildConfigImpl).toJsonString();
+    final configUri = tempUri.resolve('config.json');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
     final buildConfigFromArgs = BuildConfig(

@@ -3,21 +3,20 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:pub_semver/pub_semver.dart';
-import 'package:yaml/yaml.dart';
 
 import '../model/target.dart';
+import '../utils/json.dart';
 import '../utils/map.dart';
-import '../utils/yaml.dart';
 import 'architecture.dart';
 import 'build_config.dart';
 import 'build_output.dart';
 import 'os.dart';
 
-part 'native_code_asset.dart';
-part 'data_asset.dart';
 part '../model/asset.dart';
-part '../model/native_code_asset.dart';
 part '../model/data_asset.dart';
+part '../model/native_code_asset.dart';
+part 'data_asset.dart';
+part 'native_code_asset.dart';
 
 /// Data or code bundled with a Dart or Flutter application.
 ///

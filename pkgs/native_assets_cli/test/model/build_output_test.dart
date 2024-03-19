@@ -5,9 +5,10 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/utils/yaml.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
+
+import '../helpers.dart';
 
 void main() {
   late Uri tempUri;
@@ -121,32 +122,88 @@ metadata:
   key: value
 version: ${BuildOutputImpl.latestVersion}''';
 
+  final jsonEncoding = '''{
+  "timestamp": "2022-11-10 13:25:01.000",
+  "assets": [
+    {
+      "architecture": "x64",
+      "file": "path/to/libfoo.so",
+      "id": "package:my_package/foo",
+      "link_mode": {
+        "type": "dynamic_loading_bundle"
+      },
+      "os": "android",
+      "type": "native_code"
+    },
+    {
+      "architecture": "x64",
+      "id": "package:my_package/foo2",
+      "link_mode": {
+        "type": "dynamic_loading_system",
+        "uri": "path/to/libfoo2.so"
+      },
+      "os": "android",
+      "type": "native_code"
+    },
+    {
+      "architecture": "x64",
+      "id": "package:my_package/foo3",
+      "link_mode": {
+        "type": "dynamic_loading_process"
+      },
+      "os": "android",
+      "type": "native_code"
+    },
+    {
+      "architecture": "x64",
+      "id": "package:my_package/foo4",
+      "link_mode": {
+        "type": "dynamic_loading_executable"
+      },
+      "os": "android",
+      "type": "native_code"
+    }
+  ],
+  "dependencies": [
+    "path/to/file.ext"
+  ],
+  "metadata": {
+    "key": "value"
+  },
+  "version": "${BuildOutputImpl.latestVersion}"
+}''';
+
   test('built info yaml', () {
-    final yaml = buildOutput
-        .toYamlString(BuildOutputImpl.latestVersion)
+    final yaml = yamlEncode(buildOutput.toJson(BuildOutputImpl.latestVersion))
         .replaceAll('\\', '/');
     expect(yaml, yamlEncoding);
-    final buildOutput2 = BuildOutputImpl.fromYamlString(yaml);
+
+    final json = buildOutput
+        .toJsonString(BuildOutputImpl.latestVersion)
+        .replaceAll('\\\\', '/');
+    expect(json, jsonEncoding);
+
+    final buildOutput2 = BuildOutputImpl.fromJsonString(yaml);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
   test('built info yaml v1.0.0 parsing keeps working', () {
-    final buildOutput2 = BuildOutputImpl.fromYamlString(yamlEncodingV1_0_0);
+    final buildOutput2 = BuildOutputImpl.fromJsonString(yamlEncodingV1_0_0);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
   test('built info yaml v1.0.0 serialization keeps working', () {
     final yamlEncoding =
-        yamlEncode(buildOutput.toYaml(Version(1, 0, 0))).replaceAll('\\', '/');
+        yamlEncode(buildOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
     expect(yamlEncoding, yamlEncodingV1_0_0);
   });
 
   test('BuildOutput.toString', buildOutput.toString);
 
   test('BuildOutput.hashCode', () {
-    final buildOutput2 = BuildOutputImpl.fromYamlString(yamlEncoding);
+    final buildOutput2 = BuildOutputImpl.fromJsonString(yamlEncoding);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
 
     final buildOutput3 = BuildOutputImpl(
@@ -174,6 +231,26 @@ version: ${BuildOutputImpl.latestVersion}''';
     expect(buildOutput2, buildOutput);
   });
 
+  test('BuildOutput.readFromFile BuildOutput.writeToFile V1.1.0', () async {
+    final outDir = tempUri.resolve('out_dir/');
+    final packageRoot = tempUri.resolve('package_root/');
+    await Directory.fromUri(outDir).create();
+    await Directory.fromUri(packageRoot).create();
+    final config = BuildConfigImpl(
+      outDir: outDir,
+      packageName: 'dontcare',
+      packageRoot: packageRoot,
+      buildMode: BuildModeImpl.debug,
+      targetArchitecture: ArchitectureImpl.arm64,
+      targetOS: OSImpl.macOS,
+      linkModePreference: LinkModePreferenceImpl.dynamic,
+      version: Version(1, 1, 0),
+    );
+    await buildOutput.writeToFile(config: config);
+    final buildOutput2 = await BuildOutputImpl.readFromFile(outDir: outDir);
+    expect(buildOutput2, buildOutput);
+  });
+
   test('Round timestamp', () {
     final buildOutput3 = BuildOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.372257'),
@@ -184,7 +261,7 @@ version: ${BuildOutputImpl.latestVersion}''';
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildOutput version $version', () {
       expect(
-        () => BuildOutputImpl.fromYamlString('version: $version'),
+        () => BuildOutputImpl.fromJsonString('version: $version'),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
@@ -197,7 +274,7 @@ version: ${BuildOutputImpl.latestVersion}''';
 
   test('format exception', () {
     expect(
-      () => BuildOutputImpl.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
+      () => BuildOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -213,7 +290,7 @@ version: 1.0.0'''),
       throwsFormatException,
     );
     expect(
-      () => BuildOutputImpl.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
+      () => BuildOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -229,7 +306,7 @@ version: 1.0.0'''),
       throwsFormatException,
     );
     expect(
-      () => BuildOutputImpl.fromYamlString('''timestamp: 2022-11-10 13:25:01.000
+      () => BuildOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic

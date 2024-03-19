@@ -16,10 +16,4 @@ void main() {
   });
 
   test('Metadata toString', metadata.toString);
-
-  test('Metadata toYamlString fromYamlString', () {
-    final yamlString = metadata.toYamlString();
-    final metadata2 = Metadata.fromYamlString(yamlString);
-    expect(metadata2, metadata);
-  });
 }

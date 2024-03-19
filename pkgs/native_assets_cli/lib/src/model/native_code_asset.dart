@@ -5,15 +5,15 @@
 part of '../api/asset.dart';
 
 abstract final class LinkModeImpl implements LinkMode {
-  /// Serialization of the current version.
+  /// Serialization of v1.1.0 and newer
   ///
-  /// v1.1.0 does not include the toplevel keys.
+  /// Does not include the toplevel keys.
   ///
   /// ```
   ///   type: dynamic_loading_system
   ///   uri: ${foo3Uri.toFilePath()}
   /// ```
-  Map<String, Object> toYaml();
+  Map<String, Object> toJson();
 
   /// Backwards compatibility with v1.0.0 of the protocol
   ///
@@ -25,7 +25,7 @@ abstract final class LinkModeImpl implements LinkMode {
   ///   path_type: system
   ///   uri: ${foo3Uri.toFilePath()}
   /// ```
-  Map<String, Object> toYamlV1_0_0(Uri? file);
+  Map<String, Object> toJsonV1_0_0(Uri? file);
 
   factory LinkModeImpl(String type, Uri? uri) {
     switch (type) {
@@ -47,10 +47,10 @@ abstract final class LinkModeImpl implements LinkMode {
     throw FormatException('Unknown type: $type.');
   }
 
-  /// v1.1.0 only.
-  factory LinkModeImpl.fromYaml(YamlMap yamlMap) {
-    final type = as<String>(yamlMap[_typeKey]);
-    final uriString = as<String?>(yamlMap[_uriKey]);
+  /// v1.1.0 and newer.
+  factory LinkModeImpl.fromJson(Map<Object?, Object?> jsonMap) {
+    final type = as<String>(jsonMap[_typeKey]);
+    final uriString = as<String?>(jsonMap[_uriKey]);
     final uri = uriString != null ? Uri(path: uriString) : null;
     return LinkModeImpl(type, uri);
   }
@@ -97,12 +97,12 @@ final class DynamicLoadingBundledImpl
   static const _typeValue = 'dynamic_loading_bundle';
 
   @override
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toJson() => {
         DynamicLoadingImpl._typeKey: _typeValue,
       };
 
   @override
-  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+  Map<String, Object> toJsonV1_0_0(Uri? file) => {
         NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
         NativeCodeAssetImpl._pathKey: {
           DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
@@ -122,13 +122,13 @@ final class DynamicLoadingSystemImpl
   static const _typeValueV1_0_0 = 'system';
 
   @override
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toJson() => {
         DynamicLoadingImpl._typeKey: _typeValue,
         DynamicLoadingImpl._uriKey: uri.toFilePath(),
       };
 
   @override
-  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+  Map<String, Object> toJsonV1_0_0(Uri? file) => {
         NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
         NativeCodeAssetImpl._pathKey: {
           DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
@@ -159,12 +159,12 @@ final class LookupInProcessImpl implements DynamicLoadingImpl, LookupInProcess {
   static const _typeValueV1_0_0 = 'process';
 
   @override
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toJson() => {
         DynamicLoadingImpl._typeKey: _typeValue,
       };
 
   @override
-  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+  Map<String, Object> toJsonV1_0_0(Uri? file) => {
         NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
         NativeCodeAssetImpl._pathKey: {
           DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
@@ -184,12 +184,12 @@ final class LookupInExecutableImpl
   static const _typeValueV1_0_0 = 'executable';
 
   @override
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toJson() => {
         DynamicLoadingImpl._typeKey: _typeValue,
       };
 
   @override
-  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+  Map<String, Object> toJsonV1_0_0(Uri? file) => {
         NativeCodeAssetImpl._linkModeKey: DynamicLoadingImpl._typeValueV1_0_0,
         NativeCodeAssetImpl._pathKey: {
           DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
@@ -207,12 +207,12 @@ final class StaticLinkingImpl implements LinkModeImpl, StaticLinking {
   static const _typeValue = 'static';
 
   @override
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toJson() => {
         DynamicLoadingImpl._typeKey: _typeValue,
       };
 
   @override
-  Map<String, Object> toYamlV1_0_0(Uri? file) => {
+  Map<String, Object> toJsonV1_0_0(Uri? file) => {
         NativeCodeAssetImpl._linkModeKey: _typeValue,
       };
 }
@@ -251,42 +251,42 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     }
   }
 
-  factory NativeCodeAssetImpl.fromYaml(YamlMap yamlMap) {
+  factory NativeCodeAssetImpl.fromJson(Map<Object?, Object?> jsonMap) {
     final LinkModeImpl linkMode;
-    final linkModeYaml = yamlMap[_linkModeKey];
-    if (linkModeYaml is String) {
+    final linkModeJson = jsonMap[_linkModeKey];
+    if (linkModeJson is String) {
       // v1.0.0
-      if (linkModeYaml == StaticLinkingImpl._typeValue) {
+      if (linkModeJson == StaticLinkingImpl._typeValue) {
         linkMode = StaticLinkingImpl();
       } else {
-        assert(linkModeYaml == DynamicLoadingImpl._typeValueV1_0_0);
-        final pathYaml = as<YamlMap>(yamlMap[_pathKey]);
+        assert(linkModeJson == DynamicLoadingImpl._typeValueV1_0_0);
+        final pathJson = as<Map<Object?, Object?>>(jsonMap[_pathKey]);
         final type =
-            as<String>(pathYaml[DynamicLoadingImpl._pathTypeKeyV1_0_0]);
-        final uriString = as<String?>(pathYaml[DynamicLoadingImpl._uriKey]);
+            as<String>(pathJson[DynamicLoadingImpl._pathTypeKeyV1_0_0]);
+        final uriString = as<String?>(pathJson[DynamicLoadingImpl._uriKey]);
         final uri = uriString != null ? Uri(path: uriString) : null;
         linkMode = LinkModeImpl(type, uri);
       }
     } else {
-      // v1.1.0
-      linkMode = LinkModeImpl.fromYaml(as<YamlMap>(linkModeYaml));
+      // v1.1.0 and newer.
+      linkMode = LinkModeImpl.fromJson(as<Map<Object?, Object?>>(linkModeJson));
     }
 
-    final fileString = as<String?>(yamlMap[_fileKey]);
+    final fileString = as<String?>(jsonMap[_fileKey]);
     final Uri? file;
     if (fileString != null) {
       file = Uri(path: fileString);
     } else if ((linkMode is DynamicLoadingBundledImpl ||
             linkMode is StaticLinkingImpl) &&
-        yamlMap[_pathKey] != null) {
+        jsonMap[_pathKey] != null) {
       // Compatibility with v1.0.0.
-      final oldPath = as<String?>(
-          (yamlMap[_pathKey] as YamlMap)[DynamicLoadingImpl._uriKey]);
+      final oldPath = as<String?>((jsonMap[_pathKey]
+          as Map<Object?, Object?>)[DynamicLoadingImpl._uriKey]);
       file = oldPath != null ? Uri(path: oldPath) : null;
     } else {
       file = null;
     }
-    final targetString = as<String?>(yamlMap[_targetKey]);
+    final targetString = as<String?>(jsonMap[_targetKey]);
     final ArchitectureImpl? architecture;
     final OSImpl os;
     if (targetString != null) {
@@ -295,8 +295,8 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
       os = target.os;
       architecture = target.architecture;
     } else {
-      os = OSImpl.fromString(as<String>(yamlMap[_osKey]));
-      final architectureString = as<String?>(yamlMap[_architectureKey]);
+      os = OSImpl.fromString(as<String>(jsonMap[_osKey]));
+      final architectureString = as<String?>(jsonMap[_architectureKey]);
       if (architectureString != null) {
         architecture = ArchitectureImpl.fromString(architectureString);
       } else {
@@ -305,7 +305,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     }
 
     return NativeCodeAssetImpl(
-      id: as<String>(yamlMap[_idKey]),
+      id: as<String>(jsonMap[_idKey]),
       os: os,
       architecture: architecture,
       linkMode: linkMode,
@@ -350,11 +350,11 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
       );
 
   @override
-  Map<String, Object> toYaml(Version version) {
+  Map<String, Object> toJson(Version version) {
     if (version == Version(1, 0, 0)) {
       return {
         _idKey: id,
-        ...linkMode.toYamlV1_0_0(file),
+        ...linkMode.toJsonV1_0_0(file),
         _targetKey: Target.fromArchitectureAndOS(architecture!, os).toString(),
       }..sortOnKey();
     }
@@ -362,7 +362,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
       if (architecture != null) _architectureKey: architecture.toString(),
       if (file != null) _fileKey: file!.toFilePath(),
       _idKey: id,
-      _linkModeKey: linkMode.toYaml(),
+      _linkModeKey: linkMode.toJson(),
       _osKey: os.toString(),
       typeKey: NativeCodeAsset.type,
     }..sortOnKey();
@@ -379,5 +379,5 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
 
   @override
   String toString() =>
-      'NativeCodeAsset(${toYaml(BuildOutputImpl.latestVersion)})';
+      'NativeCodeAsset(${toJson(BuildOutputImpl.latestVersion)})';
 }

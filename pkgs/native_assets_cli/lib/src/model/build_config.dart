@@ -103,9 +103,10 @@ final class BuildConfigImpl implements BuildConfig {
     required LinkModePreferenceImpl linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
+    Version? version,
   }) {
     final nonValidated = BuildConfigImpl._()
-      .._version = latestVersion
+      .._version = version ?? latestVersion
       .._outDir = outDir
       .._packageName = packageName
       .._packageRoot = packageRoot
@@ -120,7 +121,7 @@ final class BuildConfigImpl implements BuildConfig {
       .._dryRun = false
       .._supportedAssetTypes =
           _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
-    final parsedConfigFile = nonValidated.toYaml();
+    final parsedConfigFile = nonValidated.toJson();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfigImpl.fromConfig(config);
   }
@@ -145,7 +146,7 @@ final class BuildConfigImpl implements BuildConfig {
       .._dryRun = true
       .._supportedAssetTypes =
           _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
-    final parsedConfigFile = nonValidated.toYaml();
+    final parsedConfigFile = nonValidated.toJson();
     final config = Config(fileParsed: parsedConfigFile);
     return BuildConfigImpl.fromConfig(config);
   }
@@ -189,7 +190,7 @@ final class BuildConfigImpl implements BuildConfig {
       if (dependencyMetadata != null)
         for (final entry in dependencyMetadata.entries) ...[
           entry.key,
-          json.encode(entry.value.toYaml()),
+          json.encode(entry.value.toJson()),
         ],
       ..._supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
     ].join('###');
@@ -217,9 +218,9 @@ final class BuildConfigImpl implements BuildConfig {
   /// and packages through `build.dart` invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the YAML
+  /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
-  static Version latestVersion = Version(1, 1, 0);
+  static Version latestVersion = Version(1, 2, 0);
 
   factory BuildConfigImpl.fromConfig(Config config) {
     final result = BuildConfigImpl._().._cCompiler = CCompilerConfigImpl._();
@@ -246,6 +247,9 @@ final class BuildConfigImpl implements BuildConfig {
     Map<String, String>? environment,
     Uri? workingDirectory,
   }) {
+    // TODO(https://github.com/dart-lang/native/issues/1000): At some point,
+    // migrate away from package:cli_config, to get rid of package:yaml
+    // dependency.
     final config = Config.fromArgumentsSync(
       arguments: args,
       environment: environment,
@@ -451,10 +455,10 @@ final class BuildConfigImpl implements BuildConfig {
     return result.sortOnKey();
   }
 
-  Map<String, Object> toYaml() {
-    late Map<String, Object> cCompilerYaml;
+  Map<String, Object> toJson() {
+    late Map<String, Object> cCompilerJson;
     if (!dryRun) {
-      cCompilerYaml = _cCompiler.toYaml();
+      cCompilerJson = _cCompiler.toJson();
     }
 
     return {
@@ -464,7 +468,7 @@ final class BuildConfigImpl implements BuildConfig {
       OSImpl.configKey: _targetOS.toString(),
       LinkModePreferenceImpl.configKey: _linkModePreference.toString(),
       supportedAssetTypesKey: _supportedAssetTypes,
-      _versionKey: latestVersion.toString(),
+      _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
         BuildModeImpl.configKey: _buildMode.toString(),
@@ -473,18 +477,18 @@ final class BuildConfigImpl implements BuildConfig {
           IOSSdkImpl.configKey: _targetIOSSdk.toString(),
         if (_targetAndroidNdkApi != null)
           targetAndroidNdkApiConfigKey: _targetAndroidNdkApi,
-        if (cCompilerYaml.isNotEmpty)
-          CCompilerConfigImpl.configKey: cCompilerYaml,
+        if (cCompilerJson.isNotEmpty)
+          CCompilerConfigImpl.configKey: cCompilerJson,
         if (_dependencyMetadata != null && _dependencyMetadata.isNotEmpty)
           dependencyMetadataConfigKey: {
             for (final entry in _dependencyMetadata.entries)
-              entry.key: entry.value.toYaml(),
+              entry.key: entry.value.toJson(),
           },
       },
     }.sortOnKey();
   }
 
-  String toYamlString() => yamlEncode(toYaml());
+  String toJsonString() => const JsonEncoder.withIndent('  ').convert(toJson());
 
   @override
   bool operator ==(Object other) {
@@ -533,7 +537,7 @@ final class BuildConfigImpl implements BuildConfig {
       ]);
 
   @override
-  String toString() => 'BuildConfig.build(${toYaml()})';
+  String toString() => 'BuildConfig.build(${toJson()})';
 
   void _ensureNotDryRun() {
     if (dryRun) {
