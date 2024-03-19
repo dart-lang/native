@@ -61,22 +61,6 @@ abstract final class LinkModeImpl implements LinkMode {
 
 abstract final class DynamicLoadingImpl
     implements LinkModeImpl, DynamicLoading {
-  factory DynamicLoadingImpl(String type, Uri? uri) {
-    switch (type) {
-      case DynamicLoadingBundledImpl._typeValueV1_0_0:
-      // For backwards compatibility.
-      case DynamicLoadingBundledImpl._typeValue:
-        return DynamicLoadingBundledImpl();
-      case DynamicLoadingSystemImpl._typeValue:
-        return DynamicLoadingSystemImpl(uri!);
-      case LookupInExecutableImpl._typeValue:
-        return LookupInExecutableImpl();
-      case LookupInProcessImpl._typeValue:
-        return LookupInProcessImpl();
-    }
-    throw FormatException('Unknown type: $type.');
-  }
-
   static const _pathTypeKeyV1_0_0 = 'path_type';
   static const _typeKey = 'type';
   static const _uriKey = 'uri';

@@ -172,7 +172,7 @@ void main() {
 
   test('AssetPath factory', () async {
     expect(
-      () => DynamicLoadingImpl('wrong', null),
+      () => LinkModeImpl('wrong', null),
       throwsA(predicate(
         (e) => e is FormatException && e.message.contains('Unknown type'),
       )),
