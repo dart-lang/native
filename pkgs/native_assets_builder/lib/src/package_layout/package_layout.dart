@@ -89,6 +89,9 @@ class PackageLayout {
   /// a `hook/build.dart`.
   ///
   /// For backwards compatibility, a toplevel `build.dart` is also supported.
+  // TODO(https://github.com/dart-lang/native/issues/823): Remove fallback when
+  // everyone has migrated. (Probably once we stop backwards compatibility of
+  // the protocol version pre 1.2.0 on some future version.)
   late final Future<List<Package>> packagesWithNativeAssets = () async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
