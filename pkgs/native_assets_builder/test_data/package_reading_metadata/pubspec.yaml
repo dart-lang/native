@@ -1,5 +1,5 @@
 name: package_reading_metadata
-description: Reads some metadata in its build.dart
+description: Reads some metadata in its hook/build.dart
 version: 0.1.0
 
 publish_to: none

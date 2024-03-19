@@ -17,6 +17,7 @@ void main(List<String> arguments) async {
         'src/$packageName.c',
         'src/native_multiply.c',
       ],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: config,

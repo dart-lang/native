@@ -6,7 +6,7 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-const packageName = 'native_add';
+const packageName = 'native_subtract';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
@@ -16,6 +16,7 @@ void main(List<String> arguments) async {
       sources: [
         'src/$packageName.c',
       ],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: config,

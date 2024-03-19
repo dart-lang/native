@@ -17,6 +17,9 @@ void main(List<String> arguments) async {
         'src/$packageName.c',
         'src/dart_api_dl.c',
       ],
+      // TODO(https://github.com/dart-lang/native/issues/823): Update after
+      // change is rolled into Dart SDK.
+      dartBuildFiles: ['build.dart'],
     );
     await cbuilder.run(
       buildConfig: config,

@@ -38,6 +38,8 @@ void main() async {
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
+          // TODO(https://github.com/dart-lang/native/issues/823): Update after
+          // change is rolled into Dart SDK.
           'build.dart',
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_name=$name',
@@ -83,6 +85,8 @@ void main() async {
           dependencies,
           [
             testPackageUri.resolve('src/$name.c'),
+            // TODO(https://github.com/dart-lang/native/issues/823): Update after
+            // change is rolled into Dart SDK.
             testPackageUri.resolve('build.dart'),
           ],
         );

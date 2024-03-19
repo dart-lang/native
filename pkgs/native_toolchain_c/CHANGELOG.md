@@ -1,6 +1,8 @@
 ## 0.4.0-wip
 
 - **Breaking change** Completely rewritten API in `native_assets_cli`.
+- **Breaking change** No longer assumes `build.dart` to be the main script.
+  https://github.com/dart-lang/native/issues/823
 
 ## 0.3.4+1
 
