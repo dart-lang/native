@@ -288,4 +288,18 @@ void run({required TestRunnerCallback testRunner}) {
         longClass.staticFieldId("MAX_VALUE", "J").get(longClass, jlong.type);
     expect(maxLong, maxLongInJava);
   });
+
+  testRunner('Casting correctly succeeds', () {
+    final long = JLong(1);
+    final long2 = long.castTo(JLong.type, releaseOriginal: true);
+    expect(long2.longValue(releaseOriginal: true), 1);
+  });
+
+  testRunner('Casting incorrectly fails', () {
+    final long = JLong(1);
+    expect(
+      () => long.castTo(JInteger.type, releaseOriginal: true),
+      throwsA(isA<AssertionError>()),
+    );
+  });
 }
