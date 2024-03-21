@@ -110,24 +110,6 @@ class JniBindings {
   late final _SpawnJvm =
       _SpawnJvmPtr.asFunction<int Function(ffi.Pointer<JavaVMInitArgs>)>();
 
-  /// Load class through platform-specific mechanism.
-  ///
-  /// Currently uses application classloader on android,
-  /// and JNIEnv->FindClass on other platforms.
-  JClassPtr FindClass(
-    ffi.Pointer<ffi.Char> name,
-  ) {
-    return _FindClass(
-      name,
-    );
-  }
-
-  late final _FindClassPtr =
-      _lookup<ffi.NativeFunction<JClassPtr Function(ffi.Pointer<ffi.Char>)>>(
-          'FindClass');
-  late final _FindClass =
-      _FindClassPtr.asFunction<JClassPtr Function(ffi.Pointer<ffi.Char>)>();
-
   /// Returns Application classLoader (on Android),
   /// which can be used to load application and platform classes.
   ///
