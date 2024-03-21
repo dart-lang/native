@@ -246,7 +246,6 @@ FFI_PLUGIN_EXPORT JNIEnv* GetJniEnv(void);
 /// JVMs is made, even if the underlying API potentially supports multiple VMs.
 FFI_PLUGIN_EXPORT int SpawnJvm(JavaVMInitArgs* args);
 
-
 /// Returns Application classLoader (on Android),
 /// which can be used to load application and platform classes.
 ///
