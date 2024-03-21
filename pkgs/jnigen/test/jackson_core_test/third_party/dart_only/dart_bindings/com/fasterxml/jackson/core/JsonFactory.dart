@@ -49,45 +49,45 @@ class JsonFactory_Feature extends jni.JObject {
   @override
   late final jni.JObjType<JsonFactory_Feature> $type = type;
 
-  JsonFactory_Feature.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JsonFactory_Feature.fromReference(
+    jni.JReference reference,
+  ) : super.fromReference(reference);
 
   static final _class =
-      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonFactory$Feature");
+      jni.JClass.forName(r"com/fasterxml/jackson/core/JsonFactory$Feature");
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonFactory_FeatureType();
-  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"values",
-      r"()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
+  static final _id_values = _class.staticMethodId(
+    r"values",
+    r"()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;",
+  );
 
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonFactory_Feature> values() {
-    return const jni.JArrayType($JsonFactory_FeatureType()).fromRef(
-        jni.Jni.accessors.callStaticMethodWithArgs(_class.reference, _id_values,
-            jni.JniCallType.objectType, []).object);
+    return _id_values(
+        _class, const jni.JArrayType($JsonFactory_FeatureType()), []);
   }
 
-  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"valueOf",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;");
+  static final _id_valueOf = _class.staticMethodId(
+    r"valueOf",
+    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;",
+  );
 
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)
   /// The returned object must be released after use, by calling the [release] method.
   static JsonFactory_Feature valueOf(
     jni.JString name,
   ) {
-    return const $JsonFactory_FeatureType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
+    return _id_valueOf(
+        _class, const $JsonFactory_FeatureType(), [name.reference.pointer]);
   }
 
-  static final _id_collectDefaults = jni.Jni.accessors
-      .getStaticMethodIDOf(_class.reference, r"collectDefaults", r"()I");
+  static final _id_collectDefaults = _class.staticMethodId(
+    r"collectDefaults",
+    r"()I",
+  );
 
   /// from: static public int collectDefaults()
   ///
@@ -95,37 +95,40 @@ class JsonFactory_Feature extends jni.JObject {
   /// are enabled by default.
   ///@return Bit field of features enabled by default
   static int collectDefaults() {
-    return jni.Jni.accessors.callStaticMethodWithArgs(_class.reference,
-        _id_collectDefaults, jni.JniCallType.intType, []).integer;
+    return _id_collectDefaults(_class, const jni.jintType(), []);
   }
 
-  static final _id_enabledByDefault = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"enabledByDefault", r"()Z");
+  static final _id_enabledByDefault = _class.instanceMethodId(
+    r"enabledByDefault",
+    r"()Z",
+  );
 
   /// from: public boolean enabledByDefault()
   bool enabledByDefault() {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledByDefault,
-        jni.JniCallType.booleanType, []).boolean;
+    return _id_enabledByDefault(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_enabledIn =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"enabledIn", r"(I)Z");
+  static final _id_enabledIn = _class.instanceMethodId(
+    r"enabledIn",
+    r"(I)Z",
+  );
 
   /// from: public boolean enabledIn(int flags)
   bool enabledIn(
     int flags,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_enabledIn,
-        jni.JniCallType.booleanType, [jni.JValueInt(flags)]).boolean;
+    return _id_enabledIn(
+        this, const jni.jbooleanType(), [jni.JValueInt(flags)]);
   }
 
-  static final _id_getMask =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"getMask", r"()I");
+  static final _id_getMask = _class.instanceMethodId(
+    r"getMask",
+    r"()I",
+  );
 
   /// from: public int getMask()
   int getMask() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getMask, jni.JniCallType.intType, []).integer;
+    return _id_getMask(this, const jni.jintType(), []);
   }
 }
 
@@ -136,8 +139,8 @@ final class $JsonFactory_FeatureType extends jni.JObjType<JsonFactory_Feature> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonFactory$Feature;";
 
   @override
-  JsonFactory_Feature fromRef(jni.JObjectPtr ref) =>
-      JsonFactory_Feature.fromRef(ref);
+  JsonFactory_Feature fromReference(jni.JReference reference) =>
+      JsonFactory_Feature.fromReference(reference);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();
@@ -178,17 +181,16 @@ class JsonFactory extends jni.JObject {
   @override
   late final jni.JObjType<JsonFactory> $type = type;
 
-  JsonFactory.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JsonFactory.fromReference(
+    jni.JReference reference,
+  ) : super.fromReference(reference);
 
   static final _class =
-      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonFactory");
+      jni.JClass.forName(r"com/fasterxml/jackson/core/JsonFactory");
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonFactoryType();
-  static final _id_FORMAT_NAME_JSON = jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+  static final _id_FORMAT_NAME_JSON = _class.staticFieldId(
     r"FORMAT_NAME_JSON",
     r"Ljava/lang/String;",
   );
@@ -198,15 +200,10 @@ class JsonFactory extends jni.JObject {
   ///
   /// Name used to identify JSON format
   /// (and returned by \#getFormatName()
-  static jni.JString get FORMAT_NAME_JSON => const jni.JStringType().fromRef(jni
-      .Jni.accessors
-      .getStaticField(
-          _class.reference, _id_FORMAT_NAME_JSON, jni.JniCallType.objectType)
-      .object);
+  static jni.JString get FORMAT_NAME_JSON =>
+      _id_FORMAT_NAME_JSON.get(_class, const jni.JStringType());
 
-  static final _id_DEFAULT_FACTORY_FEATURE_FLAGS =
-      jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+  static final _id_DEFAULT_FACTORY_FEATURE_FLAGS = _class.staticFieldId(
     r"DEFAULT_FACTORY_FEATURE_FLAGS",
     r"I",
   );
@@ -214,14 +211,10 @@ class JsonFactory extends jni.JObject {
   /// from: static protected final int DEFAULT_FACTORY_FEATURE_FLAGS
   ///
   /// Bitfield (set of flags) of all factory features that are enabled by default.
-  static int get DEFAULT_FACTORY_FEATURE_FLAGS => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_DEFAULT_FACTORY_FEATURE_FLAGS,
-          jni.JniCallType.intType)
-      .integer;
+  static int get DEFAULT_FACTORY_FEATURE_FLAGS =>
+      _id_DEFAULT_FACTORY_FEATURE_FLAGS.get(_class, const jni.jintType());
 
-  static final _id_DEFAULT_PARSER_FEATURE_FLAGS =
-      jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+  static final _id_DEFAULT_PARSER_FEATURE_FLAGS = _class.staticFieldId(
     r"DEFAULT_PARSER_FEATURE_FLAGS",
     r"I",
   );
@@ -230,14 +223,10 @@ class JsonFactory extends jni.JObject {
   ///
   /// Bitfield (set of flags) of all parser features that are enabled
   /// by default.
-  static int get DEFAULT_PARSER_FEATURE_FLAGS => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_DEFAULT_PARSER_FEATURE_FLAGS,
-          jni.JniCallType.intType)
-      .integer;
+  static int get DEFAULT_PARSER_FEATURE_FLAGS =>
+      _id_DEFAULT_PARSER_FEATURE_FLAGS.get(_class, const jni.jintType());
 
-  static final _id_DEFAULT_GENERATOR_FEATURE_FLAGS =
-      jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+  static final _id_DEFAULT_GENERATOR_FEATURE_FLAGS = _class.staticFieldId(
     r"DEFAULT_GENERATOR_FEATURE_FLAGS",
     r"I",
   );
@@ -246,14 +235,10 @@ class JsonFactory extends jni.JObject {
   ///
   /// Bitfield (set of flags) of all generator features that are enabled
   /// by default.
-  static int get DEFAULT_GENERATOR_FEATURE_FLAGS => jni.Jni.accessors
-      .getStaticField(_class.reference, _id_DEFAULT_GENERATOR_FEATURE_FLAGS,
-          jni.JniCallType.intType)
-      .integer;
+  static int get DEFAULT_GENERATOR_FEATURE_FLAGS =>
+      _id_DEFAULT_GENERATOR_FEATURE_FLAGS.get(_class, const jni.jintType());
 
-  static final _id_DEFAULT_ROOT_VALUE_SEPARATOR =
-      jni.Jni.accessors.getStaticFieldIDOf(
-    _class.reference,
+  static final _id_DEFAULT_ROOT_VALUE_SEPARATOR = _class.staticFieldId(
     r"DEFAULT_ROOT_VALUE_SEPARATOR",
     r"Lcom/fasterxml/jackson/core/SerializableString;",
   );
@@ -261,13 +246,11 @@ class JsonFactory extends jni.JObject {
   /// from: static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JObject get DEFAULT_ROOT_VALUE_SEPARATOR =>
-      const jni.JObjectType().fromRef(jni.Jni.accessors
-          .getStaticField(_class.reference, _id_DEFAULT_ROOT_VALUE_SEPARATOR,
-              jni.JniCallType.objectType)
-          .object);
+      _id_DEFAULT_ROOT_VALUE_SEPARATOR.get(_class, const jni.JObjectType());
 
-  static final _id_new0 =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"()V");
+  static final _id_new0 = _class.constructorId(
+    r"()V",
+  );
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
@@ -281,26 +264,25 @@ class JsonFactory extends jni.JObject {
   /// and this reuse only works within context of a single
   /// factory instance.
   factory JsonFactory() {
-    return JsonFactory.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new0, []).object);
+    return JsonFactory.fromReference(_id_new0(_class, referenceType, []));
   }
 
-  static final _id_new1 = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"<init>", r"(Lcom/fasterxml/jackson/core/ObjectCodec;)V");
+  static final _id_new1 = _class.constructorId(
+    r"(Lcom/fasterxml/jackson/core/ObjectCodec;)V",
+  );
 
   /// from: public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)
   /// The returned object must be released after use, by calling the [release] method.
   factory JsonFactory.new1(
     jni.JObject oc,
   ) {
-    return JsonFactory.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new1, [oc.reference]).object);
+    return JsonFactory.fromReference(
+        _id_new1(_class, referenceType, [oc.reference.pointer]));
   }
 
-  static final _id_new2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"<init>",
-      r"(Lcom/fasterxml/jackson/core/JsonFactory;Lcom/fasterxml/jackson/core/ObjectCodec;)V");
+  static final _id_new2 = _class.constructorId(
+    r"(Lcom/fasterxml/jackson/core/JsonFactory;Lcom/fasterxml/jackson/core/ObjectCodec;)V",
+  );
 
   /// from: protected void <init>(com.fasterxml.jackson.core.JsonFactory src, com.fasterxml.jackson.core.ObjectCodec codec)
   /// The returned object must be released after use, by calling the [release] method.
@@ -313,12 +295,13 @@ class JsonFactory extends jni.JObject {
     JsonFactory src,
     jni.JObject codec,
   ) {
-    return JsonFactory.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new2, [src.reference, codec.reference]).object);
+    return JsonFactory.fromReference(_id_new2(_class, referenceType,
+        [src.reference.pointer, codec.reference.pointer]));
   }
 
-  static final _id_new3 = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"<init>", r"(Lcom/fasterxml/jackson/core/JsonFactoryBuilder;)V");
+  static final _id_new3 = _class.constructorId(
+    r"(Lcom/fasterxml/jackson/core/JsonFactoryBuilder;)V",
+  );
 
   /// from: public void <init>(com.fasterxml.jackson.core.JsonFactoryBuilder b)
   /// The returned object must be released after use, by calling the [release] method.
@@ -329,12 +312,13 @@ class JsonFactory extends jni.JObject {
   factory JsonFactory.new3(
     jni.JObject b,
   ) {
-    return JsonFactory.fromRef(jni.Jni.accessors
-        .newObjectWithArgs(_class.reference, _id_new3, [b.reference]).object);
+    return JsonFactory.fromReference(
+        _id_new3(_class, referenceType, [b.reference.pointer]));
   }
 
-  static final _id_new4 = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"<init>", r"(Lcom/fasterxml/jackson/core/TSFBuilder;Z)V");
+  static final _id_new4 = _class.constructorId(
+    r"(Lcom/fasterxml/jackson/core/TSFBuilder;Z)V",
+  );
 
   /// from: protected void <init>(com.fasterxml.jackson.core.TSFBuilder<?,?> b, boolean bogus)
   /// The returned object must be released after use, by calling the [release] method.
@@ -348,12 +332,14 @@ class JsonFactory extends jni.JObject {
     jni.JObject b,
     bool bogus,
   ) {
-    return JsonFactory.fromRef(jni.Jni.accessors.newObjectWithArgs(
-        _class.reference, _id_new4, [b.reference, bogus ? 1 : 0]).object);
+    return JsonFactory.fromReference(
+        _id_new4(_class, referenceType, [b.reference.pointer, bogus ? 1 : 0]));
   }
 
-  static final _id_rebuild = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"rebuild", r"()Lcom/fasterxml/jackson/core/TSFBuilder;");
+  static final _id_rebuild = _class.instanceMethodId(
+    r"rebuild",
+    r"()Lcom/fasterxml/jackson/core/TSFBuilder;",
+  );
 
   /// from: public com.fasterxml.jackson.core.TSFBuilder<?,?> rebuild()
   /// The returned object must be released after use, by calling the [release] method.
@@ -363,14 +349,13 @@ class JsonFactory extends jni.JObject {
   ///@return Builder instance to use
   ///@since 2.10
   jni.JObject rebuild() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_rebuild, jni.JniCallType.objectType, []).object);
+    return _id_rebuild(this, const jni.JObjectType(), []);
   }
 
-  static final _id_builder = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"builder",
-      r"()Lcom/fasterxml/jackson/core/TSFBuilder;");
+  static final _id_builder = _class.staticMethodId(
+    r"builder",
+    r"()Lcom/fasterxml/jackson/core/TSFBuilder;",
+  );
 
   /// from: static public com.fasterxml.jackson.core.TSFBuilder<?,?> builder()
   /// The returned object must be released after use, by calling the [release] method.
@@ -384,13 +369,13 @@ class JsonFactory extends jni.JObject {
   /// will be fixed in 3.0.
   ///@return Builder instance to use
   static jni.JObject builder() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_builder,
-            jni.JniCallType.objectType, []).object);
+    return _id_builder(_class, const jni.JObjectType(), []);
   }
 
-  static final _id_copy = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"copy", r"()Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_copy = _class.instanceMethodId(
+    r"copy",
+    r"()Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory copy()
   /// The returned object must be released after use, by calling the [release] method.
@@ -408,13 +393,13 @@ class JsonFactory extends jni.JObject {
   ///@return Copy of this factory instance
   ///@since 2.1
   JsonFactory copy() {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_copy, jni.JniCallType.objectType, []).object);
+    return _id_copy(this, const $JsonFactoryType(), []);
   }
 
-  static final _id_readResolve = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"readResolve", r"()Ljava/lang/Object;");
+  static final _id_readResolve = _class.instanceMethodId(
+    r"readResolve",
+    r"()Ljava/lang/Object;",
+  );
 
   /// from: protected java.lang.Object readResolve()
   /// The returned object must be released after use, by calling the [release] method.
@@ -426,12 +411,13 @@ class JsonFactory extends jni.JObject {
   /// Note: must be overridden by sub-classes as well.
   ///@return Newly constructed instance
   jni.JObject readResolve() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_readResolve, jni.JniCallType.objectType, []).object);
+    return _id_readResolve(this, const jni.JObjectType(), []);
   }
 
-  static final _id_requiresPropertyOrdering = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"requiresPropertyOrdering", r"()Z");
+  static final _id_requiresPropertyOrdering = _class.instanceMethodId(
+    r"requiresPropertyOrdering",
+    r"()Z",
+  );
 
   /// from: public boolean requiresPropertyOrdering()
   ///
@@ -450,12 +436,13 @@ class JsonFactory extends jni.JObject {
   ///   requires Object properties to be ordered.
   ///@since 2.3
   bool requiresPropertyOrdering() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_requiresPropertyOrdering, jni.JniCallType.booleanType, []).boolean;
+    return _id_requiresPropertyOrdering(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_canHandleBinaryNatively = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"canHandleBinaryNatively", r"()Z");
+  static final _id_canHandleBinaryNatively = _class.instanceMethodId(
+    r"canHandleBinaryNatively",
+    r"()Z",
+  );
 
   /// from: public boolean canHandleBinaryNatively()
   ///
@@ -471,12 +458,13 @@ class JsonFactory extends jni.JObject {
   ///    supports native binary content
   ///@since 2.3
   bool canHandleBinaryNatively() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_canHandleBinaryNatively, jni.JniCallType.booleanType, []).boolean;
+    return _id_canHandleBinaryNatively(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_canUseCharArrays = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"canUseCharArrays", r"()Z");
+  static final _id_canUseCharArrays = _class.instanceMethodId(
+    r"canUseCharArrays",
+    r"()Z",
+  );
 
   /// from: public boolean canUseCharArrays()
   ///
@@ -492,12 +480,13 @@ class JsonFactory extends jni.JObject {
   ///   accessed using parser method {@code getTextCharacters()}.
   ///@since 2.4
   bool canUseCharArrays() {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_canUseCharArrays,
-        jni.JniCallType.booleanType, []).boolean;
+    return _id_canUseCharArrays(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_canParseAsync = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"canParseAsync", r"()Z");
+  static final _id_canParseAsync = _class.instanceMethodId(
+    r"canParseAsync",
+    r"()Z",
+  );
 
   /// from: public boolean canParseAsync()
   ///
@@ -509,38 +498,35 @@ class JsonFactory extends jni.JObject {
   ///    not (and consequently whether {@code createNonBlockingXxx()} method(s) work)
   ///@since 2.9
   bool canParseAsync() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_canParseAsync, jni.JniCallType.booleanType, []).boolean;
+    return _id_canParseAsync(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_getFormatReadFeatureType = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"getFormatReadFeatureType", r"()Ljava/lang/Class;");
+  static final _id_getFormatReadFeatureType = _class.instanceMethodId(
+    r"getFormatReadFeatureType",
+    r"()Ljava/lang/Class;",
+  );
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatReadFeatureType() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_getFormatReadFeatureType,
-        jni.JniCallType.objectType, []).object);
+    return _id_getFormatReadFeatureType(this, const jni.JObjectType(), []);
   }
 
-  static final _id_getFormatWriteFeatureType = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"getFormatWriteFeatureType", r"()Ljava/lang/Class;");
+  static final _id_getFormatWriteFeatureType = _class.instanceMethodId(
+    r"getFormatWriteFeatureType",
+    r"()Ljava/lang/Class;",
+  );
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatWriteFeatureType() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_getFormatWriteFeatureType,
-        jni.JniCallType.objectType, []).object);
+    return _id_getFormatWriteFeatureType(this, const jni.JObjectType(), []);
   }
 
-  static final _id_canUseSchema = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"canUseSchema",
-      r"(Lcom/fasterxml/jackson/core/FormatSchema;)Z");
+  static final _id_canUseSchema = _class.instanceMethodId(
+    r"canUseSchema",
+    r"(Lcom/fasterxml/jackson/core/FormatSchema;)Z",
+  );
 
   /// from: public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)
   ///
@@ -556,12 +542,14 @@ class JsonFactory extends jni.JObject {
   bool canUseSchema(
     jni.JObject schema,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_canUseSchema,
-        jni.JniCallType.booleanType, [schema.reference]).boolean;
+    return _id_canUseSchema(
+        this, const jni.jbooleanType(), [schema.reference.pointer]);
   }
 
-  static final _id_getFormatName = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"getFormatName", r"()Ljava/lang/String;");
+  static final _id_getFormatName = _class.instanceMethodId(
+    r"getFormatName",
+    r"()Ljava/lang/String;",
+  );
 
   /// from: public java.lang.String getFormatName()
   /// The returned object must be released after use, by calling the [release] method.
@@ -573,29 +561,27 @@ class JsonFactory extends jni.JObject {
   /// implementation will return null for all sub-classes
   ///@return Name of the format handled by parsers, generators this factory creates
   jni.JString getFormatName() {
-    return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getFormatName, jni.JniCallType.objectType, []).object);
+    return _id_getFormatName(this, const jni.JStringType(), []);
   }
 
-  static final _id_hasFormat = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"hasFormat",
-      r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;");
+  static final _id_hasFormat = _class.instanceMethodId(
+    r"hasFormat",
+    r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;",
+  );
 
   /// from: public com.fasterxml.jackson.core.format.MatchStrength hasFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject hasFormat(
     jni.JObject acc,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_hasFormat,
-        jni.JniCallType.objectType,
-        [acc.reference]).object);
+    return _id_hasFormat(
+        this, const jni.JObjectType(), [acc.reference.pointer]);
   }
 
-  static final _id_requiresCustomCodec = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"requiresCustomCodec", r"()Z");
+  static final _id_requiresCustomCodec = _class.instanceMethodId(
+    r"requiresCustomCodec",
+    r"()Z",
+  );
 
   /// from: public boolean requiresCustomCodec()
   ///
@@ -609,41 +595,38 @@ class JsonFactory extends jni.JObject {
   ///   ObjectCodec is enough
   ///@since 2.1
   bool requiresCustomCodec() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_requiresCustomCodec, jni.JniCallType.booleanType, []).boolean;
+    return _id_requiresCustomCodec(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_hasJSONFormat = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"hasJSONFormat",
-      r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;");
+  static final _id_hasJSONFormat = _class.instanceMethodId(
+    r"hasJSONFormat",
+    r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;",
+  );
 
   /// from: protected com.fasterxml.jackson.core.format.MatchStrength hasJSONFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject hasJSONFormat(
     jni.JObject acc,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_hasJSONFormat,
-        jni.JniCallType.objectType,
-        [acc.reference]).object);
+    return _id_hasJSONFormat(
+        this, const jni.JObjectType(), [acc.reference.pointer]);
   }
 
-  static final _id_version = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"version", r"()Lcom/fasterxml/jackson/core/Version;");
+  static final _id_version = _class.instanceMethodId(
+    r"version",
+    r"()Lcom/fasterxml/jackson/core/Version;",
+  );
 
   /// from: public com.fasterxml.jackson.core.Version version()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject version() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_version, jni.JniCallType.objectType, []).object);
+    return _id_version(this, const jni.JObjectType(), []);
   }
 
-  static final _id_configure = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"configure",
-      r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_configure = _class.instanceMethodId(
+    r"configure",
+    r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonFactory.Feature f, boolean state)
   /// The returned object must be released after use, by calling the [release] method.
@@ -658,15 +641,14 @@ class JsonFactory extends jni.JObject {
     JsonFactory_Feature f,
     bool state,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_configure,
-            jni.JniCallType.objectType, [f.reference, state ? 1 : 0]).object);
+    return _id_configure(
+        this, const $JsonFactoryType(), [f.reference.pointer, state ? 1 : 0]);
   }
 
-  static final _id_enable = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"enable",
-      r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_enable = _class.instanceMethodId(
+    r"enable",
+    r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonFactory.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -679,15 +661,13 @@ class JsonFactory extends jni.JObject {
   JsonFactory enable(
     JsonFactory_Feature f,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_enable, jni.JniCallType.objectType,
-            [f.reference]).object);
+    return _id_enable(this, const $JsonFactoryType(), [f.reference.pointer]);
   }
 
-  static final _id_disable = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"disable",
-      r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_disable = _class.instanceMethodId(
+    r"disable",
+    r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonFactory.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -700,13 +680,13 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable(
     JsonFactory_Feature f,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_disable, jni.JniCallType.objectType,
-            [f.reference]).object);
+    return _id_disable(this, const $JsonFactoryType(), [f.reference.pointer]);
   }
 
-  static final _id_isEnabled = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"isEnabled", r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Z");
+  static final _id_isEnabled = _class.instanceMethodId(
+    r"isEnabled",
+    r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Z",
+  );
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonFactory.Feature f)
   ///
@@ -716,50 +696,53 @@ class JsonFactory extends jni.JObject {
   bool isEnabled(
     JsonFactory_Feature f,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_isEnabled,
-        jni.JniCallType.booleanType, [f.reference]).boolean;
+    return _id_isEnabled(this, const jni.jbooleanType(), [f.reference.pointer]);
   }
 
-  static final _id_getParserFeatures = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getParserFeatures", r"()I");
+  static final _id_getParserFeatures = _class.instanceMethodId(
+    r"getParserFeatures",
+    r"()I",
+  );
 
   /// from: public final int getParserFeatures()
   int getParserFeatures() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getParserFeatures, jni.JniCallType.intType, []).integer;
+    return _id_getParserFeatures(this, const jni.jintType(), []);
   }
 
-  static final _id_getGeneratorFeatures = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getGeneratorFeatures", r"()I");
+  static final _id_getGeneratorFeatures = _class.instanceMethodId(
+    r"getGeneratorFeatures",
+    r"()I",
+  );
 
   /// from: public final int getGeneratorFeatures()
   int getGeneratorFeatures() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_getGeneratorFeatures, jni.JniCallType.intType, []).integer;
+    return _id_getGeneratorFeatures(this, const jni.jintType(), []);
   }
 
-  static final _id_getFormatParserFeatures = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getFormatParserFeatures", r"()I");
+  static final _id_getFormatParserFeatures = _class.instanceMethodId(
+    r"getFormatParserFeatures",
+    r"()I",
+  );
 
   /// from: public int getFormatParserFeatures()
   int getFormatParserFeatures() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_getFormatParserFeatures, jni.JniCallType.intType, []).integer;
+    return _id_getFormatParserFeatures(this, const jni.jintType(), []);
   }
 
-  static final _id_getFormatGeneratorFeatures = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"getFormatGeneratorFeatures", r"()I");
+  static final _id_getFormatGeneratorFeatures = _class.instanceMethodId(
+    r"getFormatGeneratorFeatures",
+    r"()I",
+  );
 
   /// from: public int getFormatGeneratorFeatures()
   int getFormatGeneratorFeatures() {
-    return jni.Jni.accessors.callMethodWithArgs(reference,
-        _id_getFormatGeneratorFeatures, jni.JniCallType.intType, []).integer;
+    return _id_getFormatGeneratorFeatures(this, const jni.jintType(), []);
   }
 
-  static final _id_configure1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"configure",
-      r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_configure1 = _class.instanceMethodId(
+    r"configure",
+    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)
   /// The returned object must be released after use, by calling the [release] method.
@@ -773,15 +756,14 @@ class JsonFactory extends jni.JObject {
     jsonparser_.JsonParser_Feature f,
     bool state,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_configure1,
-            jni.JniCallType.objectType, [f.reference, state ? 1 : 0]).object);
+    return _id_configure1(
+        this, const $JsonFactoryType(), [f.reference.pointer, state ? 1 : 0]);
   }
 
-  static final _id_enable1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"enable",
-      r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_enable1 = _class.instanceMethodId(
+    r"enable",
+    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonParser.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -793,15 +775,13 @@ class JsonFactory extends jni.JObject {
   JsonFactory enable1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_enable1, jni.JniCallType.objectType,
-            [f.reference]).object);
+    return _id_enable1(this, const $JsonFactoryType(), [f.reference.pointer]);
   }
 
-  static final _id_disable1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"disable",
-      r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_disable1 = _class.instanceMethodId(
+    r"disable",
+    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonParser.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -813,15 +793,13 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_disable1, jni.JniCallType.objectType,
-            [f.reference]).object);
+    return _id_disable1(this, const $JsonFactoryType(), [f.reference.pointer]);
   }
 
-  static final _id_isEnabled1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"isEnabled",
-      r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z");
+  static final _id_isEnabled1 = _class.instanceMethodId(
+    r"isEnabled",
+    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z",
+  );
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)
   ///
@@ -831,14 +809,14 @@ class JsonFactory extends jni.JObject {
   bool isEnabled1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_isEnabled1,
-        jni.JniCallType.booleanType, [f.reference]).boolean;
+    return _id_isEnabled1(
+        this, const jni.jbooleanType(), [f.reference.pointer]);
   }
 
-  static final _id_isEnabled2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"isEnabled",
-      r"(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z");
+  static final _id_isEnabled2 = _class.instanceMethodId(
+    r"isEnabled",
+    r"(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z",
+  );
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)
   ///
@@ -849,14 +827,14 @@ class JsonFactory extends jni.JObject {
   bool isEnabled2(
     jni.JObject f,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_isEnabled2,
-        jni.JniCallType.booleanType, [f.reference]).boolean;
+    return _id_isEnabled2(
+        this, const jni.jbooleanType(), [f.reference.pointer]);
   }
 
-  static final _id_getInputDecorator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"getInputDecorator",
-      r"()Lcom/fasterxml/jackson/core/io/InputDecorator;");
+  static final _id_getInputDecorator = _class.instanceMethodId(
+    r"getInputDecorator",
+    r"()Lcom/fasterxml/jackson/core/io/InputDecorator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.io.InputDecorator getInputDecorator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -865,16 +843,13 @@ class JsonFactory extends jni.JObject {
   /// there is no default decorator).
   ///@return InputDecorator configured, if any
   jni.JObject getInputDecorator() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_getInputDecorator,
-        jni.JniCallType.objectType, []).object);
+    return _id_getInputDecorator(this, const jni.JObjectType(), []);
   }
 
-  static final _id_setInputDecorator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"setInputDecorator",
-      r"(Lcom/fasterxml/jackson/core/io/InputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_setInputDecorator = _class.instanceMethodId(
+    r"setInputDecorator",
+    r"(Lcom/fasterxml/jackson/core/io/InputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setInputDecorator(com.fasterxml.jackson.core.io.InputDecorator d)
   /// The returned object must be released after use, by calling the [release] method.
@@ -886,15 +861,14 @@ class JsonFactory extends jni.JObject {
   JsonFactory setInputDecorator(
     jni.JObject d,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_setInputDecorator,
-            jni.JniCallType.objectType, [d.reference]).object);
+    return _id_setInputDecorator(
+        this, const $JsonFactoryType(), [d.reference.pointer]);
   }
 
-  static final _id_configure2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"configure",
-      r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_configure2 = _class.instanceMethodId(
+    r"configure",
+    r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonGenerator.Feature f, boolean state)
   /// The returned object must be released after use, by calling the [release] method.
@@ -908,15 +882,14 @@ class JsonFactory extends jni.JObject {
     jni.JObject f,
     bool state,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_configure2,
-            jni.JniCallType.objectType, [f.reference, state ? 1 : 0]).object);
+    return _id_configure2(
+        this, const $JsonFactoryType(), [f.reference.pointer, state ? 1 : 0]);
   }
 
-  static final _id_enable2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"enable",
-      r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_enable2 = _class.instanceMethodId(
+    r"enable",
+    r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -928,15 +901,13 @@ class JsonFactory extends jni.JObject {
   JsonFactory enable2(
     jni.JObject f,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_enable2, jni.JniCallType.objectType,
-            [f.reference]).object);
+    return _id_enable2(this, const $JsonFactoryType(), [f.reference.pointer]);
   }
 
-  static final _id_disable2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"disable",
-      r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_disable2 = _class.instanceMethodId(
+    r"disable",
+    r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -948,15 +919,13 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable2(
     jni.JObject f,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_disable2, jni.JniCallType.objectType,
-            [f.reference]).object);
+    return _id_disable2(this, const $JsonFactoryType(), [f.reference.pointer]);
   }
 
-  static final _id_isEnabled3 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"isEnabled",
-      r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Z");
+  static final _id_isEnabled3 = _class.instanceMethodId(
+    r"isEnabled",
+    r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Z",
+  );
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonGenerator.Feature f)
   ///
@@ -966,14 +935,14 @@ class JsonFactory extends jni.JObject {
   bool isEnabled3(
     jni.JObject f,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_isEnabled3,
-        jni.JniCallType.booleanType, [f.reference]).boolean;
+    return _id_isEnabled3(
+        this, const jni.jbooleanType(), [f.reference.pointer]);
   }
 
-  static final _id_isEnabled4 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"isEnabled",
-      r"(Lcom/fasterxml/jackson/core/StreamWriteFeature;)Z");
+  static final _id_isEnabled4 = _class.instanceMethodId(
+    r"isEnabled",
+    r"(Lcom/fasterxml/jackson/core/StreamWriteFeature;)Z",
+  );
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.StreamWriteFeature f)
   ///
@@ -984,14 +953,14 @@ class JsonFactory extends jni.JObject {
   bool isEnabled4(
     jni.JObject f,
   ) {
-    return jni.Jni.accessors.callMethodWithArgs(reference, _id_isEnabled4,
-        jni.JniCallType.booleanType, [f.reference]).boolean;
+    return _id_isEnabled4(
+        this, const jni.jbooleanType(), [f.reference.pointer]);
   }
 
-  static final _id_getCharacterEscapes = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"getCharacterEscapes",
-      r"()Lcom/fasterxml/jackson/core/io/CharacterEscapes;");
+  static final _id_getCharacterEscapes = _class.instanceMethodId(
+    r"getCharacterEscapes",
+    r"()Lcom/fasterxml/jackson/core/io/CharacterEscapes;",
+  );
 
   /// from: public com.fasterxml.jackson.core.io.CharacterEscapes getCharacterEscapes()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1000,16 +969,13 @@ class JsonFactory extends jni.JObject {
   /// it creates.
   ///@return Configured {@code CharacterEscapes}, if any; {@code null} if none
   jni.JObject getCharacterEscapes() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_getCharacterEscapes,
-        jni.JniCallType.objectType, []).object);
+    return _id_getCharacterEscapes(this, const jni.JObjectType(), []);
   }
 
-  static final _id_setCharacterEscapes = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"setCharacterEscapes",
-      r"(Lcom/fasterxml/jackson/core/io/CharacterEscapes;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_setCharacterEscapes = _class.instanceMethodId(
+    r"setCharacterEscapes",
+    r"(Lcom/fasterxml/jackson/core/io/CharacterEscapes;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCharacterEscapes(com.fasterxml.jackson.core.io.CharacterEscapes esc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1021,15 +987,14 @@ class JsonFactory extends jni.JObject {
   JsonFactory setCharacterEscapes(
     jni.JObject esc,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_setCharacterEscapes,
-            jni.JniCallType.objectType, [esc.reference]).object);
+    return _id_setCharacterEscapes(
+        this, const $JsonFactoryType(), [esc.reference.pointer]);
   }
 
-  static final _id_getOutputDecorator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"getOutputDecorator",
-      r"()Lcom/fasterxml/jackson/core/io/OutputDecorator;");
+  static final _id_getOutputDecorator = _class.instanceMethodId(
+    r"getOutputDecorator",
+    r"()Lcom/fasterxml/jackson/core/io/OutputDecorator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.io.OutputDecorator getOutputDecorator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1039,16 +1004,13 @@ class JsonFactory extends jni.JObject {
   ///@return OutputDecorator configured for generators factory creates, if any;
   ///    {@code null} if none.
   jni.JObject getOutputDecorator() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_getOutputDecorator,
-        jni.JniCallType.objectType, []).object);
+    return _id_getOutputDecorator(this, const jni.JObjectType(), []);
   }
 
-  static final _id_setOutputDecorator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"setOutputDecorator",
-      r"(Lcom/fasterxml/jackson/core/io/OutputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_setOutputDecorator = _class.instanceMethodId(
+    r"setOutputDecorator",
+    r"(Lcom/fasterxml/jackson/core/io/OutputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setOutputDecorator(com.fasterxml.jackson.core.io.OutputDecorator d)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1060,15 +1022,14 @@ class JsonFactory extends jni.JObject {
   JsonFactory setOutputDecorator(
     jni.JObject d,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_setOutputDecorator,
-            jni.JniCallType.objectType, [d.reference]).object);
+    return _id_setOutputDecorator(
+        this, const $JsonFactoryType(), [d.reference.pointer]);
   }
 
-  static final _id_setRootValueSeparator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"setRootValueSeparator",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_setRootValueSeparator = _class.instanceMethodId(
+    r"setRootValueSeparator",
+    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setRootValueSeparator(java.lang.String sep)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1081,29 +1042,27 @@ class JsonFactory extends jni.JObject {
   JsonFactory setRootValueSeparator(
     jni.JString sep,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_setRootValueSeparator,
-            jni.JniCallType.objectType, [sep.reference]).object);
+    return _id_setRootValueSeparator(
+        this, const $JsonFactoryType(), [sep.reference.pointer]);
   }
 
-  static final _id_getRootValueSeparator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference, r"getRootValueSeparator", r"()Ljava/lang/String;");
+  static final _id_getRootValueSeparator = _class.instanceMethodId(
+    r"getRootValueSeparator",
+    r"()Ljava/lang/String;",
+  );
 
   /// from: public java.lang.String getRootValueSeparator()
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @return Root value separator configured, if any
   jni.JString getRootValueSeparator() {
-    return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_getRootValueSeparator,
-        jni.JniCallType.objectType, []).object);
+    return _id_getRootValueSeparator(this, const jni.JStringType(), []);
   }
 
-  static final _id_setCodec = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"setCodec",
-      r"(Lcom/fasterxml/jackson/core/ObjectCodec;)Lcom/fasterxml/jackson/core/JsonFactory;");
+  static final _id_setCodec = _class.instanceMethodId(
+    r"setCodec",
+    r"(Lcom/fasterxml/jackson/core/ObjectCodec;)Lcom/fasterxml/jackson/core/JsonFactory;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCodec(com.fasterxml.jackson.core.ObjectCodec oc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1118,25 +1077,24 @@ class JsonFactory extends jni.JObject {
   JsonFactory setCodec(
     jni.JObject oc,
   ) {
-    return const $JsonFactoryType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_setCodec, jni.JniCallType.objectType,
-            [oc.reference]).object);
+    return _id_setCodec(this, const $JsonFactoryType(), [oc.reference.pointer]);
   }
 
-  static final _id_getCodec = jni.Jni.accessors.getMethodIDOf(_class.reference,
-      r"getCodec", r"()Lcom/fasterxml/jackson/core/ObjectCodec;");
+  static final _id_getCodec = _class.instanceMethodId(
+    r"getCodec",
+    r"()Lcom/fasterxml/jackson/core/ObjectCodec;",
+  );
 
   /// from: public com.fasterxml.jackson.core.ObjectCodec getCodec()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getCodec() {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_getCodec, jni.JniCallType.objectType, []).object);
+    return _id_getCodec(this, const jni.JObjectType(), []);
   }
 
-  static final _id_createParser = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser = _class.instanceMethodId(
+    r"createParser",
+    r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.File f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1160,15 +1118,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser(
     jni.JObject f,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser,
-            jni.JniCallType.objectType, [f.reference]).object);
+    return _id_createParser(
+        this, const jsonparser_.$JsonParserType(), [f.reference.pointer]);
   }
 
-  static final _id_createParser1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser1 = _class.instanceMethodId(
+    r"createParser",
+    r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.net.URL url)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1190,15 +1147,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser1(
     jni.JObject url,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser1,
-            jni.JniCallType.objectType, [url.reference]).object);
+    return _id_createParser1(
+        this, const jsonparser_.$JsonParserType(), [url.reference.pointer]);
   }
 
-  static final _id_createParser2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser2 = _class.instanceMethodId(
+    r"createParser",
+    r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.InputStream in)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1223,15 +1179,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser2(
     jni.JObject in0,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser2,
-            jni.JniCallType.objectType, [in0.reference]).object);
+    return _id_createParser2(
+        this, const jsonparser_.$JsonParserType(), [in0.reference.pointer]);
   }
 
-  static final _id_createParser3 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser3 = _class.instanceMethodId(
+    r"createParser",
+    r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.Reader r)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1249,15 +1204,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser3(
     jni.JObject r,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser3,
-            jni.JniCallType.objectType, [r.reference]).object);
+    return _id_createParser3(
+        this, const jsonparser_.$JsonParserType(), [r.reference.pointer]);
   }
 
-  static final _id_createParser4 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"([B)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser4 = _class.instanceMethodId(
+    r"createParser",
+    r"([B)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1268,15 +1222,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser4,
-            jni.JniCallType.objectType, [data.reference]).object);
+    return _id_createParser4(
+        this, const jsonparser_.$JsonParserType(), [data.reference.pointer]);
   }
 
-  static final _id_createParser5 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"([BII)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser5 = _class.instanceMethodId(
+    r"createParser",
+    r"([BII)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data, int offset, int len)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1292,19 +1245,14 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_createParser5, jni.JniCallType.objectType, [
-      data.reference,
-      jni.JValueInt(offset),
-      jni.JValueInt(len)
-    ]).object);
+    return _id_createParser5(this, const jsonparser_.$JsonParserType(),
+        [data.reference.pointer, jni.JValueInt(offset), jni.JValueInt(len)]);
   }
 
-  static final _id_createParser6 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser6 = _class.instanceMethodId(
+    r"createParser",
+    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.lang.String content)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1315,15 +1263,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser6(
     jni.JString content,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser6,
-            jni.JniCallType.objectType, [content.reference]).object);
+    return _id_createParser6(
+        this, const jsonparser_.$JsonParserType(), [content.reference.pointer]);
   }
 
-  static final _id_createParser7 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"([C)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser7 = _class.instanceMethodId(
+    r"createParser",
+    r"([C)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1334,15 +1281,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser7(
     jni.JArray<jni.jchar> content,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser7,
-            jni.JniCallType.objectType, [content.reference]).object);
+    return _id_createParser7(
+        this, const jsonparser_.$JsonParserType(), [content.reference.pointer]);
   }
 
-  static final _id_createParser8 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"([CII)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser8 = _class.instanceMethodId(
+    r"createParser",
+    r"([CII)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content, int offset, int len)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1354,19 +1300,14 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_createParser8, jni.JniCallType.objectType, [
-      content.reference,
-      jni.JValueInt(offset),
-      jni.JValueInt(len)
-    ]).object);
+    return _id_createParser8(this, const jsonparser_.$JsonParserType(),
+        [content.reference.pointer, jni.JValueInt(offset), jni.JValueInt(len)]);
   }
 
-  static final _id_createParser9 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createParser",
-      r"(Ljava/io/DataInput;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createParser9 = _class.instanceMethodId(
+    r"createParser",
+    r"(Ljava/io/DataInput;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.DataInput in)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1380,14 +1321,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser9(
     jni.JObject in0,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createParser9,
-            jni.JniCallType.objectType, [in0.reference]).object);
+    return _id_createParser9(
+        this, const jsonparser_.$JsonParserType(), [in0.reference.pointer]);
   }
 
-  static final _id_createNonBlockingByteArrayParser = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"createNonBlockingByteArrayParser",
-          r"()Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createNonBlockingByteArrayParser = _class.instanceMethodId(
+    r"createNonBlockingByteArrayParser",
+    r"()Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createNonBlockingByteArrayParser()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1406,15 +1347,14 @@ class JsonFactory extends jni.JObject {
   /// at this point.
   ///@since 2.9
   jsonparser_.JsonParser createNonBlockingByteArrayParser() {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createNonBlockingByteArrayParser,
-            jni.JniCallType.objectType, []).object);
+    return _id_createNonBlockingByteArrayParser(
+        this, const jsonparser_.$JsonParserType(), []);
   }
 
-  static final _id_createGenerator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createGenerator",
-      r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createGenerator = _class.instanceMethodId(
+    r"createGenerator",
+    r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1441,17 +1381,14 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createGenerator,
-        jni.JniCallType.objectType,
-        [out.reference, enc.reference]).object);
+    return _id_createGenerator(this, const jni.JObjectType(),
+        [out.reference.pointer, enc.reference.pointer]);
   }
 
-  static final _id_createGenerator1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createGenerator",
-      r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createGenerator1 = _class.instanceMethodId(
+    r"createGenerator",
+    r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1464,17 +1401,14 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator1(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createGenerator1,
-        jni.JniCallType.objectType,
-        [out.reference]).object);
+    return _id_createGenerator1(
+        this, const jni.JObjectType(), [out.reference.pointer]);
   }
 
-  static final _id_createGenerator2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createGenerator",
-      r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createGenerator2 = _class.instanceMethodId(
+    r"createGenerator",
+    r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.Writer w)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1493,17 +1427,14 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator2(
     jni.JObject w,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createGenerator2,
-        jni.JniCallType.objectType,
-        [w.reference]).object);
+    return _id_createGenerator2(
+        this, const jni.JObjectType(), [w.reference.pointer]);
   }
 
-  static final _id_createGenerator3 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createGenerator",
-      r"(Ljava/io/File;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createGenerator3 = _class.instanceMethodId(
+    r"createGenerator",
+    r"(Ljava/io/File;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.File f, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1524,17 +1455,14 @@ class JsonFactory extends jni.JObject {
     jni.JObject f,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createGenerator3,
-        jni.JniCallType.objectType,
-        [f.reference, enc.reference]).object);
+    return _id_createGenerator3(this, const jni.JObjectType(),
+        [f.reference.pointer, enc.reference.pointer]);
   }
 
-  static final _id_createGenerator4 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createGenerator",
-      r"(Ljava/io/DataOutput;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createGenerator4 = _class.instanceMethodId(
+    r"createGenerator",
+    r"(Ljava/io/DataOutput;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1546,17 +1474,14 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createGenerator4,
-        jni.JniCallType.objectType,
-        [out.reference, enc.reference]).object);
+    return _id_createGenerator4(this, const jni.JObjectType(),
+        [out.reference.pointer, enc.reference.pointer]);
   }
 
-  static final _id_createGenerator5 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createGenerator",
-      r"(Ljava/io/DataOutput;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createGenerator5 = _class.instanceMethodId(
+    r"createGenerator",
+    r"(Ljava/io/DataOutput;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1569,17 +1494,14 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator5(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createGenerator5,
-        jni.JniCallType.objectType,
-        [out.reference]).object);
+    return _id_createGenerator5(
+        this, const jni.JObjectType(), [out.reference.pointer]);
   }
 
-  static final _id_createJsonParser = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonParser",
-      r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createJsonParser = _class.instanceMethodId(
+    r"createJsonParser",
+    r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.File f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1605,15 +1527,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser(
     jni.JObject f,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createJsonParser,
-            jni.JniCallType.objectType, [f.reference]).object);
+    return _id_createJsonParser(
+        this, const jsonparser_.$JsonParserType(), [f.reference.pointer]);
   }
 
-  static final _id_createJsonParser1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonParser",
-      r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createJsonParser1 = _class.instanceMethodId(
+    r"createJsonParser",
+    r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.net.URL url)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1638,15 +1559,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser1(
     jni.JObject url,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createJsonParser1,
-            jni.JniCallType.objectType, [url.reference]).object);
+    return _id_createJsonParser1(
+        this, const jsonparser_.$JsonParserType(), [url.reference.pointer]);
   }
 
-  static final _id_createJsonParser2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonParser",
-      r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createJsonParser2 = _class.instanceMethodId(
+    r"createJsonParser",
+    r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.InputStream in)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1674,15 +1594,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser2(
     jni.JObject in0,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createJsonParser2,
-            jni.JniCallType.objectType, [in0.reference]).object);
+    return _id_createJsonParser2(
+        this, const jsonparser_.$JsonParserType(), [in0.reference.pointer]);
   }
 
-  static final _id_createJsonParser3 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonParser",
-      r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createJsonParser3 = _class.instanceMethodId(
+    r"createJsonParser",
+    r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.Reader r)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1703,15 +1622,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser3(
     jni.JObject r,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createJsonParser3,
-            jni.JniCallType.objectType, [r.reference]).object);
+    return _id_createJsonParser3(
+        this, const jsonparser_.$JsonParserType(), [r.reference.pointer]);
   }
 
-  static final _id_createJsonParser4 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonParser",
-      r"([B)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createJsonParser4 = _class.instanceMethodId(
+    r"createJsonParser",
+    r"([B)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1725,15 +1643,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createJsonParser4,
-            jni.JniCallType.objectType, [data.reference]).object);
+    return _id_createJsonParser4(
+        this, const jsonparser_.$JsonParserType(), [data.reference.pointer]);
   }
 
-  static final _id_createJsonParser5 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonParser",
-      r"([BII)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createJsonParser5 = _class.instanceMethodId(
+    r"createJsonParser",
+    r"([BII)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data, int offset, int len)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1752,19 +1669,14 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_createJsonParser5, jni.JniCallType.objectType, [
-      data.reference,
-      jni.JValueInt(offset),
-      jni.JValueInt(len)
-    ]).object);
+    return _id_createJsonParser5(this, const jsonparser_.$JsonParserType(),
+        [data.reference.pointer, jni.JValueInt(offset), jni.JValueInt(len)]);
   }
 
-  static final _id_createJsonParser6 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonParser",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;");
+  static final _id_createJsonParser6 = _class.instanceMethodId(
+    r"createJsonParser",
+    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.lang.String content)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1779,15 +1691,14 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser6(
     jni.JString content,
   ) {
-    return const jsonparser_.$JsonParserType().fromRef(jni.Jni.accessors
-        .callMethodWithArgs(reference, _id_createJsonParser6,
-            jni.JniCallType.objectType, [content.reference]).object);
+    return _id_createJsonParser6(
+        this, const jsonparser_.$JsonParserType(), [content.reference.pointer]);
   }
 
-  static final _id_createJsonGenerator = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonGenerator",
-      r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createJsonGenerator = _class.instanceMethodId(
+    r"createJsonGenerator",
+    r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1816,17 +1727,14 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createJsonGenerator,
-        jni.JniCallType.objectType,
-        [out.reference, enc.reference]).object);
+    return _id_createJsonGenerator(this, const jni.JObjectType(),
+        [out.reference.pointer, enc.reference.pointer]);
   }
 
-  static final _id_createJsonGenerator1 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonGenerator",
-      r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createJsonGenerator1 = _class.instanceMethodId(
+    r"createJsonGenerator",
+    r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.Writer out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1847,17 +1755,14 @@ class JsonFactory extends jni.JObject {
   jni.JObject createJsonGenerator1(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createJsonGenerator1,
-        jni.JniCallType.objectType,
-        [out.reference]).object);
+    return _id_createJsonGenerator1(
+        this, const jni.JObjectType(), [out.reference.pointer]);
   }
 
-  static final _id_createJsonGenerator2 = jni.Jni.accessors.getMethodIDOf(
-      _class.reference,
-      r"createJsonGenerator",
-      r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;");
+  static final _id_createJsonGenerator2 = _class.instanceMethodId(
+    r"createJsonGenerator",
+    r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;",
+  );
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1873,11 +1778,8 @@ class JsonFactory extends jni.JObject {
   jni.JObject createJsonGenerator2(
     jni.JObject out,
   ) {
-    return const jni.JObjectType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference,
-        _id_createJsonGenerator2,
-        jni.JniCallType.objectType,
-        [out.reference]).object);
+    return _id_createJsonGenerator2(
+        this, const jni.JObjectType(), [out.reference.pointer]);
   }
 }
 
@@ -1888,7 +1790,8 @@ final class $JsonFactoryType extends jni.JObjType<JsonFactory> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonFactory;";
 
   @override
-  JsonFactory fromRef(jni.JObjectPtr ref) => JsonFactory.fromRef(ref);
+  JsonFactory fromReference(jni.JReference reference) =>
+      JsonFactory.fromReference(reference);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

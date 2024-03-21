@@ -1,14 +1,21 @@
 // Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_config/cli_config.dart';
+import 'package:pub_semver/src/version.dart';
 import 'package:yaml/yaml.dart';
 
 import '../../native_assets_cli.dart';
-import '../model/link_config.dart';
-import '../model/pipeline_config.dart';
+import '../model/pipeline_step.dart';
+import 'build_config.dart';
+import 'build_output.dart';
+import 'pipeline_config.dart';
+
+part '../model/link_config.dart';
 
 /// The input to the linking script.
 ///
@@ -17,7 +24,7 @@ import '../model/pipeline_config.dart';
 /// [resourceIdentifiers] generated during the kernel compilation.
 abstract class LinkConfig extends PipelineConfig {
   /// Generate the [LinkConfig] from the input arguments to the linking script.
-  static Future<LinkConfig> fromArgs(List<String> args) async {
+  static Future<LinkConfig> fromArguments(List<String> args) async {
     final argParser = ArgParser()..addOption('config');
 
     final results = argParser.parse(args);
@@ -41,9 +48,6 @@ abstract class LinkConfig extends PipelineConfig {
 
   @override
   Uri get packageRoot;
-
-  @override
-  Map<String, Object> toYaml();
 
   /// The URI of the `link.dart` script.
   @override

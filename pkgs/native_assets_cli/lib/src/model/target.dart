@@ -5,237 +5,10 @@
 import 'dart:ffi' show Abi;
 import 'dart:io';
 
-import '../api/link_mode.dart' as api;
-import '../api/target.dart' as api;
-import 'link_mode.dart';
+import '../api/architecture.dart';
+import '../api/os.dart';
 
-/// The hardware architectures the Dart VM runs on.
-class Architecture implements api.Architecture {
-  /// This architecture as used in [Platform.version].
-  final String dartPlatform;
-
-  const Architecture._(this.dartPlatform);
-
-  factory Architecture.fromAbi(Abi abi) => _abiToArch[abi]!;
-
-  static const Architecture arm = Architecture._('arm');
-  static const Architecture arm64 = Architecture._('arm64');
-  static const Architecture ia32 = Architecture._('ia32');
-  static const Architecture riscv32 = Architecture._('riscv32');
-  static const Architecture riscv64 = Architecture._('riscv64');
-  static const Architecture x64 = Architecture._('x64');
-
-  /// Known values for [Architecture].
-  static const List<Architecture> values = [
-    arm,
-    arm64,
-    ia32,
-    riscv32,
-    riscv64,
-    x64,
-  ];
-
-  static const _abiToArch = {
-    Abi.androidArm: Architecture.arm,
-    Abi.androidArm64: Architecture.arm64,
-    Abi.androidIA32: Architecture.ia32,
-    Abi.androidX64: Architecture.x64,
-    Abi.androidRiscv64: Architecture.riscv64,
-    Abi.fuchsiaArm64: Architecture.arm64,
-    Abi.fuchsiaX64: Architecture.x64,
-    Abi.iosArm: Architecture.arm,
-    Abi.iosArm64: Architecture.arm64,
-    Abi.iosX64: Architecture.x64,
-    Abi.linuxArm: Architecture.arm,
-    Abi.linuxArm64: Architecture.arm64,
-    Abi.linuxIA32: Architecture.ia32,
-    Abi.linuxRiscv32: Architecture.riscv32,
-    Abi.linuxRiscv64: Architecture.riscv64,
-    Abi.linuxX64: Architecture.x64,
-    Abi.macosArm64: Architecture.arm64,
-    Abi.macosX64: Architecture.x64,
-    Abi.windowsArm64: Architecture.arm64,
-    Abi.windowsIA32: Architecture.ia32,
-    Abi.windowsX64: Architecture.x64,
-  };
-
-  /// The `package:config` key preferably used.
-  static const String configKey = 'target_architecture';
-
-  @override
-  String toString() => dartPlatform;
-
-  /// Mapping from strings as used in [Architecture.toString] to
-  /// [Architecture]s.
-  static final Map<String, Architecture> _stringToArchitecture =
-      Map.fromEntries(Architecture.values.map(
-          (architecture) => MapEntry(architecture.toString(), architecture)));
-
-  factory Architecture.fromString(String target) =>
-      _stringToArchitecture[target]!;
-
-  /// The current [Architecture].
-  ///
-  /// Read from the [Platform.version] string.
-  static final Architecture current = Target.current.architecture;
-}
-
-/// The operating systems the Dart VM runs on.
-class OS implements api.OS {
-  /// This OS as used in [Platform.version]
-  final String dartPlatform;
-
-  const OS._(this.dartPlatform);
-
-  factory OS.fromAbi(Abi abi) => _abiToOS[abi]!;
-
-  static const OS android = OS._('android');
-  static const OS fuchsia = OS._('fuchsia');
-  static const OS iOS = OS._('ios');
-  static const OS linux = OS._('linux');
-  static const OS macOS = OS._('macos');
-  static const OS windows = OS._('windows');
-
-  /// Known values for [OS].
-  static const List<OS> values = [
-    android,
-    fuchsia,
-    iOS,
-    linux,
-    macOS,
-    windows,
-  ];
-
-  static const _abiToOS = {
-    Abi.androidArm: OS.android,
-    Abi.androidArm64: OS.android,
-    Abi.androidIA32: OS.android,
-    Abi.androidX64: OS.android,
-    Abi.androidRiscv64: OS.android,
-    Abi.fuchsiaArm64: OS.fuchsia,
-    Abi.fuchsiaX64: OS.fuchsia,
-    Abi.iosArm: OS.iOS,
-    Abi.iosArm64: OS.iOS,
-    Abi.iosX64: OS.iOS,
-    Abi.linuxArm: OS.linux,
-    Abi.linuxArm64: OS.linux,
-    Abi.linuxIA32: OS.linux,
-    Abi.linuxRiscv32: OS.linux,
-    Abi.linuxRiscv64: OS.linux,
-    Abi.linuxX64: OS.linux,
-    Abi.macosArm64: OS.macOS,
-    Abi.macosX64: OS.macOS,
-    Abi.windowsArm64: OS.windows,
-    Abi.windowsIA32: OS.windows,
-    Abi.windowsX64: OS.windows,
-  };
-
-  /// Typical cross compilation between OSes.
-  static const _osCrossCompilationDefault = {
-    OS.macOS: [OS.macOS, OS.iOS, OS.android],
-    OS.linux: [OS.linux, OS.android],
-    OS.windows: [OS.windows, OS.android],
-  };
-
-  /// The default dynamic library file name on this [OS].
-  @override
-  String dylibFileName(String name) {
-    final prefix = _dylibPrefix[this]!;
-    final extension = _dylibExtension[this]!;
-    return '$prefix$name.$extension';
-  }
-
-  /// The default static library file name on this [OS].
-  @override
-  String staticlibFileName(String name) {
-    final prefix = _staticlibPrefix[this]!;
-    final extension = _staticlibExtension[this]!;
-    return '$prefix$name.$extension';
-  }
-
-  @override
-  String libraryFileName(String name, api.LinkMode linkMode) {
-    if (linkMode == LinkMode.dynamic) {
-      return dylibFileName(name);
-    }
-    assert(linkMode == LinkMode.static);
-    return staticlibFileName(name);
-  }
-
-  /// The default executable file name on this [OS].
-  @override
-  String executableFileName(String name) {
-    final extension = _executableExtension[this]!;
-    final dot = extension.isNotEmpty ? '.' : '';
-    return '$name$dot$extension';
-  }
-
-  /// The default name prefix for dynamic libraries per [OS].
-  static const _dylibPrefix = {
-    OS.android: 'lib',
-    OS.fuchsia: 'lib',
-    OS.iOS: 'lib',
-    OS.linux: 'lib',
-    OS.macOS: 'lib',
-    OS.windows: '',
-  };
-
-  /// The default extension for dynamic libraries per [OS].
-  static const _dylibExtension = {
-    OS.android: 'so',
-    OS.fuchsia: 'so',
-    OS.iOS: 'dylib',
-    OS.linux: 'so',
-    OS.macOS: 'dylib',
-    OS.windows: 'dll',
-  };
-
-  /// The default name prefix for static libraries per [OS].
-  static const _staticlibPrefix = _dylibPrefix;
-
-  /// The default extension for static libraries per [OS].
-  static const _staticlibExtension = {
-    OS.android: 'a',
-    OS.fuchsia: 'a',
-    OS.iOS: 'a',
-    OS.linux: 'a',
-    OS.macOS: 'a',
-    OS.windows: 'lib',
-  };
-
-  /// The default extension for executables per [OS].
-  static const _executableExtension = {
-    OS.android: '',
-    OS.fuchsia: '',
-    OS.iOS: '',
-    OS.linux: '',
-    OS.macOS: '',
-    OS.windows: 'exe',
-  };
-
-  /// The `package:config` key preferably used.
-  static const String configKey = 'target_os';
-
-  @override
-  String toString() => dartPlatform;
-
-  /// Mapping from strings as used in [OS.toString] to
-  /// [OS]s.
-  static final Map<String, OS> _stringToOS =
-      Map.fromEntries(OS.values.map((os) => MapEntry(os.toString(), os)));
-
-  factory OS.fromString(String target) => _stringToOS[target]!;
-
-  /// The current [OS].
-  ///
-  /// Read from the [Platform.version] string.
-  static final OS current = Target.current.os;
-}
-
-/// Application binary interface.
-///
-/// The Dart VM can run on a variety of [Target]s, see [Target.values].
-class Target implements api.Target {
+final class Target implements Comparable<Target> {
   final Abi abi;
 
   const Target._(this.abi);
@@ -262,7 +35,10 @@ class Target implements api.Target {
     return target;
   }
 
-  factory Target.fromArchitectureAndOs(Architecture architecture, OS os) {
+  factory Target.fromArchitectureAndOS(
+    ArchitectureImpl architecture,
+    OSImpl os,
+  ) {
     for (final value in values) {
       if (value.os == os && value.architecture == architecture) {
         return value;
@@ -294,11 +70,7 @@ class Target implements api.Target {
   static const windowsIA32 = Target._(Abi.windowsIA32);
   static const windowsX64 = Target._(Abi.windowsX64);
 
-  /// All Targets that we can build for.
-  ///
-  /// Note that for some of these a Dart SDK is not available and they are only
-  /// used as target architectures for Flutter apps.
-  static const values = {
+  static const Set<Target> values = {
     androidArm,
     androidArm64,
     androidIA32,
@@ -320,7 +92,6 @@ class Target implements api.Target {
     windowsArm64,
     windowsIA32,
     windowsX64,
-    // TODO(dacoharkes): Add support for `wasm`.
   };
 
   /// Mapping from strings as used in [Target.toString] to [Target]s.
@@ -337,17 +108,14 @@ class Target implements api.Target {
   /// Read from the [Platform.version] string.
   static final Target current = Target.fromDartPlatform(Platform.version);
 
-  @override
-  Architecture get architecture => Architecture.fromAbi(abi);
+  ArchitectureImpl get architecture => ArchitectureImpl.fromAbi(abi);
 
-  @override
-  OS get os => OS.fromAbi(abi);
+  OSImpl get os => OSImpl.fromAbi(abi);
 
   String get _architectureString => architecture.dartPlatform;
 
   String get _osString => os.dartPlatform;
 
-  /// A string representation of this object.
   @override
   String toString() => dartVMToString();
 
@@ -358,12 +126,12 @@ class Target implements api.Target {
   ///
   /// If [other] is also an [Target], consistent with sorting on [toString].
   @override
-  int compareTo(api.Target other) => toString().compareTo(other.toString());
+  int compareTo(Target other) => toString().compareTo(other.toString());
 
   /// A list of supported target [Target]s from this host [os].
   List<Target> supportedTargetTargets(
-          {Map<OS, List<OS>> osCrossCompilation =
-              OS._osCrossCompilationDefault}) =>
+          {Map<OSImpl, List<OSImpl>> osCrossCompilation =
+              OSImpl.osCrossCompilationDefault}) =>
       Target.values
           .where((target) =>
               // Only valid cross compilation.
@@ -374,7 +142,7 @@ class Target implements api.Target {
 }
 
 /// Common methods for manipulating iterables of [Target]s.
-extension TargetList on Iterable<Target> {
+extension on Iterable<Target> {
   /// The [Target]s in `this` sorted by name alphabetically.
   List<Target> get sorted => [for (final target in this) target]..sort();
 }

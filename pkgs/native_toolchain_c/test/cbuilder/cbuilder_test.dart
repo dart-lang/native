@@ -43,17 +43,17 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
+        final buildConfig = BuildConfig.build(
+          outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,
           targetArchitecture: Architecture.current,
-          targetOs: OS.current,
+          targetOS: OS.current,
           buildMode: buildMode,
           // Ignored by executables.
           linkModePreference: LinkModePreference.dynamic,
           cCompiler: CCompilerConfig(
-            cc: cc,
+            compiler: cc,
             envScript: envScript,
             envScriptArgs: envScriptArgs,
           ),
@@ -63,6 +63,7 @@ void main() {
           name: name,
           sources: [helloWorldCUri.toFilePath()],
           pie: pic,
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,
@@ -71,7 +72,7 @@ void main() {
         );
 
         final executableUri =
-            tempUri.resolve(Target.current.os.executableFileName(name));
+            tempUri.resolve(OS.current.executableFileName(name));
         expect(await File.fromUri(executableUri).exists(), true);
         final result = await runProcess(
           executable: executableUri,
@@ -87,7 +88,7 @@ void main() {
           (message) => message.contains(helloWorldCUri.toFilePath()),
         );
 
-        switch ((buildConfig.targetOs, pic)) {
+        switch ((buildConfig.targetOS, pic)) {
           case (OS.windows, _) || (_, null):
             expect(compilerInvocation, isNot(contains('-fPIC')));
             expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -119,19 +120,19 @@ void main() {
                 outDir: tempUri,
                 packageName: name,
                 packageRoot: tempUri,
-                targetOs: OS.current,
+                targetOS: OS.current,
                 linkModePreference: LinkModePreference.dynamic,
               )
-            : BuildConfig(
-                outDir: tempUri,
+            : BuildConfig.build(
+                outputDirectory: tempUri,
                 packageName: name,
                 packageRoot: tempUri,
                 targetArchitecture: Architecture.current,
-                targetOs: OS.current,
+                targetOS: OS.current,
                 buildMode: BuildMode.release,
                 linkModePreference: LinkModePreference.dynamic,
                 cCompiler: CCompilerConfig(
-                  cc: cc,
+                  compiler: cc,
                   envScript: envScript,
                   envScriptArgs: envScriptArgs,
                 ),
@@ -141,8 +142,9 @@ void main() {
         final cbuilder = CBuilder.library(
           sources: [addCUri.toFilePath()],
           name: name,
-          assetId: name,
+          assetName: name,
           pic: pic,
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,
@@ -150,7 +152,7 @@ void main() {
           logger: logger,
         );
 
-        final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+        final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
         expect(await File.fromUri(dylibUri).exists(), !dryRun);
         if (!dryRun) {
           final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
@@ -161,7 +163,7 @@ void main() {
           final compilerInvocation = logMessages.singleWhere(
             (message) => message.contains(addCUri.toFilePath()),
           );
-          switch ((buildConfig.targetOs, pic)) {
+          switch ((buildConfig.targetOS, pic)) {
             case (OS.windows, _) || (_, null):
               expect(compilerInvocation, isNot(contains('-fPIC')));
               expect(compilerInvocation, isNot(contains('-fPIE')));
@@ -214,24 +216,24 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
     );
     final buildOutput = BuildOutput();
 
-    final flag = switch (buildConfig.targetOs) {
+    final flag = switch (buildConfig.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
       _ => '-DFOO=USER_FLAG',
     };
@@ -240,6 +242,7 @@ void main() {
       name: name,
       sources: [definesCUri.toFilePath()],
       flags: [flag],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -247,8 +250,7 @@ void main() {
       logger: logger,
     );
 
-    final executableUri =
-        tempUri.resolve(Target.current.os.executableFileName(name));
+    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
     final result = await runProcess(
       executable: executableUri,
@@ -273,16 +275,16 @@ void main() {
         packageUri.resolve('test/cbuilder/testfiles/includes/src/includes.c');
     const name = 'includes';
 
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -291,9 +293,10 @@ void main() {
 
     final cbuilder = CBuilder.library(
       name: name,
-      assetId: name,
+      assetName: name,
       includes: [includeDirectoryUri.toFilePath()],
       sources: [includesCUri.toFilePath()],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -301,9 +304,9 @@ void main() {
       logger: logger,
     );
 
-    expect(buildOutput.dependencies.dependencies, contains(includesHUri));
+    expect(buildOutput.dependencies, contains(includesHUri));
 
-    final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
     final x = dylib.lookup<Int>('x');
     expect(x.value, 42);
@@ -318,23 +321,23 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
     );
     final buildOutput = BuildOutput();
 
-    final stdFlag = switch (buildConfig.targetOs) {
+    final stdFlag = switch (buildConfig.targetOS) {
       OS.windows => '/std:$std',
       _ => '-std=$std',
     };
@@ -342,8 +345,9 @@ void main() {
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
-      assetId: name,
+      assetName: name,
       std: std,
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -351,7 +355,7 @@ void main() {
       logger: logger,
     );
 
-    final dylibUri = tempUri.resolve(Target.current.os.dylibFileName(name));
+    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
 
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
     final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
@@ -376,24 +380,24 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       buildMode: BuildMode.release,
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
     );
     final buildOutput = BuildOutput();
 
-    final defaultStdLibLinkFlag = switch (buildConfig.targetOs) {
+    final defaultStdLibLinkFlag = switch (buildConfig.targetOS) {
       OS.windows => null,
       OS.linux => '-l stdc++',
       OS.macOS => '-l c++',
@@ -404,6 +408,7 @@ void main() {
       name: name,
       sources: [helloWorldCppUri.toFilePath()],
       language: Language.cpp,
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -411,8 +416,7 @@ void main() {
       logger: logger,
     );
 
-    final executableUri =
-        tempUri.resolve(Target.current.os.executableFileName(name));
+    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
     final result = await runProcess(
       executable: executableUri,
@@ -441,17 +445,17 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig(
+    final buildConfig = BuildConfig.build(
       buildMode: BuildMode.release,
-      outDir: tempUri,
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       // Ignored by executables.
       linkModePreference: LinkModePreference.dynamic,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -462,9 +466,10 @@ void main() {
       sources: [helloWorldCppUri.toFilePath()],
       language: Language.cpp,
       cppLinkStdLib: 'stdc++',
+      dartBuildFiles: ['hook/build.dart'],
     );
 
-    if (buildConfig.targetOs == OS.windows) {
+    if (buildConfig.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
           buildConfig: buildConfig,
@@ -481,7 +486,7 @@ void main() {
       );
 
       final executableUri =
-          tempUri.resolve(Target.current.os.executableFileName(name));
+          tempUri.resolve(OS.current.executableFileName(name));
       expect(await File.fromUri(executableUri).exists(), true);
       final result = await runProcess(
         executable: executableUri,
@@ -512,17 +517,17 @@ Future<void> testDefines({
   }
   const name = 'defines';
 
-  final buildConfig = BuildConfig(
-    outDir: tempUri,
+  final buildConfig = BuildConfig.build(
+    outputDirectory: tempUri,
     packageName: name,
     packageRoot: tempUri,
     targetArchitecture: Architecture.current,
-    targetOs: OS.current,
+    targetOS: OS.current,
     buildMode: buildMode,
     // Ignored by executables.
     linkModePreference: LinkModePreference.dynamic,
     cCompiler: CCompilerConfig(
-      cc: cc,
+      compiler: cc,
       envScript: envScript,
       envScriptArgs: envScriptArgs,
     ),
@@ -537,6 +542,7 @@ Future<void> testDefines({
     },
     buildModeDefine: buildModeDefine,
     ndebugDefine: ndebugDefine,
+    dartBuildFiles: ['hook/build.dart'],
   );
   await cbuilder.run(
     buildConfig: buildConfig,
@@ -544,8 +550,7 @@ Future<void> testDefines({
     logger: logger,
   );
 
-  final executableUri =
-      tempUri.resolve(Target.current.os.executableFileName(name));
+  final executableUri = tempUri.resolve(OS.current.executableFileName(name));
   expect(await File.fromUri(executableUri).exists(), true);
   final result = await runProcess(
     executable: executableUri,

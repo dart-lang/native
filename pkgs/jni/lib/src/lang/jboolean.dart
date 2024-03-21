@@ -2,11 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../accessors.dart';
 import '../jobject.dart';
 import '../jreference.dart';
-import '../jni.dart';
-import '../third_party/generated_bindings.dart';
 import '../types.dart';
 
 final class JBooleanType extends JObjType<JBoolean> {
@@ -16,7 +13,8 @@ final class JBooleanType extends JObjType<JBoolean> {
   String get signature => r"Ljava/lang/Boolean;";
 
   @override
-  JBoolean fromRef(JObjectPtr ref) => JBoolean.fromRef(ref);
+  JBoolean fromReference(JReference reference) =>
+      JBoolean.fromReference(reference);
 
   @override
   JObjType get superType => const JObjectType();
@@ -38,28 +36,25 @@ class JBoolean extends JObject {
   // ignore: overridden_fields
   late final JObjType<JBoolean> $type = type;
 
-  JBoolean.fromRef(
-    JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JBoolean.fromReference(
+    JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = JBooleanType();
 
-  static final _class = Jni.findJClass(r"java/lang/Boolean");
+  static final _class = JClass.forName(r"java/lang/Boolean");
 
-  static final _ctorId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"<init>", r"(Z)V");
+  static final _ctorId = _class.constructorId(r"(Z)V");
   JBoolean(bool boolean)
-      : super.fromRef(Jni.accessors.newObjectWithArgs(
-            _class.reference, _ctorId, [boolean ? 1 : 0]).object);
+      : super.fromReference(_ctorId(_class, referenceType, [boolean ? 1 : 0]));
 
   static final _booleanValueId =
-      Jni.accessors.getMethodIDOf(_class.reference, r"booleanValue", r"()Z");
+      _class.instanceMethodId(r"booleanValue", r"()Z");
 
   bool booleanValue({bool releaseOriginal = false}) {
-    ensureNotNull();
-    final ret = Jni.accessors.callMethodWithArgs(
-        reference, _booleanValueId, JniCallType.booleanType, []).boolean;
+    reference.ensureNotNull();
+    final ret = _booleanValueId(this, const jbooleanType(), []);
     if (releaseOriginal) {
       release();
     }

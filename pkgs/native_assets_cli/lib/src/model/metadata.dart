@@ -3,29 +3,19 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
-import 'package:yaml/yaml.dart';
 
-import '../api/metadata.dart' as api;
+import '../utils/json.dart';
 import '../utils/map.dart';
-import '../utils/yaml.dart';
 
-class Metadata implements api.Metadata {
-  @override
+class Metadata {
   final Map<String, Object> metadata;
 
   const Metadata(this.metadata);
 
-  factory Metadata.fromYaml(YamlMap? yamlMap) =>
-      Metadata(yamlMap?.formatCast<String, Object>() ?? {});
+  factory Metadata.fromJson(Map<Object?, Object?>? jsonMap) =>
+      Metadata(jsonMap?.formatCast<String, Object>() ?? {});
 
-  factory Metadata.fromYamlString(String yaml) {
-    final yamlObject = as<YamlMap>(loadYaml(yaml));
-    return Metadata.fromYaml(yamlObject);
-  }
-
-  Map<String, Object> toYaml() => metadata..sortOnKey();
-
-  String toYamlString() => yamlEncode(toYaml());
+  Map<String, Object> toJson() => metadata..sortOnKey();
 
   @override
   bool operator ==(Object other) {
@@ -39,5 +29,5 @@ class Metadata implements api.Metadata {
   int get hashCode => const DeepCollectionEquality().hash(metadata);
 
   @override
-  String toString() => 'Metadata(${toYaml()})';
+  String toString() => 'Metadata(${toJson()})';
 }

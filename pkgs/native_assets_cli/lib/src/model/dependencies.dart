@@ -2,44 +2,32 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
-import 'package:yaml/yaml.dart';
 
-import '../api/dependencies.dart' as api;
 import '../utils/file.dart';
+import '../utils/json.dart';
 import '../utils/uri.dart';
-import '../utils/yaml.dart';
 
-class Dependencies implements api.Dependencies {
+class Dependencies {
   /// The dependencies a build relied on.
-  @override
   final List<Uri> dependencies;
 
   const Dependencies(this.dependencies);
 
-  factory Dependencies.fromYamlString(String yamlString) {
-    final yaml = loadYaml(yamlString);
-    if (yaml is YamlList) {
-      return Dependencies.fromYaml(yaml);
-    }
-    // ignore: prefer_const_constructors
-    return Dependencies([]);
-  }
-
-  factory Dependencies.fromYaml(YamlList? yamlList) => Dependencies([
-        if (yamlList != null)
-          for (final dependency in yamlList)
+  factory Dependencies.fromJson(List<Object?>? jsonList) => Dependencies([
+        if (jsonList != null)
+          for (final dependency in jsonList)
             fileSystemPathToUri(as<String>(dependency)),
       ]);
 
-  List<String> toYaml() => [
+  List<String> toJson() => [
         for (final dependency in dependencies) dependency.toFilePath(),
       ];
 
-  String toYamlString() => yamlEncode(toYaml());
-
   @override
-  String toString() => toYamlString();
+  String toString() => const JsonEncoder.withIndent('  ').convert(toJson());
 
   Future<DateTime> lastModified() =>
       dependencies.map((u) => u.fileSystemEntity).lastModified();

@@ -35,7 +35,7 @@ class PathToolResolver extends ToolResolver {
     required this.toolName,
     String? executableName,
   }) : executableName = executableName ??
-            Target.current.os.executableFileName(toolName.toLowerCase());
+            OS.current.executableFileName(toolName.toLowerCase());
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {

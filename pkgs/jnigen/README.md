@@ -282,6 +282,10 @@ However there are 2 caveats to this caveat.
 
 The JAR files (`$SDK_ROOT/platforms/android-$VERSION/android.jar`) can be used instead. But compiled JARs do not include JavaDoc and method parameter names. This JAR is automatically included by Gradle when `android_sdk_config` >> `add_gradle_deps` is specified.
 
+## Migrating to 0.8.0
+
+Check [`jni`'s changelog](https://github.com/dart-lang/native/blob/main/pkgs/jni/CHANGELOG.md#080-wip) and [`jnigen`'s changelog](https://github.com/dart-lang/native/blob/main/pkgs/jnigen/CHANGELOG.md#080-wip).
+
 ## Contributing
 See the wiki for architecture-related documents.
 

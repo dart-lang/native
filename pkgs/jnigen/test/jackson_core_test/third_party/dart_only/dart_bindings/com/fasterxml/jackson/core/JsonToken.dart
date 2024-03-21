@@ -47,98 +47,100 @@ class JsonToken extends jni.JObject {
   @override
   late final jni.JObjType<JsonToken> $type = type;
 
-  JsonToken.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JsonToken.fromReference(
+    jni.JReference reference,
+  ) : super.fromReference(reference);
 
   static final _class =
-      jni.Jni.findJClass(r"com/fasterxml/jackson/core/JsonToken");
+      jni.JClass.forName(r"com/fasterxml/jackson/core/JsonToken");
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonTokenType();
-  static final _id_values = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"values",
-      r"()[Lcom/fasterxml/jackson/core/JsonToken;");
+  static final _id_values = _class.staticMethodId(
+    r"values",
+    r"()[Lcom/fasterxml/jackson/core/JsonToken;",
+  );
 
   /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonToken> values() {
-    return const jni.JArrayType($JsonTokenType()).fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_values,
-            jni.JniCallType.objectType, []).object);
+    return _id_values(_class, const jni.JArrayType($JsonTokenType()), []);
   }
 
-  static final _id_valueOf = jni.Jni.accessors.getStaticMethodIDOf(
-      _class.reference,
-      r"valueOf",
-      r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonToken;");
+  static final _id_valueOf = _class.staticMethodId(
+    r"valueOf",
+    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonToken;",
+  );
 
   /// from: static public com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String name)
   /// The returned object must be released after use, by calling the [release] method.
   static JsonToken valueOf(
     jni.JString name,
   ) {
-    return const $JsonTokenType().fromRef(jni.Jni.accessors
-        .callStaticMethodWithArgs(_class.reference, _id_valueOf,
-            jni.JniCallType.objectType, [name.reference]).object);
+    return _id_valueOf(
+        _class, const $JsonTokenType(), [name.reference.pointer]);
   }
 
-  static final _id_id =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"id", r"()I");
+  static final _id_id = _class.instanceMethodId(
+    r"id",
+    r"()I",
+  );
 
   /// from: public final int id()
   int id() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_id, jni.JniCallType.intType, []).integer;
+    return _id_id(this, const jni.jintType(), []);
   }
 
-  static final _id_asString = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"asString", r"()Ljava/lang/String;");
+  static final _id_asString = _class.instanceMethodId(
+    r"asString",
+    r"()Ljava/lang/String;",
+  );
 
   /// from: public final java.lang.String asString()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
-    return const jni.JStringType().fromRef(jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_asString, jni.JniCallType.objectType, []).object);
+    return _id_asString(this, const jni.JStringType(), []);
   }
 
-  static final _id_asCharArray = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"asCharArray", r"()[C");
+  static final _id_asCharArray = _class.instanceMethodId(
+    r"asCharArray",
+    r"()[C",
+  );
 
   /// from: public final char[] asCharArray()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
-    return const jni.JArrayType(jni.jcharType()).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_asCharArray, jni.JniCallType.objectType, []).object);
+    return _id_asCharArray(this, const jni.JArrayType(jni.jcharType()), []);
   }
 
-  static final _id_asByteArray = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"asByteArray", r"()[B");
+  static final _id_asByteArray = _class.instanceMethodId(
+    r"asByteArray",
+    r"()[B",
+  );
 
   /// from: public final byte[] asByteArray()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
-    return const jni.JArrayType(jni.jbyteType()).fromRef(jni.Jni.accessors
-        .callMethodWithArgs(
-            reference, _id_asByteArray, jni.JniCallType.objectType, []).object);
+    return _id_asByteArray(this, const jni.JArrayType(jni.jbyteType()), []);
   }
 
-  static final _id_isNumeric =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"isNumeric", r"()Z");
+  static final _id_isNumeric = _class.instanceMethodId(
+    r"isNumeric",
+    r"()Z",
+  );
 
   /// from: public final boolean isNumeric()
   ///
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
   bool isNumeric() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_isNumeric, jni.JniCallType.booleanType, []).boolean;
+    return _id_isNumeric(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_isStructStart = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"isStructStart", r"()Z");
+  static final _id_isStructStart = _class.instanceMethodId(
+    r"isStructStart",
+    r"()Z",
+  );
 
   /// from: public final boolean isStructStart()
   ///
@@ -150,12 +152,13 @@ class JsonToken extends jni.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   bool isStructStart() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_isStructStart, jni.JniCallType.booleanType, []).boolean;
+    return _id_isStructStart(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_isStructEnd =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"isStructEnd", r"()Z");
+  static final _id_isStructEnd = _class.instanceMethodId(
+    r"isStructEnd",
+    r"()Z",
+  );
 
   /// from: public final boolean isStructEnd()
   ///
@@ -167,12 +170,13 @@ class JsonToken extends jni.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   bool isStructEnd() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_isStructEnd, jni.JniCallType.booleanType, []).boolean;
+    return _id_isStructEnd(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_isScalarValue = jni.Jni.accessors
-      .getMethodIDOf(_class.reference, r"isScalarValue", r"()Z");
+  static final _id_isScalarValue = _class.instanceMethodId(
+    r"isScalarValue",
+    r"()Z",
+  );
 
   /// from: public final boolean isScalarValue()
   ///
@@ -183,20 +187,20 @@ class JsonToken extends jni.JObject {
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   bool isScalarValue() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_isScalarValue, jni.JniCallType.booleanType, []).boolean;
+    return _id_isScalarValue(this, const jni.jbooleanType(), []);
   }
 
-  static final _id_isBoolean =
-      jni.Jni.accessors.getMethodIDOf(_class.reference, r"isBoolean", r"()Z");
+  static final _id_isBoolean = _class.instanceMethodId(
+    r"isBoolean",
+    r"()Z",
+  );
 
   /// from: public final boolean isBoolean()
   ///
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
   bool isBoolean() {
-    return jni.Jni.accessors.callMethodWithArgs(
-        reference, _id_isBoolean, jni.JniCallType.booleanType, []).boolean;
+    return _id_isBoolean(this, const jni.jbooleanType(), []);
   }
 }
 
@@ -207,7 +211,8 @@ final class $JsonTokenType extends jni.JObjType<JsonToken> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonToken;";
 
   @override
-  JsonToken fromRef(jni.JObjectPtr ref) => JsonToken.fromRef(ref);
+  JsonToken fromReference(jni.JReference reference) =>
+      JsonToken.fromReference(reference);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

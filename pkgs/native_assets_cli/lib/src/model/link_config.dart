@@ -2,24 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
-import 'package:cli_config/cli_config.dart';
-import 'package:yaml/yaml.dart';
-
-import '../api/link_config.dart' as api;
-import '../api/resources.dart';
-import 'asset.dart';
-import 'build_config.dart';
-import 'build_output.dart';
-import 'pipeline_step.dart';
+part of '../api/link_config.dart';
 
 /// The input to the linking script.
 ///
 /// It consists of the [_buildConfig] already passed to the build script, the
 /// [assets] from the build step, and the [resourceIdentifiers]
 /// generated during the kernel compilation.
-class LinkConfig extends api.LinkConfig {
+class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   @override
   final List<Asset> assets;
 
@@ -30,7 +20,7 @@ class LinkConfig extends api.LinkConfig {
 
   final LinkConfigArgs _args;
 
-  LinkConfig(
+  LinkConfigImpl(
     this._args, {
     required this.assets,
     required BuildConfig buildConfig,
@@ -53,10 +43,13 @@ class LinkConfig extends api.LinkConfig {
   Uri get packageRoot => _buildConfig.packageRoot;
 
   @override
-  Map<String, Object> toYaml() => _args.toYaml();
+  Uri get script => packageRoot.resolve(PipelineStep.link.scriptName);
 
   @override
-  Uri get script => packageRoot.resolve(PipelineStep.link.scriptName);
+  String toJsonString() => jsonEncode(_args.toJson());
+
+  @override
+  Version get version => throw UnimplementedError();
 }
 
 class LinkConfigArgs {
@@ -80,14 +73,14 @@ class LinkConfigArgs {
     );
   }
 
-  Future<LinkConfig> fromArgs() async {
+  Future<LinkConfigImpl> fromArgs() async {
     final buildConfigFile = File(buildConfigUri.path);
     if (!buildConfigFile.existsSync()) {
       throw UnsupportedError(
           'A link.dart script needs a build.dart to be executed');
     }
     final readAsStringSync = buildConfigFile.readAsStringSync();
-    final config = BuildConfig.fromConfig(
+    final config = BuildConfigImpl.fromConfig(
       Config.fromConfigFileContents(
         fileContents: readAsStringSync,
       ),
@@ -98,18 +91,16 @@ class LinkConfigArgs {
     }
 
     final buildOutput =
-        await BuildOutput.readFromFile(outputUri: config.outputFile);
-    return LinkConfig(
+        await BuildOutputImpl.readFromFile(file: config.outputFile);
+    return LinkConfigImpl(
       this,
-      assets: buildOutput!.assets
-          .where((element) => element.linkInPackage == config.packageName)
-          .toList(),
+      assets: buildOutput!.assetsForLinking[config.packageName] ?? [],
       buildConfig: config,
       resourceIdentifiers: resources,
     );
   }
 
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toJson() => {
         if (resourceIdentifierUri != null)
           resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
         buildConfigKey: buildConfigUri.toFilePath(),

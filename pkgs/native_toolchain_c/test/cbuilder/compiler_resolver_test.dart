@@ -9,7 +9,7 @@
 library;
 
 import 'package:collection/collection.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli.dart' as cli;
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
@@ -40,43 +40,44 @@ void main() {
     final envScript = [
       ...await vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = cli.BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOs: OS.current,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        ar: ar,
-        cc: cc,
-        ld: ld,
+      targetArchitecture: cli.Architecture.current,
+      targetOS: cli.OS.current,
+      buildMode: cli.BuildMode.release,
+      linkModePreference: cli.LinkModePreference.dynamic,
+      cCompiler: cli.CCompilerConfig(
+        archiver: ar,
+        compiler: cc,
+        linker: ld,
         envScript: envScript,
       ),
     );
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.cCompiler.cc);
-    expect(archiver.uri, buildConfig.cCompiler.ar);
+    expect(compiler.uri, buildConfig.cCompiler.compiler);
+    expect(archiver.uri, buildConfig.cCompiler.archiver);
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = cli.BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: 'dummy',
       packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOs: OS.windows,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
+      targetArchitecture: cli.Architecture.arm64,
+      targetOS: cli.OS.windows,
+      buildMode: cli.BuildMode.release,
+      linkModePreference: cli.LinkModePreference.dynamic,
     );
     final resolver = CompilerResolver(
       buildConfig: buildConfig,
       logger: logger,
-      host: Target.androidArm64, // This is never a host.
+      hostOS: cli.OS.android, // This is never a host.
+      hostArchitecture: cli.Architecture.arm64, // This is never a host.
     );
     expect(resolver.resolveCompiler, throwsA(isA<ToolError>()));
     expect(resolver.resolveArchiver, throwsA(isA<ToolError>()));

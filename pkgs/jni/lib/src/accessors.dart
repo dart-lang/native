@@ -3,13 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'package:ffi/ffi.dart' show using;
 
-import 'package:jni/src/jvalues.dart';
-
-import 'errors.dart';
-import 'third_party/generated_bindings.dart';
-import 'jni.dart';
+import 'package:jni/jni.dart';
 
 void _check(JThrowablePtr exception) {
   if (exception != nullptr) {
@@ -55,9 +50,17 @@ extension JniResultMethods on JniResult {
     return value.d;
   }
 
-  JObjectPtr get object {
+  JObjectPtr get objectPointer {
     check();
     return value.l;
+  }
+
+  JReference get reference {
+    return JGlobalReference(objectPointer);
+  }
+
+  T object<T extends JObject>(JObjType<T> type) {
+    return type.fromReference(reference);
   }
 
   bool get boolean {
@@ -115,48 +118,4 @@ extension JniAccessorWrappers on JniAccessors {
     env.DeleteGlobalRef(details.stacktrace);
     throw JniException(message, stacktrace);
   }
-
-  // TODO(PR): How to name these methods? These only wrap toNativeChars()
-  // so that generated bindings are less verbose.
-  JClassPtr getClassOf(String internalName) =>
-      using((arena) => getClass(internalName.toNativeChars(arena)))
-          .checkedClassRef;
-
-  JMethodIDPtr getMethodIDOf(JClassPtr cls, String name, String signature) =>
-      using((arena) => getMethodID(
-              cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
-          .methodID;
-
-  JMethodIDPtr getStaticMethodIDOf(
-          JClassPtr cls, String name, String signature) =>
-      using((arena) => getStaticMethodID(
-              cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
-          .methodID;
-
-  JFieldIDPtr getFieldIDOf(JClassPtr cls, String name, String signature) =>
-      using((arena) => getFieldID(
-              cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
-          .fieldID;
-
-  JFieldIDPtr getStaticFieldIDOf(
-          JClassPtr cls, String name, String signature) =>
-      using((arena) => getStaticFieldID(
-              cls, name.toNativeChars(arena), signature.toNativeChars(arena)))
-          .fieldID;
-
-  JniResult newObjectWithArgs(
-          JClassPtr cls, JMethodIDPtr ctor, List<dynamic> args) =>
-      using((arena) {
-        return newObject(cls, ctor, toJValues(args, allocator: arena));
-      });
-
-  JniResult callMethodWithArgs(
-          JObjectPtr obj, JMethodIDPtr id, int callType, List<dynamic> args) =>
-      using((arena) =>
-          callMethod(obj, id, callType, toJValues(args, allocator: arena)));
-
-  JniResult callStaticMethodWithArgs(
-          JClassPtr cls, JMethodIDPtr id, int callType, List<dynamic> args) =>
-      using((arena) => callStaticMethod(
-          cls, id, callType, toJValues(args, allocator: arena)));
 }

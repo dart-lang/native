@@ -49,9 +49,9 @@ class JsonToken extends jni.JObject {
   @override
   late final jni.JObjType<JsonToken> $type = type;
 
-  JsonToken.fromRef(
-    jni.JObjectPtr ref,
-  ) : super.fromRef(ref);
+  JsonToken.fromReference(
+    jni.JReference reference,
+  ) : super.fromReference(reference);
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonTokenType();
@@ -63,7 +63,7 @@ class JsonToken extends jni.JObject {
   /// from: static public com.fasterxml.jackson.core.JsonToken[] values()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonToken> values() {
-    return const jni.JArrayType($JsonTokenType()).fromRef(_values().object);
+    return _values().object(const jni.JArrayType($JsonTokenType()));
   }
 
   static final _valueOf = jniLookup<
@@ -77,7 +77,7 @@ class JsonToken extends jni.JObject {
   static JsonToken valueOf(
     jni.JString name,
   ) {
-    return const $JsonTokenType().fromRef(_valueOf(name.reference).object);
+    return _valueOf(name.reference.pointer).object(const $JsonTokenType());
   }
 
   static final _id = jniLookup<
@@ -87,7 +87,7 @@ class JsonToken extends jni.JObject {
 
   /// from: public final int id()
   int id() {
-    return _id(reference).integer;
+    return _id(reference.pointer).integer;
   }
 
   static final _asString = jniLookup<
@@ -99,7 +99,7 @@ class JsonToken extends jni.JObject {
   /// from: public final java.lang.String asString()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JString asString() {
-    return const jni.JStringType().fromRef(_asString(reference).object);
+    return _asString(reference.pointer).object(const jni.JStringType());
   }
 
   static final _asCharArray = jniLookup<
@@ -111,8 +111,8 @@ class JsonToken extends jni.JObject {
   /// from: public final char[] asCharArray()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jchar> asCharArray() {
-    return const jni.JArrayType(jni.jcharType())
-        .fromRef(_asCharArray(reference).object);
+    return _asCharArray(reference.pointer)
+        .object(const jni.JArrayType(jni.jcharType()));
   }
 
   static final _asByteArray = jniLookup<
@@ -124,8 +124,8 @@ class JsonToken extends jni.JObject {
   /// from: public final byte[] asByteArray()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JArray<jni.jbyte> asByteArray() {
-    return const jni.JArrayType(jni.jbyteType())
-        .fromRef(_asByteArray(reference).object);
+    return _asByteArray(reference.pointer)
+        .object(const jni.JArrayType(jni.jbyteType()));
   }
 
   static final _isNumeric = jniLookup<
@@ -139,7 +139,7 @@ class JsonToken extends jni.JObject {
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
   bool isNumeric() {
-    return _isNumeric(reference).boolean;
+    return _isNumeric(reference.pointer).boolean;
   }
 
   static final _isStructStart = jniLookup<
@@ -158,7 +158,7 @@ class JsonToken extends jni.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   bool isStructStart() {
-    return _isStructStart(reference).boolean;
+    return _isStructStart(reference.pointer).boolean;
   }
 
   static final _isStructEnd = jniLookup<
@@ -177,7 +177,7 @@ class JsonToken extends jni.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   bool isStructEnd() {
-    return _isStructEnd(reference).boolean;
+    return _isStructEnd(reference.pointer).boolean;
   }
 
   static final _isScalarValue = jniLookup<
@@ -195,7 +195,7 @@ class JsonToken extends jni.JObject {
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   bool isScalarValue() {
-    return _isScalarValue(reference).boolean;
+    return _isScalarValue(reference.pointer).boolean;
   }
 
   static final _isBoolean = jniLookup<
@@ -209,7 +209,7 @@ class JsonToken extends jni.JObject {
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
   bool isBoolean() {
-    return _isBoolean(reference).boolean;
+    return _isBoolean(reference.pointer).boolean;
   }
 }
 
@@ -220,7 +220,8 @@ final class $JsonTokenType extends jni.JObjType<JsonToken> {
   String get signature => r"Lcom/fasterxml/jackson/core/JsonToken;";
 
   @override
-  JsonToken fromRef(jni.JObjectPtr ref) => JsonToken.fromRef(ref);
+  JsonToken fromReference(jni.JReference reference) =>
+      JsonToken.fromReference(reference);
 
   @override
   jni.JObjType get superType => const jni.JObjectType();

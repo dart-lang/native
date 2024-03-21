@@ -8,27 +8,23 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:path/path.dart' as p;
 
 void main(List<String> args) async {
-  final linkConfig = await LinkConfig.fromArgs(args);
+  final linkConfig = await LinkConfig.fromArguments(args);
 
-  final shakenAssets = MyResourceShaker().shake(
-    linkConfig.assets,
-    linkConfig.resourceIdentifiers,
-  );
-
-  final linkOutput = BuildOutput(
-      assets: shakenAssets.map((e) {
-    final filePath = (e.path as AssetAbsolutePath).uri.toFilePath();
-    final uri = linkConfig.outDirectory.resolve(p.basename(filePath));
-    File(filePath).copySync(uri.toFilePath());
-    return Asset(
-      id: e.id,
-      linkMode: e.linkMode,
-      target: e.target,
-      path: AssetAbsolutePath(uri),
+  link(args, (config, output) async {
+    final shakenAssets = MyResourceShaker().shake(
+      linkConfig.assets,
+      linkConfig.resourceIdentifiers,
     );
-  }).toList());
 
-  await linkOutput.writeToFile(outDir: linkConfig.outputFile);
+    final linkOutput = shakenAssets.map((e) {
+      final filePath = e.file!.toFilePath();
+      final uri = linkConfig.outDirectory.resolve(p.basename(filePath));
+      File(filePath).copySync(uri.toFilePath());
+      return DataAsset.fromId(id: e.id, file: uri);
+    }).toList();
+
+    output.addAssets(linkOutput);
+  });
 }
 
 class MyResourceShaker {

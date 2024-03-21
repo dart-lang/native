@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:jni/jni.dart';
@@ -20,15 +19,15 @@ import 'test_util/test_util.dart';
 //  F
 
 class A extends JObject {
-  A.fromRef(super.reference) : super.fromRef();
+  A.fromReference(JReference reference) : super.fromReference(reference);
   @override
   JObjType<JObject> get $type => $AType();
 }
 
 final class $AType extends JObjType<A> {
   @override
-  A fromRef(Pointer<Void> ref) {
-    return A.fromRef(ref);
+  A fromReference(JReference reference) {
+    return A.fromReference(reference);
   }
 
   @override
@@ -50,15 +49,15 @@ final class $AType extends JObjType<A> {
 }
 
 class B extends JObject {
-  B.fromRef(super.reference) : super.fromRef();
+  B.fromReference(JReference reference) : super.fromReference(reference);
   @override
   JObjType<JObject> get $type => $BType();
 }
 
 final class $BType extends JObjType<B> {
   @override
-  B fromRef(Pointer<Void> ref) {
-    return B.fromRef(ref);
+  B fromReference(JReference reference) {
+    return B.fromReference(reference);
   }
 
   @override
@@ -80,7 +79,7 @@ final class $BType extends JObjType<B> {
 }
 
 class C extends A {
-  C.fromRef(super.reference) : super.fromRef();
+  C.fromReference(JReference reference) : super.fromReference(reference);
 
   @override
   JObjType<JObject> get $type => $CType();
@@ -88,8 +87,8 @@ class C extends A {
 
 final class $CType extends JObjType<C> {
   @override
-  C fromRef(Pointer<Void> ref) {
-    return C.fromRef(ref);
+  C fromReference(JReference reference) {
+    return C.fromReference(reference);
   }
 
   @override
@@ -111,7 +110,7 @@ final class $CType extends JObjType<C> {
 }
 
 class D extends A {
-  D.fromRef(super.reference) : super.fromRef();
+  D.fromReference(JReference reference) : super.fromReference(reference);
 
   @override
   JObjType<JObject> get $type => $DType();
@@ -119,8 +118,8 @@ class D extends A {
 
 final class $DType extends JObjType<D> {
   @override
-  D fromRef(Pointer<Void> ref) {
-    return D.fromRef(ref);
+  D fromReference(JReference reference) {
+    return D.fromReference(reference);
   }
 
   @override
@@ -142,7 +141,7 @@ final class $DType extends JObjType<D> {
 }
 
 class E extends B {
-  E.fromRef(super.reference) : super.fromRef();
+  E.fromReference(JReference reference) : super.fromReference(reference);
 
   @override
   JObjType<JObject> get $type => $EType();
@@ -150,8 +149,8 @@ class E extends B {
 
 final class $EType extends JObjType<E> {
   @override
-  E fromRef(Pointer<Void> ref) {
-    return E.fromRef(ref);
+  E fromReference(JReference reference) {
+    return E.fromReference(reference);
   }
 
   @override
@@ -173,7 +172,7 @@ final class $EType extends JObjType<E> {
 }
 
 class F extends C {
-  F.fromRef(super.reference) : super.fromRef();
+  F.fromReference(JReference reference) : super.fromReference(reference);
 
   @override
   JObjType<JObject> get $type => $FType();
@@ -181,8 +180,8 @@ class F extends C {
 
 final class $FType extends JObjType<F> {
   @override
-  F fromRef(Pointer<Void> ref) {
-    return F.fromRef(ref);
+  F fromReference(JReference reference) {
+    return F.fromReference(reference);
   }
 
   @override

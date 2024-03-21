@@ -6,45 +6,25 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-const packageName = 'native_add_library';
-
-/// Implements the protocol from `package:native_assets_cli` by building
-/// the C code in `src/` and reporting what native assets it built.
 void main(List<String> args) async {
-  // Parse the build configuration passed to this CLI from Dart or Flutter.
-  final buildConfig = await BuildConfig.fromArgs(args);
-  final buildOutput = BuildOutput();
-
-  // Configure `package:native_toolchain_c` to build the C code for us.
-  final cbuilder = CBuilder.library(
-    name: packageName,
-    assetId: 'package:$packageName/${packageName}.dart',
-    sources: [
-      'src/$packageName.c',
-    ],
-  );
-  await cbuilder.run(
-    buildConfig: buildConfig,
-    // `package:native_toolchain_c` will output the dynamic or static libraries it built,
-    // what files it accessed (for caching the build), etc.
-    buildOutput: buildOutput,
-    logger: Logger('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) => print(record.message)),
-  );
-  if (!buildConfig.dryRun) {
-    const assetName = 'data_asset_build.json';
-    buildOutput.assets.add(
-      Asset(
-        id: 'package:$packageName/$assetName',
-        linkMode: LinkMode.dynamic,
-        target: buildConfig.target,
-        path: AssetAbsolutePath(buildConfig.packageRoot.resolve(assetName)),
-      ),
+  await build(args, (config, output) async {
+    final packageName = config.packageName;
+    final cbuilder = CBuilder.library(
+      name: packageName,
+      assetName: '$packageName.dart',
+      sources: [
+        'src/$packageName.c',
+      ],
+      // TODO(https://github.com/dart-lang/native/issues/823): Update after
+      // change is rolled into Dart SDK.
+      dartBuildFiles: ['build.dart'],
     );
-  }
-
-  // Write the output according to the native assets protocol so that Dart or
-  // Flutter can find the native assets produced by this script.
-  await buildOutput.writeToFile(outDir: buildConfig.outputFile);
+    await cbuilder.run(
+      buildConfig: config,
+      buildOutput: output,
+      logger: Logger('')
+        ..level = Level.ALL
+        ..onRecord.listen((record) => print(record.message)),
+    );
+  });
 }

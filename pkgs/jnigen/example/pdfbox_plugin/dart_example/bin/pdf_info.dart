@@ -10,8 +10,10 @@ import 'package:jni/jni.dart';
 import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 
 void writeInfo(String file) {
-  final inputFile = Jni.newInstance(
-      "java/io/FileInputStream", "(Ljava/lang/String;)V", [file]);
+  final fileInputStreamClass = JClass.forName("java/io/FileInputStream");
+  final inputFile = fileInputStreamClass
+      .constructorId("(Ljava/lang/String;)V")
+      .call(fileInputStreamClass, JObject.type, [file.toJString()]);
   final pdDoc = PDDocument.load6(inputFile);
   int pages = pdDoc.getNumberOfPages();
   final info = pdDoc.getDocumentInformation();

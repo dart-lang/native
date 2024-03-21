@@ -44,7 +44,7 @@ class CBuilder implements Builder {
 
   /// Name of the library or executable to build.
   ///
-  /// The filename will be decided by [BuildConfig.target] and
+  /// The filename will be decided by [BuildConfig.targetOS] and
   /// [OS.libraryFileName] or [OS.executableFileName].
   ///
   /// File will be placed in [BuildConfig.outDirectory].
@@ -55,7 +55,7 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.assets].
   ///
   /// If omitted, no asset will be added to the build output.
-  final String? assetId;
+  final String? assetName;
 
   /// Sources to build the library or executable.
   ///
@@ -154,10 +154,10 @@ class CBuilder implements Builder {
 
   CBuilder.library({
     required this.name,
-    required this.assetId,
+    required this.assetName,
     this.sources = const [],
     this.includes = const [],
-    this.dartBuildFiles = const ['build.dart'],
+    required this.dartBuildFiles,
     @visibleForTesting this.installName,
     this.flags = const [],
     this.defines = const {},
@@ -173,7 +173,7 @@ class CBuilder implements Builder {
     required this.name,
     this.sources = const [],
     this.includes = const [],
-    this.dartBuildFiles = const ['build.dart'],
+    required this.dartBuildFiles,
     this.flags = const [],
     this.defines = const {},
     this.buildModeDefine = true,
@@ -183,7 +183,7 @@ class CBuilder implements Builder {
     this.language = Language.c,
     this.cppLinkStdLib,
   })  : _type = _CBuilderType.executable,
-        assetId = null,
+        assetName = null,
         installName = null,
         pic = pie;
 
@@ -199,11 +199,11 @@ class CBuilder implements Builder {
     final outDir = buildConfig.outDirectory;
     final packageRoot = buildConfig.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = buildConfig.linkModePreference.preferredLinkMode;
+    final linkMode = _linkMode(buildConfig.linkModePreference);
     final libUri =
-        outDir.resolve(buildConfig.targetOs.libraryFileName(name, linkMode));
+        outDir.resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
     final exeUri =
-        outDir.resolve(buildConfig.targetOs.executableFileName(name));
+        outDir.resolve(buildConfig.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -221,12 +221,12 @@ class CBuilder implements Builder {
         logger: logger,
         sources: sources,
         includes: includes,
-        dynamicLibrary:
-            _type == _CBuilderType.library && linkMode == LinkMode.dynamic
-                ? libUri
-                : null,
+        dynamicLibrary: _type == _CBuilderType.library &&
+                linkMode == DynamicLoadingBundled()
+            ? libUri
+            : null,
         staticLibrary:
-            _type == _CBuilderType.library && linkMode == LinkMode.static
+            _type == _CBuilderType.library && linkMode == StaticLinking()
                 ? libUri
                 : null,
         executable: _type == _CBuilderType.executable ? exeUri : null,
@@ -246,22 +246,18 @@ class CBuilder implements Builder {
       await task.run();
     }
 
-    if (assetId != null) {
-      final targets = [
-        if (!buildConfig.dryRun)
-          buildConfig.target
-        else
-          for (final target in Target.values)
-            if (target.os == buildConfig.targetOs) target
-      ];
-      for (final target in targets) {
-        buildOutput.assets.add(Asset(
-          id: assetId!,
+    if (assetName != null) {
+      buildOutput.addAssets([
+        NativeCodeAsset(
+          package: buildConfig.packageName,
+          name: assetName!,
+          file: buildConfig.dryRun ? null : libUri,
           linkMode: linkMode,
-          target: target,
-          path: AssetAbsolutePath(libUri),
-        ));
-      }
+          os: buildConfig.targetOS,
+          architecture:
+              buildConfig.dryRun ? null : buildConfig.targetArchitecture,
+        )
+      ]);
     }
     if (!buildConfig.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
@@ -273,7 +269,7 @@ class CBuilder implements Builder {
           )
           .toList();
 
-      buildOutput.dependencies.dependencies.addAll({
+      buildOutput.addDependencies({
         // Note: We use a Set here to deduplicate the dependencies.
         ...sources,
         ...includeFiles,
@@ -286,4 +282,14 @@ class CBuilder implements Builder {
 enum _CBuilderType {
   executable,
   library,
+}
+
+LinkMode _linkMode(LinkModePreference preference) {
+  if (preference == LinkModePreference.dynamic ||
+      preference == LinkModePreference.preferDynamic) {
+    return DynamicLoadingBundled();
+  }
+  assert(preference == LinkModePreference.static ||
+      preference == LinkModePreference.preferStatic);
+  return StaticLinking();
 }

@@ -24,29 +24,29 @@ void main() {
   }
 
   const targets = [
-    Target.iOSArm64,
-    Target.iOSX64,
+    Architecture.arm64,
+    Architecture.x64,
   ];
 
   // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
-    Target.iOSArm64: 'arm64',
-    Target.iOSX64: '64-bit x86-64',
+    Architecture.arm64: 'arm64',
+    Architecture.x64: '64-bit x86-64',
   };
 
   const name = 'add';
 
-  for (final linkMode in LinkMode.values) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final targetIOSSdk in IOSSdk.values) {
       for (final target in targets) {
-        if (target == Target.iOSX64 && targetIOSSdk == IOSSdk.iPhoneOs) {
+        if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {
           continue;
         }
 
-        final libName = target.os.libraryFileName(name, linkMode);
+        final libName = OS.iOS.libraryFileName(name, linkMode);
         for (final installName in [
           null,
-          if (linkMode == LinkMode.dynamic)
+          if (linkMode == DynamicLoadingBundled())
             Uri.file('@executable_path/Frameworks/$libName'),
         ]) {
           test(
@@ -56,14 +56,14 @@ void main() {
             final tempUri = await tempDirForTest();
             final addCUri =
                 packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-            final buildConfig = BuildConfig(
-              outDir: tempUri,
+            final buildConfig = BuildConfig.build(
+              outputDirectory: tempUri,
               packageName: name,
               packageRoot: tempUri,
-              targetArchitecture: target.architecture,
-              targetOs: target.os,
+              targetArchitecture: target,
+              targetOS: OS.iOS,
               buildMode: BuildMode.release,
-              linkModePreference: linkMode == LinkMode.dynamic
+              linkModePreference: linkMode == DynamicLoadingBundled()
                   ? LinkModePreference.dynamic
                   : LinkModePreference.static,
               targetIOSSdk: targetIOSSdk,
@@ -72,9 +72,10 @@ void main() {
 
             final cbuilder = CBuilder.library(
               name: name,
-              assetId: name,
+              assetName: name,
               sources: [addCUri.toFilePath()],
               installName: installName,
+              dartBuildFiles: ['hook/build.dart'],
             );
             await cbuilder.run(
               buildConfig: buildConfig,
@@ -100,7 +101,7 @@ void main() {
               logger: logger,
             );
             expect(otoolResult.exitCode, 0);
-            if (targetIOSSdk == IOSSdk.iPhoneOs || target == Target.iOSX64) {
+            if (targetIOSSdk == IOSSdk.iPhoneOS || target == Architecture.x64) {
               // The x64 simulator behaves as device, presumably because the
               // devices are never x64.
               expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));
@@ -116,7 +117,7 @@ void main() {
               expect(platform, contains(platformIosSimulator.toString()));
             }
 
-            if (linkMode == LinkMode.dynamic) {
+            if (linkMode == DynamicLoadingBundled()) {
               final libInstallName = await runOtoolInstallName(libUri, libName);
               if (installName == null) {
                 // If no install path is passed, we have an absolute path.

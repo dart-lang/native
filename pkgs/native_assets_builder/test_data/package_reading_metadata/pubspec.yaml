@@ -1,14 +1,13 @@
 name: package_reading_metadata
-description: Reads some metadata in its build.dart
+description: Reads some metadata in its hook/build.dart
 version: 0.1.0
 
 publish_to: none
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  cli_config: ^0.1.1
   native_assets_cli:
     path: ../../../native_assets_cli/
   package_with_metadata:

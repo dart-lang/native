@@ -276,6 +276,31 @@ void main() {
       calloc.free(counter);
     });
 
+    Pointer<ObjCObject> manualRetainInner(Pointer<Int32> counter) {
+      final obj = ArcTestObject.newWithCounter_(lib, counter);
+      expect(counter.value, 1);
+      return obj.retainAndReturnPointer();
+    }
+
+    manualRetainInner2(Pointer<Int32> counter, Pointer<ObjCObject> rawPointer) {
+      final obj = ArcTestObject.castFromPointer(lib, rawPointer,
+          retain: false, release: true);
+      expect(counter.value, 1);
+    }
+
+    test('Manual retain', () {
+      final counter = calloc<Int32>();
+      final rawPointer = manualRetainInner(counter);
+      doGC();
+      expect(counter.value, 1);
+
+      manualRetainInner2(counter, rawPointer);
+      doGC();
+      expect(counter.value, 0);
+
+      calloc.free(counter);
+    });
+
     ArcTestObject unownedReferenceInner2(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.new1(lib);
       obj1.setCounter_(counter);

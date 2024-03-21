@@ -87,7 +87,7 @@ class PackageLayout {
   /// All packages in [packageConfig] with native assets.
   ///
   /// Whether a package has native assets is defined by whether it contains
-  /// a `build.dart`.
+  /// a `hook/build.dart`.
   ///
   /// `package:native` itself is excluded.
   Future<List<Package>> packagesWithAssets(PipelineStep step) async {

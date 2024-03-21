@@ -6,23 +6,13 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 const packageName = 'simple_link';
 
-void main(List<String> args) async {
-  final buildConfig = await BuildConfig.fromArgs(args);
-
-  final buildOutput = BuildOutput(
-      assets: List.generate(
-    10,
-    (index) {
-      final filename = 'data_$index.json';
-      return Asset(
-        // Change to DataAsset
-        id: 'package:$packageName/filename', // The BuildState knows the package name.
-        linkMode: LinkMode.dynamic, //remove
-        target: buildConfig.target, //remove
-        path: AssetAbsolutePath(Uri.file(filename)), // change to URI only
-        linkInPackage: index < 4 ? 'simple_link' : '',
-      );
-    },
-  ));
-  await buildOutput.writeToFile(outDir: buildConfig.outputFile);
-}
+void main(List<String> args) async => build(args, (config, output) async {
+      output.addAssets(List.generate(
+        10,
+        (index) => DataAsset(
+          name: 'data_$index', // The BuildState knows the package name.
+          file: Uri.file('data_$index.json'), // change to URI only
+          package: packageName,
+        ),
+      ));
+    });

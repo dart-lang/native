@@ -18,10 +18,13 @@ const trillion = 1024 * 1024 * 1024 * 1024;
 
 void _runJavaGC() {
   final managementFactory =
-      Jni.findJClass('java/lang/management/ManagementFactory');
-  final bean = managementFactory.callStaticMethodByName<JObject>(
-      'getRuntimeMXBean', '()Ljava/lang/management/RuntimeMXBean;', []);
-  final pid = bean.callMethodByName<int>('getPid', '()J', []);
+      JClass.forName('java/lang/management/ManagementFactory');
+  final bean = managementFactory
+      .staticMethodId(
+          'getRuntimeMXBean', '()Ljava/lang/management/RuntimeMXBean;')
+      .call(managementFactory, JObject.type, []);
+  final pid =
+      bean.jClass.instanceMethodId('getPid', '()J').call(bean, jlong.type, []);
   ProcessResult result;
   do {
     result = Process.runSync('jcmd', [pid.toString(), 'GC.run']);
@@ -655,18 +658,24 @@ void registerTests(String groupName, TestRunnerCallback test) {
             }
             expect(
               Jni.env.IsInstanceOf(
-                runner.error.reference,
-                Jni.findClass('java/lang/reflect/UndeclaredThrowableException'),
+                runner.error.reference.pointer,
+                JClass.forName('java/lang/reflect/UndeclaredThrowableException')
+                    .reference
+                    .pointer,
               ),
               isTrue,
             );
-            final cause = runner.error.callMethodByName<JObject>(
-                'getCause', '()Ljava/lang/Throwable;', []);
+            final throwableClass = runner.error.jClass;
+            final cause = throwableClass
+                .instanceMethodId('getCause', '()Ljava/lang/Throwable;')
+                .call(runner.error, JObject.type, []);
             expect(
               Jni.env.IsInstanceOf(
-                cause.reference,
-                Jni.findClass(
-                    'com/github/dart_lang/jni/PortProxy\$DartException'),
+                cause.reference.pointer,
+                JClass.forName(
+                        'com/github/dart_lang/jni/PortProxy\$DartException')
+                    .reference
+                    .pointer,
               ),
               isTrue,
             );

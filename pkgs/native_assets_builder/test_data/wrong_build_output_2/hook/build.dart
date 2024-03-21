@@ -7,14 +7,15 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 void main(List<String> args) async {
-  final buildConfig = await BuildConfig.fromArgs(args);
+  final buildConfig = await BuildConfigImpl.fromArguments(args);
   await File.fromUri(buildConfig.outputFile).writeAsString(_wrongContents);
 }
 
 const _wrongContents = '''
 timestamp: 2023-07-28 14:22:45.000
-assets: []
+assets:
+  foo: 123
 dependencies: []
 metadata: {}
-version: 9001.0.0
+version: 1.0.0
 ''';

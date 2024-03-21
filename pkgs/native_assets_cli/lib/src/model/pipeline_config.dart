@@ -2,24 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../utils/yaml.dart';
+part of '../api/pipeline_config.dart';
 
-abstract class PipelineConfig {
-  Uri get configFile;
-
-  Uri get outputFile => outDirectory.resolve(outputName);
-
-  Uri get outDirectory;
-
-  Uri get script;
-
-  Map<String, Object> toYaml();
-
-  String toYamlString() => yamlEncode(toYaml());
-
-  String get packageName;
-
-  Uri get packageRoot;
-
-  String get outputName;
+abstract class PipelineConfigImpl extends PipelineConfig {
+  Version get version;
 }

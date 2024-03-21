@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli.dart' as cli;
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -20,7 +20,7 @@ class CompilerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final os = Target.current.os;
+    final os = cli.OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
@@ -64,7 +64,7 @@ class LinkerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final os = Target.current.os;
+    final os = cli.OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
@@ -115,7 +115,7 @@ class ArchiverRecognizer implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     logger?.finer('Trying to recognize $uri.');
-    final os = Target.current.os;
+    final os = cli.OS.current;
     final filePath = uri.toFilePath();
     Tool? tool;
     if (filePath.contains('-gcc-ar')) {

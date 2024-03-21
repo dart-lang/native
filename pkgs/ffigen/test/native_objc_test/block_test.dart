@@ -260,6 +260,29 @@ void main() {
       expect(lib.getBlockRetainCount(rawBlock), 0);
     });
 
+    Pointer<Void> blockManualRetainRefCountTest() {
+      final block = IntBlock.fromFunction(lib, makeAdder(4000));
+      expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
+      final rawBlock = block.retainAndReturnPointer().cast<Void>();
+      expect(lib.getBlockRetainCount(rawBlock.cast()), 2);
+      return rawBlock.cast();
+    }
+
+    int blockManualRetainRefCountTest2(Pointer<Void> rawBlock) {
+      final block = IntBlock.castFromPointer(lib, rawBlock.cast(),
+          retain: false, release: true);
+      return lib.getBlockRetainCount(block.pointer.cast());
+    }
+
+    test('Block ref counting with manual retain and release', () {
+      final rawBlock = blockManualRetainRefCountTest();
+      doGC();
+      expect(lib.getBlockRetainCount(rawBlock), 1);
+      expect(blockManualRetainRefCountTest2(rawBlock), 1);
+      doGC();
+      expect(lib.getBlockRetainCount(rawBlock), 0);
+    });
+
     (Pointer<Void>, Pointer<Void>, Pointer<Void>)
         blockBlockDartCallRefCountTest() {
       final inputBlock = IntBlock.fromFunction(lib, (int x) {

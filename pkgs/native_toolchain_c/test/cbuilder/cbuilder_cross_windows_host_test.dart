@@ -25,8 +25,8 @@ void main() {
   }
 
   const targets = [
-    Target.windowsIA32,
-    Target.windowsX64,
+    Architecture.ia32,
+    Architecture.x64,
   ];
 
   late Uri dumpbinUri;
@@ -37,16 +37,16 @@ void main() {
   });
 
   const dumpbinMachine = {
-    Target.windowsIA32: 'x86',
-    Target.windowsX64: 'x64',
+    Architecture.ia32: 'x86',
+    Architecture.x64: 'x64',
   };
 
-  const dumpbinFileType = {
-    LinkMode.dynamic: 'DLL',
-    LinkMode.static: 'LIBRARY',
+  final dumpbinFileType = {
+    DynamicLoadingBundled(): 'DLL',
+    StaticLinking(): 'LIBRARY',
   };
 
-  for (final linkMode in LinkMode.values) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
@@ -54,14 +54,14 @@ void main() {
             packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
+        final buildConfig = BuildConfig.build(
+          outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,
-          targetOs: target.os,
-          targetArchitecture: target.architecture,
+          targetOS: OS.windows,
+          targetArchitecture: target,
           buildMode: BuildMode.release,
-          linkModePreference: linkMode == LinkMode.dynamic
+          linkModePreference: linkMode == DynamicLoadingBundled()
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
         );
@@ -69,8 +69,9 @@ void main() {
 
         final cbuilder = CBuilder.library(
           name: name,
-          assetId: name,
+          assetName: name,
           sources: [addCUri.toFilePath()],
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,
@@ -79,7 +80,7 @@ void main() {
         );
 
         final libUri =
-            tempUri.resolve(target.os.libraryFileName(name, linkMode));
+            tempUri.resolve(OS.windows.libraryFileName(name, linkMode));
         expect(await File.fromUri(libUri).exists(), true);
         final result = await runProcess(
           executable: dumpbinUri,

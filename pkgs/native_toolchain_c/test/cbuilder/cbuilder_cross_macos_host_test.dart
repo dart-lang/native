@@ -24,17 +24,17 @@ void main() {
   }
 
   const targets = [
-    Target.macOSArm64,
-    Target.macOSX64,
+    Architecture.arm64,
+    Architecture.x64,
   ];
 
   // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
-    Target.macOSArm64: 'arm64',
-    Target.macOSX64: '64-bit x86-64',
+    Architecture.arm64: 'arm64',
+    Architecture.x64: '64-bit x86-64',
   };
 
-  for (final linkMode in LinkMode.values) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
@@ -42,14 +42,14 @@ void main() {
             packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
+        final buildConfig = BuildConfig.build(
+          outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,
-          targetArchitecture: target.architecture,
-          targetOs: target.os,
+          targetArchitecture: target,
+          targetOS: OS.macOS,
           buildMode: BuildMode.release,
-          linkModePreference: linkMode == LinkMode.dynamic
+          linkModePreference: linkMode == DynamicLoadingBundled()
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
         );
@@ -57,8 +57,9 @@ void main() {
 
         final cbuilder = CBuilder.library(
           name: name,
-          assetId: name,
+          assetName: name,
           sources: [addCUri.toFilePath()],
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,
@@ -67,7 +68,7 @@ void main() {
         );
 
         final libUri =
-            tempUri.resolve(target.os.libraryFileName(name, linkMode));
+            tempUri.resolve(OS.macOS.libraryFileName(name, linkMode));
         final result = await runProcess(
           executable: Uri.file('objdump'),
           arguments: ['-t', libUri.path],

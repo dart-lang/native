@@ -43,19 +43,11 @@ const k256 = 256 * 1024;
 
 const secureRandomSeedBound = 4294967296;
 
-JObject getSystemOut() => Jni.retrieveStaticField<JObject>(
-      'System',
-      'out',
-      'Ljava/io/PrintStream;',
-    );
-
 final random = Random.secure();
 
-JObject newRandom() => Jni.newInstance(
-      "java/util/Random",
-      "(J)V",
-      [random.nextInt(secureRandomSeedBound)],
-    );
+final randomClass = JClass.forName('java/util/Random');
+JObject newRandom() => randomClass.constructorId('(J)V').call(
+    randomClass, const JObjectType(), [random.nextInt(secureRandomSeedBound)]);
 
 void run({required TestRunnerCallback testRunner}) {
   testRunner('Test 4K refs can be created in a row', () {
@@ -104,9 +96,9 @@ void run({required TestRunnerCallback testRunner}) {
   // So we are checking if we can run this for large number of times.
   testRunner('Verify a call returning primitive can be run any times', () {
     final random = newRandom();
-    final nextInt = random.getMethodID("nextInt", "()I");
+    final nextInt = randomClass.instanceMethodId('nextInt', '()I');
     for (int i = 0; i < k256; i++) {
-      final rInt = random.callMethod<int>(nextInt, []);
+      final rInt = nextInt(random, const jintType(), []);
       expect(rInt, isA<int>());
     }
   });
@@ -114,14 +106,15 @@ void run({required TestRunnerCallback testRunner}) {
   void testRefValidityAfterGC(int delayInSeconds) {
     testRunner('Validate reference after GC & ${delayInSeconds}s sleep', () {
       final random = newRandom();
+      final nextInt = randomClass.instanceMethodId('nextInt', '()I');
       doGC();
       sleep(Duration(seconds: delayInSeconds));
       expect(
-        random.callMethodByName<int>("nextInt", "()I", []),
+        nextInt(random, const jintType(), []),
         isA<int>(),
       );
       expect(
-        Jni.env.GetObjectRefType(random.reference),
+        Jni.env.GetObjectRefType(random.reference.pointer),
         equals(JObjectRefType.JNIGlobalRefType),
       );
     });

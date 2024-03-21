@@ -145,7 +145,7 @@ final Tool cl = _msvcTool(
   name: 'cl',
   versionArguments: [],
   targetArchitecture: Architecture.x64,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
 );
 
 /// The C/C++ Optimizing Compiler main executable.
@@ -155,7 +155,7 @@ final Tool clIA32 = _msvcTool(
   name: 'cl',
   versionArguments: [],
   targetArchitecture: Architecture.ia32,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
 );
 
 /// The C/C++ Optimizing Compiler main executable.
@@ -165,13 +165,13 @@ final Tool clArm64 = _msvcTool(
   name: 'cl',
   versionArguments: [],
   targetArchitecture: Architecture.arm64,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
 );
 
 final Tool lib = _msvcTool(
   name: 'lib',
   targetArchitecture: Architecture.x64,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
   // https://github.com/dart-lang/native/issues/18
   resolveVersion: false,
 );
@@ -179,7 +179,7 @@ final Tool lib = _msvcTool(
 final Tool libIA32 = _msvcTool(
   name: 'lib',
   targetArchitecture: Architecture.ia32,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
   // https://github.com/dart-lang/native/issues/18
   resolveVersion: false,
 );
@@ -187,7 +187,7 @@ final Tool libIA32 = _msvcTool(
 final Tool libArm64 = _msvcTool(
   name: 'lib',
   targetArchitecture: Architecture.arm64,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
   // https://github.com/dart-lang/native/issues/18
   resolveVersion: false,
 );
@@ -197,7 +197,7 @@ final Tool link = _msvcTool(
   versionArguments: ['/help'],
   versionExitCode: 1100,
   targetArchitecture: Architecture.x64,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
 );
 
 final Tool linkIA32 = _msvcTool(
@@ -205,7 +205,7 @@ final Tool linkIA32 = _msvcTool(
   versionArguments: ['/help'],
   versionExitCode: 1100,
   targetArchitecture: Architecture.ia32,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
 );
 
 final Tool linkArm64 = _msvcTool(
@@ -213,13 +213,13 @@ final Tool linkArm64 = _msvcTool(
   versionArguments: ['/help'],
   versionExitCode: 1100,
   targetArchitecture: Architecture.arm64,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
 );
 
 final Tool dumpbin = _msvcTool(
   name: 'dumpbin',
   targetArchitecture: Architecture.x64,
-  hostArchitecture: Target.current.architecture,
+  hostArchitecture: Architecture.current,
 );
 
 const _msvcArchNames = {
@@ -237,7 +237,7 @@ Tool _msvcTool({
   bool resolveVersion = true,
 }) {
   final executableName = OS.windows.executableFileName(name);
-  if (Target.current.os != OS.windows) {
+  if (OS.current != OS.windows) {
     return Tool(
       name: executableName,
       defaultResolver: ToolResolvers([]),

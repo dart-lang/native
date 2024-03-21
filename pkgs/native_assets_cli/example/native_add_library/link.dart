@@ -6,26 +6,23 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 const packageName = 'native_add_library';
 void main(List<String> args) async {
-  final linkInput = await LinkConfig.fromArgs(args);
+  await link(args, (config, output) async {
+    final shakenAssets = MyResourceShaker().shake(
+      config.assets,
+      config.resourceIdentifiers,
+    );
 
-  final shakenAssets = MyResourceShaker().shake(
-    linkInput.assets,
-    linkInput.resourceIdentifiers,
-  );
-
-  // Add a new json file to the assets
-  const assetName = 'data_asset_link.json';
-  shakenAssets.add(
-    Asset(
-      id: 'package:$packageName/$assetName',
-      linkMode: LinkMode.dynamic,
-      target: Target.androidArm,
-      path: AssetAbsolutePath(linkInput.packageRoot.resolve(assetName)),
-    ),
-  );
-
-  await BuildOutput(assets: shakenAssets)
-      .writeToFile(outDir: linkInput.outputFile);
+    // Add a new json file to the assets
+    const assetName = 'data_asset_link.json';
+    shakenAssets.add(
+      DataAsset(
+        name: assetName,
+        package: packageName,
+        file: config.packageRoot.resolve(assetName),
+      ),
+    );
+    output.addAssets(shakenAssets);
+  });
 }
 
 /// Filters out json files from the assets.

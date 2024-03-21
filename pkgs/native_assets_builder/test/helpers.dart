@@ -120,7 +120,7 @@ Future<void> copyTestProjects({
   final manifestString = await manifestFile.readAsString();
   final manifestYaml = loadYamlDocument(manifestString);
   final manifest = [
-    for (final path in manifestYaml.contents as YamlList)
+    for (final path in manifestYaml.contents as List<Object?>)
       Uri(path: path as String)
   ];
   final filesToCopy = manifest

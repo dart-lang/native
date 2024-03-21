@@ -1434,26 +1434,25 @@ class AVFAudio {
   late final __objc_msgSend_54 = __objc_msgSend_54Ptr.asFunction<
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  void _objc_msgSend_54_variant(
+  void _objc_msgSend_54_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_54_variant(
+    return __objc_msgSend_54_stret(
       stret,
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_54_variantPtr = _lookup<
+  late final __objc_msgSend_54_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_54_variant =
-      __objc_msgSend_54_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_54_stret = __objc_msgSend_54_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>)>();
 
   late final _sel_valueWithPoint_1 = _registerName1("valueWithPoint:");
   ffi.Pointer<ObjCObject> _objc_msgSend_55(
@@ -1558,26 +1557,25 @@ class AVFAudio {
   late final __objc_msgSend_59 = __objc_msgSend_59Ptr.asFunction<
       CGPoint Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  void _objc_msgSend_59_variant(
+  void _objc_msgSend_59_stret(
     ffi.Pointer<CGPoint> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_59_variant(
+    return __objc_msgSend_59_stret(
       stret,
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_59_variantPtr = _lookup<
+  late final __objc_msgSend_59_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_59_variant =
-      __objc_msgSend_59_variantPtr.asFunction<
-          void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_59_stret = __objc_msgSend_59_stretPtr.asFunction<
+      void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>)>();
 
   late final _sel_sizeValue1 = _registerName1("sizeValue");
   CGSize _objc_msgSend_60(
@@ -1597,26 +1595,25 @@ class AVFAudio {
   late final __objc_msgSend_60 = __objc_msgSend_60Ptr.asFunction<
       CGSize Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  void _objc_msgSend_60_variant(
+  void _objc_msgSend_60_stret(
     ffi.Pointer<CGSize> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_60_variant(
+    return __objc_msgSend_60_stret(
       stret,
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_60_variantPtr = _lookup<
+  late final __objc_msgSend_60_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_60_variant =
-      __objc_msgSend_60_variantPtr.asFunction<
-          void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_60_stret = __objc_msgSend_60_stretPtr.asFunction<
+      void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>)>();
 
   late final _sel_rectValue1 = _registerName1("rectValue");
   CGRect _objc_msgSend_61(
@@ -1636,26 +1633,25 @@ class AVFAudio {
   late final __objc_msgSend_61 = __objc_msgSend_61Ptr.asFunction<
       CGRect Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  void _objc_msgSend_61_variant(
+  void _objc_msgSend_61_stret(
     ffi.Pointer<CGRect> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_61_variant(
+    return __objc_msgSend_61_stret(
       stret,
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_61_variantPtr = _lookup<
+  late final __objc_msgSend_61_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_61_variant =
-      __objc_msgSend_61_variantPtr.asFunction<
-          void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_61_stret = __objc_msgSend_61_stretPtr.asFunction<
+      void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>)>();
 
   late final _sel_edgeInsetsValue1 = _registerName1("edgeInsetsValue");
   NSEdgeInsets _objc_msgSend_62(
@@ -1675,26 +1671,25 @@ class AVFAudio {
   late final __objc_msgSend_62 = __objc_msgSend_62Ptr.asFunction<
       NSEdgeInsets Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  void _objc_msgSend_62_variant(
+  void _objc_msgSend_62_stret(
     ffi.Pointer<NSEdgeInsets> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_62_variant(
+    return __objc_msgSend_62_stret(
       stret,
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_62_variantPtr = _lookup<
+  late final __objc_msgSend_62_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<NSEdgeInsets>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_62_variant =
-      __objc_msgSend_62_variantPtr.asFunction<
-          void Function(ffi.Pointer<NSEdgeInsets>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_62_stret = __objc_msgSend_62_stretPtr.asFunction<
+      void Function(ffi.Pointer<NSEdgeInsets>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>)>();
 
   late final _sel_keyPathsForValuesAffectingValueForKey_1 =
       _registerName1("keyPathsForValuesAffectingValueForKey:");
@@ -4484,23 +4479,22 @@ class AVFAudio {
   late final __objc_msgSend_165 = __objc_msgSend_165Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  double _objc_msgSend_165_variant(
+  double _objc_msgSend_165_fpret(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_165_variant(
+    return __objc_msgSend_165_fpret(
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_165_variantPtr = _lookup<
+  late final __objc_msgSend_165_fpretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Double Function(ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_fpret');
-  late final __objc_msgSend_165_variant =
-      __objc_msgSend_165_variantPtr.asFunction<
-          double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_165_fpret = __objc_msgSend_165_fpretPtr.asFunction<
+      double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
   late final _sel_initWithTimeIntervalSinceReferenceDate_1 =
       _registerName1("initWithTimeIntervalSinceReferenceDate:");
@@ -4546,26 +4540,25 @@ class AVFAudio {
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  double _objc_msgSend_167_variant(
+  double _objc_msgSend_167_fpret(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> anotherDate,
   ) {
-    return __objc_msgSend_167_variant(
+    return __objc_msgSend_167_fpret(
       obj,
       sel,
       anotherDate,
     );
   }
 
-  late final __objc_msgSend_167_variantPtr = _lookup<
+  late final __objc_msgSend_167_fpretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_fpret');
-  late final __objc_msgSend_167_variant =
-      __objc_msgSend_167_variantPtr.asFunction<
-          double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_167_fpret = __objc_msgSend_167_fpretPtr.asFunction<
+      double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ObjCObject>)>();
 
   late final _sel_timeIntervalSinceNow1 =
       _registerName1("timeIntervalSinceNow");
@@ -6432,23 +6425,22 @@ class AVFAudio {
   late final __objc_msgSend_239 = __objc_msgSend_239Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  double _objc_msgSend_239_variant(
+  double _objc_msgSend_239_fpret(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_239_variant(
+    return __objc_msgSend_239_fpret(
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_239_variantPtr = _lookup<
+  late final __objc_msgSend_239_fpretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Float Function(ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_fpret');
-  late final __objc_msgSend_239_variant =
-      __objc_msgSend_239_variantPtr.asFunction<
-          double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_239_fpret = __objc_msgSend_239_fpretPtr.asFunction<
+      double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
   late final _sel_doubleValue1 = _registerName1("doubleValue");
   late final _sel_boolValue1 = _registerName1("boolValue");
@@ -6555,41 +6547,19 @@ class AVFAudio {
       _registerName1("fileSystemRepresentation");
   late final _sel_isFileURL1 = _registerName1("isFileURL");
   late final _sel_standardizedURL1 = _registerName1("standardizedURL");
-  late final _sel_checkResourceIsReachableAndReturnError_1 =
-      _registerName1("checkResourceIsReachableAndReturnError:");
-  bool _objc_msgSend_243(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-    ffi.Pointer<ffi.Pointer<ObjCObject>> error,
-  ) {
-    return __objc_msgSend_243(
-      obj,
-      sel,
-      error,
-    );
-  }
-
-  late final __objc_msgSend_243Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_243 = __objc_msgSend_243Ptr.asFunction<
-      bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-          ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
-
   late final _sel_isFileReferenceURL1 = _registerName1("isFileReferenceURL");
   late final _sel_fileReferenceURL1 = _registerName1("fileReferenceURL");
   late final _sel_filePathURL1 = _registerName1("filePathURL");
   late final _sel_getResourceValue_forKey_error_1 =
       _registerName1("getResourceValue:forKey:error:");
-  bool _objc_msgSend_244(
+  bool _objc_msgSend_243(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ffi.Pointer<ObjCObject>> value,
     ffi.Pointer<ObjCObject> key,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_244(
+    return __objc_msgSend_243(
       obj,
       sel,
       value,
@@ -6598,7 +6568,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_244Ptr = _lookup<
+  late final __objc_msgSend_243Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
@@ -6606,7 +6576,7 @@ class AVFAudio {
               ffi.Pointer<ffi.Pointer<ObjCObject>>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_244 = __objc_msgSend_244Ptr.asFunction<
+  late final __objc_msgSend_243 = __objc_msgSend_243Ptr.asFunction<
       bool Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6616,13 +6586,13 @@ class AVFAudio {
 
   late final _sel_resourceValuesForKeys_error_1 =
       _registerName1("resourceValuesForKeys:error:");
-  ffi.Pointer<ObjCObject> _objc_msgSend_245(
+  ffi.Pointer<ObjCObject> _objc_msgSend_244(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> keys,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_245(
+    return __objc_msgSend_244(
       obj,
       sel,
       keys,
@@ -6630,14 +6600,14 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_245Ptr = _lookup<
+  late final __objc_msgSend_244Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Pointer<ObjCObject> Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_245 = __objc_msgSend_245Ptr.asFunction<
+  late final __objc_msgSend_244 = __objc_msgSend_244Ptr.asFunction<
       ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6646,18 +6616,50 @@ class AVFAudio {
 
   late final _sel_setResourceValue_forKey_error_1 =
       _registerName1("setResourceValue:forKey:error:");
-  bool _objc_msgSend_246(
+  bool _objc_msgSend_245(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> value,
     ffi.Pointer<ObjCObject> key,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_246(
+    return __objc_msgSend_245(
       obj,
       sel,
       value,
       key,
+      error,
+    );
+  }
+
+  late final __objc_msgSend_245Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Bool Function(
+              ffi.Pointer<ObjCObject>,
+              ffi.Pointer<ObjCSel>,
+              ffi.Pointer<ObjCObject>,
+              ffi.Pointer<ObjCObject>,
+              ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
+  late final __objc_msgSend_245 = __objc_msgSend_245Ptr.asFunction<
+      bool Function(
+          ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
+
+  late final _sel_setResourceValues_error_1 =
+      _registerName1("setResourceValues:error:");
+  bool _objc_msgSend_246(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+    ffi.Pointer<ObjCObject> keyedValues,
+    ffi.Pointer<ffi.Pointer<ObjCObject>> error,
+  ) {
+    return __objc_msgSend_246(
+      obj,
+      sel,
+      keyedValues,
       error,
     );
   }
@@ -6668,62 +6670,30 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
   late final __objc_msgSend_246 = __objc_msgSend_246Ptr.asFunction<
-      bool Function(
-          ffi.Pointer<ObjCObject>,
-          ffi.Pointer<ObjCSel>,
-          ffi.Pointer<ObjCObject>,
-          ffi.Pointer<ObjCObject>,
-          ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
-
-  late final _sel_setResourceValues_error_1 =
-      _registerName1("setResourceValues:error:");
-  bool _objc_msgSend_247(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-    ffi.Pointer<ObjCObject> keyedValues,
-    ffi.Pointer<ffi.Pointer<ObjCObject>> error,
-  ) {
-    return __objc_msgSend_247(
-      obj,
-      sel,
-      keyedValues,
-      error,
-    );
-  }
-
-  late final __objc_msgSend_247Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Bool Function(
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_247 = __objc_msgSend_247Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
   late final _sel_removeCachedResourceValueForKey_1 =
       _registerName1("removeCachedResourceValueForKey:");
-  void _objc_msgSend_248(
+  void _objc_msgSend_247(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> key,
   ) {
-    return __objc_msgSend_248(
+    return __objc_msgSend_247(
       obj,
       sel,
       key,
     );
   }
 
-  late final __objc_msgSend_248Ptr = _lookup<
+  late final __objc_msgSend_247Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend');
-  late final __objc_msgSend_248 = __objc_msgSend_248Ptr.asFunction<
+  late final __objc_msgSend_247 = __objc_msgSend_247Ptr.asFunction<
       void Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
@@ -6734,7 +6704,7 @@ class AVFAudio {
   late final _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_1 =
       _registerName1(
           "bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:");
-  ffi.Pointer<ObjCObject> _objc_msgSend_249(
+  ffi.Pointer<ObjCObject> _objc_msgSend_248(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int options,
@@ -6742,7 +6712,7 @@ class AVFAudio {
     ffi.Pointer<ObjCObject> relativeURL,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_249(
+    return __objc_msgSend_248(
       obj,
       sel,
       options,
@@ -6752,7 +6722,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_249Ptr = _lookup<
+  late final __objc_msgSend_248Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Pointer<ObjCObject> Function(
               ffi.Pointer<ObjCObject>,
@@ -6761,7 +6731,7 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_249 = __objc_msgSend_249Ptr.asFunction<
+  late final __objc_msgSend_248 = __objc_msgSend_248Ptr.asFunction<
       ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6773,7 +6743,7 @@ class AVFAudio {
   late final _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_1 =
       _registerName1(
           "initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:");
-  instancetype _objc_msgSend_250(
+  instancetype _objc_msgSend_249(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> bookmarkData,
@@ -6782,7 +6752,7 @@ class AVFAudio {
     ffi.Pointer<ffi.Bool> isStale,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_250(
+    return __objc_msgSend_249(
       obj,
       sel,
       bookmarkData,
@@ -6793,7 +6763,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_250Ptr = _lookup<
+  late final __objc_msgSend_249Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(
               ffi.Pointer<ObjCObject>,
@@ -6803,7 +6773,7 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Bool>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_250 = __objc_msgSend_250Ptr.asFunction<
+  late final __objc_msgSend_249 = __objc_msgSend_249Ptr.asFunction<
       instancetype Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6818,13 +6788,13 @@ class AVFAudio {
           "URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:");
   late final _sel_resourceValuesForKeys_fromBookmarkData_1 =
       _registerName1("resourceValuesForKeys:fromBookmarkData:");
-  ffi.Pointer<ObjCObject> _objc_msgSend_251(
+  ffi.Pointer<ObjCObject> _objc_msgSend_250(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> keys,
     ffi.Pointer<ObjCObject> bookmarkData,
   ) {
-    return __objc_msgSend_251(
+    return __objc_msgSend_250(
       obj,
       sel,
       keys,
@@ -6832,14 +6802,14 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_251Ptr = _lookup<
+  late final __objc_msgSend_250Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Pointer<ObjCObject> Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend');
-  late final __objc_msgSend_251 = __objc_msgSend_251Ptr.asFunction<
+  late final __objc_msgSend_250 = __objc_msgSend_250Ptr.asFunction<
       ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6848,7 +6818,7 @@ class AVFAudio {
 
   late final _sel_writeBookmarkData_toURL_options_error_1 =
       _registerName1("writeBookmarkData:toURL:options:error:");
-  bool _objc_msgSend_252(
+  bool _objc_msgSend_251(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> bookmarkData,
@@ -6856,7 +6826,7 @@ class AVFAudio {
     int options,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_252(
+    return __objc_msgSend_251(
       obj,
       sel,
       bookmarkData,
@@ -6866,7 +6836,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_252Ptr = _lookup<
+  late final __objc_msgSend_251Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
@@ -6875,7 +6845,7 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.UnsignedLong,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_252 = __objc_msgSend_252Ptr.asFunction<
+  late final __objc_msgSend_251 = __objc_msgSend_251Ptr.asFunction<
       bool Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6886,13 +6856,13 @@ class AVFAudio {
 
   late final _sel_bookmarkDataWithContentsOfURL_error_1 =
       _registerName1("bookmarkDataWithContentsOfURL:error:");
-  ffi.Pointer<ObjCObject> _objc_msgSend_253(
+  ffi.Pointer<ObjCObject> _objc_msgSend_252(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> bookmarkFileURL,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_253(
+    return __objc_msgSend_252(
       obj,
       sel,
       bookmarkFileURL,
@@ -6900,14 +6870,14 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_253Ptr = _lookup<
+  late final __objc_msgSend_252Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Pointer<ObjCObject> Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_253 = __objc_msgSend_253Ptr.asFunction<
+  late final __objc_msgSend_252 = __objc_msgSend_252Ptr.asFunction<
       ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6916,14 +6886,14 @@ class AVFAudio {
 
   late final _sel_URLByResolvingAliasFileAtURL_options_error_1 =
       _registerName1("URLByResolvingAliasFileAtURL:options:error:");
-  instancetype _objc_msgSend_254(
+  instancetype _objc_msgSend_253(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> url,
     int options,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_254(
+    return __objc_msgSend_253(
       obj,
       sel,
       url,
@@ -6932,7 +6902,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_254Ptr = _lookup<
+  late final __objc_msgSend_253Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(
               ffi.Pointer<ObjCObject>,
@@ -6940,7 +6910,7 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Int32,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_254 = __objc_msgSend_254Ptr.asFunction<
+  late final __objc_msgSend_253 = __objc_msgSend_253Ptr.asFunction<
       instancetype Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6956,13 +6926,13 @@ class AVFAudio {
       _registerName1("getPromisedItemResourceValue:forKey:error:");
   late final _sel_promisedItemResourceValuesForKeys_error_1 =
       _registerName1("promisedItemResourceValuesForKeys:error:");
-  ffi.Pointer<ObjCObject> _objc_msgSend_255(
+  ffi.Pointer<ObjCObject> _objc_msgSend_254(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> keys,
     ffi.Pointer<ffi.Pointer<ObjCObject>> error,
   ) {
-    return __objc_msgSend_255(
+    return __objc_msgSend_254(
       obj,
       sel,
       keys,
@@ -6970,14 +6940,14 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_255Ptr = _lookup<
+  late final __objc_msgSend_254Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Pointer<ObjCObject> Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_255 = __objc_msgSend_255Ptr.asFunction<
+  late final __objc_msgSend_254 = __objc_msgSend_254Ptr.asFunction<
       ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ObjCSel>,
@@ -6986,6 +6956,26 @@ class AVFAudio {
 
   late final _sel_checkPromisedItemIsReachableAndReturnError_1 =
       _registerName1("checkPromisedItemIsReachableAndReturnError:");
+  bool _objc_msgSend_255(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+    ffi.Pointer<ffi.Pointer<ObjCObject>> error,
+  ) {
+    return __objc_msgSend_255(
+      obj,
+      sel,
+      error,
+    );
+  }
+
+  late final __objc_msgSend_255Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+              ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
+  late final __objc_msgSend_255 = __objc_msgSend_255Ptr.asFunction<
+      bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
+
   late final _sel_fileURLWithPathComponents_1 =
       _registerName1("fileURLWithPathComponents:");
   ffi.Pointer<ObjCObject> _objc_msgSend_256(
@@ -7066,6 +7056,8 @@ class AVFAudio {
       _registerName1("URLByAppendingPathExtension:");
   late final _sel_URLByDeletingPathExtension1 =
       _registerName1("URLByDeletingPathExtension");
+  late final _sel_checkResourceIsReachableAndReturnError_1 =
+      _registerName1("checkResourceIsReachableAndReturnError:");
   late final _sel_URLByStandardizingPath1 =
       _registerName1("URLByStandardizingPath");
   late final _sel_URLByResolvingSymlinksInPath1 =
@@ -7418,7 +7410,7 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
-  void _objc_msgSend_271_variant(
+  void _objc_msgSend_271_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
@@ -7426,7 +7418,7 @@ class AVFAudio {
     int mask,
     _NSRange searchRange,
   ) {
-    return __objc_msgSend_271_variant(
+    return __objc_msgSend_271_stret(
       stret,
       obj,
       sel,
@@ -7436,7 +7428,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_271_variantPtr = _lookup<
+  late final __objc_msgSend_271_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -7445,10 +7437,9 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Int32,
               _NSRange)>>('objc_msgSend_stret');
-  late final __objc_msgSend_271_variant =
-      __objc_msgSend_271_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
+  late final __objc_msgSend_271_stret = __objc_msgSend_271_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
   late final _sel_enumerateByteRangesUsingBlock_1 =
       _registerName1("enumerateByteRangesUsingBlock:");
@@ -8370,26 +8361,25 @@ class AVFAudio {
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  double _objc_msgSend_307_variant(
+  double _objc_msgSend_307_fpret(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> key,
   ) {
-    return __objc_msgSend_307_variant(
+    return __objc_msgSend_307_fpret(
       obj,
       sel,
       key,
     );
   }
 
-  late final __objc_msgSend_307_variantPtr = _lookup<
+  late final __objc_msgSend_307_fpretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Float Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_fpret');
-  late final __objc_msgSend_307_variant =
-      __objc_msgSend_307_variantPtr.asFunction<
-          double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_307_fpret = __objc_msgSend_307_fpretPtr.asFunction<
+      double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ObjCObject>)>();
 
   late final _sel_decodeDoubleForKey_1 = _registerName1("decodeDoubleForKey:");
   double _objc_msgSend_308(
@@ -8412,26 +8402,25 @@ class AVFAudio {
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  double _objc_msgSend_308_variant(
+  double _objc_msgSend_308_fpret(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> key,
   ) {
-    return __objc_msgSend_308_variant(
+    return __objc_msgSend_308_fpret(
       obj,
       sel,
       key,
     );
   }
 
-  late final __objc_msgSend_308_variantPtr = _lookup<
+  late final __objc_msgSend_308_fpretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_fpret');
-  late final __objc_msgSend_308_variant =
-      __objc_msgSend_308_variantPtr.asFunction<
-          double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_308_fpret = __objc_msgSend_308_fpretPtr.asFunction<
+      double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ObjCObject>)>();
 
   late final _sel_decodeBytesForKey_returnedLength_1 =
       _registerName1("decodeBytesForKey:returnedLength:");
@@ -8985,13 +8974,13 @@ class AVFAudio {
       CGPoint Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  void _objc_msgSend_329_variant(
+  void _objc_msgSend_329_stret(
     ffi.Pointer<CGPoint> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> key,
   ) {
-    return __objc_msgSend_329_variant(
+    return __objc_msgSend_329_stret(
       stret,
       obj,
       sel,
@@ -8999,17 +8988,16 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_329_variantPtr = _lookup<
+  late final __objc_msgSend_329_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<CGPoint>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_329_variant =
-      __objc_msgSend_329_variantPtr.asFunction<
-          void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_329_stret = __objc_msgSend_329_stretPtr.asFunction<
+      void Function(ffi.Pointer<CGPoint>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_decodeSizeForKey_1 = _registerName1("decodeSizeForKey:");
   CGSize _objc_msgSend_330(
@@ -9032,13 +9020,13 @@ class AVFAudio {
       CGSize Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  void _objc_msgSend_330_variant(
+  void _objc_msgSend_330_stret(
     ffi.Pointer<CGSize> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> key,
   ) {
-    return __objc_msgSend_330_variant(
+    return __objc_msgSend_330_stret(
       stret,
       obj,
       sel,
@@ -9046,17 +9034,16 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_330_variantPtr = _lookup<
+  late final __objc_msgSend_330_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<CGSize>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_330_variant =
-      __objc_msgSend_330_variantPtr.asFunction<
-          void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_330_stret = __objc_msgSend_330_stretPtr.asFunction<
+      void Function(ffi.Pointer<CGSize>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_decodeRectForKey_1 = _registerName1("decodeRectForKey:");
   CGRect _objc_msgSend_331(
@@ -9079,13 +9066,13 @@ class AVFAudio {
       CGRect Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  void _objc_msgSend_331_variant(
+  void _objc_msgSend_331_stret(
     ffi.Pointer<CGRect> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> key,
   ) {
-    return __objc_msgSend_331_variant(
+    return __objc_msgSend_331_stret(
       stret,
       obj,
       sel,
@@ -9093,17 +9080,16 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_331_variantPtr = _lookup<
+  late final __objc_msgSend_331_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<CGRect>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_331_variant =
-      __objc_msgSend_331_variantPtr.asFunction<
-          void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_331_stret = __objc_msgSend_331_stretPtr.asFunction<
+      void Function(ffi.Pointer<CGRect>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_substringFromIndex_1 = _registerName1("substringFromIndex:");
   ffi.Pointer<ObjCObject> _objc_msgSend_332(
@@ -9338,13 +9324,13 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  void _objc_msgSend_340_variant(
+  void _objc_msgSend_340_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> str,
   ) {
-    return __objc_msgSend_340_variant(
+    return __objc_msgSend_340_stret(
       stret,
       obj,
       sel,
@@ -9352,17 +9338,16 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_340_variantPtr = _lookup<
+  late final __objc_msgSend_340_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_340_variant =
-      __objc_msgSend_340_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_340_stret = __objc_msgSend_340_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_rangeOfString_1 = _registerName1("rangeOfString:");
   late final _sel_rangeOfString_options_1 =
@@ -9389,14 +9374,14 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, int)>();
 
-  void _objc_msgSend_341_variant(
+  void _objc_msgSend_341_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> searchString,
     int mask,
   ) {
-    return __objc_msgSend_341_variant(
+    return __objc_msgSend_341_stret(
       stret,
       obj,
       sel,
@@ -9405,7 +9390,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_341_variantPtr = _lookup<
+  late final __objc_msgSend_341_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -9413,10 +9398,9 @@ class AVFAudio {
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
               ffi.Int32)>>('objc_msgSend_stret');
-  late final __objc_msgSend_341_variant =
-      __objc_msgSend_341_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int)>();
+  late final __objc_msgSend_341_stret = __objc_msgSend_341_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int)>();
 
   late final _sel_rangeOfString_options_range_1 =
       _registerName1("rangeOfString:options:range:");
@@ -9444,7 +9428,7 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
-  void _objc_msgSend_342_variant(
+  void _objc_msgSend_342_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
@@ -9452,7 +9436,7 @@ class AVFAudio {
     int mask,
     _NSRange rangeOfReceiverToSearch,
   ) {
-    return __objc_msgSend_342_variant(
+    return __objc_msgSend_342_stret(
       stret,
       obj,
       sel,
@@ -9462,7 +9446,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_342_variantPtr = _lookup<
+  late final __objc_msgSend_342_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -9471,10 +9455,9 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Int32,
               _NSRange)>>('objc_msgSend_stret');
-  late final __objc_msgSend_342_variant =
-      __objc_msgSend_342_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
+  late final __objc_msgSend_342_stret = __objc_msgSend_342_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
   late final _sel_rangeOfString_options_range_locale_1 =
       _registerName1("rangeOfString:options:range:locale:");
@@ -9509,7 +9492,7 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, int, _NSRange, ffi.Pointer<ObjCObject>)>();
 
-  void _objc_msgSend_343_variant(
+  void _objc_msgSend_343_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
@@ -9518,7 +9501,7 @@ class AVFAudio {
     _NSRange rangeOfReceiverToSearch,
     ffi.Pointer<ObjCObject> locale,
   ) {
-    return __objc_msgSend_343_variant(
+    return __objc_msgSend_343_stret(
       stret,
       obj,
       sel,
@@ -9529,7 +9512,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_343_variantPtr = _lookup<
+  late final __objc_msgSend_343_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -9539,16 +9522,15 @@ class AVFAudio {
               ffi.Int32,
               _NSRange,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_343_variant =
-      __objc_msgSend_343_variantPtr.asFunction<
-          void Function(
-              ffi.Pointer<_NSRange>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              int,
-              _NSRange,
-              ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_343_stret = __objc_msgSend_343_stretPtr.asFunction<
+      void Function(
+          ffi.Pointer<_NSRange>,
+          ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ObjCObject>,
+          int,
+          _NSRange,
+          ffi.Pointer<ObjCObject>)>();
 
   late final _sel_rangeOfCharacterFromSet_1 =
       _registerName1("rangeOfCharacterFromSet:");
@@ -9572,13 +9554,13 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>)>();
 
-  void _objc_msgSend_344_variant(
+  void _objc_msgSend_344_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> searchSet,
   ) {
-    return __objc_msgSend_344_variant(
+    return __objc_msgSend_344_stret(
       stret,
       obj,
       sel,
@@ -9586,17 +9568,16 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_344_variantPtr = _lookup<
+  late final __objc_msgSend_344_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_344_variant =
-      __objc_msgSend_344_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_344_stret = __objc_msgSend_344_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_rangeOfCharacterFromSet_options_1 =
       _registerName1("rangeOfCharacterFromSet:options:");
@@ -9622,14 +9603,14 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, int)>();
 
-  void _objc_msgSend_345_variant(
+  void _objc_msgSend_345_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> searchSet,
     int mask,
   ) {
-    return __objc_msgSend_345_variant(
+    return __objc_msgSend_345_stret(
       stret,
       obj,
       sel,
@@ -9638,7 +9619,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_345_variantPtr = _lookup<
+  late final __objc_msgSend_345_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -9646,10 +9627,9 @@ class AVFAudio {
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
               ffi.Int32)>>('objc_msgSend_stret');
-  late final __objc_msgSend_345_variant =
-      __objc_msgSend_345_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int)>();
+  late final __objc_msgSend_345_stret = __objc_msgSend_345_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int)>();
 
   late final _sel_rangeOfCharacterFromSet_options_range_1 =
       _registerName1("rangeOfCharacterFromSet:options:range:");
@@ -9677,7 +9657,7 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
-  void _objc_msgSend_346_variant(
+  void _objc_msgSend_346_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
@@ -9685,7 +9665,7 @@ class AVFAudio {
     int mask,
     _NSRange rangeOfReceiverToSearch,
   ) {
-    return __objc_msgSend_346_variant(
+    return __objc_msgSend_346_stret(
       stret,
       obj,
       sel,
@@ -9695,7 +9675,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_346_variantPtr = _lookup<
+  late final __objc_msgSend_346_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -9704,10 +9684,9 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Int32,
               _NSRange)>>('objc_msgSend_stret');
-  late final __objc_msgSend_346_variant =
-      __objc_msgSend_346_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
+  late final __objc_msgSend_346_stret = __objc_msgSend_346_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
   late final _sel_rangeOfComposedCharacterSequenceAtIndex_1 =
       _registerName1("rangeOfComposedCharacterSequenceAtIndex:");
@@ -9730,13 +9709,13 @@ class AVFAudio {
   late final __objc_msgSend_347 = __objc_msgSend_347Ptr.asFunction<
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int)>();
 
-  void _objc_msgSend_347_variant(
+  void _objc_msgSend_347_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int index,
   ) {
-    return __objc_msgSend_347_variant(
+    return __objc_msgSend_347_stret(
       stret,
       obj,
       sel,
@@ -9744,14 +9723,13 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_347_variantPtr = _lookup<
+  late final __objc_msgSend_347_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>, ffi.UnsignedLong)>>('objc_msgSend_stret');
-  late final __objc_msgSend_347_variant =
-      __objc_msgSend_347_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, int)>();
+  late final __objc_msgSend_347_stret = __objc_msgSend_347_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, int)>();
 
   late final _sel_rangeOfComposedCharacterSequencesForRange_1 =
       _registerName1("rangeOfComposedCharacterSequencesForRange:");
@@ -9775,13 +9753,13 @@ class AVFAudio {
       _NSRange Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, _NSRange)>();
 
-  void _objc_msgSend_348_variant(
+  void _objc_msgSend_348_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     _NSRange range,
   ) {
-    return __objc_msgSend_348_variant(
+    return __objc_msgSend_348_stret(
       stret,
       obj,
       sel,
@@ -9789,14 +9767,13 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_348_variantPtr = _lookup<
+  late final __objc_msgSend_348_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>, _NSRange)>>('objc_msgSend_stret');
-  late final __objc_msgSend_348_variant =
-      __objc_msgSend_348_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, _NSRange)>();
+  late final __objc_msgSend_348_stret = __objc_msgSend_348_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, _NSRange)>();
 
   late final _sel_stringByAppendingString_1 =
       _registerName1("stringByAppendingString:");
@@ -21820,13 +21797,13 @@ class AVFAudio {
   late final __objc_msgSend_767 = __objc_msgSend_767Ptr.asFunction<
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int)>();
 
-  void _objc_msgSend_767_variant(
+  void _objc_msgSend_767_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int unit,
   ) {
-    return __objc_msgSend_767_variant(
+    return __objc_msgSend_767_stret(
       stret,
       obj,
       sel,
@@ -21834,14 +21811,13 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_767_variantPtr = _lookup<
+  late final __objc_msgSend_767_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>, ffi.Int32)>>('objc_msgSend_stret');
-  late final __objc_msgSend_767_variant =
-      __objc_msgSend_767_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, int)>();
+  late final __objc_msgSend_767_stret = __objc_msgSend_767_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, int)>();
 
   late final _sel_maximumRangeOfUnit_1 = _registerName1("maximumRangeOfUnit:");
   late final _sel_rangeOfUnit_inUnit_forDate_1 =
@@ -21870,7 +21846,7 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int, int,
           ffi.Pointer<ObjCObject>)>();
 
-  void _objc_msgSend_768_variant(
+  void _objc_msgSend_768_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
@@ -21878,7 +21854,7 @@ class AVFAudio {
     int larger,
     ffi.Pointer<ObjCObject> date,
   ) {
-    return __objc_msgSend_768_variant(
+    return __objc_msgSend_768_stret(
       stret,
       obj,
       sel,
@@ -21888,7 +21864,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_768_variantPtr = _lookup<
+  late final __objc_msgSend_768_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -21897,10 +21873,9 @@ class AVFAudio {
               ffi.Int32,
               ffi.Int32,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_768_variant =
-      __objc_msgSend_768_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, int, int, ffi.Pointer<ObjCObject>)>();
+  late final __objc_msgSend_768_stret = __objc_msgSend_768_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, int, int, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_ordinalityOfUnit_inUnit_forDate_1 =
       _registerName1("ordinalityOfUnit:inUnit:forDate:");
@@ -26745,28 +26720,27 @@ class AVFAudio {
       NSOperatingSystemVersion Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  void _objc_msgSend_940_variant(
+  void _objc_msgSend_940_stret(
     ffi.Pointer<NSOperatingSystemVersion> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_940_variant(
+    return __objc_msgSend_940_stret(
       stret,
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_940_variantPtr = _lookup<
+  late final __objc_msgSend_940_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<NSOperatingSystemVersion>,
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>)>>('objc_msgSend_stret');
-  late final __objc_msgSend_940_variant =
-      __objc_msgSend_940_variantPtr.asFunction<
-          void Function(ffi.Pointer<NSOperatingSystemVersion>,
-              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+  late final __objc_msgSend_940_stret = __objc_msgSend_940_stretPtr.asFunction<
+      void Function(ffi.Pointer<NSOperatingSystemVersion>,
+          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
   late final _sel_processorCount1 = _registerName1("processorCount");
   late final _sel_activeProcessorCount1 =
@@ -27201,7 +27175,7 @@ class AVFAudio {
       _NSRange Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
-  void _objc_msgSend_955_variant(
+  void _objc_msgSend_955_stret(
     ffi.Pointer<_NSRange> stret,
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
@@ -27209,7 +27183,7 @@ class AVFAudio {
     int options,
     _NSRange range,
   ) {
-    return __objc_msgSend_955_variant(
+    return __objc_msgSend_955_stret(
       stret,
       obj,
       sel,
@@ -27219,7 +27193,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_955_variantPtr = _lookup<
+  late final __objc_msgSend_955_stretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
               ffi.Pointer<_NSRange>,
@@ -27228,10 +27202,9 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Int32,
               _NSRange)>>('objc_msgSend_stret');
-  late final __objc_msgSend_955_variant =
-      __objc_msgSend_955_variantPtr.asFunction<
-          void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
+  late final __objc_msgSend_955_stret = __objc_msgSend_955_stretPtr.asFunction<
+      void Function(ffi.Pointer<_NSRange>, ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>, ffi.Pointer<ObjCObject>, int, _NSRange)>();
 
   late final _sel_stringByReplacingMatchesInString_options_range_withTemplate_1 =
       _registerName1(
@@ -31220,6 +31193,10 @@ class AVFAudio {
   late final _sel_currentDirectoryURL1 = _registerName1("currentDirectoryURL");
   late final _sel_setCurrentDirectoryURL_1 =
       _registerName1("setCurrentDirectoryURL:");
+  late final _sel_launchRequirementData1 =
+      _registerName1("launchRequirementData");
+  late final _sel_setLaunchRequirementData_1 =
+      _registerName1("setLaunchRequirementData:");
   late final _sel_standardInput1 = _registerName1("standardInput");
   late final _sel_setStandardInput_1 = _registerName1("setStandardInput:");
   late final _sel_standardOutput1 = _registerName1("standardOutput");
@@ -32845,17 +32822,35 @@ class AVFAudio {
       _registerName1("setPrefersNoInterruptionsFromSystemAlerts:error:");
   late final _sel_prefersNoInterruptionsFromSystemAlerts1 =
       _registerName1("prefersNoInterruptionsFromSystemAlerts");
+  late final _sel_renderingMode1 = _registerName1("renderingMode");
+  int _objc_msgSend_1160(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+  ) {
+    return __objc_msgSend_1160(
+      obj,
+      sel,
+    );
+  }
+
+  late final __objc_msgSend_1160Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int32 Function(
+              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
+  late final __objc_msgSend_1160 = __objc_msgSend_1160Ptr.asFunction<
+      int Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+
   late final _sel_setActive_error_1 = _registerName1("setActive:error:");
   late final _sel_setActive_withOptions_error_1 =
       _registerName1("setActive:withOptions:error:");
-  bool _objc_msgSend_1160(
+  bool _objc_msgSend_1161(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     bool active,
     int options,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1160(
+    return __objc_msgSend_1161(
       obj,
       sel,
       active,
@@ -32864,7 +32859,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1160Ptr = _lookup<
+  late final __objc_msgSend_1161Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
@@ -32872,19 +32867,19 @@ class AVFAudio {
               ffi.Bool,
               ffi.Int32,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1160 = __objc_msgSend_1160Ptr.asFunction<
+  late final __objc_msgSend_1161 = __objc_msgSend_1161Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, bool, int,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
   late final _sel_activateWithOptions_completionHandler_1 =
       _registerName1("activateWithOptions:completionHandler:");
-  void _objc_msgSend_1161(
+  void _objc_msgSend_1162(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int options,
     ffi.Pointer<_ObjCBlock> handler,
   ) {
-    return __objc_msgSend_1161(
+    return __objc_msgSend_1162(
       obj,
       sel,
       options,
@@ -32892,23 +32887,23 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1161Ptr = _lookup<
+  late final __objc_msgSend_1162Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Int32, ffi.Pointer<_ObjCBlock>)>>('objc_msgSend');
-  late final __objc_msgSend_1161 = __objc_msgSend_1161Ptr.asFunction<
+  late final __objc_msgSend_1162 = __objc_msgSend_1162Ptr.asFunction<
       void Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int,
           ffi.Pointer<_ObjCBlock>)>();
 
   late final _sel_setPreferredSampleRate_error_1 =
       _registerName1("setPreferredSampleRate:error:");
-  bool _objc_msgSend_1162(
+  bool _objc_msgSend_1163(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     double sampleRate,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1162(
+    return __objc_msgSend_1163(
       obj,
       sel,
       sampleRate,
@@ -32916,14 +32911,14 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1162Ptr = _lookup<
+  late final __objc_msgSend_1163Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Double,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1162 = __objc_msgSend_1162Ptr.asFunction<
+  late final __objc_msgSend_1163 = __objc_msgSend_1163Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, double,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
@@ -32934,13 +32929,13 @@ class AVFAudio {
       _registerName1("preferredIOBufferDuration");
   late final _sel_setPreferredInputNumberOfChannels_error_1 =
       _registerName1("setPreferredInputNumberOfChannels:error:");
-  bool _objc_msgSend_1163(
+  bool _objc_msgSend_1164(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int count,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1163(
+    return __objc_msgSend_1164(
       obj,
       sel,
       count,
@@ -32948,11 +32943,11 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1163Ptr = _lookup<
+  late final __objc_msgSend_1164Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Long, ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1163 = __objc_msgSend_1163Ptr.asFunction<
+  late final __objc_msgSend_1164 = __objc_msgSend_1164Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
@@ -32964,13 +32959,13 @@ class AVFAudio {
       _registerName1("preferredOutputNumberOfChannels");
   late final _sel_setPreferredInputOrientation_error_1 =
       _registerName1("setPreferredInputOrientation:error:");
-  bool _objc_msgSend_1164(
+  bool _objc_msgSend_1165(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int orientation,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1164(
+    return __objc_msgSend_1165(
       obj,
       sel,
       orientation,
@@ -32978,34 +32973,34 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1164Ptr = _lookup<
+  late final __objc_msgSend_1165Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Int32,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1164 = __objc_msgSend_1164Ptr.asFunction<
+  late final __objc_msgSend_1165 = __objc_msgSend_1165Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
   late final _sel_preferredInputOrientation1 =
       _registerName1("preferredInputOrientation");
-  int _objc_msgSend_1165(
+  int _objc_msgSend_1166(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
-    return __objc_msgSend_1165(
+    return __objc_msgSend_1166(
       obj,
       sel,
     );
   }
 
-  late final __objc_msgSend_1165Ptr = _lookup<
+  late final __objc_msgSend_1166Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Int32 Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
-  late final __objc_msgSend_1165 = __objc_msgSend_1165Ptr.asFunction<
+  late final __objc_msgSend_1166 = __objc_msgSend_1166Ptr.asFunction<
       int Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
   late final _sel_inputOrientation1 = _registerName1("inputOrientation");
@@ -33014,13 +33009,13 @@ class AVFAudio {
   late final _sel_maximumOutputNumberOfChannels1 =
       _registerName1("maximumOutputNumberOfChannels");
   late final _sel_setInputGain_error_1 = _registerName1("setInputGain:error:");
-  bool _objc_msgSend_1166(
+  bool _objc_msgSend_1167(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     double gain,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1166(
+    return __objc_msgSend_1167(
       obj,
       sel,
       gain,
@@ -33028,14 +33023,14 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1166Ptr = _lookup<
+  late final __objc_msgSend_1167Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Float,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1166 = __objc_msgSend_1166Ptr.asFunction<
+  late final __objc_msgSend_1167 = __objc_msgSend_1167Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, double,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
@@ -33058,35 +33053,14 @@ class AVFAudio {
   late final _sel_inputLatency1 = _registerName1("inputLatency");
   late final _sel_outputLatency1 = _registerName1("outputLatency");
   late final _sel_IOBufferDuration1 = _registerName1("IOBufferDuration");
+  late final _sel_supportedOutputChannelLayouts1 =
+      _registerName1("supportedOutputChannelLayouts");
   late final _sel_isOtherAudioPlaying1 = _registerName1("isOtherAudioPlaying");
   late final _sel_secondaryAudioShouldBeSilencedHint1 =
       _registerName1("secondaryAudioShouldBeSilencedHint");
   late final _sel_outputVolume1 = _registerName1("outputVolume");
   late final _sel_promptStyle1 = _registerName1("promptStyle");
-  int _objc_msgSend_1167(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-  ) {
-    return __objc_msgSend_1167(
-      obj,
-      sel,
-    );
-  }
-
-  late final __objc_msgSend_1167Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Int32 Function(
-              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
-  late final __objc_msgSend_1167 = __objc_msgSend_1167Ptr.asFunction<
-      int Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
-
-  late final _sel_availableInputs1 = _registerName1("availableInputs");
-  late final _class_AVAudioSessionRouteDescription1 =
-      _getClass1("AVAudioSessionRouteDescription");
-  late final _sel_inputs1 = _registerName1("inputs");
-  late final _sel_outputs1 = _registerName1("outputs");
-  late final _sel_currentRoute1 = _registerName1("currentRoute");
-  ffi.Pointer<ObjCObject> _objc_msgSend_1168(
+  int _objc_msgSend_1168(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
@@ -33098,21 +33072,44 @@ class AVFAudio {
 
   late final __objc_msgSend_1168Ptr = _lookup<
       ffi.NativeFunction<
-          ffi.Pointer<ObjCObject> Function(
+          ffi.Int32 Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
   late final __objc_msgSend_1168 = __objc_msgSend_1168Ptr.asFunction<
+      int Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+
+  late final _sel_availableInputs1 = _registerName1("availableInputs");
+  late final _class_AVAudioSessionRouteDescription1 =
+      _getClass1("AVAudioSessionRouteDescription");
+  late final _sel_inputs1 = _registerName1("inputs");
+  late final _sel_outputs1 = _registerName1("outputs");
+  late final _sel_currentRoute1 = _registerName1("currentRoute");
+  ffi.Pointer<ObjCObject> _objc_msgSend_1169(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+  ) {
+    return __objc_msgSend_1169(
+      obj,
+      sel,
+    );
+  }
+
+  late final __objc_msgSend_1169Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ObjCObject> Function(
+              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
+  late final __objc_msgSend_1169 = __objc_msgSend_1169Ptr.asFunction<
       ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
   late final _sel_setAggregatedIOPreference_error_1 =
       _registerName1("setAggregatedIOPreference:error:");
-  bool _objc_msgSend_1169(
+  bool _objc_msgSend_1170(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int inIOType,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1169(
+    return __objc_msgSend_1170(
       obj,
       sel,
       inIOType,
@@ -33120,14 +33117,14 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1169Ptr = _lookup<
+  late final __objc_msgSend_1170Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Int32,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1169 = __objc_msgSend_1169Ptr.asFunction<
+  late final __objc_msgSend_1170 = __objc_msgSend_1170Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
@@ -33141,14 +33138,14 @@ class AVFAudio {
       _registerName1("prefersInterruptionOnRouteDisconnect");
   late final _sel_setActive_withFlags_error_1 =
       _registerName1("setActive:withFlags:error:");
-  bool _objc_msgSend_1170(
+  bool _objc_msgSend_1171(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     bool active,
     int flags,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1170(
+    return __objc_msgSend_1171(
       obj,
       sel,
       active,
@@ -33157,7 +33154,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1170Ptr = _lookup<
+  late final __objc_msgSend_1171Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(
               ffi.Pointer<ObjCObject>,
@@ -33165,7 +33162,7 @@ class AVFAudio {
               ffi.Bool,
               ffi.Long,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1170 = __objc_msgSend_1170Ptr.asFunction<
+  late final __objc_msgSend_1171 = __objc_msgSend_1171Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, bool, int,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
@@ -33182,45 +33179,16 @@ class AVFAudio {
       _registerName1("preferredHardwareSampleRate");
   late final _class_AVAudioPlayer1 = _getClass1("AVAudioPlayer");
   late final _sel_initWithData_error_1 = _registerName1("initWithData:error:");
-  instancetype _objc_msgSend_1171(
+  instancetype _objc_msgSend_1172(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<ObjCObject> data,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
-    return __objc_msgSend_1171(
-      obj,
-      sel,
-      data,
-      outError,
-    );
-  }
-
-  late final __objc_msgSend_1171Ptr = _lookup<
-      ffi.NativeFunction<
-          instancetype Function(
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCSel>,
-              ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
-  late final __objc_msgSend_1171 = __objc_msgSend_1171Ptr.asFunction<
-      instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-          ffi.Pointer<ObjCObject>, ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
-
-  late final _sel_initWithContentsOfURL_fileTypeHint_error_1 =
-      _registerName1("initWithContentsOfURL:fileTypeHint:error:");
-  instancetype _objc_msgSend_1172(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-    ffi.Pointer<ObjCObject> url,
-    ffi.Pointer<ObjCObject> utiString,
-    ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
-  ) {
     return __objc_msgSend_1172(
       obj,
       sel,
-      url,
-      utiString,
+      data,
       outError,
     );
   }
@@ -33231,29 +33199,24 @@ class AVFAudio {
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<ObjCObject>,
-              ffi.Pointer<ObjCObject>,
               ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
   late final __objc_msgSend_1172 = __objc_msgSend_1172Ptr.asFunction<
-      instancetype Function(
-          ffi.Pointer<ObjCObject>,
-          ffi.Pointer<ObjCSel>,
-          ffi.Pointer<ObjCObject>,
-          ffi.Pointer<ObjCObject>,
-          ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
+      instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ObjCObject>, ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
-  late final _sel_initWithData_fileTypeHint_error_1 =
-      _registerName1("initWithData:fileTypeHint:error:");
+  late final _sel_initWithContentsOfURL_fileTypeHint_error_1 =
+      _registerName1("initWithContentsOfURL:fileTypeHint:error:");
   instancetype _objc_msgSend_1173(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
-    ffi.Pointer<ObjCObject> data,
+    ffi.Pointer<ObjCObject> url,
     ffi.Pointer<ObjCObject> utiString,
     ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
   ) {
     return __objc_msgSend_1173(
       obj,
       sel,
-      data,
+      url,
       utiString,
       outError,
     );
@@ -33275,26 +33238,60 @@ class AVFAudio {
           ffi.Pointer<ObjCObject>,
           ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
 
+  late final _sel_initWithData_fileTypeHint_error_1 =
+      _registerName1("initWithData:fileTypeHint:error:");
+  instancetype _objc_msgSend_1174(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+    ffi.Pointer<ObjCObject> data,
+    ffi.Pointer<ObjCObject> utiString,
+    ffi.Pointer<ffi.Pointer<ObjCObject>> outError,
+  ) {
+    return __objc_msgSend_1174(
+      obj,
+      sel,
+      data,
+      utiString,
+      outError,
+    );
+  }
+
+  late final __objc_msgSend_1174Ptr = _lookup<
+      ffi.NativeFunction<
+          instancetype Function(
+              ffi.Pointer<ObjCObject>,
+              ffi.Pointer<ObjCSel>,
+              ffi.Pointer<ObjCObject>,
+              ffi.Pointer<ObjCObject>,
+              ffi.Pointer<ffi.Pointer<ObjCObject>>)>>('objc_msgSend');
+  late final __objc_msgSend_1174 = __objc_msgSend_1174Ptr.asFunction<
+      instancetype Function(
+          ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCSel>,
+          ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ObjCObject>,
+          ffi.Pointer<ffi.Pointer<ObjCObject>>)>();
+
   late final _sel_prepareToPlay1 = _registerName1("prepareToPlay");
   late final _sel_play1 = _registerName1("play");
   late final _sel_playAtTime_1 = _registerName1("playAtTime:");
-  bool _objc_msgSend_1174(
+  bool _objc_msgSend_1175(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     double time,
   ) {
-    return __objc_msgSend_1174(
+    return __objc_msgSend_1175(
       obj,
       sel,
       time,
     );
   }
 
-  late final __objc_msgSend_1174Ptr = _lookup<
+  late final __objc_msgSend_1175Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Double)>>('objc_msgSend');
-  late final __objc_msgSend_1174 = __objc_msgSend_1174Ptr.asFunction<
+  late final __objc_msgSend_1175 = __objc_msgSend_1175Ptr.asFunction<
       bool Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, double)>();
 
   late final _sel_isPlaying1 = _registerName1("isPlaying");
@@ -33308,13 +33305,13 @@ class AVFAudio {
   late final _sel_setVolume_1 = _registerName1("setVolume:");
   late final _sel_setVolume_fadeDuration_1 =
       _registerName1("setVolume:fadeDuration:");
-  void _objc_msgSend_1175(
+  void _objc_msgSend_1176(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     double volume,
     double duration,
   ) {
-    return __objc_msgSend_1175(
+    return __objc_msgSend_1176(
       obj,
       sel,
       volume,
@@ -33322,11 +33319,11 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1175Ptr = _lookup<
+  late final __objc_msgSend_1176Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Float, ffi.Double)>>('objc_msgSend');
-  late final __objc_msgSend_1175 = __objc_msgSend_1175Ptr.asFunction<
+  late final __objc_msgSend_1176 = __objc_msgSend_1176Ptr.asFunction<
       void Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, double, double)>();
 
@@ -33343,115 +33340,96 @@ class AVFAudio {
   late final _class_AVAudioFormat1 = _getClass1("AVAudioFormat");
   late final _sel_initWithStreamDescription_1 =
       _registerName1("initWithStreamDescription:");
-  instancetype _objc_msgSend_1176(
+  instancetype _objc_msgSend_1177(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<AudioStreamBasicDescription> asbd,
   ) {
-    return __objc_msgSend_1176(
+    return __objc_msgSend_1177(
       obj,
       sel,
       asbd,
     );
   }
 
-  late final __objc_msgSend_1176Ptr = _lookup<
+  late final __objc_msgSend_1177Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Pointer<AudioStreamBasicDescription>)>>('objc_msgSend');
-  late final __objc_msgSend_1176 = __objc_msgSend_1176Ptr.asFunction<
+  late final __objc_msgSend_1177 = __objc_msgSend_1177Ptr.asFunction<
       instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<AudioStreamBasicDescription>)>();
 
   late final _class_AVAudioChannelLayout1 = _getClass1("AVAudioChannelLayout");
   late final _sel_initWithLayoutTag_1 = _registerName1("initWithLayoutTag:");
-  instancetype _objc_msgSend_1177(
+  instancetype _objc_msgSend_1178(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int layoutTag,
   ) {
-    return __objc_msgSend_1177(
-      obj,
-      sel,
-      layoutTag,
-    );
-  }
-
-  late final __objc_msgSend_1177Ptr = _lookup<
-      ffi.NativeFunction<
-          instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.UnsignedInt)>>('objc_msgSend');
-  late final __objc_msgSend_1177 = __objc_msgSend_1177Ptr.asFunction<
-      instancetype Function(
-          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int)>();
-
-  late final _sel_initWithLayout_1 = _registerName1("initWithLayout:");
-  instancetype _objc_msgSend_1178(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-    ffi.Pointer<AudioChannelLayout> layout,
-  ) {
     return __objc_msgSend_1178(
       obj,
       sel,
-      layout,
+      layoutTag,
     );
   }
 
   late final __objc_msgSend_1178Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Pointer<AudioChannelLayout>)>>('objc_msgSend');
+              ffi.UnsignedInt)>>('objc_msgSend');
   late final __objc_msgSend_1178 = __objc_msgSend_1178Ptr.asFunction<
-      instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-          ffi.Pointer<AudioChannelLayout>)>();
+      instancetype Function(
+          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int)>();
 
-  late final _sel_isEqual_1 = _registerName1("isEqual:");
-  late final _sel_layoutWithLayoutTag_1 =
-      _registerName1("layoutWithLayoutTag:");
+  late final _sel_initWithLayout_1 = _registerName1("initWithLayout:");
   instancetype _objc_msgSend_1179(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
-    int layoutTag,
+    ffi.Pointer<AudioChannelLayout> layout,
   ) {
     return __objc_msgSend_1179(
       obj,
       sel,
-      layoutTag,
+      layout,
     );
   }
 
   late final __objc_msgSend_1179Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.UnsignedInt)>>('objc_msgSend');
+              ffi.Pointer<AudioChannelLayout>)>>('objc_msgSend');
   late final __objc_msgSend_1179 = __objc_msgSend_1179Ptr.asFunction<
+      instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+          ffi.Pointer<AudioChannelLayout>)>();
+
+  late final _sel_isEqual_1 = _registerName1("isEqual:");
+  late final _sel_layoutWithLayoutTag_1 =
+      _registerName1("layoutWithLayoutTag:");
+  instancetype _objc_msgSend_1180(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+    int layoutTag,
+  ) {
+    return __objc_msgSend_1180(
+      obj,
+      sel,
+      layoutTag,
+    );
+  }
+
+  late final __objc_msgSend_1180Ptr = _lookup<
+      ffi.NativeFunction<
+          instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+              ffi.UnsignedInt)>>('objc_msgSend');
+  late final __objc_msgSend_1180 = __objc_msgSend_1180Ptr.asFunction<
       instancetype Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int)>();
 
   late final _sel_layoutWithLayout_1 = _registerName1("layoutWithLayout:");
   late final _sel_layoutTag1 = _registerName1("layoutTag");
   late final _sel_layout1 = _registerName1("layout");
-  ffi.Pointer<AudioChannelLayout> _objc_msgSend_1180(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-  ) {
-    return __objc_msgSend_1180(
-      obj,
-      sel,
-    );
-  }
-
-  late final __objc_msgSend_1180Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<AudioChannelLayout> Function(
-              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
-  late final __objc_msgSend_1180 = __objc_msgSend_1180Ptr.asFunction<
-      ffi.Pointer<AudioChannelLayout> Function(
-          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
-
-  late final _sel_channelCount1 = _registerName1("channelCount");
-  int _objc_msgSend_1181(
+  ffi.Pointer<AudioChannelLayout> _objc_msgSend_1181(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
@@ -33463,20 +33441,39 @@ class AVFAudio {
 
   late final __objc_msgSend_1181Ptr = _lookup<
       ffi.NativeFunction<
-          ffi.Uint32 Function(
+          ffi.Pointer<AudioChannelLayout> Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
   late final __objc_msgSend_1181 = __objc_msgSend_1181Ptr.asFunction<
+      ffi.Pointer<AudioChannelLayout> Function(
+          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+
+  late final _sel_channelCount1 = _registerName1("channelCount");
+  int _objc_msgSend_1182(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+  ) {
+    return __objc_msgSend_1182(
+      obj,
+      sel,
+    );
+  }
+
+  late final __objc_msgSend_1182Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Uint32 Function(
+              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
+  late final __objc_msgSend_1182 = __objc_msgSend_1182Ptr.asFunction<
       int Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
   late final _sel_initWithStreamDescription_channelLayout_1 =
       _registerName1("initWithStreamDescription:channelLayout:");
-  instancetype _objc_msgSend_1182(
+  instancetype _objc_msgSend_1183(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<AudioStreamBasicDescription> asbd,
     ffi.Pointer<ObjCObject> layout,
   ) {
-    return __objc_msgSend_1182(
+    return __objc_msgSend_1183(
       obj,
       sel,
       asbd,
@@ -33484,68 +33481,68 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1182Ptr = _lookup<
+  late final __objc_msgSend_1183Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(
               ffi.Pointer<ObjCObject>,
               ffi.Pointer<ObjCSel>,
               ffi.Pointer<AudioStreamBasicDescription>,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend');
-  late final __objc_msgSend_1182 = __objc_msgSend_1182Ptr.asFunction<
+  late final __objc_msgSend_1183 = __objc_msgSend_1183Ptr.asFunction<
       instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<AudioStreamBasicDescription>, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_initStandardFormatWithSampleRate_channels_1 =
       _registerName1("initStandardFormatWithSampleRate:channels:");
-  instancetype _objc_msgSend_1183(
+  instancetype _objc_msgSend_1184(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     double sampleRate,
     int channels,
   ) {
-    return __objc_msgSend_1183(
-      obj,
-      sel,
-      sampleRate,
-      channels,
-    );
-  }
-
-  late final __objc_msgSend_1183Ptr = _lookup<
-      ffi.NativeFunction<
-          instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Double, ffi.Uint32)>>('objc_msgSend');
-  late final __objc_msgSend_1183 = __objc_msgSend_1183Ptr.asFunction<
-      instancetype Function(
-          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, double, int)>();
-
-  late final _sel_initStandardFormatWithSampleRate_channelLayout_1 =
-      _registerName1("initStandardFormatWithSampleRate:channelLayout:");
-  instancetype _objc_msgSend_1184(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-    double sampleRate,
-    ffi.Pointer<ObjCObject> layout,
-  ) {
     return __objc_msgSend_1184(
       obj,
       sel,
       sampleRate,
-      layout,
+      channels,
     );
   }
 
   late final __objc_msgSend_1184Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
-              ffi.Double, ffi.Pointer<ObjCObject>)>>('objc_msgSend');
+              ffi.Double, ffi.Uint32)>>('objc_msgSend');
   late final __objc_msgSend_1184 = __objc_msgSend_1184Ptr.asFunction<
+      instancetype Function(
+          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, double, int)>();
+
+  late final _sel_initStandardFormatWithSampleRate_channelLayout_1 =
+      _registerName1("initStandardFormatWithSampleRate:channelLayout:");
+  instancetype _objc_msgSend_1185(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+    double sampleRate,
+    ffi.Pointer<ObjCObject> layout,
+  ) {
+    return __objc_msgSend_1185(
+      obj,
+      sel,
+      sampleRate,
+      layout,
+    );
+  }
+
+  late final __objc_msgSend_1185Ptr = _lookup<
+      ffi.NativeFunction<
+          instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
+              ffi.Double, ffi.Pointer<ObjCObject>)>>('objc_msgSend');
+  late final __objc_msgSend_1185 = __objc_msgSend_1185Ptr.asFunction<
       instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           double, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_initWithCommonFormat_sampleRate_channels_interleaved_1 =
       _registerName1("initWithCommonFormat:sampleRate:channels:interleaved:");
-  instancetype _objc_msgSend_1185(
+  instancetype _objc_msgSend_1186(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int format,
@@ -33553,7 +33550,7 @@ class AVFAudio {
     int channels,
     bool interleaved,
   ) {
-    return __objc_msgSend_1185(
+    return __objc_msgSend_1186(
       obj,
       sel,
       format,
@@ -33563,18 +33560,18 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1185Ptr = _lookup<
+  late final __objc_msgSend_1186Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Int32, ffi.Double, ffi.Uint32, ffi.Bool)>>('objc_msgSend');
-  late final __objc_msgSend_1185 = __objc_msgSend_1185Ptr.asFunction<
+  late final __objc_msgSend_1186 = __objc_msgSend_1186Ptr.asFunction<
       instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int,
           double, int, bool)>();
 
   late final _sel_initWithCommonFormat_sampleRate_interleaved_channelLayout_1 =
       _registerName1(
           "initWithCommonFormat:sampleRate:interleaved:channelLayout:");
-  instancetype _objc_msgSend_1186(
+  instancetype _objc_msgSend_1187(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int format,
@@ -33582,7 +33579,7 @@ class AVFAudio {
     bool interleaved,
     ffi.Pointer<ObjCObject> layout,
   ) {
-    return __objc_msgSend_1186(
+    return __objc_msgSend_1187(
       obj,
       sel,
       format,
@@ -33592,7 +33589,7 @@ class AVFAudio {
     );
   }
 
-  late final __objc_msgSend_1186Ptr = _lookup<
+  late final __objc_msgSend_1187Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(
               ffi.Pointer<ObjCObject>,
@@ -33601,55 +33598,36 @@ class AVFAudio {
               ffi.Double,
               ffi.Bool,
               ffi.Pointer<ObjCObject>)>>('objc_msgSend');
-  late final __objc_msgSend_1186 = __objc_msgSend_1186Ptr.asFunction<
+  late final __objc_msgSend_1187 = __objc_msgSend_1187Ptr.asFunction<
       instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int,
           double, bool, ffi.Pointer<ObjCObject>)>();
 
   late final _sel_initWithSettings_1 = _registerName1("initWithSettings:");
   late final _sel_initWithCMAudioFormatDescription_1 =
       _registerName1("initWithCMAudioFormatDescription:");
-  instancetype _objc_msgSend_1187(
+  instancetype _objc_msgSend_1188(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     ffi.Pointer<opaqueCMFormatDescription> formatDescription,
   ) {
-    return __objc_msgSend_1187(
+    return __objc_msgSend_1188(
       obj,
       sel,
       formatDescription,
     );
   }
 
-  late final __objc_msgSend_1187Ptr = _lookup<
+  late final __objc_msgSend_1188Ptr = _lookup<
       ffi.NativeFunction<
           instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.Pointer<opaqueCMFormatDescription>)>>('objc_msgSend');
-  late final __objc_msgSend_1187 = __objc_msgSend_1187Ptr.asFunction<
+  late final __objc_msgSend_1188 = __objc_msgSend_1188Ptr.asFunction<
       instancetype Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
           ffi.Pointer<opaqueCMFormatDescription>)>();
 
   late final _sel_isStandard1 = _registerName1("isStandard");
   late final _sel_commonFormat1 = _registerName1("commonFormat");
-  int _objc_msgSend_1188(
-    ffi.Pointer<ObjCObject> obj,
-    ffi.Pointer<ObjCSel> sel,
-  ) {
-    return __objc_msgSend_1188(
-      obj,
-      sel,
-    );
-  }
-
-  late final __objc_msgSend_1188Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Int32 Function(
-              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
-  late final __objc_msgSend_1188 = __objc_msgSend_1188Ptr.asFunction<
-      int Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
-
-  late final _sel_isInterleaved1 = _registerName1("isInterleaved");
-  late final _sel_streamDescription1 = _registerName1("streamDescription");
-  ffi.Pointer<AudioStreamBasicDescription> _objc_msgSend_1189(
+  int _objc_msgSend_1189(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
@@ -33661,14 +33639,14 @@ class AVFAudio {
 
   late final __objc_msgSend_1189Ptr = _lookup<
       ffi.NativeFunction<
-          ffi.Pointer<AudioStreamBasicDescription> Function(
+          ffi.Int32 Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
   late final __objc_msgSend_1189 = __objc_msgSend_1189Ptr.asFunction<
-      ffi.Pointer<AudioStreamBasicDescription> Function(
-          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+      int Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  late final _sel_channelLayout1 = _registerName1("channelLayout");
-  ffi.Pointer<ObjCObject> _objc_msgSend_1190(
+  late final _sel_isInterleaved1 = _registerName1("isInterleaved");
+  late final _sel_streamDescription1 = _registerName1("streamDescription");
+  ffi.Pointer<AudioStreamBasicDescription> _objc_msgSend_1190(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
@@ -33680,16 +33658,14 @@ class AVFAudio {
 
   late final __objc_msgSend_1190Ptr = _lookup<
       ffi.NativeFunction<
-          ffi.Pointer<ObjCObject> Function(
+          ffi.Pointer<AudioStreamBasicDescription> Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
   late final __objc_msgSend_1190 = __objc_msgSend_1190Ptr.asFunction<
-      ffi.Pointer<ObjCObject> Function(
+      ffi.Pointer<AudioStreamBasicDescription> Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  late final _sel_magicCookie1 = _registerName1("magicCookie");
-  late final _sel_setMagicCookie_1 = _registerName1("setMagicCookie:");
-  late final _sel_formatDescription1 = _registerName1("formatDescription");
-  ffi.Pointer<opaqueCMFormatDescription> _objc_msgSend_1191(
+  late final _sel_channelLayout1 = _registerName1("channelLayout");
+  ffi.Pointer<ObjCObject> _objc_msgSend_1191(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
@@ -33701,13 +33677,16 @@ class AVFAudio {
 
   late final __objc_msgSend_1191Ptr = _lookup<
       ffi.NativeFunction<
-          ffi.Pointer<opaqueCMFormatDescription> Function(
+          ffi.Pointer<ObjCObject> Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
   late final __objc_msgSend_1191 = __objc_msgSend_1191Ptr.asFunction<
-      ffi.Pointer<opaqueCMFormatDescription> Function(
+      ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
-  ffi.Pointer<ObjCObject> _objc_msgSend_1192(
+  late final _sel_magicCookie1 = _registerName1("magicCookie");
+  late final _sel_setMagicCookie_1 = _registerName1("setMagicCookie:");
+  late final _sel_formatDescription1 = _registerName1("formatDescription");
+  ffi.Pointer<opaqueCMFormatDescription> _objc_msgSend_1192(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
   ) {
@@ -33719,9 +33698,27 @@ class AVFAudio {
 
   late final __objc_msgSend_1192Ptr = _lookup<
       ffi.NativeFunction<
-          ffi.Pointer<ObjCObject> Function(
+          ffi.Pointer<opaqueCMFormatDescription> Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
   late final __objc_msgSend_1192 = __objc_msgSend_1192Ptr.asFunction<
+      ffi.Pointer<opaqueCMFormatDescription> Function(
+          ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
+
+  ffi.Pointer<ObjCObject> _objc_msgSend_1193(
+    ffi.Pointer<ObjCObject> obj,
+    ffi.Pointer<ObjCSel> sel,
+  ) {
+    return __objc_msgSend_1193(
+      obj,
+      sel,
+    );
+  }
+
+  late final __objc_msgSend_1193Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ObjCObject> Function(
+              ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>>('objc_msgSend');
+  late final __objc_msgSend_1193 = __objc_msgSend_1193Ptr.asFunction<
       ffi.Pointer<ObjCObject> Function(
           ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>)>();
 
@@ -33730,43 +33727,43 @@ class AVFAudio {
   late final _sel_updateMeters1 = _registerName1("updateMeters");
   late final _sel_peakPowerForChannel_1 =
       _registerName1("peakPowerForChannel:");
-  double _objc_msgSend_1193(
+  double _objc_msgSend_1194(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int channelNumber,
   ) {
-    return __objc_msgSend_1193(
+    return __objc_msgSend_1194(
       obj,
       sel,
       channelNumber,
     );
   }
 
-  late final __objc_msgSend_1193Ptr = _lookup<
+  late final __objc_msgSend_1194Ptr = _lookup<
       ffi.NativeFunction<
           ffi.Float Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.UnsignedLong)>>('objc_msgSend');
-  late final __objc_msgSend_1193 = __objc_msgSend_1193Ptr.asFunction<
+  late final __objc_msgSend_1194 = __objc_msgSend_1194Ptr.asFunction<
       double Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int)>();
 
-  double _objc_msgSend_1193_variant(
+  double _objc_msgSend_1194_fpret(
     ffi.Pointer<ObjCObject> obj,
     ffi.Pointer<ObjCSel> sel,
     int channelNumber,
   ) {
-    return __objc_msgSend_1193_variant(
+    return __objc_msgSend_1194_fpret(
       obj,
       sel,
       channelNumber,
     );
   }
 
-  late final __objc_msgSend_1193_variantPtr = _lookup<
+  late final __objc_msgSend_1194_fpretPtr = _lookup<
       ffi.NativeFunction<
           ffi.Float Function(ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>,
               ffi.UnsignedLong)>>('objc_msgSend_fpret');
-  late final __objc_msgSend_1193_variant =
-      __objc_msgSend_1193_variantPtr.asFunction<
+  late final __objc_msgSend_1194_fpret =
+      __objc_msgSend_1194_fpretPtr.asFunction<
           double Function(
               ffi.Pointer<ObjCObject>, ffi.Pointer<ObjCSel>, int)>();
 
@@ -33817,7 +33814,7 @@ class _ObjCWrapper implements ffi.Finalizable {
   /// Return a pointer to this object.
   ffi.Pointer<ObjCObject> get pointer => _id;
 
-  ffi.Pointer<ObjCObject> _retainAndReturnId() {
+  ffi.Pointer<ObjCObject> retainAndReturnPointer() {
     _lib._objc_retain(_id.cast());
     return _id;
   }
@@ -34170,7 +34167,7 @@ class NSObject extends _ObjCWrapper {
 
   bool validateValue_forKey_error_(ffi.Pointer<ffi.Pointer<ObjCObject>> ioValue,
       NSString inKey, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_244(_id, _lib._sel_validateValue_forKey_error_1,
+    return _lib._objc_msgSend_243(_id, _lib._sel_validateValue_forKey_error_1,
         ioValue, inKey._id, outError);
   }
 
@@ -34209,7 +34206,7 @@ class NSObject extends _ObjCWrapper {
       ffi.Pointer<ffi.Pointer<ObjCObject>> ioValue,
       NSString inKeyPath,
       ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_244(
+    return _lib._objc_msgSend_243(
         _id,
         _lib._sel_validateValue_forKeyPath_error_1,
         ioValue,
@@ -34249,7 +34246,7 @@ class NSObject extends _ObjCWrapper {
   }
 
   void setNilValueForKey_(NSString key) {
-    _lib._objc_msgSend_248(_id, _lib._sel_setNilValueForKey_1, key._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_setNilValueForKey_1, key._id);
   }
 
   NSDictionary dictionaryWithValuesForKeys_(NSArray keys) {
@@ -34305,7 +34302,7 @@ class NSObject extends _ObjCWrapper {
   }
 
   void unableToSetNilForKey_(NSString key) {
-    _lib._objc_msgSend_248(_id, _lib._sel_unableToSetNilForKey_1, key._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_unableToSetNilForKey_1, key._id);
   }
 
   NSDictionary valuesForKeys_(NSArray keys) {
@@ -34353,11 +34350,11 @@ class NSObject extends _ObjCWrapper {
   }
 
   void willChangeValueForKey_(NSString key) {
-    _lib._objc_msgSend_248(_id, _lib._sel_willChangeValueForKey_1, key._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_willChangeValueForKey_1, key._id);
   }
 
   void didChangeValueForKey_(NSString key) {
-    _lib._objc_msgSend_248(_id, _lib._sel_didChangeValueForKey_1, key._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_didChangeValueForKey_1, key._id);
   }
 
   void willChange_valuesAtIndexes_forKey_(
@@ -35769,7 +35766,7 @@ class NSString extends NSObject {
   void localizedStandardRangeOfString_(
       ffi.Pointer<_NSRange> stret, NSString str) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_340_variant(
+        ? _lib._objc_msgSend_340_stret(
             stret, _id, _lib._sel_localizedStandardRangeOfString_1, str._id)
         : stret.ref = _lib._objc_msgSend_340(
             _id, _lib._sel_localizedStandardRangeOfString_1, str._id);
@@ -35777,7 +35774,7 @@ class NSString extends NSObject {
 
   void rangeOfString_(ffi.Pointer<_NSRange> stret, NSString searchString) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_340_variant(
+        ? _lib._objc_msgSend_340_stret(
             stret, _id, _lib._sel_rangeOfString_1, searchString._id)
         : stret.ref = _lib._objc_msgSend_340(
             _id, _lib._sel_rangeOfString_1, searchString._id);
@@ -35786,7 +35783,7 @@ class NSString extends NSObject {
   void rangeOfString_options_(
       ffi.Pointer<_NSRange> stret, NSString searchString, int mask) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_341_variant(stret, _id,
+        ? _lib._objc_msgSend_341_stret(stret, _id,
             _lib._sel_rangeOfString_options_1, searchString._id, mask)
         : stret.ref = _lib._objc_msgSend_341(
             _id, _lib._sel_rangeOfString_options_1, searchString._id, mask);
@@ -35795,7 +35792,7 @@ class NSString extends NSObject {
   void rangeOfString_options_range_(ffi.Pointer<_NSRange> stret,
       NSString searchString, int mask, _NSRange rangeOfReceiverToSearch) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_342_variant(
+        ? _lib._objc_msgSend_342_stret(
             stret,
             _id,
             _lib._sel_rangeOfString_options_range_1,
@@ -35817,7 +35814,7 @@ class NSString extends NSObject {
       _NSRange rangeOfReceiverToSearch,
       NSLocale? locale) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_343_variant(
+        ? _lib._objc_msgSend_343_stret(
             stret,
             _id,
             _lib._sel_rangeOfString_options_range_locale_1,
@@ -35837,7 +35834,7 @@ class NSString extends NSObject {
   void rangeOfCharacterFromSet_(
       ffi.Pointer<_NSRange> stret, NSCharacterSet searchSet) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_344_variant(
+        ? _lib._objc_msgSend_344_stret(
             stret, _id, _lib._sel_rangeOfCharacterFromSet_1, searchSet._id)
         : stret.ref = _lib._objc_msgSend_344(
             _id, _lib._sel_rangeOfCharacterFromSet_1, searchSet._id);
@@ -35846,7 +35843,7 @@ class NSString extends NSObject {
   void rangeOfCharacterFromSet_options_(
       ffi.Pointer<_NSRange> stret, NSCharacterSet searchSet, int mask) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_345_variant(stret, _id,
+        ? _lib._objc_msgSend_345_stret(stret, _id,
             _lib._sel_rangeOfCharacterFromSet_options_1, searchSet._id, mask)
         : stret.ref = _lib._objc_msgSend_345(_id,
             _lib._sel_rangeOfCharacterFromSet_options_1, searchSet._id, mask);
@@ -35855,7 +35852,7 @@ class NSString extends NSObject {
   void rangeOfCharacterFromSet_options_range_(ffi.Pointer<_NSRange> stret,
       NSCharacterSet searchSet, int mask, _NSRange rangeOfReceiverToSearch) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_346_variant(
+        ? _lib._objc_msgSend_346_stret(
             stret,
             _id,
             _lib._sel_rangeOfCharacterFromSet_options_range_1,
@@ -35873,7 +35870,7 @@ class NSString extends NSObject {
   void rangeOfComposedCharacterSequenceAtIndex_(
       ffi.Pointer<_NSRange> stret, int index) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_347_variant(stret, _id,
+        ? _lib._objc_msgSend_347_stret(stret, _id,
             _lib._sel_rangeOfComposedCharacterSequenceAtIndex_1, index)
         : stret.ref = _lib._objc_msgSend_347(
             _id, _lib._sel_rangeOfComposedCharacterSequenceAtIndex_1, index);
@@ -35882,7 +35879,7 @@ class NSString extends NSObject {
   void rangeOfComposedCharacterSequencesForRange_(
       ffi.Pointer<_NSRange> stret, _NSRange range) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_348_variant(stret, _id,
+        ? _lib._objc_msgSend_348_stret(stret, _id,
             _lib._sel_rangeOfComposedCharacterSequencesForRange_1, range)
         : stret.ref = _lib._objc_msgSend_348(
             _id, _lib._sel_rangeOfComposedCharacterSequencesForRange_1, range);
@@ -35902,13 +35899,13 @@ class NSString extends NSObject {
 
   double get doubleValue {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_doubleValue1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_doubleValue1)
         : _lib._objc_msgSend_165(_id, _lib._sel_doubleValue1);
   }
 
   double get floatValue {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_floatValue1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_floatValue1)
         : _lib._objc_msgSend_239(_id, _lib._sel_floatValue1);
   }
 
@@ -35995,7 +35992,7 @@ class NSString extends NSObject {
 
   void lineRangeForRange_(ffi.Pointer<_NSRange> stret, _NSRange range) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_348_variant(
+        ? _lib._objc_msgSend_348_stret(
             stret, _id, _lib._sel_lineRangeForRange_1, range)
         : stret.ref =
             _lib._objc_msgSend_348(_id, _lib._sel_lineRangeForRange_1, range);
@@ -36017,7 +36014,7 @@ class NSString extends NSObject {
 
   void paragraphRangeForRange_(ffi.Pointer<_NSRange> stret, _NSRange range) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_348_variant(
+        ? _lib._objc_msgSend_348_stret(
             stret, _id, _lib._sel_paragraphRangeForRange_1, range)
         : stret.ref = _lib._objc_msgSend_348(
             _id, _lib._sel_paragraphRangeForRange_1, range);
@@ -37311,14 +37308,14 @@ class NSCoder extends NSObject {
 
   double decodeFloatForKey_(NSString key) {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_307_variant(
+        ? _lib._objc_msgSend_307_fpret(
             _id, _lib._sel_decodeFloatForKey_1, key._id)
         : _lib._objc_msgSend_307(_id, _lib._sel_decodeFloatForKey_1, key._id);
   }
 
   double decodeDoubleForKey_(NSString key) {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_308_variant(
+        ? _lib._objc_msgSend_308_fpret(
             _id, _lib._sel_decodeDoubleForKey_1, key._id)
         : _lib._objc_msgSend_308(_id, _lib._sel_decodeDoubleForKey_1, key._id);
   }
@@ -37483,7 +37480,7 @@ class NSCoder extends NSObject {
 
   void decodePoint(ffi.Pointer<CGPoint> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_59_variant(stret, _id, _lib._sel_decodePoint1)
+        ? _lib._objc_msgSend_59_stret(stret, _id, _lib._sel_decodePoint1)
         : stret.ref = _lib._objc_msgSend_59(_id, _lib._sel_decodePoint1);
   }
 
@@ -37493,7 +37490,7 @@ class NSCoder extends NSObject {
 
   void decodeSize(ffi.Pointer<CGSize> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_60_variant(stret, _id, _lib._sel_decodeSize1)
+        ? _lib._objc_msgSend_60_stret(stret, _id, _lib._sel_decodeSize1)
         : stret.ref = _lib._objc_msgSend_60(_id, _lib._sel_decodeSize1);
   }
 
@@ -37503,7 +37500,7 @@ class NSCoder extends NSObject {
 
   void decodeRect(ffi.Pointer<CGRect> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_61_variant(stret, _id, _lib._sel_decodeRect1)
+        ? _lib._objc_msgSend_61_stret(stret, _id, _lib._sel_decodeRect1)
         : stret.ref = _lib._objc_msgSend_61(_id, _lib._sel_decodeRect1);
   }
 
@@ -37521,7 +37518,7 @@ class NSCoder extends NSObject {
 
   void decodePointForKey_(ffi.Pointer<CGPoint> stret, NSString key) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_329_variant(
+        ? _lib._objc_msgSend_329_stret(
             stret, _id, _lib._sel_decodePointForKey_1, key._id)
         : stret.ref =
             _lib._objc_msgSend_329(_id, _lib._sel_decodePointForKey_1, key._id);
@@ -37529,7 +37526,7 @@ class NSCoder extends NSObject {
 
   void decodeSizeForKey_(ffi.Pointer<CGSize> stret, NSString key) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_330_variant(
+        ? _lib._objc_msgSend_330_stret(
             stret, _id, _lib._sel_decodeSizeForKey_1, key._id)
         : stret.ref =
             _lib._objc_msgSend_330(_id, _lib._sel_decodeSizeForKey_1, key._id);
@@ -37537,7 +37534,7 @@ class NSCoder extends NSObject {
 
   void decodeRectForKey_(ffi.Pointer<CGRect> stret, NSString key) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_331_variant(
+        ? _lib._objc_msgSend_331_stret(
             stret, _id, _lib._sel_decodeRectForKey_1, key._id)
         : stret.ref =
             _lib._objc_msgSend_331(_id, _lib._sel_decodeRectForKey_1, key._id);
@@ -37707,7 +37704,7 @@ class NSData extends NSObject {
   void rangeOfData_options_range_(ffi.Pointer<_NSRange> stret,
       NSData dataToFind, int mask, _NSRange searchRange) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_271_variant(
+        ? _lib._objc_msgSend_271_stret(
             stret,
             _id,
             _lib._sel_rangeOfData_options_range_1,
@@ -38421,12 +38418,6 @@ class NSURL extends NSObject {
         : NSURL._(_ret, _lib, retain: true, release: true);
   }
 
-  bool checkResourceIsReachableAndReturnError_(
-      ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(
-        _id, _lib._sel_checkResourceIsReachableAndReturnError_1, error);
-  }
-
   bool isFileReferenceURL() {
     return _lib._objc_msgSend_12(_id, _lib._sel_isFileReferenceURL1);
   }
@@ -38449,13 +38440,13 @@ class NSURL extends NSObject {
       ffi.Pointer<ffi.Pointer<ObjCObject>> value,
       NSString key,
       ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_244(
+    return _lib._objc_msgSend_243(
         _id, _lib._sel_getResourceValue_forKey_error_1, value, key._id, error);
   }
 
   NSObject? resourceValuesForKeys_error_(
       NSArray keys, ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    final _ret = _lib._objc_msgSend_245(
+    final _ret = _lib._objc_msgSend_244(
         _id, _lib._sel_resourceValuesForKeys_error_1, keys._id, error);
     return _ret.address == 0
         ? null
@@ -38464,7 +38455,7 @@ class NSURL extends NSObject {
 
   bool setResourceValue_forKey_error_(NSObject? value, NSString key,
       ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_246(
+    return _lib._objc_msgSend_245(
         _id,
         _lib._sel_setResourceValue_forKey_error_1,
         value?._id ?? ffi.nullptr,
@@ -38474,12 +38465,12 @@ class NSURL extends NSObject {
 
   bool setResourceValues_error_(
       NSObject keyedValues, ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_247(
+    return _lib._objc_msgSend_246(
         _id, _lib._sel_setResourceValues_error_1, keyedValues._id, error);
   }
 
   void removeCachedResourceValueForKey_(NSString key) {
-    _lib._objc_msgSend_248(
+    _lib._objc_msgSend_247(
         _id, _lib._sel_removeCachedResourceValueForKey_1, key._id);
   }
 
@@ -38498,7 +38489,7 @@ class NSURL extends NSObject {
           NSArray? keys,
           NSURL? relativeURL,
           ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    final _ret = _lib._objc_msgSend_249(
+    final _ret = _lib._objc_msgSend_248(
         _id,
         _lib._sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_1,
         options,
@@ -38517,7 +38508,7 @@ class NSURL extends NSObject {
           NSURL? relativeURL,
           ffi.Pointer<ffi.Bool> isStale,
           ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    final _ret = _lib._objc_msgSend_250(
+    final _ret = _lib._objc_msgSend_249(
         _id,
         _lib._sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_1,
         bookmarkData._id,
@@ -38538,7 +38529,7 @@ class NSURL extends NSObject {
           NSURL? relativeURL,
           ffi.Pointer<ffi.Bool> isStale,
           ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    final _ret = _lib._objc_msgSend_250(
+    final _ret = _lib._objc_msgSend_249(
         _lib._class_NSURL1,
         _lib._sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_1,
         bookmarkData._id,
@@ -38553,7 +38544,7 @@ class NSURL extends NSObject {
 
   static NSObject? resourceValuesForKeys_fromBookmarkData_(
       AVFAudio _lib, NSArray keys, NSData bookmarkData) {
-    final _ret = _lib._objc_msgSend_251(
+    final _ret = _lib._objc_msgSend_250(
         _lib._class_NSURL1,
         _lib._sel_resourceValuesForKeys_fromBookmarkData_1,
         keys._id,
@@ -38569,7 +38560,7 @@ class NSURL extends NSObject {
       NSURL bookmarkFileURL,
       int options,
       ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_252(
+    return _lib._objc_msgSend_251(
         _lib._class_NSURL1,
         _lib._sel_writeBookmarkData_toURL_options_error_1,
         bookmarkData._id,
@@ -38580,7 +38571,7 @@ class NSURL extends NSObject {
 
   static NSData? bookmarkDataWithContentsOfURL_error_(AVFAudio _lib,
       NSURL bookmarkFileURL, ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    final _ret = _lib._objc_msgSend_253(
+    final _ret = _lib._objc_msgSend_252(
         _lib._class_NSURL1,
         _lib._sel_bookmarkDataWithContentsOfURL_error_1,
         bookmarkFileURL._id,
@@ -38592,7 +38583,7 @@ class NSURL extends NSObject {
 
   static NSURL? URLByResolvingAliasFileAtURL_options_error_(AVFAudio _lib,
       NSURL url, int options, ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    final _ret = _lib._objc_msgSend_254(
+    final _ret = _lib._objc_msgSend_253(
         _lib._class_NSURL1,
         _lib._sel_URLByResolvingAliasFileAtURL_options_error_1,
         url._id,
@@ -38616,7 +38607,7 @@ class NSURL extends NSObject {
       ffi.Pointer<ffi.Pointer<ObjCObject>> value,
       NSString key,
       ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_244(
+    return _lib._objc_msgSend_243(
         _id,
         _lib._sel_getPromisedItemResourceValue_forKey_error_1,
         value,
@@ -38626,7 +38617,7 @@ class NSURL extends NSObject {
 
   NSDictionary? promisedItemResourceValuesForKeys_error_(
       NSArray keys, ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    final _ret = _lib._objc_msgSend_255(_id,
+    final _ret = _lib._objc_msgSend_254(_id,
         _lib._sel_promisedItemResourceValuesForKeys_error_1, keys._id, error);
     return _ret.address == 0
         ? null
@@ -38635,7 +38626,7 @@ class NSURL extends NSObject {
 
   bool checkPromisedItemIsReachableAndReturnError_(
       ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(
+    return _lib._objc_msgSend_255(
         _id, _lib._sel_checkPromisedItemIsReachableAndReturnError_1, error);
   }
 
@@ -38710,6 +38701,12 @@ class NSURL extends NSObject {
     return _ret.address == 0
         ? null
         : NSURL._(_ret, _lib, retain: true, release: true);
+  }
+
+  bool checkResourceIsReachableAndReturnError_(
+      ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
+    return _lib._objc_msgSend_255(
+        _id, _lib._sel_checkResourceIsReachableAndReturnError_1, error);
   }
 
   NSURL? get URLByStandardizingPath {
@@ -39011,13 +39008,13 @@ class NSNumber extends NSValue {
 
   double get floatValue {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_floatValue1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_floatValue1)
         : _lib._objc_msgSend_239(_id, _lib._sel_floatValue1);
   }
 
   double get doubleValue {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_doubleValue1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_doubleValue1)
         : _lib._objc_msgSend_165(_id, _lib._sel_doubleValue1);
   }
 
@@ -39394,7 +39391,7 @@ class NSValue extends NSObject {
 
   void getRangeValue(ffi.Pointer<_NSRange> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_54_variant(stret, _id, _lib._sel_rangeValue1)
+        ? _lib._objc_msgSend_54_stret(stret, _id, _lib._sel_rangeValue1)
         : stret.ref = _lib._objc_msgSend_54(_id, _lib._sel_rangeValue1);
   }
 
@@ -39424,25 +39421,25 @@ class NSValue extends NSObject {
 
   void getPointValue(ffi.Pointer<CGPoint> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_59_variant(stret, _id, _lib._sel_pointValue1)
+        ? _lib._objc_msgSend_59_stret(stret, _id, _lib._sel_pointValue1)
         : stret.ref = _lib._objc_msgSend_59(_id, _lib._sel_pointValue1);
   }
 
   void getSizeValue(ffi.Pointer<CGSize> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_60_variant(stret, _id, _lib._sel_sizeValue1)
+        ? _lib._objc_msgSend_60_stret(stret, _id, _lib._sel_sizeValue1)
         : stret.ref = _lib._objc_msgSend_60(_id, _lib._sel_sizeValue1);
   }
 
   void getRectValue(ffi.Pointer<CGRect> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_61_variant(stret, _id, _lib._sel_rectValue1)
+        ? _lib._objc_msgSend_61_stret(stret, _id, _lib._sel_rectValue1)
         : stret.ref = _lib._objc_msgSend_61(_id, _lib._sel_rectValue1);
   }
 
   void getEdgeInsetsValue(ffi.Pointer<NSEdgeInsets> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_62_variant(stret, _id, _lib._sel_edgeInsetsValue1)
+        ? _lib._objc_msgSend_62_stret(stret, _id, _lib._sel_edgeInsetsValue1)
         : stret.ref = _lib._objc_msgSend_62(_id, _lib._sel_edgeInsetsValue1);
   }
 
@@ -40472,7 +40469,7 @@ class _ObjCBlockBase implements ffi.Finalizable {
   /// Return a pointer to this object.
   ffi.Pointer<_ObjCBlock> get pointer => _id;
 
-  ffi.Pointer<_ObjCBlock> _retainAndReturnId() {
+  ffi.Pointer<_ObjCBlock> retainAndReturnPointer() {
     _lib._Block_copy(_id.cast());
     return _id;
   }
@@ -40516,6 +40513,14 @@ class ObjCBlock_ObjCObject_NSError_NSString extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ObjCObject_NSError_NSString castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ObjCObject_NSError_NSString._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -40561,7 +40566,7 @@ class ObjCBlock_ObjCObject_NSError_NSString extends _ObjCBlockBase {
                 _ObjCBlock_ObjCObject_NSError_NSString_registerClosure(
                     (ffi.Pointer<ObjCObject> arg0, ffi.Pointer<ObjCObject> arg1) =>
                         fn(NSError._(arg0, lib, retain: true, release: true), NSString._(arg1, lib, retain: true, release: true))
-                            ?._retainAndReturnId() ??
+                            ?.retainAndReturnPointer() ??
                         ffi.nullptr)),
             lib);
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
@@ -40949,6 +40954,14 @@ class ObjCBlock_ffiVoid_ffiUnsignedLong_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ffiUnsignedLong_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ffiUnsignedLong_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -41064,6 +41077,14 @@ class ObjCBlock_bool_ffiUnsignedLong_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_bool_ffiUnsignedLong_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_bool_ffiUnsignedLong_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -41150,6 +41171,14 @@ class ObjCBlock_ffiVoid_NSRange_bool extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSRange_bool._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSRange_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSRange_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -41270,6 +41299,14 @@ class ObjCBlock_ffiVoid_ObjCObject_ffiUnsignedLong_bool extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ObjCObject_ffiUnsignedLong_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ObjCObject_ffiUnsignedLong_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -41409,6 +41446,14 @@ class ObjCBlock_bool_ObjCObject_ffiUnsignedLong_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_bool_ObjCObject_ffiUnsignedLong_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_bool_ObjCObject_ffiUnsignedLong_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -41512,6 +41557,14 @@ class ObjCBlock_NSComparisonResult_ObjCObject_ObjCObject
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_NSComparisonResult_ObjCObject_ObjCObject castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_NSComparisonResult_ObjCObject_ObjCObject._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -41630,6 +41683,14 @@ class ObjCBlock_bool_ObjCObject_ObjCObject extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_bool_ObjCObject_ObjCObject castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_bool_ObjCObject_ObjCObject._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -41935,6 +41996,14 @@ class ObjCBlock_bool_ObjCObject_NSDictionary extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_bool_ObjCObject_NSDictionary castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_bool_ObjCObject_NSDictionary._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -42563,6 +42632,14 @@ class ObjCBlock_ffiVoid_ObjCObject_ObjCObject_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ObjCObject_ObjCObject_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ObjCObject_ObjCObject_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -42711,6 +42788,14 @@ class ObjCBlock_bool_ObjCObject_ObjCObject_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_bool_ObjCObject_ObjCObject_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_bool_ObjCObject_ObjCObject_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -42817,7 +42902,7 @@ class NSDate extends NSObject {
 
   double get timeIntervalSinceReferenceDate {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(
+        ? _lib._objc_msgSend_165_fpret(
             _id, _lib._sel_timeIntervalSinceReferenceDate1)
         : _lib._objc_msgSend_165(
             _id, _lib._sel_timeIntervalSinceReferenceDate1);
@@ -42845,7 +42930,7 @@ class NSDate extends NSObject {
 
   double timeIntervalSinceDate_(NSDate anotherDate) {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_167_variant(
+        ? _lib._objc_msgSend_167_fpret(
             _id, _lib._sel_timeIntervalSinceDate_1, anotherDate._id)
         : _lib._objc_msgSend_167(
             _id, _lib._sel_timeIntervalSinceDate_1, anotherDate._id);
@@ -42853,13 +42938,13 @@ class NSDate extends NSObject {
 
   double get timeIntervalSinceNow {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_timeIntervalSinceNow1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_timeIntervalSinceNow1)
         : _lib._objc_msgSend_165(_id, _lib._sel_timeIntervalSinceNow1);
   }
 
   double get timeIntervalSince1970 {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_timeIntervalSince19701)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_timeIntervalSince19701)
         : _lib._objc_msgSend_165(_id, _lib._sel_timeIntervalSince19701);
   }
 
@@ -43614,7 +43699,7 @@ class NSTimeZone extends NSObject {
 
   double daylightSavingTimeOffsetForDate_(NSDate aDate) {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_167_variant(
+        ? _lib._objc_msgSend_167_fpret(
             _id, _lib._sel_daylightSavingTimeOffsetForDate_1, aDate._id)
         : _lib._objc_msgSend_167(
             _id, _lib._sel_daylightSavingTimeOffsetForDate_1, aDate._id);
@@ -43696,8 +43781,7 @@ class NSTimeZone extends NSObject {
 
   double get daylightSavingTimeOffset {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(
-            _id, _lib._sel_daylightSavingTimeOffset1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_daylightSavingTimeOffset1)
         : _lib._objc_msgSend_165(_id, _lib._sel_daylightSavingTimeOffset1);
   }
 
@@ -44723,7 +44807,7 @@ class NSURLHandle extends NSObject {
   }
 
   void backgroundLoadDidFailWithReason_(NSString reason) {
-    _lib._objc_msgSend_248(
+    _lib._objc_msgSend_247(
         _id, _lib._sel_backgroundLoadDidFailWithReason_1, reason._id);
   }
 
@@ -44934,6 +45018,14 @@ class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ffiVoid_NSRange_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ffiVoid_NSRange_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -45069,6 +45161,14 @@ class ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -45243,6 +45343,14 @@ class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -45387,6 +45495,14 @@ class ObjCBlock_ffiVoid_NSString_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSString_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSString_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -45519,6 +45635,14 @@ class ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -45836,6 +45960,14 @@ class ObjCBlock_ffiVoid_ObjCObject_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ObjCObject_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ObjCObject_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -45959,6 +46091,14 @@ class ObjCBlock_bool_ObjCObject_bool extends _ObjCBlockBase {
   ObjCBlock_bool_ObjCObject_bool._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_bool_ObjCObject_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_bool_ObjCObject_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -46756,6 +46896,14 @@ class ObjCBlock_ffiVoid_NSError extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -46923,6 +47071,14 @@ class ObjCBlock_bool_NSURL_NSError extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_bool_NSURL_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_bool_NSURL_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -47016,6 +47172,14 @@ class ObjCBlock_ffiVoid_NSDictionary_NSError extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSDictionary_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSDictionary_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -49504,7 +49668,7 @@ class NSThread extends NSObject {
 
   double get threadPriority {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_threadPriority1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_threadPriority1)
         : _lib._objc_msgSend_165(_id, _lib._sel_threadPriority1);
   }
 
@@ -49712,6 +49876,13 @@ class ObjCBlock_ffiVoid extends _ObjCBlockBase {
   ObjCBlock_ffiVoid._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid._(pointer, lib, retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -50982,13 +51153,13 @@ class NSTimer extends NSObject {
 
   double get timeInterval {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_timeInterval1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_timeInterval1)
         : _lib._objc_msgSend_165(_id, _lib._sel_timeInterval1);
   }
 
   double get tolerance {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_tolerance1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_tolerance1)
         : _lib._objc_msgSend_165(_id, _lib._sel_tolerance1);
   }
 
@@ -51122,6 +51293,14 @@ class ObjCBlock_ffiVoid_NSTimer extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSTimer._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSTimer castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSTimer._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -51323,7 +51502,7 @@ class NSConnection extends NSObject {
 
   double get requestTimeout {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_requestTimeout1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_requestTimeout1)
         : _lib._objc_msgSend_165(_id, _lib._sel_requestTimeout1);
   }
 
@@ -51333,7 +51512,7 @@ class NSConnection extends NSObject {
 
   double get replyTimeout {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_replyTimeout1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_replyTimeout1)
         : _lib._objc_msgSend_165(_id, _lib._sel_replyTimeout1);
   }
 
@@ -51389,11 +51568,11 @@ class NSConnection extends NSObject {
   }
 
   void addRequestMode_(NSString rmode) {
-    _lib._objc_msgSend_248(_id, _lib._sel_addRequestMode_1, rmode._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_addRequestMode_1, rmode._id);
   }
 
   void removeRequestMode_(NSString rmode) {
-    _lib._objc_msgSend_248(_id, _lib._sel_removeRequestMode_1, rmode._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_removeRequestMode_1, rmode._id);
   }
 
   NSArray get requestModes {
@@ -52587,7 +52766,7 @@ class NSAppleEventDescriptor extends NSObject {
 
   double get doubleValue {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_doubleValue1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_doubleValue1)
         : _lib._objc_msgSend_165(_id, _lib._sel_doubleValue1);
   }
 
@@ -53952,6 +54131,14 @@ class ObjCBlock_NSProgress_ffiVoidNSDataNSError extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_NSProgress_ffiVoidNSDataNSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_NSProgress_ffiVoidNSDataNSError._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -53994,7 +54181,7 @@ class ObjCBlock_NSProgress_ffiVoidNSDataNSError extends _ObjCBlockBase {
                 _ObjCBlock_NSProgress_ffiVoidNSDataNSError_registerClosure(
                     (ffi.Pointer<_ObjCBlock> arg0) =>
                         fn(ObjCBlock_ffiVoid_NSData_NSError._(arg0, lib, retain: true, release: true))
-                            ?._retainAndReturnId() ??
+                            ?.retainAndReturnPointer() ??
                         ffi.nullptr)),
             lib);
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
@@ -54218,7 +54405,7 @@ class NSProgress extends NSObject {
 
   double get fractionCompleted {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_fractionCompleted1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_fractionCompleted1)
         : _lib._objc_msgSend_165(_id, _lib._sel_fractionCompleted1);
   }
 
@@ -54470,6 +54657,14 @@ class ObjCBlock_ffiVoid_NSProgress extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSProgress castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSProgress._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -54512,7 +54707,7 @@ class ObjCBlock_ffiVoid_NSProgress extends _ObjCBlockBase {
                 _ObjCBlock_ffiVoid_NSProgress_registerClosure(
                     (ffi.Pointer<ObjCObject> arg0) =>
                         fn(NSProgress._(arg0, lib, retain: true, release: true))
-                            ?._retainAndReturnId() ??
+                            ?.retainAndReturnPointer() ??
                         ffi.nullptr)),
             lib);
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
@@ -54570,6 +54765,14 @@ class ObjCBlock_ffiVoid_NSData_NSError extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSData_NSError._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSData_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSData_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -54705,6 +54908,14 @@ class ObjCBlock_NSProgress_ffiVoidNSURLboolNSError extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_NSProgress_ffiVoidNSURLboolNSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_NSProgress_ffiVoidNSURLboolNSError._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -54747,7 +54958,7 @@ class ObjCBlock_NSProgress_ffiVoidNSURLboolNSError extends _ObjCBlockBase {
                 _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_registerClosure(
                     (ffi.Pointer<_ObjCBlock> arg0) =>
                         fn(ObjCBlock_ffiVoid_NSURL_bool_NSError._(arg0, lib, retain: true, release: true))
-                            ?._retainAndReturnId() ??
+                            ?.retainAndReturnPointer() ??
                         ffi.nullptr)),
             lib);
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
@@ -54808,6 +55019,14 @@ class ObjCBlock_ffiVoid_NSURL_bool_NSError extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSURL_bool_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSURL_bool_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -54942,6 +55161,14 @@ class ObjCBlock_ffiVoid_NSURL_NSError extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSURL_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSURL_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -55071,6 +55298,14 @@ class ObjCBlock_NSProgress_ffiVoidObjCObjectNSError extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_NSProgress_ffiVoidObjCObjectNSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_NSProgress_ffiVoidObjCObjectNSError._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -55113,7 +55348,7 @@ class ObjCBlock_NSProgress_ffiVoidObjCObjectNSError extends _ObjCBlockBase {
                 _ObjCBlock_NSProgress_ffiVoidObjCObjectNSError_registerClosure(
                     (ffi.Pointer<_ObjCBlock> arg0) =>
                         fn(ObjCBlock_ffiVoid_ObjCObject_NSError._(arg0, lib, retain: true, release: true))
-                            ?._retainAndReturnId() ??
+                            ?.retainAndReturnPointer() ??
                         ffi.nullptr)),
             lib);
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
@@ -55172,6 +55407,14 @@ class ObjCBlock_ffiVoid_ObjCObject_NSError extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ObjCObject_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ObjCObject_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -55315,6 +55558,15 @@ class ObjCBlock_ffiVoid_ffiVoidObjCObjectNSError_ObjCObject_NSDictionary
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ffiVoidObjCObjectNSError_ObjCObject_NSDictionary
+      castFromPointer(AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+          {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ffiVoidObjCObjectNSError_ObjCObject_NSDictionary._(
+        pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -55455,6 +55707,14 @@ class ObjCBlock_ffiVoid_ObjCObject_NSError1 extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ObjCObject_NSError1 castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ObjCObject_NSError1._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -55584,15 +55844,15 @@ class NSMutableString extends NSString {
   }
 
   void appendString_(NSString aString) {
-    _lib._objc_msgSend_248(_id, _lib._sel_appendString_1, aString._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_appendString_1, aString._id);
   }
 
   void appendFormat_(NSString format) {
-    _lib._objc_msgSend_248(_id, _lib._sel_appendFormat_1, format._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_appendFormat_1, format._id);
   }
 
   void setString_(NSString aString) {
-    _lib._objc_msgSend_248(_id, _lib._sel_setString_1, aString._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_setString_1, aString._id);
   }
 
   int replaceOccurrencesOfString_withString_options_range_(NSString target,
@@ -56490,12 +56750,12 @@ class NSBundle extends NSObject {
   }
 
   bool preflightAndReturnError_(ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(
+    return _lib._objc_msgSend_255(
         _id, _lib._sel_preflightAndReturnError_1, error);
   }
 
   bool loadAndReturnError_(ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(_id, _lib._sel_loadAndReturnError_1, error);
+    return _lib._objc_msgSend_255(_id, _lib._sel_loadAndReturnError_1, error);
   }
 
   NSURL get bundleURL {
@@ -56880,7 +57140,7 @@ class NSBundle extends NSObject {
 
   double preservationPriorityForTag_(NSString tag) {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_308_variant(
+        ? _lib._objc_msgSend_308_fpret(
             _id, _lib._sel_preservationPriorityForTag_1, tag._id)
         : _lib._objc_msgSend_308(
             _id, _lib._sel_preservationPriorityForTag_1, tag._id);
@@ -57397,6 +57657,14 @@ class ObjCBlock_ffiVoid_NSDictionary_NSRange_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSDictionary_NSRange_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSDictionary_NSRange_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -57534,6 +57802,14 @@ class ObjCBlock_ffiVoid_ObjCObject_NSRange_bool extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_ObjCObject_NSRange_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_ObjCObject_NSRange_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -58297,7 +58573,7 @@ class NSDateFormatter extends NSFormatter {
   }
 
   void setLocalizedDateFormatFromTemplate_(NSString dateFormatTemplate) {
-    _lib._objc_msgSend_248(_id, _lib._sel_setLocalizedDateFormatFromTemplate_1,
+    _lib._objc_msgSend_247(_id, _lib._sel_setLocalizedDateFormatFromTemplate_1,
         dateFormatTemplate._id);
   }
 
@@ -59137,7 +59413,7 @@ class NSCalendar extends NSObject {
 
   void minimumRangeOfUnit_(ffi.Pointer<_NSRange> stret, int unit) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_767_variant(
+        ? _lib._objc_msgSend_767_stret(
             stret, _id, _lib._sel_minimumRangeOfUnit_1, unit)
         : stret.ref =
             _lib._objc_msgSend_767(_id, _lib._sel_minimumRangeOfUnit_1, unit);
@@ -59145,7 +59421,7 @@ class NSCalendar extends NSObject {
 
   void maximumRangeOfUnit_(ffi.Pointer<_NSRange> stret, int unit) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_767_variant(
+        ? _lib._objc_msgSend_767_stret(
             stret, _id, _lib._sel_maximumRangeOfUnit_1, unit)
         : stret.ref =
             _lib._objc_msgSend_767(_id, _lib._sel_maximumRangeOfUnit_1, unit);
@@ -59154,7 +59430,7 @@ class NSCalendar extends NSObject {
   void rangeOfUnit_inUnit_forDate_(
       ffi.Pointer<_NSRange> stret, int smaller, int larger, NSDate date) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_768_variant(stret, _id,
+        ? _lib._objc_msgSend_768_stret(stret, _id,
             _lib._sel_rangeOfUnit_inUnit_forDate_1, smaller, larger, date._id)
         : stret.ref = _lib._objc_msgSend_768(_id,
             _lib._sel_rangeOfUnit_inUnit_forDate_1, smaller, larger, date._id);
@@ -59972,6 +60248,14 @@ class ObjCBlock_ffiVoid_NSDate_bool_bool extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSDate_bool_bool._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSDate_bool_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSDate_bool_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -61599,12 +61883,12 @@ class NSFileHandle extends NSObject {
   }
 
   bool synchronizeAndReturnError_(ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(
+    return _lib._objc_msgSend_255(
         _id, _lib._sel_synchronizeAndReturnError_1, error);
   }
 
   bool closeAndReturnError_(ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(_id, _lib._sel_closeAndReturnError_1, error);
+    return _lib._objc_msgSend_255(_id, _lib._sel_closeAndReturnError_1, error);
   }
 
   static NSFileHandle getFileHandleWithStandardInput(AVFAudio _lib) {
@@ -61916,6 +62200,14 @@ class ObjCBlock_ffiVoid_NSFileHandle extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSFileHandle._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSFileHandle castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSFileHandle._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -62571,7 +62863,7 @@ class NSURLSessionTask extends NSObject {
 
   double get priority {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_priority1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_priority1)
         : _lib._objc_msgSend_239(_id, _lib._sel_priority1);
   }
 
@@ -62751,7 +63043,7 @@ class NSURLRequest extends NSObject {
 
   double get timeoutInterval {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_timeoutInterval1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_timeoutInterval1)
         : _lib._objc_msgSend_165(_id, _lib._sel_timeoutInterval1);
   }
 
@@ -63966,6 +64258,14 @@ class ObjCBlock_ffiVoid_NSArray extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSArray castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSArray._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -65124,7 +65424,7 @@ class NSOperation extends NSObject {
 
   double get threadPriority {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_threadPriority1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_threadPriority1)
         : _lib._objc_msgSend_165(_id, _lib._sel_threadPriority1);
   }
 
@@ -65823,7 +66123,7 @@ class NSProcessInfo extends NSObject {
 
   void getOperatingSystemVersion(ffi.Pointer<NSOperatingSystemVersion> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_940_variant(
+        ? _lib._objc_msgSend_940_stret(
             stret, _id, _lib._sel_operatingSystemVersion1)
         : stret.ref =
             _lib._objc_msgSend_940(_id, _lib._sel_operatingSystemVersion1);
@@ -65848,7 +66148,7 @@ class NSProcessInfo extends NSObject {
 
   double get systemUptime {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_systemUptime1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_systemUptime1)
         : _lib._objc_msgSend_165(_id, _lib._sel_systemUptime1);
   }
 
@@ -65861,12 +66161,12 @@ class NSProcessInfo extends NSObject {
   }
 
   void disableAutomaticTermination_(NSString reason) {
-    _lib._objc_msgSend_248(
+    _lib._objc_msgSend_247(
         _id, _lib._sel_disableAutomaticTermination_1, reason._id);
   }
 
   void enableAutomaticTermination_(NSString reason) {
-    _lib._objc_msgSend_248(
+    _lib._objc_msgSend_247(
         _id, _lib._sel_enableAutomaticTermination_1, reason._id);
   }
 
@@ -66072,6 +66372,14 @@ class ObjCBlock_ffiVoid_bool extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_bool castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_bool._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -66178,7 +66486,7 @@ class NSTextCheckingResult extends NSObject {
 
   void getRange(ffi.Pointer<_NSRange> stret) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_54_variant(stret, _id, _lib._sel_range1)
+        ? _lib._objc_msgSend_54_stret(stret, _id, _lib._sel_range1)
         : stret.ref = _lib._objc_msgSend_54(_id, _lib._sel_range1);
   }
 
@@ -66212,7 +66520,7 @@ class NSTextCheckingResult extends NSObject {
 
   double get duration {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_duration1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_duration1)
         : _lib._objc_msgSend_165(_id, _lib._sel_duration1);
   }
 
@@ -66264,7 +66572,7 @@ class NSTextCheckingResult extends NSObject {
 
   void rangeAtIndex_(ffi.Pointer<_NSRange> stret, int idx) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_347_variant(
+        ? _lib._objc_msgSend_347_stret(
             stret, _id, _lib._sel_rangeAtIndex_1, idx)
         : stret.ref =
             _lib._objc_msgSend_347(_id, _lib._sel_rangeAtIndex_1, idx);
@@ -66272,7 +66580,7 @@ class NSTextCheckingResult extends NSObject {
 
   void rangeWithName_(ffi.Pointer<_NSRange> stret, NSString name) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_340_variant(
+        ? _lib._objc_msgSend_340_stret(
             stret, _id, _lib._sel_rangeWithName_1, name._id)
         : stret.ref =
             _lib._objc_msgSend_340(_id, _lib._sel_rangeWithName_1, name._id);
@@ -66665,7 +66973,7 @@ class NSRegularExpression extends NSObject {
   void rangeOfFirstMatchInString_options_range_(ffi.Pointer<_NSRange> stret,
       NSString string, int options, _NSRange range) {
     _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_955_variant(
+        ? _lib._objc_msgSend_955_stret(
             stret,
             _id,
             _lib._sel_rangeOfFirstMatchInString_options_range_1,
@@ -66873,6 +67181,15 @@ class ObjCBlock_ffiVoid_NSTextCheckingResult_NSMatchingFlags_bool
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSTextCheckingResult_NSMatchingFlags_bool
+      castFromPointer(AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+          {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSTextCheckingResult_NSMatchingFlags_bool._(
+        pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -67499,6 +67816,14 @@ class ObjCBlock_ffiVoid_NSCachedURLResponse extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSCachedURLResponse castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSCachedURLResponse._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -67840,6 +68165,14 @@ class ObjCBlock_ffiVoid_NSURLResponse_NSData_NSError extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSURLResponse_NSData_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSURLResponse_NSData_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -68625,6 +68958,14 @@ class ObjCBlock_ffiVoid_NSDictionary extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSDictionary castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSDictionary._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -68733,6 +69074,14 @@ class ObjCBlock_ffiVoid_NSURLCredential extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSURLCredential._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSURLCredential castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSURLCredential._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -69091,7 +69440,7 @@ class NSMutableURLRequest extends NSURLRequest {
   @override
   double get timeoutInterval {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_timeoutInterval1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_timeoutInterval1)
         : _lib._objc_msgSend_165(_id, _lib._sel_timeoutInterval1);
   }
 
@@ -70418,7 +70767,7 @@ class NSURLSessionConfiguration extends NSObject {
 
   double get timeoutIntervalForRequest {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(
+        ? _lib._objc_msgSend_165_fpret(
             _id, _lib._sel_timeoutIntervalForRequest1)
         : _lib._objc_msgSend_165(_id, _lib._sel_timeoutIntervalForRequest1);
   }
@@ -70430,7 +70779,7 @@ class NSURLSessionConfiguration extends NSObject {
 
   double get timeoutIntervalForResource {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(
+        ? _lib._objc_msgSend_165_fpret(
             _id, _lib._sel_timeoutIntervalForResource1)
         : _lib._objc_msgSend_165(_id, _lib._sel_timeoutIntervalForResource1);
   }
@@ -70865,6 +71214,14 @@ class ObjCBlock_ffiVoid_NSArray_NSArray_NSArray extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSArray_NSArray_NSArray castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSArray_NSArray_NSArray._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -70994,6 +71351,14 @@ class ObjCBlock_ffiVoid_NSArray1 extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSArray1._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSArray1 castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSArray1._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -71219,6 +71584,14 @@ class ObjCBlock_ffiVoid_NSData extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_NSData._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSData castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSData._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -71614,6 +71987,14 @@ class ObjCBlock_ffiVoid_NSData_bool_NSError extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSData_bool_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSData_bool_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -72331,6 +72712,15 @@ class ObjCBlock_ffiVoid_NSURLSessionWebSocketMessage_NSError
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSURLSessionWebSocketMessage_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSURLSessionWebSocketMessage_NSError._(
+        pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -72485,6 +72875,14 @@ class ObjCBlock_ffiVoid_NSData_NSURLResponse_NSError extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSData_NSURLResponse_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSData_NSURLResponse_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -72636,6 +73034,14 @@ class ObjCBlock_ffiVoid_NSURL_NSURLResponse_NSError extends _ObjCBlockBase {
       ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSURL_NSURLResponse_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSURL_NSURLResponse_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -72885,6 +73291,18 @@ class NSTask extends NSObject {
         _id, _lib._sel_setCurrentDirectoryURL_1, value?._id ?? ffi.nullptr);
   }
 
+  NSData? get launchRequirementData {
+    final _ret = _lib._objc_msgSend_286(_id, _lib._sel_launchRequirementData1);
+    return _ret.address == 0
+        ? null
+        : NSData._(_ret, _lib, retain: true, release: true);
+  }
+
+  set launchRequirementData(NSData? value) {
+    return _lib._objc_msgSend_1021(
+        _id, _lib._sel_setLaunchRequirementData_1, value?._id ?? ffi.nullptr);
+  }
+
   NSObject? get standardInput {
     final _ret = _lib._objc_msgSend_17(_id, _lib._sel_standardInput1);
     return _ret.address == 0
@@ -72922,7 +73340,7 @@ class NSTask extends NSObject {
   }
 
   bool launchAndReturnError_(ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(_id, _lib._sel_launchAndReturnError_1, error);
+    return _lib._objc_msgSend_255(_id, _lib._sel_launchAndReturnError_1, error);
   }
 
   void interrupt() {
@@ -73147,6 +73565,14 @@ class ObjCBlock_ffiVoid_NSTask extends _ObjCBlockBase {
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_NSTask castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_NSTask._(pointer, lib,
+        retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
@@ -73304,7 +73730,7 @@ class NSXMLElement extends NSXMLNode {
   }
 
   void removeAttributeForName_(NSString name) {
-    _lib._objc_msgSend_248(_id, _lib._sel_removeAttributeForName_1, name._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_removeAttributeForName_1, name._id);
   }
 
   NSArray? get attributes {
@@ -73348,7 +73774,7 @@ class NSXMLElement extends NSXMLNode {
   }
 
   void removeNamespaceForPrefix_(NSString name) {
-    _lib._objc_msgSend_248(_id, _lib._sel_removeNamespaceForPrefix_1, name._id);
+    _lib._objc_msgSend_247(_id, _lib._sel_removeNamespaceForPrefix_1, name._id);
   }
 
   NSArray? get namespaces {
@@ -74355,7 +74781,7 @@ class NSXMLDocument extends NSXMLNode {
   }
 
   bool validateAndReturnError_(ffi.Pointer<ffi.Pointer<ObjCObject>> error) {
-    return _lib._objc_msgSend_243(
+    return _lib._objc_msgSend_255(
         _id, _lib._sel_validateAndReturnError_1, error);
   }
 
@@ -75430,6 +75856,10 @@ class AVAudioSession extends NSObject {
         _id, _lib._sel_prefersNoInterruptionsFromSystemAlerts1);
   }
 
+  int get renderingMode {
+    return _lib._objc_msgSend_1160(_id, _lib._sel_renderingMode1);
+  }
+
   bool setActive_error_(
       bool active, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
     return _lib._objc_msgSend_1151(
@@ -75438,13 +75868,13 @@ class AVAudioSession extends NSObject {
 
   bool setActive_withOptions_error_(
       bool active, int options, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1160(_id, _lib._sel_setActive_withOptions_error_1,
+    return _lib._objc_msgSend_1161(_id, _lib._sel_setActive_withOptions_error_1,
         active, options, outError);
   }
 
   void activateWithOptions_completionHandler_(
       int options, ObjCBlock_ffiVoid_bool_NSError handler) {
-    _lib._objc_msgSend_1161(
+    _lib._objc_msgSend_1162(
         _id,
         _lib._sel_activateWithOptions_completionHandler_1,
         options,
@@ -75453,32 +75883,32 @@ class AVAudioSession extends NSObject {
 
   bool setPreferredSampleRate_error_(
       double sampleRate, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1162(
+    return _lib._objc_msgSend_1163(
         _id, _lib._sel_setPreferredSampleRate_error_1, sampleRate, outError);
   }
 
   double get preferredSampleRate {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_preferredSampleRate1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_preferredSampleRate1)
         : _lib._objc_msgSend_165(_id, _lib._sel_preferredSampleRate1);
   }
 
   bool setPreferredIOBufferDuration_error_(
       double duration, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1162(_id,
+    return _lib._objc_msgSend_1163(_id,
         _lib._sel_setPreferredIOBufferDuration_error_1, duration, outError);
   }
 
   double get preferredIOBufferDuration {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(
+        ? _lib._objc_msgSend_165_fpret(
             _id, _lib._sel_preferredIOBufferDuration1)
         : _lib._objc_msgSend_165(_id, _lib._sel_preferredIOBufferDuration1);
   }
 
   bool setPreferredInputNumberOfChannels_error_(
       int count, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1163(_id,
+    return _lib._objc_msgSend_1164(_id,
         _lib._sel_setPreferredInputNumberOfChannels_error_1, count, outError);
   }
 
@@ -75489,7 +75919,7 @@ class AVAudioSession extends NSObject {
 
   bool setPreferredOutputNumberOfChannels_error_(
       int count, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1163(_id,
+    return _lib._objc_msgSend_1164(_id,
         _lib._sel_setPreferredOutputNumberOfChannels_error_1, count, outError);
   }
 
@@ -75500,16 +75930,16 @@ class AVAudioSession extends NSObject {
 
   bool setPreferredInputOrientation_error_(
       int orientation, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1164(_id,
+    return _lib._objc_msgSend_1165(_id,
         _lib._sel_setPreferredInputOrientation_error_1, orientation, outError);
   }
 
   int get preferredInputOrientation {
-    return _lib._objc_msgSend_1165(_id, _lib._sel_preferredInputOrientation1);
+    return _lib._objc_msgSend_1166(_id, _lib._sel_preferredInputOrientation1);
   }
 
   int get inputOrientation {
-    return _lib._objc_msgSend_1165(_id, _lib._sel_inputOrientation1);
+    return _lib._objc_msgSend_1166(_id, _lib._sel_inputOrientation1);
   }
 
   int get maximumInputNumberOfChannels {
@@ -75522,13 +75952,13 @@ class AVAudioSession extends NSObject {
 
   bool setInputGain_error_(
       double gain, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1166(
+    return _lib._objc_msgSend_1167(
         _id, _lib._sel_setInputGain_error_1, gain, outError);
   }
 
   double get inputGain {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_inputGain1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_inputGain1)
         : _lib._objc_msgSend_239(_id, _lib._sel_inputGain1);
   }
 
@@ -75586,7 +76016,7 @@ class AVAudioSession extends NSObject {
 
   double get sampleRate {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_sampleRate1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_sampleRate1)
         : _lib._objc_msgSend_165(_id, _lib._sel_sampleRate1);
   }
 
@@ -75600,20 +76030,26 @@ class AVAudioSession extends NSObject {
 
   double get inputLatency {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_inputLatency1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_inputLatency1)
         : _lib._objc_msgSend_165(_id, _lib._sel_inputLatency1);
   }
 
   double get outputLatency {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_outputLatency1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_outputLatency1)
         : _lib._objc_msgSend_165(_id, _lib._sel_outputLatency1);
   }
 
   double get IOBufferDuration {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_IOBufferDuration1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_IOBufferDuration1)
         : _lib._objc_msgSend_165(_id, _lib._sel_IOBufferDuration1);
+  }
+
+  NSArray get supportedOutputChannelLayouts {
+    final _ret =
+        _lib._objc_msgSend_85(_id, _lib._sel_supportedOutputChannelLayouts1);
+    return NSArray._(_ret, _lib, retain: true, release: true);
   }
 
   bool get otherAudioPlaying {
@@ -75627,12 +76063,12 @@ class AVAudioSession extends NSObject {
 
   double get outputVolume {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_outputVolume1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_outputVolume1)
         : _lib._objc_msgSend_239(_id, _lib._sel_outputVolume1);
   }
 
   int get promptStyle {
-    return _lib._objc_msgSend_1167(_id, _lib._sel_promptStyle1);
+    return _lib._objc_msgSend_1168(_id, _lib._sel_promptStyle1);
   }
 
   NSArray? get availableInputs {
@@ -75643,14 +76079,14 @@ class AVAudioSession extends NSObject {
   }
 
   AVAudioSessionRouteDescription get currentRoute {
-    final _ret = _lib._objc_msgSend_1168(_id, _lib._sel_currentRoute1);
+    final _ret = _lib._objc_msgSend_1169(_id, _lib._sel_currentRoute1);
     return AVAudioSessionRouteDescription._(_ret, _lib,
         retain: true, release: true);
   }
 
   bool setAggregatedIOPreference_error_(
       int inIOType, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1169(
+    return _lib._objc_msgSend_1170(
         _id, _lib._sel_setAggregatedIOPreference_error_1, inIOType, outError);
   }
 
@@ -75698,7 +76134,7 @@ class AVAudioSession extends NSObject {
 
   bool setActive_withFlags_error_(
       bool active, int flags, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1170(
+    return _lib._objc_msgSend_1171(
         _id, _lib._sel_setActive_withFlags_error_1, active, flags, outError);
   }
 
@@ -75708,7 +76144,7 @@ class AVAudioSession extends NSObject {
 
   double get currentHardwareSampleRate {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(
+        ? _lib._objc_msgSend_165_fpret(
             _id, _lib._sel_currentHardwareSampleRate1)
         : _lib._objc_msgSend_165(_id, _lib._sel_currentHardwareSampleRate1);
   }
@@ -75725,13 +76161,13 @@ class AVAudioSession extends NSObject {
 
   bool setPreferredHardwareSampleRate_error_(
       double sampleRate, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    return _lib._objc_msgSend_1162(_id,
+    return _lib._objc_msgSend_1163(_id,
         _lib._sel_setPreferredHardwareSampleRate_error_1, sampleRate, outError);
   }
 
   double get preferredHardwareSampleRate {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(
+        ? _lib._objc_msgSend_165_fpret(
             _id, _lib._sel_preferredHardwareSampleRate1)
         : _lib._objc_msgSend_165(_id, _lib._sel_preferredHardwareSampleRate1);
   }
@@ -76224,6 +76660,15 @@ class AVAudioSessionDataSourceDescription extends NSObject {
   }
 }
 
+abstract class AVAudioSessionRenderingMode {
+  static const int AVAudioSessionRenderingModeNotApplicable = 0;
+  static const int AVAudioSessionRenderingModeMonoStereo = 1;
+  static const int AVAudioSessionRenderingModeSurround = 2;
+  static const int AVAudioSessionRenderingModeSpatialAudio = 3;
+  static const int AVAudioSessionRenderingModeDolbyAudio = 4;
+  static const int AVAudioSessionRenderingModeDolbyAtmos = 5;
+}
+
 abstract class AVAudioSessionSetActiveOptions {
   static const int AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation = 1;
 }
@@ -76263,6 +76708,14 @@ class ObjCBlock_ffiVoid_bool_NSError extends _ObjCBlockBase {
   ObjCBlock_ffiVoid_bool_NSError._(ffi.Pointer<_ObjCBlock> id, AVFAudio lib,
       {bool retain = false, bool release = true})
       : super._(id, lib, retain: retain, release: release);
+
+  /// Returns a block that wraps the given raw block pointer.
+  static ObjCBlock_ffiVoid_bool_NSError castFromPointer(
+      AVFAudio lib, ffi.Pointer<_ObjCBlock> pointer,
+      {bool retain = false, bool release = false}) {
+    return ObjCBlock_ffiVoid_bool_NSError._(pointer, lib,
+        retain: retain, release: release);
+  }
 
   /// Creates a block from a C function pointer.
   ///
@@ -76534,7 +76987,7 @@ class AVAudioPlayer extends NSObject {
 
   AVAudioPlayer? initWithData_error_(
       NSData data, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    final _ret = _lib._objc_msgSend_1171(
+    final _ret = _lib._objc_msgSend_1172(
         _id, _lib._sel_initWithData_error_1, data._id, outError);
     return _ret.address == 0
         ? null
@@ -76543,7 +76996,7 @@ class AVAudioPlayer extends NSObject {
 
   AVAudioPlayer? initWithContentsOfURL_fileTypeHint_error_(NSURL url,
       NSString? utiString, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    final _ret = _lib._objc_msgSend_1172(
+    final _ret = _lib._objc_msgSend_1173(
         _id,
         _lib._sel_initWithContentsOfURL_fileTypeHint_error_1,
         url._id,
@@ -76556,7 +77009,7 @@ class AVAudioPlayer extends NSObject {
 
   AVAudioPlayer? initWithData_fileTypeHint_error_(NSData data,
       NSString? utiString, ffi.Pointer<ffi.Pointer<ObjCObject>> outError) {
-    final _ret = _lib._objc_msgSend_1173(
+    final _ret = _lib._objc_msgSend_1174(
         _id,
         _lib._sel_initWithData_fileTypeHint_error_1,
         data._id,
@@ -76576,7 +77029,7 @@ class AVAudioPlayer extends NSObject {
   }
 
   bool playAtTime_(double time) {
-    return _lib._objc_msgSend_1174(_id, _lib._sel_playAtTime_1, time);
+    return _lib._objc_msgSend_1175(_id, _lib._sel_playAtTime_1, time);
   }
 
   void pause() {
@@ -76597,7 +77050,7 @@ class AVAudioPlayer extends NSObject {
 
   double get duration {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_duration1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_duration1)
         : _lib._objc_msgSend_165(_id, _lib._sel_duration1);
   }
 
@@ -76641,7 +77094,7 @@ class AVAudioPlayer extends NSObject {
 
   double get pan {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_pan1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_pan1)
         : _lib._objc_msgSend_239(_id, _lib._sel_pan1);
   }
 
@@ -76651,7 +77104,7 @@ class AVAudioPlayer extends NSObject {
 
   double get volume {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_volume1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_volume1)
         : _lib._objc_msgSend_239(_id, _lib._sel_volume1);
   }
 
@@ -76660,7 +77113,7 @@ class AVAudioPlayer extends NSObject {
   }
 
   void setVolume_fadeDuration_(double volume, double duration) {
-    _lib._objc_msgSend_1175(
+    _lib._objc_msgSend_1176(
         _id, _lib._sel_setVolume_fadeDuration_1, volume, duration);
   }
 
@@ -76674,7 +77127,7 @@ class AVAudioPlayer extends NSObject {
 
   double get rate {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_239_variant(_id, _lib._sel_rate1)
+        ? _lib._objc_msgSend_239_fpret(_id, _lib._sel_rate1)
         : _lib._objc_msgSend_239(_id, _lib._sel_rate1);
   }
 
@@ -76684,7 +77137,7 @@ class AVAudioPlayer extends NSObject {
 
   double get currentTime {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_currentTime1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_currentTime1)
         : _lib._objc_msgSend_165(_id, _lib._sel_currentTime1);
   }
 
@@ -76694,7 +77147,7 @@ class AVAudioPlayer extends NSObject {
 
   double get deviceCurrentTime {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_deviceCurrentTime1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_deviceCurrentTime1)
         : _lib._objc_msgSend_165(_id, _lib._sel_deviceCurrentTime1);
   }
 
@@ -76712,7 +77165,7 @@ class AVAudioPlayer extends NSObject {
   }
 
   AVAudioFormat get format {
-    final _ret = _lib._objc_msgSend_1192(_id, _lib._sel_format1);
+    final _ret = _lib._objc_msgSend_1193(_id, _lib._sel_format1);
     return AVAudioFormat._(_ret, _lib, retain: true, release: true);
   }
 
@@ -76730,17 +77183,17 @@ class AVAudioPlayer extends NSObject {
 
   double peakPowerForChannel_(int channelNumber) {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_1193_variant(
+        ? _lib._objc_msgSend_1194_fpret(
             _id, _lib._sel_peakPowerForChannel_1, channelNumber)
-        : _lib._objc_msgSend_1193(
+        : _lib._objc_msgSend_1194(
             _id, _lib._sel_peakPowerForChannel_1, channelNumber);
   }
 
   double averagePowerForChannel_(int channelNumber) {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_1193_variant(
+        ? _lib._objc_msgSend_1194_fpret(
             _id, _lib._sel_averagePowerForChannel_1, channelNumber)
-        : _lib._objc_msgSend_1193(
+        : _lib._objc_msgSend_1194(
             _id, _lib._sel_averagePowerForChannel_1, channelNumber);
   }
 
@@ -76870,7 +77323,7 @@ class AVAudioFormat extends NSObject {
 
   AVAudioFormat? initWithStreamDescription_(
       ffi.Pointer<AudioStreamBasicDescription> asbd) {
-    final _ret = _lib._objc_msgSend_1176(
+    final _ret = _lib._objc_msgSend_1177(
         _id, _lib._sel_initWithStreamDescription_1, asbd);
     return _ret.address == 0
         ? null
@@ -76880,7 +77333,7 @@ class AVAudioFormat extends NSObject {
   AVAudioFormat? initWithStreamDescription_channelLayout_(
       ffi.Pointer<AudioStreamBasicDescription> asbd,
       AVAudioChannelLayout? layout) {
-    final _ret = _lib._objc_msgSend_1182(
+    final _ret = _lib._objc_msgSend_1183(
         _id,
         _lib._sel_initWithStreamDescription_channelLayout_1,
         asbd,
@@ -76892,7 +77345,7 @@ class AVAudioFormat extends NSObject {
 
   AVAudioFormat? initStandardFormatWithSampleRate_channels_(
       double sampleRate, int channels) {
-    final _ret = _lib._objc_msgSend_1183(
+    final _ret = _lib._objc_msgSend_1184(
         _id,
         _lib._sel_initStandardFormatWithSampleRate_channels_1,
         sampleRate,
@@ -76904,7 +77357,7 @@ class AVAudioFormat extends NSObject {
 
   AVAudioFormat initStandardFormatWithSampleRate_channelLayout_(
       double sampleRate, AVAudioChannelLayout layout) {
-    final _ret = _lib._objc_msgSend_1184(
+    final _ret = _lib._objc_msgSend_1185(
         _id,
         _lib._sel_initStandardFormatWithSampleRate_channelLayout_1,
         sampleRate,
@@ -76914,7 +77367,7 @@ class AVAudioFormat extends NSObject {
 
   AVAudioFormat? initWithCommonFormat_sampleRate_channels_interleaved_(
       int format, double sampleRate, int channels, bool interleaved) {
-    final _ret = _lib._objc_msgSend_1185(
+    final _ret = _lib._objc_msgSend_1186(
         _id,
         _lib._sel_initWithCommonFormat_sampleRate_channels_interleaved_1,
         format,
@@ -76931,7 +77384,7 @@ class AVAudioFormat extends NSObject {
       double sampleRate,
       bool interleaved,
       AVAudioChannelLayout layout) {
-    final _ret = _lib._objc_msgSend_1186(
+    final _ret = _lib._objc_msgSend_1187(
         _id,
         _lib._sel_initWithCommonFormat_sampleRate_interleaved_channelLayout_1,
         format,
@@ -76951,7 +77404,7 @@ class AVAudioFormat extends NSObject {
 
   AVAudioFormat initWithCMAudioFormatDescription_(
       ffi.Pointer<opaqueCMFormatDescription> formatDescription) {
-    final _ret = _lib._objc_msgSend_1187(
+    final _ret = _lib._objc_msgSend_1188(
         _id, _lib._sel_initWithCMAudioFormatDescription_1, formatDescription);
     return AVAudioFormat._(_ret, _lib, retain: true, release: true);
   }
@@ -76965,16 +77418,16 @@ class AVAudioFormat extends NSObject {
   }
 
   int get commonFormat {
-    return _lib._objc_msgSend_1188(_id, _lib._sel_commonFormat1);
+    return _lib._objc_msgSend_1189(_id, _lib._sel_commonFormat1);
   }
 
   int get channelCount {
-    return _lib._objc_msgSend_1181(_id, _lib._sel_channelCount1);
+    return _lib._objc_msgSend_1182(_id, _lib._sel_channelCount1);
   }
 
   double get sampleRate {
     return _lib._objc_msgSend_useVariants1
-        ? _lib._objc_msgSend_165_variant(_id, _lib._sel_sampleRate1)
+        ? _lib._objc_msgSend_165_fpret(_id, _lib._sel_sampleRate1)
         : _lib._objc_msgSend_165(_id, _lib._sel_sampleRate1);
   }
 
@@ -76983,11 +77436,11 @@ class AVAudioFormat extends NSObject {
   }
 
   ffi.Pointer<AudioStreamBasicDescription> get streamDescription {
-    return _lib._objc_msgSend_1189(_id, _lib._sel_streamDescription1);
+    return _lib._objc_msgSend_1190(_id, _lib._sel_streamDescription1);
   }
 
   AVAudioChannelLayout? get channelLayout {
-    final _ret = _lib._objc_msgSend_1190(_id, _lib._sel_channelLayout1);
+    final _ret = _lib._objc_msgSend_1191(_id, _lib._sel_channelLayout1);
     return _ret.address == 0
         ? null
         : AVAudioChannelLayout._(_ret, _lib, retain: true, release: true);
@@ -77011,7 +77464,7 @@ class AVAudioFormat extends NSObject {
   }
 
   ffi.Pointer<opaqueCMFormatDescription> get formatDescription {
-    return _lib._objc_msgSend_1191(_id, _lib._sel_formatDescription1);
+    return _lib._objc_msgSend_1192(_id, _lib._sel_formatDescription1);
   }
 
   @override
@@ -77164,7 +77617,7 @@ class AVAudioChannelLayout extends NSObject {
 
   AVAudioChannelLayout? initWithLayoutTag_(int layoutTag) {
     final _ret =
-        _lib._objc_msgSend_1177(_id, _lib._sel_initWithLayoutTag_1, layoutTag);
+        _lib._objc_msgSend_1178(_id, _lib._sel_initWithLayoutTag_1, layoutTag);
     return _ret.address == 0
         ? null
         : AVAudioChannelLayout._(_ret, _lib, retain: true, release: true);
@@ -77172,7 +77625,7 @@ class AVAudioChannelLayout extends NSObject {
 
   AVAudioChannelLayout initWithLayout_(ffi.Pointer<AudioChannelLayout> layout) {
     final _ret =
-        _lib._objc_msgSend_1178(_id, _lib._sel_initWithLayout_1, layout);
+        _lib._objc_msgSend_1179(_id, _lib._sel_initWithLayout_1, layout);
     return AVAudioChannelLayout._(_ret, _lib, retain: true, release: true);
   }
 
@@ -77182,14 +77635,14 @@ class AVAudioChannelLayout extends NSObject {
 
   static AVAudioChannelLayout layoutWithLayoutTag_(
       AVFAudio _lib, int layoutTag) {
-    final _ret = _lib._objc_msgSend_1179(_lib._class_AVAudioChannelLayout1,
+    final _ret = _lib._objc_msgSend_1180(_lib._class_AVAudioChannelLayout1,
         _lib._sel_layoutWithLayoutTag_1, layoutTag);
     return AVAudioChannelLayout._(_ret, _lib, retain: true, release: true);
   }
 
   static AVAudioChannelLayout layoutWithLayout_(
       AVFAudio _lib, ffi.Pointer<AudioChannelLayout> layout) {
-    final _ret = _lib._objc_msgSend_1178(_lib._class_AVAudioChannelLayout1,
+    final _ret = _lib._objc_msgSend_1179(_lib._class_AVAudioChannelLayout1,
         _lib._sel_layoutWithLayout_1, layout);
     return AVAudioChannelLayout._(_ret, _lib, retain: true, release: true);
   }
@@ -77199,11 +77652,11 @@ class AVAudioChannelLayout extends NSObject {
   }
 
   ffi.Pointer<AudioChannelLayout> get layout {
-    return _lib._objc_msgSend_1180(_id, _lib._sel_layout1);
+    return _lib._objc_msgSend_1181(_id, _lib._sel_layout1);
   }
 
   int get channelCount {
-    return _lib._objc_msgSend_1181(_id, _lib._sel_channelCount1);
+    return _lib._objc_msgSend_1182(_id, _lib._sel_channelCount1);
   }
 
   static AVAudioChannelLayout new1(AVFAudio _lib) {

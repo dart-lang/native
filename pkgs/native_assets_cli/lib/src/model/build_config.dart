@@ -2,31 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:io';
+part of '../api/build_config.dart';
 
-import 'package:cli_config/cli_config.dart';
-import 'package:collection/collection.dart';
-import 'package:crypto/crypto.dart';
-import 'package:pub_semver/pub_semver.dart';
-
-import '../api/build_config.dart' as api;
-import '../utils/map.dart';
-import '../utils/yaml.dart';
-import 'build_mode.dart';
-import 'ios_sdk.dart';
-import 'link_mode_preference.dart';
-import 'metadata.dart';
-import 'pipeline_config.dart';
-import 'pipeline_step.dart';
-import 'target.dart';
-
-class BuildConfig extends PipelineConfig implements api.BuildConfig {
+final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
   @override
-  Uri get script => packageRoot.resolve(PipelineStep.build.scriptName);
+  Uri get script {
+    final hookFolder = packageRoot.resolve('hook/');
+    final Uri scriptFolder;
+    if (File.fromUri(hookFolder).existsSync()) {
+      scriptFolder = hookFolder;
+    } else {
+      scriptFolder = packageRoot;
+    }
+    return scriptFolder.resolve(PipelineStep.build.scriptName);
+  }
 
   @override
-  String get outputName => 'build_output.yaml';
+  String get outputName => 'build_output.json';
 
   @override
   Uri get configFile => outDirectory.resolve('../config.yaml');
@@ -35,67 +27,39 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
   /// placed.
   @override
   Uri get outDirectory => _outDir;
+  @override
+  Uri get outputDirectory => _outDir;
   late final Uri _outDir;
 
-  /// The name of the package the native assets are built for.
   @override
   String get packageName => _packageName;
   late final String _packageName;
 
-  /// The root of the package the native assets are built for.
-  ///
-  /// Often a package's native assets are built because a package is a
-  /// dependency of another. For this it is convenient to know the packageRoot.
   @override
   Uri get packageRoot => _packageRoot;
   late final Uri _packageRoot;
 
-  /// The target being compiled for.
-  ///
-  /// Not available in [dryRun].
   @override
-  late final Target target =
-      Target.fromArchitectureAndOs(targetArchitecture, targetOs);
+  ArchitectureImpl? get targetArchitecture => _targetArchitecture;
+  late final ArchitectureImpl? _targetArchitecture;
 
-  /// The architecture being compiled for.
-  ///
-  /// Not available in [dryRun].
   @override
-  Architecture get targetArchitecture {
+  OSImpl get targetOS => _targetOS;
+  late final OSImpl _targetOS;
+
+  @override
+  IOSSdkImpl get targetIOSSdk {
     _ensureNotDryRun();
-    return _targetArchitecture;
+    if (_targetOS != OS.iOS) {
+      throw StateError(
+        'This field is not available in if targetOS is not OS.iOS.',
+      );
+    }
+    return _targetIOSSdk!;
   }
 
-  late final Architecture _targetArchitecture;
+  late final IOSSdkImpl? _targetIOSSdk;
 
-  /// The operating system being compiled for.
-  @override
-  OS get targetOs => _targetOs;
-  late final OS _targetOs;
-
-  /// When compiling for iOS, whether to target device or simulator.
-  ///
-  /// Required when [targetOs] equals [OS.iOS].
-  ///
-  /// Not available in [dryRun].s
-  @override
-  IOSSdk? get targetIOSSdk {
-    _ensureNotDryRun();
-    return _targetIOSSdk;
-  }
-
-  late final IOSSdk? _targetIOSSdk;
-
-  /// When compiling for Android, the minimum Android SDK API version to that
-  /// the compiled code will be compatible with.
-  ///
-  /// Required when [targetOs] equals [OS.android].
-  ///
-  /// Not available in [dryRun].
-  ///
-  /// For more information about the Android API version, refer to
-  /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
-  /// in the Android documentation.
   @override
   int? get targetAndroidNdkApi {
     _ensureNotDryRun();
@@ -104,150 +68,154 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
 
   late final int? _targetAndroidNdkApi;
 
-  /// Preferred linkMode method for library.
   @override
-  LinkModePreference get linkModePreference => _linkModePreference;
-  late final LinkModePreference _linkModePreference;
+  LinkModePreferenceImpl get linkModePreference => _linkModePreference;
+  late final LinkModePreferenceImpl _linkModePreference;
 
-  /// Metadata from direct dependencies.
-  ///
-  /// The key in the map is the package name of the dependency.
-  ///
-  /// The key in the nested map is the key for the metadata from the dependency.
-  ///
-  /// Not available in [dryRun].
   @override
-  Map<String, Metadata>? get dependencyMetadata {
+  Object? metadatum(String packageName, String key) {
     _ensureNotDryRun();
-    return _dependencyMetadata;
+    return _dependencyMetadata?[packageName]?.metadata[key];
   }
 
   late final Map<String, Metadata>? _dependencyMetadata;
 
-  /// The configuration for invoking the C compiler.
-  ///
-  /// Not available in [dryRun].
   @override
-  CCompilerConfig get cCompiler {
+  CCompilerConfigImpl get cCompiler {
     _ensureNotDryRun();
     return _cCompiler;
   }
 
-  late final CCompilerConfig _cCompiler;
+  late final CCompilerConfigImpl _cCompiler;
 
-  /// Don't run the build, only report the native assets produced.
   @override
   bool get dryRun => _dryRun ?? false;
   late final bool? _dryRun;
 
-  /// The build mode that the code should be compiled in.
-  ///
-  /// Not available in [dryRun].
   @override
-  BuildMode get buildMode {
+  BuildModeImpl get buildMode {
     _ensureNotDryRun();
     return _buildMode;
   }
 
-  late final BuildMode _buildMode;
+  late final BuildModeImpl _buildMode;
 
-  /// The underlying config.
-  ///
-  /// Can be used for easier access to values on [dependencyMetadata].
   @override
+  Iterable<String> get supportedAssetTypes => _supportedAssetTypes;
+
+  late final List<String> _supportedAssetTypes;
+
+  @override
+  Version get version => _version;
+
+  late final Version _version;
+
   Config get config => _config;
   late final Config _config;
 
-  factory BuildConfig({
+  factory BuildConfigImpl({
     required Uri outDir,
     required String packageName,
     required Uri packageRoot,
-    required BuildMode buildMode,
-    required Architecture targetArchitecture,
-    required OS targetOs,
-    IOSSdk? targetIOSSdk,
+    required BuildModeImpl buildMode,
+    required ArchitectureImpl targetArchitecture,
+    required OSImpl targetOS,
+    IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
-    CCompilerConfig? cCompiler,
-    required LinkModePreference linkModePreference,
+    CCompilerConfigImpl? cCompiler,
+    required LinkModePreferenceImpl linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
+    Version? version,
   }) {
-    final nonValidated = BuildConfig._()
+    final nonValidated = BuildConfigImpl._()
+      .._version = version ?? latestVersion
       .._outDir = outDir
       .._packageName = packageName
       .._packageRoot = packageRoot
       .._buildMode = buildMode
       .._targetArchitecture = targetArchitecture
-      .._targetOs = targetOs
+      .._targetOS = targetOS
       .._targetIOSSdk = targetIOSSdk
       .._targetAndroidNdkApi = targetAndroidNdkApi
-      .._cCompiler = cCompiler ?? CCompilerConfig()
+      .._cCompiler = cCompiler ?? CCompilerConfigImpl()
       .._linkModePreference = linkModePreference
       .._dependencyMetadata = dependencyMetadata
-      .._dryRun = false;
-    final parsedConfigFile = nonValidated.toYaml();
+      .._dryRun = false
+      .._supportedAssetTypes =
+          _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
+    final parsedConfigFile = nonValidated.toJson();
     final config = Config(fileParsed: parsedConfigFile);
-    return BuildConfig.fromConfig(config);
+    return BuildConfigImpl.fromConfig(config);
   }
 
-  factory BuildConfig.dryRun({
+  factory BuildConfigImpl.dryRun({
     required Uri outDir,
     required String packageName,
     required Uri packageRoot,
-    required OS targetOs,
-    required LinkModePreference linkModePreference,
+    required OSImpl targetOS,
+    required LinkModePreferenceImpl linkModePreference,
+    Iterable<String>? supportedAssetTypes,
   }) {
-    final nonValidated = BuildConfig._()
+    final nonValidated = BuildConfigImpl._()
+      .._version = latestVersion
       .._outDir = outDir
       .._packageName = packageName
       .._packageRoot = packageRoot
-      .._targetOs = targetOs
+      .._targetOS = targetOS
+      .._targetArchitecture = null
       .._linkModePreference = linkModePreference
-      .._cCompiler = CCompilerConfig()
-      .._dryRun = true;
-    final parsedConfigFile = nonValidated.toYaml();
+      .._cCompiler = CCompilerConfigImpl()
+      .._dryRun = true
+      .._supportedAssetTypes =
+          _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
+    final parsedConfigFile = nonValidated.toJson();
     final config = Config(fileParsed: parsedConfigFile);
-    return BuildConfig.fromConfig(config);
+    return BuildConfigImpl.fromConfig(config);
   }
 
-  /// Constructs a checksum for a [BuildConfig] based on the fields
-  /// of a buildconfig that influence the build.
+  /// Constructs a checksum for a [BuildConfigImpl] based on the fields of a
+  /// buildconfig that influence the build.
   ///
-  /// This can be used for an [outDirectory], but should not be used for
+  /// This can be used for an [outputDirectory], but should not be used for
   /// dry-runs.
   ///
-  /// In particular, it only takes the package name from [packageRoot],
-  /// so that the hash is equal across checkouts and ignores [outDirectory]
-  /// itself.
+  /// In particular, it only takes the package name from [packageRoot], so that
+  /// the hash is equal across checkouts and ignores [outputDirectory] itself.
   static String checksum({
     required String packageName,
     required Uri packageRoot,
-    required Architecture targetArchitecture,
-    required OS targetOs,
-    required BuildMode buildMode,
-    IOSSdk? targetIOSSdk,
+    required ArchitectureImpl targetArchitecture,
+    required OSImpl targetOS,
+    required BuildModeImpl buildMode,
+    IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
-    CCompilerConfig? cCompiler,
-    required LinkModePreference linkModePreference,
+    CCompilerConfigImpl? cCompiler,
+    required LinkModePreferenceImpl linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
+    Version? version,
   }) {
     final input = [
+      version ?? latestVersion,
       packageName,
       targetArchitecture.toString(),
-      targetOs.toString(),
+      targetOS.toString(),
       targetIOSSdk.toString(),
       targetAndroidNdkApi.toString(),
       buildMode.toString(),
       linkModePreference.toString(),
-      cCompiler?.ar.toString(),
-      cCompiler?.cc.toString(),
+      cCompiler?.archiver.toString(),
+      cCompiler?.compiler.toString(),
       cCompiler?.envScript.toString(),
       cCompiler?.envScriptArgs.toString(),
-      cCompiler?.ld.toString(),
+      cCompiler?.linker.toString(),
       if (dependencyMetadata != null)
         for (final entry in dependencyMetadata.entries) ...[
           entry.key,
-          json.encode(entry.value.toYaml()),
-        ]
+          json.encode(entry.value.toJson()),
+        ],
+      ..._supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
     ].join('###');
     final sha256String = sha256.convert(utf8.encode(input)).toString();
     // 256 bit hashes lead to 64 hex character strings.
@@ -257,20 +225,28 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
     return sha256String.substring(0, nameLength);
   }
 
-  BuildConfig._();
+  static List<String> _supportedAssetTypesBackwardsCompatibility(
+    Iterable<String>? supportedAssetTypes,
+  ) =>
+      [
+        ...?supportedAssetTypes,
+        if (supportedAssetTypes == null) NativeCodeAsset.type,
+      ];
 
-  /// The version of [BuildConfig].
+  BuildConfigImpl._();
+
+  /// The version of [BuildConfigImpl].
   ///
   /// This class is used in the protocol between the Dart and Flutter SDKs
   /// and packages through `build.dart` invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the YAML
+  /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
-  static Version version = Version(1, 0, 0);
+  static Version latestVersion = Version(1, 2, 0);
 
-  factory BuildConfig.fromConfig(Config config) {
-    final result = BuildConfig._().._cCompiler = CCompilerConfig._();
+  factory BuildConfigImpl.fromConfig(Config config) {
+    final result = BuildConfigImpl._().._cCompiler = CCompilerConfigImpl._();
     final configExceptions = <Object>[];
     for (final f in result._readFieldsFromConfig()) {
       try {
@@ -289,29 +265,20 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
     return result;
   }
 
-  /// Constructs a config by parsing CLI arguments and loading the config file.
-  ///
-  /// The [args] must be commandline arguments.
-  ///
-  /// If provided, [environment] must be a map containing environment variables.
-  /// If not provided, [environment] defaults to [Platform.environment].
-  ///
-  /// If provided, [workingDirectory] is used to resolves paths inside
-  /// [environment].
-  /// If not provided, [workingDirectory] defaults to [Directory.current].
-  ///
-  /// This async constructor is intended to be used directly in CLI files.
-  static Future<BuildConfig> fromArgs(
+  static BuildConfigImpl fromArguments(
     List<String> args, {
     Map<String, String>? environment,
     Uri? workingDirectory,
-  }) async {
-    final config = await Config.fromArgs(
-      args: args,
+  }) {
+    // TODO(https://github.com/dart-lang/native/issues/1000): At some point,
+    // migrate away from package:cli_config, to get rid of package:yaml
+    // dependency.
+    final config = Config.fromArgumentsSync(
+      arguments: args,
       environment: environment,
       workingDirectory: workingDirectory,
     );
-    return BuildConfig.fromConfig(config);
+    return BuildConfigImpl.fromConfig(config);
   }
 
   static const outDirConfigKey = 'out_dir';
@@ -321,27 +288,29 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
   static const _versionKey = 'version';
   static const targetAndroidNdkApiConfigKey = 'target_android_ndk_api';
   static const dryRunConfigKey = 'dry_run';
+  static const supportedAssetTypesKey = 'supported_asset_types';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var osSet = false;
     var ccSet = false;
     return [
       (config) {
-        final configVersion = Version.parse(config.string('version'));
-        if (configVersion.major > version.major) {
+        final version = Version.parse(config.string('version'));
+        if (version.major > latestVersion.major) {
           throw FormatException(
-            'The config version $configVersion is newer than this '
-            'package:native_assets_cli config version $version, '
+            'The config version $version is newer than this '
+            'package:native_assets_cli config version $latestVersion, '
             'please update native_assets_cli.',
           );
         }
-        if (configVersion.major < version.major) {
+        if (version.major < latestVersion.major) {
           throw FormatException(
-            'The config version $configVersion is newer than this '
-            'package:native_assets_cli config version $version, '
+            'The config version $version is newer than this '
+            'package:native_assets_cli config version $latestVersion, '
             'please update the Dart or Flutter SDK.',
           );
         }
+        _version = version;
       },
       (config) => _config = config,
       (config) => _dryRun = config.optionalBool(dryRunConfigKey),
@@ -351,39 +320,40 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
           _packageRoot = config.path(packageRootConfigKey, mustExist: true),
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<String>(BuildMode.configKey);
+          _throwIfNotNullInDryRun<String>(BuildModeImpl.configKey);
         } else {
-          _buildMode = BuildMode.fromString(
+          _buildMode = BuildModeImpl.fromString(
             config.string(
-              BuildMode.configKey,
-              validValues: BuildMode.values.map((e) => '$e'),
+              BuildModeImpl.configKey,
+              validValues: BuildModeImpl.values.map((e) => '$e'),
             ),
           );
         }
       },
       (config) {
-        _targetOs = OS.fromString(
+        _targetOS = OSImpl.fromString(
           config.string(
-            OS.configKey,
-            validValues: OS.values.map((e) => '$e'),
+            OSImpl.configKey,
+            validValues: OSImpl.values.map((e) => '$e'),
           ),
         );
         osSet = true;
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<String>(Architecture.configKey);
+          _throwIfNotNullInDryRun<String>(ArchitectureImpl.configKey);
+          _targetArchitecture = null;
         } else {
           final validArchitectures = [
             if (!osSet)
-              ...Architecture.values
+              ...ArchitectureImpl.values
             else
               for (final target in Target.values)
-                if (target.os == _targetOs) target.architecture
+                if (target.os == _targetOS) target.architecture
           ];
-          _targetArchitecture = Architecture.fromString(
+          _targetArchitecture = ArchitectureImpl.fromString(
             config.string(
-              Architecture.configKey,
+              ArchitectureImpl.configKey,
               validValues: validArchitectures.map((e) => '$e'),
             ),
           );
@@ -391,13 +361,13 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<String>(IOSSdk.configKey);
+          _throwIfNotNullInDryRun<String>(IOSSdkImpl.configKey);
         } else {
-          _targetIOSSdk = (osSet && _targetOs == OS.iOS)
-              ? IOSSdk.fromString(
+          _targetIOSSdk = (osSet && _targetOS == OSImpl.iOS)
+              ? IOSSdkImpl.fromString(
                   config.string(
-                    IOSSdk.configKey,
-                    validValues: IOSSdk.values.map((e) => '$e'),
+                    IOSSdkImpl.configKey,
+                    validValues: IOSSdkImpl.values.map((e) => '$e'),
                   ),
                 )
               : null;
@@ -407,27 +377,27 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
         if (dryRun) {
           _throwIfNotNullInDryRun<int>(targetAndroidNdkApiConfigKey);
         } else {
-          _targetAndroidNdkApi = (osSet && _targetOs == OS.android)
+          _targetAndroidNdkApi = (osSet && _targetOS == OSImpl.android)
               ? config.int(targetAndroidNdkApiConfigKey)
               : null;
         }
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<int>(CCompilerConfig.arConfigKeyFull);
+          _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.arConfigKeyFull);
         } else {
-          cCompiler._ar = config.optionalPath(
-            CCompilerConfig.arConfigKeyFull,
+          cCompiler._archiver = config.optionalPath(
+            CCompilerConfigImpl.arConfigKeyFull,
             mustExist: true,
           );
         }
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+          _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.ccConfigKeyFull);
         } else {
-          cCompiler._cc = config.optionalPath(
-            CCompilerConfig.ccConfigKeyFull,
+          cCompiler._compiler = config.optionalPath(
+            CCompilerConfigImpl.ccConfigKeyFull,
             mustExist: true,
           );
           ccSet = true;
@@ -435,47 +405,50 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+          _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.ccConfigKeyFull);
         } else {
-          cCompiler._ld = config.optionalPath(
-            CCompilerConfig.ldConfigKeyFull,
+          cCompiler._linker = config.optionalPath(
+            CCompilerConfigImpl.ldConfigKeyFull,
             mustExist: true,
           );
         }
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+          _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.ccConfigKeyFull);
         } else {
           cCompiler._envScript = (ccSet &&
-                  cCompiler.cc != null &&
-                  cCompiler.cc!.toFilePath().endsWith('cl.exe'))
-              ? config.path(CCompilerConfig.envScriptConfigKeyFull,
+                  cCompiler.compiler != null &&
+                  cCompiler.compiler!.toFilePath().endsWith('cl.exe'))
+              ? config.path(CCompilerConfigImpl.envScriptConfigKeyFull,
                   mustExist: true)
               : null;
         }
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<int>(CCompilerConfig.ccConfigKeyFull);
+          _throwIfNotNullInDryRun<int>(CCompilerConfigImpl.ccConfigKeyFull);
         } else {
           cCompiler._envScriptArgs = config.optionalStringList(
-            CCompilerConfig.envScriptArgsConfigKeyFull,
+            CCompilerConfigImpl.envScriptArgsConfigKeyFull,
             splitEnvironmentPattern: ' ',
           );
         }
       },
       (config) {
-        _linkModePreference = LinkModePreference.fromString(
+        _linkModePreference = LinkModePreferenceImpl.fromString(
           config.string(
-            LinkModePreference.configKey,
-            validValues: LinkModePreference.values.map((e) => '$e'),
+            LinkModePreferenceImpl.configKey,
+            validValues: LinkModePreferenceImpl.values.map((e) => '$e'),
           ),
         );
       },
       (config) {
         _dependencyMetadata = _readDependencyMetadataFromConfig(config);
       },
+      (config) => _supportedAssetTypes =
+          config.optionalStringList(supportedAssetTypesKey) ??
+              [NativeCodeAsset.type],
     ];
   }
 
@@ -505,80 +478,90 @@ class BuildConfig extends PipelineConfig implements api.BuildConfig {
     return result.sortOnKey();
   }
 
-  @override
-  Map<String, Object> toYaml() {
-    late Map<String, Object> cCompilerYaml;
+  Map<String, Object> toJson() {
+    late Map<String, Object> cCompilerJson;
     if (!dryRun) {
-      cCompilerYaml = _cCompiler.toYaml();
+      cCompilerJson = _cCompiler.toJson();
     }
 
     return {
       outDirConfigKey: _outDir.toFilePath(),
       packageNameConfigKey: _packageName,
       packageRootConfigKey: _packageRoot.toFilePath(),
-      OS.configKey: _targetOs.toString(),
-      LinkModePreference.configKey: _linkModePreference.toString(),
+      OSImpl.configKey: _targetOS.toString(),
+      LinkModePreferenceImpl.configKey: _linkModePreference.toString(),
+      supportedAssetTypesKey: _supportedAssetTypes,
       _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
-        BuildMode.configKey: _buildMode.toString(),
-        Architecture.configKey: _targetArchitecture.toString(),
-        if (_targetIOSSdk != null) IOSSdk.configKey: _targetIOSSdk.toString(),
+        BuildModeImpl.configKey: _buildMode.toString(),
+        ArchitectureImpl.configKey: _targetArchitecture.toString(),
+        if (_targetIOSSdk != null)
+          IOSSdkImpl.configKey: _targetIOSSdk.toString(),
         if (_targetAndroidNdkApi != null)
-          targetAndroidNdkApiConfigKey: _targetAndroidNdkApi!,
-        if (cCompilerYaml.isNotEmpty) CCompilerConfig.configKey: cCompilerYaml,
-        if (_dependencyMetadata != null)
+          targetAndroidNdkApiConfigKey: _targetAndroidNdkApi,
+        if (cCompilerJson.isNotEmpty)
+          CCompilerConfigImpl.configKey: cCompilerJson,
+        if (_dependencyMetadata != null && _dependencyMetadata.isNotEmpty)
           dependencyMetadataConfigKey: {
-            for (final entry in _dependencyMetadata!.entries)
-              entry.key: entry.value.toYaml(),
+            for (final entry in _dependencyMetadata.entries)
+              entry.key: entry.value.toJson(),
           },
       },
     }.sortOnKey();
   }
 
   @override
+  String toJsonString() => const JsonEncoder.withIndent('  ').convert(toJson());
+
+  @override
   bool operator ==(Object other) {
-    if (other is! BuildConfig) {
+    if (other is! BuildConfigImpl) {
       return false;
     }
-    if (other.outDirectory != outDirectory) return false;
+    if (other.outputDirectory != outputDirectory) return false;
     if (other.packageName != packageName) return false;
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
-    if (other.targetOs != targetOs) return false;
+    if (other.targetOS != targetOS) return false;
     if (other.linkModePreference != linkModePreference) return false;
+    if (!const DeepCollectionEquality()
+        .equals(other._supportedAssetTypes, _supportedAssetTypes)) return false;
     if (!dryRun) {
       if (other.buildMode != buildMode) return false;
       if (other.targetArchitecture != targetArchitecture) return false;
-      if (other.targetIOSSdk != targetIOSSdk) return false;
+      if (targetOS == OS.iOS && other.targetIOSSdk != targetIOSSdk) {
+        return false;
+      }
       if (other.targetAndroidNdkApi != targetAndroidNdkApi) return false;
       if (other.cCompiler != cCompiler) return false;
       if (!const DeepCollectionEquality()
-          .equals(other.dependencyMetadata, _dependencyMetadata)) return false;
+          .equals(other._dependencyMetadata, _dependencyMetadata)) return false;
     }
     return true;
   }
 
   @override
   int get hashCode => Object.hashAll([
-        outDirectory,
+        outputDirectory,
         packageName,
         packageRoot,
-        targetOs,
+        targetOS,
         linkModePreference,
         dryRun,
+        const DeepCollectionEquality().hash(_supportedAssetTypes),
         if (!dryRun) ...[
           buildMode,
-          const DeepCollectionEquality().hash(dependencyMetadata),
+          const DeepCollectionEquality().hash(_dependencyMetadata),
           targetArchitecture,
-          targetIOSSdk,
+          if (targetOS == OS.iOS) targetIOSSdk,
           targetAndroidNdkApi,
           cCompiler,
         ],
       ]);
 
   @override
-  String toString() => 'BuildConfig(${toYaml()})';
+  String toString() => 'BuildConfig.build(${toJson()})';
 
   void _ensureNotDryRun() {
     if (dryRun) {
@@ -598,93 +581,4 @@ architectures, build modes, etc. Therefore, the list of native assets produced
 can _only_ depend on OS.''');
     }
   }
-}
-
-class CCompilerConfig implements api.CCompilerConfig {
-  /// Path to a C compiler.
-  @override
-  Uri? get cc => _cc;
-  late final Uri? _cc;
-
-  /// Path to a native linker.
-  @override
-  Uri? get ld => _ld;
-  late final Uri? _ld;
-
-  /// Path to a native archiver.
-  @override
-  Uri? get ar => _ar;
-  late final Uri? _ar;
-
-  /// Path to script that sets environment variables for [cc], [ld], and [ar].
-  @override
-  Uri? get envScript => _envScript;
-  late final Uri? _envScript;
-
-  /// Arguments for [envScript].
-  @override
-  List<String>? get envScriptArgs => _envScriptArgs;
-  late final List<String>? _envScriptArgs;
-
-  factory CCompilerConfig({
-    Uri? ar,
-    Uri? cc,
-    Uri? ld,
-    Uri? envScript,
-    List<String>? envScriptArgs,
-  }) =>
-      CCompilerConfig._()
-        .._ar = ar
-        .._cc = cc
-        .._ld = ld
-        .._envScript = envScript
-        .._envScriptArgs = envScriptArgs;
-
-  CCompilerConfig._();
-
-  static const configKey = 'c_compiler';
-  static const arConfigKey = 'ar';
-  static const arConfigKeyFull = '$configKey.$arConfigKey';
-  static const ccConfigKey = 'cc';
-  static const ccConfigKeyFull = '$configKey.$ccConfigKey';
-  static const ldConfigKey = 'ld';
-  static const ldConfigKeyFull = '$configKey.$ldConfigKey';
-  static const envScriptConfigKey = 'env_script';
-  static const envScriptConfigKeyFull = '$configKey.$envScriptConfigKey';
-  static const envScriptArgsConfigKey = 'env_script_arguments';
-  static const envScriptArgsConfigKeyFull =
-      '$configKey.$envScriptArgsConfigKey';
-
-  Map<String, Object> toYaml() => {
-        if (_ar != null) arConfigKey: _ar!.toFilePath(),
-        if (_cc != null) ccConfigKey: _cc!.toFilePath(),
-        if (_ld != null) ldConfigKey: _ld!.toFilePath(),
-        if (_envScript != null) envScriptConfigKey: _envScript!.toFilePath(),
-        if (_envScriptArgs != null) envScriptArgsConfigKey: _envScriptArgs!,
-      }.sortOnKey();
-
-  @override
-  bool operator ==(Object other) {
-    if (other is! CCompilerConfig) {
-      return false;
-    }
-    if (other.ar != ar) return false;
-    if (other.cc != cc) return false;
-    if (other.ld != ld) return false;
-    if (other.envScript != envScript) return false;
-    if (!const ListEquality<String>()
-        .equals(other.envScriptArgs, envScriptArgs)) {
-      return false;
-    }
-    return true;
-  }
-
-  @override
-  int get hashCode => Object.hash(
-        _ar,
-        _cc,
-        _ld,
-        _envScript,
-        const ListEquality<String>().hash(envScriptArgs),
-      );
 }

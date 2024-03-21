@@ -2,17 +2,25 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../model/ios_sdk.dart' as model;
+part '../model/ios_sdk.dart';
 
 /// For an iOS target, a build is either done for the device or the simulator.
-///
-/// Only fat binaries or xcframeworks can contain both targets.
-abstract class IOSSdk {
-  static const IOSSdk iPhoneOs = model.IOSSdk.iPhoneOs;
-  static const IOSSdk iPhoneSimulator = model.IOSSdk.iPhoneSimulator;
+abstract final class IOSSdk {
+  /// The iphoneos SDK in Xcode.
+  ///
+  /// The SDK location can be found on the host machine with
+  /// `xcrun --sdk iphoneos --show-sdk-path`.
+  static const IOSSdk iPhoneOS = IOSSdkImpl.iPhoneOS;
 
+  /// The iphonesimulator SDK in Xcode.
+  ///
+  /// The SDK location can be found on the host machine with
+  /// `xcrun --sdk iphonesimulator --show-sdk-path`.
+  static const IOSSdk iPhoneSimulator = IOSSdkImpl.iPhoneSimulator;
+
+  /// All known values for [IOSSdk].
   static const values = <IOSSdk>[
-    iPhoneOs,
+    iPhoneOS,
     iPhoneSimulator,
   ];
 }

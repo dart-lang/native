@@ -4,13 +4,11 @@
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-void main(List<String> args) async {
-  final buildConfig = await BuildConfig.fromArgs(args);
-  final buildOutput = BuildOutput(
-    metadata: Metadata({
+void main(List<String> arguments) async {
+  await build(arguments, (config, output) async {
+    output.addMetadata({
       'some_key': 'some_value',
       'some_int': 3,
-    }),
-  );
-  await buildOutput.writeToFile(outDir: buildConfig.outputFile);
+    });
+  });
 }

@@ -29,16 +29,16 @@ void main() {
     await File.fromUri(addCUri).writeAsString(addCBrokenContents);
     const name = 'add';
 
-    final buildConfig = BuildConfig(
-      outDir: tempUri,
+    final buildConfig = BuildConfig.build(
+      outputDirectory: tempUri,
       packageName: name,
       packageRoot: tempUri,
       targetArchitecture: Architecture.current,
-      targetOs: OS.current,
+      targetOS: OS.current,
       linkModePreference: LinkModePreference.dynamic,
       buildMode: BuildMode.release,
       cCompiler: CCompilerConfig(
-        cc: cc,
+        compiler: cc,
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
@@ -48,7 +48,8 @@ void main() {
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
-      assetId: name,
+      assetName: name,
+      dartBuildFiles: ['hook/build.dart'],
     );
     expect(
       () => cbuilder.run(

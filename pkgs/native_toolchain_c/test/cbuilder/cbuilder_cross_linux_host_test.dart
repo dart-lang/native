@@ -21,22 +21,22 @@ void main() {
   }
 
   const targets = [
-    Target.linuxArm,
-    Target.linuxArm64,
-    Target.linuxIA32,
-    Target.linuxX64,
-    Target.linuxRiscv64,
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
   ];
 
   const readElfMachine = {
-    Target.linuxArm: 'ARM',
-    Target.linuxArm64: 'AArch64',
-    Target.linuxIA32: 'Intel 80386',
-    Target.linuxX64: 'Advanced Micro Devices X86-64',
-    Target.linuxRiscv64: 'RISC-V',
+    Architecture.arm: 'ARM',
+    Architecture.arm64: 'AArch64',
+    Architecture.ia32: 'Intel 80386',
+    Architecture.x64: 'Advanced Micro Devices X86-64',
+    Architecture.riscv64: 'RISC-V',
   };
 
-  for (final linkMode in LinkMode.values) {
+  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       test('CBuilder $linkMode library $target', () async {
         final tempUri = await tempDirForTest();
@@ -44,14 +44,14 @@ void main() {
             packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
 
-        final buildConfig = BuildConfig(
-          outDir: tempUri,
+        final buildConfig = BuildConfig.build(
+          outputDirectory: tempUri,
           packageName: name,
           packageRoot: tempUri,
-          targetArchitecture: target.architecture,
-          targetOs: target.os,
+          targetArchitecture: target,
+          targetOS: OS.linux,
           buildMode: BuildMode.release,
-          linkModePreference: linkMode == LinkMode.dynamic
+          linkModePreference: linkMode == DynamicLoadingBundled()
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
         );
@@ -59,8 +59,9 @@ void main() {
 
         final cbuilder = CBuilder.library(
           name: name,
-          assetId: name,
+          assetName: name,
           sources: [addCUri.toFilePath()],
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,
@@ -69,7 +70,7 @@ void main() {
         );
 
         final libUri =
-            tempUri.resolve(target.os.libraryFileName(name, linkMode));
+            tempUri.resolve(OS.linux.libraryFileName(name, linkMode));
         final result = await runProcess(
           executable: Uri.file('readelf'),
           arguments: ['-h', libUri.path],

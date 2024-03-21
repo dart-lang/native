@@ -1,6 +1,12 @@
-## 0.4.3-wip
+## 0.5.0-wip
 
-- Bump examples dependencies to path dependencies. (2x)
+- **Breaking change** Completely rewritten API.
+  https://github.com/dart-lang/native/pull/946
+- **Breaking change** Move `build.dart` to `hook/build.dart`.
+  https://github.com/dart-lang/native/issues/823
+- **Breaking change** Use JSON instead of YAML in the protocol.
+  https://github.com/dart-lang/native/issues/991
+- Bump examples dependencies to path dependencies.
 - Add support for `link.dart`.
 
 ## 0.4.2

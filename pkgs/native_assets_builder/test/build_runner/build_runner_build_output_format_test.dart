@@ -45,7 +45,7 @@ void main() async {
           } else {
             expect(
               fullLog,
-              contains('build_output.yaml contained a format error.'),
+              contains('build_output.json contained a format error.'),
             );
           }
         }

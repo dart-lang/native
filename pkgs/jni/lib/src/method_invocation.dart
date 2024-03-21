@@ -4,11 +4,11 @@
 
 import 'dart:ffi';
 
-import 'third_party/generated_bindings.dart';
-
-import 'lang/jstring.dart';
 import 'jarray.dart';
 import 'jobject.dart';
+import 'jreference.dart';
+import 'lang/jstring.dart';
+import 'third_party/generated_bindings.dart';
 
 class $MethodInvocation {
   final Pointer<CallbackResult> result;
@@ -24,10 +24,11 @@ class $MethodInvocation {
   ) {
     return $MethodInvocation._(
       Pointer<CallbackResult>.fromAddress(resultAddress),
-      JString.fromRef(Pointer<Void>.fromAddress(descriptorAddress)),
-      JArray.fromRef(
+      JString.fromReference(
+          JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress))),
+      JArray.fromReference(
         const JObjectType(),
-        Pointer<Void>.fromAddress(argsAddress),
+        JGlobalReference(Pointer<Void>.fromAddress(argsAddress)),
       ),
     );
   }

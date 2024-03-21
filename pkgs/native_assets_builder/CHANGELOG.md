@@ -1,5 +1,8 @@
 ## 0.6.0-wip
-
+- **Breaking change** Completely rewritten API in `native_assets_cli`.
+- **Breaking change** Move `build.dart` to `hook/build.dart`.
+  https://github.com/dart-lang/native/issues/823
+  (Backwards compatibility, fallback to toplevel `build.dart`.)
 - Add support for `link.dart`.
 
 ## 0.5.0

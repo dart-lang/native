@@ -34,8 +34,8 @@ Future<BuildResult> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -47,7 +47,7 @@ Future<BuildResult> build(
         logger: logger,
         dartExecutable: dartExecutable,
       ).build(
-        buildMode: BuildMode.release,
+        buildMode: BuildModeImpl.release,
         linkModePreference: linkModePreference,
         target: Target.current,
         workingDirectory: packageUri,
@@ -68,8 +68,8 @@ Future<BuildResult> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -79,7 +79,7 @@ Future<BuildResult> link(
         logger: logger,
         dartExecutable: dartExecutable,
       ).link(
-        buildMode: BuildMode.release,
+        buildMode: BuildModeImpl.release,
         target: Target.current,
         workingDirectory: packageUri,
         cCompilerConfig: cCompilerConfig,
@@ -117,8 +117,8 @@ Future<BuildResult> dryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  LinkModePreference linkModePreference = LinkModePreference.dynamic,
-  CCompilerConfig? cCompilerConfig,
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
@@ -129,7 +129,7 @@ Future<BuildResult> dryRun(
         dartExecutable: dartExecutable,
       ).dryRun(
         linkModePreference: linkModePreference,
-        targetOs: Target.current.os,
+        targetOS: Target.current.os,
         workingDirectory: packageUri,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
@@ -139,7 +139,7 @@ Future<BuildResult> dryRun(
 
 Future<void> expectAssetsExist(List<Asset> assets) async {
   for (final asset in assets) {
-    final uri = (asset.path as AssetAbsolutePath).uri;
+    final uri = asset.file!;
     expect(
         uri.toFilePath(),
         contains('${Platform.pathSeparator}.dart_tool${Platform.pathSeparator}'
@@ -150,11 +150,11 @@ Future<void> expectAssetsExist(List<Asset> assets) async {
 }
 
 Future<void> expectSymbols({
-  required Asset asset,
+  required NativeCodeAssetImpl asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {
-    final assetUri = (asset.path as AssetAbsolutePath).uri;
+    final assetUri = asset.file!;
     final nmResult = await runProcess(
       executable: Uri(path: 'nm'),
       arguments: [

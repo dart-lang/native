@@ -135,6 +135,12 @@ class $name extends _ObjCBlockBase {
       {bool retain = false, bool release = true}) :
           super._(id, lib, retain: retain, release: release);
 
+  /// Returns a block that wraps the given raw block pointer.
+  static $name castFromPointer(${w.className} lib, $blockCType pointer,
+      {bool retain = false, bool release = false}) {
+    return $name._(pointer, lib, retain: retain, release: release);
+  }
+
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as

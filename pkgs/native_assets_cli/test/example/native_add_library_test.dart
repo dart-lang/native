@@ -38,23 +38,25 @@ void main() async {
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
+          // TODO(https://github.com/dart-lang/native/issues/823): Update after
+          // change is rolled into Dart SDK.
           'build.dart',
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_name=$name',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
-          '-Dtarget_os=${OS.current}',
-          '-Dversion=${BuildConfig.version}',
+          '-Dtarget_os=${OSImpl.current}',
+          '-Dversion=${BuildConfigImpl.latestVersion}',
           '-Dlink_mode_preference=dynamic',
           '-Ddry_run=$dryRun',
           if (!dryRun) ...[
-            '-Dtarget_architecture=${Architecture.current}',
+            '-Dtarget_architecture=${ArchitectureImpl.current}',
             '-Dbuild_mode=debug',
             if (cc != null) '-Dcc=${cc!.toFilePath()}',
             if (envScript != null)
-              '-D${CCompilerConfig.envScriptConfigKeyFull}='
+              '-D${CCompilerConfigImpl.envScriptConfigKeyFull}='
                   '${envScript!.toFilePath()}',
             if (envScriptArgs != null)
-              '-D${CCompilerConfig.envScriptArgsConfigKeyFull}='
+              '-D${CCompilerConfigImpl.envScriptArgsConfigKeyFull}='
                   '${envScriptArgs!.join(' ')}',
           ],
         ],
@@ -67,25 +69,24 @@ void main() async {
       }
       expect(processResult.exitCode, 0);
 
-      final buildOutputUri = tempUri.resolve('build_output.yaml');
-      final buildOutput = BuildOutput.fromYamlString(
+      final buildOutputUri = tempUri.resolve('build_output.json');
+      final buildOutput = BuildOutputImpl.fromJsonString(
           await File.fromUri(buildOutputUri).readAsString());
       final assets = buildOutput.assets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(2));
-        expect(
-            await File.fromUri((assets.first.path as AssetAbsolutePath).uri)
-                .exists(),
-            false);
-        expect(dependencies.dependencies, <Uri>[]);
+        expect(assets.first.file, isNull);
+        expect(dependencies, isEmpty);
       } else {
         expect(assets.length, 2);
         expect(await assets.allExist(), true);
         expect(
-          dependencies.dependencies,
+          dependencies,
           [
             testPackageUri.resolve('src/$name.c'),
+            // TODO(https://github.com/dart-lang/native/issues/823): Update after
+            // change is rolled into Dart SDK.
             testPackageUri.resolve('build.dart'),
           ],
         );

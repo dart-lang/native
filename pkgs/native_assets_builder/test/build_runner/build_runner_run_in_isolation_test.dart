@@ -14,12 +14,12 @@ const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
   String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
-  final arKey = unparseKey(CCompilerConfig.arConfigKeyFull);
-  final ccKey = unparseKey(CCompilerConfig.ccConfigKeyFull);
-  final ldKey = unparseKey(CCompilerConfig.ldConfigKeyFull);
-  final envScriptKey = unparseKey(CCompilerConfig.envScriptConfigKeyFull);
+  final arKey = unparseKey(CCompilerConfigImpl.arConfigKeyFull);
+  final ccKey = unparseKey(CCompilerConfigImpl.ccConfigKeyFull);
+  final ldKey = unparseKey(CCompilerConfigImpl.ldConfigKeyFull);
+  final envScriptKey = unparseKey(CCompilerConfigImpl.envScriptConfigKeyFull);
   final envScriptArgsKey =
-      unparseKey(CCompilerConfig.envScriptArgsConfigKeyFull);
+      unparseKey(CCompilerConfigImpl.envScriptArgsConfigKeyFull);
 
   final cc = Platform.environment[ccKey]?.fileUri;
 
@@ -52,12 +52,12 @@ void main() async {
         logger,
         dartExecutable,
         // Manually pass in a compiler.
-        cCompilerConfig: CCompilerConfig(
-          ar: Platform.environment[arKey]?.fileUri,
-          cc: cc,
+        cCompilerConfig: CCompilerConfigImpl(
+          archiver: Platform.environment[arKey]?.fileUri,
+          compiler: cc,
           envScript: Platform.environment[envScriptKey]?.fileUri,
           envScriptArgs: Platform.environment[envScriptArgsKey]?.split(' '),
-          ld: Platform.environment[ldKey]?.fileUri,
+          linker: Platform.environment[ldKey]?.fileUri,
         ),
         // Prevent any other environment variables.
         includeParentEnvironment: false,
