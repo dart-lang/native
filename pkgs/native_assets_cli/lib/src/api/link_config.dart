@@ -6,8 +6,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:cli_config/cli_config.dart';
-import 'package:pub_semver/src/version.dart';
-import 'package:yaml/yaml.dart';
+import 'package:pub_semver/pub_semver.dart';
 
 import '../../native_assets_cli.dart';
 import '../model/pipeline_step.dart';
@@ -28,10 +27,11 @@ abstract class LinkConfig extends PipelineConfig {
     final argParser = ArgParser()..addOption('config');
 
     final results = argParser.parse(args);
-    final yaml = loadYaml(File(results['config'] as String).readAsStringSync())
-        as YamlMap;
+    final json =
+        jsonDecode(File(results['config'] as String).readAsStringSync())
+            as Map<String, dynamic>;
 
-    return LinkConfigArgs.fromYaml(yaml).fromArgs();
+    return LinkConfigArgs.fromJson(json).fromArgs();
   }
 
   @override

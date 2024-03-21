@@ -10,8 +10,6 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart' show loadYaml;
 
 import '../../native_assets_cli_internal.dart';
-import '../model/dependencies.dart';
-import '../model/metadata.dart';
 import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/json.dart';

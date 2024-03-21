@@ -138,7 +138,7 @@ final class BuildOutputImpl implements BuildOutput {
     return null;
   }
 
-  /// Writes the [toJsonString] to [config.outputFile].
+  /// Writes the [toJsonString] to the output file specified in the [config].
   Future<void> writeToFile({required PipelineConfig config}) async {
     final configVersion = (config as PipelineConfigImpl).version;
     final jsonString = toJsonString(configVersion);

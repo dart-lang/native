@@ -64,12 +64,12 @@ class LinkConfigArgs {
     required this.buildConfigUri,
   });
 
-  factory LinkConfigArgs.fromYaml(YamlMap yaml) {
-    final resourceUri = yaml[resourceIdentifierKey] as String?;
+  factory LinkConfigArgs.fromJson(Map<String, dynamic> json) {
+    final resourceUri = json[resourceIdentifierKey] as String?;
     return LinkConfigArgs(
       resourceIdentifierUri:
           resourceUri != null ? Uri.parse(resourceUri) : null,
-      buildConfigUri: Uri.parse(yaml[buildConfigKey] as String),
+      buildConfigUri: Uri.parse(json[buildConfigKey] as String),
     );
   }
 
