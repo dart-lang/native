@@ -133,8 +133,6 @@ typedef struct CallbackResult {
 
 typedef struct JniLocks {
   MutexLock classLoadingLock;
-  MutexLock methodLoadingLock;
-  MutexLock fieldLoadingLock;
 } JniLocks;
 
 /// Represents the error when dart-jni layer has already spawned singleton VM.
@@ -248,11 +246,6 @@ FFI_PLUGIN_EXPORT JNIEnv* GetJniEnv(void);
 /// JVMs is made, even if the underlying API potentially supports multiple VMs.
 FFI_PLUGIN_EXPORT int SpawnJvm(JavaVMInitArgs* args);
 
-/// Load class through platform-specific mechanism.
-///
-/// Currently uses application classloader on android,
-/// and JNIEnv->FindClass on other platforms.
-FFI_PLUGIN_EXPORT jclass FindClass(const char* name);
 
 /// Returns Application classLoader (on Android),
 /// which can be used to load application and platform classes.
@@ -286,16 +279,6 @@ static inline void load_class_platform(jclass* cls, const char* name) {
 #endif
 }
 
-static inline void load_class_local_ref(jclass* cls, const char* name) {
-  if (*cls == NULL) {
-    acquire_lock(&jni->locks.classLoadingLock);
-    if (*cls == NULL) {
-      load_class_platform(cls, name);
-    }
-    release_lock(&jni->locks.classLoadingLock);
-  }
-}
-
 static inline void load_class_global_ref(jclass* cls, const char* name) {
   if (*cls == NULL) {
     jclass tmp = NULL;
@@ -316,11 +299,7 @@ static inline void load_method(jclass cls,
                                const char* name,
                                const char* sig) {
   if (*res == NULL) {
-    acquire_lock(&jni->locks.methodLoadingLock);
-    if (*res == NULL) {
-      *res = (*jniEnv)->GetMethodID(jniEnv, cls, name, sig);
-    }
-    release_lock(&jni->locks.methodLoadingLock);
+    *res = (*jniEnv)->GetMethodID(jniEnv, cls, name, sig);
   }
 }
 
@@ -329,11 +308,7 @@ static inline void load_static_method(jclass cls,
                                       const char* name,
                                       const char* sig) {
   if (*res == NULL) {
-    acquire_lock(&jni->locks.methodLoadingLock);
-    if (*res == NULL) {
-      *res = (*jniEnv)->GetStaticMethodID(jniEnv, cls, name, sig);
-    }
-    release_lock(&jni->locks.methodLoadingLock);
+    *res = (*jniEnv)->GetStaticMethodID(jniEnv, cls, name, sig);
   }
 }
 
@@ -342,11 +317,7 @@ static inline void load_field(jclass cls,
                               const char* name,
                               const char* sig) {
   if (*res == NULL) {
-    acquire_lock(&jni->locks.fieldLoadingLock);
-    if (*res == NULL) {
-      *res = (*jniEnv)->GetFieldID(jniEnv, cls, name, sig);
-    }
-    release_lock(&jni->locks.fieldLoadingLock);
+    *res = (*jniEnv)->GetFieldID(jniEnv, cls, name, sig);
   }
 }
 
@@ -355,11 +326,7 @@ static inline void load_static_field(jclass cls,
                                      const char* name,
                                      const char* sig) {
   if (*res == NULL) {
-    acquire_lock(&jni->locks.fieldLoadingLock);
-    if (*res == NULL) {
-      *res = (*jniEnv)->GetStaticFieldID(jniEnv, cls, name, sig);
-    }
-    release_lock(&jni->locks.fieldLoadingLock);
+    *res = (*jniEnv)->GetStaticFieldID(jniEnv, cls, name, sig);
   }
 }
 
