@@ -12,7 +12,7 @@ final packageAssetPath = Uri.file('data/$assetName');
 void main(List<String> args) async {
   await build(args, (config, output) async {
     if (config.linkModePreference == LinkModePreference.static) {
-      // Simulate that this script only supports dynamic libraries.
+      // Simulate that this build hook only supports dynamic libraries.
       throw UnsupportedError(
         'LinkModePreference.static is not supported.',
       );

@@ -6,11 +6,10 @@ part '../model/build_mode.dart';
 
 /// The build mode for compiling native code assets.
 ///
-/// The Dart SDK does not have build modes. All `build.dart` invocations
-/// are invoked with [release].
+/// The Dart SDK does not have build modes. All build hook invocations are
+/// invoked with [release].
 ///
-/// The Flutter SDK build modes map as the following to `build.dart` build
-/// modes:
+/// The Flutter SDK build modes map as the following to build hook build modes:
 /// * Flutter debug -> [debug].
 /// * Flutter release -> [release].
 /// * Flutter profile -> [release].

@@ -8,8 +8,8 @@ import 'package:package_config/package_config.dart';
 
 /// Directory layout for dealing with native assets.
 ///
-/// Build scripts for native assets will be run from the context of another
-/// root package.
+/// Build hooks for native assets will be run from the context of another root
+/// package.
 ///
 /// The directory layout follows pub's convention for caching:
 /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
