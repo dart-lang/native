@@ -1,10 +1,11 @@
-## 0.4.0-wip
+## 0.4.0
 
 - **Breaking change** Completely rewritten API in `native_assets_cli`.
 - **Breaking change** No longer assumes `build.dart` to be the main script.
   https://github.com/dart-lang/native/issues/823
 - **Breaking change** Use JSON instead of YAML in the protocol.
   https://github.com/dart-lang/native/issues/991
+- Bump `package:native_assets_cli` to 0.5.0.
 
 ## 0.3.4+1
 
