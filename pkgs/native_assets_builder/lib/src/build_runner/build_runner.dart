@@ -188,7 +188,6 @@ class NativeAssetsBuildRunner {
     if (!planSuccess) {
       return buildResult;
     }
-    final assets = <AssetImpl>[];
     var success = true;
     for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
@@ -212,19 +211,18 @@ class NativeAssetsBuildRunner {
           case NativeCodeAssetImpl _:
             if (asset.architecture != null) {
               // Backwards compatibility, if an architecture is provided use it.
-              assets.add(asset);
+              buildResult.assets.add(asset);
             } else {
               // Dry run does not report architecture. Dart VM branches on OS
               // and Target when looking up assets, so populate assets for all
               // architectures.
               for (final architecture in asset.os.architectures) {
-                assets.add(asset.copyWith(
-                  architecture: architecture,
-                ));
+                buildResult.assets
+                    .add(asset.copyWith(architecture: architecture));
               }
             }
           case DataAssetImpl _:
-            assets.add(asset);
+            buildResult.assets.add(asset);
         }
       }
       success &= packageSuccess;

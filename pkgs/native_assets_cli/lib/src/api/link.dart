@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'build_output.dart';
+import '../../native_assets_cli_internal.dart';
 import 'link_config.dart';
 
 /// Runs a native assets build.
@@ -87,10 +87,17 @@ import 'link_config.dart';
 /// ```
 Future<void> link(
   List<String> arguments,
-  Future<void> Function(LinkConfig config, BuildOutput output) builder,
+  Future<void> Function(LinkConfig config, LinkOutput output) builder,
 ) async {
   final config = await LinkConfig.fromArguments(arguments);
-  final output = BuildOutputImpl();
-  await builder(config, output);
-  await output.writeToFile(config: config);
+
+  // The built assets are dependencies of linking, as the linking should be
+  // rerun if they change.
+  final builtAssets =
+      config.assets.map((e) => e.file).whereType<Uri>().toList();
+  final linkoutput = LinkOutput(BuildOutputImpl(
+    dependencies: Dependencies(builtAssets),
+  ));
+  await builder(config, linkoutput);
+  await BuildOutputImpl().writeToFile(config: config);
 }

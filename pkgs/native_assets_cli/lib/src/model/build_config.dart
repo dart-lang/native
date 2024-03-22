@@ -7,21 +7,20 @@ part of '../api/build_config.dart';
 final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
   @override
   Uri get script {
-    final hookFolder = packageRoot.resolve('hook/');
-    final Uri scriptFolder;
-    if (File.fromUri(hookFolder).existsSync()) {
-      scriptFolder = hookFolder;
+    final hookScript =
+        packageRoot.resolve('hook/').resolve(PipelineStep.build.scriptName);
+    if (File.fromUri(hookScript).existsSync()) {
+      return hookScript;
     } else {
-      scriptFolder = packageRoot;
+      return packageRoot.resolve(PipelineStep.build.scriptName);
     }
-    return scriptFolder.resolve(PipelineStep.build.scriptName);
   }
 
   @override
   String get outputName => 'build_output.json';
 
   @override
-  Uri get configFile => outDirectory.resolve('../config.yaml');
+  Uri get configFile => outDirectory.resolve('../config.json');
 
   /// The folder in which all output and intermediate artifacts should be
   /// placed.

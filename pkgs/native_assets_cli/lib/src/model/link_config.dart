@@ -28,13 +28,13 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   }) : _buildConfig = buildConfig;
 
   @override
-  Uri get configFile => outDirectory.resolve('../link_config.yaml');
+  Uri get configFile => outDirectory.resolve('../link_config.json');
 
   @override
   Uri get outDirectory => _buildConfig.outDirectory;
 
   @override
-  String get outputName => 'link_output.yaml';
+  String get outputName => 'link_output.json';
 
   @override
   String get packageName => _buildConfig.packageName;

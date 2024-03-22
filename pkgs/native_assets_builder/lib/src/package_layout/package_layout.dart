@@ -95,7 +95,12 @@ class PackageLayout {
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
-        if (await File.fromUri(packageRoot.resolve(step.scriptName)).exists()) {
+        if (await File.fromUri(
+              packageRoot.resolve('hook/').resolve(step.scriptName),
+            ).exists() ||
+            await File.fromUri(
+              packageRoot.resolve(step.scriptName),
+            ).exists()) {
           result.add(package);
         }
       }

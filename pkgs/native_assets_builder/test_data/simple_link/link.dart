@@ -8,17 +8,15 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:path/path.dart' as p;
 
 void main(List<String> args) async {
-  final linkConfig = await LinkConfig.fromArguments(args);
-
-  link(args, (config, output) async {
+  await link(args, (config, output) async {
     final shakenAssets = MyResourceShaker().shake(
-      linkConfig.assets,
-      linkConfig.resourceIdentifiers,
+      config.assets,
+      config.resourceIdentifiers,
     );
 
     final linkOutput = shakenAssets.map((e) {
       final filePath = e.file!.toFilePath();
-      final uri = linkConfig.outDirectory.resolve(p.basename(filePath));
+      final uri = config.outDirectory.resolve(p.basename(filePath));
       File(filePath).copySync(uri.toFilePath());
       return DataAsset.fromId(id: e.id, file: uri);
     }).toList();
