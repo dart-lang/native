@@ -99,5 +99,5 @@ Future<void> link(
     dependencies: Dependencies(builtAssets),
   ));
   await builder(config, linkoutput);
-  await BuildOutputImpl().writeToFile(config: config);
+  await linkoutput.writeToFile(config: config);
 }

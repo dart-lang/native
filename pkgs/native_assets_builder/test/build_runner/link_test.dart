@@ -30,19 +30,14 @@ void main() async {
           dartExecutable,
           copyAssets: false,
         );
-        const buildAssets = 10;
-        expect(buildResult.assets.length, buildAssets);
+        expect(buildResult.assets.length, 0);
 
         final linkResult = await link(
           packageUri,
           logger,
           dartExecutable,
         );
-        const assetsForOtherLinker = 6;
-        const inputForLinker = buildAssets - assetsForOtherLinker;
-        const skippedAssets = 2;
-        const linkedAssets = inputForLinker - skippedAssets;
-        expect(linkResult.assets.length, linkedAssets);
+        expect(linkResult.assets.length, 2);
       });
     },
   );

@@ -7,12 +7,15 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 const packageName = 'simple_link';
 
 void main(List<String> args) async => build(args, (config, output) async {
-      output.addAssets(List.generate(
-        10,
-        (index) => DataAsset(
-          name: 'data_$index', // The BuildState knows the package name.
-          file: Uri.file('data_$index.json'), // change to URI only
-          package: packageName,
+      output.addAssets(
+        List.generate(
+          4,
+          (index) => DataAsset(
+            name: 'data_$index', // The BuildState knows the package name.
+            file: Uri.file('data_$index.json'), // change to URI only
+            package: packageName,
+          ),
         ),
-      ));
+        linkInPackage: 'simple_link',
+      );
     });

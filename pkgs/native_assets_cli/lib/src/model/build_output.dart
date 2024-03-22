@@ -50,6 +50,7 @@ final class BuildOutputImpl implements BuildOutput {
       _dependencies.dependencies.addAll(dependencies);
 
   static const _assetsKey = 'assets';
+  static const _assetsForLinkingKey = 'assetsForLinking';
   static const _dependenciesKey = 'dependencies';
   static const _metadataKey = 'metadata';
   static const _timestampKey = 'timestamp';
@@ -84,12 +85,13 @@ final class BuildOutputImpl implements BuildOutput {
       );
     }
 
-    final assets =
-        AssetImpl.listFromJsonList(as<List<Object?>>(jsonMap[_assetsKey]));
-
     return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(jsonMap[_timestampKey])),
-      assets: assets,
+      assets:
+          AssetImpl.listFromJsonList(as<List<Object?>>(jsonMap[_assetsKey])),
+      assetsForLinking: as<Map<String, dynamic>>(jsonMap[_assetsForLinkingKey])
+          .map((packageName, assets) => MapEntry(packageName,
+              AssetImpl.listFromJsonList(as<List<Object?>>(assets)))),
       dependencies:
           Dependencies.fromJson(as<List<Object?>?>(jsonMap[_dependenciesKey])),
       metadata:
@@ -99,14 +101,23 @@ final class BuildOutputImpl implements BuildOutput {
 
   Map<String, Object> toJson(Version version) => {
         _timestampKey: timestamp.toString(),
-        _assetsKey: [
-          for (final asset in _assets) asset.toJson(version),
-        ],
+        _assetsKey: _assetsListToJson(_assets, version),
+        _assetsForLinkingKey:
+            _assetsForLinking.map((packageName, assets) => MapEntry(
+                  packageName,
+                  _assetsListToJson(assets, version),
+                )),
         if (_dependencies.dependencies.isNotEmpty)
           _dependenciesKey: _dependencies.toJson(),
         _metadataKey: metadata.toJson(),
         _versionKey: version.toString(),
       }..sortOnKey();
+
+  static List<Map<String, Object>> _assetsListToJson(
+          List<AssetImpl> assets, Version version) =>
+      [
+        for (final asset in assets) asset.toJson(version),
+      ];
 
   String toJsonString(Version version) =>
       const JsonEncoder.withIndent('  ').convert(toJson(version));

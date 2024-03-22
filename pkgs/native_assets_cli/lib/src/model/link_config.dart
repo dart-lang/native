@@ -43,7 +43,8 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   Uri get packageRoot => _buildConfig.packageRoot;
 
   @override
-  Uri get script => packageRoot.resolve(PipelineStep.link.scriptName);
+  Uri get script =>
+      packageRoot.resolve('hook/').resolve(PipelineStep.link.scriptName);
 
   @override
   String toJsonString() => jsonEncode(_args.toJson());
@@ -64,15 +65,17 @@ class LinkConfigArgs {
     required this.buildConfigUri,
   });
 
-  factory LinkConfigArgs.fromBuildConfig(
-    String buildConfig,
-    String? resourceUri,
-  ) {
-    final resourceIdentifierUri =
-        resourceUri != null ? Uri.parse(resourceUri) : null;
+  factory LinkConfigArgs.fromJson(Map<String, dynamic> linkConfigJson) {
+    final resourcesPath = linkConfigJson[resourceIdentifierKey] as String?;
+    final buildConfigPath = linkConfigJson[buildConfigKey] as String?;
+    if (buildConfigPath == null) {
+      throw ArgumentError(
+          'Expected to find the build config in $linkConfigJson');
+    }
     return LinkConfigArgs(
-      resourceIdentifierUri: resourceIdentifierUri,
-      buildConfigUri: Uri.parse(buildConfig),
+      resourceIdentifierUri:
+          resourcesPath != null ? Uri.parse(resourcesPath) : null,
+      buildConfigUri: Uri.parse(buildConfigPath),
     );
   }
 
@@ -82,10 +85,9 @@ class LinkConfigArgs {
       throw UnsupportedError(
           'A link.dart script needs a build.dart to be executed');
     }
-    final readAsStringSync = buildConfigFile.readAsStringSync();
     final config = BuildConfigImpl.fromConfig(
       Config.fromConfigFileContents(
-        fileContents: readAsStringSync,
+        fileContents: buildConfigFile.readAsStringSync(),
       ),
     );
     ResourceIdentifiers? resources;
@@ -95,9 +97,13 @@ class LinkConfigArgs {
 
     final buildOutput =
         await BuildOutputImpl.readFromFile(file: config.outputFile);
+    if (buildOutput == null) {
+      throw ArgumentError(
+          'Expected to find the build output at ${config.outputFile}');
+    }
     return LinkConfigImpl(
       this,
-      assets: buildOutput!.assetsForLinking[config.packageName] ?? [],
+      assets: buildOutput.assetsForLinking[config.packageName] ?? [],
       buildConfig: config,
       resourceIdentifiers: resources,
     );

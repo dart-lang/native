@@ -7,9 +7,10 @@ import 'dart:io';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_output.dart';
+import 'link_config.dart';
 import 'os.dart';
 
-extension type LinkOutput(BuildOutput _buildOutput) {
+extension type LinkOutput(BuildOutputImpl _buildOutput) {
   /// Start time for the link of this output.
   ///
   /// The [timestamp] is rounded down to whole seconds, because
@@ -34,4 +35,12 @@ extension type LinkOutput(BuildOutput _buildOutput) {
 
   /// Adds [Asset]s produced by this link or dry run.
   void addAssets(Iterable<Asset> assets) => _buildOutput.addAssets(assets);
+
+  /// Writes this object the output file specified in the [config].
+  ///
+  /// Serializes this object, meaning the [assets] and [dependencies] together
+  /// with some metadata, to an output JSON file. The location of the file is
+  /// specified in the [config].
+  Future<void> writeToFile({required LinkConfig config}) =>
+      _buildOutput.writeToFile(config: config);
 }

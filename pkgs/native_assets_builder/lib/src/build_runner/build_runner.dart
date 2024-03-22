@@ -335,7 +335,7 @@ ${result.stdout}
     } on FormatException catch (e) {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
-build_output.json contained a format error.
+${config.outputName} contained a format error.
 ${e.message}
         ''');
       success = false;
@@ -347,7 +347,7 @@ ${e.message}
     } on TypeError {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
-build_output.json contained a format error.
+${config.outputName} contained a format error.
         ''');
       success = false;
       return (BuildOutputImpl(), false);

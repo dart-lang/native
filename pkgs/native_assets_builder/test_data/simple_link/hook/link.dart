@@ -10,7 +10,7 @@ import 'package:path/path.dart' as p;
 void main(List<String> args) async {
   await link(args, (config, output) async {
     final shakenAssets = shake(config.assets);
-    print('test');
+
     final linkOutput = shakenAssets.map((e) {
       final filePath = e.file!.toFilePath();
       final uri = config.outDirectory.resolve(p.basename(filePath));
