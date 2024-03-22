@@ -13,7 +13,7 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   @override
   final List<Asset> assets;
 
-  final BuildConfig _buildConfig;
+  final BuildConfigImpl _buildConfig;
 
   @override
   final ResourceIdentifiers? resourceIdentifiers;
@@ -23,7 +23,7 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   LinkConfigImpl(
     this._args, {
     required this.assets,
-    required BuildConfig buildConfig,
+    required BuildConfigImpl buildConfig,
     required this.resourceIdentifiers,
   }) : _buildConfig = buildConfig;
 
@@ -49,7 +49,7 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   String toJsonString() => jsonEncode(_args.toJson());
 
   @override
-  Version get version => throw UnimplementedError();
+  Version get version => _buildConfig.version;
 }
 
 class LinkConfigArgs {
