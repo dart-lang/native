@@ -1,3 +1,7 @@
+## 0.6.0-wip
+
+- Add support for `link.dart`.
+
 ## 0.5.1
 
 - Update documentation about providing `NativeCodeAsset.file` in dry runs.
@@ -12,7 +16,6 @@
 - **Breaking change** Use JSON instead of YAML in the protocol.
   https://github.com/dart-lang/native/issues/991
 - Bump examples dependencies to path dependencies.
-- Add support for `link.dart`.
 
 ## 0.4.2
 
