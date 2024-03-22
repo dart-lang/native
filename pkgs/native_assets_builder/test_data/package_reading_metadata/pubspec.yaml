@@ -8,9 +8,9 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  native_assets_cli: ^0.5.0
-  #  native_assets_cli:
-  #    path: ../../../native_assets_cli/
+  # native_assets_cli: ^0.5.0
+  native_assets_cli:
+    path: ../../../native_assets_cli/
   package_with_metadata:
     path: ../package_with_metadata/
   yaml: ^3.1.1
