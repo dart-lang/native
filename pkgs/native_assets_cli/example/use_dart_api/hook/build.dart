@@ -6,25 +6,27 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-void main(List<String> args) async {
-  await build(args, (config, output) async {
-    final packageName = config.packageName;
+const packageName = 'use_dart_api';
+
+void main(List<String> arguments) async {
+  await build(arguments, (config, output) async {
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: '$packageName.dart',
+      assetName: 'src/${packageName}_bindings_generated.dart',
       sources: [
         'src/$packageName.c',
+        'src/dart_api_dl.c',
       ],
-      // TODO(https://github.com/dart-lang/native/issues/823): Update after
-      // change is rolled into Dart SDK.
-      dartBuildFiles: ['build.dart'],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: config,
       buildOutput: output,
       logger: Logger('')
         ..level = Level.ALL
-        ..onRecord.listen((record) => print(record.message)),
+        ..onRecord.listen((record) {
+          print('${record.level.name}: ${record.time}: ${record.message}');
+        }),
     );
   });
 }
