@@ -28,8 +28,8 @@
 - package_with_metadata/hook/build.dart
 - package_with_metadata/pubspec.yaml
 - simple_link/pubspec.yaml
-- simple_link/build.dart
-- simple_link/link.dart
+- simple_link/hook/build.dart
+- simple_link/hook/link.dart
 - simple_link/data_0.json
 - simple_link/data_1.json
 - simple_link/data_2.json

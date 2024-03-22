@@ -64,16 +64,19 @@ class LinkConfigArgs {
     required this.buildConfigUri,
   });
 
-  factory LinkConfigArgs.fromJson(Map<String, dynamic> json) {
-    final resourceUri = json[resourceIdentifierKey] as String?;
+  factory LinkConfigArgs.fromBuildConfig(
+    String buildConfig,
+    String? resourceUri,
+  ) {
+    final resourceIdentifierUri =
+        resourceUri != null ? Uri.parse(resourceUri) : null;
     return LinkConfigArgs(
-      resourceIdentifierUri:
-          resourceUri != null ? Uri.parse(resourceUri) : null,
-      buildConfigUri: Uri.parse(json[buildConfigKey] as String),
+      resourceIdentifierUri: resourceIdentifierUri,
+      buildConfigUri: Uri.parse(buildConfig),
     );
   }
 
-  Future<LinkConfigImpl> fromArgs() async {
+  Future<LinkConfigImpl> toLinkConfig() async {
     final buildConfigFile = File(buildConfigUri.path);
     if (!buildConfigFile.existsSync()) {
       throw UnsupportedError(

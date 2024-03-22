@@ -139,7 +139,7 @@ class NativeAssetsBuildRunner {
         config = await LinkConfigArgs(
           resourceIdentifierUri: resourceIdentifiers,
           buildConfigUri: buildConfig.configFile,
-        ).fromArgs();
+        ).toLinkConfig();
       } else {
         config = buildConfig;
       }
@@ -290,6 +290,7 @@ class NativeAssetsBuildRunner {
       '--packages=${packageConfigUri.toFilePath()}',
       config.script.toFilePath(),
       '--config=${configFile.toFilePath()}',
+      if (resources != null) resources.toFilePath(),
     ];
     final result = await runProcess(
       workingDirectory: workingDirectory,

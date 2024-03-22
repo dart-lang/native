@@ -24,14 +24,16 @@ part '../model/link_config.dart';
 abstract class LinkConfig extends PipelineConfig {
   /// Generate the [LinkConfig] from the input arguments to the linking script.
   static Future<LinkConfig> fromArguments(List<String> args) async {
-    final argParser = ArgParser()..addOption('config');
+    final argParser = ArgParser()
+      ..addOption('config')
+      ..addOption('resources');
 
     final results = argParser.parse(args);
-    final json =
-        jsonDecode(File(results['config'] as String).readAsStringSync())
-            as Map<String, dynamic>;
 
-    return LinkConfigArgs.fromJson(json).fromArgs();
+    return LinkConfigArgs.fromBuildConfig(
+      results['config'] as String,
+      results['resources'] as String?,
+    ).toLinkConfig();
   }
 
   @override

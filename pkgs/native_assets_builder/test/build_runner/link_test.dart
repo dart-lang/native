@@ -13,7 +13,6 @@ void main() async {
   test(
     'simple_link linking',
     timeout: longTimeout,
-    skip: 'Until https://dart-review.googlesource.com/c/sdk/+/338380 is merged',
     () async {
       await inTempDir((tempUri) async {
         await copyTestProjects(targetUri: tempUri);
