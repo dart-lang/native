@@ -1,4 +1,4 @@
-## 0.5.0-wip
+## 0.5.0
 
 - **Breaking change** Completely rewritten API.
   https://github.com/dart-lang/native/pull/946
