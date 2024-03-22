@@ -77,6 +77,10 @@ class JObject {
     JObjType<T> type, {
     bool releaseOriginal = false,
   }) {
+    assert(
+      Jni.env.IsInstanceOf(reference.pointer, type.jClass.reference.pointer),
+      'The object must be of type "${type.signature}".',
+    );
     if (releaseOriginal) {
       final ret = type.fromReference(JGlobalReference(reference.pointer));
       reference.setAsReleased();

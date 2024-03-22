@@ -19,6 +19,7 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
     setup(binding.getApplicationContext());
   }
 
+  @SuppressWarnings({"unused", "deprecation"})
   public static void registerWith(Registrar registrar) {
     JniPlugin plugin = new JniPlugin();
     plugin.setup(registrar.activeContext());

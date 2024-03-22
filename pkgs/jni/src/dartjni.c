@@ -12,9 +12,21 @@
 
 void initAllLocks(JniLocks* locks) {
   init_lock(&locks->classLoadingLock);
-  init_lock(&locks->fieldLoadingLock);
-  init_lock(&locks->methodLoadingLock);
 }
+
+/// Load class through platform-specific mechanism.
+///
+/// Currently uses application classloader on android,
+/// and JNIEnv->FindClass on other platforms.
+jclass FindClass(const char* name) {
+  attach_thread();
+  jclass cls;
+  load_class_platform(&cls, name);
+  if (!(*jniEnv)->ExceptionCheck(jniEnv)) {
+    cls = to_global_ref(cls);
+  }
+  return cls;
+};
 
 /// Stores class and method references for obtaining exception details
 typedef struct JniExceptionMethods {
@@ -61,14 +73,6 @@ FFI_PLUGIN_EXPORT
 JavaVM* GetJavaVM() {
   return jni_context.jvm;
 }
-
-FFI_PLUGIN_EXPORT
-jclass FindClass(const char* name) {
-  jclass cls = NULL;
-  attach_thread();
-  load_class_global_ref(&cls, name);
-  return cls;
-};
 
 // Android specifics
 
@@ -207,25 +211,28 @@ static inline JniPointerResult _getId(MemberGetter getter,
                                       char* name,
                                       char* sig) {
   JniPointerResult result = {NULL, NULL};
-  attach_thread();
   result.value = getter(jniEnv, cls, name, sig);
   result.exception = check_exception();
   return result;
 }
 
 JniPointerResult getMethodID(jclass cls, char* name, char* sig) {
+  attach_thread();
   return _getId((MemberGetter)(*jniEnv)->GetMethodID, cls, name, sig);
 }
 
 JniPointerResult getStaticMethodID(jclass cls, char* name, char* sig) {
+  attach_thread();
   return _getId((MemberGetter)(*jniEnv)->GetStaticMethodID, cls, name, sig);
 }
 
 JniPointerResult getFieldID(jclass cls, char* name, char* sig) {
+  attach_thread();
   return _getId((MemberGetter)(*jniEnv)->GetFieldID, cls, name, sig);
 }
 
 JniPointerResult getStaticFieldID(jclass cls, char* name, char* sig) {
+  attach_thread();
   return _getId((MemberGetter)(*jniEnv)->GetStaticFieldID, cls, name, sig);
 }
 

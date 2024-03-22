@@ -28,12 +28,12 @@ part '../model/build_config.dart';
 part '../model/c_compiler_config.dart';
 part 'c_compiler_config.dart';
 
-/// The configuration for a `build.dart` invocation.
+/// The configuration for a build hook (`hook/build.dart`) invocation.
 ///
-/// A package can choose to have a toplevel `build.dart` script. If such a
-/// script exists, it will be automatically run, by the Flutter and Dart SDK
-/// tools. The script will then be run with specific commandline arguments,
-/// which [BuildConfig] can parse and provide more convenient access to.
+/// A package can optionally provide build hook. If such a hook exists, it will
+/// be automatically run, by the Flutter and Dart SDK tools. The hook will be
+/// run with specific commandline arguments, which [BuildConfig] can parse and
+/// provide more convenient access to.
 abstract final class BuildConfig extends PipelineConfig {
   /// The directory in which all output and intermediate artifacts should be
   /// placed.
@@ -123,17 +123,16 @@ abstract final class BuildConfig extends PipelineConfig {
   /// The version of [BuildConfig].
   ///
   /// The build config is used in the protocol between the Dart and Flutter SDKs
-  /// and packages through `build.dart` invocations.
+  /// and packages through build hook invocations.
   ///
   /// We're trying to avoid breaking changes. However, in the case that we have
-  /// to, the major version mismatch between the Dart or Flutter SDK and a
-  /// `build.dart` script will lead to a nice error message.
+  /// to, the major version mismatch between the Dart or Flutter SDK and build
+  /// hook (`hook/build.dart`) will lead to a nice error message.
   static Version get latestVersion => BuildConfigImpl.latestVersion;
 
   /// Constructs a config by parsing CLI arguments and loading the config file.
   ///
-  /// `build.dart` hooks will most likely use [build] instead of this
-  /// constructor.
+  /// Build hooks will most likely use [build] instead of this constructor.
   ///
   /// The [arguments] must be commandline arguments.
   ///
@@ -141,8 +140,8 @@ abstract final class BuildConfig extends PipelineConfig {
   /// If not provided, [environment] defaults to [Platform.environment].
   ///
   /// If provided, [workingDirectory] is used to resolves paths inside
-  /// [environment].
-  /// If not provided, [workingDirectory] defaults to [Directory.current].
+  /// [environment]. If not provided, [workingDirectory] defaults to
+  /// [Directory.current].
   ///
   /// This async constructor is intended to be used directly in CLI files.
   factory BuildConfig(
@@ -158,9 +157,9 @@ abstract final class BuildConfig extends PipelineConfig {
 
   /// Constructs a config for a non-dry run by providing values for each field.
   ///
-  /// `build.dart` hooks will most likely use [build] instead of this
-  /// constructor. However, for unit testing code which consumes a
-  /// [BuildConfig], this constructor facilitates easy construction.
+  /// Build hooks will most likely use [build] instead of this constructor.
+  /// However, for unit testing code which consumes a [BuildConfig], this
+  /// constructor facilitates easy construction.
   ///
   /// For the documentation of the parameters, see the equally named fields.
   ///
@@ -203,9 +202,9 @@ abstract final class BuildConfig extends PipelineConfig {
 
   /// Constructs a config for a dry run by providing values for each field.
   ///
-  /// `build.dart` hooks will most likely use [build] instead of this
-  /// constructor. However, for unit testing code which consumes a
-  /// [BuildConfig], this constructor facilitates easy construction.
+  /// Build hooks will most likely use [build] instead of this constructor.
+  /// However, for unit testing code which consumes a [BuildConfig], this
+  /// constructor facilitates easy construction.
   ///
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({

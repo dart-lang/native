@@ -4,7 +4,7 @@
 
 import 'package:jni/src/third_party/generated_bindings.dart';
 
-// TODO(#393): Add the fact that [JException] is now a [JObject] to the
+// TODO(#567): Add the fact that [JException] is now a [JObject] to the
 // CHANGELOG.
 
 final class UseAfterReleaseError extends Error {
@@ -14,7 +14,7 @@ final class UseAfterReleaseError extends Error {
   }
 }
 
-// TODO(#393): Use NullPointerError once it's available.
+// TODO(#567): Use NullPointerError once it's available.
 final class JNullError extends Error {
   @override
   String toString() => 'The reference was null';
@@ -85,7 +85,7 @@ final class NoJvmInstanceError extends Error {
   String toString() => 'No JNI instance is available';
 }
 
-// TODO(#393): Remove this class in favor of `JThrowable`.
+// TODO(#567): Remove this class in favor of `JThrowable`.
 class JniException implements Exception {
   /// Error message from Java exception.
   final String message;

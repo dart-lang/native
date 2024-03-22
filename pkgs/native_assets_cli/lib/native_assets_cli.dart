@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// A library that contains the argument and file formats for implementing a
-/// native assets CLI, e.g. a `build.dart` script.
+/// build hook (`hook/build.dart`).
 library native_assets_cli;
 
 export 'src/api/architecture.dart' show Architecture;

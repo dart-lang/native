@@ -101,7 +101,7 @@ void main() async {
     });
   });
 
-  test('add C file, modify script', timeout: longTimeout, () async {
+  test('add C file, modify hook', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');

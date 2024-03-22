@@ -43,6 +43,13 @@
 - **Breaking Change**: Primitive types and their type classes are now `final`.
 - **Breaking Change**: `JArray.filled` now uses the generated type class of the
   `fill` object and not its Java runtime type.
+- `JObject`s now check the types using `instanceof` in debug mode when using
+  `castTo`.
+
+## 0.7.3
+
+- Fixed a bug where `get(Static)MethodID` and `get(Static)FieldID` could access
+  null and throw.
 
 ## 0.7.2
 

@@ -22,11 +22,12 @@ import 'pipeline_config.dart';
 
 part '../model/build_output.dart';
 
-/// The output of a `build.dart` invocation.
+/// The output of a build hook (`hook/build.dart`) invocation.
 ///
-/// A package can have a toplevel `build.dart` script. If such a script exists,
-/// it will be automatically run, by the Flutter and Dart SDK tools. The script
-/// is expect to produce a specific output which [BuildOutput] can produce.
+/// A package can optionally provide build hook (`hook/build.dart`). If such a
+/// hook exists, it will be automatically run, by the Flutter and Dart SDK
+/// tools. The hook is expect to produce a specific output which [BuildOutput]
+/// can produce.
 abstract final class BuildOutput {
   /// Start time for the build of this output.
   ///
@@ -53,10 +54,10 @@ abstract final class BuildOutput {
   ///
   /// The [timestamp] must be before any [dependencies] are read by the build
   /// this output belongs to. If the [BuildOutput] object is created at the
-  /// beginning of the `build.dart` script, [timestamp] can be omitted and will
-  /// default to [DateTime.now]. The [timestamp] is rounded down to whole
-  /// seconds, because [File.lastModified] is rounded to whole seconds and
-  /// caching logic compares these timestamps.
+  /// beginning of the build hook, [timestamp] can be omitted and will default
+  /// to [DateTime.now]. The [timestamp] is rounded down to whole seconds,
+  /// because [File.lastModified] is rounded to whole seconds and caching logic
+  /// compares these timestamps.
   ///
   /// The [Asset]s produced by this build or dry-run can be provided to the
   /// constructor as [assets], or can be added later using [addAsset] and
@@ -66,11 +67,11 @@ abstract final class BuildOutput {
   /// The files used by this build must be provided to the constructor as
   /// [dependencies], or can be added later with [addDependency] and
   /// [addDependencies]. If any of these files are modified after [timestamp],
-  /// the build will be re-run. Typically these dependencies contain the
-  /// `build.dart` script itself, and the source files used in the build.
+  /// the build will be re-run. Typically these dependencies contain the build
+  /// hook itself, and the source files used in the build.
   ///
-  /// Metadata can be passed to `build.dart` invocations of dependent packages.
-  /// It must be provided to the constructor as [metadata], or added later with
+  /// Metadata can be passed to build hook invocations of dependent packages. It
+  /// must be provided to the constructor as [metadata], or added later with
   /// [addMetadatum] and [addMetadata].
   factory BuildOutput({
     DateTime? timestamp,
@@ -103,17 +104,17 @@ abstract final class BuildOutput {
   /// re-run.
   void addDependencies(Iterable<Uri> dependencies);
 
-  /// Adds metadata to be passed to `build.dart` invocations of dependent
+  /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.
   void addMetadatum(String key, Object value);
 
-  /// Adds metadata to be passed to `build.dart` invocations of dependent
+  /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.
   void addMetadata(Map<String, Object> metadata);
 
   /// The version of [BuildOutput].
   ///
   /// The build output is used in the protocol between the Dart and Flutter SDKs
-  /// and packages through `build.dart` invocations.
+  /// and packages through build hook invocations.
   static Version get latestVersion => BuildOutputImpl.latestVersion;
 }

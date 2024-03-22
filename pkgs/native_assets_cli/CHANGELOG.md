@@ -1,4 +1,9 @@
-## 0.5.0-wip
+## 0.5.1
+
+- Update documentation about providing `NativeCodeAsset.file` in dry runs.
+  https://github.com/dart-lang/native/issues/1049
+
+## 0.5.0
 
 - **Breaking change** Completely rewritten API.
   https://github.com/dart-lang/native/pull/946

@@ -621,17 +621,20 @@ void registerTests(String groupName, TestRunnerCallback test) {
         // Currently we have one implementation of the interface.
         expect(MyInterface.$impls, hasLength(1));
         myInterface.release();
-        // Running System.gc() and waiting.
-        _runJavaGC();
-        for (var i = 0; i < 8; ++i) {
-          await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
-          if (MyInterface.$impls.isEmpty) {
-            break;
+        if (!Platform.isAndroid) {
+          // Running garbage collection does not work on Android. Skipping this
+          // test for android.
+          _runJavaGC();
+          for (var i = 0; i < 8; ++i) {
+            await Future<void>.delayed(Duration(milliseconds: (1 << i) * 100));
+            if (MyInterface.$impls.isEmpty) {
+              break;
+            }
           }
+          // Since the interface is now deleted, the cleaner must signal to Dart
+          // to clean up.
+          expect(MyInterface.$impls, isEmpty);
         }
-        // Since the interface is now deleted, the cleaner must signal to Dart
-        // to clean up.
-        expect(MyInterface.$impls, isEmpty);
       });
     }
     group('Dart exceptions are handled', () {

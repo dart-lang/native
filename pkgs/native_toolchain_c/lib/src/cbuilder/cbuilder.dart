@@ -251,7 +251,7 @@ class CBuilder implements Builder {
         NativeCodeAsset(
           package: buildConfig.packageName,
           name: assetName!,
-          file: buildConfig.dryRun ? null : libUri,
+          file: libUri,
           linkMode: linkMode,
           os: buildConfig.targetOS,
           architecture:
