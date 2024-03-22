@@ -1,3 +1,7 @@
+## 0.5.2
+
+- Fix test.
+
 ## 0.5.1
 
 - Update documentation about providing `NativeCodeAsset.file` in dry runs.

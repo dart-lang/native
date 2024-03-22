@@ -1,3 +1,7 @@
+## 0.6.1
+
+- Fix test.
+
 ## 0.6.0
 
 - **Breaking change** Completely rewritten API in `native_assets_cli`.
