@@ -1,4 +1,4 @@
-## 0.4.0-wip
+## 0.4.0
 
 - **Breaking change** Completely rewritten API in `native_assets_cli`.
 - **Breaking change** No longer assumes `build.dart` to be the main script.
