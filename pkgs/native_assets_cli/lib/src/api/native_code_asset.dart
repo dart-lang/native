@@ -59,6 +59,20 @@ abstract final class NativeCodeAsset implements Asset {
   /// Either dynamic loading or static linking.
   LinkMode get linkMode;
 
+  /// The file to be bundled with the Dart or Flutter application.
+  ///
+  /// How this file is bundled depends on the kind of asset, represented by a
+  /// concrete subtype of [Asset], and the SDK (Dart or Flutter).
+  ///
+  /// If the [linkMode] is [DynamicLoadingBundled], the file most be provided in
+  /// the [BuildOutput] for [BuildConfig.dryRun].
+  ///
+  /// If the [linkMode] is [DynamicLoadingSystem], [LookupInProcess], or
+  /// [LookupInExecutable] the file must be omitted in the [BuildOutput] for
+  /// [BuildConfig.dryRun].
+  @override
+  Uri? get file;
+
   /// Constructs a native code asset.
   ///
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
