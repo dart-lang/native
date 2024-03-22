@@ -5,6 +5,7 @@
   https://github.com/dart-lang/native/issues/823
 - **Breaking change** Use JSON instead of YAML in the protocol.
   https://github.com/dart-lang/native/issues/991
+- Bump `package:native_assets_cli` to 0.5.0.
 
 ## 0.3.4+1
 
