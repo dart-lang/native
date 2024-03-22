@@ -107,14 +107,14 @@ final class BuildOutputImpl implements BuildOutput {
   /// The version of [BuildOutputImpl].
   ///
   /// This class is used in the protocol between the Dart and Flutter SDKs and
-  /// packages through `build.dart` invocations.
+  /// packages through build hook invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the YAML
   /// representation in the protocol.
   ///
   /// [BuildOutput.latestVersion] is tied to [BuildConfig.latestVersion]. This
-  /// enables making the JSON serialization in `build.dart` dependent on the
+  /// enables making the JSON serialization in build hooks dependent on the
   /// version of the Dart or Flutter SDK. When there is a need to split the
   /// versions of BuildConfig and BuildOutput, the BuildConfig should start
   /// passing the highest supported version of BuildOutput.

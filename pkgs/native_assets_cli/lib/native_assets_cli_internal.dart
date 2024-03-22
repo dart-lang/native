@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Internal API for invoking `build.dart` hooks.
+/// Internal API for invoking build hooks.
 ///
 /// This library is intended for use by:
 ///  * `package:native_assets_builder`,
