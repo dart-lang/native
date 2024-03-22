@@ -14,8 +14,6 @@ topics:
 environment:
   sdk: '>=3.1.0 <4.0.0'
 
-publish_to: none
-
 dependencies:
   glob: ^2.1.1
   logging: ^1.1.1
