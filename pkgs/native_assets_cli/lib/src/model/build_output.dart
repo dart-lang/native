@@ -84,14 +84,12 @@ final class BuildOutputImpl implements BuildOutput {
         'Flutter, please update native_assets_cli.',
       );
     }
-
     return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(jsonMap[_timestampKey])),
-      assets:
-          AssetImpl.listFromJsonList(as<List<Object?>>(jsonMap[_assetsKey])),
+      assets: AssetImpl.listFromJson(as<List<Object?>>(jsonMap[_assetsKey])),
       assetsForLinking: as<Map<String, dynamic>>(jsonMap[_assetsForLinkingKey])
-          .map((packageName, assets) => MapEntry(packageName,
-              AssetImpl.listFromJsonList(as<List<Object?>>(assets)))),
+          .map((packageName, assets) => MapEntry(
+              packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
       dependencies:
           Dependencies.fromJson(as<List<Object?>?>(jsonMap[_dependenciesKey])),
       metadata:
@@ -101,23 +99,17 @@ final class BuildOutputImpl implements BuildOutput {
 
   Map<String, Object> toJson(Version version) => {
         _timestampKey: timestamp.toString(),
-        _assetsKey: _assetsListToJson(_assets, version),
+        _assetsKey: AssetImpl.listToJson(_assets, version),
         _assetsForLinkingKey:
             _assetsForLinking.map((packageName, assets) => MapEntry(
                   packageName,
-                  _assetsListToJson(assets, version),
+                  AssetImpl.listToJson(assets, version),
                 )),
         if (_dependencies.dependencies.isNotEmpty)
           _dependenciesKey: _dependencies.toJson(),
         _metadataKey: metadata.toJson(),
         _versionKey: version.toString(),
       }..sortOnKey();
-
-  static List<Map<String, Object>> _assetsListToJson(
-          List<AssetImpl> assets, Version version) =>
-      [
-        for (final asset in assets) asset.toJson(version),
-      ];
 
   String toJsonString(Version version) =>
       const JsonEncoder.withIndent('  ').convert(toJson(version));

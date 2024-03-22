@@ -8,8 +8,6 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
-import '../helpers.dart';
-
 void main() {
   late Uri tempUri;
 
@@ -50,6 +48,20 @@ void main() {
         architecture: ArchitectureImpl.x64,
       ),
     ],
+    assetsForLinking: {
+      'my_package': [
+        DataAssetImpl(
+          file: Uri.file('path/to/data'),
+          id: 'package:my_package/data',
+        )
+      ],
+      'my_package_2': [
+        DataAssetImpl(
+          file: Uri.file('path/to/data2'),
+          id: 'package:my_package_2/data2',
+        )
+      ]
+    },
     dependencies: Dependencies([
       Uri.file('path/to/file.ext'),
     ]),
@@ -57,70 +69,6 @@ void main() {
       'key': 'value',
     }),
   );
-
-  const yamlEncodingV1_0_0 = '''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - id: package:my_package/foo
-    link_mode: dynamic
-    path:
-      path_type: absolute
-      uri: path/to/libfoo.so
-    target: android_x64
-  - id: package:my_package/foo2
-    link_mode: dynamic
-    path:
-      path_type: system
-      uri: path/to/libfoo2.so
-    target: android_x64
-  - id: package:my_package/foo3
-    link_mode: dynamic
-    path:
-      path_type: process
-    target: android_x64
-  - id: package:my_package/foo4
-    link_mode: dynamic
-    path:
-      path_type: executable
-    target: android_x64
-dependencies:
-  - path/to/file.ext
-metadata:
-  key: value
-version: 1.0.0''';
-
-  final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - architecture: x64
-    file: path/to/libfoo.so
-    id: package:my_package/foo
-    link_mode:
-      type: dynamic_loading_bundle
-    os: android
-    type: native_code
-  - architecture: x64
-    id: package:my_package/foo2
-    link_mode:
-      type: dynamic_loading_system
-      uri: path/to/libfoo2.so
-    os: android
-    type: native_code
-  - architecture: x64
-    id: package:my_package/foo3
-    link_mode:
-      type: dynamic_loading_process
-    os: android
-    type: native_code
-  - architecture: x64
-    id: package:my_package/foo4
-    link_mode:
-      type: dynamic_loading_executable
-    os: android
-    type: native_code
-dependencies:
-  - path/to/file.ext
-metadata:
-  key: value
-version: ${BuildOutputImpl.latestVersion}''';
 
   final jsonEncoding = '''{
   "timestamp": "2022-11-10 13:25:01.000",
@@ -164,6 +112,22 @@ version: ${BuildOutputImpl.latestVersion}''';
       "type": "native_code"
     }
   ],
+  "assetsForLinking": {
+    "my_package": [
+      {
+        "id": "package:my_package/data",
+        "file": "path/to/data",
+        "type": "data"
+      }
+    ],
+    "my_package_2": [
+      {
+        "id": "package:my_package_2/data2",
+        "file": "path/to/data2",
+        "type": "data"
+      }
+    ]
+  },
   "dependencies": [
     "path/to/file.ext"
   ],
@@ -173,37 +137,96 @@ version: ${BuildOutputImpl.latestVersion}''';
   "version": "${BuildOutputImpl.latestVersion}"
 }''';
 
-  test('built info yaml', () {
-    final yaml = yamlEncode(buildOutput.toJson(BuildOutputImpl.latestVersion))
-        .replaceAll('\\', '/');
-    expect(yaml, yamlEncoding);
+  const jsonEncodingV1_0_0 = '''
+{
+  "timestamp": "2022-11-10 13:25:01.000",
+  "assets": [
+    {
+      "id": "package:my_package/foo",
+      "link_mode": "dynamic",
+      "path": {
+        "path_type": "absolute",
+        "uri": "path/to/libfoo.so"
+      },
+      "target": "android_x64"
+    },
+    {
+      "id": "package:my_package/foo2",
+      "link_mode": "dynamic",
+      "path": {
+        "path_type": "system",
+        "uri": "path/to/libfoo2.so"
+      },
+      "target": "android_x64"
+    },
+    {
+      "id": "package:my_package/foo3",
+      "link_mode": "dynamic",
+      "path": {
+        "path_type": "process"
+      },
+      "target": "android_x64"
+    },
+    {
+      "id": "package:my_package/foo4",
+      "link_mode": "dynamic",
+      "path": {
+        "path_type": "executable"
+      },
+      "target": "android_x64"
+    }
+  ],
+  "assetsForLinking": {
+    "my_package": [
+      {
+        "id": "package:my_package/data",
+        "file": "path/to/data",
+        "type": "data"
+      }
+    ],
+    "my_package_2": [
+      {
+        "id": "package:my_package_2/data2",
+        "file": "path/to/data2",
+        "type": "data"
+      }
+    ]
+  },
+  "dependencies": [
+    "path/to/file.ext"
+  ],
+  "metadata": {
+    "key": "value"
+  },
+  "version": "1.0.0"
+}''';
 
+  test('built info yaml', () {
     final json = buildOutput
         .toJsonString(BuildOutputImpl.latestVersion)
         .replaceAll('\\\\', '/');
     expect(json, jsonEncoding);
 
-    final buildOutput2 = BuildOutputImpl.fromJsonString(yaml);
+    final buildOutput2 = BuildOutputImpl.fromJsonString(json);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
   test('built info yaml v1.0.0 parsing keeps working', () {
-    final buildOutput2 = BuildOutputImpl.fromJsonString(yamlEncodingV1_0_0);
+    final buildOutput2 = BuildOutputImpl.fromJsonString(jsonEncodingV1_0_0);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
   test('built info yaml v1.0.0 serialization keeps working', () {
-    final yamlEncoding =
-        yamlEncode(buildOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
-    expect(yamlEncoding, yamlEncodingV1_0_0);
+    final yamlEncoding = buildOutput.toJsonString(Version(1, 0, 0));
+    expect(yamlEncoding, jsonEncodingV1_0_0);
   });
 
   test('BuildOutput.toString', buildOutput.toString);
 
   test('BuildOutput.hashCode', () {
-    final buildOutput2 = BuildOutputImpl.fromJsonString(yamlEncoding);
+    final buildOutput2 = BuildOutputImpl.fromJsonString(jsonEncoding);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
 
     final buildOutput3 = BuildOutputImpl(

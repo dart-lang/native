@@ -7,7 +7,7 @@ part of '../api/asset.dart';
 abstract final class AssetImpl implements Asset {
   Map<String, Object> toJson(Version version);
 
-  static List<AssetImpl> listFromJsonList(List<Object?> list) {
+  static List<AssetImpl> listFromJson(List<Object?> list) {
     final assets = <AssetImpl>[];
     for (final jsonElement in list) {
       final jsonMap = as<Map<Object?, Object?>>(jsonElement);
@@ -24,4 +24,10 @@ abstract final class AssetImpl implements Asset {
     }
     return assets;
   }
+
+  static List<Map<String, Object>> listToJson(
+          List<AssetImpl> assets, Version version) =>
+      [
+        for (final asset in assets) asset.toJson(version),
+      ];
 }

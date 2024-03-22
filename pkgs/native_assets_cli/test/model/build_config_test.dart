@@ -240,31 +240,6 @@ void main() async {
       },
     );
 
-    final yamlString = yamlEncode(buildConfig1.toJson());
-    final expectedYamlString = '''build_mode: release
-c_compiler:
-  cc: ${fakeClang.toFilePath()}
-  ld: ${fakeLd.toFilePath()}
-dependency_metadata:
-  bar:
-    key: value
-  foo:
-    a: 321
-    z:
-      - z
-      - a
-link_mode_preference: prefer-static
-out_dir: ${outDir.toFilePath()}
-package_name: $packageName
-package_root: ${tempUri.toFilePath()}
-supported_asset_types:
-  - ${NativeCodeAsset.type}
-target_architecture: arm64
-target_ios_sdk: iphoneos
-target_os: ios
-version: ${BuildConfigImpl.latestVersion}''';
-    expect(yamlString, equals(expectedYamlString));
-
     final jsonString = buildConfig1.toJsonString();
     final expectedJsonString = '''{
   "build_mode": "release",
@@ -302,9 +277,7 @@ version: ${BuildConfigImpl.latestVersion}''';
     );
 
     final buildConfig2 = BuildConfigImpl.fromConfig(
-      Config.fromConfigFileContents(
-        fileContents: yamlString,
-      ),
+      Config.fromConfigFileContents(fileContents: jsonString),
     );
     expect(buildConfig2, buildConfig1);
   });
