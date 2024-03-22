@@ -215,7 +215,7 @@ final class BuildConfigImpl implements BuildConfig {
   /// The version of [BuildConfigImpl].
   ///
   /// This class is used in the protocol between the Dart and Flutter SDKs
-  /// and packages through `build.dart` invocations.
+  /// and packages through build hook invocations.
   ///
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the JSON
