@@ -1,3 +1,8 @@
+## 0.4.1
+
+- Output an `Asset.file` in dry run.
+  https://github.com/dart-lang/native/issues/1049
+
 ## 0.4.0
 
 - **Breaking change** Completely rewritten API in `native_assets_cli`.
