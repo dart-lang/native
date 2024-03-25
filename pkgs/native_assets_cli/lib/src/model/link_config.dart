@@ -80,10 +80,12 @@ class LinkConfigArgs {
   }
 
   Future<LinkConfigImpl> toLinkConfig() async {
-    final buildConfigFile = File(buildConfigUri.path);
+    final buildConfigFile = File(buildConfigUri.toFilePath());
     if (!buildConfigFile.existsSync()) {
       throw UnsupportedError(
-          'A link.dart script needs a build.dart to be executed');
+          'A link.dart script needs the build configuration to be executed. '
+          'The build configuration at ${buildConfigUri.toFilePath()} could not '
+          'be found.');
     }
     final config = BuildConfigImpl.fromConfig(
       Config.fromConfigFileContents(
@@ -92,7 +94,8 @@ class LinkConfigArgs {
     );
     ResourceIdentifiers? resources;
     if (resourceIdentifierUri != null) {
-      resources = ResourceIdentifiers.fromFile(resourceIdentifierUri!.path);
+      resources =
+          ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath());
     }
 
     final buildOutput =
