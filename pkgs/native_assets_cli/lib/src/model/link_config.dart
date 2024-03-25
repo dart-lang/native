@@ -74,8 +74,8 @@ class LinkConfigArgs {
     }
     return LinkConfigArgs(
       resourceIdentifierUri:
-          resourcesPath != null ? Uri.parse(resourcesPath) : null,
-      buildConfigUri: Uri.parse(buildConfigPath),
+          resourcesPath != null ? Uri.file(resourcesPath) : null,
+      buildConfigUri: Uri.file(buildConfigPath),
     );
   }
 
