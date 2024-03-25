@@ -90,16 +90,38 @@ final class BuildOutputImpl implements BuildOutput {
     );
   }
 
-  Map<String, Object> toJson(Version version) => {
-        _timestampKey: timestamp.toString(),
-        _assetsKey: [
-          for (final asset in _assets) asset.toJson(version),
-        ],
-        if (_dependencies.dependencies.isNotEmpty)
-          _dependenciesKey: _dependencies.toJson(),
-        _metadataKey: _metadata.toJson(),
-        _versionKey: version.toString(),
-      }..sortOnKey();
+  Map<String, Object> toJson(Version version) {
+    final assets = <AssetImpl>[];
+    for (final asset in _assets) {
+      switch (asset) {
+        case NativeCodeAssetImpl _:
+          if (version <= Version(1, 0, 0) && asset.architecture == null) {
+            // Dry run does not report architecture. But old Dart and Flutter
+            // expect architecture to be populated. So, populate assets for all
+            // architectures.
+            for (final architecture in asset.os.architectures) {
+              assets.add(asset.copyWith(
+                architecture: architecture,
+              ));
+            }
+          } else {
+            assets.add(asset);
+          }
+        default:
+          assets.add(asset);
+      }
+    }
+    return {
+      _timestampKey: timestamp.toString(),
+      _assetsKey: [
+        for (final asset in assets) asset.toJson(version),
+      ],
+      if (_dependencies.dependencies.isNotEmpty)
+        _dependenciesKey: _dependencies.toJson(),
+      _metadataKey: _metadata.toJson(),
+      _versionKey: version.toString(),
+    }..sortOnKey();
+  }
 
   String toJsonString(Version version) =>
       const JsonEncoder.withIndent('  ').convert(toJson(version));

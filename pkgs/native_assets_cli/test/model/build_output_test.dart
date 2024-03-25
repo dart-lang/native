@@ -58,6 +58,18 @@ void main() {
     }),
   );
 
+  final dryRunOutput = BuildOutputImpl(
+    timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
+    assets: [
+      NativeCodeAssetImpl(
+        id: 'package:my_package/foo',
+        file: Uri(path: 'path/to/libfoo.so'),
+        linkMode: DynamicLoadingBundledImpl(),
+        os: OSImpl.android,
+      ),
+    ],
+  );
+
   const yamlEncodingV1_0_0 = '''timestamp: 2022-11-10 13:25:01.000
 assets:
   - id: package:my_package/foo
@@ -86,6 +98,41 @@ dependencies:
   - path/to/file.ext
 metadata:
   key: value
+version: 1.0.0''';
+
+  const yamlEncodingV1_0_0dryRun = '''timestamp: 2022-11-10 13:25:01.000
+assets:
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_arm
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_arm64
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_ia32
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_x64
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_riscv64
+metadata: {}
 version: 1.0.0''';
 
   final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
@@ -198,6 +245,12 @@ version: ${BuildOutputImpl.latestVersion}''';
     final yamlEncoding =
         yamlEncode(buildOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
     expect(yamlEncoding, yamlEncodingV1_0_0);
+  });
+
+  test('built info yaml v1.0.0 serialization keeps working dry run', () {
+    final yamlEncoding =
+        yamlEncode(dryRunOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
+    expect(yamlEncoding, yamlEncodingV1_0_0dryRun);
   });
 
   test('BuildOutput.toString', buildOutput.toString);

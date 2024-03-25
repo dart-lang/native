@@ -18,6 +18,8 @@
   Backwards compatibility older SDKs: emit the old format if an older BuildConfig was passed in.
 - Added `DataAsset`s.
   Backwards compatibility: These are ignored on older SDKs.
+- `architecture` is optional.
+  Backwards compatibility older SDKs: expand the assets to include all architectures.
 
 ## 1.0.0
 
