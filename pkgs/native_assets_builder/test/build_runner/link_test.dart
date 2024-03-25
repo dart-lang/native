@@ -12,7 +12,6 @@ const Timeout longTimeout = Timeout(Duration(minutes: 5));
 void main() async {
   test(
     'simple_link linking',
-    skip: 'Wait for https://dart-review.googlesource.com/c/sdk/+/338380.',
     timeout: longTimeout,
     () async {
       await inTempDir((tempUri) async {
