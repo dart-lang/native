@@ -219,9 +219,11 @@ void main() {
   });
 
   test('built info yaml v1.0.0 serialization keeps working', () {
-    final yamlEncoding =
-        buildOutput.toJsonString(Version(1, 0, 0)).replaceAll('\\', '/');
-    expect(yamlEncoding, jsonEncodingV1_0_0);
+    final json = buildOutput
+        .toJsonString(Version(1, 0, 0))
+        .replaceAll('\\\\', '\\')
+        .replaceAll('\\', '/');
+    expect(json, jsonEncodingV1_0_0);
   });
 
   test('BuildOutput.toString', buildOutput.toString);
