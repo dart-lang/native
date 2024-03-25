@@ -112,7 +112,7 @@ void main() {
 [
   {
     "architecture": "x64",
-    "file": "path/to/libfoo.so",
+    "file": "${fooUri.toFilePath()}",
     "id": "package:my_package/foo",
     "link_mode": {
       "type": "dynamic_loading_bundle"
