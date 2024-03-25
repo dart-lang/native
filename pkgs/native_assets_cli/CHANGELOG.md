@@ -1,3 +1,8 @@
+## 0.5.3
+
+- Fix V1_0_0 dry run backwards compatibility.
+  https://github.com/dart-lang/native/issues/1053
+
 ## 0.5.2
 
 - Fix test.
