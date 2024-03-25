@@ -1,5 +1,6 @@
 ## 0.6.0-wip
 
+- Fix test.
 - Add support for `link.dart`.
 
 ## 0.5.1

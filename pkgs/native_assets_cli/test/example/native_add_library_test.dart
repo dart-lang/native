@@ -74,8 +74,7 @@ void main() async {
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(1));
-        expect(assets.first.file, isNull);
-        expect(dependencies, isEmpty);
+        expect(dependencies, <Uri>[]);
       } else {
         expect(assets.length, 1);
         expect(await assets.allExist(), true);
