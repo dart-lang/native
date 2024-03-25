@@ -108,7 +108,7 @@ void main() {
   target: windows_x64
   linkInPackage: ""''';
 
-  const assetsJsonEncoding = '''
+  final assetsJsonEncoding = '''
 [
   {
     "architecture": "x64",
@@ -125,7 +125,7 @@ void main() {
     "id": "package:my_package/foo3",
     "link_mode": {
       "type": "dynamic_loading_system",
-      "uri": "libfoo3.so"
+      "uri": "${foo3Uri.toFilePath()}"
     },
     "os": "android",
     "type": "native_code"
@@ -150,7 +150,7 @@ void main() {
   },
   {
     "architecture": "arm64",
-    "file": "path/to/libbar.a",
+    "file": "${barUri.toFilePath()}",
     "id": "package:my_package/bar",
     "link_mode": {
       "type": "static"
@@ -160,7 +160,7 @@ void main() {
   },
   {
     "architecture": "x64",
-    "file": "path/with spaces/bla.dll",
+    "file": "${blaUri.toFilePath()}",
     "id": "package:my_package/bla",
     "link_mode": {
       "type": "dynamic_loading_bundle"
@@ -170,12 +170,12 @@ void main() {
   },
   {
     "id": "package:my_package/my_data_asset",
-    "file": "path/to/data.txt",
+    "file": "${dataUri.toFilePath()}",
     "type": "data"
   },
   {
     "id": "package:my_package/my_data_asset2",
-    "file": "path/to/data.json",
+    "file": "${data2Uri.toFilePath()}",
     "type": "data"
   }
 ]''';
