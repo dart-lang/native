@@ -64,9 +64,10 @@ abstract final class NativeCodeAsset implements Asset {
   /// How this file is bundled depends on the kind of asset, represented by a
   /// concrete subtype of [Asset], and the SDK (Dart or Flutter).
   ///
-  /// If the [linkMode] is [DynamicLoadingBundled], the file must be provided in
-  /// the [BuildOutput] for [BuildConfig.dryRun]. Supplying a file name instead
-  /// of an absolute path is enough for [BuildConfig.dryRun].
+  /// If the [linkMode] is [DynamicLoadingBundled], the file name must be
+  /// provided in the [BuildOutput] for [BuildConfig.dryRun]. Supplying a file
+  /// name instead of an absolute path is enough for [BuildConfig.dryRun]. The
+  /// file does not have to exist on disk during a dry run.
   ///
   /// If the [linkMode] is [DynamicLoadingSystem], [LookupInProcess], or
   /// [LookupInExecutable] the file must be omitted in the [BuildOutput] for
@@ -132,8 +133,7 @@ abstract final class DynamicLoading implements LinkMode {}
 /// the final application.
 ///
 /// During a [BuildConfig.dryRun], the [NativeCodeAsset.file] can be a file name
-/// instead of a the full path. (The file name is used by the Flutter SDK to
-/// decide where to bundle )
+/// instead of a the full path. The file does not have to exist during a dry run.
 abstract final class DynamicLoadingBundled implements DynamicLoading {
   factory DynamicLoadingBundled() = DynamicLoadingBundledImpl;
 }
