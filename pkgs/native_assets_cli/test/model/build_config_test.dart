@@ -553,7 +553,7 @@ version: 1.0.0''';
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '6723f3af2ba4cd70660494965ac55c2a');
+      expect(name1, '1cee460809d989b4af7c75a0d53378e6');
 
       // Build folder different due to metadata.
       final name2 = BuildConfigImpl.checksum(

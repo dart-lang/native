@@ -1,3 +1,8 @@
+## 1.3.0
+
+- Add key for assets to be linked. Backwards compatible, in earlier versions
+  the key will not be read and the list of assets to be linked will be empty.
+
 ## 1.2.0
 
 - Changed default encoding to JSON.

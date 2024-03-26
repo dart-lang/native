@@ -88,9 +88,19 @@ abstract final class BuildOutput {
       );
 
   /// Adds [Asset]s produced by this build or dry run.
+  ///
+  /// If the [linkInPackage] argument is specified, the asset will not be
+  /// bundled during the build step, but sent as input to the linking script
+  /// of the specified package, where it can be further processed and possibly
+  /// bundled.
   void addAsset(Asset asset, {String? linkInPackage});
 
   /// Adds [Asset]s produced by this build or dry run.
+  ///
+  /// If the [linkInPackage] argument is specified, the assets will not be
+  /// bundled during the build step, but sent as input to the linking script
+  /// of the specified package, where they can be further processed and possibly
+  /// bundled.
   void addAssets(Iterable<Asset> assets, {String? linkInPackage});
 
   /// Adds file used by this build.

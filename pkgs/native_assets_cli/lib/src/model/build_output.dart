@@ -118,16 +118,23 @@ final class BuildOutputImpl implements BuildOutput {
           assets.add(asset);
       }
     }
+    final linkMinVersion = Version(1, 3, 0);
+    if (_assetsForLinking.isNotEmpty && version < linkMinVersion) {
+      throw UnsupportedError('Please update your Dart SDK to link assets in '
+          '`link.dart` scripts. Your current version is $version, but this '
+          'feature requires $linkMinVersion');
+    }
     return {
       _timestampKey: timestamp.toString(),
       _assetsKey: [
         for (final asset in assets) asset.toJson(version),
       ],
-      _assetsForLinkingKey:
-          _assetsForLinking.map((packageName, assets) => MapEntry(
-                packageName,
-                AssetImpl.listToJson(assets, version),
-              )),
+      if (version >= linkMinVersion)
+        _assetsForLinkingKey:
+            _assetsForLinking.map((packageName, assets) => MapEntry(
+                  packageName,
+                  AssetImpl.listToJson(assets, version),
+                )),
       if (_dependencies.dependencies.isNotEmpty)
         _dependenciesKey: _dependencies.toJson(),
       _metadataKey: metadata.toJson(),

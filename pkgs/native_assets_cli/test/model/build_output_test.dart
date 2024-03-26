@@ -21,57 +21,6 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  final buildOutput = BuildOutputImpl(
-    timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-    assets: [
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
-        file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo2',
-        linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo3',
-        linkMode: LookupInProcessImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo4',
-        linkMode: LookupInExecutableImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-    ],
-    assetsForLinking: {
-      'my_package': [
-        DataAssetImpl(
-          file: Uri.file('path/to/data'),
-          id: 'package:my_package/data',
-        )
-      ],
-      'my_package_2': [
-        DataAssetImpl(
-          file: Uri.file('path/to/data2'),
-          id: 'package:my_package_2/data2',
-        )
-      ]
-    },
-    dependencies: Dependencies([
-      Uri.file('path/to/file.ext'),
-    ]),
-    metadata: const Metadata({
-      'key': 'value',
-    }),
-  );
-
   final dryRunOutput = BuildOutputImpl(
     timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     assets: [
@@ -149,40 +98,6 @@ assets:
 metadata: {}
 version: 1.0.0''';
 
-  final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
-assets:
-  - architecture: x64
-    file: path/to/libfoo.so
-    id: package:my_package/foo
-    link_mode:
-      type: dynamic_loading_bundle
-    os: android
-    type: native_code
-  - architecture: x64
-    id: package:my_package/foo2
-    link_mode:
-      type: dynamic_loading_system
-      uri: path/to/libfoo2.so
-    os: android
-    type: native_code
-  - architecture: x64
-    id: package:my_package/foo3
-    link_mode:
-      type: dynamic_loading_process
-    os: android
-    type: native_code
-  - architecture: x64
-    id: package:my_package/foo4
-    link_mode:
-      type: dynamic_loading_executable
-    os: android
-    type: native_code
-dependencies:
-  - path/to/file.ext
-metadata:
-  key: value
-version: ${BuildOutputImpl.latestVersion}''';
-
   final jsonEncoding = '''{
   "timestamp": "2022-11-10 13:25:01.000",
   "assets": [
@@ -250,71 +165,8 @@ version: ${BuildOutputImpl.latestVersion}''';
   "version": "${BuildOutputImpl.latestVersion}"
 }''';
 
-  const jsonEncodingV1_0_0 = '''
-{
-  "timestamp": "2022-11-10 13:25:01.000",
-  "assets": [
-    {
-      "id": "package:my_package/foo",
-      "link_mode": "dynamic",
-      "path": {
-        "path_type": "absolute",
-        "uri": "path/to/libfoo.so"
-      },
-      "target": "android_x64"
-    },
-    {
-      "id": "package:my_package/foo2",
-      "link_mode": "dynamic",
-      "path": {
-        "path_type": "system",
-        "uri": "path/to/libfoo2.so"
-      },
-      "target": "android_x64"
-    },
-    {
-      "id": "package:my_package/foo3",
-      "link_mode": "dynamic",
-      "path": {
-        "path_type": "process"
-      },
-      "target": "android_x64"
-    },
-    {
-      "id": "package:my_package/foo4",
-      "link_mode": "dynamic",
-      "path": {
-        "path_type": "executable"
-      },
-      "target": "android_x64"
-    }
-  ],
-  "assetsForLinking": {
-    "my_package": [
-      {
-        "id": "package:my_package/data",
-        "file": "path/to/data",
-        "type": "data"
-      }
-    ],
-    "my_package_2": [
-      {
-        "id": "package:my_package_2/data2",
-        "file": "path/to/data2",
-        "type": "data"
-      }
-    ]
-  },
-  "dependencies": [
-    "path/to/file.ext"
-  ],
-  "metadata": {
-    "key": "value"
-  },
-  "version": "1.0.0"
-}''';
-
   test('built info json', () {
+    final buildOutput = getBuildOutput();
     final json = buildOutput
         .toJsonString(BuildOutputImpl.latestVersion)
         .replaceAll('\\\\', '/');
@@ -326,12 +178,14 @@ version: ${BuildOutputImpl.latestVersion}''';
   });
 
   test('built info yaml v1.0.0 parsing keeps working', () {
+    final buildOutput = getBuildOutput(withLinkedAssets: false);
     final buildOutput2 = BuildOutputImpl.fromJsonString(yamlEncodingV1_0_0);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
   test('built info yaml v1.0.0 serialization keeps working', () {
+    final buildOutput = getBuildOutput(withLinkedAssets: false);
     final yamlEncoding =
         yamlEncode(buildOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
     expect(yamlEncoding, yamlEncodingV1_0_0);
@@ -343,9 +197,10 @@ version: ${BuildOutputImpl.latestVersion}''';
     expect(yamlEncoding, yamlEncodingV1_0_0dryRun);
   });
 
-  test('BuildOutput.toString', buildOutput.toString);
+  test('BuildOutput.toString', getBuildOutput().toString);
 
   test('BuildOutput.hashCode', () {
+    final buildOutput = getBuildOutput();
     final buildOutput2 = BuildOutputImpl.fromJsonString(jsonEncoding);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
 
@@ -369,6 +224,7 @@ version: ${BuildOutputImpl.latestVersion}''';
       targetOS: OSImpl.macOS,
       linkModePreference: LinkModePreferenceImpl.dynamic,
     );
+    final buildOutput = getBuildOutput();
     await buildOutput.writeToFile(config: config);
     final buildOutput2 = BuildOutputImpl.readFromFile(file: config.outputFile);
     expect(buildOutput2, buildOutput);
@@ -389,6 +245,7 @@ version: ${BuildOutputImpl.latestVersion}''';
       linkModePreference: LinkModePreferenceImpl.dynamic,
       version: Version(1, 1, 0),
     );
+    final buildOutput = getBuildOutput(withLinkedAssets: false);
     await buildOutput.writeToFile(config: config);
     final buildOutput2 = BuildOutputImpl.readFromFile(file: config.outputFile);
     expect(buildOutput2, buildOutput);
@@ -537,4 +394,60 @@ version: 1.0.0'''),
         buildOutput2.dependenciesModel, equals(buildOutput.dependenciesModel));
     expect(buildOutput2.metadataModel, equals(buildOutput.metadataModel));
   });
+}
+
+BuildOutputImpl getBuildOutput({bool withLinkedAssets = true}) {
+  final assetsForLinking = withLinkedAssets
+      ? {
+          'my_package': [
+            DataAssetImpl(
+              file: Uri.file('path/to/data'),
+              id: 'package:my_package/data',
+            )
+          ],
+          'my_package_2': [
+            DataAssetImpl(
+              file: Uri.file('path/to/data2'),
+              id: 'package:my_package_2/data2',
+            )
+          ]
+        }
+      : null;
+  return BuildOutputImpl(
+    timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
+    assets: [
+      NativeCodeAssetImpl(
+        id: 'package:my_package/foo',
+        file: Uri(path: 'path/to/libfoo.so'),
+        linkMode: DynamicLoadingBundledImpl(),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+      ),
+      NativeCodeAssetImpl(
+        id: 'package:my_package/foo2',
+        linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+      ),
+      NativeCodeAssetImpl(
+        id: 'package:my_package/foo3',
+        linkMode: LookupInProcessImpl(),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+      ),
+      NativeCodeAssetImpl(
+        id: 'package:my_package/foo4',
+        linkMode: LookupInExecutableImpl(),
+        os: OSImpl.android,
+        architecture: ArchitectureImpl.x64,
+      ),
+    ],
+    assetsForLinking: assetsForLinking,
+    dependencies: Dependencies([
+      Uri.file('path/to/file.ext'),
+    ]),
+    metadata: const Metadata({
+      'key': 'value',
+    }),
+  );
 }

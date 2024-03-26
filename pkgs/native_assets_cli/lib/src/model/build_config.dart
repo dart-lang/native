@@ -240,7 +240,7 @@ final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
-  static Version latestVersion = Version(1, 2, 0);
+  static Version latestVersion = Version(1, 3, 0);
 
   factory BuildConfigImpl.fromConfig(Config config) {
     final result = BuildConfigImpl._().._cCompiler = CCompilerConfigImpl._();
