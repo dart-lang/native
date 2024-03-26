@@ -5,9 +5,10 @@
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
-  await link(args, (config, output) async {
-    output.addAssets(shake(config.assets));
-  });
+  await link(
+    args,
+    (config, output) async => output.addAssets(shake(config.assets)),
+  );
 }
 
 List<Asset> shake(List<Asset> assets) => assets.skip(2).toList();

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:path/path.dart' as p;
 
 const packageName = 'simple_link';
 
@@ -11,8 +12,9 @@ void main(List<String> args) async => build(args, (config, output) async {
         List.generate(
           4,
           (index) => DataAsset(
-            name: 'data_$index', // The BuildState knows the package name.
-            file: Uri.file('data_$index.json'), // change to URI only
+            name: 'data_$index',
+            // TODO(mosuem): Simplify specifying files/file paths
+            file: Uri.file(p.absolute('data_$index.json')),
             package: packageName,
           ),
         ),

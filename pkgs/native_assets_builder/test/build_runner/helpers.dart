@@ -139,13 +139,7 @@ Future<BuildResult> dryRun(
 
 Future<void> expectAssetsExist(List<Asset> assets) async {
   for (final asset in assets) {
-    final uri = asset.file!;
-    expect(
-        uri.toFilePath(),
-        contains('${Platform.pathSeparator}.dart_tool${Platform.pathSeparator}'
-            'native_assets_builder${Platform.pathSeparator}'));
-    final file = File.fromUri(uri);
-    expect(file, exists);
+    expect(File.fromUri(asset.file!), exists);
   }
 }
 
