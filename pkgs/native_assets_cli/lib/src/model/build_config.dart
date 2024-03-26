@@ -20,12 +20,10 @@ final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
   String get outputName => 'build_output.json';
 
   @override
-  Uri get configFile => outDirectory.resolve('../config.json');
+  Uri get configFile => outputDirectory.resolve('../config.json');
 
   /// The folder in which all output and intermediate artifacts should be
   /// placed.
-  @override
-  Uri get outDirectory => _outDir;
   @override
   Uri get outputDirectory => _outDir;
   late final Uri _outDir;

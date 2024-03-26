@@ -89,15 +89,16 @@ Future<void> link(
   List<String> arguments,
   Future<void> Function(LinkConfig config, LinkOutput output) builder,
 ) async {
-  final config = await LinkConfig.fromArguments(arguments);
+  final config = LinkConfig(arguments) as LinkConfigImpl;
 
   // The built assets are dependencies of linking, as the linking should be
   // rerun if they change.
-  final builtAssets =
-      config.assets.map((e) => e.file).whereType<Uri>().toList();
-  final linkoutput = LinkOutput(BuildOutputImpl(
-    dependencies: Dependencies(builtAssets),
-  ));
+  final builtAssetsFiles =
+      config.assets.map((asset) => asset.file).whereType<Uri>().toList();
+  final buildOutputImpl = BuildOutputImpl(
+    dependencies: Dependencies(builtAssetsFiles),
+  );
+  final linkoutput = LinkOutput(buildOutputImpl);
   await builder(config, linkoutput);
-  await linkoutput.writeToFile(config: config);
+  await buildOutputImpl.writeToFile(config: config);
 }

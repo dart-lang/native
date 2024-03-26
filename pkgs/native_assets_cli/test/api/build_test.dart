@@ -65,7 +65,8 @@ void main() async {
         (config, output) async {
       output.addDependency(packageRootUri.resolve('foo'));
     });
-    final buildOutputUri = outDirUri.resolve(config1.outputName);
+    final buildOutputUri =
+        outDirUri.resolve((config1 as BuildConfigImpl).outputName);
     expect(File.fromUri(buildOutputUri), exists);
   });
 }

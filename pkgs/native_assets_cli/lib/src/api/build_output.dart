@@ -9,7 +9,9 @@ import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart' show loadYaml;
 
-import '../../native_assets_cli_internal.dart';
+import '../model/dependencies.dart';
+import '../model/metadata.dart';
+import '../model/pipeline_config.dart';
 import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/json.dart';
@@ -18,7 +20,6 @@ import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
 import 'os.dart';
-import 'pipeline_config.dart';
 
 part '../model/build_output.dart';
 
@@ -42,7 +43,7 @@ abstract final class BuildOutput {
   /// the dry run must be provided.
   Iterable<Asset> get assets;
 
-  Map<String, List<AssetImpl>> get assetsForLinking;
+  Map<String, List<Asset>> get assetsForLinking;
 
   /// The files used by this build.
   ///

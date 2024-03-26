@@ -253,8 +253,7 @@ void main() {
       linkModePreference: LinkModePreferenceImpl.dynamic,
     );
     await buildOutput.writeToFile(config: config);
-    final buildOutput2 =
-        await BuildOutputImpl.readFromFile(file: config.outputFile);
+    final buildOutput2 = BuildOutputImpl.readFromFile(file: config.outputFile);
     expect(buildOutput2, buildOutput);
   });
 
@@ -274,8 +273,7 @@ void main() {
       version: Version(1, 1, 0),
     );
     await buildOutput.writeToFile(config: config);
-    final buildOutput2 =
-        await BuildOutputImpl.readFromFile(file: config.outputFile);
+    final buildOutput2 = BuildOutputImpl.readFromFile(file: config.outputFile);
     expect(buildOutput2, buildOutput);
   });
 

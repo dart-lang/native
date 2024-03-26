@@ -28,10 +28,10 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   }) : _buildConfig = buildConfig;
 
   @override
-  Uri get configFile => outDirectory.resolve('../link_config.json');
+  Uri get configFile => outputDirectory.resolve('../link_config.json');
 
   @override
-  Uri get outDirectory => _buildConfig.outDirectory;
+  Uri get outputDirectory => _buildConfig.outputDirectory;
 
   @override
   String get outputName => 'link_output.json';
@@ -51,6 +51,18 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
 
   @override
   Version get version => _buildConfig.version;
+
+  static LinkConfig fromArguments(List<String> arguments) {
+    final argParser = ArgParser()..addOption('config');
+
+    final results = argParser.parse(arguments);
+    final linkConfigContents =
+        File(results['config'] as String).readAsStringSync();
+    final linkConfigJson =
+        jsonDecode(linkConfigContents) as Map<String, dynamic>;
+
+    return LinkConfigArgs.fromJson(linkConfigJson).toLinkConfig();
+  }
 }
 
 class LinkConfigArgs {
@@ -79,7 +91,7 @@ class LinkConfigArgs {
     );
   }
 
-  Future<LinkConfigImpl> toLinkConfig() async {
+  LinkConfigImpl toLinkConfig() {
     final buildConfigFile = File(buildConfigUri.toFilePath());
     if (!buildConfigFile.existsSync()) {
       throw UnsupportedError(
@@ -98,8 +110,7 @@ class LinkConfigArgs {
           ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath());
     }
 
-    final buildOutput =
-        await BuildOutputImpl.readFromFile(file: config.outputFile);
+    final buildOutput = BuildOutputImpl.readFromFile(file: config.outputFile);
     if (buildOutput == null) {
       throw ArgumentError(
           'Expected to find the build output at ${config.outputFile}');

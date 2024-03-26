@@ -11,6 +11,7 @@ import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../model/metadata.dart';
+import '../model/pipeline_config.dart';
 import '../model/pipeline_step.dart';
 import '../model/target.dart';
 import '../utils/json.dart';
@@ -22,7 +23,6 @@ import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
-import 'pipeline_config.dart';
 
 part '../model/build_config.dart';
 part '../model/c_compiler_config.dart';
@@ -34,20 +34,18 @@ part 'c_compiler_config.dart';
 /// be automatically run, by the Flutter and Dart SDK tools. The hook will be
 /// run with specific commandline arguments, which [BuildConfig] can parse and
 /// provide more convenient access to.
-abstract final class BuildConfig extends PipelineConfig {
+abstract final class BuildConfig {
   /// The directory in which all output and intermediate artifacts should be
   /// placed.
   Uri get outputDirectory;
 
   /// The name of the package the native assets are built for.
-  @override
   String get packageName;
 
   /// The root of the package the native assets are built for.
   ///
   /// Often a package's native assets are built because a package is a
   /// dependency of another. For this it is convenient to know the packageRoot.
-  @override
   Uri get packageRoot;
 
   /// The architecture being compiled for.

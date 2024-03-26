@@ -238,13 +238,12 @@ class NativeAssetsBuildRunner {
     bool includeParentEnvironment,
     Uri? resources,
   ) async {
-    final outDir = config.outDirectory;
+    final outDir = config.outputDirectory;
     if (!await Directory.fromUri(outDir).exists()) {
       await Directory.fromUri(outDir).create(recursive: true);
     }
 
-    final buildOutput =
-        await BuildOutputImpl.readFromFile(file: config.outputFile);
+    final buildOutput = BuildOutputImpl.readFromFile(file: config.outputFile);
     if (buildOutput != null) {
       final lastBuilt = buildOutput.timestamp.roundDownToSeconds();
       final lastChange = await buildOutput.dependenciesModel.lastModified();
@@ -325,7 +324,7 @@ ${result.stdout}
 
     try {
       final buildOutput =
-          await BuildOutputImpl.readFromFile(file: config.outputFile) ??
+          BuildOutputImpl.readFromFile(file: config.outputFile) ??
               BuildOutputImpl();
       success &= validateAssetsPackage(
         buildOutput.assets,

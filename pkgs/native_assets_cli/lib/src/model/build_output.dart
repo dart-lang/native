@@ -10,10 +10,10 @@ final class BuildOutputImpl implements BuildOutput {
 
   final List<AssetImpl> _assets;
 
-  final Map<String, List<AssetImpl>> _assetsForLinking;
-
   @override
   Iterable<AssetImpl> get assets => _assets;
+
+  final Map<String, List<AssetImpl>> _assetsForLinking;
 
   @override
   Map<String, List<AssetImpl>> get assetsForLinking => _assetsForLinking;
@@ -87,8 +87,8 @@ final class BuildOutputImpl implements BuildOutput {
     return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(jsonMap[_timestampKey])),
       assets: AssetImpl.listFromJson(as<List<Object?>>(jsonMap[_assetsKey])),
-      assetsForLinking: as<Map<String, dynamic>>(jsonMap[_assetsForLinkingKey])
-          .map((packageName, assets) => MapEntry(
+      assetsForLinking: as<Map<String, dynamic>?>(jsonMap[_assetsForLinkingKey])
+          ?.map((packageName, assets) => MapEntry(
               packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
       dependencies:
           Dependencies.fromJson(as<List<Object?>?>(jsonMap[_dependenciesKey])),
@@ -131,19 +131,18 @@ final class BuildOutputImpl implements BuildOutput {
   static Version latestVersion = BuildConfigImpl.latestVersion;
 
   /// Writes the JSON file from [file].
-  static Future<BuildOutputImpl?> readFromFile({required Uri file}) async {
+  static BuildOutputImpl? readFromFile({required Uri file}) {
     final buildOutputFile = File.fromUri(file);
-    if (await buildOutputFile.exists()) {
-      return BuildOutputImpl.fromJsonString(
-          await buildOutputFile.readAsString());
+    if (buildOutputFile.existsSync()) {
+      return BuildOutputImpl.fromJsonString(buildOutputFile.readAsStringSync());
     }
 
     return null;
   }
 
   /// Writes the [toJsonString] to the output file specified in the [config].
-  Future<void> writeToFile({required PipelineConfig config}) async {
-    final configVersion = (config as PipelineConfigImpl).version;
+  Future<void> writeToFile({required PipelineConfigImpl config}) async {
+    final configVersion = config.version;
     final jsonString = toJsonString(configVersion);
     await File.fromUri(config.outputFile)
         .writeAsStringCreateDirectory(jsonString);

@@ -89,7 +89,7 @@ Future<void> build(
   List<String> arguments,
   Future<void> Function(BuildConfig config, BuildOutput output) builder,
 ) async {
-  final config = BuildConfig(arguments);
+  final config = BuildConfig(arguments) as BuildConfigImpl;
   final output = BuildOutputImpl();
   await builder(config, output);
   await output.writeToFile(config: config);

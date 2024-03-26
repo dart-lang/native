@@ -2,8 +2,24 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-part of '../api/pipeline_config.dart';
+import 'package:pub_semver/pub_semver.dart';
 
-abstract class PipelineConfigImpl extends PipelineConfig {
+abstract class PipelineConfigImpl {
+  Uri get configFile;
+
+  Uri get outputFile => outputDirectory.resolve(outputName);
+
+  Uri get outputDirectory;
+
+  Uri get script;
+
+  String toJsonString();
+
+  String get packageName;
+
+  Uri get packageRoot;
+
+  String get outputName;
+
   Version get version;
 }

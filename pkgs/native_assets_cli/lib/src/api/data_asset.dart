@@ -27,14 +27,5 @@ abstract final class DataAsset implements Asset {
         file: file,
       );
 
-  factory DataAsset.fromId({
-    required String id,
-    required Uri file,
-  }) =>
-      DataAssetImpl(
-        id: id,
-        file: file,
-      );
-
   static const String type = 'data';
 }
