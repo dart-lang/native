@@ -224,24 +224,42 @@ class JniBindings {
   late final _resultFor = _resultForPtr
       .asFunction<void Function(ffi.Pointer<CallbackResult>, JObjectPtr)>();
 
-  Dart_FinalizableHandle newFinalizableHandle(
+  Dart_FinalizableHandle newJObjectFinalizableHandle(
     Object object,
     JObjectPtr reference,
     int refType,
   ) {
-    return _newFinalizableHandle(
+    return _newJObjectFinalizableHandle(
       object,
       reference,
       refType,
     );
   }
 
-  late final _newFinalizableHandlePtr = _lookup<
+  late final _newJObjectFinalizableHandlePtr = _lookup<
       ffi.NativeFunction<
-          Dart_FinalizableHandle Function(
-              ffi.Handle, JObjectPtr, ffi.Int32)>>('newFinalizableHandle');
-  late final _newFinalizableHandle = _newFinalizableHandlePtr
+          Dart_FinalizableHandle Function(ffi.Handle, JObjectPtr,
+              ffi.Int32)>>('newJObjectFinalizableHandle');
+  late final _newJObjectFinalizableHandle = _newJObjectFinalizableHandlePtr
       .asFunction<Dart_FinalizableHandle Function(Object, JObjectPtr, int)>();
+
+  Dart_FinalizableHandle newBooleanFinalizableHandle(
+    Object object,
+    ffi.Pointer<ffi.Bool> reference,
+  ) {
+    return _newBooleanFinalizableHandle(
+      object,
+      reference,
+    );
+  }
+
+  late final _newBooleanFinalizableHandlePtr = _lookup<
+      ffi.NativeFunction<
+          Dart_FinalizableHandle Function(ffi.Handle,
+              ffi.Pointer<ffi.Bool>)>>('newBooleanFinalizableHandle');
+  late final _newBooleanFinalizableHandle =
+      _newBooleanFinalizableHandlePtr.asFunction<
+          Dart_FinalizableHandle Function(Object, ffi.Pointer<ffi.Bool>)>();
 
   void deleteFinalizableHandle(
     Dart_FinalizableHandle finalizableHandle,

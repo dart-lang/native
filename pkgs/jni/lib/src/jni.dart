@@ -243,6 +243,7 @@ extension ProtectedJniExtensions on Jni {
 
   /// Returns a new PortContinuation.
   static JReference newPortContinuation(ReceivePort port) {
+    Jni.initDLApi();
     return JGlobalReference(
       Jni._bindings
           .PortContinuation__ctor(port.sendPort.nativePort)
@@ -258,6 +259,7 @@ extension ProtectedJniExtensions on Jni {
               NativeFunction<
                   Pointer<Void> Function(Uint64, Pointer<Void>, Pointer<Void>)>>
           functionPtr) {
+    Jni.initDLApi();
     return JGlobalReference(Jni._bindings
         .PortProxy__newInstance(
           Jni.env.toJStringPtr(binaryName),
@@ -273,13 +275,22 @@ extension ProtectedJniExtensions on Jni {
     Jni._bindings.resultFor(result, object);
   }
 
-  static Dart_FinalizableHandle newFinalizableHandle(
+  static Dart_FinalizableHandle newJObjectFinalizableHandle(
     Object object,
     Pointer<Void> reference,
     int refType,
   ) {
     Jni.initDLApi();
-    return Jni._bindings.newFinalizableHandle(object, reference, refType);
+    return Jni._bindings
+        .newJObjectFinalizableHandle(object, reference, refType);
+  }
+
+  static Dart_FinalizableHandle newBooleanFinalizableHandle(
+    Object object,
+    Pointer<Bool> reference,
+  ) {
+    Jni.initDLApi();
+    return Jni._bindings.newBooleanFinalizableHandle(object, reference);
   }
 
   static void deleteFinalizableHandle(

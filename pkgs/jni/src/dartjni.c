@@ -681,8 +681,12 @@ void finalizeWeakGlobal(void* isolate_callback_data, void* peer) {
   (*jniEnv)->DeleteWeakGlobalRef(jniEnv, peer);
 }
 
+void freeBoolean(void* isolate_callback_data, void* peer) {
+  free(peer);
+}
+
 FFI_PLUGIN_EXPORT
-Dart_FinalizableHandle newFinalizableHandle(Dart_Handle object,
+Dart_FinalizableHandle newJObjectFinalizableHandle(Dart_Handle object,
                                             jobject reference,
                                             jobjectRefType refType) {
   switch (refType) {
@@ -696,6 +700,12 @@ Dart_FinalizableHandle newFinalizableHandle(Dart_Handle object,
       return Dart_NewFinalizableHandle_DL(object, reference, 0,
                                           finalizeWeakGlobal);
   }
+}
+
+FFI_PLUGIN_EXPORT
+Dart_FinalizableHandle newBooleanFinalizableHandle(Dart_Handle object,
+                                                   bool* reference) {
+  return Dart_NewFinalizableHandle_DL(object, reference, 1, freeBoolean);
 }
 
 FFI_PLUGIN_EXPORT

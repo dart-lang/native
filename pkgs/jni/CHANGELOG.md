@@ -45,6 +45,7 @@
   `fill` object and not its Java runtime type.
 - `JObject`s now check the types using `instanceof` in debug mode when using
   `castTo`.
+- Added the ability to share `JObject`s across isolates.
 
 ## 0.7.3
 
