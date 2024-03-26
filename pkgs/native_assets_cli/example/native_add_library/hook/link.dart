@@ -3,22 +3,20 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:path/path.dart' as p;
 
 const packageName = 'native_add_library';
 void main(List<String> args) async {
   await link(args, (config, output) async {
-    // Add a new json file to the assets
-    const assetName = 'data_asset_link.json';
-
     output.addAssets([
       ...AssetTreeshaker.shake(
         config.assets,
         config.resources,
       ),
       DataAsset(
-        name: assetName,
+        name: 'data_asset_link',
         package: packageName,
-        file: config.packageRoot.resolve(assetName),
+        file: Uri.file(p.absolute('data_asset_link.json')),
       )
     ]);
   });
