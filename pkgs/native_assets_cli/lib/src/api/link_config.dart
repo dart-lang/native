@@ -13,14 +13,15 @@ import '../model/pipeline_config.dart';
 import '../model/pipeline_step.dart';
 import 'build_config.dart';
 import 'build_output.dart';
+import 'resources.dart';
 
 part '../model/link_config.dart';
 
 /// The input to the linking script.
 ///
 /// It consists of a subset of the fields from the [BuildConfig] already passed
-/// to the build script, the [assets] from the build step, and the
-/// [resourceIdentifiers] generated during the kernel compilation.
+/// to the build script, the [assets] from the build step, and the [resources]
+/// generated during the kernel compilation.
 abstract class LinkConfig {
   Uri get configFile;
 
@@ -42,9 +43,16 @@ abstract class LinkConfig {
   /// A collection of methods annotated with `@ResourceIdentifier`, which are
   /// called in the tree-shaken Dart code. This information can be used to
   /// dispose unused [assets].
-  ResourceIdentifiers? get resourceIdentifiers;
+  List<Resource>? get resources;
 
   /// Generate the [LinkConfig] from the input arguments to the linking script.
   factory LinkConfig(List<String> arguments) =>
       LinkConfigImpl.fromArguments(arguments);
+}
+
+class Resource {
+  final String name;
+  final Object? metadata;
+
+  Resource({required this.name, required this.metadata});
 }

@@ -136,7 +136,7 @@ class NativeAssetsBuildRunner {
       );
       final PipelineConfigImpl config;
       if (step == PipelineStep.link) {
-        config = await LinkConfigArgs(
+        config = LinkConfigArgs(
           resourceIdentifierUri: resourceIdentifiers,
           buildConfigUri: buildConfig.configFile,
         ).toLinkConfig();

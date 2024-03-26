@@ -7,8 +7,8 @@ part of '../api/link_config.dart';
 /// The input to the linking script.
 ///
 /// It consists of the [_buildConfig] already passed to the build script, the
-/// [assets] from the build step, and the [resourceIdentifiers]
-/// generated during the kernel compilation.
+/// [assets] from the build step, and the [resources] generated during the
+/// kernel compilation.
 class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   @override
   final List<Asset> assets;
@@ -16,7 +16,7 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   final BuildConfigImpl _buildConfig;
 
   @override
-  final ResourceIdentifiers? resourceIdentifiers;
+  final List<Resource> resources;
 
   final LinkConfigArgs _args;
 
@@ -24,8 +24,11 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
     this._args, {
     required this.assets,
     required BuildConfigImpl buildConfig,
-    required this.resourceIdentifiers,
-  }) : _buildConfig = buildConfig;
+    required ResourceIdentifiers? resourceIdentifiers,
+  })  : _buildConfig = buildConfig,
+        resources = (resourceIdentifiers?.identifiers ?? [])
+            .map((e) => Resource(name: e.name, metadata: e.id))
+            .toList();
 
   @override
   Uri get configFile => outputDirectory.resolve('../link_config.json');

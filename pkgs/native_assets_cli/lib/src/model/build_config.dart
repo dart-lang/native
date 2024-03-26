@@ -17,7 +17,8 @@ final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
   }
 
   @override
-  String get outputName => 'build_output.json';
+  String get outputName =>
+      version > Version(1, 1, 0) ? 'build_output.json' : 'build_output.yaml';
 
   @override
   Uri get configFile => outputDirectory.resolve('../config.json');
