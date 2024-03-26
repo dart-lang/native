@@ -8,6 +8,8 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() {
   late Uri tempUri;
 
@@ -69,6 +71,117 @@ void main() {
       'key': 'value',
     }),
   );
+
+  final dryRunOutput = BuildOutputImpl(
+    timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
+    assets: [
+      NativeCodeAssetImpl(
+        id: 'package:my_package/foo',
+        file: Uri(path: 'path/to/libfoo.so'),
+        linkMode: DynamicLoadingBundledImpl(),
+        os: OSImpl.android,
+      ),
+    ],
+  );
+
+  const yamlEncodingV1_0_0 = '''timestamp: 2022-11-10 13:25:01.000
+assets:
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_x64
+  - id: package:my_package/foo2
+    link_mode: dynamic
+    path:
+      path_type: system
+      uri: path/to/libfoo2.so
+    target: android_x64
+  - id: package:my_package/foo3
+    link_mode: dynamic
+    path:
+      path_type: process
+    target: android_x64
+  - id: package:my_package/foo4
+    link_mode: dynamic
+    path:
+      path_type: executable
+    target: android_x64
+dependencies:
+  - path/to/file.ext
+metadata:
+  key: value
+version: 1.0.0''';
+
+  const yamlEncodingV1_0_0dryRun = '''timestamp: 2022-11-10 13:25:01.000
+assets:
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_arm
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_arm64
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_ia32
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_x64
+  - id: package:my_package/foo
+    link_mode: dynamic
+    path:
+      path_type: absolute
+      uri: path/to/libfoo.so
+    target: android_riscv64
+metadata: {}
+version: 1.0.0''';
+
+  final yamlEncoding = '''timestamp: 2022-11-10 13:25:01.000
+assets:
+  - architecture: x64
+    file: path/to/libfoo.so
+    id: package:my_package/foo
+    link_mode:
+      type: dynamic_loading_bundle
+    os: android
+    type: native_code
+  - architecture: x64
+    id: package:my_package/foo2
+    link_mode:
+      type: dynamic_loading_system
+      uri: path/to/libfoo2.so
+    os: android
+    type: native_code
+  - architecture: x64
+    id: package:my_package/foo3
+    link_mode:
+      type: dynamic_loading_process
+    os: android
+    type: native_code
+  - architecture: x64
+    id: package:my_package/foo4
+    link_mode:
+      type: dynamic_loading_executable
+    os: android
+    type: native_code
+dependencies:
+  - path/to/file.ext
+metadata:
+  key: value
+version: ${BuildOutputImpl.latestVersion}''';
 
   final jsonEncoding = '''{
   "timestamp": "2022-11-10 13:25:01.000",
@@ -201,7 +314,7 @@ void main() {
   "version": "1.0.0"
 }''';
 
-  test('built info yaml', () {
+  test('built info json', () {
     final json = buildOutput
         .toJsonString(BuildOutputImpl.latestVersion)
         .replaceAll('\\\\', '/');
@@ -213,17 +326,21 @@ void main() {
   });
 
   test('built info yaml v1.0.0 parsing keeps working', () {
-    final buildOutput2 = BuildOutputImpl.fromJsonString(jsonEncodingV1_0_0);
+    final buildOutput2 = BuildOutputImpl.fromJsonString(yamlEncodingV1_0_0);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
   test('built info yaml v1.0.0 serialization keeps working', () {
-    final json = buildOutput
-        .toJsonString(Version(1, 0, 0))
-        .replaceAll('\\\\', '\\')
-        .replaceAll('\\', '/');
-    expect(json, jsonEncodingV1_0_0);
+    final yamlEncoding =
+        yamlEncode(buildOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
+    expect(yamlEncoding, yamlEncodingV1_0_0);
+  });
+
+  test('built info yaml v1.0.0 serialization keeps working dry run', () {
+    final yamlEncoding =
+        yamlEncode(dryRunOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
+    expect(yamlEncoding, yamlEncodingV1_0_0dryRun);
   });
 
   test('BuildOutput.toString', buildOutput.toString);
