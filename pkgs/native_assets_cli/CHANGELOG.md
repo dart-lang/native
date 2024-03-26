@@ -2,6 +2,10 @@
 
 - Add support for `link.dart`.
 
+## 0.5.4
+
+- Update documentation about providing `NativeCodeAsset.file` in dry runs.
+
 ## 0.5.3
 
 - Fix V1_0_0 dry run backwards compatibility.
