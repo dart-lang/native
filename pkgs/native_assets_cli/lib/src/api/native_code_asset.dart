@@ -133,7 +133,8 @@ abstract final class DynamicLoading implements LinkMode {}
 /// the final application.
 ///
 /// During a [BuildConfig.dryRun], the [NativeCodeAsset.file] can be a file name
-/// instead of a the full path. The file does not have to exist during a dry run.
+/// instead of a the full path. The file does not have to exist during a dry
+/// run.
 abstract final class DynamicLoadingBundled implements DynamicLoading {
   factory DynamicLoadingBundled() = DynamicLoadingBundledImpl;
 }
