@@ -9,6 +9,9 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
+import '../model/build_result.dart';
+import '../model/dry_run_result.dart';
+import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';
@@ -63,7 +66,7 @@ class NativeAssetsBuildRunner {
         supportedAssetTypes: supportedAssetTypes,
       );
 
-  Future<BuildResult> link({
+  Future<LinkResult> link({
     required Target target,
     required Uri workingDirectory,
     required BuildModeImpl buildMode,
@@ -92,9 +95,9 @@ class NativeAssetsBuildRunner {
         resourceIdentifiers: resourceIdentifiers,
         supportedAssetTypes: supportedAssetTypes,
         previousBuildResult: buildResult,
-      );
+      ).then(LinkResult.new);
 
-  Future<BuildResult> _run({
+  Future<BuildResultImpl> _run({
     required PipelineStep step,
     required LinkModePreferenceImpl linkModePreference,
     required Target target,
@@ -114,7 +117,7 @@ class NativeAssetsBuildRunner {
     final packagesWithBuild = await packageLayout.packagesWithAssets(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
-    final buildResult = _BuildResultImpl._failure();
+    final buildResult = BuildResultImpl.failure();
     if (!planSuccess) {
       return buildResult;
     }
@@ -176,7 +179,7 @@ class NativeAssetsBuildRunner {
   ///
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
-  Future<BuildResult> dryRun({
+  Future<DryRunResult> dryRun({
     required LinkModePreferenceImpl linkModePreference,
     required OSImpl targetOS,
     required Uri workingDirectory,
@@ -186,15 +189,16 @@ class NativeAssetsBuildRunner {
     Iterable<String>? supportedAssetTypes,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final packagesWithBuild = await packageLayout.packagesWithNativeAssets;
+    final packagesWithBuild =
+        await packageLayout.packagesWithAssets(PipelineStep.build);
     final (buildPlan, _, planSuccess) = await _plannedPackages(
       packagesWithBuild,
       packageLayout,
       runPackageName,
     );
-    final buildResult = _BuildResultImpl._failure();
+    final buildResult = BuildResultImpl.failure();
     if (!planSuccess) {
-      return buildResult;
+      return DryRunResult(buildResult);
     }
     var success = true;
     for (final package in buildPlan) {
@@ -235,7 +239,7 @@ class NativeAssetsBuildRunner {
       }
       success &= packageSuccess;
     }
-    return buildResult.withSuccess(success);
+    return DryRunResult(buildResult.withSuccess(success));
   }
 
   Future<_PackageBuildRecord> _buildPackageCached(
@@ -499,71 +503,8 @@ ${config.outputName} contained a format error.
 
 typedef _PackageBuildRecord = (BuildOutputImpl, bool success);
 
-/// The result from a [NativeAssetsBuildRunner.build] or
-/// [NativeAssetsBuildRunner.link].
-abstract class BuildResult {
-  /// All the files used for building the native assets of all packages.
-  ///
-  /// This aggregated list can be used to determine whether the
-  /// [NativeAssetsBuildRunner] needs to be invoked again. The
-  /// [NativeAssetsBuildRunner] determines per package with native assets
-  /// if it needs to run the build again.
-  List<Uri> get dependencies;
-
-  bool get success;
-
-  List<AssetImpl> get assets;
-
-  Map<String, List<AssetImpl>> get assetsForLinking;
-}
-
-final class _BuildResultImpl implements BuildResult {
-  @override
-  final List<AssetImpl> assets;
-
-  @override
-  final Map<String, List<AssetImpl>> assetsForLinking;
-
-  @override
-  final List<Uri> dependencies;
-
-  @override
-  final bool success;
-
-  _BuildResultImpl._({
-    required this.assets,
-    required this.assetsForLinking,
-    required this.dependencies,
-    required this.success,
-  });
-
-  _BuildResultImpl._failure()
-      : this._(
-          assets: [],
-          assetsForLinking: {},
-          dependencies: [],
-          success: false,
-        );
-
-  void add(BuildOutputImpl buildOutput) {
-    assets.addAll(buildOutput.assets);
-    assetsForLinking.addAll(buildOutput.assetsForLinking);
-    dependencies.addAll(buildOutput.dependencies);
-    dependencies.sort(_uriCompare);
-  }
-
-  BuildResult withSuccess(bool success) => _BuildResultImpl._(
-        assets: assets,
-        assetsForLinking: assetsForLinking,
-        dependencies: dependencies,
-        success: success,
-      );
-}
-
 extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
           millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
 }
-
-int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());

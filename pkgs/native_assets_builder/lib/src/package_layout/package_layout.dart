@@ -107,10 +107,4 @@ class PackageLayout {
     }
     return result;
   }
-
-  late final Future<List<Package>> packagesWithNativeAssets =
-      packagesWithAssets(PipelineStep.build);
-
-  late final Future<List<Package>> packagesWithNativeLinkAssets =
-      packagesWithAssets(PipelineStep.link);
 }

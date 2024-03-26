@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:file_testing/file_testing.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
+import 'package:native_assets_builder/src/model/link_result.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
@@ -63,7 +64,7 @@ Future<BuildResult> build(
       return result;
     });
 
-Future<BuildResult> link(
+Future<LinkResult> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -95,9 +96,9 @@ Future<BuildResult> link(
       return result;
     });
 
-Future<BuildResult> runWithLog(
+Future<T> runWithLog<T>(
   List<String>? capturedLogs,
-  Future<BuildResult> Function() f,
+  Future<T> Function() f,
 ) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
@@ -114,7 +115,7 @@ Future<BuildResult> runWithLog(
   return result;
 }
 
-Future<BuildResult> dryRun(
+Future<DryRunResult> dryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
