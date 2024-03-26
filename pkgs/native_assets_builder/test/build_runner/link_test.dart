@@ -28,7 +28,6 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          copyAssets: false,
         );
         expect(buildResult.assets.length, 0);
 
@@ -36,6 +35,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
+          buildResult: buildResult,
         );
         expect(linkResult.assets.length, 2);
       });

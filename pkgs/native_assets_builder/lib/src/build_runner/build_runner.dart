@@ -49,18 +49,19 @@ class NativeAssetsBuildRunner {
     Iterable<String>? supportedAssetTypes,
   }) async =>
       _run(
-          step: PipelineStep.build,
-          linkModePreference: linkModePreference,
-          target: target,
-          workingDirectory: workingDirectory,
-          buildMode: buildMode,
-          cCompilerConfig: cCompilerConfig,
-          targetIOSSdk: targetIOSSdk,
-          targetAndroidNdkApi: targetAndroidNdkApi,
-          includeParentEnvironment: includeParentEnvironment,
-          packageLayout: packageLayout,
-          runPackageName: runPackageName,
-          supportedAssetTypes: supportedAssetTypes);
+        step: PipelineStep.build,
+        linkModePreference: linkModePreference,
+        target: target,
+        workingDirectory: workingDirectory,
+        buildMode: buildMode,
+        cCompilerConfig: cCompilerConfig,
+        targetIOSSdk: targetIOSSdk,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+        supportedAssetTypes: supportedAssetTypes,
+      );
 
   Future<BuildResult> link({
     required Target target,
@@ -74,21 +75,24 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
+    required BuildResult buildResult,
   }) async =>
       _run(
-          step: PipelineStep.link,
-          linkModePreference: LinkModePreferenceImpl.dynamic,
-          target: target,
-          workingDirectory: workingDirectory,
-          buildMode: buildMode,
-          cCompilerConfig: cCompilerConfig,
-          targetIOSSdk: targetIOSSdk,
-          targetAndroidNdkApi: targetAndroidNdkApi,
-          includeParentEnvironment: includeParentEnvironment,
-          packageLayout: packageLayout,
-          runPackageName: runPackageName,
-          resourceIdentifiers: resourceIdentifiers,
-          supportedAssetTypes: supportedAssetTypes);
+        step: PipelineStep.link,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
+        target: target,
+        workingDirectory: workingDirectory,
+        buildMode: buildMode,
+        cCompilerConfig: cCompilerConfig,
+        targetIOSSdk: targetIOSSdk,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+        resourceIdentifiers: resourceIdentifiers,
+        supportedAssetTypes: supportedAssetTypes,
+        previousBuildResult: buildResult,
+      );
 
   Future<BuildResult> _run({
     required PipelineStep step,
@@ -104,6 +108,7 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
+    BuildResult? previousBuildResult,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild = await packageLayout.packagesWithAssets(step);
@@ -139,6 +144,9 @@ class NativeAssetsBuildRunner {
         config = LinkConfigArgs(
           resourceIdentifierUri: resourceIdentifiers,
           buildConfigUri: buildConfig.configFile,
+          assetsForLinking:
+              previousBuildResult!.assetsForLinking[buildConfig.packageName] ??
+                  [],
         ).toLinkConfig();
       } else {
         config = buildConfig;
@@ -277,7 +285,7 @@ class NativeAssetsBuildRunner {
   ) async {
     final configFile = config.configFile;
     final configFileContents = config.toJsonString();
-    logger.info('config.yaml contents: $configFileContents');
+    logger.info('config.json contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
     final buildOutputFile = File.fromUri(config.outputFile);
     if (await buildOutputFile.exists()) {
@@ -505,11 +513,16 @@ abstract class BuildResult {
   bool get success;
 
   List<AssetImpl> get assets;
+
+  Map<String, List<AssetImpl>> get assetsForLinking;
 }
 
 final class _BuildResultImpl implements BuildResult {
   @override
   final List<AssetImpl> assets;
+
+  @override
+  final Map<String, List<AssetImpl>> assetsForLinking;
 
   @override
   final List<Uri> dependencies;
@@ -519,6 +532,7 @@ final class _BuildResultImpl implements BuildResult {
 
   _BuildResultImpl._({
     required this.assets,
+    required this.assetsForLinking,
     required this.dependencies,
     required this.success,
   });
@@ -526,18 +540,21 @@ final class _BuildResultImpl implements BuildResult {
   _BuildResultImpl._failure()
       : this._(
           assets: [],
+          assetsForLinking: {},
           dependencies: [],
           success: false,
         );
 
   void add(BuildOutputImpl buildOutput) {
     assets.addAll(buildOutput.assets);
+    assetsForLinking.addAll(buildOutput.assetsForLinking);
     dependencies.addAll(buildOutput.dependencies);
     dependencies.sort(_uriCompare);
   }
 
   BuildResult withSuccess(bool success) => _BuildResultImpl._(
         assets: assets,
+        assetsForLinking: assetsForLinking,
         dependencies: dependencies,
         success: success,
       );

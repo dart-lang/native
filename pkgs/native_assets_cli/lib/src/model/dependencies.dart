@@ -22,7 +22,9 @@ class Dependencies {
             fileSystemPathToUri(as<String>(dependency)),
       ]);
 
-  List<String> toJson() => [
+  List<String> toJson() => toJsonList(dependencies);
+
+  static List<String> toJsonList(List<Uri> dependencies) => [
         for (final dependency in dependencies) dependency.toFilePath(),
       ];
 

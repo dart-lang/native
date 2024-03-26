@@ -71,30 +71,49 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
 class LinkConfigArgs {
   final Uri? resourceIdentifierUri;
   final Uri buildConfigUri;
+  final List<AssetImpl> assetsForLinking;
 
   static const resourceIdentifierKey = 'resource_identifiers';
   static const buildConfigKey = 'build_config';
+  static const assetsKey = 'assets';
 
   LinkConfigArgs({
     required this.resourceIdentifierUri,
     required this.buildConfigUri,
+    required this.assetsForLinking,
   });
 
   factory LinkConfigArgs.fromJson(Map<String, dynamic> linkConfigJson) {
     final resourcesPath = linkConfigJson[resourceIdentifierKey] as String?;
     final buildConfigPath = linkConfigJson[buildConfigKey] as String?;
-    if (buildConfigPath == null) {
-      throw ArgumentError(
-          'Expected to find the build config in $linkConfigJson');
+    final assetList = linkConfigJson[assetsKey] as List<Object?>?;
+    if (buildConfigPath == null || assetList == null) {
+      throw ArgumentError('Expected to find the build config and assetList in '
+          '$linkConfigJson');
     }
     return LinkConfigArgs(
       resourceIdentifierUri:
           resourcesPath != null ? Uri.file(resourcesPath) : null,
       buildConfigUri: Uri.file(buildConfigPath),
+      assetsForLinking: AssetImpl.listFromJson(assetList),
     );
   }
 
-  LinkConfigImpl toLinkConfig() {
+  LinkConfigImpl toLinkConfig() => LinkConfigImpl(
+        this,
+        buildConfig: _readBuildConfig(),
+        resourceIdentifiers: _readResources(),
+        assets: assetsForLinking,
+      );
+
+  ResourceIdentifiers? _readResources() {
+    if (resourceIdentifierUri == null) {
+      return null;
+    }
+    return ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath());
+  }
+
+  BuildConfigImpl _readBuildConfig() {
     final buildConfigFile = File(buildConfigUri.toFilePath());
     if (!buildConfigFile.existsSync()) {
       throw UnsupportedError(
@@ -102,27 +121,10 @@ class LinkConfigArgs {
           'The build configuration at ${buildConfigUri.toFilePath()} could not '
           'be found.');
     }
-    final config = BuildConfigImpl.fromConfig(
+    return BuildConfigImpl.fromConfig(
       Config.fromConfigFileContents(
         fileContents: buildConfigFile.readAsStringSync(),
       ),
-    );
-    ResourceIdentifiers? resources;
-    if (resourceIdentifierUri != null) {
-      resources =
-          ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath());
-    }
-
-    final buildOutput = BuildOutputImpl.readFromFile(file: config.outputFile);
-    if (buildOutput == null) {
-      throw ArgumentError(
-          'Expected to find the build output at ${config.outputFile}');
-    }
-    return LinkConfigImpl(
-      this,
-      assets: buildOutput.assetsForLinking[config.packageName] ?? [],
-      buildConfig: config,
-      resourceIdentifiers: resources,
     );
   }
 
@@ -130,5 +132,7 @@ class LinkConfigArgs {
         if (resourceIdentifierUri != null)
           resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
         buildConfigKey: buildConfigUri.toFilePath(),
+        assetsKey:
+            AssetImpl.listToJson(assetsForLinking, _readBuildConfig().version),
       };
 }

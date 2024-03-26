@@ -39,7 +39,6 @@ Future<BuildResult> build(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
-  bool copyAssets = true,
   String? runPackageName,
 }) async =>
     await runWithLog(capturedLogs, () async {
@@ -57,7 +56,7 @@ Future<BuildResult> build(
         runPackageName: runPackageName,
       );
 
-      if (result.success && copyAssets) {
+      if (result.success) {
         await expectAssetsExist(result.assets);
       }
 
@@ -73,6 +72,7 @@ Future<BuildResult> link(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
+  required BuildResult buildResult,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -85,6 +85,7 @@ Future<BuildResult> link(
         cCompilerConfig: cCompilerConfig,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
+        buildResult: buildResult,
       );
 
       if (result.success) {

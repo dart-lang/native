@@ -126,9 +126,7 @@ final class BuildOutputImpl implements BuildOutput {
     }
     return {
       _timestampKey: timestamp.toString(),
-      _assetsKey: [
-        for (final asset in assets) asset.toJson(version),
-      ],
+      _assetsKey: AssetImpl.listToJson(assets, version),
       if (version >= linkMinVersion)
         _assetsForLinkingKey:
             _assetsForLinking.map((packageName, assets) => MapEntry(
