@@ -41,4 +41,37 @@ void main() async {
       });
     },
   );
+
+  test(
+    'complex_link linking',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('complex_link/');
+
+        // First, run `pub get`, we need pub to resolve our dependencies.
+        await runPubGet(
+          workingDirectory: packageUri,
+          logger: logger,
+        );
+
+        final buildResult = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+        );
+        expect(buildResult.assets.length, 2);
+
+        final linkResult = await link(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildResult: buildResult,
+        );
+        const assetsLeft = 2 + 2 - 1;
+        expect(linkResult.assets.length, assetsLeft);
+      });
+    },
+  );
 }

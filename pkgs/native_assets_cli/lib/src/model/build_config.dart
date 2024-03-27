@@ -476,6 +476,9 @@ final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
     return result.sortOnKey();
   }
 
+  static BuildConfigImpl fromJson(Map<String, dynamic> buildConfigJson) =>
+      BuildConfigImpl.fromConfig(Config(fileParsed: buildConfigJson));
+
   Map<String, Object> toJson() {
     late Map<String, Object> cCompilerJson;
     if (!dryRun) {

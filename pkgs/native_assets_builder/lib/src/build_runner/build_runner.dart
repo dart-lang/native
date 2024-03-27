@@ -146,7 +146,7 @@ class NativeAssetsBuildRunner {
       if (step == PipelineStep.link) {
         config = LinkConfigArgs(
           resourceIdentifierUri: resourceIdentifiers,
-          buildConfigUri: buildConfig.configFile,
+          buildConfig: buildConfig,
           assetsForLinking:
               previousBuildResult!.assetsForLinking[buildConfig.packageName] ??
                   [],

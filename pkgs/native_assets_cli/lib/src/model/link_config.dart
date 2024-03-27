@@ -50,7 +50,8 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
       packageRoot.resolve('hook/').resolve(PipelineStep.link.scriptName);
 
   @override
-  String toJsonString() => jsonEncode(_args.toJson());
+  String toJsonString() =>
+      const JsonEncoder.withIndent('  ').convert(_args.toJson());
 
   @override
   Version get version => _buildConfig.version;
@@ -70,7 +71,7 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
 
 class LinkConfigArgs {
   final Uri? resourceIdentifierUri;
-  final Uri buildConfigUri;
+  final BuildConfigImpl buildConfig;
   final List<AssetImpl> assetsForLinking;
 
   static const resourceIdentifierKey = 'resource_identifiers';
@@ -79,60 +80,39 @@ class LinkConfigArgs {
 
   LinkConfigArgs({
     required this.resourceIdentifierUri,
-    required this.buildConfigUri,
+    required this.buildConfig,
     required this.assetsForLinking,
   });
 
   factory LinkConfigArgs.fromJson(Map<String, dynamic> linkConfigJson) {
     final resourcesPath = linkConfigJson[resourceIdentifierKey] as String?;
-    final buildConfigPath = linkConfigJson[buildConfigKey] as String?;
+    final buildConfigJson =
+        linkConfigJson[buildConfigKey] as Map<String, dynamic>;
     final assetList = linkConfigJson[assetsKey] as List<Object?>?;
-    if (buildConfigPath == null || assetList == null) {
-      throw ArgumentError('Expected to find the build config and assetList in '
-          '$linkConfigJson');
+    if (assetList == null) {
+      throw ArgumentError('Expected to find the assetList in $linkConfigJson');
     }
     return LinkConfigArgs(
       resourceIdentifierUri:
           resourcesPath != null ? Uri.file(resourcesPath) : null,
-      buildConfigUri: Uri.file(buildConfigPath),
+      buildConfig: BuildConfigImpl.fromJson(buildConfigJson),
       assetsForLinking: AssetImpl.listFromJson(assetList),
     );
   }
 
   LinkConfigImpl toLinkConfig() => LinkConfigImpl(
         this,
-        buildConfig: _readBuildConfig(),
-        resourceIdentifiers: _readResources(),
+        buildConfig: buildConfig,
+        resourceIdentifiers: resourceIdentifierUri != null
+            ? ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath())
+            : null,
         assets: assetsForLinking,
       );
-
-  ResourceIdentifiers? _readResources() {
-    if (resourceIdentifierUri == null) {
-      return null;
-    }
-    return ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath());
-  }
-
-  BuildConfigImpl _readBuildConfig() {
-    final buildConfigFile = File(buildConfigUri.toFilePath());
-    if (!buildConfigFile.existsSync()) {
-      throw UnsupportedError(
-          'A link.dart script needs the build configuration to be executed. '
-          'The build configuration at ${buildConfigUri.toFilePath()} could not '
-          'be found.');
-    }
-    return BuildConfigImpl.fromConfig(
-      Config.fromConfigFileContents(
-        fileContents: buildConfigFile.readAsStringSync(),
-      ),
-    );
-  }
 
   Map<String, Object> toJson() => {
         if (resourceIdentifierUri != null)
           resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
-        buildConfigKey: buildConfigUri.toFilePath(),
-        assetsKey:
-            AssetImpl.listToJson(assetsForLinking, _readBuildConfig().version),
-      };
+        buildConfigKey: buildConfig.toJson(),
+        assetsKey: AssetImpl.listToJson(assetsForLinking, buildConfig.version),
+      }.sortOnKey();
 }

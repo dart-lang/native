@@ -1,4 +1,5 @@
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:collection/collection.dart';
 
 import '../build_runner/build_runner.dart';
 
@@ -50,7 +51,22 @@ final class BuildResultImpl implements BuildResult {
 
   void add(BuildOutputImpl buildOutput) {
     assets.addAll(buildOutput.assets);
-    assetsForLinking.addAll(buildOutput.assetsForLinking);
+    final mergedMaps = mergeMaps(
+      assetsForLinking,
+      buildOutput.assetsForLinking,
+      value: (assets1, assets2) {
+        if (assets1.any((asset) => assets2.contains(asset)) ||
+            assets2.any((asset) => assets1.contains(asset))) {
+          throw ArgumentError(
+              'Found assets with same ID in $assets1 and $assets2');
+        }
+        return [
+          ...assets1,
+          ...assets2,
+        ];
+      },
+    );
+    assetsForLinking.addAll(mergedMaps);
     dependencies.addAll(buildOutput.dependencies);
     dependencies.sort(_uriCompare);
   }
