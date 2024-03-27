@@ -5,7 +5,7 @@ import 'build_result.dart';
 
 extension type DryRunResult(BuildResultImpl _buildResultImpl) {
   /// The native assets for all [Target]s for the dry run.
-  List<Asset> get assets => _buildResultImpl.assets;
+  List<AssetImpl> get assets => _buildResultImpl.assets;
 
   /// Whether all builds completed without errors.
   ///

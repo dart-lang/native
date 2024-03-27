@@ -4,86 +4,52 @@
 
 import '../../native_assets_cli_internal.dart';
 import 'link_config.dart';
+import 'link_output.dart';
 
-/// Runs a native assets build.
+/// Runs a native assets link.
 ///
-/// Can build native assets which are not already available, or expose existing
+/// Can link native assets which are not already available, or expose existing
 /// files. Each individual asset is assigned a unique asset ID.
 ///
-/// Example using `package:native_toolchain_c`:
+/// The linking script may receive assets from build scripts, which are accessed
+/// through [LinkConfig.assets]. They will only be bundled with the final
+/// application if included in the [LinkOutput].
+///
+/// As the linking runs after kernel compilation, you can use treeshaking
+/// information provided through [LinkConfig.resources] to decide which assets
+/// to include.
+///
 ///
 /// ```dart
-/// import 'package:logging/logging.dart';
-/// import 'package:native_assets_cli/native_assets_cli.dart';
-/// import 'package:native_toolchain_c/native_toolchain_c.dart';
-///
-/// void main(List<String> args) async {
-///   await build(args, (config, output) async {
-///     final packageName = config.packageName;
-///     final cbuilder = CBuilder.library(
-///       name: packageName,
-///       assetName: '$packageName.dart',
-///       sources: [
-///         'src/$packageName.c',
-///       ],
-///       dartBuildFiles: ['hook/build.dart'],
-///     );
-///     await cbuilder.run(
-///       buildConfig: config,
-///       buildOutput: output,
-///       logger: Logger('')
-///         ..level = Level.ALL
-///         ..onRecord.listen((record) => print(record.message)),
-///     );
-///   });
-/// }
-/// ```
-///
-/// Example outputting assets manually:
-///
-/// ```dart
-/// import 'dart:io';
-///
 /// import 'package:native_assets_cli/native_assets_cli.dart';
 ///
-/// const assetName = 'asset.txt';
-/// final packageAssetPath = Uri.file('data/$assetName');
-///
 /// void main(List<String> args) async {
-///   await build(args, (config, output) async {
-///     if (config.linkModePreference == LinkModePreference.static) {
-///       // Simulate that this script only supports dynamic libraries.
-///       throw UnsupportedError(
-///         'LinkModePreference.static is not supported.',
-///       );
-///     }
-///
+///   await link(args, (config, output) async {
 ///     final packageName = config.packageName;
-///     final assetPath = config.outputDirectory.resolve(assetName);
-///     final assetSourcePath = config.packageRoot.resolveUri(packageAssetPath);
-///     if (!config.dryRun) {
-///       // Insert code that downloads or builds the asset to `assetPath`.
-///       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
-///
-///       output.addDependencies([
-///         assetSourcePath,
-///         config.packageRoot.resolve('hook/build.dart'),
-///       ]);
-///     }
-///
-///     output.addAsset(
-///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
-///       NativeCodeAsset(
+///     final root = config.packageRoot;
+///     final allAssets = [
+///       DataAsset(
 ///         package: packageName,
-///         name: 'asset.txt',
-///         file: assetPath,
-///         linkMode: DynamicLoadingBundled(),
-///         os: config.targetOS,
-///         architecture: config.targetArchitecture,
+///         name: 'unused',
+///         file: root.resolve('assets').resolve('unused_asset.json'),
 ///       ),
-///     );
+///       DataAsset(
+///         package: packageName,
+///         name: 'used',
+///         file: root.resolve('assets').resolve('used_asset.json'),
+///       )
+///     ];
+///     output.addAssets(shake(allAssets, config.resources));
 ///   });
 /// }
+///
+/// Iterable<Asset> shake(
+///   List<DataAsset> allAssets,
+///   List<Resource> resources,
+/// ) =>
+///     allAssets.where(
+///       (asset) => resources.any((resource) => resource.metadata == asset.id),
+///     );
 /// ```
 Future<void> link(
   List<String> arguments,
@@ -98,7 +64,7 @@ Future<void> link(
   final buildOutputImpl = BuildOutputImpl(
     dependencies: Dependencies(builtAssetsFiles),
   );
-  final linkoutput = LinkOutput(buildOutputImpl);
+  final linkoutput = LinkOutputImpl();
   await builder(config, linkoutput);
   await buildOutputImpl.writeToFile(config: config);
 }

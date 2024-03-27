@@ -43,6 +43,14 @@ abstract final class BuildOutput {
   /// the dry run must be provided.
   Iterable<Asset> get assets;
 
+  /// The assets produced by this build which should be linked.
+  ///
+  /// Every key in the map is a package name. These assets in the values are not
+  /// bundled with the application, but are sent to the linking script of the
+  /// package specified in the key, which can decide if they are bundled or not.
+  ///
+  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
+  /// the dry run must be provided.
   Map<String, List<Asset>> get assetsForLinking;
 
   /// The files used by this build.

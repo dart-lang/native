@@ -26,9 +26,7 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
     required BuildConfigImpl buildConfig,
     required ResourceIdentifiers? resourceIdentifiers,
   })  : _buildConfig = buildConfig,
-        resources = (resourceIdentifiers?.identifiers ?? [])
-            .map((e) => Resource(name: e.name, metadata: e.id))
-            .toList();
+        resources = fromIdentifiers(resourceIdentifiers);
 
   @override
   Uri get configFile => outputDirectory.resolve('../link_config.json');
@@ -59,6 +57,11 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   static LinkConfig fromArguments(List<String> arguments) =>
       LinkConfigArgs.fromArguments(arguments).toLinkConfig();
 }
+
+List<Resource> fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>
+    (resourceIdentifiers?.identifiers ?? [])
+        .map((e) => Resource(name: e.name, metadata: e.id))
+        .toList();
 
 class LinkConfigArgs {
   final Uri? resourceIdentifierUri;

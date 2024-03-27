@@ -39,13 +39,13 @@ abstract final class BuildConfig {
   /// placed.
   Uri get outputDirectory;
 
-  /// The name of the package the native assets are built for.
+  /// The name of the package the assets are built for.
   String get packageName;
 
-  /// The root of the package the native assets are built for.
+  /// The root of the package the assets are built for.
   ///
-  /// Often a package's native assets are built because a package is a
-  /// dependency of another. For this it is convenient to know the packageRoot.
+  /// Often a package's assets are built because a package is a dependency of
+  /// another. For this it is convenient to know the packageRoot.
   Uri get packageRoot;
 
   /// The architecture being compiled for.

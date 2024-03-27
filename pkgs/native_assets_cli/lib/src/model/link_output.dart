@@ -2,38 +2,48 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+part of '../api/link_output.dart';
 
-import '../../native_assets_cli.dart';
-import '../model/dependencies.dart';
-import 'asset.dart';
-import 'build_output.dart';
+class LinkOutputImpl implements LinkOutput {
+  final BuildOutputImpl _buildOutput;
 
-part '../model/link_output.dart';
+  LinkOutputImpl({
+    DateTime? timestamp,
+    List<AssetImpl>? assets,
+    Dependencies? dependencies,
+  }) : _buildOutput = BuildOutputImpl(
+          timestamp: timestamp,
+          assets: assets,
+          dependencies: dependencies,
+        );
 
-abstract class LinkOutput {
   /// Start time for the link of this output.
   ///
   /// The [timestamp] is rounded down to whole seconds, because
   /// [File.lastModified] is rounded to whole seconds and caching logic compares
   /// these timestamps.
-  DateTime get timestamp;
+  @override
+  DateTime get timestamp => _buildOutput.timestamp;
 
   /// The assets produced by this link.
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
-  Iterable<Asset> get assets;
+  @override
+  Iterable<Asset> get assets => _buildOutput.assets;
 
   /// The files used by this link.
   ///
   /// If any of the files in [dependencies] are modified after [timestamp], the
   /// link will be re-run.
-  Iterable<Uri> get dependencies;
+  @override
+  Iterable<Uri> get dependencies => _buildOutput.dependencies;
 
   /// Adds [Asset]s produced by this link or dry run.
-  void addAsset(Asset asset);
+  @override
+  void addAsset(Asset asset) => _buildOutput.addAsset(asset);
 
   /// Adds [Asset]s produced by this link or dry run.
-  void addAssets(Iterable<Asset> assets);
+  @override
+  void addAssets(Iterable<Asset> assets) => _buildOutput.addAssets(assets);
 }

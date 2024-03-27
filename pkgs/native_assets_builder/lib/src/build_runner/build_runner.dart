@@ -113,6 +113,8 @@ class NativeAssetsBuildRunner {
     Iterable<String>? supportedAssetTypes,
     BuildResult? previousBuildResult,
   }) async {
+    assert(step == PipelineStep.link || previousBuildResult == null);
+
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild = await packageLayout.packagesWithAssets(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
@@ -457,7 +459,7 @@ ${config.outputName} contained a format error.
     };
   }
 
-  bool validateAssetsPackage(Iterable<Asset> assets, String packageName) {
+  bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.id)
         .where((n) => !n.startsWith('package:$packageName/'))

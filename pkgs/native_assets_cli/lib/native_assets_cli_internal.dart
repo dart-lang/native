@@ -19,7 +19,6 @@ library native_assets_cli_internal;
 export 'src/api/architecture.dart' show ArchitectureImpl;
 export 'src/api/asset.dart'
     show
-        Asset,
         AssetImpl,
         DataAssetImpl,
         DynamicLoadingBundledImpl,
@@ -35,8 +34,9 @@ export 'src/api/build_output.dart' show BuildOutputImpl;
 export 'src/api/ios_sdk.dart' show IOSSdkImpl;
 export 'src/api/link_config.dart' show LinkConfigArgs, LinkConfigImpl;
 export 'src/api/link_mode_preference.dart' show LinkModePreferenceImpl;
-export 'src/api/link_output.dart' show LinkOutput;
+export 'src/api/link_output.dart' show LinkOutputImpl;
 export 'src/api/os.dart' show OSImpl;
+export 'src/api/resource.dart';
 export 'src/model/dependencies.dart';
 export 'src/model/metadata.dart';
 export 'src/model/pipeline_config.dart' show PipelineConfigImpl;

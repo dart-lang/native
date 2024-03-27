@@ -143,14 +143,16 @@ version: 1.0.0''';
   "assetsForLinking": {
     "my_package": [
       {
-        "id": "package:my_package/data",
+        "name": "data",
+        "package": "my_package",
         "file": "path/to/data",
         "type": "data"
       }
     ],
     "my_package_2": [
       {
-        "id": "package:my_package_2/data2",
+        "name": "data",
+        "package": "my_package",
         "file": "path/to/data2",
         "type": "data"
       }
@@ -402,13 +404,15 @@ BuildOutputImpl getBuildOutput({bool withLinkedAssets = true}) {
           'my_package': [
             DataAssetImpl(
               file: Uri.file('path/to/data'),
-              id: 'package:my_package/data',
+              name: 'data',
+              package: 'my_package',
             )
           ],
           'my_package_2': [
             DataAssetImpl(
               file: Uri.file('path/to/data2'),
-              id: 'package:my_package_2/data2',
+              name: 'data',
+              package: 'my_package',
             )
           ]
         }

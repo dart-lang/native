@@ -139,7 +139,7 @@ Future<DryRunResult> dryRun(
       return result;
     });
 
-Future<void> expectAssetsExist(List<Asset> assets) async {
+Future<void> expectAssetsExist(List<AssetImpl> assets) async {
   for (final asset in assets) {
     expect(File.fromUri(asset.file!), exists);
   }

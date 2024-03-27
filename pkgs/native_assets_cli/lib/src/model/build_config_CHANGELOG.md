@@ -1,6 +1,6 @@
 ## 1.3.0
 
-- Add key for assets to be linked. Backwards compatible, in earlier versions
+- Rev version to know whether the Dart/Flutter SDK can consume `BuildOutput.assetsForLinking`. 
   the key will not be read and the list of assets to be linked will be empty.
 
 ## 1.2.0

@@ -59,11 +59,13 @@ void main() {
   ];
   final dataAssets = [
     DataAssetImpl(
-      id: 'package:my_package/my_data_asset',
+      name: 'my_data_asset',
+      package: 'my_package',
       file: dataUri,
     ),
     DataAssetImpl(
-      id: 'package:my_package/my_data_asset2',
+      name: 'my_data_asset2',
+      package: 'my_package',
       file: data2Uri,
     ),
   ];
@@ -105,8 +107,7 @@ void main() {
   path:
     path_type: absolute
     uri: ${blaUri.toFilePath()}
-  target: windows_x64
-  linkInPackage: ""''';
+  target: windows_x64''';
 
   final assetsJsonEncoding = '''
 [
@@ -169,13 +170,15 @@ void main() {
     "type": "native_code"
   },
   {
-    "id": "package:my_package/my_data_asset",
-    "file": "${dataUri.toFilePath()}",
+    "name": "my_data_asset",
+    "package": "my_package",
+    "file": "path/to/data.txt",
     "type": "data"
   },
   {
-    "id": "package:my_package/my_data_asset2",
-    "file": "${data2Uri.toFilePath()}",
+    "name": "my_data_asset2",
+    "package": "my_package",
+    "file": "path/to/data.json",
     "type": "data"
   }
 ]''';

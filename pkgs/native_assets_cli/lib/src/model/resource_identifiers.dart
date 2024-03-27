@@ -5,6 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+
 class ResourceIdentifiers {
   final List<Identifier> identifiers;
 
@@ -23,6 +25,33 @@ class ResourceIdentifiers {
             .map(Identifier.fromJson)
             .toList());
   }
+
+  factory ResourceIdentifiers.fromJson(Map<String, dynamic> map) =>
+      ResourceIdentifiers(
+        identifiers: List<Identifier>.from((map['identifiers'] as List?)
+                ?.whereType<Map<String, dynamic>>()
+                .map(Identifier.fromJson) ??
+            []),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'identifiers': identifiers.map((x) => x.toJson()).toList(),
+      };
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is ResourceIdentifiers &&
+        listEquals(other.identifiers, identifiers);
+  }
+
+  @override
+  int get hashCode => identifiers.hashCode;
+
+  @override
+  String toString() => 'ResourceIdentifiers(identifiers: $identifiers)';
 }
 
 class Identifier {
@@ -61,6 +90,27 @@ class Identifier {
             .map((e) => e as Map<String, dynamic>)
             .map(ResourceFile.fromJson)),
       );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is Identifier &&
+        other.name == name &&
+        other.id == id &&
+        other.uri == uri &&
+        other.nonConstant == nonConstant &&
+        listEquals(other.files, files);
+  }
+
+  @override
+  int get hashCode =>
+      name.hashCode ^
+      id.hashCode ^
+      uri.hashCode ^
+      nonConstant.hashCode ^
+      files.hashCode;
 }
 
 class ResourceFile {
@@ -76,13 +126,26 @@ class ResourceFile {
 
   factory ResourceFile.fromJson(Map<String, dynamic> map) => ResourceFile(
         part: map['part'] as int,
-        references: List<ResourceReference>.from((map['files'] as List)
+        references: List<ResourceReference>.from((map['references'] as List)
             .map((e) => e as Map<String, dynamic>)
             .map(ResourceReference.fromJson)),
       );
 
   @override
   String toString() => 'ResourceFile(part: $part, references: $references)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
+
+    return other is ResourceFile &&
+        other.part == part &&
+        listEquals(other.references, references);
+  }
+
+  @override
+  int get hashCode => part.hashCode ^ references.hashCode;
 }
 
 class ResourceReference {
@@ -111,12 +174,29 @@ class ResourceReference {
   String toString() =>
       '''ResourceReference(uri: $uri, line: $line, column: $column, arguments: $arguments)''';
 
-  factory ResourceReference.fromJson(Map<String, dynamic> map) =>
-      ResourceReference(
-        uri: map['uri'] as String,
-        line: map['line'] as int,
-        column: map['column'] as int,
-        arguments:
-            Map<String, Object?>.from(map['arguments'] as Map<String, dynamic>),
-      );
+  factory ResourceReference.fromJson(Map<String, dynamic> map) {
+    final submap = map['@'] as Map<String, dynamic>;
+    return ResourceReference(
+      uri: submap['uri'] as String,
+      line: submap['line'] as int,
+      column: submap['column'] as int,
+      arguments: Map<String, Object?>.from(map)..remove('@'),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    final mapEquals = const DeepCollectionEquality().equals;
+
+    return other is ResourceReference &&
+        other.uri == uri &&
+        other.line == line &&
+        other.column == column &&
+        mapEquals(other.arguments, arguments);
+  }
+
+  @override
+  int get hashCode =>
+      uri.hashCode ^ line.hashCode ^ column.hashCode ^ arguments.hashCode;
 }
