@@ -10,6 +10,7 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
+  collection: ^1.18.0
   graphs: ^2.3.1
   logging: ^1.2.0
   # native_assets_cli: ^0.5.0

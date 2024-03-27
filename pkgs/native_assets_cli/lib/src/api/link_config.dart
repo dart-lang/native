@@ -8,10 +8,8 @@ import 'package:args/args.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../native_assets_cli.dart';
-import '../model/pipeline_config.dart';
-import '../model/pipeline_step.dart';
+import '../../native_assets_cli_internal.dart';
 import '../utils/map.dart';
-import 'asset.dart';
 import 'build_config.dart';
 import 'resources.dart';
 

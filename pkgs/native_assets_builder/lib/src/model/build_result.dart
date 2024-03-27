@@ -1,5 +1,5 @@
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:collection/collection.dart';
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../build_runner/build_runner.dart';
 

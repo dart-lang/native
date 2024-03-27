@@ -56,17 +56,8 @@ class LinkConfigImpl extends PipelineConfigImpl implements LinkConfig {
   @override
   Version get version => _buildConfig.version;
 
-  static LinkConfig fromArguments(List<String> arguments) {
-    final argParser = ArgParser()..addOption('config');
-
-    final results = argParser.parse(arguments);
-    final linkConfigContents =
-        File(results['config'] as String).readAsStringSync();
-    final linkConfigJson =
-        jsonDecode(linkConfigContents) as Map<String, dynamic>;
-
-    return LinkConfigArgs.fromJson(linkConfigJson).toLinkConfig();
-  }
+  static LinkConfig fromArguments(List<String> arguments) =>
+      LinkConfigArgs.fromArguments(arguments).toLinkConfig();
 }
 
 class LinkConfigArgs {
@@ -83,6 +74,18 @@ class LinkConfigArgs {
     required this.buildConfig,
     required this.assetsForLinking,
   });
+
+  factory LinkConfigArgs.fromArguments(List<String> arguments) {
+    final argParser = ArgParser()..addOption('config');
+
+    final results = argParser.parse(arguments);
+    final linkConfigContents =
+        File(results['config'] as String).readAsStringSync();
+    final linkConfigJson =
+        jsonDecode(linkConfigContents) as Map<String, dynamic>;
+
+    return LinkConfigArgs.fromJson(linkConfigJson);
+  }
 
   factory LinkConfigArgs.fromJson(Map<String, dynamic> linkConfigJson) {
     final resourcesPath = linkConfigJson[resourceIdentifierKey] as String?;
