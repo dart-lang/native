@@ -1,11 +1,9 @@
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
-import 'build_result.dart';
+abstract interface class LinkResult {
+  List<AssetImpl> get assets;
 
-extension type LinkResult(BuildResultImpl _buildResultImpl) {
-  List<AssetImpl> get assets => _buildResultImpl.assets;
+  List<Uri> get dependencies;
 
-  List<Uri> get dependencies => _buildResultImpl.dependencies;
-
-  bool get success => _buildResultImpl.success;
+  bool get success;
 }

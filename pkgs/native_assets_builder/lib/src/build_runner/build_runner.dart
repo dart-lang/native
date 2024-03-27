@@ -11,6 +11,7 @@ import 'package:package_config/package_config.dart';
 
 import '../model/build_result.dart';
 import '../model/dry_run_result.dart';
+import '../model/forge_result.dart';
 import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
@@ -95,9 +96,9 @@ class NativeAssetsBuildRunner {
         resourceIdentifiers: resourceIdentifiers,
         supportedAssetTypes: supportedAssetTypes,
         previousBuildResult: buildResult,
-      ).then(LinkResult.new);
+      );
 
-  Future<BuildResultImpl> _run({
+  Future<ForgeResult> _run({
     required PipelineStep step,
     required LinkModePreferenceImpl linkModePreference,
     required Target target,
@@ -119,7 +120,7 @@ class NativeAssetsBuildRunner {
     final packagesWithBuild = await packageLayout.packagesWithAssets(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
-    final buildResult = BuildResultImpl.failure();
+    final buildResult = ForgeResult.failure();
     if (!planSuccess) {
       return buildResult;
     }
@@ -198,9 +199,9 @@ class NativeAssetsBuildRunner {
       packageLayout,
       runPackageName,
     );
-    final buildResult = BuildResultImpl.failure();
+    final buildResult = ForgeResult.failure();
     if (!planSuccess) {
-      return DryRunResult(buildResult);
+      return buildResult;
     }
     var success = true;
     for (final package in buildPlan) {
@@ -241,7 +242,7 @@ class NativeAssetsBuildRunner {
       }
       success &= packageSuccess;
     }
-    return DryRunResult(buildResult.withSuccess(success));
+    return buildResult.withSuccess(success);
   }
 
   Future<_PackageBuildRecord> _buildPackageCached(
