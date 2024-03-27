@@ -22,6 +22,7 @@ import 'build_config.dart';
 import 'os.dart';
 
 part '../model/build_output.dart';
+part 'link_output.dart';
 
 /// The output of a build hook (`hook/build.dart`) invocation.
 ///

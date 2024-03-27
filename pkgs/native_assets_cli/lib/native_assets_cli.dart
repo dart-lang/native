@@ -21,11 +21,10 @@ export 'src/api/asset.dart'
 export 'src/api/build.dart';
 export 'src/api/build_config.dart' show BuildConfig, CCompilerConfig;
 export 'src/api/build_mode.dart' show BuildMode;
-export 'src/api/build_output.dart' show BuildOutput;
+export 'src/api/build_output.dart' show BuildOutput, LinkOutput;
 export 'src/api/ios_sdk.dart' show IOSSdk;
 export 'src/api/link.dart';
 export 'src/api/link_config.dart' show LinkConfig;
 export 'src/api/link_mode_preference.dart' show LinkModePreference;
-export 'src/api/link_output.dart' show LinkOutput;
 export 'src/api/os.dart' show OS;
 export 'src/api/resource.dart';

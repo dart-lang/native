@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../native_assets_cli_internal.dart';
+import 'build_output.dart';
 import 'link_config.dart';
-import 'link_output.dart';
 
 /// Runs a native assets link.
 ///
@@ -61,8 +61,9 @@ Future<void> link(
   // rerun if they change.
   final builtAssetsFiles =
       config.assets.map((asset) => asset.file).whereType<Uri>().toList();
-  final linkOutput =
-      LinkOutputImpl(dependencies: Dependencies(builtAssetsFiles));
+  final linkOutput = BuildOutputImpl(
+    dependencies: Dependencies(builtAssetsFiles),
+  );
   await builder(config, linkOutput);
   await linkOutput.writeToFile(config: config);
 }

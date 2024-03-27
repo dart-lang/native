@@ -2,17 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+part of 'build_output.dart';
 
-import '../../native_assets_cli.dart';
-import '../model/dependencies.dart';
-import 'asset.dart';
-import 'build_output.dart';
-import 'link_config.dart';
-
-part '../model/link_output.dart';
-
-abstract class LinkOutput {
+abstract final class LinkOutput {
   /// Start time for the link of this output.
   ///
   /// The [timestamp] is rounded down to whole seconds, because
