@@ -46,4 +46,7 @@ class LinkOutputImpl implements LinkOutput {
   /// Adds [Asset]s produced by this link or dry run.
   @override
   void addAssets(Iterable<Asset> assets) => _buildOutput.addAssets(assets);
+
+  Future<void> writeToFile({required LinkConfigImpl config}) =>
+      _buildOutput.writeToFile(config: config);
 }

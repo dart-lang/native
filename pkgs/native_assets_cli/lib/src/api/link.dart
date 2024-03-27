@@ -61,10 +61,8 @@ Future<void> link(
   // rerun if they change.
   final builtAssetsFiles =
       config.assets.map((asset) => asset.file).whereType<Uri>().toList();
-  final buildOutputImpl = BuildOutputImpl(
-    dependencies: Dependencies(builtAssetsFiles),
-  );
-  final linkoutput = LinkOutputImpl();
-  await builder(config, linkoutput);
-  await buildOutputImpl.writeToFile(config: config);
+  final linkOutput =
+      LinkOutputImpl(dependencies: Dependencies(builtAssetsFiles));
+  await builder(config, linkOutput);
+  await linkOutput.writeToFile(config: config);
 }

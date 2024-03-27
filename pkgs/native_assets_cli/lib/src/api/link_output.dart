@@ -8,6 +8,7 @@ import '../../native_assets_cli.dart';
 import '../model/dependencies.dart';
 import 'asset.dart';
 import 'build_output.dart';
+import 'link_config.dart';
 
 part '../model/link_output.dart';
 
