@@ -117,7 +117,8 @@ void finalizeWeakGlobal(void* isolate_callback_data, void* peer) {
 }
 
 void freeBoolean(void* isolate_callback_data, void* peer) {
-  free(peer);
+  // To match the platform implementation of Dart's calloc.
+  free_mem(peer);
 }
 
 FFI_PLUGIN_EXPORT

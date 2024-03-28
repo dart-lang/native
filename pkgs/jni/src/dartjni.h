@@ -79,6 +79,10 @@ static inline void destroy_cond(ConditionVariable* cond) {
   // Not available.
 }
 
+static inline void free_mem(void* mem) {
+  CoTaskMemFree(mem);
+}
+
 #elif defined __APPLE__ || defined __LINUX__ || defined __ANDROID__ ||         \
     defined __GNUC__
 #include <pthread.h>
@@ -116,6 +120,10 @@ static inline void wait_for(ConditionVariable* cond, MutexLock* lock) {
 
 static inline void destroy_cond(ConditionVariable* cond) {
   pthread_cond_destroy(cond);
+}
+
+static inline void free_mem(void* mem) {
+  free(mem);
 }
 
 #else

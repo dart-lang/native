@@ -46,9 +46,6 @@ void run({required TestRunnerCallback testRunner}) {
   //
   // For examples of a higher level API, see `jni_object_tests.dart`.
   final env = Jni.env;
-  testRunner('initDLApi', () {
-    Jni.initDLApi();
-  });
 
   testRunner('get JNI Version', () {
     expect(Jni.env.GetVersion(), isNot(equals(0)));

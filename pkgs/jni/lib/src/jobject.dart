@@ -67,6 +67,10 @@ class JObject {
 
   bool get isNull => reference.isNull;
 
+  /// Releases the underlying [reference].
+  ///
+  /// Releasing in one isolate while using or releasing in another isolate might
+  /// crash in the JNI layer.
   void release() {
     reference.release();
   }

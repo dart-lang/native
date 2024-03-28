@@ -65,7 +65,7 @@ abstract final class Jni {
   static bool _initialized = false;
 
   /// Initializes DartApiDL used for Continuations and interface implementation.
-  static void initDLApi() {
+  static void _ensureInitialized() {
     if (!_initialized) {
       assert(NativeApi.majorVersion == 2);
       assert(NativeApi.minorVersion >= 3);
@@ -243,7 +243,7 @@ extension ProtectedJniExtensions on Jni {
 
   /// Returns a new PortContinuation.
   static JReference newPortContinuation(ReceivePort port) {
-    Jni.initDLApi();
+    Jni._ensureInitialized();
     return JGlobalReference(
       Jni._bindings
           .PortContinuation__ctor(port.sendPort.nativePort)
@@ -259,7 +259,7 @@ extension ProtectedJniExtensions on Jni {
               NativeFunction<
                   Pointer<Void> Function(Uint64, Pointer<Void>, Pointer<Void>)>>
           functionPtr) {
-    Jni.initDLApi();
+    Jni._ensureInitialized();
     return JGlobalReference(Jni._bindings
         .PortProxy__newInstance(
           Jni.env.toJStringPtr(binaryName),
@@ -280,7 +280,7 @@ extension ProtectedJniExtensions on Jni {
     Pointer<Void> reference,
     int refType,
   ) {
-    Jni.initDLApi();
+    Jni._ensureInitialized();
     return Jni._bindings
         .newJObjectFinalizableHandle(object, reference, refType);
   }
@@ -289,13 +289,13 @@ extension ProtectedJniExtensions on Jni {
     Object object,
     Pointer<Bool> reference,
   ) {
-    Jni.initDLApi();
+    Jni._ensureInitialized();
     return Jni._bindings.newBooleanFinalizableHandle(object, reference);
   }
 
   static void deleteFinalizableHandle(
       Dart_FinalizableHandle finalizableHandle, Object object) {
-    Jni.initDLApi();
+    Jni._ensureInitialized();
     Jni._bindings.deleteFinalizableHandle(finalizableHandle, object);
   }
 }

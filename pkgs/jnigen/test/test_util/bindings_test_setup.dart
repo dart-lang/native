@@ -69,7 +69,6 @@ Future<void> bindingsTestSetup() async {
       kotlinTestJar,
     ]);
   }
-  Jni.initDLApi();
 }
 
 void bindingsTestTeardown() {

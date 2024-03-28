@@ -45,6 +45,8 @@
   `fill` object and not its Java runtime type.
 - `JObject`s now check the types using `instanceof` in debug mode when using
   `castTo`.
+- **Breaking Change**: `Jni.initDLApi()` is renamed to `Jni.ensureInitialized()`
+  and it is no longer needed to be called by users.
 - Added the ability to share `JObject`s across isolates.
 
 ## 0.7.3

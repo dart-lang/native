@@ -2,6 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// TODO(#660): Temporarily separated from dartjni.h to prevent unnecessary
+// copies for based bindings. Will be merged with dartjni.h once the C-based
+// bindings are removed.
+
 #pragma once
 
 #include "dartjni.h"
