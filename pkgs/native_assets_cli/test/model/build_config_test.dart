@@ -272,8 +272,8 @@ void main() async {
   "version": "${BuildConfigImpl.latestVersion}"
 }''';
     expect(
-      jsonString.replaceAll('\\\\', '/'),
-      equals(expectedJsonString.replaceAll('\\', '/')),
+      jsonString.unescape(),
+      equals(expectedJsonString.unescape()),
     );
 
     final buildConfig2 = BuildConfigImpl.fromConfig(

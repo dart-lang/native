@@ -133,6 +133,10 @@ extension on Asset {
   }
 }
 
+extension UnescapePath on String {
+  String unescape() => replaceAll('\\', '/');
+}
+
 extension UriExtension on Uri {
   FileSystemEntity get fileSystemEntity {
     if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {

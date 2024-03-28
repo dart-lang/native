@@ -186,7 +186,7 @@ void main() {
   test('asset yaml', () {
     final json = const JsonEncoder.withIndent('  ').convert([
       for (final item in assets) item.toJson(BuildOutputImpl.latestVersion)
-    ]).replaceAll('\\\\', '\\');
+    ]).replaceAll('\\', '/');
     expect(json, assetsJsonEncoding);
     final assets2 = AssetImpl.listFromJson(jsonDecode(json) as List<Object?>);
     expect(assets, assets2);

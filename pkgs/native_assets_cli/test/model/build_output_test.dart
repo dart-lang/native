@@ -168,9 +168,8 @@ version: 1.0.0''';
 
   test('built info json', () {
     final buildOutput = getBuildOutput();
-    final json = buildOutput
-        .toJsonString(BuildOutputImpl.latestVersion)
-        .replaceAll('\\\\', '/');
+    final json =
+        buildOutput.toJsonString(BuildOutputImpl.latestVersion).unescape();
     expect(json, jsonEncoding);
 
     final buildOutput2 = BuildOutputImpl.fromJsonString(json);
@@ -188,13 +187,13 @@ version: 1.0.0''';
   test('built info yaml v1.0.0 serialization keeps working', () {
     final buildOutput = getBuildOutput(withLinkedAssets: false);
     final yamlEncoding =
-        yamlEncode(buildOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
+        yamlEncode(buildOutput.toJson(Version(1, 0, 0))).unescape();
     expect(yamlEncoding, yamlEncodingV1_0_0);
   });
 
   test('built info yaml v1.0.0 serialization keeps working dry run', () {
     final yamlEncoding =
-        yamlEncode(dryRunOutput.toJson(Version(1, 0, 0))).replaceAll('\\', '/');
+        yamlEncode(dryRunOutput.toJson(Version(1, 0, 0))).unescape();
     expect(yamlEncoding, yamlEncodingV1_0_0dryRun);
   });
 

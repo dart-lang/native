@@ -154,11 +154,15 @@ Future<void> copyTestProjects({
     final sourceString = await sourceFile.readAsString();
     final modifiedString = sourceString.replaceAll(
       'path: ../../',
-      'path: ${pkgNativeAssetsBuilderUri.toFilePath().replaceAll('\\', '/')}',
+      'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
     );
     await File.fromUri(targetFileUri)
         .writeAsString(modifiedString, flush: true);
   }
+}
+
+extension UnescapePath on String {
+  String unescape() => replaceAll('\\', '/');
 }
 
 /// Logger that outputs the full trace when a test fails.
