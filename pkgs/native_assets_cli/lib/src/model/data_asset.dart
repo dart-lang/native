@@ -15,7 +15,7 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
   final String package;
 
   @override
-  String get id => '';
+  String get id => 'package:$package/$name';
 
   DataAssetImpl({
     required this.file,

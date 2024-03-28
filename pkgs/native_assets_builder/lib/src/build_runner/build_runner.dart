@@ -463,7 +463,7 @@ ${config.outputName} contained a format error.
   bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.id)
-        .where((n) => !n.startsWith('package:$packageName/'))
+        .where((id) => !id.startsWith('package:$packageName/'))
         .toSet()
         .toList()
       ..sort();
