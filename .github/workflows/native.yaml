@@ -101,7 +101,7 @@ jobs:
       - run: dart pub get -C example/link/package_with_assets/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
-      - run: dart pub get -C example/link/package_with_asset_treeshaking/
+      - run: dart pub get -C example/link/app_with_asset_treeshaking/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
       - run: dart analyze --fatal-infos
@@ -137,12 +137,12 @@ jobs:
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
-      - run: dart --enable-experiment=native-assets build bin/package_with_asset_treeshaking.dart
-        working-directory: pkgs/${{ matrix.package }}/example/link/package_with_asset_treeshaking/
+      - run: dart --enable-experiment=native-assets build bin/app_with_asset_treeshaking.dart
+        working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
-      - run: ./package_with_asset_treeshaking.exe
-        working-directory: pkgs/${{ matrix.package }}/example/link/package_with_asset_treeshaking/bin/package_with_asset_treeshaking/
+      - run: ./app_with_asset_treeshaking.exe
+        working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/bin/app_with_asset_treeshaking/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage
