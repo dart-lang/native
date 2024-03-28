@@ -491,7 +491,8 @@ final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
       packageRootConfigKey: _packageRoot.toFilePath(),
       OSImpl.configKey: _targetOS.toString(),
       LinkModePreferenceImpl.configKey: _linkModePreference.toString(),
-      supportedAssetTypesKey: _supportedAssetTypes,
+      if (_supportedAssetTypes.isNotEmpty)
+        supportedAssetTypesKey: _supportedAssetTypes,
       _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{

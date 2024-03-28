@@ -86,7 +86,7 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
     }
     return BuildOutputImpl(
       timestamp: DateTime.parse(as<String>(jsonMap[_timestampKey])),
-      assets: AssetImpl.listFromJson(as<List<Object?>>(jsonMap[_assetsKey])),
+      assets: AssetImpl.listFromJson(as<List<Object?>?>(jsonMap[_assetsKey])),
       assetsForLinking: as<Map<String, dynamic>?>(jsonMap[_assetsForLinkingKey])
           ?.map((packageName, assets) => MapEntry(
               packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
@@ -126,8 +126,8 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
     }
     return {
       _timestampKey: timestamp.toString(),
-      _assetsKey: AssetImpl.listToJson(assets, version),
-      if (version >= linkMinVersion)
+      if (assets.isNotEmpty) _assetsKey: AssetImpl.listToJson(assets, version),
+      if (version >= linkMinVersion && _assetsForLinking.isNotEmpty)
         _assetsForLinkingKey:
             _assetsForLinking.map((packageName, assets) => MapEntry(
                   packageName,
@@ -135,7 +135,7 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
                 )),
       if (_dependencies.dependencies.isNotEmpty)
         _dependenciesKey: _dependencies.toJson(),
-      _metadataKey: metadata.toJson(),
+      if (metadata.metadata.isNotEmpty) _metadataKey: metadata.toJson(),
       _versionKey: version.toString(),
     }..sortOnKey();
   }

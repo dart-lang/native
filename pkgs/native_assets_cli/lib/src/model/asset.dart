@@ -7,9 +7,9 @@ part of '../api/asset.dart';
 abstract final class AssetImpl implements Asset {
   Map<String, Object> toJson(Version version);
 
-  static List<AssetImpl> listFromJson(List<Object?> list) {
+  static List<AssetImpl> listFromJson(List<Object?>? list) {
     final assets = <AssetImpl>[];
-    for (final jsonElement in list) {
+    for (final jsonElement in list ?? []) {
       final jsonMap = as<Map<Object?, Object?>>(jsonElement);
       final type = jsonMap[NativeCodeAssetImpl.typeKey];
       switch (type) {

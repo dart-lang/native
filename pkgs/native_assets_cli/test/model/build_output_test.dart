@@ -95,7 +95,6 @@ assets:
       path_type: absolute
       uri: path/to/libfoo.so
     target: android_riscv64
-metadata: {}
 version: 1.0.0''';
 
   final jsonEncoding = '''{
