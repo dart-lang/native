@@ -13,3 +13,7 @@ dev_dependencies:
   ffigen:
     path: '../../'
   lints: ^2.0.0
+
+dependency_overrides:
+  objective_c:
+    path: ../../../objective_c/

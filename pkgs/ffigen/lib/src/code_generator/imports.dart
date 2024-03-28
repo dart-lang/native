@@ -76,6 +76,8 @@ class SelfImportedType extends Type {
 
 final ffiImport = LibraryImport('ffi', 'dart:ffi');
 final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
+final objcPkgImport =
+    LibraryImport('objc', 'package:objective_c/objective_c.dart');
 final self = LibraryImport('self', '');
 
 final voidType = ImportedType(ffiImport, 'Void', 'void');
@@ -99,5 +101,6 @@ final doubleType = ImportedType(ffiImport, 'Double', 'double', '0.0');
 final sizeType = ImportedType(ffiImport, 'Size', 'int', '0');
 final wCharType = ImportedType(ffiImport, 'WChar', 'int', '0');
 
-final objCObjectType = Struct(name: 'ObjCObject');
-final objCSelType = Struct(name: 'ObjCSel');
+final objCObjectType = ImportedType(objcPkgImport, 'ObjCObject', 'ObjCObject');
+final objCSelType = ImportedType(objcPkgImport, 'ObjCSelector', 'ObjCSelector');
+final objCBlockType = ImportedType(objcPkgImport, 'ObjCBlock', 'ObjCBlock');

@@ -1,0 +1,32 @@
+# Run with `dart run ffigen --config ffigen.yaml`.
+name: ObjectiveCBindings
+description: |
+  Bindings for `src/objective_c.h` and `src/objective_c_runtime.h`.
+
+  Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
+output: 'lib/src/objective_c_bindings_generated.dart'
+headers:
+  entry-points:
+    - 'src/objective_c.h'
+    - 'src/objective_c_runtime.h'
+ffi-native:
+functions:
+  leaf:
+    include:
+      - '.*'
+  rename:
+    'sel_registerName': 'registerName'
+    'objc_getClass': 'getClass'
+    'objc_retain': 'objectRetain'
+    'objc_release': 'objectRelease'
+    'Block_copy': 'blockCopy'
+    'Block_release': 'blockRelease'
+globals:
+  include:
+    - _NSConcreteGlobalBlock
+  rename:
+    '_(.*)': '$1'
+preamble: |
+  // ignore_for_file: always_specify_types
+  // ignore_for_file: camel_case_types
+  // ignore_for_file: non_constant_identifier_names

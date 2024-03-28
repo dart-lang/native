@@ -83,37 +83,47 @@ class ObjCInterface extends BindingType {
       s.write(makeDartDoc(dartDoc!));
     }
 
-    final uniqueNamer = UniqueNamer({name, '_id', '_lib'});
+    final uniqueNamer = UniqueNamer({name, 'pointer', '_lib'});
     final natLib = w.className;
 
-    builtInFunctions.ensureUtilsExist(w, s);
-    final objType = PointerType(objCObjectType).getCType(w);
+    final rawObjType = PointerType(objCObjectType).getCType(w);
+    final wrapObjType = builtInFunctions.objectBase.gen(w);
+
+    // The deepest member of the inheritance tree that lives in this library
+    // (rather than package:objective_c) needs a reference to the native library
+    // object. That reference can't live in package:objective_c's classes
+    // because it's specific to this generated library.
+    final ownsLib = superType == null;
 
     // Class declaration.
     s.write('''
-class $name extends ${superType?.name ?? '_ObjCWrapper'} {
-  $name._($objType id, $natLib lib,
+class $name extends ${superType?.name ?? wrapObjType} {
+  $name._($rawObjType pointer, ${ownsLib ? 'this._lib' : '$natLib lib'},
       {bool retain = false, bool release = false}) :
-          super._(id, lib, retain: retain, release: release);
+          ${ownsLib ? 'super(pointer, ' : 'super._(pointer, lib,'}
+              retain: retain, release: release);
+
+  ${ownsLib ? '$natLib _lib;' : ''}
 
   /// Returns a [$name] that points to the same underlying object as [other].
-  static $name castFrom<T extends _ObjCWrapper>(T other) {
-    return $name._(other._id, other._lib, retain: true, release: true);
+  static $name castFrom<T extends $wrapObjType>($natLib lib, T other) {
+    return $name._(other.pointer, lib, retain: true, release: true);
   }
 
   /// Returns a [$name] that wraps the given raw object pointer.
-  static $name castFromPointer($natLib lib, $objType other,
+  static $name castFromPointer($natLib lib, $rawObjType other,
       {bool retain = false, bool release = false}) {
     return $name._(other, lib, retain: retain, release: release);
   }
 
   /// Returns whether [obj] is an instance of [$name].
-  static bool isInstance(_ObjCWrapper obj) {
+  static bool isInstance($natLib lib, $wrapObjType obj) {
     return ${_isKindOfClassMsgSend.invoke(
-      'obj._lib',
-      'obj._id',
-      'obj._lib.${_isKindOfClass.name}',
-      ['obj._lib.${_classObject.name}'],
+      w,
+      'lib',
+      'obj.pointer',
+      'lib.${_isKindOfClass.name}',
+      ['lib.${_classObject.name}'],
     )};
   }
 
@@ -204,8 +214,9 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
         s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
       }
       s.write(m.msgSend!.invoke(
+          w,
           '_lib',
-          isStatic ? '_lib.${_classObject.name}' : '_id',
+          isStatic ? '_lib.${_classObject.name}' : 'this.pointer',
           '_lib.${m.selObject!.name}',
           m.params.map((p) => p.type
               .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
@@ -241,10 +252,8 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
     dependencies.add(this);
     builtInFunctions.addDependencies(dependencies);
 
-    _classObject = ObjCInternalGlobal(
-        '_class_$originalName',
-        (Writer w) => '${builtInFunctions.getClass.name}("$lookupName")',
-        builtInFunctions.getClass)
+    _classObject = ObjCInternalGlobal('_class_$originalName',
+        (Writer w) => '${builtInFunctions.getClass.gen(w)}("$lookupName")')
       ..addDependencies(dependencies);
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(
@@ -412,7 +421,7 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
       ObjCInterface.generateGetId(value, objCRetain);
 
   static String generateGetId(String value, bool objCRetain) =>
-      objCRetain ? '$value.retainAndReturnPointer()' : '$value._id';
+      objCRetain ? '$value.retainAndReturnPointer()' : '$value.pointer';
 
   @override
   String convertFfiDartTypeToDartType(

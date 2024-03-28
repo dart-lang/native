@@ -60,6 +60,19 @@ class Writer {
     return _ffiPkgLibraryPrefix = import.prefix;
   }
 
+  String? _objcPkgPrefix;
+  String get objcPkgPrefix {
+    if (_objcPkgPrefix != null) {
+      return _objcPkgPrefix!;
+    }
+
+    final import = _usedImports.firstWhere(
+        (element) => element.name == objcPkgImport.name,
+        orElse: () => objcPkgImport);
+    _usedImports.add(import);
+    return _objcPkgPrefix = import.prefix;
+  }
+
   late String selfImportPrefix = () {
     final import = _usedImports
         .firstWhere((element) => element.name == self.name, orElse: () => self);

@@ -17,21 +17,26 @@ environment:
   sdk: '>=3.3.0-252.0.dev <4.0.0'
 
 dependencies:
-  ffi: ^2.0.1
-  yaml: ^3.0.0
-  path: ^1.8.0
-  quiver: ^3.0.0
   args: ^2.0.0
-  logging: ^1.0.0
   cli_util: ^0.4.0
-  glob: ^2.0.0
-  file: ^7.0.0
-  package_config: ^2.1.0
-  yaml_edit: ^2.0.3
   collection: ^1.18.0
+  ffi: ^2.0.1
+  file: ^7.0.0
+  glob: ^2.0.0
+  logging: ^1.0.0
+  package_config: ^2.1.0
+  path: ^1.8.0
+  objective_c: ^0.0.1
+  quiver: ^3.0.0
+  yaml: ^3.0.0
+  yaml_edit: ^2.0.3
 
 dev_dependencies:
-  lints: ^2.0.1
-  test: ^1.16.2
   json_schema: ^5.1.1
+  lints: ^2.0.1
   meta: ^1.11.0
+  test: ^1.16.2
+
+dependency_overrides:
+  objective_c:
+    path: ../objective_c/

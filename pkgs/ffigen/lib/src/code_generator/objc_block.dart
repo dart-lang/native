@@ -47,8 +47,6 @@ class ObjCBlock extends BindingType {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
 
-    builtInFunctions.ensureBlockUtilsExist(w, s);
-
     final params = <Parameter>[];
     for (int i = 0; i < argTypes.length; ++i) {
       params.add(Parameter(name: 'arg$i', type: argTypes[i]));
@@ -56,7 +54,7 @@ class ObjCBlock extends BindingType {
 
     final isVoid = returnType == voidType;
     final voidPtr = PointerType(voidType).getCType(w);
-    final blockPtr = PointerType(builtInFunctions.blockStruct);
+    final blockPtr = PointerType(objCBlockType);
     final funcType = FunctionType(returnType: returnType, parameters: params);
     final natFnType = NativeFunc(funcType);
     final natFnPtr = PointerType(natFnType).getCType(w);
@@ -130,10 +128,12 @@ $returnFfiDartType $closureTrampoline($blockCType block, $paramsFfiDartType) =>
     final defaultValue = returnType.getDefaultValue(w, '_lib');
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     s.write('''
-class $name extends _ObjCBlockBase {
-  $name._($blockCType id, ${w.className} lib,
+class $name extends ${builtInFunctions.blockBase.gen(w)} {
+  $name._($blockCType pointer, this._lib,
       {bool retain = false, bool release = true}) :
-          super._(id, lib, retain: retain, release: release);
+          super(pointer, retain: retain, release: release);
+
+  ${w.className} _lib;
 
   /// Returns a block that wraps the given raw block pointer.
   static $name castFromPointer(${w.className} lib, $blockCType pointer,
@@ -147,7 +147,7 @@ class $name extends _ObjCBlockBase {
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
   $name.fromFunctionPointer(${w.className} lib, $natFnPtr ptr) :
-      this._(lib.${builtInFunctions.newBlock.name}(
+      this._(${builtInFunctions.newBlock.gen(w)}(
           _cFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
               $trampFuncCType>($funcPtrTrampoline
                   $exceptionalReturn).cast(), ptr.cast()), lib);
@@ -159,7 +159,7 @@ class $name extends _ObjCBlockBase {
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
   $name.fromFunction(${w.className} lib, $funcDartType fn) :
-      this._(lib.${builtInFunctions.newBlock.name}(
+      this._(${builtInFunctions.newBlock.gen(w)}(
           _dartFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
               $trampFuncCType>($closureTrampoline
                   $exceptionalReturn).cast(), $registerClosure($convFn)), lib);
@@ -180,7 +180,7 @@ class $name extends _ObjCBlockBase {
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
   $name.listener(${w.className} lib, $funcDartType fn) :
-      this._(lib.${builtInFunctions.newBlock.name}(
+      this._(${builtInFunctions.newBlock.gen(w)}(
           (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
               $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
                   false).nativeFunction.cast(),
@@ -197,8 +197,8 @@ class $name extends _ObjCBlockBase {
             p.type.convertDartTypeToFfiDartType(w, p.name, objCRetain: false))
         .join(', ');
     final callMethodInvocation = '''
-_id.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
-    _id, $callMethodArgs)''';
+pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
+    pointer, $callMethodArgs)''';
     s.write(returnType.convertFfiDartTypeToDartType(
         w, callMethodInvocation, '_lib',
         objCRetain: false));
@@ -218,12 +218,10 @@ _id.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
     for (final t in argTypes) {
       t.addDependencies(dependencies);
     }
-    builtInFunctions.addBlockDependencies(dependencies);
   }
 
   @override
-  String getCType(Writer w) =>
-      PointerType(builtInFunctions.blockStruct).getCType(w);
+  String getCType(Writer w) => PointerType(objCBlockType).getCType(w);
 
   @override
   String getDartType(Writer w) => name;
