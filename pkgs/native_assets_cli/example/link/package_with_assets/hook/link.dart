@@ -12,6 +12,8 @@ void main(List<String> args) async {
 }
 
 Iterable<Asset> shake(List<Asset> allAssets, List<Resource> resources) =>
-    allAssets.where(
-      (asset) => resources.any((resource) => resource.metadata == asset.id),
-    );
+    allAssets.whereType<DataAsset>().where(
+          (asset) => resources.any(
+            (resource) => resource.metadata == asset.name,
+          ),
+        );

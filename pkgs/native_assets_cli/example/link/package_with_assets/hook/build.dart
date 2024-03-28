@@ -10,13 +10,13 @@ void main(List<String> args) async {
     final allAssets = [
       DataAsset(
         package: packageName,
-        name: 'unused',
-        file: config.packageRoot.resolve('assets').resolve('unused_asset.json'),
+        name: 'unused_asset',
+        file: config.packageRoot.resolve('assets/unused_asset.json'),
       ),
       DataAsset(
         package: packageName,
-        name: 'used',
-        file: config.packageRoot.resolve('assets').resolve('used_asset.json'),
+        name: 'used_asset',
+        file: config.packageRoot.resolve('assets/used_asset.json'),
       )
     ];
     output.addAssets(allAssets, linkInPackage: packageName);
