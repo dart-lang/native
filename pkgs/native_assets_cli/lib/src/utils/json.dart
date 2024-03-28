@@ -8,7 +8,7 @@ T as<T>(Object? object) {
   }
   throw FormatException(
     "Unexpected value '$object' of type ${object.runtimeType} in JSON. Expected"
-    'a $T.',
+    ' a $T.',
   );
 }
 

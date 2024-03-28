@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
 @ResourceIdentifier('used_asset')
-String someMethod() => 'This is actually called';
+String someMethod() => 'Using used_asset';
 
 @ResourceIdentifier('unused_asset')
-String someOtherMethod() => 'This is not called';
+String someOtherMethod() => 'Using un_used_asset';

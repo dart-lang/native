@@ -32,7 +32,7 @@ void main() async {
     test('local_asset build$testSuffix', () async {
       final testTempUri = tempUri.resolve('test1/');
       await Directory.fromUri(testTempUri).create();
-      final testPackageUri = packageUri.resolve('example/$name/');
+      final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final processResult = await Process.run(

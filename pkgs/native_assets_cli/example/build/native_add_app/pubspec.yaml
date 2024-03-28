@@ -3,7 +3,7 @@ publish_to: none
 name: native_add_app
 description: Invokes a package with native assets.
 version: 0.1.0
-repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/native_add_app
+repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/build/native_add_app
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

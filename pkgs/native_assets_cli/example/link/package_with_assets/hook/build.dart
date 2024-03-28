@@ -5,7 +5,7 @@
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
-  await link(args, (config, output) async {
+  await build(args, (config, output) async {
     final packageName = config.packageName;
     final allAssets = [
       DataAsset(
@@ -19,14 +19,6 @@ void main(List<String> args) async {
         file: config.packageRoot.resolve('assets').resolve('used_asset.json'),
       )
     ];
-    output.addAssets(shake(allAssets, config.resources));
+    output.addAssets(allAssets, linkInPackage: packageName);
   });
 }
-
-Iterable<Asset> shake(
-  List<DataAsset> allAssets,
-  List<Resource> resources,
-) =>
-    allAssets.where(
-      (asset) => resources.any((resource) => resource.metadata == asset.id),
-    );

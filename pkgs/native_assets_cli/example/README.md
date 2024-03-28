@@ -1,9 +1,6 @@
-The examples in this folder illustrate how native code is built and bundled
-in Dart and Flutter apps.
+These are examples for using the hooks defined in `package:native_assets_cli`.
 
-* [native_add_app/](native_add_app/) has a dependency with C code.
-  This app should declare nothing special. Dart and Flutter should check
-  all dependencies for native code.
-* [native_add_library/](native_add_library/) contains a library with C code.
-  When Dart code in this library or dependent on this library is invoked, the
-  C code must be built and bundled so that it can be used by the Dart code.
+* [build/](build/) contains examples on how to use `build.dart` to build and
+  bundle code assets, such as C libraries, into Dart applications.
+* [link/](link/) contains examples on how to treeshake unused assets from a Dart
+  application using the `link.dart` hook.

@@ -256,7 +256,7 @@ final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
     }
 
     if (configExceptions.isNotEmpty) {
-      throw FormatException('Configuration is not in the right format. '
+      throw FormatException('BuildConfig is not in the right format. '
           'FormatExceptions: $configExceptions');
     }
 
