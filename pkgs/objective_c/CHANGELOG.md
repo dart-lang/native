@@ -1,4 +1,4 @@
-## 0.0.1
+## 0.0.1-wip
 
 - Move sharable code from ffigen's generated code into this package, including
   ObjCObjectBase, and ObjCBlockBase, as well as the core Objective C runtime

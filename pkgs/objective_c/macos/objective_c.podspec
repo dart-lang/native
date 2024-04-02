@@ -5,9 +5,9 @@
 Pod::Spec.new do |s|
   s.name             = 'objective_c'
   s.version          = '0.0.1'
-  s.summary          = 'A library to access Objective C from Dart and Flutter that acts as a support library for package:ffigen.'
+  s.summary          = 'A library to access Objective C from Flutter that acts as a support library for package:ffigen.'
   s.description      = <<-DESC
-A library to access Objective C from Dart and Flutter that acts as a support library for package:ffigen.
+A library to access Objective C from Flutter that acts as a support library for package:ffigen.
                        DESC
   s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }

@@ -1,3 +1,7 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 // ignore_for_file: always_specify_types
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
@@ -9,25 +13,25 @@
 import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
-    symbol: "sel_registerName", isLeaf: true)
+    symbol: 'sel_registerName', isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
   ffi.Pointer<ffi.Char> name,
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ffi.Char>)>(
-    symbol: "objc_getClass", isLeaf: true)
+    symbol: 'objc_getClass', isLeaf: true)
 external ffi.Pointer<ObjCObject> getClass(
   ffi.Pointer<ffi.Char> name,
 );
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
-    symbol: "objc_retain", isLeaf: true)
+    symbol: 'objc_retain', isLeaf: true)
 external ffi.Pointer<ObjCObject> objectRetain(
   ffi.Pointer<ObjCObject> object,
 );
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
-    symbol: "objc_release", isLeaf: true)
+    symbol: 'objc_release', isLeaf: true)
 external void objectRelease(
   ffi.Pointer<ObjCObject> object,
 );
@@ -36,13 +40,13 @@ external void objectRelease(
 external final ffi.Pointer<ffi.Void> NSConcreteGlobalBlock;
 
 @ffi.Native<ffi.Pointer<ObjCBlock> Function(ffi.Pointer<ObjCBlock>)>(
-    symbol: "Block_copy", isLeaf: true)
+    symbol: 'Block_copy', isLeaf: true)
 external ffi.Pointer<ObjCBlock> blockCopy(
   ffi.Pointer<ObjCBlock> object,
 );
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(
-    symbol: "Block_release", isLeaf: true)
+    symbol: 'Block_release', isLeaf: true)
 external void blockRelease(
   ffi.Pointer<ObjCBlock> object,
 );

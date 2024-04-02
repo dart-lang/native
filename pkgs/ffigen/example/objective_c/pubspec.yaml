@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   ffi: ^2.0.1
+  objective_c: ^0.0.1
 dev_dependencies:
   ffigen:
     path: '../../'

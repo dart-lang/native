@@ -5,6 +5,7 @@
   `ffi-native` option.
 - Add `retainAndReturnPointer` method to ObjC objects and blocks, and add
   `castFromPointer` method to blocks.
+- Use `package:objective_c` in ObjC bindings.
 
 ## 11.0.0
 
