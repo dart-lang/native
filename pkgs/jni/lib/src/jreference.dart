@@ -63,6 +63,9 @@ abstract final class JReference {
 
   /// Deletes the underlying JNI reference and marks this as released.
   ///
+  /// Releasing in one isolate while using or releasing in another isolate might
+  /// crash in the JNI layer.
+  ///
   /// Throws [DoubleReleaseError] if this is already released.
   ///
   /// Further uses of this object will throw [UseAfterReleaseError].
