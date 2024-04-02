@@ -231,7 +231,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner("Isolate", () async {
-    final random = await Isolate.run(() {
+    final receivePort = ReceivePort();
+    await Isolate.spawn((sendPort) {
       // On standalone target, make sure to call [setDylibDir] before accessing
       // any JNI function in a new isolate.
       //
@@ -245,8 +246,13 @@ void run({required TestRunnerCallback testRunner}) {
           .call(random, jint.type, [256]);
       random.release();
       randomClass.release();
-      return result;
-    });
+      // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
+      // with coverage pauses indefinitely here.
+      // https://github.com/dart-lang/coverage/issues/472
+      sendPort.send(result);
+      Isolate.current.kill();
+    }, receivePort.sendPort);
+    final random = await receivePort.first as int;
 
     expect(random, greaterThanOrEqualTo(0));
     expect(random, lessThan(256));

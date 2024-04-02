@@ -23,10 +23,13 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner("Sharing JObject across isolates",
       skip: 'Not yet available on Dart stable', () async {
     final foo = 'foo'.toJString();
-    final result = await Isolate.run(() {
+    final port = ReceivePort();
+    await Isolate.spawn((sendPort) {
       Jni.setDylibDir(dylibDir: 'build/jni_libs');
-      return foo.toDartString();
-    });
+      sendPort.send(foo.toDartString());
+      Isolate.current.kill();
+    }, port.sendPort);
+    final result = await port.first;
     expect(result, 'foo');
   });
 
@@ -34,10 +37,10 @@ void run({required TestRunnerCallback testRunner}) {
     // This also means that [Jni._ensureInitialized()] has been called in both
     // isolates.
     'foo'.toJString();
-    await Isolate.run(() {
+    await Isolate.spawn((_) {
       Jni.setDylibDir(dylibDir: 'build/jni_libs');
       'bar'.toJString();
       Isolate.current.kill();
-    });
+    }, null);
   });
 }
