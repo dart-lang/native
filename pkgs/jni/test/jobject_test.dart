@@ -80,7 +80,7 @@ void run({required TestRunnerCallback testRunner}) {
     final integerClass = JClass.forName("java/lang/Integer");
     expect(
         () => integerClass.staticMethodId("parseInt", "(Ljava/lang/String;)I")(
-            integerClass, JString.type, [nullptr]),
+            integerClass, jint.type, [nullptr]),
         throwsException);
     integerClass.release();
   });
@@ -253,6 +253,7 @@ void run({required TestRunnerCallback testRunner}) {
       Isolate.current.kill();
     }, receivePort.sendPort);
     final random = await receivePort.first as int;
+
     expect(random, greaterThanOrEqualTo(0));
     expect(random, lessThan(256));
   });

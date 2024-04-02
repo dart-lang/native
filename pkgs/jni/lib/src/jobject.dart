@@ -5,9 +5,10 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
-import 'package:jni/internal_helpers_for_jnigen.dart';
 
+import 'accessors.dart';
 import 'jni.dart';
+import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'types.dart';
 
@@ -66,6 +67,10 @@ class JObject {
 
   bool get isNull => reference.isNull;
 
+  /// Releases the underlying [reference].
+  ///
+  /// Releasing in one isolate while using or releasing in another isolate might
+  /// crash in the JNI layer.
   void release() {
     reference.release();
   }
