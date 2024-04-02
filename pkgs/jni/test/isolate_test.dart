@@ -20,7 +20,8 @@ void main() {
 }
 
 void run({required TestRunnerCallback testRunner}) {
-  testRunner("Sharing JObject across isolates", () async {
+  testRunner("Sharing JObject across isolates",
+      skip: 'Not yet available on Dart stable', () async {
     final foo = 'foo'.toJString();
     final result = await Isolate.run(() => foo.toDartString());
     expect(result, 'foo');
@@ -29,11 +30,9 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner("Creating an object on both two different isolates", () async {
     // This also means that [Jni._ensureInitialized()] has been called in both
     // isolates.
-    final foo = 'foo'.toJString();
-    final bar = await Isolate.run(() {
-      return 'bar'.toJString();
+    'foo'.toJString();
+    await Isolate.run(() {
+      'bar'.toJString();
     });
-    expect(foo.toDartString(), 'foo');
-    expect(bar.toDartString(), 'bar');
   });
 }

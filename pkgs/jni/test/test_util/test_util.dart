@@ -7,10 +7,8 @@ import 'dart:io';
 import 'package:jni/src/build_util/build_util.dart';
 
 typedef TestCaseCallback = void Function();
-typedef TestRunnerCallback = void Function(
-  String description,
-  TestCaseCallback test,
-);
+typedef TestRunnerCallback = void
+    Function(String description, TestCaseCallback test, {Object? skip});
 
 final currentDir = Directory.current.uri;
 final dllSuffix =
