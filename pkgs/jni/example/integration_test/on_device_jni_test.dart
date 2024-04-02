@@ -16,8 +16,10 @@ import '../../test/boxed_test.dart' as boxed_test;
 import '../../test/type_test.dart' as type_test;
 import '../../test/load_test.dart' as load_test;
 
-void integrationTestRunner(String description, void Function() testCallback) {
-  testWidgets(description, (widgetTester) async => testCallback());
+void integrationTestRunner(String description, void Function() testCallback,
+    {Object? skip}) {
+  testWidgets(description, (widgetTester) async => testCallback(),
+      skip: skip != null && skip != false);
 }
 
 void main() {
