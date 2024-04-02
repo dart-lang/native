@@ -166,31 +166,32 @@ void run({required TestRunnerCallback testRunner}) {
           }));
   testRunner(
       'Env create reference methods should retain their default behavior', () {
+    final systemClass = using((arena) {
+      return env.FindClass("java/lang/System".toNativeChars(arena));
+    });
     final systemOut = using((arena) {
-      final systemClass =
-          env.FindClass("java/lang/System".toNativeChars(arena));
       final outField = env.GetStaticFieldID(
           systemClass,
           "out".toNativeChars(arena),
           "Ljava/io/PrintStream;".toNativeChars(arena));
-      env.DeleteGlobalRef(systemClass);
       return env.GetStaticObjectField(systemClass, outField);
     });
     var refType = env.GetObjectRefType(systemOut);
-    expect(refType, equals(JObjectRefType.JNIGlobalRefType));
+    expect(refType, JObjectRefType.JNIGlobalRefType);
     final localRef = env.NewLocalRef(systemOut);
     refType = env.GetObjectRefType(localRef);
-    expect(refType, equals(JObjectRefType.JNILocalRefType));
+    expect(refType, JObjectRefType.JNILocalRefType);
     final weakRef = env.NewWeakGlobalRef(systemOut);
     refType = env.GetObjectRefType(weakRef);
-    expect(refType, equals(JObjectRefType.JNIWeakGlobalRefType));
+    expect(refType, JObjectRefType.JNIWeakGlobalRefType);
     final globalRef = env.NewGlobalRef(localRef);
     refType = env.GetObjectRefType(globalRef);
-    expect(refType, equals(JObjectRefType.JNIGlobalRefType));
+    expect(refType, JObjectRefType.JNIGlobalRefType);
     env.DeleteGlobalRef(globalRef);
     env.DeleteWeakGlobalRef(weakRef);
     env.DeleteLocalRef(localRef);
     env.DeleteGlobalRef(systemOut);
+    env.DeleteGlobalRef(systemClass);
   });
   testRunner('long methods return long int without loss of precision', () {
     using((arena) {

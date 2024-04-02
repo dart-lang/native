@@ -80,7 +80,7 @@ void run({required TestRunnerCallback testRunner}) {
     final integerClass = JClass.forName("java/lang/Integer");
     expect(
         () => integerClass.staticMethodId("parseInt", "(Ljava/lang/String;)I")(
-            integerClass, JString.type, [nullptr]),
+            integerClass, jint.type, [nullptr]),
         throwsException);
     integerClass.release();
   });
@@ -231,8 +231,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner("Isolate", () async {
-    final receivePort = ReceivePort();
-    await Isolate.spawn((sendPort) {
+    final random = await Isolate.run(() {
       // On standalone target, make sure to call [setDylibDir] before accessing
       // any JNI function in a new isolate.
       //
@@ -246,13 +245,9 @@ void run({required TestRunnerCallback testRunner}) {
           .call(random, jint.type, [256]);
       random.release();
       randomClass.release();
-      // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
-      // with coverage pauses indefinitely here.
-      // https://github.com/dart-lang/coverage/issues/472
-      sendPort.send(result);
-      Isolate.current.kill();
-    }, receivePort.sendPort);
-    final random = await receivePort.first as int;
+      return result;
+    });
+
     expect(random, greaterThanOrEqualTo(0));
     expect(random, lessThan(256));
   });

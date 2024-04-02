@@ -59,7 +59,9 @@ abstract final class Jni {
   /// On flutter it's done by library. On dart standalone we don't
   /// know the library path.)
   static void setDylibDir({required String dylibDir}) {
-    _dylibDir = dylibDir;
+    if (!Platform.isAndroid) {
+      _dylibDir = dylibDir;
+    }
   }
 
   static bool _initialized = false;
