@@ -1,5 +1,5 @@
 name: complex_link
-description: Sums two numbers with native code.
+description: Prints "Tada!", but packages some assets while tree-shaking others
 version: 0.1.0
 
 publish_to: none
