@@ -19,8 +19,8 @@ functions:
     'objc_getClass': 'getClass'
     'objc_retain': 'objectRetain'
     'objc_release': 'objectRelease'
-    'Block_copy': 'blockCopy'
-    'Block_release': 'blockRelease'
+    '_Block_copy': 'blockCopy'
+    '_Block_release': 'blockRelease'
 globals:
   include:
     - _NSConcreteGlobalBlock

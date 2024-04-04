@@ -8,6 +8,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'native_objc_test_bindings.dart';
@@ -37,7 +38,7 @@ void main() {
       foo.idVal = obj;
       expect(foo.idVal, obj);
 
-      foo.selVal = Pointer<ObjCSel>.fromAddress(456);
+      foo.selVal = Pointer<ObjCSelector>.fromAddress(456);
       expect(foo.selVal.address, 456);
 
       foo.classVal = obj;

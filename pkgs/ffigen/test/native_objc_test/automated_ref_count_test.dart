@@ -8,15 +8,15 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:test/test.dart';
 import 'package:ffi/ffi.dart';
+import 'package:objective_c/objective_c.dart';
+import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'automated_ref_count_bindings.dart';
 import 'util.dart';
 
 void main() {
   late AutomatedRefCountTestObjCLibrary lib;
-  late void Function(Pointer<Char>, Pointer<Void>) executeInternalCommand;
 
   group('Automatic reference counting', () {
     setUpAll(() {
@@ -27,19 +27,8 @@ void main() {
       lib = AutomatedRefCountTestObjCLibrary(
           DynamicLibrary.open(dylib.absolute.path));
 
-      executeInternalCommand = DynamicLibrary.process().lookupFunction<
-          Void Function(Pointer<Char>, Pointer<Void>),
-          void Function(
-              Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
-
       generateBindingsForCoverage('automated_ref_count');
     });
-
-    doGC() {
-      final gcNow = "gc-now".toNativeUtf8();
-      executeInternalCommand(gcNow.cast(), nullptr);
-      calloc.free(gcNow);
-    }
 
     newMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.new1(lib);
@@ -63,7 +52,7 @@ void main() {
     allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.alloc(lib).initWithCounter_(counter);
       expect(counter.value, 1);
-      final obj2 = ArcTestObject.castFrom(ArcTestObject.alloc(lib).init());
+      final obj2 = ArcTestObject.castFrom(lib, ArcTestObject.alloc(lib).init());
       obj2.setCounter_(counter);
       expect(counter.value, 2);
       final obj3 = ArcTestObject.allocTheThing(lib).initWithCounter_(counter);

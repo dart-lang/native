@@ -27,21 +27,21 @@ void main() {
     });
 
     test('Unrelated classes', () {
-      final base = NSObject.castFrom(BaseClass.new1(lib));
-      final unrelated = NSObject.castFrom(UnrelatedClass.new1(lib));
-      expect(BaseClass.isInstance(base), isTrue);
-      expect(BaseClass.isInstance(unrelated), isFalse);
-      expect(UnrelatedClass.isInstance(base), isFalse);
-      expect(UnrelatedClass.isInstance(unrelated), isTrue);
+      final base = NSObject.castFrom(lib, BaseClass.new1(lib));
+      final unrelated = NSObject.castFrom(lib, UnrelatedClass.new1(lib));
+      expect(BaseClass.isInstance(lib, base), isTrue);
+      expect(BaseClass.isInstance(lib, unrelated), isFalse);
+      expect(UnrelatedClass.isInstance(lib, base), isFalse);
+      expect(UnrelatedClass.isInstance(lib, unrelated), isTrue);
     });
 
     test('Base class vs child class', () {
-      final base = NSObject.castFrom(BaseClass.new1(lib));
-      final child = NSObject.castFrom(ChildClass.new1(lib));
-      expect(BaseClass.isInstance(base), isTrue);
-      expect(BaseClass.isInstance(child), isTrue);
-      expect(ChildClass.isInstance(base), isFalse);
-      expect(ChildClass.isInstance(child), isTrue);
+      final base = NSObject.castFrom(lib, BaseClass.new1(lib));
+      final child = NSObject.castFrom(lib, ChildClass.new1(lib));
+      expect(BaseClass.isInstance(lib, base), isTrue);
+      expect(BaseClass.isInstance(lib, child), isTrue);
+      expect(ChildClass.isInstance(lib, base), isFalse);
+      expect(ChildClass.isInstance(lib, child), isTrue);
     });
   });
 }

@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:path/path.dart' as p;
 import 'dart_keywords.dart';
 import 'pointer.dart';
 import 'type.dart';
@@ -111,4 +114,21 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
   }
 
   return '@${w.ffiLibraryPrefix}.Array.multi([${dimensions.join(', ')}])';
+}
+
+String findDart() {
+  // Returns the path to the Dart executable, which will usually just be
+  // Platform.resolvedExecutable. But when running flutter tests, the
+  // resolvedExecutable will be flutter_tester, and Dart will be in a
+  // directory a few levels up from it.
+  String path = Platform.resolvedExecutable;
+  if (p.basenameWithoutExtension(path) == 'dart') return path;
+  final dartExe = 'dart${p.extension(path)}';
+  while (path.isNotEmpty) {
+    path = p.dirname(path);
+    final dartPath = p.join(path, dartExe);
+    if (File(dartPath).existsSync()) return dartPath;
+  }
+  throw Exception(
+      "Couldn't find Dart executable near ${Platform.resolvedExecutable}");
 }

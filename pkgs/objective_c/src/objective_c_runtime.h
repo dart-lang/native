@@ -36,5 +36,5 @@ typedef struct _ObjCBlock {
     void* target;
 } ObjCBlock;
 
-ObjCBlock* Block_copy(ObjCBlock* object);
-void Block_release(ObjCBlock* object);
+ObjCBlock* _Block_copy(ObjCBlock* object);
+void _Block_release(ObjCBlock* object);

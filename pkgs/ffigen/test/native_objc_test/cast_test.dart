@@ -9,6 +9,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'cast_bindings.dart';
@@ -29,7 +30,7 @@ void main() {
     });
 
     test('castFrom', () {
-      final fromCast = Castaway.castFrom(testInstance!.meAsNSObject());
+      final fromCast = Castaway.castFrom(lib, testInstance!.meAsNSObject());
       expect(fromCast, testInstance!);
     });
 

@@ -27,7 +27,6 @@ typedef BlockBlock = ObjCBlock_Int32Int32_Int32Int32;
 
 void main() {
   late BlockTestObjCLibrary lib;
-  late void Function(Pointer<Char>, Pointer<Void>) executeInternalCommand;
 
   group('Blocks', () {
     setUpAll(() {
@@ -36,19 +35,8 @@ void main() {
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      executeInternalCommand = DynamicLibrary.process().lookupFunction<
-          Void Function(Pointer<Char>, Pointer<Void>),
-          void Function(
-              Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
-
       generateBindingsForCoverage('block');
     });
-
-    doGC() {
-      final gcNow = "gc-now".toNativeUtf8();
-      executeInternalCommand(gcNow.cast(), nullptr);
-      calloc.free(gcNow);
-    }
 
     test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester

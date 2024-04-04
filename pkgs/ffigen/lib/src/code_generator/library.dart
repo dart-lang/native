@@ -149,9 +149,9 @@ class Library {
 
   /// Formats a file using the Dart formatter.
   void _dartFormat(String path) {
-    final sdkPath = getSdkPath();
     final result = Process.runSync(
-        p.join(sdkPath, 'bin', 'dart'), ['format', path],
+        findDart(), ['format', path],
+        workingDirectory: Directory.current.absolute.path,
         runInShell: Platform.isWindows);
     if (result.stderr.toString().isNotEmpty) {
       _logger.severe(result.stderr);

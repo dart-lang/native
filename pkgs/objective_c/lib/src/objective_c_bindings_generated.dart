@@ -36,17 +36,17 @@ external void objectRelease(
   ffi.Pointer<ObjCObject> object,
 );
 
-@ffi.Native<ffi.Pointer<ffi.Void>>(symbol: "_NSConcreteGlobalBlock")
+@ffi.Native<ffi.Pointer<ffi.Void>>(symbol: '_NSConcreteGlobalBlock')
 external final ffi.Pointer<ffi.Void> NSConcreteGlobalBlock;
 
 @ffi.Native<ffi.Pointer<ObjCBlock> Function(ffi.Pointer<ObjCBlock>)>(
-    symbol: 'Block_copy', isLeaf: true)
+    symbol: '_Block_copy', isLeaf: true)
 external ffi.Pointer<ObjCBlock> blockCopy(
   ffi.Pointer<ObjCBlock> object,
 );
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(
-    symbol: 'Block_release', isLeaf: true)
+    symbol: '_Block_release', isLeaf: true)
 external void blockRelease(
   ffi.Pointer<ObjCBlock> object,
 );
