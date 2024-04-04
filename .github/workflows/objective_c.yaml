@@ -1,0 +1,44 @@
+name: objective_c
+
+on:
+  # Run on PRs and pushes to the default branch.
+  push:
+    branches: [main, stable]
+    paths:
+      - '.github/workflows/objective_c.yml'
+      - 'pkgs/objective_c/**'
+  pull_request:
+    branches: [main, stable]
+    paths:
+      - '.github/workflows/objective_c.yml'
+      - 'pkgs/objective_c/**'
+  schedule:
+    - cron: "0 0 * * 0"
+
+env:
+  PUB_ENVIRONMENT: bot.github
+
+jobs:
+  # Check code formatting and static analysis.
+  analyze:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: pkgs/objective_c/
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+        with:
+          flutter-version: 3.19.0
+          channel: 'stable'
+      - id: install
+        name: Install dependencies
+        run: flutter pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+        if: always() && steps.install.outcome == 'success'
+      - name: Analyze code
+        run: flutter analyze --fatal-infos
+        if: always() && steps.install.outcome == 'success'

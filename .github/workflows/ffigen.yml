@@ -1,17 +1,20 @@
 name: ffigen
 
 on:
-  # Run on PRs and pushes to the default branch.
+  # Run on PRs and pushes to the default branch, in either the ffigen directory,
+  # or the objective_c directory.
   push:
     branches: [main, stable]
     paths:
       - '.github/workflows/ffigen.yml'
       - 'pkgs/ffigen/**'
+      - 'pkgs/objective_c/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/ffigen.yml'
       - 'pkgs/ffigen/**'
+      - 'pkgs/objective_c/**'
   schedule:
     - cron: "0 0 * * 0"
 
@@ -28,8 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sdk: [dev]
-#        sdk: [3.3.0]
+       sdk: [3.3.0]
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
@@ -57,7 +59,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
-          sdk: dev  #3.3.0
+          sdk: 3.3.0
       - name: Install dependencies
         run: dart pub get
       - name: Install libclang-14-dev
@@ -78,7 +80,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
-          sdk: dev #3.3.0
+          sdk: 3.3.0
       - name: Install dependencies
         run: dart pub get
       - name: Build test dylib and bindings
@@ -111,7 +113,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
-          sdk: dev #3.3.0
+          sdk: 3.3.0
       - name: Install dependencies
         run: dart pub get
       - name: Build test dylib and bindings
