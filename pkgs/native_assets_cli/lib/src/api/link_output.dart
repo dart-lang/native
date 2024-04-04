@@ -24,6 +24,18 @@ abstract final class LinkOutput {
   /// link will be re-run.
   Iterable<Uri> get dependencies;
 
+  /// Adds file used by this link.
+  ///
+  /// If any of the files are modified after [timestamp], the link will be
+  /// re-run.
+  void addDependency(Uri dependency);
+
+  /// Adds files used by this link.
+  ///
+  /// If any of the files are modified after [timestamp], the link will be
+  /// re-run.
+  void addDependencies(Iterable<Uri> dependencies);
+
   /// Adds [Asset]s produced by this link or dry run.
   void addAsset(Asset asset);
 
