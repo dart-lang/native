@@ -7,6 +7,11 @@ package com.github.dart_lang.jnigen.simple_package;
 import java.util.*;
 
 public class Example {
+  static {
+    // This turns into a <clinit> method in the bytecode. Making sure jnigen
+    // does not generate it.
+  }
+
   // static fields - primitive & string
   public static final int ON = 1;
   public static final int OFF = 0;

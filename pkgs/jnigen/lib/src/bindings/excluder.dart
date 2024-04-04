@@ -42,6 +42,7 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
     node.methods = node.methods.where((method) {
       final included = !_isPrivate(method) &&
           !method.name.startsWith('_') &&
+          method.name != '<clinit>' &&
           (config.exclude?.methods?.included(node, method) ?? true);
       if (!included) {
         log.fine('Excluded method ${node.binaryName}#${method.name}');
