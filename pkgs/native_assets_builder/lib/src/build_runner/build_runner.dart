@@ -350,6 +350,8 @@ ${result.stdout}
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
 ${config.outputName} contained a format error.
+
+Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
 ${e.message}
         ''');
       success = false;
@@ -361,7 +363,9 @@ ${e.message}
     } on TypeError {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
-${config.outputName} contained a format error.
+${config.outputName} contained a type error.
+
+Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
         ''');
       success = false;
       return (BuildOutputImpl(), false);
