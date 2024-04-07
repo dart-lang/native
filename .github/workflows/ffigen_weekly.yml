@@ -22,9 +22,13 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
-          sdk: dev #3.3.0
+          sdk: 3.3.0
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+        with:
+          flutter-version: 3.19.0
+          channel: 'stable'
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests

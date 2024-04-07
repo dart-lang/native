@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:async';
 import 'dart:ffi';
-import 'dart:io';
-import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 
@@ -79,14 +76,13 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
   }
 
   NativeFinalizer get _finalizer => throw UnimplementedError();
-  void _retain(Pointer<T> pointer) => throw UnimplementedError();
-  void _release(Pointer<T> pointer) => throw UnimplementedError();
+  void _retain(Pointer<T> ptr) => throw UnimplementedError();
+  void _release(Pointer<T> ptr) => throw UnimplementedError();
 }
 
 class ObjCObjectBase extends _ObjCFinalizable<objc.ObjCObject> {
-  ObjCObjectBase(Pointer<objc.ObjCObject> ptr,
-      {required bool retain, required bool release})
-      : super(ptr, retain: retain, release: release);
+  ObjCObjectBase(super.ptr,
+      {required super.retain, required super.release});
 
   static final _objectFinalizer = NativeFinalizer(
       Native.addressOf<NativeFunction<Void Function(Pointer<objc.ObjCObject>)>>(
@@ -104,9 +100,8 @@ class ObjCObjectBase extends _ObjCFinalizable<objc.ObjCObject> {
 }
 
 class ObjCBlockBase extends _ObjCFinalizable<objc.ObjCBlock> {
-  ObjCBlockBase(Pointer<objc.ObjCBlock> ptr,
-      {required bool retain, required bool release})
-      : super(ptr, retain: retain, release: release);
+  ObjCBlockBase(super.ptr,
+      {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
       Native.addressOf<NativeFunction<Void Function(Pointer<objc.ObjCBlock>)>>(
