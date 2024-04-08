@@ -1,3 +1,7 @@
+## 0.8.1-wip
+
+- Ignore `use_super_parameters` lint in generated files.
+
 ## 0.8.0
 
 - **Breaking Change** ([#981](https://github.com/dart-lang/native/issues/981)):
