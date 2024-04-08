@@ -61,8 +61,12 @@ jobs:
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: 3.3.0
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+        with:
+          flutter-version: 3.19.0
+          channel: 'stable'
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
       - name: Install libclang-14-dev
         run: sudo apt-get install libclang-14-dev
       - name: Build test dylib and bindings
@@ -82,8 +86,12 @@ jobs:
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: 3.3.0
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+        with:
+          flutter-version: 3.19.0
+          channel: 'stable'
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
@@ -115,8 +123,12 @@ jobs:
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: 3.3.0
+      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+        with:
+          flutter-version: 3.19.0
+          channel: 'stable'
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
