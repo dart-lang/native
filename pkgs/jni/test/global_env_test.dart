@@ -26,7 +26,7 @@ void main() {
 
   if (!Platform.isAndroid) {
     checkDylibIsUpToDate();
-    Jni.spawnIfNotExists(dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
+    spawnJvm();
   }
   run(testRunner: test);
 }

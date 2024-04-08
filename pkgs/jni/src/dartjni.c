@@ -521,6 +521,8 @@ JniExceptionDetails getExceptionDetails(jthrowable exception) {
   JniExceptionDetails details;
   details.message = (*jniEnv)->CallObjectMethod(
       jniEnv, exception, exceptionMethods.toStringMethod);
+  // No exception is thrown from toString.
+  (*jniEnv)->ExceptionClear(jniEnv);
   jobject buffer =
       (*jniEnv)->NewObject(jniEnv, exceptionMethods.byteArrayOutputStreamClass,
                            exceptionMethods.byteArrayOutputStreamCtor);
@@ -529,8 +531,12 @@ JniExceptionDetails getExceptionDetails(jthrowable exception) {
                            exceptionMethods.printStreamCtor, buffer);
   (*jniEnv)->CallVoidMethod(
       jniEnv, exception, exceptionMethods.printStackTraceMethod, printStream);
+  // No exception is thrown from printStackTrace.
+  (*jniEnv)->ExceptionClear(jniEnv);
   details.stacktrace = (*jniEnv)->CallObjectMethod(
       jniEnv, buffer, exceptionMethods.toStringMethod);
+  // No exception is thrown from toString.
+  (*jniEnv)->ExceptionClear(jniEnv);
   details.message = to_global_ref(details.message);
   details.stacktrace = to_global_ref(details.stacktrace);
   return details;

@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:jni/jni.dart';
 import 'package:jni/src/build_util/build_util.dart';
 
 typedef TestCaseCallback = void Function();
@@ -33,4 +34,9 @@ void checkDylibIsUpToDate() {
     stderr.writeln(message);
     exit(1);
   }
+}
+
+void spawnJvm() {
+  Jni.spawnIfNotExists(
+      dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m", "-Xcheck:jni"]);
 }
