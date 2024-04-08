@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_local_variable
+
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
@@ -9,8 +11,9 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:test/test.dart';
 import 'package:ffi/ffi.dart';
+import 'package:test/test.dart';
+
 import '../test_utils.dart';
 import 'block_bindings.dart';
 import 'util.dart';
@@ -71,7 +74,7 @@ void main() {
     });
 
     test('Listener block same thread', () async {
-      final hasRun = Completer();
+      final hasRun = Completer<void>();
       int value = 0;
       final block = VoidBlock.listener(lib, () {
         value = 123;
@@ -85,7 +88,7 @@ void main() {
     });
 
     test('Listener block new thread', () async {
-      final hasRun = Completer();
+      final hasRun = Completer<void>();
       int value = 0;
       final block = VoidBlock.listener(lib, () {
         value = 123;

@@ -4,12 +4,10 @@
 
 import 'dart:io';
 
-import 'package:cli_util/cli_util.dart';
 import 'package:collection/collection.dart';
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as p;
 import 'package:yaml_edit/yaml_edit.dart';
 
 import 'utils.dart';

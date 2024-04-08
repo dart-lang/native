@@ -5,10 +5,9 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:ffigen/ffigen.dart';
 import 'package:ffi/ffi.dart';
+import 'package:ffigen/ffigen.dart';
 import 'package:path/path.dart' as path;
-import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
