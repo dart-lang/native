@@ -1,3 +1,7 @@
+## 0.8.1-wip
+
+- Expand constraint on `package:cli_config` to allow `^0.2.0`.
+
 ## 0.8.0
 
 - **Breaking Change** ([#981](https://github.com/dart-lang/native/issues/981)):
