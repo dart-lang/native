@@ -143,16 +143,7 @@ class RunCBuilder {
     final architecture = buildConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
-    if (dynamicLibrary != null) {
-      await _compile(
-        compiler,
-        architecture,
-        targetAndroidNdkApi,
-        targetIosSdk,
-        sourceFiles,
-        outDir.resolveUri(dynamicLibrary!),
-      );
-    } else if (staticLibrary != null) {
+    if (staticLibrary != null) {
       for (var i = 0; i < sourceFiles.length; i++) {
         final objectFile = outDir.resolve('out$i.o');
         await _compile(
@@ -165,6 +156,15 @@ class RunCBuilder {
         );
         objectFiles.add(objectFile);
       }
+    } else {
+      await _compile(
+        compiler,
+        architecture,
+        targetAndroidNdkApi,
+        targetIosSdk,
+        sourceFiles,
+        dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
+      );
     }
 
     if (staticLibrary != null) {
@@ -188,7 +188,7 @@ class RunCBuilder {
     int? targetAndroidNdkApi,
     IOSSdk? targetIosSdk,
     Iterable<String> sourceFiles,
-    Uri outFile,
+    Uri? outFile,
   ) async {
     await runProcess(
       executable: compiler.uri,
@@ -256,11 +256,11 @@ class RunCBuilder {
         if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
-          outFile.toFilePath(),
+          outFile!.toFilePath(),
         ] else if (staticLibrary != null) ...[
           '-c',
           '-o',
-          outFile.toFilePath(),
+          outFile!.toFilePath(),
         ],
       ],
       logger: logger,
