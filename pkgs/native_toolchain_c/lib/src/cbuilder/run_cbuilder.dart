@@ -166,6 +166,7 @@ class RunCBuilder {
         objectFiles.add(objectFile);
       }
     }
+
     if (staticLibrary != null) {
       await runProcess(
         executable: archiver_!,

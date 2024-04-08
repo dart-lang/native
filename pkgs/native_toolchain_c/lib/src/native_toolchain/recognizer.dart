@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart' as cli;
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -11,7 +11,7 @@ import '../tool/tool_resolver.dart';
 import 'apple_clang.dart';
 import 'clang.dart';
 import 'gcc.dart';
-import 'msvc.dart';
+import 'msvc.dart' as msvc;
 
 class CompilerRecognizer implements ToolResolver {
   final Uri uri;
@@ -20,7 +20,7 @@ class CompilerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final os = cli.OS.current;
+    final os = OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
@@ -35,7 +35,7 @@ class CompilerRecognizer implements ToolResolver {
         tool = clang;
       }
     } else if (filePath.endsWith('cl.exe')) {
-      tool = cl;
+      tool = msvc.cl;
     }
 
     if (tool != null) {
@@ -46,7 +46,7 @@ class CompilerRecognizer implements ToolResolver {
           toolInstance,
           logger: logger,
           arguments: [
-            if (tool != cl) '--version',
+            if (tool != msvc.cl) '--version',
           ],
         ),
       ];
@@ -64,7 +64,7 @@ class LinkerRecognizer implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final os = cli.OS.current;
+    final os = OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
     Tool? tool;
@@ -75,7 +75,7 @@ class LinkerRecognizer implements ToolResolver {
     } else if (filePath.endsWith(os.executableFileName('ld'))) {
       tool = appleLd;
     } else if (filePath.endsWith('link.exe')) {
-      tool = link;
+      tool = msvc.link;
     }
 
     if (tool != null) {
@@ -89,7 +89,7 @@ class LinkerRecognizer implements ToolResolver {
           ),
         ];
       }
-      if (tool == link) {
+      if (tool == msvc.link) {
         return [
           await CliVersionResolver.lookupVersion(
             toolInstance,
@@ -115,7 +115,7 @@ class ArchiverRecognizer implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     logger?.finer('Trying to recognize $uri.');
-    final os = cli.OS.current;
+    final os = OS.current;
     final filePath = uri.toFilePath();
     Tool? tool;
     if (filePath.contains('-gcc-ar')) {
@@ -125,7 +125,7 @@ class ArchiverRecognizer implements ToolResolver {
     } else if (filePath.endsWith(os.executableFileName('ar'))) {
       tool = appleAr;
     } else if (filePath.endsWith('lib.exe')) {
-      tool = lib;
+      tool = msvc.lib;
     }
 
     if (tool != null) {

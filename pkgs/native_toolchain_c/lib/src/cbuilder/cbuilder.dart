@@ -253,20 +253,17 @@ class CBuilder implements Builder {
     }
 
     if (assetName != null) {
-      buildOutput.addAssets(
-        [
-          NativeCodeAsset(
-            package: buildConfig.packageName,
-            name: assetName!,
-            file: libUri,
-            linkMode: linkMode,
-            os: buildConfig.targetOS,
-            architecture:
-                buildConfig.dryRun ? null : buildConfig.targetArchitecture,
-          )
-        ],
-        linkInPackage: linkInPackage,
-      );
+      buildOutput.addAssets([
+        NativeCodeAsset(
+          package: buildConfig.packageName,
+          name: assetName!,
+          file: libUri,
+          linkMode: linkMode,
+          os: buildConfig.targetOS,
+          architecture:
+              buildConfig.dryRun ? null : buildConfig.targetArchitecture,
+        )
+      ], linkInPackage: linkInPackage);
     }
     if (!buildConfig.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
