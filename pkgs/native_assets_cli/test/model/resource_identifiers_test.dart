@@ -16,15 +16,15 @@ void main() {
     expect(resourceIdentifiers.identifiers, isEmpty);
   });
   test('Serialize to JSON', () {
+    const jsonEncoder = JsonEncoder.withIndent('  ');
     expect(
-      const JsonEncoder.withIndent('  ').convert(resourceIdentifiers),
-      resourceIdentifiersJson,
+      jsonEncoder.convert(resourceIdentifiers),
+      jsonEncoder.convert(resourceIdentifiersJson),
     );
   });
   test('Deserialize from JSON', () {
     expect(
-      ResourceIdentifiers.fromJson(
-          jsonDecode(resourceIdentifiersJson) as Map<String, dynamic>),
+      ResourceIdentifiers.fromJson(resourceIdentifiersJson),
       resourceIdentifiers,
     );
   });

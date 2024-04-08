@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
@@ -109,86 +107,75 @@ void main() {
     uri: ${blaUri.toFilePath()}
   target: windows_x64''';
 
-  final assetsJsonEncoding = '''
-[
-  {
-    "architecture": "x64",
-    "file": "${fooUri.toFilePath()}",
-    "id": "package:my_package/foo",
-    "link_mode": {
-      "type": "dynamic_loading_bundle"
+  final assetsJsonEncoding = [
+    {
+      'architecture': 'x64',
+      'file': fooUri.toFilePath(),
+      'id': 'package:my_package/foo',
+      'link_mode': {'type': 'dynamic_loading_bundle'},
+      'os': 'android',
+      'type': 'native_code'
     },
-    "os": "android",
-    "type": "native_code"
-  },
-  {
-    "architecture": "x64",
-    "id": "package:my_package/foo3",
-    "link_mode": {
-      "type": "dynamic_loading_system",
-      "uri": "${foo3Uri.toFilePath()}"
+    {
+      'architecture': 'x64',
+      'id': 'package:my_package/foo3',
+      'link_mode': {
+        'type': 'dynamic_loading_system',
+        'uri': foo3Uri.toFilePath()
+      },
+      'os': 'android',
+      'type': 'native_code'
     },
-    "os": "android",
-    "type": "native_code"
-  },
-  {
-    "architecture": "x64",
-    "id": "package:my_package/foo4",
-    "link_mode": {
-      "type": "dynamic_loading_executable"
+    {
+      'architecture': 'x64',
+      'id': 'package:my_package/foo4',
+      'link_mode': {'type': 'dynamic_loading_executable'},
+      'os': 'android',
+      'type': 'native_code'
     },
-    "os": "android",
-    "type": "native_code"
-  },
-  {
-    "architecture": "x64",
-    "id": "package:my_package/foo5",
-    "link_mode": {
-      "type": "dynamic_loading_process"
+    {
+      'architecture': 'x64',
+      'id': 'package:my_package/foo5',
+      'link_mode': {'type': 'dynamic_loading_process'},
+      'os': 'android',
+      'type': 'native_code'
     },
-    "os": "android",
-    "type": "native_code"
-  },
-  {
-    "architecture": "arm64",
-    "file": "${barUri.toFilePath()}",
-    "id": "package:my_package/bar",
-    "link_mode": {
-      "type": "static"
+    {
+      'architecture': 'arm64',
+      'file': barUri.toFilePath(),
+      'id': 'package:my_package/bar',
+      'link_mode': {'type': 'static'},
+      'os': 'linux',
+      'type': 'native_code'
     },
-    "os": "linux",
-    "type": "native_code"
-  },
-  {
-    "architecture": "x64",
-    "file": "${blaUri.toFilePath()}",
-    "id": "package:my_package/bla",
-    "link_mode": {
-      "type": "dynamic_loading_bundle"
+    {
+      'architecture': 'x64',
+      'file': blaUri.toFilePath(),
+      'id': 'package:my_package/bla',
+      'link_mode': {'type': 'dynamic_loading_bundle'},
+      'os': 'windows',
+      'type': 'native_code'
     },
-    "os": "windows",
-    "type": "native_code"
-  },
-  {
-    "name": "my_data_asset",
-    "package": "my_package",
-    "file": "path/to/data.txt",
-    "type": "data"
-  },
-  {
-    "name": "my_data_asset2",
-    "package": "my_package",
-    "file": "path/to/data.json",
-    "type": "data"
-  }
-]''';
+    {
+      'name': 'my_data_asset',
+      'package': 'my_package',
+      'file': Uri.file('path/to/data.txt').toFilePath(),
+      'type': 'data'
+    },
+    {
+      'name': 'my_data_asset2',
+      'package': 'my_package',
+      'file': Uri.file('path/to/data.json').toFilePath(),
+      'type': 'data'
+    }
+  ];
 
   test('asset yaml', () {
-    final json = const JsonEncoder.withIndent('  ').convert([
+    final json = [
       for (final item in assets) item.toJson(BuildOutputImpl.latestVersion)
-    ]).replaceAll('\\', '/');
+    ];
     expect(json, assetsJsonEncoding);
-    final assets2 = AssetImpl.listFromJson(jsonDecode(json) as List<Object?>);
+    final assets2 = AssetImpl.listFromJson(json);
     expect(assets, assets2);
   });
 

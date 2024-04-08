@@ -57,7 +57,7 @@ class ResourceIdentifiers {
 class Identifier {
   final String name;
   final String id;
-  final String uri;
+  final Uri uri;
   final bool nonConstant;
   final List<ResourceFile> files;
 
@@ -72,7 +72,7 @@ class Identifier {
   Map<String, dynamic> toJson() => {
         'name': name,
         'id': id,
-        'uri': uri,
+        'uri': uri.toFilePath(),
         'nonConstant': nonConstant,
         'files': files.map((x) => x.toJson()).toList(),
       };
@@ -84,7 +84,7 @@ class Identifier {
   factory Identifier.fromJson(Map<String, dynamic> map) => Identifier(
         name: map['name'] as String,
         id: map['id'] as String,
-        uri: map['uri'] as String,
+        uri: Uri.file(map['uri'] as String),
         nonConstant: map['nonConstant'] as bool,
         files: List<ResourceFile>.from((map['files'] as List)
             .map((e) => e as Map<String, dynamic>)
@@ -149,7 +149,7 @@ class ResourceFile {
 }
 
 class ResourceReference {
-  final String uri;
+  final Uri uri;
   final int line;
   final int column;
   final Map<String, Object?> arguments;
@@ -163,7 +163,7 @@ class ResourceReference {
 
   Map<String, dynamic> toJson() => {
         '@': {
-          'uri': uri,
+          'uri': uri.toFilePath(),
           'line': line,
           'column': column,
         },
@@ -177,7 +177,7 @@ class ResourceReference {
   factory ResourceReference.fromJson(Map<String, dynamic> map) {
     final submap = map['@'] as Map<String, dynamic>;
     return ResourceReference(
-      uri: submap['uri'] as String,
+      uri: Uri.file(submap['uri'] as String),
       line: submap['line'] as int,
       column: submap['column'] as int,
       arguments: Map<String, Object?>.from(map)..remove('@'),

@@ -13,12 +13,12 @@ final resourceIdentifiers = ResourceIdentifiers(identifiers: [
   Identifier(
     name: 'methodName1',
     id: 'someMetadata',
-    uri: Uri.file('path/to/file').toFilePath(),
+    uri: Uri.file('path/to/file'),
     nonConstant: true,
     files: [
       ResourceFile(part: 1, references: [
         ResourceReference(
-          uri: Uri.file('path/to/reference').toFilePath(),
+          uri: Uri.file('path/to/reference'),
           line: 2,
           column: 4,
           arguments: {
@@ -31,12 +31,12 @@ final resourceIdentifiers = ResourceIdentifiers(identifiers: [
   Identifier(
     name: 'methodName2',
     id: 'someOtherMetadata',
-    uri: Uri.file('path/to/other/file').toFilePath(),
+    uri: Uri.file('path/to/other/file'),
     nonConstant: false,
     files: [
       ResourceFile(part: 1, references: [
         ResourceReference(
-          uri: Uri.file('path/to/reference').toFilePath(),
+          uri: Uri.file('path/to/reference'),
           line: 15,
           column: 3,
           arguments: {
@@ -46,7 +46,7 @@ final resourceIdentifiers = ResourceIdentifiers(identifiers: [
       ]),
       ResourceFile(part: 2, references: [
         ResourceReference(
-          uri: Uri.file('path/to/reference').toFilePath(),
+          uri: Uri.file('path/to/reference'),
           line: 15,
           column: 3,
           arguments: {
@@ -58,63 +58,62 @@ final resourceIdentifiers = ResourceIdentifiers(identifiers: [
   ),
 ]);
 
-const resourceIdentifiersJson = '''
-{
-  "identifiers": [
+final resourceIdentifiersJson = {
+  'identifiers': [
     {
-      "name": "methodName1",
-      "id": "someMetadata",
-      "uri": "path/to/file",
-      "nonConstant": true,
-      "files": [
+      'name': 'methodName1',
+      'id': 'someMetadata',
+      'uri': Uri.file('path/to/file').toFilePath(),
+      'nonConstant': true,
+      'files': [
         {
-          "part": 1,
-          "references": [
+          'part': 1,
+          'references': [
             {
-              "@": {
-                "uri": "path/to/reference",
-                "line": 2,
-                "column": 4
+              '@': {
+                'uri': Uri.file('path/to/reference').toFilePath(),
+                'line': 2,
+                'column': 4
               },
-              "1": "Some positional argument"
+              '1': 'Some positional argument'
             }
           ]
         }
       ]
     },
     {
-      "name": "methodName2",
-      "id": "someOtherMetadata",
-      "uri": "path/to/other/file",
-      "nonConstant": false,
-      "files": [
+      'name': 'methodName2',
+      'id': 'someOtherMetadata',
+      'uri': Uri.file('path/to/other/file').toFilePath(),
+      'nonConstant': false,
+      'files': [
         {
-          "part": 1,
-          "references": [
+          'part': 1,
+          'references': [
             {
-              "@": {
-                "uri": "path/to/reference",
-                "line": 15,
-                "column": 3
+              '@': {
+                'uri': Uri.file('path/to/reference').toFilePath(),
+                'line': 15,
+                'column': 3
               },
-              "namedIntParam": 1
+              'namedIntParam': 1
             }
           ]
         },
         {
-          "part": 2,
-          "references": [
+          'part': 2,
+          'references': [
             {
-              "@": {
-                "uri": "path/to/reference",
-                "line": 15,
-                "column": 3
+              '@': {
+                'uri': Uri.file('path/to/reference').toFilePath(),
+                'line': 15,
+                'column': 3
               },
-              "namedIntParam": 2
+              'namedIntParam': 2
             }
           ]
         }
       ]
     }
   ]
-}''';
+};

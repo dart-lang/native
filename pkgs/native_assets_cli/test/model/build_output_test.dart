@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
-
 import '../helpers.dart';
 
 void main() {
@@ -97,82 +96,73 @@ assets:
     target: android_riscv64
 version: 1.0.0''';
 
-  final jsonEncoding = '''{
-  "timestamp": "2022-11-10 13:25:01.000",
-  "assets": [
-    {
-      "architecture": "x64",
-      "file": "path/to/libfoo.so",
-      "id": "package:my_package/foo",
-      "link_mode": {
-        "type": "dynamic_loading_bundle"
-      },
-      "os": "android",
-      "type": "native_code"
-    },
-    {
-      "architecture": "x64",
-      "id": "package:my_package/foo2",
-      "link_mode": {
-        "type": "dynamic_loading_system",
-        "uri": "path/to/libfoo2.so"
-      },
-      "os": "android",
-      "type": "native_code"
-    },
-    {
-      "architecture": "x64",
-      "id": "package:my_package/foo3",
-      "link_mode": {
-        "type": "dynamic_loading_process"
-      },
-      "os": "android",
-      "type": "native_code"
-    },
-    {
-      "architecture": "x64",
-      "id": "package:my_package/foo4",
-      "link_mode": {
-        "type": "dynamic_loading_executable"
-      },
-      "os": "android",
-      "type": "native_code"
-    }
-  ],
-  "assetsForLinking": {
-    "my_package": [
+  final jsonEncoding = {
+    'timestamp': '2022-11-10 13:25:01.000',
+    'assets': [
       {
-        "name": "data",
-        "package": "my_package",
-        "file": "path/to/data",
-        "type": "data"
+        'architecture': 'x64',
+        'file': Uri.file('path/to/libfoo.so').toFilePath(),
+        'id': 'package:my_package/foo',
+        'link_mode': {'type': 'dynamic_loading_bundle'},
+        'os': 'android',
+        'type': 'native_code'
+      },
+      {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo2',
+        'link_mode': {
+          'type': 'dynamic_loading_system',
+          'uri': Uri.file('path/to/libfoo2.so').toFilePath(),
+        },
+        'os': 'android',
+        'type': 'native_code'
+      },
+      {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo3',
+        'link_mode': {'type': 'dynamic_loading_process'},
+        'os': 'android',
+        'type': 'native_code'
+      },
+      {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo4',
+        'link_mode': {'type': 'dynamic_loading_executable'},
+        'os': 'android',
+        'type': 'native_code'
       }
     ],
-    "my_package_2": [
-      {
-        "name": "data",
-        "package": "my_package",
-        "file": "path/to/data2",
-        "type": "data"
-      }
-    ]
-  },
-  "dependencies": [
-    "path/to/file.ext"
-  ],
-  "metadata": {
-    "key": "value"
-  },
-  "version": "${BuildOutputImpl.latestVersion}"
-}''';
+    'assetsForLinking': {
+      'my_package': [
+        {
+          'name': 'data',
+          'package': 'my_package',
+          'file': Uri.file('path/to/data').toFilePath(),
+          'type': 'data'
+        }
+      ],
+      'my_package_2': [
+        {
+          'name': 'data',
+          'package': 'my_package',
+          'file': Uri.file('path/to/data2').toFilePath(),
+          'type': 'data'
+        }
+      ]
+    },
+    'dependencies': [
+      Uri.file('path/to/file.ext').toFilePath(),
+    ],
+    'metadata': {'key': 'value'},
+    'version': '${BuildOutputImpl.latestVersion}'
+  };
 
   test('built info json', () {
     final buildOutput = getBuildOutput();
-    final json =
-        buildOutput.toJsonString(BuildOutputImpl.latestVersion).unescape();
+    final json = buildOutput.toJson(BuildOutputImpl.latestVersion);
     expect(json, jsonEncoding);
 
-    final buildOutput2 = BuildOutputImpl.fromJsonString(json);
+    final buildOutput2 = BuildOutputImpl.fromJson(json);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
@@ -201,7 +191,7 @@ version: 1.0.0''';
 
   test('BuildOutput.hashCode', () {
     final buildOutput = getBuildOutput();
-    final buildOutput2 = BuildOutputImpl.fromJsonString(jsonEncoding);
+    final buildOutput2 = BuildOutputImpl.fromJson(jsonEncoding);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
 
     final buildOutput3 = BuildOutputImpl(

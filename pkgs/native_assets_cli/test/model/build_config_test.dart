@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_config/cli_config.dart';
@@ -240,44 +241,34 @@ void main() async {
       },
     );
 
-    final jsonString = buildConfig1.toJsonString();
-    final expectedJsonString = '''{
-  "build_mode": "release",
-  "c_compiler": {
-    "cc": "${fakeClang.toFilePath()}",
-    "ld": "${fakeLd.toFilePath()}"
-  },
-  "dependency_metadata": {
-    "bar": {
-      "key": "value"
-    },
-    "foo": {
-      "a": 321,
-      "z": [
-        "z",
-        "a"
-      ]
-    }
-  },
-  "link_mode_preference": "prefer-static",
-  "out_dir": "${outDir.toFilePath()}",
-  "package_name": "$packageName",
-  "package_root": "${tempUri.toFilePath()}",
-  "supported_asset_types": [
-    "${NativeCodeAsset.type}"
-  ],
-  "target_architecture": "arm64",
-  "target_ios_sdk": "iphoneos",
-  "target_os": "ios",
-  "version": "${BuildConfigImpl.latestVersion}"
-}''';
+    final jsonObject = buildConfig1.toJson();
+    final expectedJson = {
+      'build_mode': 'release',
+      'c_compiler': {'cc': fakeClang.toFilePath(), 'ld': fakeLd.toFilePath()},
+      'dependency_metadata': {
+        'bar': {'key': 'value'},
+        'foo': {
+          'a': 321,
+          'z': ['z', 'a']
+        }
+      },
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDir.toFilePath(),
+      'package_name': packageName,
+      'package_root': tempUri.toFilePath(),
+      'supported_asset_types': [NativeCodeAsset.type],
+      'target_architecture': 'arm64',
+      'target_ios_sdk': 'iphoneos',
+      'target_os': 'ios',
+      'version': '${BuildConfigImpl.latestVersion}'
+    };
     expect(
-      jsonString.unescape(),
-      equals(expectedJsonString.unescape()),
+      jsonObject,
+      equals(expectedJson),
     );
 
     final buildConfig2 = BuildConfigImpl.fromConfig(
-      Config.fromConfigFileContents(fileContents: jsonString),
+      Config.fromConfigFileContents(fileContents: jsonEncode(jsonObject)),
     );
     expect(buildConfig2, buildConfig1);
   });
