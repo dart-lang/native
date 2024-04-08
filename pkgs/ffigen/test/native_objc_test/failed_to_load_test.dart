@@ -6,7 +6,6 @@
 @TestOn('mac-os')
 
 import 'dart:ffi';
-import 'dart:io';
 
 import 'package:test/test.dart';
 import '../test_utils.dart';
