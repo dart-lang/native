@@ -49,7 +49,6 @@ jobs:
         run: dart test/setup.dart
       - name: Analyze code
         run: flutter analyze --fatal-infos
-        if: always() && steps.install.outcome == 'success'
 
   test-linux:
     needs: analyze

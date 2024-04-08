@@ -81,8 +81,7 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
 }
 
 class ObjCObjectBase extends _ObjCFinalizable<objc.ObjCObject> {
-  ObjCObjectBase(super.ptr,
-      {required super.retain, required super.release});
+  ObjCObjectBase(super.ptr, {required super.retain, required super.release});
 
   static final _objectFinalizer = NativeFinalizer(
       Native.addressOf<NativeFunction<Void Function(Pointer<objc.ObjCObject>)>>(
@@ -100,8 +99,7 @@ class ObjCObjectBase extends _ObjCFinalizable<objc.ObjCObject> {
 }
 
 class ObjCBlockBase extends _ObjCFinalizable<objc.ObjCBlock> {
-  ObjCBlockBase(super.ptr,
-      {required super.retain, required super.release});
+  ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
       Native.addressOf<NativeFunction<Void Function(Pointer<objc.ObjCBlock>)>>(
