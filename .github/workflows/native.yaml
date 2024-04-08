@@ -140,13 +140,14 @@ jobs:
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
-      - run: dart --enable-experiment=native-assets build bin/app_with_asset_treeshaking.dart
-        working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        # TODO: Enable this workflow after resolving https://github.com/dart-lang/sdk/issues/55369
+      # - run: dart --enable-experiment=native-assets build bin/app_with_asset_treeshaking.dart
+      #   working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/
+      #   if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
-      - run: ./app_with_asset_treeshaking.exe
-        working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/bin/app_with_asset_treeshaking/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+      # - run: ./app_with_asset_treeshaking.exe
+      #   working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/bin/app_with_asset_treeshaking/
+      #   if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage
         run: dart pub global activate coverage
