@@ -4,6 +4,7 @@ on:
     branches: [ main ]
     # Merge back into health.yaml after https://github.com/bmw-tech/dart_apitool/issues/177 is addressed.
     paths:
+      - "pkgs/ffigen/**"
       - "pkgs/jni/**"
       - "pkgs/jnigen/**"
     types: [opened, synchronize, reopened, labeled, unlabeled]
