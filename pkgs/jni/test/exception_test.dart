@@ -21,7 +21,7 @@ void main() {
     } on HelperNotFoundError catch (_) {
       // stderr.write("\n$_\n");
       Jni.spawnIfNotExists(
-          dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
+          dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m", "-Xcheck:jni"]);
       caught = true;
     } on JniVmExistsError {
       stderr.writeln('cannot verify: HelperNotFoundError thrown');

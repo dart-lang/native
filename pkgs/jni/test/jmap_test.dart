@@ -12,7 +12,8 @@ import 'test_util/test_util.dart';
 void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
-    Jni.spawnIfNotExists(dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
+    Jni.spawnIfNotExists(
+        dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m", "-Xcheck:jni"]);
   }
   run(testRunner: test);
 }
