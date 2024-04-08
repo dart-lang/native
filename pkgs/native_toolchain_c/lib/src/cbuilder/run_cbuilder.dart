@@ -196,7 +196,7 @@ class RunCBuilder {
         if (buildConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
-              '$targetAndroidNdkApi!',
+              '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
         if (buildConfig.targetOS == OS.macOS)
