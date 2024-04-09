@@ -19,6 +19,7 @@ import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
+import 'link_config.dart';
 import 'os.dart';
 
 part '../model/build_output.dart';

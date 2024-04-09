@@ -224,4 +224,16 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
   List<AssetImpl> _getAssetList(String? linkInPackage) => linkInPackage == null
       ? _assets
       : (_assetsForLinking[linkInPackage] ??= []);
+
+  @override
+  void linkAsset(LinkableAsset asset) {
+    addAsset((asset as LinkableAssetImpl).asset);
+  }
+
+  @override
+  void linkAssets(Iterable<LinkableAsset> assets) {
+    addAssets(assets
+        .whereType<LinkableAssetImpl>()
+        .map((linkableAsset) => linkableAsset.asset));
+  }
 }

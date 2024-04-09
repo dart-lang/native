@@ -7,12 +7,13 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 void main(List<String> args) async {
   await link(args, (config, output) async {
     final remainingAssets = shake(config.assets, config.resources);
-    output.addAssets(remainingAssets);
+    output.linkAssets(remainingAssets);
   });
 }
 
-Iterable<Asset> shake(List<Asset> allAssets, List<Resource> resources) =>
-    allAssets.whereType<DataAsset>().where(
+Iterable<LinkableAsset> shake(
+        List<LinkableAsset> allAssets, List<Resource> resources) =>
+    allAssets.whereType<LinkableDataAsset>().where(
           (asset) => resources.any(
             (resource) => resource.metadata == asset.name,
           ),

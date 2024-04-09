@@ -37,8 +37,8 @@ abstract final class LinkOutput {
   void addDependencies(Iterable<Uri> dependencies);
 
   /// Adds [Asset]s produced by this link or dry run.
-  void addAsset(Asset asset);
+  void linkAsset(LinkableAsset asset);
 
   /// Adds [Asset]s produced by this link or dry run.
-  void addAssets(Iterable<Asset> assets);
+  void linkAssets(Iterable<LinkableAsset> assets);
 }
