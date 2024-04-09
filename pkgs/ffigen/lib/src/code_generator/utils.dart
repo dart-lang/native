@@ -117,11 +117,12 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
   return '@${w.ffiLibraryPrefix}.Array.multi([${dimensions.join(', ')}])';
 }
 
+/// The path to the Dart executable.
+///
+/// This is usually just Platform.resolvedExecutable. But when running flutter
+/// tests, the resolvedExecutable will be flutter_tester, and Dart will be in a
+/// directory a few levels up from it.
 String findDart() {
-  // Returns the path to the Dart executable, which will usually just be
-  // Platform.resolvedExecutable. But when running flutter tests, the
-  // resolvedExecutable will be flutter_tester, and Dart will be in a
-  // directory a few levels up from it.
   String path = Platform.resolvedExecutable;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
   final dartExe = 'dart${p.extension(path)}';
