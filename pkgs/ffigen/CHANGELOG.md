@@ -5,7 +5,10 @@
   `ffi-native` option.
 - Add `retainAndReturnPointer` method to ObjC objects and blocks, and add
   `castFromPointer` method to blocks.
-- Use `package:objective_c` in ObjC bindings.
+- __Breaking change__: Use `package:objective_c` in ObjC bindings. This means
+  that ObjC packages will have a flutter dependency (until #1068 is fixed), and
+  also makes some minor API changes (`castFrom` and `isInstance` now take a
+  `lib` argument).
 
 ## 11.0.0
 
