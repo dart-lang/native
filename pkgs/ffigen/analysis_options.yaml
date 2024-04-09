@@ -10,9 +10,6 @@ analyzer:
   exclude:
     - 'test/**_expected*'
 
-    # Goldens cannot be generated outside MacOS causing analysis errors.
-    # - test/native_objc_test/**  # Moved to test_flutter for now.
-
     # Exclude anything that uses package:objective_c, due to flutter dependency.
     # https://github.com/dart-lang/native/issues/1068
     - example/objective_c/**

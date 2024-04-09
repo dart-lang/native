@@ -63,7 +63,7 @@ void main() {
       expect(
           output,
           contains(RegExp(r'late final _class_SwiftClass.* = '
-              r'_getClass.*\("swift_module\.SwiftClass"\)')));
+              r'objc.getClass.*\("swift_module\.SwiftClass"\)')));
     });
   });
 }
