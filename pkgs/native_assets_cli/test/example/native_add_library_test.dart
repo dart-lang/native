@@ -38,7 +38,7 @@ void main() async {
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
-          'build.dart',
+          'hook/build.dart',
           '-Dout_dir=${tempUri.toFilePath()}',
           '-Dpackage_name=$name',
           '-Dpackage_root=${testPackageUri.toFilePath()}',
@@ -67,14 +67,13 @@ void main() async {
       }
       expect(processResult.exitCode, 0);
 
-      final buildOutputUri = tempUri.resolve('build_output.yaml');
-      final buildOutput = BuildOutputImpl.fromYamlString(
+      final buildOutputUri = tempUri.resolve('build_output.json');
+      final buildOutput = BuildOutputImpl.fromJsonString(
           await File.fromUri(buildOutputUri).readAsString());
       final assets = buildOutput.assets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(1));
-        expect(assets.first.file, isNull);
         expect(dependencies, <Uri>[]);
       } else {
         expect(assets.length, 1);
@@ -83,7 +82,7 @@ void main() async {
           dependencies,
           [
             testPackageUri.resolve('src/$name.c'),
-            testPackageUri.resolve('build.dart'),
+            testPackageUri.resolve('hook/build.dart'),
           ],
         );
       }

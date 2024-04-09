@@ -4,10 +4,10 @@
 
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
-import 'package:native_assets_cli/src/api/asset.dart';
-import 'package:native_assets_cli/src/utils/yaml.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
+
+import '../helpers.dart';
 
 void main() {
   final fooUri = Uri.file('path/to/libfoo.so');
@@ -156,22 +156,22 @@ void main() {
 
   test('asset yaml', () {
     final yaml = yamlEncode([
-      for (final item in assets) item.toYaml(BuildOutputImpl.latestVersion)
+      for (final item in assets) item.toJson(BuildOutputImpl.latestVersion)
     ]);
     expect(yaml, assetsYamlEncoding);
-    final assets2 = AssetImpl.listFromYamlList(loadYaml(yaml) as YamlList);
+    final assets2 = AssetImpl.listFromJsonList(loadYaml(yaml) as List<Object?>);
     expect(assets, assets2);
   });
 
   test('build_output protocol v1.0.0 keeps working', () {
-    final assets2 = AssetImpl.listFromYamlList(
-        loadYaml(assetsYamlEncodingV1_0_0) as YamlList);
+    final assets2 = AssetImpl.listFromJsonList(
+        loadYaml(assetsYamlEncodingV1_0_0) as List<Object?>);
     expect(nativeCodeAssets, assets2);
   });
 
   test('AssetPath factory', () async {
     expect(
-      () => DynamicLoadingImpl('wrong', null),
+      () => LinkModeImpl('wrong', null),
       throwsA(predicate(
         (e) => e is FormatException && e.message.contains('Unknown type'),
       )),

@@ -110,24 +110,6 @@ class JniBindings {
   late final _SpawnJvm =
       _SpawnJvmPtr.asFunction<int Function(ffi.Pointer<JavaVMInitArgs>)>();
 
-  /// Load class through platform-specific mechanism.
-  ///
-  /// Currently uses application classloader on android,
-  /// and JNIEnv->FindClass on other platforms.
-  JClassPtr FindClass(
-    ffi.Pointer<ffi.Char> name,
-  ) {
-    return _FindClass(
-      name,
-    );
-  }
-
-  late final _FindClassPtr =
-      _lookup<ffi.NativeFunction<JClassPtr Function(ffi.Pointer<ffi.Char>)>>(
-          'FindClass');
-  late final _FindClass =
-      _FindClassPtr.asFunction<JClassPtr Function(ffi.Pointer<ffi.Char>)>();
-
   /// Returns Application classLoader (on Android),
   /// which can be used to load application and platform classes.
   ///
@@ -241,6 +223,60 @@ class JniBindings {
               ffi.Pointer<CallbackResult>, JObjectPtr)>>('resultFor');
   late final _resultFor = _resultForPtr
       .asFunction<void Function(ffi.Pointer<CallbackResult>, JObjectPtr)>();
+
+  Dart_FinalizableHandle newJObjectFinalizableHandle(
+    Object object,
+    JObjectPtr reference,
+    int refType,
+  ) {
+    return _newJObjectFinalizableHandle(
+      object,
+      reference,
+      refType,
+    );
+  }
+
+  late final _newJObjectFinalizableHandlePtr = _lookup<
+      ffi.NativeFunction<
+          Dart_FinalizableHandle Function(ffi.Handle, JObjectPtr,
+              ffi.Int32)>>('newJObjectFinalizableHandle');
+  late final _newJObjectFinalizableHandle = _newJObjectFinalizableHandlePtr
+      .asFunction<Dart_FinalizableHandle Function(Object, JObjectPtr, int)>();
+
+  Dart_FinalizableHandle newBooleanFinalizableHandle(
+    Object object,
+    ffi.Pointer<ffi.Bool> reference,
+  ) {
+    return _newBooleanFinalizableHandle(
+      object,
+      reference,
+    );
+  }
+
+  late final _newBooleanFinalizableHandlePtr = _lookup<
+      ffi.NativeFunction<
+          Dart_FinalizableHandle Function(ffi.Handle,
+              ffi.Pointer<ffi.Bool>)>>('newBooleanFinalizableHandle');
+  late final _newBooleanFinalizableHandle =
+      _newBooleanFinalizableHandlePtr.asFunction<
+          Dart_FinalizableHandle Function(Object, ffi.Pointer<ffi.Bool>)>();
+
+  void deleteFinalizableHandle(
+    Dart_FinalizableHandle finalizableHandle,
+    Object object,
+  ) {
+    return _deleteFinalizableHandle(
+      finalizableHandle,
+      object,
+    );
+  }
+
+  late final _deleteFinalizableHandlePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              Dart_FinalizableHandle, ffi.Handle)>>('deleteFinalizableHandle');
+  late final _deleteFinalizableHandle = _deleteFinalizableHandlePtr
+      .asFunction<void Function(Dart_FinalizableHandle, Object)>();
 
   ffi.Pointer<GlobalJniEnvStruct> GetGlobalEnv() {
     return _GetGlobalEnv();
@@ -2020,6 +2056,10 @@ final class _opaque_pthread_cond_t extends ffi.Struct {
   @ffi.Array.multi([40])
   external ffi.Array<ffi.Char> __opaque;
 }
+
+typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+
+final class _Dart_FinalizableHandle extends ffi.Opaque {}
 
 final class GlobalJniEnvStruct extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;

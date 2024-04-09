@@ -1,7 +1,29 @@
-## 0.5.0-wip
+## 0.5.4
+
+- Update documentation about providing `NativeCodeAsset.file` in dry runs.
+
+## 0.5.3
+
+- Fix V1_0_0 dry run backwards compatibility.
+  https://github.com/dart-lang/native/issues/1053
+
+## 0.5.2
+
+- Fix test.
+
+## 0.5.1
+
+- Update documentation about providing `NativeCodeAsset.file` in dry runs.
+  https://github.com/dart-lang/native/issues/1049
+
+## 0.5.0
 
 - **Breaking change** Completely rewritten API.
   https://github.com/dart-lang/native/pull/946
+- **Breaking change** Move `build.dart` to `hook/build.dart`.
+  https://github.com/dart-lang/native/issues/823
+- **Breaking change** Use JSON instead of YAML in the protocol.
+  https://github.com/dart-lang/native/issues/991
 - Bump examples dependencies to path dependencies.
 
 ## 0.4.2

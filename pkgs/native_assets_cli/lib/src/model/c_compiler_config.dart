@@ -60,7 +60,7 @@ final class CCompilerConfigImpl implements CCompilerConfig {
   static const envScriptArgsConfigKeyFull =
       '$configKey.$envScriptArgsConfigKey';
 
-  Map<String, Object> toYaml() => {
+  Map<String, Object> toJson() => {
         if (_archiver != null) arConfigKey: _archiver.toFilePath(),
         if (_compiler != null) ccConfigKey: _compiler.toFilePath(),
         if (_linker != null) ldConfigKey: _linker.toFilePath(),

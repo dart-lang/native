@@ -9,14 +9,14 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 void main(List<String> args) async {
   final buildConfig = BuildConfigImpl.fromArguments(args);
   await File.fromUri(
-          buildConfig.outputDirectory.resolve(BuildOutputImpl.fileName))
-      .writeAsString(_wrongContents);
+          buildConfig.outputDirectory.resolve(BuildOutputImpl.fileNameV1_1_0))
+      .writeAsString(_rightContents);
+  exit(1);
 }
 
-const _wrongContents = '''
+const _rightContents = '''
 timestamp: 2023-07-28 14:22:45.000
-assets:
-  foo: 123
+assets: []
 dependencies: []
 metadata: {}
 version: 1.0.0

@@ -30,7 +30,7 @@ A typical layout of a package with native code is:
 * `lib/` contains Dart code which uses [`dart:ffi`] and [`package:ffigen`]
   to call into native code.
 * `src/` contains C/C++/Rust code which is invoked through `dart:ffi`.
-* `build.dart` implements the CLI that communicates which native assets
+* `hook/build.dart` implements the CLI that communicates which native assets
   to build/bundle with the Dart/Flutter SDK. This file uses the
   protocol specified in this package.
 

@@ -63,6 +63,7 @@ void main() {
           name: name,
           sources: [helloWorldCUri.toFilePath()],
           pie: pic,
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,
@@ -143,6 +144,7 @@ void main() {
           name: name,
           assetName: name,
           pic: pic,
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,
@@ -240,6 +242,7 @@ void main() {
       name: name,
       sources: [definesCUri.toFilePath()],
       flags: [flag],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -293,6 +296,7 @@ void main() {
       assetName: name,
       includes: [includeDirectoryUri.toFilePath()],
       sources: [includesCUri.toFilePath()],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -343,6 +347,7 @@ void main() {
       name: name,
       assetName: name,
       std: std,
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -403,6 +408,7 @@ void main() {
       name: name,
       sources: [helloWorldCppUri.toFilePath()],
       language: Language.cpp,
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: buildConfig,
@@ -460,6 +466,7 @@ void main() {
       sources: [helloWorldCppUri.toFilePath()],
       language: Language.cpp,
       cppLinkStdLib: 'stdc++',
+      dartBuildFiles: ['hook/build.dart'],
     );
 
     if (buildConfig.targetOS == OS.windows) {
@@ -535,6 +542,7 @@ Future<void> testDefines({
     },
     buildModeDefine: buildModeDefine,
     ndebugDefine: ndebugDefine,
+    dartBuildFiles: ['hook/build.dart'],
   );
   await cbuilder.run(
     buildConfig: buildConfig,

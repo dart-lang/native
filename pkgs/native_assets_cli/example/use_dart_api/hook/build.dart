@@ -6,17 +6,18 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
-const packageName = 'native_add';
+const packageName = 'use_dart_api';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: '${packageName}_bindings_generated.dart',
+      assetName: 'src/${packageName}_bindings_generated.dart',
       sources: [
         'src/$packageName.c',
-        'src/native_multiply.c',
+        'src/dart_api_dl.c',
       ],
+      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       buildConfig: config,

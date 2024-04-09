@@ -4,13 +4,12 @@
 
 import 'dart:io';
 
+import 'package:jni/jni.dart';
 import 'package:jni/src/build_util/build_util.dart';
 
 typedef TestCaseCallback = void Function();
-typedef TestRunnerCallback = void Function(
-  String description,
-  TestCaseCallback test,
-);
+typedef TestRunnerCallback = void
+    Function(String description, TestCaseCallback test, {Object? skip});
 
 final currentDir = Directory.current.uri;
 final dllSuffix =
@@ -35,4 +34,9 @@ void checkDylibIsUpToDate() {
     stderr.writeln(message);
     exit(1);
   }
+}
+
+void spawnJvm() {
+  Jni.spawnIfNotExists(
+      dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m", "-Xcheck:jni"]);
 }

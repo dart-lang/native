@@ -44,7 +44,6 @@ void main() async {
         expect(dryRunAsset.id, buildAsset.id);
         // The build runner expands NativeCodeAssets to all architectures.
         expect(buildAsset.file, isNotNull);
-        expect(dryRunAsset.file, isNull);
         if (dryRunAsset is NativeCodeAssetImpl &&
             buildAsset is NativeCodeAssetImpl) {
           expect(dryRunAsset.architecture, isNotNull);
@@ -56,8 +55,8 @@ void main() async {
 
       final dryRunDir = packageUri.resolve(
           '.dart_tool/native_assets_builder/dry_run_${Target.current.os}_dynamic/');
-      expect(File.fromUri(dryRunDir.resolve('config.yaml')), exists);
-      expect(File.fromUri(dryRunDir.resolve('out/build_output.yaml')), exists);
+      expect(File.fromUri(dryRunDir.resolve('config.json')), exists);
+      expect(File.fromUri(dryRunDir.resolve('out/build_output.json')), exists);
       //
     });
   });

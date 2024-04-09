@@ -117,7 +117,6 @@ void test(String description, TestCaseCallback testCase) {
 }
 
 void main() {
-  Jni.initDLApi();
   $runStrings
 }
 ''';

@@ -25,25 +25,7 @@ void main() {
     Uri.file('build.dart'),
   ]);
 
-  const yamlEncoding = '''- src/bar.c
-- src/baz.c
-- src/bla/
-- build.dart''';
-
-  test('dependencies yaml', () {
-    final yaml = dependencies.toYamlString().replaceAll('\\', '/');
-    expect(yaml, yamlEncoding);
-    final dependencies2 = Dependencies.fromYamlString(yaml);
-    expect(dependencies.hashCode, dependencies2.hashCode);
-    expect(dependencies, dependencies2);
-  });
-
   test('dependencies toString', dependencies.toString);
-
-  test('dependencies fromYamlString', () {
-    final dependencies = Dependencies.fromYamlString('');
-    expect(dependencies, const Dependencies([]));
-  });
 
   test('dependencies lastModified', () async {
     final dirUri = tempUri.resolve('foo/');

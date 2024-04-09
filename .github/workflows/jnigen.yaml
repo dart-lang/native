@@ -40,8 +40,8 @@ jobs:
       matrix:
         sdk: [stable]
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: ${{ matrix.sdk }}
           cache: true
@@ -75,13 +75,13 @@ jobs:
         os: [ubuntu-latest]
         sdk: [stable, beta]
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -128,13 +128,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -166,13 +166,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -215,13 +215,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -237,18 +237,18 @@ jobs:
       run:
         working-directory: ./pkgs/jnigen
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
       - name: Setup clang
         uses: egor-tensin/setup-clang@ef434b41eb33a70396fb336b1bae39c76d740c3d
         with:
           version: latest
           platform: x64
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -270,13 +270,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -291,17 +291,17 @@ jobs:
       run:
         working-directory: ./pkgs/jnigen
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
       - name: Setup clang format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
           brew: clang-format
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -320,13 +320,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni/example
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -344,13 +344,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni/example
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -364,12 +364,12 @@ jobs:
       run:
         working-directory: ./pkgs/jni/example
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
@@ -383,13 +383,13 @@ jobs:
       run:
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@9704b39bf258b59bc04b50fa2dd55e9ed76b47a8
+      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
           distribution: 'zulu'
           java-version: '11'

@@ -26,6 +26,7 @@ import 'build_output.dart';
 ///       sources: [
 ///         'src/$packageName.c',
 ///       ],
+///       dartBuildFiles: ['hook/build.dart'],
 ///     );
 ///     await cbuilder.run(
 ///       buildConfig: config,
@@ -51,7 +52,7 @@ import 'build_output.dart';
 /// void main(List<String> args) async {
 ///   await build(args, (config, output) async {
 ///     if (config.linkModePreference == LinkModePreference.static) {
-///       // Simulate that this script only supports dynamic libraries.
+///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError(
 ///         'LinkModePreference.static is not supported.',
 ///       );
@@ -66,7 +67,7 @@ import 'build_output.dart';
 ///
 ///       output.addDependencies([
 ///         assetSourcePath,
-///         config.packageRoot.resolve('build.dart'),
+///         config.packageRoot.resolve('hook/build.dart'),
 ///       ]);
 ///     }
 ///

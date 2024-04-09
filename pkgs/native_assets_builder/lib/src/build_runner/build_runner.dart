@@ -258,20 +258,25 @@ class NativeAssetsBuildRunner {
     required bool dryRun,
   }) async {
     final outDir = config.outputDirectory;
-    final configFile = outDir.resolve('../config.yaml');
-    final buildDotDart = config.packageRoot.resolve('build.dart');
-    final configFileContents = config.toYamlString();
-    logger.info('config.yaml contents: $configFileContents');
+    final configFile = outDir.resolve('../config.json');
+    final buildHook = config.packageRoot.resolve('hook/').resolve('build.dart');
+    final buildHookLegacy = config.packageRoot.resolve('build.dart');
+    final configFileContents = config.toJsonString();
+    logger.info('config.json contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
     final buildOutputFile =
-        File.fromUri(outDir.resolve(BuildOutputImpl.fileName));
+        File.fromUri(outDir.resolve(BuildOutputImpl.fileNameV1_1_0));
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
     }
+
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
-      buildDotDart.toFilePath(),
+      if (await File.fromUri(buildHook).exists())
+        buildHook.toFilePath()
+      else
+        buildHookLegacy.toFilePath(),
       '--config=${configFile.toFilePath()}',
     ];
     final result = await runProcess(
@@ -315,7 +320,7 @@ ${result.stdout}
     } on FormatException catch (e) {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
-build_output.yaml contained a format error.
+build_output.json contained a format error.
 ${e.message}
         ''');
       success = false;
@@ -327,14 +332,14 @@ ${e.message}
     } on TypeError {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
-build_output.yaml contained a format error.
+build_output.json contained a format error.
         ''');
       success = false;
       return (<NativeCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
     } finally {
       if (!success) {
         final buildOutputFile =
-            File.fromUri(outDir.resolve(BuildOutputImpl.fileName));
+            File.fromUri(outDir.resolve(BuildOutputImpl.fileNameV1_1_0));
         if (await buildOutputFile.exists()) {
           await buildOutputFile.delete();
         }

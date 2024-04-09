@@ -1,4 +1,4 @@
-## 0.8.0-wip
+## 0.8.0
 
 - **Breaking Change** ([#981](https://github.com/dart-lang/native/issues/981)):
 
@@ -43,6 +43,23 @@
 - **Breaking Change**: Primitive types and their type classes are now `final`.
 - **Breaking Change**: `JArray.filled` now uses the generated type class of the
   `fill` object and not its Java runtime type.
+- `JObject`s now check the types using `instanceof` in debug mode when using
+  `castTo`.
+- **Breaking Change**: `Jni.initDLApi()` is removed.
+- Added the ability to share `JObject`s across isolates.
+  ```dart
+  // This now works.
+  final foo = 'foo'.toJString();
+  Isolate.run(() {
+    // `foo` is usable from another isolate.
+    print(foo);
+  });
+  ```
+
+## 0.7.3
+
+- Fixed a bug where `get(Static)MethodID` and `get(Static)FieldID` could access
+  null and throw.
 
 ## 0.7.2
 

@@ -59,15 +59,22 @@ abstract final class Jni {
   /// On flutter it's done by library. On dart standalone we don't
   /// know the library path.)
   static void setDylibDir({required String dylibDir}) {
-    _dylibDir = dylibDir;
+    if (!Platform.isAndroid) {
+      _dylibDir = dylibDir;
+    }
   }
 
+  static bool _initialized = false;
+
   /// Initializes DartApiDL used for Continuations and interface implementation.
-  static void initDLApi() {
-    assert(NativeApi.majorVersion == 2);
-    assert(NativeApi.minorVersion >= 3);
-    final result = _bindings.InitDartApiDL(NativeApi.initializeApiDLData);
-    assert(result == 0);
+  static void _ensureInitialized() {
+    if (!_initialized) {
+      assert(NativeApi.majorVersion == 2);
+      assert(NativeApi.minorVersion >= 3);
+      final result = _bindings.InitDartApiDL(NativeApi.initializeApiDLData);
+      _initialized = result == 0;
+      assert(_initialized);
+    }
   }
 
   /// Spawn an instance of JVM using JNI. This method should be called at the
@@ -238,6 +245,7 @@ extension ProtectedJniExtensions on Jni {
 
   /// Returns a new PortContinuation.
   static JReference newPortContinuation(ReceivePort port) {
+    Jni._ensureInitialized();
     return JGlobalReference(
       Jni._bindings
           .PortContinuation__ctor(port.sendPort.nativePort)
@@ -253,6 +261,7 @@ extension ProtectedJniExtensions on Jni {
               NativeFunction<
                   Pointer<Void> Function(Uint64, Pointer<Void>, Pointer<Void>)>>
           functionPtr) {
+    Jni._ensureInitialized();
     return JGlobalReference(Jni._bindings
         .PortProxy__newInstance(
           Jni.env.toJStringPtr(binaryName),
@@ -266,6 +275,30 @@ extension ProtectedJniExtensions on Jni {
   static void returnResult(
       Pointer<CallbackResult> result, JObjectPtr object) async {
     Jni._bindings.resultFor(result, object);
+  }
+
+  static Dart_FinalizableHandle newJObjectFinalizableHandle(
+    Object object,
+    Pointer<Void> reference,
+    int refType,
+  ) {
+    Jni._ensureInitialized();
+    return Jni._bindings
+        .newJObjectFinalizableHandle(object, reference, refType);
+  }
+
+  static Dart_FinalizableHandle newBooleanFinalizableHandle(
+    Object object,
+    Pointer<Bool> reference,
+  ) {
+    Jni._ensureInitialized();
+    return Jni._bindings.newBooleanFinalizableHandle(object, reference);
+  }
+
+  static void deleteFinalizableHandle(
+      Dart_FinalizableHandle finalizableHandle, Object object) {
+    Jni._ensureInitialized();
+    Jni._bindings.deleteFinalizableHandle(finalizableHandle, object);
   }
 }
 

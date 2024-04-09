@@ -8,8 +8,8 @@ import 'package:package_config/package_config.dart';
 
 /// Directory layout for dealing with native assets.
 ///
-/// Build scripts for native assets will be run from the context of another
-/// root package.
+/// Build hooks for native assets will be run from the context of another root
+/// package.
 ///
 /// The directory layout follows pub's convention for caching:
 /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
@@ -86,15 +86,23 @@ class PackageLayout {
   /// All packages in [packageConfig] with native assets.
   ///
   /// Whether a package has native assets is defined by whether it contains
-  /// a `build.dart`.
+  /// a `hook/build.dart`.
   ///
-  /// `package:native` itself is excluded.
+  /// For backwards compatibility, a toplevel `build.dart` is also supported.
+  // TODO(https://github.com/dart-lang/native/issues/823): Remove fallback when
+  // everyone has migrated. (Probably once we stop backwards compatibility of
+  // the protocol version pre 1.2.0 on some future version.)
   late final Future<List<Package>> packagesWithNativeAssets = () async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
-        if (await File.fromUri(packageRoot.resolve('build.dart')).exists()) {
+        if (await File.fromUri(
+              packageRoot.resolve('hook/').resolve('build.dart'),
+            ).exists() ||
+            await File.fromUri(
+              packageRoot.resolve('build.dart'),
+            ).exists()) {
           result.add(package);
         }
       }

@@ -4,6 +4,7 @@
 
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
 import 'package:jni/src/third_party/generated_bindings.dart';
 
 import 'errors.dart';
@@ -11,11 +12,7 @@ import 'jni.dart';
 
 extension ProtectedJReference on JReference {
   void setAsReleased() {
-    if (_released) {
-      throw DoubleReleaseError();
-    }
-    _released = true;
-    JGlobalReference._finalizer.detach(this);
+    _setAsReleased();
   }
 
   void ensureNotNull() {
@@ -28,16 +25,24 @@ extension ProtectedJReference on JReference {
   ///
   /// Detaches the finalizer so the underlying pointer will not be deleted.
   JObjectPtr toPointer() {
-    setAsReleased();
-    return _pointer;
+    _setAsReleased();
+    return _finalizable.pointer;
   }
 }
 
-abstract final class JReference {
-  final JObjectPtr _pointer;
-  bool _released = false;
+/// A thin wrapper around a pointer that makes it [Finalizable].
+@pragma('vm:deeply-immutable')
+final class _JFinalizable implements Finalizable {
+  final Pointer<Void> pointer;
 
-  JReference(this._pointer);
+  _JFinalizable(this.pointer);
+}
+
+@pragma('vm:deeply-immutable')
+abstract final class JReference {
+  final _JFinalizable _finalizable;
+
+  JReference(this._finalizable);
 
   /// The underlying JNI reference.
   ///
@@ -46,53 +51,87 @@ abstract final class JReference {
   /// Be careful when storing this in a variable since it might have gotten
   /// released upon use.
   JObjectPtr get pointer {
-    if (_released) throw UseAfterReleaseError();
-    return _pointer;
+    if (isReleased) throw UseAfterReleaseError();
+    return _finalizable.pointer;
   }
 
   /// Whether the underlying JNI reference is deleted or not.
-  bool get isReleased => _released;
+  bool get isReleased;
 
   /// Whether the underlying JNI reference is `null` or not.
   bool get isNull;
 
   /// Deletes the underlying JNI reference and marks this as released.
   ///
+  /// Releasing in one isolate while using or releasing in another isolate might
+  /// crash in the JNI layer.
+  ///
   /// Throws [DoubleReleaseError] if this is already released.
   ///
   /// Further uses of this object will throw [UseAfterReleaseError].
   void release() {
-    setAsReleased();
+    _setAsReleased();
     _deleteReference();
   }
 
   void _deleteReference();
+
+  void _setAsReleased();
 }
 
 /// A managed JNI global reference.
 ///
 /// Uses a [NativeFinalizer] to delete the JNI global reference when finalized.
-final class JGlobalReference extends JReference implements Finalizable {
-  static final _finalizer =
-      NativeFinalizer(Jni.env.ptr.ref.DeleteGlobalRef.cast());
+@pragma('vm:deeply-immutable')
+final class JGlobalReference extends JReference {
+  /// The finalizable handle that deletes [_JFinalizable.pointer].
+  final Dart_FinalizableHandle _jobjectFinalizableHandle;
+  final Pointer<Bool> _isReleased;
 
-  JGlobalReference(super._reference) {
-    _finalizer.attach(this, _pointer, detach: this);
+  JGlobalReference._(
+      super._finalizable, this._jobjectFinalizableHandle, this._isReleased);
+
+  factory JGlobalReference(Pointer<Void> pointer) {
+    final finalizable = _JFinalizable(pointer);
+    final isReleased = calloc<Bool>();
+    final jobjectFinalizableHandle =
+        ProtectedJniExtensions.newJObjectFinalizableHandle(
+            finalizable, finalizable.pointer, JObjectRefType.JNIGlobalRefType);
+    ProtectedJniExtensions.newBooleanFinalizableHandle(finalizable, isReleased);
+    return JGlobalReference._(
+        finalizable, jobjectFinalizableHandle, isReleased);
   }
 
   @override
   bool get isNull => pointer == nullptr;
 
   @override
-  void _deleteReference() {
-    Jni.env.DeleteGlobalRef(_pointer);
+  void _setAsReleased() {
+    if (isReleased) {
+      throw DoubleReleaseError();
+    }
+    _isReleased.value = true;
+    ProtectedJniExtensions.deleteFinalizableHandle(
+        _jobjectFinalizableHandle, _finalizable);
   }
+
+  @override
+  void _deleteReference() {
+    Jni.env.DeleteGlobalRef(_finalizable.pointer);
+  }
+
+  @override
+  bool get isReleased => _isReleased.value;
 }
 
-final jNullReference = _JNullReference();
+final JReference jNullReference = _JNullReference();
 
+@pragma('vm:deeply-immutable')
 final class _JNullReference extends JReference {
-  _JNullReference() : super(nullptr);
+  _JNullReference() : super(_JFinalizable(nullptr));
+
+  @override
+  bool get isReleased => false;
 
   @override
   void _deleteReference() {
@@ -100,7 +139,7 @@ final class _JNullReference extends JReference {
   }
 
   @override
-  void release() {
+  void _setAsReleased() {
     // No need to release `null`.
   }
 

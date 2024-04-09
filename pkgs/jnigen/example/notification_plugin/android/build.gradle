@@ -3,18 +3,6 @@
 group 'com.example.notification_plugin'
 version '1.0'
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        // The Android Gradle Plugin knows how to build native code with the NDK.
-        classpath 'com.android.tools.build:gradle:7.1.2'
-    }
-}
-
 rootProject.allprojects {
     repositories {
         google()

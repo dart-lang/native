@@ -71,6 +71,7 @@ void main() {
           name: name,
           assetName: name,
           sources: [addCUri.toFilePath()],
+          dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
           buildConfig: buildConfig,

@@ -157,7 +157,7 @@ class CBuilder implements Builder {
     required this.assetName,
     this.sources = const [],
     this.includes = const [],
-    this.dartBuildFiles = const ['build.dart'],
+    required this.dartBuildFiles,
     @visibleForTesting this.installName,
     this.flags = const [],
     this.defines = const {},
@@ -173,7 +173,7 @@ class CBuilder implements Builder {
     required this.name,
     this.sources = const [],
     this.includes = const [],
-    this.dartBuildFiles = const ['build.dart'],
+    required this.dartBuildFiles,
     this.flags = const [],
     this.defines = const {},
     this.buildModeDefine = true,
@@ -251,7 +251,7 @@ class CBuilder implements Builder {
         NativeCodeAsset(
           package: buildConfig.packageName,
           name: assetName!,
-          file: buildConfig.dryRun ? null : libUri,
+          file: libUri,
           linkMode: linkMode,
           os: buildConfig.targetOS,
           architecture:

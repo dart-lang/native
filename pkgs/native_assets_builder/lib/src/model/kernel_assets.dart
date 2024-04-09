@@ -6,7 +6,7 @@
 /// kernel file.
 ///
 /// The `native_assets.yaml` embedded in a kernel file has a different format
-/// from the assets passed in the `build_output.yaml` from individual native
+/// from the assets passed in the `build_output.json` from individual native
 /// assets builds. This library defines the format of the former so that it
 /// can be reused in `package:dartdev` and `package:flutter_tools`.
 ///
@@ -36,7 +36,7 @@ class KernelAssets {
       'native-assets': {
         for (final entry in assetsPerTarget.entries)
           entry.key.toString(): {
-            for (final e in entry.value) e.id: e.path.toYaml(),
+            for (final e in entry.value) e.id: e.path.toJson(),
           }
       },
     };
@@ -58,7 +58,7 @@ class KernelAsset {
 }
 
 abstract class KernelAssetPath {
-  List<String> toYaml();
+  List<String> toJson();
 }
 
 /// Asset at absolute path [uri] on the target device where Dart is run.
@@ -78,7 +78,7 @@ class KernelAssetAbsolutePath implements KernelAssetPath {
   int get hashCode => uri.hashCode;
 
   @override
-  List<String> toYaml() => [_pathTypeValue, uri.toFilePath()];
+  List<String> toJson() => [_pathTypeValue, uri.toFilePath()];
 }
 
 /// Asset at relative path [uri], relative to the 'dart file' executed.
@@ -111,7 +111,7 @@ class KernelAssetRelativePath implements KernelAssetPath {
   int get hashCode => uri.hashCode;
 
   @override
-  List<String> toYaml() => [_pathTypeValue, uri.toFilePath()];
+  List<String> toJson() => [_pathTypeValue, uri.toFilePath()];
 }
 
 /// Asset is available on the system `PATH`.
@@ -136,7 +136,7 @@ class KernelAssetSystemPath implements KernelAssetPath {
   String toString() => 'KernelAssetAbsolutePath($uri)';
 
   @override
-  List<String> toYaml() => [_pathTypeValue, uri.toFilePath()];
+  List<String> toJson() => [_pathTypeValue, uri.toFilePath()];
 }
 
 /// Asset is loaded in the process and symbols are available through
@@ -151,7 +151,7 @@ class KernelAssetInProcess implements KernelAssetPath {
   static const _pathTypeValue = 'process';
 
   @override
-  List<String> toYaml() => [_pathTypeValue];
+  List<String> toJson() => [_pathTypeValue];
 }
 
 /// Asset is embedded in executable and symbols are available through
@@ -166,5 +166,5 @@ class KernelAssetInExecutable implements KernelAssetPath {
   static const _pathTypeValue = 'executable';
 
   @override
-  List<String> toYaml() => [_pathTypeValue];
+  List<String> toJson() => [_pathTypeValue];
 }

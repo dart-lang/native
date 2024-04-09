@@ -17,7 +17,7 @@ void main() {
   // Don't forget to initialize JNI.
   if (!Platform.isAndroid) {
     checkDylibIsUpToDate();
-    Jni.spawnIfNotExists(dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m"]);
+    spawnJvm();
   }
   run(testRunner: test);
 }
@@ -80,7 +80,7 @@ void run({required TestRunnerCallback testRunner}) {
     final integerClass = JClass.forName("java/lang/Integer");
     expect(
         () => integerClass.staticMethodId("parseInt", "(Ljava/lang/String;)I")(
-            integerClass, JString.type, [nullptr]),
+            integerClass, jint.type, [nullptr]),
         throwsException);
     integerClass.release();
   });
@@ -253,6 +253,7 @@ void run({required TestRunnerCallback testRunner}) {
       Isolate.current.kill();
     }, receivePort.sendPort);
     final random = await receivePort.first as int;
+
     expect(random, greaterThanOrEqualTo(0));
     expect(random, lessThan(256));
   });
@@ -287,5 +288,19 @@ void run({required TestRunnerCallback testRunner}) {
     final maxLong =
         longClass.staticFieldId("MAX_VALUE", "J").get(longClass, jlong.type);
     expect(maxLong, maxLongInJava);
+  });
+
+  testRunner('Casting correctly succeeds', () {
+    final long = JLong(1);
+    final long2 = long.castTo(JLong.type, releaseOriginal: true);
+    expect(long2.longValue(releaseOriginal: true), 1);
+  });
+
+  testRunner('Casting incorrectly fails', () {
+    final long = JLong(1);
+    expect(
+      () => long.castTo(JInteger.type, releaseOriginal: true),
+      throwsA(isA<AssertionError>()),
+    );
   });
 }

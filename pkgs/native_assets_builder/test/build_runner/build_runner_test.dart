@@ -31,8 +31,10 @@ void main() async {
             capturedLogs: logMessages);
         expect(
             logMessages.join('\n'),
-            stringContainsInOrder(
-                ['native_add${Platform.pathSeparator}build.dart']));
+            stringContainsInOrder([
+              'native_add${Platform.pathSeparator}hook'
+                  '${Platform.pathSeparator}build.dart',
+            ]));
         expect(result.assets.length, 1);
       }
 
@@ -52,9 +54,10 @@ void main() async {
         );
         expect(
           false,
-          logMessages
-              .join('\n')
-              .contains('native_add${Platform.pathSeparator}build.dart'),
+          logMessages.join('\n').contains(
+                'native_add${Platform.pathSeparator}hook'
+                '${Platform.pathSeparator}build.dart',
+              ),
         );
         expect(result.assets.length, 1);
       }

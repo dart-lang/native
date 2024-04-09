@@ -28,8 +28,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: 3.19.0
           channel: 'stable'
