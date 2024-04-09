@@ -20,7 +20,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
 
   final _LinkConfigArgs _args;
 
-  LinkConfigImpl(
+  LinkConfigImpl._(
     this._args, {
     required this.assets,
     required BuildConfigImpl buildConfig,
@@ -116,7 +116,7 @@ class _LinkConfigArgs {
     );
   }
 
-  LinkConfigImpl toLinkConfig() => LinkConfigImpl(
+  LinkConfigImpl toLinkConfig() => LinkConfigImpl._(
         this,
         buildConfig: buildConfig,
         resourceIdentifiers: resourceIdentifierUri != null
