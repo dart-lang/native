@@ -28,4 +28,4 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: dart test --platform vm
+        run: dart test
