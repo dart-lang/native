@@ -24,8 +24,9 @@ export 'src/api/build_mode.dart' show BuildMode;
 export 'src/api/build_output.dart' show BuildOutput, LinkOutput;
 export 'src/api/ios_sdk.dart' show IOSSdk;
 export 'src/api/link.dart';
-export 'src/api/link_config.dart'
-    show LinkConfig, LinkableAsset, LinkableCodeAsset, LinkableDataAsset;
+export 'src/api/link_config.dart' show LinkConfig;
 export 'src/api/link_mode_preference.dart' show LinkModePreference;
+export 'src/api/linkable_asset.dart'
+    show LinkableAsset, LinkableCodeAsset, LinkableDataAsset;
 export 'src/api/os.dart' show OS;
 export 'src/api/resource.dart';

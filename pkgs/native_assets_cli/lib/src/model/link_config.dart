@@ -115,8 +115,8 @@ class LinkConfigArgs {
         assets: assetsForLinking
             .map(
               (asset) => switch (asset) {
-                DataAssetImpl() => LinkableDataAssetImpl._(asset),
-                NativeCodeAssetImpl() => LinkableCodeAssetImpl._(asset),
+                DataAssetImpl() => LinkableDataAssetImpl(asset),
+                NativeCodeAssetImpl() => LinkableCodeAssetImpl(asset),
                 AssetImpl() => throw UnimplementedError(),
               },
             )
@@ -129,50 +129,4 @@ class LinkConfigArgs {
         buildConfigKey: buildConfig.toJson(),
         assetsKey: AssetImpl.listToJson(assetsForLinking, buildConfig.version),
       }.sortOnKey();
-}
-
-sealed class LinkableAssetImpl implements LinkableAsset {
-  AssetImpl get asset;
-
-  @override
-  Uri? get file => asset.file;
-
-  @override
-  String get id => asset.id;
-}
-
-class LinkableDataAssetImpl extends LinkableAssetImpl
-    implements LinkableDataAsset {
-  @override
-  final DataAssetImpl asset;
-
-  @override
-  String get name => asset.name;
-
-  LinkableDataAssetImpl._(this.asset);
-
-  @override
-  LinkableDataAsset withFile(Uri file) => LinkableDataAssetImpl._(DataAssetImpl(
-        package: asset.package,
-        name: asset.name,
-        file: file,
-      ));
-}
-
-class LinkableCodeAssetImpl extends LinkableAssetImpl
-    implements LinkableCodeAsset {
-  @override
-  final NativeCodeAssetImpl asset;
-
-  LinkableCodeAssetImpl._(this.asset);
-
-  @override
-  LinkableCodeAsset withFile(Uri file) =>
-      LinkableCodeAssetImpl._(NativeCodeAssetImpl(
-        id: asset.id,
-        linkMode: asset.linkMode,
-        os: asset.os,
-        architecture: asset.architecture,
-        file: file,
-      ));
 }
