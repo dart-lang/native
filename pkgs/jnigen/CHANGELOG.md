@@ -1,5 +1,6 @@
 ## 0.8.1-wip
 
+- Expand constraint on `package:cli_config` to allow `^0.2.0`.
 - Ignore `use_super_parameters` lint in generated files.
 
 ## 0.8.0
