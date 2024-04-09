@@ -16,11 +16,11 @@ class _AndroidToolsException implements Exception {
 }
 
 class SdkNotFoundException extends _AndroidToolsException {
-  SdkNotFoundException(String message) : super(message);
+  SdkNotFoundException(super.message);
 }
 
 class GradleException extends _AndroidToolsException {
-  GradleException(String message) : super(message);
+  GradleException(super.message);
 }
 
 class AndroidSdkTools {
