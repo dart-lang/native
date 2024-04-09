@@ -1,0 +1,5 @@
+# This package uses dart:ffi.
+test_on: vm
+
+# https://github.com/dart-lang/native/issues/461
+concurrency: 1

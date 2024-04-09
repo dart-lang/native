@@ -29,7 +29,7 @@ dependencies:
   cli_config: '>=0.1.0 <0.3.0'
 
 dev_dependencies:
-  lints: ^2.0.0
+  lints: ^3.0.0
   jni:
     path: ../jni
   test: ^1.24.1

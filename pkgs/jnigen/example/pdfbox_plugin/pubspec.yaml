@@ -21,7 +21,7 @@ dev_dependencies:
   jnigen:
     path: ../../
   test: any
-  lints: ^2.0.0
+  lints: ^3.0.0
 
 flutter:
   # A JNI plugin uses FFI for calling into C code. Thus the relevant shared
