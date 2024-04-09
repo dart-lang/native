@@ -65,7 +65,7 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: dart test --platform vm --concurrency=1
+        run: dart test --platform vm
 
   # Keep in sync with ffigen_weekly.yaml:test-mac-arm64
   test-mac:
@@ -84,7 +84,7 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: dart test --platform vm --concurrency=1
+        run: dart test --platform vm
       - name: Collect coverage
         run: ./tool/coverage.sh
       - name: Upload coverage
@@ -117,7 +117,7 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: dart test --platform vm --concurrency=1
+        run: dart test --platform vm
 
   # Sanity check the latest `flutter create --template plugin_ffi`.
   # This will break if we change the Flutter template or the generated code.
