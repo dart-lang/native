@@ -152,6 +152,9 @@ class CBuilder implements Builder {
   /// | Fuchsia | `c++`        |
   final String? cppLinkStdLib;
 
+  /// How the built code asset should be linked, This determines whether to
+  /// produce a dynamic or static library. If null, the value is instead
+  /// retrieved from the [BuildConfig].
   final LinkModePreference? linkModePreference;
 
   CBuilder.library({

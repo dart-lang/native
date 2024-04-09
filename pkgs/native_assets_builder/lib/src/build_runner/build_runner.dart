@@ -37,7 +37,7 @@ class NativeAssetsBuildRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// If provided, only native assets of all transitive dependencies of
+  /// If provided, only assets of all transitive dependencies of
   /// [runPackageName] are built.
   Future<BuildResult> build({
     required LinkModePreferenceImpl linkModePreference,
@@ -67,6 +67,13 @@ class NativeAssetsBuildRunner {
         supportedAssetTypes: supportedAssetTypes,
       );
 
+  /// [workingDirectory] is expected to contain `.dart_tool`.
+  ///
+  /// This method is invoked by launchers such as dartdev (for `dart run`) and
+  /// flutter_tools (for `flutter run` and `flutter build`).
+  ///
+  /// If provided, only assets of all transitive dependencies of
+  /// [runPackageName] are linked.
   Future<LinkResult> link({
     required Target target,
     required Uri workingDirectory,
@@ -98,6 +105,7 @@ class NativeAssetsBuildRunner {
         previousBuildResult: buildResult,
       );
 
+  /// The common method for running building or linking of assets.
   Future<ForgeResult> _run({
     required PipelineStep step,
     required LinkModePreferenceImpl linkModePreference,

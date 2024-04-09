@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../../native_assets_builder.dart';
-import 'link_result.dart';
 
 /// The result from a [NativeAssetsBuildRunner.build] or
 /// [NativeAssetsBuildRunner.link].

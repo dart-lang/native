@@ -1,5 +1,11 @@
+/// Identifies a call site of a static method annotated with the
+/// `ResourceIdentifier` annotation. It consists of the [name] of the
+/// method, and the [metadata] used in the constructor of the annotation.
 class Resource {
+  /// The name of the method which was called.
   final String name;
+
+  /// The metadata used in the annotation constructor on this method.
   final Object? metadata;
 
   Resource({required this.name, required this.metadata});
