@@ -9,6 +9,7 @@ import 'treeshaking_native_assets_bindings.dart' as bindings;
 class MyMath {
   @ResourceIdentifier('add')
   static int add(int a, int b) => bindings.add(a, b);
+
   @ResourceIdentifier('multiply')
   static int multiply(int a, int b) => bindings.multiply(a, b);
 }

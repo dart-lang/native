@@ -87,19 +87,32 @@ class PackageLayout {
   /// All packages in [packageConfig] with native assets.
   ///
   /// Whether a package has native assets is defined by whether it contains
-  /// a `hook/build.dart`.
+  /// a `hook/build.dart` or `hook/link.dart`.
   ///
-  /// `package:native` itself is excluded.
-  Future<List<Package>> packagesWithAssets(PipelineStep step) async {
+  /// For backwards compatibility, a toplevel `build.dart` is also supported.
+  // TODO(https://github.com/dart-lang/native/issues/823): Remove fallback when
+  // everyone has migrated. (Probably once we stop backwards compatibility of
+  // the protocol version pre 1.2.0 on some future version.)
+  Future<List<Package>> packagesWithAssets(Hook hook) async => switch (hook) {
+        Hook.build => _packagesWithBuildAssets ??=
+            await _packagesWithAssets(hook),
+        Hook.link => _packagesWithLinkAssets ??=
+            await _packagesWithAssets(hook),
+      };
+
+  List<Package>? _packagesWithBuildAssets;
+  List<Package>? _packagesWithLinkAssets;
+
+  Future<List<Package>> _packagesWithAssets(Hook hook) async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
         if (await File.fromUri(
-              packageRoot.resolve('hook/').resolve(step.scriptName),
+              packageRoot.resolve('hook/').resolve(hook.scriptName),
             ).exists() ||
             await File.fromUri(
-              packageRoot.resolve(step.scriptName),
+              packageRoot.resolve(hook.scriptName),
             ).exists()) {
           result.add(package);
         }

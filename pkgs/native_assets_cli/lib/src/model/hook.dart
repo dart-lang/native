@@ -6,11 +6,13 @@
 ///
 /// The `build.dart` script runs before, and the `link.dart` script after
 /// compilation.
-enum PipelineStep {
-  link('link.dart'),
-  build('build.dart');
+enum Hook {
+  link('link'),
+  build('build');
 
-  final String scriptName;
+  final String _scriptName;
 
-  const PipelineStep(this.scriptName);
+  String get scriptName => '$_scriptName.dart';
+
+  const Hook(this._scriptName);
 }

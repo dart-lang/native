@@ -45,6 +45,17 @@ abstract class LinkConfig {
   List<Resource> get resources;
 
   /// Generate the [LinkConfig] from the input arguments to the linking script.
-  factory LinkConfig(List<String> arguments) =>
+  factory LinkConfig.fromArguments(List<String> arguments) =>
       LinkConfigImpl.fromArguments(arguments);
+
+  factory LinkConfig({
+    required Uri? resourceIdentifierUri,
+    required BuildConfigImpl buildConfig,
+    required List<AssetImpl> assetsForLinking,
+  }) =>
+      LinkConfigImpl.fromValues(
+        resourceIdentifierUri: resourceIdentifierUri,
+        buildConfig: buildConfig,
+        assetsForLinking: assetsForLinking,
+      );
 }

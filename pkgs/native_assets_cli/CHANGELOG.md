@@ -1,6 +1,6 @@
 ## 0.6.0-wip
 
-- Add support for `link.dart`.
+- Add support for `hook/link.dart`.
 
 ## 0.5.4
 

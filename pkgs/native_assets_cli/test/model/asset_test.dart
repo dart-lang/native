@@ -172,7 +172,7 @@ void main() {
 
   test('asset yaml', () {
     final json = [
-      for (final item in assets) item.toJson(BuildOutputImpl.latestVersion)
+      for (final item in assets) item.toJson(HookOutputImpl.latestVersion)
     ];
     expect(json, assetsJsonEncoding);
     final assets2 = AssetImpl.listFromJson(json);

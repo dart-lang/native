@@ -20,7 +20,7 @@ void main() {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  final dryRunOutput = BuildOutputImpl(
+  final dryRunOutput = HookOutputImpl(
     timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     assets: [
       NativeCodeAssetImpl(
@@ -154,22 +154,22 @@ version: 1.0.0''';
       Uri.file('path/to/file.ext').toFilePath(),
     ],
     'metadata': {'key': 'value'},
-    'version': '${BuildOutputImpl.latestVersion}'
+    'version': '${HookOutputImpl.latestVersion}'
   };
 
   test('built info json', () {
     final buildOutput = getBuildOutput();
-    final json = buildOutput.toJson(BuildOutputImpl.latestVersion);
+    final json = buildOutput.toJson(HookOutputImpl.latestVersion);
     expect(json, jsonEncoding);
 
-    final buildOutput2 = BuildOutputImpl.fromJson(json);
+    final buildOutput2 = HookOutputImpl.fromJson(json);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
 
   test('built info yaml v1.0.0 parsing keeps working', () {
     final buildOutput = getBuildOutput(withLinkedAssets: false);
-    final buildOutput2 = BuildOutputImpl.fromJsonString(yamlEncodingV1_0_0);
+    final buildOutput2 = HookOutputImpl.fromJsonString(yamlEncodingV1_0_0);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
     expect(buildOutput, buildOutput2);
   });
@@ -191,10 +191,10 @@ version: 1.0.0''';
 
   test('BuildOutput.hashCode', () {
     final buildOutput = getBuildOutput();
-    final buildOutput2 = BuildOutputImpl.fromJson(jsonEncoding);
+    final buildOutput2 = HookOutputImpl.fromJson(jsonEncoding);
     expect(buildOutput.hashCode, buildOutput2.hashCode);
 
-    final buildOutput3 = BuildOutputImpl(
+    final buildOutput3 = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     );
     expect(buildOutput.hashCode != buildOutput3.hashCode, true);
@@ -216,7 +216,7 @@ version: 1.0.0''';
     );
     final buildOutput = getBuildOutput();
     await buildOutput.writeToFile(config: config);
-    final buildOutput2 = BuildOutputImpl.readFromFile(file: config.outputFile);
+    final buildOutput2 = HookOutputImpl.readFromFile(file: config.outputFile);
     expect(buildOutput2, buildOutput);
   });
 
@@ -237,12 +237,12 @@ version: 1.0.0''';
     );
     final buildOutput = getBuildOutput(withLinkedAssets: false);
     await buildOutput.writeToFile(config: config);
-    final buildOutput2 = BuildOutputImpl.readFromFile(file: config.outputFile);
+    final buildOutput2 = HookOutputImpl.readFromFile(file: config.outputFile);
     expect(buildOutput2, buildOutput);
   });
 
   test('Round timestamp', () {
-    final buildOutput3 = BuildOutputImpl(
+    final buildOutput3 = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.372257'),
     );
     expect(buildOutput3.timestamp, DateTime.parse('2022-11-10 13:25:01.000'));
@@ -251,12 +251,12 @@ version: 1.0.0''';
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildOutput version $version', () {
       expect(
-        () => BuildOutputImpl.fromJsonString('version: $version'),
+        () => HookOutputImpl.fromJsonString('version: $version'),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(BuildOutputImpl.latestVersion.toString()),
+              e.message.contains(HookOutputImpl.latestVersion.toString()),
         )),
       );
     });
@@ -264,7 +264,7 @@ version: 1.0.0''';
 
   test('format exception', () {
     expect(
-      () => BuildOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
+      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -280,7 +280,7 @@ version: 1.0.0'''),
       throwsFormatException,
     );
     expect(
-      () => BuildOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
+      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -296,7 +296,7 @@ version: 1.0.0'''),
       throwsFormatException,
     );
     expect(
-      () => BuildOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
+      () => HookOutputImpl.fromJsonString('''timestamp: 2022-11-10 13:25:01.000
 assets:
   - name: foo
     link_mode: dynamic
@@ -313,7 +313,7 @@ version: 1.0.0'''),
   });
 
   test('BuildOutput dependencies can be modified', () {
-    final buildOutput = BuildOutputImpl();
+    final buildOutput = HookOutputImpl();
     expect(
       () => buildOutput.addDependencies([Uri.file('path/to/file.ext')]),
       returnsNormally,
@@ -321,7 +321,7 @@ version: 1.0.0'''),
   });
 
   test('BuildOutput setters', () {
-    final buildOutput = BuildOutputImpl(
+    final buildOutput = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
       assets: [
         NativeCodeAssetImpl(
@@ -348,7 +348,7 @@ version: 1.0.0'''),
       }),
     );
 
-    final buildOutput2 = BuildOutputImpl(
+    final buildOutput2 = HookOutputImpl(
       timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
     );
     buildOutput2.addAsset(
@@ -386,60 +386,57 @@ version: 1.0.0'''),
   });
 }
 
-BuildOutputImpl getBuildOutput({bool withLinkedAssets = true}) {
-  final assetsForLinking = withLinkedAssets
-      ? {
-          'my_package': [
-            DataAssetImpl(
-              file: Uri.file('path/to/data'),
-              name: 'data',
-              package: 'my_package',
-            )
-          ],
-          'my_package_2': [
-            DataAssetImpl(
-              file: Uri.file('path/to/data2'),
-              name: 'data',
-              package: 'my_package',
-            )
-          ]
-        }
-      : null;
-  return BuildOutputImpl(
-    timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
-    assets: [
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo',
-        file: Uri(path: 'path/to/libfoo.so'),
-        linkMode: DynamicLoadingBundledImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo2',
-        linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo3',
-        linkMode: LookupInProcessImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-      NativeCodeAssetImpl(
-        id: 'package:my_package/foo4',
-        linkMode: LookupInExecutableImpl(),
-        os: OSImpl.android,
-        architecture: ArchitectureImpl.x64,
-      ),
-    ],
-    assetsForLinking: assetsForLinking,
-    dependencies: Dependencies([
-      Uri.file('path/to/file.ext'),
-    ]),
-    metadata: const Metadata({
-      'key': 'value',
-    }),
-  );
-}
+HookOutputImpl getBuildOutput({bool withLinkedAssets = true}) => HookOutputImpl(
+      timestamp: DateTime.parse('2022-11-10 13:25:01.000'),
+      assets: [
+        NativeCodeAssetImpl(
+          id: 'package:my_package/foo',
+          file: Uri(path: 'path/to/libfoo.so'),
+          linkMode: DynamicLoadingBundledImpl(),
+          os: OSImpl.android,
+          architecture: ArchitectureImpl.x64,
+        ),
+        NativeCodeAssetImpl(
+          id: 'package:my_package/foo2',
+          linkMode: DynamicLoadingSystemImpl(Uri(path: 'path/to/libfoo2.so')),
+          os: OSImpl.android,
+          architecture: ArchitectureImpl.x64,
+        ),
+        NativeCodeAssetImpl(
+          id: 'package:my_package/foo3',
+          linkMode: LookupInProcessImpl(),
+          os: OSImpl.android,
+          architecture: ArchitectureImpl.x64,
+        ),
+        NativeCodeAssetImpl(
+          id: 'package:my_package/foo4',
+          linkMode: LookupInExecutableImpl(),
+          os: OSImpl.android,
+          architecture: ArchitectureImpl.x64,
+        ),
+      ],
+      assetsForLinking: withLinkedAssets
+          ? {
+              'my_package': [
+                DataAssetImpl(
+                  file: Uri.file('path/to/data'),
+                  name: 'data',
+                  package: 'my_package',
+                )
+              ],
+              'my_package_2': [
+                DataAssetImpl(
+                  file: Uri.file('path/to/data2'),
+                  name: 'data',
+                  package: 'my_package',
+                )
+              ]
+            }
+          : null,
+      dependencies: Dependencies([
+        Uri.file('path/to/file.ext'),
+      ]),
+      metadata: const Metadata({
+        'key': 'value',
+      }),
+    );

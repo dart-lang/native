@@ -38,7 +38,7 @@ void main() async {
       final packageLayout =
           await PackageLayout.fromRootPackageRoot(nativeAddUri);
       final packagesWithNativeAssets =
-          await packageLayout.packagesWithAssets(PipelineStep.build);
+          await packageLayout.packagesWithAssets(Hook.build);
 
       final planner = NativeAssetsBuildPlanner(
         packageGraph: graph,
@@ -63,7 +63,7 @@ void main() async {
       final packageLayout =
           await PackageLayout.fromRootPackageRoot(nativeAddUri);
       final packagesWithNativeAssets =
-          await packageLayout.packagesWithAssets(PipelineStep.build);
+          await packageLayout.packagesWithAssets(Hook.build);
       final nativeAssetsBuildPlanner =
           await NativeAssetsBuildPlanner.fromRootPackageRoot(
         rootPackageRoot: nativeAddUri,
@@ -90,7 +90,7 @@ void main() async {
         final packageLayout =
             await PackageLayout.fromRootPackageRoot(nativeAddUri);
         final packagesWithNativeAssets =
-            await packageLayout.packagesWithAssets(PipelineStep.build);
+            await packageLayout.packagesWithAssets(Hook.build);
         final nativeAssetsBuildPlanner =
             await NativeAssetsBuildPlanner.fromRootPackageRoot(
           rootPackageRoot: nativeAddUri,

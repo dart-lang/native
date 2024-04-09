@@ -1,7 +1,8 @@
 ## 1.3.0
 
-- Rev version to know whether the Dart/Flutter SDK can consume `BuildOutput.assetsForLinking`. 
-  the key will not be read and the list of assets to be linked will be empty.
+- Rev version to know whether the Dart/Flutter SDK can consume
+  `BuildOutput.assetsForLinking`. In earlier versions the key will not be read
+  and the list of assets to be linked will be empty.
 
 ## 1.2.0
 

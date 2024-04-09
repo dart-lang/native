@@ -117,7 +117,7 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
       'target_os': 'android',
-      'version': BuildOutputImpl.latestVersion.toString(),
+      'version': HookOutputImpl.latestVersion.toString(),
     });
 
     final fromConfig = BuildConfigImpl.fromConfig(config);
@@ -140,7 +140,7 @@ void main() async {
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
-      'version': BuildOutputImpl.latestVersion.toString(),
+      'version': HookOutputImpl.latestVersion.toString(),
     });
 
     final fromConfig = BuildConfigImpl.fromConfig(config);
@@ -677,7 +677,7 @@ version: 1.0.0''';
       'target_android_ndk_api': 30,
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
-      'version': BuildOutputImpl.latestVersion.toString(),
+      'version': HookOutputImpl.latestVersion.toString(),
     });
     expect(
       () => BuildConfigImpl.fromConfig(config),

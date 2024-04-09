@@ -4,7 +4,7 @@
 
 part of '../api/build_output.dart';
 
-final class BuildOutputImpl implements BuildOutput, LinkOutput {
+final class HookOutputImpl implements BuildOutput, LinkOutput {
   @override
   final DateTime timestamp;
 
@@ -27,7 +27,7 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
 
   final Metadata metadata;
 
-  BuildOutputImpl({
+  HookOutputImpl({
     DateTime? timestamp,
     List<AssetImpl>? assets,
     Map<String, List<AssetImpl>>? assetsForLinking,
@@ -56,7 +56,7 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
   static const _timestampKey = 'timestamp';
   static const _versionKey = 'version';
 
-  factory BuildOutputImpl.fromJsonString(String jsonString) {
+  factory HookOutputImpl.fromJsonString(String jsonString) {
     final Object? json;
     if (jsonString.startsWith('{')) {
       json = jsonDecode(jsonString);
@@ -65,10 +65,10 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
       // remove the YAML fallback.
       json = loadYaml(jsonString);
     }
-    return BuildOutputImpl.fromJson(as<Map<Object?, Object?>>(json));
+    return HookOutputImpl.fromJson(as<Map<Object?, Object?>>(json));
   }
 
-  factory BuildOutputImpl.fromJson(Map<Object?, Object?> jsonMap) {
+  factory HookOutputImpl.fromJson(Map<Object?, Object?> jsonMap) {
     final outputVersion = Version.parse(as<String>(jsonMap['version']));
     if (outputVersion.major > latestVersion.major) {
       throw FormatException(
@@ -84,7 +84,7 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
         'Flutter, please update native_assets_cli.',
       );
     }
-    return BuildOutputImpl(
+    return HookOutputImpl(
       timestamp: DateTime.parse(as<String>(jsonMap[_timestampKey])),
       assets: AssetImpl.listFromJson(as<List<Object?>?>(jsonMap[_assetsKey])),
       assetsForLinking: as<Map<String, dynamic>?>(jsonMap[_assetsForLinkingKey])
@@ -143,7 +143,7 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
   String toJsonString(Version version) =>
       const JsonEncoder.withIndent('  ').convert(toJson(version));
 
-  /// The version of [BuildOutputImpl].
+  /// The version of [HookOutputImpl].
   ///
   /// This class is used in the protocol between the Dart and Flutter SDKs and
   /// packages through build hook invocations.
@@ -160,17 +160,17 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
   static Version latestVersion = BuildConfigImpl.latestVersion;
 
   /// Writes the JSON file from [file].
-  static BuildOutputImpl? readFromFile({required Uri file}) {
+  static HookOutputImpl? readFromFile({required Uri file}) {
     final buildOutputFile = File.fromUri(file);
     if (buildOutputFile.existsSync()) {
-      return BuildOutputImpl.fromJsonString(buildOutputFile.readAsStringSync());
+      return HookOutputImpl.fromJsonString(buildOutputFile.readAsStringSync());
     }
 
     return null;
   }
 
   /// Writes the [toJsonString] to the output file specified in the [config].
-  Future<void> writeToFile({required PipelineConfigImpl config}) async {
+  Future<void> writeToFile({required HookConfigImpl config}) async {
     final configVersion = config.version;
     final jsonString = toJsonString(configVersion);
     await File.fromUri(config.outputFile)
@@ -182,7 +182,7 @@ final class BuildOutputImpl implements BuildOutput, LinkOutput {
 
   @override
   bool operator ==(Object other) {
-    if (other is! BuildOutputImpl) {
+    if (other is! HookOutputImpl) {
       return false;
     }
     return other.timestamp == timestamp &&

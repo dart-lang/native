@@ -10,9 +10,9 @@ import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../model/hook.dart';
+import '../model/hook_config.dart';
 import '../model/metadata.dart';
-import '../model/pipeline_config.dart';
-import '../model/pipeline_step.dart';
 import '../model/target.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';

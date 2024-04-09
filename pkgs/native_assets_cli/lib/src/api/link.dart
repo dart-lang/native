@@ -25,43 +25,25 @@ import 'link_config.dart';
 ///
 /// void main(List<String> args) async {
 ///   await link(args, (config, output) async {
-///     final packageName = config.packageName;
-///     final root = config.packageRoot;
-///     final allAssets = [
-///       DataAsset(
-///         package: packageName,
-///         name: 'unused',
-///         file: root.resolve('assets').resolve('unused_asset.json'),
-///       ),
-///       DataAsset(
-///         package: packageName,
-///         name: 'used',
-///         file: root.resolve('assets').resolve('used_asset.json'),
-///       )
-///     ];
-///     output.addAssets(shake(allAssets, config.resources));
+///     final assetsWithResource = config.assets
+///         .whereType<LinkableDataAsset>()
+///         .where((asset) => config.resources
+///             .any((resource) => resource.metadata == asset.name));
+///     output.linkAssets(assetsWithResource);
 ///   });
 /// }
-///
-/// Iterable<Asset> shake(
-///   List<DataAsset> allAssets,
-///   List<Resource> resources,
-/// ) =>
-///     allAssets.where(
-///       (asset) => resources.any((resource) => resource.metadata == asset.id),
-///     );
 /// ```
 Future<void> link(
   List<String> arguments,
   Future<void> Function(LinkConfig config, LinkOutput output) builder,
 ) async {
-  final config = LinkConfig(arguments) as LinkConfigImpl;
+  final config = LinkConfig.fromArguments(arguments) as LinkConfigImpl;
 
   // The built assets are dependencies of linking, as the linking should be
   // rerun if they change.
   final builtAssetsFiles =
       config.assets.map((asset) => asset.file).whereType<Uri>().toList();
-  final linkOutput = BuildOutputImpl(
+  final linkOutput = HookOutputImpl(
     dependencies: Dependencies(builtAssetsFiles),
   );
   await builder(config, linkOutput);

@@ -4,7 +4,7 @@
 
 import 'package:pub_semver/pub_semver.dart';
 
-abstract class PipelineConfigImpl {
+abstract class HookConfigImpl {
   Uri get configFile;
 
   Uri get outputFile => outputDirectory.resolve(outputName);

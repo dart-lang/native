@@ -41,4 +41,15 @@ abstract final class LinkOutput {
 
   /// Adds [Asset]s produced by this link or dry run.
   void linkAssets(Iterable<LinkableAsset> assets);
+
+  factory LinkOutput({
+    required List<AssetImpl> assets,
+    required Dependencies dependencies,
+    required DateTime timestamp,
+  }) =>
+      HookOutputImpl(
+        assets: assets,
+        dependencies: dependencies,
+        timestamp: timestamp,
+      );
 }

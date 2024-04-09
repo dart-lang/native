@@ -156,18 +156,6 @@ class RunCBuilder {
         );
         objectFiles.add(objectFile);
       }
-    } else {
-      await _compile(
-        compiler,
-        architecture,
-        targetAndroidNdkApi,
-        targetIosSdk,
-        sourceFiles,
-        dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
-      );
-    }
-
-    if (staticLibrary != null) {
       await runProcess(
         executable: archiver_!,
         arguments: [
@@ -178,6 +166,15 @@ class RunCBuilder {
         logger: logger,
         captureOutput: false,
         throwOnUnexpectedExitCode: true,
+      );
+    } else {
+      await _compile(
+        compiler,
+        architecture,
+        targetAndroidNdkApi,
+        targetIosSdk,
+        sourceFiles,
+        dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
       );
     }
   }

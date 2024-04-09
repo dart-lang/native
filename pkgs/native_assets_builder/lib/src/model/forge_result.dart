@@ -5,13 +5,7 @@ import '../../native_assets_builder.dart';
 
 /// The result from a [NativeAssetsBuildRunner.build] or
 /// [NativeAssetsBuildRunner.link].
-final class ForgeResult implements BuildResult, DryRunResult, LinkResult {
-  /// All the files used for building the native assets of all packages.
-  ///
-  /// This aggregated list can be used to determine whether the
-  /// [NativeAssetsBuildRunner] needs to be invoked again. The
-  /// [NativeAssetsBuildRunner] determines per package with native assets
-  /// if it needs to run the build again.
+final class HookResult implements BuildResult, DryRunResult, LinkResult {
   @override
   final List<AssetImpl> assets;
 
@@ -24,14 +18,14 @@ final class ForgeResult implements BuildResult, DryRunResult, LinkResult {
   @override
   final bool success;
 
-  ForgeResult._({
+  HookResult._({
     required this.assets,
     required this.assetsForLinking,
     required this.dependencies,
     required this.success,
   });
 
-  ForgeResult.failure()
+  HookResult.failure()
       : this._(
           assets: [],
           assetsForLinking: {},
@@ -39,7 +33,7 @@ final class ForgeResult implements BuildResult, DryRunResult, LinkResult {
           success: false,
         );
 
-  void add(BuildOutputImpl buildOutput) {
+  void add(HookOutputImpl buildOutput) {
     assets.addAll(buildOutput.assets);
     final mergedMaps = mergeMaps(
       assetsForLinking,
@@ -61,7 +55,7 @@ final class ForgeResult implements BuildResult, DryRunResult, LinkResult {
     dependencies.sort(_uriCompare);
   }
 
-  ForgeResult withSuccess(bool success) => ForgeResult._(
+  HookResult withSuccess(bool success) => HookResult._(
         assets: assets,
         assetsForLinking: assetsForLinking,
         dependencies: dependencies,

@@ -162,6 +162,8 @@ Future<void> copyTestProjects({
 }
 
 extension UnescapePath on String {
+  /// Remove double encoding of slashes on windows, for string comparison with
+  /// Unix-style encoded strings.
   String unescape() => replaceAll('\\', '/');
 }
 

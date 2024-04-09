@@ -363,5 +363,5 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
 
   @override
   String toString() =>
-      'NativeCodeAsset(${toJson(BuildOutputImpl.latestVersion)})';
+      'NativeCodeAsset(${toJson(HookOutputImpl.latestVersion)})';
 }

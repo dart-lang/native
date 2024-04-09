@@ -53,7 +53,7 @@ class NativeAssetsBuildRunner {
     Iterable<String>? supportedAssetTypes,
   }) async =>
       _run(
-        step: PipelineStep.build,
+        step: Hook.build,
         linkModePreference: linkModePreference,
         target: target,
         workingDirectory: workingDirectory,
@@ -89,7 +89,7 @@ class NativeAssetsBuildRunner {
     required BuildResult buildResult,
   }) async =>
       _run(
-        step: PipelineStep.link,
+        step: Hook.link,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         target: target,
         workingDirectory: workingDirectory,
@@ -102,12 +102,12 @@ class NativeAssetsBuildRunner {
         runPackageName: runPackageName,
         resourceIdentifiers: resourceIdentifiers,
         supportedAssetTypes: supportedAssetTypes,
-        previousBuildResult: buildResult,
+        buildResult: buildResult,
       );
 
   /// The common method for running building or linking of assets.
-  Future<ForgeResult> _run({
-    required PipelineStep step,
+  Future<HookResult> _run({
+    required Hook step,
     required LinkModePreferenceImpl linkModePreference,
     required Target target,
     required Uri workingDirectory,
@@ -120,17 +120,17 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
-    BuildResult? previousBuildResult,
+    BuildResult? buildResult,
   }) async {
-    assert(step == PipelineStep.link || previousBuildResult == null);
+    assert(step == Hook.link || buildResult == null);
 
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild = await packageLayout.packagesWithAssets(step);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
-    final buildResult = ForgeResult.failure();
+    final hookResult = HookResult.failure();
     if (!planSuccess) {
-      return buildResult;
+      return hookResult;
     }
     final metadata = <String, Metadata>{};
     var success = true;
@@ -153,15 +153,14 @@ class NativeAssetsBuildRunner {
         targetAndroidNdkApi: targetAndroidNdkApi,
         supportedAssetTypes: supportedAssetTypes,
       );
-      final PipelineConfigImpl config;
-      if (step == PipelineStep.link) {
-        config = LinkConfigArgs(
+      final HookConfigImpl config;
+      if (step == Hook.link) {
+        config = LinkConfigImpl.fromValues(
           resourceIdentifierUri: resourceIdentifiers,
           buildConfig: buildConfig,
           assetsForLinking:
-              previousBuildResult!.assetsForLinking[buildConfig.packageName] ??
-                  [],
-        ).toLinkConfig();
+              buildResult!.assetsForLinking[buildConfig.packageName] ?? [],
+        );
       } else {
         config = buildConfig;
       }
@@ -174,13 +173,13 @@ class NativeAssetsBuildRunner {
         includeParentEnvironment,
         resourceIdentifiers,
       );
-      buildResult.add(buildOutput);
+      hookResult.add(buildOutput);
       success &= packageSuccess;
 
       metadata[config.packageName] = buildOutput.metadata;
     }
 
-    return buildResult.withSuccess(success);
+    return hookResult.withSuccess(success);
   }
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -201,13 +200,13 @@ class NativeAssetsBuildRunner {
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final packagesWithBuild =
-        await packageLayout.packagesWithAssets(PipelineStep.build);
+        await packageLayout.packagesWithAssets(Hook.build);
     final (buildPlan, _, planSuccess) = await _plannedPackages(
       packagesWithBuild,
       packageLayout,
       runPackageName,
     );
-    final buildResult = ForgeResult.failure();
+    final buildResult = HookResult.failure();
     if (!planSuccess) {
       return buildResult;
     }
@@ -222,7 +221,7 @@ class NativeAssetsBuildRunner {
         supportedAssetTypes: supportedAssetTypes,
       );
       final (buildOutput, packageSuccess) = await _buildPackage(
-        PipelineStep.build,
+        Hook.build,
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
@@ -254,8 +253,8 @@ class NativeAssetsBuildRunner {
   }
 
   Future<_PackageBuildRecord> _buildPackageCached(
-    PipelineStep step,
-    PipelineConfigImpl config,
+    Hook step,
+    HookConfigImpl config,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
@@ -266,7 +265,7 @@ class NativeAssetsBuildRunner {
       await Directory.fromUri(outDir).create(recursive: true);
     }
 
-    final buildOutput = BuildOutputImpl.readFromFile(file: config.outputFile);
+    final buildOutput = HookOutputImpl.readFromFile(file: config.outputFile);
     if (buildOutput != null) {
       final lastBuilt = buildOutput.timestamp.roundDownToSeconds();
       final lastChange = await buildOutput.dependenciesModel.lastModified();
@@ -291,8 +290,8 @@ class NativeAssetsBuildRunner {
   }
 
   Future<_PackageBuildRecord> _buildPackage(
-    PipelineStep step,
-    PipelineConfigImpl config,
+    Hook step,
+    HookConfigImpl config,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
@@ -347,8 +346,8 @@ ${result.stdout}
 
     try {
       final buildOutput =
-          BuildOutputImpl.readFromFile(file: config.outputFile) ??
-              BuildOutputImpl();
+          HookOutputImpl.readFromFile(file: config.outputFile) ??
+              HookOutputImpl();
       success &= validateAssetsPackage(
         buildOutput.assets,
         config.packageName,
@@ -363,7 +362,7 @@ Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
 ${e.message}
         ''');
       success = false;
-      return (BuildOutputImpl(), false);
+      return (HookOutputImpl(), false);
       // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
       // type errors in native_assets_cli, release a new version of that package
       // and then remove this.
@@ -376,7 +375,7 @@ ${config.outputName} contained a type error.
 Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
         ''');
       success = false;
-      return (BuildOutputImpl(), false);
+      return (HookOutputImpl(), false);
     } finally {
       if (!success) {
         if (await buildOutputFile.exists()) {
@@ -516,7 +515,7 @@ Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
   }
 }
 
-typedef _PackageBuildRecord = (BuildOutputImpl, bool success);
+typedef _PackageBuildRecord = (HookOutputImpl, bool success);
 
 extension on DateTime {
   DateTime roundDownToSeconds() =>

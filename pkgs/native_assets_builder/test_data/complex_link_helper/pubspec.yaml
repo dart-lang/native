@@ -1,5 +1,5 @@
 name: complex_link_helper
-description: Sums two numbers with native code.
+description: Adds two json files to the built assets, and two more for linking.
 version: 0.1.0
 
 publish_to: none

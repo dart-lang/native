@@ -36,6 +36,8 @@ void main(List<String> arguments) async {
   });
 }
 
+// TODO: Currently, linking cannot add assets, so we add a placeholder here.
+// See also https://github.com/dart-lang/native/issues/1084.
 void _placeholderAsset(BuildConfig config, BuildOutput output) {
   final uri = config.outputDirectory.resolve(
       config.targetOS.libraryFileName(packageName, DynamicLoadingBundled()));

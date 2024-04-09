@@ -10,8 +10,8 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart' show loadYaml;
 
 import '../model/dependencies.dart';
+import '../model/hook_config.dart';
 import '../model/metadata.dart';
-import '../model/pipeline_config.dart';
 import '../utils/datetime.dart';
 import '../utils/file.dart';
 import '../utils/json.dart';
@@ -22,7 +22,7 @@ import 'build_config.dart';
 import 'linkable_asset.dart';
 import 'os.dart';
 
-part '../model/build_output.dart';
+part '../model/hook_output.dart';
 part 'link_output.dart';
 
 /// The output of a build hook (`hook/build.dart`) invocation.
@@ -90,7 +90,7 @@ abstract final class BuildOutput {
     Iterable<Uri>? dependencies,
     Map<String, Object>? metadata,
   }) =>
-      BuildOutputImpl(
+      HookOutputImpl(
         timestamp: timestamp,
         assets: assets?.cast<AssetImpl>().toList(),
         dependencies: Dependencies([...?dependencies]),
@@ -137,5 +137,5 @@ abstract final class BuildOutput {
   ///
   /// The build output is used in the protocol between the Dart and Flutter SDKs
   /// and packages through build hook invocations.
-  static Version get latestVersion => BuildOutputImpl.latestVersion;
+  static Version get latestVersion => HookOutputImpl.latestVersion;
 }

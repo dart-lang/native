@@ -4,15 +4,15 @@
 
 part of '../api/build_config.dart';
 
-final class BuildConfigImpl extends PipelineConfigImpl implements BuildConfig {
+final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   @override
   Uri get script {
     final hookScript =
-        packageRoot.resolve('hook/').resolve(PipelineStep.build.scriptName);
+        packageRoot.resolve('hook/').resolve(Hook.build.scriptName);
     if (File.fromUri(hookScript).existsSync()) {
       return hookScript;
     } else {
-      return packageRoot.resolve(PipelineStep.build.scriptName);
+      return packageRoot.resolve(Hook.build.scriptName);
     }
   }
 

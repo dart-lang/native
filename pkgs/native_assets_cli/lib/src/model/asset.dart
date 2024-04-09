@@ -9,7 +9,8 @@ abstract final class AssetImpl implements Asset {
 
   static List<AssetImpl> listFromJson(List<Object?>? list) {
     final assets = <AssetImpl>[];
-    for (final jsonElement in list ?? []) {
+    if (list == null) return assets;
+    for (final jsonElement in list) {
       final jsonMap = as<Map<Object?, Object?>>(jsonElement);
       final type = jsonMap[NativeCodeAssetImpl.typeKey];
       switch (type) {

@@ -1,5 +1,5 @@
 name: simple_link
-description: Sums two numbers with native code.
+description: Build 4 assets for linking, only keep two in link.dart.
 version: 0.1.0
 
 publish_to: none

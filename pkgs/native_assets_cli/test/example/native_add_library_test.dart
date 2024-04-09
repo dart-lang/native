@@ -68,7 +68,7 @@ void main() async {
       expect(processResult.exitCode, 0);
 
       final buildOutputUri = tempUri.resolve('build_output.json');
-      final buildOutput = BuildOutputImpl.fromJsonString(
+      final buildOutput = HookOutputImpl.fromJsonString(
           await File.fromUri(buildOutputUri).readAsString());
       final assets = buildOutput.assets;
       final dependencies = buildOutput.dependencies;
