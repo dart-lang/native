@@ -35,8 +35,6 @@ Future<void> _treeshakeStaticLibrary(
   LinkableAsset dynamicLibrary,
   LinkableAsset staticLibrary,
 ) async {
-  // This removes the placeholder file.
-  File.fromUri(dynamicLibrary.file!).deleteSync();
   final arguments = [
     '-fPIC',
     '-shared',
