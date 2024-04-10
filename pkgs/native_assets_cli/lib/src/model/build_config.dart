@@ -193,6 +193,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     Map<String, Metadata>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
     Version? version,
+    required Hook hook,
   }) {
     final input = [
       version ?? latestVersion,
@@ -214,6 +215,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
           json.encode(entry.value.toJson()),
         ],
       ..._supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
+      hook.name,
     ].join('###');
     final sha256String = sha256.convert(utf8.encode(input)).toString();
     // 256 bit hashes lead to 64 hex character strings.

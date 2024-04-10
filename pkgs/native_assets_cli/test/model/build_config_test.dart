@@ -541,6 +541,7 @@ version: 1.0.0''';
         buildMode: BuildModeImpl.release,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         supportedAssetTypes: [NativeCodeAsset.type],
+        hook: Hook.build,
       );
 
       // Using the checksum for a build folder should be stable.
@@ -557,21 +558,24 @@ version: 1.0.0''';
         dependencyMetadata: {
           'foo': const Metadata({'key': 'value'})
         },
+        hook: Hook.build,
       );
       printOnFailure([name1, name2].toString());
       expect(name1 != name2, true);
 
       // Build folder different due to cc.
       final name3 = BuildConfigImpl.checksum(
-          packageName: packageName,
-          packageRoot: nativeAddUri,
-          targetArchitecture: ArchitectureImpl.x64,
-          targetOS: OSImpl.linux,
-          buildMode: BuildModeImpl.release,
-          linkModePreference: LinkModePreferenceImpl.dynamic,
-          cCompiler: CCompilerConfigImpl(
-            compiler: fakeClangUri,
-          ));
+        packageName: packageName,
+        packageRoot: nativeAddUri,
+        targetArchitecture: ArchitectureImpl.x64,
+        targetOS: OSImpl.linux,
+        buildMode: BuildModeImpl.release,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
+        cCompiler: CCompilerConfigImpl(
+          compiler: fakeClangUri,
+        ),
+        hook: Hook.build,
+      );
       printOnFailure([name1, name3].toString());
       expect(name1 != name3, true);
     });

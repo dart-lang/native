@@ -53,7 +53,7 @@ class NativeAssetsBuildRunner {
     Iterable<String>? supportedAssetTypes,
   }) async =>
       _run(
-        step: Hook.build,
+        hook: Hook.build,
         linkModePreference: linkModePreference,
         target: target,
         workingDirectory: workingDirectory,
@@ -89,7 +89,7 @@ class NativeAssetsBuildRunner {
     required BuildResult buildResult,
   }) async =>
       _run(
-        step: Hook.link,
+        hook: Hook.link,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         target: target,
         workingDirectory: workingDirectory,
@@ -107,7 +107,7 @@ class NativeAssetsBuildRunner {
 
   /// The common method for running building or linking of assets.
   Future<HookResult> _run({
-    required Hook step,
+    required Hook hook,
     required LinkModePreferenceImpl linkModePreference,
     required Target target,
     required Uri workingDirectory,
@@ -122,10 +122,10 @@ class NativeAssetsBuildRunner {
     Iterable<String>? supportedAssetTypes,
     BuildResult? buildResult,
   }) async {
-    assert(step == Hook.link || buildResult == null);
+    assert(hook == Hook.link || buildResult == null);
 
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final packagesWithBuild = await packageLayout.packagesWithAssets(step);
+    final packagesWithBuild = await packageLayout.packagesWithAssets(hook);
     final (buildPlan, packageGraph, planSuccess) = await _plannedPackages(
         packagesWithBuild, packageLayout, runPackageName);
     final hookResult = HookResult.failure();
@@ -152,9 +152,10 @@ class NativeAssetsBuildRunner {
         targetIOSSdk: targetIOSSdk,
         targetAndroidNdkApi: targetAndroidNdkApi,
         supportedAssetTypes: supportedAssetTypes,
+        hook: hook,
       );
       final HookConfigImpl config;
-      if (step == Hook.link) {
+      if (hook == Hook.link) {
         config = LinkConfigImpl.fromValues(
           resourceIdentifierUri: resourceIdentifiers,
           buildConfig: buildConfig,
@@ -166,7 +167,7 @@ class NativeAssetsBuildRunner {
       }
 
       final (buildOutput, packageSuccess) = await _buildPackageCached(
-        step,
+        hook,
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
@@ -397,6 +398,7 @@ Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
     CCompilerConfigImpl? cCompilerConfig,
     DependencyMetadata? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
+    required Hook hook,
   }) async {
     final buildDirName = BuildConfigImpl.checksum(
       packageName: packageName,
@@ -410,6 +412,7 @@ Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
       dependencyMetadata: dependencyMetadata,
       targetAndroidNdkApi: targetAndroidNdkApi,
       supportedAssetTypes: supportedAssetTypes,
+      hook: hook,
     );
     final outDirUri = buildParentDir.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
