@@ -9,6 +9,7 @@
   that ObjC packages will have a flutter dependency (until #1068 is fixed), and
   also makes some minor API changes (`castFrom` and `isInstance` now take a
   `lib` argument).
+- Add `-Wno-nullability-completeness` as default compiler option for MacOS.
 
 ## 11.0.0
 
