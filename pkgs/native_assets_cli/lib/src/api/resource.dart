@@ -1,3 +1,7 @@
+// Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 /// Identifies a call site of a static method annotated with the
 /// `ResourceIdentifier` annotation. It consists of the [name] of the
 /// method, and the [metadata] used in the constructor of the annotation.
