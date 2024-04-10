@@ -13,7 +13,7 @@ void main(List<String> args) async => build(args, (config, output) async {
           (index) => DataAsset(
             name: 'data_helper_$index',
             // TODO(mosuem): Simplify specifying files/file paths
-            file: config.packageRoot.resolve('data_helper_$index.json'),
+            file: config.packageRoot.resolve('assets/data_helper_$index.json'),
             package: packageName,
           ),
         ),
@@ -24,7 +24,8 @@ void main(List<String> args) async => build(args, (config, output) async {
           (index) => DataAsset(
             name: 'data_helper_${index + 2}',
             // TODO(mosuem): Simplify specifying files/file paths
-            file: config.packageRoot.resolve('data_helper_${index + 2}.json'),
+            file: config.packageRoot
+                .resolve('assets/data_helper_${index + 2}.json'),
             package: packageName,
           ),
         ),
