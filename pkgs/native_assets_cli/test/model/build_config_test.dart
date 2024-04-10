@@ -545,7 +545,7 @@ version: 1.0.0''';
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, '1cee460809d989b4af7c75a0d53378e6');
+      expect(name1, 'b6170f6f00000d3766b01cea7637b607');
 
       // Build folder different due to metadata.
       final name2 = BuildConfigImpl.checksum(
@@ -578,6 +578,22 @@ version: 1.0.0''';
       );
       printOnFailure([name1, name3].toString());
       expect(name1 != name3, true);
+
+      // Build folder different due to hook.
+      final name4 = BuildConfigImpl.checksum(
+        packageName: packageName,
+        packageRoot: nativeAddUri,
+        targetArchitecture: ArchitectureImpl.x64,
+        targetOS: OSImpl.linux,
+        buildMode: BuildModeImpl.release,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
+        cCompiler: CCompilerConfigImpl(
+          compiler: fakeClangUri,
+        ),
+        hook: Hook.link,
+      );
+      printOnFailure([name1, name4].toString());
+      expect(name1 != name4, true);
     });
   });
 
