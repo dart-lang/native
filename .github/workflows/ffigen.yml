@@ -31,7 +31,7 @@ jobs:
         sdk: [dev]
 #        sdk: [3.3.0]
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: ${{ matrix.sdk }}
@@ -54,7 +54,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: dev  #3.3.0
@@ -65,7 +65,7 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: dart test --platform vm --concurrency=1
+        run: dart test
 
   # Keep in sync with ffigen_weekly.yaml:test-mac-arm64
   test-mac:
@@ -75,7 +75,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: dev #3.3.0
@@ -84,7 +84,7 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: dart test --platform vm --concurrency=1
+        run: dart test
       - name: Collect coverage
         run: ./tool/coverage.sh
       - name: Upload coverage
@@ -108,7 +108,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: dev #3.3.0
@@ -117,7 +117,7 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: dart test --platform vm --concurrency=1
+        run: dart test
 
   # Sanity check the latest `flutter create --template plugin_ffi`.
   # This will break if we change the Flutter template or the generated code.
@@ -136,8 +136,8 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: subosito/flutter-action@2783a3f08e1baf891508463f8c6653c258246225
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: "master"
       - name: Install dependencies
@@ -145,4 +145,4 @@ jobs:
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
-        run: flutter pub run test test_flutter/ --platform vm
+        run: flutter pub run test test_flutter/

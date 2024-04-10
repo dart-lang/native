@@ -347,11 +347,11 @@ class CompilerOptsAuto {
 
   /// Extracts compiler options based on OS and config.
   List<String> extractCompilerOpts() {
-    if (Platform.isMacOS && macIncludeStdLib) {
-      return getCStandardLibraryHeadersForMac();
-    }
-
-    return [];
+    return [
+      if (Platform.isMacOS && macIncludeStdLib)
+        ...getCStandardLibraryHeadersForMac(),
+      if (Platform.isMacOS) '-Wno-nullability-completeness',
+    ];
   }
 }
 

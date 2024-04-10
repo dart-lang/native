@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kotlin_plugin/kotlin_plugin.dart';
-import 'package:jni/jni.dart';
 
 void main() {
-  Jni.initDLApi();
   runApp(const MyApp());
 }
 

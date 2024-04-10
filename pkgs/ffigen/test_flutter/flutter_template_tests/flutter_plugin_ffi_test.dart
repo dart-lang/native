@@ -41,6 +41,15 @@ void main() {
       ],
       workingDirectory: tempDirUri,
     );
+    // Don't fail on formatter differences in template.
+    await runProcess(
+      executable: 'dart',
+      arguments: [
+        'format',
+        bindingsGeneratedUri.toFilePath(),
+      ],
+      workingDirectory: tempDirUri,
+    );
     await copyFile(
       source: bindingsGeneratedUri,
       target: bindingsGeneratedCopyUri,
@@ -60,7 +69,7 @@ void main() {
     final originalBindings = await readFileAsString(bindingsGeneratedCopyUri);
     final regeneratedBindings = await readFileAsString(bindingsGeneratedUri);
 
-    expect(originalBindings, regeneratedBindings);
+    expect(regeneratedBindings, originalBindings);
   });
 }
 

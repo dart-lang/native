@@ -67,9 +67,10 @@ Future<void> bindingsTestSetup() async {
       tempClassDir.path,
       ...jacksonJars,
       kotlinTestJar,
+    ], jvmOptions: [
+      "-Xcheck:jni",
     ]);
   }
-  Jni.initDLApi();
 }
 
 void bindingsTestTeardown() {

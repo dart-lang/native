@@ -16,7 +16,6 @@ description: Holds bindings to LibClang.
 output: '../lib/src/header_parser/clang_bindings/clang_bindings.dart'
 compiler-opts:
   - '-Ithird_party/libclang/include'
-  - '-Wno-nullability-completeness'
 headers:
   entry-points:
     - '../third_party/libclang/include/clang-c/Index.h'

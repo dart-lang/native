@@ -78,7 +78,6 @@ Jump to [FAQ](#faq).
 #### MacOS
 1. Install Xcode.
 2. Install Xcode command line tools - `xcode-select --install`.
-3. Install LLVM - `brew install llvm`.
 
 ## Configurations
 Configurations can be provided in 2 ways-

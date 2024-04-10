@@ -5,6 +5,7 @@
   `ffi-native` option.
 - Add `retainAndReturnPointer` method to ObjC objects and blocks, and add
   `castFromPointer` method to blocks.
+- Add `-Wno-nullability-completeness` as default compiler option for MacOS.
 
 ## 11.0.0
 

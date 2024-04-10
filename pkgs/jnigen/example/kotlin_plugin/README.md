@@ -11,8 +11,6 @@ The `example/` app must be built at least once in _release_ mode (eg `flutter bu
 
 Note that `jnigen.yaml` of this example contains the option `suspend_fun_to_async: true`. This will generate `async` method bindings from Kotlin's `suspend fun`s.
 
-For Kotlin coroutines to work, `Jni.initDLApi()` must be run first.
-
 ## Creating a new Kotlin plugin
 
 Running `flutter create --template=plugin_ffi --platform=android kotlin_plugin` creates the skeleton of an Android plugin.

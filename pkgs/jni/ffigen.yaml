@@ -12,10 +12,12 @@ output: 'lib/src/third_party/jni_bindings_generated.dart'
 headers:
   entry-points:
     - 'src/dartjni.h' # Exports majority of JNI functions
+    - 'src/internal.h'
     - 'src/third_party/global_jni_env.h' # Exports GlobalJniEnv type
     - 'src/jni_constants.h'
   include-directives:
     - 'src/dartjni.h'
+    - 'src/internal.h'
     - 'src/third_party/global_jni_env.h'
     - 'third_party/jni.h' # jni.h from Android NDK
     - 'src/jni_constants.h'

@@ -1,4 +1,9 @@
-## 0.8.0-wip
+## 0.8.1-wip
+
+- Expand constraint on `package:cli_config` to allow `^0.2.0`.
+- Ignore `use_super_parameters` lint in generated files.
+
+## 0.8.0
 
 - **Breaking Change** ([#981](https://github.com/dart-lang/native/issues/981)):
   - `fromRef` is now `fromReference`, and it gets a `JReference` instead of a
@@ -12,6 +17,8 @@
   `static const String` fields in Dart.
 - Fixed a bug where a package would either be searched from sources or classes
   but not both.
+- Fixed a bug where `<clinit>` (class initialization method) which is not
+  necessary to be exposed was generated.
 
 ## 0.7.0
 
