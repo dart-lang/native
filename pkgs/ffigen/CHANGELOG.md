@@ -5,11 +5,21 @@
   `ffi-native` option.
 - Add `retainAndReturnPointer` method to ObjC objects and blocks, and add
   `castFromPointer` method to blocks.
-- __Breaking change__: Use `package:objective_c` in ObjC bindings. This means
-  that ObjC packages will have a flutter dependency (until #1068 is fixed), and
-  also makes some minor API changes (`castFrom` and `isInstance` now take a
-  `lib` argument).
 - Add `-Wno-nullability-completeness` as default compiler option for MacOS.
+- __Breaking change__: Use `package:objective_c` in ObjC bindings.
+  - ObjC packages will have a flutter dependency (until #1068 is fixed).
+  - ObjC class methods don't need the ubiquitous `lib` argument anymore. In
+    fact, ffigen won't even generate the native library class (unless you're
+    binding top level functions and not using `@Native`). It is still necessary
+    to `DynamicLibrary.open` the dylib though.
+  - Adapting to this change:
+    - If your generated code no longer contains the native library class, it
+      means you don't need it anymore. So
+      `final lib = FooNativeLib(DynamicLibrary.open('foo.dylib'));` becomes
+      `DynamicLibrary.open('foo.dylib');`.
+    - Regardless of whether you still have a native library class, delete the
+      `lib` parameter from all ObjC object constructors and static method calls
+      and block constructors.
 
 ## 11.0.0
 
