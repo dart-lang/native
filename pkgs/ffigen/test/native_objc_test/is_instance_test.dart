@@ -15,33 +15,31 @@ import 'is_instance_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late IsInstanceTestObjCLibrary lib;
-
   group('isInstance', () {
     setUpAll(() {
       logWarnings();
       final dylib = File('test/native_objc_test/is_instance_test.dylib');
       verifySetupFile(dylib);
-      lib = IsInstanceTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('is_instance');
     });
 
     test('Unrelated classes', () {
-      final base = NSObject.castFrom(lib, BaseClass.new1(lib));
-      final unrelated = NSObject.castFrom(lib, UnrelatedClass.new1(lib));
-      expect(BaseClass.isInstance(lib, base), isTrue);
-      expect(BaseClass.isInstance(lib, unrelated), isFalse);
-      expect(UnrelatedClass.isInstance(lib, base), isFalse);
-      expect(UnrelatedClass.isInstance(lib, unrelated), isTrue);
+      final base = NSObject.castFrom(BaseClass.new1());
+      final unrelated = NSObject.castFrom(UnrelatedClass.new1());
+      expect(BaseClass.isInstance(base), isTrue);
+      expect(BaseClass.isInstance(unrelated), isFalse);
+      expect(UnrelatedClass.isInstance(base), isFalse);
+      expect(UnrelatedClass.isInstance(unrelated), isTrue);
     });
 
     test('Base class vs child class', () {
-      final base = NSObject.castFrom(lib, BaseClass.new1(lib));
-      final child = NSObject.castFrom(lib, ChildClass.new1(lib));
-      expect(BaseClass.isInstance(lib, base), isTrue);
-      expect(BaseClass.isInstance(lib, child), isTrue);
-      expect(ChildClass.isInstance(lib, base), isFalse);
-      expect(ChildClass.isInstance(lib, child), isTrue);
+      final base = NSObject.castFrom(BaseClass.new1());
+      final child = NSObject.castFrom(ChildClass.new1());
+      expect(BaseClass.isInstance(base), isTrue);
+      expect(BaseClass.isInstance(child), isTrue);
+      expect(ChildClass.isInstance(base), isFalse);
+      expect(ChildClass.isInstance(child), isTrue);
     });
   });
 }

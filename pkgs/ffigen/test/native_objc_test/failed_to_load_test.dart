@@ -20,14 +20,11 @@ void main() {
     });
 
     test('Failed to load Objective-C class', () {
-      // Load from the host executable, which is missing all the classes for
-      // this test, but has the core ObjC functions, such as objc_getClass. The
-      // library should load ok, because the classes are lazy loaded.
-      final lib = FailedToLoadTestObjCLibrary(DynamicLibrary.executable());
-
-      // But when we try to instantiate one of the classes, we get an error.
+      // We haven't DynamicLibrary.open'd the dylib containing this class. The
+      // core functions like objc_getClass are defined in the Dart executable,
+      // so we can use objc_getClass, but it can't locate this class.
       expect(
-          () => ClassThatWillFailToLoad.new1(lib),
+          () => ClassThatWillFailToLoad.new1(),
           throwsA(predicate(
               (e) => e.toString().contains('ClassThatWillFailToLoad'))));
     });

@@ -39,7 +39,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(lib, counter);
+      final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncOfObject(obj);
@@ -61,7 +61,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(lib, counter);
+      final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncOfNullableObject(obj);
@@ -83,7 +83,7 @@ void main() {
     });
 
     Pointer<Void> staticFuncOfBlockRefCountTest() {
-      final block = IntBlock.fromFunction(lib, (int x) => 2 * x);
+      final block = IntBlock.fromFunction((int x) => 2 * x);
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
 
       final outputBlock = lib.staticFuncOfBlock(block);
@@ -124,7 +124,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(lib, counter);
+      final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncReturnsRetainedArg(obj);

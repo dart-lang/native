@@ -17,27 +17,26 @@ import 'util.dart';
 
 void main() {
   Castaway? testInstance;
-  late CastTestObjCLibrary lib;
 
   group('cast', () {
     setUpAll(() {
       logWarnings();
       final dylib = File('test/native_objc_test/cast_test.dylib');
       verifySetupFile(dylib);
-      lib = CastTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      testInstance = Castaway.new1(lib);
+      DynamicLibrary.open(dylib.absolute.path);
+      testInstance = Castaway.new1();
       generateBindingsForCoverage('cast');
     });
 
     test('castFrom', () {
-      final fromCast = Castaway.castFrom(lib, testInstance!.meAsNSObject());
+      final fromCast = Castaway.castFrom(testInstance!.meAsNSObject());
       expect(fromCast, testInstance!);
     });
 
     test('castFromPointer', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-          lib, Pointer<ObjCObject>.fromAddress(meAsInt));
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
       expect(fromCast, testInstance!);
     });
 
@@ -48,16 +47,16 @@ void main() {
 
     test('equality equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-          lib, Pointer<ObjCObject>.fromAddress(meAsInt));
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
       expect(fromCast, testInstance!);
     });
 
     test('equality not equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-          lib, Pointer<ObjCObject>.fromAddress(meAsInt));
-      expect(fromCast, isNot(equals(NSObject.new1(lib))));
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
+      expect(fromCast, isNot(equals(NSObject.new1())));
     });
   });
 }

@@ -36,6 +36,15 @@ external void objectRelease(
   ffi.Pointer<ObjCObject> object,
 );
 
+@ffi.Native<ffi.Void Function()>(symbol: 'objc_msgSend')
+external void msgSend();
+
+@ffi.Native<ffi.Void Function()>(symbol: 'objc_msgSend_fpret')
+external void msgSendFpret();
+
+@ffi.Native<ffi.Void Function()>(symbol: 'objc_msgSend_stret')
+external void msgSendStret();
+
 @ffi.Native<ffi.Pointer<ffi.Void>>(symbol: '_NSConcreteGlobalBlock')
 external final ffi.Pointer<ffi.Void> NSConcreteGlobalBlock;
 

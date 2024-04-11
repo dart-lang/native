@@ -64,8 +64,7 @@ class ObjCNullable extends Type {
   @override
   String convertFfiDartTypeToDartType(
     Writer w,
-    String value,
-    String library, {
+    String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) {
@@ -73,7 +72,6 @@ class ObjCNullable extends Type {
     final convertedValue = child.convertFfiDartTypeToDartType(
       w,
       value,
-      library,
       objCRetain: objCRetain,
       objCEnclosingClass: objCEnclosingClass,
     );

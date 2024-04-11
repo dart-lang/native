@@ -14,6 +14,12 @@ ObjCObject* objc_getClass(const char *name);
 ObjCObject* objc_retain(ObjCObject* object);
 void objc_release(ObjCObject* object);
 
+// The signature of this function is just a placeholder. This function is used by
+// every method invocation, and is cast to every signature we need.
+void objc_msgSend();
+void objc_msgSend_fpret();
+void objc_msgSend_stret();
+
 // See https://clang.llvm.org/docs/Block-ABI-Apple.html
 typedef struct _ObjCBlockDesc {
   unsigned long int reserved;

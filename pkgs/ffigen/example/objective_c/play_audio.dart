@@ -9,13 +9,13 @@ const _dylibPath =
     '/System/Library/Frameworks/AVFAudio.framework/Versions/Current/AVFAudio';
 
 void main(List<String> args) async {
-  final lib = AVFAudio(DynamicLibrary.open(_dylibPath));
+  DynamicLibrary.open(_dylibPath);
   for (final file in args) {
-    final fileStr = NSString(lib, file);
+    final fileStr = NSString(file);
     print('Loading $fileStr');
-    final fileUrl = NSURL.fileURLWithPath_(lib, fileStr);
+    final fileUrl = NSURL.fileURLWithPath_(fileStr);
     final player =
-        AVAudioPlayer.alloc(lib).initWithContentsOfURL_error_(fileUrl, nullptr);
+        AVAudioPlayer.alloc().initWithContentsOfURL_error_(fileUrl, nullptr);
     if (player == null) {
       print('Failed to load audio');
       continue;

@@ -48,7 +48,7 @@ class ImportedType extends Type {
   String toString() => '${libraryImport.name}.$cType';
 
   @override
-  String? getDefaultValue(Writer w, String nativeLib) => defaultValue;
+  String? getDefaultValue(Writer w) => defaultValue;
 }
 
 /// An unchecked type similar to [ImportedType] which exists in the generated

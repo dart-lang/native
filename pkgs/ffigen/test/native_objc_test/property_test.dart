@@ -16,15 +16,14 @@ import 'util.dart';
 
 void main() {
   late PropertyInterface testInstance;
-  late PropertyTestObjCLibrary lib;
 
   group('properties', () {
     setUpAll(() {
       logWarnings();
       final dylib = File('test/native_objc_test/property_test.dylib');
       verifySetupFile(dylib);
-      lib = PropertyTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      testInstance = PropertyInterface.new1(lib);
+      DynamicLibrary.open(dylib.absolute.path);
+      testInstance = PropertyInterface.new1();
       generateBindingsForCoverage('property');
     });
 
@@ -41,12 +40,12 @@ void main() {
 
     group('class properties', () {
       test('read-only property', () {
-        expect(PropertyInterface.getClassReadOnlyProperty(lib), 42);
+        expect(PropertyInterface.getClassReadOnlyProperty(), 42);
       });
 
       test('read-write property', () {
-        PropertyInterface.setClassReadWriteProperty(lib, 101);
-        expect(PropertyInterface.getClassReadWriteProperty(lib), 101);
+        PropertyInterface.setClassReadWriteProperty(101);
+        expect(PropertyInterface.getClassReadWriteProperty(), 101);
       });
     });
 

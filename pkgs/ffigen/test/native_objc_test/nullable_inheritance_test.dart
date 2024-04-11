@@ -14,7 +14,6 @@ import 'nullable_inheritance_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late NullableInheritanceTestObjCLibrary lib;
   late NullableBase nullableBase;
   late NullableChild nullableChild;
   late NSObject obj;
@@ -24,11 +23,10 @@ void main() {
       final dylib =
           File('test/native_objc_test/nullable_inheritance_test.dylib');
       verifySetupFile(dylib);
-      lib = NullableInheritanceTestObjCLibrary(
-          DynamicLibrary.open(dylib.absolute.path));
-      nullableBase = NullableBase.new1(lib);
-      nullableChild = NullableChild.new1(lib);
-      obj = NSObject.new1(lib);
+      DynamicLibrary.open(dylib.absolute.path);
+      nullableBase = NullableBase.new1();
+      nullableChild = NullableChild.new1();
+      obj = NSObject.new1();
       generateBindingsForCoverage('nullable');
     });
 

@@ -15,19 +15,18 @@ import 'native_objc_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late NativeObjCLibrary lib;
   group('native_objc_test', () {
     setUpAll(() {
       logWarnings();
       final dylib = File('test/native_objc_test/native_objc_test.dylib');
       verifySetupFile(dylib);
-      lib = NativeObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('native_objc');
     });
 
     test('Basic types', () {
-      final foo = Foo.new1(lib);
-      final obj = NSObject.new1(lib);
+      final foo = Foo.new1();
+      final obj = NSObject.new1();
 
       foo.intVal = 123;
       expect(foo.intVal, 123);
@@ -46,8 +45,8 @@ void main() {
     });
 
     test('Interface basics, with Foo', () {
-      final foo1 = Foo.makeFoo_(lib, 3.14159);
-      final foo2 = Foo.makeFoo_(lib, 2.71828);
+      final foo1 = Foo.makeFoo_(3.14159);
+      final foo2 = Foo.makeFoo_(2.71828);
 
       expect(foo1.intVal, 3);
       expect(foo2.intVal, 2);

@@ -14,7 +14,6 @@ import 'nullable_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late NullableTestObjCLibrary lib;
   late NullableInterface nullableInterface;
   late NSObject obj;
   group('Nullability', () {
@@ -22,9 +21,9 @@ void main() {
       logWarnings();
       final dylib = File('test/native_objc_test/nullable_test.dylib');
       verifySetupFile(dylib);
-      lib = NullableTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      nullableInterface = NullableInterface.new1(lib);
-      obj = NSObject.new1(lib);
+      DynamicLibrary.open(dylib.absolute.path);
+      nullableInterface = NullableInterface.new1();
+      obj = NSObject.new1();
       generateBindingsForCoverage('nullable');
     });
 
@@ -41,34 +40,31 @@ void main() {
 
     group('Nullable return', () {
       test('Not null', () {
-        expect(NullableInterface.returnNil_(lib, false), isA<NSObject>());
+        expect(NullableInterface.returnNil_(false), isA<NSObject>());
       });
       test('Null', () {
-        expect(NullableInterface.returnNil_(lib, true), null);
+        expect(NullableInterface.returnNil_(true), null);
       });
     });
 
     group('Nullable arguments', () {
       test('Not null', () {
-        expect(
-            NullableInterface.isNullWithNullableNSObjectArg_(lib, obj), false);
+        expect(NullableInterface.isNullWithNullableNSObjectArg_(obj), false);
       });
       test('Null', () {
-        expect(
-            NullableInterface.isNullWithNullableNSObjectArg_(lib, null), true);
+        expect(NullableInterface.isNullWithNullableNSObjectArg_(null), true);
       });
     });
 
     group('Not-nullable arguments', () {
       test('Not null', () {
-        expect(NullableInterface.isNullWithNotNullableNSObjectPtrArg_(lib, obj),
-            false);
+        expect(
+            NullableInterface.isNullWithNotNullableNSObjectPtrArg_(obj), false);
       });
 
       test('Explicit non null', () {
         expect(
-            NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg_(
-                lib, obj),
+            NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg_(obj),
             false);
       });
     });

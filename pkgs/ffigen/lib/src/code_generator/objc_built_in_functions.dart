@@ -9,16 +9,15 @@ import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
 class ObjCBuiltInFunctions {
-  late final registerName = ObjCImport('registerName');
-  late final getClass = ObjCImport('getClass');
-  late final objectRetain = ObjCImport('objectRetain');
-  late final objectRelease = ObjCImport('objectRelease');
-  late final newBlock = ObjCImport('newBlock');
-  late final blockCopy = ObjCImport('blockCopy');
-  late final blockRelease = ObjCImport('blockRelease');
-  late final useMsgSendVariants = ObjCImport('useMsgSendVariants');
-  late final objectBase = ObjCImport('ObjCObjectBase');
-  late final blockBase = ObjCImport('ObjCBlockBase');
+  static const registerName = ObjCImport('registerName');
+  static const getClass = ObjCImport('getClass');
+  static const msgSendPointer = ObjCImport('msgSendPointer');
+  static const msgSendFpretPointer = ObjCImport('msgSendFpretPointer');
+  static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
+  static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
+  static const newBlock = ObjCImport('newBlock');
+  static const objectBase = ObjCImport('ObjCObjectBase');
+  static const blockBase = ObjCImport('ObjCBlockBase');
 
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
@@ -67,13 +66,13 @@ class ObjCBuiltInFunctions {
         ));
   }
 
-  void generateNSStringUtils(Writer w, StringBuffer s) {
+  static void generateNSStringUtils(Writer w, StringBuffer s) {
     // Generate a constructor that wraps stringWithCharacters, and a toString
     // method that wraps dataUsingEncoding.
     s.write('''
-  factory NSString(${w.className} _lib, String str) {
+  factory NSString(String str) {
     final cstr = str.toNativeUtf16();
-    final nsstr = stringWithCharacters_length_(_lib, cstr.cast(), str.length);
+    final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);
     ${w.ffiPkgLibraryPrefix}.calloc.free(cstr);
     return nsstr;
   }
@@ -88,11 +87,11 @@ class ObjCBuiltInFunctions {
 ''');
   }
 
-  void generateStringUtils(Writer w, StringBuffer s) {
+  static void generateStringUtils(Writer w, StringBuffer s) {
     // Generate an extension on String to convert to NSString
     s.write('''
 extension StringToNSString on String {
-  NSString toNSString(${w.className} lib) => NSString(lib, this);
+  NSString toNSString() => NSString(this);
 }
 ''');
   }
@@ -100,15 +99,15 @@ extension StringToNSString on String {
 
 /// A function, global variable, or helper type defined in package:objective_c.
 class ObjCImport {
-  String name;
+  final String name;
 
-  ObjCImport(this.name);
+  const ObjCImport(this.name);
 
   String gen(Writer w) => '${w.objcPkgPrefix}.$name';
 }
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.
-class ObjCInternalGlobal extends LookUpBinding {
+class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function(Writer) makeValue;
 
   ObjCInternalGlobal(String name, this.makeValue)
@@ -130,12 +129,12 @@ class ObjCInternalGlobal extends LookUpBinding {
 }
 
 enum ObjCMsgSendVariant {
-  normal('objc_msgSend'),
-  stret('objc_msgSend_stret'),
-  fpret('objc_msgSend_fpret');
+  normal(ObjCBuiltInFunctions.msgSendPointer),
+  stret(ObjCBuiltInFunctions.msgSendStretPointer),
+  fpret(ObjCBuiltInFunctions.msgSendFpretPointer);
 
-  final String name;
-  const ObjCMsgSendVariant(this.name);
+  final ObjCImport pointer;
+  const ObjCMsgSendVariant(this.pointer);
 
   static ObjCMsgSendVariant fromReturnType(Type returnType) {
     if (returnType is Compound && returnType.isStruct) {
@@ -144,6 +143,39 @@ enum ObjCMsgSendVariant {
       return ObjCMsgSendVariant.fpret;
     }
     return ObjCMsgSendVariant.normal;
+  }
+}
+
+class ObjCMsgSendVariantFunc extends NoLookUpBinding {
+  ObjCMsgSendVariant variant;
+  FunctionType type;
+
+  ObjCMsgSendVariantFunc(
+      {required String name,
+      required this.variant,
+      required Type returnType,
+      required List<Parameter> parameters})
+      : type = FunctionType(returnType: returnType, parameters: parameters),
+        super(name: name, isInternal: true);
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final cType = NativeFunc(type).getCType(w);
+    final dartType = type.getFfiDartType(w, writeArgumentNames: false);
+    final pointer = variant.pointer.gen(w);
+
+    final bindingString = '''
+final $name = $pointer.cast<$cType>().asFunction<$dartType>();
+''';
+
+    return BindingString(type: BindingStringType.func, string: bindingString);
+  }
+
+  @override
+  void addDependencies(Set<Binding> dependencies) {
+    if (dependencies.contains(this)) return;
+    dependencies.add(this);
+    type.addDependencies(dependencies);
   }
 }
 
@@ -167,37 +199,34 @@ class ObjCMsgSendFunc {
   // [normalFunc] is always a reference to the normal objc_msgSend function. If
   // the [variant] is fpret or stret, then [variantFunc] is a reference to the
   // corresponding variant of the objc_msgSend function, otherwise it's null.
-  late final Func normalFunc;
-  late final Func? variantFunc;
+  late final ObjCMsgSendVariantFunc normalFunc;
+  late final ObjCMsgSendVariantFunc? variantFunc;
 
   ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params,
       this.useVariants)
       : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
-    normalFunc = Func(
+    normalFunc = ObjCMsgSendVariantFunc(
       name: name,
-      originalName: ObjCMsgSendVariant.normal.name,
+      variant: ObjCMsgSendVariant.normal,
       returnType: returnType,
       parameters: _params(params),
-      isInternal: true,
     );
     switch (variant) {
       case ObjCMsgSendVariant.normal:
         variantFunc = null;
       case ObjCMsgSendVariant.fpret:
-        variantFunc = Func(
-          name: '${name}_fpret',
-          originalName: variant.name,
+        variantFunc = ObjCMsgSendVariantFunc(
+          name: '${name}Fpret',
+          variant: variant,
           returnType: returnType,
           parameters: _params(params),
-          isInternal: true,
         );
       case ObjCMsgSendVariant.stret:
-        variantFunc = Func(
-          name: '${name}_stret',
-          originalName: variant.name,
+        variantFunc = ObjCMsgSendVariantFunc(
+          name: '${name}Stret',
+          variant: variant,
           returnType: voidType,
           parameters: _params(params, structRetPtr: PointerType(returnType)),
-          isInternal: true,
         );
     }
   }
@@ -219,18 +248,17 @@ class ObjCMsgSendFunc {
     variantFunc?.addDependencies(dependencies);
   }
 
-  String invoke(
-      Writer w, String lib, String target, String sel, Iterable<String> params,
+  String invoke(Writer w, String target, String sel, Iterable<String> params,
       {String? structRetPtr}) {
-    final normalCall = _invoke(normalFunc.name, lib, target, sel, params);
+    final normalCall = _invoke(normalFunc.name, target, sel, params);
     switch (variant) {
       case ObjCMsgSendVariant.normal:
         return normalCall;
       case ObjCMsgSendVariant.fpret:
-        final fpretCall = _invoke(variantFunc!.name, lib, target, sel, params);
+        final fpretCall = _invoke(variantFunc!.name, target, sel, params);
         return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
-        final stretCall = _invoke(variantFunc!.name, lib, target, sel, params,
+        final stretCall = _invoke(variantFunc!.name, target, sel, params,
             structRetPtr: structRetPtr);
         return '${useVariants.gen(w)} ? $stretCall : '
             '$structRetPtr.ref = $normalCall';
@@ -239,13 +267,12 @@ class ObjCMsgSendFunc {
 
   static String _invoke(
     String name,
-    String lib,
     String target,
     String sel,
     Iterable<String> params, {
     String? structRetPtr,
   }) {
-    return '''$lib.$name(${[
+    return '''$name(${[
       if (structRetPtr != null) structRetPtr,
       target,
       sel,

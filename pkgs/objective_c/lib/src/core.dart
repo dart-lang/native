@@ -25,6 +25,13 @@ Pointer<objc.ObjCObject> getClass(String name) {
   return clazz;
 }
 
+final msgSendPointer =
+    Native.addressOf<NativeFunction<Void Function()>>(objc.msgSend);
+final msgSendFpretPointer =
+    Native.addressOf<NativeFunction<Void Function()>>(objc.msgSendFpret);
+final msgSendStretPointer =
+    Native.addressOf<NativeFunction<Void Function()>>(objc.msgSendStret);
+
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 

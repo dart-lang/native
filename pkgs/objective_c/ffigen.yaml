@@ -13,12 +13,15 @@ ffi-native:
 functions:
   leaf:
     include:
-      - '.*'
+      - '(?!objc_msgSend).*'
   rename:
     'sel_registerName': 'registerName'
     'objc_getClass': 'getClass'
     'objc_retain': 'objectRetain'
     'objc_release': 'objectRelease'
+    'objc_msgSend': 'msgSend'
+    'objc_msgSend_fpret': 'msgSendFpret'
+    'objc_msgSend_stret': 'msgSendStret'
     '_Block_copy': 'blockCopy'
     '_Block_release': 'blockRelease'
 globals:

@@ -72,16 +72,14 @@ abstract class Type {
   /// Returns generated Dart code that converts the given value from its
   /// FfiDartType to its DartType.
   ///
-  /// [value] is the value to be converted, and [library] is an instance of the
-  /// native library object. If [objCRetain] is true, the ObjC wrapper object
+  /// [value] is the value to be converted. If [objCRetain] is true, the ObjC wrapper object
   /// will retain (ref count increment) the wrapped object pointer. If this
   /// conversion is occuring in the context of an ObjC class, then
   /// [objCEnclosingClass] should be the name of the Dart wrapper class (this is
   /// used by instancetype).
   String convertFfiDartTypeToDartType(
     Writer w,
-    String value,
-    String library, {
+    String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
@@ -103,7 +101,7 @@ abstract class Type {
   /// Returns a string of code that creates a default value for this type. For
   /// example, for int types this returns the string '0'. A null return means
   /// that default values aren't supported for this type, eg void.
-  String? getDefaultValue(Writer w, String nativeLib) => null;
+  String? getDefaultValue(Writer w) => null;
 }
 
 /// Base class for all Type bindings.
@@ -155,8 +153,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   @override
   String convertFfiDartTypeToDartType(
     Writer w,
-    String value,
-    String library, {
+    String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
@@ -169,7 +166,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   String cacheKey() => hashCode.toRadixString(36);
 
   @override
-  String? getDefaultValue(Writer w, String nativeLib) => null;
+  String? getDefaultValue(Writer w) => null;
 }
 
 /// Represents an unimplemented type. Used as a marker, so that declarations
