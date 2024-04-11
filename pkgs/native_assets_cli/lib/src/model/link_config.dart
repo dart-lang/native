@@ -66,6 +66,40 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
         buildConfig: buildConfig,
         resourceIdentifierUri: resourceIdentifierUri,
       ).toLinkConfig();
+
+  @override
+  BuildMode get buildMode => _buildConfig.buildMode;
+
+  @override
+  CCompilerConfig get cCompiler => _buildConfig.cCompiler;
+
+  @override
+  bool get dryRun => _buildConfig.dryRun;
+
+  @override
+  Iterable<String> get supportedAssetTypes => _buildConfig.supportedAssetTypes;
+
+  @override
+  int? get targetAndroidNdkApi => _buildConfig.targetAndroidNdkApi;
+
+  @override
+  Architecture? get targetArchitecture => _buildConfig.targetArchitecture;
+
+  @override
+  IOSSdk get targetIOSSdk => _buildConfig.targetIOSSdk;
+
+  @override
+  OS get targetOS => _buildConfig.targetOS;
+
+  /// The version of [BuildConfigImpl].
+  ///
+  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through build hook invocations.
+  ///
+  /// If we ever were to make breaking changes, it would be useful to give
+  /// proper error messages rather than just fail to parse the JSON
+  /// representation in the protocol.
+  static Version latestVersion = Version(1, 0, 0);
 }
 
 List<Resource> fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>

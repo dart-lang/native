@@ -12,6 +12,7 @@ import '../../native_assets_cli_internal.dart';
 import '../model/resource_identifiers.dart';
 import '../utils/map.dart';
 import 'build_config.dart';
+import 'hook_config.dart';
 import 'linkable_asset.dart';
 
 part '../model/link_config.dart';
@@ -21,7 +22,7 @@ part '../model/link_config.dart';
 /// It consists of a subset of the fields from the [BuildConfig] already passed
 /// to the build script, the [assets] from the build step, and the [resources]
 /// generated during the kernel compilation.
-abstract class LinkConfig {
+abstract class LinkConfig implements HookConfig {
   /// The directory in which all output and intermediate artifacts should be
   /// placed.
   Uri get outputDirectory;
@@ -58,4 +59,14 @@ abstract class LinkConfig {
         buildConfig: buildConfig,
         assetsForLinking: assetsForLinking,
       );
+
+  /// The version of [BuildConfig].
+  ///
+  /// The build config is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through build hook invocations.
+  ///
+  /// We're trying to avoid breaking changes. However, in the case that we have
+  /// to, the major version mismatch between the Dart or Flutter SDK and build
+  /// hook (`hook/build.dart`) will lead to a nice error message.
+  static Version get latestVersion => LinkConfigImpl.latestVersion;
 }

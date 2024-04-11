@@ -20,6 +20,7 @@ import 'architecture.dart';
 import 'asset.dart';
 import 'build.dart';
 import 'build_mode.dart';
+import 'hook_config.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
@@ -34,7 +35,7 @@ part 'c_compiler_config.dart';
 /// be automatically run, by the Flutter and Dart SDK tools. The hook will be
 /// run with specific commandline arguments, which [BuildConfig] can parse and
 /// provide more convenient access to.
-abstract final class BuildConfig {
+abstract final class BuildConfig implements HookConfig {
   /// The directory in which all output and intermediate artifacts should be
   /// placed.
   Uri get outputDirectory;
