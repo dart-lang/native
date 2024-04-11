@@ -9,7 +9,12 @@ environment:
 
 dependencies:
   ffi: ^2.0.1
+  objective_c: ^0.0.1
 dev_dependencies:
   ffigen:
     path: '../../'
   lints: ^2.0.0
+
+dependency_overrides:
+  objective_c:
+    path: ../../../objective_c/

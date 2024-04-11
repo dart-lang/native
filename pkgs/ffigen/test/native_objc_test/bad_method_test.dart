@@ -14,25 +14,24 @@ import 'bad_method_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late NativeObjCLibrary lib;
   group('bad_method_test', () {
     setUpAll(() {
       logWarnings();
       final dylib = File('test/native_objc_test/bad_method_test.dylib');
       verifySetupFile(dylib);
-      lib = NativeObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('bad_method');
     });
 
     test("Test incomplete struct methods that weren't skipped", () {
-      final obj = BadMethodTestObject.new1(lib);
+      final obj = BadMethodTestObject.new1();
       final structPtr = obj.incompletePointerReturn();
       expect(structPtr.address, 1234);
       expect(obj.incompletePointerParam_(structPtr), 1234);
     });
 
     test("Test bit field methods that weren't skipped", () {
-      final obj = BadMethodTestObject.new1(lib);
+      final obj = BadMethodTestObject.new1();
       final bitFieldPtr = obj.bitFieldPointerReturn();
       expect(bitFieldPtr.address, 5678);
       expect(obj.bitFieldPointerParam_(bitFieldPtr), 5678);

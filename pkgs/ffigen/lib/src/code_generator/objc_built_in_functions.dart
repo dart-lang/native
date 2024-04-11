@@ -9,90 +9,15 @@ import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
 class ObjCBuiltInFunctions {
-  late final _registerNameFunc = Func(
-    name: '_sel_registerName',
-    originalName: 'sel_registerName',
-    returnType: PointerType(objCSelType),
-    parameters: [Parameter(name: 'str', type: PointerType(charType))],
-    isInternal: true,
-  );
-  late final registerName = ObjCInternalFunction(
-      '_registerName', _registerNameFunc, (Writer w, String name) {
-    final selType = _registerNameFunc.functionType.returnType.getCType(w);
-    return '''
-$selType $name(String name) {
-  final cstr = name.toNativeUtf8();
-  final sel = ${_registerNameFunc.name}(cstr.cast());
-  ${w.ffiPkgLibraryPrefix}.calloc.free(cstr);
-  return sel;
-}
-''';
-  });
-
-  late final _getClassFunc = Func(
-    name: '_objc_getClass',
-    originalName: 'objc_getClass',
-    returnType: PointerType(objCObjectType),
-    parameters: [Parameter(name: 'str', type: PointerType(charType))],
-    isInternal: true,
-  );
-  late final getClass =
-      ObjCInternalFunction('_getClass', _getClassFunc, (Writer w, String name) {
-    final objType = _getClassFunc.functionType.returnType.getCType(w);
-    return '''
-$objType $name(String name) {
-  final cstr = name.toNativeUtf8();
-  final clazz = ${_getClassFunc.name}(cstr.cast());
-  ${w.ffiPkgLibraryPrefix}.calloc.free(cstr);
-  if (clazz == ${w.ffiLibraryPrefix}.nullptr) {
-    throw Exception('Failed to load Objective-C class: \$name');
-  }
-  return clazz;
-}
-''';
-  });
-
-  late final _retainFunc = Func(
-    name: '_objc_retain',
-    originalName: 'objc_retain',
-    returnType: PointerType(objCObjectType),
-    parameters: [Parameter(name: 'value', type: PointerType(objCObjectType))],
-    isInternal: true,
-  );
-  late final _releaseFunc = Func(
-    name: '_objc_release',
-    originalName: 'objc_release',
-    returnType: voidType,
-    parameters: [Parameter(name: 'value', type: PointerType(objCObjectType))],
-    isInternal: true,
-  );
-  late final _releaseFinalizer = ObjCInternalGlobal(
-    '_objc_releaseFinalizer',
-    (Writer w) => '${w.ffiLibraryPrefix}.NativeFinalizer('
-        '${_releaseFunc.funcPointerName}.cast())',
-    _releaseFunc,
-  );
-
-  late final _blockCopyFunc = Func(
-    name: '_Block_copy',
-    originalName: '_Block_copy',
-    returnType: PointerType(voidType),
-    parameters: [Parameter(name: 'value', type: PointerType(voidType))],
-    isInternal: true,
-  );
-  late final _blockReleaseFunc = Func(
-    name: '_Block_release',
-    originalName: '_Block_release',
-    returnType: voidType,
-    parameters: [Parameter(name: 'value', type: PointerType(voidType))],
-    isInternal: true,
-  );
-  late final _blockReleaseFinalizer = ObjCInternalGlobal(
-    '_objc_releaseFinalizer',
-    (Writer w) => '${w.ffiLibraryPrefix}.NativeFinalizer('
-        '${_blockReleaseFunc.funcPointerName}.cast())',
-    _blockReleaseFunc,
-  );
+  static const registerName = ObjCImport('registerName');
+  static const getClass = ObjCImport('getClass');
+  static const msgSendPointer = ObjCImport('msgSendPointer');
+  static const msgSendFpretPointer = ObjCImport('msgSendFpretPointer');
+  static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
+  static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
+  static const newBlock = ObjCImport('newBlock');
+  static const objectBase = ObjCImport('ObjCObjectBase');
+  static const blockBase = ObjCImport('ObjCBlockBase');
 
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
@@ -108,213 +33,24 @@ $objType $name(String name) {
         '_objc_msgSend_${_msgSendFuncs.length}',
         returnType,
         params,
-        _msgSendUseVariants);
+        useMsgSendVariants);
   }
-
-  late final _msgSendUseVariants = ObjCInternalGlobal(
-      '_objc_msgSend_useVariants',
-      (Writer w) => '''
-${w.ffiLibraryPrefix}.Abi.current() == ${w.ffiLibraryPrefix}.Abi.iosX64 ||
-${w.ffiLibraryPrefix}.Abi.current() == ${w.ffiLibraryPrefix}.Abi.macosX64
-''');
 
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
-      (Writer w) => '${registerName.name}("$methodName")',
-      registerName,
+      (Writer w) => '${registerName.gen(w)}("$methodName")',
     );
   }
 
-  // See https://clang.llvm.org/docs/Block-ABI-Apple.html
-  late final blockStruct = Struct(
-    name: '_ObjCBlock',
-    isInternal: true,
-    members: [
-      Member(name: 'isa', type: PointerType(voidType)),
-      Member(name: 'flags', type: intType),
-      Member(name: 'reserved', type: intType),
-      Member(name: 'invoke', type: PointerType(voidType)),
-      Member(name: 'descriptor', type: PointerType(blockDescStruct)),
-      Member(name: 'target', type: PointerType(voidType)),
-    ],
-  );
-  late final blockDescStruct = Struct(
-    name: '_ObjCBlockDesc',
-    isInternal: true,
-    members: [
-      Member(name: 'reserved', type: unsignedLongType),
-      Member(name: 'size', type: unsignedLongType),
-      Member(name: 'copy_helper', type: PointerType(voidType)),
-      Member(name: 'dispose_helper', type: PointerType(voidType)),
-      Member(name: 'signature', type: PointerType(charType)),
-    ],
-  );
-  late final newBlockDesc =
-      ObjCInternalFunction('_newBlockDesc', null, (Writer w, String name) {
-    final blockType = blockStruct.getCType(w);
-    final descType = blockDescStruct.getCType(w);
-    final descPtr = PointerType(blockDescStruct).getCType(w);
-    return '''
-$descPtr $name() {
-  final d = ${w.ffiPkgLibraryPrefix}.calloc.allocate<$descType>(
-      ${w.ffiLibraryPrefix}.sizeOf<$descType>());
-  d.ref.reserved = 0;
-  d.ref.size = ${w.ffiLibraryPrefix}.sizeOf<$blockType>();
-  d.ref.copy_helper = ${w.ffiLibraryPrefix}.nullptr;
-  d.ref.dispose_helper = ${w.ffiLibraryPrefix}.nullptr;
-  d.ref.signature = ${w.ffiLibraryPrefix}.nullptr;
-  return d;
-}
-''';
-  });
-  late final blockDescSingleton = ObjCInternalGlobal(
-    '_objc_block_desc',
-    (Writer w) => '${newBlockDesc.name}()',
-    blockDescStruct,
-  );
-  late final concreteGlobalBlock = ObjCInternalGlobal(
-    '_objc_concrete_global_block',
-    (Writer w) => '${w.lookupFuncIdentifier}<${voidType.getCType(w)}>('
-        "'_NSConcreteGlobalBlock')",
-  );
-  late final newBlock = ObjCInternalFunction('_newBlock', _blockCopyFunc,
-      (Writer w, String name) {
-    final blockType = blockStruct.getCType(w);
-    final blockPtr = PointerType(blockStruct).getCType(w);
-    final voidPtr = PointerType(voidType).getCType(w);
-    return '''
-$blockPtr $name($voidPtr invoke, $voidPtr target) {
-  final b = ${w.ffiPkgLibraryPrefix}.calloc.allocate<$blockType>(
-      ${w.ffiLibraryPrefix}.sizeOf<$blockType>());
-  b.ref.isa = ${concreteGlobalBlock.name};
-  b.ref.flags = 0;
-  b.ref.reserved = 0;
-  b.ref.invoke = invoke;
-  b.ref.target = target;
-  b.ref.descriptor = ${blockDescSingleton.name};
-  final copy = ${_blockCopyFunc.name}(b.cast()).cast<$blockType>();
-  ${w.ffiPkgLibraryPrefix}.calloc.free(b);
-  return copy;
-}
-''';
-  });
-
-  void _writeFinalizableClass(
-      Writer w,
-      StringBuffer s,
-      String name,
-      String kind,
-      String idType,
-      String retain,
-      String release,
-      String finalizer) {
-    s.write('''
-class $name implements ${w.ffiLibraryPrefix}.Finalizable {
-  final $idType _id;
-  final ${w.className} _lib;
-  bool _pendingRelease;
-
-  $name._(this._id, this._lib,
-      {bool retain = false, bool release = false}) : _pendingRelease = release {
-    if (retain) {
-      _lib.$retain(_id.cast());
-    }
-    if (release) {
-      _lib.$finalizer.attach(this, _id.cast(), detach: this);
-    }
-  }
-
-  /// Releases the reference to the underlying ObjC $kind held by this wrapper.
-  /// Throws a StateError if this wrapper doesn't currently hold a reference.
-  void release() {
-    if (_pendingRelease) {
-      _pendingRelease = false;
-      _lib.$release(_id.cast());
-      _lib.$finalizer.detach(this);
-    } else {
-      throw StateError(
-          'Released an ObjC $kind that was unowned or already released.');
-    }
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is $name && _id == other._id;
-  }
-
-  @override
-  int get hashCode => _id.hashCode;
-
-  /// Return a pointer to this object.
-  $idType get pointer => _id;
-
-  /// Retain a reference to this object and then return the pointer. This
-  /// reference must be released when you are done with it. If you wrap this
-  /// reference in another object, make sure to release it but not retain it:
-  /// `castFromPointer(lib, pointer, retain: false, release: true)`
-  $idType retainAndReturnPointer() {
-    _lib.$retain(_id.cast());
-    return _id;
-  }
-}
-''');
-  }
-
-  bool utilsExist = false;
-  void ensureUtilsExist(Writer w, StringBuffer s) {
-    if (utilsExist) return;
-    utilsExist = true;
-    _writeFinalizableClass(
-        w,
-        s,
-        '_ObjCWrapper',
-        'object',
-        PointerType(objCObjectType).getCType(w),
-        _retainFunc.name,
-        _releaseFunc.name,
-        _releaseFinalizer.name);
-  }
-
-  bool blockUtilsExist = false;
-  void ensureBlockUtilsExist(Writer w, StringBuffer s) {
-    if (blockUtilsExist) return;
-    blockUtilsExist = true;
-    _writeFinalizableClass(
-        w,
-        s,
-        '_ObjCBlockBase',
-        'block',
-        PointerType(blockStruct).getCType(w),
-        _blockCopyFunc.name,
-        _blockReleaseFunc.name,
-        _blockReleaseFinalizer.name);
-  }
-
   void addDependencies(Set<Binding> dependencies) {
-    registerName.addDependencies(dependencies);
-    getClass.addDependencies(dependencies);
-    _retainFunc.addDependencies(dependencies);
-    _releaseFunc.addDependencies(dependencies);
-    _releaseFinalizer.addDependencies(dependencies);
     for (final msgSendFunc in _msgSendFuncs.values) {
       msgSendFunc.addDependencies(dependencies);
     }
     for (final sel in _selObjects.values) {
       sel.addDependencies(dependencies);
     }
-  }
-
-  void addBlockDependencies(Set<Binding> dependencies) {
-    newBlockDesc.addDependencies(dependencies);
-    blockDescSingleton.addDependencies(dependencies);
-    blockStruct.addDependencies(dependencies);
-    concreteGlobalBlock.addDependencies(dependencies);
-    newBlock.addDependencies(dependencies);
-    _blockCopyFunc.addDependencies(dependencies);
-    _blockReleaseFunc.addDependencies(dependencies);
-    _blockReleaseFinalizer.addDependencies(dependencies);
   }
 
   final _interfaceRegistry = <String, ObjCInterface>{};
@@ -330,13 +66,13 @@ class $name implements ${w.ffiLibraryPrefix}.Finalizable {
         ));
   }
 
-  void generateNSStringUtils(Writer w, StringBuffer s) {
+  static void generateNSStringUtils(Writer w, StringBuffer s) {
     // Generate a constructor that wraps stringWithCharacters, and a toString
     // method that wraps dataUsingEncoding.
     s.write('''
-  factory NSString(${w.className} _lib, String str) {
+  factory NSString(String str) {
     final cstr = str.toNativeUtf16();
-    final nsstr = stringWithCharacters_length_(_lib, cstr.cast(), str.length);
+    final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);
     ${w.ffiPkgLibraryPrefix}.calloc.free(cstr);
     return nsstr;
   }
@@ -351,47 +87,30 @@ class $name implements ${w.ffiLibraryPrefix}.Finalizable {
 ''');
   }
 
-  void generateStringUtils(Writer w, StringBuffer s) {
+  static void generateStringUtils(Writer w, StringBuffer s) {
     // Generate an extension on String to convert to NSString
     s.write('''
 extension StringToNSString on String {
-  NSString toNSString(${w.className} lib) => NSString(lib, this);
+  NSString toNSString() => NSString(this);
 }
 ''');
   }
 }
 
-/// Functions only used internally by ObjC bindings, which may or may not wrap a
-/// native function, such as getClass.
-class ObjCInternalFunction extends LookUpBinding {
-  final Func? _wrappedFunction;
-  final String Function(Writer, String) _toBindingString;
+/// A function, global variable, or helper type defined in package:objective_c.
+class ObjCImport {
+  final String name;
 
-  ObjCInternalFunction(
-      String name, this._wrappedFunction, this._toBindingString)
-      : super(originalName: name, name: name, isInternal: true);
+  const ObjCImport(this.name);
 
-  @override
-  BindingString toBindingString(Writer w) {
-    name = w.wrapperLevelUniqueNamer.makeUnique(name);
-    return BindingString(
-        type: BindingStringType.func, string: _toBindingString(w, name));
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-    dependencies.add(this);
-    _wrappedFunction?.addDependencies(dependencies);
-  }
+  String gen(Writer w) => '${w.objcPkgPrefix}.$name';
 }
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.
-class ObjCInternalGlobal extends LookUpBinding {
+class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function(Writer) makeValue;
-  Binding? binding;
 
-  ObjCInternalGlobal(String name, this.makeValue, [this.binding])
+  ObjCInternalGlobal(String name, this.makeValue)
       : super(originalName: name, name: name, isInternal: true);
 
   @override
@@ -406,17 +125,16 @@ class ObjCInternalGlobal extends LookUpBinding {
   void addDependencies(Set<Binding> dependencies) {
     if (dependencies.contains(this)) return;
     dependencies.add(this);
-    binding?.addDependencies(dependencies);
   }
 }
 
 enum ObjCMsgSendVariant {
-  normal('objc_msgSend'),
-  stret('objc_msgSend_stret'),
-  fpret('objc_msgSend_fpret');
+  normal(ObjCBuiltInFunctions.msgSendPointer),
+  stret(ObjCBuiltInFunctions.msgSendStretPointer),
+  fpret(ObjCBuiltInFunctions.msgSendFpretPointer);
 
-  final String name;
-  const ObjCMsgSendVariant(this.name);
+  final ObjCImport pointer;
+  const ObjCMsgSendVariant(this.pointer);
 
   static ObjCMsgSendVariant fromReturnType(Type returnType) {
     if (returnType is Compound && returnType.isStruct) {
@@ -425,6 +143,39 @@ enum ObjCMsgSendVariant {
       return ObjCMsgSendVariant.fpret;
     }
     return ObjCMsgSendVariant.normal;
+  }
+}
+
+class ObjCMsgSendVariantFunc extends NoLookUpBinding {
+  ObjCMsgSendVariant variant;
+  FunctionType type;
+
+  ObjCMsgSendVariantFunc(
+      {required super.name,
+      required this.variant,
+      required Type returnType,
+      required List<Parameter> parameters})
+      : type = FunctionType(returnType: returnType, parameters: parameters),
+        super(isInternal: true);
+
+  @override
+  BindingString toBindingString(Writer w) {
+    final cType = NativeFunc(type).getCType(w);
+    final dartType = type.getFfiDartType(w, writeArgumentNames: false);
+    final pointer = variant.pointer.gen(w);
+
+    final bindingString = '''
+final $name = $pointer.cast<$cType>().asFunction<$dartType>();
+''';
+
+    return BindingString(type: BindingStringType.func, string: bindingString);
+  }
+
+  @override
+  void addDependencies(Set<Binding> dependencies) {
+    if (dependencies.contains(this)) return;
+    dependencies.add(this);
+    type.addDependencies(dependencies);
   }
 }
 
@@ -443,42 +194,39 @@ enum ObjCMsgSendVariant {
 /// arg.
 class ObjCMsgSendFunc {
   final ObjCMsgSendVariant variant;
-  final ObjCInternalGlobal useVariants;
+  final ObjCImport useVariants;
 
   // [normalFunc] is always a reference to the normal objc_msgSend function. If
   // the [variant] is fpret or stret, then [variantFunc] is a reference to the
   // corresponding variant of the objc_msgSend function, otherwise it's null.
-  late final Func normalFunc;
-  late final Func? variantFunc;
+  late final ObjCMsgSendVariantFunc normalFunc;
+  late final ObjCMsgSendVariantFunc? variantFunc;
 
   ObjCMsgSendFunc(String name, Type returnType, List<ObjCMethodParam> params,
       this.useVariants)
       : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
-    normalFunc = Func(
+    normalFunc = ObjCMsgSendVariantFunc(
       name: name,
-      originalName: ObjCMsgSendVariant.normal.name,
+      variant: ObjCMsgSendVariant.normal,
       returnType: returnType,
       parameters: _params(params),
-      isInternal: true,
     );
     switch (variant) {
       case ObjCMsgSendVariant.normal:
         variantFunc = null;
       case ObjCMsgSendVariant.fpret:
-        variantFunc = Func(
-          name: '${name}_fpret',
-          originalName: variant.name,
+        variantFunc = ObjCMsgSendVariantFunc(
+          name: '${name}Fpret',
+          variant: variant,
           returnType: returnType,
           parameters: _params(params),
-          isInternal: true,
         );
       case ObjCMsgSendVariant.stret:
-        variantFunc = Func(
-          name: '${name}_stret',
-          originalName: variant.name,
+        variantFunc = ObjCMsgSendVariantFunc(
+          name: '${name}Stret',
+          variant: variant,
           returnType: voidType,
           parameters: _params(params, structRetPtr: PointerType(returnType)),
-          isInternal: true,
         );
     }
   }
@@ -486,49 +234,45 @@ class ObjCMsgSendFunc {
   static List<Parameter> _params(List<ObjCMethodParam> params,
       {Type? structRetPtr}) {
     return [
-      if (structRetPtr != null) Parameter(name: 'stret', type: structRetPtr),
-      Parameter(name: 'obj', type: PointerType(objCObjectType)),
-      Parameter(name: 'sel', type: PointerType(objCSelType)),
-      for (final p in params) Parameter(name: p.name, type: p.type),
+      if (structRetPtr != null) Parameter(type: structRetPtr),
+      Parameter(type: PointerType(objCObjectType)),
+      Parameter(type: PointerType(objCSelType)),
+      for (final p in params) Parameter(type: p.type),
     ];
   }
 
   bool get isStret => variant == ObjCMsgSendVariant.stret;
 
   void addDependencies(Set<Binding> dependencies) {
-    if (variant != ObjCMsgSendVariant.normal) {
-      useVariants.addDependencies(dependencies);
-    }
     normalFunc.addDependencies(dependencies);
     variantFunc?.addDependencies(dependencies);
   }
 
-  String invoke(String lib, String target, String sel, Iterable<String> params,
+  String invoke(Writer w, String target, String sel, Iterable<String> params,
       {String? structRetPtr}) {
-    final normalCall = _invoke(normalFunc.name, lib, target, sel, params);
+    final normalCall = _invoke(normalFunc.name, target, sel, params);
     switch (variant) {
       case ObjCMsgSendVariant.normal:
         return normalCall;
       case ObjCMsgSendVariant.fpret:
-        final fpretCall = _invoke(variantFunc!.name, lib, target, sel, params);
-        return '$lib.${useVariants.name} ? $fpretCall : $normalCall';
+        final fpretCall = _invoke(variantFunc!.name, target, sel, params);
+        return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
-        final stretCall = _invoke(variantFunc!.name, lib, target, sel, params,
+        final stretCall = _invoke(variantFunc!.name, target, sel, params,
             structRetPtr: structRetPtr);
-        return '$lib.${useVariants.name} ? $stretCall : '
+        return '${useVariants.gen(w)} ? $stretCall : '
             '$structRetPtr.ref = $normalCall';
     }
   }
 
   static String _invoke(
     String name,
-    String lib,
     String target,
     String sel,
     Iterable<String> params, {
     String? structRetPtr,
   }) {
-    return '''$lib.$name(${[
+    return '''$name(${[
       if (structRetPtr != null) structRetPtr,
       target,
       sel,

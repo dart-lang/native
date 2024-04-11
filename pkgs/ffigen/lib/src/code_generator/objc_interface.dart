@@ -70,9 +70,6 @@ class ObjCInterface extends BindingType {
         {required bool isStatic}) {
       final List<String> stringParams = [];
 
-      if (isStatic) {
-        stringParams.add('${w.className} _lib');
-      }
       stringParams.addAll(
           params.map((p) => '${_getConvertedType(p.type, w, name)} ${p.name}'));
       return '(${stringParams.join(", ")})';
@@ -83,44 +80,46 @@ class ObjCInterface extends BindingType {
       s.write(makeDartDoc(dartDoc!));
     }
 
-    final uniqueNamer = UniqueNamer({name, '_id', '_lib'});
-    final natLib = w.className;
+    final uniqueNamer = UniqueNamer({name, 'pointer'});
 
-    builtInFunctions.ensureUtilsExist(w, s);
-    final objType = PointerType(objCObjectType).getCType(w);
+    final rawObjType = PointerType(objCObjectType).getCType(w);
+    final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
+
+    final superTypeIsInPkgObjc = superType == null;
 
     // Class declaration.
     s.write('''
-class $name extends ${superType?.name ?? '_ObjCWrapper'} {
-  $name._($objType id, $natLib lib,
+class $name extends ${superType?.name ?? wrapObjType} {
+  $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
-          super._(id, lib, retain: retain, release: release);
+          ${superTypeIsInPkgObjc ? 'super(pointer, ' : 'super._(pointer,'}
+              retain: retain, release: release);
 
   /// Returns a [$name] that points to the same underlying object as [other].
-  static $name castFrom<T extends _ObjCWrapper>(T other) {
-    return $name._(other._id, other._lib, retain: true, release: true);
+  static $name castFrom<T extends $wrapObjType>(T other) {
+    return $name._(other.pointer, retain: true, release: true);
   }
 
   /// Returns a [$name] that wraps the given raw object pointer.
-  static $name castFromPointer($natLib lib, $objType other,
+  static $name castFromPointer($rawObjType other,
       {bool retain = false, bool release = false}) {
-    return $name._(other, lib, retain: retain, release: release);
+    return $name._(other, retain: retain, release: release);
   }
 
   /// Returns whether [obj] is an instance of [$name].
-  static bool isInstance(_ObjCWrapper obj) {
+  static bool isInstance($wrapObjType obj) {
     return ${_isKindOfClassMsgSend.invoke(
-      'obj._lib',
-      'obj._id',
-      'obj._lib.${_isKindOfClass.name}',
-      ['obj._lib.${_classObject.name}'],
+      w,
+      'obj.pointer',
+      _isKindOfClass.name,
+      [_classObject.name],
     )};
   }
 
 ''');
 
     if (isNSString) {
-      builtInFunctions.generateNSStringUtils(w, s);
+      ObjCBuiltInFunctions.generateNSStringUtils(w, s);
     }
 
     // Methods.
@@ -148,16 +147,16 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
 
         switch (m.kind) {
           case ObjCMethodKind.method:
-            // static returnType methodName(NativeLibrary _lib, ...)
+            // static returnType methodName(...)
             s.write(' $methodName');
             break;
           case ObjCMethodKind.propertyGetter:
-            // static returnType getMethodName(NativeLibrary _lib)
+            // static returnType getMethodName()
             s.write(' get');
             s.write(methodName[0].toUpperCase() + methodName.substring(1));
             break;
           case ObjCMethodKind.propertySetter:
-            // static void setMethodName(NativeLibrary _lib, ...)
+            // static void setMethodName(...)
             s.write(' set');
             s.write(methodName[0].toUpperCase() + methodName.substring(1));
             break;
@@ -177,7 +176,7 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
           case ObjCMethodKind.propertyGetter:
             s.write(_getConvertedType(returnType, w, name));
             if (isStret) {
-              // void getMethodName(Pointer<returnType> stret, NativeLibrary _lib)
+              // void getMethodName(Pointer<returnType> stret)
               s.write(' get');
               s.write(methodName[0].toUpperCase() + methodName.substring(1));
               s.write(paramsToString(params, isStatic: false));
@@ -204,9 +203,9 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
         s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
       }
       s.write(m.msgSend!.invoke(
-          '_lib',
-          isStatic ? '_lib.${_classObject.name}' : '_id',
-          '_lib.${m.selObject!.name}',
+          w,
+          isStatic ? _classObject.name : 'this.pointer',
+          m.selObject!.name,
           m.params.map((p) => p.type
               .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
           structRetPtr: 'stret'));
@@ -215,7 +214,6 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
         final result = returnType.convertFfiDartTypeToDartType(
           w,
           '_ret',
-          '_lib',
           objCRetain: !m.isOwnedReturn,
           objCEnclosingClass: name,
         );
@@ -228,7 +226,7 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
     s.write('}\n\n');
 
     if (isNSString) {
-      builtInFunctions.generateStringUtils(w, s);
+      ObjCBuiltInFunctions.generateStringUtils(w, s);
     }
 
     return BindingString(
@@ -241,10 +239,8 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
     dependencies.add(this);
     builtInFunctions.addDependencies(dependencies);
 
-    _classObject = ObjCInternalGlobal(
-        '_class_$originalName',
-        (Writer w) => '${builtInFunctions.getClass.name}("$lookupName")',
-        builtInFunctions.getClass)
+    _classObject = ObjCInternalGlobal('_class_$originalName',
+        (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")')
       ..addDependencies(dependencies);
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(
@@ -412,26 +408,24 @@ class $name extends ${superType?.name ?? '_ObjCWrapper'} {
       ObjCInterface.generateGetId(value, objCRetain);
 
   static String generateGetId(String value, bool objCRetain) =>
-      objCRetain ? '$value.retainAndReturnPointer()' : '$value._id';
+      objCRetain ? '$value.retainAndReturnPointer()' : '$value.pointer';
 
   @override
   String convertFfiDartTypeToDartType(
     Writer w,
-    String value,
-    String library, {
+    String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      ObjCInterface.generateConstructor(name, value, library, objCRetain);
+      ObjCInterface.generateConstructor(name, value, objCRetain);
 
   static String generateConstructor(
     String className,
     String value,
-    String library,
     bool objCRetain,
   ) {
     final ownershipFlags = 'retain: $objCRetain, release: true';
-    return '$className._($value, $library, $ownershipFlags)';
+    return '$className._($value, $ownershipFlags)';
   }
 
   // Utils for converting between the internal types passed to native code, and

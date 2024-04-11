@@ -15,15 +15,14 @@ import 'util.dart';
 
 void main() {
   late Thing testInstance;
-  late CategoryTestObjCLibrary lib;
 
   group('categories', () {
     setUpAll(() {
       logWarnings();
       final dylib = File('test/native_objc_test/category_test.dylib');
       verifySetupFile(dylib);
-      lib = CategoryTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      testInstance = Thing.new1(lib);
+      DynamicLibrary.open(dylib.absolute.path);
+      testInstance = Thing.new1();
       generateBindingsForCoverage('category');
     });
 

@@ -14,20 +14,17 @@ import 'forward_decl_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late ForwardDeclTestObjCLibrary lib;
-
   group('forward decl', () {
     setUpAll(() {
       logWarnings();
       final dylib = File('test/native_objc_test/forward_decl_test.dylib');
       verifySetupFile(dylib);
-      lib =
-          ForwardDeclTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('forward_decl');
     });
 
     test('Forward declared class', () {
-      expect(ForwardDeclaredClass.get123(lib), 123);
+      expect(ForwardDeclaredClass.get123(), 123);
     });
   });
 }

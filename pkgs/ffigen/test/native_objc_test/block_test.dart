@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_local_variable
+
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
@@ -9,8 +11,9 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:test/test.dart';
 import 'package:ffi/ffi.dart';
+import 'package:test/test.dart';
+
 import '../test_utils.dart';
 import 'block_bindings.dart';
 import 'util.dart';
@@ -27,7 +30,6 @@ typedef BlockBlock = ObjCBlock_Int32Int32_Int32Int32;
 
 void main() {
   late BlockTestObjCLibrary lib;
-  late void Function(Pointer<Char>, Pointer<Void>) executeInternalCommand;
 
   group('Blocks', () {
     setUpAll(() {
@@ -36,35 +38,24 @@ void main() {
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      executeInternalCommand = DynamicLibrary.process().lookupFunction<
-          Void Function(Pointer<Char>, Pointer<Void>),
-          void Function(
-              Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
-
       generateBindingsForCoverage('block');
     });
-
-    doGC() {
-      final gcNow = "gc-now".toNativeUtf8();
-      executeInternalCommand(gcNow.cast(), nullptr);
-      calloc.free(gcNow);
-    }
 
     test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
-      final blockTester = BlockTester.makeFromMultiplier_(lib, 10);
+      final blockTester = BlockTester.makeFromMultiplier_(10);
       expect(blockTester.call_(123), 1230);
       final intBlock = blockTester.getBlock();
-      final blockTester2 = BlockTester.makeFromBlock_(lib, intBlock);
+      final blockTester2 = BlockTester.makeFromBlock_(intBlock);
       blockTester2.pokeBlock();
       expect(blockTester2.call_(456), 4560);
     });
 
     test('Block from function pointer', () {
       final block =
-          IntBlock.fromFunctionPointer(lib, Pointer.fromFunction(_add100, 999));
-      final blockTester = BlockTester.makeFromBlock_(lib, block);
+          IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+      final blockTester = BlockTester.makeFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 223);
       expect(block(123), 223);
@@ -75,36 +66,36 @@ void main() {
     }
 
     test('Block from function', () {
-      final block = IntBlock.fromFunction(lib, makeAdder(4000));
-      final blockTester = BlockTester.makeFromBlock_(lib, block);
+      final block = IntBlock.fromFunction(makeAdder(4000));
+      final blockTester = BlockTester.makeFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 4123);
       expect(block(123), 4123);
     });
 
     test('Listener block same thread', () async {
-      final hasRun = Completer();
+      final hasRun = Completer<void>();
       int value = 0;
-      final block = VoidBlock.listener(lib, () {
+      final block = VoidBlock.listener(() {
         value = 123;
         hasRun.complete();
       });
 
-      BlockTester.callOnSameThread_(lib, block);
+      BlockTester.callOnSameThread_(block);
 
       await hasRun.future;
       expect(value, 123);
     });
 
     test('Listener block new thread', () async {
-      final hasRun = Completer();
+      final hasRun = Completer<void>();
       int value = 0;
-      final block = VoidBlock.listener(lib, () {
+      final block = VoidBlock.listener(() {
         value = 123;
         hasRun.complete();
       });
 
-      final thread = BlockTester.callOnNewThread_(lib, block);
+      final thread = BlockTester.callOnNewThread_(block);
       thread.start();
 
       await hasRun.future;
@@ -112,19 +103,19 @@ void main() {
     });
 
     test('Float block', () {
-      final block = FloatBlock.fromFunction(lib, (double x) {
+      final block = FloatBlock.fromFunction((double x) {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
-      expect(BlockTester.callFloatBlock_(lib, block), closeTo(5.79, 1e-6));
+      expect(BlockTester.callFloatBlock_(block), closeTo(5.79, 1e-6));
     });
 
     test('Double block', () {
-      final block = DoubleBlock.fromFunction(lib, (double x) {
+      final block = DoubleBlock.fromFunction((double x) {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
-      expect(BlockTester.callDoubleBlock_(lib, block), closeTo(5.79, 1e-6));
+      expect(BlockTester.callDoubleBlock_(block), closeTo(5.79, 1e-6));
     });
 
     test('Struct block', () {
@@ -138,7 +129,7 @@ void main() {
 
         final tempPtr = arena<Vec4>();
         final temp = tempPtr.ref;
-        final block = Vec4Block.fromFunction(lib, (Vec4 v) {
+        final block = Vec4Block.fromFunction((Vec4 v) {
           // Twiddle the Vec4 components.
           temp.x = v.y;
           temp.y = v.z;
@@ -155,7 +146,7 @@ void main() {
 
         final result2Ptr = arena<Vec4>();
         final result2 = result2Ptr.ref;
-        BlockTester.callVec4Block_(lib, result2Ptr, block);
+        BlockTester.callVec4Block_(result2Ptr, block);
         expect(result2.x, 3.4);
         expect(result2.y, 5.6);
         expect(result2.z, 7.8);
@@ -165,18 +156,18 @@ void main() {
 
     test('Object block', () {
       bool isCalled = false;
-      final block = ObjectBlock.fromFunction(lib, (DummyObject x) {
+      final block = ObjectBlock.fromFunction((DummyObject x) {
         isCalled = true;
         return x;
       });
 
-      final obj = DummyObject.new1(lib);
+      final obj = DummyObject.new1();
       final result1 = block(obj);
       expect(result1, obj);
       expect(isCalled, isTrue);
 
       isCalled = false;
-      final result2 = BlockTester.callObjectBlock_(lib, block);
+      final result2 = BlockTester.callObjectBlock_(block);
       expect(result2, isNot(obj));
       expect(result2.pointer, isNot(nullptr));
       expect(isCalled, isTrue);
@@ -184,12 +175,12 @@ void main() {
 
     test('Nullable object block', () {
       bool isCalled = false;
-      final block = NullableObjectBlock.fromFunction(lib, (DummyObject? x) {
+      final block = NullableObjectBlock.fromFunction((DummyObject? x) {
         isCalled = true;
         return x;
       });
 
-      final obj = DummyObject.new1(lib);
+      final obj = DummyObject.new1();
       final result1 = block(obj);
       expect(result1, obj);
       expect(isCalled, isTrue);
@@ -200,44 +191,44 @@ void main() {
       expect(isCalled, isTrue);
 
       isCalled = false;
-      final result3 = BlockTester.callNullableObjectBlock_(lib, block);
+      final result3 = BlockTester.callNullableObjectBlock_(block);
       expect(result3, isNull);
       expect(isCalled, isTrue);
     });
 
     test('Block block', () {
-      final blockBlock = BlockBlock.fromFunction(lib, (IntBlock intBlock) {
-        return IntBlock.fromFunction(lib, (int x) {
+      final blockBlock = BlockBlock.fromFunction((IntBlock intBlock) {
+        return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
 
-      final intBlock = IntBlock.fromFunction(lib, (int x) {
+      final intBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final result1 = blockBlock(intBlock);
       expect(result1(1), 15);
 
-      final result2 = BlockTester.newBlock_withMult_(lib, blockBlock, 2);
+      final result2 = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(result2(1), 6);
     });
 
     test('Native block block', () {
-      final blockBlock = BlockTester.newBlockBlock_(lib, 7);
+      final blockBlock = BlockTester.newBlockBlock_(7);
 
-      final intBlock = IntBlock.fromFunction(lib, (int x) {
+      final intBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final result1 = blockBlock(intBlock);
       expect(result1(1), 35);
 
-      final result2 = BlockTester.newBlock_withMult_(lib, blockBlock, 2);
+      final result2 = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(result2(1), 14);
     });
 
     Pointer<Void> funcPointerBlockRefCountTest() {
       final block =
-          IntBlock.fromFunctionPointer(lib, Pointer.fromFunction(_add100, 999));
+          IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
       return block.pointer.cast();
     }
@@ -249,7 +240,7 @@ void main() {
     });
 
     Pointer<Void> funcBlockRefCountTest() {
-      final block = IntBlock.fromFunction(lib, makeAdder(4000));
+      final block = IntBlock.fromFunction(makeAdder(4000));
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
       return block.pointer.cast();
     }
@@ -261,7 +252,7 @@ void main() {
     });
 
     Pointer<Void> blockManualRetainRefCountTest() {
-      final block = IntBlock.fromFunction(lib, makeAdder(4000));
+      final block = IntBlock.fromFunction(makeAdder(4000));
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
       final rawBlock = block.retainAndReturnPointer().cast<Void>();
       expect(lib.getBlockRetainCount(rawBlock.cast()), 2);
@@ -269,7 +260,7 @@ void main() {
     }
 
     int blockManualRetainRefCountTest2(Pointer<Void> rawBlock) {
-      final block = IntBlock.castFromPointer(lib, rawBlock.cast(),
+      final block = IntBlock.castFromPointer(rawBlock.cast(),
           retain: false, release: true);
       return lib.getBlockRetainCount(block.pointer.cast());
     }
@@ -285,11 +276,11 @@ void main() {
 
     (Pointer<Void>, Pointer<Void>, Pointer<Void>)
         blockBlockDartCallRefCountTest() {
-      final inputBlock = IntBlock.fromFunction(lib, (int x) {
+      final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock = BlockBlock.fromFunction(lib, (IntBlock intBlock) {
-        return IntBlock.fromFunction(lib, (int x) {
+      final blockBlock = BlockBlock.fromFunction((IntBlock intBlock) {
+        return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
@@ -326,13 +317,13 @@ void main() {
     (Pointer<Void>, Pointer<Void>, Pointer<Void>)
         blockBlockObjCCallRefCountTest() {
       late Pointer<Void> inputBlock;
-      final blockBlock = BlockBlock.fromFunction(lib, (IntBlock intBlock) {
+      final blockBlock = BlockBlock.fromFunction((IntBlock intBlock) {
         inputBlock = intBlock.pointer.cast();
-        return IntBlock.fromFunction(lib, (int x) {
+        return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
-      final outputBlock = BlockTester.newBlock_withMult_(lib, blockBlock, 2);
+      final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(outputBlock(1), 6);
       doGC();
 
@@ -361,10 +352,10 @@ void main() {
 
     (Pointer<Void>, Pointer<Void>, Pointer<Void>)
         nativeBlockBlockDartCallRefCountTest() {
-      final inputBlock = IntBlock.fromFunction(lib, (int x) {
+      final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock = BlockTester.newBlockBlock_(lib, 7);
+      final blockBlock = BlockTester.newBlockBlock_(7);
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 35);
       doGC();
@@ -392,8 +383,8 @@ void main() {
     });
 
     (Pointer<Void>, Pointer<Void>) nativeBlockBlockObjCCallRefCountTest() {
-      final blockBlock = BlockTester.newBlockBlock_(lib, 7);
-      final outputBlock = BlockTester.newBlock_withMult_(lib, blockBlock, 2);
+      final blockBlock = BlockTester.newBlockBlock_(7);
+      final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(outputBlock(1), 14);
       doGC();
 
@@ -415,11 +406,11 @@ void main() {
       inputCounter.value = 0;
       outputCounter.value = 0;
 
-      final block = ObjectBlock.fromFunction(lib, (DummyObject x) {
-        return DummyObject.newWithCounter_(lib, outputCounter);
+      final block = ObjectBlock.fromFunction((DummyObject x) {
+        return DummyObject.newWithCounter_(outputCounter);
       });
 
-      final inputObj = DummyObject.newWithCounter_(lib, inputCounter);
+      final inputObj = DummyObject.newWithCounter_(inputCounter);
       final outputObj = block(inputObj);
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
@@ -443,12 +434,12 @@ void main() {
       inputCounter.value = 0;
       outputCounter.value = 0;
 
-      final block = ObjectBlock.fromFunction(lib, (DummyObject x) {
+      final block = ObjectBlock.fromFunction((DummyObject x) {
         x.setCounter_(inputCounter);
-        return DummyObject.newWithCounter_(lib, outputCounter);
+        return DummyObject.newWithCounter_(outputCounter);
       });
 
-      final outputObj = BlockTester.callObjectBlock_(lib, block);
+      final outputObj = BlockTester.callObjectBlock_(block);
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
@@ -472,7 +463,7 @@ void main() {
     });
 
     test('Block fields have sensible values', () {
-      final block = IntBlock.fromFunction(lib, makeAdder(4000));
+      final block = IntBlock.fromFunction(makeAdder(4000));
       final blockPtr = block.pointer;
       expect(blockPtr.ref.isa, isNot(0));
       expect(blockPtr.ref.flags, isNot(0)); // Set by Block_copy.
