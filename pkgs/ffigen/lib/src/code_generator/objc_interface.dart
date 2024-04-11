@@ -111,8 +111,8 @@ class $name extends ${superType?.name ?? wrapObjType} {
     return ${_isKindOfClassMsgSend.invoke(
       w,
       'obj.pointer',
-      '${_isKindOfClass.name}',
-      ['${_classObject.name}'],
+      _isKindOfClass.name,
+      [_classObject.name],
     )};
   }
 
@@ -204,8 +204,8 @@ class $name extends ${superType?.name ?? wrapObjType} {
       }
       s.write(m.msgSend!.invoke(
           w,
-          isStatic ? '${_classObject.name}' : 'this.pointer',
-          '${m.selObject!.name}',
+          isStatic ? _classObject.name : 'this.pointer',
+          m.selObject!.name,
           m.params.map((p) => p.type
               .convertDartTypeToFfiDartType(w, p.name, objCRetain: false)),
           structRetPtr: 'stret'));

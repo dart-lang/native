@@ -5,8 +5,6 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
-import 'dart:ffi';
-
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'failed_to_load_bindings.dart';

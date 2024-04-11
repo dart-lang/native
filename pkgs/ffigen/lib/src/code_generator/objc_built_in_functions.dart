@@ -151,12 +151,12 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
   FunctionType type;
 
   ObjCMsgSendVariantFunc(
-      {required String name,
+      {required super.name,
       required this.variant,
       required Type returnType,
       required List<Parameter> parameters})
       : type = FunctionType(returnType: returnType, parameters: parameters),
-        super(name: name, isInternal: true);
+        super(isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -234,10 +234,10 @@ class ObjCMsgSendFunc {
   static List<Parameter> _params(List<ObjCMethodParam> params,
       {Type? structRetPtr}) {
     return [
-      if (structRetPtr != null) Parameter(name: 'stret', type: structRetPtr),
-      Parameter(name: 'obj', type: PointerType(objCObjectType)),
-      Parameter(name: 'sel', type: PointerType(objCSelType)),
-      for (final p in params) Parameter(name: p.name, type: p.type),
+      if (structRetPtr != null) Parameter(type: structRetPtr),
+      Parameter(type: PointerType(objCObjectType)),
+      Parameter(type: PointerType(objCSelType)),
+      for (final p in params) Parameter(type: p.type),
     ];
   }
 

@@ -962,8 +962,8 @@ late final _sel_load = objc.registerName("load");
 final _objc_msgSend_1 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -974,8 +974,8 @@ late final _sel_init = objc.registerName("init");
 final _objc_msgSend_2 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -987,10 +987,8 @@ late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_3 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<_NSZone> zone)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>();
@@ -1008,9 +1006,9 @@ final _objc_msgSend_4 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -1041,9 +1039,9 @@ final _objc_msgSend_0 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> clazz)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -1054,9 +1052,9 @@ final _objc_msgSend_5 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> protocol)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -1065,9 +1063,9 @@ final _objc_msgSend_6 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -1081,9 +1079,9 @@ final _objc_msgSend_7 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -1093,9 +1091,9 @@ final _objc_msgSend_8 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -1417,10 +1415,8 @@ late final _sel_signatureWithObjCTypes_ =
 final _objc_msgSend_9 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> types)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>();
@@ -1428,8 +1424,8 @@ late final _sel_numberOfArguments = objc.registerName("numberOfArguments");
 final _objc_msgSend_10 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -1438,8 +1434,8 @@ late final _sel_getArgumentTypeAtIndex_ =
 final _objc_msgSend_11 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong idx)>>()
+            ffi.Pointer<ffi.Char> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<ffi.Char> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -1448,8 +1444,8 @@ late final _sel_isOneway = objc.registerName("isOneway");
 final _objc_msgSend_12 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -1457,8 +1453,8 @@ late final _sel_methodReturnType = objc.registerName("methodReturnType");
 final _objc_msgSend_13 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<ffi.Char> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<ffi.Char> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<ffi.Char> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -1469,11 +1465,11 @@ final _objc_msgSend_14 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aTarget,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> anArgument)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -1487,9 +1483,9 @@ final _objc_msgSend_15 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aTarget)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -1837,9 +1833,9 @@ final _objc_msgSend_16 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> object)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -1964,9 +1960,8 @@ late final _sel_nextObject = objc.registerName("nextObject");
 final _objc_msgSend_17 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -3414,8 +3409,8 @@ late final _sel_characterAtIndex_ = objc.registerName("characterAtIndex:");
 final _objc_msgSend_18 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedShort Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong index)>>()
+            ffi.UnsignedShort Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -3975,10 +3970,10 @@ final _objc_msgSend_19 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> type,
-                ffi.Pointer<ffi.Void> addr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -4401,8 +4396,8 @@ late final _sel_bytes = objc.registerName("bytes");
 final _objc_msgSend_20 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<ffi.Void> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -4410,9 +4405,8 @@ late final _sel_description = objc.registerName("description");
 final _objc_msgSend_21 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -4421,10 +4415,10 @@ final _objc_msgSend_22 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> buffer,
-                ffi.UnsignedLong length)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>, int)>();
@@ -4442,10 +4436,10 @@ final _objc_msgSend_23 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> buffer,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                _NSRange)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>, _NSRange)>();
@@ -4454,9 +4448,9 @@ final _objc_msgSend_24 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -4464,10 +4458,8 @@ late final _sel_subdataWithRange_ = objc.registerName("subdataWithRange:");
 final _objc_msgSend_25 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -4477,10 +4469,10 @@ final _objc_msgSend_26 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool useAuxiliaryFile)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5266,11 +5258,11 @@ final _objc_msgSend_27 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> scheme,
-                ffi.Pointer<objc.ObjCObject> host,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5284,11 +5276,11 @@ final _objc_msgSend_28 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool isDir,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5302,10 +5294,10 @@ final _objc_msgSend_29 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5318,10 +5310,10 @@ final _objc_msgSend_30 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool isDir)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5334,9 +5326,9 @@ final _objc_msgSend_31 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -5346,11 +5338,11 @@ final _objc_msgSend_32 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool isDir,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5364,10 +5356,10 @@ final _objc_msgSend_33 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5380,10 +5372,10 @@ final _objc_msgSend_34 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool isDir)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5395,9 +5387,9 @@ final _objc_msgSend_35 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -5408,11 +5400,11 @@ final _objc_msgSend_36 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> path,
-                ffi.Bool isDir,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5427,11 +5419,11 @@ final _objc_msgSend_37 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> path,
-                ffi.Bool isDir,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5444,9 +5436,9 @@ final _objc_msgSend_38 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> URLString)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -5456,10 +5448,10 @@ final _objc_msgSend_39 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> URLString,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5475,10 +5467,10 @@ final _objc_msgSend_40 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> URLString,
-                ffi.Bool encodingInvalidCharacters)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5493,10 +5485,10 @@ final _objc_msgSend_41 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5509,10 +5501,10 @@ final _objc_msgSend_42 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<objc.ObjCObject> baseURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -5527,9 +5519,8 @@ late final _sel_dataRepresentation = objc.registerName("dataRepresentation");
 final _objc_msgSend_43 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -5537,9 +5528,8 @@ late final _sel_absoluteString = objc.registerName("absoluteString");
 final _objc_msgSend_44 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -5548,9 +5538,8 @@ late final _sel_baseURL = objc.registerName("baseURL");
 final _objc_msgSend_45 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -6217,10 +6206,10 @@ final _objc_msgSend_46 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> value,
-                ffi.Pointer<ffi.Char> type)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Char>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -6232,9 +6221,9 @@ final _objc_msgSend_47 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> coder)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -6244,10 +6233,10 @@ final _objc_msgSend_48 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> value,
-                ffi.Pointer<ffi.Char> type)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Char>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -6261,9 +6250,9 @@ final _objc_msgSend_49 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -6273,10 +6262,8 @@ late final _sel_valueWithPointer_ = objc.registerName("valueWithPointer:");
 final _objc_msgSend_50 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> pointer)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>();
@@ -6286,9 +6273,9 @@ final _objc_msgSend_51 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -6296,10 +6283,8 @@ late final _sel_getValue_ = objc.registerName("getValue:");
 final _objc_msgSend_52 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>();
@@ -6307,10 +6292,8 @@ late final _sel_valueWithRange_ = objc.registerName("valueWithRange:");
 final _objc_msgSend_53 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -6318,8 +6301,8 @@ late final _sel_rangeValue = objc.registerName("rangeValue");
 final _objc_msgSend_54 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            _NSRange Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            _NSRange Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -6327,9 +6310,9 @@ final _objc_msgSend_54Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<_NSRange>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>)>();
@@ -6346,10 +6329,8 @@ late final _sel_valueWithPoint_ = objc.registerName("valueWithPoint:");
 final _objc_msgSend_55 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                CGPoint point)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, CGPoint)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, CGPoint)>();
@@ -6366,10 +6347,8 @@ late final _sel_valueWithSize_ = objc.registerName("valueWithSize:");
 final _objc_msgSend_56 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                CGSize size)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, CGSize)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, CGSize)>();
@@ -6384,10 +6363,8 @@ late final _sel_valueWithRect_ = objc.registerName("valueWithRect:");
 final _objc_msgSend_57 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                CGRect rect)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, CGRect)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, CGRect)>();
@@ -6411,10 +6388,8 @@ late final _sel_valueWithEdgeInsets_ =
 final _objc_msgSend_58 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                NSEdgeInsets insets)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, NSEdgeInsets)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, NSEdgeInsets)>();
@@ -6422,8 +6397,8 @@ late final _sel_pointValue = objc.registerName("pointValue");
 final _objc_msgSend_59 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            CGPoint Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            CGPoint Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         CGPoint Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -6431,9 +6406,9 @@ final _objc_msgSend_59Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<CGPoint> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<CGPoint>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<CGPoint>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>)>();
@@ -6441,18 +6416,16 @@ late final _sel_sizeValue = objc.registerName("sizeValue");
 final _objc_msgSend_60 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            CGSize Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            CGSize Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         CGSize Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_60Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<CGSize> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Void Function(ffi.Pointer<CGSize>, ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<CGSize>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>)>();
@@ -6460,18 +6433,16 @@ late final _sel_rectValue = objc.registerName("rectValue");
 final _objc_msgSend_61 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            CGRect Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            CGRect Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         CGRect Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_61Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<CGRect> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Void Function(ffi.Pointer<CGRect>, ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<CGRect>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>)>();
@@ -6479,8 +6450,8 @@ late final _sel_edgeInsetsValue = objc.registerName("edgeInsetsValue");
 final _objc_msgSend_62 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            NSEdgeInsets Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            NSEdgeInsets Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         NSEdgeInsets Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -6488,9 +6459,9 @@ final _objc_msgSend_62Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<NSEdgeInsets> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<NSEdgeInsets>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<NSEdgeInsets>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>)>();
@@ -6500,9 +6471,9 @@ final _objc_msgSend_63 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -6512,9 +6483,9 @@ final _objc_msgSend_64 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7160,10 +7131,8 @@ late final _sel_objectAtIndex_ = objc.registerName("objectAtIndex:");
 final _objc_msgSend_65 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -7173,10 +7142,10 @@ final _objc_msgSend_66 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-                ffi.UnsignedLong cnt)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7189,9 +7158,9 @@ final _objc_msgSend_67 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7201,9 +7170,9 @@ final _objc_msgSend_68 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherArray)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7213,9 +7182,9 @@ final _objc_msgSend_69 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> separator)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7226,9 +7195,9 @@ final _objc_msgSend_70 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7238,10 +7207,10 @@ final _objc_msgSend_71 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> locale,
-                ffi.UnsignedLong level)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7254,9 +7223,9 @@ final _objc_msgSend_72 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherArray)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7265,10 +7234,10 @@ final _objc_msgSend_73 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7280,9 +7249,9 @@ final _objc_msgSend_74 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7292,10 +7261,10 @@ final _objc_msgSend_75 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7311,9 +7280,9 @@ final _objc_msgSend_76 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherArray)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -7323,9 +7292,8 @@ late final _sel_objectEnumerator = objc.registerName("objectEnumerator");
 final _objc_msgSend_77 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -7338,16 +7306,15 @@ final _objc_msgSend_78 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.Long Function(
-                                ffi.Pointer<objc.ObjCObject>,
-                                ffi.Pointer<objc.ObjCObject>,
-                                ffi.Pointer<ffi.Void>)>>
-                    comparator,
-                ffi.Pointer<ffi.Void> context)>>()
+                    ffi.NativeFunction<
+                        ffi.Long Function(
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<ffi.Void>)>>,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7363,17 +7330,16 @@ final _objc_msgSend_79 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.Long Function(
-                                ffi.Pointer<objc.ObjCObject>,
-                                ffi.Pointer<objc.ObjCObject>,
-                                ffi.Pointer<ffi.Void>)>>
-                    comparator,
-                ffi.Pointer<ffi.Void> context,
-                ffi.Pointer<objc.ObjCObject> hint)>>()
+                    ffi.NativeFunction<
+                        ffi.Long Function(
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<ffi.Void>)>>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7390,9 +7356,9 @@ final _objc_msgSend_80 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> comparator)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -7400,10 +7366,8 @@ late final _sel_subarrayWithRange_ = objc.registerName("subarrayWithRange:");
 final _objc_msgSend_81 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -7621,11 +7585,11 @@ final _objc_msgSend_82 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> domain,
-                ffi.Long code,
-                ffi.Pointer<objc.ObjCObject> dict)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7640,8 +7604,8 @@ late final _sel_code = objc.registerName("code");
 final _objc_msgSend_83 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Long Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -7657,9 +7621,8 @@ late final _sel_localizedRecoveryOptions =
 final _objc_msgSend_84 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -7669,9 +7632,8 @@ late final _sel_underlyingErrors = objc.registerName("underlyingErrors");
 final _objc_msgSend_85 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -7799,10 +7761,10 @@ final _objc_msgSend_86 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> errorDomain,
-                ffi.Pointer<objc.ObjCBlock> provider)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7815,11 +7777,11 @@ final _objc_msgSend_87 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCBlock> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> err,
-                ffi.Pointer<objc.ObjCObject> userInfoKey,
-                ffi.Pointer<objc.ObjCObject> errorDomain)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCBlock> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7833,10 +7795,10 @@ final _objc_msgSend_88 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Pointer<objc.ObjCObject> dependentKey)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7852,10 +7814,10 @@ final _objc_msgSend_89 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7870,10 +7832,10 @@ final _objc_msgSend_90 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> argument)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8174,8 +8136,8 @@ late final _sel_indexSetWithIndexesInRange_ =
 final _objc_msgSend_91 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, _NSRange range)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -8186,9 +8148,9 @@ final _objc_msgSend_92 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> indexSet)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -8198,9 +8160,9 @@ final _objc_msgSend_93 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> indexSet)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -8211,8 +8173,8 @@ late final _sel_indexGreaterThanIndex_ =
 final _objc_msgSend_94 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong value)>>()
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -8227,11 +8189,11 @@ final _objc_msgSend_95 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLong> indexBuffer,
-                ffi.UnsignedLong bufferSize,
-                ffi.Pointer<_NSRange> range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.UnsignedLong,
+                ffi.Pointer<_NSRange>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8244,8 +8206,8 @@ late final _sel_countOfIndexesInRange_ =
 final _objc_msgSend_96 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, _NSRange range)>>()
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -8253,8 +8215,8 @@ late final _sel_containsIndex_ = objc.registerName("containsIndex:");
 final _objc_msgSend_97 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong value)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -8263,8 +8225,8 @@ late final _sel_containsIndexesInRange_ =
 final _objc_msgSend_98 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, _NSRange range)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -8389,10 +8351,8 @@ late final _sel_enumerateIndexesUsingBlock_ =
 final _objc_msgSend_99 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -8408,10 +8368,10 @@ final _objc_msgSend_100 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8424,11 +8384,11 @@ final _objc_msgSend_101 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8530,10 +8490,8 @@ late final _sel_indexPassingTest_ = objc.registerName("indexPassingTest:");
 final _objc_msgSend_102 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -8543,10 +8501,10 @@ final _objc_msgSend_103 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8559,11 +8517,11 @@ final _objc_msgSend_104 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8575,10 +8533,8 @@ late final _sel_indexesPassingTest_ = objc.registerName("indexesPassingTest:");
 final _objc_msgSend_105 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -8588,10 +8544,10 @@ final _objc_msgSend_106 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8604,11 +8560,11 @@ final _objc_msgSend_107 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8736,10 +8692,8 @@ late final _sel_enumerateRangesUsingBlock_ =
 final _objc_msgSend_108 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -8749,10 +8703,10 @@ final _objc_msgSend_109 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8765,11 +8719,11 @@ final _objc_msgSend_110 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8782,9 +8736,9 @@ final _objc_msgSend_111 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> indexes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -8945,10 +8899,8 @@ late final _sel_enumerateObjectsUsingBlock_ =
 final _objc_msgSend_112 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -8958,10 +8910,10 @@ final _objc_msgSend_113 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -8974,11 +8926,11 @@ final _objc_msgSend_114 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> s,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9107,10 +9059,8 @@ late final _sel_indexOfObjectPassingTest_ =
 final _objc_msgSend_115 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -9120,10 +9070,10 @@ final _objc_msgSend_116 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9136,11 +9086,11 @@ final _objc_msgSend_117 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> s,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9153,10 +9103,8 @@ late final _sel_indexesOfObjectsPassingTest_ =
 final _objc_msgSend_118 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -9166,10 +9114,10 @@ final _objc_msgSend_119 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9182,11 +9130,11 @@ final _objc_msgSend_120 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> s,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9315,10 +9263,8 @@ late final _sel_sortedArrayUsingComparator_ =
 final _objc_msgSend_121 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> cmptr)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -9334,10 +9280,10 @@ final _objc_msgSend_122 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> cmptr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9357,12 +9303,12 @@ final _objc_msgSend_123 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> obj,
-                _NSRange r,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> cmp)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9377,9 +9323,9 @@ final _objc_msgSend_124 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -9391,9 +9337,9 @@ final _objc_msgSend_125 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> array)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -9405,10 +9351,10 @@ final _objc_msgSend_126 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> array,
-                ffi.Bool flag)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9421,10 +9367,10 @@ final _objc_msgSend_127 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9557,11 +9503,11 @@ final _objc_msgSend_128 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9575,10 +9521,10 @@ final _objc_msgSend_129 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9593,9 +9539,9 @@ final _objc_msgSend_130 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> difference)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -9604,9 +9550,9 @@ final _objc_msgSend_131 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9618,9 +9564,9 @@ final _objc_msgSend_132 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -9630,9 +9576,9 @@ final _objc_msgSend_133 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -9646,10 +9592,10 @@ final _objc_msgSend_134 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Bool atomically)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9664,10 +9610,10 @@ final _objc_msgSend_135 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9689,13 +9635,13 @@ final _objc_msgSend_136 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> observer,
-                ffi.Pointer<objc.ObjCObject> indexes,
-                ffi.Pointer<objc.ObjCObject> keyPath,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Void> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9711,12 +9657,12 @@ final _objc_msgSend_137 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> observer,
-                ffi.Pointer<objc.ObjCObject> indexes,
-                ffi.Pointer<objc.ObjCObject> keyPath,
-                ffi.Pointer<ffi.Void> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9731,11 +9677,11 @@ final _objc_msgSend_138 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> observer,
-                ffi.Pointer<objc.ObjCObject> indexes,
-                ffi.Pointer<objc.ObjCObject> keyPath)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9749,12 +9695,12 @@ final _objc_msgSend_139 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> observer,
-                ffi.Pointer<objc.ObjCObject> keyPath,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Void> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9769,11 +9715,11 @@ final _objc_msgSend_140 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> observer,
-                ffi.Pointer<objc.ObjCObject> keyPath,
-                ffi.Pointer<ffi.Void> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9787,10 +9733,10 @@ final _objc_msgSend_141 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> observer,
-                ffi.Pointer<objc.ObjCObject> keyPath)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9982,10 +9928,10 @@ final _objc_msgSend_142 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> predicateFormat,
-                ffi.Pointer<objc.ObjCObject> arguments)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -9998,9 +9944,9 @@ final _objc_msgSend_143 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> predicateFormat)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -10023,10 +9969,10 @@ final _objc_msgSend_144 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> predicateFormat,
-                ffi.Pointer<__va_list_tag> argList)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -10039,9 +9985,9 @@ final _objc_msgSend_145 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> queryString)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -10049,10 +9995,8 @@ late final _sel_predicateWithValue_ = objc.registerName("predicateWithValue:");
 final _objc_msgSend_146 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -10679,11 +10623,11 @@ final _objc_msgSend_147 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
-                ffi.UnsignedLong cnt)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -10702,9 +10646,9 @@ final _objc_msgSend_148 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherDictionary)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -10714,10 +10658,10 @@ final _objc_msgSend_149 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Pointer<objc.ObjCObject> marker)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -10732,11 +10676,11 @@ final _objc_msgSend_150 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
-                ffi.UnsignedLong count)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -10911,10 +10855,8 @@ late final _sel_enumerateKeysAndObjectsUsingBlock_ =
 final _objc_msgSend_151 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -10924,10 +10866,10 @@ final _objc_msgSend_152 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11066,10 +11008,8 @@ late final _sel_keysOfEntriesPassingTest_ =
 final _objc_msgSend_153 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -11079,10 +11019,10 @@ final _objc_msgSend_154 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11094,10 +11034,10 @@ final _objc_msgSend_155 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11110,9 +11050,9 @@ final _objc_msgSend_156 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11122,9 +11062,9 @@ final _objc_msgSend_157 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11135,10 +11075,10 @@ final _objc_msgSend_158 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> object,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11155,9 +11095,9 @@ final _objc_msgSend_159 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> dict)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11167,10 +11107,10 @@ final _objc_msgSend_160 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> objects,
-                ffi.Pointer<objc.ObjCObject> keys)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11186,10 +11126,10 @@ final _objc_msgSend_161 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherDictionary,
-                ffi.Bool flag)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11202,10 +11142,10 @@ final _objc_msgSend_162 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11235,11 +11175,11 @@ final _objc_msgSend_163 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<NSFastEnumerationState> state,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> buffer,
-                ffi.UnsignedLong len)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<NSFastEnumerationState>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11251,8 +11191,8 @@ late final _sel_fileSize = objc.registerName("fileSize");
 final _objc_msgSend_164 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedLongLong Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.UnsignedLongLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -11568,16 +11508,16 @@ late final _sel_timeIntervalSinceReferenceDate =
 final _objc_msgSend_165 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Double Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Double Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         double Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_165Fpret = objc.msgSendFpretPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Double Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Double Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         double Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -11586,8 +11526,8 @@ late final _sel_initWithTimeIntervalSinceReferenceDate_ =
 final _objc_msgSend_166 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Double ti)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -11597,9 +11537,9 @@ final _objc_msgSend_167 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Double Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anotherDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11607,9 +11547,9 @@ final _objc_msgSend_167Fpret = objc.msgSendFpretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Double Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anotherDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11625,9 +11565,9 @@ final _objc_msgSend_168 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anotherDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11637,9 +11577,9 @@ final _objc_msgSend_169 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11648,9 +11588,9 @@ final _objc_msgSend_170 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -11667,10 +11607,10 @@ final _objc_msgSend_171 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double secsToBeAdded,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11681,9 +11621,8 @@ late final _sel_distantFuture = objc.registerName("distantFuture");
 final _objc_msgSend_172 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -11701,10 +11640,10 @@ final _objc_msgSend_173 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -12161,11 +12100,11 @@ final _objc_msgSend_174 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> description,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -12179,10 +12118,10 @@ final _objc_msgSend_175 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> description,
-                ffi.Pointer<objc.ObjCObject> format)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -12485,9 +12424,9 @@ final _objc_msgSend_176 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Long Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -12497,9 +12436,9 @@ final _objc_msgSend_177 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -12513,9 +12452,9 @@ final _objc_msgSend_178 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -12523,9 +12462,8 @@ late final _sel_systemTimeZone = objc.registerName("systemTimeZone");
 final _objc_msgSend_179 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -12536,9 +12474,9 @@ final _objc_msgSend_180 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -12549,9 +12487,8 @@ late final _sel_abbreviationDictionary =
 final _objc_msgSend_181 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -12561,9 +12498,9 @@ final _objc_msgSend_182 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -12579,9 +12516,8 @@ late final _sel_nextDaylightSavingTimeTransition =
 final _objc_msgSend_183 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -12590,9 +12526,9 @@ final _objc_msgSend_184 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aTimeZone)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13029,10 +12965,10 @@ final _objc_msgSend_185 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13051,9 +12987,9 @@ final _objc_msgSend_186 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> languageCode)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13363,9 +13299,8 @@ late final _sel_controlCharacterSet = objc.registerName("controlCharacterSet");
 final _objc_msgSend_187 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -13397,10 +13332,8 @@ late final _sel_characterSetWithRange_ =
 final _objc_msgSend_188 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange aRange)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -13410,9 +13343,9 @@ final _objc_msgSend_189 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aString)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13422,9 +13355,9 @@ final _objc_msgSend_190 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13434,9 +13367,9 @@ final _objc_msgSend_191 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> fName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13444,9 +13377,9 @@ final _objc_msgSend_192 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> coder)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13454,10 +13387,8 @@ late final _sel_characterIsMember_ = objc.registerName("characterIsMember:");
 final _objc_msgSend_193 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedShort aCharacter)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedShort)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13469,10 +13400,8 @@ late final _sel_longCharacterIsMember_ =
 final _objc_msgSend_194 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt theLongChar)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13481,9 +13410,9 @@ final _objc_msgSend_195 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> theOtherSet)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13491,8 +13420,8 @@ late final _sel_hasMemberInPlane_ = objc.registerName("hasMemberInPlane:");
 final _objc_msgSend_196 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Uint8 thePlane)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Uint8)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13539,9 +13468,8 @@ late final _sel_autoupdatingCurrentLocale =
 final _objc_msgSend_197 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -13563,9 +13491,9 @@ final _objc_msgSend_198 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13575,9 +13503,9 @@ final _objc_msgSend_199 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> dict)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13590,10 +13518,8 @@ late final _sel_localeIdentifierFromWindowsLocaleCode_ =
 final _objc_msgSend_200 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Uint32 lcid)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Uint32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13603,9 +13529,9 @@ final _objc_msgSend_201 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Uint32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> localeIdentifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13624,9 +13550,9 @@ final _objc_msgSend_202 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> isoLangCode)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13638,10 +13564,10 @@ final _objc_msgSend_203 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 style,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13655,10 +13581,10 @@ final _objc_msgSend_204 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> tzName,
-                ffi.Pointer<objc.ObjCObject> aData)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13672,8 +13598,8 @@ late final _sel_timeZoneForSecondsFromGMT_ =
 final _objc_msgSend_205 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Long seconds)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13685,15 +13611,15 @@ final _objc_msgSend_206 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long year,
-                ffi.UnsignedLong month,
-                ffi.UnsignedLong day,
-                ffi.UnsignedLong hour,
-                ffi.UnsignedLong minute,
-                ffi.UnsignedLong second,
-                ffi.Pointer<objc.ObjCObject> aTimeZone)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Long,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13711,14 +13637,14 @@ final _objc_msgSend_207 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long year,
-                ffi.Long month,
-                ffi.Long day,
-                ffi.Long hour,
-                ffi.Long minute,
-                ffi.Long second)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, int, int, int, int, int)>();
@@ -13738,10 +13664,10 @@ final _objc_msgSend_208 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13762,9 +13688,9 @@ final _objc_msgSend_209 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13773,9 +13699,9 @@ final _objc_msgSend_210 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aTimeZone)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13785,15 +13711,15 @@ final _objc_msgSend_211 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Long> yp,
-                ffi.Pointer<ffi.Long> mop,
-                ffi.Pointer<ffi.Long> dp,
-                ffi.Pointer<ffi.Long> hp,
-                ffi.Pointer<ffi.Long> mip,
-                ffi.Pointer<ffi.Long> sp,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13811,10 +13737,10 @@ final _objc_msgSend_212 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> aTimeZone)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13827,11 +13753,11 @@ final _objc_msgSend_213 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> aTimeZone,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13856,8 +13782,8 @@ late final _sel_fileHFSCreatorCode = objc.registerName("fileHFSCreatorCode");
 final _objc_msgSend_214 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedInt Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.UnsignedInt Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -13869,9 +13795,8 @@ late final _sel_fileOwnerAccountID = objc.registerName("fileOwnerAccountID");
 final _objc_msgSend_215 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -13881,10 +13806,8 @@ late final _sel_predicateWithBlock_ = objc.registerName("predicateWithBlock:");
 final _objc_msgSend_216 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -13896,9 +13819,9 @@ final _objc_msgSend_217 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> object)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13908,10 +13831,10 @@ final _objc_msgSend_218 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> object,
-                ffi.Pointer<objc.ObjCObject> bindings)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -13925,9 +13848,9 @@ final _objc_msgSend_219 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -13935,10 +13858,8 @@ late final _sel_initWithChar_ = objc.registerName("initWithChar:");
 final _objc_msgSend_220 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Char value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Char)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13947,10 +13868,8 @@ late final _sel_initWithUnsignedChar_ =
 final _objc_msgSend_221 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedChar value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedChar)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13958,10 +13877,8 @@ late final _sel_initWithShort_ = objc.registerName("initWithShort:");
 final _objc_msgSend_222 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Short value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Short)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13970,10 +13887,8 @@ late final _sel_initWithUnsignedShort_ =
 final _objc_msgSend_223 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedShort value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedShort)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13981,10 +13896,8 @@ late final _sel_initWithInt_ = objc.registerName("initWithInt:");
 final _objc_msgSend_224 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -13993,10 +13906,8 @@ late final _sel_initWithUnsignedInt_ =
 final _objc_msgSend_225 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -14004,10 +13915,8 @@ late final _sel_initWithLong_ = objc.registerName("initWithLong:");
 final _objc_msgSend_226 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -14016,10 +13925,8 @@ late final _sel_initWithUnsignedLong_ =
 final _objc_msgSend_227 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -14027,10 +13934,8 @@ late final _sel_initWithLongLong_ = objc.registerName("initWithLongLong:");
 final _objc_msgSend_228 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.LongLong value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.LongLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -14039,10 +13944,8 @@ late final _sel_initWithUnsignedLongLong_ =
 final _objc_msgSend_229 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLongLong value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLongLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -14050,10 +13953,8 @@ late final _sel_initWithFloat_ = objc.registerName("initWithFloat:");
 final _objc_msgSend_230 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Float value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Float)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -14061,10 +13962,8 @@ late final _sel_initWithDouble_ = objc.registerName("initWithDouble:");
 final _objc_msgSend_231 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -14072,10 +13971,8 @@ late final _sel_initWithBool_ = objc.registerName("initWithBool:");
 final _objc_msgSend_232 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool value)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -14086,8 +13983,8 @@ late final _sel_charValue = objc.registerName("charValue");
 final _objc_msgSend_233 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Char Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Char Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14095,8 +13992,8 @@ late final _sel_unsignedCharValue = objc.registerName("unsignedCharValue");
 final _objc_msgSend_234 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedChar Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.UnsignedChar Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14104,8 +14001,8 @@ late final _sel_shortValue = objc.registerName("shortValue");
 final _objc_msgSend_235 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Short Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Short Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14113,8 +14010,8 @@ late final _sel_unsignedShortValue = objc.registerName("unsignedShortValue");
 final _objc_msgSend_236 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedShort Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.UnsignedShort Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14122,8 +14019,8 @@ late final _sel_intValue = objc.registerName("intValue");
 final _objc_msgSend_237 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14134,8 +14031,8 @@ late final _sel_longLongValue = objc.registerName("longLongValue");
 final _objc_msgSend_238 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.LongLong Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.LongLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14145,16 +14042,16 @@ late final _sel_floatValue = objc.registerName("floatValue");
 final _objc_msgSend_239 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Float Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         double Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_239Fpret = objc.msgSendFpretPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Float Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         double Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14168,9 +14065,9 @@ final _objc_msgSend_240 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherNumber)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14179,9 +14076,9 @@ final _objc_msgSend_241 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> number)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14221,10 +14118,10 @@ final _objc_msgSend_242 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> buffer,
-                ffi.UnsignedLong maxBufferLength)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int)>();
@@ -14241,11 +14138,11 @@ final _objc_msgSend_243 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> value,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14259,10 +14156,10 @@ final _objc_msgSend_244 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14275,11 +14172,11 @@ final _objc_msgSend_245 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14293,10 +14190,10 @@ final _objc_msgSend_246 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keyedValues,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14309,9 +14206,9 @@ final _objc_msgSend_247 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14337,12 +14234,12 @@ final _objc_msgSend_248 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Pointer<objc.ObjCObject> relativeURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14366,13 +14263,13 @@ final _objc_msgSend_249 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> bookmarkData,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> relativeURL,
-                ffi.Pointer<ffi.Bool> isStale,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Bool>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14391,10 +14288,10 @@ final _objc_msgSend_250 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Pointer<objc.ObjCObject> bookmarkData)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14407,12 +14304,12 @@ final _objc_msgSend_251 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> bookmarkData,
-                ffi.Pointer<objc.ObjCObject> bookmarkFileURL,
-                ffi.UnsignedLong options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14427,10 +14324,10 @@ final _objc_msgSend_252 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> bookmarkFileURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14443,11 +14340,11 @@ final _objc_msgSend_253 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14467,10 +14364,10 @@ final _objc_msgSend_254 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14483,9 +14380,9 @@ final _objc_msgSend_255 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14497,9 +14394,9 @@ final _objc_msgSend_256 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> components)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14512,9 +14409,9 @@ final _objc_msgSend_257 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> pathComponent)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14524,10 +14421,10 @@ final _objc_msgSend_258 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> pathComponent,
-                ffi.Bool isDirectory)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14551,10 +14448,8 @@ late final _sel_resourceDataUsingCache_ =
 final _objc_msgSend_259 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool shouldUseCache)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -14564,10 +14459,10 @@ final _objc_msgSend_260 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> client,
-                ffi.Bool shouldUseCache)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14581,10 +14476,10 @@ final _objc_msgSend_261 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> property,
-                ffi.Pointer<objc.ObjCObject> propertyKey)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14818,9 +14713,9 @@ final _objc_msgSend_262 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14836,8 +14731,8 @@ late final _sel_status = objc.registerName("status");
 final _objc_msgSend_263 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -14861,10 +14756,10 @@ final _objc_msgSend_264 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> newBytes,
-                ffi.Bool yorn)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14876,9 +14771,9 @@ final _objc_msgSend_265 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14887,9 +14782,9 @@ final _objc_msgSend_266 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -14898,10 +14793,10 @@ final _objc_msgSend_267 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anURL,
-                ffi.Bool willCache)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14922,10 +14817,8 @@ late final _sel_URLHandleUsingCache_ =
 final _objc_msgSend_268 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool shouldUseCache)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -14951,11 +14844,11 @@ final _objc_msgSend_269 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Int32 writeOptionsMask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14969,11 +14862,11 @@ final _objc_msgSend_270 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 writeOptionsMask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -14993,11 +14886,11 @@ final _objc_msgSend_271 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> dataToFind,
-                ffi.Int32 mask,
-                _NSRange searchRange)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15009,12 +14902,12 @@ final _objc_msgSend_271Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> dataToFind,
-                ffi.Int32 mask,
-                _NSRange searchRange)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -15166,10 +15059,8 @@ late final _sel_enumerateByteRangesUsingBlock_ =
 final _objc_msgSend_272 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -15179,10 +15070,10 @@ final _objc_msgSend_273 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong length)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>, int)>();
@@ -15194,11 +15085,11 @@ final _objc_msgSend_274 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong length,
-                ffi.Bool b)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15222,11 +15113,11 @@ final _objc_msgSend_275 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Int32 readOptionsMask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15240,11 +15131,11 @@ final _objc_msgSend_276 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 readOptionsMask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15260,9 +15151,9 @@ final _objc_msgSend_277 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15394,11 +15285,11 @@ final _objc_msgSend_278 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong length,
-                ffi.Pointer<objc.ObjCBlock> deallocator)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15415,9 +15306,9 @@ final _objc_msgSend_279 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15433,10 +15324,10 @@ final _objc_msgSend_280 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> base64String,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15456,10 +15347,8 @@ late final _sel_base64EncodedStringWithOptions_ =
 final _objc_msgSend_281 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -15469,10 +15358,10 @@ final _objc_msgSend_282 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> base64Data,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15484,10 +15373,8 @@ late final _sel_base64EncodedDataWithOptions_ =
 final _objc_msgSend_283 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -15505,10 +15392,10 @@ final _objc_msgSend_284 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 algorithm,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15530,9 +15417,9 @@ final _objc_msgSend_285 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15540,9 +15427,8 @@ late final _sel_decodeDataObject = objc.registerName("decodeDataObject");
 final _objc_msgSend_286 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -15552,11 +15438,11 @@ final _objc_msgSend_287 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> type,
-                ffi.Pointer<ffi.Void> data,
-                ffi.UnsignedLong size)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15570,9 +15456,9 @@ final _objc_msgSend_288 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Long Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> className)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15581,9 +15467,9 @@ final _objc_msgSend_289 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> object)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15597,10 +15483,8 @@ late final _sel_encodeValuesOfObjCTypes_ =
 final _objc_msgSend_290 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> types)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>();
@@ -15610,11 +15494,11 @@ final _objc_msgSend_291 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> type,
-                ffi.UnsignedLong count,
-                ffi.Pointer<ffi.Void> array)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15630,9 +15514,9 @@ final _objc_msgSend_292 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15648,9 +15532,9 @@ final _objc_msgSend_293 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.Void> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLong> lengthp)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLong>)>>()
     .asFunction<
         ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.UnsignedLong>)>();
@@ -15660,10 +15544,8 @@ late final _sel_setObjectZone_ = objc.registerName("setObjectZone:");
 final _objc_msgSend_294 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<_NSZone> zone)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>();
@@ -15671,8 +15553,8 @@ late final _sel_objectZone = objc.registerName("objectZone");
 final _objc_msgSend_295 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<_NSZone> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<_NSZone> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<_NSZone> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -15687,10 +15569,10 @@ final _objc_msgSend_296 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15702,10 +15584,10 @@ final _objc_msgSend_297 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15717,10 +15599,10 @@ final _objc_msgSend_298 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15732,10 +15614,10 @@ final _objc_msgSend_299 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int64 value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int64,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15747,10 +15629,10 @@ final _objc_msgSend_300 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Float value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Float,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15763,10 +15645,10 @@ final _objc_msgSend_301 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15779,11 +15661,11 @@ final _objc_msgSend_302 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Uint8> bytes,
-                ffi.UnsignedLong length,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Uint8>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15800,10 +15682,10 @@ final _objc_msgSend_303 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15816,9 +15698,9 @@ final _objc_msgSend_304 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15827,9 +15709,9 @@ final _objc_msgSend_305 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15838,9 +15720,9 @@ final _objc_msgSend_306 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int64 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15849,9 +15731,9 @@ final _objc_msgSend_307 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Float Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15859,9 +15741,9 @@ final _objc_msgSend_307Fpret = objc.msgSendFpretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Float Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15870,9 +15752,9 @@ final _objc_msgSend_308 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Double Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15880,9 +15762,9 @@ final _objc_msgSend_308Fpret = objc.msgSendFpretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Double Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -15892,10 +15774,10 @@ final _objc_msgSend_309 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.Uint8> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<ffi.UnsignedLong> lengthp)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.UnsignedLong>)>>()
     .asFunction<
         ffi.Pointer<ffi.Uint8> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15908,10 +15790,10 @@ final _objc_msgSend_310 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Long,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15928,10 +15810,10 @@ final _objc_msgSend_311 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aClass,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15944,11 +15826,11 @@ final _objc_msgSend_312 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aClass,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15962,10 +15844,10 @@ final _objc_msgSend_313 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> cls,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15978,11 +15860,11 @@ final _objc_msgSend_314 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keyCls,
-                ffi.Pointer<objc.ObjCObject> objectCls,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -15996,10 +15878,10 @@ final _objc_msgSend_315 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> classes,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16012,11 +15894,11 @@ final _objc_msgSend_316 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> classes,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16030,10 +15912,10 @@ final _objc_msgSend_317 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> classes,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16047,11 +15929,11 @@ final _objc_msgSend_318 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keyClasses,
-                ffi.Pointer<objc.ObjCObject> objectClasses,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16065,9 +15947,8 @@ late final _sel_allowedClasses = objc.registerName("allowedClasses");
 final _objc_msgSend_319 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -16076,9 +15957,9 @@ final _objc_msgSend_320 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16093,8 +15974,8 @@ late final _sel_decodingFailurePolicy =
 final _objc_msgSend_321 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -16102,9 +15983,8 @@ late final _sel_error = objc.registerName("error");
 final _objc_msgSend_322 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -16116,8 +15996,8 @@ late final _sel_encodePoint_ = objc.registerName("encodePoint:");
 final _objc_msgSend_323 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, CGPoint point)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, CGPoint)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, CGPoint)>();
@@ -16126,8 +16006,8 @@ late final _sel_encodeSize_ = objc.registerName("encodeSize:");
 final _objc_msgSend_324 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, CGSize size)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, CGSize)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, CGSize)>();
@@ -16136,8 +16016,8 @@ late final _sel_encodeRect_ = objc.registerName("encodeRect:");
 final _objc_msgSend_325 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, CGRect rect)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, CGRect)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, CGRect)>();
@@ -16147,10 +16027,10 @@ final _objc_msgSend_326 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                CGPoint point,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                CGPoint,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16162,10 +16042,10 @@ final _objc_msgSend_327 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                CGSize size,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                CGSize,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16177,10 +16057,10 @@ final _objc_msgSend_328 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                CGRect rect,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                CGRect,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16192,9 +16072,9 @@ final _objc_msgSend_329 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             CGPoint Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         CGPoint Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16202,10 +16082,10 @@ final _objc_msgSend_329Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<CGPoint> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<CGPoint>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<CGPoint>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16214,9 +16094,9 @@ final _objc_msgSend_330 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             CGSize Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         CGSize Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16224,10 +16104,10 @@ final _objc_msgSend_330Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<CGSize> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<CGSize>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<CGSize>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16236,9 +16116,9 @@ final _objc_msgSend_331 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             CGRect Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         CGRect Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16246,10 +16126,10 @@ final _objc_msgSend_331Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<CGRect> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<CGRect>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<CGRect>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16257,10 +16137,8 @@ late final _sel_substringFromIndex_ = objc.registerName("substringFromIndex:");
 final _objc_msgSend_332 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong from)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -16269,10 +16147,8 @@ late final _sel_substringWithRange_ = objc.registerName("substringWithRange:");
 final _objc_msgSend_333 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -16282,10 +16158,10 @@ final _objc_msgSend_334 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedShort> buffer,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedShort>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16296,9 +16172,9 @@ final _objc_msgSend_335 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16320,10 +16196,10 @@ final _objc_msgSend_336 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 mask)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16336,11 +16212,11 @@ final _objc_msgSend_337 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToCompare)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16354,12 +16230,12 @@ final _objc_msgSend_338 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToCompare,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16384,10 +16260,10 @@ final _objc_msgSend_339 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> str,
-                ffi.Int32 mask)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16405,9 +16281,9 @@ final _objc_msgSend_340 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> str)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         _NSRange Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16415,10 +16291,10 @@ final _objc_msgSend_340Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> str)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<_NSRange>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16429,10 +16305,10 @@ final _objc_msgSend_341 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchString,
-                ffi.Int32 mask)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16443,11 +16319,11 @@ final _objc_msgSend_341Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchString,
-                ffi.Int32 mask)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -16461,11 +16337,11 @@ final _objc_msgSend_342 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchString,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToSearch)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16477,12 +16353,12 @@ final _objc_msgSend_342Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchString,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToSearch)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -16497,12 +16373,12 @@ final _objc_msgSend_343 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchString,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToSearch,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16515,13 +16391,13 @@ final _objc_msgSend_343Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchString,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToSearch,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -16537,9 +16413,9 @@ final _objc_msgSend_344 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchSet)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         _NSRange Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16547,10 +16423,10 @@ final _objc_msgSend_344Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchSet)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<_NSRange>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16560,10 +16436,10 @@ final _objc_msgSend_345 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchSet,
-                ffi.Int32 mask)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16574,11 +16450,11 @@ final _objc_msgSend_345Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchSet,
-                ffi.Int32 mask)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -16592,11 +16468,11 @@ final _objc_msgSend_346 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchSet,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToSearch)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16608,12 +16484,12 @@ final _objc_msgSend_346Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> searchSet,
-                ffi.Int32 mask,
-                _NSRange rangeOfReceiverToSearch)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -16627,8 +16503,8 @@ late final _sel_rangeOfComposedCharacterSequenceAtIndex_ =
 final _objc_msgSend_347 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            _NSRange Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong index)>>()
+            _NSRange Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         _NSRange Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -16636,10 +16512,10 @@ final _objc_msgSend_347Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(ffi.Pointer<_NSRange>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -16648,8 +16524,8 @@ late final _sel_rangeOfComposedCharacterSequencesForRange_ =
 final _objc_msgSend_348 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            _NSRange Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, _NSRange range)>>()
+            _NSRange Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         _NSRange Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -16657,10 +16533,10 @@ final _objc_msgSend_348Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange)>>()
     .asFunction<
         void Function(ffi.Pointer<_NSRange>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -16683,9 +16559,9 @@ final _objc_msgSend_349 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -16699,12 +16575,12 @@ final _objc_msgSend_350 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLong> startPtr,
-                ffi.Pointer<ffi.UnsignedLong> lineEndPtr,
-                ffi.Pointer<ffi.UnsignedLong> contentsEndPtr,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -16902,11 +16778,11 @@ final _objc_msgSend_351 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17052,10 +16928,8 @@ late final _sel_enumerateLinesUsingBlock_ =
 final _objc_msgSend_352 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -17067,11 +16941,8 @@ late final _sel_dataUsingEncoding_allowLossyConversion_ =
 final _objc_msgSend_353 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong encoding,
-                ffi.Bool lossy)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong, ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, bool)>();
@@ -17079,10 +16950,8 @@ late final _sel_dataUsingEncoding_ = objc.registerName("dataUsingEncoding:");
 final _objc_msgSend_354 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong encoding)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -17096,11 +16965,11 @@ final _objc_msgSend_355 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> buffer,
-                ffi.UnsignedLong maxBufferCount,
-                ffi.UnsignedLong encoding)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int, int)>();
@@ -17117,15 +16986,15 @@ final _objc_msgSend_356 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> buffer,
-                ffi.UnsignedLong maxBufferCount,
-                ffi.Pointer<ffi.UnsignedLong> usedBufferCount,
-                ffi.UnsignedLong encoding,
-                ffi.Int32 options,
-                _NSRange range,
-                ffi.Pointer<_NSRange> leftover)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.UnsignedLong,
+                ffi.Int32,
+                _NSRange,
+                ffi.Pointer<_NSRange>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17146,9 +17015,8 @@ late final _sel_availableStringEncodings =
 final _objc_msgSend_357 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<ffi.UnsignedLong> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<ffi.UnsignedLong> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<ffi.UnsignedLong> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -17170,9 +17038,9 @@ final _objc_msgSend_358 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> separator)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -17182,9 +17050,9 @@ final _objc_msgSend_359 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> separator)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -17194,9 +17062,9 @@ final _objc_msgSend_360 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> set)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -17206,11 +17074,11 @@ final _objc_msgSend_361 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong newLength,
-                ffi.Pointer<objc.ObjCObject> padString,
-                ffi.UnsignedLong padIndex)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17224,10 +17092,10 @@ final _objc_msgSend_362 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17241,12 +17109,12 @@ final _objc_msgSend_363 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCObject> replacement,
-                ffi.Int32 options,
-                _NSRange searchRange)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17261,10 +17129,10 @@ final _objc_msgSend_364 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCObject> replacement)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17277,10 +17145,10 @@ final _objc_msgSend_365 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> replacement)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17293,10 +17161,10 @@ final _objc_msgSend_366 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> transform,
-                ffi.Bool reverse)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17309,12 +17177,12 @@ final _objc_msgSend_367 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Bool useAuxiliaryFile,
-                ffi.UnsignedLong enc,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17329,12 +17197,12 @@ final _objc_msgSend_368 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool useAuxiliaryFile,
-                ffi.UnsignedLong enc,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17350,11 +17218,11 @@ final _objc_msgSend_369 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedShort> characters,
-                ffi.UnsignedLong length,
-                ffi.Bool freeBuffer)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedShort>,
+                ffi.UnsignedLong,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17498,11 +17366,11 @@ final _objc_msgSend_370 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedShort> chars,
-                ffi.UnsignedLong len,
-                ffi.Pointer<objc.ObjCBlock> deallocator)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedShort>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17516,10 +17384,10 @@ final _objc_msgSend_371 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedShort> characters,
-                ffi.UnsignedLong length)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedShort>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17530,10 +17398,8 @@ late final _sel_initWithUTF8String_ = objc.registerName("initWithUTF8String:");
 final _objc_msgSend_372 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> nullTerminatedCString)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>)>();
@@ -17544,10 +17410,10 @@ final _objc_msgSend_373 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<__va_list_tag> argList)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17560,10 +17426,10 @@ final _objc_msgSend_374 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17576,11 +17442,11 @@ final _objc_msgSend_375 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> locale,
-                ffi.Pointer<__va_list_tag> argList)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17594,11 +17460,11 @@ final _objc_msgSend_376 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> validFormatSpecifiers,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17613,12 +17479,12 @@ final _objc_msgSend_377 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> validFormatSpecifiers,
-                ffi.Pointer<objc.ObjCObject> locale,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17634,12 +17500,12 @@ final _objc_msgSend_378 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> validFormatSpecifiers,
-                ffi.Pointer<__va_list_tag> argList,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17655,13 +17521,13 @@ final _objc_msgSend_379 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> validFormatSpecifiers,
-                ffi.Pointer<objc.ObjCObject> locale,
-                ffi.Pointer<__va_list_tag> argList,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17677,10 +17543,10 @@ final _objc_msgSend_380 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.UnsignedLong encoding)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17693,11 +17559,11 @@ final _objc_msgSend_381 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong len,
-                ffi.UnsignedLong encoding)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>, int, int)>();
@@ -17707,12 +17573,12 @@ final _objc_msgSend_382 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong len,
-                ffi.UnsignedLong encoding,
-                ffi.Bool freeBuffer)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17727,12 +17593,12 @@ final _objc_msgSend_383 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong len,
-                ffi.UnsignedLong encoding,
-                ffi.Pointer<objc.ObjCBlock> deallocator)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17761,10 +17627,10 @@ final _objc_msgSend_384 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> nullTerminatedCString,
-                ffi.UnsignedLong encoding)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int)>();
@@ -17776,11 +17642,11 @@ final _objc_msgSend_385 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.UnsignedLong enc,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17794,11 +17660,11 @@ final _objc_msgSend_386 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.UnsignedLong enc,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17816,11 +17682,11 @@ final _objc_msgSend_387 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.UnsignedLong> enc,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17834,11 +17700,11 @@ final _objc_msgSend_388 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<ffi.UnsignedLong> enc,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17857,12 +17723,12 @@ final _objc_msgSend_389 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<objc.ObjCObject> opts,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> string,
-                ffi.Pointer<ffi.Bool> usedLossyConversion)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Bool>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17877,9 +17743,8 @@ late final _sel_propertyListFromStringsFileFormat =
 final _objc_msgSend_390 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -17893,10 +17758,10 @@ final _objc_msgSend_391 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> bytes,
-                ffi.UnsignedLong maxLength)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int)>();
@@ -17906,12 +17771,12 @@ final _objc_msgSend_392 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> bytes,
-                ffi.UnsignedLong maxLength,
-                _NSRange aRange,
-                ffi.Pointer<_NSRange> leftoverRange)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong,
+                _NSRange,
+                ffi.Pointer<_NSRange>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17930,11 +17795,11 @@ final _objc_msgSend_393 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> bytes,
-                ffi.UnsignedLong length,
-                ffi.Bool freeBuffer)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -17953,9 +17818,9 @@ final _objc_msgSend_394 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedShort> buffer)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedShort>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.UnsignedShort>)>();
@@ -17964,10 +17829,8 @@ late final _sel_variantFittingPresentationWidth_ =
 final _objc_msgSend_395 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long width)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -17976,9 +17839,9 @@ final _objc_msgSend_396 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> components)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18008,12 +17871,12 @@ final _objc_msgSend_397 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputName,
-                ffi.Bool flag,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputArray,
-                ffi.Pointer<objc.ObjCObject> filterTypes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Bool,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18028,9 +17891,9 @@ final _objc_msgSend_398 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> allowedCharacters)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18041,10 +17904,8 @@ late final _sel_stringByAddingPercentEscapesUsingEncoding_ =
 final _objc_msgSend_399 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong enc)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -18243,10 +18104,10 @@ final _objc_msgSend_400 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> script,
-                ffi.Pointer<objc.ObjCObject> map)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18270,13 +18131,13 @@ final _objc_msgSend_401 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> scheme,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> orthography,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> tokenRanges)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18293,13 +18154,13 @@ final _objc_msgSend_402 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> scheme,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> orthography,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18315,9 +18176,9 @@ final _objc_msgSend_403 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherSet)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18328,9 +18189,9 @@ final _objc_msgSend_404 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18340,9 +18201,9 @@ final _objc_msgSend_405 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18352,9 +18213,9 @@ final _objc_msgSend_406 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18493,10 +18354,8 @@ class ObjCBlock_ffiVoid_objcObjCObject_bool extends objc.ObjCBlockBase {
 final _objc_msgSend_407 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -18504,10 +18363,10 @@ final _objc_msgSend_408 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18618,10 +18477,8 @@ late final _sel_objectsPassingTest_ = objc.registerName("objectsPassingTest:");
 final _objc_msgSend_409 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -18631,10 +18488,10 @@ final _objc_msgSend_410 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18651,9 +18508,9 @@ final _objc_msgSend_411 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> set)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18665,10 +18522,10 @@ final _objc_msgSend_412 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> set,
-                ffi.Bool flag)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18681,9 +18538,9 @@ final _objc_msgSend_413 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18693,9 +18550,9 @@ final _objc_msgSend_414 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> sig)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18703,9 +18560,8 @@ late final _sel_methodSignature = objc.registerName("methodSignature");
 final _objc_msgSend_415 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -18717,9 +18573,9 @@ final _objc_msgSend_416 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18728,8 +18584,8 @@ final _objc_msgSend_417 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCSelector> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCSelector> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -18738,9 +18594,9 @@ final _objc_msgSend_418 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -18752,10 +18608,10 @@ final _objc_msgSend_419 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> argumentLocation,
-                ffi.Long idx)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Long)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>, int)>();
@@ -18768,9 +18624,9 @@ final _objc_msgSend_420 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> imp)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18781,9 +18637,9 @@ final _objc_msgSend_421 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anInvocation)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18793,9 +18649,9 @@ final _objc_msgSend_422 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -18815,8 +18671,8 @@ late final _sel_setVersion_ = objc.registerName("setVersion:");
 final _objc_msgSend_423 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Long aVersion)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -18835,13 +18691,13 @@ final _objc_msgSend_424 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> error,
-                ffi.UnsignedLong recoveryOptionIndex,
-                ffi.Pointer<objc.ObjCObject> delegate,
-                ffi.Pointer<objc.ObjCSelector> didRecoverSelector,
-                ffi.Pointer<ffi.Void> contextInfo)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18857,10 +18713,10 @@ final _objc_msgSend_425 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> error,
-                ffi.UnsignedLong recoveryOptionIndex)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18873,12 +18729,12 @@ final _objc_msgSend_426 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> anArgument,
-                ffi.Double delay,
-                ffi.Pointer<objc.ObjCObject> modes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18893,11 +18749,11 @@ final _objc_msgSend_427 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> anArgument,
-                ffi.Double delay)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Double)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18911,10 +18767,10 @@ final _objc_msgSend_428 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> sender,
-                ffi.Pointer<objc.ObjCObject> newBytes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -18927,9 +18783,9 @@ final _objc_msgSend_429 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> sender)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -18941,10 +18797,10 @@ final _objc_msgSend_430 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> sender,
-                ffi.Pointer<objc.ObjCObject> reason)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19652,9 +19508,8 @@ late final _sel_defaultManager = objc.registerName("defaultManager");
 final _objc_msgSend_431 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -19670,10 +19525,10 @@ final _objc_msgSend_432 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> propertyKeys,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19802,11 +19657,11 @@ final _objc_msgSend_433 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 mask,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19830,12 +19685,12 @@ final _objc_msgSend_434 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Int32 mask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19888,11 +19743,8 @@ late final _sel_URLsForDirectory_inDomains_ =
 final _objc_msgSend_435 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 directory,
-                ffi.Int32 domainMask)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, int)>();
@@ -19902,13 +19754,13 @@ final _objc_msgSend_436 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 directory,
-                ffi.Int32 domain,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Bool shouldCreate,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19931,12 +19783,12 @@ final _objc_msgSend_437 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Int32> outRelationship,
-                ffi.Pointer<objc.ObjCObject> directoryURL,
-                ffi.Pointer<objc.ObjCObject> otherURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Int32>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19951,13 +19803,13 @@ final _objc_msgSend_438 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Int32> outRelationship,
-                ffi.Int32 directory,
-                ffi.Int32 domainMask,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Int32>,
+                ffi.Int32,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19974,12 +19826,12 @@ final _objc_msgSend_439 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Bool createIntermediates,
-                ffi.Pointer<objc.ObjCObject> attributes,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -19994,11 +19846,11 @@ final _objc_msgSend_440 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCObject> destURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20014,11 +19866,11 @@ final _objc_msgSend_441 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attributes,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20033,12 +19885,12 @@ final _objc_msgSend_442 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool createIntermediates,
-                ffi.Pointer<objc.ObjCObject> attributes,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20053,10 +19905,10 @@ final _objc_msgSend_443 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20071,10 +19923,10 @@ final _objc_msgSend_444 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20089,11 +19941,11 @@ final _objc_msgSend_445 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> destPath,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20107,10 +19959,10 @@ final _objc_msgSend_446 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20129,10 +19981,10 @@ final _objc_msgSend_447 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20153,11 +20005,11 @@ final _objc_msgSend_448 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outResultingURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20171,10 +20023,10 @@ final _objc_msgSend_449 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool yorn)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20187,10 +20039,10 @@ final _objc_msgSend_450 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attributes,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20209,10 +20061,10 @@ final _objc_msgSend_451 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> otherpath)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20225,10 +20077,10 @@ final _objc_msgSend_452 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> attributes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20241,11 +20093,11 @@ final _objc_msgSend_453 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> src,
-                ffi.Pointer<objc.ObjCObject> dest,
-                ffi.Pointer<objc.ObjCObject> handler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20263,10 +20115,10 @@ final _objc_msgSend_454 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> handler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20284,10 +20136,10 @@ final _objc_msgSend_455 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<ffi.Bool> isDirectory)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Bool>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20414,12 +20266,12 @@ final _objc_msgSend_456 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCObject> keys,
-                ffi.Int32 mask,
-                ffi.Pointer<objc.ObjCBlock> handler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20434,9 +20286,9 @@ final _objc_msgSend_457 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -20446,11 +20298,11 @@ final _objc_msgSend_458 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<objc.ObjCObject> attr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20464,9 +20316,9 @@ final _objc_msgSend_459 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.Char> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<ffi.Char> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -20476,10 +20328,10 @@ final _objc_msgSend_460 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Char> str,
-                ffi.UnsignedLong len)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Char>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int)>();
@@ -20496,14 +20348,14 @@ final _objc_msgSend_461 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> originalItemURL,
-                ffi.Pointer<objc.ObjCObject> newItemURL,
-                ffi.Pointer<objc.ObjCObject> backupItemName,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> resultingURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20520,12 +20372,12 @@ final _objc_msgSend_462 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool flag,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCObject> destinationURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20546,9 +20398,9 @@ final _objc_msgSend_463 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> containerIdentifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -20558,11 +20410,11 @@ final _objc_msgSend_464 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outDate,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20714,10 +20566,10 @@ final _objc_msgSend_465 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20731,9 +20583,8 @@ late final _sel_homeDirectoryForCurrentUser =
 final _objc_msgSend_466 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -20746,10 +20597,10 @@ final _objc_msgSend_467 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> fm,
-                ffi.Pointer<objc.ObjCObject> errorInfo)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -20762,10 +20613,10 @@ final _objc_msgSend_468 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> fm,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21161,10 +21012,10 @@ final _objc_msgSend_469 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject,
-                ffi.UnsignedLong index)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21177,8 +21028,8 @@ late final _sel_removeObjectAtIndex_ =
 final _objc_msgSend_470 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong index)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -21188,10 +21039,10 @@ final _objc_msgSend_471 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index,
-                ffi.Pointer<objc.ObjCObject> anObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21205,9 +21056,9 @@ final _objc_msgSend_472 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherArray)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -21217,10 +21068,10 @@ final _objc_msgSend_473 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong idx1,
-                ffi.UnsignedLong idx2)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, int)>();
@@ -21231,10 +21082,10 @@ final _objc_msgSend_474 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21252,10 +21103,10 @@ final _objc_msgSend_475 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLong> indices,
-                ffi.UnsignedLong cnt)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21269,8 +21120,8 @@ late final _sel_removeObjectsInRange_ =
 final _objc_msgSend_476 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, _NSRange range)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -21280,11 +21131,11 @@ final _objc_msgSend_477 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> otherArray,
-                _NSRange otherRange)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21298,10 +21149,10 @@ final _objc_msgSend_478 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> otherArray)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21315,16 +21166,15 @@ final _objc_msgSend_479 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.Long Function(
-                                ffi.Pointer<objc.ObjCObject>,
-                                ffi.Pointer<objc.ObjCObject>,
-                                ffi.Pointer<ffi.Void>)>>
-                    compare,
-                ffi.Pointer<ffi.Void> context)>>()
+                    ffi.NativeFunction<
+                        ffi.Long Function(
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<ffi.Void>)>>,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21341,10 +21191,10 @@ final _objc_msgSend_480 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> objects,
-                ffi.Pointer<objc.ObjCObject> indexes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21357,9 +21207,9 @@ final _objc_msgSend_481 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> indexes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -21369,10 +21219,10 @@ final _objc_msgSend_482 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> indexes,
-                ffi.Pointer<objc.ObjCObject> objects)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21386,10 +21236,8 @@ late final _sel_sortUsingComparator_ =
 final _objc_msgSend_483 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> cmptr)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -21399,10 +21247,10 @@ final _objc_msgSend_484 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> cmptr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -21414,9 +21262,9 @@ final _objc_msgSend_485 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -21424,9 +21272,9 @@ final _objc_msgSend_486 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -21439,9 +21287,9 @@ final _objc_msgSend_487 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> predicate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -21451,9 +21299,9 @@ final _objc_msgSend_488 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22418,9 +22266,9 @@ final _objc_msgSend_489 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22432,18 +22280,16 @@ late final _sel_reversedOrderedSet = objc.registerName("reversedOrderedSet");
 final _objc_msgSend_490 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_491 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -22460,9 +22306,9 @@ final _objc_msgSend_492 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> set)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22472,11 +22318,11 @@ final _objc_msgSend_493 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> set,
-                _NSRange range,
-                ffi.Bool flag)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22492,11 +22338,11 @@ final _objc_msgSend_494 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> array,
-                _NSRange range,
-                ffi.Bool flag)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22515,10 +22361,10 @@ final _objc_msgSend_495 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> set,
-                ffi.Bool flag)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22536,11 +22382,11 @@ final _objc_msgSend_496 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22554,10 +22400,10 @@ final _objc_msgSend_497 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22572,9 +22418,9 @@ final _objc_msgSend_498 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> difference)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22584,9 +22430,9 @@ final _objc_msgSend_499 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> p)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22595,10 +22441,10 @@ final _objc_msgSend_500 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-                ffi.UnsignedLong count)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22611,10 +22457,10 @@ final _objc_msgSend_501 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> indexes,
-                ffi.UnsignedLong idx)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22628,11 +22474,11 @@ final _objc_msgSend_502 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-                ffi.UnsignedLong count)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22646,9 +22492,9 @@ final _objc_msgSend_503 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22659,9 +22505,9 @@ final _objc_msgSend_504 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22673,11 +22519,11 @@ final _objc_msgSend_505 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> cmptr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -22693,9 +22539,9 @@ final _objc_msgSend_506 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22942,9 +22788,9 @@ final _objc_msgSend_507 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22970,9 +22816,9 @@ final _objc_msgSend_508 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keys)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -22982,9 +22828,9 @@ final _objc_msgSend_509 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keyedValues)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -23009,12 +22855,12 @@ final _objc_msgSend_510 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keyPath,
-                ffi.Pointer<objc.ObjCObject> object,
-                ffi.Pointer<objc.ObjCObject> change,
-                ffi.Pointer<ffi.Void> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23041,11 +22887,11 @@ final _objc_msgSend_511 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 changeKind,
-                ffi.Pointer<objc.ObjCObject> indexes,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23069,11 +22915,11 @@ final _objc_msgSend_512 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Int32 mutationKind,
-                ffi.Pointer<objc.ObjCObject> objects)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23088,10 +22934,8 @@ late final _sel_setObservationInfo_ = objc.registerName("setObservationInfo:");
 final _objc_msgSend_513 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Void> value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>();
@@ -23351,10 +23195,8 @@ late final _sel_initRequiringSecureCoding_ =
 final _objc_msgSend_514 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool requiresSecureCoding)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -23364,11 +23206,11 @@ final _objc_msgSend_515 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> object,
-                ffi.Bool requiresSecureCoding,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23789,8 +23631,8 @@ late final _sel_setLength_ = objc.registerName("setLength:");
 final _objc_msgSend_516 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -23803,10 +23645,10 @@ final _objc_msgSend_517 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<ffi.Void> bytes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange, ffi.Pointer<ffi.Void>)>();
@@ -23818,11 +23660,11 @@ final _objc_msgSend_518 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<ffi.Void> replacementBytes,
-                ffi.UnsignedLong replacementLength)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23834,10 +23676,8 @@ late final _sel_dataWithCapacity_ = objc.registerName("dataWithCapacity:");
 final _objc_msgSend_519 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong aNumItems)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -23849,10 +23689,10 @@ final _objc_msgSend_520 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 algorithm,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23867,9 +23707,9 @@ final _objc_msgSend_521 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -23879,9 +23719,9 @@ final _objc_msgSend_522 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> rootObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -23898,8 +23738,8 @@ late final _sel_outputFormat = objc.registerName("outputFormat");
 final _objc_msgSend_523 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -23907,8 +23747,8 @@ late final _sel_setOutputFormat_ = objc.registerName("setOutputFormat:");
 final _objc_msgSend_524 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -23920,10 +23760,10 @@ final _objc_msgSend_525 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> codedName,
-                ffi.Pointer<objc.ObjCObject> cls)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23935,9 +23775,9 @@ final _objc_msgSend_526 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> cls)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -23946,8 +23786,8 @@ late final _sel_setRequiresSecureCoding_ =
 final _objc_msgSend_527 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Bool value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -23957,9 +23797,9 @@ final _objc_msgSend_528 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> archiver)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -23970,12 +23810,12 @@ final _objc_msgSend_529 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> arg,
-                ffi.Bool wait,
-                ffi.Pointer<objc.ObjCObject> array)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -23990,11 +23830,11 @@ final _objc_msgSend_530 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> arg,
-                ffi.Bool wait)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -24250,9 +24090,8 @@ late final _sel_currentThread = objc.registerName("currentThread");
 final _objc_msgSend_531 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -24351,10 +24190,8 @@ late final _sel_detachNewThreadWithBlock_ =
 final _objc_msgSend_532 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -24364,11 +24201,11 @@ final _objc_msgSend_533 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> selector,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCObject> argument)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -24680,10 +24517,10 @@ final _objc_msgSend_534 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject,
-                ffi.Pointer<objc.ObjCObject> aKey)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -24701,10 +24538,10 @@ final _objc_msgSend_535 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -24717,9 +24554,9 @@ final _objc_msgSend_536 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -24727,9 +24564,9 @@ final _objc_msgSend_537 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -24739,9 +24576,9 @@ final _objc_msgSend_538 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> keyset)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -24749,9 +24586,8 @@ late final _sel_threadDictionary = objc.registerName("threadDictionary");
 final _objc_msgSend_539 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -24760,9 +24596,9 @@ final _objc_msgSend_540 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -24771,8 +24607,8 @@ late final _sel_sleepForTimeInterval_ =
 final _objc_msgSend_541 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Double ti)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -24782,8 +24618,8 @@ late final _sel_setThreadPriority_ = objc.registerName("setThreadPriority:");
 final _objc_msgSend_542 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Double value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -24800,8 +24636,8 @@ late final _sel_qualityOfService = objc.registerName("qualityOfService");
 final _objc_msgSend_543 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -24810,8 +24646,8 @@ late final _sel_setQualityOfService_ =
 final _objc_msgSend_544 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -24823,9 +24659,9 @@ final _objc_msgSend_545 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -24839,11 +24675,11 @@ final _objc_msgSend_546 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCSelector> selector,
-                ffi.Pointer<objc.ObjCObject> argument)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -24855,10 +24691,8 @@ late final _sel_initWithBlock_ = objc.registerName("initWithBlock:");
 final _objc_msgSend_547 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -24874,13 +24708,13 @@ final _objc_msgSend_548 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> thr,
-                ffi.Pointer<objc.ObjCObject> arg,
-                ffi.Bool wait,
-                ffi.Pointer<objc.ObjCObject> array)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -24896,12 +24730,12 @@ final _objc_msgSend_549 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> thr,
-                ffi.Pointer<objc.ObjCObject> arg,
-                ffi.Bool wait)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -25072,9 +24906,8 @@ late final _sel_archiverData = objc.registerName("archiverData");
 final _objc_msgSend_550 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -25084,10 +24917,10 @@ final _objc_msgSend_551 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> trueName,
-                ffi.Pointer<objc.ObjCObject> inArchiveName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -25104,9 +24937,9 @@ final _objc_msgSend_552 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> archiver)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -25455,9 +25288,8 @@ late final _class_NSPort = objc.getClass("NSPort");
 final _objc_msgSend_553 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -25674,9 +25506,8 @@ late final _sel_currentRunLoop = objc.registerName("currentRunLoop");
 final _objc_msgSend_554 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -25689,8 +25520,8 @@ late final _sel_getCFRunLoop = objc.registerName("getCFRunLoop");
 final _objc_msgSend_555 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<__CFRunLoop> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<__CFRunLoop> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<__CFRunLoop> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -25956,11 +25787,11 @@ final _objc_msgSend_556 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double ti,
-                ffi.Pointer<objc.ObjCObject> invocation,
-                ffi.Bool yesOrNo)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -25976,13 +25807,13 @@ final _objc_msgSend_557 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double ti,
-                ffi.Pointer<objc.ObjCObject> aTarget,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> userInfo,
-                ffi.Bool yesOrNo)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26108,11 +25939,11 @@ final _objc_msgSend_558 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double interval,
-                ffi.Bool repeats,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26128,12 +25959,12 @@ final _objc_msgSend_559 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Double interval,
-                ffi.Bool repeats,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Double,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26149,14 +25980,14 @@ final _objc_msgSend_560 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Double ti,
-                ffi.Pointer<objc.ObjCObject> t,
-                ffi.Pointer<objc.ObjCSelector> s,
-                ffi.Pointer<objc.ObjCObject> ui,
-                ffi.Bool rep)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26174,9 +26005,9 @@ final _objc_msgSend_561 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -26188,10 +26019,10 @@ final _objc_msgSend_562 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> timer,
-                ffi.Pointer<objc.ObjCObject> mode)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26203,10 +26034,10 @@ final _objc_msgSend_563 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aPort,
-                ffi.Pointer<objc.ObjCObject> mode)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26219,9 +26050,9 @@ final _objc_msgSend_564 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> mode)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -26231,10 +26062,10 @@ final _objc_msgSend_565 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> mode,
-                ffi.Pointer<objc.ObjCObject> limitDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26248,10 +26079,10 @@ final _objc_msgSend_566 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> mode,
-                ffi.Pointer<objc.ObjCObject> limitDate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26265,10 +26096,10 @@ final _objc_msgSend_567 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> modes,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26282,13 +26113,13 @@ final _objc_msgSend_568 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> aSelector,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCObject> arg,
-                ffi.UnsignedLong order,
-                ffi.Pointer<objc.ObjCObject> modes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26308,10 +26139,10 @@ final _objc_msgSend_569 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> runLoop,
-                ffi.Pointer<objc.ObjCObject> mode)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26327,12 +26158,12 @@ final _objc_msgSend_570 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> limitDate,
-                ffi.Pointer<objc.ObjCObject> components,
-                ffi.Pointer<objc.ObjCObject> receivePort,
-                ffi.UnsignedLong headerSpaceReserved)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26347,13 +26178,13 @@ final _objc_msgSend_571 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> limitDate,
-                ffi.UnsignedLong msgID,
-                ffi.Pointer<objc.ObjCObject> components,
-                ffi.Pointer<objc.ObjCObject> receivePort,
-                ffi.UnsignedLong headerSpaceReserved)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26728,9 +26559,8 @@ late final _sel_defaultConnection = objc.registerName("defaultConnection");
 final _objc_msgSend_572 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -26740,10 +26570,10 @@ final _objc_msgSend_573 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> hostName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26892,9 +26722,8 @@ late final _sel_systemDefaultPortNameServer =
 final _objc_msgSend_574 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -26903,9 +26732,9 @@ final _objc_msgSend_575 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -26914,10 +26743,10 @@ final _objc_msgSend_576 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> host)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26929,10 +26758,10 @@ final _objc_msgSend_577 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> port,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -26946,11 +26775,11 @@ final _objc_msgSend_578 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> hostName,
-                ffi.Pointer<objc.ObjCObject> server)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27130,9 +26959,9 @@ final _objc_msgSend_579 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -27143,10 +26972,10 @@ final _objc_msgSend_580 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCObject> connection)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27161,10 +26990,10 @@ final _objc_msgSend_581 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCObject> connection)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27179,9 +27008,9 @@ final _objc_msgSend_582 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> proto)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -27192,10 +27021,10 @@ final _objc_msgSend_583 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> hostName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27209,11 +27038,11 @@ final _objc_msgSend_584 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> hostName,
-                ffi.Pointer<objc.ObjCObject> server)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27227,11 +27056,11 @@ final _objc_msgSend_585 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> root,
-                ffi.Pointer<objc.ObjCObject> server)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27245,10 +27074,10 @@ final _objc_msgSend_586 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> root)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27269,9 +27098,8 @@ late final _sel_rootProxy = objc.registerName("rootProxy");
 final _objc_msgSend_587 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -27283,9 +27111,9 @@ final _objc_msgSend_588 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -27295,10 +27123,10 @@ final _objc_msgSend_589 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> server)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27311,10 +27139,10 @@ final _objc_msgSend_590 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> receivePort,
-                ffi.Pointer<objc.ObjCObject> sendPort)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27335,9 +27163,9 @@ final _objc_msgSend_591 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> runloop)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -27353,11 +27181,11 @@ final _objc_msgSend_592 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> conn,
-                ffi.Pointer<objc.ObjCObject> runLoop,
-                ffi.Pointer<objc.ObjCObject> mode)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27372,9 +27200,9 @@ final _objc_msgSend_593 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aport)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -27382,9 +27210,8 @@ late final _sel_decodePortObject = objc.registerName("decodePortObject");
 final _objc_msgSend_594 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -27392,9 +27219,8 @@ late final _sel_connection = objc.registerName("connection");
 final _objc_msgSend_595 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -27404,11 +27230,11 @@ final _objc_msgSend_596 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> rcvPort,
-                ffi.Pointer<objc.ObjCObject> sndPort,
-                ffi.Pointer<objc.ObjCObject> comps)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27425,9 +27251,9 @@ final _objc_msgSend_597 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> coder)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -27591,10 +27417,10 @@ final _objc_msgSend_598 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> description,
-                ffi.Pointer<objc.ObjCObject> aClass)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -27609,9 +27435,9 @@ final _objc_msgSend_599 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aClass)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -27626,9 +27452,8 @@ late final _sel_classDescription = objc.registerName("classDescription");
 final _objc_msgSend_600 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -28388,9 +28213,8 @@ late final _sel_nullDescriptor = objc.registerName("nullDescriptor");
 final _objc_msgSend_601 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -28400,11 +28224,11 @@ final _objc_msgSend_602 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt descriptorType,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong byteCount)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedInt,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, ffi.Pointer<ffi.Void>, int)>();
@@ -28414,10 +28238,10 @@ final _objc_msgSend_603 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt descriptorType,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedInt,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -28429,10 +28253,8 @@ late final _sel_descriptorWithBoolean_ =
 final _objc_msgSend_604 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedChar boolean)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedChar)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -28441,10 +28263,8 @@ late final _sel_descriptorWithEnumCode_ =
 final _objc_msgSend_605 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt enumerator)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -28453,10 +28273,8 @@ late final _sel_descriptorWithInt32_ =
 final _objc_msgSend_606 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int signedInt)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -28465,10 +28283,8 @@ late final _sel_descriptorWithDouble_ =
 final _objc_msgSend_607 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double doubleValue)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -28480,9 +28296,9 @@ final _objc_msgSend_608 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -28491,9 +28307,9 @@ final _objc_msgSend_609 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -28503,9 +28319,9 @@ final _objc_msgSend_610 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> fileURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -28516,13 +28332,13 @@ final _objc_msgSend_611 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt eventClass,
-                ffi.UnsignedInt eventID,
-                ffi.Pointer<objc.ObjCObject> targetDescriptor,
-                ffi.Short returnID,
-                ffi.Int transactionID)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedInt,
+                ffi.UnsignedInt,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Short,
+                ffi.Int)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -28558,10 +28374,8 @@ late final _sel_initWithAEDescNoCopy_ =
 final _objc_msgSend_612 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<AEDesc> aeDesc)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<AEDesc>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<AEDesc>)>();
@@ -28571,11 +28385,11 @@ final _objc_msgSend_613 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt descriptorType,
-                ffi.Pointer<ffi.Void> bytes,
-                ffi.UnsignedLong byteCount)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedInt,
+                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, ffi.Pointer<ffi.Void>, int)>();
@@ -28585,10 +28399,10 @@ final _objc_msgSend_614 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt descriptorType,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedInt,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -28602,13 +28416,13 @@ final _objc_msgSend_615 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt eventClass,
-                ffi.UnsignedInt eventID,
-                ffi.Pointer<objc.ObjCObject> targetDescriptor,
-                ffi.Short returnID,
-                ffi.Int transactionID)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedInt,
+                ffi.UnsignedInt,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Short,
+                ffi.Int)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -28625,8 +28439,8 @@ late final _sel_aeDesc = objc.registerName("aeDesc");
 final _objc_msgSend_616 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<AEDesc> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<AEDesc> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<AEDesc> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -28647,10 +28461,10 @@ final _objc_msgSend_617 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> descriptor,
-                ffi.UnsignedInt keyword)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedInt)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -28662,10 +28476,8 @@ late final _sel_paramDescriptorForKeyword_ =
 final _objc_msgSend_618 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt keyword)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -28674,8 +28486,8 @@ late final _sel_removeParamDescriptorWithKeyword_ =
 final _objc_msgSend_619 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedInt keyword)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -28704,11 +28516,11 @@ final _objc_msgSend_620 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 sendOptions,
-                ffi.Double timeoutInSeconds,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Double,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -28724,10 +28536,10 @@ final _objc_msgSend_621 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> descriptor,
-                ffi.Long index)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -28738,10 +28550,8 @@ late final _sel_descriptorAtIndex_ = objc.registerName("descriptorAtIndex:");
 final _objc_msgSend_622 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long index)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -28758,8 +28568,8 @@ late final _sel_keywordForDescriptorAtIndex_ =
 final _objc_msgSend_623 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.UnsignedInt Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Long index)>>()
+            ffi.UnsignedInt Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -28771,9 +28581,9 @@ final _objc_msgSend_624 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> descriptor)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -28783,10 +28593,10 @@ final _objc_msgSend_625 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> container,
-                ffi.Pointer<objc.ObjCObject> property)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29055,9 +28865,9 @@ final _objc_msgSend_626 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aClass)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29067,11 +28877,11 @@ final _objc_msgSend_627 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> suiteName,
-                ffi.Pointer<objc.ObjCObject> className,
-                ffi.Pointer<objc.ObjCObject> classDeclaration)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29088,9 +28898,8 @@ late final _sel_superclassDescription =
 final _objc_msgSend_628 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -29317,9 +29126,9 @@ final _objc_msgSend_629 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedInt Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> argumentName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29598,9 +29407,9 @@ final _objc_msgSend_630 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> commandDef)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29608,9 +29417,8 @@ late final _sel_commandDescription = objc.registerName("commandDescription");
 final _objc_msgSend_631 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -29620,9 +29428,8 @@ late final _sel_receiversSpecifier = objc.registerName("receiversSpecifier");
 final _objc_msgSend_632 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -29632,9 +29439,9 @@ final _objc_msgSend_633 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29645,9 +29452,9 @@ final _objc_msgSend_634 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29662,8 +29469,8 @@ late final _sel_setScriptErrorNumber_ =
 final _objc_msgSend_635 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Long value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -29672,9 +29479,8 @@ late final _sel_scriptErrorOffendingObjectDescriptor =
 final _objc_msgSend_636 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -29684,9 +29490,9 @@ final _objc_msgSend_637 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29701,9 +29507,8 @@ late final _sel_currentCommand = objc.registerName("currentCommand");
 final _objc_msgSend_638 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -29716,9 +29521,8 @@ late final _sel_createCommandInstance =
 final _objc_msgSend_639 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -29727,10 +29531,8 @@ late final _sel_createCommandInstanceWithZone_ =
 final _objc_msgSend_640 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<_NSZone> zone)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>();
@@ -29739,9 +29541,9 @@ final _objc_msgSend_641 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> commandDescription)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29750,9 +29552,9 @@ final _objc_msgSend_642 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCSelector> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> commandDescription)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCSelector> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29763,9 +29565,9 @@ final _objc_msgSend_643 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29776,10 +29578,8 @@ late final _sel_keyWithAppleEventCode_ =
 final _objc_msgSend_644 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt appleEventCode)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -29801,11 +29601,11 @@ final _objc_msgSend_645 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> classDesc,
-                ffi.Pointer<objc.ObjCObject> container,
-                ffi.Pointer<objc.ObjCObject> property)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29832,9 +29632,9 @@ final _objc_msgSend_646 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29846,9 +29646,9 @@ final _objc_msgSend_647 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29859,10 +29659,10 @@ final _objc_msgSend_648 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.Long> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> container,
-                ffi.Pointer<ffi.Long> count)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Long>)>>()
     .asFunction<
         ffi.Pointer<ffi.Long> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29886,9 +29686,9 @@ final _objc_msgSend_649 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> objectSpecifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -29901,11 +29701,11 @@ final _objc_msgSend_650 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> properties)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29920,12 +29720,12 @@ final _objc_msgSend_651 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> objectClass,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> contentsValue,
-                ffi.Pointer<objc.ObjCObject> properties)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29941,10 +29741,10 @@ final _objc_msgSend_652 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29961,11 +29761,11 @@ final _objc_msgSend_653 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.UnsignedLong index,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29979,10 +29779,10 @@ final _objc_msgSend_654 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -29995,11 +29795,11 @@ final _objc_msgSend_655 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -30013,10 +29813,10 @@ final _objc_msgSend_656 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -30028,10 +29828,10 @@ final _objc_msgSend_657 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -30045,9 +29845,9 @@ final _objc_msgSend_658 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> specifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -30911,9 +30711,8 @@ late final _sel_currentProgress = objc.registerName("currentProgress");
 final _objc_msgSend_659 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -30922,10 +30721,8 @@ late final _sel_progressWithTotalUnitCount_ =
 final _objc_msgSend_660 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int64 unitCount)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int64)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -30937,11 +30734,11 @@ final _objc_msgSend_661 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int64 unitCount,
-                ffi.Pointer<objc.ObjCObject> parent,
-                ffi.Int64 portionOfParentTotalUnitCount)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int64,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int64)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -30955,10 +30752,10 @@ final _objc_msgSend_662 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> parentProgressOrNil,
-                ffi.Pointer<objc.ObjCObject> userInfoOrNil)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -30970,8 +30767,8 @@ late final _sel_becomeCurrentWithPendingUnitCount_ =
 final _objc_msgSend_663 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int64 unitCount)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int64)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -30981,10 +30778,10 @@ final _objc_msgSend_664 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int64 unitCount,
-                ffi.Pointer<objc.ObjCBlock> work)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int64,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -30998,10 +30795,10 @@ final _objc_msgSend_665 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> child,
-                ffi.Int64 inUnitCount)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int64)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31012,8 +30809,8 @@ late final _sel_totalUnitCount = objc.registerName("totalUnitCount");
 final _objc_msgSend_666 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int64 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int64 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -31021,8 +30818,8 @@ late final _sel_setTotalUnitCount_ = objc.registerName("setTotalUnitCount:");
 final _objc_msgSend_667 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int64 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int64)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -31044,9 +30841,8 @@ late final _sel_cancellationHandler = objc.registerName("cancellationHandler");
 final _objc_msgSend_668 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCBlock> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCBlock> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCBlock> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -31055,10 +30851,8 @@ late final _sel_setCancellationHandler_ =
 final _objc_msgSend_669 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -31082,9 +30876,9 @@ final _objc_msgSend_670 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -31099,9 +30893,9 @@ final _objc_msgSend_671 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -31218,10 +31012,10 @@ final _objc_msgSend_672 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCBlock> publishingHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31369,11 +31163,11 @@ final _objc_msgSend_673 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Int32 visibility,
-                ffi.Pointer<objc.ObjCBlock> loadHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31647,12 +31441,12 @@ final _objc_msgSend_674 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Int32 fileOptions,
-                ffi.Int32 visibility,
-                ffi.Pointer<objc.ObjCBlock> loadHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31668,10 +31462,8 @@ late final _sel_registeredTypeIdentifiersWithFileOptions_ =
 final _objc_msgSend_675 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 fileOptions)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -31683,10 +31475,10 @@ final _objc_msgSend_676 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Int32 fileOptions)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31700,10 +31492,10 @@ final _objc_msgSend_677 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31848,10 +31640,10 @@ final _objc_msgSend_678 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31865,10 +31657,10 @@ final _objc_msgSend_679 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -31883,10 +31675,10 @@ final _objc_msgSend_680 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> object,
-                ffi.Int32 visibility)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -32150,11 +31942,11 @@ final _objc_msgSend_681 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aClass,
-                ffi.Int32 visibility,
-                ffi.Pointer<objc.ObjCBlock> loadHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -32170,10 +31962,10 @@ final _objc_msgSend_682 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aClass,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -32186,10 +31978,10 @@ final _objc_msgSend_683 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> item,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -32497,10 +32289,10 @@ final _objc_msgSend_684 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Pointer<objc.ObjCBlock> loadHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -32513,11 +32305,11 @@ final _objc_msgSend_685 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> typeIdentifier,
-                ffi.Pointer<objc.ObjCObject> options,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -32529,9 +32321,8 @@ late final _sel_previewImageHandler = objc.registerName("previewImageHandler");
 final _objc_msgSend_686 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCBlock> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCBlock> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCBlock> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -32540,10 +32331,8 @@ late final _sel_setPreviewImageHandler_ =
 final _objc_msgSend_687 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -32553,10 +32342,10 @@ final _objc_msgSend_688 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> options,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -33218,10 +33007,10 @@ final _objc_msgSend_689 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> aString)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -33234,10 +33023,10 @@ final _objc_msgSend_690 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aString,
-                ffi.UnsignedLong loc)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -33255,12 +33044,12 @@ final _objc_msgSend_691 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> target,
-                ffi.Pointer<objc.ObjCObject> replacement,
-                ffi.Int32 options,
-                _NSRange searchRange)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -33275,12 +33064,12 @@ final _objc_msgSend_692 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> transform,
-                ffi.Bool reverse,
-                _NSRange range,
-                ffi.Pointer<_NSRange> resultingRange)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                _NSRange,
+                ffi.Pointer<_NSRange>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -33292,10 +33081,8 @@ final _objc_msgSend_692 = objc.msgSendPointer
 final _objc_msgSend_693 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong capacity)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -33471,11 +33258,11 @@ final _objc_msgSend_694 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> object,
-                ffi.Pointer<objc.ObjCObject> userInfo)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34058,9 +33845,8 @@ late final _sel_mainBundle = objc.registerName("mainBundle");
 final _objc_msgSend_695 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -34073,9 +33859,9 @@ final _objc_msgSend_696 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aClass)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -34085,9 +33871,9 @@ final _objc_msgSend_697 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> identifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -34127,12 +33913,12 @@ final _objc_msgSend_698 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath,
-                ffi.Pointer<objc.ObjCObject> bundleURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34148,11 +33934,11 @@ final _objc_msgSend_699 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath,
-                ffi.Pointer<objc.ObjCObject> bundleURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34166,10 +33952,10 @@ final _objc_msgSend_700 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> ext)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34182,11 +33968,11 @@ final _objc_msgSend_701 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34200,12 +33986,12 @@ final _objc_msgSend_702 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath,
-                ffi.Pointer<objc.ObjCObject> localizationName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34220,10 +34006,10 @@ final _objc_msgSend_703 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34236,11 +34022,11 @@ final _objc_msgSend_704 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath,
-                ffi.Pointer<objc.ObjCObject> localizationName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34254,11 +34040,11 @@ final _objc_msgSend_705 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> bundlePath)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34272,10 +34058,10 @@ final _objc_msgSend_706 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> bundlePath)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34288,10 +34074,10 @@ final _objc_msgSend_707 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> ext)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34304,12 +34090,12 @@ final _objc_msgSend_708 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath,
-                ffi.Pointer<objc.ObjCObject> localizationName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34324,11 +34110,11 @@ final _objc_msgSend_709 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> ext,
-                ffi.Pointer<objc.ObjCObject> subpath,
-                ffi.Pointer<objc.ObjCObject> localizationName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34342,11 +34128,11 @@ final _objc_msgSend_710 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> tableName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34731,10 +34517,10 @@ final _objc_msgSend_711 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong location,
-                ffi.Pointer<_NSRange> range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<_NSRange>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, ffi.Pointer<_NSRange>)>();
@@ -34744,11 +34530,11 @@ final _objc_msgSend_712 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrName,
-                ffi.UnsignedLong location,
-                ffi.Pointer<_NSRange> range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<_NSRange>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34761,10 +34547,8 @@ late final _sel_attributedSubstringFromRange_ =
 final _objc_msgSend_713 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -34774,11 +34558,11 @@ final _objc_msgSend_714 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong location,
-                ffi.Pointer<_NSRange> range,
-                _NSRange rangeLimit)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<_NSRange>,
+                _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34792,12 +34576,12 @@ final _objc_msgSend_715 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrName,
-                ffi.UnsignedLong location,
-                ffi.Pointer<_NSRange> range,
-                _NSRange rangeLimit)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<_NSRange>,
+                _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34812,9 +34596,9 @@ final _objc_msgSend_716 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> other)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -34824,10 +34608,10 @@ final _objc_msgSend_717 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> str,
-                ffi.Pointer<objc.ObjCObject> attrs)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -34840,9 +34624,9 @@ final _objc_msgSend_718 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrStr)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -35007,11 +34791,11 @@ final _objc_msgSend_719 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange enumerationRange,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35173,12 +34957,12 @@ final _objc_msgSend_720 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrName,
-                _NSRange enumerationRange,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35377,8 +35161,8 @@ late final _sel_interpretedSyntax = objc.registerName("interpretedSyntax");
 final _objc_msgSend_721 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -35387,8 +35171,8 @@ late final _sel_setInterpretedSyntax_ =
 final _objc_msgSend_722 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -35404,8 +35188,8 @@ late final _sel_failurePolicy = objc.registerName("failurePolicy");
 final _objc_msgSend_723 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -35413,8 +35197,8 @@ late final _sel_setFailurePolicy_ = objc.registerName("setFailurePolicy:");
 final _objc_msgSend_724 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -35430,12 +35214,12 @@ final _objc_msgSend_725 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> markdownFile,
-                ffi.Pointer<objc.ObjCObject> options,
-                ffi.Pointer<objc.ObjCObject> baseURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35450,12 +35234,12 @@ final _objc_msgSend_726 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> markdown,
-                ffi.Pointer<objc.ObjCObject> options,
-                ffi.Pointer<objc.ObjCObject> baseURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35470,12 +35254,12 @@ final _objc_msgSend_727 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> markdownString,
-                ffi.Pointer<objc.ObjCObject> options,
-                ffi.Pointer<objc.ObjCObject> baseURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35498,11 +35282,11 @@ final _objc_msgSend_728 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35516,12 +35300,12 @@ final _objc_msgSend_729 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> locale,
-                ffi.Pointer<__va_list_tag> arguments)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35538,10 +35322,10 @@ final _objc_msgSend_730 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35554,12 +35338,12 @@ final _objc_msgSend_731 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> locale,
-                ffi.Pointer<objc.ObjCObject> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35574,13 +35358,13 @@ final _objc_msgSend_732 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> locale,
-                ffi.Pointer<objc.ObjCObject> context,
-                ffi.Pointer<__va_list_tag> arguments)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35596,10 +35380,10 @@ final _objc_msgSend_733 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<objc.ObjCObject> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35612,11 +35396,11 @@ final _objc_msgSend_734 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> context)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35629,9 +35413,8 @@ late final _sel_attributedStringByInflectingString =
 final _objc_msgSend_735 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -35641,11 +35424,11 @@ final _objc_msgSend_736 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> tableName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35674,10 +35457,10 @@ final _objc_msgSend_737 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> localizationsArray,
-                ffi.Pointer<objc.ObjCObject> preferencesArray)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -35692,10 +35475,10 @@ final _objc_msgSend_738 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double priority,
-                ffi.Pointer<objc.ObjCObject> tags)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36075,10 +35858,10 @@ final _objc_msgSend_739 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrs,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36089,9 +35872,8 @@ late final _sel_mutableString = objc.registerName("mutableString");
 final _objc_msgSend_740 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -36101,11 +35883,11 @@ final _objc_msgSend_741 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> value,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36119,10 +35901,10 @@ final _objc_msgSend_742 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrs,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36135,10 +35917,10 @@ final _objc_msgSend_743 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36151,10 +35933,10 @@ final _objc_msgSend_744 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> attrString)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36167,10 +35949,10 @@ final _objc_msgSend_745 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrString,
-                ffi.UnsignedLong loc)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36183,9 +35965,9 @@ final _objc_msgSend_746 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> attrString)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -36889,9 +36671,9 @@ final _objc_msgSend_747 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> obj)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -36901,10 +36683,10 @@ final _objc_msgSend_748 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCObject> attrs)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36919,11 +36701,11 @@ final _objc_msgSend_749 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> obj,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36937,11 +36719,11 @@ final _objc_msgSend_750 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> partialString,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> newString,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36956,13 +36738,13 @@ final _objc_msgSend_751 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> partialStringPtr,
-                ffi.Pointer<_NSRange> proposedSelRangePtr,
-                ffi.Pointer<objc.ObjCObject> origString,
-                _NSRange origSelRange,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                _NSRange,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -36986,8 +36768,8 @@ late final _sel_formattingContext = objc.registerName("formattingContext");
 final _objc_msgSend_752 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -36996,8 +36778,8 @@ late final _sel_setFormattingContext_ =
 final _objc_msgSend_753 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -37007,12 +36789,12 @@ final _objc_msgSend_754 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> obj,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Pointer<_NSRange> rangep,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -37026,9 +36808,9 @@ final _objc_msgSend_755 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -37048,11 +36830,11 @@ final _objc_msgSend_756 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Int32 dstyle,
-                ffi.Int32 tstyle)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -37066,11 +36848,11 @@ final _objc_msgSend_757 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> tmplate,
-                ffi.UnsignedLong opts,
-                ffi.Pointer<objc.ObjCObject> locale)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -37090,8 +36872,8 @@ late final _sel_defaultFormatterBehavior =
 final _objc_msgSend_758 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -37100,8 +36882,8 @@ late final _sel_setDefaultFormatterBehavior_ =
 final _objc_msgSend_759 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -37113,8 +36895,8 @@ late final _sel_dateStyle = objc.registerName("dateStyle");
 final _objc_msgSend_760 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -37122,8 +36904,8 @@ late final _sel_setDateStyle_ = objc.registerName("setDateStyle:");
 final _objc_msgSend_761 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -37135,9 +36917,9 @@ final _objc_msgSend_762 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -37819,9 +37601,8 @@ late final _sel_currentCalendar = objc.registerName("currentCalendar");
 final _objc_msgSend_763 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -37833,9 +37614,9 @@ final _objc_msgSend_764 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> calendarIdentifierConstant)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -37844,9 +37625,8 @@ late final _sel_initWithCalendarIdentifier_ =
 final _objc_msgSend_765 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -37854,9 +37634,9 @@ final _objc_msgSend_766 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -37936,8 +37716,8 @@ late final _sel_minimumRangeOfUnit_ = objc.registerName("minimumRangeOfUnit:");
 final _objc_msgSend_767 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            _NSRange Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 unit)>>()
+            _NSRange Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         _NSRange Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -37945,10 +37725,10 @@ final _objc_msgSend_767Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 unit)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<_NSRange>, ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -37959,11 +37739,11 @@ final _objc_msgSend_768 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 smaller,
-                ffi.Int32 larger,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -37975,12 +37755,12 @@ final _objc_msgSend_768Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 smaller,
-                ffi.Int32 larger,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -37995,11 +37775,11 @@ final _objc_msgSend_769 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 smaller,
-                ffi.Int32 larger,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38013,12 +37793,12 @@ final _objc_msgSend_770 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 unit,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> datep,
-                ffi.Pointer<ffi.Double> tip,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Double>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38312,9 +38092,8 @@ late final _sel_calendar = objc.registerName("calendar");
 final _objc_msgSend_771 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -38323,18 +38102,17 @@ final _objc_msgSend_772 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_773 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -38342,9 +38120,9 @@ final _objc_msgSend_774 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -38386,11 +38164,8 @@ late final _sel_setValue_forComponent_ =
 final _objc_msgSend_775 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long value,
-                ffi.Int32 unit)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, int)>();
@@ -38398,8 +38173,8 @@ late final _sel_valueForComponent_ = objc.registerName("valueForComponent:");
 final _objc_msgSend_776 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Long Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 unit)>>()
+            ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -38410,9 +38185,9 @@ final _objc_msgSend_777 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> calendar)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -38421,9 +38196,9 @@ final _objc_msgSend_778 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> comps)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -38433,10 +38208,10 @@ final _objc_msgSend_779 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 unitFlags,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38461,11 +38236,11 @@ final _objc_msgSend_780 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> comps,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Int32 opts)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38479,12 +38254,12 @@ final _objc_msgSend_781 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 unitFlags,
-                ffi.Pointer<objc.ObjCObject> startingDate,
-                ffi.Pointer<objc.ObjCObject> resultDate,
-                ffi.Int32 opts)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38499,13 +38274,13 @@ final _objc_msgSend_782 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Long> eraValuePointer,
-                ffi.Pointer<ffi.Long> yearValuePointer,
-                ffi.Pointer<ffi.Long> monthValuePointer,
-                ffi.Pointer<ffi.Long> dayValuePointer,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<ffi.Long>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38524,10 +38299,10 @@ final _objc_msgSend_783 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Long Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 unit,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38540,16 +38315,16 @@ final _objc_msgSend_784 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long eraValue,
-                ffi.Long yearValue,
-                ffi.Long monthValue,
-                ffi.Long dayValue,
-                ffi.Long hourValue,
-                ffi.Long minuteValue,
-                ffi.Long secondValue,
-                ffi.Long nanosecondValue)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38572,10 +38347,10 @@ final _objc_msgSend_785 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> timezone,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38588,11 +38363,11 @@ final _objc_msgSend_786 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date1,
-                ffi.Pointer<objc.ObjCObject> date2,
-                ffi.Int32 unit)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38606,11 +38381,11 @@ final _objc_msgSend_787 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date1,
-                ffi.Pointer<objc.ObjCObject> date2,
-                ffi.Int32 unit)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38624,10 +38399,10 @@ final _objc_msgSend_788 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date1,
-                ffi.Pointer<objc.ObjCObject> date2)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38644,11 +38419,11 @@ final _objc_msgSend_789 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> datep,
-                ffi.Pointer<ffi.Double> tip,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Double>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38662,12 +38437,12 @@ final _objc_msgSend_790 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> datep,
-                ffi.Pointer<ffi.Double> tip,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Double>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38682,12 +38457,12 @@ final _objc_msgSend_791 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 unitFlags,
-                ffi.Pointer<objc.ObjCObject> startingDateComp,
-                ffi.Pointer<objc.ObjCObject> resultDateComp,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38702,12 +38477,12 @@ final _objc_msgSend_792 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 unit,
-                ffi.Long value,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Long,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38865,12 +38640,12 @@ final _objc_msgSend_793 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> start,
-                ffi.Pointer<objc.ObjCObject> comps,
-                ffi.Int32 opts,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38885,11 +38660,11 @@ final _objc_msgSend_794 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Pointer<objc.ObjCObject> comps,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38903,12 +38678,12 @@ final _objc_msgSend_795 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Int32 unit,
-                ffi.Long value,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Long,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38923,13 +38698,13 @@ final _objc_msgSend_796 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Long hourValue,
-                ffi.Long minuteValue,
-                ffi.Long secondValue,
-                ffi.Int32 options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38947,13 +38722,13 @@ final _objc_msgSend_797 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long h,
-                ffi.Long m,
-                ffi.Long s,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Int32 opts)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Long,
+                ffi.Long,
+                ffi.Long,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38969,10 +38744,10 @@ final _objc_msgSend_798 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Pointer<objc.ObjCObject> components)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -38983,9 +38758,9 @@ final _objc_msgSend_799 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -38998,9 +38773,9 @@ final _objc_msgSend_800 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -39011,9 +38786,9 @@ final _objc_msgSend_801 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -39867,9 +39642,9 @@ final _objc_msgSend_802 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> number)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -39878,9 +39653,9 @@ final _objc_msgSend_803 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -39904,10 +39679,10 @@ final _objc_msgSend_804 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> num,
-                ffi.Int32 nstyle)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -39924,16 +39699,16 @@ abstract class NSNumberFormatterBehavior {
 final _objc_msgSend_805 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_806 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 behavior)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -39941,8 +39716,8 @@ late final _sel_numberStyle = objc.registerName("numberStyle");
 final _objc_msgSend_807 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -39950,8 +39725,8 @@ late final _sel_setNumberStyle_ = objc.registerName("setNumberStyle:");
 final _objc_msgSend_808 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -39962,8 +39737,8 @@ late final _sel_setGeneratesDecimalNumbers_ =
 final _objc_msgSend_809 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -40081,8 +39856,8 @@ late final _sel_paddingPosition = objc.registerName("paddingPosition");
 final _objc_msgSend_810 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -40090,8 +39865,8 @@ late final _sel_setPaddingPosition_ = objc.registerName("setPaddingPosition:");
 final _objc_msgSend_811 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -40110,8 +39885,8 @@ late final _sel_roundingMode = objc.registerName("roundingMode");
 final _objc_msgSend_812 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -40119,8 +39894,8 @@ late final _sel_setRoundingMode_ = objc.registerName("setRoundingMode:");
 final _objc_msgSend_813 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -40128,9 +39903,8 @@ late final _sel_roundingIncrement = objc.registerName("roundingIncrement");
 final _objc_msgSend_814 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -40140,9 +39914,9 @@ final _objc_msgSend_815 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -40205,9 +39979,9 @@ final _objc_msgSend_816 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -40380,9 +40154,8 @@ late final _sel_defaultDecimalNumberHandler =
 final _objc_msgSend_817 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -40401,14 +40174,14 @@ final _objc_msgSend_818 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 roundingMode,
-                ffi.Short scale,
-                ffi.Bool exact,
-                ffi.Bool overflow,
-                ffi.Bool underflow,
-                ffi.Bool divideByZero)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Short,
+                ffi.Bool,
+                ffi.Bool,
+                ffi.Bool,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -40429,9 +40202,9 @@ final _objc_msgSend_819 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -40680,9 +40453,8 @@ late final _sel_charactersToBeSkipped =
 final _objc_msgSend_820 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -40692,9 +40464,9 @@ final _objc_msgSend_821 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -40704,10 +40476,8 @@ late final _sel_scanInt_ = objc.registerName("scanInt:");
 final _objc_msgSend_822 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Int> result)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Int>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Int>)>();
@@ -40715,10 +40485,8 @@ late final _sel_scanInteger_ = objc.registerName("scanInteger:");
 final _objc_msgSend_823 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Long> result)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Long>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Long>)>();
@@ -40726,10 +40494,8 @@ late final _sel_scanLongLong_ = objc.registerName("scanLongLong:");
 final _objc_msgSend_824 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.LongLong> result)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.LongLong>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.LongLong>)>();
@@ -40739,9 +40505,9 @@ final _objc_msgSend_825 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLongLong> result)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLongLong>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -40751,10 +40517,8 @@ late final _sel_scanFloat_ = objc.registerName("scanFloat:");
 final _objc_msgSend_826 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Float> result)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Float>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Float>)>();
@@ -40762,10 +40526,8 @@ late final _sel_scanDouble_ = objc.registerName("scanDouble:");
 final _objc_msgSend_827 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Double> result)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Double>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Double>)>();
@@ -40774,9 +40536,9 @@ final _objc_msgSend_828 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedInt> result)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedInt>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.UnsignedInt>)>();
@@ -40789,10 +40551,10 @@ final _objc_msgSend_829 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> result)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -40805,10 +40567,10 @@ final _objc_msgSend_830 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> set,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> result)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -40830,10 +40592,8 @@ late final _sel_scanDecimal_ = objc.registerName("scanDecimal:");
 final _objc_msgSend_831 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<NSDecimal> dcm)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<NSDecimal>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<NSDecimal>)>();
@@ -41013,11 +40773,11 @@ final _objc_msgSend_832 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> reason,
-                ffi.Pointer<objc.ObjCObject> userInfo)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41031,11 +40791,11 @@ final _objc_msgSend_833 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aName,
-                ffi.Pointer<objc.ObjCObject> aReason,
-                ffi.Pointer<objc.ObjCObject> aUserInfo)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41052,11 +40812,11 @@ final _objc_msgSend_834 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> format,
-                ffi.Pointer<__va_list_tag> argList)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<__va_list_tag>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41443,11 +41203,8 @@ late final _sel_initWithFileDescriptor_closeOnDealloc_ =
 final _objc_msgSend_835 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int fd,
-                ffi.Bool closeopt)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int, ffi.Bool)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, bool)>();
@@ -41457,9 +41214,9 @@ final _objc_msgSend_836 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41471,10 +41228,10 @@ final _objc_msgSend_837 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong length,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41486,10 +41243,10 @@ final _objc_msgSend_838 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41501,10 +41258,10 @@ final _objc_msgSend_839 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLongLong> offsetInFile,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLongLong>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41518,10 +41275,10 @@ final _objc_msgSend_840 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLongLong offset,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLongLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41539,9 +41296,8 @@ late final _sel_fileHandleWithStandardInput =
 final _objc_msgSend_841 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -41563,10 +41319,10 @@ final _objc_msgSend_842 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -41583,9 +41339,9 @@ final _objc_msgSend_843 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> modes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -41715,9 +41471,8 @@ late final _sel_readabilityHandler = objc.registerName("readabilityHandler");
 final _objc_msgSend_844 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCBlock> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCBlock> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCBlock> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -41726,10 +41481,8 @@ late final _sel_setReadabilityHandler_ =
 final _objc_msgSend_845 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -41741,8 +41494,8 @@ late final _sel_initWithFileDescriptor_ =
 final _objc_msgSend_846 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int fd)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -41752,10 +41505,8 @@ late final _sel_readDataOfLength_ = objc.registerName("readDataOfLength:");
 final _objc_msgSend_847 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong length)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -41765,10 +41516,8 @@ late final _sel_seekToFileOffset_ = objc.registerName("seekToFileOffset:");
 final _objc_msgSend_848 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLongLong offset)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLongLong)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -41963,9 +41712,8 @@ late final _sel_sharedHTTPCookieStorage =
 final _objc_msgSend_849 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -41975,9 +41723,9 @@ final _objc_msgSend_850 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> identifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -42202,9 +41950,9 @@ final _objc_msgSend_851 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> properties)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -42214,9 +41962,9 @@ final _objc_msgSend_852 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> properties)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -42228,10 +41976,10 @@ final _objc_msgSend_853 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> headerFields,
-                ffi.Pointer<objc.ObjCObject> URL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -42253,9 +42001,9 @@ final _objc_msgSend_854 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> cookie)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -42269,11 +42017,11 @@ final _objc_msgSend_855 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> cookies,
-                ffi.Pointer<objc.ObjCObject> URL,
-                ffi.Pointer<objc.ObjCObject> mainDocumentURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -42292,8 +42040,8 @@ late final _sel_cookieAcceptPolicy = objc.registerName("cookieAcceptPolicy");
 final _objc_msgSend_856 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -42302,8 +42050,8 @@ late final _sel_setCookieAcceptPolicy_ =
 final _objc_msgSend_857 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -42818,11 +42566,11 @@ final _objc_msgSend_858 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> URL,
-                ffi.Int32 cachePolicy,
-                ffi.Double timeoutInterval)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Double)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -42837,8 +42585,8 @@ late final _sel_cachePolicy = objc.registerName("cachePolicy");
 final _objc_msgSend_859 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -42861,8 +42609,8 @@ late final _sel_networkServiceType = objc.registerName("networkServiceType");
 final _objc_msgSend_860 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -42883,8 +42631,8 @@ late final _sel_attribution = objc.registerName("attribution");
 final _objc_msgSend_861 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -43301,10 +43049,10 @@ final _objc_msgSend_862 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> property,
-                ffi.Pointer<objc.ObjCObject> key)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -43327,8 +43075,8 @@ late final _sel_streamStatus = objc.registerName("streamStatus");
 final _objc_msgSend_863 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -43548,10 +43296,10 @@ final _objc_msgSend_864 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Long Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Uint8> buffer,
-                ffi.UnsignedLong len)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Uint8>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Uint8>, int)>();
@@ -43563,10 +43311,10 @@ final _objc_msgSend_865 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Uint8> buffer,
-                ffi.UnsignedLong capacity)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Uint8>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Uint8>, int)>();
@@ -43575,10 +43323,10 @@ final _objc_msgSend_866 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Bool shouldAppend)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -43601,12 +43349,12 @@ final _objc_msgSend_867 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> hostname,
-                ffi.Long port,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -43787,9 +43535,9 @@ final _objc_msgSend_868 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -43799,9 +43547,9 @@ final _objc_msgSend_869 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> aHost)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -43814,8 +43562,8 @@ late final _sel_setHostCacheEnabled_ =
 final _objc_msgSend_870 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Bool flag)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -43827,12 +43575,12 @@ final _objc_msgSend_871 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> host,
-                ffi.Long port,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -43847,11 +43595,11 @@ final _objc_msgSend_872 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong bufferSize,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -43865,10 +43613,10 @@ final _objc_msgSend_873 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<ffi.Uint8>> buffer,
-                ffi.Pointer<ffi.UnsignedLong> len)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+                ffi.Pointer<ffi.UnsignedLong>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -43883,9 +43631,9 @@ final _objc_msgSend_874 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -43896,9 +43644,8 @@ late final _sel_HTTPBodyStream = objc.registerName("HTTPBodyStream");
 final _objc_msgSend_875 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -43910,9 +43657,8 @@ late final _sel_originalRequest = objc.registerName("originalRequest");
 final _objc_msgSend_876 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44073,12 +43819,12 @@ final _objc_msgSend_877 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> URL,
-                ffi.Pointer<objc.ObjCObject> MIMEType,
-                ffi.Long length,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -44096,9 +43842,8 @@ late final _sel_response = objc.registerName("response");
 final _objc_msgSend_878 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44106,9 +43851,8 @@ late final _sel_progress = objc.registerName("progress");
 final _objc_msgSend_879 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44144,8 +43888,8 @@ late final _sel_state = objc.registerName("state");
 final _objc_msgSend_880 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44155,8 +43899,8 @@ late final _sel_setPriority_ = objc.registerName("setPriority:");
 final _objc_msgSend_881 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Float value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Float)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -44170,10 +43914,10 @@ final _objc_msgSend_882 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> cookies,
-                ffi.Pointer<objc.ObjCObject> task)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -44296,10 +44040,10 @@ final _objc_msgSend_883 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> task,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -44476,10 +44220,10 @@ final _objc_msgSend_884 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLong> indexes,
-                ffi.UnsignedLong length)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -44493,10 +44237,8 @@ late final _sel_indexPathByAddingIndex_ =
 final _objc_msgSend_885 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -44505,9 +44247,8 @@ late final _sel_indexPathByRemovingLastIndex =
 final _objc_msgSend_886 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44517,10 +44258,10 @@ final _objc_msgSend_887 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLong> indexes,
-                _NSRange positionRange)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLong>,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -44531,9 +44272,9 @@ final _objc_msgSend_888 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Int32 Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> otherObject)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -44542,9 +44283,9 @@ final _objc_msgSend_889 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.UnsignedLong> indexes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.UnsignedLong>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.UnsignedLong>)>();
@@ -44672,9 +44413,8 @@ late final _sel_automaticRule = objc.registerName("automaticRule");
 final _objc_msgSend_890 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44889,8 +44629,8 @@ late final _sel_grammaticalGender = objc.registerName("grammaticalGender");
 final _objc_msgSend_891 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44899,8 +44639,8 @@ late final _sel_setGrammaticalGender_ =
 final _objc_msgSend_892 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -44927,8 +44667,8 @@ late final _sel_partOfSpeech = objc.registerName("partOfSpeech");
 final _objc_msgSend_893 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44936,8 +44676,8 @@ late final _sel_setPartOfSpeech_ = objc.registerName("setPartOfSpeech:");
 final _objc_msgSend_894 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -44956,8 +44696,8 @@ late final _sel_number = objc.registerName("number");
 final _objc_msgSend_895 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -44965,8 +44705,8 @@ late final _sel_setNumber_ = objc.registerName("setNumber:");
 final _objc_msgSend_896 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -44993,8 +44733,8 @@ late final _sel_grammaticalCase = objc.registerName("grammaticalCase");
 final _objc_msgSend_897 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45002,8 +44742,8 @@ late final _sel_setGrammaticalCase_ = objc.registerName("setGrammaticalCase:");
 final _objc_msgSend_898 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -45018,8 +44758,8 @@ late final _sel_determination = objc.registerName("determination");
 final _objc_msgSend_899 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45027,8 +44767,8 @@ late final _sel_setDetermination_ = objc.registerName("setDetermination:");
 final _objc_msgSend_900 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -45044,8 +44784,8 @@ late final _sel_grammaticalPerson = objc.registerName("grammaticalPerson");
 final _objc_msgSend_901 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45054,8 +44794,8 @@ late final _sel_setGrammaticalPerson_ =
 final _objc_msgSend_902 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -45071,8 +44811,8 @@ late final _sel_pronounType = objc.registerName("pronounType");
 final _objc_msgSend_903 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45080,8 +44820,8 @@ late final _sel_setPronounType_ = objc.registerName("setPronounType:");
 final _objc_msgSend_904 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -45096,8 +44836,8 @@ late final _sel_definiteness = objc.registerName("definiteness");
 final _objc_msgSend_905 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45105,8 +44845,8 @@ late final _sel_setDefiniteness_ = objc.registerName("setDefiniteness:");
 final _objc_msgSend_906 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -45314,9 +45054,9 @@ final _objc_msgSend_907 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> language)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -45326,11 +45066,11 @@ final _objc_msgSend_908 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> features,
-                ffi.Pointer<objc.ObjCObject> language,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -45343,9 +45083,8 @@ late final _sel_userMorphology = objc.registerName("userMorphology");
 final _objc_msgSend_909 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45769,9 +45508,9 @@ final _objc_msgSend_910 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> op)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -45790,8 +45529,8 @@ late final _sel_queuePriority = objc.registerName("queuePriority");
 final _objc_msgSend_911 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45799,8 +45538,8 @@ late final _sel_setQueuePriority_ = objc.registerName("setQueuePriority:");
 final _objc_msgSend_912 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -45814,10 +45553,10 @@ final _objc_msgSend_913 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> ops,
-                ffi.Bool wait)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -45837,9 +45576,8 @@ late final _sel_underlyingQueue = objc.registerName("underlyingQueue");
 final _objc_msgSend_914 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45848,9 +45586,9 @@ final _objc_msgSend_915 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -45861,9 +45599,8 @@ late final _sel_currentQueue = objc.registerName("currentQueue");
 final _objc_msgSend_916 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -45871,9 +45608,8 @@ late final _sel_mainQueue = objc.registerName("mainQueue");
 final _objc_msgSend_917 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -46098,8 +45834,8 @@ late final _sel_initWithOptions_ = objc.registerName("initWithOptions:");
 final _objc_msgSend_918 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 options)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -46371,10 +46107,8 @@ late final _sel_pointerFunctionsWithOptions_ =
 final _objc_msgSend_919 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -46383,8 +46117,8 @@ final _objc_msgSend_920 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<
                 ffi.NativeFunction<
@@ -46400,32 +46134,35 @@ final _objc_msgSend_921 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.UnsignedLong Function(
-                                ffi.Pointer<ffi.Void>,
-                                ffi.Pointer<
-                                    ffi.NativeFunction<
-                                        ffi.UnsignedLong Function(
-                                            ffi.Pointer<ffi.Void>)>>)>>
-                    value)>>()
+                    ffi.NativeFunction<
+                        ffi.UnsignedLong Function(
+                            ffi.Pointer<ffi.Void>,
+                            ffi.Pointer<
+                                ffi.NativeFunction<
+                                    ffi.UnsignedLong Function(
+                                        ffi.Pointer<ffi.Void>)>>)>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<
                 ffi.NativeFunction<
-                    ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>>)>();
+                    ffi.UnsignedLong Function(
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<
+                            ffi.NativeFunction<
+                                ffi.UnsignedLong Function(
+                                    ffi.Pointer<ffi.Void>)>>)>>)>();
 late final _sel_isEqualFunction = objc.registerName("isEqualFunction");
 final _objc_msgSend_922 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<
                 ffi.NativeFunction<
@@ -46442,18 +46179,17 @@ final _objc_msgSend_923 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.Bool Function(
-                                ffi.Pointer<ffi.Void>,
-                                ffi.Pointer<ffi.Void>,
-                                ffi.Pointer<
-                                    ffi.NativeFunction<
-                                        ffi.UnsignedLong Function(
-                                            ffi.Pointer<ffi.Void>)>>)>>
-                    value)>>()
+                    ffi.NativeFunction<
+                        ffi.Bool Function(
+                            ffi.Pointer<ffi.Void>,
+                            ffi.Pointer<ffi.Void>,
+                            ffi.Pointer<
+                                ffi.NativeFunction<
+                                    ffi.UnsignedLong Function(
+                                        ffi.Pointer<ffi.Void>)>>)>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -46463,14 +46199,16 @@ final _objc_msgSend_923 = objc.msgSendPointer
                     ffi.Bool Function(
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>>)>();
+                        ffi.Pointer<
+                            ffi.NativeFunction<
+                                ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>>)>();
 late final _sel_sizeFunction = objc.registerName("sizeFunction");
 final _objc_msgSend_924 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<
                 ffi.NativeFunction<
@@ -46481,12 +46219,11 @@ final _objc_msgSend_925 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>
-                    value)>>()
+                    ffi.NativeFunction<
+                        ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -46499,8 +46236,8 @@ final _objc_msgSend_926 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.NativeFunction<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<
                 ffi.NativeFunction<
@@ -46513,13 +46250,12 @@ final _objc_msgSend_927 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.Pointer<objc.ObjCObject> Function(
-                                ffi.Pointer<ffi.Void>)>>
-                    value)>>()
+                    ffi.NativeFunction<
+                        ffi.Pointer<objc.ObjCObject> Function(
+                            ffi.Pointer<ffi.Void>)>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -46533,8 +46269,8 @@ final _objc_msgSend_928 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<
                 ffi.NativeFunction<
@@ -46551,32 +46287,35 @@ final _objc_msgSend_929 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.Void Function(
-                                ffi.Pointer<ffi.Void>,
-                                ffi.Pointer<
-                                    ffi.NativeFunction<
-                                        ffi.UnsignedLong Function(
-                                            ffi.Pointer<ffi.Void>)>>)>>
-                    value)>>()
+                    ffi.NativeFunction<
+                        ffi.Void Function(
+                            ffi.Pointer<ffi.Void>,
+                            ffi.Pointer<
+                                ffi.NativeFunction<
+                                    ffi.UnsignedLong Function(
+                                        ffi.Pointer<ffi.Void>)>>)>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<
                 ffi.NativeFunction<
-                    ffi.Void Function(ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>)>>)>();
+                    ffi.Void Function(
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<
+                            ffi.NativeFunction<
+                                ffi.UnsignedLong Function(
+                                    ffi.Pointer<ffi.Void>)>>)>>)>();
 late final _sel_acquireFunction = objc.registerName("acquireFunction");
 final _objc_msgSend_930 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>, ffi.Bool)>> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<
                 ffi.NativeFunction<
@@ -46593,25 +46332,29 @@ final _objc_msgSend_931 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<
-                        ffi.NativeFunction<
-                            ffi.Pointer<ffi.Void> Function(
-                                ffi.Pointer<ffi.Void>,
-                                ffi.Pointer<
-                                    ffi.NativeFunction<
-                                        ffi.UnsignedLong Function(
-                                            ffi.Pointer<ffi.Void>)>>,
-                                ffi.Bool)>>
-                    value)>>()
+                    ffi.NativeFunction<
+                        ffi.Pointer<ffi.Void> Function(
+                            ffi.Pointer<ffi.Void>,
+                            ffi.Pointer<
+                                ffi.NativeFunction<
+                                    ffi.UnsignedLong Function(
+                                        ffi.Pointer<ffi.Void>)>>,
+                            ffi.Bool)>>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<
-                ffi
-                .NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>, ffi.Bool)>>)>();
+                ffi.NativeFunction<
+                    ffi.Pointer<ffi.Void> Function(
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<
+                            ffi
+                            .NativeFunction<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>>,
+                        ffi.Bool)>>)>();
 late final _sel_usesStrongWriteBarrier =
     objc.registerName("usesStrongWriteBarrier");
 late final _sel_setUsesStrongWriteBarrier_ =
@@ -46626,9 +46369,9 @@ final _objc_msgSend_932 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> functions)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -46637,10 +46380,8 @@ late final _sel_pointerArrayWithOptions_ =
 final _objc_msgSend_933 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -46650,9 +46391,9 @@ final _objc_msgSend_934 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> functions)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -46660,9 +46401,8 @@ late final _sel_pointerFunctions = objc.registerName("pointerFunctions");
 final _objc_msgSend_935 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -46670,8 +46410,8 @@ late final _sel_pointerAtIndex_ = objc.registerName("pointerAtIndex:");
 final _objc_msgSend_936 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.UnsignedLong index)>>()
+            ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<ffi.Void> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -46686,10 +46426,10 @@ final _objc_msgSend_937 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index,
-                ffi.Pointer<ffi.Void> item)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<ffi.Void>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, ffi.Pointer<ffi.Void>)>();
@@ -46704,9 +46444,8 @@ late final _sel_strongObjectsPointerArray =
 final _objc_msgSend_938 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -46988,9 +46727,8 @@ late final _sel_processInfo = objc.registerName("processInfo");
 final _objc_msgSend_939 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -47022,8 +46760,8 @@ late final _sel_operatingSystemVersion =
 final _objc_msgSend_940 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            NSOperatingSystemVersion Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            NSOperatingSystemVersion Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         NSOperatingSystemVersion Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -47031,9 +46769,9 @@ final _objc_msgSend_940Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<NSOperatingSystemVersion> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<NSOperatingSystemVersion>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         void Function(ffi.Pointer<NSOperatingSystemVersion>,
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -47046,10 +46784,8 @@ late final _sel_isOperatingSystemAtLeastVersion_ =
 final _objc_msgSend_941 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                NSOperatingSystemVersion version)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, NSOperatingSystemVersion)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, NSOperatingSystemVersion)>();
@@ -47087,10 +46823,10 @@ final _objc_msgSend_942 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> reason)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -47104,11 +46840,11 @@ final _objc_msgSend_943 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> reason,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -47214,10 +46950,10 @@ final _objc_msgSend_944 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> reason,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -47238,8 +46974,8 @@ late final _sel_thermalState = objc.registerName("thermalState");
 final _objc_msgSend_945 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -47644,8 +47380,8 @@ late final _sel_resultType = objc.registerName("resultType");
 final _objc_msgSend_946 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -47654,9 +47390,8 @@ late final _sel_orthography = objc.registerName("orthography");
 final _objc_msgSend_947 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -47932,11 +47667,11 @@ final _objc_msgSend_948 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> pattern,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -47950,11 +47685,11 @@ final _objc_msgSend_949 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> pattern,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -47967,8 +47702,8 @@ late final _sel_options = objc.registerName("options");
 final _objc_msgSend_950 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -48151,12 +47886,12 @@ final _objc_msgSend_951 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCBlock> block)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48171,11 +47906,11 @@ final _objc_msgSend_952 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48189,11 +47924,11 @@ final _objc_msgSend_953 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48207,11 +47942,11 @@ final _objc_msgSend_954 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48225,11 +47960,11 @@ final _objc_msgSend_955 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             _NSRange Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         _NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48241,12 +47976,12 @@ final _objc_msgSend_955Stret = objc.msgSendStretPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<_NSRange> stret,
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range)>>()
+                ffi.Pointer<_NSRange>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange)>>()
     .asFunction<
         void Function(
             ffi.Pointer<_NSRange>,
@@ -48262,12 +47997,12 @@ final _objc_msgSend_956 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> templ)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48282,12 +48017,12 @@ final _objc_msgSend_957 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.UnsignedLong Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 options,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> templ)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48302,12 +48037,12 @@ final _objc_msgSend_958 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> result,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Long offset,
-                ffi.Pointer<objc.ObjCObject> templ)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48322,9 +48057,8 @@ late final _sel_regularExpression = objc.registerName("regularExpression");
 final _objc_msgSend_959 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -48337,10 +48071,8 @@ late final _sel_resultByAdjustingRangesWithOffset_ =
 final _objc_msgSend_960 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long offset)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -48351,10 +48083,10 @@ final _objc_msgSend_961 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> orthography)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48366,10 +48098,8 @@ late final _sel_spellCheckingResultWithRange_ =
 final _objc_msgSend_962 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, _NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, _NSRange)>();
@@ -48379,10 +48109,10 @@ final _objc_msgSend_963 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> details)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48395,10 +48125,10 @@ final _objc_msgSend_964 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> date)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48411,12 +48141,12 @@ final _objc_msgSend_965 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> date,
-                ffi.Pointer<objc.ObjCObject> timeZone,
-                ffi.Double duration)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Double)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48431,10 +48161,10 @@ final _objc_msgSend_966 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> components)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48447,10 +48177,10 @@ final _objc_msgSend_967 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48463,10 +48193,10 @@ final _objc_msgSend_968 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> replacementString)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48486,11 +48216,11 @@ final _objc_msgSend_969 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                _NSRange range,
-                ffi.Pointer<objc.ObjCObject> replacementString,
-                ffi.Pointer<objc.ObjCObject> alternativeStrings)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                _NSRange,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48505,11 +48235,11 @@ final _objc_msgSend_970 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<_NSRange> ranges,
-                ffi.UnsignedLong count,
-                ffi.Pointer<objc.ObjCObject> regularExpression)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<_NSRange>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48733,9 +48463,8 @@ late final _sel_sharedURLCache = objc.registerName("sharedURLCache");
 final _objc_msgSend_971 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -48744,9 +48473,9 @@ final _objc_msgSend_972 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -48756,11 +48485,11 @@ final _objc_msgSend_973 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong memoryCapacity,
-                ffi.UnsignedLong diskCapacity,
-                ffi.Pointer<objc.ObjCObject> path)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48774,11 +48503,11 @@ final _objc_msgSend_974 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong memoryCapacity,
-                ffi.UnsignedLong diskCapacity,
-                ffi.Pointer<objc.ObjCObject> directoryURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48940,10 +48669,10 @@ final _objc_msgSend_975 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> response,
-                ffi.Pointer<objc.ObjCObject> data)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48963,12 +48692,12 @@ final _objc_msgSend_976 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> response,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<objc.ObjCObject> userInfo,
-                ffi.Int32 storagePolicy)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -48980,9 +48709,8 @@ final _objc_msgSend_976 = objc.msgSendPointer
 final _objc_msgSend_977 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -48990,8 +48718,8 @@ late final _sel_storagePolicy = objc.registerName("storagePolicy");
 final _objc_msgSend_978 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -49001,9 +48729,9 @@ final _objc_msgSend_979 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -49013,10 +48741,10 @@ final _objc_msgSend_980 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> cachedResponse,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -49029,9 +48757,9 @@ final _objc_msgSend_981 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -49159,10 +48887,10 @@ final _objc_msgSend_982 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> cachedResponse,
-                ffi.Pointer<objc.ObjCObject> dataTask)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -49288,10 +49016,10 @@ final _objc_msgSend_983 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> dataTask,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -49304,9 +49032,9 @@ final _objc_msgSend_984 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> dataTask)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -49520,11 +49248,11 @@ final _objc_msgSend_985 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> delegate,
-                ffi.Bool startImmediately)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -49538,10 +49266,10 @@ final _objc_msgSend_986 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> delegate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -49554,10 +49282,10 @@ final _objc_msgSend_987 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> delegate)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -49567,9 +49295,8 @@ final _objc_msgSend_987 = objc.msgSendPointer
 final _objc_msgSend_988 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -49580,9 +49307,9 @@ final _objc_msgSend_989 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> queue)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -49591,9 +49318,9 @@ final _objc_msgSend_990 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -49603,11 +49330,11 @@ final _objc_msgSend_991 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> response,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -49781,11 +49508,11 @@ final _objc_msgSend_992 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> queue,
-                ffi.Pointer<objc.ObjCBlock> handler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50000,8 +49727,8 @@ late final _sel_persistence = objc.registerName("persistence");
 final _objc_msgSend_993 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -50011,11 +49738,11 @@ final _objc_msgSend_994 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> user,
-                ffi.Pointer<objc.ObjCObject> password,
-                ffi.Int32 persistence)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50029,11 +49756,11 @@ final _objc_msgSend_995 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> user,
-                ffi.Pointer<objc.ObjCObject> password,
-                ffi.Int32 persistence)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50051,11 +49778,11 @@ final _objc_msgSend_996 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<__SecIdentity> identity,
-                ffi.Pointer<objc.ObjCObject> certArray,
-                ffi.Int32 persistence)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<__SecIdentity>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50069,11 +49796,11 @@ final _objc_msgSend_997 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<__SecIdentity> identity,
-                ffi.Pointer<objc.ObjCObject> certArray,
-                ffi.Int32 persistence)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<__SecIdentity>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50085,9 +49812,8 @@ late final _sel_identity = objc.registerName("identity");
 final _objc_msgSend_998 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<__SecIdentity> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<__SecIdentity> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<__SecIdentity> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -50099,10 +49825,8 @@ late final _sel_initWithTrust_ = objc.registerName("initWithTrust:");
 final _objc_msgSend_999 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<__SecTrust> trust)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<__SecTrust>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<__SecTrust>)>();
@@ -50110,10 +49834,8 @@ late final _sel_credentialForTrust_ = objc.registerName("credentialForTrust:");
 final _objc_msgSend_1000 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<__SecTrust> trust)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<__SecTrust>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<__SecTrust>)>();
@@ -50319,13 +50041,13 @@ final _objc_msgSend_1001 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> host,
-                ffi.Long port,
-                ffi.Pointer<objc.ObjCObject> protocol,
-                ffi.Pointer<objc.ObjCObject> realm,
-                ffi.Pointer<objc.ObjCObject> authenticationMethod)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50350,8 +50072,8 @@ late final _sel_serverTrust = objc.registerName("serverTrust");
 final _objc_msgSend_1002 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<__SecTrust> Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<__SecTrust> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<__SecTrust> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -50587,9 +50309,8 @@ late final _sel_sharedCredentialStorage =
 final _objc_msgSend_1003 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -50599,9 +50320,9 @@ final _objc_msgSend_1004 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> space)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -50612,10 +50333,10 @@ final _objc_msgSend_1005 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> credential,
-                ffi.Pointer<objc.ObjCObject> space)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50630,11 +50351,11 @@ final _objc_msgSend_1006 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> credential,
-                ffi.Pointer<objc.ObjCObject> space,
-                ffi.Pointer<objc.ObjCObject> options)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50648,9 +50369,9 @@ final _objc_msgSend_1007 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> space)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -50773,11 +50494,11 @@ final _objc_msgSend_1008 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> protectionSpace,
-                ffi.Pointer<objc.ObjCObject> task,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50791,11 +50512,11 @@ final _objc_msgSend_1009 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> credential,
-                ffi.Pointer<objc.ObjCObject> protectionSpace,
-                ffi.Pointer<objc.ObjCObject> task)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50809,12 +50530,12 @@ final _objc_msgSend_1010 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> credential,
-                ffi.Pointer<objc.ObjCObject> protectionSpace,
-                ffi.Pointer<objc.ObjCObject> options,
-                ffi.Pointer<objc.ObjCObject> task)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -50942,11 +50663,11 @@ final _objc_msgSend_1011 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> space,
-                ffi.Pointer<objc.ObjCObject> task,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51176,11 +50897,11 @@ final _objc_msgSend_1012 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> cachedResponse,
-                ffi.Pointer<objc.ObjCObject> client)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51194,9 +50915,8 @@ late final _sel_cachedResponse = objc.registerName("cachedResponse");
 final _objc_msgSend_1013 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -51207,9 +50927,9 @@ final _objc_msgSend_1014 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -51219,10 +50939,10 @@ final _objc_msgSend_1015 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> a,
-                ffi.Pointer<objc.ObjCObject> b)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51237,10 +50957,10 @@ final _objc_msgSend_1016 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51589,8 +51309,8 @@ late final _sel_setCachePolicy_ = objc.registerName("setCachePolicy:");
 final _objc_msgSend_1017 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -51601,8 +51321,8 @@ late final _sel_setNetworkServiceType_ =
 final _objc_msgSend_1018 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -51618,8 +51338,8 @@ late final _sel_setAttribution_ = objc.registerName("setAttribution:");
 final _objc_msgSend_1019 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -51634,10 +51354,10 @@ final _objc_msgSend_1020 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> field)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51651,9 +51371,9 @@ final _objc_msgSend_1021 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -51662,9 +51382,9 @@ final _objc_msgSend_1022 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -51678,11 +51398,11 @@ final _objc_msgSend_1023 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51696,10 +51416,10 @@ final _objc_msgSend_1024 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> key,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51713,9 +51433,9 @@ final _objc_msgSend_1025 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> task)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -51725,11 +51445,11 @@ final _objc_msgSend_1026 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> task,
-                ffi.Pointer<objc.ObjCObject> cachedResponse,
-                ffi.Pointer<objc.ObjCObject> client)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -51741,9 +51461,8 @@ late final _sel_task = objc.registerName("task");
 final _objc_msgSend_1027 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -51974,9 +51693,9 @@ final _objc_msgSend_1028 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> stream)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -52001,8 +51720,8 @@ late final _sel_externalEntityResolvingPolicy =
 final _objc_msgSend_1029 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -52011,8 +51730,8 @@ late final _sel_setExternalEntityResolvingPolicy_ =
 final _objc_msgSend_1030 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -52024,9 +51743,9 @@ final _objc_msgSend_1031 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -52387,11 +52106,11 @@ final _objc_msgSend_1032 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -52425,11 +52144,11 @@ final _objc_msgSend_1033 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -52449,12 +52168,12 @@ final _objc_msgSend_1034 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCObject> originalContentsURL,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -52470,9 +52189,9 @@ final _objc_msgSend_1035 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> child)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -52482,10 +52201,10 @@ final _objc_msgSend_1036 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<objc.ObjCObject> fileName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -52497,9 +52216,9 @@ final _objc_msgSend_1037 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> child)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -52509,9 +52228,9 @@ final _objc_msgSend_1038 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> child)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -52529,11 +52248,11 @@ final _objc_msgSend_1039 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Bool atomicFlag,
-                ffi.Bool updateFilenamesFlag)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool,
+                ffi.Bool)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -52920,9 +52639,8 @@ late final _sel_sharedSession = objc.registerName("sharedSession");
 final _objc_msgSend_1040 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53353,9 +53071,8 @@ late final _sel_defaultSessionConfiguration =
 final _objc_msgSend_1041 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53367,9 +53084,9 @@ final _objc_msgSend_1042 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> identifier)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -53425,8 +53142,8 @@ late final _sel_TLSMinimumSupportedProtocol =
 final _objc_msgSend_1043 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53435,8 +53152,8 @@ late final _sel_setTLSMinimumSupportedProtocol_ =
 final _objc_msgSend_1044 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -53459,8 +53176,8 @@ late final _sel_TLSMinimumSupportedProtocolVersion =
 final _objc_msgSend_1045 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53469,8 +53186,8 @@ late final _sel_setTLSMinimumSupportedProtocolVersion_ =
 final _objc_msgSend_1046 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -53498,9 +53215,8 @@ late final _sel_HTTPCookieStorage = objc.registerName("HTTPCookieStorage");
 final _objc_msgSend_1047 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53510,9 +53226,9 @@ final _objc_msgSend_1048 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -53521,9 +53237,8 @@ late final _sel_URLCredentialStorage =
 final _objc_msgSend_1049 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53533,9 +53248,9 @@ final _objc_msgSend_1050 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -53543,9 +53258,8 @@ late final _sel_URLCache = objc.registerName("URLCache");
 final _objc_msgSend_1051 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53554,9 +53268,9 @@ final _objc_msgSend_1052 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -53570,9 +53284,9 @@ final _objc_msgSend_1053 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -53589,8 +53303,8 @@ late final _sel_multipathServiceType =
 final _objc_msgSend_1054 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -53599,8 +53313,8 @@ late final _sel_setMultipathServiceType_ =
 final _objc_msgSend_1055 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -53612,9 +53326,9 @@ final _objc_msgSend_1056 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> configuration)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -53624,11 +53338,11 @@ final _objc_msgSend_1057 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> configuration,
-                ffi.Pointer<objc.ObjCObject> delegate,
-                ffi.Pointer<objc.ObjCObject> queue)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -53806,10 +53520,8 @@ late final _sel_getTasksWithCompletionHandler_ =
 final _objc_msgSend_1058 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -53926,10 +53638,8 @@ late final _sel_getAllTasksWithCompletionHandler_ =
 final _objc_msgSend_1059 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -53939,9 +53649,9 @@ final _objc_msgSend_1060 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -53950,9 +53660,9 @@ final _objc_msgSend_1061 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -54187,10 +53897,8 @@ late final _sel_cancelByProducingResumeData_ =
 final _objc_msgSend_1062 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -54200,10 +53908,10 @@ final _objc_msgSend_1063 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> fileURL)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -54216,10 +53924,10 @@ final _objc_msgSend_1064 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> bodyData)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -54232,9 +53940,9 @@ final _objc_msgSend_1065 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> resumeData)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -54244,9 +53952,9 @@ final _objc_msgSend_1066 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -54373,9 +54081,9 @@ final _objc_msgSend_1067 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -54385,9 +54093,9 @@ final _objc_msgSend_1068 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -54397,9 +54105,9 @@ final _objc_msgSend_1069 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> resumeData)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -54702,12 +54410,12 @@ final _objc_msgSend_1070 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong minBytes,
-                ffi.UnsignedLong maxBytes,
-                ffi.Double timeout,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.UnsignedLong,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -54722,11 +54430,11 @@ final _objc_msgSend_1071 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Double timeout,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -54747,10 +54455,10 @@ final _objc_msgSend_1072 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> hostname,
-                ffi.Long port)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Long)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55013,12 +54721,12 @@ final _objc_msgSend_1073 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> domain,
-                ffi.Pointer<objc.ObjCObject> type,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Int port)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55033,11 +54741,11 @@ final _objc_msgSend_1074 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> domain,
-                ffi.Pointer<objc.ObjCObject> type,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55059,8 +54767,8 @@ late final _sel_publishWithOptions_ = objc.registerName("publishWithOptions:");
 final _objc_msgSend_1075 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 options)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -55072,9 +54780,9 @@ final _objc_msgSend_1076 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> txtData)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -55084,9 +54792,9 @@ final _objc_msgSend_1077 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> txtDictionary)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -55097,10 +54805,10 @@ final _objc_msgSend_1078 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> inputStream,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outputStream)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55112,9 +54820,9 @@ final _objc_msgSend_1079 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> recordData)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -55127,9 +54835,9 @@ final _objc_msgSend_1080 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> service)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -55440,8 +55148,8 @@ abstract class NSURLSessionWebSocketMessageType {
 final _objc_msgSend_1081 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -55451,10 +55159,10 @@ final _objc_msgSend_1082 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> message,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55610,10 +55318,8 @@ late final _sel_receiveMessageWithCompletionHandler_ =
 final _objc_msgSend_1083 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -55622,10 +55328,8 @@ late final _sel_sendPingWithPongReceiveHandler_ =
 final _objc_msgSend_1084 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> pongReceiveHandler)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -55653,10 +55357,10 @@ final _objc_msgSend_1085 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 closeCode,
-                ffi.Pointer<objc.ObjCObject> reason)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55670,8 +55374,8 @@ late final _sel_closeCode = objc.registerName("closeCode");
 final _objc_msgSend_1086 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -55682,9 +55386,9 @@ final _objc_msgSend_1087 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -55694,10 +55398,10 @@ final _objc_msgSend_1088 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCObject> protocols)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55710,9 +55414,9 @@ final _objc_msgSend_1089 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -55883,10 +55587,10 @@ final _objc_msgSend_1090 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55899,10 +55603,10 @@ final _objc_msgSend_1091 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55915,11 +55619,11 @@ final _objc_msgSend_1092 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> fileURL,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55933,11 +55637,11 @@ final _objc_msgSend_1093 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCObject> bodyData,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -55951,10 +55655,10 @@ final _objc_msgSend_1094 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> resumeData,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -56127,10 +55831,10 @@ final _objc_msgSend_1095 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> request,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -56143,10 +55847,10 @@ final _objc_msgSend_1096 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -56159,10 +55863,10 @@ final _objc_msgSend_1097 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> resumeData,
-                ffi.Pointer<objc.ObjCBlock> completionHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -56236,9 +55940,8 @@ late final _class_NSProtocolChecker = objc.getClass("NSProtocolChecker");
 final _objc_msgSend_1098 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -56248,10 +55951,10 @@ final _objc_msgSend_1099 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> anObject,
-                ffi.Pointer<objc.ObjCObject> aProtocol)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -56603,8 +56306,8 @@ late final _sel_terminationReason = objc.registerName("terminationReason");
 final _objc_msgSend_1100 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -56719,9 +56422,8 @@ late final _sel_terminationHandler = objc.registerName("terminationHandler");
 final _objc_msgSend_1101 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCBlock> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCBlock> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCBlock> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -56730,10 +56432,8 @@ late final _sel_setTerminationHandler_ =
 final _objc_msgSend_1102 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -56744,12 +56444,12 @@ final _objc_msgSend_1103 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCObject> arguments,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
-                ffi.Pointer<objc.ObjCBlock> terminationHandler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -56770,10 +56470,10 @@ final _objc_msgSend_1104 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> path,
-                ffi.Pointer<objc.ObjCObject> arguments)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -57644,8 +57344,8 @@ late final _sel_initWithKind_ = objc.registerName("initWithKind:");
 final _objc_msgSend_1105 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 kind)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -57686,11 +57386,8 @@ late final _sel_initWithKind_options_ =
 final _objc_msgSend_1106 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 kind,
-                ffi.Int32 options)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32, ffi.Int32)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, int)>();
@@ -57701,9 +57398,9 @@ final _objc_msgSend_1107 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> element)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -57714,10 +57411,10 @@ final _objc_msgSend_1108 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> URI)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -57732,11 +57429,11 @@ final _objc_msgSend_1109 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> children,
-                ffi.Pointer<objc.ObjCObject> attributes)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -57761,8 +57458,8 @@ late final _sel_DTDNodeWithXMLString_ =
 final _objc_msgSend_1110 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -57775,10 +57472,10 @@ final _objc_msgSend_1111 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Bool resolve)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Bool)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -58230,11 +57927,11 @@ final _objc_msgSend_1112 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> string,
-                ffi.Int32 mask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -58246,11 +57943,11 @@ final _objc_msgSend_1113 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Int32 mask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -58264,11 +57961,11 @@ final _objc_msgSend_1114 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Int32 mask,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -58282,9 +57979,9 @@ final _objc_msgSend_1115 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> element)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -58307,8 +58004,8 @@ late final _sel_documentContentKind = objc.registerName("documentContentKind");
 final _objc_msgSend_1116 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -58317,8 +58014,8 @@ late final _sel_setDocumentContentKind_ =
 final _objc_msgSend_1117 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -58677,10 +58374,10 @@ final _objc_msgSend_1118 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> child,
-                ffi.UnsignedLong index)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -58693,10 +58390,10 @@ final _objc_msgSend_1119 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> children,
-                ffi.UnsignedLong index)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -58710,9 +58407,9 @@ final _objc_msgSend_1120 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> child)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -58722,10 +58419,10 @@ final _objc_msgSend_1121 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index,
-                ffi.Pointer<objc.ObjCObject> node)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.UnsignedLong,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59052,8 +58749,8 @@ late final _sel_DTDKind = objc.registerName("DTDKind");
 final _objc_msgSend_1122 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -59061,8 +58758,8 @@ late final _sel_setDTDKind_ = objc.registerName("setDTDKind:");
 final _objc_msgSend_1123 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Int32 value)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -59077,9 +58774,9 @@ final _objc_msgSend_1124 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -59089,9 +58786,9 @@ final _objc_msgSend_1125 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -59105,10 +58802,10 @@ final _objc_msgSend_1126 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> elementName)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59121,9 +58818,8 @@ late final _sel_DTD = objc.registerName("DTD");
 final _objc_msgSend_1127 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -59132,9 +58828,9 @@ final _objc_msgSend_1128 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> value)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -59143,9 +58839,9 @@ final _objc_msgSend_1129 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> root)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
@@ -59153,9 +58849,8 @@ late final _sel_rootElement = objc.registerName("rootElement");
 final _objc_msgSend_1130 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -59164,10 +58859,8 @@ late final _sel_XMLDataWithOptions_ = objc.registerName("XMLDataWithOptions:");
 final _objc_msgSend_1131 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -59177,11 +58870,11 @@ final _objc_msgSend_1132 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> xslt,
-                ffi.Pointer<objc.ObjCObject> arguments,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59195,11 +58888,11 @@ final _objc_msgSend_1133 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> xslt,
-                ffi.Pointer<objc.ObjCObject> arguments,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59213,11 +58906,11 @@ final _objc_msgSend_1134 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> xsltURL,
-                ffi.Pointer<objc.ObjCObject> argument,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59231,9 +58924,8 @@ late final _sel_rootDocument = objc.registerName("rootDocument");
 final _objc_msgSend_1135 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -59241,9 +58933,8 @@ late final _sel_parent = objc.registerName("parent");
 final _objc_msgSend_1136 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -59253,10 +58944,8 @@ late final _sel_childAtIndex_ = objc.registerName("childAtIndex:");
 final _objc_msgSend_1137 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong index)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -59276,10 +58965,8 @@ late final _sel_XMLStringWithOptions_ =
 final _objc_msgSend_1138 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -59288,10 +58975,8 @@ late final _sel_canonicalXMLStringPreservingComments_ =
 final _objc_msgSend_1139 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool comments)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
@@ -59303,11 +58988,11 @@ final _objc_msgSend_1140 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> xquery,
-                ffi.Pointer<objc.ObjCObject> constants,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59322,10 +59007,10 @@ final _objc_msgSend_1141 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> name,
-                ffi.Pointer<objc.ObjCObject> URI)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59343,10 +59028,10 @@ final _objc_msgSend_1142 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> localName,
-                ffi.Pointer<objc.ObjCObject> URI)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59367,10 +59052,10 @@ final _objc_msgSend_1143 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> localName,
-                ffi.Pointer<objc.ObjCObject> URI)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59932,9 +59617,8 @@ late final _sel_sharedInstance = objc.registerName("sharedInstance");
 final _objc_msgSend_1144 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -59960,11 +59644,11 @@ final _objc_msgSend_1145 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> category,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -59978,12 +59662,12 @@ final _objc_msgSend_1146 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> category,
-                ffi.Pointer<objc.ObjCObject> mode,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60007,13 +59691,13 @@ final _objc_msgSend_1147 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> category,
-                ffi.Pointer<objc.ObjCObject> mode,
-                ffi.Int32 policy,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Int32,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60028,8 +59712,8 @@ late final _sel_categoryOptions = objc.registerName("categoryOptions");
 final _objc_msgSend_1148 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -60037,8 +59721,8 @@ late final _sel_routeSharingPolicy = objc.registerName("routeSharingPolicy");
 final _objc_msgSend_1149 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -60051,10 +59735,10 @@ final _objc_msgSend_1150 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool inValue,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Bool,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60074,8 +59758,8 @@ late final _sel_recordPermission = objc.registerName("recordPermission");
 final _objc_msgSend_1151 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -60084,10 +59768,8 @@ late final _sel_requestRecordPermission_ =
 final _objc_msgSend_1152 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCBlock> response)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCBlock>)>();
@@ -60103,10 +59785,10 @@ final _objc_msgSend_1153 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 portOverride,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60486,10 +60168,10 @@ final _objc_msgSend_1154 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> pattern,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60500,9 +60182,8 @@ late final _sel_selectedDataSource = objc.registerName("selectedDataSource");
 final _objc_msgSend_1155 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -60513,10 +60194,10 @@ final _objc_msgSend_1156 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> dataSource,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60529,10 +60210,10 @@ final _objc_msgSend_1157 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> inPort,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60543,9 +60224,8 @@ late final _sel_preferredInput = objc.registerName("preferredInput");
 final _objc_msgSend_1158 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -60567,8 +60247,8 @@ late final _sel_renderingMode = objc.registerName("renderingMode");
 final _objc_msgSend_1159 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -60584,11 +60264,11 @@ final _objc_msgSend_1160 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool active,
-                ffi.Int32 options,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Bool,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60728,10 +60408,10 @@ final _objc_msgSend_1161 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 options,
-                ffi.Pointer<objc.ObjCBlock> handler)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<objc.ObjCBlock>)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60744,10 +60424,10 @@ final _objc_msgSend_1162 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double sampleRate,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60765,10 +60445,10 @@ final _objc_msgSend_1163 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Long count,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Long,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60796,10 +60476,10 @@ final _objc_msgSend_1164 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 orientation,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60811,8 +60491,8 @@ late final _sel_preferredInputOrientation =
 final _objc_msgSend_1165 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -60826,10 +60506,10 @@ final _objc_msgSend_1166 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Float gain,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Float,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -60872,8 +60552,8 @@ late final _sel_promptStyle = objc.registerName("promptStyle");
 final _objc_msgSend_1167 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -61009,9 +60689,8 @@ late final _sel_currentRoute = objc.registerName("currentRoute");
 final _objc_msgSend_1168 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -61027,10 +60706,10 @@ final _objc_msgSend_1169 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 inIOType,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -61051,11 +60730,11 @@ final _objc_msgSend_1170 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Bool active,
-                ffi.Long flags,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Bool,
+                ffi.Long,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -61417,10 +61096,10 @@ final _objc_msgSend_1171 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -61433,11 +61112,11 @@ final _objc_msgSend_1172 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> url,
-                ffi.Pointer<objc.ObjCObject> utiString,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -61451,11 +61130,11 @@ final _objc_msgSend_1173 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<objc.ObjCObject> data,
-                ffi.Pointer<objc.ObjCObject> utiString,
-                ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -61469,8 +61148,8 @@ late final _sel_playAtTime_ = objc.registerName("playAtTime:");
 final _objc_msgSend_1174 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Bool Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel, ffi.Double time)>>()
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double)>();
@@ -61488,11 +61167,8 @@ late final _sel_setVolume_fadeDuration_ =
 final _objc_msgSend_1175 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Float volume,
-                ffi.Double duration)>>()
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Float, ffi.Double)>>()
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double, double)>();
@@ -61790,9 +61466,9 @@ final _objc_msgSend_1176 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<AudioStreamBasicDescription> asbd)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<AudioStreamBasicDescription>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -61952,10 +61628,8 @@ late final _sel_initWithLayoutTag_ = objc.registerName("initWithLayoutTag:");
 final _objc_msgSend_1177 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt layoutTag)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -62027,9 +61701,9 @@ final _objc_msgSend_1178 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<AudioChannelLayout> layout)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<AudioChannelLayout>)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<AudioChannelLayout>)>();
@@ -62039,10 +61713,8 @@ late final _sel_layoutWithLayoutTag_ =
 final _objc_msgSend_1179 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedInt layoutTag)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedInt)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -62053,8 +61725,8 @@ final _objc_msgSend_1180 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<AudioChannelLayout> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<AudioChannelLayout> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -62062,8 +61734,8 @@ late final _sel_channelCount = objc.registerName("channelCount");
 final _objc_msgSend_1181 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Uint32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Uint32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -62073,10 +61745,10 @@ final _objc_msgSend_1182 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<AudioStreamBasicDescription> asbd,
-                ffi.Pointer<objc.ObjCObject> layout)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<AudioStreamBasicDescription>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -62088,11 +61760,8 @@ late final _sel_initStandardFormatWithSampleRate_channels_ =
 final _objc_msgSend_1183 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double sampleRate,
-                ffi.Uint32 channels)>>()
+            instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double, ffi.Uint32)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, double, int)>();
@@ -62102,10 +61771,10 @@ final _objc_msgSend_1184 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Double sampleRate,
-                ffi.Pointer<objc.ObjCObject> layout)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Double,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -62127,12 +61796,12 @@ final _objc_msgSend_1185 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 format,
-                ffi.Double sampleRate,
-                ffi.Uint32 channels,
-                ffi.Bool interleaved)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Double,
+                ffi.Uint32,
+                ffi.Bool)>>()
     .asFunction<
         instancetype Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, double, int, bool)>();
@@ -62143,12 +61812,12 @@ final _objc_msgSend_1186 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Int32 format,
-                ffi.Double sampleRate,
-                ffi.Bool interleaved,
-                ffi.Pointer<objc.ObjCObject> layout)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Int32,
+                ffi.Double,
+                ffi.Bool,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -62167,9 +61836,9 @@ final _objc_msgSend_1187 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             instancetype Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.Pointer<opaqueCMFormatDescription> formatDescription)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<opaqueCMFormatDescription>)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -62180,8 +61849,8 @@ late final _sel_commonFormat = objc.registerName("commonFormat");
 final _objc_msgSend_1188 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -62191,8 +61860,8 @@ final _objc_msgSend_1189 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<AudioStreamBasicDescription> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<AudioStreamBasicDescription> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -62200,9 +61869,8 @@ late final _sel_channelLayout = objc.registerName("channelLayout");
 final _objc_msgSend_1190 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -62213,17 +61881,16 @@ final _objc_msgSend_1191 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<opaqueCMFormatDescription> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<opaqueCMFormatDescription> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_1192 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel)>>()
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
@@ -62235,20 +61902,16 @@ late final _sel_peakPowerForChannel_ =
 final _objc_msgSend_1193 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Float Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong channelNumber)>>()
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
 final _objc_msgSend_1193Fpret = objc.msgSendFpretPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Float Function(
-                ffi.Pointer<objc.ObjCObject> obj,
-                ffi.Pointer<objc.ObjCSelector> sel,
-                ffi.UnsignedLong channelNumber)>>()
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         double Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
