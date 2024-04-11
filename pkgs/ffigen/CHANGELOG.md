@@ -7,17 +7,18 @@
   `castFromPointer` method to blocks.
 - Add `-Wno-nullability-completeness` as default compiler option for MacOS.
 - __Breaking change__: Use `package:objective_c` in ObjC bindings.
-  - ObjC packages will have a flutter dependency (until #1068 is fixed).
+  - ObjC packages will have a flutter dependency (until
+    https://github.com/dart-lang/native/issues/1068 is fixed).
   - ObjC class methods don't need the ubiquitous `lib` argument anymore. In
-    fact, ffigen won't even generate the native library class (unless you're
-    binding top level functions and not using `@Native`). It is still necessary
-    to `DynamicLibrary.open` the dylib though.
+    fact, ffigen won't even generate the native library class (unless it needs
+    to bind top level functions without using `@Native`). It is still necessary
+    to `DynamicLibrary.open` the dylib though, to load the classes and methods.
   - Adapting to this change:
-    - If your generated code no longer contains the native library class, it
-      means you don't need it anymore. So
-      `final lib = FooNativeLib(DynamicLibrary.open('foo.dylib'));` becomes
-      `DynamicLibrary.open('foo.dylib');`.
-    - Regardless of whether you still have a native library class, delete the
+    - Update ffigen and re-run the code generation. If the generated code no
+      longer contains the native library class, it means it isn't needed
+      anymore. So `final lib = FooNativeLib(DynamicLibrary.open('foo.dylib'));`
+      must be changed to `DynamicLibrary.open('foo.dylib');`.
+    - Regardless of whether the native library class still exists, delete the
       `lib` parameter from all ObjC object constructors and static method calls
       and block constructors.
 
