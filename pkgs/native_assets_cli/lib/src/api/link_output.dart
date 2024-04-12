@@ -43,9 +43,9 @@ abstract final class LinkOutput {
   void linkAssets(Iterable<LinkableAsset> assets);
 
   factory LinkOutput({
-    required List<AssetImpl> assets,
-    required Dependencies dependencies,
-    required DateTime timestamp,
+    List<AssetImpl>? assets,
+    Dependencies? dependencies,
+    DateTime? timestamp,
   }) =>
       HookOutputImpl(
         assets: assets,
