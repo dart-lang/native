@@ -24,7 +24,7 @@ void main(List<String> arguments) async {
       dynamicLibrary,
       staticLibrary,
     );
-    output.linkAsset(dynamicLibrary);
+    output.addAsset(dynamicLibrary);
     output.addDependency(config.packageRoot.resolve('hook/link.dart'));
   });
 }
@@ -32,8 +32,8 @@ void main(List<String> arguments) async {
 Future<void> _treeshakeStaticLibrary(
   Iterable<String> symbols,
   Uri symbolsUri,
-  LinkableAsset dynamicLibrary,
-  LinkableAsset staticLibrary,
+  Asset dynamicLibrary,
+  Asset staticLibrary,
 ) async {
   final arguments = [
     '-fPIC',

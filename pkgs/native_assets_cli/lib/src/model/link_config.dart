@@ -11,7 +11,7 @@ part of '../api/link_config.dart';
 /// kernel compilation.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
-  final List<LinkableAsset> assets;
+  final List<AssetImpl> assets;
 
   final BuildConfigImpl _buildConfig;
 
@@ -156,15 +156,7 @@ class _LinkConfigArgs {
         resourceIdentifiers: resourceIdentifierUri != null
             ? ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath())
             : null,
-        assets: assetsForLinking
-            .map(
-              (asset) => switch (asset) {
-                DataAssetImpl() => LinkableDataAssetImpl(asset),
-                NativeCodeAssetImpl() => LinkableCodeAssetImpl(asset),
-                AssetImpl() => throw UnimplementedError(),
-              },
-            )
-            .toList(),
+        assets: assetsForLinking,
       );
 
   Map<String, Object> toJson() => {

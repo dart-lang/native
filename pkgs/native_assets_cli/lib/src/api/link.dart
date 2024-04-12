@@ -26,10 +26,10 @@ import 'link_config.dart';
 /// void main(List<String> args) async {
 ///   await link(args, (config, output) async {
 ///     final assetsWithResource = config.assets
-///         .whereType<LinkableDataAsset>()
+///         .whereType<DataAsset>()
 ///         .where((asset) => config.resources
 ///             .any((resource) => resource.metadata == asset.name));
-///     output.linkAssets(assetsWithResource);
+///     output.addAssets(assetsWithResource);
 ///   });
 /// }
 /// ```

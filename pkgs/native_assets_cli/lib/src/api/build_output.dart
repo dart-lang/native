@@ -19,7 +19,6 @@ import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
-import 'linkable_asset.dart';
 import 'os.dart';
 
 part '../model/hook_output.dart';
