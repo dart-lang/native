@@ -11,6 +11,7 @@ import '../../native_assets_cli_internal.dart';
 import '../model/resource_identifiers.dart';
 import '../utils/map.dart';
 import 'architecture.dart';
+import 'asset.dart';
 import 'build_config.dart';
 import 'build_mode.dart';
 import 'hook_config.dart';
@@ -57,13 +58,13 @@ abstract class LinkConfig implements HookConfig {
 
   factory LinkConfig({
     required Uri? resourceIdentifierUri,
-    required BuildConfigImpl buildConfig,
-    required List<AssetImpl> assetsForLinking,
+    required BuildConfig buildConfig,
+    required List<Asset> assetsForLinking,
   }) =>
       LinkConfigImpl.fromValues(
         resourceIdentifierUri: resourceIdentifierUri,
-        buildConfig: buildConfig,
-        assetsForLinking: assetsForLinking,
+        buildConfig: buildConfig as BuildConfigImpl,
+        assetsForLinking: assetsForLinking.cast(),
       );
 
   /// The version of [BuildConfig].
