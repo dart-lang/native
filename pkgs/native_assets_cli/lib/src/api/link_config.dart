@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-import '../../native_assets_cli_internal.dart';
+import '../model/hook_config.dart';
 import '../model/resource_identifiers.dart';
 import '../utils/map.dart';
 import 'architecture.dart';
@@ -17,6 +17,7 @@ import 'build_mode.dart';
 import 'hook_config.dart';
 import 'ios_sdk.dart';
 import 'os.dart';
+import 'resource.dart';
 
 part '../model/link_config.dart';
 
