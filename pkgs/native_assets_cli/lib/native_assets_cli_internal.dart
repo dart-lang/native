@@ -40,4 +40,5 @@ export 'src/model/dependencies.dart';
 export 'src/model/hook.dart';
 export 'src/model/hook_config.dart' show HookConfigImpl;
 export 'src/model/metadata.dart';
+export 'src/model/resource_identifiers.dart';
 export 'src/model/target.dart';
