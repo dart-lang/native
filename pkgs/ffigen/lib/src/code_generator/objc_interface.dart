@@ -55,9 +55,7 @@ class ObjCInterface extends BindingType {
     super.dartDoc,
     required this.builtInFunctions,
   })  : lookupName = lookupName ?? originalName,
-        super(
-          name: name ?? originalName,
-        ) {}
+        super(name: name ?? originalName);
 
   bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(name);
 
@@ -66,9 +64,6 @@ class ObjCInterface extends BindingType {
     if (_isBuiltIn) {
       return BindingString(type: BindingStringType.objcInterface, string: '');
     }
-
-    w.markImportUsed(ffiPkgImport);
-    w.markImportUsed(objcPkgImport);
 
     String paramsToString(List<ObjCMethodParam> params,
         {required bool isStatic}) {

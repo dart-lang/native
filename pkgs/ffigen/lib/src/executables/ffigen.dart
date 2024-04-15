@@ -58,7 +58,7 @@ void main(List<String> args) async {
 
   // Generate file for the parsed bindings.
   final gen = File(config.output);
-  library.generateFile(gen, format: argResult[format]);
+  library.generateFile(gen, format: argResult[format] as bool);
   _logger
       .info(successPen('Finished, Bindings generated in ${gen.absolute.path}'));
 

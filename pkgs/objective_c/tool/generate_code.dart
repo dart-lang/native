@@ -45,6 +45,8 @@ Map<String, String> parseExtraMethods(String filename) {
       }
     }
   }
+  extraMethods["import 'dart:ffi' as ffi;"] =
+      "import 'package:ffi/ffi.dart' as pkg_ffi;";
   return extraMethods;
 }
 
