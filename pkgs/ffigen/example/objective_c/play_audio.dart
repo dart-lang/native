@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'package:objective_c/objective_c.dart';
 import 'avf_audio_bindings.dart';
 
 const _dylibPath =

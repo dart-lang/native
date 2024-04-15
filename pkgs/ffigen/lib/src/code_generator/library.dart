@@ -29,6 +29,7 @@ class Library {
     required List<Binding> bindings,
     String? header,
     bool sort = false,
+    bool generateForPackageObjectiveC = false,
     StructPackingOverride? packingOverride,
     Set<LibraryImport>? libraryImports,
   }) {
@@ -82,6 +83,7 @@ class Library {
       classDocComment: description,
       header: header,
       additionalImports: libraryImports,
+      generateForPackageObjectiveC: generateForPackageObjectiveC,
     );
   }
 

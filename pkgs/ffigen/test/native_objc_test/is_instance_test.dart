@@ -10,6 +10,8 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:test/test.dart';
+import 'package:objective_c/objective_c.dart';
+
 import '../test_utils.dart';
 import 'is_instance_bindings.dart';
 import 'util.dart';

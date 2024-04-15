@@ -8,10 +8,12 @@ import 'writer.dart';
 /// A library import which will be written as an import in the generated file.
 class LibraryImport {
   final String name;
-  final String importPath;
+  final String _importPath;
+  final String? importPathWhenImportedByPackageObjC;
   String prefix;
 
-  LibraryImport(this.name, this.importPath) : prefix = name;
+  LibraryImport(this.name, this._importPath,
+      {this.importPathWhenImportedByPackageObjC}) : prefix = name;
 
   @override
   bool operator ==(other) {
@@ -20,6 +22,11 @@ class LibraryImport {
 
   @override
   int get hashCode => name.hashCode;
+
+  String importPath(bool generateForPackageObjectiveC) {
+    if (!generateForPackageObjectiveC) return _importPath;
+    return importPathWhenImportedByPackageObjC ?? _importPath;
+  }
 }
 
 /// An imported type which will be used in the generated code.
@@ -76,7 +83,8 @@ class SelfImportedType extends Type {
 final ffiImport = LibraryImport('ffi', 'dart:ffi');
 final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
 final objcPkgImport =
-    LibraryImport('objc', 'package:objective_c/objective_c.dart');
+    LibraryImport('objc', 'package:objective_c/objective_c.dart',
+        importPathWhenImportedByPackageObjC: '../objective_c.dart');
 final self = LibraryImport('self', '');
 
 final voidType = ImportedType(ffiImport, 'Void', 'void');

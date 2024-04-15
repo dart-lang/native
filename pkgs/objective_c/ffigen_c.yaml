@@ -1,15 +1,13 @@
-# Run with `dart run ffigen --config ffigen.yaml`.
-name: ObjectiveCBindings
-description: |
-  Bindings for `src/objective_c.h` and `src/objective_c_runtime.h`.
-
-  Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
-output: 'lib/src/objective_c_bindings_generated.dart'
+# Generate bindings for the C headers.
+# Run with `dart run ffigen --config ffigen_c.yaml`.
+name: CBindings
+output: 'lib/src/c_bindings_generated.dart'
 headers:
   entry-points:
     - 'src/objective_c.h'
     - 'src/objective_c_runtime.h'
 ffi-native:
+generate-for-package-objective-c: true
 functions:
   leaf:
     include:
@@ -33,6 +31,9 @@ preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
   // BSD-style license that can be found in the LICENSE file.
+
+  // Bindings for `src/objective_c.h` and `src/objective_c_runtime.h`.
+  // Regenerate bindings with `dart run ffigen --config ffigen_c.yaml`.
 
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types

@@ -34,6 +34,8 @@ class Writer {
 
   final String? classDocComment;
 
+  final bool generateForPackageObjectiveC;
+
   String? _ffiLibraryPrefix;
   String get ffiLibraryPrefix {
     if (_ffiLibraryPrefix != null) {
@@ -119,6 +121,7 @@ class Writer {
     Set<LibraryImport>? additionalImports,
     this.classDocComment,
     this.header,
+    required this.generateForPackageObjectiveC,
   }) {
     final globalLevelNameSet = noLookUpBindings.map((e) => e.name).toSet();
     final wrapperLevelNameSet = lookUpBindings.map((e) => e.name).toSet();
@@ -306,9 +309,8 @@ class Writer {
 
     // Write neccesary imports.
     for (final lib in _usedImports) {
-      result
-        ..write("import '${lib.importPath}' as ${lib.prefix};")
-        ..write('\n');
+      final path = lib.importPath(generateForPackageObjectiveC);
+      result.write("import '$path' as ${lib.prefix};\n");
     }
     result.write(s);
 

@@ -21,6 +21,8 @@
     - Regardless of whether the native library class still exists, delete the
       `lib` parameter from all ObjC object constructors and static method calls
       and block constructors.
+- Add --[no-]format option to ffigen command line, which controls whether the
+  formatting step happens. Defaults to true.
 
 ## 11.0.0
 

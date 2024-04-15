@@ -6,18 +6,18 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'objective_c_bindings_generated.dart' as objc;
+import 'c_bindings_generated.dart' as c;
 
-Pointer<objc.ObjCSelector> registerName(String name) {
+Pointer<c.ObjCSelector> registerName(String name) {
   final cstr = name.toNativeUtf8();
-  final sel = objc.registerName(cstr.cast());
+  final sel = c.registerName(cstr.cast());
   calloc.free(cstr);
   return sel;
 }
 
-Pointer<objc.ObjCObject> getClass(String name) {
+Pointer<c.ObjCObject> getClass(String name) {
   final cstr = name.toNativeUtf8();
-  final clazz = objc.getClass(cstr.cast());
+  final clazz = c.getClass(cstr.cast());
   calloc.free(cstr);
   if (clazz == nullptr) {
     throw Exception('Failed to load Objective-C class: $name');
@@ -26,11 +26,11 @@ Pointer<objc.ObjCObject> getClass(String name) {
 }
 
 final msgSendPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(objc.msgSend);
+    Native.addressOf<NativeFunction<Void Function()>>(c.msgSend);
 final msgSendFpretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(objc.msgSendFpret);
+    Native.addressOf<NativeFunction<Void Function()>>(c.msgSendFpret);
 final msgSendStretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(objc.msgSendStret);
+    Native.addressOf<NativeFunction<Void Function()>>(c.msgSendStret);
 
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
@@ -87,47 +87,47 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
   void _release(Pointer<T> ptr) => throw UnimplementedError();
 }
 
-class ObjCObjectBase extends _ObjCFinalizable<objc.ObjCObject> {
+class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   ObjCObjectBase(super.ptr, {required super.retain, required super.release});
 
   static final _objectFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<objc.ObjCObject>)>>(
-              objc.objectRelease)
+      Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCObject>)>>(
+              c.objectRelease)
           .cast());
 
   @override
   NativeFinalizer get _finalizer => _objectFinalizer;
 
   @override
-  void _retain(Pointer<objc.ObjCObject> ptr) => objc.objectRetain(ptr);
+  void _retain(Pointer<c.ObjCObject> ptr) => c.objectRetain(ptr);
 
   @override
-  void _release(Pointer<objc.ObjCObject> ptr) => objc.objectRelease(ptr);
+  void _release(Pointer<c.ObjCObject> ptr) => c.objectRelease(ptr);
 }
 
-class ObjCBlockBase extends _ObjCFinalizable<objc.ObjCBlock> {
+class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<objc.ObjCBlock>)>>(
-              objc.blockRelease)
+      Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>(
+              c.blockRelease)
           .cast());
 
   @override
   NativeFinalizer get _finalizer => _blockFinalizer;
 
   @override
-  void _retain(Pointer<objc.ObjCBlock> ptr) => objc.blockCopy(ptr);
+  void _retain(Pointer<c.ObjCBlock> ptr) => c.blockCopy(ptr);
 
   @override
-  void _release(Pointer<objc.ObjCBlock> ptr) => objc.blockRelease(ptr);
+  void _release(Pointer<c.ObjCBlock> ptr) => c.blockRelease(ptr);
 }
 
-Pointer<objc.ObjCBlockDesc> _newBlockDesc() {
+Pointer<c.ObjCBlockDesc> _newBlockDesc() {
   final desc =
-      calloc.allocate<objc.ObjCBlockDesc>(sizeOf<objc.ObjCBlockDesc>());
+      calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
-  desc.ref.size = sizeOf<objc.ObjCBlock>();
+  desc.ref.size = sizeOf<c.ObjCBlock>();
   desc.ref.copy_helper = nullptr;
   desc.ref.dispose_helper = nullptr;
   desc.ref.signature = nullptr;
@@ -136,15 +136,15 @@ Pointer<objc.ObjCBlockDesc> _newBlockDesc() {
 
 final _blockDesc = _newBlockDesc();
 
-Pointer<objc.ObjCBlock> newBlock(Pointer<Void> invoke, Pointer<Void> target) {
-  final b = calloc.allocate<objc.ObjCBlock>(sizeOf<objc.ObjCBlock>());
-  b.ref.isa = objc.NSConcreteGlobalBlock;
+Pointer<c.ObjCBlock> newBlock(Pointer<Void> invoke, Pointer<Void> target) {
+  final b = calloc.allocate<c.ObjCBlock>(sizeOf<c.ObjCBlock>());
+  b.ref.isa = c.NSConcreteGlobalBlock;
   b.ref.flags = 0;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
   b.ref.target = target;
   b.ref.descriptor = _blockDesc;
-  final copy = objc.blockCopy(b.cast()).cast<objc.ObjCBlock>();
+  final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
   calloc.free(b);
   return copy;
 }

@@ -26,11 +26,12 @@ Library parse(Config c) {
 
   final library = Library(
     bindings: bindings,
-    name: config.wrapperName,
-    description: config.wrapperDocComment,
-    header: config.preamble,
-    sort: config.sort,
-    packingOverride: config.structPackingOverride,
+    name: c.wrapperName,
+    description: c.wrapperDocComment,
+    header: c.preamble,
+    sort: c.sort,
+    generateForPackageObjectiveC: c.generateForPackageObjectiveC,
+    packingOverride: c.structPackingOverride,
     libraryImports: c.libraryImports.values.toSet(),
   );
 

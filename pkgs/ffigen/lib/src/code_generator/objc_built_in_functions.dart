@@ -9,6 +9,10 @@ import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
 class ObjCBuiltInFunctions {
+  ObjCBuiltInFunctions(this.generateForPackageObjectiveC);
+
+  final bool generateForPackageObjectiveC;
+
   static const registerName = ObjCImport('registerName');
   static const getClass = ObjCImport('getClass');
   static const msgSendPointer = ObjCImport('msgSendPointer');
@@ -18,6 +22,41 @@ class ObjCBuiltInFunctions {
   static const newBlock = ObjCImport('newBlock');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockBase = ObjCImport('ObjCBlockBase');
+
+  // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
+  static const builtInInterfaces = {
+    'NSArray',
+    'NSCharacterSet',
+    'NSCoder',
+    'NSData',
+    'NSDate',
+    'NSDictionary',
+    'NSEnumerator',
+    'NSError',
+    'NSIndexSet',
+    'NSInvocation',
+    'NSItemProvider',
+    'NSLocale',
+    'NSMethodSignature',
+    'NSMutableArray',
+    'NSMutableData',
+    'NSMutableDictionary',
+    'NSMutableSet',
+    'NSMutableString',
+    'NSNotification',
+    'NSNumber',
+    'NSObject',
+    'NSProgress',
+    'NSSet',
+    'NSString',
+    'NSURL',
+    'NSURLHandle',
+    'NSValue',
+    'Protocol',
+  };
+
+  bool isBuiltInInterface(String name) =>
+      !generateForPackageObjectiveC && builtInInterfaces.contains(name);
 
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
@@ -52,49 +91,6 @@ class ObjCBuiltInFunctions {
       sel.addDependencies(dependencies);
     }
   }
-
-  final _interfaceRegistry = <String, ObjCInterface>{};
-  void registerInterface(ObjCInterface interface) {
-    _interfaceRegistry[interface.originalName] = interface;
-  }
-
-  ObjCInterface get nsData {
-    return _interfaceRegistry["NSData"] ??
-        (ObjCInterface(
-          originalName: "NSData",
-          builtInFunctions: this,
-        ));
-  }
-
-  static void generateNSStringUtils(Writer w, StringBuffer s) {
-    // Generate a constructor that wraps stringWithCharacters, and a toString
-    // method that wraps dataUsingEncoding.
-    s.write('''
-  factory NSString(String str) {
-    final cstr = str.toNativeUtf16();
-    final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);
-    ${w.ffiPkgLibraryPrefix}.calloc.free(cstr);
-    return nsstr;
-  }
-
-  @override
-  String toString() {
-    final data = dataUsingEncoding_(
-        0x94000100 /* NSUTF16LittleEndianStringEncoding */);
-    return data!.bytes.cast<${w.ffiPkgLibraryPrefix}.Utf16>().toDartString(
-        length: length);
-  }
-''');
-  }
-
-  static void generateStringUtils(Writer w, StringBuffer s) {
-    // Generate an extension on String to convert to NSString
-    s.write('''
-extension StringToNSString on String {
-  NSString toNSString() => NSString(this);
-}
-''');
-  }
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.
@@ -117,7 +113,7 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     name = w.wrapperLevelUniqueNamer.makeUnique(name);
-    s.write('late final $name = ${makeValue(w)};');
+    s.write('late final $name = ${makeValue(w)};\n');
     return BindingString(type: BindingStringType.global, string: s.toString());
   }
 

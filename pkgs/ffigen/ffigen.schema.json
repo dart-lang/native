@@ -367,6 +367,9 @@
     "exclude-all-by-default": {
       "type": "boolean"
     },
+    "generate-for-package-objective-c": {
+      "type": "boolean"
+    },
     "sort": {
       "type": "boolean"
     },

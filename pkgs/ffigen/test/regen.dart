@@ -60,4 +60,8 @@ Future<void> main(List<String> args) async {
       'example/simple/config.yaml', 'example/simple/generated_bindings.dart');
   _regenConfig('example/c_json/config.yaml',
       'example/c_json/cjson_generated_bindings.dart');
+  _regenConfig('example/swift/config.yaml',
+      'example/swift/swift_api_bindings.dart');
+  _regenConfig('example/objective_c/config.yaml',
+      'example/objective_c/avf_audio_bindings.dart');
 }
