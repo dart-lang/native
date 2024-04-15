@@ -61,6 +61,7 @@ void main() async {
           logger,
           dartExecutable,
         );
+        expect(buildResult.success, true);
         expect(buildResult.assets.length, 2);
 
         final linkResult = await link(
@@ -69,6 +70,7 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
         );
+        expect(linkResult.success, true);
         const assetsLeft = 2 + 2 - 1;
         expect(linkResult.assets.length, assetsLeft);
       });

@@ -291,7 +291,7 @@ class NativeAssetsBuildRunner {
   }
 
   Future<_PackageBuildRecord> _buildPackage(
-    Hook step,
+    Hook hook,
     HookConfigImpl config,
     Uri packageConfigUri,
     Uri workingDirectory,
@@ -349,10 +349,13 @@ ${result.stdout}
       final buildOutput =
           HookOutputImpl.readFromFile(file: config.outputFile) ??
               HookOutputImpl();
-      success &= validateAssetsPackage(
-        buildOutput.assets,
-        config.packageName,
-      );
+      //As a link.dart can pipe through assets from other packages.
+      if (hook == Hook.build) {
+        success &= validateAssetsPackage(
+          buildOutput.assets,
+          config.packageName,
+        );
+      }
       return (buildOutput, success);
     } on FormatException catch (e) {
       logger.severe('''
