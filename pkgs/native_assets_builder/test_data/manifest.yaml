@@ -45,11 +45,13 @@
 - wrong_namespace_asset/hook/build.dart
 - wrong_namespace_asset/pubspec.yaml
 - complex_link/pubspec.yaml
+- complex_link/bin/complex_link.dart
 - complex_link/hook/build.dart
 - complex_link/hook/link.dart
 - complex_link/assets/data_0.json
 - complex_link/assets/data_1.json
 - complex_link_helper/pubspec.yaml
+- complex_link_helper/lib/complex_link_helper.dart
 - complex_link_helper/hook/build.dart
 - complex_link_helper/assets/data_helper_0.json
 - complex_link_helper/assets/data_helper_1.json
