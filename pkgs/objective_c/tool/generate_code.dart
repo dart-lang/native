@@ -5,6 +5,8 @@
 // Runs the ffigen configs, then merges extra_methods.dart into the Objective C
 // bindings.
 
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 const cConfig = 'ffigen_c.yaml';

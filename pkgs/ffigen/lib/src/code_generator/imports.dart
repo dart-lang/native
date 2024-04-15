@@ -13,7 +13,8 @@ class LibraryImport {
   String prefix;
 
   LibraryImport(this.name, this._importPath,
-      {this.importPathWhenImportedByPackageObjC}) : prefix = name;
+      {this.importPathWhenImportedByPackageObjC})
+      : prefix = name;
 
   @override
   bool operator ==(other) {
@@ -82,9 +83,9 @@ class SelfImportedType extends Type {
 
 final ffiImport = LibraryImport('ffi', 'dart:ffi');
 final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
-final objcPkgImport =
-    LibraryImport('objc', 'package:objective_c/objective_c.dart',
-        importPathWhenImportedByPackageObjC: '../objective_c.dart');
+final objcPkgImport = LibraryImport(
+    'objc', 'package:objective_c/objective_c.dart',
+    importPathWhenImportedByPackageObjC: '../objective_c.dart');
 final self = LibraryImport('self', '');
 
 final voidType = ImportedType(ffiImport, 'Void', 'void');

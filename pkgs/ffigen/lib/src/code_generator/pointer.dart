@@ -94,8 +94,9 @@ class ObjCObjectPointer extends PointerType {
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override
-  String getDartType(Writer w) =>
-      w.generateForPackageObjectiveC ? 'NSObject' : '${w.objcPkgPrefix}.NSObject';
+  String getDartType(Writer w) => w.generateForPackageObjectiveC
+      ? 'NSObject'
+      : '${w.objcPkgPrefix}.NSObject';
 
   @override
   bool get sameDartAndCType => false;

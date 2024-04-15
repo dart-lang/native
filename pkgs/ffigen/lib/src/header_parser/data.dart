@@ -57,6 +57,7 @@ void initializeGlobals({required Config config}) {
   _unnamedEnumConstants = [];
   _cursorIndex = CursorIndex();
   _bindingsIndex = BindingsIndex();
-  _objCBuiltInFunctions = ObjCBuiltInFunctions(config.generateForPackageObjectiveC);
+  _objCBuiltInFunctions =
+      ObjCBuiltInFunctions(config.generateForPackageObjectiveC);
   hasSourceErrors = false;
 }

@@ -124,8 +124,7 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc() {
-  final desc =
-      calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
+  final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlock>();
   desc.ref.copy_helper = nullptr;

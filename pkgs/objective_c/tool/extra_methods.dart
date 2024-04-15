@@ -13,8 +13,8 @@ class NSString extends NSObject {
 
   @override
   String toString() {
-    final data = dataUsingEncoding_(
-        0x94000100 /* NSUTF16LittleEndianStringEncoding */);
+    final data =
+        dataUsingEncoding_(0x94000100 /* NSUTF16LittleEndianStringEncoding */);
     return data!.bytes.cast<pkg_ffi.Utf16>().toDartString(length: length);
   }
 }
