@@ -2,7 +2,7 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   exclude:
-    tool/extra_methods.dart
+    - tool/extra_methods.dart
   language:
     strict-casts: true
     strict-inference: true
