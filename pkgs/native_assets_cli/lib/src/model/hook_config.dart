@@ -4,14 +4,20 @@
 
 import 'package:pub_semver/pub_semver.dart';
 
+import 'hook.dart';
+
 abstract class HookConfigImpl {
-  Uri get configFile;
+  Hook get hook;
+
+  Uri get configFile => outputDirectory.resolve('../${hook.configName}');
 
   Uri get outputFile => outputDirectory.resolve(outputName);
 
   Uri get outputDirectory;
 
-  Uri get script;
+  // This is currently overriden by [BuildConfig], do account for older versions
+  // still using a top-level build.dart.
+  Uri get script => packageRoot.resolve('hook/').resolve(hook.scriptName);
 
   String toJsonString();
 

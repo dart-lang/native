@@ -4,15 +4,17 @@
 
 /// The two types of scripts which are hooked into the compilation process.
 ///
-/// The `build.dart` script runs before, and the `link.dart` script after
-/// compilation.
+/// The `build.dart` hook runs before, and the `link.dart` hook after
+/// compilation. This enum holds static information about these hooks.
 enum Hook {
-  link('link'),
-  build('build');
+  link('link', 'link_config'),
+  build('build', 'config');
 
   final String _scriptName;
+  final String _configName;
 
   String get scriptName => '$_scriptName.dart';
+  String get configName => '$_configName.json';
 
-  const Hook(this._scriptName);
+  const Hook(this._scriptName, this._configName);
 }

@@ -6,22 +6,22 @@ part of '../api/build_config.dart';
 
 final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   @override
+  Hook get hook => Hook.build;
+
+  @override
+  //TODO: Should be removed once migration to `hook/` is complete.
   Uri get script {
-    final hookScript =
-        packageRoot.resolve('hook/').resolve(Hook.build.scriptName);
+    final hookScript = packageRoot.resolve('hook/').resolve(hook.scriptName);
     if (File.fromUri(hookScript).existsSync()) {
       return hookScript;
     } else {
-      return packageRoot.resolve(Hook.build.scriptName);
+      return packageRoot.resolve(hook.scriptName);
     }
   }
 
   @override
   String get outputName =>
       version > Version(1, 1, 0) ? 'build_output.json' : 'build_output.yaml';
-
-  @override
-  Uri get configFile => outputDirectory.resolve('../config.json');
 
   /// The folder in which all output and intermediate artifacts should be
   /// placed.

@@ -11,6 +11,9 @@ part of '../api/link_config.dart';
 /// kernel compilation.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
+  Hook get hook => Hook.link;
+
+  @override
   final List<AssetImpl> assets;
 
   final BuildConfigImpl _buildConfig;
@@ -29,9 +32,6 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
         resources = fromIdentifiers(resourceIdentifiers);
 
   @override
-  Uri get configFile => outputDirectory.resolve('../link_config.json');
-
-  @override
   Uri get outputDirectory => _buildConfig.outputDirectory;
 
   @override
@@ -42,9 +42,6 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
 
   @override
   Uri get packageRoot => _buildConfig.packageRoot;
-
-  @override
-  Uri get script => packageRoot.resolve('hook/').resolve(Hook.link.scriptName);
 
   @override
   String toJsonString() =>
