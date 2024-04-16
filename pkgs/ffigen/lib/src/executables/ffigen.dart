@@ -37,7 +37,7 @@ String errorPen(String str) {
   return '${_ansi.red}$str${_ansi.none}';
 }
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   // Parses the cmd args. This will print usage and exit if --help was passed.
   final argResult = getArgResults(args);
 

@@ -9,6 +9,8 @@
 
 import 'dart:io';
 
+import 'package:ffigen/src/executables/ffigen.dart' as ffigen;
+
 const cConfig = 'ffigen_c.yaml';
 const objcConfig = 'ffigen_objc.yaml';
 const cBindings = 'lib/src/c_bindings_generated.dart';
@@ -60,10 +62,14 @@ void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
   File(filename).writeAsStringSync(out.toString());
 }
 
-void main() {
-  Directory.current = Platform.script.resolve('..').path;
-  dartCmd(['run', 'ffigen', '--no-format', '--config', cConfig]);
-  dartCmd(['run', 'ffigen', '--no-format', '--config', objcConfig]);
+Future<void> run() async {
+  await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
+  await ffigen.main(['--no-format', '-v', 'severe', '--config', objcConfig]);
   mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
   dartCmd(['format', cBindings, objcBindings]);
+}
+
+Future<void> main() async {
+  Directory.current = Platform.script.resolve('..').path;
+  await run();
 }

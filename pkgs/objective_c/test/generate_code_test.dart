@@ -9,16 +9,16 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
-import '../tool/generate_code.dart';
+import '../tool/generate_code.dart' as generate_code;
+import '../lib/src/dummy_file_for_verifying_coverage_is_working.dart';
 
 void main() {
   group('generate_code.dart', () {
-    test('Runs without exception', () {
+    test('Runs without exception', () async {
       // As well as testing that this returns normally, this also generates
       // coverage info for the parts of ffigen that are gated by
       // generate-for-package-objective-c.
-      expect(
-          () => dartCmd(['run', 'tool/generate_code.dart']), returnsNormally);
+      await expectLater(generate_code.run(), completes);
 
       // Sanity check the generated code.
       final cBindings =
@@ -33,6 +33,8 @@ void main() {
       expect(objcBindings, contains('class NSObject'));
       expect(objcBindings, contains('class NSString'));
       expect(objcBindings, contains('factory NSString(String str)'));
+
+      foo();
     });
   });
 }
