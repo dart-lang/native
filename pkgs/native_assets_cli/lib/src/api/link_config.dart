@@ -35,7 +35,9 @@ abstract class LinkConfig implements HookConfig {
   /// A collection of methods annotated with `@ResourceIdentifier`, which are
   /// called in the tree-shaken Dart code. This information can be used to
   /// dispose unused [assets].
-  List<Resource> get resources;
+  ///
+  /// This is `null` in JIT mode, where no resources are collected.
+  List<Resource>? get resources;
 
   /// Generate the [LinkConfig] from the input arguments to the linking script.
   factory LinkConfig.fromArguments(List<String> arguments) =>

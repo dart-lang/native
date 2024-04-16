@@ -19,7 +19,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   final BuildConfigImpl _buildConfig;
 
   @override
-  final List<Resource> resources;
+  final List<Resource>? resources;
 
   final _LinkConfigArgs _args;
 
@@ -99,8 +99,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   static Version latestVersion = Version(1, 0, 0);
 }
 
-List<Resource> fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>
-    (resourceIdentifiers?.identifiers ?? [])
+List<Resource>? fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>
+    resourceIdentifiers?.identifiers
         .map((e) => Resource(name: e.name, metadata: e.id))
         .toList();
 
