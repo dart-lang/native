@@ -97,10 +97,14 @@ class JsonParser_Feature extends jni.JObject {
   }
 
   static final _enabledByDefault = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser_Feature__enabledByDefault")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser_Feature__enabledByDefault")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean enabledByDefault()
   bool enabledByDefault() {
@@ -121,10 +125,14 @@ class JsonParser_Feature extends jni.JObject {
   }
 
   static final _getMask = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser_Feature__getMask")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser_Feature__getMask")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getMask()
   int getMask() {
@@ -281,10 +289,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getCodec = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getCodec")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getCodec")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.ObjectCodec getCodec()
   /// The returned object must be released after use, by calling the [release] method.
@@ -318,10 +330,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getInputSource = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getInputSource")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getInputSource")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object getInputSource()
   /// The returned object must be released after use, by calling the [release] method.
@@ -437,10 +453,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getSchema = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getSchema")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getSchema")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.FormatSchema getSchema()
   /// The returned object must be released after use, by calling the [release] method.
@@ -474,10 +494,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _requiresCustomCodec = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__requiresCustomCodec")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__requiresCustomCodec")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean requiresCustomCodec()
   ///
@@ -494,10 +518,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _canParseAsync = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__canParseAsync")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__canParseAsync")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean canParseAsync()
   ///
@@ -517,10 +545,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getNonBlockingInputFeeder = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getNonBlockingInputFeeder")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getNonBlockingInputFeeder")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.async.NonBlockingInputFeeder getNonBlockingInputFeeder()
   /// The returned object must be released after use, by calling the [release] method.
@@ -536,10 +568,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getReadCapabilities = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getReadCapabilities")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getReadCapabilities")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> getReadCapabilities()
   /// The returned object must be released after use, by calling the [release] method.
@@ -554,10 +590,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _version = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__version")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__version")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.Version version()
   /// The returned object must be released after use, by calling the [release] method.
@@ -571,10 +611,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _close = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__close")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__close")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract void close()
   ///
@@ -597,10 +641,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _isClosed = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__isClosed")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__isClosed")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract boolean isClosed()
   ///
@@ -616,10 +664,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getParsingContext = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getParsingContext")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getParsingContext")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonStreamContext getParsingContext()
   /// The returned object must be released after use, by calling the [release] method.
@@ -639,10 +691,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _currentLocation = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__currentLocation")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__currentLocation")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.JsonLocation currentLocation()
   /// The returned object must be released after use, by calling the [release] method.
@@ -664,10 +720,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _currentTokenLocation = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__currentTokenLocation")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__currentTokenLocation")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.JsonLocation currentTokenLocation()
   /// The returned object must be released after use, by calling the [release] method.
@@ -690,10 +750,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getCurrentLocation = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getCurrentLocation")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getCurrentLocation")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonLocation getCurrentLocation()
   /// The returned object must be released after use, by calling the [release] method.
@@ -707,10 +771,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getTokenLocation = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getTokenLocation")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getTokenLocation")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonLocation getTokenLocation()
   /// The returned object must be released after use, by calling the [release] method.
@@ -723,10 +791,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _currentValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__currentValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__currentValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object currentValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -769,10 +841,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getCurrentValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getCurrentValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getCurrentValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object getCurrentValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -966,10 +1042,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getFeatureMask = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getFeatureMask")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getFeatureMask")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getFeatureMask()
   ///
@@ -1031,10 +1111,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getFormatFeatures = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getFormatFeatures")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getFormatFeatures")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getFormatFeatures()
   ///
@@ -1074,10 +1158,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _nextToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__nextToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__nextToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken nextToken()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1096,10 +1184,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _nextValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__nextValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__nextValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken nextValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1157,10 +1249,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _nextFieldName1 = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__nextFieldName1")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__nextFieldName1")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String nextFieldName()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1178,10 +1274,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _nextTextValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__nextTextValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__nextTextValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String nextTextValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1266,10 +1366,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _nextBooleanValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__nextBooleanValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__nextBooleanValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Boolean nextBooleanValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1296,10 +1400,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _skipChildren = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__skipChildren")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__skipChildren")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonParser skipChildren()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1324,10 +1432,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _finishToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__finishToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__finishToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void finishToken()
   ///
@@ -1349,10 +1461,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _currentToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__currentToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__currentToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.JsonToken currentToken()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1372,10 +1488,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _currentTokenId = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__currentTokenId")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__currentTokenId")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int currentTokenId()
   ///
@@ -1393,10 +1513,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getCurrentToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getCurrentToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getCurrentToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken getCurrentToken()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1411,10 +1535,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getCurrentTokenId = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getCurrentTokenId")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getCurrentTokenId")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract int getCurrentTokenId()
   ///
@@ -1426,10 +1554,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _hasCurrentToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__hasCurrentToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__hasCurrentToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract boolean hasCurrentToken()
   ///
@@ -1500,10 +1632,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _isExpectedStartArrayToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__isExpectedStartArrayToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__isExpectedStartArrayToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isExpectedStartArrayToken()
   ///
@@ -1528,10 +1664,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _isExpectedStartObjectToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__isExpectedStartObjectToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__isExpectedStartObjectToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isExpectedStartObjectToken()
   ///
@@ -1546,10 +1686,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _isExpectedNumberIntToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__isExpectedNumberIntToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__isExpectedNumberIntToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isExpectedNumberIntToken()
   ///
@@ -1567,10 +1711,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _isNaN = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__isNaN")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__isNaN")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isNaN()
   ///
@@ -1591,10 +1739,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _clearCurrentToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__clearCurrentToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__clearCurrentToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract void clearCurrentToken()
   ///
@@ -1613,10 +1765,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getLastClearedToken = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getLastClearedToken")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getLastClearedToken")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonToken getLastClearedToken()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1657,10 +1813,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getCurrentName = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getCurrentName")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getCurrentName")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract java.lang.String getCurrentName()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1674,10 +1834,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _currentName = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__currentName")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__currentName")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String currentName()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1696,10 +1860,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getText = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getText")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getText")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract java.lang.String getText()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1748,10 +1916,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getTextCharacters = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getTextCharacters")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getTextCharacters")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract char[] getTextCharacters()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1789,10 +1961,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getTextLength = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getTextLength")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getTextLength")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract int getTextLength()
   ///
@@ -1808,10 +1984,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getTextOffset = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getTextOffset")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getTextOffset")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract int getTextOffset()
   ///
@@ -1827,10 +2007,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _hasTextCharacters = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__hasTextCharacters")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__hasTextCharacters")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract boolean hasTextCharacters()
   ///
@@ -1853,10 +2037,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getNumberValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getNumberValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getNumberValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract java.lang.Number getNumberValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1876,10 +2064,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getNumberValueExact = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getNumberValueExact")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getNumberValueExact")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Number getNumberValueExact()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1904,10 +2096,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getNumberType = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getNumberType")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getNumberType")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.fasterxml.jackson.core.JsonParser.NumberType getNumberType()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1925,10 +2121,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getByteValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getByteValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getByteValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public byte getByteValue()
   ///
@@ -1958,10 +2158,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getShortValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getShortValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getShortValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public short getShortValue()
   ///
@@ -1985,10 +2189,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getIntValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getIntValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getIntValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract int getIntValue()
   ///
@@ -2012,10 +2220,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getLongValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getLongValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getLongValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract long getLongValue()
   ///
@@ -2039,10 +2251,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getBigIntegerValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getBigIntegerValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getBigIntegerValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract java.math.BigInteger getBigIntegerValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2064,10 +2280,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getFloatValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getFloatValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getFloatValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract float getFloatValue()
   ///
@@ -2091,10 +2311,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getDoubleValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getDoubleValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getDoubleValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract double getDoubleValue()
   ///
@@ -2118,10 +2342,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getDecimalValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getDecimalValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getDecimalValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract java.math.BigDecimal getDecimalValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2139,10 +2367,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getBooleanValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getBooleanValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getBooleanValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean getBooleanValue()
   ///
@@ -2162,10 +2394,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getEmbeddedObject = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getEmbeddedObject")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getEmbeddedObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object getEmbeddedObject()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2228,10 +2464,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getBinaryValue1 = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getBinaryValue1")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getBinaryValue1")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public byte[] getBinaryValue()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2304,10 +2544,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getValueAsInt = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getValueAsInt")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getValueAsInt")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getValueAsInt()
   ///
@@ -2356,10 +2600,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getValueAsLong = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getValueAsLong")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getValueAsLong")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public long getValueAsLong()
   ///
@@ -2408,10 +2656,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getValueAsDouble = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getValueAsDouble")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getValueAsDouble")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public double getValueAsDouble()
   ///
@@ -2460,10 +2712,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getValueAsBoolean = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getValueAsBoolean")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getValueAsBoolean")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean getValueAsBoolean()
   ///
@@ -2512,10 +2768,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getValueAsString = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getValueAsString")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getValueAsString")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getValueAsString()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2566,10 +2826,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _canReadObjectId = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__canReadObjectId")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__canReadObjectId")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean canReadObjectId()
   ///
@@ -2589,10 +2853,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _canReadTypeId = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__canReadTypeId")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__canReadTypeId")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean canReadTypeId()
   ///
@@ -2612,10 +2880,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getObjectId = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getObjectId")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getObjectId")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object getObjectId()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2638,10 +2910,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _getTypeId = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__getTypeId")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__getTypeId")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object getTypeId()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2803,10 +3079,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _readValueAsTree = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonParser__readValueAsTree")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonParser__readValueAsTree")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public T readValueAsTree()
   /// The returned object must be released after use, by calling the [release] method.

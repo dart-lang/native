@@ -64,11 +64,23 @@ class JsonFactory_Feature extends jni.JObject {
     r"()[Lcom/fasterxml/jackson/core/JsonFactory$Feature;",
   );
 
+  static final _values = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallStaticObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()
   /// The returned object must be released after use, by calling the [release] method.
   static jni.JArray<JsonFactory_Feature> values() {
-    return _id_values(
-        _class, const jni.JArrayType($JsonFactory_FeatureType()), []);
+    return _values(_class.reference.pointer, _id_values as jni.JMethodIDPtr)
+        .object(const jni.JArrayType($JsonFactory_FeatureType()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -76,13 +88,25 @@ class JsonFactory_Feature extends jni.JObject {
     r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory$Feature;",
   );
 
+  static final _valueOf = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallStaticObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
+
   /// from: static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)
   /// The returned object must be released after use, by calling the [release] method.
   static JsonFactory_Feature valueOf(
     jni.JString name,
   ) {
-    return _id_valueOf(
-        _class, const $JsonFactory_FeatureType(), [name.reference.pointer]);
+    return _valueOf(_class.reference.pointer, _id_valueOf as jni.JMethodIDPtr,
+            name.reference.pointer)
+        .object(const $JsonFactory_FeatureType());
   }
 
   static final _id_collectDefaults = _class.staticMethodId(
@@ -90,13 +114,27 @@ class JsonFactory_Feature extends jni.JObject {
     r"()I",
   );
 
+  static final _collectDefaults = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallStaticIntMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: static public int collectDefaults()
   ///
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
   ///@return Bit field of features enabled by default
   static int collectDefaults() {
-    return _id_collectDefaults(_class, const jni.jintType(), []);
+    return _collectDefaults(
+            _class.reference.pointer, _id_collectDefaults as jni.JMethodIDPtr)
+        .integer;
   }
 
   static final _id_enabledByDefault = _class.instanceMethodId(
@@ -104,9 +142,23 @@ class JsonFactory_Feature extends jni.JObject {
     r"()Z",
   );
 
+  static final _enabledByDefault = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public boolean enabledByDefault()
   bool enabledByDefault() {
-    return _id_enabledByDefault(this, const jni.jbooleanType(), []);
+    return _enabledByDefault(
+            reference.pointer, _id_enabledByDefault as jni.JMethodIDPtr)
+        .boolean;
   }
 
   static final _id_enabledIn = _class.instanceMethodId(
@@ -114,12 +166,21 @@ class JsonFactory_Feature extends jni.JObject {
     r"(I)Z",
   );
 
+  static final _enabledIn = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+                  ffi.VarArgs<(ffi.Int64,)>)>>("globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+
   /// from: public boolean enabledIn(int flags)
   bool enabledIn(
     int flags,
   ) {
-    return _id_enabledIn(
-        this, const jni.jbooleanType(), [jni.JValueInt(flags)]);
+    return _enabledIn(
+            reference.pointer, _id_enabledIn as jni.JMethodIDPtr, flags)
+        .boolean;
   }
 
   static final _id_getMask = _class.instanceMethodId(
@@ -127,9 +188,21 @@ class JsonFactory_Feature extends jni.JObject {
     r"()I",
   );
 
+  static final _getMask = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallIntMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public int getMask()
   int getMask() {
-    return _id_getMask(this, const jni.jintType(), []);
+    return _getMask(reference.pointer, _id_getMask as jni.JMethodIDPtr).integer;
   }
 }
 
@@ -253,6 +326,18 @@ class JsonFactory extends jni.JObject {
     r"()V",
   );
 
+  static final _new0 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   ///
@@ -265,25 +350,53 @@ class JsonFactory extends jni.JObject {
   /// and this reuse only works within context of a single
   /// factory instance.
   factory JsonFactory() {
-    return JsonFactory.fromReference(_id_new0(_class, referenceType, []));
+    return JsonFactory.fromReference(
+        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            .reference);
   }
 
   static final _id_new1 = _class.constructorId(
     r"(Lcom/fasterxml/jackson/core/ObjectCodec;)V",
   );
 
+  static final _new1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
+
   /// from: public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)
   /// The returned object must be released after use, by calling the [release] method.
   factory JsonFactory.new1(
     jni.JObject oc,
   ) {
-    return JsonFactory.fromReference(
-        _id_new1(_class, referenceType, [oc.reference.pointer]));
+    return JsonFactory.fromReference(_new1(_class.reference.pointer,
+            _id_new1 as jni.JMethodIDPtr, oc.reference.pointer)
+        .reference);
   }
 
   static final _id_new2 = _class.constructorId(
     r"(Lcom/fasterxml/jackson/core/JsonFactory;Lcom/fasterxml/jackson/core/ObjectCodec;)V",
   );
+
+  static final _new2 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(com.fasterxml.jackson.core.JsonFactory src, com.fasterxml.jackson.core.ObjectCodec codec)
   /// The returned object must be released after use, by calling the [release] method.
@@ -296,13 +409,28 @@ class JsonFactory extends jni.JObject {
     JsonFactory src,
     jni.JObject codec,
   ) {
-    return JsonFactory.fromReference(_id_new2(_class, referenceType,
-        [src.reference.pointer, codec.reference.pointer]));
+    return JsonFactory.fromReference(_new2(
+            _class.reference.pointer,
+            _id_new2 as jni.JMethodIDPtr,
+            src.reference.pointer,
+            codec.reference.pointer)
+        .reference);
   }
 
   static final _id_new3 = _class.constructorId(
     r"(Lcom/fasterxml/jackson/core/JsonFactoryBuilder;)V",
   );
+
+  static final _new3 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(com.fasterxml.jackson.core.JsonFactoryBuilder b)
   /// The returned object must be released after use, by calling the [release] method.
@@ -313,13 +441,25 @@ class JsonFactory extends jni.JObject {
   factory JsonFactory.new3(
     jni.JObject b,
   ) {
-    return JsonFactory.fromReference(
-        _id_new3(_class, referenceType, [b.reference.pointer]));
+    return JsonFactory.fromReference(_new3(_class.reference.pointer,
+            _id_new3 as jni.JMethodIDPtr, b.reference.pointer)
+        .reference);
   }
 
   static final _id_new4 = _class.constructorId(
     r"(Lcom/fasterxml/jackson/core/TSFBuilder;Z)V",
   );
+
+  static final _new4 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int64)>)>>(
+          "globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, int)>();
 
   /// from: protected void <init>(com.fasterxml.jackson.core.TSFBuilder<?,?> b, boolean bogus)
   /// The returned object must be released after use, by calling the [release] method.
@@ -333,14 +473,27 @@ class JsonFactory extends jni.JObject {
     jni.JObject b,
     bool bogus,
   ) {
-    return JsonFactory.fromReference(
-        _id_new4(_class, referenceType, [b.reference.pointer, bogus ? 1 : 0]));
+    return JsonFactory.fromReference(_new4(_class.reference.pointer,
+            _id_new4 as jni.JMethodIDPtr, b.reference.pointer, bogus ? 1 : 0)
+        .reference);
   }
 
   static final _id_rebuild = _class.instanceMethodId(
     r"rebuild",
     r"()Lcom/fasterxml/jackson/core/TSFBuilder;",
   );
+
+  static final _rebuild = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.TSFBuilder<?,?> rebuild()
   /// The returned object must be released after use, by calling the [release] method.
@@ -350,13 +503,26 @@ class JsonFactory extends jni.JObject {
   ///@return Builder instance to use
   ///@since 2.10
   jni.JObject rebuild() {
-    return _id_rebuild(this, const jni.JObjectType(), []);
+    return _rebuild(reference.pointer, _id_rebuild as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_builder = _class.staticMethodId(
     r"builder",
     r"()Lcom/fasterxml/jackson/core/TSFBuilder;",
   );
+
+  static final _builder = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallStaticObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: static public com.fasterxml.jackson.core.TSFBuilder<?,?> builder()
   /// The returned object must be released after use, by calling the [release] method.
@@ -370,13 +536,26 @@ class JsonFactory extends jni.JObject {
   /// will be fixed in 3.0.
   ///@return Builder instance to use
   static jni.JObject builder() {
-    return _id_builder(_class, const jni.JObjectType(), []);
+    return _builder(_class.reference.pointer, _id_builder as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_copy = _class.instanceMethodId(
     r"copy",
     r"()Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _copy = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory copy()
   /// The returned object must be released after use, by calling the [release] method.
@@ -394,13 +573,26 @@ class JsonFactory extends jni.JObject {
   ///@return Copy of this factory instance
   ///@since 2.1
   JsonFactory copy() {
-    return _id_copy(this, const $JsonFactoryType(), []);
+    return _copy(reference.pointer, _id_copy as jni.JMethodIDPtr)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_readResolve = _class.instanceMethodId(
     r"readResolve",
     r"()Ljava/lang/Object;",
   );
+
+  static final _readResolve = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: protected java.lang.Object readResolve()
   /// The returned object must be released after use, by calling the [release] method.
@@ -412,13 +604,26 @@ class JsonFactory extends jni.JObject {
   /// Note: must be overridden by sub-classes as well.
   ///@return Newly constructed instance
   jni.JObject readResolve() {
-    return _id_readResolve(this, const jni.JObjectType(), []);
+    return _readResolve(reference.pointer, _id_readResolve as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_requiresPropertyOrdering = _class.instanceMethodId(
     r"requiresPropertyOrdering",
     r"()Z",
   );
+
+  static final _requiresPropertyOrdering = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public boolean requiresPropertyOrdering()
   ///
@@ -437,13 +642,27 @@ class JsonFactory extends jni.JObject {
   ///   requires Object properties to be ordered.
   ///@since 2.3
   bool requiresPropertyOrdering() {
-    return _id_requiresPropertyOrdering(this, const jni.jbooleanType(), []);
+    return _requiresPropertyOrdering(
+            reference.pointer, _id_requiresPropertyOrdering as jni.JMethodIDPtr)
+        .boolean;
   }
 
   static final _id_canHandleBinaryNatively = _class.instanceMethodId(
     r"canHandleBinaryNatively",
     r"()Z",
   );
+
+  static final _canHandleBinaryNatively = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public boolean canHandleBinaryNatively()
   ///
@@ -459,13 +678,27 @@ class JsonFactory extends jni.JObject {
   ///    supports native binary content
   ///@since 2.3
   bool canHandleBinaryNatively() {
-    return _id_canHandleBinaryNatively(this, const jni.jbooleanType(), []);
+    return _canHandleBinaryNatively(
+            reference.pointer, _id_canHandleBinaryNatively as jni.JMethodIDPtr)
+        .boolean;
   }
 
   static final _id_canUseCharArrays = _class.instanceMethodId(
     r"canUseCharArrays",
     r"()Z",
   );
+
+  static final _canUseCharArrays = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public boolean canUseCharArrays()
   ///
@@ -481,13 +714,27 @@ class JsonFactory extends jni.JObject {
   ///   accessed using parser method {@code getTextCharacters()}.
   ///@since 2.4
   bool canUseCharArrays() {
-    return _id_canUseCharArrays(this, const jni.jbooleanType(), []);
+    return _canUseCharArrays(
+            reference.pointer, _id_canUseCharArrays as jni.JMethodIDPtr)
+        .boolean;
   }
 
   static final _id_canParseAsync = _class.instanceMethodId(
     r"canParseAsync",
     r"()Z",
   );
+
+  static final _canParseAsync = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public boolean canParseAsync()
   ///
@@ -499,7 +746,9 @@ class JsonFactory extends jni.JObject {
   ///    not (and consequently whether {@code createNonBlockingXxx()} method(s) work)
   ///@since 2.9
   bool canParseAsync() {
-    return _id_canParseAsync(this, const jni.jbooleanType(), []);
+    return _canParseAsync(
+            reference.pointer, _id_canParseAsync as jni.JMethodIDPtr)
+        .boolean;
   }
 
   static final _id_getFormatReadFeatureType = _class.instanceMethodId(
@@ -507,10 +756,24 @@ class JsonFactory extends jni.JObject {
     r"()Ljava/lang/Class;",
   );
 
+  static final _getFormatReadFeatureType = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatReadFeatureType() {
-    return _id_getFormatReadFeatureType(this, const jni.JObjectType(), []);
+    return _getFormatReadFeatureType(
+            reference.pointer, _id_getFormatReadFeatureType as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_getFormatWriteFeatureType = _class.instanceMethodId(
@@ -518,16 +781,41 @@ class JsonFactory extends jni.JObject {
     r"()Ljava/lang/Class;",
   );
 
+  static final _getFormatWriteFeatureType = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getFormatWriteFeatureType() {
-    return _id_getFormatWriteFeatureType(this, const jni.JObjectType(), []);
+    return _getFormatWriteFeatureType(reference.pointer,
+            _id_getFormatWriteFeatureType as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_canUseSchema = _class.instanceMethodId(
     r"canUseSchema",
     r"(Lcom/fasterxml/jackson/core/FormatSchema;)Z",
   );
+
+  static final _canUseSchema = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)
   ///
@@ -543,14 +831,27 @@ class JsonFactory extends jni.JObject {
   bool canUseSchema(
     jni.JObject schema,
   ) {
-    return _id_canUseSchema(
-        this, const jni.jbooleanType(), [schema.reference.pointer]);
+    return _canUseSchema(reference.pointer,
+            _id_canUseSchema as jni.JMethodIDPtr, schema.reference.pointer)
+        .boolean;
   }
 
   static final _id_getFormatName = _class.instanceMethodId(
     r"getFormatName",
     r"()Ljava/lang/String;",
   );
+
+  static final _getFormatName = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public java.lang.String getFormatName()
   /// The returned object must be released after use, by calling the [release] method.
@@ -562,7 +863,9 @@ class JsonFactory extends jni.JObject {
   /// implementation will return null for all sub-classes
   ///@return Name of the format handled by parsers, generators this factory creates
   jni.JString getFormatName() {
-    return _id_getFormatName(this, const jni.JStringType(), []);
+    return _getFormatName(
+            reference.pointer, _id_getFormatName as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
   static final _id_hasFormat = _class.instanceMethodId(
@@ -570,19 +873,43 @@ class JsonFactory extends jni.JObject {
     r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;",
   );
 
+  static final _hasFormat = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
+
   /// from: public com.fasterxml.jackson.core.format.MatchStrength hasFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject hasFormat(
     jni.JObject acc,
   ) {
-    return _id_hasFormat(
-        this, const jni.JObjectType(), [acc.reference.pointer]);
+    return _hasFormat(reference.pointer, _id_hasFormat as jni.JMethodIDPtr,
+            acc.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_requiresCustomCodec = _class.instanceMethodId(
     r"requiresCustomCodec",
     r"()Z",
   );
+
+  static final _requiresCustomCodec = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public boolean requiresCustomCodec()
   ///
@@ -596,7 +923,9 @@ class JsonFactory extends jni.JObject {
   ///   ObjectCodec is enough
   ///@since 2.1
   bool requiresCustomCodec() {
-    return _id_requiresCustomCodec(this, const jni.jbooleanType(), []);
+    return _requiresCustomCodec(
+            reference.pointer, _id_requiresCustomCodec as jni.JMethodIDPtr)
+        .boolean;
   }
 
   static final _id_hasJSONFormat = _class.instanceMethodId(
@@ -604,13 +933,25 @@ class JsonFactory extends jni.JObject {
     r"(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;",
   );
 
+  static final _hasJSONFormat = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
+
   /// from: protected com.fasterxml.jackson.core.format.MatchStrength hasJSONFormat(com.fasterxml.jackson.core.format.InputAccessor acc)
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject hasJSONFormat(
     jni.JObject acc,
   ) {
-    return _id_hasJSONFormat(
-        this, const jni.JObjectType(), [acc.reference.pointer]);
+    return _hasJSONFormat(reference.pointer,
+            _id_hasJSONFormat as jni.JMethodIDPtr, acc.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_version = _class.instanceMethodId(
@@ -618,16 +959,40 @@ class JsonFactory extends jni.JObject {
     r"()Lcom/fasterxml/jackson/core/Version;",
   );
 
+  static final _version = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public com.fasterxml.jackson.core.Version version()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject version() {
-    return _id_version(this, const jni.JObjectType(), []);
+    return _version(reference.pointer, _id_version as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_configure = _class.instanceMethodId(
     r"configure",
     r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _configure = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int64)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonFactory.Feature f, boolean state)
   /// The returned object must be released after use, by calling the [release] method.
@@ -642,14 +1007,26 @@ class JsonFactory extends jni.JObject {
     JsonFactory_Feature f,
     bool state,
   ) {
-    return _id_configure(
-        this, const $JsonFactoryType(), [f.reference.pointer, state ? 1 : 0]);
+    return _configure(reference.pointer, _id_configure as jni.JMethodIDPtr,
+            f.reference.pointer, state ? 1 : 0)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_enable = _class.instanceMethodId(
     r"enable",
     r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _enable = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonFactory.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -662,13 +1039,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory enable(
     JsonFactory_Feature f,
   ) {
-    return _id_enable(this, const $JsonFactoryType(), [f.reference.pointer]);
+    return _enable(reference.pointer, _id_enable as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_disable = _class.instanceMethodId(
     r"disable",
     r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _disable = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonFactory.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -681,13 +1071,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable(
     JsonFactory_Feature f,
   ) {
-    return _id_disable(this, const $JsonFactoryType(), [f.reference.pointer]);
+    return _disable(reference.pointer, _id_disable as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_isEnabled = _class.instanceMethodId(
     r"isEnabled",
     r"(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Z",
   );
+
+  static final _isEnabled = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonFactory.Feature f)
   ///
@@ -697,7 +1100,9 @@ class JsonFactory extends jni.JObject {
   bool isEnabled(
     JsonFactory_Feature f,
   ) {
-    return _id_isEnabled(this, const jni.jbooleanType(), [f.reference.pointer]);
+    return _isEnabled(reference.pointer, _id_isEnabled as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .boolean;
   }
 
   static final _id_getParserFeatures = _class.instanceMethodId(
@@ -705,9 +1110,23 @@ class JsonFactory extends jni.JObject {
     r"()I",
   );
 
+  static final _getParserFeatures = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallIntMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public final int getParserFeatures()
   int getParserFeatures() {
-    return _id_getParserFeatures(this, const jni.jintType(), []);
+    return _getParserFeatures(
+            reference.pointer, _id_getParserFeatures as jni.JMethodIDPtr)
+        .integer;
   }
 
   static final _id_getGeneratorFeatures = _class.instanceMethodId(
@@ -715,9 +1134,23 @@ class JsonFactory extends jni.JObject {
     r"()I",
   );
 
+  static final _getGeneratorFeatures = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallIntMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public final int getGeneratorFeatures()
   int getGeneratorFeatures() {
-    return _id_getGeneratorFeatures(this, const jni.jintType(), []);
+    return _getGeneratorFeatures(
+            reference.pointer, _id_getGeneratorFeatures as jni.JMethodIDPtr)
+        .integer;
   }
 
   static final _id_getFormatParserFeatures = _class.instanceMethodId(
@@ -725,9 +1158,23 @@ class JsonFactory extends jni.JObject {
     r"()I",
   );
 
+  static final _getFormatParserFeatures = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallIntMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public int getFormatParserFeatures()
   int getFormatParserFeatures() {
-    return _id_getFormatParserFeatures(this, const jni.jintType(), []);
+    return _getFormatParserFeatures(
+            reference.pointer, _id_getFormatParserFeatures as jni.JMethodIDPtr)
+        .integer;
   }
 
   static final _id_getFormatGeneratorFeatures = _class.instanceMethodId(
@@ -735,15 +1182,40 @@ class JsonFactory extends jni.JObject {
     r"()I",
   );
 
+  static final _getFormatGeneratorFeatures = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallIntMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public int getFormatGeneratorFeatures()
   int getFormatGeneratorFeatures() {
-    return _id_getFormatGeneratorFeatures(this, const jni.jintType(), []);
+    return _getFormatGeneratorFeatures(reference.pointer,
+            _id_getFormatGeneratorFeatures as jni.JMethodIDPtr)
+        .integer;
   }
 
   static final _id_configure1 = _class.instanceMethodId(
     r"configure",
     r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _configure1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int64)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)
   /// The returned object must be released after use, by calling the [release] method.
@@ -757,14 +1229,26 @@ class JsonFactory extends jni.JObject {
     jsonparser_.JsonParser_Feature f,
     bool state,
   ) {
-    return _id_configure1(
-        this, const $JsonFactoryType(), [f.reference.pointer, state ? 1 : 0]);
+    return _configure1(reference.pointer, _id_configure1 as jni.JMethodIDPtr,
+            f.reference.pointer, state ? 1 : 0)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_enable1 = _class.instanceMethodId(
     r"enable",
     r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _enable1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonParser.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -776,13 +1260,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory enable1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return _id_enable1(this, const $JsonFactoryType(), [f.reference.pointer]);
+    return _enable1(reference.pointer, _id_enable1 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_disable1 = _class.instanceMethodId(
     r"disable",
     r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _disable1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonParser.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -794,13 +1291,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return _id_disable1(this, const $JsonFactoryType(), [f.reference.pointer]);
+    return _disable1(reference.pointer, _id_disable1 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_isEnabled1 = _class.instanceMethodId(
     r"isEnabled",
     r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z",
   );
+
+  static final _isEnabled1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)
   ///
@@ -810,14 +1320,26 @@ class JsonFactory extends jni.JObject {
   bool isEnabled1(
     jsonparser_.JsonParser_Feature f,
   ) {
-    return _id_isEnabled1(
-        this, const jni.jbooleanType(), [f.reference.pointer]);
+    return _isEnabled1(reference.pointer, _id_isEnabled1 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .boolean;
   }
 
   static final _id_isEnabled2 = _class.instanceMethodId(
     r"isEnabled",
     r"(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z",
   );
+
+  static final _isEnabled2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)
   ///
@@ -828,14 +1350,27 @@ class JsonFactory extends jni.JObject {
   bool isEnabled2(
     jni.JObject f,
   ) {
-    return _id_isEnabled2(
-        this, const jni.jbooleanType(), [f.reference.pointer]);
+    return _isEnabled2(reference.pointer, _id_isEnabled2 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .boolean;
   }
 
   static final _id_getInputDecorator = _class.instanceMethodId(
     r"getInputDecorator",
     r"()Lcom/fasterxml/jackson/core/io/InputDecorator;",
   );
+
+  static final _getInputDecorator = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.io.InputDecorator getInputDecorator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -844,13 +1379,26 @@ class JsonFactory extends jni.JObject {
   /// there is no default decorator).
   ///@return InputDecorator configured, if any
   jni.JObject getInputDecorator() {
-    return _id_getInputDecorator(this, const jni.JObjectType(), []);
+    return _getInputDecorator(
+            reference.pointer, _id_getInputDecorator as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_setInputDecorator = _class.instanceMethodId(
     r"setInputDecorator",
     r"(Lcom/fasterxml/jackson/core/io/InputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _setInputDecorator = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setInputDecorator(com.fasterxml.jackson.core.io.InputDecorator d)
   /// The returned object must be released after use, by calling the [release] method.
@@ -862,14 +1410,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory setInputDecorator(
     jni.JObject d,
   ) {
-    return _id_setInputDecorator(
-        this, const $JsonFactoryType(), [d.reference.pointer]);
+    return _setInputDecorator(reference.pointer,
+            _id_setInputDecorator as jni.JMethodIDPtr, d.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_configure2 = _class.instanceMethodId(
     r"configure",
     r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _configure2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int64)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonGenerator.Feature f, boolean state)
   /// The returned object must be released after use, by calling the [release] method.
@@ -883,14 +1443,26 @@ class JsonFactory extends jni.JObject {
     jni.JObject f,
     bool state,
   ) {
-    return _id_configure2(
-        this, const $JsonFactoryType(), [f.reference.pointer, state ? 1 : 0]);
+    return _configure2(reference.pointer, _id_configure2 as jni.JMethodIDPtr,
+            f.reference.pointer, state ? 1 : 0)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_enable2 = _class.instanceMethodId(
     r"enable",
     r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _enable2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -902,13 +1474,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory enable2(
     jni.JObject f,
   ) {
-    return _id_enable2(this, const $JsonFactoryType(), [f.reference.pointer]);
+    return _enable2(reference.pointer, _id_enable2 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_disable2 = _class.instanceMethodId(
     r"disable",
     r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _disable2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonGenerator.Feature f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -920,13 +1505,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory disable2(
     jni.JObject f,
   ) {
-    return _id_disable2(this, const $JsonFactoryType(), [f.reference.pointer]);
+    return _disable2(reference.pointer, _id_disable2 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_isEnabled3 = _class.instanceMethodId(
     r"isEnabled",
     r"(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Z",
   );
+
+  static final _isEnabled3 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.JsonGenerator.Feature f)
   ///
@@ -936,14 +1534,26 @@ class JsonFactory extends jni.JObject {
   bool isEnabled3(
     jni.JObject f,
   ) {
-    return _id_isEnabled3(
-        this, const jni.jbooleanType(), [f.reference.pointer]);
+    return _isEnabled3(reference.pointer, _id_isEnabled3 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .boolean;
   }
 
   static final _id_isEnabled4 = _class.instanceMethodId(
     r"isEnabled",
     r"(Lcom/fasterxml/jackson/core/StreamWriteFeature;)Z",
   );
+
+  static final _isEnabled4 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallBooleanMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean isEnabled(com.fasterxml.jackson.core.StreamWriteFeature f)
   ///
@@ -954,14 +1564,27 @@ class JsonFactory extends jni.JObject {
   bool isEnabled4(
     jni.JObject f,
   ) {
-    return _id_isEnabled4(
-        this, const jni.jbooleanType(), [f.reference.pointer]);
+    return _isEnabled4(reference.pointer, _id_isEnabled4 as jni.JMethodIDPtr,
+            f.reference.pointer)
+        .boolean;
   }
 
   static final _id_getCharacterEscapes = _class.instanceMethodId(
     r"getCharacterEscapes",
     r"()Lcom/fasterxml/jackson/core/io/CharacterEscapes;",
   );
+
+  static final _getCharacterEscapes = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.io.CharacterEscapes getCharacterEscapes()
   /// The returned object must be released after use, by calling the [release] method.
@@ -970,13 +1593,26 @@ class JsonFactory extends jni.JObject {
   /// it creates.
   ///@return Configured {@code CharacterEscapes}, if any; {@code null} if none
   jni.JObject getCharacterEscapes() {
-    return _id_getCharacterEscapes(this, const jni.JObjectType(), []);
+    return _getCharacterEscapes(
+            reference.pointer, _id_getCharacterEscapes as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_setCharacterEscapes = _class.instanceMethodId(
     r"setCharacterEscapes",
     r"(Lcom/fasterxml/jackson/core/io/CharacterEscapes;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _setCharacterEscapes = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCharacterEscapes(com.fasterxml.jackson.core.io.CharacterEscapes esc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -988,14 +1624,27 @@ class JsonFactory extends jni.JObject {
   JsonFactory setCharacterEscapes(
     jni.JObject esc,
   ) {
-    return _id_setCharacterEscapes(
-        this, const $JsonFactoryType(), [esc.reference.pointer]);
+    return _setCharacterEscapes(reference.pointer,
+            _id_setCharacterEscapes as jni.JMethodIDPtr, esc.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_getOutputDecorator = _class.instanceMethodId(
     r"getOutputDecorator",
     r"()Lcom/fasterxml/jackson/core/io/OutputDecorator;",
   );
+
+  static final _getOutputDecorator = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.io.OutputDecorator getOutputDecorator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1005,13 +1654,26 @@ class JsonFactory extends jni.JObject {
   ///@return OutputDecorator configured for generators factory creates, if any;
   ///    {@code null} if none.
   jni.JObject getOutputDecorator() {
-    return _id_getOutputDecorator(this, const jni.JObjectType(), []);
+    return _getOutputDecorator(
+            reference.pointer, _id_getOutputDecorator as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_setOutputDecorator = _class.instanceMethodId(
     r"setOutputDecorator",
     r"(Lcom/fasterxml/jackson/core/io/OutputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _setOutputDecorator = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setOutputDecorator(com.fasterxml.jackson.core.io.OutputDecorator d)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1023,14 +1685,26 @@ class JsonFactory extends jni.JObject {
   JsonFactory setOutputDecorator(
     jni.JObject d,
   ) {
-    return _id_setOutputDecorator(
-        this, const $JsonFactoryType(), [d.reference.pointer]);
+    return _setOutputDecorator(reference.pointer,
+            _id_setOutputDecorator as jni.JMethodIDPtr, d.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_setRootValueSeparator = _class.instanceMethodId(
     r"setRootValueSeparator",
     r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _setRootValueSeparator = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setRootValueSeparator(java.lang.String sep)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1043,8 +1717,11 @@ class JsonFactory extends jni.JObject {
   JsonFactory setRootValueSeparator(
     jni.JString sep,
   ) {
-    return _id_setRootValueSeparator(
-        this, const $JsonFactoryType(), [sep.reference.pointer]);
+    return _setRootValueSeparator(
+            reference.pointer,
+            _id_setRootValueSeparator as jni.JMethodIDPtr,
+            sep.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_getRootValueSeparator = _class.instanceMethodId(
@@ -1052,18 +1729,43 @@ class JsonFactory extends jni.JObject {
     r"()Ljava/lang/String;",
   );
 
+  static final _getRootValueSeparator = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public java.lang.String getRootValueSeparator()
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @return Root value separator configured, if any
   jni.JString getRootValueSeparator() {
-    return _id_getRootValueSeparator(this, const jni.JStringType(), []);
+    return _getRootValueSeparator(
+            reference.pointer, _id_getRootValueSeparator as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
   static final _id_setCodec = _class.instanceMethodId(
     r"setCodec",
     r"(Lcom/fasterxml/jackson/core/ObjectCodec;)Lcom/fasterxml/jackson/core/JsonFactory;",
   );
+
+  static final _setCodec = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory setCodec(com.fasterxml.jackson.core.ObjectCodec oc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1078,7 +1780,9 @@ class JsonFactory extends jni.JObject {
   JsonFactory setCodec(
     jni.JObject oc,
   ) {
-    return _id_setCodec(this, const $JsonFactoryType(), [oc.reference.pointer]);
+    return _setCodec(reference.pointer, _id_setCodec as jni.JMethodIDPtr,
+            oc.reference.pointer)
+        .object(const $JsonFactoryType());
   }
 
   static final _id_getCodec = _class.instanceMethodId(
@@ -1086,16 +1790,40 @@ class JsonFactory extends jni.JObject {
     r"()Lcom/fasterxml/jackson/core/ObjectCodec;",
   );
 
+  static final _getCodec = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public com.fasterxml.jackson.core.ObjectCodec getCodec()
   /// The returned object must be released after use, by calling the [release] method.
   jni.JObject getCodec() {
-    return _id_getCodec(this, const jni.JObjectType(), []);
+    return _getCodec(reference.pointer, _id_getCodec as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createParser = _class.instanceMethodId(
     r"createParser",
     r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.File f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1119,14 +1847,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser(
     jni.JObject f,
   ) {
-    return _id_createParser(
-        this, const jsonparser_.$JsonParserType(), [f.reference.pointer]);
+    return _createParser(reference.pointer,
+            _id_createParser as jni.JMethodIDPtr, f.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser1 = _class.instanceMethodId(
     r"createParser",
     r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.net.URL url)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1148,14 +1888,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser1(
     jni.JObject url,
   ) {
-    return _id_createParser1(
-        this, const jsonparser_.$JsonParserType(), [url.reference.pointer]);
+    return _createParser1(reference.pointer,
+            _id_createParser1 as jni.JMethodIDPtr, url.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser2 = _class.instanceMethodId(
     r"createParser",
     r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.InputStream in)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1180,14 +1932,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser2(
     jni.JObject in0,
   ) {
-    return _id_createParser2(
-        this, const jsonparser_.$JsonParserType(), [in0.reference.pointer]);
+    return _createParser2(reference.pointer,
+            _id_createParser2 as jni.JMethodIDPtr, in0.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser3 = _class.instanceMethodId(
     r"createParser",
     r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser3 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.Reader r)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1205,14 +1969,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser3(
     jni.JObject r,
   ) {
-    return _id_createParser3(
-        this, const jsonparser_.$JsonParserType(), [r.reference.pointer]);
+    return _createParser3(reference.pointer,
+            _id_createParser3 as jni.JMethodIDPtr, r.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser4 = _class.instanceMethodId(
     r"createParser",
     r"([B)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser4 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1223,14 +1999,30 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return _id_createParser4(
-        this, const jsonparser_.$JsonParserType(), [data.reference.pointer]);
+    return _createParser4(reference.pointer,
+            _id_createParser4 as jni.JMethodIDPtr, data.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser5 = _class.instanceMethodId(
     r"createParser",
     r"([BII)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser5 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Int64,
+                        ffi.Int64
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(byte[] data, int offset, int len)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1246,14 +2038,30 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return _id_createParser5(this, const jsonparser_.$JsonParserType(),
-        [data.reference.pointer, jni.JValueInt(offset), jni.JValueInt(len)]);
+    return _createParser5(
+            reference.pointer,
+            _id_createParser5 as jni.JMethodIDPtr,
+            data.reference.pointer,
+            offset,
+            len)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser6 = _class.instanceMethodId(
     r"createParser",
     r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser6 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.lang.String content)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1264,14 +2072,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser6(
     jni.JString content,
   ) {
-    return _id_createParser6(
-        this, const jsonparser_.$JsonParserType(), [content.reference.pointer]);
+    return _createParser6(reference.pointer,
+            _id_createParser6 as jni.JMethodIDPtr, content.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser7 = _class.instanceMethodId(
     r"createParser",
     r"([C)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser7 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1282,14 +2102,30 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser7(
     jni.JArray<jni.jchar> content,
   ) {
-    return _id_createParser7(
-        this, const jsonparser_.$JsonParserType(), [content.reference.pointer]);
+    return _createParser7(reference.pointer,
+            _id_createParser7 as jni.JMethodIDPtr, content.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser8 = _class.instanceMethodId(
     r"createParser",
     r"([CII)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser8 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Int64,
+                        ffi.Int64
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(char[] content, int offset, int len)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1301,14 +2137,30 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return _id_createParser8(this, const jsonparser_.$JsonParserType(),
-        [content.reference.pointer, jni.JValueInt(offset), jni.JValueInt(len)]);
+    return _createParser8(
+            reference.pointer,
+            _id_createParser8 as jni.JMethodIDPtr,
+            content.reference.pointer,
+            offset,
+            len)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createParser9 = _class.instanceMethodId(
     r"createParser",
     r"(Ljava/io/DataInput;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createParser9 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createParser(java.io.DataInput in)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1322,14 +2174,28 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createParser9(
     jni.JObject in0,
   ) {
-    return _id_createParser9(
-        this, const jsonparser_.$JsonParserType(), [in0.reference.pointer]);
+    return _createParser9(reference.pointer,
+            _id_createParser9 as jni.JMethodIDPtr, in0.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createNonBlockingByteArrayParser = _class.instanceMethodId(
     r"createNonBlockingByteArrayParser",
     r"()Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createNonBlockingByteArrayParser =
+      ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                    ffi.Pointer<ffi.Void>,
+                    jni.JMethodIDPtr,
+                  )>>("globalEnv_CallObjectMethod")
+          .asFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createNonBlockingByteArrayParser()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1348,14 +2214,29 @@ class JsonFactory extends jni.JObject {
   /// at this point.
   ///@since 2.9
   jsonparser_.JsonParser createNonBlockingByteArrayParser() {
-    return _id_createNonBlockingByteArrayParser(
-        this, const jsonparser_.$JsonParserType(), []);
+    return _createNonBlockingByteArrayParser(reference.pointer,
+            _id_createNonBlockingByteArrayParser as jni.JMethodIDPtr)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createGenerator = _class.instanceMethodId(
     r"createGenerator",
     r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createGenerator = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1382,14 +2263,29 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return _id_createGenerator(this, const jni.JObjectType(),
-        [out.reference.pointer, enc.reference.pointer]);
+    return _createGenerator(
+            reference.pointer,
+            _id_createGenerator as jni.JMethodIDPtr,
+            out.reference.pointer,
+            enc.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createGenerator1 = _class.instanceMethodId(
     r"createGenerator",
     r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createGenerator1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.OutputStream out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1402,14 +2298,26 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator1(
     jni.JObject out,
   ) {
-    return _id_createGenerator1(
-        this, const jni.JObjectType(), [out.reference.pointer]);
+    return _createGenerator1(reference.pointer,
+            _id_createGenerator1 as jni.JMethodIDPtr, out.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createGenerator2 = _class.instanceMethodId(
     r"createGenerator",
     r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createGenerator2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.Writer w)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1428,14 +2336,29 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator2(
     jni.JObject w,
   ) {
-    return _id_createGenerator2(
-        this, const jni.JObjectType(), [w.reference.pointer]);
+    return _createGenerator2(reference.pointer,
+            _id_createGenerator2 as jni.JMethodIDPtr, w.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createGenerator3 = _class.instanceMethodId(
     r"createGenerator",
     r"(Ljava/io/File;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createGenerator3 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.File f, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1456,14 +2379,32 @@ class JsonFactory extends jni.JObject {
     jni.JObject f,
     jni.JObject enc,
   ) {
-    return _id_createGenerator3(this, const jni.JObjectType(),
-        [f.reference.pointer, enc.reference.pointer]);
+    return _createGenerator3(
+            reference.pointer,
+            _id_createGenerator3 as jni.JMethodIDPtr,
+            f.reference.pointer,
+            enc.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createGenerator4 = _class.instanceMethodId(
     r"createGenerator",
     r"(Ljava/io/DataOutput;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createGenerator4 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1475,14 +2416,29 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return _id_createGenerator4(this, const jni.JObjectType(),
-        [out.reference.pointer, enc.reference.pointer]);
+    return _createGenerator4(
+            reference.pointer,
+            _id_createGenerator4 as jni.JMethodIDPtr,
+            out.reference.pointer,
+            enc.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createGenerator5 = _class.instanceMethodId(
     r"createGenerator",
     r"(Ljava/io/DataOutput;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createGenerator5 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createGenerator(java.io.DataOutput out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1495,14 +2451,26 @@ class JsonFactory extends jni.JObject {
   jni.JObject createGenerator5(
     jni.JObject out,
   ) {
-    return _id_createGenerator5(
-        this, const jni.JObjectType(), [out.reference.pointer]);
+    return _createGenerator5(reference.pointer,
+            _id_createGenerator5 as jni.JMethodIDPtr, out.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createJsonParser = _class.instanceMethodId(
     r"createJsonParser",
     r"(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createJsonParser = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.File f)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1528,14 +2496,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser(
     jni.JObject f,
   ) {
-    return _id_createJsonParser(
-        this, const jsonparser_.$JsonParserType(), [f.reference.pointer]);
+    return _createJsonParser(reference.pointer,
+            _id_createJsonParser as jni.JMethodIDPtr, f.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createJsonParser1 = _class.instanceMethodId(
     r"createJsonParser",
     r"(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createJsonParser1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.net.URL url)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1560,14 +2540,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser1(
     jni.JObject url,
   ) {
-    return _id_createJsonParser1(
-        this, const jsonparser_.$JsonParserType(), [url.reference.pointer]);
+    return _createJsonParser1(reference.pointer,
+            _id_createJsonParser1 as jni.JMethodIDPtr, url.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createJsonParser2 = _class.instanceMethodId(
     r"createJsonParser",
     r"(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createJsonParser2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.InputStream in)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1595,14 +2587,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser2(
     jni.JObject in0,
   ) {
-    return _id_createJsonParser2(
-        this, const jsonparser_.$JsonParserType(), [in0.reference.pointer]);
+    return _createJsonParser2(reference.pointer,
+            _id_createJsonParser2 as jni.JMethodIDPtr, in0.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createJsonParser3 = _class.instanceMethodId(
     r"createJsonParser",
     r"(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createJsonParser3 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.io.Reader r)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1623,14 +2627,26 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser3(
     jni.JObject r,
   ) {
-    return _id_createJsonParser3(
-        this, const jsonparser_.$JsonParserType(), [r.reference.pointer]);
+    return _createJsonParser3(reference.pointer,
+            _id_createJsonParser3 as jni.JMethodIDPtr, r.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createJsonParser4 = _class.instanceMethodId(
     r"createJsonParser",
     r"([B)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createJsonParser4 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1644,14 +2660,30 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser4(
     jni.JArray<jni.jbyte> data,
   ) {
-    return _id_createJsonParser4(
-        this, const jsonparser_.$JsonParserType(), [data.reference.pointer]);
+    return _createJsonParser4(reference.pointer,
+            _id_createJsonParser4 as jni.JMethodIDPtr, data.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createJsonParser5 = _class.instanceMethodId(
     r"createJsonParser",
     r"([BII)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createJsonParser5 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Int64,
+                        ffi.Int64
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(byte[] data, int offset, int len)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1670,14 +2702,30 @@ class JsonFactory extends jni.JObject {
     int offset,
     int len,
   ) {
-    return _id_createJsonParser5(this, const jsonparser_.$JsonParserType(),
-        [data.reference.pointer, jni.JValueInt(offset), jni.JValueInt(len)]);
+    return _createJsonParser5(
+            reference.pointer,
+            _id_createJsonParser5 as jni.JMethodIDPtr,
+            data.reference.pointer,
+            offset,
+            len)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createJsonParser6 = _class.instanceMethodId(
     r"createJsonParser",
     r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;",
   );
+
+  static final _createJsonParser6 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createJsonParser(java.lang.String content)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1692,14 +2740,31 @@ class JsonFactory extends jni.JObject {
   jsonparser_.JsonParser createJsonParser6(
     jni.JString content,
   ) {
-    return _id_createJsonParser6(
-        this, const jsonparser_.$JsonParserType(), [content.reference.pointer]);
+    return _createJsonParser6(
+            reference.pointer,
+            _id_createJsonParser6 as jni.JMethodIDPtr,
+            content.reference.pointer)
+        .object(const jsonparser_.$JsonParserType());
   }
 
   static final _id_createJsonGenerator = _class.instanceMethodId(
     r"createJsonGenerator",
     r"(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createJsonGenerator = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out, com.fasterxml.jackson.core.JsonEncoding enc)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1728,14 +2793,29 @@ class JsonFactory extends jni.JObject {
     jni.JObject out,
     jni.JObject enc,
   ) {
-    return _id_createJsonGenerator(this, const jni.JObjectType(),
-        [out.reference.pointer, enc.reference.pointer]);
+    return _createJsonGenerator(
+            reference.pointer,
+            _id_createJsonGenerator as jni.JMethodIDPtr,
+            out.reference.pointer,
+            enc.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createJsonGenerator1 = _class.instanceMethodId(
     r"createJsonGenerator",
     r"(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createJsonGenerator1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.Writer out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1756,14 +2836,26 @@ class JsonFactory extends jni.JObject {
   jni.JObject createJsonGenerator1(
     jni.JObject out,
   ) {
-    return _id_createJsonGenerator1(
-        this, const jni.JObjectType(), [out.reference.pointer]);
+    return _createJsonGenerator1(reference.pointer,
+            _id_createJsonGenerator1 as jni.JMethodIDPtr, out.reference.pointer)
+        .object(const jni.JObjectType());
   }
 
   static final _id_createJsonGenerator2 = _class.instanceMethodId(
     r"createJsonGenerator",
     r"(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;",
   );
+
+  static final _createJsonGenerator2 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public com.fasterxml.jackson.core.JsonGenerator createJsonGenerator(java.io.OutputStream out)
   /// The returned object must be released after use, by calling the [release] method.
@@ -1779,8 +2871,9 @@ class JsonFactory extends jni.JObject {
   jni.JObject createJsonGenerator2(
     jni.JObject out,
   ) {
-    return _id_createJsonGenerator2(
-        this, const jni.JObjectType(), [out.reference.pointer]);
+    return _createJsonGenerator2(reference.pointer,
+            _id_createJsonGenerator2 as jni.JMethodIDPtr, out.reference.pointer)
+        .object(const jni.JObjectType());
   }
 }
 

@@ -406,10 +406,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getDocument = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getDocument")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getDocument")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.cos.COSDocument getDocument()
   /// The returned object must be released after use, by calling the [release] method.
@@ -421,10 +425,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getDocumentInformation = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getDocumentInformation")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getDocumentInformation")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()
   /// The returned object must be released after use, by calling the [release] method.
@@ -464,10 +472,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getDocumentCatalog = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getDocumentCatalog")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getDocumentCatalog")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()
   /// The returned object must be released after use, by calling the [release] method.
@@ -480,10 +492,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _isEncrypted = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__isEncrypted")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__isEncrypted")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isEncrypted()
   ///
@@ -494,10 +510,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getEncryption = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getEncryption")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getEncryption")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()
   /// The returned object must be released after use, by calling the [release] method.
@@ -533,10 +553,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getLastSignatureDictionary = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getLastSignatureDictionary")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getLastSignatureDictionary")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()
   /// The returned object must be released after use, by calling the [release] method.
@@ -551,10 +575,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getSignatureFields = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getSignatureFields")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getSignatureFields")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()
   /// The returned object must be released after use, by calling the [release] method.
@@ -568,10 +596,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getSignatureDictionaries = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getSignatureDictionaries")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getSignatureDictionaries")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1304,10 +1336,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getPages = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getPages")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getPages")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.pdmodel.PDPageTree getPages()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1319,10 +1355,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getNumberOfPages = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getNumberOfPages")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getNumberOfPages")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getNumberOfPages()
   ///
@@ -1333,10 +1373,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _close = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__close")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__close")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void close()
   ///
@@ -1373,10 +1417,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getCurrentAccessPermission = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getCurrentAccessPermission")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getCurrentAccessPermission")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.pdmodel.encryption.AccessPermission getCurrentAccessPermission()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1392,10 +1440,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _isAllSecurityToBeRemoved = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__isAllSecurityToBeRemoved")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__isAllSecurityToBeRemoved")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isAllSecurityToBeRemoved()
   ///
@@ -1423,10 +1475,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getDocumentId = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getDocumentId")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getDocumentId")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Long getDocumentId()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1456,10 +1512,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getVersion = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getVersion")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getVersion")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public float getVersion()
   ///
@@ -1486,10 +1546,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _getResourceCache = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocument__getResourceCache")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocument__getResourceCache")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.pdmodel.ResourceCache getResourceCache()
   /// The returned object must be released after use, by calling the [release] method.

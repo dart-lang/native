@@ -34,6 +34,10 @@ functions:
     - 'GetJniContextPtr'
     - 'setJniGetters'
     - 'jni_log'
+    # Exclude functions with VarArgs, jnigen will generate them based on the 
+    # exact arguments needed.
+    - 'globalEnv_NewObject'
+    - 'globalEnv_Call(Static|Nonvirtual|)[A-Z][a-z]+Method'
     # Inline functions
     # keep-sorted start
     - 'acquire_lock'

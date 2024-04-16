@@ -45,10 +45,24 @@ class SuspendFun extends jni.JObject {
     r"()V",
   );
 
+  static final _new0 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
-    return SuspendFun.fromReference(_id_new0(_class, referenceType, []));
+    return SuspendFun.fromReference(
+        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            .reference);
   }
 
   static final _id_sayHello = _class.instanceMethodId(
@@ -56,13 +70,26 @@ class SuspendFun extends jni.JObject {
     r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;",
   );
 
+  static final _sayHello = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
+
   /// from: public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)
   /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> sayHello() async {
     final $p = ReceivePort();
     final $c = jni.JObject.fromReference(
         ProtectedJniExtensions.newPortContinuation($p));
-    _id_sayHello(this, const jni.JObjectType(), [$c.reference.pointer]);
+    _sayHello(reference.pointer, _id_sayHello as jni.JMethodIDPtr,
+            $c.reference.pointer)
+        .object(const jni.JObjectType());
     final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const jni.JStringType().jClass.reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
@@ -76,6 +103,20 @@ class SuspendFun extends jni.JObject {
     r"(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;",
   );
 
+  static final _sayHello1 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
   /// from: public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)
   /// The returned object must be released after use, by calling the [release] method.
   Future<jni.JString> sayHello1(
@@ -84,8 +125,9 @@ class SuspendFun extends jni.JObject {
     final $p = ReceivePort();
     final $c = jni.JObject.fromReference(
         ProtectedJniExtensions.newPortContinuation($p));
-    _id_sayHello1(this, const jni.JObjectType(),
-        [string.reference.pointer, $c.reference.pointer]);
+    _sayHello1(reference.pointer, _id_sayHello1 as jni.JMethodIDPtr,
+            string.reference.pointer, $c.reference.pointer)
+        .object(const jni.JObjectType());
     final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const jni.JStringType().jClass.reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {

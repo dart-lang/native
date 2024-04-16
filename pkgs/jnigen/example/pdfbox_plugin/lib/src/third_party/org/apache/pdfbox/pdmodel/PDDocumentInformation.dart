@@ -91,10 +91,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getCOSObject = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getCOSObject")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getCOSObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public org.apache.pdfbox.cos.COSDictionary getCOSObject()
   /// The returned object must be released after use, by calling the [release] method.
@@ -134,10 +138,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getTitle = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getTitle")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getTitle")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getTitle()
   /// The returned object must be released after use, by calling the [release] method.
@@ -167,10 +175,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getAuthor = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getAuthor")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getAuthor")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getAuthor()
   /// The returned object must be released after use, by calling the [release] method.
@@ -200,10 +212,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getSubject = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getSubject")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getSubject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getSubject()
   /// The returned object must be released after use, by calling the [release] method.
@@ -233,10 +249,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getKeywords = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getKeywords")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getKeywords")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getKeywords()
   /// The returned object must be released after use, by calling the [release] method.
@@ -266,10 +286,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getCreator = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getCreator")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getCreator")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getCreator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -299,10 +323,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getProducer = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getProducer")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getProducer")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getProducer()
   /// The returned object must be released after use, by calling the [release] method.
@@ -332,10 +360,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getCreationDate = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getCreationDate")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getCreationDate")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.Calendar getCreationDate()
   /// The returned object must be released after use, by calling the [release] method.
@@ -366,10 +398,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getModificationDate = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getModificationDate")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getModificationDate")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.Calendar getModificationDate()
   /// The returned object must be released after use, by calling the [release] method.
@@ -401,10 +437,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getTrapped = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getTrapped")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getTrapped")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getTrapped()
   /// The returned object must be released after use, by calling the [release] method.
@@ -417,10 +457,14 @@ class PDDocumentInformation extends jni.JObject {
   }
 
   static final _getMetadataKeys = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getMetadataKeys")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("PDDocumentInformation__getMetadataKeys")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.Set<java.lang.String> getMetadataKeys()
   /// The returned object must be released after use, by calling the [release] method.

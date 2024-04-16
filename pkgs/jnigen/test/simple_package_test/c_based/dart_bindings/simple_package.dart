@@ -123,10 +123,14 @@ class Example_Nested extends jni.JObject {
   }
 
   static final _usesAnonymousInnerClass = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example_Nested__usesAnonymousInnerClass")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example_Nested__usesAnonymousInnerClass")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void usesAnonymousInnerClass()
   void usesAnonymousInnerClass() {
@@ -134,10 +138,14 @@ class Example_Nested extends jni.JObject {
   }
 
   static final _getValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example_Nested__getValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example_Nested__getValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean getValue()
   bool getValue() {
@@ -459,10 +467,14 @@ class Example extends jni.JObject {
   }
 
   static final _getNumber = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__getNumber")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__getNumber")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getNumber()
   int getNumber() {
@@ -483,10 +495,14 @@ class Example extends jni.JObject {
   }
 
   static final _getIsUp = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__getIsUp")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__getIsUp")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean getIsUp()
   bool getIsUp() {
@@ -507,10 +523,14 @@ class Example extends jni.JObject {
   }
 
   static final _getCodename = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__getCodename")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__getCodename")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getCodename()
   /// The returned object must be released after use, by calling the [release] method.
@@ -534,10 +554,14 @@ class Example extends jni.JObject {
   }
 
   static final _getRandom = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__getRandom")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__getRandom")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.Random getRandom()
   /// The returned object must be released after use, by calling the [release] method.
@@ -561,10 +585,14 @@ class Example extends jni.JObject {
   }
 
   static final _getRandomLong = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__getRandomLong")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__getRandomLong")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public long getRandomLong()
   int getRandomLong() {
@@ -656,10 +684,14 @@ class Example extends jni.JObject {
   }
 
   static final _finalMethod = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__finalMethod")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__finalMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final void finalMethod()
   void finalMethod() {
@@ -667,10 +699,14 @@ class Example extends jni.JObject {
   }
 
   static final _getList = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__getList")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__getList")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.List<java.lang.String> getList()
   /// The returned object must be released after use, by calling the [release] method.
@@ -824,10 +860,14 @@ class Example extends jni.JObject {
   }
 
   static final _whichExample = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__whichExample")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__whichExample")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int whichExample()
   int whichExample() {
@@ -870,10 +910,14 @@ class Example extends jni.JObject {
   }
 
   static final _getSelf = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__getSelf")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__getSelf")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.github.dart_lang.jnigen.simple_package.Example getSelf()
   /// The returned object must be released after use, by calling the [release] method.
@@ -892,10 +936,14 @@ class Example extends jni.JObject {
   }
 
   static final _overloaded = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example__overloaded")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example__overloaded")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void overloaded()
   void overloaded() {
@@ -1076,10 +1124,14 @@ class Example1 extends jni.JObject {
   }
 
   static final _whichExample = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Example1__whichExample")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Example1__whichExample")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int whichExample()
   int whichExample() {
@@ -1762,10 +1814,14 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   }
 
   static final _stringParent = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "GrandParent__stringParent")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("GrandParent__stringParent")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.github.dart_lang.jnigen.generics.GrandParent<T>.Parent<java.lang.String> stringParent()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1827,10 +1883,14 @@ class GrandParent<$T extends jni.JObject> extends jni.JObject {
   }
 
   static final _staticParentWithSameType = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "GrandParent__staticParentWithSameType")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("GrandParent__staticParentWithSameType")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.github.dart_lang.jnigen.generics.GrandParent.StaticParent<T> staticParentWithSameType()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2099,10 +2159,14 @@ class MyMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _entryStack = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "MyMap__entryStack")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("MyMap__entryStack")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.github.dart_lang.jnigen.generics.MyStack<com.github.dart_lang.jnigen.generics.MyMap<K,V>.MyEntry> entryStack()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2289,8 +2353,13 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
 
   static final _pop = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("MyStack__pop")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("MyStack__pop")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public T pop()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2300,8 +2369,13 @@ class MyStack<$T extends jni.JObject> extends jni.JObject {
 
   static final _size = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("MyStack__size")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("MyStack__size")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int size()
   int size() {
@@ -2941,8 +3015,13 @@ class MyRunnable extends jni.JObject {
   static const type = $MyRunnableType();
   static final _run = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("MyRunnable__run")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("MyRunnable__run")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract void run()
   void run() {
@@ -3118,10 +3197,14 @@ class MyRunnableRunner extends jni.JObject {
   }
 
   static final _runOnSameThread = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "MyRunnableRunner__runOnSameThread")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("MyRunnableRunner__runOnSameThread")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void runOnSameThread()
   void runOnSameThread() {
@@ -3129,10 +3212,14 @@ class MyRunnableRunner extends jni.JObject {
   }
 
   static final _runOnAnotherThread = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "MyRunnableRunner__runOnAnotherThread")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("MyRunnableRunner__runOnAnotherThread")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void runOnAnotherThread()
   void runOnAnotherThread() {
@@ -3245,10 +3332,14 @@ class JsonSerializable extends jni.JObject {
   /// The type which includes information such as the signature of this class.
   static const type = $JsonSerializableType();
   static final _value = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonSerializable__value")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonSerializable__value")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public abstract com.github.dart_lang.jnigen.annotations.JsonSerializable$Case value()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3582,10 +3673,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _objectMethod = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__objectMethod")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__objectMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object objectMethod()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3594,10 +3689,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _intMethod = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__intMethod")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__intMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int intMethod()
   int intMethod() {
@@ -3605,10 +3704,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _objectArrayMethod = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__objectArrayMethod")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__objectArrayMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object[] objectArrayMethod()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3618,10 +3721,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _intArrayMethod = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__intArrayMethod")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__intArrayMethod")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int[] intArrayMethod()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3631,10 +3738,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _throwNullPointerException = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__throwNullPointerException")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__throwNullPointerException")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int throwNullPointerException()
   int throwNullPointerException() {
@@ -3642,10 +3753,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _throwFileNotFoundException = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__throwFileNotFoundException")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__throwFileNotFoundException")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.io.InputStream throwFileNotFoundException()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3655,10 +3770,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _throwClassCastException = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__throwClassCastException")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__throwClassCastException")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.io.FileInputStream throwClassCastException()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3668,10 +3787,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _throwArrayIndexException = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__throwArrayIndexException")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__throwArrayIndexException")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int throwArrayIndexException()
   int throwArrayIndexException() {
@@ -3679,10 +3802,14 @@ class Exceptions extends jni.JObject {
   }
 
   static final _throwArithmeticException = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Exceptions__throwArithmeticException")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Exceptions__throwArithmeticException")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int throwArithmeticException()
   int throwArithmeticException() {

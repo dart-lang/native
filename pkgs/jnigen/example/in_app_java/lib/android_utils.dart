@@ -369,10 +369,14 @@ class EmojiCompat_Config extends jni.JObject {
   }
 
   static final _getMetadataRepoLoader = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat_Config__getMetadataRepoLoader")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("EmojiCompat_Config__getMetadataRepoLoader")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: protected final androidx.emoji2.text.EmojiCompat.MetadataRepoLoader getMetadataRepoLoader()
   /// The returned object must be released after use, by calling the [release] method.
@@ -610,10 +614,14 @@ class EmojiCompat_InitCallback extends jni.JObject {
   }
 
   static final _onInitialized = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat_InitCallback__onInitialized")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("EmojiCompat_InitCallback__onInitialized")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void onInitialized()
   ///
@@ -1385,10 +1393,14 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _load = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat__load")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("EmojiCompat__load")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void load()
   ///
@@ -1456,10 +1468,14 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _getLoadState = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat__getLoadState")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("EmojiCompat__getLoadState")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getLoadState()
   ///
@@ -1472,10 +1488,14 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _isEmojiSpanIndicatorEnabled = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat__isEmojiSpanIndicatorEnabled")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("EmojiCompat__isEmojiSpanIndicatorEnabled")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isEmojiSpanIndicatorEnabled()
   ///
@@ -1486,10 +1506,14 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _getEmojiSpanIndicatorColor = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat__getEmojiSpanIndicatorColor")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("EmojiCompat__getEmojiSpanIndicatorColor")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getEmojiSpanIndicatorColor()
   ///
@@ -1897,10 +1921,14 @@ class EmojiCompat extends jni.JObject {
   }
 
   static final _getAssetSignature = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "EmojiCompat__getAssetSignature")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("EmojiCompat__getAssetSignature")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getAssetSignature()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2509,10 +2537,14 @@ class Build_Partition extends jni.JObject {
       _get_PARTITION_NAME_SYSTEM().object(const jni.JStringType());
 
   static final _getName = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Build_Partition__getName")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Build_Partition__getName")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getName()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2521,10 +2553,14 @@ class Build_Partition extends jni.JObject {
   }
 
   static final _getFingerprint = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Build_Partition__getFingerprint")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Build_Partition__getFingerprint")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getFingerprint()
   /// The returned object must be released after use, by calling the [release] method.
@@ -2533,10 +2569,14 @@ class Build_Partition extends jni.JObject {
   }
 
   static final _getBuildTimeMillis = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Build_Partition__getBuildTimeMillis")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Build_Partition__getBuildTimeMillis")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public long getBuildTimeMillis()
   int getBuildTimeMillis() {
@@ -2559,10 +2599,14 @@ class Build_Partition extends jni.JObject {
   }
 
   static final _hashCode1 = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "Build_Partition__hashCode1")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("Build_Partition__hashCode1")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int hashCode()
   int hashCode1() {
@@ -3336,8 +3380,13 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   static final _size = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__size")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("HashMap__size")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int size()
   int size() {
@@ -3345,10 +3394,14 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _isEmpty = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__isEmpty")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("HashMap__isEmpty")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean isEmpty()
   bool isEmpty() {
@@ -3440,8 +3493,13 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   static final _clear = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__clear")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("HashMap__clear")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public void clear()
   void clear() {
@@ -3465,8 +3523,13 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   static final _keySet = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__keySet")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("HashMap__keySet")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.Set keySet()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3476,8 +3539,13 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   static final _values = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__values")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("HashMap__values")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.Collection values()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3486,10 +3554,14 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   }
 
   static final _entrySet = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "HashMap__entrySet")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("HashMap__entrySet")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.util.Set entrySet()
   /// The returned object must be released after use, by calling the [release] method.
@@ -3721,8 +3793,13 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
 
   static final _clone = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("HashMap__clone")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("HashMap__clone")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Object clone()
   /// The returned object must be released after use, by calling the [release] method.

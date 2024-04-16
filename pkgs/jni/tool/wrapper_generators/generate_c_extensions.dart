@@ -56,6 +56,11 @@ const wrapperGetterDecl = '''
 FFI_PLUGIN_EXPORT $wrapperName* GetGlobalEnv();
 ''';
 
+bool hasVarArgs(String name) {
+  return name == 'NewObject' ||
+      RegExp(r'^Call(Static|Nonvirtual|)[A-Z][a-z]+Method$').hasMatch(name);
+}
+
 /// Get C name of a type from its ffigen representation.
 String getCType(Type type) {
   if (type is PointerType) {
@@ -81,19 +86,24 @@ FunctionType getGlobalJniEnvFunctionType(FunctionType ft) {
 }
 
 // Returns declaration of function field in GlobalJniEnv struct
-String getFunctionFieldDecl(
-  Member field,
-) {
+String getFunctionFieldDecl(Member field, {required bool isField}) {
   final fieldType = field.type;
   if (fieldType is PointerType && fieldType.child is NativeFunc) {
     final nativeFunc = fieldType.child as NativeFunc;
     final functionType = getGlobalJniEnvFunctionType(nativeFunc.type);
     final resultWrapper = getResultWrapper(getCType(functionType.returnType));
     final name = field.name;
+    final withVarArgs = hasVarArgs(name);
     final params = functionType.parameters
-        .map((param) => '${getCType(param.type)} ${param.name}')
-        .join(', ');
-    return ('${resultWrapper.returnType} (*$name)($params);');
+            .map((param) => '${getCType(param.type)} ${param.name}')
+            .join(', ') +
+        (withVarArgs ? ', ...' : '');
+    final willExport = withVarArgs ? 'FFI_PLUGIN_EXPORT ' : '';
+    if (isField) {
+      return '${resultWrapper.returnType} (*$name)($params);';
+    }
+    return '$willExport${resultWrapper.returnType} '
+        '${getWrapperFuncName(field)}($params);';
   } else {
     return 'void* ${field.name};';
   }
@@ -222,16 +232,20 @@ String? getWrapperFunc(Member field) {
     final outerFunctionType = getGlobalJniEnvFunctionType(functionType);
     final wrapperName = getWrapperFuncName(field);
     final returnType = getCType(outerFunctionType.returnType);
-    final params = outerFunctionType.parameters
-        .map((param) => '${getCType(param.type)} ${param.name}')
-        .join(', ');
+    final withVarArgs = hasVarArgs(field.name);
+    final params = [
+      ...outerFunctionType.parameters
+          .map((param) => '${getCType(param.type)} ${param.name}'),
+      if (withVarArgs) '...',
+    ].join(', ');
     var returnCapture = returnType == 'void' ? '' : '$returnType $resultVar =';
     if (constBufferReturningFunctions.contains(field.name)) {
       returnCapture = 'const $returnCapture';
     }
     final callParams = [
       'jniEnv',
-      ...(outerFunctionType.parameters.map((param) => param.name).toList())
+      ...(outerFunctionType.parameters.map((param) => param.name).toList()),
+      if (withVarArgs) 'args',
     ].join(', ');
     final resultWrapper = getResultWrapper(returnType);
 
@@ -239,15 +253,29 @@ String? getWrapperFunc(Member field) {
     if (isJRefType(returnType) && !refFunctions.contains(field.name)) {
       convertRef = '  $resultVar = to_global_ref($resultVar);\n';
     }
+    final callee = field.name + (withVarArgs ? 'V' : '');
+    final varArgsInit = withVarArgs
+        ? '''
+  va_list args;
+  va_start(args, methodID);
+'''
+        : '';
+    final varArgsEnd = withVarArgs ? 'va_end(args);\n' : '';
     final exceptionCheck = _noCheckException.contains(field.name)
         ? ''
-        : '  jthrowable $errorVar = check_exception();\n'
-            '  if ($errorVar != NULL) {\n'
-            '    return ${resultWrapper.onError};\n'
-            '  }\n';
-    return '${resultWrapper.returnType} $wrapperName($params) {\n'
+        : '''
+  jthrowable $errorVar = check_exception();
+  if ($errorVar != NULL) {
+    return ${resultWrapper.onError};
+  }
+''';
+    final willExport = withVarArgs ? 'FFI_PLUGIN_EXPORT ' : '';
+    return '$willExport'
+        '${resultWrapper.returnType} $wrapperName($params) {\n'
         '  attach_thread();\n'
-        '  $returnCapture (*jniEnv)->${field.name}($callParams);\n'
+        '$varArgsInit'
+        '  $returnCapture (*jniEnv)->$callee($callParams);\n'
+        '$varArgsEnd'
         '$exceptionCheck'
         '$convertRef'
         '  return ${resultWrapper.onResult};\n'
@@ -259,11 +287,20 @@ String? getWrapperFunc(Member field) {
 void writeGlobalJniEnvWrapper(Library library) {
   final jniEnvType = findCompound(library, envType);
 
-  final fieldDecls = jniEnvType.members.map(getFunctionFieldDecl).join('\n');
+  final fieldDecls = jniEnvType.members
+      .map((member) => getFunctionFieldDecl(member, isField: true))
+      .join('\n');
+  final varArgsFunctions = jniEnvType.members
+      .where((member) => hasVarArgs(member.name))
+      .map((member) => getFunctionFieldDecl(member, isField: false))
+      .join('\n');
   final structDecl =
       'typedef struct $wrapperName {\n$fieldDecls\n} $wrapperName;\n';
-  File.fromUri(Paths.globalJniEnvH).writeAsStringSync(
-      '$preamble$wrapperDeclIncludes$structDecl$wrapperGetterDecl');
+  File.fromUri(Paths.globalJniEnvH).writeAsStringSync('$preamble'
+      '$wrapperDeclIncludes'
+      '$structDecl'
+      '$wrapperGetterDecl'
+      '$varArgsFunctions\n');
 
   final functionWrappers = StringBuffer();
   final structInst = StringBuffer('$wrapperName globalJniEnv = {\n');
