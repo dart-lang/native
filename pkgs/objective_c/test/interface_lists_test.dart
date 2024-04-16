@@ -19,7 +19,7 @@ void main() {
       yamlInterfaces = yaml['objc-interfaces']['include']
           .map<String>((dynamic i) => i as String)
           .toList() as List<String>
-          ..sort();
+        ..sort();
     });
 
     test('ObjCBuiltInFunctions.builtInInterfaces', () {
