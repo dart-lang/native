@@ -3,11 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Bindings for `src/objective_c.h` and `src/objective_c_runtime.h`.
-// Regenerate bindings with `dart run ffigen --config ffigen_c.yaml`.
+// Regenerate bindings with `dart run tool/generate_code.dart`.
 
 // ignore_for_file: always_specify_types
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
+// coverage:ignore-file
 
 // AUTO GENERATED FILE, DO NOT EDIT.
 //

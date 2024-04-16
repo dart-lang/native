@@ -1,5 +1,5 @@
 # Generate bindings for the ObjC headers.
-# Run with `dart run ffigen --config ffigen_objc.yaml`.
+# Regenerate bindings with `dart run tool/generate_code.dart`.
 name: ObjectiveCBindings
 language: objc
 output: 'lib/src/objective_c_bindings_generated.dart'
@@ -46,8 +46,11 @@ preamble: |
   // BSD-style license that can be found in the LICENSE file.
 
   // Bindings for `src/foundation.h`.
-  // Regenerate bindings with `dart run ffigen --config ffigen_objc.yaml`.
+  // Regenerate bindings with `dart run tool/generate_code.dart`.
 
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types
   // ignore_for_file: non_constant_identifier_names
+  // coverage:ignore-file
+
+  import 'package:ffi/ffi.dart' as pkg_ffi;
