@@ -78,7 +78,7 @@ abstract class HookConfig {
   /// during a [dryRun].
   BuildMode get buildMode;
 
-  /// The asset types that the invoker of this build supports.
+  /// The asset types that the invoker of this hook supports.
   ///
   /// Currently known values:
   /// * [NativeCodeAsset.type]

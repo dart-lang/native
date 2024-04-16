@@ -95,15 +95,14 @@ class PackageLayout {
   // the protocol version pre 1.2.0 on some future version.)
   Future<List<Package>> packagesWithAssets(Hook hook) async => switch (hook) {
         Hook.build => _packagesWithBuildAssets ??=
-            await _packagesWithAssets(hook),
-        Hook.link => _packagesWithLinkAssets ??=
-            await _packagesWithAssets(hook),
+            await _packagesWithHook(hook),
+        Hook.link => _packagesWithLinkAssets ??= await _packagesWithHook(hook),
       };
 
   List<Package>? _packagesWithBuildAssets;
   List<Package>? _packagesWithLinkAssets;
 
-  Future<List<Package>> _packagesWithAssets(Hook hook) async {
+  Future<List<Package>> _packagesWithHook(Hook hook) async {
     final result = <Package>[];
     for (final package in packageConfig.packages) {
       final packageRoot = package.root;

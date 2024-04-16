@@ -43,10 +43,11 @@ final class HookResult implements BuildResult, DryRunResult, LinkResult {
       assetsForLinking,
       buildOutput.assetsForLinking,
       value: (assets1, assets2) {
-        if (assets1.any((asset) => assets2.contains(asset)) ||
-            assets2.any((asset) => assets1.contains(asset))) {
+        final twoInOne = assets1.where((asset) => assets2.contains(asset));
+        final oneInTwo = assets2.where((asset) => assets1.contains(asset));
+        if (twoInOne.isNotEmpty || oneInTwo.isNotEmpty) {
           throw ArgumentError(
-              'Found assets with same ID in $assets1 and $assets2');
+              'Found assets with same IDs, ${[...oneInTwo, ...twoInOne]}');
         }
         return [
           ...assets1,

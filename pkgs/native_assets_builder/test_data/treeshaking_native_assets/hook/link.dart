@@ -12,10 +12,10 @@ void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
     final usedSymbols =
         config.resources.map((resource) => resource.metadata.toString());
-    final dynamicLibrary = config.assets.firstWhere(
-        (asset) => asset.id.endsWith('src/${packageName}_bindings.dart'));
-    final staticLibrary =
-        config.assets.firstWhere((asset) => asset.id.endsWith('staticlib'));
+    final dynamicLibrary = config.assets.firstWhere((asset) =>
+        asset.id == 'package:$packageName/src/${packageName}_bindings.dart');
+    final staticLibrary = config.assets
+        .firstWhere((asset) => asset.id == 'package:$packageName/staticlib');
 
     final linkerScript = await _writeLinkerScript(usedSymbols);
     await _treeshakeStaticLibrary(

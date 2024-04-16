@@ -120,9 +120,9 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
     }
     final linkMinVersion = Version(1, 3, 0);
     if (_assetsForLinking.isNotEmpty && version < linkMinVersion) {
-      throw UnsupportedError('Please update your Dart SDK to link assets in '
-          '`link.dart` scripts. Your current version is $version, but this '
-          'feature requires $linkMinVersion');
+      throw UnsupportedError('Please update your Dart or Flutter SDK to link '
+          'assets in `link.dart` scripts. Your current version is $version, '
+          'but this feature requires $linkMinVersion');
     }
     return {
       _timestampKey: timestamp.toString(),

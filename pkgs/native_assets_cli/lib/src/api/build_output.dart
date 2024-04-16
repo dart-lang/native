@@ -47,8 +47,8 @@ abstract final class BuildOutput {
   /// The assets produced by this build which should be linked.
   ///
   /// Every key in the map is a package name. These assets in the values are not
-  /// bundled with the application, but are sent to the linking script of the
-  /// package specified in the key, which can decide if they are bundled or not.
+  /// bundled with the application, but are sent to the link hook of the package
+  /// specified in the key, which can decide if they are bundled or not.
   ///
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
@@ -99,16 +99,15 @@ abstract final class BuildOutput {
   /// Adds [Asset]s produced by this build or dry run.
   ///
   /// If the [linkInPackage] argument is specified, the asset will not be
-  /// bundled during the build step, but sent as input to the linking script
-  /// of the specified package, where it can be further processed and possibly
-  /// bundled.
+  /// bundled during the build step, but sent as input to the link hook of the
+  /// specified package, where it can be further processed and possibly bundled.
   void addAsset(Asset asset, {String? linkInPackage});
 
   /// Adds [Asset]s produced by this build or dry run.
   ///
   /// If the [linkInPackage] argument is specified, the assets will not be
-  /// bundled during the build step, but sent as input to the linking script
-  /// of the specified package, where they can be further processed and possibly
+  /// bundled during the build step, but sent as input to the link hook of the
+  /// specified package, where they can be further processed and possibly
   /// bundled.
   void addAssets(Iterable<Asset> assets, {String? linkInPackage});
 

@@ -7,6 +7,9 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 void main(List<String> args) async {
   await link(
     args,
-    (config, output) async => output.addAssets(config.assets.skip(1)),
+    (config, output) async => output.addAssets(treeshake(config.assets)),
   );
 }
+
+Iterable<Asset> treeshake(List<Asset> assets) =>
+    assets.where((asset) => !asset.id.endsWith('data_helper_2'));

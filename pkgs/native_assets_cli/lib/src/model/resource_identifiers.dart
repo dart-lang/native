@@ -145,7 +145,7 @@ class ResourceFile {
   }
 
   @override
-  int get hashCode => part.hashCode ^ references.hashCode;
+  int get hashCode => 95911 ^ part.hashCode ^ references.hashCode;
 }
 
 class ResourceReference {

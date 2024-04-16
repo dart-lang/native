@@ -36,56 +36,6 @@ part 'c_compiler_config.dart';
 /// run with specific commandline arguments, which [BuildConfig] can parse and
 /// provide more convenient access to.
 abstract final class BuildConfig implements HookConfig {
-  /// The directory in which all output and intermediate artifacts should be
-  /// placed.
-  @override
-  Uri get outputDirectory;
-
-  /// The name of the package the assets are built for.
-  @override
-  String get packageName;
-
-  /// The root of the package the assets are built for.
-  ///
-  /// Often a package's assets are built because a package is a dependency of
-  /// another. For this it is convenient to know the packageRoot.
-  @override
-  Uri get packageRoot;
-
-  /// The architecture being compiled for.
-  ///
-  /// Not specified (`null`) during a [dryRun].
-  @override
-  Architecture? get targetArchitecture;
-
-  /// The operating system being compiled for.
-  @override
-  OS get targetOS;
-
-  /// When compiling for iOS, whether to target device or simulator.
-  ///
-  /// Not available if [targetOS] is [OS.iOS]. Will throw a [StateError] if
-  /// accessed during a [dryRun].
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  @override
-  IOSSdk get targetIOSSdk;
-
-  /// When compiling for Android, the minimum Android SDK API version to that
-  /// the compiled code will be compatible with.
-  ///
-  /// Required when [targetOS] equals [OS.android].
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  ///
-  /// For more information about the Android API version, refer to
-  /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
-  /// in the Android documentation.
-  @override
-  int? get targetAndroidNdkApi;
-
   /// The preferred [LinkMode] method for [NativeCodeAsset]s.
   LinkModePreference get linkModePreference;
 
@@ -98,37 +48,6 @@ abstract final class BuildConfig implements HookConfig {
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
   Object? metadatum(String packageName, String key);
-
-  /// The configuration for invoking the C compiler.
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  @override
-  CCompilerConfig get cCompiler;
-
-  /// Whether this run is a dry-run, which doesn't build anything.
-  ///
-  /// A dry-run only reports information about which assets a build would
-  /// create, but doesn't actually create files.
-  @override
-  bool get dryRun;
-
-  /// The [BuildMode] that the code should be compiled in.
-  ///
-  /// Currently [BuildMode.debug] and [BuildMode.release] are the only modes.
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  @override
-  BuildMode get buildMode;
-
-  /// The asset types that the invoker of this build supports.
-  ///
-  /// Currently known values:
-  /// * [NativeCodeAsset.type]
-  /// * [DataAsset.type]
-  @override
-  Iterable<String> get supportedAssetTypes;
 
   /// The version of [BuildConfig].
   ///
