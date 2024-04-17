@@ -15,10 +15,8 @@ import 'test_util/test_util.dart';
 const packageTests = 'test';
 final jacksonCoreTests = absolute(packageTests, 'jackson_core_test');
 final thirdParty = absolute(jacksonCoreTests, 'third_party');
-final lib = absolute(thirdParty, 'c_based', 'dart_bindings');
-final src = absolute(thirdParty, 'c_based', 'c_bindings');
-final testLib = absolute(thirdParty, 'test_', 'c_based', 'dart_bindings');
-final testSrc = absolute(thirdParty, 'test_', 'c_based', 'c_bindings');
+final lib = absolute(thirdParty, 'bindings');
+final testLib = absolute(thirdParty, 'test_', 'bindings');
 
 /// Compares 2 [Config] objects using [expect] to give useful errors when
 /// two fields are not equal.
@@ -97,7 +95,6 @@ void main() async {
   final config = Config.parseArgs([
     '--config',
     jnigenYaml,
-    '-Doutput.c.path=$testSrc${Platform.pathSeparator}',
     '-Doutput.dart.path=$testLib${Platform.pathSeparator}',
   ]);
 
@@ -111,10 +108,6 @@ void main() async {
   });
 
   group('Test for config error checking', () {
-    testForErrorChecking<ConfigException>(
-      name: 'Invalid bindings type',
-      overrides: ['-Doutput.bindings_type=c_base'],
-    );
     testForErrorChecking<ConfigException>(
       name: 'Invalid output structure',
       overrides: ['-Doutput.dart.structure=singl_file'],

@@ -6,7 +6,7 @@ maven_downloads:
 
 output:
   dart:
-    path: third_party/c_based/dart_bindings/
+    path: third_party/bindings/
 
 classes:
   - 'com.fasterxml.jackson.core.JsonFactory'
