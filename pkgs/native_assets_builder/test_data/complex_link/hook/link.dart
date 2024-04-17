@@ -11,5 +11,5 @@ void main(List<String> args) async {
   );
 }
 
-Iterable<Asset> treeshake(List<Asset> assets) =>
+Iterable<Asset> treeshake(Iterable<Asset> assets) =>
     assets.where((asset) => !asset.id.endsWith('data_helper_2'));
