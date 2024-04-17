@@ -14,12 +14,12 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   Hook get hook => Hook.link;
 
   @override
-  final List<AssetImpl> assets;
+  final Iterable<AssetImpl> assets;
 
   final BuildConfigImpl _buildConfig;
 
   @override
-  final List<Resource>? resources;
+  final Iterable<Resource>? resources;
 
   final _LinkConfigArgs _args;
 
