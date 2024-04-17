@@ -9,12 +9,15 @@ import 'writer.dart';
 class LibraryImport {
   final String name;
   final String _importPath;
-  final String? importPathWhenImportedByPackageObjC;
+  final String? _importPathWhenImportedByPackageObjC;
+
   String prefix;
 
   LibraryImport(this.name, this._importPath,
-      {this.importPathWhenImportedByPackageObjC})
-      : prefix = name;
+      {String? importPathWhenImportedByPackageObjC})
+      : _importPathWhenImportedByPackageObjC =
+            importPathWhenImportedByPackageObjC,
+        prefix = name;
 
   @override
   bool operator ==(other) {
@@ -24,9 +27,11 @@ class LibraryImport {
   @override
   int get hashCode => name.hashCode;
 
+  // The import path, which may be different if this library is being imported
+  // into package:objective_c's generated code.
   String importPath(bool generateForPackageObjectiveC) {
     if (!generateForPackageObjectiveC) return _importPath;
-    return importPathWhenImportedByPackageObjC ?? _importPath;
+    return _importPathWhenImportedByPackageObjC ?? _importPath;
   }
 }
 
