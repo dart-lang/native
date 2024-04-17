@@ -100,15 +100,11 @@ void comparePaths(String path1, String path2) {
 }
 
 Future<void> _generateTempBindings(Config config, Directory tempDir) async {
-  final tempSrc = tempDir.uri.resolve("src/");
   final singleFile =
       config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
   final tempLib = singleFile
       ? tempDir.uri.resolve("generated.dart")
       : tempDir.uri.resolve("lib/");
-  if (config.outputConfig.bindingsType == BindingsType.cBased) {
-    config.outputConfig.cConfig!.path = tempSrc;
-  }
   config.outputConfig.dartConfig.path = tempLib;
   config.logLevel = Level.WARNING;
   await generateJniBindings(config);
@@ -118,16 +114,11 @@ Future<void> _generateTempBindings(Config config, Directory tempDir) async {
 ///
 /// [dartReferenceBindings] can be directory or file depending on output
 /// configuration.
-///
-/// If the config generates C code, [cReferenceBindings] must be a non-null
-/// directory path.
 Future<void> generateAndCompareBindings(Config config) async {
   final dartReferenceBindings =
       config.outputConfig.dartConfig.path.toFilePath();
-  final cReferenceBindings = config.outputConfig.cConfig?.path.toFilePath();
   final currentDir = Directory.current;
   final tempDir = currentDir.createTempSync("jnigen_test_temp");
-  final tempSrc = tempDir.uri.resolve("src/");
   final singleFile =
       config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
   final tempLib = singleFile
@@ -136,9 +127,6 @@ Future<void> generateAndCompareBindings(Config config) async {
   try {
     await _generateTempBindings(config, tempDir);
     comparePaths(dartReferenceBindings, tempLib.toFilePath());
-    if (config.outputConfig.bindingsType == BindingsType.cBased) {
-      comparePaths(cReferenceBindings!, tempSrc.toFilePath());
-    }
   } finally {
     tempDir.deleteSync(recursive: true);
   }
@@ -218,16 +206,12 @@ Future<void> checkLocallyBuiltDependencies() async {
   warnIfRuntimeTestsAreOutdated();
 }
 
-void generateAndCompareBothModes(
+void generateAndCompare(
   String description,
-  Config cBasedConfig,
-  Config dartOnlyConfig,
+  Config config,
 ) {
-  test('$description (cBased)', () async {
-    await generateAndCompareBindings(cBasedConfig);
-  }, timeout: const Timeout(Duration(minutes: 2)));
-  test('$description (dartOnly)', () async {
-    await generateAndCompareBindings(dartOnlyConfig);
+  test(description, () async {
+    await generateAndCompareBindings(config);
   }, timeout: const Timeout(Duration(minutes: 2)));
 }
 

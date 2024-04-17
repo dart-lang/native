@@ -105,8 +105,6 @@ jobs:
         working-directory: ./pkgs/jnigen/java
       - name: Build summarizer
         run: dart run jnigen:setup
-      - name: Generate runtime tests
-        run: dart run tool/generate_runtime_tests.dart
       - name: Run VM tests
         run: dart test --test-randomize-ordering-seed random
       - name: Install coverage
@@ -258,8 +256,6 @@ jobs:
       - run: dart run jnigen:setup
       - name: Build summarizer
         run: dart run jnigen:setup
-      - name: Generate runtime tests
-        run: dart run tool/generate_runtime_tests.dart
       - name: Run tests
         run: dart test --test-randomize-ordering-seed random
 
@@ -309,8 +305,6 @@ jobs:
       - run: dart pub get
       - name: Build summarizer
         run: dart run jnigen:setup
-      - name: Generate runtime tests
-        run: dart run tool/generate_runtime_tests.dart
       - name: Run tests
         run: dart test --test-randomize-ordering-seed random
 

@@ -24,11 +24,6 @@ final testSrc = absolute(thirdParty, 'test_', 'c_based', 'c_bindings');
 /// two fields are not equal.
 void expectConfigsAreEqual(Config a, Config b) {
   expect(a.classes, equals(b.classes), reason: "classes");
-  expect(a.outputConfig.cConfig?.libraryName,
-      equals(b.outputConfig.cConfig?.libraryName),
-      reason: "libraryName");
-  expect(a.outputConfig.cConfig?.path, equals(b.outputConfig.cConfig?.path),
-      reason: "cRoot");
   expect(a.outputConfig.dartConfig.path, equals(b.outputConfig.dartConfig.path),
       reason: "dartRoot");
   expect(a.outputConfig.symbolsConfig?.path,
@@ -111,7 +106,6 @@ void main() async {
       config,
       getConfig(
         root: join(thirdParty, 'test_'),
-        bindingsType: BindingsType.cBased,
       ),
     );
   });

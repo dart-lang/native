@@ -190,51 +190,6 @@ OutputStructure getOutputStructure(String? name, OutputStructure defaultVal) {
   );
 }
 
-enum BindingsType { cBased, dartOnly }
-
-extension GetConfigString on BindingsType {
-  String getConfigString() {
-    return name.toSnakeCase();
-  }
-}
-
-BindingsType getBindingsType(String? name, BindingsType defaultVal) {
-  return _getEnumValueFromString(
-    BindingsType.values.valuesMap(),
-    name,
-    defaultVal,
-  );
-}
-
-class CCodeOutputConfig {
-  CCodeOutputConfig({
-    required this.path,
-    required this.libraryName,
-    this.subdir,
-  }) {
-    _ensureIsDirectory('C output path', path);
-    if (subdir != null) {
-      _ensureIsDirectory('C subdirectory', path.resolve(subdir!));
-    }
-  }
-
-  /// Directory to write JNI C Bindings, in C+Dart mode.
-  ///
-  /// Strictly speaking, this is the root to place the `CMakeLists.txt` file
-  /// for the generated C bindings. It may be desirable to use the [subdir]
-  /// options to write C files to a subdirectory of [path]. For instance,
-  /// when generated code is required to be in `third_party` directory.
-  Uri path;
-
-  /// Name of generated library in CMakeLists.txt configuration.
-  ///
-  /// This will also determine the name of shared object file.
-  String libraryName;
-
-  /// Subfolder relative to [path] to write generated C code.
-  String? subdir;
-}
-
 class DartCodeOutputConfig {
   DartCodeOutputConfig({
     required this.path,
@@ -271,17 +226,10 @@ class SymbolsOutputConfig {
 class OutputConfig {
   OutputConfig({
     required this.dartConfig,
-    this.bindingsType = BindingsType.cBased,
-    this.cConfig,
     this.symbolsConfig,
-  }) {
-    if (bindingsType == BindingsType.cBased && cConfig == null) {
-      throw ConfigException('C output config must be provided!');
-    }
-  }
-  BindingsType bindingsType;
+  });
+
   DartCodeOutputConfig dartConfig;
-  CCodeOutputConfig? cConfig;
   SymbolsOutputConfig? symbolsConfig;
 }
 
@@ -578,17 +526,6 @@ class Config {
         fields: regexFilter<Field>(_Props.excludeFields),
       ),
       outputConfig: OutputConfig(
-        bindingsType: getBindingsType(
-          prov.getString(_Props.bindingsType),
-          BindingsType.cBased,
-        ),
-        cConfig: prov.hasValue(_Props.cCodeOutputConfig)
-            ? CCodeOutputConfig(
-                libraryName: must(prov.getString, '', _Props.libraryName),
-                path: must(prov.getPath, Uri.parse('.'), _Props.cRoot),
-                subdir: prov.getString(_Props.cSubdir),
-              )
-            : null,
         dartConfig: DartCodeOutputConfig(
           path: must(prov.getPath, Uri.parse('.'), _Props.dartRoot),
           structure: getOutputStructure(
@@ -676,15 +613,10 @@ class _Props {
   static const experiments = 'enable_experiment';
   static const import = 'import';
   static const outputConfig = 'output';
-  static const bindingsType = '$outputConfig.bindings_type';
-  static const cCodeOutputConfig = '$outputConfig.c';
   static const dartCodeOutputConfig = '$outputConfig.dart';
   static const symbolsOutputConfig = '$outputConfig.symbols';
-  static const cRoot = '$cCodeOutputConfig.path';
-  static const cSubdir = '$cCodeOutputConfig.subdir';
   static const dartRoot = '$dartCodeOutputConfig.path';
   static const outputStructure = '$dartCodeOutputConfig.structure';
-  static const libraryName = '$cCodeOutputConfig.library_name';
   static const preamble = 'preamble';
   static const logLevel = 'log_level';
 

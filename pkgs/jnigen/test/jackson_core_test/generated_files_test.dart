@@ -4,18 +4,15 @@
 
 import 'package:test/test.dart';
 
-import 'package:jnigen/jnigen.dart';
-
 import '../test_util/test_util.dart';
 import 'generate.dart';
 
 void main() async {
   await checkLocallyBuiltDependencies();
 
-  generateAndCompareBothModes(
+  generateAndCompare(
     'Generate and compare bindings for jackson_core library',
-    getConfig(bindingsType: BindingsType.cBased),
-    getConfig(bindingsType: BindingsType.dartOnly),
+    getConfig(),
   );
   test(
       'generate and analyze bindings for complete library, '
@@ -26,12 +23,6 @@ void main() async {
 
   test('generate and analyze bindings using ASM', () async {
     final config = getConfig(generateFullVersion: true, useAsm: true);
-    await generateAndAnalyzeBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
-
-  test('Generate and analyze pure dart bindings', () async {
-    final config = getConfig(generateFullVersion: true);
-    config.outputConfig.bindingsType = BindingsType.dartOnly;
     await generateAndAnalyzeBindings(config);
   }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
 }

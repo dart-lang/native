@@ -1,4 +1,2 @@
 # TODO(#166): Remove this.
 !jni.jar
-runtime_test_registrant_dartonly_generated.dart
-generated_runtime_test.dart

@@ -20,18 +20,6 @@ preamble: |
 
 ## Output configuration
 output:
-  c:
-    ## Path to write generated C bindings
-    path: 'src/'
-    ## C files can be stored in a different sub-directory inside root.
-    ##
-    ## We have a guideline to keep all generated code in third_party/ since the
-    ## original project's license applies to generated code. So we specify
-    ## third_party/ as c_subdir while keeping generated CMakeLists.txt in src/.
-    subdir: 'third_party/'
-    ## Name of the generated library. This is a required parameter, and used
-    ## for the name of the shared library and CMake configuration.
-    library_name: 'pdfbox_plugin'
   dart:
     ## Generated dart bindings will be written to this path. They will follow
     ## the same folder hierarchy as the original Java code.
