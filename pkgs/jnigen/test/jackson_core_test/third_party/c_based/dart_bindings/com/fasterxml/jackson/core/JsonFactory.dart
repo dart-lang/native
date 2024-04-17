@@ -98,10 +98,14 @@ class JsonFactory_Feature extends jni.JObject {
   }
 
   static final _enabledByDefault = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory_Feature__enabledByDefault")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory_Feature__enabledByDefault")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean enabledByDefault()
   bool enabledByDefault() {
@@ -122,10 +126,14 @@ class JsonFactory_Feature extends jni.JObject {
   }
 
   static final _getMask = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory_Feature__getMask")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory_Feature__getMask")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getMask()
   int getMask() {
@@ -343,10 +351,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _rebuild = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__rebuild")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__rebuild")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.TSFBuilder<?,?> rebuild()
   /// The returned object must be released after use, by calling the [release] method.
@@ -380,10 +392,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _copy = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__copy")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__copy")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.JsonFactory copy()
   /// The returned object must be released after use, by calling the [release] method.
@@ -405,10 +421,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _readResolve = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__readResolve")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__readResolve")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: protected java.lang.Object readResolve()
   /// The returned object must be released after use, by calling the [release] method.
@@ -424,10 +444,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _requiresPropertyOrdering = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__requiresPropertyOrdering")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__requiresPropertyOrdering")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean requiresPropertyOrdering()
   ///
@@ -450,10 +474,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _canHandleBinaryNatively = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__canHandleBinaryNatively")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__canHandleBinaryNatively")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean canHandleBinaryNatively()
   ///
@@ -473,10 +501,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _canUseCharArrays = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__canUseCharArrays")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__canUseCharArrays")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean canUseCharArrays()
   ///
@@ -496,10 +528,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _canParseAsync = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__canParseAsync")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__canParseAsync")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean canParseAsync()
   ///
@@ -515,10 +551,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getFormatReadFeatureType = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getFormatReadFeatureType")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getFormatReadFeatureType")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()
   /// The returned object must be released after use, by calling the [release] method.
@@ -528,10 +568,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getFormatWriteFeatureType = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getFormatWriteFeatureType")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getFormatWriteFeatureType")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()
   /// The returned object must be released after use, by calling the [release] method.
@@ -566,10 +610,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getFormatName = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getFormatName")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getFormatName")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getFormatName()
   /// The returned object must be released after use, by calling the [release] method.
@@ -602,10 +650,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _requiresCustomCodec = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__requiresCustomCodec")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__requiresCustomCodec")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public boolean requiresCustomCodec()
   ///
@@ -640,10 +692,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _version = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__version")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__version")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.Version version()
   /// The returned object must be released after use, by calling the [release] method.
@@ -742,10 +798,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getParserFeatures = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getParserFeatures")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getParserFeatures")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final int getParserFeatures()
   int getParserFeatures() {
@@ -753,10 +813,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getGeneratorFeatures = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getGeneratorFeatures")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getGeneratorFeatures")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final int getGeneratorFeatures()
   int getGeneratorFeatures() {
@@ -764,10 +828,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getFormatParserFeatures = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getFormatParserFeatures")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getFormatParserFeatures")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getFormatParserFeatures()
   int getFormatParserFeatures() {
@@ -775,10 +843,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getFormatGeneratorFeatures = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getFormatGeneratorFeatures")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getFormatGeneratorFeatures")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public int getFormatGeneratorFeatures()
   int getFormatGeneratorFeatures() {
@@ -893,10 +965,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getInputDecorator = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getInputDecorator")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getInputDecorator")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.io.InputDecorator getInputDecorator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1039,10 +1115,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getCharacterEscapes = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getCharacterEscapes")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getCharacterEscapes")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.io.CharacterEscapes getCharacterEscapes()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1078,10 +1158,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getOutputDecorator = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getOutputDecorator")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getOutputDecorator")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.io.OutputDecorator getOutputDecorator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1141,10 +1225,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getRootValueSeparator = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getRootValueSeparator")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getRootValueSeparator")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public java.lang.String getRootValueSeparator()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1181,10 +1269,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _getCodec = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__getCodec")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__getCodec")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.ObjectCodec getCodec()
   /// The returned object must be released after use, by calling the [release] method.
@@ -1465,10 +1557,14 @@ class JsonFactory extends jni.JObject {
   }
 
   static final _createNonBlockingByteArrayParser = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonFactory__createNonBlockingByteArrayParser")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonFactory__createNonBlockingByteArrayParser")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public com.fasterxml.jackson.core.JsonParser createNonBlockingByteArrayParser()
   /// The returned object must be released after use, by calling the [release] method.

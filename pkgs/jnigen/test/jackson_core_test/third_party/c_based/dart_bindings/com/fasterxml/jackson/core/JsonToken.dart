@@ -83,8 +83,13 @@ class JsonToken extends jni.JObject {
 
   static final _id = jniLookup<
           ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("JsonToken__id")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__id")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final int id()
   int id() {
@@ -92,10 +97,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _asString = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__asString")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__asString")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final java.lang.String asString()
   /// The returned object must be released after use, by calling the [release] method.
@@ -104,10 +113,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _asCharArray = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__asCharArray")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__asCharArray")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final char[] asCharArray()
   /// The returned object must be released after use, by calling the [release] method.
@@ -117,10 +130,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _asByteArray = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__asByteArray")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__asByteArray")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final byte[] asByteArray()
   /// The returned object must be released after use, by calling the [release] method.
@@ -130,10 +147,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _isNumeric = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__isNumeric")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__isNumeric")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final boolean isNumeric()
   ///
@@ -144,10 +165,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _isStructStart = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__isStructStart")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__isStructStart")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final boolean isStructStart()
   ///
@@ -163,10 +188,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _isStructEnd = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__isStructEnd")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__isStructEnd")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final boolean isStructEnd()
   ///
@@ -182,10 +211,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _isScalarValue = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__isScalarValue")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__isScalarValue")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final boolean isScalarValue()
   ///
@@ -200,10 +233,14 @@ class JsonToken extends jni.JObject {
   }
 
   static final _isBoolean = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "JsonToken__isBoolean")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+              )>>("JsonToken__isBoolean")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+          )>();
 
   /// from: public final boolean isBoolean()
   ///

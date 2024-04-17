@@ -300,6 +300,9 @@ extension ProtectedJniExtensions on Jni {
     Jni._ensureInitialized();
     Jni._bindings.deleteFinalizableHandle(finalizableHandle, object);
   }
+
+  static Pointer<T> Function<T extends NativeType>(String) get lookup =>
+      Jni._dylib.lookup;
 }
 
 extension AdditionalEnvMethods on GlobalJniEnv {

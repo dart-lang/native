@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:meta/meta.dart';
@@ -27,6 +28,7 @@ const _jGlobalReference = '$_jni.JGlobalReference';
 const _jArray = '$_jni.JArray';
 const _jObject = '$_jni.JObject';
 const _jResult = '$_jni.JniResult';
+const _jThrowable = '$_jni.JThrowablePtr';
 
 // package:ffi types.
 const _voidPointer = '$_ffi.Pointer<$_ffi.Void>';
@@ -903,11 +905,21 @@ class _JniResultGetter extends TypeVisitor<String> {
 /// ```
 class _TypeSig extends TypeVisitor<String> {
   final bool isFfi;
+  final bool isCBased;
 
-  const _TypeSig({required this.isFfi});
+  const _TypeSig({required this.isFfi, required this.isCBased});
 
   @override
   String visitPrimitiveType(PrimitiveType node) {
+    if (!isCBased && isFfi) {
+      // TODO(https://github.com/dart-lang/sdk/issues/55471): Once this lands in
+      // the stable, use the actual types instead.
+      if (node.name == 'float' || node.name == 'double') {
+        return '$_ffi.Double';
+      } else {
+        return '$_ffi.Int64';
+      }
+    }
     if (isFfi) return '$_ffi.${node.ffiType}';
     if (node.name == 'boolean') return 'int';
     return node.dartType;
@@ -957,8 +969,10 @@ class _FieldGenerator extends Visitor<Field, void> {
 ''');
 
     if (!node.isFinal) {
-      final ffiSig = node.type.accept(const _TypeSig(isFfi: true));
-      final dartSig = node.type.accept(const _TypeSig(isFfi: false));
+      final ffiSig =
+          node.type.accept(const _TypeSig(isFfi: true, isCBased: true));
+      final dartSig =
+          node.type.accept(const _TypeSig(isFfi: false, isCBased: true));
       s.write('''
   static final _set_$name =
       $_lookup<$_ffi.NativeFunction<$_jResult Function($ifRef$ffiSig)>>(
@@ -1059,18 +1073,27 @@ class _FieldGenerator extends Visitor<Field, void> {
 
 class _MethodTypeSig extends Visitor<Method, String> {
   final bool isFfi;
+  final bool isCBased;
 
-  const _MethodTypeSig({required this.isFfi});
+  const _MethodTypeSig({required this.isFfi, required this.isCBased});
 
   @override
   String visit(Method node) {
+    final callParams = node.params
+        .map((param) => param.type)
+        .accept(_TypeSig(isFfi: isFfi, isCBased: isCBased))
+        .join(', ');
     final args = [
-      if (!node.isCtor && !node.isStatic) _voidPointer,
-      ...node.params.map((param) => param.type).accept(
-            _TypeSig(isFfi: isFfi),
-          )
+      if ((!node.isCtor && !node.isStatic) || !isCBased) _voidPointer,
+      if (!isCBased) '$_jni.JMethodIDPtr',
+      !isCBased && isFfi && callParams.isNotEmpty
+          ? '$_ffi.VarArgs<($callParams${node.params.length == 1 ? ',' : ''})>'
+          : callParams
     ].join(', ');
-    return '$_jResult Function($args)';
+    final isCtor = node.isCtor;
+    final isVoid = node.returnType.name == 'void';
+    final returnType = !isCBased && !isCtor && isVoid ? _jThrowable : _jResult;
+    return '$returnType Function($args)';
   }
 }
 
@@ -1085,8 +1108,10 @@ class _MethodGenerator extends Visitor<Method, void> {
   void writeCAccessor(Method node) {
     final name = node.finalName;
     final cName = node.accept(const CMethodName());
-    final ffiSig = node.accept(const _MethodTypeSig(isFfi: true));
-    final dartSig = node.accept(const _MethodTypeSig(isFfi: false));
+    final ffiSig =
+        node.accept(const _MethodTypeSig(isFfi: true, isCBased: true));
+    final dartSig =
+        node.accept(const _MethodTypeSig(isFfi: false, isCBased: true));
     s.write('''
   static final _$name =
           $_lookup<$_ffi.NativeFunction<$ffiSig>>("$cName")
@@ -1111,6 +1136,17 @@ class _MethodGenerator extends Visitor<Method, void> {
     r"$descriptor",
   );
 ''');
+    final ffiSig =
+        node.accept(const _MethodTypeSig(isFfi: true, isCBased: false));
+    final dartSig =
+        node.accept(const _MethodTypeSig(isFfi: false, isCBased: false));
+    final methodName = node.accept(const _CallMethodName());
+    s.write('''
+
+  static final _$name = $_protectedExtension
+    .lookup<$_ffi.NativeFunction<$ffiSig>>("$methodName")
+    .asFunction<$dartSig>();
+''');
   }
 
   bool isSuspendFun(Method node) {
@@ -1119,23 +1155,25 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String cCtor(Method node) {
     final name = node.finalName;
-    final params =
-        node.params.accept(const _ParamCall(isCBased: true)).join(', ');
+    final params = node.params.accept(const _ParamCall()).join(', ');
     return '_$name($params).reference';
   }
 
   String dartOnlyCtor(Method node) {
     final name = node.finalName;
-    final params =
-        node.params.accept(const _ParamCall(isCBased: false)).join(', ');
-    return '_id_$name($_classRef, referenceType, [$params])';
+    final params = [
+      '$_classRef.reference.pointer',
+      '_id_$name as $_jni.JMethodIDPtr',
+      ...node.params.accept(const _ParamCall()),
+    ].join(', ');
+    return '_$name($params).reference';
   }
 
   String cMethodCall(Method node) {
     final name = node.finalName;
     final params = [
       if (!node.isStatic) _selfPointer,
-      ...node.params.accept(const _ParamCall(isCBased: true)),
+      ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final resultGetter = node.returnType.accept(_JniResultGetter(resolver));
     return '_$name($params).$resultGetter';
@@ -1143,11 +1181,13 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String dartOnlyMethodCall(Method node) {
     final name = node.finalName;
-    final self = node.isStatic ? _classRef : _self;
-    final params =
-        node.params.accept(const _ParamCall(isCBased: false)).join(', ');
-    final type = node.returnType.accept(_TypeClassGenerator(resolver)).name;
-    return '_id_$name($self, $type, [$params])';
+    final params = [
+      node.isStatic ? '$_classRef.reference.pointer' : _selfPointer,
+      '_id_$name as $_jni.JMethodIDPtr',
+      ...node.params.accept(const _ParamCall()),
+    ].join(', ');
+    final resultGetter = node.returnType.accept(_JniResultGetter(resolver));
+    return '_$name($params).$resultGetter';
   }
 
   @override
@@ -1348,44 +1388,13 @@ class _ParamDef extends Visitor<Param, String> {
 /// void bar(Foo foo) => _bar(foo.reference.pointer);
 /// ```
 class _ParamCall extends Visitor<Param, String> {
-  final bool isCBased;
-
-  const _ParamCall({required this.isCBased});
+  const _ParamCall();
 
   @override
   String visit(Param node) {
     final nativeSuffix = node.type.accept(const _ToNativeSuffix());
     final paramCall = '${node.finalName}$nativeSuffix';
-    if (!isCBased) {
-      // We need to wrap [paramCall] in the appropriate wrapper class.
-      return node.type.accept(_JValueWrapper(paramCall));
-    }
     return paramCall;
-  }
-}
-
-/// Wraps the parameter in the appropriate JValue wrapper class.
-///
-/// For instance, `int` in Dart can be mapped to `long` or `int` or ... in Java.
-/// The wrapper class is how we identify the type in pure dart bindings.
-class _JValueWrapper extends TypeVisitor<String> {
-  final String param;
-
-  _JValueWrapper(this.param);
-
-  @override
-  String visitNonPrimitiveType(ReferredType node) {
-    return param;
-  }
-
-  @override
-  String visitPrimitiveType(PrimitiveType node) {
-    if (node.name == 'long' ||
-        node.name == 'double' ||
-        node.name == 'boolean') {
-      return param;
-    }
-    return '$_jni.JValue${node.name.capitalize()}($param)';
   }
 }
 
@@ -1679,5 +1688,23 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
       return '$_jni.nullptr';
     }
     return '$_jni.J${node.boxedName}(\$r).reference.toPointer()';
+  }
+}
+
+class _CallMethodName extends Visitor<Method, String> {
+  const _CallMethodName();
+
+  @override
+  String visit(Method node) {
+    if (node.isCtor) {
+      return 'globalEnv_NewObject';
+    }
+    final String type;
+    if (node.returnType.kind == Kind.primitive) {
+      type = (node.returnType.type as PrimitiveType).name.capitalize();
+    } else {
+      type = 'Object';
+    }
+    return 'globalEnv_Call${node.isStatic ? 'Static' : ''}${type}Method';
   }
 }

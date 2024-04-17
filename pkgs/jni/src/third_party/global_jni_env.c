@@ -272,9 +272,14 @@ JniResult globalEnv_AllocObject(jclass clazz) {
   return (JniResult){.value = {.l = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_NewObject(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_NewObject(jclass clazz,
+                                                jmethodID methodID,
+                                                ...) {
   attach_thread();
-  jobject _result = (*jniEnv)->NewObject(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jobject _result = (*jniEnv)->NewObjectV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -325,9 +330,14 @@ JniPointerResult globalEnv_GetMethodID(jclass clazz, char* name, char* sig) {
   return (JniPointerResult){.value = _result, .exception = NULL};
 }
 
-JniResult globalEnv_CallObjectMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallObjectMethod(jobject obj,
+                                                       jmethodID methodID,
+                                                       ...) {
   attach_thread();
-  jobject _result = (*jniEnv)->CallObjectMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jobject _result = (*jniEnv)->CallObjectMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -349,9 +359,14 @@ JniResult globalEnv_CallObjectMethodA(jobject obj,
   return (JniResult){.value = {.l = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallBooleanMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallBooleanMethod(jobject obj,
+                                                        jmethodID methodID,
+                                                        ...) {
   attach_thread();
-  jboolean _result = (*jniEnv)->CallBooleanMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jboolean _result = (*jniEnv)->CallBooleanMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -371,9 +386,14 @@ JniResult globalEnv_CallBooleanMethodA(jobject obj,
   return (JniResult){.value = {.z = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallByteMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallByteMethod(jobject obj,
+                                                     jmethodID methodID,
+                                                     ...) {
   attach_thread();
-  jbyte _result = (*jniEnv)->CallByteMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jbyte _result = (*jniEnv)->CallByteMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -393,9 +413,14 @@ JniResult globalEnv_CallByteMethodA(jobject obj,
   return (JniResult){.value = {.b = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallCharMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallCharMethod(jobject obj,
+                                                     jmethodID methodID,
+                                                     ...) {
   attach_thread();
-  jchar _result = (*jniEnv)->CallCharMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jchar _result = (*jniEnv)->CallCharMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -415,9 +440,14 @@ JniResult globalEnv_CallCharMethodA(jobject obj,
   return (JniResult){.value = {.c = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallShortMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallShortMethod(jobject obj,
+                                                      jmethodID methodID,
+                                                      ...) {
   attach_thread();
-  jshort _result = (*jniEnv)->CallShortMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jshort _result = (*jniEnv)->CallShortMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -437,9 +467,14 @@ JniResult globalEnv_CallShortMethodA(jobject obj,
   return (JniResult){.value = {.s = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallIntMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallIntMethod(jobject obj,
+                                                    jmethodID methodID,
+                                                    ...) {
   attach_thread();
-  jint _result = (*jniEnv)->CallIntMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jint _result = (*jniEnv)->CallIntMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -459,9 +494,14 @@ JniResult globalEnv_CallIntMethodA(jobject obj,
   return (JniResult){.value = {.i = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallLongMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallLongMethod(jobject obj,
+                                                     jmethodID methodID,
+                                                     ...) {
   attach_thread();
-  jlong _result = (*jniEnv)->CallLongMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jlong _result = (*jniEnv)->CallLongMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -481,9 +521,14 @@ JniResult globalEnv_CallLongMethodA(jobject obj,
   return (JniResult){.value = {.j = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallFloatMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallFloatMethod(jobject obj,
+                                                      jmethodID methodID,
+                                                      ...) {
   attach_thread();
-  jfloat _result = (*jniEnv)->CallFloatMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jfloat _result = (*jniEnv)->CallFloatMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -503,9 +548,14 @@ JniResult globalEnv_CallFloatMethodA(jobject obj,
   return (JniResult){.value = {.f = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallDoubleMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallDoubleMethod(jobject obj,
+                                                       jmethodID methodID,
+                                                       ...) {
   attach_thread();
-  jdouble _result = (*jniEnv)->CallDoubleMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jdouble _result = (*jniEnv)->CallDoubleMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -525,9 +575,14 @@ JniResult globalEnv_CallDoubleMethodA(jobject obj,
   return (JniResult){.value = {.d = _result}, .exception = NULL};
 }
 
-jthrowable globalEnv_CallVoidMethod(jobject obj, jmethodID methodID) {
+FFI_PLUGIN_EXPORT jthrowable globalEnv_CallVoidMethod(jobject obj,
+                                                      jmethodID methodID,
+                                                      ...) {
   attach_thread();
-  (*jniEnv)->CallVoidMethod(jniEnv, obj, methodID);
+  va_list args;
+  va_start(args, methodID);
+  (*jniEnv)->CallVoidMethodV(jniEnv, obj, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return _exception;
@@ -547,12 +602,17 @@ jthrowable globalEnv_CallVoidMethodA(jobject obj,
   return NULL;
 }
 
-JniResult globalEnv_CallNonvirtualObjectMethod(jobject obj,
-                                               jclass clazz,
-                                               jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualObjectMethod(jobject obj,
+                                     jclass clazz,
+                                     jmethodID methodID,
+                                     ...) {
   attach_thread();
-  jobject _result =
-      (*jniEnv)->CallNonvirtualObjectMethod(jniEnv, obj, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jobject _result = (*jniEnv)->CallNonvirtualObjectMethodV(jniEnv, obj, clazz,
+                                                           methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -576,12 +636,17 @@ JniResult globalEnv_CallNonvirtualObjectMethodA(jobject obj,
   return (JniResult){.value = {.l = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualBooleanMethod(jobject obj,
-                                                jclass clazz,
-                                                jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualBooleanMethod(jobject obj,
+                                      jclass clazz,
+                                      jmethodID methodID,
+                                      ...) {
   attach_thread();
-  jboolean _result =
-      (*jniEnv)->CallNonvirtualBooleanMethod(jniEnv, obj, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jboolean _result = (*jniEnv)->CallNonvirtualBooleanMethodV(jniEnv, obj, clazz,
+                                                             methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -603,12 +668,17 @@ JniResult globalEnv_CallNonvirtualBooleanMethodA(jobject obj,
   return (JniResult){.value = {.z = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualByteMethod(jobject obj,
-                                             jclass clazz,
-                                             jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualByteMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...) {
   attach_thread();
+  va_list args;
+  va_start(args, methodID);
   jbyte _result =
-      (*jniEnv)->CallNonvirtualByteMethod(jniEnv, obj, clazz, methodID);
+      (*jniEnv)->CallNonvirtualByteMethodV(jniEnv, obj, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -630,12 +700,17 @@ JniResult globalEnv_CallNonvirtualByteMethodA(jobject obj,
   return (JniResult){.value = {.b = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualCharMethod(jobject obj,
-                                             jclass clazz,
-                                             jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualCharMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...) {
   attach_thread();
+  va_list args;
+  va_start(args, methodID);
   jchar _result =
-      (*jniEnv)->CallNonvirtualCharMethod(jniEnv, obj, clazz, methodID);
+      (*jniEnv)->CallNonvirtualCharMethodV(jniEnv, obj, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -657,12 +732,17 @@ JniResult globalEnv_CallNonvirtualCharMethodA(jobject obj,
   return (JniResult){.value = {.c = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualShortMethod(jobject obj,
-                                              jclass clazz,
-                                              jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualShortMethod(jobject obj,
+                                    jclass clazz,
+                                    jmethodID methodID,
+                                    ...) {
   attach_thread();
+  va_list args;
+  va_start(args, methodID);
   jshort _result =
-      (*jniEnv)->CallNonvirtualShortMethod(jniEnv, obj, clazz, methodID);
+      (*jniEnv)->CallNonvirtualShortMethodV(jniEnv, obj, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -684,12 +764,17 @@ JniResult globalEnv_CallNonvirtualShortMethodA(jobject obj,
   return (JniResult){.value = {.s = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualIntMethod(jobject obj,
-                                            jclass clazz,
-                                            jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualIntMethod(jobject obj,
+                                  jclass clazz,
+                                  jmethodID methodID,
+                                  ...) {
   attach_thread();
+  va_list args;
+  va_start(args, methodID);
   jint _result =
-      (*jniEnv)->CallNonvirtualIntMethod(jniEnv, obj, clazz, methodID);
+      (*jniEnv)->CallNonvirtualIntMethodV(jniEnv, obj, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -711,12 +796,17 @@ JniResult globalEnv_CallNonvirtualIntMethodA(jobject obj,
   return (JniResult){.value = {.i = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualLongMethod(jobject obj,
-                                             jclass clazz,
-                                             jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualLongMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...) {
   attach_thread();
+  va_list args;
+  va_start(args, methodID);
   jlong _result =
-      (*jniEnv)->CallNonvirtualLongMethod(jniEnv, obj, clazz, methodID);
+      (*jniEnv)->CallNonvirtualLongMethodV(jniEnv, obj, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -738,12 +828,17 @@ JniResult globalEnv_CallNonvirtualLongMethodA(jobject obj,
   return (JniResult){.value = {.j = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualFloatMethod(jobject obj,
-                                              jclass clazz,
-                                              jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualFloatMethod(jobject obj,
+                                    jclass clazz,
+                                    jmethodID methodID,
+                                    ...) {
   attach_thread();
+  va_list args;
+  va_start(args, methodID);
   jfloat _result =
-      (*jniEnv)->CallNonvirtualFloatMethod(jniEnv, obj, clazz, methodID);
+      (*jniEnv)->CallNonvirtualFloatMethodV(jniEnv, obj, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -765,12 +860,17 @@ JniResult globalEnv_CallNonvirtualFloatMethodA(jobject obj,
   return (JniResult){.value = {.f = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallNonvirtualDoubleMethod(jobject obj,
-                                               jclass clazz,
-                                               jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualDoubleMethod(jobject obj,
+                                     jclass clazz,
+                                     jmethodID methodID,
+                                     ...) {
   attach_thread();
-  jdouble _result =
-      (*jniEnv)->CallNonvirtualDoubleMethod(jniEnv, obj, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jdouble _result = (*jniEnv)->CallNonvirtualDoubleMethodV(jniEnv, obj, clazz,
+                                                           methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -792,11 +892,16 @@ JniResult globalEnv_CallNonvirtualDoubleMethodA(jobject obj,
   return (JniResult){.value = {.d = _result}, .exception = NULL};
 }
 
-jthrowable globalEnv_CallNonvirtualVoidMethod(jobject obj,
-                                              jclass clazz,
-                                              jmethodID methodID) {
+FFI_PLUGIN_EXPORT jthrowable
+globalEnv_CallNonvirtualVoidMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...) {
   attach_thread();
-  (*jniEnv)->CallNonvirtualVoidMethod(jniEnv, obj, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  (*jniEnv)->CallNonvirtualVoidMethodV(jniEnv, obj, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return _exception;
@@ -1026,9 +1131,15 @@ JniPointerResult globalEnv_GetStaticMethodID(jclass clazz,
   return (JniPointerResult){.value = _result, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticObjectMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticObjectMethod(jclass clazz,
+                                                             jmethodID methodID,
+                                                             ...) {
   attach_thread();
-  jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jobject _result =
+      (*jniEnv)->CallStaticObjectMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1051,10 +1162,14 @@ JniResult globalEnv_CallStaticObjectMethodA(jclass clazz,
   return (JniResult){.value = {.l = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticBooleanMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallStaticBooleanMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
+  va_list args;
+  va_start(args, methodID);
   jboolean _result =
-      (*jniEnv)->CallStaticBooleanMethod(jniEnv, clazz, methodID);
+      (*jniEnv)->CallStaticBooleanMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1075,9 +1190,15 @@ JniResult globalEnv_CallStaticBooleanMethodA(jclass clazz,
   return (JniResult){.value = {.z = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticByteMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticByteMethod(jclass clazz,
+                                                           jmethodID methodID,
+                                                           ...) {
   attach_thread();
-  jbyte _result = (*jniEnv)->CallStaticByteMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jbyte _result =
+      (*jniEnv)->CallStaticByteMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1098,9 +1219,15 @@ JniResult globalEnv_CallStaticByteMethodA(jclass clazz,
   return (JniResult){.value = {.b = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticCharMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticCharMethod(jclass clazz,
+                                                           jmethodID methodID,
+                                                           ...) {
   attach_thread();
-  jchar _result = (*jniEnv)->CallStaticCharMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jchar _result =
+      (*jniEnv)->CallStaticCharMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1121,9 +1248,15 @@ JniResult globalEnv_CallStaticCharMethodA(jclass clazz,
   return (JniResult){.value = {.c = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticShortMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticShortMethod(jclass clazz,
+                                                            jmethodID methodID,
+                                                            ...) {
   attach_thread();
-  jshort _result = (*jniEnv)->CallStaticShortMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jshort _result =
+      (*jniEnv)->CallStaticShortMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1144,9 +1277,14 @@ JniResult globalEnv_CallStaticShortMethodA(jclass clazz,
   return (JniResult){.value = {.s = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticIntMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticIntMethod(jclass clazz,
+                                                          jmethodID methodID,
+                                                          ...) {
   attach_thread();
-  jint _result = (*jniEnv)->CallStaticIntMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jint _result = (*jniEnv)->CallStaticIntMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1166,9 +1304,15 @@ JniResult globalEnv_CallStaticIntMethodA(jclass clazz,
   return (JniResult){.value = {.i = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticLongMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticLongMethod(jclass clazz,
+                                                           jmethodID methodID,
+                                                           ...) {
   attach_thread();
-  jlong _result = (*jniEnv)->CallStaticLongMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jlong _result =
+      (*jniEnv)->CallStaticLongMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1189,9 +1333,15 @@ JniResult globalEnv_CallStaticLongMethodA(jclass clazz,
   return (JniResult){.value = {.j = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticFloatMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticFloatMethod(jclass clazz,
+                                                            jmethodID methodID,
+                                                            ...) {
   attach_thread();
-  jfloat _result = (*jniEnv)->CallStaticFloatMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jfloat _result =
+      (*jniEnv)->CallStaticFloatMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1212,9 +1362,15 @@ JniResult globalEnv_CallStaticFloatMethodA(jclass clazz,
   return (JniResult){.value = {.f = _result}, .exception = NULL};
 }
 
-JniResult globalEnv_CallStaticDoubleMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticDoubleMethod(jclass clazz,
+                                                             jmethodID methodID,
+                                                             ...) {
   attach_thread();
-  jdouble _result = (*jniEnv)->CallStaticDoubleMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  jdouble _result =
+      (*jniEnv)->CallStaticDoubleMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return (JniResult){.value = {.j = 0}, .exception = _exception};
@@ -1235,9 +1391,14 @@ JniResult globalEnv_CallStaticDoubleMethodA(jclass clazz,
   return (JniResult){.value = {.d = _result}, .exception = NULL};
 }
 
-jthrowable globalEnv_CallStaticVoidMethod(jclass clazz, jmethodID methodID) {
+FFI_PLUGIN_EXPORT jthrowable globalEnv_CallStaticVoidMethod(jclass clazz,
+                                                            jmethodID methodID,
+                                                            ...) {
   attach_thread();
-  (*jniEnv)->CallStaticVoidMethod(jniEnv, clazz, methodID);
+  va_list args;
+  va_start(args, methodID);
+  (*jniEnv)->CallStaticVoidMethodV(jniEnv, clazz, methodID, args);
+  va_end(args);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
     return _exception;
