@@ -16,9 +16,9 @@ import 'link_config.dart';
 /// application if included in the [LinkOutput].
 ///
 /// As the linking runs after kernel compilation, you can use treeshaking
-/// information provided through [LinkConfig.treeshakingInformation] to decide which assets
-/// to include. The resources are only collected in AOT mode, therefore the
-/// field is null in JIT mode.
+/// information provided through [LinkConfig.treeshakingInformation] to decide
+/// which assets to include. The resources are only collected in AOT mode,
+/// therefore the field is null in JIT mode.
 ///
 ///
 /// ```dart

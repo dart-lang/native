@@ -7,8 +7,8 @@ part of '../api/link_config.dart';
 /// The input to the linking script.
 ///
 /// It consists of the [_buildConfig] already passed to the build script, the
-/// [assets] from the build step, and the [treeshakingInformation] generated during the
-/// kernel compilation.
+/// [assets] from the build step, and the [treeshakingInformation] generated
+/// during the kernel compilation.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   Hook get hook => Hook.link;
