@@ -2,66 +2,37 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
+import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
+import 'package:path/path.dart' as path;
+
+import 'build.dart';
 
 const packageName = 'treeshaking_native_assets';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    final usedSymbols =
-        config.resources?.map((resource) => resource.metadata.toString());
-    final dynamicLibrary = config.assets.firstWhere((asset) =>
-        asset.id == 'package:$packageName/src/${packageName}_bindings.dart');
     final staticLibrary = config.assets
         .firstWhere((asset) => asset.id == 'package:$packageName/staticlib');
-
-    if (usedSymbols != null) {
-      final linkerScript = await _writeLinkerScript(usedSymbols);
-      await _treeshakeStaticLibrary(
-        usedSymbols,
-        linkerScript,
-        dynamicLibrary,
-        staticLibrary,
-      );
-      output.addAsset(dynamicLibrary);
-      output.addDependency(config.packageRoot.resolve('hook/link.dart'));
-    }
+    final nameWithoutLibAndSo = path
+        .basenameWithoutExtension(placeholderAsset(config).file!.toFilePath())
+        .substring(3);
+    await CLinker(
+      name: nameWithoutLibAndSo,
+      //TODO: expose name from `placeholderAsset`
+      assetName: 'src/${packageName}_bindings.dart',
+      linkerOptions: LinkerOptions.treeshake(
+          symbols: config.resources
+              ?.map((resource) => resource.metadata)
+              .map((metadata) => metadata.toString())),
+      sources: [staticLibrary.file!.toFilePath()],
+    ).run(
+      linkConfig: config,
+      linkOutput: output,
+      logger: Logger('')
+        ..level = Level.ALL
+        ..onRecord.listen((record) => print(record.message)),
+    );
   });
-}
-
-Future<void> _treeshakeStaticLibrary(
-  Iterable<String> symbols,
-  Uri symbolsUri,
-  Asset dynamicLibrary,
-  Asset staticLibrary,
-) async {
-  final arguments = [
-    '-fPIC',
-    '-shared',
-    ...symbols.map((symbol) => ['-u', symbol]).expand((e) => e),
-    '--version-script=${symbolsUri.toFilePath()}',
-    '--gc-sections',
-    '--strip-debug',
-    ...['-o', (dynamicLibrary.file!.toFilePath())],
-    staticLibrary.file!.toFilePath(),
-  ];
-  await Process.run('ld', arguments);
-}
-
-Future<Uri> _writeLinkerScript(Iterable<String> symbols) async {
-  final tempDir = await Directory.systemTemp.createTemp();
-  const symbolsFile = 'symbols.lds';
-  final symbolsUri = tempDir.uri.resolve(symbolsFile);
-  final linkerScript = File.fromUri(symbolsUri)..createSync();
-  final contents = '''{
-  global:
-${symbols.map((symbol) => '    ' + symbol + ';').join('\n')}
-  local:
-    *;
-};
-''';
-  linkerScript.writeAsStringSync(contents);
-  return symbolsUri;
 }

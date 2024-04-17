@@ -1,3 +1,7 @@
+## 0.4.2-wip
+
+- Expose linking in an API.
+
 ## 0.4.1
 
 - Output an `Asset.file` in dry run.

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
+import 'package:native_assets_cli/native_assets_cli.dart' show OS;
 import 'package:native_toolchain_c/src/native_toolchain/android_ndk.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
@@ -20,31 +21,33 @@ void main() async {
   final tests = [
     RecognizerTest(appleAr, ArchiverRecognizer.new),
     RecognizerTest(appleClang, CompilerRecognizer.new),
-    RecognizerTest(appleLd, LinkerRecognizer.new),
+    RecognizerTest(appleLd, (uri) => LinkerRecognizer(uri, OS.macOS)),
     RecognizerTest(aarch64LinuxGnuGcc, CompilerRecognizer.new),
     RecognizerTest(aarch64LinuxGnuGccAr, ArchiverRecognizer.new),
-    RecognizerTest(aarch64LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(aarch64LinuxGnuLd, (uri) => LinkerRecognizer(uri, OS.linux)),
     RecognizerTest(androidNdkClang, CompilerRecognizer.new),
-    RecognizerTest(androidNdkLld, LinkerRecognizer.new),
+    RecognizerTest(androidNdkLld, (uri) => LinkerRecognizer(uri, OS.android)),
     RecognizerTest(androidNdkLlvmAr, ArchiverRecognizer.new),
     RecognizerTest(armLinuxGnueabihfGcc, CompilerRecognizer.new),
     RecognizerTest(armLinuxGnueabihfGccAr, ArchiverRecognizer.new),
-    RecognizerTest(armLinuxGnueabihfLd, LinkerRecognizer.new),
+    RecognizerTest(
+        armLinuxGnueabihfLd, (uri) => LinkerRecognizer(uri, OS.linux)),
     RecognizerTest(cl, CompilerRecognizer.new),
     RecognizerTest(clang, CompilerRecognizer.new),
+    RecognizerTest(clang, (uri) => LinkerRecognizer(uri, OS.current)),
     RecognizerTest(i686LinuxGnuGcc, CompilerRecognizer.new),
     RecognizerTest(i686LinuxGnuGccAr, ArchiverRecognizer.new),
-    RecognizerTest(i686LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(i686LinuxGnuLd, (uri) => LinkerRecognizer(uri, OS.linux)),
     RecognizerTest(lib, ArchiverRecognizer.new),
-    RecognizerTest(link, LinkerRecognizer.new),
-    RecognizerTest(lld, LinkerRecognizer.new),
+    RecognizerTest(link, (uri) => LinkerRecognizer(uri, OS.windows)),
+    RecognizerTest(lld, (uri) => LinkerRecognizer(uri, OS.current)),
     RecognizerTest(llvmAr, ArchiverRecognizer.new),
     RecognizerTest(riscv64LinuxGnuGcc, CompilerRecognizer.new),
     RecognizerTest(riscv64LinuxGnuGccAr, ArchiverRecognizer.new),
-    RecognizerTest(riscv64LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(riscv64LinuxGnuLd, (uri) => LinkerRecognizer(uri, OS.linux)),
     RecognizerTest(x86_64LinuxGnuGcc, CompilerRecognizer.new),
     RecognizerTest(x86_64LinuxGnuGccAr, ArchiverRecognizer.new),
-    RecognizerTest(x86_64LinuxGnuLd, LinkerRecognizer.new),
+    RecognizerTest(x86_64LinuxGnuLd, (uri) => LinkerRecognizer(uri, OS.linux)),
   ];
 
   for (final test in tests) {
@@ -64,7 +67,7 @@ void main() async {
 
   test('linker does not exist', () async {
     final tempUri = await tempDirForTest();
-    final recognizer = LinkerRecognizer(tempUri.resolve('asdf'));
+    final recognizer = LinkerRecognizer(tempUri.resolve('asdf'), OS.current);
     final result = await recognizer.resolve(logger: logger);
     expect(result, <ToolInstance>[]);
   });

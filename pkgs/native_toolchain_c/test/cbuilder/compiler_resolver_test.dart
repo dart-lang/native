@@ -21,7 +21,6 @@ import '../helpers.dart';
 
 void main() {
   test('Config provided compiler', () async {
-    final tempUri = await tempDirForTest();
     final ar = [
       ...await appleAr.defaultResolver!.resolve(logger: logger),
       ...await msvc.lib.defaultResolver!.resolve(logger: logger),
@@ -40,41 +39,31 @@ void main() {
     final envScript = [
       ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
-    final buildConfig = BuildConfig.build(
-      outputDirectory: tempUri,
-      packageName: 'dummy',
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: CCompilerConfig(
-        archiver: ar,
-        compiler: cc,
-        linker: ld,
-        envScript: envScript,
-      ),
+    final targetArchitecture = Architecture.current;
+    final targetOS = OS.current;
+    final cCompilerConfig = CCompilerConfig(
+      archiver: ar,
+      compiler: cc,
+      linker: ld,
+      envScript: envScript,
     );
-    final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
+    final resolver = CompilerResolver(
+      cCompiler: cCompilerConfig,
+      targetArchitecture: targetArchitecture,
+      targetOS: targetOS,
+      logger: logger,
+    );
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.cCompiler.compiler);
-    expect(archiver.uri, buildConfig.cCompiler.archiver);
+    expect(compiler.uri, cCompilerConfig.compiler);
+    expect(archiver.uri, cCompilerConfig.archiver);
   });
 
   test('No compiler found', () async {
-    final tempUri = await tempDirForTest();
-    final buildConfig = BuildConfig.build(
-      outputDirectory: tempUri,
-      packageName: 'dummy',
-      packageRoot: tempUri,
+    final resolver = CompilerResolver(
+      cCompiler: CCompilerConfig(),
       targetArchitecture: Architecture.arm64,
       targetOS: OS.windows,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.dynamic,
-    );
-    final resolver = CompilerResolver(
-      buildConfig: buildConfig,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

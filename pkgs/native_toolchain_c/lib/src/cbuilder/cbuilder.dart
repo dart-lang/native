@@ -8,7 +8,11 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
+import 'language.dart';
+import 'linker_options.dart';
 import 'run_cbuilder.dart';
+
+part 'clinker.dart';
 
 abstract class Builder {
   Future<void> run({
@@ -16,25 +20,6 @@ abstract class Builder {
     required BuildOutput buildOutput,
     required Logger? logger,
   });
-}
-
-/// A programming language that can be selected for compilation of source files.
-///
-/// See [CBuilder.language] for more information.
-class Language {
-  /// The name of the language.
-  final String name;
-
-  const Language._(this.name);
-
-  static const Language c = Language._('c');
-  static const Language cpp = Language._('c++');
-
-  /// Known values for [Language].
-  static const List<Language> values = [c, cpp];
-
-  @override
-  String toString() => name;
 }
 
 /// Specification for building an artifact with a C compiler.
@@ -152,6 +137,8 @@ class CBuilder implements Builder {
   /// | Fuchsia | `c++`        |
   final String? cppLinkStdLib;
 
+  final LinkerOptions? linkerOptions;
+
   /// If the code asset should be a dynamic or static library.
   ///
   /// This determines whether to produce a dynamic or static library. If null,
@@ -174,7 +161,28 @@ class CBuilder implements Builder {
     this.language = Language.c,
     this.cppLinkStdLib,
     this.linkModePreference,
-  }) : _type = _CBuilderType.library;
+  })  : _type = _CBuilderType.library,
+        linkerOptions = null;
+
+  CBuilder._({
+    required this.name,
+    this.assetName,
+    this.sources = const [],
+    this.includes = const [],
+    required this.dartBuildFiles,
+    @visibleForTesting this.installName,
+    this.flags = const [],
+    this.defines = const {},
+    this.buildModeDefine = true,
+    this.ndebugDefine = true,
+    this.pic = true,
+    this.std,
+    this.language = Language.c,
+    this.cppLinkStdLib,
+    this.linkModePreference,
+    required _CBuilderType type,
+    this.linkerOptions,
+  }) : _type = type;
 
   CBuilder.executable({
     required this.name,
@@ -193,6 +201,7 @@ class CBuilder implements Builder {
         assetName = null,
         installName = null,
         pic = pie,
+        linkerOptions = null,
         linkModePreference = null;
 
   /// Runs the C Compiler with on this C build spec.
@@ -205,13 +214,44 @@ class CBuilder implements Builder {
     required Logger? logger,
     String? linkInPackage,
   }) async {
-    final outDir = buildConfig.outputDirectory;
-    final packageRoot = buildConfig.packageRoot;
-    await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
         _linkMode(linkModePreference ?? buildConfig.linkModePreference);
-    final libUri =
-        outDir.resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
+    final libUri = buildConfig.outputDirectory
+        .resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
+    await _run(
+      buildConfig,
+      logger,
+      buildOutput,
+      linkMode,
+      libUri,
+    );
+    if (assetName != null) {
+      buildOutput.addAsset(
+        NativeCodeAsset(
+          package: buildConfig.packageName,
+          name: assetName!,
+          file: libUri,
+          linkMode: linkMode,
+          os: buildConfig.targetOS,
+          architecture:
+              buildConfig.dryRun ? null : buildConfig.targetArchitecture,
+        ),
+        linkInPackage: linkInPackage,
+      );
+    }
+  }
+
+  Future<void> _run(
+    HookConfig buildConfig,
+    Logger? logger,
+    BuildOutput buildOutput,
+    LinkMode linkMode,
+    Uri libUri,
+  ) async {
+    final outDir = buildConfig.outputDirectory;
+    final packageRoot = buildConfig.packageRoot;
+
+    await Directory.fromUri(outDir).create(recursive: true);
     final exeUri =
         outDir.resolve(buildConfig.targetOS.executableFileName(name));
     final sources = [
@@ -252,26 +292,11 @@ class CBuilder implements Builder {
         std: std,
         language: language,
         cppLinkStdLib: cppLinkStdLib,
+        linkerOptions: linkerOptions,
       );
       await task.run();
     }
 
-    if (assetName != null) {
-      buildOutput.addAssets(
-        [
-          NativeCodeAsset(
-            package: buildConfig.packageName,
-            name: assetName!,
-            file: libUri,
-            linkMode: linkMode,
-            os: buildConfig.targetOS,
-            architecture:
-                buildConfig.dryRun ? null : buildConfig.targetArchitecture,
-          )
-        ],
-        linkInPackage: linkInPackage,
-      );
-    }
     if (!buildConfig.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(
