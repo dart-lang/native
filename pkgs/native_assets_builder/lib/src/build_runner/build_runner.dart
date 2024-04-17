@@ -230,13 +230,13 @@ class NativeAssetsBuildRunner {
       );
     } else {
       return BuildConfigImpl(
-        outputDirectory: outDirUri,
+        outDir: outDirUri,
         packageName: package.name,
         packageRoot: package.root,
         targetOS: target.os,
         targetArchitecture: target.architecture,
         buildMode: buildMode,
-        linkMode: linkModePreference,
+        linkModePreference: linkModePreference,
         targetIOSSdk: targetIOSSdk,
         cCompiler: cCompilerConfig,
         dependencyMetadata: dependencyMetadata,
