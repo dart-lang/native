@@ -30,14 +30,6 @@ Future<void> bindingsTestSetup() async {
   await runCommand('dart', [
     'run',
     'jni:setup',
-    '-p',
-    'jni',
-    '-s',
-    join(simplePackageTest, 'c_based', 'c_bindings'),
-    '-s',
-    join(kotlinTest, 'c_based', 'c_bindings'),
-    '-s',
-    join(jacksonCoreTest, 'third_party', 'c_based', 'c_bindings'),
   ]);
   tempClassDir =
       Directory.current.createTempSync("jnigen_runtime_test_classpath_");
