@@ -7,7 +7,7 @@ part of '../api/link_config.dart';
 /// The input to the linking script.
 ///
 /// It consists of the [_buildConfig] already passed to the build script, the
-/// [assets] from the build step, and the [resources] generated during the
+/// [assets] from the build step, and the [treeshakingInformation] generated during the
 /// kernel compilation.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
@@ -19,7 +19,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   final BuildConfigImpl _buildConfig;
 
   @override
-  final Iterable<Resource>? resources;
+  final Iterable<Resource>? treeshakingInformation;
 
   final _LinkConfigArgs _args;
 
@@ -29,7 +29,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required BuildConfigImpl buildConfig,
     required ResourceIdentifiers? resourceIdentifiers,
   })  : _buildConfig = buildConfig,
-        resources = fromIdentifiers(resourceIdentifiers);
+        treeshakingInformation = fromIdentifiers(resourceIdentifiers);
 
   @override
   Uri get outputDirectory => _buildConfig.outputDirectory;

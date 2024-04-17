@@ -8,7 +8,7 @@ void main(List<String> args) async {
   await link(args, (config, output) async {
     final assetsWithResource = config.assets.whereType<DataAsset>().where(
         (asset) =>
-            config.resources
+            config.treeshakingInformation
                 ?.any((resource) => resource.metadata == asset.name) ??
             true);
     output.addAssets(assetsWithResource);
