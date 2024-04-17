@@ -27,7 +27,7 @@ abstract final class AssetImpl implements Asset {
   }
 
   static List<Map<String, Object>> listToJson(
-          List<AssetImpl> assets, Version version) =>
+          Iterable<AssetImpl> assets, Version version) =>
       [
         for (final asset in assets) asset.toJson(version),
       ];

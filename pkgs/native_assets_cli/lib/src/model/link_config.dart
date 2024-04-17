@@ -21,15 +21,15 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   final Iterable<Resource>? resources;
 
-  final _LinkConfigArgs _args;
-
-  LinkConfigImpl._(
-    this._args, {
+  LinkConfigImpl({
     required this.assets,
     required BuildConfigImpl buildConfig,
-    required ResourceIdentifiers? resourceIdentifiers,
+    required this.resourceIdentifierUri,
   })  : _buildConfig = buildConfig,
-        resources = fromIdentifiers(resourceIdentifiers);
+        resources = resourceIdentifierUri != null
+            ? fromIdentifiers(ResourceIdentifiers.fromFile(
+                resourceIdentifierUri.toFilePath()))
+            : null;
 
   @override
   Uri get outputDirectory => _buildConfig.outputDirectory;
@@ -44,25 +44,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   Uri get packageRoot => _buildConfig.packageRoot;
 
   @override
-  String toJsonString() =>
-      const JsonEncoder.withIndent('  ').convert(_args.toJson());
-
-  @override
   Version get version => _buildConfig.version;
-
-  static LinkConfig fromArguments(List<String> arguments) =>
-      _LinkConfigArgs.fromArguments(arguments).toLinkConfig();
-
-  factory LinkConfigImpl.fromValues({
-    required Uri? resourceIdentifierUri,
-    required BuildConfigImpl buildConfig,
-    required List<AssetImpl> assetsForLinking,
-  }) =>
-      _LinkConfigArgs(
-        assetsForLinking: assetsForLinking,
-        buildConfig: buildConfig,
-        resourceIdentifierUri: resourceIdentifierUri,
-      ).toLinkConfig();
 
   @override
   BuildMode get buildMode => _buildConfig.buildMode;
@@ -97,29 +79,14 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
   static Version latestVersion = Version(1, 0, 0);
-}
 
-List<Resource>? fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>
-    resourceIdentifiers?.identifiers
-        .map((e) => Resource(name: e.name, metadata: e.id))
-        .toList();
-
-class _LinkConfigArgs {
   final Uri? resourceIdentifierUri;
-  final BuildConfigImpl buildConfig;
-  final List<AssetImpl> assetsForLinking;
 
   static const resourceIdentifierKey = 'resource_identifiers';
   static const buildConfigKey = 'build_config';
   static const assetsKey = 'assets';
 
-  _LinkConfigArgs({
-    required this.resourceIdentifierUri,
-    required this.buildConfig,
-    required this.assetsForLinking,
-  });
-
-  factory _LinkConfigArgs.fromArguments(List<String> arguments) {
+  static LinkConfig fromArguments(List<String> arguments) {
     final argParser = ArgParser()..addOption('config');
 
     final results = argParser.parse(arguments);
@@ -128,10 +95,10 @@ class _LinkConfigArgs {
     final linkConfigJson =
         jsonDecode(linkConfigContents) as Map<String, dynamic>;
 
-    return _LinkConfigArgs.fromJson(linkConfigJson);
+    return _fromJson(linkConfigJson);
   }
 
-  factory _LinkConfigArgs.fromJson(Map<String, dynamic> linkConfigJson) {
+  static LinkConfigImpl _fromJson(Map<String, dynamic> linkConfigJson) {
     final resourcesPath = linkConfigJson[resourceIdentifierKey] as String?;
     final buildConfigJson =
         linkConfigJson[buildConfigKey] as Map<String, dynamic>;
@@ -139,27 +106,24 @@ class _LinkConfigArgs {
     if (assetList == null) {
       throw ArgumentError('Expected to find the assetList in $linkConfigJson');
     }
-    return _LinkConfigArgs(
+    return LinkConfigImpl(
+      buildConfig: BuildConfigImpl.fromJson(buildConfigJson),
+      assets: AssetImpl.listFromJson(assetList),
       resourceIdentifierUri:
           resourcesPath != null ? Uri.file(resourcesPath) : null,
-      buildConfig: BuildConfigImpl.fromJson(buildConfigJson),
-      assetsForLinking: AssetImpl.listFromJson(assetList),
     );
   }
 
-  LinkConfigImpl toLinkConfig() => LinkConfigImpl._(
-        this,
-        buildConfig: buildConfig,
-        resourceIdentifiers: resourceIdentifierUri != null
-            ? ResourceIdentifiers.fromFile(resourceIdentifierUri!.toFilePath())
-            : null,
-        assets: assetsForLinking,
-      );
-
+  @override
   Map<String, Object> toJson() => {
         if (resourceIdentifierUri != null)
           resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
-        buildConfigKey: buildConfig.toJson(),
-        assetsKey: AssetImpl.listToJson(assetsForLinking, buildConfig.version),
+        buildConfigKey: _buildConfig.toJson(),
+        assetsKey: AssetImpl.listToJson(assets, _buildConfig.version),
       }.sortOnKey();
 }
+
+List<Resource>? fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>
+    resourceIdentifiers?.identifiers
+        .map((e) => Resource(name: e.name, metadata: e.id))
+        .toList();
