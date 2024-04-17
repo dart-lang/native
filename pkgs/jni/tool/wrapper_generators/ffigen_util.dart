@@ -24,6 +24,9 @@ const preamble = '''
 // This is generated from JNI header in Android NDK. License for the same is
 // provided below.
 
+// Generation logic resides in `tool/wrapper_generators`.
+// To regenerate, run `dart run tool/generate_ffi_bindings.dart`.
+
 /*
  * Copyright (C) 2006 The Android Open Source Project
  *
