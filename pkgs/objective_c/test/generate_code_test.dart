@@ -11,9 +11,6 @@ import 'package:test/test.dart';
 
 import '../tool/generate_code.dart' as generate_code;
 
-// ignore_for_file: avoid_relative_lib_imports
-import '../lib/src/dummy_file_for_verifying_coverage_is_working.dart';
-
 void main() {
   group('generate_code.dart', () {
     test('Runs without exception', () async {
@@ -35,8 +32,6 @@ void main() {
       expect(objcBindings, contains('class NSObject'));
       expect(objcBindings, contains('class NSString'));
       expect(objcBindings, contains('factory NSString(String str)'));
-
-      foo();
     });
   });
 }
