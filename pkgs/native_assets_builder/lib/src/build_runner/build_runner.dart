@@ -191,29 +191,57 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     BuildResult? buildResult,
   ) async {
-    final buildConfig = await _buildConfig(
+    final buildDirName = BuildConfigImpl.checksum(
       packageName: package.name,
-      packageRoot: packageLayout.packageRoot(package.name),
-      target: target,
+      packageRoot: package.root,
+      targetOS: target.os,
+      targetArchitecture: target.architecture,
       buildMode: buildMode,
-      linkMode: linkModePreference,
-      buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
-      dependencyMetadata: dependencyMetadata,
-      cCompilerConfig: cCompilerConfig,
+      linkModePreference: linkModePreference,
       targetIOSSdk: targetIOSSdk,
+      cCompiler: cCompilerConfig,
+      dependencyMetadata: dependencyMetadata,
       targetAndroidNdkApi: targetAndroidNdkApi,
       supportedAssetTypes: supportedAssetTypes,
       hook: hook,
     );
+    final outDirUri =
+        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/out/');
+    final outDir = Directory.fromUri(outDirUri);
+    if (!await outDir.exists()) {
+      // TODO(https://dartbug.com/50565): Purge old or unused folders.
+      await outDir.create(recursive: true);
+    }
+
     if (hook == Hook.link) {
-      return LinkConfigImpl.fromValues(
+      return LinkConfigImpl(
+        outputDirectory: outDirUri,
+        packageName: package.name,
+        packageRoot: package.root,
+        targetOS: target.os,
+        targetArchitecture: target.architecture,
+        buildMode: buildMode,
+        targetIOSSdk: targetIOSSdk,
+        cCompiler: cCompilerConfig,
+        targetAndroidNdkApi: targetAndroidNdkApi,
         resourceIdentifierUri: resourceIdentifiers,
-        buildConfig: buildConfig,
-        assetsForLinking:
-            buildResult!.assetsForLinking[buildConfig.packageName] ?? [],
+        assets: buildResult!.assetsForLinking[package.name] ?? [],
+        supportedAssetTypes: supportedAssetTypes,
       );
     } else {
-      return buildConfig;
+      return BuildConfigImpl(
+        outputDirectory: outDirUri,
+        packageName: package.name,
+        packageRoot: package.root,
+        targetOS: target.os,
+        targetArchitecture: target.architecture,
+        buildMode: buildMode,
+        linkMode: linkModePreference,
+        targetIOSSdk: targetIOSSdk,
+        cCompiler: cCompilerConfig,
+        dependencyMetadata: dependencyMetadata,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+      );
     }
   }
 
@@ -422,55 +450,6 @@ Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
         }
       }
     }
-  }
-
-  static Future<BuildConfigImpl> _buildConfig({
-    required String packageName,
-    required Uri packageRoot,
-    required Target target,
-    IOSSdkImpl? targetIOSSdk,
-    int? targetAndroidNdkApi,
-    required BuildModeImpl buildMode,
-    required LinkModePreferenceImpl linkMode,
-    required Uri buildParentDir,
-    CCompilerConfigImpl? cCompilerConfig,
-    DependencyMetadata? dependencyMetadata,
-    Iterable<String>? supportedAssetTypes,
-    required Hook hook,
-  }) async {
-    final buildDirName = BuildConfigImpl.checksum(
-      packageName: packageName,
-      packageRoot: packageRoot,
-      targetOS: target.os,
-      targetArchitecture: target.architecture,
-      buildMode: buildMode,
-      linkModePreference: linkMode,
-      targetIOSSdk: targetIOSSdk,
-      cCompiler: cCompilerConfig,
-      dependencyMetadata: dependencyMetadata,
-      targetAndroidNdkApi: targetAndroidNdkApi,
-      supportedAssetTypes: supportedAssetTypes,
-      hook: hook,
-    );
-    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
-    final outDir = Directory.fromUri(outDirUri);
-    if (!await outDir.exists()) {
-      // TODO(https://dartbug.com/50565): Purge old or unused folders.
-      await outDir.create(recursive: true);
-    }
-    return BuildConfigImpl(
-      outDir: outDirUri,
-      packageName: packageName,
-      packageRoot: packageRoot,
-      targetOS: target.os,
-      targetArchitecture: target.architecture,
-      buildMode: buildMode,
-      linkModePreference: linkMode,
-      targetIOSSdk: targetIOSSdk,
-      cCompiler: cCompilerConfig,
-      dependencyMetadata: dependencyMetadata,
-      targetAndroidNdkApi: targetAndroidNdkApi,
-    );
   }
 
   static Future<BuildConfigImpl> _cliConfigDryRun({

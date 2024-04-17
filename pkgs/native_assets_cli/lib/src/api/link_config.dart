@@ -10,13 +10,9 @@ import 'package:pub_semver/pub_semver.dart';
 import '../model/hook.dart';
 import '../model/resource_identifiers.dart';
 import '../utils/map.dart';
-import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
-import 'build_mode.dart';
 import 'hook_config.dart';
-import 'ios_sdk.dart';
-import 'os.dart';
 import 'resource.dart';
 
 part '../model/link_config.dart';

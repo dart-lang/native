@@ -4,54 +4,32 @@
 
 part of '../api/link_config.dart';
 
+List<Resource>? fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>
+    resourceIdentifiers?.identifiers
+        .map((e) => Resource(name: e.name, metadata: e.id))
+        .toList();
+
 /// The input to the linking script.
 ///
 /// It consists of the [_buildConfig] already passed to the build script, the
 /// [assets] from the build step, and the [treeshakingInformation] generated
 /// during the kernel compilation.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
-  @override
-  Hook get hook => Hook.link;
+  /// The version of [BuildConfigImpl].
+  ///
+  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through build hook invocations.
+  ///
+  /// If we ever were to make breaking changes, it would be useful to give
+  /// proper error messages rather than just fail to parse the JSON
+  /// representation in the protocol.
+  static Version latestVersion = Version(1, 0, 0);
 
   @override
   final Iterable<AssetImpl> assets;
 
-  final BuildConfigImpl _buildConfig;
-
   @override
   final Iterable<Resource>? treeshakingInformation;
-
-  final _LinkConfigArgs _args;
-
-  LinkConfigImpl._(
-    this._args, {
-    required this.assets,
-    required BuildConfigImpl buildConfig,
-    required ResourceIdentifiers? resourceIdentifiers,
-  })  : _buildConfig = buildConfig,
-        treeshakingInformation = fromIdentifiers(resourceIdentifiers);
-
-  @override
-  Uri get outputDirectory => _buildConfig.outputDirectory;
-
-  @override
-  String get outputName => 'link_output.json';
-
-  @override
-  String get packageName => _buildConfig.packageName;
-
-  @override
-  Uri get packageRoot => _buildConfig.packageRoot;
-
-  @override
-  String toJsonString() =>
-      const JsonEncoder.withIndent('  ').convert(_args.toJson());
-
-  @override
-  Version get version => _buildConfig.version;
-
-  static LinkConfig fromArguments(List<String> arguments) =>
-      _LinkConfigArgs.fromArguments(arguments).toLinkConfig();
 
   factory LinkConfigImpl.fromValues({
     required Uri? resourceIdentifierUri,
@@ -64,54 +42,57 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
         resourceIdentifierUri: resourceIdentifierUri,
       ).toLinkConfig();
 
-  @override
-  BuildMode get buildMode => _buildConfig.buildMode;
+  LinkConfigImpl({
+    required this.assets,
+    required Uri? resourceIdentifierUri,
+    required super.outputDirectory,
+    required super.packageName,
+    required super.packageRoot,
+    Version? version,
+    required super.buildMode,
+    required super.cCompiler,
+    Iterable<String>? supportedAssetTypes,
+    required super.targetAndroidNdkApi,
+    required super.targetArchitecture,
+    required super.targetIOSSdk,
+    required super.targetOS,
+  })  : treeshakingInformation = resourceIdentifierUri != null
+            ? fromIdentifiers(ResourceIdentifiers.fromFile(
+                resourceIdentifierUri.toFilePath()))
+            : null,
+        super(
+          hook: Hook.link,
+          version: version ?? latestVersion,
+          dryRun: false,
+          supportedAssetTypes: supportedAssetTypes ??
+              [
+                NativeCodeAsset.type,
+                DataAsset.type,
+              ],
+        );
 
   @override
-  CCompilerConfig get cCompiler => _buildConfig.cCompiler;
+  Hook get hook => Hook.link;
 
   @override
-  bool get dryRun => _buildConfig.dryRun;
+  String get outputName => 'link_output.json';
 
   @override
-  Iterable<String> get supportedAssetTypes => _buildConfig.supportedAssetTypes;
+  String toJsonString() =>
+      const JsonEncoder.withIndent('  ').convert(_args.toJson());
 
-  @override
-  int? get targetAndroidNdkApi => _buildConfig.targetAndroidNdkApi;
-
-  @override
-  Architecture? get targetArchitecture => _buildConfig.targetArchitecture;
-
-  @override
-  IOSSdk get targetIOSSdk => _buildConfig.targetIOSSdk;
-
-  @override
-  OS get targetOS => _buildConfig.targetOS;
-
-  /// The version of [BuildConfigImpl].
-  ///
-  /// This class is used in the protocol between the Dart and Flutter SDKs
-  /// and packages through build hook invocations.
-  ///
-  /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the JSON
-  /// representation in the protocol.
-  static Version latestVersion = Version(1, 0, 0);
+  static LinkConfig fromArguments(List<String> arguments) =>
+      _LinkConfigArgs.fromArguments(arguments).toLinkConfig();
 }
 
-List<Resource>? fromIdentifiers(ResourceIdentifiers? resourceIdentifiers) =>
-    resourceIdentifiers?.identifiers
-        .map((e) => Resource(name: e.name, metadata: e.id))
-        .toList();
-
 class _LinkConfigArgs {
-  final Uri? resourceIdentifierUri;
-  final BuildConfigImpl buildConfig;
-  final List<AssetImpl> assetsForLinking;
-
   static const resourceIdentifierKey = 'resource_identifiers';
   static const buildConfigKey = 'build_config';
   static const assetsKey = 'assets';
+
+  final Uri? resourceIdentifierUri;
+  final BuildConfigImpl buildConfig;
+  final List<AssetImpl> assetsForLinking;
 
   _LinkConfigArgs({
     required this.resourceIdentifierUri,
@@ -147,6 +128,13 @@ class _LinkConfigArgs {
     );
   }
 
+  Map<String, Object> toJson() => {
+        if (resourceIdentifierUri != null)
+          resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
+        buildConfigKey: buildConfig.toJson(),
+        assetsKey: AssetImpl.listToJson(assetsForLinking, buildConfig.version),
+      }.sortOnKey();
+
   LinkConfigImpl toLinkConfig() => LinkConfigImpl._(
         this,
         buildConfig: buildConfig,
@@ -155,11 +143,4 @@ class _LinkConfigArgs {
             : null,
         assets: assetsForLinking,
       );
-
-  Map<String, Object> toJson() => {
-        if (resourceIdentifierUri != null)
-          resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
-        buildConfigKey: buildConfig.toJson(),
-        assetsKey: AssetImpl.listToJson(assetsForLinking, buildConfig.version),
-      }.sortOnKey();
 }

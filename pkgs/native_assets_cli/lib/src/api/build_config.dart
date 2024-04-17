@@ -10,9 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-import '../model/hook.dart';
-import '../model/metadata.dart';
-import '../model/target.dart';
+import '../../native_assets_cli_internal.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
 import 'architecture.dart';

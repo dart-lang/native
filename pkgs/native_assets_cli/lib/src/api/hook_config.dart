@@ -5,6 +5,7 @@
 import 'package:pub_semver/pub_semver.dart';
 
 import '../model/hook.dart';
+import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
@@ -39,7 +40,7 @@ abstract class HookConfig {
   Architecture? get targetArchitecture;
 
   /// The operating system being compiled for.
-  OS get targetOS;
+  OS? get targetOS;
 
   /// When compiling for iOS, whether to target device or simulator.
   ///
@@ -81,7 +82,7 @@ abstract class HookConfig {
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
-  BuildMode get buildMode;
+  BuildMode? get buildMode;
 
   /// The asset types that the invoker of this hook supports.
   ///
