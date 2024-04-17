@@ -11,7 +11,6 @@ import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../model/hook.dart';
-import '../model/hook_config.dart';
 import '../model/metadata.dart';
 import '../model/target.dart';
 import '../utils/json.dart';

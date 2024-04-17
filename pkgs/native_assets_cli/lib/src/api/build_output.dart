@@ -10,7 +10,6 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart' show loadYaml;
 
 import '../model/dependencies.dart';
-import '../model/hook_config.dart';
 import '../model/metadata.dart';
 import '../utils/datetime.dart';
 import '../utils/file.dart';
@@ -19,6 +18,7 @@ import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
+import 'hook_config.dart';
 import 'os.dart';
 
 part '../model/hook_output.dart';

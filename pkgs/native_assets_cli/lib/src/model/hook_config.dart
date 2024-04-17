@@ -2,17 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
+part of '../api/hook_config.dart';
 
-import 'hook.dart';
-
-abstract class HookConfigImpl {
+abstract class HookConfigImpl implements HookConfig {
   Hook get hook;
 
   Uri get configFile => outputDirectory.resolve('../${hook.configName}');
 
   Uri get outputFile => outputDirectory.resolve(outputName);
 
+  @override
   Uri get outputDirectory;
 
   // This is currently overriden by [BuildConfig], do account for older versions
@@ -21,8 +20,10 @@ abstract class HookConfigImpl {
 
   String toJsonString();
 
+  @override
   String get packageName;
 
+  @override
   Uri get packageRoot;
 
   String get outputName;

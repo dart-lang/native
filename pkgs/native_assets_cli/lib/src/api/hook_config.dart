@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:pub_semver/pub_semver.dart';
+
+import '../model/hook.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
@@ -9,6 +12,8 @@ import 'build_mode.dart';
 import 'ios_sdk.dart';
 import 'link_config.dart';
 import 'os.dart';
+
+part '../model/hook_config.dart';
 
 /// The shared properties of a [LinkConfig] and a [BuildConfig].
 ///

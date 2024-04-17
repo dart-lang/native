@@ -8,7 +8,6 @@ import 'package:args/args.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../model/hook.dart';
-import '../model/hook_config.dart';
 import '../model/resource_identifiers.dart';
 import '../utils/map.dart';
 import 'architecture.dart';
