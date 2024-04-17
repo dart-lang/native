@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
@@ -107,7 +105,7 @@ void main() async {
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
-    final config = Config(fileParsed: {
+    final config = {
       'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
@@ -118,9 +116,9 @@ void main() async {
       'target_architecture': 'arm64',
       'target_os': 'android',
       'version': HookOutputImpl.latestVersion.toString(),
-    });
+    };
 
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(config);
     expect(fromConfig, equals(buildConfig2));
   });
 
@@ -133,7 +131,7 @@ void main() async {
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
-    final config = Config(fileParsed: {
+    final config = {
       'dry_run': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
@@ -141,9 +139,9 @@ void main() async {
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
       'version': HookOutputImpl.latestVersion.toString(),
-    });
+    };
 
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(config);
     expect(fromConfig, equals(buildConfig2));
   });
 
@@ -164,8 +162,7 @@ void main() async {
     );
 
     final configFile = buildConfig1.toJson();
-    final config = Config(fileParsed: configFile);
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(configFile);
     expect(fromConfig, equals(buildConfig1));
   });
 
@@ -267,9 +264,7 @@ void main() async {
       equals(expectedJson),
     );
 
-    final buildConfig2 = BuildConfigImpl.fromConfig(
-      Config.fromConfigFileContents(fileContents: jsonEncode(jsonObject)),
-    );
+    final buildConfig2 = BuildConfigImpl.fromJson(jsonObject);
     expect(buildConfig2, buildConfig1);
   });
 
@@ -320,17 +315,14 @@ version: 1.0.0''';
       },
     );
 
-    final buildConfig2 = BuildConfigImpl.fromConfig(
-      Config.fromConfigFileContents(
-        fileContents: yamlString,
-      ),
-    );
+    final buildConfig2 = BuildConfigImpl.fromJson(
+        yamlDecode(yamlString) as Map<String, dynamic>);
     expect(buildConfig2, buildConfig1);
   });
 
   test('BuildConfig FormatExceptions', () {
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {})),
+      () => BuildConfigImpl.fromJson({}),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -340,7 +332,7 @@ version: 1.0.0''';
       )),
     );
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {
+      () => BuildConfigImpl.fromJson({
         'version': BuildConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
@@ -348,7 +340,7 @@ version: 1.0.0''';
         'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
-      })),
+      }),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -358,7 +350,7 @@ version: 1.0.0''';
       )),
     );
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {
+      () => BuildConfigImpl.fromJson({
         'version': BuildConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
         'package_name': packageName,
@@ -371,7 +363,7 @@ version: 1.0.0''';
           'bar': {'key': 'value'},
           'foo': <int>[],
         },
-      })),
+      }),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -382,7 +374,7 @@ version: 1.0.0''';
       )),
     );
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {
+      () => BuildConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
         'version': BuildConfigImpl.latestVersion.toString(),
         'package_name': packageName,
@@ -390,7 +382,7 @@ version: 1.0.0''';
         'target_architecture': 'arm64',
         'target_os': 'android',
         'link_mode_preference': 'prefer-static',
-      })),
+      }),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -403,12 +395,12 @@ version: 1.0.0''';
 
   test('FormatExceptions contain full stack trace of wrapped exception', () {
     try {
-      BuildConfigImpl.fromConfig(Config(fileParsed: {
+      BuildConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
         'package_root': packageRootUri.toFilePath(),
         'target': [1, 2, 3, 4, 5],
         'link_mode_preference': 'prefer-static',
-      }));
+      });
     } on FormatException catch (e) {
       expect(e.toString(), stringContainsInOrder(['Config.string']));
     }
@@ -447,10 +439,8 @@ version: 1.0.0''';
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
-    final buildConfig2 = BuildConfigImpl.fromArguments(
-      ['--config', configUri.toFilePath()],
-      environment: {}, // Don't inherit the test environment.
-    );
+    final buildConfig2 =
+        BuildConfigImpl.fromArguments(['--config', configUri.toFilePath()]);
     expect(buildConfig2, buildConfig);
   });
 
@@ -499,24 +489,23 @@ version: 1.0.0''';
     );
 
     final configFile = buildConfig1.toJson();
-    final config = Config(fileParsed: configFile);
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(configFile);
     expect(fromConfig, equals(buildConfig1));
   });
 
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildConfig version $version', () {
       final outDir = outDirUri;
-      final config = Config(fileParsed: {
+      final config = {
         'link_mode_preference': 'prefer-static',
         'out_dir': outDir.toFilePath(),
         'package_root': tempUri.toFilePath(),
         'target_os': 'linux',
         'target_architecture': 'x64',
         'version': version,
-      });
+      };
       expect(
-        () => BuildConfigImpl.fromConfig(config),
+        () => BuildConfigImpl.fromJson(config),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
@@ -599,7 +588,7 @@ version: 1.0.0''';
 
   test('BuildConfig invalid target os architecture combination', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
@@ -608,9 +597,9 @@ version: 1.0.0''';
       'target_architecture': 'arm',
       'build_mode': 'debug',
       'version': BuildConfigImpl.latestVersion.toString(),
-    });
+    };
     expect(
-      () => BuildConfigImpl.fromConfig(config),
+      () => BuildConfigImpl.fromJson(config),
       throwsA(predicate(
         (e) => e is FormatException && e.message.contains('arm'),
       )),
@@ -619,7 +608,7 @@ version: 1.0.0''';
 
   test('BuildConfig dry_run access invalid args', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
@@ -629,9 +618,9 @@ version: 1.0.0''';
       'build_mode': 'debug',
       'dry_run': true,
       'version': BuildConfigImpl.latestVersion.toString(),
-    });
+    };
     expect(
-      () => BuildConfigImpl.fromConfig(config),
+      () => BuildConfigImpl.fromJson(config),
       throwsA(predicate(
         (e) =>
             e is FormatException && e.message.contains('In Flutter projects'),
@@ -641,7 +630,7 @@ version: 1.0.0''';
 
   test('BuildConfig dry_run access invalid args', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
@@ -649,8 +638,8 @@ version: 1.0.0''';
       'target_os': 'android',
       'dry_run': true,
       'version': BuildConfigImpl.latestVersion.toString(),
-    });
-    final buildConfig = BuildConfigImpl.fromConfig(config);
+    };
+    final buildConfig = BuildConfigImpl.fromJson(config);
     expect(
       () => buildConfig.targetAndroidNdkApi,
       throwsA(predicate(
@@ -661,7 +650,7 @@ version: 1.0.0''';
 
   test('BuildConfig dry_run target arch', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
@@ -669,8 +658,8 @@ version: 1.0.0''';
       'target_os': 'windows',
       'dry_run': true,
       'version': BuildConfigImpl.latestVersion.toString(),
-    });
-    final buildConfig = BuildConfigImpl.fromConfig(config);
+    };
+    final buildConfig = BuildConfigImpl.fromJson(config);
     expect(buildConfig.targetArchitecture, isNull);
   });
 
@@ -687,7 +676,7 @@ version: 1.0.0''';
   });
 
   test('invalid architecture', () {
-    final config = Config(fileParsed: {
+    final config = {
       'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
@@ -698,9 +687,9 @@ version: 1.0.0''';
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
       'version': HookOutputImpl.latestVersion.toString(),
-    });
+    };
     expect(
-      () => BuildConfigImpl.fromConfig(config),
+      () => BuildConfigImpl.fromJson(config),
       throwsFormatException,
     );
   });

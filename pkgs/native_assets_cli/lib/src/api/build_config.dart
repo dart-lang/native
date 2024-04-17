@@ -77,11 +77,7 @@ abstract final class BuildConfig implements HookConfig {
     Map<String, String>? environment,
     Uri? workingDirectory,
   }) =>
-      BuildConfigImpl.fromArguments(
-        arguments,
-        environment: environment,
-        workingDirectory: workingDirectory,
-      );
+      BuildConfigImpl.fromArguments(arguments);
 
   /// Constructs a config for a non-dry run by providing values for each field.
   ///

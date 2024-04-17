@@ -142,9 +142,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       .._dryRun = false
       .._supportedAssetTypes =
           _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
-    final parsedConfigFile = nonValidated.toJson();
-    final config = Config(fileParsed: parsedConfigFile);
-    return BuildConfigImpl.fromConfig(config);
+    return BuildConfigImpl.fromJson(nonValidated.toJson());
   }
 
   factory BuildConfigImpl.dryRun({
@@ -167,9 +165,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       .._dryRun = true
       .._supportedAssetTypes =
           _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes);
-    final parsedConfigFile = nonValidated.toJson();
-    final config = Config(fileParsed: parsedConfigFile);
-    return BuildConfigImpl.fromConfig(config);
+    return BuildConfigImpl.fromJson(nonValidated.toJson());
   }
 
   /// Constructs a checksum for a [BuildConfigImpl] based on the fields of a
@@ -245,7 +241,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   /// representation in the protocol.
   static Version latestVersion = Version(1, 3, 0);
 
-  factory BuildConfigImpl.fromConfig(Config config) {
+  factory BuildConfigImpl._fromConfig(Config config) {
     final result = BuildConfigImpl._().._cCompiler = CCompilerConfigImpl._();
     final configExceptions = <Object>[];
     for (final f in result._readFieldsFromConfig()) {
@@ -278,7 +274,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       environment: environment,
       workingDirectory: workingDirectory,
     );
-    return BuildConfigImpl.fromConfig(config);
+    return BuildConfigImpl._fromConfig(config);
   }
 
   static const outDirConfigKey = 'out_dir';
@@ -479,7 +475,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   }
 
   static BuildConfigImpl fromJson(Map<String, dynamic> buildConfigJson) =>
-      BuildConfigImpl.fromConfig(Config(fileParsed: buildConfigJson));
+      BuildConfigImpl._fromConfig(Config(fileParsed: buildConfigJson));
 
   Map<String, Object> toJson() {
     late Map<String, Object> cCompilerJson;

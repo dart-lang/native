@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/src/api/build_config.dart';
 import 'package:test/test.dart';
@@ -107,7 +106,7 @@ void main() async {
       linkModePreference: LinkModePreference.preferStatic,
     );
 
-    final config = Config(fileParsed: {
+    final config = {
       'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
@@ -118,9 +117,9 @@ void main() async {
       'target_architecture': 'arm64',
       'target_os': 'android',
       'version': BuildOutput.latestVersion.toString(),
-    });
+    };
 
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(config);
     expect(fromConfig, equals(buildConfig2));
   });
 
@@ -134,7 +133,7 @@ void main() async {
       supportedAssetTypes: [NativeCodeAsset.type],
     );
 
-    final config = Config(fileParsed: {
+    final config = {
       'dry_run': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
@@ -142,9 +141,9 @@ void main() async {
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
       'version': BuildOutput.latestVersion.toString(),
-    });
+    };
 
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(config);
     expect(fromConfig, equals(buildConfig2));
   });
 

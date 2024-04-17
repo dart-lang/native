@@ -48,7 +48,7 @@ abstract class HookConfig {
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
-  IOSSdk get targetIOSSdk;
+  IOSSdk? get targetIOSSdk;
 
   /// When compiling for Android, the minimum Android SDK API version to that
   /// the compiled code will be compatible with.
