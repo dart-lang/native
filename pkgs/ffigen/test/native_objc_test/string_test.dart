@@ -8,11 +8,11 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:objective_c/objective_c.dart';
+// import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'string_bindings.dart';
+// import 'string_bindings.dart';
 import 'util.dart';
 
 void main() {
