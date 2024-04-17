@@ -7,6 +7,7 @@ on:
       - "pkgs/ffigen/**"
       - "pkgs/jni/**"
       - "pkgs/jnigen/**"
+      - "pkgs/objective_c/**"
     types: [opened, synchronize, reopened, labeled, unlabeled]
 jobs:
   health:

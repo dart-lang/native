@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/core.dart';
-export 'src/objective_c_bindings_generated.dart'
+export 'src/ns_string.dart';
+export 'src/c_bindings_generated.dart'
     show
         ObjCSelector,
         ObjCObject,
@@ -12,3 +13,35 @@ export 'src/objective_c_bindings_generated.dart'
         objectRelease,
         blockCopy,
         blockRelease;
+
+// Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
+export 'src/objective_c_bindings_generated.dart'
+    show
+        NSArray,
+        NSCharacterSet,
+        NSCoder,
+        NSData,
+        NSDate,
+        NSDictionary,
+        NSEnumerator,
+        NSError,
+        NSIndexSet,
+        NSInvocation,
+        NSItemProvider,
+        NSLocale,
+        NSMethodSignature,
+        NSMutableArray,
+        NSMutableData,
+        NSMutableDictionary,
+        NSMutableSet,
+        NSMutableString,
+        NSNotification,
+        NSNumber,
+        NSObject,
+        NSProgress,
+        NSSet,
+        NSString,
+        NSURL,
+        NSURLHandle,
+        NSValue,
+        Protocol;

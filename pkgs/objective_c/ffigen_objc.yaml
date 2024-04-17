@@ -1,0 +1,56 @@
+# Generate bindings for the ObjC headers.
+# Regenerate bindings with `dart run tool/generate_code.dart`.
+name: ObjectiveCBindings
+language: objc
+output: 'lib/src/objective_c_bindings_generated.dart'
+headers:
+  entry-points:
+    - 'src/foundation.h'
+ffi-native:
+exclude-all-by-default: true
+generate-for-package-objective-c: true
+objc-interfaces:
+  # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
+  include:
+    - NSArray
+    - NSCharacterSet
+    - NSCoder
+    - NSData
+    - NSDate
+    - NSDictionary
+    - NSEnumerator
+    - NSError
+    - NSIndexSet
+    - NSInvocation
+    - NSItemProvider
+    - NSLocale
+    - NSMethodSignature
+    - NSMutableArray
+    - NSMutableData
+    - NSMutableDictionary
+    - NSMutableSet
+    - NSMutableString
+    - NSNotification
+    - NSNumber
+    - NSObject
+    - NSProgress
+    - NSSet
+    - NSString
+    - NSURL
+    - NSURLHandle
+    - NSValue
+    - Protocol
+preamble: |
+  // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+
+  // Bindings for `src/foundation.h`.
+  // Regenerate bindings with `dart run tool/generate_code.dart`.
+
+  // ignore_for_file: always_specify_types
+  // ignore_for_file: camel_case_types
+  // ignore_for_file: non_constant_identifier_names
+  // coverage:ignore-file
+
+  import 'package:ffi/ffi.dart' as pkg_ffi;

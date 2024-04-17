@@ -42,3 +42,35 @@ jobs:
       - name: Analyze code
         run: flutter analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
+
+  test-mac:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/objective_c/
+    steps:
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+        with:
+          flutter-version: 3.19.0
+          channel: 'stable'
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Run VM tests
+        run: dart test
+      - name: Collect coverage
+        run: ./tool/coverage.sh
+      - name: Upload coverage
+        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        with:
+          flag-name: objective_c_tests
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          path-to-lcov: pkgs/objective_c/lcov.info
+      - name: Upload coverage
+        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        with:
+          carryforward: "objective_c_tests,ffigen_macos,jnigen_tests,jni_tests,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true

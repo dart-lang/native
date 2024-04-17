@@ -55,17 +55,16 @@ class ObjCInterface extends BindingType {
     super.dartDoc,
     required this.builtInFunctions,
   })  : lookupName = lookupName ?? originalName,
-        super(
-          name: name ?? originalName,
-        ) {
-    builtInFunctions.registerInterface(this);
-  }
+        super(name: name ?? originalName);
 
-  bool get isNSString => originalName == "NSString";
-  bool get isNSData => originalName == "NSData";
+  bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(name);
 
   @override
   BindingString toBindingString(Writer w) {
+    if (_isBuiltIn) {
+      return BindingString(type: BindingStringType.objcInterface, string: '');
+    }
+
     String paramsToString(List<ObjCMethodParam> params,
         {required bool isStatic}) {
       final List<String> stringParams = [];
@@ -89,22 +88,20 @@ class ObjCInterface extends BindingType {
 
     // Class declaration.
     s.write('''
-class $name extends ${superType?.name ?? wrapObjType} {
+class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
   $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
-          ${superTypeIsInPkgObjc ? 'super(pointer, ' : 'super._(pointer,'}
-              retain: retain, release: release);
+          ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}
+              (pointer, retain: retain, release: release);
 
-  /// Returns a [$name] that points to the same underlying object as [other].
-  static $name castFrom<T extends $wrapObjType>(T other) {
-    return $name._(other.pointer, retain: true, release: true);
-  }
+  /// Constructs a [$name] that points to the same underlying object as [other].
+  $name.castFrom($wrapObjType other) :
+      this._(other.pointer, retain: true, release: true);
 
-  /// Returns a [$name] that wraps the given raw object pointer.
-  static $name castFromPointer($rawObjType other,
-      {bool retain = false, bool release = false}) {
-    return $name._(other, retain: retain, release: release);
-  }
+  /// Constructs a [$name] that wraps the given raw object pointer.
+  $name.castFromPointer($rawObjType other,
+      {bool retain = false, bool release = false}) :
+      this._(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
@@ -117,10 +114,6 @@ class $name extends ${superType?.name ?? wrapObjType} {
   }
 
 ''');
-
-    if (isNSString) {
-      ObjCBuiltInFunctions.generateNSStringUtils(w, s);
-    }
 
     // Methods.
     for (final m in methods.values) {
@@ -225,19 +218,14 @@ class $name extends ${superType?.name ?? wrapObjType} {
 
     s.write('}\n\n');
 
-    if (isNSString) {
-      ObjCBuiltInFunctions.generateStringUtils(w, s);
-    }
-
     return BindingString(
         type: BindingStringType.objcInterface, string: s.toString());
   }
 
   @override
   void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
+    if (dependencies.contains(this) || _isBuiltIn) return;
     dependencies.add(this);
-    builtInFunctions.addDependencies(dependencies);
 
     _classObject = ObjCInternalGlobal('_class_$originalName',
         (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")')
@@ -245,14 +233,6 @@ class $name extends ${superType?.name ?? wrapObjType} {
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(
         BooleanType(), [ObjCMethodParam(PointerType(objCObjectType), 'clazz')]);
-
-    if (isNSString) {
-      _addNSStringMethods();
-    }
-
-    if (isNSData) {
-      _addNSDataMethods();
-    }
 
     if (superType != null) {
       superType!.addDependencies(dependencies);
@@ -263,6 +243,8 @@ class $name extends ${superType?.name ?? wrapObjType} {
     for (final m in methods.values) {
       m.addDependencies(dependencies, builtInFunctions);
     }
+
+    builtInFunctions.addDependencies(dependencies);
   }
 
   void _copyMethodsFromSuperType() {
@@ -345,50 +327,12 @@ class $name extends ${superType?.name ?? wrapObjType} {
     methods[method.originalName] = method;
   }
 
-  void _addNSStringMethods() {
-    addMethod(ObjCMethod(
-      originalName: 'stringWithCharacters:length:',
-      kind: ObjCMethodKind.method,
-      isClass: true,
-      returnType: this,
-      params_: [
-        ObjCMethodParam(PointerType(wCharType), 'characters'),
-        ObjCMethodParam(unsignedIntType, 'length'),
-      ],
-    ));
-    addMethod(ObjCMethod(
-      originalName: 'dataUsingEncoding:',
-      kind: ObjCMethodKind.method,
-      isClass: false,
-      returnType: builtInFunctions.nsData,
-      params_: [
-        ObjCMethodParam(unsignedIntType, 'encoding'),
-      ],
-    ));
-    addMethod(ObjCMethod(
-      originalName: 'length',
-      kind: ObjCMethodKind.propertyGetter,
-      isClass: false,
-      returnType: unsignedIntType,
-      params_: [],
-    ));
-  }
-
-  void _addNSDataMethods() {
-    addMethod(ObjCMethod(
-      originalName: 'bytes',
-      kind: ObjCMethodKind.propertyGetter,
-      isClass: false,
-      returnType: PointerType(voidType),
-      params_: [],
-    ));
-  }
-
   @override
   String getCType(Writer w) => PointerType(objCObjectType).getCType(w);
 
   @override
-  String getDartType(Writer w) => name;
+  String getDartType(Writer w) =>
+      _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -417,7 +361,7 @@ class $name extends ${superType?.name ?? wrapObjType} {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      ObjCInterface.generateConstructor(name, value, objCRetain);
+      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 
   static String generateConstructor(
     String className,
@@ -425,7 +369,7 @@ class $name extends ${superType?.name ?? wrapObjType} {
     bool objCRetain,
   ) {
     final ownershipFlags = 'retain: $objCRetain, release: true';
-    return '$className._($value, $ownershipFlags)';
+    return '$className.castFromPointer($value, $ownershipFlags)';
   }
 
   // Utils for converting between the internal types passed to native code, and

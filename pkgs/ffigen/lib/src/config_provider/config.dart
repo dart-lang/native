@@ -98,6 +98,14 @@ class Config {
   bool get excludeAllByDefault => _excludeAllByDefault;
   late bool _excludeAllByDefault;
 
+  /// Undocumented option that changes code generation for package:objective_c.
+  /// The main difference is whether NSObject etc are imported from
+  /// package:objective_c (the default) or code genned like any other class.
+  /// This is necessary because package:objective_c can't import NSObject from
+  /// itself.
+  bool get generateForPackageObjectiveC => _generateForPackageObjectiveC;
+  late bool _generateForPackageObjectiveC;
+
   /// If generated bindings should be sorted alphabetically.
   bool get sort => _sort;
   late bool _sort;
@@ -601,6 +609,13 @@ class Config {
           valueConfigSpec: BoolConfigSpec(),
           defaultValue: (node) => false,
           resultOrDefault: (node) => _excludeAllByDefault = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.generateForPackageObjectiveC,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => false,
+          resultOrDefault: (node) =>
+              _generateForPackageObjectiveC = node.value as bool,
         ),
         HeterogeneousMapEntry(
           key: strings.sort,

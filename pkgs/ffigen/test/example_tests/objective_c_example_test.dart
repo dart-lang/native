@@ -25,14 +25,11 @@ void main() {
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
-      expect(output, contains('class NSString extends NSObject {'));
-      expect(output, contains('class NSURL extends NSObject {'));
-      expect(
-          output, contains('static NSURL fileURLWithPath_(NSString path) {'));
-      expect(output, contains('class AVAudioPlayer extends NSObject {'));
+      expect(output, contains('class AVAudioPlayer extends objc.NSObject {'));
       expect(
           output,
-          contains('AVAudioPlayer? initWithContentsOfURL_error_(NSURL url, '
+          contains(
+              'AVAudioPlayer? initWithContentsOfURL_error_(objc.NSURL url, '
               'ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {'));
       expect(output, contains('double get duration {'));
       expect(output, contains('bool play() {'));
