@@ -47,10 +47,10 @@ abstract class LinkConfig implements HookConfig {
     required BuildConfig buildConfig,
     required List<Asset> assetsForLinking,
   }) =>
-      LinkConfigImpl(
+      LinkConfigImpl.fromValues(
         resourceIdentifierUri: resourceIdentifierUri,
         buildConfig: buildConfig as BuildConfigImpl,
-        assets: assetsForLinking.cast(),
+        assetsForLinking: assetsForLinking.cast(),
       );
 
   /// The version of [BuildConfig].

@@ -281,7 +281,14 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     return BuildConfigImpl.fromConfig(config);
   }
 
+  static const outDirConfigKey = 'out_dir';
+  static const packageNameConfigKey = 'package_name';
+  static const packageRootConfigKey = 'package_root';
   static const dependencyMetadataConfigKey = 'dependency_metadata';
+  static const _versionKey = 'version';
+  static const targetAndroidNdkApiConfigKey = 'target_android_ndk_api';
+  static const dryRunConfigKey = 'dry_run';
+  static const supportedAssetTypesKey = 'supported_asset_types';
 
   List<void Function(Config)> _readFieldsFromConfig() {
     var osSet = false;
@@ -306,13 +313,11 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
         _version = version;
       },
       (config) => _config = config,
-      (config) => _dryRun = config.optionalBool(HookConfigImpl.dryRunConfigKey),
-      (config) => _outDir =
-          config.path(HookConfigImpl.outDirConfigKey, mustExist: true),
+      (config) => _dryRun = config.optionalBool(dryRunConfigKey),
+      (config) => _outDir = config.path(outDirConfigKey, mustExist: true),
+      (config) => _packageName = config.string(packageNameConfigKey),
       (config) =>
-          _packageName = config.string(HookConfigImpl.packageNameConfigKey),
-      (config) => _packageRoot =
-          config.path(HookConfigImpl.packageRootConfigKey, mustExist: true),
+          _packageRoot = config.path(packageRootConfigKey, mustExist: true),
       (config) {
         if (dryRun) {
           _throwIfNotNullInDryRun<String>(BuildModeImpl.configKey);
@@ -370,11 +375,10 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       },
       (config) {
         if (dryRun) {
-          _throwIfNotNullInDryRun<int>(
-              HookConfigImpl.targetAndroidNdkApiConfigKey);
+          _throwIfNotNullInDryRun<int>(targetAndroidNdkApiConfigKey);
         } else {
           _targetAndroidNdkApi = (osSet && _targetOS == OSImpl.android)
-              ? config.int(HookConfigImpl.targetAndroidNdkApiConfigKey)
+              ? config.int(targetAndroidNdkApiConfigKey)
               : null;
         }
       },
@@ -443,7 +447,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
         _dependencyMetadata = _readDependencyMetadataFromConfig(config);
       },
       (config) => _supportedAssetTypes =
-          config.optionalStringList(HookConfigImpl.supportedAssetTypesKey) ??
+          config.optionalStringList(supportedAssetTypesKey) ??
               [NativeCodeAsset.type],
     ];
   }
@@ -477,22 +481,42 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   static BuildConfigImpl fromJson(Map<String, dynamic> buildConfigJson) =>
       BuildConfigImpl.fromConfig(Config(fileParsed: buildConfigJson));
 
-  @override
   Map<String, Object> toJson() {
-    final json = super.toJson();
+    late Map<String, Object> cCompilerJson;
+    if (!dryRun) {
+      cCompilerJson = _cCompiler.toJson();
+    }
+
     return {
-      ...json,
+      outDirConfigKey: _outDir.toFilePath(),
+      packageNameConfigKey: _packageName,
+      packageRootConfigKey: _packageRoot.toFilePath(),
+      OSImpl.configKey: _targetOS.toString(),
       LinkModePreferenceImpl.configKey: _linkModePreference.toString(),
       if (_supportedAssetTypes.isNotEmpty)
-        if (!dryRun) ...{
-          if (_dependencyMetadata != null && _dependencyMetadata.isNotEmpty)
-            dependencyMetadataConfigKey: {
-              for (final entry in _dependencyMetadata.entries)
-                entry.key: entry.value.toJson(),
-            },
-        },
+        supportedAssetTypesKey: _supportedAssetTypes,
+      _versionKey: version.toString(),
+      if (dryRun) dryRunConfigKey: dryRun,
+      if (!dryRun) ...{
+        BuildModeImpl.configKey: _buildMode.toString(),
+        ArchitectureImpl.configKey: _targetArchitecture.toString(),
+        if (_targetIOSSdk != null)
+          IOSSdkImpl.configKey: _targetIOSSdk.toString(),
+        if (_targetAndroidNdkApi != null)
+          targetAndroidNdkApiConfigKey: _targetAndroidNdkApi,
+        if (cCompilerJson.isNotEmpty)
+          CCompilerConfigImpl.configKey: cCompilerJson,
+        if (_dependencyMetadata != null && _dependencyMetadata.isNotEmpty)
+          dependencyMetadataConfigKey: {
+            for (final entry in _dependencyMetadata.entries)
+              entry.key: entry.value.toJson(),
+          },
+      },
     }.sortOnKey();
   }
+
+  @override
+  String toJsonString() => const JsonEncoder.withIndent('  ').convert(toJson());
 
   @override
   bool operator ==(Object other) {

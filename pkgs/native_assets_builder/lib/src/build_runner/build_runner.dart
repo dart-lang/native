@@ -206,10 +206,11 @@ class NativeAssetsBuildRunner {
       hook: hook,
     );
     if (hook == Hook.link) {
-      return LinkConfigImpl(
+      return LinkConfigImpl.fromValues(
         resourceIdentifierUri: resourceIdentifiers,
         buildConfig: buildConfig,
-        assets: buildResult!.assetsForLinking[buildConfig.packageName] ?? [],
+        assetsForLinking:
+            buildResult!.assetsForLinking[buildConfig.packageName] ?? [],
       );
     } else {
       return buildConfig;

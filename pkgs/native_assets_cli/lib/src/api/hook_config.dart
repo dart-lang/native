@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
-
 import 'package:pub_semver/pub_semver.dart';
 
 import '../model/hook.dart';
@@ -50,7 +48,7 @@ abstract class HookConfig {
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
-  IOSSdk? get targetIOSSdk;
+  IOSSdk get targetIOSSdk;
 
   /// When compiling for Android, the minimum Android SDK API version to that
   /// the compiled code will be compatible with.
