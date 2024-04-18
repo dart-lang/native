@@ -202,22 +202,22 @@ extension CharArray on JArray<jchar> {
     );
   }
 
-  void operator []=(int index, String value) {
+  void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
     _allocate<JCharMarker>(sizeOf<JCharMarker>(), (ptr) {
-      ptr.value = value.codeUnits.first;
+      ptr.value = value;
       Jni.env.SetCharArrayRegion(reference.pointer, index, 1, ptr);
     });
   }
 
-  void setRange(int start, int end, Iterable<String> iterable,
+  void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
     final size = end - start;
     final it = iterable.skip(skipCount).take(size);
     _allocate<JCharMarker>(sizeOf<JCharMarker>() * size, (ptr) {
       it.forEachIndexed((index, element) {
-        ptr[index] = element.codeUnits.first;
+        ptr[index] = element;
       });
       Jni.env.SetCharArrayRegion(reference.pointer, start, size, ptr);
     });

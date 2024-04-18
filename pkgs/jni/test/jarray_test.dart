@@ -48,24 +48,33 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JArray(jchar.type, 3)..releasedBy(arena);
       expect(array.length, 3);
-      array[0] = 'ح';
-      array[1] = '2';
-      array[2] = '3';
-      expect(array[0], 'ح');
-      expect(array[1], '2');
-      expect(array[2], '3');
-      array.setRange(0, 3, ['4', '5', '6', '7'], 1);
-      expect(array[0], '5');
-      expect(array[1], '6');
-      expect(array[2], '7');
+      array[0] = '~'.codeUnitAt(0);
+      array[1] = '2'.codeUnitAt(0);
+      array[2] = '3'.codeUnitAt(0);
+      expect(array[0], '~'.codeUnitAt(0));
+      expect(array[1], '2'.codeUnitAt(0));
+      expect(array[2], '3'.codeUnitAt(0));
+      array.setRange(
+          0,
+          3,
+          [
+            '4'.codeUnitAt(0),
+            '5'.codeUnitAt(0),
+            '6'.codeUnitAt(0),
+            '7'.codeUnitAt(0)
+          ],
+          1);
+      expect(array[0], '5'.codeUnitAt(0));
+      expect(array[1], '6'.codeUnitAt(0));
+      expect(array[2], '7'.codeUnitAt(0));
       expect(() {
         final _ = array[-1];
       }, throwsRangeError);
       expect(() {
-        array[-1] = '4';
+        array[-1] = '4'.codeUnitAt(0);
       }, throwsRangeError);
       expect(() {
-        array[3] = '4';
+        array[3] = '4'.codeUnitAt(0);
       }, throwsRangeError);
     });
   });
