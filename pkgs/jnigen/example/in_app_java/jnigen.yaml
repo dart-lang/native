@@ -3,9 +3,6 @@ android_sdk_config:
   add_gradle_sources: true
 
 output:
-  c:
-    library_name: android_utils
-    path: src/android_utils/
   dart:
     path: lib/android_utils.dart
     structure: single_file

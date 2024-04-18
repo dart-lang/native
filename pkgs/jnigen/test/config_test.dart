@@ -15,20 +15,13 @@ import 'test_util/test_util.dart';
 const packageTests = 'test';
 final jacksonCoreTests = absolute(packageTests, 'jackson_core_test');
 final thirdParty = absolute(jacksonCoreTests, 'third_party');
-final lib = absolute(thirdParty, 'c_based', 'dart_bindings');
-final src = absolute(thirdParty, 'c_based', 'c_bindings');
-final testLib = absolute(thirdParty, 'test_', 'c_based', 'dart_bindings');
-final testSrc = absolute(thirdParty, 'test_', 'c_based', 'c_bindings');
+final lib = absolute(thirdParty, 'bindings');
+final testLib = absolute(thirdParty, 'test_', 'bindings');
 
 /// Compares 2 [Config] objects using [expect] to give useful errors when
 /// two fields are not equal.
 void expectConfigsAreEqual(Config a, Config b) {
   expect(a.classes, equals(b.classes), reason: "classes");
-  expect(a.outputConfig.cConfig?.libraryName,
-      equals(b.outputConfig.cConfig?.libraryName),
-      reason: "libraryName");
-  expect(a.outputConfig.cConfig?.path, equals(b.outputConfig.cConfig?.path),
-      reason: "cRoot");
   expect(a.outputConfig.dartConfig.path, equals(b.outputConfig.dartConfig.path),
       reason: "dartRoot");
   expect(a.outputConfig.symbolsConfig?.path,
@@ -102,7 +95,6 @@ void main() async {
   final config = Config.parseArgs([
     '--config',
     jnigenYaml,
-    '-Doutput.c.path=$testSrc${Platform.pathSeparator}',
     '-Doutput.dart.path=$testLib${Platform.pathSeparator}',
   ]);
 
@@ -111,16 +103,11 @@ void main() async {
       config,
       getConfig(
         root: join(thirdParty, 'test_'),
-        bindingsType: BindingsType.cBased,
       ),
     );
   });
 
   group('Test for config error checking', () {
-    testForErrorChecking<ConfigException>(
-      name: 'Invalid bindings type',
-      overrides: ['-Doutput.bindings_type=c_base'],
-    );
     testForErrorChecking<ConfigException>(
       name: 'Invalid output structure',
       overrides: ['-Doutput.dart.structure=singl_file'],

@@ -41,8 +41,6 @@ import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../../../_init.dart";
-
 /// from: org.apache.pdfbox.pdmodel.PDDocumentInformation
 ///
 /// This is the document metadata.  Each getXXX method will return the entry if
@@ -58,25 +56,51 @@ class PDDocumentInformation extends jni.JObject {
     jni.JReference reference,
   ) : super.fromReference(reference);
 
+  static final _class =
+      jni.JClass.forName(r"org/apache/pdfbox/pdmodel/PDDocumentInformation");
+
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentInformationType();
-  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "PDDocumentInformation__new0")
-      .asFunction<jni.JniResult Function()>();
+  static final _id_new0 = _class.constructorId(
+    r"()V",
+  );
+
+  static final _new0 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default Constructor.
   factory PDDocumentInformation() {
-    return PDDocumentInformation.fromReference(_new0().reference);
+    return PDDocumentInformation.fromReference(
+        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            .reference);
   }
 
-  static final _new1 = jniLookup<
-              ffi
-              .NativeFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__new1")
-      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+  static final _id_new1 = _class.constructorId(
+    r"(Lorg/apache/pdfbox/cos/COSDictionary;)V",
+  );
+
+  static final _new1 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(org.apache.pdfbox.cos.COSDictionary dic)
   /// The returned object must be released after use, by calling the [release] method.
@@ -86,18 +110,26 @@ class PDDocumentInformation extends jni.JObject {
   factory PDDocumentInformation.new1(
     jni.JObject dic,
   ) {
-    return PDDocumentInformation.fromReference(
-        _new1(dic.reference.pointer).reference);
+    return PDDocumentInformation.fromReference(_new1(_class.reference.pointer,
+            _id_new1 as jni.JMethodIDPtr, dic.reference.pointer)
+        .reference);
   }
 
-  static final _getCOSObject = jniLookup<
+  static final _id_getCOSObject = _class.instanceMethodId(
+    r"getCOSObject",
+    r"()Lorg/apache/pdfbox/cos/COSDictionary;",
+  );
+
+  static final _getCOSObject = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getCOSObject")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public org.apache.pdfbox.cos.COSDictionary getCOSObject()
@@ -106,17 +138,26 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
   jni.JObject getCOSObject() {
-    return _getCOSObject(reference.pointer).object(const jni.JObjectType());
+    return _getCOSObject(
+            reference.pointer, _id_getCOSObject as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
-  static final _getPropertyStringValue = jniLookup<
+  static final _id_getPropertyStringValue = _class.instanceMethodId(
+    r"getPropertyStringValue",
+    r"(Ljava/lang/String;)Ljava/lang/Object;",
+  );
+
+  static final _getPropertyStringValue = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getPropertyStringValue")
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getPropertyStringValue(java.lang.String propertyKey)
   /// The returned object must be released after use, by calling the [release] method.
@@ -133,18 +174,27 @@ class PDDocumentInformation extends jni.JObject {
     jni.JString propertyKey,
   ) {
     return _getPropertyStringValue(
-            reference.pointer, propertyKey.reference.pointer)
+            reference.pointer,
+            _id_getPropertyStringValue as jni.JMethodIDPtr,
+            propertyKey.reference.pointer)
         .object(const jni.JObjectType());
   }
 
-  static final _getTitle = jniLookup<
+  static final _id_getTitle = _class.instanceMethodId(
+    r"getTitle",
+    r"()Ljava/lang/String;",
+  );
+
+  static final _getTitle = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getTitle")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.lang.String getTitle()
@@ -153,16 +203,25 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
   jni.JString getTitle() {
-    return _getTitle(reference.pointer).object(const jni.JStringType());
+    return _getTitle(reference.pointer, _id_getTitle as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
-  static final _setTitle = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setTitle")
+  static final _id_setTitle = _class.instanceMethodId(
+    r"setTitle",
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _setTitle = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTitle(java.lang.String title)
   ///
@@ -171,17 +230,26 @@ class PDDocumentInformation extends jni.JObject {
   void setTitle(
     jni.JString title,
   ) {
-    _setTitle(reference.pointer, title.reference.pointer).check();
+    _setTitle(reference.pointer, _id_setTitle as jni.JMethodIDPtr,
+            title.reference.pointer)
+        .check();
   }
 
-  static final _getAuthor = jniLookup<
+  static final _id_getAuthor = _class.instanceMethodId(
+    r"getAuthor",
+    r"()Ljava/lang/String;",
+  );
+
+  static final _getAuthor = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getAuthor")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.lang.String getAuthor()
@@ -190,16 +258,25 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the author of the document.  This will return null if no author exists.
   ///@return The author of the document.
   jni.JString getAuthor() {
-    return _getAuthor(reference.pointer).object(const jni.JStringType());
+    return _getAuthor(reference.pointer, _id_getAuthor as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
-  static final _setAuthor = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setAuthor")
+  static final _id_setAuthor = _class.instanceMethodId(
+    r"setAuthor",
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _setAuthor = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setAuthor(java.lang.String author)
   ///
@@ -208,17 +285,26 @@ class PDDocumentInformation extends jni.JObject {
   void setAuthor(
     jni.JString author,
   ) {
-    _setAuthor(reference.pointer, author.reference.pointer).check();
+    _setAuthor(reference.pointer, _id_setAuthor as jni.JMethodIDPtr,
+            author.reference.pointer)
+        .check();
   }
 
-  static final _getSubject = jniLookup<
+  static final _id_getSubject = _class.instanceMethodId(
+    r"getSubject",
+    r"()Ljava/lang/String;",
+  );
+
+  static final _getSubject = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getSubject")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.lang.String getSubject()
@@ -227,16 +313,25 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the subject of the document.  This will return null if no subject exists.
   ///@return The subject of the document.
   jni.JString getSubject() {
-    return _getSubject(reference.pointer).object(const jni.JStringType());
+    return _getSubject(reference.pointer, _id_getSubject as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
-  static final _setSubject = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setSubject")
+  static final _id_setSubject = _class.instanceMethodId(
+    r"setSubject",
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _setSubject = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSubject(java.lang.String subject)
   ///
@@ -245,17 +340,26 @@ class PDDocumentInformation extends jni.JObject {
   void setSubject(
     jni.JString subject,
   ) {
-    _setSubject(reference.pointer, subject.reference.pointer).check();
+    _setSubject(reference.pointer, _id_setSubject as jni.JMethodIDPtr,
+            subject.reference.pointer)
+        .check();
   }
 
-  static final _getKeywords = jniLookup<
+  static final _id_getKeywords = _class.instanceMethodId(
+    r"getKeywords",
+    r"()Ljava/lang/String;",
+  );
+
+  static final _getKeywords = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getKeywords")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.lang.String getKeywords()
@@ -264,16 +368,25 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the keywords of the document.  This will return null if no keywords exists.
   ///@return The keywords of the document.
   jni.JString getKeywords() {
-    return _getKeywords(reference.pointer).object(const jni.JStringType());
+    return _getKeywords(reference.pointer, _id_getKeywords as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
-  static final _setKeywords = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setKeywords")
+  static final _id_setKeywords = _class.instanceMethodId(
+    r"setKeywords",
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _setKeywords = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setKeywords(java.lang.String keywords)
   ///
@@ -282,17 +395,26 @@ class PDDocumentInformation extends jni.JObject {
   void setKeywords(
     jni.JString keywords,
   ) {
-    _setKeywords(reference.pointer, keywords.reference.pointer).check();
+    _setKeywords(reference.pointer, _id_setKeywords as jni.JMethodIDPtr,
+            keywords.reference.pointer)
+        .check();
   }
 
-  static final _getCreator = jniLookup<
+  static final _id_getCreator = _class.instanceMethodId(
+    r"getCreator",
+    r"()Ljava/lang/String;",
+  );
+
+  static final _getCreator = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getCreator")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.lang.String getCreator()
@@ -301,16 +423,25 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the creator of the document.  This will return null if no creator exists.
   ///@return The creator of the document.
   jni.JString getCreator() {
-    return _getCreator(reference.pointer).object(const jni.JStringType());
+    return _getCreator(reference.pointer, _id_getCreator as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
-  static final _setCreator = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setCreator")
+  static final _id_setCreator = _class.instanceMethodId(
+    r"setCreator",
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _setCreator = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCreator(java.lang.String creator)
   ///
@@ -319,17 +450,26 @@ class PDDocumentInformation extends jni.JObject {
   void setCreator(
     jni.JString creator,
   ) {
-    _setCreator(reference.pointer, creator.reference.pointer).check();
+    _setCreator(reference.pointer, _id_setCreator as jni.JMethodIDPtr,
+            creator.reference.pointer)
+        .check();
   }
 
-  static final _getProducer = jniLookup<
+  static final _id_getProducer = _class.instanceMethodId(
+    r"getProducer",
+    r"()Ljava/lang/String;",
+  );
+
+  static final _getProducer = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getProducer")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.lang.String getProducer()
@@ -338,16 +478,25 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the producer of the document.  This will return null if no producer exists.
   ///@return The producer of the document.
   jni.JString getProducer() {
-    return _getProducer(reference.pointer).object(const jni.JStringType());
+    return _getProducer(reference.pointer, _id_getProducer as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
-  static final _setProducer = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setProducer")
+  static final _id_setProducer = _class.instanceMethodId(
+    r"setProducer",
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _setProducer = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setProducer(java.lang.String producer)
   ///
@@ -356,17 +505,26 @@ class PDDocumentInformation extends jni.JObject {
   void setProducer(
     jni.JString producer,
   ) {
-    _setProducer(reference.pointer, producer.reference.pointer).check();
+    _setProducer(reference.pointer, _id_setProducer as jni.JMethodIDPtr,
+            producer.reference.pointer)
+        .check();
   }
 
-  static final _getCreationDate = jniLookup<
+  static final _id_getCreationDate = _class.instanceMethodId(
+    r"getCreationDate",
+    r"()Ljava/util/Calendar;",
+  );
+
+  static final _getCreationDate = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getCreationDate")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.util.Calendar getCreationDate()
@@ -375,17 +533,26 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
   jni.JObject getCreationDate() {
-    return _getCreationDate(reference.pointer).object(const jni.JObjectType());
+    return _getCreationDate(
+            reference.pointer, _id_getCreationDate as jni.JMethodIDPtr)
+        .object(const jni.JObjectType());
   }
 
-  static final _setCreationDate = jniLookup<
+  static final _id_setCreationDate = _class.instanceMethodId(
+    r"setCreationDate",
+    r"(Ljava/util/Calendar;)V",
+  );
+
+  static final _setCreationDate = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__setCreationDate")
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCreationDate(java.util.Calendar date)
   ///
@@ -394,17 +561,26 @@ class PDDocumentInformation extends jni.JObject {
   void setCreationDate(
     jni.JObject date,
   ) {
-    _setCreationDate(reference.pointer, date.reference.pointer).check();
+    _setCreationDate(reference.pointer, _id_setCreationDate as jni.JMethodIDPtr,
+            date.reference.pointer)
+        .check();
   }
 
-  static final _getModificationDate = jniLookup<
+  static final _id_getModificationDate = _class.instanceMethodId(
+    r"getModificationDate",
+    r"()Ljava/util/Calendar;",
+  );
+
+  static final _getModificationDate = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getModificationDate")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.util.Calendar getModificationDate()
@@ -413,18 +589,26 @@ class PDDocumentInformation extends jni.JObject {
   /// This will get the modification date of the document.  This will return null if no modification date exists.
   ///@return The modification date of the document.
   jni.JObject getModificationDate() {
-    return _getModificationDate(reference.pointer)
+    return _getModificationDate(
+            reference.pointer, _id_getModificationDate as jni.JMethodIDPtr)
         .object(const jni.JObjectType());
   }
 
-  static final _setModificationDate = jniLookup<
+  static final _id_setModificationDate = _class.instanceMethodId(
+    r"setModificationDate",
+    r"(Ljava/util/Calendar;)V",
+  );
+
+  static final _setModificationDate = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
-                  jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__setModificationDate")
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setModificationDate(java.util.Calendar date)
   ///
@@ -433,17 +617,26 @@ class PDDocumentInformation extends jni.JObject {
   void setModificationDate(
     jni.JObject date,
   ) {
-    _setModificationDate(reference.pointer, date.reference.pointer).check();
+    _setModificationDate(reference.pointer,
+            _id_setModificationDate as jni.JMethodIDPtr, date.reference.pointer)
+        .check();
   }
 
-  static final _getTrapped = jniLookup<
+  static final _id_getTrapped = _class.instanceMethodId(
+    r"getTrapped",
+    r"()Ljava/lang/String;",
+  );
+
+  static final _getTrapped = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getTrapped")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.lang.String getTrapped()
@@ -453,17 +646,25 @@ class PDDocumentInformation extends jni.JObject {
   /// This will return null if one is not found.
   ///@return The trapped value for the document.
   jni.JString getTrapped() {
-    return _getTrapped(reference.pointer).object(const jni.JStringType());
+    return _getTrapped(reference.pointer, _id_getTrapped as jni.JMethodIDPtr)
+        .object(const jni.JStringType());
   }
 
-  static final _getMetadataKeys = jniLookup<
+  static final _id_getMetadataKeys = _class.instanceMethodId(
+    r"getMetadataKeys",
+    r"()Ljava/util/Set;",
+  );
+
+  static final _getMetadataKeys = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
-              )>>("PDDocumentInformation__getMetadataKeys")
+                jni.JMethodIDPtr,
+              )>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
           )>();
 
   /// from: public java.util.Set<java.lang.String> getMetadataKeys()
@@ -473,18 +674,26 @@ class PDDocumentInformation extends jni.JObject {
   ///@return all metadata key strings.
   ///@since Apache PDFBox 1.3.0
   jni.JSet<jni.JString> getMetadataKeys() {
-    return _getMetadataKeys(reference.pointer)
+    return _getMetadataKeys(
+            reference.pointer, _id_getMetadataKeys as jni.JMethodIDPtr)
         .object(const jni.JSetType(jni.JStringType()));
   }
 
-  static final _getCustomMetadataValue = jniLookup<
+  static final _id_getCustomMetadataValue = _class.instanceMethodId(
+    r"getCustomMetadataValue",
+    r"(Ljava/lang/String;)Ljava/lang/String;",
+  );
+
+  static final _getCustomMetadataValue = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__getCustomMetadataValue")
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCustomMetadataValue(java.lang.String fieldName)
   /// The returned object must be released after use, by calling the [release] method.
@@ -497,18 +706,30 @@ class PDDocumentInformation extends jni.JObject {
     jni.JString fieldName,
   ) {
     return _getCustomMetadataValue(
-            reference.pointer, fieldName.reference.pointer)
+            reference.pointer,
+            _id_getCustomMetadataValue as jni.JMethodIDPtr,
+            fieldName.reference.pointer)
         .object(const jni.JStringType());
   }
 
-  static final _setCustomMetadataValue = jniLookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "PDDocumentInformation__setCustomMetadataValue")
+  static final _id_setCustomMetadataValue = _class.instanceMethodId(
+    r"setCustomMetadataValue",
+    r"(Ljava/lang/String;Ljava/lang/String;)V",
+  );
+
+  static final _setCustomMetadataValue = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JThrowablePtr Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCustomMetadataValue(java.lang.String fieldName, java.lang.String fieldValue)
   ///
@@ -519,18 +740,29 @@ class PDDocumentInformation extends jni.JObject {
     jni.JString fieldName,
     jni.JString fieldValue,
   ) {
-    _setCustomMetadataValue(reference.pointer, fieldName.reference.pointer,
+    _setCustomMetadataValue(
+            reference.pointer,
+            _id_setCustomMetadataValue as jni.JMethodIDPtr,
+            fieldName.reference.pointer,
             fieldValue.reference.pointer)
         .check();
   }
 
-  static final _setTrapped = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("PDDocumentInformation__setTrapped")
+  static final _id_setTrapped = _class.instanceMethodId(
+    r"setTrapped",
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _setTrapped = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JThrowablePtr Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallVoidMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTrapped(java.lang.String value)
   ///
@@ -541,7 +773,9 @@ class PDDocumentInformation extends jni.JObject {
   void setTrapped(
     jni.JString value,
   ) {
-    _setTrapped(reference.pointer, value.reference.pointer).check();
+    _setTrapped(reference.pointer, _id_setTrapped as jni.JMethodIDPtr,
+            value.reference.pointer)
+        .check();
   }
 }
 

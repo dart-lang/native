@@ -10,7 +10,7 @@ import 'package:jni/jni.dart';
 
 import '../test_util/callback_types.dart';
 
-import 'c_based/dart_bindings/simple_package.dart';
+import 'bindings/simple_package.dart';
 
 const pi = 3.14159;
 const fpDelta = 0.001;

@@ -23,11 +23,6 @@ import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-// Auto-generated initialization code.
-
-final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
-    ProtectedJniExtensions.initGeneratedLibrary("kotlin_plugin_bindings");
-
 /// from: Example
 class Example extends jni.JObject {
   @override
@@ -37,25 +32,49 @@ class Example extends jni.JObject {
     jni.JReference reference,
   ) : super.fromReference(reference);
 
+  static final _class = jni.JClass.forName(r"Example");
+
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
-  static final _new0 =
-      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("Example__new0")
-          .asFunction<jni.JniResult Function()>();
+  static final _id_new0 = _class.constructorId(
+    r"()V",
+  );
+
+  static final _new0 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
-    return Example.fromReference(_new0().reference);
+    return Example.fromReference(
+        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            .reference);
   }
 
-  static final _thinkBeforeAnswering = jniLookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("Example__thinkBeforeAnswering")
+  static final _id_thinkBeforeAnswering = _class.instanceMethodId(
+    r"thinkBeforeAnswering",
+    r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;",
+  );
+
+  static final _thinkBeforeAnswering = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallObjectMethod")
       .asFunction<
-          jni.JniResult Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)
   /// The returned object must be released after use, by calling the [release] method.
@@ -63,7 +82,8 @@ class Example extends jni.JObject {
     final $p = ReceivePort();
     final $c = jni.JObject.fromReference(
         ProtectedJniExtensions.newPortContinuation($p));
-    _thinkBeforeAnswering(reference.pointer, $c.reference.pointer)
+    _thinkBeforeAnswering(reference.pointer,
+            _id_thinkBeforeAnswering as jni.JMethodIDPtr, $c.reference.pointer)
         .object(const jni.JObjectType());
     final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const jni.JStringType().jClass.reference.pointer;
