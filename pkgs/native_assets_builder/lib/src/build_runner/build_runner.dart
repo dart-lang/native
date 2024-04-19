@@ -191,7 +191,7 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     BuildResult? buildResult,
   ) async {
-    final buildDirName = BuildConfigImpl.checksum(
+    final buildDirName = HookConfigImpl.checksum(
       packageName: package.name,
       packageRoot: package.root,
       targetOS: target.os,
@@ -230,7 +230,7 @@ class NativeAssetsBuildRunner {
       );
     } else {
       return BuildConfigImpl(
-        outDir: outDirUri,
+        outputDirectory: outDirUri,
         packageName: package.name,
         packageRoot: package.root,
         targetOS: target.os,
@@ -467,7 +467,7 @@ Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
       await outDir.create(recursive: true);
     }
     return BuildConfigImpl.dryRun(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRoot,
       targetOS: targetOS,

@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/src/api/build_config.dart';
+import 'package:native_assets_cli/src/api/link_config.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -45,8 +45,8 @@ void main() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  test('BuildConfig ==', () {
-    final config1 = BuildConfig.build(
+  test('LinkConfig ==', () {
+    final config1 = LinkConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -59,11 +59,11 @@ void main() async {
         archiver: fakeAr,
       ),
       buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.preferStatic,
       supportedAssetTypes: [NativeCodeAsset.type],
+      assets: [],
     );
 
-    final config2 = BuildConfig.build(
+    final config2 = LinkConfig.build(
       outputDirectory: outDir2Uri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -71,8 +71,8 @@ void main() async {
       targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.preferStatic,
       supportedAssetTypes: [NativeCodeAsset.type],
+      assets: [],
     );
 
     expect(config1, equals(config1));
@@ -90,12 +90,11 @@ void main() async {
     expect(config1.cCompiler.envScriptArgs == config2.cCompiler.envScriptArgs,
         true);
     expect(config1.cCompiler != config2.cCompiler, true);
-    expect(config1.linkModePreference, config2.linkModePreference);
     expect(config1.supportedAssetTypes, config2.supportedAssetTypes);
   });
 
-  test('BuildConfig fromConfig', () {
-    final buildConfig2 = BuildConfig.build(
+  test('LinkConfig fromConfig', () {
+    final linkConfig2 = LinkConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
@@ -103,7 +102,7 @@ void main() async {
       targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.preferStatic,
+      assets: [],
     );
 
     final config = {
@@ -117,20 +116,21 @@ void main() async {
       'target_architecture': 'arm64',
       'target_os': 'android',
       'version': BuildOutput.latestVersion.toString(),
+      'assets': <String>[],
     };
 
-    final fromConfig = BuildConfigImpl.fromJson(config);
-    expect(fromConfig, equals(buildConfig2));
+    final fromConfig = LinkConfigImpl.fromJson(config);
+    expect(fromConfig, equals(linkConfig2));
   });
 
-  test('BuildConfig.dryRun', () {
-    final buildConfig2 = BuildConfig.dryRun(
+  test('LinkConfig.dryRun', () {
+    final linkConfig2 = LinkConfig.dryRun(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OS.android,
-      linkModePreference: LinkModePreference.preferStatic,
       supportedAssetTypes: [NativeCodeAsset.type],
+      assets: [],
     );
 
     final config = {
@@ -141,14 +141,15 @@ void main() async {
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
       'version': BuildOutput.latestVersion.toString(),
+      'assets': <String>[],
     };
 
-    final fromConfig = BuildConfigImpl.fromJson(config);
-    expect(fromConfig, equals(buildConfig2));
+    final fromConfig = LinkConfigImpl.fromJson(config);
+    expect(fromConfig, equals(linkConfig2));
   });
 
-  test('BuildConfig == dependency metadata', () {
-    final buildConfig1 = BuildConfig.build(
+  test('LinkConfig fromArgs', () async {
+    final linkConfig = LinkConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -156,67 +157,18 @@ void main() async {
       targetOS: OS.android,
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.preferStatic,
-      dependencyMetadata: {
-        'bar': {
-          'key': 'value',
-          'foo': ['asdf', 'fdsa'],
-        },
-        'foo': {
-          'key': 321,
-        },
-      },
+      assets: [],
     );
-
-    final buildConfig2 = BuildConfig.build(
-      outputDirectory: outDirUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.android,
-      targetAndroidNdkApi: 30,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.preferStatic,
-      dependencyMetadata: {
-        'bar': {
-          'key': 'value',
-        },
-        'foo': {
-          'key': 123,
-        },
-      },
-    );
-
-    expect(buildConfig1, equals(buildConfig1));
-    expect(buildConfig1 == buildConfig2, false);
-    expect(buildConfig1.hashCode == buildConfig2.hashCode, false);
-
-    expect(buildConfig1.metadatum('bar', 'key'), 'value');
-  });
-
-  test('BuildConfig fromArgs', () async {
-    final buildConfig = BuildConfig.build(
-      outputDirectory: outDirUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.arm64,
-      targetOS: OS.android,
-      targetAndroidNdkApi: 30,
-      buildMode: BuildMode.release,
-      linkModePreference: LinkModePreference.preferStatic,
-    );
-    final configFileContents = (buildConfig as BuildConfigImpl).toJsonString();
+    final configFileContents = (linkConfig as LinkConfigImpl).toJsonString();
     final configUri = tempUri.resolve('config.json');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
-    final buildConfigFromArgs = BuildConfig(
-      ['--config', configUri.toFilePath()],
-      environment: {}, // Don't inherit the test environment.
-    );
-    expect(buildConfigFromArgs, buildConfig);
+    final linkConfigFromArgs =
+        LinkConfig.fromArguments(['--config', configUri.toFilePath()]);
+    expect(linkConfigFromArgs, linkConfig);
   });
 
-  test('BuildConfig.version', () {
-    BuildConfig.latestVersion.toString();
+  test('LinkConfig.version', () {
+    LinkConfig.latestVersion.toString();
   });
 }

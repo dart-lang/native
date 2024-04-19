@@ -2,9 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
+import 'package:cli_config/cli_config.dart';
+import 'package:collection/collection.dart';
+import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-import '../model/hook.dart';
+import '../../native_assets_cli_internal.dart';
 import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
@@ -40,7 +45,7 @@ abstract class HookConfig {
   Architecture? get targetArchitecture;
 
   /// The operating system being compiled for.
-  OS? get targetOS;
+  OS get targetOS;
 
   /// When compiling for iOS, whether to target device or simulator.
   ///
@@ -82,7 +87,7 @@ abstract class HookConfig {
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
-  BuildMode? get buildMode;
+  BuildMode get buildMode;
 
   /// The asset types that the invoker of this hook supports.
   ///

@@ -117,7 +117,7 @@ void main() {
 
         final buildConfig = dryRun
             ? BuildConfig.dryRun(
-                outDir: tempUri,
+                outputDirectory: tempUri,
                 packageName: name,
                 packageRoot: tempUri,
                 targetOS: OS.current,

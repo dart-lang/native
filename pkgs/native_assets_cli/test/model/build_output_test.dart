@@ -206,7 +206,7 @@ version: 1.0.0''';
     await Directory.fromUri(outDir).create();
     await Directory.fromUri(packageRoot).create();
     final config = BuildConfigImpl(
-      outDir: outDir,
+      outputDirectory: outDir,
       packageName: 'dontcare',
       packageRoot: packageRoot,
       buildMode: BuildModeImpl.debug,
@@ -226,7 +226,7 @@ version: 1.0.0''';
     await Directory.fromUri(outDir).create();
     await Directory.fromUri(packageRoot).create();
     final config = BuildConfigImpl(
-      outDir: outDir,
+      outputDirectory: outDir,
       packageName: 'dontcare',
       packageRoot: packageRoot,
       buildMode: BuildModeImpl.debug,

@@ -103,7 +103,7 @@ abstract final class BuildConfig implements HookConfig {
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl(
-        outDir: outputDirectory,
+        outputDirectory: outputDirectory,
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
@@ -118,7 +118,7 @@ abstract final class BuildConfig implements HookConfig {
                 for (final entry in dependencyMetadata.entries)
                   entry.key: Metadata(entry.value.cast())
               }
-            : {},
+            : null,
         supportedAssetTypes: supportedAssetTypes,
       );
 
@@ -130,7 +130,7 @@ abstract final class BuildConfig implements HookConfig {
   ///
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({
-    required Uri outDir,
+    required Uri outputDirectory,
     required String packageName,
     required Uri packageRoot,
     required OS targetOS,
@@ -138,7 +138,7 @@ abstract final class BuildConfig implements HookConfig {
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
-        outDir: outDir,
+        outputDirectory: outputDirectory,
         packageName: packageName,
         packageRoot: packageRoot,
         targetOS: targetOS as OSImpl,

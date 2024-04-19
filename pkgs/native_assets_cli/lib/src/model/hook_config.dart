@@ -20,11 +20,21 @@ abstract class HookConfigImpl implements HookConfig {
 
   final Version version;
 
-  @override
-  final BuildModeImpl? buildMode;
+  final BuildModeImpl? _buildMode;
 
   @override
-  final CCompilerConfigImpl cCompiler;
+  BuildModeImpl get buildMode {
+    ensureNotDryRun(dryRun);
+    return _buildMode!;
+  }
+
+  final CCompilerConfigImpl _cCompiler;
+
+  @override
+  CCompilerConfigImpl get cCompiler {
+    ensureNotDryRun(dryRun);
+    return _cCompiler;
+  }
 
   @override
   final bool dryRun;
@@ -32,17 +42,32 @@ abstract class HookConfigImpl implements HookConfig {
   @override
   final Iterable<String> supportedAssetTypes;
 
+  final int? _targetAndroidNdkApi;
+
   @override
-  final int? targetAndroidNdkApi;
+  int? get targetAndroidNdkApi {
+    ensureNotDryRun(dryRun);
+    return _targetAndroidNdkApi;
+  }
 
   @override
   final ArchitectureImpl? targetArchitecture;
 
-  @override
-  final IOSSdkImpl? targetIOSSdk;
+  final IOSSdkImpl? _targetIOSSdk;
 
   @override
-  final OSImpl? targetOS;
+  IOSSdkImpl? get targetIOSSdk {
+    ensureNotDryRun(dryRun);
+    if (targetOS != OS.iOS) {
+      throw StateError(
+        'This field is not available in if targetOS is not OS.iOS.',
+      );
+    }
+    return _targetIOSSdk;
+  }
+
+  @override
+  final OSImpl targetOS;
 
   String get outputName;
 
@@ -52,15 +77,34 @@ abstract class HookConfigImpl implements HookConfig {
     required this.packageName,
     required this.packageRoot,
     required this.version,
-    required this.buildMode,
+    required BuildModeImpl? buildMode,
     required CCompilerConfigImpl? cCompiler,
-    required this.dryRun,
     required this.supportedAssetTypes,
-    required this.targetAndroidNdkApi,
+    required int? targetAndroidNdkApi,
     required this.targetArchitecture,
-    required this.targetIOSSdk,
+    required IOSSdkImpl? targetIOSSdk,
     required this.targetOS,
-  }) : cCompiler = cCompiler ?? CCompilerConfigImpl();
+    bool? dryRun,
+  })  : _targetAndroidNdkApi = targetAndroidNdkApi,
+        _targetIOSSdk = targetIOSSdk,
+        _buildMode = buildMode,
+        _cCompiler = cCompiler ?? CCompilerConfigImpl(),
+        dryRun = dryRun ?? false;
+
+  HookConfigImpl.dryRun({
+    required this.hook,
+    required this.outputDirectory,
+    required this.packageName,
+    required this.packageRoot,
+    required this.version,
+    required this.supportedAssetTypes,
+    required this.targetOS,
+  })  : _cCompiler = CCompilerConfigImpl(),
+        dryRun = true,
+        targetArchitecture = null,
+        _buildMode = null,
+        _targetAndroidNdkApi = null,
+        _targetIOSSdk = null;
 
   Uri get configFile => outputDirectory.resolve('../${hook.configName}');
 
@@ -70,7 +114,7 @@ abstract class HookConfigImpl implements HookConfig {
   // still using a top-level build.dart.
   Uri get script => packageRoot.resolve('hook/').resolve(hook.scriptName);
 
-  String toJsonString();
+  String toJsonString() => const JsonEncoder.withIndent('  ').convert(toJson());
 
   static const outDirConfigKey = 'out_dir';
   static const packageNameConfigKey = 'package_name';
@@ -80,7 +124,9 @@ abstract class HookConfigImpl implements HookConfig {
   static const dryRunConfigKey = 'dry_run';
   static const supportedAssetTypesKey = 'supported_asset_types';
 
-  Map<String, Object> toJson() {
+  Map<String, Object> toJson();
+
+  Map<String, Object> hookToJson() {
     late Map<String, Object> cCompilerJson;
     if (!dryRun) {
       cCompilerJson = cCompiler.toJson();
@@ -96,9 +142,10 @@ abstract class HookConfigImpl implements HookConfig {
       _versionKey: version.toString(),
       if (dryRun) dryRunConfigKey: dryRun,
       if (!dryRun) ...{
-        BuildModeImpl.configKey: buildMode!.toString(),
+        BuildModeImpl.configKey: buildMode.toString(),
         ArchitectureImpl.configKey: targetArchitecture.toString(),
-        if (targetIOSSdk != null) IOSSdkImpl.configKey: targetIOSSdk.toString(),
+        if (targetOS == OS.iOS && targetIOSSdk != null)
+          IOSSdkImpl.configKey: targetIOSSdk.toString(),
         if (targetAndroidNdkApi != null)
           targetAndroidNdkApiConfigKey: targetAndroidNdkApi!,
         if (cCompilerJson.isNotEmpty)
@@ -106,4 +153,305 @@ abstract class HookConfigImpl implements HookConfig {
       },
     }.sortOnKey();
   }
+
+  static Version parseVersion(Config config, Version latestVersion) {
+    final version = Version.parse(config.string('version'));
+    if (version.major > latestVersion.major) {
+      throw FormatException(
+        'The config version $version is newer than this '
+        'package:native_assets_cli config version $latestVersion, '
+        'please update native_assets_cli.',
+      );
+    }
+    if (version.major < latestVersion.major) {
+      throw FormatException(
+        'The config version $version is newer than this '
+        'package:native_assets_cli config version $latestVersion, '
+        'please update the Dart or Flutter SDK.',
+      );
+    }
+    return version;
+  }
+
+  static bool? parseDryRun(Config config) =>
+      config.optionalBool(dryRunConfigKey);
+
+  static Uri parseOutDir(Config config) =>
+      config.path(outDirConfigKey, mustExist: true);
+
+  static String parsePackageName(Config config) =>
+      config.string(packageNameConfigKey);
+
+  static Uri parsePackageRoot(Config config) =>
+      config.path(packageRootConfigKey, mustExist: true);
+
+  static BuildModeImpl? parseBuildMode(Config config, bool dryRun) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<String>(config, BuildModeImpl.configKey);
+      return null;
+    } else {
+      return BuildModeImpl.fromString(
+        config.string(
+          BuildModeImpl.configKey,
+          validValues: BuildModeImpl.values.map((e) => '$e'),
+        ),
+      );
+    }
+  }
+
+  static OSImpl parseTargetOS(Config config) => OSImpl.fromString(
+        config.string(
+          OSImpl.configKey,
+          validValues: OSImpl.values.map((e) => '$e'),
+        ),
+      );
+  static ArchitectureImpl? parseTargetArchitecture(
+    Config config,
+    bool dryRun,
+    OSImpl? targetOS,
+  ) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<String>(config, ArchitectureImpl.configKey);
+      return null;
+    } else {
+      final validArchitectures = [
+        if (targetOS == null)
+          ...ArchitectureImpl.values
+        else
+          for (final target in Target.values)
+            if (target.os == targetOS) target.architecture
+      ];
+      return ArchitectureImpl.fromString(
+        config.string(
+          ArchitectureImpl.configKey,
+          validValues: validArchitectures.map((e) => '$e'),
+        ),
+      );
+    }
+  }
+
+  static IOSSdkImpl? parseTargetIOSSdk(
+      Config config, bool dryRun, OSImpl? targetOS) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<String>(config, IOSSdkImpl.configKey);
+      return null;
+    } else {
+      return targetOS == OSImpl.iOS
+          ? IOSSdkImpl.fromString(
+              config.string(
+                IOSSdkImpl.configKey,
+                validValues: IOSSdkImpl.values.map((e) => '$e'),
+              ),
+            )
+          : null;
+    }
+  }
+
+  static int? parseTargetAndroidNdkApi(
+    Config config,
+    bool dryRun,
+    OSImpl? targetOS,
+  ) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, targetAndroidNdkApiConfigKey);
+      return null;
+    } else {
+      return (targetOS == OSImpl.android)
+          ? config.int(targetAndroidNdkApiConfigKey)
+          : null;
+    }
+  }
+
+  static Uri? _parseArchiver(Config config, bool dryRun) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.arConfigKeyFull);
+      return null;
+    } else {
+      return config.optionalPath(
+        CCompilerConfigImpl.arConfigKeyFull,
+        mustExist: true,
+      );
+    }
+  }
+
+  static Uri? _parseCompiler(Config config, bool dryRun) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
+      return null;
+    } else {
+      return config.optionalPath(
+        CCompilerConfigImpl.ccConfigKeyFull,
+        mustExist: true,
+      );
+    }
+  }
+
+  static Uri? _parseLinker(Config config, bool dryRun) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
+      return null;
+    } else {
+      return config.optionalPath(
+        CCompilerConfigImpl.ldConfigKeyFull,
+        mustExist: true,
+      );
+    }
+  }
+
+  static Uri? _parseEnvScript(Config config, bool dryRun, Uri? compiler) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
+      return null;
+    } else {
+      return (compiler != null && compiler.toFilePath().endsWith('cl.exe'))
+          ? config.path(CCompilerConfigImpl.envScriptConfigKeyFull,
+              mustExist: true)
+          : null;
+    }
+  }
+
+  static List<String>? _parseEnvScriptArgs(Config config, bool dryRun) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, CCompilerConfigImpl.ccConfigKeyFull);
+      return null;
+    } else {
+      return config.optionalStringList(
+        CCompilerConfigImpl.envScriptArgsConfigKeyFull,
+        splitEnvironmentPattern: ' ',
+      );
+    }
+  }
+
+  static List<String> parseSupportedAssetTypes(Config config) =>
+      config.optionalStringList(supportedAssetTypesKey) ??
+      [NativeCodeAsset.type];
+
+  static CCompilerConfigImpl parseCCompiler(Config config, bool dryRun) {
+    final parseCompiler = _parseCompiler(config, dryRun);
+    final cCompiler = CCompilerConfigImpl(
+      archiver: _parseArchiver(config, dryRun),
+      compiler: parseCompiler,
+      envScript: _parseEnvScript(config, dryRun, parseCompiler),
+      envScriptArgs: _parseEnvScriptArgs(config, dryRun),
+      linker: _parseLinker(config, dryRun),
+    );
+    return cCompiler;
+  }
+
+  static void _throwIfNotNullInDryRun<T>(Config config, String key) {
+    final object = config.valueOf<T?>(key);
+    if (object != null) {
+      throw const FormatException('''This field is not available in dry runs.
+In Flutter projects, native builds are generated per OS which target multiple
+architectures, build modes, etc. Therefore, the list of native assets produced
+can _only_ depend on OS.''');
+    }
+  }
+
+  static void ensureNotDryRun(bool dryRun) {
+    if (dryRun) {
+      throw StateError('''This field is not available in dry runs.
+In Flutter projects, native builds are generated per OS which target multiple
+architectures, build modes, etc. Therefore, the list of native assets produced
+can _only_ depend on OS.''');
+    }
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! HookConfigImpl) {
+      return false;
+    }
+    if (other.outputDirectory != outputDirectory) return false;
+    if (other.packageName != packageName) return false;
+    if (other.packageRoot != packageRoot) return false;
+    if (other.dryRun != dryRun) return false;
+    if (other.targetOS != targetOS) return false;
+    if (!const DeepCollectionEquality()
+        .equals(other.supportedAssetTypes, supportedAssetTypes)) return false;
+    if (!dryRun) {
+      if (other.buildMode != buildMode) return false;
+      if (other.targetArchitecture != targetArchitecture) return false;
+      if (targetOS == OS.iOS && other.targetIOSSdk != targetIOSSdk) {
+        return false;
+      }
+      if (other.targetAndroidNdkApi != targetAndroidNdkApi) return false;
+      if (other.cCompiler != cCompiler) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+        outputDirectory,
+        packageName,
+        packageRoot,
+        targetOS,
+        dryRun,
+        if (!dryRun) ...[
+          buildMode,
+          targetArchitecture,
+          if (targetOS == OS.iOS) targetIOSSdk,
+          targetAndroidNdkApi,
+          cCompiler,
+        ],
+      ]);
+
+  /// Constructs a checksum for a [BuildConfigImpl] based on the fields of a
+  /// buildconfig that influence the build.
+  ///
+  /// This can be used for an [outputDirectory], but should not be used for
+  /// dry-runs.
+  ///
+  /// In particular, it only takes the package name from [packageRoot], so that
+  /// the hash is equal across checkouts and ignores [outputDirectory] itself.
+  static String checksum({
+    required String packageName,
+    required Uri packageRoot,
+    required ArchitectureImpl targetArchitecture,
+    required OSImpl targetOS,
+    required BuildModeImpl buildMode,
+    IOSSdkImpl? targetIOSSdk,
+    int? targetAndroidNdkApi,
+    CCompilerConfigImpl? cCompiler,
+    required LinkModePreferenceImpl linkModePreference,
+    Map<String, Metadata>? dependencyMetadata,
+    Iterable<String>? supportedAssetTypes,
+    Version? version,
+    required Hook hook,
+  }) {
+    final input = [
+      version ?? latestVersion(hook),
+      packageName,
+      targetArchitecture.toString(),
+      targetOS.toString(),
+      targetIOSSdk.toString(),
+      targetAndroidNdkApi.toString(),
+      buildMode.toString(),
+      linkModePreference.toString(),
+      cCompiler?.archiver.toString(),
+      cCompiler?.compiler.toString(),
+      cCompiler?.envScript.toString(),
+      cCompiler?.envScriptArgs.toString(),
+      cCompiler?.linker.toString(),
+      if (dependencyMetadata != null)
+        for (final entry in dependencyMetadata.entries) ...[
+          entry.key,
+          json.encode(entry.value.toJson()),
+        ],
+      ...supportedAssetTypes ?? [NativeCodeAsset.type],
+      hook.name,
+    ].join('###');
+    final sha256String = sha256.convert(utf8.encode(input)).toString();
+    // 256 bit hashes lead to 64 hex character strings.
+    // To avoid overflowing file paths limits, only use 32.
+    // Using 16 hex characters would also be unlikely to have collisions.
+    const nameLength = 32;
+    return sha256String.substring(0, nameLength);
+  }
+
+  static Version latestVersion(Hook hook) => switch (hook) {
+        Hook.link => LinkConfigImpl.latestVersion,
+        Hook.build => BuildConfigImpl.latestVersion,
+      };
 }

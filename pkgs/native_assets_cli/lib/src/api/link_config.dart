@@ -5,14 +5,20 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_config/cli_config.dart';
+import 'package:collection/collection.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../model/hook.dart';
 import '../model/resource_identifiers.dart';
 import '../utils/map.dart';
+import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
+import 'build_mode.dart';
 import 'hook_config.dart';
+import 'ios_sdk.dart';
+import 'os.dart';
 import 'resource.dart';
 
 part '../model/link_config.dart';
@@ -38,15 +44,58 @@ abstract class LinkConfig implements HookConfig {
   factory LinkConfig.fromArguments(List<String> arguments) =>
       LinkConfigImpl.fromArguments(arguments);
 
-  factory LinkConfig({
-    required Uri? resourceIdentifierUri,
-    required BuildConfig buildConfig,
-    required List<Asset> assetsForLinking,
+  factory LinkConfig.build({
+    required Uri outputDirectory,
+    required String packageName,
+    required Uri packageRoot,
+    Architecture? targetArchitecture,
+    required OS targetOS,
+    IOSSdk? targetIOSSdk,
+    CCompilerConfig? cCompiler,
+    BuildMode? buildMode,
+    List<String>? supportedAssetTypes,
+    int? targetAndroidNdkApi,
+    required Iterable<Asset> assets,
+    Uri? resourceIdentifierUri,
+    bool? dryRun,
+    Version? version,
   }) =>
-      LinkConfigImpl.fromValues(
+      LinkConfigImpl(
+        assets: assets.cast(),
         resourceIdentifierUri: resourceIdentifierUri,
-        buildConfig: buildConfig as BuildConfigImpl,
-        assetsForLinking: assetsForLinking.cast(),
+        outputDirectory: outputDirectory,
+        packageName: packageName,
+        packageRoot: packageRoot,
+        buildMode: buildMode as BuildModeImpl,
+        cCompiler: cCompiler as CCompilerConfigImpl?,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+        targetArchitecture: targetArchitecture as ArchitectureImpl?,
+        targetIOSSdk: targetIOSSdk as IOSSdkImpl?,
+        targetOS: targetOS as OSImpl,
+        dryRun: dryRun,
+        supportedAssetTypes: supportedAssetTypes,
+        version: version,
+      );
+
+  factory LinkConfig.dryRun({
+    required Uri outputDirectory,
+    required String packageName,
+    required Uri packageRoot,
+    required OS targetOS,
+    List<String>? supportedAssetTypes,
+    required Iterable<Asset> assets,
+    Uri? resourceIdentifierUri,
+    Version? version,
+  }) =>
+      LinkConfigImpl.dryRun(
+        assets: assets.cast(),
+        resourceIdentifierUri: resourceIdentifierUri,
+        outputDirectory: outputDirectory,
+        packageName: packageName,
+        packageRoot: packageRoot,
+        targetOS: targetOS as OSImpl,
+        supportedAssetTypes: supportedAssetTypes,
+        version: version,
       );
 
   /// The version of [BuildConfig].
