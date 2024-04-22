@@ -5,11 +5,17 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
+import 'dart:ffi';
+
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('NSString', () {
+    setUpAll(() {
+      DynamicLibrary.open('test/objective_c.dylib');
+    });
+
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {
       test('NSString to/from Dart string [$s]', () {
         final ns1 = NSString(s);
@@ -23,5 +29,9 @@ void main() {
         expect(ns2.toString(), s);
       });
     }
+
+    test('hello', () {
+      expect(hello(), 123);
+    });
   });
 }

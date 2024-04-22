@@ -7,6 +7,7 @@ headers:
     - 'src/objective_c.h'
     - 'src/objective_c_runtime.h'
 ffi-native:
+  assetId: 'objective_c.framework/objective_c'
 generate-for-package-objective-c: true
 functions:
   leaf:

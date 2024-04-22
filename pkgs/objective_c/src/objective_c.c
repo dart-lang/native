@@ -3,3 +3,5 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #include "objective_c.h"
+
+int hello() { return 123; }
