@@ -132,11 +132,11 @@ class JArray<E> extends JObject {
 
 extension NativeArray<E extends JPrimitive> on JArray<E> {
   void _allocate<T extends NativeType>(
-    int rangeLength,
+    int byteCount,
     void Function(Pointer<T> ptr) use,
   ) {
     using((arena) {
-      final ptr = arena.allocate<T>(rangeLength);
+      final ptr = arena.allocate<T>(byteCount);
       use(ptr);
     }, malloc);
   }
