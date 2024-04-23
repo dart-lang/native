@@ -132,11 +132,11 @@ class JArray<E> extends JObject {
 
 extension NativeArray<E extends JPrimitive> on JArray<E> {
   void _allocate<T extends NativeType>(
-    int size,
+    int rangeLength,
     void Function(Pointer<T> ptr) use,
   ) {
     using((arena) {
-      final ptr = arena.allocate<T>(size);
+      final ptr = arena.allocate<T>(rangeLength);
       use(ptr);
     }, malloc);
   }
@@ -178,13 +178,13 @@ extension BoolArray on JArray<jboolean> {
   void setRange(int start, int end, Iterable<bool> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JBooleanMarker>(sizeOf<JBooleanMarker>() * size, (ptr) {
+    final rangeLength = end - start;
+    final it = iterable.skip(skipCount).take(rangeLength);
+    _allocate<JBooleanMarker>(sizeOf<JBooleanMarker>() * rangeLength, (ptr) {
       it.forEachIndexed((index, element) {
         ptr[index] = element ? 1 : 0;
       });
-      Jni.env.SetBooleanArrayRegion(reference.pointer, start, size, ptr);
+      Jni.env.SetBooleanArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -213,13 +213,12 @@ extension ByteArray on JArray<jbyte> {
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JByteMarker>(sizeOf<JByteMarker>() * size, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element;
-      });
-      Jni.env.SetByteArrayRegion(reference.pointer, start, size, ptr);
+    final rangeLength = end - start;
+    _allocate<JByteMarker>(sizeOf<JByteMarker>() * rangeLength, (ptr) {
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable, skipCount);
+      Jni.env.SetByteArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -248,13 +247,12 @@ extension CharArray on JArray<jchar> {
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JCharMarker>(sizeOf<JCharMarker>() * size, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element;
-      });
-      Jni.env.SetCharArrayRegion(reference.pointer, start, size, ptr);
+    final rangeLength = end - start;
+    _allocate<JCharMarker>(sizeOf<JCharMarker>() * rangeLength, (ptr) {
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable, skipCount);
+      Jni.env.SetCharArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -283,13 +281,12 @@ extension ShortArray on JArray<jshort> {
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JShortMarker>(sizeOf<JShortMarker>() * size, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element;
-      });
-      Jni.env.SetShortArrayRegion(reference.pointer, start, size, ptr);
+    final rangeLength = end - start;
+    _allocate<JShortMarker>(sizeOf<JShortMarker>() * rangeLength, (ptr) {
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable, skipCount);
+      Jni.env.SetShortArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -318,13 +315,12 @@ extension IntArray on JArray<jint> {
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JIntMarker>(sizeOf<JIntMarker>() * size, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element;
-      });
-      Jni.env.SetIntArrayRegion(reference.pointer, start, size, ptr);
+    final rangeLength = end - start;
+    _allocate<JIntMarker>(sizeOf<JIntMarker>() * rangeLength, (ptr) {
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable, skipCount);
+      Jni.env.SetIntArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -353,13 +349,12 @@ extension LongArray on JArray<jlong> {
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JLongMarker>(sizeOf<JLongMarker>() * size, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element;
-      });
-      Jni.env.SetLongArrayRegion(reference.pointer, start, size, ptr);
+    final rangeLength = end - start;
+    _allocate<JLongMarker>(sizeOf<JLongMarker>() * rangeLength, (ptr) {
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable, skipCount);
+      Jni.env.SetLongArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -388,13 +383,12 @@ extension FloatArray on JArray<jfloat> {
   void setRange(int start, int end, Iterable<double> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JFloatMarker>(sizeOf<JFloatMarker>() * size, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element;
-      });
-      Jni.env.SetFloatArrayRegion(reference.pointer, start, size, ptr);
+    final rangeLength = end - start;
+    _allocate<JFloatMarker>(sizeOf<JFloatMarker>() * rangeLength, (ptr) {
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable, skipCount);
+      Jni.env.SetFloatArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -423,13 +417,12 @@ extension DoubleArray on JArray<jdouble> {
   void setRange(int start, int end, Iterable<double> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
-    _allocate<JDoubleMarker>(sizeOf<JDoubleMarker>() * size, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element;
-      });
-      Jni.env.SetDoubleArrayRegion(reference.pointer, start, size, ptr);
+    final rangeLength = end - start;
+    _allocate<JDoubleMarker>(sizeOf<JDoubleMarker>() * rangeLength, (ptr) {
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable, skipCount);
+      Jni.env.SetDoubleArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
 }
@@ -448,8 +441,8 @@ extension ObjectArray<T extends JObject> on JArray<T> {
 
   void setRange(int start, int end, Iterable<T> iterable, [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
-    final size = end - start;
-    final it = iterable.skip(skipCount).take(size);
+    final rangeLength = end - start;
+    final it = iterable.skip(skipCount).take(rangeLength);
     it.forEachIndexed((index, element) {
       this[index] = element;
     });
