@@ -517,6 +517,62 @@ JniResult getArrayElement(jarray array, int index, int type) {
   return jniResult;
 }
 
+jthrowable setBooleanArrayElement(jarray array, int index, jboolean value) {
+  attach_thread();
+  (*jniEnv)->SetBooleanArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
+jthrowable setByteArrayElement(jarray array, int index, jbyte value) {
+  attach_thread();
+  (*jniEnv)->SetByteArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
+jthrowable setShortArrayElement(jarray array, int index, jshort value) {
+  attach_thread();
+  (*jniEnv)->SetShortArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
+jthrowable setCharArrayElement(jarray array, int index, jchar value) {
+  attach_thread();
+  (*jniEnv)->SetCharArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
+jthrowable setIntArrayElement(jarray array, int index, jint value) {
+  attach_thread();
+  (*jniEnv)->SetIntArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
+jthrowable setLongArrayElement(jarray array, int index, jlong value) {
+  attach_thread();
+  (*jniEnv)->SetLongArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
+jthrowable setFloatArrayElement(jarray array, int index, jfloat value) {
+  attach_thread();
+  (*jniEnv)->SetFloatArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
+jthrowable setDoubleArrayElement(jarray array, int index, jdouble value) {
+  attach_thread();
+  (*jniEnv)->SetDoubleArrayRegion(jniEnv, array, index, 1, &value);
+  jthrowable exception = check_exception();
+  return exception;
+}
+
 JniExceptionDetails getExceptionDetails(jthrowable exception) {
   JniExceptionDetails details;
   details.message = (*jniEnv)->CallObjectMethod(
@@ -552,6 +608,14 @@ JniAccessorsStruct accessors = {
     .newPrimitiveArray = newPrimitiveArray,
     .newObjectArray = newObjectArray,
     .getArrayElement = getArrayElement,
+    .setBooleanArrayElement = setBooleanArrayElement,
+    .setByteArrayElement = setByteArrayElement,
+    .setShortArrayElement = setShortArrayElement,
+    .setCharArrayElement = setCharArrayElement,
+    .setIntArrayElement = setIntArrayElement,
+    .setLongArrayElement = setLongArrayElement,
+    .setFloatArrayElement = setFloatArrayElement,
+    .setDoubleArrayElement = setDoubleArrayElement,
     .callMethod = callMethod,
     .callStaticMethod = callStaticMethod,
     .getField = getField,

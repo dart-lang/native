@@ -228,6 +228,14 @@ typedef struct JniAccessorsStruct {
                               jclass elementClass,
                               jobject initialElement);
   JniResult (*getArrayElement)(jarray array, int index, int type);
+  jthrowable (*setBooleanArrayElement)(jarray array, int index, jboolean value);
+  jthrowable (*setByteArrayElement)(jarray array, int index, jbyte value);
+  jthrowable (*setShortArrayElement)(jarray array, int index, jshort value);
+  jthrowable (*setCharArrayElement)(jarray array, int index, jchar value);
+  jthrowable (*setIntArrayElement)(jarray array, int index, jint value);
+  jthrowable (*setLongArrayElement)(jarray array, int index, jlong value);
+  jthrowable (*setFloatArrayElement)(jarray array, int index, jfloat value);
+  jthrowable (*setDoubleArrayElement)(jarray array, int index, jdouble value);
   JniResult (*callMethod)(jobject obj,
                           jmethodID methodID,
                           int callType,

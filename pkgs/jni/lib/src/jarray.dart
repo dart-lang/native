@@ -159,10 +159,8 @@ extension BoolArray on JArray<jboolean> {
 
   void operator []=(int index, bool value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JBooleanMarker>(sizeOf<JBooleanMarker>(), (ptr) {
-      ptr.value = value ? 1 : 0;
-      Jni.env.SetBooleanArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors
+        .setBooleanArrayElement(reference.pointer, index, value ? 1 : 0);
   }
 
   Uint8List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -196,10 +194,7 @@ extension ByteArray on JArray<jbyte> {
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JByteMarker>(sizeOf<JByteMarker>(), (ptr) {
-      ptr.value = value;
-      Jni.env.SetByteArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors.setByteArrayElement(reference.pointer, index, value).check();
   }
 
   Int8List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -230,10 +225,7 @@ extension CharArray on JArray<jchar> {
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JCharMarker>(sizeOf<JCharMarker>(), (ptr) {
-      ptr.value = value;
-      Jni.env.SetCharArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors.setCharArrayElement(reference.pointer, index, value).check();
   }
 
   Uint16List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -264,10 +256,7 @@ extension ShortArray on JArray<jshort> {
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JShortMarker>(sizeOf<JShortMarker>(), (ptr) {
-      ptr.value = value;
-      Jni.env.SetShortArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors.setShortArrayElement(reference.pointer, index, value).check();
   }
 
   Int16List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -298,10 +287,7 @@ extension IntArray on JArray<jint> {
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JIntMarker>(sizeOf<JIntMarker>(), (ptr) {
-      ptr.value = value;
-      Jni.env.SetIntArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors.setIntArrayElement(reference.pointer, index, value).check();
   }
 
   Int32List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -332,10 +318,7 @@ extension LongArray on JArray<jlong> {
 
   void operator []=(int index, int value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JLongMarker>(sizeOf<JLongMarker>(), (ptr) {
-      ptr.value = value;
-      Jni.env.SetLongArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors.setLongArrayElement(reference.pointer, index, value).check();
   }
 
   Int64List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -366,10 +349,7 @@ extension FloatArray on JArray<jfloat> {
 
   void operator []=(int index, double value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JFloatMarker>(sizeOf<JFloatMarker>(), (ptr) {
-      ptr.value = value;
-      Jni.env.SetFloatArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors.setFloatArrayElement(reference.pointer, index, value).check();
   }
 
   Float32List getRange(int start, int end, {Allocator allocator = malloc}) {
@@ -400,10 +380,9 @@ extension DoubleArray on JArray<jdouble> {
 
   void operator []=(int index, double value) {
     RangeError.checkValidIndex(index, this);
-    _allocate<JDoubleMarker>(sizeOf<JDoubleMarker>(), (ptr) {
-      ptr.value = value;
-      Jni.env.SetDoubleArrayRegion(reference.pointer, index, 1, ptr);
-    });
+    Jni.accessors
+        .setDoubleArrayElement(reference.pointer, index, value)
+        .check();
   }
 
   Float64List getRange(int start, int end, {Allocator allocator = malloc}) {
