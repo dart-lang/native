@@ -205,8 +205,7 @@ extension ByteArray on JArray<jbyte> {
   Int8List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer =
-        allocator.allocate<JByteMarker>(sizeOf<JByteMarker>() * rangeLength);
+    final buffer = allocator<JByteMarker>(rangeLength);
     Jni.env.GetByteArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
@@ -241,8 +240,7 @@ extension CharArray on JArray<jchar> {
   Uint16List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer =
-        allocator.allocate<JCharMarker>(sizeOf<JCharMarker>() * rangeLength);
+    final buffer = allocator<JCharMarker>(rangeLength);
     Jni.env.GetCharArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
@@ -277,8 +275,7 @@ extension ShortArray on JArray<jshort> {
   Int16List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer =
-        allocator.allocate<JShortMarker>(sizeOf<JShortMarker>() * rangeLength);
+    final buffer = allocator<JShortMarker>(rangeLength);
     Jni.env.GetShortArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
@@ -313,8 +310,7 @@ extension IntArray on JArray<jint> {
   Int32List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer =
-        allocator.allocate<JIntMarker>(sizeOf<JIntMarker>() * rangeLength);
+    final buffer = allocator<JIntMarker>(rangeLength);
     Jni.env.GetIntArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
@@ -349,8 +345,7 @@ extension LongArray on JArray<jlong> {
   Int64List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer =
-        allocator.allocate<JLongMarker>(sizeOf<JLongMarker>() * rangeLength);
+    final buffer = allocator<JLongMarker>(rangeLength);
     Jni.env.GetLongArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
@@ -385,8 +380,7 @@ extension FloatArray on JArray<jfloat> {
   Float32List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer =
-        allocator.allocate<JFloatMarker>(sizeOf<JFloatMarker>() * rangeLength);
+    final buffer = allocator<JFloatMarker>(rangeLength);
     Jni.env.GetFloatArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
@@ -421,8 +415,7 @@ extension DoubleArray on JArray<jdouble> {
   Float64List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer = allocator
-        .allocate<JDoubleMarker>(sizeOf<JDoubleMarker>() * rangeLength);
+    final buffer = allocator<JDoubleMarker>(rangeLength);
     Jni.env.GetDoubleArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
