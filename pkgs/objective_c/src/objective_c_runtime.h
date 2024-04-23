@@ -6,6 +6,11 @@
 // ffigen directly on the runtime headers that come with XCode, but those
 // headers don't have everything we need (e.g. the ObjCBlock struct).
 
+#ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
+#define OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
+
+#include "include/dart_api_dl.h"
+
 typedef struct _ObjCSelector ObjCSelector;
 typedef struct _ObjCObject ObjCObject;
 
@@ -40,7 +45,10 @@ typedef struct _ObjCBlock {
 
     // Captured variables follow. These are specific to our use case.
     void* target;
+    Dart_Port dispose_port;
 } ObjCBlock;
 
 ObjCBlock* _Block_copy(ObjCBlock* object);
 void _Block_release(ObjCBlock* object);
+
+#endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_

@@ -19,6 +19,23 @@ library;
 
 import 'dart:ffi' as ffi;
 
+/// \mainpage Dynamically Linked Dart API
+///
+/// This exposes a subset of symbols from dart_api.h and dart_native_api.h
+/// available in every Dart embedder through dynamic linking.
+///
+/// All symbols are postfixed with _DL to indicate that they are dynamically
+/// linked and to prevent conflicts with the original symbol.
+///
+/// Link `dart_api_dl.c` file into your library and invoke
+/// `Dart_InitializeApiDL` with `NativeApi.initializeApiDLData`.
+///
+/// Returns 0 on success.
+@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
+external int Dart_InitializeApiDL(
+  ffi.Pointer<ffi.Void> data,
+);
+
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "sel_registerName", isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
@@ -67,15 +84,41 @@ external void blockRelease(
   ffi.Pointer<ObjCBlock> object,
 );
 
-@ffi.Native<ffi.Int Function()>(isLeaf: true)
-external int hello();
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+external void disposeObjCBlockWithClosure(
+  ffi.Pointer<ObjCBlock> block,
+);
+
+typedef ObjCSelector = _ObjCSelector;
 
 final class _ObjCSelector extends ffi.Opaque {}
 
+typedef ObjCObject = _ObjCObject;
+
 final class _ObjCObject extends ffi.Opaque {}
 
-typedef ObjCSelector = _ObjCSelector;
-typedef ObjCObject = _ObjCObject;
+typedef ObjCBlock = _ObjCBlock;
+
+final class _ObjCBlock extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> isa;
+
+  @ffi.Int()
+  external int flags;
+
+  @ffi.Int()
+  external int reserved;
+
+  external ffi.Pointer<ffi.Void> invoke;
+
+  external ffi.Pointer<ObjCBlockDesc> descriptor;
+
+  external ffi.Pointer<ffi.Void> target;
+
+  @ffi.Int64()
+  external int dispose_port;
+}
+
+typedef ObjCBlockDesc = _ObjCBlockDesc;
 
 final class _ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
@@ -96,22 +139,3 @@ final class _ObjCBlockDesc extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> signature;
 }
-
-final class _ObjCBlock extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> isa;
-
-  @ffi.Int()
-  external int flags;
-
-  @ffi.Int()
-  external int reserved;
-
-  external ffi.Pointer<ffi.Void> invoke;
-
-  external ffi.Pointer<ObjCBlockDesc> descriptor;
-
-  external ffi.Pointer<ffi.Void> target;
-}
-
-typedef ObjCBlockDesc = _ObjCBlockDesc;
-typedef ObjCBlock = _ObjCBlock;

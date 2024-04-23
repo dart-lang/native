@@ -48,21 +48,24 @@ Future<void> _buildSwift(
   print('Generated files: $outputHeader and $outputLib');
 }
 
-Future<void> _generateBindings(String config) async {
-  final args = [
-    'run',
-    'ffigen',
-    '--config',
-    'test/native_objc_test/$config',
-  ];
+Future<void> _runDart(List<String> args) async {
   final process =
       await Process.start(Platform.executable, args, workingDirectory: '../..');
   unawaited(stdout.addStream(process.stdout));
   unawaited(stderr.addStream(process.stderr));
   final result = await process.exitCode;
   if (result != 0) {
-    throw ProcessException('dart', args, 'Generating bindings', result);
+    throw ProcessException('dart', args, 'Running Dart command', result);
   }
+}
+
+Future<void> _generateBindings(String config) async {
+  await _runDart([
+    'run',
+    'ffigen',
+    '--config',
+    'test/native_objc_test/$config',
+  ]);
   print('Generated bindings for: $config');
 }
 
@@ -129,5 +132,6 @@ Future<void> main(List<String> arguments) async {
     return await clean(_getTestNames());
   }
 
+  await _runDart(['../objective_c/test/setup.dart']);
   return await build(arguments.isNotEmpty ? arguments : _getTestNames());
 }

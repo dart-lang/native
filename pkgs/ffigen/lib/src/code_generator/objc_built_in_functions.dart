@@ -19,7 +19,9 @@ class ObjCBuiltInFunctions {
   static const msgSendFpretPointer = ObjCImport('msgSendFpretPointer');
   static const msgSendStretPointer = ObjCImport('msgSendStretPointer');
   static const useMsgSendVariants = ObjCImport('useMsgSendVariants');
-  static const newBlock = ObjCImport('newBlock');
+  static const newPointerBlock = ObjCImport('newPointerBlock');
+  static const newClosureBlock = ObjCImport('newClosureBlock');
+  static const getBlockClosure = ObjCImport('getBlockClosure');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockBase = ObjCImport('ObjCBlockBase');
 

@@ -7,6 +7,7 @@ project(objective_c_library VERSION 0.0.1 LANGUAGES C)
 
 add_library(objective_c SHARED
   "objective_c.c"
+  "include/dart_api_dl.c"
 )
 
 set_target_properties(objective_c PROPERTIES

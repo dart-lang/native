@@ -4,12 +4,20 @@ name: CBindings
 output: 'lib/src/c_bindings_generated.dart'
 headers:
   entry-points:
+    - 'src/include/dart_api_dl.h'
     - 'src/objective_c.h'
     - 'src/objective_c_runtime.h'
 ffi-native:
   assetId: 'objective_c.framework/objective_c'
+exclude-all-by-default: true
 generate-for-package-objective-c: true
 functions:
+  include:
+    - 'objc_.*'
+    - 'sel_registerName'
+    - '_Block_.*'
+    - 'disposeObjCBlockWithClosure'
+    - 'Dart_InitializeApiDL'
   leaf:
     include:
       - '(?!objc_msgSend).*'
@@ -28,6 +36,9 @@ globals:
     - _NSConcreteGlobalBlock
   rename:
     '_(.*)': '$1'
+typedefs:
+  include:
+    - 'ObjC.*'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

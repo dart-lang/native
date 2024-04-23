@@ -2,16 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// When users import package:objective_c as a plugin, Flutter builds our native
+// code automatically. But we want to be able to run tests using `dart test`, so
+// we can't use Flutter's build system. So this script builds a dylib containing
+// all that native code.
+
 import 'dart:io';
 
-const inputFile = 'src/objective_c.c';
+const inputFiles = ['src/objective_c.c' ,'src/include/dart_api_dl.c'];
 const outputFile = 'test/objective_c.dylib';
 
-void _buildLib(String input, String output) {
+void _buildLib(List<String> inputs, String output) {
   final args = [
     '-shared',
     '-fpic',
-    input,
+    ...inputs,
     '-I',
     'src',
     '-o',
@@ -31,5 +36,5 @@ void _buildLib(String input, String output) {
 
 void main() {
   Directory.current = Platform.script.resolve('..').path;
-  _buildLib(inputFile, outputFile);
+  _buildLib(inputFiles, outputFile);
 }

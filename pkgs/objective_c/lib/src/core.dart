@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 
@@ -123,27 +124,67 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   void _release(Pointer<c.ObjCBlock> ptr) => c.blockRelease(ptr);
 }
 
-Pointer<c.ObjCBlockDesc> _newBlockDesc() {
+Pointer<c.ObjCBlockDesc> _newBlockDesc(Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>> dispose_helper) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlock>();
   desc.ref.copy_helper = nullptr;
-  desc.ref.dispose_helper = nullptr;
+  desc.ref.dispose_helper = dispose_helper.cast();
   desc.ref.signature = nullptr;
   return desc;
 }
 
-final _blockDesc = _newBlockDesc();
+final _pointerBlockDesc = _newBlockDesc(nullptr);
+final _closureBlockDesc = _newBlockDesc(
+    Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>(
+              c.disposeObjCBlockWithClosure));
 
-Pointer<c.ObjCBlock> newBlock(Pointer<Void> invoke, Pointer<Void> target) {
+Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
+    Pointer<c.ObjCBlockDesc> descriptor, int dispose_port, int flags) {
   final b = calloc.allocate<c.ObjCBlock>(sizeOf<c.ObjCBlock>());
   b.ref.isa = c.NSConcreteGlobalBlock;
-  b.ref.flags = 0;
+  b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
   b.ref.target = target;
-  b.ref.descriptor = _blockDesc;
+  b.ref.dispose_port = dispose_port;
+  b.ref.descriptor = descriptor;
   final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
   calloc.free(b);
   return copy;
 }
+
+Pointer<c.ObjCBlock> newPointerBlock(Pointer<Void> invoke, Pointer<Void> target) =>
+  _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
+
+Pointer<c.ObjCBlock> newClosureBlock(Pointer<Void> invoke, Function fn) =>
+  _newBlock(invoke, _registerBlockClosure(fn), _closureBlockDesc,
+    _blockClosureDisposer.sendPort.nativePort, (1 << 25));
+
+final _blockClosureRegistry = <int, Function>{};
+int _blockClosureRegistryLastId = 0;
+final _blockClosureDisposer = () {
+  c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
+  return RawReceivePort((msg) {
+    final id = msg as int;
+    assert(_blockClosureRegistry.containsKey(id));
+    _blockClosureRegistry.remove(id);
+  }, "ObjCBlockClosureDisposer")..keepIsolateAlive = false;
+}();
+
+Pointer<Void> _registerBlockClosure(Function closure) {
+  ++_blockClosureRegistryLastId;
+  assert(!_blockClosureRegistry.containsKey(_blockClosureRegistryLastId));
+  _blockClosureRegistry[_blockClosureRegistryLastId] = closure;
+  return Pointer<Void>.fromAddress(_blockClosureRegistryLastId);
+}
+
+Function getBlockClosure(Pointer<c.ObjCBlock> block) {
+  int id = block.ref.target.address;
+  assert(_blockClosureRegistry.containsKey(id));
+  return _blockClosureRegistry[id]!;
+}
+
+// Not exported by ../objective_c.dart, because it's only for testing.
+bool blockHasRegisteredClosure(Pointer<c.ObjCBlock> block) =>
+    _blockClosureRegistry.containsKey(block.ref.target.address);
