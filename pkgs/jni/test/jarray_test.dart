@@ -60,16 +60,16 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JArray(jchar.type, 3)..releasedBy(arena);
       expect(array.length, 3);
-      array[0] = '~'.codeUnitAt(0);
+      array[0] = 'ح'.codeUnitAt(0);
       array[1] = '2'.codeUnitAt(0);
       array[2] = '3'.codeUnitAt(0);
-      expect(array[0], '~'.codeUnitAt(0));
+      expect(array[0], 'ح'.codeUnitAt(0));
       expect(array[1], '2'.codeUnitAt(0));
       expect(array[2], '3'.codeUnitAt(0));
       final firstTwo = array.getRange(0, 2);
       expect(firstTwo.length, 2);
       expect(firstTwo.elementSizeInBytes, sizeOf<JCharMarker>());
-      expect(firstTwo[0], '~'.codeUnitAt(0));
+      expect(firstTwo[0], 'ح'.codeUnitAt(0));
       expect(firstTwo[1], '2'.codeUnitAt(0));
       expect(() {
         array.getRange(0, 4);
