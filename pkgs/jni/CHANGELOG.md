@@ -6,6 +6,7 @@
   change the argument type of `operator []=` to accept `int`.
 - Added `getRange` method to `JArray` of primitive types that returns a
   `TypedData` list depending on the kind of the array.
+- Improved the performance of `JArray`'s `setRange` and `operator []=`.
 
 ## 0.8.0
 
