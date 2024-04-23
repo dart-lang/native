@@ -5,6 +5,7 @@
 // ignore_for_file: unnecessary_cast, overridden_fields
 
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
@@ -141,6 +142,16 @@ extension NativeArray<E extends JPrimitive> on JArray<E> {
   }
 }
 
+extension on Allocator {
+  Pointer<NativeFinalizerFunction>? get _nativeFree {
+    return switch (this) {
+      malloc => malloc.nativeFree,
+      calloc => calloc.nativeFree,
+      _ => null,
+    };
+  }
+}
+
 extension BoolArray on JArray<jboolean> {
   bool operator [](int index) {
     return _elementAt(index, JniCallType.booleanType).boolean;
@@ -152,6 +163,16 @@ extension BoolArray on JArray<jboolean> {
       ptr.value = value ? 1 : 0;
       Jni.env.SetBooleanArrayRegion(reference.pointer, index, 1, ptr);
     });
+  }
+
+  Uint8List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer = allocator
+        .allocate<JBooleanMarker>(sizeOf<JBooleanMarker>() * rangeLength);
+    Jni.env
+        .GetBooleanArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
   void setRange(int start, int end, Iterable<bool> iterable,
@@ -181,6 +202,15 @@ extension ByteArray on JArray<jbyte> {
     });
   }
 
+  Int8List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer =
+        allocator.allocate<JByteMarker>(sizeOf<JByteMarker>() * rangeLength);
+    Jni.env.GetByteArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
+  }
+
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -196,10 +226,8 @@ extension ByteArray on JArray<jbyte> {
 }
 
 extension CharArray on JArray<jchar> {
-  String operator [](int index) {
-    return String.fromCharCode(
-      _elementAt(index, JniCallType.charType).char,
-    );
+  int operator [](int index) {
+    return _elementAt(index, JniCallType.charType).char;
   }
 
   void operator []=(int index, int value) {
@@ -208,6 +236,15 @@ extension CharArray on JArray<jchar> {
       ptr.value = value;
       Jni.env.SetCharArrayRegion(reference.pointer, index, 1, ptr);
     });
+  }
+
+  Uint16List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer =
+        allocator.allocate<JCharMarker>(sizeOf<JCharMarker>() * rangeLength);
+    Jni.env.GetCharArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
   void setRange(int start, int end, Iterable<int> iterable,
@@ -237,6 +274,15 @@ extension ShortArray on JArray<jshort> {
     });
   }
 
+  Int16List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer =
+        allocator.allocate<JShortMarker>(sizeOf<JShortMarker>() * rangeLength);
+    Jni.env.GetShortArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
+  }
+
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -262,6 +308,15 @@ extension IntArray on JArray<jint> {
       ptr.value = value;
       Jni.env.SetIntArrayRegion(reference.pointer, index, 1, ptr);
     });
+  }
+
+  Int32List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer =
+        allocator.allocate<JIntMarker>(sizeOf<JIntMarker>() * rangeLength);
+    Jni.env.GetIntArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
   void setRange(int start, int end, Iterable<int> iterable,
@@ -291,6 +346,15 @@ extension LongArray on JArray<jlong> {
     });
   }
 
+  Int64List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer =
+        allocator.allocate<JLongMarker>(sizeOf<JLongMarker>() * rangeLength);
+    Jni.env.GetLongArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
+  }
+
   void setRange(int start, int end, Iterable<int> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -318,6 +382,15 @@ extension FloatArray on JArray<jfloat> {
     });
   }
 
+  Float32List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer =
+        allocator.allocate<JFloatMarker>(sizeOf<JFloatMarker>() * rangeLength);
+    Jni.env.GetFloatArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
+  }
+
   void setRange(int start, int end, Iterable<double> iterable,
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
@@ -343,6 +416,15 @@ extension DoubleArray on JArray<jdouble> {
       ptr.value = value;
       Jni.env.SetDoubleArrayRegion(reference.pointer, index, 1, ptr);
     });
+  }
+
+  Float64List getRange(int start, int end, {Allocator allocator = malloc}) {
+    RangeError.checkValidRange(start, end, length);
+    final rangeLength = end - start;
+    final buffer = allocator
+        .allocate<JDoubleMarker>(sizeOf<JDoubleMarker>() * rangeLength);
+    Jni.env.GetDoubleArrayRegion(reference.pointer, start, rangeLength, buffer);
+    return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
   void setRange(int start, int end, Iterable<double> iterable,

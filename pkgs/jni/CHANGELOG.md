@@ -1,6 +1,7 @@
 ## 0.9.0-wip
 
-- No changes yet.
+- Added `getRange` method to `JArray` of primitive types that returns a
+  `TypedData` list depending on the kind of the array.
 
 ## 0.8.0
 
