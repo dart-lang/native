@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:jni/jni.dart';
@@ -29,6 +30,17 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0], true);
       expect(array[1], false);
       expect(array[2], false);
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JBooleanMarker>());
+      expect(firstTwo[0], 1);
+      expect(firstTwo[1], 0);
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
       array.setRange(0, 3, [false, true, true, true], 1);
       expect(array[0], true);
       expect(array[1], true);
@@ -48,24 +60,35 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JArray(jchar.type, 3)..releasedBy(arena);
       expect(array.length, 3);
-      array[0] = 'ح';
-      array[1] = '2';
-      array[2] = '3';
-      expect(array[0], 'ح');
-      expect(array[1], '2');
-      expect(array[2], '3');
-      array.setRange(0, 3, ['4', '5', '6', '7'], 1);
-      expect(array[0], '5');
-      expect(array[1], '6');
-      expect(array[2], '7');
+      array[0] = 1;
+      array[1] = 2;
+      array[2] = 3 + 256 * 256 * 5; // Truncates the input.
+      expect(array[0], 1);
+      expect(array[1], 2);
+      expect(array[2], 3);
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JCharMarker>());
+      expect(firstTwo[0], 1);
+      expect(firstTwo[1], 2);
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
+      array.setRange(0, 3, [4, 5, 6, 7], 1);
+      expect(array[0], 5);
+      expect(array[1], 6);
+      expect(array[2], 7);
       expect(() {
         final _ = array[-1];
       }, throwsRangeError);
       expect(() {
-        array[-1] = '4';
+        array[-1] = 4;
       }, throwsRangeError);
       expect(() {
-        array[3] = '4';
+        array[3] = 4;
       }, throwsRangeError);
     });
   });
@@ -75,10 +98,21 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
-      array[2] = 3 + 256 * 5; // truncates the input;
+      array[2] = 3 + 256 * 5; // Truncates the input.;
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JByteMarker>());
+      expect(firstTwo[0], 1);
+      expect(firstTwo[1], 2);
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
       array.setRange(0, 3, [4, 5, 6, 7], 1);
       expect(array[0], 5);
       expect(array[1], 6);
@@ -100,10 +134,21 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
-      array[2] = 3 + 256 * 256 * 5; // truncates the input
+      array[2] = 3 + 256 * 256 * 5; // Truncates the input.
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JShortMarker>());
+      expect(firstTwo[0], 1);
+      expect(firstTwo[1], 2);
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
       array.setRange(0, 3, [4, 5, 6, 7], 1);
       expect(array[0], 5);
       expect(array[1], 6);
@@ -125,10 +170,21 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
-      array[2] = 3 + 256 * 256 * 256 * 256 * 5; // truncates the input
+      array[2] = 3 + 256 * 256 * 256 * 256 * 5; // Truncates the input.
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JIntMarker>());
+      expect(firstTwo[0], 1);
+      expect(firstTwo[1], 2);
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
       array.setRange(0, 3, [4, 5, 6, 7], 1);
       expect(array[0], 5);
       expect(array[1], 6);
@@ -154,6 +210,17 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3 + 256 * 256 * 256 * 256 * 5);
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JLongMarker>());
+      expect(firstTwo[0], 1);
+      expect(firstTwo[1], 2);
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
       array.setRange(0, 3, [4, 5, 6, 7], 1);
       expect(array[0], 5);
       expect(array[1], 6);
@@ -180,6 +247,17 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0], closeTo(0.5, epsilon));
       expect(array[1], closeTo(2, epsilon));
       expect(array[2], closeTo(3, epsilon));
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JFloatMarker>());
+      expect(firstTwo[0], closeTo(0.5, epsilon));
+      expect(firstTwo[1], closeTo(2, epsilon));
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
       array.setRange(0, 3, [4, 5, 6, 7], 1);
       expect(array[0], closeTo(5, epsilon));
       expect(array[1], closeTo(6, epsilon));
@@ -205,6 +283,17 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0], closeTo(0.5, epsilon));
       expect(array[1], closeTo(2, epsilon));
       expect(array[2], closeTo(3, epsilon));
+      final firstTwo = array.getRange(0, 2);
+      expect(firstTwo.length, 2);
+      expect(firstTwo.elementSizeInBytes, sizeOf<JDoubleMarker>());
+      expect(firstTwo[0], closeTo(0.5, epsilon));
+      expect(firstTwo[1], closeTo(2, epsilon));
+      expect(() {
+        array.getRange(0, 4);
+      }, throwsRangeError);
+      expect(() {
+        array.setRange(0, 4, []);
+      }, throwsRangeError);
       array.setRange(0, 3, [4, 5, 6, 7], 1);
       expect(array[0], closeTo(5, epsilon));
       expect(array[1], closeTo(6, epsilon));
