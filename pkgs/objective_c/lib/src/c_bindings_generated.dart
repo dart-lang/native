@@ -36,6 +36,11 @@ external int Dart_InitializeApiDL(
   ffi.Pointer<ffi.Void> data,
 );
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+external void disposeObjCBlockWithClosure(
+  ffi.Pointer<ObjCBlock> block,
+);
+
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "sel_registerName", isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
@@ -84,19 +89,6 @@ external void blockRelease(
   ffi.Pointer<ObjCBlock> object,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
-external void disposeObjCBlockWithClosure(
-  ffi.Pointer<ObjCBlock> block,
-);
-
-typedef ObjCSelector = _ObjCSelector;
-
-final class _ObjCSelector extends ffi.Opaque {}
-
-typedef ObjCObject = _ObjCObject;
-
-final class _ObjCObject extends ffi.Opaque {}
-
 typedef ObjCBlock = _ObjCBlock;
 
 final class _ObjCBlock extends ffi.Struct {
@@ -139,3 +131,11 @@ final class _ObjCBlockDesc extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> signature;
 }
+
+typedef ObjCSelector = _ObjCSelector;
+
+final class _ObjCSelector extends ffi.Opaque {}
+
+typedef ObjCObject = _ObjCObject;
+
+final class _ObjCObject extends ffi.Opaque {}

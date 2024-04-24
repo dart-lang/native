@@ -19,6 +19,7 @@ void main() {
   group('inheritedInstancetype', () {
     setUpAll(() {
       logWarnings();
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib =
           File('test/native_objc_test/inherited_instancetype_test.dylib');
       verifySetupFile(dylib);

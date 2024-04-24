@@ -57,6 +57,8 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
+      - name: Build test dylib
+        run: dart test/setup.dart
       - name: Run VM tests
         run: dart test
       - name: Collect coverage

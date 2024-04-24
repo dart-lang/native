@@ -18,6 +18,7 @@ void main() {
   group('native_objc_test', () {
     setUpAll(() {
       logWarnings();
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/native_objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);

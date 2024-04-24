@@ -5,7 +5,7 @@
 #ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_H_
 #define OBJECTIVE_C_SRC_OBJECTIVE_C_H_
 
-#include "objective_c_runtime.h"
+#include "objective_c_runtime_types.h"
 
 // Dispose helper for ObjC blocks that wrap a Dart closure.
 void disposeObjCBlockWithClosure(ObjCBlock* block);

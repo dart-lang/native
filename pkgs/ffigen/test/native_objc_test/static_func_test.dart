@@ -28,6 +28,7 @@ void main() {
   group('static functions', () {
     setUpAll(() {
       logWarnings();
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/static_func_test.dylib');
       verifySetupFile(dylib);
       lib = StaticFuncTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));

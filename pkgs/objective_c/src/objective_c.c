@@ -4,7 +4,7 @@
 
 #include "include/dart_api_dl.h"
 #include "objective_c.h"
-#include "objective_c_runtime.h"
+#include "objective_c_runtime_types.h"
 
 // Dispose helper for ObjC blocks that wrap a Dart closure. For these blocks,
 // the target is an int ID, and the dispose_port is listening for these IDs.

@@ -22,6 +22,7 @@ void main() {
   group('Nullable inheritance', () {
     setUpAll(() {
       logWarnings();
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib =
           File('test/native_objc_test/nullable_inheritance_test.dylib');
       verifySetupFile(dylib);

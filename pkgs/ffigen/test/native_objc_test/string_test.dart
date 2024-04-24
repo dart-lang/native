@@ -19,6 +19,7 @@ void main() {
   group('string', () {
     setUpAll(() {
       logWarnings();
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/string_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);

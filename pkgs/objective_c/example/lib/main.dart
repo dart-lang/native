@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text(NSString('Hello World! ${hello()}').toString()),
+          child: Text(NSString('Hello World!').toString()),
         ),
       ),
     );

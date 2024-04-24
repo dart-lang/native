@@ -29,9 +29,5 @@ void main() {
         expect(ns2.toString(), s);
       });
     }
-
-    test('hello', () {
-      expect(hello(), 123);
-    });
   });
 }
