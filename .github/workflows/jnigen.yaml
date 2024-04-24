@@ -91,7 +91,7 @@ jobs:
       - name: install clang tools
         run: |
           sudo apt-get clean
-          rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
           sudo apt-get upgrade
@@ -147,7 +147,7 @@ jobs:
       - name: install clang tools & CMake
         run: |
           sudo apt-get clean
-          rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
           sudo apt-get upgrade
@@ -184,7 +184,7 @@ jobs:
           java-version: '11'
       - run: |
           sudo apt-get clean
-          rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
           sudo apt-get upgrade
@@ -338,7 +338,7 @@ jobs:
           java-version: '11'
       - run: |
           sudo apt-get clean
-          rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
           sudo apt-get upgrade
@@ -405,7 +405,7 @@ jobs:
           java-version: '11'
       - run: |
           sudo apt-get clean
-          rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
           sudo apt-get upgrade
