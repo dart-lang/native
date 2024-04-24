@@ -252,7 +252,7 @@ void main() {
     test('Function block ref counting', () async {
       final rawBlock = funcBlockRefCountTest();
       doGC();
-      await Future.delayed(Duration.zero);  // Allow dispose message to arrive.
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(lib.getBlockRetainCount(rawBlock), 0);
       expect(objc.blockHasRegisteredClosure(rawBlock.cast()), false);
     });
@@ -278,7 +278,7 @@ void main() {
       expect(lib.getBlockRetainCount(rawBlock), 1);
       expect(blockManualRetainRefCountTest2(rawBlock), 1);
       doGC();
-      await Future.delayed(Duration.zero);  // Allow dispose message to arrive.
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(lib.getBlockRetainCount(rawBlock), 0);
       expect(objc.blockHasRegisteredClosure(rawBlock.cast()), false);
     });

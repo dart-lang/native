@@ -27,6 +27,8 @@
       generated bindings.
 - Add --[no-]format option to ffigen command line, which controls whether the
   formatting step happens. Defaults to true.
+- Delete Dart functions associated with ObjC closure blocks when the block is
+  destroyed. Fixes https://github.com/dart-lang/native/issues/204
 
 ## 11.0.0
 
