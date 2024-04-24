@@ -90,7 +90,6 @@ jobs:
       ## So this is required to format generated bindings identically
       - name: install clang tools
         run: |
-          sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
@@ -146,7 +145,6 @@ jobs:
           args: '--set-exit-if-changed'
       - name: install clang tools & CMake
         run: |
-          sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
@@ -183,7 +181,6 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - run: |
-          sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
@@ -337,7 +334,6 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - run: |
-          sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
@@ -404,7 +400,6 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - run: |
-          sudo apt-get clean
           sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get clean
           sudo apt-get update -y
