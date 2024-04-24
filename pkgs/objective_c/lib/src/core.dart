@@ -124,12 +124,12 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   void _release(Pointer<c.ObjCBlock> ptr) => c.blockRelease(ptr);
 }
 
-Pointer<c.ObjCBlockDesc> _newBlockDesc(Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>> dispose_helper) {
+Pointer<c.ObjCBlockDesc> _newBlockDesc(Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>> disposeHelper) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlock>();
   desc.ref.copy_helper = nullptr;
-  desc.ref.dispose_helper = dispose_helper.cast();
+  desc.ref.dispose_helper = disposeHelper.cast();
   desc.ref.signature = nullptr;
   return desc;
 }
@@ -140,14 +140,14 @@ final _closureBlockDesc = _newBlockDesc(
               c.disposeObjCBlockWithClosure));
 
 Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
-    Pointer<c.ObjCBlockDesc> descriptor, int dispose_port, int flags) {
+    Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
   final b = calloc.allocate<c.ObjCBlock>(sizeOf<c.ObjCBlock>());
   b.ref.isa = c.NSConcreteGlobalBlock;
   b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
   b.ref.target = target;
-  b.ref.dispose_port = dispose_port;
+  b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
   final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
   calloc.free(b);
@@ -165,7 +165,7 @@ final _blockClosureRegistry = <int, Function>{};
 int _blockClosureRegistryLastId = 0;
 final _blockClosureDisposer = () {
   c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
-  return RawReceivePort((msg) {
+  return RawReceivePort((dynamic msg) {
     final id = msg as int;
     assert(_blockClosureRegistry.containsKey(id));
     _blockClosureRegistry.remove(id);

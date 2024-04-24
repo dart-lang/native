@@ -12,8 +12,7 @@ export 'src/c_bindings_generated.dart'
         objectRetain,
         objectRelease,
         blockCopy,
-        blockRelease,
-        hello;
+        blockRelease;
 
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
