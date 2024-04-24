@@ -60,44 +60,35 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JArray(jchar.type, 3)..releasedBy(arena);
       expect(array.length, 3);
-      array[0] = 'ح'.codeUnitAt(0);
-      array[1] = '2'.codeUnitAt(0);
-      array[2] = '3'.codeUnitAt(0);
-      expect(array[0], 'ح'.codeUnitAt(0));
-      expect(array[1], '2'.codeUnitAt(0));
-      expect(array[2], '3'.codeUnitAt(0));
+      array[0] = 1;
+      array[1] = 2;
+      array[2] = 3 + 256 * 256 * 5; // Truncates the input.
+      expect(array[0], 1);
+      expect(array[1], 2);
+      expect(array[2], 3);
       final firstTwo = array.getRange(0, 2);
       expect(firstTwo.length, 2);
       expect(firstTwo.elementSizeInBytes, sizeOf<JCharMarker>());
-      expect(firstTwo[0], 'ح'.codeUnitAt(0));
-      expect(firstTwo[1], '2'.codeUnitAt(0));
+      expect(firstTwo[0], 1);
+      expect(firstTwo[1], 2);
       expect(() {
         array.getRange(0, 4);
       }, throwsRangeError);
       expect(() {
         array.setRange(0, 4, []);
       }, throwsRangeError);
-      array.setRange(
-          0,
-          3,
-          [
-            '4'.codeUnitAt(0),
-            '5'.codeUnitAt(0),
-            '6'.codeUnitAt(0),
-            '7'.codeUnitAt(0)
-          ],
-          1);
-      expect(array[0], '5'.codeUnitAt(0));
-      expect(array[1], '6'.codeUnitAt(0));
-      expect(array[2], '7'.codeUnitAt(0));
+      array.setRange(0, 3, [4, 5, 6, 7], 1);
+      expect(array[0], 5);
+      expect(array[1], 6);
+      expect(array[2], 7);
       expect(() {
         final _ = array[-1];
       }, throwsRangeError);
       expect(() {
-        array[-1] = '4'.codeUnitAt(0);
+        array[-1] = 4;
       }, throwsRangeError);
       expect(() {
-        array[3] = '4'.codeUnitAt(0);
+        array[3] = 4;
       }, throwsRangeError);
     });
   });
@@ -107,7 +98,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
-      array[2] = 3 + 256 * 5; // truncates the input;
+      array[2] = 3 + 256 * 5; // Truncates the input.;
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);
@@ -143,7 +134,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
-      array[2] = 3 + 256 * 256 * 5; // truncates the input
+      array[2] = 3 + 256 * 256 * 5; // Truncates the input.
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);
@@ -179,7 +170,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array.length, 3);
       array[0] = 1;
       array[1] = 2;
-      array[2] = 3 + 256 * 256 * 256 * 256 * 5; // truncates the input
+      array[2] = 3 + 256 * 256 * 256 * 256 * 5; // Truncates the input.
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);

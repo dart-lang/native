@@ -218,6 +218,10 @@ extension ByteArray on JArray<jbyte> {
   }
 }
 
+/// `JArray<jchar>` is a 16-bit integer array.
+///
+/// Due to variable length encoding, the  number of code units is not equal to
+/// the number of characters.
 extension CharArray on JArray<jchar> {
   int operator [](int index) {
     return _elementAt(index, JniCallType.charType).char;
