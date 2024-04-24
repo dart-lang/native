@@ -218,7 +218,7 @@ extension ByteArray on JArray<jbyte> {
   }
 }
 
-/// `JArray<jchar>` is a 16-bit integer array.
+/// `JArray<jchar>` is a 16-bit unsigned integer array.
 ///
 /// Due to variable length encoding, the  number of code units is not equal to
 /// the number of characters.
