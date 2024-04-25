@@ -17,6 +17,7 @@ void main() {
       test('empty', () {
         final data = <int>[].toNSData();
         expect(data.length, 0);
+        data.release(); // Make sure that dealloc succeeds.
       });
 
       test('non empty', () {
@@ -25,12 +26,14 @@ void main() {
         expect(data.bytes.cast<Uint8>()[0], 1);
         expect(data.bytes.cast<Uint8>()[1], 2);
         expect(data.bytes.cast<Uint8>()[2], 3);
+        data.release(); // Make sure that dealloc succeeds.
       });
 
       test('non-byte', () {
         final data = [257].toNSData();
         expect(data.length, 1);
         expect(data.bytes.cast<Uint8>().value, 1);
+        data.release(); // Make sure that dealloc succeeds.
       });
     });
 

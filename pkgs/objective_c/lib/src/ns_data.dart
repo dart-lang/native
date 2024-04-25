@@ -39,7 +39,7 @@ extension NSDataListExtension on List<int> {
     if (length == 0) {
       return NSData.new1();
     }
-    final buffer = calloc<Uint8>(length);
+    final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);
 
     return NSData.dataWithBytesNoCopy_length_(buffer.cast(), length);
