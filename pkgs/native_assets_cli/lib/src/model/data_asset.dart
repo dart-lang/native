@@ -25,9 +25,9 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
 
   factory DataAssetImpl.fromJson(Map<Object?, Object?> jsonMap) =>
       DataAssetImpl(
-        name: as<String>(jsonMap[_nameKey]),
-        package: as<String>(jsonMap[_packageKey]),
-        file: Uri(path: as<String>(jsonMap[_fileKey])),
+        name: get<String>(jsonMap, _nameKey),
+        package: get<String>(jsonMap, _packageKey),
+        file: Uri(path: get<String>(jsonMap, _fileKey)),
       );
 
   @override

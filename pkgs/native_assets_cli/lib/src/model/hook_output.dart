@@ -69,7 +69,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   }
 
   factory HookOutputImpl.fromJson(Map<Object?, Object?> jsonMap) {
-    final outputVersion = Version.parse(as<String>(jsonMap['version']));
+    final outputVersion = Version.parse(get<String>(jsonMap, 'version'));
     if (outputVersion.major > latestVersion.major) {
       throw FormatException(
         'The output version $outputVersion is newer than the '
@@ -85,15 +85,16 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
       );
     }
     return HookOutputImpl(
-      timestamp: DateTime.parse(as<String>(jsonMap[_timestampKey])),
-      assets: AssetImpl.listFromJson(as<List<Object?>?>(jsonMap[_assetsKey])),
-      assetsForLinking: as<Map<String, dynamic>?>(jsonMap[_assetsForLinkingKey])
+      timestamp: DateTime.parse(get<String>(jsonMap, _timestampKey)),
+      assets: AssetImpl.listFromJson(get<List<Object?>?>(jsonMap, _assetsKey)),
+      assetsForLinking: get<Map<String, dynamic>?>(
+              jsonMap, _assetsForLinkingKey)
           ?.map((packageName, assets) => MapEntry(
               packageName, AssetImpl.listFromJson(as<List<Object?>>(assets)))),
       dependencies:
-          Dependencies.fromJson(as<List<Object?>?>(jsonMap[_dependenciesKey])),
+          Dependencies.fromJson(get<List<Object?>?>(jsonMap, _dependenciesKey)),
       metadata:
-          Metadata.fromJson(as<Map<Object?, Object?>?>(jsonMap[_metadataKey])),
+          Metadata.fromJson(get<Map<Object?, Object?>?>(jsonMap, _metadataKey)),
     );
   }
 

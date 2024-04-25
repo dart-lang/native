@@ -12,6 +12,17 @@ T as<T>(Object? object) {
   );
 }
 
+T get<T>(Map<Object?, Object?> map, String key) {
+  final object = map[key];
+  if (object is T) {
+    return object;
+  }
+  throw FormatException(
+    "Unexpected value '$object' of type ${object.runtimeType} in JSON for key "
+    '$key. Expected a $T.',
+  );
+}
+
 extension MapCast on Map<Object?, Object?> {
   Map<K, V> formatCast<K, V>() => <K, V>{
         for (final e in entries) as<K>(e.key): as<V>(e.value),
