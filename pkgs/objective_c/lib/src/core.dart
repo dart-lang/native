@@ -124,7 +124,9 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   void _release(Pointer<c.ObjCBlock> ptr) => c.blockRelease(ptr);
 }
 
-Pointer<c.ObjCBlockDesc> _newBlockDesc(Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>> disposeHelper) {
+Pointer<c.ObjCBlockDesc> _newBlockDesc(
+    Pointer<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>
+        disposeHelper) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlock>();
@@ -137,7 +139,7 @@ Pointer<c.ObjCBlockDesc> _newBlockDesc(Pointer<NativeFunction<Void Function(Poin
 final _pointerBlockDesc = _newBlockDesc(nullptr);
 final _closureBlockDesc = _newBlockDesc(
     Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>(
-              c.disposeObjCBlockWithClosure));
+        c.disposeObjCBlockWithClosure));
 
 Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
@@ -154,12 +156,13 @@ Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
   return copy;
 }
 
-Pointer<c.ObjCBlock> newPointerBlock(Pointer<Void> invoke, Pointer<Void> target) =>
-  _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
+Pointer<c.ObjCBlock> newPointerBlock(
+        Pointer<Void> invoke, Pointer<Void> target) =>
+    _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
 Pointer<c.ObjCBlock> newClosureBlock(Pointer<Void> invoke, Function fn) =>
-  _newBlock(invoke, _registerBlockClosure(fn), _closureBlockDesc,
-    _blockClosureDisposer.sendPort.nativePort, (1 << 25));
+    _newBlock(invoke, _registerBlockClosure(fn), _closureBlockDesc,
+        _blockClosureDisposer.sendPort.nativePort, (1 << 25));
 
 final _blockClosureRegistry = <int, Function>{};
 int _blockClosureRegistryLastId = 0;
@@ -169,7 +172,8 @@ final _blockClosureDisposer = () {
     final id = msg as int;
     assert(_blockClosureRegistry.containsKey(id));
     _blockClosureRegistry.remove(id);
-  }, "ObjCBlockClosureDisposer")..keepIsolateAlive = false;
+  }, "ObjCBlockClosureDisposer")
+    ..keepIsolateAlive = false;
 }();
 
 Pointer<Void> _registerBlockClosure(Function closure) {

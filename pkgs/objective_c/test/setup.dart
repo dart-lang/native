@@ -11,7 +11,7 @@
 
 import 'dart:io';
 
-const inputFiles = ['src/objective_c.c' ,'src/include/dart_api_dl.c'];
+const inputFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
 const outputFile = 'test/objective_c.dylib';
 
 void _buildLib(List<String> inputs, String output) {
