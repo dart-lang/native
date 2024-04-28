@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/internal.dart' hide blockHasRegisteredClosure;
+export 'src/ns_data.dart';
 export 'src/ns_string.dart';
 export 'src/c_bindings_generated.dart'
     show

@@ -228,6 +228,14 @@ typedef struct JniAccessorsStruct {
                               jclass elementClass,
                               jobject initialElement);
   JniResult (*getArrayElement)(jarray array, int index, int type);
+  jthrowable (*setBooleanArrayElement)(jarray array, int index, jboolean value);
+  jthrowable (*setByteArrayElement)(jarray array, int index, jbyte value);
+  jthrowable (*setShortArrayElement)(jarray array, int index, jshort value);
+  jthrowable (*setCharArrayElement)(jarray array, int index, jchar value);
+  jthrowable (*setIntArrayElement)(jarray array, int index, jint value);
+  jthrowable (*setLongArrayElement)(jarray array, int index, jlong value);
+  jthrowable (*setFloatArrayElement)(jarray array, int index, jfloat value);
+  jthrowable (*setDoubleArrayElement)(jarray array, int index, jdouble value);
   JniResult (*callMethod)(jobject obj,
                           jmethodID methodID,
                           int callType,
@@ -341,29 +349,6 @@ static inline jobject to_global_ref(jobject ref) {
   jobject g = (*jniEnv)->NewGlobalRef(jniEnv, ref);
   (*jniEnv)->DeleteLocalRef(jniEnv, ref);
   return g;
-}
-
-// These functions are useful for C+Dart bindings, and not required for pure dart bindings.
-
-FFI_PLUGIN_EXPORT JniContext* GetJniContextPtr();
-
-/// For use by jni_gen's generated code
-/// don't use these.
-
-// these 2 fn ptr vars will be defined by generated code library
-extern JniContext* (*context_getter)(void);
-extern JNIEnv* (*env_getter)(void);
-
-// this function will be exported by generated code library
-// it will set above 2 variables.
-FFI_PLUGIN_EXPORT void setJniGetters(struct JniContext* (*cg)(void),
-                                     JNIEnv* (*eg)(void));
-
-static inline void load_env() {
-  if (jniEnv == NULL) {
-    jni = context_getter();
-    jniEnv = env_getter();
-  }
 }
 
 static inline jthrowable check_exception() {

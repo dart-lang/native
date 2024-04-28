@@ -443,6 +443,54 @@ final class JniAccessorsStruct extends ffi.Struct {
       getArrayElement;
 
   external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JBooleanMarker value)>>
+      setBooleanArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JByteMarker value)>>
+      setByteArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JShortMarker value)>>
+      setShortArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JCharMarker value)>>
+      setCharArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JIntMarker value)>>
+      setIntArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JLongMarker value)>>
+      setLongArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JFloatMarker value)>>
+      setFloatArrayElement;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<
+              JThrowablePtr Function(
+                  JArrayPtr array, ffi.Int index, JDoubleMarker value)>>
+      setDoubleArrayElement;
+
+  external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
               ffi.Int callType, ffi.Pointer<JValue> args)>> callMethod;

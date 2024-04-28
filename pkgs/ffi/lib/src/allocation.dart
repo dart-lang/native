@@ -40,11 +40,11 @@ final WinCoTaskMemFree winCoTaskMemFree = winCoTaskMemFreePointer.asFunction();
 
 /// Manages memory on the native heap.
 ///
-/// Does not initialize newly allocated memory to zero. Use [_CallocAllocator]
+/// Does not initialize newly allocated memory to zero. Use [CallocAllocator]
 /// for zero-initialized memory on allocation.
 ///
 /// For POSIX-based systems, this uses `malloc` and `free`. On Windows, it uses
-/// `CoTaskMemAlloc`.
+/// `CoTaskMemAlloc` and `CoTaskMemFree`.
 final class MallocAllocator implements Allocator {
   const MallocAllocator._();
 

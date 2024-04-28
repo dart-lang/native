@@ -1,5 +1,6 @@
 package com.github.dart_lang.jnigen.apisummarizer;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import org.apache.commons.cli.*;
 
@@ -63,15 +64,22 @@ public class SummarizerOptions {
     try {
       cmd = parser.parse(options, args);
       if (cmd.getArgs().length < 1) {
-        throw new ParseException("Need to specify paths to source files");
+        throw new ParseException("Need to specify the package or class names");
       }
     } catch (ParseException e) {
-      System.out.println(e.getMessage());
+      System.err.println(e.getMessage());
       help.printHelp(
+          new PrintWriter(System.err, true),
+          help.getWidth(),
           "java -jar <JAR> [-s <SOURCE_DIR=.>] "
               + "[-c <CLASSES_JAR>] <CLASS_OR_PACKAGE_NAMES>\n"
               + "Class or package names should be fully qualified.\n\n",
-          options);
+          null,
+          options,
+          help.getLeftPadding(),
+          help.getDescPadding(),
+          null,
+          false);
       System.exit(1);
       throw new RuntimeException("Unreachable code");
     }

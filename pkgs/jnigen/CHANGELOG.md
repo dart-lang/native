@@ -2,8 +2,9 @@
 
 - **Breaking Change** ([#660](https://github.com/dart-lang/native/issues/660)):
   Removed C-based bindings. Now all bindings are Dart-only.
-- Expand constraint on `package:cli_config` to allow `^0.2.0`.
-- Ignore `use_super_parameters` lint in generated files.
+- Expanded constraint on `package:cli_config` to allow `^0.2.0`.
+- Ignored `use_super_parameters` lint in generated files.
+- Fixed a bug in summarizer and improved the display of errors.
 
 ## 0.8.0
 
