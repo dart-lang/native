@@ -20,6 +20,7 @@ void main() {
   group('method calls', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/method_test.dylib');
       verifySetupFile(dylib);

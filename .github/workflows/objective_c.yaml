@@ -58,6 +58,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Build test dylib
+        # TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
         run: dart test/setup.dart
       - name: Run VM tests
         run: dart test

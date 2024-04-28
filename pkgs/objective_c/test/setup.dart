@@ -9,6 +9,7 @@
 
 // ignore_for_file: avoid_print
 
+import 'dart:ffi';
 import 'dart:io';
 
 const inputFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
@@ -39,4 +40,7 @@ void _buildLib(List<String> inputs, String output) {
 void main() {
   Directory.current = Platform.script.resolve('..').path;
   _buildLib(inputFiles, outputFile);
+
+  // Sanity check that the dylib was created correctly.
+  DynamicLibrary.open(outputFile).lookup('disposeObjCBlockWithClosure');
 }

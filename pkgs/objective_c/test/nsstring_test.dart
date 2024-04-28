@@ -13,6 +13,7 @@ import 'package:test/test.dart';
 void main() {
   group('NSString', () {
     setUpAll(() {
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('test/objective_c.dylib');
     });
 

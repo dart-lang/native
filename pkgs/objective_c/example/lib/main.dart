@@ -6,19 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:objective_c/objective_c.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MaterialApp(home: MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  late final String message;
+
+  @override
+  void initState() {
+    super.initState();
+
+    message = NSString('Hello World!').toString();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text(NSString('Hello World!').toString()),
-        ),
+    return Scaffold(
+      body: Center(
+        child: Text(message),
       ),
     );
   }

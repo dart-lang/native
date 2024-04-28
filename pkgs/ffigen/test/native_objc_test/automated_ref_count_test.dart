@@ -23,6 +23,7 @@ void main() {
   group('Automatic reference counting', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib =
           File('test/native_objc_test/automated_ref_count_test.dylib');

@@ -9,6 +9,7 @@ import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
 
+/// Only for use by ffigen bindings.
 Pointer<c.ObjCSelector> registerName(String name) {
   final cstr = name.toNativeUtf8();
   final sel = c.registerName(cstr.cast());
@@ -16,6 +17,7 @@ Pointer<c.ObjCSelector> registerName(String name) {
   return sel;
 }
 
+/// Only for use by ffigen bindings.
 Pointer<c.ObjCObject> getClass(String name) {
   final cstr = name.toNativeUtf8();
   final clazz = c.getClass(cstr.cast());
@@ -26,13 +28,19 @@ Pointer<c.ObjCObject> getClass(String name) {
   return clazz;
 }
 
+/// Only for use by ffigen bindings.
 final msgSendPointer =
     Native.addressOf<NativeFunction<Void Function()>>(c.msgSend);
+
+/// Only for use by ffigen bindings.
 final msgSendFpretPointer =
     Native.addressOf<NativeFunction<Void Function()>>(c.msgSendFpret);
+
+/// Only for use by ffigen bindings.
 final msgSendStretPointer =
     Native.addressOf<NativeFunction<Void Function()>>(c.msgSendStret);
 
+/// Only for use by ffigen bindings.
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
@@ -88,6 +96,7 @@ class _ObjCFinalizable<T extends NativeType> implements Finalizable {
   void _release(Pointer<T> ptr) => throw UnimplementedError();
 }
 
+/// Only for use by ffigen bindings.
 class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   ObjCObjectBase(super.ptr, {required super.retain, required super.release});
 
@@ -106,6 +115,7 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   void _release(Pointer<c.ObjCObject> ptr) => c.objectRelease(ptr);
 }
 
+/// Only for use by ffigen bindings.
 class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
@@ -156,16 +166,22 @@ Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
   return copy;
 }
 
+const int _blockHasCopyDispose = 1 << 25;
+
+/// Only for use by ffigen bindings.
+Pointer<c.ObjCBlock> newClosureBlock(Pointer<Void> invoke, Function fn) =>
+    _newBlock(invoke, _registerBlockClosure(fn), _closureBlockDesc,
+        _blockClosureDisposer.sendPort.nativePort, _blockHasCopyDispose);
+
+/// Only for use by ffigen bindings.
 Pointer<c.ObjCBlock> newPointerBlock(
         Pointer<Void> invoke, Pointer<Void> target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
-Pointer<c.ObjCBlock> newClosureBlock(Pointer<Void> invoke, Function fn) =>
-    _newBlock(invoke, _registerBlockClosure(fn), _closureBlockDesc,
-        _blockClosureDisposer.sendPort.nativePort, (1 << 25));
-
 final _blockClosureRegistry = <int, Function>{};
+
 int _blockClosureRegistryLastId = 0;
+
 final _blockClosureDisposer = () {
   c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
   return RawReceivePort((dynamic msg) {
@@ -183,6 +199,7 @@ Pointer<Void> _registerBlockClosure(Function closure) {
   return Pointer<Void>.fromAddress(_blockClosureRegistryLastId);
 }
 
+/// Only for use by ffigen bindings.
 Function getBlockClosure(Pointer<c.ObjCBlock> block) {
   int id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
