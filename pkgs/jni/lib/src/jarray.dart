@@ -166,8 +166,7 @@ extension BoolArray on JArray<jboolean> {
   Uint8List getRange(int start, int end, {Allocator allocator = malloc}) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final buffer = allocator
-        .allocate<JBooleanMarker>(sizeOf<JBooleanMarker>() * rangeLength);
+    final buffer = allocator<JBooleanMarker>(rangeLength);
     Jni.env
         .GetBooleanArrayRegion(reference.pointer, start, rangeLength, buffer);
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
@@ -177,11 +176,10 @@ extension BoolArray on JArray<jboolean> {
       [int skipCount = 0]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
-    final it = iterable.skip(skipCount).take(rangeLength);
     _allocate<JBooleanMarker>(sizeOf<JBooleanMarker>() * rangeLength, (ptr) {
-      it.forEachIndexed((index, element) {
-        ptr[index] = element ? 1 : 0;
-      });
+      ptr
+          .asTypedList(rangeLength)
+          .setRange(0, rangeLength, iterable.map((e) => e ? 1 : 0), skipCount);
       Jni.env.SetBooleanArrayRegion(reference.pointer, start, rangeLength, ptr);
     });
   }
