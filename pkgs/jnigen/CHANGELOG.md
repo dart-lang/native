@@ -1,4 +1,4 @@
-## 0.9.0-wip
+## 0.9.0
 
 - **Breaking Change** ([#660](https://github.com/dart-lang/native/issues/660)):
   Removed C-based bindings. Now all bindings are Dart-only.

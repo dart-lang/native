@@ -1,4 +1,4 @@
-## 0.9.0-wip
+## 0.9.0
 
 - **Breaking Change**
   ([#1004](https://github.com/dart-lang/native/issues/1004)): Changed the return
