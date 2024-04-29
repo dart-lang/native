@@ -58,12 +58,9 @@ class ObjCBlock extends BindingType {
         w.topLevelUniqueNamer.makeUnique('_${name}_fnPtrTrampoline');
     final closureTrampoline =
         w.topLevelUniqueNamer.makeUnique('_${name}_closureTrampoline');
-    final registerClosure =
-        w.topLevelUniqueNamer.makeUnique('_${name}_registerClosure');
-    final closureRegistry =
-        w.topLevelUniqueNamer.makeUnique('_${name}_closureRegistry');
-    final closureRegistryIndex =
-        w.topLevelUniqueNamer.makeUnique('_${name}_closureRegistryIndex');
+    final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(w);
+    final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
+    final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
     final trampFuncType = FunctionType(
         returnType: returnType,
         parameters: [Parameter(type: blockPtr, name: 'block'), ...params]);
@@ -92,21 +89,10 @@ $returnFfiDartType $funcPtrTrampoline($blockCType block, $paramsFfiDartType) =>
         .asFunction<$funcFfiDartType>()($paramsNameOnly);
 ''');
 
-    // Write the closure registry function.
-    s.write('''
-final $closureRegistry = <int, $funcFfiDartType>{};
-int $closureRegistryIndex = 0;
-$voidPtr $registerClosure($funcFfiDartType fn) {
-  final id = ++$closureRegistryIndex;
-  $closureRegistry[id] = fn;
-  return $voidPtr.fromAddress(id);
-}
-''');
-
     // Write the closure based trampoline function.
     s.write('''
 $returnFfiDartType $closureTrampoline($blockCType block, $paramsFfiDartType) =>
-    $closureRegistry[block.ref.target.address]!($paramsNameOnly);
+    ($getBlockClosure(block) as $funcFfiDartType)($paramsNameOnly);
 ''');
 
     // Snippet that converts a Dart typed closure to FfiDart type. This snippet
@@ -141,7 +127,7 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
   $name.fromFunctionPointer($natFnPtr ptr) :
-      this._(${ObjCBuiltInFunctions.newBlock.gen(w)}(
+      this._($newPointerBlock(
           _cFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
               $trampFuncCType>($funcPtrTrampoline
                   $exceptionalReturn).cast(), ptr.cast()));
@@ -153,10 +139,10 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
   $name.fromFunction($funcDartType fn) :
-      this._(${ObjCBuiltInFunctions.newBlock.gen(w)}(
+      this._($newClosureBlock(
           _dartFuncTrampoline ??= ${w.ffiLibraryPrefix}.Pointer.fromFunction<
-              $trampFuncCType>($closureTrampoline
-                  $exceptionalReturn).cast(), $registerClosure($convFn)));
+              $trampFuncCType>($closureTrampoline $exceptionalReturn).cast(),
+          $convFn));
   static $voidPtr? _dartFuncTrampoline;
 
 ''');
@@ -174,11 +160,10 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
   $name.listener($funcDartType fn) :
-      this._(${ObjCBuiltInFunctions.newBlock.gen(w)}(
+      this._($newClosureBlock(
           (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
               $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
-                  false).nativeFunction.cast(),
-          $registerClosure($convFn)));
+                  false).nativeFunction.cast(), $convFn));
   static $nativeCallableType? _dartFuncListenerTrampoline;
 
 ''');

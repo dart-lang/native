@@ -5926,22 +5926,12 @@ void _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_fnPtrTrampoline(
                 ffi.Void Function(
                     ffi.UnsignedLong arg0, ffi.Pointer<ffi.Bool> arg1)>>()
         .asFunction<void Function(int, ffi.Pointer<ffi.Bool>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_closureRegistry =
-    <int, void Function(int, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_registerClosure(
-    void Function(int, ffi.Pointer<ffi.Bool>) fn) {
-  final id = ++_ObjCBlock_ffiVoid_ffiUnsignedLong_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         int arg0,
         ffi.Pointer<ffi.Bool> arg1) =>
-    _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(int, ffi.Pointer<ffi.Bool>))(
+        arg0, arg1);
 
 class ObjCBlock_ffiVoid_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_ffiUnsignedLong_bool._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -5968,7 +5958,7 @@ class ObjCBlock_ffiVoid_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
                   ffi.Void Function(
                       ffi.UnsignedLong arg0, ffi.Pointer<ffi.Bool> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>(
@@ -5984,14 +5974,13 @@ class ObjCBlock_ffiVoid_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_ffiUnsignedLong_bool.fromFunction(
       void Function(int, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_registerClosure(
-                (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1))));
+            (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -6005,7 +5994,7 @@ class ObjCBlock_ffiVoid_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_ffiUnsignedLong_bool.listener(
       void Function(int, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>.listener(
@@ -6013,8 +6002,7 @@ class ObjCBlock_ffiVoid_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiUnsignedLong_bool_registerClosure(
-                (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1))));
+            (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1)));
   static ffi.NativeCallable<
       ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.UnsignedLong,
           ffi.Pointer<ffi.Bool>)>? _dartFuncListenerTrampoline;
@@ -6089,22 +6077,12 @@ bool _ObjCBlock_bool_ffiUnsignedLong_bool_fnPtrTrampoline(
                 ffi.Bool Function(
                     ffi.UnsignedLong arg0, ffi.Pointer<ffi.Bool> arg1)>>()
         .asFunction<bool Function(int, ffi.Pointer<ffi.Bool>)>()(arg0, arg1);
-final _ObjCBlock_bool_ffiUnsignedLong_bool_closureRegistry =
-    <int, bool Function(int, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_bool_ffiUnsignedLong_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiUnsignedLong_bool_registerClosure(
-    bool Function(int, ffi.Pointer<ffi.Bool>) fn) {
-  final id = ++_ObjCBlock_bool_ffiUnsignedLong_bool_closureRegistryIndex;
-  _ObjCBlock_bool_ffiUnsignedLong_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 bool _ObjCBlock_bool_ffiUnsignedLong_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         int arg0,
         ffi.Pointer<ffi.Bool> arg1) =>
-    _ObjCBlock_bool_ffiUnsignedLong_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as bool Function(int, ffi.Pointer<ffi.Bool>))(
+        arg0, arg1);
 
 class ObjCBlock_bool_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
   ObjCBlock_bool_ffiUnsignedLong_bool._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -6132,7 +6110,7 @@ class ObjCBlock_bool_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
                   ffi.Bool Function(
                       ffi.UnsignedLong arg0, ffi.Pointer<ffi.Bool> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>(
@@ -6148,15 +6126,14 @@ class ObjCBlock_bool_ffiUnsignedLong_bool extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_bool_ffiUnsignedLong_bool.fromFunction(
       bool Function(int, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_bool_ffiUnsignedLong_bool_closureTrampoline,
                     false)
                 .cast(),
-            _ObjCBlock_bool_ffiUnsignedLong_bool_registerClosure(
-                (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1))));
+            (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   bool call(int arg0, ffi.Pointer<ffi.Bool> arg1) => pointer.ref.invoke
@@ -6265,22 +6242,12 @@ void _ObjCBlock_ffiVoid_NSRange_bool_fnPtrTrampoline(
                 ffi.Void Function(_NSRange arg0, ffi.Pointer<ffi.Bool> arg1)>>()
         .asFunction<
             void Function(_NSRange, ffi.Pointer<ffi.Bool>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_NSRange_bool_closureRegistry =
-    <int, void Function(_NSRange, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_NSRange_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_NSRange_bool_registerClosure(
-    void Function(_NSRange, ffi.Pointer<ffi.Bool>) fn) {
-  final id = ++_ObjCBlock_ffiVoid_NSRange_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_NSRange_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_NSRange_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         _NSRange arg0,
         ffi.Pointer<ffi.Bool> arg1) =>
-    _ObjCBlock_ffiVoid_NSRange_bool_closureRegistry[block.ref.target.address]!(
-        arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(
+        _NSRange, ffi.Pointer<ffi.Bool>))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_NSRange_bool._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -6306,7 +6273,7 @@ class ObjCBlock_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
               ffi.NativeFunction<
                   ffi.Void Function(_NSRange arg0, ffi.Pointer<ffi.Bool> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, _NSRange,
                             ffi.Pointer<ffi.Bool>)>(
@@ -6322,15 +6289,13 @@ class ObjCBlock_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_NSRange_bool.fromFunction(
       void Function(_NSRange, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, _NSRange,
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_NSRange_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_NSRange_bool_registerClosure(
-                (_NSRange arg0, ffi.Pointer<ffi.Bool> arg1) =>
-                    fn(arg0, arg1))));
+            (_NSRange arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -6344,7 +6309,7 @@ class ObjCBlock_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_NSRange_bool.listener(
       void Function(_NSRange, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, _NSRange,
                             ffi.Pointer<ffi.Bool>)>.listener(
@@ -6352,9 +6317,7 @@ class ObjCBlock_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_NSRange_bool_registerClosure(
-                (_NSRange arg0, ffi.Pointer<ffi.Bool> arg1) =>
-                    fn(arg0, arg1))));
+            (_NSRange arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1)));
   static ffi.NativeCallable<
           ffi.Void Function(
               ffi.Pointer<objc.ObjCBlock>, _NSRange, ffi.Pointer<ffi.Bool>)>?
@@ -6440,30 +6403,13 @@ void _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>, int,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1, arg2);
-final _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_closureRegistry =
-    <int,
-        void Function(
-            ffi.Pointer<objc.ObjCObject>, int, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_closureRegistryIndex =
-    0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_registerClosure(
-        void Function(ffi.Pointer<objc.ObjCObject>, int, ffi.Pointer<ffi.Bool>)
-            fn) {
-  final id =
-      ++_ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_closureRegistry[id] =
-      fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         int arg1,
         ffi.Pointer<ffi.Bool> arg2) =>
-    _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        int, ffi.Pointer<ffi.Bool>))(arg0, arg1, arg2);
 
 class ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool
     extends objc.ObjCBlockBase {
@@ -6493,7 +6439,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.UnsignedLong arg1, ffi.Pointer<ffi.Bool> arg2)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -6512,7 +6458,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool
   /// will result in a crash.
   ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool.fromFunction(
       void Function(NSObject, int, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -6521,10 +6467,9 @@ class ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, int arg1,
-                        ffi.Pointer<ffi.Bool> arg2) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), arg1, arg2))));
+            (ffi.Pointer<objc.ObjCObject> arg0, int arg1, ffi.Pointer<ffi.Bool> arg2) =>
+                fn(NSObject.castFromPointer(arg0, retain: true, release: true),
+                    arg1, arg2)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -6538,7 +6483,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool.listener(
       void Function(NSObject, int, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -6549,10 +6494,10 @@ class ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_ffiUnsignedLong_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, int arg1,
-                        ffi.Pointer<ffi.Bool> arg2) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), arg1, arg2))));
+            (ffi.Pointer<objc.ObjCObject> arg0, int arg1,
+                    ffi.Pointer<ffi.Bool> arg2) =>
+                fn(NSObject.castFromPointer(arg0, retain: true, release: true),
+                    arg1, arg2)));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -6634,29 +6579,13 @@ bool _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_fnPtrTrampoline(
         .asFunction<
             bool Function(ffi.Pointer<objc.ObjCObject>, int,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1, arg2);
-final _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureRegistry =
-    <int,
-        bool Function(
-            ffi.Pointer<objc.ObjCObject>, int, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureRegistryIndex =
-    0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_registerClosure(
-        bool Function(ffi.Pointer<objc.ObjCObject>, int, ffi.Pointer<ffi.Bool>)
-            fn) {
-  final id =
-      ++_ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureRegistryIndex;
-  _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 bool _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         int arg1,
         ffi.Pointer<ffi.Bool> arg2) =>
-    _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2);
+    (objc.getBlockClosure(block) as bool Function(ffi.Pointer<objc.ObjCObject>,
+        int, ffi.Pointer<ffi.Bool>))(arg0, arg1, arg2);
 
 class ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool
     extends objc.ObjCBlockBase {
@@ -6686,7 +6615,7 @@ class ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool
                   ffi.Bool Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.UnsignedLong arg1, ffi.Pointer<ffi.Bool> arg2)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -6706,18 +6635,19 @@ class ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool
   /// will result in a crash.
   ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool.fromFunction(
       bool Function(NSObject, int, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<objc.ObjCObject>,
                             ffi.UnsignedLong,
                             ffi.Pointer<ffi.Bool>)>(
-                    _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureTrampoline, false)
+                    _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_closureTrampoline,
+                    false)
                 .cast(),
-            _ObjCBlock_bool_objcObjCObject_ffiUnsignedLong_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, int arg1, ffi.Pointer<ffi.Bool> arg2) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), arg1, arg2))));
+            (ffi.Pointer<objc.ObjCObject> arg0, int arg1,
+                    ffi.Pointer<ffi.Bool> arg2) =>
+                fn(NSObject.castFromPointer(arg0, retain: true, release: true), arg1, arg2)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   bool call(NSObject arg0, int arg1, ffi.Pointer<ffi.Bool> arg2) =>
@@ -6837,29 +6767,12 @@ int _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_fnPtrTrampoline(
         .asFunction<
             int Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-final _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureRegistry =
-    <int,
-        int Function(
-            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureRegistryIndex =
-    0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_registerClosure(
-        int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)
-            fn) {
-  final id =
-      ++_ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureRegistryIndex;
-  _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureRegistry[
-      id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 int _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
-    _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as int Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 
 class ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject
     extends objc.ObjCBlockBase {
@@ -6888,7 +6801,7 @@ class ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject
                   ffi.Int32 Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.Pointer<objc.ObjCObject> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Int32 Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -6907,7 +6820,7 @@ class ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject
   /// will result in a crash.
   ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject.fromFunction(
       int Function(NSObject, NSObject) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Int32 Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -6915,9 +6828,9 @@ class ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject
                             ffi.Pointer<objc.ObjCObject>)>(
                     _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_closureTrampoline, 0)
                 .cast(),
-            _ObjCBlock_NSComparisonResult_objcObjCObject_objcObjCObject_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), NSObject.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                NSObject.castFromPointer(arg0, retain: true, release: true),
+                NSObject.castFromPointer(arg1, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   int call(NSObject arg0, NSObject arg1) => pointer.ref.invoke
@@ -7077,27 +6990,12 @@ bool _ObjCBlock_bool_objcObjCObject_objcObjCObject_fnPtrTrampoline(
         .asFunction<
             bool Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-final _ObjCBlock_bool_objcObjCObject_objcObjCObject_closureRegistry = <int,
-    bool Function(
-        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_bool_objcObjCObject_objcObjCObject_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_bool_objcObjCObject_objcObjCObject_registerClosure(
-        bool Function(
-                ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)
-            fn) {
-  final id =
-      ++_ObjCBlock_bool_objcObjCObject_objcObjCObject_closureRegistryIndex;
-  _ObjCBlock_bool_objcObjCObject_objcObjCObject_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 bool _ObjCBlock_bool_objcObjCObject_objcObjCObject_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
-    _ObjCBlock_bool_objcObjCObject_objcObjCObject_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as bool Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 
 class ObjCBlock_bool_objcObjCObject_objcObjCObject extends objc.ObjCBlockBase {
   ObjCBlock_bool_objcObjCObject_objcObjCObject._(
@@ -7126,7 +7024,7 @@ class ObjCBlock_bool_objcObjCObject_objcObjCObject extends objc.ObjCBlockBase {
                   ffi.Bool Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.Pointer<objc.ObjCObject> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -7145,7 +7043,7 @@ class ObjCBlock_bool_objcObjCObject_objcObjCObject extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_bool_objcObjCObject_objcObjCObject.fromFunction(
       bool Function(NSObject, NSObject) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -7153,9 +7051,9 @@ class ObjCBlock_bool_objcObjCObject_objcObjCObject extends objc.ObjCBlockBase {
                             ffi.Pointer<objc.ObjCObject>)>(
                     _ObjCBlock_bool_objcObjCObject_objcObjCObject_closureTrampoline, false)
                 .cast(),
-            _ObjCBlock_bool_objcObjCObject_objcObjCObject_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), NSObject.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                NSObject.castFromPointer(arg0, retain: true, release: true),
+                NSObject.castFromPointer(arg1, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   bool call(NSObject arg0, NSObject arg1) => pointer.ref.invoke
@@ -7966,31 +7864,13 @@ void _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_fnPtrTrampoline(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1, arg2);
-final _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_closureRegistry =
-    <int,
-        void Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_closureRegistryIndex =
-    0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_registerClosure(
-        void Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)
-            fn) {
-  final id =
-      ++_ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_closureRegistry[id] =
-      fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1,
         ffi.Pointer<ffi.Bool> arg2) =>
-    _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>))(arg0, arg1, arg2);
 
 class ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool
     extends objc.ObjCBlockBase {
@@ -8022,7 +7902,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool
                       ffi.Pointer<objc.ObjCObject> arg1,
                       ffi.Pointer<ffi.Bool> arg2)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -8041,7 +7921,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool
   /// will result in a crash.
   ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool.fromFunction(
       void Function(NSObject, NSObject, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -8050,11 +7930,11 @@ class ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<objc.ObjCObject> arg1,
-                        ffi.Pointer<ffi.Bool> arg2) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), NSObject.castFromPointer(arg1, retain: true, release: true), arg2))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<ffi.Bool> arg2) =>
+                fn(
+                    NSObject.castFromPointer(arg0, retain: true, release: true),
+                    NSObject.castFromPointer(arg1, retain: true, release: true),
+                    arg2)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -8068,7 +7948,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool.listener(
       void Function(NSObject, NSObject, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -8079,11 +7959,11 @@ class ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_objcObjCObject_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<objc.ObjCObject> arg1,
-                        ffi.Pointer<ffi.Bool> arg2) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), NSObject.castFromPointer(arg1, retain: true, release: true), arg2))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<ffi.Bool> arg2) =>
+                fn(
+                    NSObject.castFromPointer(arg0, retain: true, release: true),
+                    NSObject.castFromPointer(arg1, retain: true, release: true),
+                    arg2)));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -8156,28 +8036,13 @@ bool _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_fnPtrTrampoline(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1, arg2);
-final _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_closureRegistry = <int,
-    bool Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_registerClosure(
-        bool Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)
-            fn) {
-  final id =
-      ++_ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_closureRegistryIndex;
-  _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 bool _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1,
         ffi.Pointer<ffi.Bool> arg2) =>
-    _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2);
+    (objc.getBlockClosure(block) as bool Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>))(arg0, arg1, arg2);
 
 class ObjCBlock_bool_objcObjCObject_objcObjCObject_bool
     extends objc.ObjCBlockBase {
@@ -8209,7 +8074,7 @@ class ObjCBlock_bool_objcObjCObject_objcObjCObject_bool
                       ffi.Pointer<objc.ObjCObject> arg1,
                       ffi.Pointer<ffi.Bool> arg2)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -8229,7 +8094,7 @@ class ObjCBlock_bool_objcObjCObject_objcObjCObject_bool
   /// will result in a crash.
   ObjCBlock_bool_objcObjCObject_objcObjCObject_bool.fromFunction(
       bool Function(NSObject, NSObject, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -8238,10 +8103,10 @@ class ObjCBlock_bool_objcObjCObject_objcObjCObject_bool
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_closureTrampoline, false)
                 .cast(),
-            _ObjCBlock_bool_objcObjCObject_objcObjCObject_bool_registerClosure((ffi.Pointer<objc.ObjCObject> arg0,
-                    ffi.Pointer<objc.ObjCObject> arg1,
-                    ffi.Pointer<ffi.Bool> arg2) =>
-                fn(NSObject.castFromPointer(arg0, retain: true, release: true), NSObject.castFromPointer(arg1, retain: true, release: true), arg2))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<ffi.Bool> arg2) => fn(
+                NSObject.castFromPointer(arg0, retain: true, release: true),
+                NSObject.castFromPointer(arg1, retain: true, release: true),
+                arg2)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   bool call(NSObject arg0, NSObject arg1, ffi.Pointer<ffi.Bool> arg2) =>
@@ -8975,23 +8840,13 @@ void _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<ffi.Void>, _NSRange,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1, arg2);
-final _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_closureRegistry = <int,
-    void Function(ffi.Pointer<ffi.Void>, _NSRange, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_registerClosure(
-    void Function(ffi.Pointer<ffi.Void>, _NSRange, ffi.Pointer<ffi.Bool>) fn) {
-  final id = ++_ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<ffi.Void> arg0,
         _NSRange arg1,
         ffi.Pointer<ffi.Bool> arg2) =>
-    _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>,
+        _NSRange, ffi.Pointer<ffi.Bool>))(arg0, arg1, arg2);
 
 class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_ffiVoid_NSRange_bool._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -9018,7 +8873,7 @@ class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
                   ffi.Void Function(ffi.Pointer<ffi.Void> arg0, _NSRange arg1,
                       ffi.Pointer<ffi.Bool> arg2)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -9037,7 +8892,7 @@ class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_ffiVoid_NSRange_bool.fromFunction(
       void Function(ffi.Pointer<ffi.Void>, _NSRange, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -9046,10 +8901,9 @@ class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_registerClosure(
-                (ffi.Pointer<ffi.Void> arg0, _NSRange arg1,
-                        ffi.Pointer<ffi.Bool> arg2) =>
-                    fn(arg0, arg1, arg2))));
+            (ffi.Pointer<ffi.Void> arg0, _NSRange arg1,
+                    ffi.Pointer<ffi.Bool> arg2) =>
+                fn(arg0, arg1, arg2)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -9063,7 +8917,7 @@ class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_ffiVoid_NSRange_bool.listener(
       void Function(ffi.Pointer<ffi.Void>, _NSRange, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -9074,10 +8928,9 @@ class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool extends objc.ObjCBlockBase {
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiVoid_NSRange_bool_registerClosure(
-                (ffi.Pointer<ffi.Void> arg0, _NSRange arg1,
-                        ffi.Pointer<ffi.Bool> arg2) =>
-                    fn(arg0, arg1, arg2))));
+            (ffi.Pointer<ffi.Void> arg0, _NSRange arg1,
+                    ffi.Pointer<ffi.Bool> arg2) =>
+                fn(arg0, arg1, arg2)));
   static ffi.NativeCallable<
       ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<ffi.Void>,
           _NSRange, ffi.Pointer<ffi.Bool>)>? _dartFuncListenerTrampoline;
@@ -9220,23 +9073,12 @@ void _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_fnPtrTrampoline(
                 ffi.Void Function(
                     ffi.Pointer<ffi.Void> arg0, ffi.UnsignedLong arg1)>>()
         .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_closureRegistry =
-    <int, void Function(ffi.Pointer<ffi.Void>, int)>{};
-int _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_registerClosure(
-        void Function(ffi.Pointer<ffi.Void>, int) fn) {
-  final id = ++_ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<ffi.Void> arg0,
         int arg1) =>
-    _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>, int))(
+        arg0, arg1);
 
 class ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong._(
@@ -9265,7 +9107,7 @@ class ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong extends objc.ObjCBlockBase {
                   ffi.Void Function(
                       ffi.Pointer<ffi.Void> arg0, ffi.UnsignedLong arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>(
@@ -9281,14 +9123,13 @@ class ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong.fromFunction(
       void Function(ffi.Pointer<ffi.Void>, int) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>(
                     _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_registerClosure(
-                (ffi.Pointer<ffi.Void> arg0, int arg1) => fn(arg0, arg1))));
+            (ffi.Pointer<ffi.Void> arg0, int arg1) => fn(arg0, arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -9302,7 +9143,7 @@ class ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong extends objc.ObjCBlockBase {
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong.listener(
       void Function(ffi.Pointer<ffi.Void>, int) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>.listener(
@@ -9310,8 +9151,7 @@ class ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong extends objc.ObjCBlockBase {
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiVoid_ffiUnsignedLong_registerClosure(
-                (ffi.Pointer<ffi.Void> arg0, int arg1) => fn(arg0, arg1))));
+            (ffi.Pointer<ffi.Void> arg0, int arg1) => fn(arg0, arg1)));
   static ffi.NativeCallable<
       ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<ffi.Void>,
           ffi.UnsignedLong)>? _dartFuncListenerTrampoline;
@@ -9765,29 +9605,14 @@ void _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>, _NSRange, _NSRange,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1, arg2, arg3);
-final _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_closureRegistry = <int,
-    void Function(ffi.Pointer<objc.ObjCObject>, _NSRange, _NSRange,
-        ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_registerClosure(
-        void Function(ffi.Pointer<objc.ObjCObject>, _NSRange, _NSRange,
-                ffi.Pointer<ffi.Bool>)
-            fn) {
-  final id =
-      ++_ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         _NSRange arg1,
         _NSRange arg2,
         ffi.Pointer<ffi.Bool> arg3) =>
-    _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2, arg3);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        _NSRange, _NSRange, ffi.Pointer<ffi.Bool>))(arg0, arg1, arg2, arg3);
 
 class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool
     extends objc.ObjCBlockBase {
@@ -9820,7 +9645,7 @@ class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool
                       _NSRange arg2,
                       ffi.Pointer<ffi.Bool> arg3)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -9840,7 +9665,7 @@ class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool
   /// will result in a crash.
   ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool.fromFunction(
       void Function(NSString?, _NSRange, _NSRange, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -9850,10 +9675,9 @@ class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, _NSRange arg1,
-                        _NSRange arg2, ffi.Pointer<ffi.Bool> arg3) =>
-                    fn(arg0.address == 0 ? null : NSString.castFromPointer(arg0, retain: true, release: true), arg1, arg2, arg3))));
+            (ffi.Pointer<objc.ObjCObject> arg0, _NSRange arg1, _NSRange arg2,
+                    ffi.Pointer<ffi.Bool> arg3) =>
+                fn(arg0.address == 0 ? null : NSString.castFromPointer(arg0, retain: true, release: true), arg1, arg2, arg3)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -9867,7 +9691,7 @@ class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool.listener(
       void Function(NSString?, _NSRange, _NSRange, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -9879,9 +9703,9 @@ class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool_registerClosure((ffi.Pointer<objc.ObjCObject> arg0,
-                    _NSRange arg1, _NSRange arg2, ffi.Pointer<ffi.Bool> arg3) =>
-                fn(arg0.address == 0 ? null : NSString.castFromPointer(arg0, retain: true, release: true), arg1, arg2, arg3))));
+            (ffi.Pointer<objc.ObjCObject> arg0, _NSRange arg1, _NSRange arg2,
+                    ffi.Pointer<ffi.Bool> arg3) =>
+                fn(arg0.address == 0 ? null : NSString.castFromPointer(arg0, retain: true, release: true), arg1, arg2, arg3)));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -9941,22 +9765,12 @@ void _ObjCBlock_ffiVoid_NSString_bool_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_NSString_bool_closureRegistry =
-    <int, void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_NSString_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_NSString_bool_registerClosure(
-    void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>) fn) {
-  final id = ++_ObjCBlock_ffiVoid_NSString_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_NSString_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_NSString_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<ffi.Bool> arg1) =>
-    _ObjCBlock_ffiVoid_NSString_bool_closureRegistry[block.ref.target.address]!(
-        arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_NSString_bool extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_NSString_bool._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -9985,7 +9799,7 @@ class ObjCBlock_ffiVoid_NSString_bool extends objc.ObjCBlockBase {
           ptr)
       : this._(
             objc
-                .newBlock(
+                .newPointerBlock(
                     _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                                 ffi.Void Function(
                                     ffi.Pointer<objc.ObjCBlock>,
@@ -10003,7 +9817,7 @@ class ObjCBlock_ffiVoid_NSString_bool extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_NSString_bool.fromFunction(
       void Function(NSString, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -10011,10 +9825,9 @@ class ObjCBlock_ffiVoid_NSString_bool extends objc.ObjCBlockBase {
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_NSString_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_NSString_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<ffi.Bool> arg1) =>
-                    fn(NSString.castFromPointer(arg0, retain: true, release: true), arg1))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<ffi.Bool> arg1) =>
+                fn(NSString.castFromPointer(arg0, retain: true, release: true),
+                    arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -10028,7 +9841,7 @@ class ObjCBlock_ffiVoid_NSString_bool extends objc.ObjCBlockBase {
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_NSString_bool.listener(
       void Function(NSString, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -10038,10 +9851,9 @@ class ObjCBlock_ffiVoid_NSString_bool extends objc.ObjCBlockBase {
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_NSString_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<ffi.Bool> arg1) =>
-                    fn(NSString.castFromPointer(arg0, retain: true, release: true), arg1))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<ffi.Bool> arg1) =>
+                fn(NSString.castFromPointer(arg0, retain: true, release: true),
+                    arg1)));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -10387,25 +10199,12 @@ void _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_fnPtrTrampoline(
                         ffi.UnsignedLong arg1)>>()
             .asFunction<void Function(ffi.Pointer<ffi.UnsignedShort>, int)>()(
         arg0, arg1);
-final _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_closureRegistry =
-    <int, void Function(ffi.Pointer<ffi.UnsignedShort>, int)>{};
-int _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_closureRegistryIndex =
-    0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_registerClosure(
-        void Function(ffi.Pointer<ffi.UnsignedShort>, int) fn) {
-  final id =
-      ++_ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<ffi.UnsignedShort> arg0,
         int arg1) =>
-    _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(
+        ffi.Pointer<ffi.UnsignedShort>, int))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong
     extends objc.ObjCBlockBase {
@@ -10437,7 +10236,7 @@ class ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong
                   ffi.Void Function(ffi.Pointer<ffi.UnsignedShort> arg0,
                       ffi.UnsignedLong arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)>(
@@ -10453,15 +10252,13 @@ class ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong
   /// will result in a crash.
   ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong.fromFunction(
       void Function(ffi.Pointer<ffi.UnsignedShort>, int) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)>(
                     _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_registerClosure(
-                (ffi.Pointer<ffi.UnsignedShort> arg0, int arg1) =>
-                    fn(arg0, arg1))));
+            (ffi.Pointer<ffi.UnsignedShort> arg0, int arg1) => fn(arg0, arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -10475,7 +10272,7 @@ class ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong.listener(
       void Function(ffi.Pointer<ffi.UnsignedShort>, int) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -10485,9 +10282,7 @@ class ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiUnsignedShort_ffiUnsignedLong_registerClosure(
-                (ffi.Pointer<ffi.UnsignedShort> arg0, int arg1) =>
-                    fn(arg0, arg1))));
+            (ffi.Pointer<ffi.UnsignedShort> arg0, int arg1) => fn(arg0, arg1)));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -13160,22 +12955,12 @@ void _ObjCBlock_ffiVoid_objcObjCObject_bool_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_objcObjCObject_bool_closureRegistry =
-    <int, void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_ffiVoid_objcObjCObject_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_objcObjCObject_bool_registerClosure(
-    void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>) fn) {
-  final id = ++_ObjCBlock_ffiVoid_objcObjCObject_bool_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_objcObjCObject_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_objcObjCObject_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<ffi.Bool> arg1) =>
-    _ObjCBlock_ffiVoid_objcObjCObject_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_objcObjCObject_bool extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_objcObjCObject_bool._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -13203,7 +12988,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_bool extends objc.ObjCBlockBase {
                       ffi.Pointer<ffi.Bool> arg1)>>
           ptr)
       : this._(
-            objc.newBlock(
+            objc.newPointerBlock(
                 _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                             ffi.Void Function(
                                 ffi.Pointer<objc.ObjCBlock>,
@@ -13221,7 +13006,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_bool extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_objcObjCObject_bool.fromFunction(
       void Function(NSObject, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -13229,10 +13014,9 @@ class ObjCBlock_ffiVoid_objcObjCObject_bool extends objc.ObjCBlockBase {
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_ffiVoid_objcObjCObject_bool_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<ffi.Bool> arg1) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), arg1))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<ffi.Bool> arg1) =>
+                fn(NSObject.castFromPointer(arg0, retain: true, release: true),
+                    arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -13246,7 +13030,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_bool extends objc.ObjCBlockBase {
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_objcObjCObject_bool.listener(
       void Function(NSObject, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -13256,10 +13040,9 @@ class ObjCBlock_ffiVoid_objcObjCObject_bool extends objc.ObjCBlockBase {
                   ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<ffi.Bool> arg1) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), arg1))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<ffi.Bool> arg1) =>
+                fn(NSObject.castFromPointer(arg0, retain: true, release: true),
+                    arg1)));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -13314,22 +13097,12 @@ bool _ObjCBlock_bool_objcObjCObject_bool_fnPtrTrampoline(
         .asFunction<
             bool Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<ffi.Bool>)>()(arg0, arg1);
-final _ObjCBlock_bool_objcObjCObject_bool_closureRegistry =
-    <int, bool Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)>{};
-int _ObjCBlock_bool_objcObjCObject_bool_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_bool_objcObjCObject_bool_registerClosure(
-    bool Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>) fn) {
-  final id = ++_ObjCBlock_bool_objcObjCObject_bool_closureRegistryIndex;
-  _ObjCBlock_bool_objcObjCObject_bool_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 bool _ObjCBlock_bool_objcObjCObject_bool_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<ffi.Bool> arg1) =>
-    _ObjCBlock_bool_objcObjCObject_bool_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as bool Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>))(arg0, arg1);
 
 class ObjCBlock_bool_objcObjCObject_bool extends objc.ObjCBlockBase {
   ObjCBlock_bool_objcObjCObject_bool._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -13356,7 +13129,7 @@ class ObjCBlock_bool_objcObjCObject_bool extends objc.ObjCBlockBase {
                   ffi.Bool Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.Pointer<ffi.Bool> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -13374,7 +13147,7 @@ class ObjCBlock_bool_objcObjCObject_bool extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_bool_objcObjCObject_bool.fromFunction(
       bool Function(NSObject, ffi.Pointer<ffi.Bool>) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Bool Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -13382,10 +13155,9 @@ class ObjCBlock_bool_objcObjCObject_bool extends objc.ObjCBlockBase {
                             ffi.Pointer<ffi.Bool>)>(
                     _ObjCBlock_bool_objcObjCObject_bool_closureTrampoline, false)
                 .cast(),
-            _ObjCBlock_bool_objcObjCObject_bool_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<ffi.Bool> arg1) =>
-                    fn(NSObject.castFromPointer(arg0, retain: true, release: true), arg1))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<ffi.Bool> arg1) =>
+                fn(NSObject.castFromPointer(arg0, retain: true, release: true),
+                    arg1)));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   bool call(NSObject arg0, ffi.Pointer<ffi.Bool> arg1) => pointer.ref.invoke
@@ -13914,23 +13686,12 @@ ffi.Pointer<objc.ObjCObject>
             .asFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlock>)>()(arg0);
-final _ObjCBlock_NSProgress_ffiVoidNSDataNSError_closureRegistry =
-    <int, ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCBlock>)>{};
-int _ObjCBlock_NSProgress_ffiVoidNSDataNSError_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_NSProgress_ffiVoidNSDataNSError_registerClosure(
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCBlock>) fn) {
-  final id = ++_ObjCBlock_NSProgress_ffiVoidNSDataNSError_closureRegistryIndex;
-  _ObjCBlock_NSProgress_ffiVoidNSDataNSError_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 ffi.Pointer<objc.ObjCObject>
     _ObjCBlock_NSProgress_ffiVoidNSDataNSError_closureTrampoline(
             ffi.Pointer<objc.ObjCBlock> block,
             ffi.Pointer<objc.ObjCBlock> arg0) =>
-        _ObjCBlock_NSProgress_ffiVoidNSDataNSError_closureRegistry[
-            block.ref.target.address]!(arg0);
+        (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCBlock>))(arg0);
 
 class ObjCBlock_NSProgress_ffiVoidNSDataNSError extends objc.ObjCBlockBase {
   ObjCBlock_NSProgress_ffiVoidNSDataNSError._(
@@ -13959,7 +13720,7 @@ class ObjCBlock_NSProgress_ffiVoidNSDataNSError extends objc.ObjCBlockBase {
                   ffi.Pointer<objc.ObjCObject> Function(
                       ffi.Pointer<objc.ObjCBlock> arg0)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Pointer<objc.ObjCObject> Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -13976,18 +13737,17 @@ class ObjCBlock_NSProgress_ffiVoidNSDataNSError extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_NSProgress_ffiVoidNSDataNSError.fromFunction(
       NSProgress? Function(ObjCBlock_ffiVoid_NSData_NSError) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Pointer<objc.ObjCObject> Function(
-                            ffi.Pointer<objc.ObjCBlock>,
-                            ffi.Pointer<objc.ObjCBlock>)>(
+                            ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCBlock>)>(
                     _ObjCBlock_NSProgress_ffiVoidNSDataNSError_closureTrampoline)
                 .cast(),
-            _ObjCBlock_NSProgress_ffiVoidNSDataNSError_registerClosure(
-                (ffi.Pointer<objc.ObjCBlock> arg0) =>
-                    fn(ObjCBlock_ffiVoid_NSData_NSError.castFromPointer(arg0, retain: true, release: true))
-                        ?.retainAndReturnPointer() ??
-                    ffi.nullptr)));
+            (ffi.Pointer<objc.ObjCBlock> arg0) =>
+                fn(ObjCBlock_ffiVoid_NSData_NSError.castFromPointer(arg0,
+                        retain: true, release: true))
+                    ?.retainAndReturnPointer() ??
+                ffi.nullptr));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   NSProgress? call(ObjCBlock_ffiVoid_NSData_NSError arg0) => pointer.ref.invoke
@@ -14042,24 +13802,12 @@ void _ObjCBlock_ffiVoid_NSData_NSError_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_NSData_NSError_closureRegistry = <int,
-    void Function(
-        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_ffiVoid_NSData_NSError_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_NSData_NSError_registerClosure(
-    void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)
-        fn) {
-  final id = ++_ObjCBlock_ffiVoid_NSData_NSError_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_NSData_NSError_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_NSData_NSError_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
-    _ObjCBlock_ffiVoid_NSData_NSError_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_NSData_NSError extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_NSData_NSError._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -14086,7 +13834,7 @@ class ObjCBlock_ffiVoid_NSData_NSError extends objc.ObjCBlockBase {
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.Pointer<objc.ObjCObject> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14103,7 +13851,7 @@ class ObjCBlock_ffiVoid_NSData_NSError extends objc.ObjCBlockBase {
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
   ObjCBlock_ffiVoid_NSData_NSError.fromFunction(void Function(NSData?, NSError?) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14111,10 +13859,13 @@ class ObjCBlock_ffiVoid_NSData_NSError extends objc.ObjCBlockBase {
                             ffi.Pointer<objc.ObjCObject>)>(
                     _ObjCBlock_ffiVoid_NSData_NSError_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_NSData_NSError_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-                    arg0.address == 0 ? null : NSData.castFromPointer(arg0, retain: true, release: true),
-                    arg1.address == 0 ? null : NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSData.castFromPointer(arg0, retain: true, release: true),
+                arg1.address == 0
+                    ? null
+                    : NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -14127,22 +13878,23 @@ class ObjCBlock_ffiVoid_NSData_NSError extends objc.ObjCBlockBase {
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_NSData_NSError.listener(void Function(NSData?, NSError?) fn)
-      : this._(objc.newBlock(
-            (_dartFuncListenerTrampoline ??=
-                    ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>.listener(
-                        _ObjCBlock_ffiVoid_NSData_NSError_closureTrampoline)
-                      ..keepIsolateAlive = false)
+      : this._(objc.newClosureBlock(
+            (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
+                        ffi.Void Function(
+                            ffi.Pointer<objc.ObjCBlock>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>)>.listener(
+                    _ObjCBlock_ffiVoid_NSData_NSError_closureTrampoline)
+                  ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_NSData_NSError_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-                    arg0.address == 0
-                        ? null
-                        : NSData.castFromPointer(arg0,
-                            retain: true, release: true),
-                    arg1.address == 0
-                        ? null
-                        : NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSData.castFromPointer(arg0, retain: true, release: true),
+                arg1.address == 0
+                    ? null
+                    : NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -14200,24 +13952,12 @@ ffi.Pointer<objc.ObjCObject>
             .asFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlock>)>()(arg0);
-final _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_closureRegistry =
-    <int, ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCBlock>)>{};
-int _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_registerClosure(
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCBlock>) fn) {
-  final id =
-      ++_ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_closureRegistryIndex;
-  _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 ffi.Pointer<objc.ObjCObject>
     _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_closureTrampoline(
             ffi.Pointer<objc.ObjCBlock> block,
             ffi.Pointer<objc.ObjCBlock> arg0) =>
-        _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_closureRegistry[
-            block.ref.target.address]!(arg0);
+        (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCBlock>))(arg0);
 
 class ObjCBlock_NSProgress_ffiVoidNSURLboolNSError extends objc.ObjCBlockBase {
   ObjCBlock_NSProgress_ffiVoidNSURLboolNSError._(
@@ -14246,7 +13986,7 @@ class ObjCBlock_NSProgress_ffiVoidNSURLboolNSError extends objc.ObjCBlockBase {
                   ffi.Pointer<objc.ObjCObject> Function(
                       ffi.Pointer<objc.ObjCBlock> arg0)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Pointer<objc.ObjCObject> Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14263,18 +14003,17 @@ class ObjCBlock_NSProgress_ffiVoidNSURLboolNSError extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_NSProgress_ffiVoidNSURLboolNSError.fromFunction(
       NSProgress? Function(ObjCBlock_ffiVoid_NSURL_bool_NSError) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Pointer<objc.ObjCObject> Function(
                             ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<objc.ObjCBlock>)>(
                     _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_closureTrampoline)
                 .cast(),
-            _ObjCBlock_NSProgress_ffiVoidNSURLboolNSError_registerClosure(
-                (ffi.Pointer<objc.ObjCBlock> arg0) =>
-                    fn(ObjCBlock_ffiVoid_NSURL_bool_NSError.castFromPointer(arg0, retain: true, release: true))
-                        ?.retainAndReturnPointer() ??
-                    ffi.nullptr)));
+            (ffi.Pointer<objc.ObjCBlock> arg0) =>
+                fn(ObjCBlock_ffiVoid_NSURL_bool_NSError.castFromPointer(arg0, retain: true, release: true))
+                    ?.retainAndReturnPointer() ??
+                ffi.nullptr));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   NSProgress? call(ObjCBlock_ffiVoid_NSURL_bool_NSError arg0) => pointer.ref.invoke
@@ -14309,26 +14048,13 @@ void _ObjCBlock_ffiVoid_NSURL_bool_NSError_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>, bool,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1, arg2);
-final _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureRegistry = <int,
-    void Function(
-        ffi.Pointer<objc.ObjCObject>, bool, ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_NSURL_bool_NSError_registerClosure(
-    void Function(
-            ffi.Pointer<objc.ObjCObject>, bool, ffi.Pointer<objc.ObjCObject>)
-        fn) {
-  final id = ++_ObjCBlock_ffiVoid_NSURL_bool_NSError_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         bool arg1,
         ffi.Pointer<objc.ObjCObject> arg2) =>
-    _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        bool, ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
 
 class ObjCBlock_ffiVoid_NSURL_bool_NSError extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_NSURL_bool_NSError._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -14356,7 +14082,7 @@ class ObjCBlock_ffiVoid_NSURL_bool_NSError extends objc.ObjCBlockBase {
                       ffi.Bool arg1, ffi.Pointer<objc.ObjCObject> arg2)>>
           ptr)
       : this._(
-            objc.newBlock(
+            objc.newPointerBlock(
                 _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                             ffi.Void Function(
                                 ffi.Pointer<objc.ObjCBlock>,
@@ -14373,9 +14099,8 @@ class ObjCBlock_ffiVoid_NSURL_bool_NSError extends objc.ObjCBlockBase {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  ObjCBlock_ffiVoid_NSURL_bool_NSError.fromFunction(
-      void Function(NSURL?, bool, NSError?) fn)
-      : this._(objc.newBlock(
+  ObjCBlock_ffiVoid_NSURL_bool_NSError.fromFunction(void Function(NSURL?, bool, NSError?) fn)
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14384,10 +14109,12 @@ class ObjCBlock_ffiVoid_NSURL_bool_NSError extends objc.ObjCBlockBase {
                             ffi.Pointer<objc.ObjCObject>)>(
                     _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_NSURL_bool_NSError_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, bool arg1,
-                        ffi.Pointer<objc.ObjCObject> arg2) =>
-                    fn(arg0.address == 0 ? null : NSURL.castFromPointer(arg0, retain: true, release: true), arg1, arg2.address == 0 ? null : NSError.castFromPointer(arg2, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, bool arg1, ffi.Pointer<objc.ObjCObject> arg2) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSURL.castFromPointer(arg0, retain: true, release: true),
+                arg1,
+                arg2.address == 0 ? null : NSError.castFromPointer(arg2, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -14399,23 +14126,23 @@ class ObjCBlock_ffiVoid_NSURL_bool_NSError extends objc.ObjCBlockBase {
   ///
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
-  ObjCBlock_ffiVoid_NSURL_bool_NSError.listener(void Function(NSURL?, bool, NSError?) fn)
-      : this._(objc.newBlock(
-            (_dartFuncListenerTrampoline ??=
-                    ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Bool, ffi.Pointer<objc.ObjCObject>)>.listener(
-                        _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureTrampoline)
-                      ..keepIsolateAlive = false)
+  ObjCBlock_ffiVoid_NSURL_bool_NSError.listener(
+      void Function(NSURL?, bool, NSError?) fn)
+      : this._(objc.newClosureBlock(
+            (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
+                        ffi.Void Function(
+                            ffi.Pointer<objc.ObjCBlock>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Bool,
+                            ffi.Pointer<objc.ObjCObject>)>.listener(
+                    _ObjCBlock_ffiVoid_NSURL_bool_NSError_closureTrampoline)
+                  ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_NSURL_bool_NSError_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, bool arg1,
-                        ffi.Pointer<objc.ObjCObject> arg2) =>
-                    fn(
-                        arg0.address == 0
-                            ? null
-                            : NSURL.castFromPointer(arg0, retain: true, release: true),
-                        arg1,
-                        arg2.address == 0 ? null : NSError.castFromPointer(arg2, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, bool arg1, ffi.Pointer<objc.ObjCObject> arg2) => fn(
+                arg0.address == 0 ? null : NSURL.castFromPointer(arg0, retain: true, release: true),
+                arg1,
+                arg2.address == 0 ? null : NSError.castFromPointer(arg2, retain: true, release: true))));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -14520,24 +14247,12 @@ void _ObjCBlock_ffiVoid_NSURL_NSError_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_NSURL_NSError_closureRegistry = <int,
-    void Function(
-        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_ffiVoid_NSURL_NSError_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_NSURL_NSError_registerClosure(
-    void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)
-        fn) {
-  final id = ++_ObjCBlock_ffiVoid_NSURL_NSError_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_NSURL_NSError_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_NSURL_NSError_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
-    _ObjCBlock_ffiVoid_NSURL_NSError_closureRegistry[block.ref.target.address]!(
-        arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_NSURL_NSError extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_NSURL_NSError._(ffi.Pointer<objc.ObjCBlock> pointer,
@@ -14564,7 +14279,7 @@ class ObjCBlock_ffiVoid_NSURL_NSError extends objc.ObjCBlockBase {
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.Pointer<objc.ObjCObject> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14580,8 +14295,9 @@ class ObjCBlock_ffiVoid_NSURL_NSError extends objc.ObjCBlockBase {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  ObjCBlock_ffiVoid_NSURL_NSError.fromFunction(void Function(NSURL?, NSError?) fn)
-      : this._(objc.newBlock(
+  ObjCBlock_ffiVoid_NSURL_NSError.fromFunction(
+      void Function(NSURL?, NSError?) fn)
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14589,9 +14305,11 @@ class ObjCBlock_ffiVoid_NSURL_NSError extends objc.ObjCBlockBase {
                             ffi.Pointer<objc.ObjCObject>)>(
                     _ObjCBlock_ffiVoid_NSURL_NSError_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_NSURL_NSError_registerClosure((ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-                arg0.address == 0 ? null : NSURL.castFromPointer(arg0, retain: true, release: true),
-                arg1.address == 0 ? null : NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSURL.castFromPointer(arg0, retain: true, release: true),
+                arg1.address == 0 ? null : NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -14604,22 +14322,23 @@ class ObjCBlock_ffiVoid_NSURL_NSError extends objc.ObjCBlockBase {
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_NSURL_NSError.listener(void Function(NSURL?, NSError?) fn)
-      : this._(objc.newBlock(
-            (_dartFuncListenerTrampoline ??=
-                    ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>.listener(
-                        _ObjCBlock_ffiVoid_NSURL_NSError_closureTrampoline)
-                      ..keepIsolateAlive = false)
+      : this._(objc.newClosureBlock(
+            (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
+                        ffi.Void Function(
+                            ffi.Pointer<objc.ObjCBlock>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>)>.listener(
+                    _ObjCBlock_ffiVoid_NSURL_NSError_closureTrampoline)
+                  ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_NSURL_NSError_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-                    arg0.address == 0
-                        ? null
-                        : NSURL.castFromPointer(arg0,
-                            retain: true, release: true),
-                    arg1.address == 0
-                        ? null
-                        : NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSURL.castFromPointer(arg0, retain: true, release: true),
+                arg1.address == 0
+                    ? null
+                    : NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -14716,24 +14435,12 @@ ffi.Pointer<objc.ObjCObject>
             .asFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlock>)>()(arg0);
-final _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_closureRegistry =
-    <int, ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCBlock>)>{};
-int _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_registerClosure(
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCBlock>) fn) {
-  final id =
-      ++_ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_closureRegistryIndex;
-  _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 ffi.Pointer<objc.ObjCObject>
     _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_closureTrampoline(
             ffi.Pointer<objc.ObjCBlock> block,
             ffi.Pointer<objc.ObjCBlock> arg0) =>
-        _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_closureRegistry[
-            block.ref.target.address]!(arg0);
+        (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCBlock>))(arg0);
 
 class ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError
     extends objc.ObjCBlockBase {
@@ -14763,7 +14470,7 @@ class ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError
                   ffi.Pointer<objc.ObjCObject> Function(
                       ffi.Pointer<objc.ObjCBlock> arg0)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Pointer<objc.ObjCObject> Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14780,18 +14487,17 @@ class ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError
   /// will result in a crash.
   ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError.fromFunction(
       NSProgress? Function(ObjCBlock_ffiVoid_objcObjCObject_NSError) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Pointer<objc.ObjCObject> Function(
                             ffi.Pointer<objc.ObjCBlock>,
                             ffi.Pointer<objc.ObjCBlock>)>(
                     _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_closureTrampoline)
                 .cast(),
-            _ObjCBlock_NSProgress_ffiVoidobjcObjCObjectNSError_registerClosure(
-                (ffi.Pointer<objc.ObjCBlock> arg0) =>
-                    fn(ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0, retain: true, release: true))
-                        ?.retainAndReturnPointer() ??
-                    ffi.nullptr)));
+            (ffi.Pointer<objc.ObjCBlock> arg0) =>
+                fn(ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0, retain: true, release: true))
+                    ?.retainAndReturnPointer() ??
+                ffi.nullptr));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   NSProgress? call(ObjCBlock_ffiVoid_objcObjCObject_NSError arg0) => pointer.ref.invoke
@@ -14825,24 +14531,12 @@ void _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureRegistry = <int,
-    void Function(
-        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_objcObjCObject_NSError_registerClosure(
-    void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)
-        fn) {
-  final id = ++_ObjCBlock_ffiVoid_objcObjCObject_NSError_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
-    _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_objcObjCObject_NSError extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_objcObjCObject_NSError._(
@@ -14873,7 +14567,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError extends objc.ObjCBlockBase {
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.Pointer<objc.ObjCObject> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14891,7 +14585,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_objcObjCObject_NSError.fromFunction(
       void Function(NSObject?, NSError?) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -14899,10 +14593,11 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError extends objc.ObjCBlockBase {
                             ffi.Pointer<objc.ObjCObject>)>(
                     _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_NSError_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<objc.ObjCObject> arg1) =>
-                    fn(arg0.address == 0 ? null : NSObject.castFromPointer(arg0, retain: true, release: true), arg1.address == 0 ? null : NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSObject.castFromPointer(arg0, retain: true, release: true),
+                arg1.address == 0 ? null : NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -14915,22 +14610,21 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError extends objc.ObjCBlockBase {
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_objcObjCObject_NSError.listener(void Function(NSObject?, NSError?) fn)
-      : this._(objc.newBlock(
-            (_dartFuncListenerTrampoline ??=
-                    ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>.listener(
-                        _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline)
-                      ..keepIsolateAlive = false)
+      : this._(objc.newClosureBlock(
+            (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
+                        ffi.Void Function(
+                            ffi.Pointer<objc.ObjCBlock>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>)>.listener(
+                    _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline)
+                  ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_NSError_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-                    arg0.address == 0
-                        ? null
-                        : NSObject.castFromPointer(arg0,
-                            retain: true, release: true),
-                    arg1.address == 0
-                        ? null
-                        : NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSObject.castFromPointer(arg0, retain: true, release: true),
+                arg1.address == 0 ? null : NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -15022,31 +14716,16 @@ void
                     ffi.Pointer<objc.ObjCBlock>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1, arg2);
-final _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureRegistry =
-    <int,
-        void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureRegistryIndex =
-    0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_registerClosure(
-        void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>)
-            fn) {
-  final id =
-      ++_ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureRegistry[
-      id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
-void _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureTrampoline(
-        ffi.Pointer<objc.ObjCBlock> block,
-        ffi.Pointer<objc.ObjCBlock> arg0,
-        ffi.Pointer<objc.ObjCObject> arg1,
-        ffi.Pointer<objc.ObjCObject> arg2) =>
-    _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureRegistry[
-        block.ref.target.address]!(arg0, arg1, arg2);
+void
+    _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureTrampoline(
+            ffi.Pointer<objc.ObjCBlock> block,
+            ffi.Pointer<objc.ObjCBlock> arg0,
+            ffi.Pointer<objc.ObjCObject> arg1,
+            ffi.Pointer<objc.ObjCObject> arg2) =>
+        (objc.getBlockClosure(block) as void Function(
+            ffi.Pointer<objc.ObjCBlock>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
 
 class ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary
     extends objc.ObjCBlockBase {
@@ -15077,7 +14756,7 @@ class ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary
                       ffi.Pointer<objc.ObjCObject> arg1,
                       ffi.Pointer<objc.ObjCObject> arg2)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -15094,20 +14773,20 @@ class ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary.fromFunction(
-      void Function(ObjCBlock_ffiVoid_objcObjCObject_NSError1, NSObject, NSDictionary)
-          fn)
-      : this._(objc.newBlock(
-            _dartFuncTrampoline ??= ffi.Pointer.fromFunction<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>(_ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureTrampoline)
+  ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary.fromFunction(void Function(ObjCBlock_ffiVoid_objcObjCObject_NSError1, NSObject, NSDictionary) fn)
+      : this._(objc.newClosureBlock(
+            _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
+                        ffi.Void Function(
+                            ffi.Pointer<objc.ObjCBlock>,
+                            ffi.Pointer<objc.ObjCBlock>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>)>(
+                    _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_registerClosure(
-                (ffi.Pointer<objc.ObjCBlock> arg0,
-                        ffi.Pointer<objc.ObjCObject> arg1,
-                        ffi.Pointer<objc.ObjCObject> arg2) =>
-                    fn(
-                        ObjCBlock_ffiVoid_objcObjCObject_NSError1.castFromPointer(arg0, retain: true, release: true),
-                        NSObject.castFromPointer(arg1, retain: true, release: true),
-                        NSDictionary.castFromPointer(arg2, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCBlock> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<objc.ObjCObject> arg2) => fn(
+                ObjCBlock_ffiVoid_objcObjCObject_NSError1.castFromPointer(arg0, retain: true, release: true),
+                NSObject.castFromPointer(arg1, retain: true, release: true),
+                NSDictionary.castFromPointer(arg2, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -15120,20 +14799,22 @@ class ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
   ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary.listener(
-      void Function(
-              ObjCBlock_ffiVoid_objcObjCObject_NSError1, NSObject, NSDictionary)
+      void Function(ObjCBlock_ffiVoid_objcObjCObject_NSError1, NSObject, NSDictionary)
           fn)
-      : this._(objc.newBlock(
-            (_dartFuncListenerTrampoline ??= ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>.listener(
-                    _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureTrampoline)
-                  ..keepIsolateAlive = false)
+      : this._(objc.newClosureBlock(
+            (_dartFuncListenerTrampoline ??=
+                    ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>.listener(
+                        _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_closureTrampoline)
+                      ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_ffiVoidobjcObjCObjectNSError_objcObjCObject_NSDictionary_registerClosure(
-                (ffi.Pointer<objc.ObjCBlock> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<objc.ObjCObject> arg2) => fn(
+            (ffi.Pointer<objc.ObjCBlock> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1,
+                    ffi.Pointer<objc.ObjCObject> arg2) =>
+                fn(
                     ObjCBlock_ffiVoid_objcObjCObject_NSError1.castFromPointer(arg0, retain: true, release: true),
                     NSObject.castFromPointer(arg1, retain: true, release: true),
-                    NSDictionary.castFromPointer(arg2, retain: true, release: true)))));
+                    NSDictionary.castFromPointer(arg2, retain: true, release: true))));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,
@@ -15172,26 +14853,12 @@ void _ObjCBlock_ffiVoid_objcObjCObject_NSError1_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-final _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureRegistry = <int,
-    void Function(
-        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>{};
-int _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureRegistryIndex = 0;
-ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_objcObjCObject_NSError1_registerClosure(
-        void Function(
-                ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)
-            fn) {
-  final id = ++_ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureRegistryIndex;
-  _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureRegistry[id] = fn;
-  return ffi.Pointer<ffi.Void>.fromAddress(id);
-}
-
 void _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureTrampoline(
         ffi.Pointer<objc.ObjCBlock> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
-    _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureRegistry[
-        block.ref.target.address]!(arg0, arg1);
+    (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 
 class ObjCBlock_ffiVoid_objcObjCObject_NSError1 extends objc.ObjCBlockBase {
   ObjCBlock_ffiVoid_objcObjCObject_NSError1._(
@@ -15220,7 +14887,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError1 extends objc.ObjCBlockBase {
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject> arg0,
                       ffi.Pointer<objc.ObjCObject> arg1)>>
           ptr)
-      : this._(objc.newBlock(
+      : this._(objc.newPointerBlock(
             _cFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -15238,7 +14905,7 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError1 extends objc.ObjCBlockBase {
   /// will result in a crash.
   ObjCBlock_ffiVoid_objcObjCObject_NSError1.fromFunction(
       void Function(NSObject?, NSError) fn)
-      : this._(objc.newBlock(
+      : this._(objc.newClosureBlock(
             _dartFuncTrampoline ??= ffi.Pointer.fromFunction<
                         ffi.Void Function(
                             ffi.Pointer<objc.ObjCBlock>,
@@ -15246,10 +14913,11 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError1 extends objc.ObjCBlockBase {
                             ffi.Pointer<objc.ObjCObject>)>(
                     _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureTrampoline)
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_NSError1_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0,
-                        ffi.Pointer<objc.ObjCObject> arg1) =>
-                    fn(arg0.address == 0 ? null : NSObject.castFromPointer(arg0, retain: true, release: true), NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSObject.castFromPointer(arg0, retain: true, release: true),
+                NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.Pointer<ffi.Void>? _dartFuncTrampoline;
 
   /// Creates a listener block from a Dart function.
@@ -15261,22 +14929,22 @@ class ObjCBlock_ffiVoid_objcObjCObject_NSError1 extends objc.ObjCBlockBase {
   ///
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
-  ObjCBlock_ffiVoid_objcObjCObject_NSError1.listener(
-      void Function(NSObject?, NSError) fn)
-      : this._(objc.newBlock(
-            (_dartFuncListenerTrampoline ??=
-                    ffi.NativeCallable<ffi.Void Function(ffi.Pointer<objc.ObjCBlock>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>.listener(
-                        _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureTrampoline)
-                      ..keepIsolateAlive = false)
+  ObjCBlock_ffiVoid_objcObjCObject_NSError1.listener(void Function(NSObject?, NSError) fn)
+      : this._(objc.newClosureBlock(
+            (_dartFuncListenerTrampoline ??= ffi.NativeCallable<
+                        ffi.Void Function(
+                            ffi.Pointer<objc.ObjCBlock>,
+                            ffi.Pointer<objc.ObjCObject>,
+                            ffi.Pointer<objc.ObjCObject>)>.listener(
+                    _ObjCBlock_ffiVoid_objcObjCObject_NSError1_closureTrampoline)
+                  ..keepIsolateAlive = false)
                 .nativeFunction
                 .cast(),
-            _ObjCBlock_ffiVoid_objcObjCObject_NSError1_registerClosure(
-                (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-                    arg0.address == 0
-                        ? null
-                        : NSObject.castFromPointer(arg0,
-                            retain: true, release: true),
-                    NSError.castFromPointer(arg1, retain: true, release: true)))));
+            (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                arg0.address == 0
+                    ? null
+                    : NSObject.castFromPointer(arg0, retain: true, release: true),
+                NSError.castFromPointer(arg1, retain: true, release: true))));
   static ffi.NativeCallable<
       ffi.Void Function(
           ffi.Pointer<objc.ObjCBlock>,

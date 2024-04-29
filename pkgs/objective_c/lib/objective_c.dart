@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/core.dart';
+export 'src/internal.dart' hide blockHasRegisteredClosure;
 export 'src/ns_data.dart';
 export 'src/ns_string.dart';
 export 'src/c_bindings_generated.dart'

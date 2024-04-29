@@ -13,6 +13,11 @@ import 'package:test/test.dart';
 
 void main() {
   group('NSData', () {
+    setUpAll(() {
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('test/objective_c.dylib');
+    });
+
     group('toNSData', () {
       test('empty', () {
         final data = <int>[].toNSData();

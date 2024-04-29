@@ -12,6 +12,8 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:objective_c/src/internal.dart' as internal_for_testing
+    show blockHasRegisteredClosure;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -34,6 +36,8 @@ void main() {
   group('Blocks', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/block_test.dylib');
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
@@ -229,6 +233,8 @@ void main() {
     Pointer<Void> funcPointerBlockRefCountTest() {
       final block =
           IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+      expect(
+          internal_for_testing.blockHasRegisteredClosure(block.pointer), false);
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
       return block.pointer.cast();
     }
@@ -241,18 +247,25 @@ void main() {
 
     Pointer<Void> funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
+      expect(
+          internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
       return block.pointer.cast();
     }
 
-    test('Function block ref counting', () {
+    test('Function block ref counting', () async {
       final rawBlock = funcBlockRefCountTest();
       doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(lib.getBlockRetainCount(rawBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
+          false);
     });
 
     Pointer<Void> blockManualRetainRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
+      expect(
+          internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
       final rawBlock = block.retainAndReturnPointer().cast<Void>();
       expect(lib.getBlockRetainCount(rawBlock.cast()), 2);
@@ -265,13 +278,16 @@ void main() {
       return lib.getBlockRetainCount(block.pointer.cast());
     }
 
-    test('Block ref counting with manual retain and release', () {
+    test('Block ref counting with manual retain and release', () async {
       final rawBlock = blockManualRetainRefCountTest();
       doGC();
       expect(lib.getBlockRetainCount(rawBlock), 1);
       expect(blockManualRetainRefCountTest2(rawBlock), 1);
       doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(lib.getBlockRetainCount(rawBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
+          false);
     });
 
     (Pointer<Void>, Pointer<Void>, Pointer<Void>)
@@ -474,7 +490,7 @@ void main() {
       expect(descPtr.ref.reserved, 0);
       expect(descPtr.ref.size, isNot(0));
       expect(descPtr.ref.copy_helper, nullptr);
-      expect(descPtr.ref.dispose_helper, nullptr);
+      expect(descPtr.ref.dispose_helper, isNot(nullptr));
       expect(descPtr.ref.signature, nullptr);
     });
   });

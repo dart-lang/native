@@ -7,7 +7,10 @@ project(objective_c_library VERSION 0.0.1 LANGUAGES C)
 
 add_library(objective_c SHARED
   "objective_c.c"
+  "include/dart_api_dl.c"
 )
+
+target_link_options(objective_c PRIVATE "-undefined dynamic_lookup")
 
 set_target_properties(objective_c PROPERTIES
   PUBLIC_HEADER objective_c.h

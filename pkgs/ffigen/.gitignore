@@ -4,6 +4,8 @@
 .dart_tool/
 .packages
 pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
 
 # IDE and debugger files.
 .clangd

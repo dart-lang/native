@@ -6,19 +6,13 @@
 // ffigen directly on the runtime headers that come with XCode, but those
 // headers don't have everything we need (e.g. the ObjCBlock struct).
 
+#ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_TYPES_H_
+#define OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_TYPES_H_
+
+#include "include/dart_api_dl.h"
+
 typedef struct _ObjCSelector ObjCSelector;
 typedef struct _ObjCObject ObjCObject;
-
-ObjCSelector* sel_registerName(const char *name);
-ObjCObject* objc_getClass(const char *name);
-ObjCObject* objc_retain(ObjCObject* object);
-void objc_release(ObjCObject* object);
-
-// The signature of this function is just a placeholder. This function is used by
-// every method invocation, and is cast to every signature we need.
-void objc_msgSend();
-void objc_msgSend_fpret();
-void objc_msgSend_stret();
 
 // See https://clang.llvm.org/docs/Block-ABI-Apple.html
 typedef struct _ObjCBlockDesc {
@@ -29,8 +23,6 @@ typedef struct _ObjCBlockDesc {
   const char *signature;
 } ObjCBlockDesc;
 
-extern void* const _NSConcreteGlobalBlock;
-
 typedef struct _ObjCBlock {
     void *isa;  // _NSConcreteGlobalBlock
     int flags;
@@ -40,7 +32,7 @@ typedef struct _ObjCBlock {
 
     // Captured variables follow. These are specific to our use case.
     void* target;
+    Dart_Port dispose_port;
 } ObjCBlock;
 
-ObjCBlock* _Block_copy(ObjCBlock* object);
-void _Block_release(ObjCBlock* object);
+#endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_TYPES_H_
