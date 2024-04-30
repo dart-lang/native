@@ -6,8 +6,7 @@ headers:
   entry-points:
     - 'src/include/dart_api_dl.h'
     - 'src/objective_c.h'
-    - 'src/objective_c_runtime_types.h'
-    - 'src/objective_c_runtime_functions.h'
+    - 'src/objective_c_runtime.h'
 ffi-native:
   assetId: 'objective_c.framework/objective_c'
 exclude-all-by-default: true
@@ -18,6 +17,8 @@ functions:
     - 'sel_registerName'
     - '_Block_.*'
     - 'disposeObjCBlockWithClosure'
+    - 'isValidBlock'
+    - 'isValidObject'
     - 'Dart_InitializeApiDL'
   leaf:
     include:
@@ -34,7 +35,7 @@ functions:
     '_Block_release': 'blockRelease'
 globals:
   include:
-    - _NSConcreteGlobalBlock
+    - '_NSConcrete.*Block'
   rename:
     '_(.*)': '$1'
 typedefs:

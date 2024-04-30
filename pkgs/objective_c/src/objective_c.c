@@ -2,12 +2,26 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include "include/dart_api_dl.h"
 #include "objective_c.h"
-#include "objective_c_runtime_types.h"
+
+#include "include/dart_api_dl.h"
+#include "objective_c_runtime.h"
 
 // Dispose helper for ObjC blocks that wrap a Dart closure. For these blocks,
 // the target is an int ID, and the dispose_port is listening for these IDs.
 void disposeObjCBlockWithClosure(ObjCBlock* block) {
   Dart_PostInteger_DL(block->dispose_port, (int64_t)block->target);
+}
+
+bool isValidBlock(ObjCBlock* block) {
+  void* isa = block->isa;
+  return isa == &_NSConcreteStackBlock || isa == &_NSConcreteMallocBlock ||
+         isa == &_NSConcreteAutoBlock || isa == &_NSConcreteFinalizingBlock ||
+         isa == &_NSConcreteGlobalBlock || isa == &_NSConcreteWeakBlockVariable;
+}
+
+bool isValidObject(ObjCObject* object) {
+  // TODO(https://github.com/dart-lang/native/issues/1038): Come up with a
+  // heuristic that works reasonably well here.
+  return true;
 }

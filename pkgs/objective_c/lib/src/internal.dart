@@ -109,10 +109,16 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   NativeFinalizer get _finalizer => _objectFinalizer;
 
   @override
-  void _retain(Pointer<c.ObjCObject> ptr) => c.objectRetain(ptr);
+  void _retain(Pointer<c.ObjCObject> ptr) {
+    assert(c.isValidObject(ptr));
+    c.objectRetain(ptr);
+  }
 
   @override
-  void _release(Pointer<c.ObjCObject> ptr) => c.objectRelease(ptr);
+  void _release(Pointer<c.ObjCObject> ptr) {
+    assert(c.isValidObject(ptr));
+    c.objectRelease(ptr);
+  }
 }
 
 /// Only for use by ffigen bindings.
@@ -120,18 +126,23 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>(
-              c.blockRelease)
-          .cast());
+      Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
+              c.blockRelease));
 
   @override
   NativeFinalizer get _finalizer => _blockFinalizer;
 
   @override
-  void _retain(Pointer<c.ObjCBlock> ptr) => c.blockCopy(ptr);
+  void _retain(Pointer<c.ObjCBlock> ptr) {
+    assert(c.isValidBlock(ptr));
+    c.blockCopy(ptr.cast());
+  }
 
   @override
-  void _release(Pointer<c.ObjCBlock> ptr) => c.blockRelease(ptr);
+  void _release(Pointer<c.ObjCBlock> ptr) {
+    assert(c.isValidBlock(ptr));
+    c.blockRelease(ptr.cast());
+  }
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
@@ -154,15 +165,18 @@ final _closureBlockDesc = _newBlockDesc(
 Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
   final b = calloc.allocate<c.ObjCBlock>(sizeOf<c.ObjCBlock>());
-  b.ref.isa = c.NSConcreteGlobalBlock;
+  b.ref.isa = Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
   b.ref.target = target;
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
+  assert(c.isValidBlock(b));
   final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
   calloc.free(b);
+  assert(copy.ref.isa == Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteMallocBlock).cast());
+  assert(c.isValidBlock(copy));
   return copy;
 }
 

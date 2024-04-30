@@ -5,9 +5,15 @@
 #ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_H_
 #define OBJECTIVE_C_SRC_OBJECTIVE_C_H_
 
-#include "objective_c_runtime_types.h"
+#include "objective_c_runtime.h"
 
 // Dispose helper for ObjC blocks that wrap a Dart closure.
 void disposeObjCBlockWithClosure(ObjCBlock* block);
+
+// Returns whether the block is valid and live. May return false positives.
+bool isValidBlock(ObjCBlock* block);
+
+// Returns whether the object is valid and live. May return false positives.
+bool isValidObject(ObjCObject* object);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_
