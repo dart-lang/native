@@ -127,7 +127,13 @@ final _allClasses = <Pointer<c.ObjCObject>>{};
 // readable memory, or be null. May (rarely) return false positives.
 bool _isValidObject(Pointer<c.ObjCObject> ptr) {
   if (ptr == nullptr) return false;
-  final clazz = c.getObjectClass(ptr);
+  // final clazz = c.getObjectClass(ptr);
+
+  final header = ptr.cast<Uint64>().ref;
+  final mask = Abi.current() == Abi.macosX64 ? 0x00007ffffffffff8 : 0x00000001fffffff8;
+  final clazz = header & mask;
+  print("Class ID: $clazz");
+
   if (_allClasses.contains(clazz)) return true;
 
   // If the class is missing from the list, it either means we haven't created
@@ -145,6 +151,7 @@ bool _isValidObject(Pointer<c.ObjCObject> ptr) {
     _allClasses.add(classList[i]);
   }
   calloc.free(classList);
+  print("All classes: $_allClasses");
 
   return _allClasses.contains(clazz);
 }
