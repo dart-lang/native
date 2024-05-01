@@ -129,9 +129,9 @@ bool _isValidObject(Pointer<c.ObjCObject> ptr) {
   if (ptr == nullptr) return false;
   // final clazz = c.getObjectClass(ptr);
 
-  final header = ptr.cast<Uint64>().ref;
+  final header = ptr.cast<Uint64>().value;
   final mask = Abi.current() == Abi.macosX64 ? 0x00007ffffffffff8 : 0x00000001fffffff8;
-  final clazz = header & mask;
+  final clazz = Pointer<c.ObjCObject>.fromAddress(header & mask);
   print("Class ID: $clazz");
 
   if (_allClasses.contains(clazz)) return true;
