@@ -22,9 +22,3 @@ bool isValidBlock(ObjCBlock* block) {
          isa == &_NSConcreteAutoBlock || isa == &_NSConcreteFinalizingBlock ||
          isa == &_NSConcreteGlobalBlock || isa == &_NSConcreteWeakBlockVariable;
 }
-
-bool isValidObject(ObjCObject* object) {
-  // TODO(https://github.com/dart-lang/native/issues/1038): Come up with a
-  // heuristic that works reasonably well here.
-  return true;
-}
