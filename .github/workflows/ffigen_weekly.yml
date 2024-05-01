@@ -14,7 +14,7 @@ env:
 jobs:
   # Keep in sync with ffigen.yaml:test-mac
   test-mac-arm64:
-    runs-on: 'macos-latest-xlarge' # Arm64.
+    runs-on: 'macos-14-large' # x64
     defaults:
       run:
         working-directory: pkgs/ffigen/
