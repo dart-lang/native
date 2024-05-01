@@ -12,10 +12,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
-<<<<<<< HEAD
 import 'package:objective_c/objective_c.dart';
-=======
->>>>>>> main
 import 'package:objective_c/src/internal.dart' as internal_for_testing
     show blockHasRegisteredClosure;
 import 'package:test/test.dart';
