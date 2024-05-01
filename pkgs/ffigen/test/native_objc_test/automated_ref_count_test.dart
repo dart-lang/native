@@ -34,6 +34,11 @@ void main() {
       generateBindingsForCoverage('automated_ref_count');
     });
 
+    test('getObjectRetainCount edge cases', () {
+      expect(getObjectRetainCount(nullptr), 0);
+      expect(getObjectRetainCount(Pointer.fromAddress(0x1234)), 0);
+    });
+
     (Pointer<ObjCObject>, Pointer<ObjCObject>) newMethodsInner(
         Pointer<Int32> counter) {
       final obj1 = ArcTestObject.new1();

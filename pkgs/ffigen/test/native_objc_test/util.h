@@ -5,6 +5,9 @@
 #ifndef _TEST_UTIL_H_
 #define _TEST_UTIL_H_
 
+#include <mach/mach.h>
+#include <mach/vm_map.h>
+
 typedef struct {
   void* isa;
   int flags;
@@ -25,6 +28,14 @@ uint64_t getObjectRetainCount(ObjectRefCountExtractor* object) {
   // The object ref count is stored in the largest byte of the object header,
   // for counts up to 255. Higher counts do something more complicated.
   return object->header >> 56;
+}
+
+bool isReadableMemory(void* ptr, size_t size) {
+  size_t outsize;
+  kern_return_t status = vm_read_overwrite(
+    mach_task_self(), (vm_address_t)ptr, size,
+    (vm_address_t)ptr, &outsize);
+  return status == KERN_SUCCESS;
 }
 
 #endif  // _TEST_UTIL_H_
