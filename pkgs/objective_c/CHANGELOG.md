@@ -6,3 +6,4 @@
 - Move core ObjC classes such as `NSString` into this package.
 - Delete Dart functions associated with ObjC closure blocks when the block is
   destroyed. Fixes https://github.com/dart-lang/native/issues/204
+- Improve debuggability of memory management errors.
