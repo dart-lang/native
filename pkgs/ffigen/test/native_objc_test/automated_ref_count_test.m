@@ -5,6 +5,8 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSAutoreleasePool.h>
 
+#include "util.h"
+
 @interface ArcTestObject : NSObject {
   int32_t* counter;
 }

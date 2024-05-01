@@ -7,6 +7,9 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
+import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/src/internal.dart' as internal_for_testing
+    show isValidObject, isValidBlock;
 import 'package:path/path.dart' as path;
 
 import '../test_utils.dart';
@@ -36,4 +39,22 @@ void doGC() {
   final gcNow = "gc-now".toNativeUtf8();
   _executeInternalCommand(gcNow.cast(), nullptr);
   calloc.free(gcNow);
+}
+
+@Native<Uint64 Function(Pointer<Void>)>(
+    isLeaf: true, symbol: 'getBlockRetainCount')
+external int _getBlockRetainCount(Pointer<Void> block);
+
+int getBlockRetainCount(Pointer<ObjCBlock> block) {
+  if (!internal_for_testing.isValidBlock(block)) return 0;
+  return _getBlockRetainCount(block.cast());
+}
+
+@Native<Uint64 Function(Pointer<Void>)>(
+    isLeaf: true, symbol: 'getObjectRetainCount')
+external int _getObjectRetainCount(Pointer<Void> object);
+
+int getObjectRetainCount(Pointer<ObjCObject> object) {
+  if (!internal_for_testing.isValidObject(object)) return 0;
+  return _getObjectRetainCount(object.cast());
 }

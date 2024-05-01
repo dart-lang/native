@@ -11,25 +11,20 @@ typedef struct {
   // There are other fields, but we just need the flags and isa.
 } BlockRefCountExtractor;
 
-static void* valid_block_isa = NULL;
-uint64_t getBlockRetainCount(void* block) {
-  BlockRefCountExtractor* b = (BlockRefCountExtractor*)block;
-  // HACK: The only way I can find to reliably figure out that a block has been
-  // deleted is to check the isa field (the lower bits of the flags field seem
-  // to be randomized, not just set to 0). But we also don't know the value this
-  // field has when it's constructed (copying the block changes it from
-  // _NSConcreteGlobalBlock to an internal value). So we assume that the first
-  // time this function is called, we have a valid block, and on subsequent
-  // calls we check to see if the isa field changed.
-  if (valid_block_isa == NULL) {
-    valid_block_isa = b->isa;
-  }
-  if (b->isa != valid_block_isa) {
-    return 0;
-  }
+uint64_t getBlockRetainCount(BlockRefCountExtractor* block) {
   // The ref count is stored in the lower bits of the flags field, but skips the
   // 0x1 bit.
-  return (b->flags & 0xFFFF) >> 1;
+  return (block->flags & 0xFFFF) >> 1;
+}
+
+typedef struct {
+  uint64_t header;
+} ObjectRefCountExtractor;
+
+uint64_t getObjectRetainCount(ObjectRefCountExtractor* object) {
+  // The object ref count is stored in the largest byte of the object header,
+  // for counts up to 255. Higher counts do something more complicated.
+  return object->header >> 56;
 }
 
 #endif  // _TEST_UTIL_H_

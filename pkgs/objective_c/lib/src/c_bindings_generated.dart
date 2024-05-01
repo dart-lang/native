@@ -60,6 +60,20 @@ external void objectRelease(
   ffi.Pointer<ObjCObject> object,
 );
 
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "object_getClass", isLeaf: true)
+external ffi.Pointer<ObjCObject> getObjectClass(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<
+        ffi.Pointer<ffi.Pointer<ObjCObject>> Function(
+            ffi.Pointer<ffi.UnsignedInt>)>(
+    symbol: "objc_copyClassList", isLeaf: true)
+external ffi.Pointer<ffi.Pointer<ObjCObject>> copyClassList(
+  ffi.Pointer<ffi.UnsignedInt> count,
+);
+
 @ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend")
 external void msgSend();
 
@@ -110,11 +124,6 @@ external void disposeObjCBlockWithClosure(
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
 external bool isValidBlock(
   ffi.Pointer<ObjCBlock> block,
-);
-
-@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCObject>)>(isLeaf: true)
-external bool isValidObject(
-  ffi.Pointer<ObjCObject> object,
 );
 
 typedef ObjCSelector = _ObjCSelector;

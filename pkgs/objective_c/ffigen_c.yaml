@@ -14,6 +14,7 @@ generate-for-package-objective-c: true
 functions:
   include:
     - 'objc_.*'
+    - 'object_getClass'
     - 'sel_registerName'
     - '_Block_.*'
     - 'disposeObjCBlockWithClosure'
@@ -31,6 +32,8 @@ functions:
     'objc_msgSend': 'msgSend'
     'objc_msgSend_fpret': 'msgSendFpret'
     'objc_msgSend_stret': 'msgSendStret'
+    'object_getClass': 'getObjectClass'
+    'objc_copyClassList': 'copyClassList'
     '_Block_copy': 'blockCopy'
     '_Block_release': 'blockRelease'
 globals:

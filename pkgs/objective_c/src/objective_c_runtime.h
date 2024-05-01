@@ -18,6 +18,8 @@ ObjCSelector *sel_registerName(const char *name);
 ObjCObject *objc_getClass(const char *name);
 ObjCObject *objc_retain(ObjCObject *object);
 void objc_release(ObjCObject *object);
+ObjCObject *object_getClass(ObjCObject *object);
+ObjCObject** objc_copyClassList(unsigned int* count);
 
 // The signature of this function is just a placeholder. This function is used
 // by every method invocation, and is cast to every signature we need.

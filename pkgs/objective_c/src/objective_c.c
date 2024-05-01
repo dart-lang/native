@@ -4,6 +4,8 @@
 
 #include "objective_c.h"
 
+#include <stdlib.h>
+
 #include "include/dart_api_dl.h"
 #include "objective_c_runtime.h"
 
@@ -14,6 +16,7 @@ void disposeObjCBlockWithClosure(ObjCBlock* block) {
 }
 
 bool isValidBlock(ObjCBlock* block) {
+  if (block == NULL) return false;
   void* isa = block->isa;
   return isa == &_NSConcreteStackBlock || isa == &_NSConcreteMallocBlock ||
          isa == &_NSConcreteAutoBlock || isa == &_NSConcreteFinalizingBlock ||
