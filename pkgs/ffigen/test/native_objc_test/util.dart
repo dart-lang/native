@@ -60,14 +60,21 @@ external int _getObjectRetainCount(Pointer<Void> object);
 
 int getObjectRetainCount(Pointer<ObjCObject> object) {
   if (!_isReadableMemory(object.cast())) return 0;
-  print("Reading U64");
   final header = object.cast<Uint64>().value;
 
-  print("Header: ${header.toRadixString(16)}");
+  // package:objective_c's isValidObject function internally calls
+  // object_getClass then isValidClass. But object_getClass can occasionally
+  // crash for invalid objects. This masking logic is a simplified version of
+  // what object_getClass does internally. This is less likely to crash, but
+  // more likely to break due to ObjC runtime updates, which is a reasonable
+  // trade off to make in tests where we're explicitly calling it many times
+  // on invalid objects. In package:objective_c's case, it doesn't matter so
+  // much if isValidObject crashes, since it's a best effort attempt to give a
+  // nice stack trace before the real crash, but it would be a problem if
+  // isValidObject broke due to a runtime update.
   final mask =
       Abi.current() == Abi.macosX64 ? 0x00007ffffffffff8 : 0x00000001fffffff8;
   final clazz = Pointer<ObjCObject>.fromAddress(header & mask);
-  print("Class: $clazz");
 
   if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());
