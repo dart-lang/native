@@ -15,22 +15,15 @@ import 'link_config.dart';
 /// through [LinkConfig.assets]. They will only be bundled with the final
 /// application if included in the [LinkOutput].
 ///
-/// As the linking runs after kernel compilation, you can use treeshaking
-/// information provided through [LinkConfig.treeshakingInformation] to decide
-/// which assets to include. The resources are only collected in AOT mode,
-/// therefore the field is null in JIT mode.
-///
 ///
 /// ```dart
 /// import 'package:native_assets_cli/native_assets_cli.dart';
 ///
 /// void main(List<String> args) async {
 ///   await link(args, (config, output) async {
-///     final assetsWithResource = config.assets
-///         .whereType<DataAsset>()
-///         .where((asset) => config.resources
-///             .any((resource) => resource.metadata == asset.name));
-///     output.addAssets(assetsWithResource);
+///     final dataAssets = config.assets
+///         .whereType<DataAsset>();
+///     output.addAssets(dataAssets);
 ///   });
 /// }
 /// ```

@@ -2,15 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
-
-import '../api/resource_data.dart';
 
 void main() async {
   late Uri tempUri;
@@ -59,8 +56,7 @@ void main() async {
     fakeVcVars = tempUri.resolve('vcvarsall.bat');
     await File.fromUri(fakeVcVars).create();
     resources = tempUri.resolve('resources.json');
-    final file = File.fromUri(resources)..createSync();
-    file.writeAsStringSync(jsonEncode(resourceIdentifiers));
+    File.fromUri(resources).createSync();
   });
 
   tearDown(() async {
@@ -115,8 +111,6 @@ void main() async {
         true);
     expect(config1.cCompiler != config2.cCompiler, true);
     expect(config1.assets != config2.assets, true);
-    expect(
-        config1.treeshakingInformation != config2.treeshakingInformation, true);
   });
 
   test('LinkConfig fromConfig', () {
@@ -195,25 +189,6 @@ void main() async {
     final configFile = buildConfig1.toJson();
     final fromConfig = LinkConfigImpl.fromJson(configFile);
     expect(fromConfig, equals(buildConfig1));
-  });
-  test('LinkConfig fetch treeshaking information', () {
-    final buildConfig1 = LinkConfigImpl(
-      outputDirectory: outDirUri,
-      packageName: packageName,
-      packageRoot: packageRootUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.iOS,
-      targetIOSSdk: IOSSdkImpl.iPhoneOS,
-      cCompiler: CCompilerConfigImpl(
-        compiler: fakeClang,
-        linker: fakeLd,
-      ),
-      buildMode: BuildModeImpl.release,
-      assets: assets,
-      resourceIdentifierUri: resources,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
-    );
-    expect(buildConfig1.treeshakingInformation, resourceList);
   });
 
   test('LinkConfig toJson fromJson', () {

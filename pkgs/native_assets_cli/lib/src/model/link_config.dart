@@ -4,16 +4,10 @@
 
 part of '../api/link_config.dart';
 
-List<Resource>? fromIdentifiers(ResourceIdentifiers resourceIdentifiers) =>
-    resourceIdentifiers.identifiers
-        .map((e) => Resource(name: e.name, metadata: e.id))
-        .toList();
-
 /// The input to the linking script.
 ///
-/// It consists of the fields inherited from the [HookConfig], the [assets] from
-/// the build step, and the [treeshakingInformation] generated during the kernel
-/// compilation.
+/// It consists of the fields inherited from the [HookConfig] and the [assets]
+/// from the build step.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   static const resourceIdentifierKey = 'resource_identifiers';
 
@@ -22,17 +16,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   final Iterable<AssetImpl> assets;
 
-  Iterable<Resource>? _treeshakingInformation;
-
-  @override
-  Iterable<Resource>? get treeshakingInformation {
-    if (_resourceIdentifierUri != null && _treeshakingInformation == null) {
-      _treeshakingInformation = fromIdentifiers(
-          ResourceIdentifiers.fromFile(_resourceIdentifierUri.toFilePath()));
-    }
-    return _treeshakingInformation;
-  }
-
+  // TODO: Placeholder for the resources.json file URL. We don't want to change
+  // native_assets_builder when implementing the parsing.
   final Uri? _resourceIdentifierUri;
 
   LinkConfigImpl({
@@ -69,10 +54,6 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required super.linkModePreference,
     required super.targetOS,
   })  : _resourceIdentifierUri = resourceIdentifierUri,
-        _treeshakingInformation = resourceIdentifierUri != null
-            ? fromIdentifiers(ResourceIdentifiers.fromFile(
-                resourceIdentifierUri.toFilePath()))
-            : null,
         super.dryRun(
           hook: Hook.link,
           version: version ?? HookConfigImpl.latestVersion,

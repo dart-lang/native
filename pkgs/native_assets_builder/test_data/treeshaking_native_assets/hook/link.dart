@@ -10,8 +10,7 @@ const packageName = 'treeshaking_native_assets';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    final usedSymbols = config.treeshakingInformation
-        ?.map((resource) => resource.metadata.toString());
+    final List<String>? usedSymbols = [];
     final dynamicLibrary = config.assets.firstWhere((asset) =>
         asset.id == 'package:$packageName/src/${packageName}_bindings.dart');
     final staticLibrary = config.assets
