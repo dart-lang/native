@@ -156,6 +156,7 @@ abstract class HookConfigImpl implements HookConfig {
         if (cCompilerJson.isNotEmpty)
           CCompilerConfigImpl.configKey: cCompilerJson,
       },
+      LinkModePreferenceImpl.configKey: linkModePreference.toString(),
     }.sortOnKey();
   }
 
@@ -380,6 +381,7 @@ can _only_ depend on OS.''');
     if (other.packageRoot != packageRoot) return false;
     if (other.dryRun != dryRun) return false;
     if (other.targetOS != targetOS) return false;
+    if (other.linkModePreference != linkModePreference) return false;
     if (!const DeepCollectionEquality()
         .equals(other.supportedAssetTypes, supportedAssetTypes)) return false;
     if (!dryRun) {

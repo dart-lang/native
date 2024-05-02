@@ -153,7 +153,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   @override
   Map<String, Object> toJson() => {
         ...hookToJson(),
-        LinkModePreferenceImpl.configKey: linkModePreference.toString(),
         if (!dryRun) ...{
           if (_dependencyMetadata != null && _dependencyMetadata.isNotEmpty)
             dependencyMetadataConfigKey: _dependencyMetadata.map(
@@ -169,9 +168,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       return false;
     }
     if (other is! BuildConfigImpl) {
-      return false;
-    }
-    if (other.linkModePreference != linkModePreference) {
       return false;
     }
     if (!dryRun &&

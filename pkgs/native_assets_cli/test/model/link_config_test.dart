@@ -247,6 +247,7 @@ void main() async {
       'target_ios_sdk': 'iphoneos',
       'target_os': 'ios',
       'version': '${HookConfigImpl.latestVersion}',
+      'link_mode_preference': 'prefer-static',
     };
     expect(jsonObject, equals(expectedJson));
 
@@ -293,6 +294,7 @@ void main() async {
         'target_android_ndk_api': 30,
         'build_mode': BuildModeImpl.release.name,
         'assets': 'astring',
+        'link_mode_preference': LinkModePreferenceImpl.preferStatic.name,
       }),
       throwsA(predicate(
         (e) =>
@@ -312,6 +314,7 @@ void main() async {
         'target_architecture': 'arm64',
         'target_os': 'android',
         'build_mode': BuildModeImpl.release.name,
+        'link_mode_preference': LinkModePreferenceImpl.preferStatic.name,
       }),
       throwsA(predicate(
         (e) =>
