@@ -9,7 +9,7 @@ import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
-    show isValidObject, isValidBlock;
+    show isValidClass, isValidBlock;
 import 'package:path/path.dart' as path;
 
 import '../test_utils.dart';
@@ -60,6 +60,14 @@ external int _getObjectRetainCount(Pointer<Void> object);
 
 int getObjectRetainCount(Pointer<ObjCObject> object) {
   if (!_isReadableMemory(object.cast())) return 0;
-  if (!internal_for_testing.isValidObject(object)) return 0;
+  print("Reading U64");
+  final header = object.cast<Uint64>().value;
+
+  print("Header: ${header.toRadixString(16)}");
+  final mask = Abi.current() == Abi.macosX64 ? 0x00007ffffffffff8 : 0x00000001fffffff8;
+  final clazz = Pointer<ObjCObject>.fromAddress(header & mask);
+  print("Class: $clazz");
+
+  if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());
 }

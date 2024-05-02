@@ -121,14 +121,16 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   }
 }
 
-final _allClasses = <Pointer<c.ObjCObject>>{};
-
 // Returns whether the object is valid and live. The pointer must point to
 // readable memory, or be null. May (rarely) return false positives.
 bool _isValidObject(Pointer<c.ObjCObject> ptr) {
   if (ptr == nullptr) return false;
+  return _isValidClass(c.getObjectClass(ptr));
+}
 
-  final clazz = c.getObjectClass(ptr);
+final _allClasses = <Pointer<c.ObjCObject>>{};
+
+bool _isValidClass(Pointer<c.ObjCObject> clazz) {
   if (_allClasses.contains(clazz)) return true;
 
   // If the class is missing from the list, it either means we haven't created
@@ -255,4 +257,5 @@ Function getBlockClosure(Pointer<c.ObjCBlock> block) {
 bool blockHasRegisteredClosure(Pointer<c.ObjCBlock> block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
 bool isValidBlock(Pointer<c.ObjCBlock> block) => c.isValidBlock(block);
+bool isValidClass(Pointer<c.ObjCObject> clazz) => _isValidClass(clazz);
 bool isValidObject(Pointer<c.ObjCObject> object) => _isValidObject(object);
