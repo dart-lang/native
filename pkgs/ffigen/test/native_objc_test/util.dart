@@ -41,8 +41,7 @@ void doGC() {
   calloc.free(gcNow);
 }
 
-@Native<Bool Function(Pointer<Void>)>(
-    isLeaf: true, symbol: 'isReadableMemory')
+@Native<Bool Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
 external bool _isReadableMemory(Pointer<Void> ptr);
 
 @Native<Uint64 Function(Pointer<Void>)>(
