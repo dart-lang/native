@@ -44,7 +44,7 @@ Future<void> _treeshakeStaticLibrary(
     '--version-script=${symbolsUri.toFilePath()}',
     '--gc-sections',
     '--strip-debug',
-    ...['-o', (dynamicLibrary.file!.toFilePath())],
+    ...['-o', dynamicLibrary.file!.toFilePath()],
     staticLibrary.file!.toFilePath(),
   ];
   await Process.run('ld', arguments);
@@ -57,7 +57,7 @@ Future<Uri> _writeLinkerScript(Iterable<String> symbols) async {
   final linkerScript = File.fromUri(symbolsUri)..createSync();
   final contents = '''{
   global:
-${symbols.map((symbol) => '    ' + symbol + ';').join('\n')}
+${symbols.map((symbol) => '    $symbol;').join('\n')}
   local:
     *;
 };

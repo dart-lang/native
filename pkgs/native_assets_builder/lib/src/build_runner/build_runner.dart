@@ -227,6 +227,7 @@ class NativeAssetsBuildRunner {
         resourceIdentifierUri: resourceIdentifiers,
         assets: buildResult!.assetsForLinking[package.name] ?? [],
         supportedAssetTypes: supportedAssetTypes,
+        linkModePreference: LinkModePreferenceImpl.preferStatic,
       );
     } else {
       return BuildConfigImpl(
