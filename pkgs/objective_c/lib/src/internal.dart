@@ -110,40 +110,27 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
 
   @override
   void _retain(Pointer<c.ObjCObject> ptr) {
-    assert(isValidObject(ptr));
+    assert(_isValidObject(ptr));
     c.objectRetain(ptr);
   }
 
   @override
   void _release(Pointer<c.ObjCObject> ptr) {
-    assert(isValidObject(ptr));
+    assert(_isValidObject(ptr));
     c.objectRelease(ptr);
   }
 }
 
-// Returns whether the pointer is part of a readable page of memory. Not
-// exported by ../objective_c.dart, only public for testing.
-bool isReadableMemory(Pointer<Void> ptr) => c.isReadableMemory(ptr);
-
-// Returns whether the block is valid and live. May (rarely) return false
-// positives. Not exported by ../objective_c.dart, only public for testing.
-bool isValidBlock(Pointer<c.ObjCBlock> block) {
-  if (block == nullptr) return false;
-  return isReadableMemory(block.cast()) && c.isValidBlock(block);
-}
-
-// Returns whether the object is valid and live. May (rarely) return false
-// positives. Not exported by ../objective_c.dart, only public for testing.
-bool isValidObject(Pointer<c.ObjCObject> ptr) {
+// Returns whether the object is valid and live. The pointer must point to
+// readable memory, or be null. May (rarely) return false positives.
+bool _isValidObject(Pointer<c.ObjCObject> ptr) {
   if (ptr == nullptr) return false;
-  return isReadableMemory(ptr.cast()) && isValidClass(c.getObjectClass(ptr));
+  return _isValidClass(c.getObjectClass(ptr));
 }
 
 final _allClasses = <Pointer<c.ObjCObject>>{};
 
-// Returns whether the object is a valid class, by maintaining a set of all
-// vaid classes. Not exported by ../objective_c.dart, only public for testing.
-bool isValidClass(Pointer<c.ObjCObject> clazz) {
+bool _isValidClass(Pointer<c.ObjCObject> clazz) {
   if (_allClasses.contains(clazz)) return true;
 
   // If the class is missing from the list, it either means we haven't created
@@ -178,13 +165,13 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
 
   @override
   void _retain(Pointer<c.ObjCBlock> ptr) {
-    assert(isValidBlock(ptr));
+    assert(c.isValidBlock(ptr));
     c.blockCopy(ptr.cast());
   }
 
   @override
   void _release(Pointer<c.ObjCBlock> ptr) {
-    assert(isValidBlock(ptr));
+    assert(c.isValidBlock(ptr));
     c.blockRelease(ptr.cast());
   }
 }
@@ -217,12 +204,12 @@ Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
   b.ref.target = target;
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
-  assert(isValidBlock(b));
+  assert(c.isValidBlock(b));
   final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
   calloc.free(b);
   assert(copy.ref.isa ==
       Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteMallocBlock).cast());
-  assert(isValidBlock(copy));
+  assert(c.isValidBlock(copy));
   return copy;
 }
 
@@ -269,3 +256,6 @@ Function getBlockClosure(Pointer<c.ObjCBlock> block) {
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(Pointer<c.ObjCBlock> block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
+bool isValidBlock(Pointer<c.ObjCBlock> block) => c.isValidBlock(block);
+bool isValidClass(Pointer<c.ObjCObject> clazz) => _isValidClass(clazz);
+bool isValidObject(Pointer<c.ObjCObject> object) => _isValidObject(object);

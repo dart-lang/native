@@ -9,7 +9,7 @@ import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
-    show isReadableMemory, isValidClass, isValidBlock;
+    show isValidClass, isValidBlock;
 import 'package:path/path.dart' as path;
 
 import '../test_utils.dart';
@@ -41,11 +41,15 @@ void doGC() {
   calloc.free(gcNow);
 }
 
+@Native<Bool Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
+external bool _isReadableMemory(Pointer<Void> ptr);
+
 @Native<Uint64 Function(Pointer<Void>)>(
     isLeaf: true, symbol: 'getBlockRetainCount')
 external int _getBlockRetainCount(Pointer<Void> block);
 
 int getBlockRetainCount(Pointer<ObjCBlock> block) {
+  if (!_isReadableMemory(block.cast())) return 0;
   if (!internal_for_testing.isValidBlock(block)) return 0;
   return _getBlockRetainCount(block.cast());
 }
@@ -55,7 +59,7 @@ int getBlockRetainCount(Pointer<ObjCBlock> block) {
 external int _getObjectRetainCount(Pointer<Void> object);
 
 int getObjectRetainCount(Pointer<ObjCObject> object) {
-  if (!internal_for_testing.isReadableMemory(object.cast())) return 0;
+  if (!_isReadableMemory(object.cast())) return 0;
   final header = object.cast<Uint64>().value;
 
   // package:objective_c's isValidObject function internally calls

@@ -14,7 +14,4 @@ void disposeObjCBlockWithClosure(ObjCBlock* block);
 // readable memory, or be null. May (rarely) return false positives.
 bool isValidBlock(ObjCBlock* block);
 
-// Returns whether the pointer is part of a readable page of memory.
-bool isReadableMemory(void* ptr);
-
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_
