@@ -98,4 +98,7 @@ abstract class HookConfig {
   /// * [NativeCodeAsset.type]
   /// * [DataAsset.type]
   Iterable<String> get supportedAssetTypes;
+
+  /// The preferred [LinkMode] method for [NativeCodeAsset]s.
+  LinkModePreference get linkModePreference;
 }

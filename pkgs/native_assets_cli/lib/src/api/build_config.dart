@@ -32,9 +32,6 @@ part 'c_compiler_config.dart';
 /// run with specific commandline arguments, which [BuildConfig] can parse and
 /// provide more convenient access to.
 abstract final class BuildConfig implements HookConfig {
-  /// The preferred [LinkMode] method for [NativeCodeAsset]s.
-  LinkModePreference get linkModePreference;
-
   /// Metadata from a direct dependency.
   ///
   /// The [packageName] of is the package name of the direct dependency.
@@ -74,7 +71,11 @@ abstract final class BuildConfig implements HookConfig {
     Map<String, String>? environment,
     Uri? workingDirectory,
   }) =>
-      BuildConfigImpl.fromArguments(arguments);
+      BuildConfigImpl.fromArguments(
+        arguments,
+        environment: environment,
+        workingDirectory: workingDirectory,
+      );
 
   /// Constructs a config for a non-dry run by providing values for each field.
   ///

@@ -59,6 +59,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     super.targetArchitecture,
     super.targetIOSSdk,
     required super.targetOS,
+    required super.linkModePreference,
     super.dryRun,
   })  : _resourceIdentifierUri = resourceIdentifierUri,
         super(
@@ -75,6 +76,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required super.packageRoot,
     Version? version,
     Iterable<String>? supportedAssetTypes,
+    required super.linkModePreference,
     required super.targetOS,
   })  : _resourceIdentifierUri = resourceIdentifierUri,
         _treeshakingInformation = resourceIdentifierUri != null
@@ -125,6 +127,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       targetOS: targetOS,
       targetArchitecture:
           HookConfigImpl.parseTargetArchitecture(config, dryRun, targetOS),
+      linkModePreference: HookConfigImpl.parseLinkModePreference(config),
       version: HookConfigImpl.parseVersion(config, latestVersion),
       cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),

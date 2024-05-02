@@ -24,9 +24,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       version > Version(1, 1, 0) ? 'build_output.json' : 'build_output.yaml';
 
   @override
-  final LinkModePreferenceImpl linkModePreference;
-
-  @override
   Object? metadatum(String packageName, String key) {
     HookConfigImpl.ensureNotDryRun(dryRun);
     return _dependencyMetadata?[packageName]?.metadata[key];
@@ -51,7 +48,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     required super.targetArchitecture,
     super.targetIOSSdk,
     required super.targetOS,
-    required this.linkModePreference,
+    required super.linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
     super.dryRun,
   })  : _dependencyMetadata = dependencyMetadata,
@@ -67,7 +64,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     required super.packageName,
     required super.packageRoot,
     required super.targetOS,
-    required this.linkModePreference,
+    required super.linkModePreference,
     Iterable<String>? supportedAssetTypes,
   })  : _dependencyMetadata = null,
         super.dryRun(
@@ -119,7 +116,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       targetOS: targetOS,
       targetArchitecture:
           HookConfigImpl.parseTargetArchitecture(config, dryRun, targetOS),
-      linkModePreference: parseLinkModePreference(config),
+      linkModePreference: HookConfigImpl.parseLinkModePreference(config),
       dependencyMetadata: parseDependencyMetadata(config),
       version: HookConfigImpl.parseVersion(config, latestVersion),
       cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
@@ -130,16 +127,6 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       dryRun: dryRun,
     );
   }
-
-  static LinkModePreferenceImpl parseLinkModePreference(Config config) =>
-      LinkModePreferenceImpl.fromString(
-        config.string(
-          LinkModePreferenceImpl.configKey,
-          validValues: LinkModePreferenceImpl.values.map(
-            (e) => e.toString(),
-          ),
-        ),
-      );
 
   static Map<String, Metadata>? parseDependencyMetadata(Config config) =>
       _readDependencyMetadataFromConfig(config);

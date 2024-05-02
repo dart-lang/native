@@ -11,4 +11,4 @@ void main(List<String> args) async {
   );
 }
 
-List<Asset> shake(Iterable<Asset> assets) => assets.skip(2).toList();
+Iterable<Asset> shake(Iterable<Asset> assets) => assets.skip(2);

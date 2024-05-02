@@ -18,6 +18,7 @@ import 'build_config.dart';
 import 'build_mode.dart';
 import 'hook_config.dart';
 import 'ios_sdk.dart';
+import 'link_mode_preference.dart';
 import 'os.dart';
 import 'resource.dart';
 
@@ -57,6 +58,7 @@ abstract class LinkConfig implements HookConfig {
     int? targetAndroidNdkApi,
     required Iterable<Asset> assets,
     Uri? resourceIdentifierUri,
+    required LinkModePreference linkModePreference,
     bool? dryRun,
     Version? version,
   }) =>
@@ -73,6 +75,7 @@ abstract class LinkConfig implements HookConfig {
         targetIOSSdk: targetIOSSdk as IOSSdkImpl?,
         targetOS: targetOS as OSImpl,
         dryRun: dryRun,
+        linkModePreference: linkModePreference as LinkModePreferenceImpl,
         supportedAssetTypes: supportedAssetTypes,
         version: version,
       );
@@ -85,6 +88,7 @@ abstract class LinkConfig implements HookConfig {
     List<String>? supportedAssetTypes,
     required Iterable<Asset> assets,
     Uri? resourceIdentifierUri,
+    required LinkModePreference linkModePreference,
     Version? version,
   }) =>
       LinkConfigImpl.dryRun(
@@ -95,6 +99,7 @@ abstract class LinkConfig implements HookConfig {
         packageRoot: packageRoot,
         targetOS: targetOS as OSImpl,
         supportedAssetTypes: supportedAssetTypes,
+        linkModePreference: linkModePreference as LinkModePreferenceImpl,
         version: version,
       );
 

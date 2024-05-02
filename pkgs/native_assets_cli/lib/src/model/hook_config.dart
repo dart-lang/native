@@ -45,6 +45,9 @@ abstract class HookConfigImpl implements HookConfig {
   final int? _targetAndroidNdkApi;
 
   @override
+  final LinkModePreferenceImpl linkModePreference;
+
+  @override
   int? get targetAndroidNdkApi {
     ensureNotDryRun(dryRun);
     return _targetAndroidNdkApi;
@@ -83,6 +86,7 @@ abstract class HookConfigImpl implements HookConfig {
     required int? targetAndroidNdkApi,
     required this.targetArchitecture,
     required IOSSdkImpl? targetIOSSdk,
+    required this.linkModePreference,
     required this.targetOS,
     bool? dryRun,
   })  : _targetAndroidNdkApi = targetAndroidNdkApi,
@@ -98,6 +102,7 @@ abstract class HookConfigImpl implements HookConfig {
     required this.packageRoot,
     required this.version,
     required this.supportedAssetTypes,
+    required this.linkModePreference,
     required this.targetOS,
   })  : _cCompiler = CCompilerConfigImpl(),
         dryRun = true,
@@ -198,6 +203,14 @@ abstract class HookConfigImpl implements HookConfig {
       );
     }
   }
+
+  static LinkModePreferenceImpl parseLinkModePreference(Config config) =>
+      LinkModePreferenceImpl.fromString(
+        config.string(
+          LinkModePreferenceImpl.configKey,
+          validValues: LinkModePreferenceImpl.values.map((e) => e.toString()),
+        ),
+      );
 
   static OSImpl parseTargetOS(Config config) => OSImpl.fromString(
         config.string(
