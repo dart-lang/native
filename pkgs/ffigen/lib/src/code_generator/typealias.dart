@@ -172,15 +172,13 @@ class Typealias extends BindingType {
   @override
   String convertFfiDartTypeToDartType(
     Writer w,
-    String value,
-    String library, {
+    String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
       type.convertFfiDartTypeToDartType(
         w,
         value,
-        library,
         objCRetain: objCRetain,
         objCEnclosingClass: objCEnclosingClass,
       );
@@ -189,8 +187,7 @@ class Typealias extends BindingType {
   String cacheKey() => type.cacheKey();
 
   @override
-  String? getDefaultValue(Writer w, String nativeLib) =>
-      type.getDefaultValue(w, nativeLib);
+  String? getDefaultValue(Writer w) => type.getDefaultValue(w);
 }
 
 /// Objective C's instancetype.
@@ -220,13 +217,11 @@ class ObjCInstanceType extends Typealias {
   @override
   String convertFfiDartTypeToDartType(
     Writer w,
-    String value,
-    String library, {
+    String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
       // objCEnclosingClass must be present, because instancetype can only
       // occur inside a class.
-      ObjCInterface.generateConstructor(
-          objCEnclosingClass!, value, library, objCRetain);
+      ObjCInterface.generateConstructor(objCEnclosingClass!, value, objCRetain);
 }

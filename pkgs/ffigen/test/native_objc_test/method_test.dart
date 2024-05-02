@@ -16,15 +16,16 @@ import 'util.dart';
 
 void main() {
   late MethodInterface testInstance;
-  late MethodTestObjCLibrary lib;
 
   group('method calls', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/method_test.dylib');
       verifySetupFile(dylib);
-      lib = MethodTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      testInstance = MethodInterface.new1(lib);
+      DynamicLibrary.open(dylib.absolute.path);
+      testInstance = MethodInterface.new1();
       generateBindingsForCoverage('method');
     });
 
@@ -48,19 +49,19 @@ void main() {
 
     group('Class methods', () {
       test('No arguments', () {
-        expect(MethodInterface.sub(lib), -5);
+        expect(MethodInterface.sub(), -5);
       });
 
       test('One argument', () {
-        expect(MethodInterface.sub_(lib, 7), -7);
+        expect(MethodInterface.sub_(7), -7);
       });
 
       test('Two arguments', () {
-        expect(MethodInterface.sub_Y_(lib, 7, 3), -10);
+        expect(MethodInterface.sub_Y_(7, 3), -10);
       });
 
       test('Three arguments', () {
-        expect(MethodInterface.sub_Y_Z_(lib, 10, 7, 3), -20);
+        expect(MethodInterface.sub_Y_Z_(10, 7, 3), -20);
       });
     });
 

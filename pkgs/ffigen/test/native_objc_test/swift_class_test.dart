@@ -14,18 +14,19 @@ import 'swift_class_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late SwiftClassTestLibrary lib;
   group('swift_class_test', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/swift_class_test.dylib');
       verifySetupFile(dylib);
-      lib = SwiftClassTestLibrary(DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('swift_class');
     });
 
     test('Renamed class', () {
-      final swiftObject = MySwiftClass.new1(lib);
+      final swiftObject = MySwiftClass.new1();
       expect(swiftObject.getValue(), 123);
       swiftObject.setValueWithX_(456);
       expect(swiftObject.getValue(), 456);

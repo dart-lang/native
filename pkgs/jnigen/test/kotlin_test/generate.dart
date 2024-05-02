@@ -35,12 +35,10 @@ void compileKotlinSources(String workingDir) async {
   }
 }
 
-Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
+Config getConfig() {
   compileKotlinSources(kotlinPath);
-  final typeDir = bindingsType.getConfigString();
-  final cWrapperDir = Uri.directory(join(testRoot, typeDir, "c_bindings"));
   final dartWrappersRoot = Uri.directory(
-    join(testRoot, typeDir, "dart_bindings"),
+    join(testRoot, 'bindings'),
   );
   final config = Config(
     classPath: [Uri.file(jarPath)],
@@ -53,11 +51,6 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
     ],
     logLevel: Level.ALL,
     outputConfig: OutputConfig(
-      bindingsType: bindingsType,
-      cConfig: CCodeOutputConfig(
-        path: cWrapperDir,
-        libraryName: 'kotlin',
-      ),
       dartConfig: DartCodeOutputConfig(
         path: dartWrappersRoot.resolve('kotlin.dart'),
         structure: OutputStructure.singleFile,
@@ -70,6 +63,5 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
 }
 
 void main() async {
-  await generateJniBindings(getConfig(BindingsType.cBased));
-  await generateJniBindings(getConfig(BindingsType.dartOnly));
+  await generateJniBindings(getConfig());
 }

@@ -3,6 +3,9 @@
 // This is generated from JNI header in Android NDK. License for the same is
 // provided below.
 
+// Generation logic resides in `tool/wrapper_generators`.
+// To regenerate, run `dart run tool/generate_ffi_bindings.dart`.
+
 /*
  * Copyright (C) 2006 The Android Open Source Project
  *
@@ -1487,6 +1490,49 @@ class JniAccessors {
       .asFunction<JniResult Function(JArrayPtr array, int index, int type)>();
   JniResult getArrayElement(JArrayPtr array, int index, int type) =>
       _getArrayElement(array, index, type);
+
+  late final _setBooleanArrayElement = ptr.ref.setBooleanArrayElement
+      .asFunction<
+          JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+  JThrowablePtr setBooleanArrayElement(JArrayPtr array, int index, int value) =>
+      _setBooleanArrayElement(array, index, value);
+
+  late final _setByteArrayElement = ptr.ref.setByteArrayElement.asFunction<
+      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+  JThrowablePtr setByteArrayElement(JArrayPtr array, int index, int value) =>
+      _setByteArrayElement(array, index, value);
+
+  late final _setShortArrayElement = ptr.ref.setShortArrayElement.asFunction<
+      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+  JThrowablePtr setShortArrayElement(JArrayPtr array, int index, int value) =>
+      _setShortArrayElement(array, index, value);
+
+  late final _setCharArrayElement = ptr.ref.setCharArrayElement.asFunction<
+      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+  JThrowablePtr setCharArrayElement(JArrayPtr array, int index, int value) =>
+      _setCharArrayElement(array, index, value);
+
+  late final _setIntArrayElement = ptr.ref.setIntArrayElement.asFunction<
+      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+  JThrowablePtr setIntArrayElement(JArrayPtr array, int index, int value) =>
+      _setIntArrayElement(array, index, value);
+
+  late final _setLongArrayElement = ptr.ref.setLongArrayElement.asFunction<
+      JThrowablePtr Function(JArrayPtr array, int index, int value)>();
+  JThrowablePtr setLongArrayElement(JArrayPtr array, int index, int value) =>
+      _setLongArrayElement(array, index, value);
+
+  late final _setFloatArrayElement = ptr.ref.setFloatArrayElement.asFunction<
+      JThrowablePtr Function(JArrayPtr array, int index, double value)>();
+  JThrowablePtr setFloatArrayElement(
+          JArrayPtr array, int index, double value) =>
+      _setFloatArrayElement(array, index, value);
+
+  late final _setDoubleArrayElement = ptr.ref.setDoubleArrayElement.asFunction<
+      JThrowablePtr Function(JArrayPtr array, int index, double value)>();
+  JThrowablePtr setDoubleArrayElement(
+          JArrayPtr array, int index, double value) =>
+      _setDoubleArrayElement(array, index, value);
 
   late final _callMethod = ptr.ref.callMethod.asFunction<
       JniResult Function(JObjectPtr obj, JMethodIDPtr methodID, int callType,

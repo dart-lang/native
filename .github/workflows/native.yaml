@@ -49,16 +49,16 @@ jobs:
         working-directory: pkgs/${{ matrix.package }}
 
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
 
-      - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
+      - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
         with:
           sdk: ${{ matrix.sdk }}
 
       - uses: nttld/setup-ndk@6a7e9c5494a25c4842ca1011f710300132eacd94
         with:
           ndk-version: r26b
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' && matrix.os != 'macos' }}
 
       - run: dart pub get
 
@@ -172,6 +172,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
-          carryforward: "ffigen_macos,jnigen_tests,jni_tests"
+          carryforward: "objective_c_tests,ffigen_macos,jnigen_tests,jni_tests,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

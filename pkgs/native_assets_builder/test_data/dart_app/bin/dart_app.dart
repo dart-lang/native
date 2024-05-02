@@ -13,7 +13,7 @@ void main() {
 void testNativeAdd() {
   final answer = add(5, 6);
   if (answer != 5 + 6) {
-    throw 'Wrong answer';
+    throw Exception('Wrong answer');
   }
   print('add(5, 6) = $answer');
 }
@@ -21,7 +21,7 @@ void testNativeAdd() {
 void testNativeSubtract() {
   final answer = subtract(5, 6);
   if (answer != 5 - 6) {
-    throw 'Wrong answer';
+    throw Exception('Wrong answer');
   }
   print('subtract(5, 6) = $answer');
 }

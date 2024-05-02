@@ -71,11 +71,7 @@ class SummarizerCommand {
       final joined = paths
           .map((uri) => uri.toFilePath())
           .join(Platform.isWindows ? ';' : ':');
-      if (option.endsWith("=")) {
-        args.add(option + joined);
-      } else {
-        args.addAll([option, joined]);
-      }
+      args.addAll([option, '"$joined"']);
     }
   }
 

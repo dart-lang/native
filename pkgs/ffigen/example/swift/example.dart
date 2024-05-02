@@ -7,8 +7,8 @@ import 'swift_api_bindings.dart';
 
 void main() {
   // TODO(https://github.com/dart-lang/ffigen/issues/443): Add a test for this.
-  final lib = SwiftLibrary(DynamicLibrary.open('libswiftapi.dylib'));
-  final object = SwiftClass.new1(lib);
+  DynamicLibrary.open('libswiftapi.dylib');
+  final object = SwiftClass.new1();
   print(object.sayHello());
   print('field = ${object.someField}');
   object.someField = 456;

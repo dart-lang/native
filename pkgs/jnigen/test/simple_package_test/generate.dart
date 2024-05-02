@@ -48,12 +48,10 @@ void compileJavaSources(String workingDir, List<String> files) async {
   }
 }
 
-Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
+Config getConfig() {
   compileJavaSources(javaPath, javaFiles);
-  final typeDir = bindingsType.getConfigString();
-  final cWrapperDir = Uri.directory(join(testRoot, typeDir, "c_bindings"));
   final dartWrappersRoot = Uri.directory(
-    join(testRoot, typeDir, "dart_bindings"),
+    join(testRoot, "bindings"),
   );
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
@@ -72,11 +70,6 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
 '''
     },
     outputConfig: OutputConfig(
-      bindingsType: bindingsType,
-      cConfig: CCodeOutputConfig(
-        path: cWrapperDir,
-        libraryName: 'simple_package',
-      ),
       dartConfig: DartCodeOutputConfig(
         path: dartWrappersRoot.resolve('simple_package.dart'),
         structure: OutputStructure.singleFile,
@@ -89,6 +82,5 @@ Config getConfig([BindingsType bindingsType = BindingsType.cBased]) {
 }
 
 void main() async {
-  await generateJniBindings(getConfig(BindingsType.cBased));
-  await generateJniBindings(getConfig(BindingsType.dartOnly));
+  await generateJniBindings(getConfig());
 }

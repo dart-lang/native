@@ -27,11 +27,6 @@ import "dart:ffi" as ffi;
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-// Auto-generated initialization code.
-
-final ffi.Pointer<T> Function<T extends ffi.NativeType>(String sym) jniLookup =
-    ProtectedJniExtensions.initGeneratedLibrary("notification_plugin");
-
 /// from: com.example.notification_plugin.Notifications
 class Notifications extends jni.JObject {
   @override
@@ -41,28 +36,60 @@ class Notifications extends jni.JObject {
     jni.JReference reference,
   ) : super.fromReference(reference);
 
+  static final _class =
+      jni.JClass.forName(r"com/example/notification_plugin/Notifications");
+
   /// The type which includes information such as the signature of this class.
   static const type = $NotificationsType();
-  static final _new0 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
-          "Notifications__new0")
-      .asFunction<jni.JniResult Function()>();
+  static final _id_new0 = _class.constructorId(
+    r"()V",
+  );
+
+  static final _new0 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
 
   /// from: public void <init>()
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
-    return Notifications.fromReference(_new0().reference);
+    return Notifications.fromReference(
+        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            .reference);
   }
 
-  static final _showNotification = jniLookup<
+  static final _id_showNotification = _class.staticMethodId(
+    r"showNotification",
+    r"(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)V",
+  );
+
+  static final _showNotification = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
-              jni.JniResult Function(
+              jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
-                  ffi.Int32,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("Notifications__showNotification")
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Int64,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallStaticVoidMethod")
       .asFunction<
-          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowablePtr Function(
+              ffi.Pointer<ffi.Void>,
+              jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)
   static void showNotification(
@@ -71,8 +98,13 @@ class Notifications extends jni.JObject {
     jni.JString title,
     jni.JString text,
   ) {
-    _showNotification(context.reference.pointer, notificationID,
-            title.reference.pointer, text.reference.pointer)
+    _showNotification(
+            _class.reference.pointer,
+            _id_showNotification as jni.JMethodIDPtr,
+            context.reference.pointer,
+            notificationID,
+            title.reference.pointer,
+            text.reference.pointer)
         .check();
   }
 }

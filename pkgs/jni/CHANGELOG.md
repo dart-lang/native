@@ -1,3 +1,13 @@
+## 0.9.0
+
+- **Breaking Change**
+  ([#1004](https://github.com/dart-lang/native/issues/1004)): Changed the return
+  type `operator []` of `JArray<jchar>` to `int` instead of `String`. Similarly,
+  change the argument type of `operator []=` to accept `int`.
+- Added `getRange` method to `JArray` of primitive types that returns a
+  `TypedData` list depending on the kind of the array.
+- Improved the performance of `JArray`'s `setRange` and `operator []=`.
+
 ## 0.8.0
 
 - **Breaking Change** ([#981](https://github.com/dart-lang/native/issues/981)):

@@ -4,12 +4,10 @@
 
 import 'dart:io';
 
-import 'package:cli_util/cli_util.dart';
 import 'package:collection/collection.dart';
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as p;
 import 'package:yaml_edit/yaml_edit.dart';
 
 import 'utils.dart';
@@ -31,6 +29,7 @@ class Library {
     required List<Binding> bindings,
     String? header,
     bool sort = false,
+    bool generateForPackageObjectiveC = false,
     StructPackingOverride? packingOverride,
     Set<LibraryImport>? libraryImports,
   }) {
@@ -84,6 +83,7 @@ class Library {
       classDocComment: description,
       header: header,
       additionalImports: libraryImports,
+      generateForPackageObjectiveC: generateForPackageObjectiveC,
     );
   }
 
@@ -149,9 +149,8 @@ class Library {
 
   /// Formats a file using the Dart formatter.
   void _dartFormat(String path) {
-    final sdkPath = getSdkPath();
-    final result = Process.runSync(
-        p.join(sdkPath, 'bin', 'dart'), ['format', path],
+    final result = Process.runSync(findDart(), ['format', path],
+        workingDirectory: Directory.current.absolute.path,
         runInShell: Platform.isWindows);
     if (result.stderr.toString().isNotEmpty) {
       _logger.severe(result.stderr);

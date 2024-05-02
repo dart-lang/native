@@ -48,7 +48,6 @@ Config getSummaryGenerationConfig(
     {List<String>? sourcePath, List<String>? classPath}) {
   return Config(
     outputConfig: OutputConfig(
-      bindingsType: BindingsType.dartOnly,
       dartConfig: DartCodeOutputConfig(
         path: Uri.file('unused.dart'),
         structure: OutputStructure.singleFile,

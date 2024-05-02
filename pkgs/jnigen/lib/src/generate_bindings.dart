@@ -5,7 +5,6 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'bindings/c_generator.dart';
 import 'bindings/dart_generator.dart';
 import 'bindings/descriptor.dart';
 import 'bindings/excluder.dart';
@@ -43,11 +42,6 @@ Future<void> generateJniBindings(Config config) async {
   classes.accept(const Unnester());
   classes.accept(const Descriptor());
   classes.accept(Renamer(config));
-
-  final cBased = config.outputConfig.bindingsType == BindingsType.cBased;
-  if (cBased) {
-    await classes.accept(CGenerator(config));
-  }
 
   try {
     await classes.accept(DartGenerator(config));

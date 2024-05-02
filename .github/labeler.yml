@@ -27,3 +27,7 @@
 'package:native_toolchain_c':
   - changed-files:
       - any-glob-to-any-file: 'pkgs/native_toolchain_c/**'
+
+'package:objective_c':
+  - changed-files:
+      - any-glob-to-any-file: 'pkgs/objective_c/**'

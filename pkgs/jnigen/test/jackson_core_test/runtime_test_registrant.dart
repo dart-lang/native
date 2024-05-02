@@ -7,7 +7,7 @@ import 'package:jni/jni.dart';
 
 import '../test_util/callback_types.dart';
 
-import 'third_party/c_based/dart_bindings/com/fasterxml/jackson/core/_package.dart';
+import 'third_party/bindings/com/fasterxml/jackson/core/_package.dart';
 
 // This file doesn't define main, because only one JVM has to be spawned with
 // all classpaths, it's managed at a different file which calls these tests.

@@ -3,6 +3,9 @@
 // This is generated from JNI header in Android NDK. License for the same is
 // provided below.
 
+// Generation logic resides in `tool/wrapper_generators`.
+// To regenerate, run `dart run tool/generate_ffi_bindings.dart`.
+
 /*
  * Copyright (C) 2006 The Android Open Source Project
  *
@@ -65,47 +68,48 @@ typedef struct GlobalJniEnvStruct {
   JniResult (*NewLocalRef)(jobject obj);
   JniResult (*EnsureLocalCapacity)(jint capacity);
   JniResult (*AllocObject)(jclass clazz);
-  JniResult (*NewObject)(jclass clazz, jmethodID methodID);
+  JniResult (*NewObject)(jclass clazz, jmethodID methodID, ...);
   JniResult (*NewObjectV)(jclass, jmethodID, void*);
   JniResult (*NewObjectA)(jclass clazz, jmethodID methodID, jvalue* args);
   JniClassLookupResult (*GetObjectClass)(jobject obj);
   JniResult (*IsInstanceOf)(jobject obj, jclass clazz);
   JniPointerResult (*GetMethodID)(jclass clazz, char* name, char* sig);
-  JniResult (*CallObjectMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallObjectMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallObjectMethodV)(jobject, jmethodID, void*);
   JniResult (*CallObjectMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  JniResult (*CallBooleanMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallBooleanMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallBooleanMethodV)(jobject, jmethodID, void*);
   JniResult (*CallBooleanMethodA)(jobject obj,
                                   jmethodID methodId,
                                   jvalue* args);
-  JniResult (*CallByteMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallByteMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallByteMethodV)(jobject, jmethodID, void*);
   JniResult (*CallByteMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  JniResult (*CallCharMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallCharMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallCharMethodV)(jobject, jmethodID, void*);
   JniResult (*CallCharMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  JniResult (*CallShortMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallShortMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallShortMethodV)(jobject, jmethodID, void*);
   JniResult (*CallShortMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  JniResult (*CallIntMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallIntMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallIntMethodV)(jobject, jmethodID, void*);
   JniResult (*CallIntMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  JniResult (*CallLongMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallLongMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallLongMethodV)(jobject, jmethodID, void*);
   JniResult (*CallLongMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  JniResult (*CallFloatMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallFloatMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallFloatMethodV)(jobject, jmethodID, void*);
   JniResult (*CallFloatMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  JniResult (*CallDoubleMethod)(jobject obj, jmethodID methodID);
+  JniResult (*CallDoubleMethod)(jobject obj, jmethodID methodID, ...);
   JniResult (*CallDoubleMethodV)(jobject, jmethodID, void*);
   JniResult (*CallDoubleMethodA)(jobject obj, jmethodID methodID, jvalue* args);
-  jthrowable (*CallVoidMethod)(jobject obj, jmethodID methodID);
+  jthrowable (*CallVoidMethod)(jobject obj, jmethodID methodID, ...);
   jthrowable (*CallVoidMethodV)(jobject, jmethodID, void*);
   jthrowable (*CallVoidMethodA)(jobject obj, jmethodID methodID, jvalue* args);
   JniResult (*CallNonvirtualObjectMethod)(jobject obj,
                                           jclass clazz,
-                                          jmethodID methodID);
+                                          jmethodID methodID,
+                                          ...);
   JniResult (*CallNonvirtualObjectMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualObjectMethodA)(jobject obj,
                                            jclass clazz,
@@ -113,7 +117,8 @@ typedef struct GlobalJniEnvStruct {
                                            jvalue* args);
   JniResult (*CallNonvirtualBooleanMethod)(jobject obj,
                                            jclass clazz,
-                                           jmethodID methodID);
+                                           jmethodID methodID,
+                                           ...);
   JniResult (*CallNonvirtualBooleanMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualBooleanMethodA)(jobject obj,
                                             jclass clazz,
@@ -121,7 +126,8 @@ typedef struct GlobalJniEnvStruct {
                                             jvalue* args);
   JniResult (*CallNonvirtualByteMethod)(jobject obj,
                                         jclass clazz,
-                                        jmethodID methodID);
+                                        jmethodID methodID,
+                                        ...);
   JniResult (*CallNonvirtualByteMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualByteMethodA)(jobject obj,
                                          jclass clazz,
@@ -129,7 +135,8 @@ typedef struct GlobalJniEnvStruct {
                                          jvalue* args);
   JniResult (*CallNonvirtualCharMethod)(jobject obj,
                                         jclass clazz,
-                                        jmethodID methodID);
+                                        jmethodID methodID,
+                                        ...);
   JniResult (*CallNonvirtualCharMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualCharMethodA)(jobject obj,
                                          jclass clazz,
@@ -137,7 +144,8 @@ typedef struct GlobalJniEnvStruct {
                                          jvalue* args);
   JniResult (*CallNonvirtualShortMethod)(jobject obj,
                                          jclass clazz,
-                                         jmethodID methodID);
+                                         jmethodID methodID,
+                                         ...);
   JniResult (*CallNonvirtualShortMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualShortMethodA)(jobject obj,
                                           jclass clazz,
@@ -145,7 +153,8 @@ typedef struct GlobalJniEnvStruct {
                                           jvalue* args);
   JniResult (*CallNonvirtualIntMethod)(jobject obj,
                                        jclass clazz,
-                                       jmethodID methodID);
+                                       jmethodID methodID,
+                                       ...);
   JniResult (*CallNonvirtualIntMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualIntMethodA)(jobject obj,
                                         jclass clazz,
@@ -153,7 +162,8 @@ typedef struct GlobalJniEnvStruct {
                                         jvalue* args);
   JniResult (*CallNonvirtualLongMethod)(jobject obj,
                                         jclass clazz,
-                                        jmethodID methodID);
+                                        jmethodID methodID,
+                                        ...);
   JniResult (*CallNonvirtualLongMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualLongMethodA)(jobject obj,
                                          jclass clazz,
@@ -161,7 +171,8 @@ typedef struct GlobalJniEnvStruct {
                                          jvalue* args);
   JniResult (*CallNonvirtualFloatMethod)(jobject obj,
                                          jclass clazz,
-                                         jmethodID methodID);
+                                         jmethodID methodID,
+                                         ...);
   JniResult (*CallNonvirtualFloatMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualFloatMethodA)(jobject obj,
                                           jclass clazz,
@@ -169,7 +180,8 @@ typedef struct GlobalJniEnvStruct {
                                           jvalue* args);
   JniResult (*CallNonvirtualDoubleMethod)(jobject obj,
                                           jclass clazz,
-                                          jmethodID methodID);
+                                          jmethodID methodID,
+                                          ...);
   JniResult (*CallNonvirtualDoubleMethodV)(jobject, jclass, jmethodID, void*);
   JniResult (*CallNonvirtualDoubleMethodA)(jobject obj,
                                            jclass clazz,
@@ -177,7 +189,8 @@ typedef struct GlobalJniEnvStruct {
                                            jvalue* args);
   jthrowable (*CallNonvirtualVoidMethod)(jobject obj,
                                          jclass clazz,
-                                         jmethodID methodID);
+                                         jmethodID methodID,
+                                         ...);
   jthrowable (*CallNonvirtualVoidMethodV)(jobject, jclass, jmethodID, void*);
   jthrowable (*CallNonvirtualVoidMethodA)(jobject obj,
                                           jclass clazz,
@@ -203,52 +216,52 @@ typedef struct GlobalJniEnvStruct {
   jthrowable (*SetFloatField)(jobject obj, jfieldID fieldID, jfloat val);
   jthrowable (*SetDoubleField)(jobject obj, jfieldID fieldID, jdouble val);
   JniPointerResult (*GetStaticMethodID)(jclass clazz, char* name, char* sig);
-  JniResult (*CallStaticObjectMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticObjectMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticObjectMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticObjectMethodA)(jclass clazz,
                                        jmethodID methodID,
                                        jvalue* args);
-  JniResult (*CallStaticBooleanMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticBooleanMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticBooleanMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticBooleanMethodA)(jclass clazz,
                                         jmethodID methodID,
                                         jvalue* args);
-  JniResult (*CallStaticByteMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticByteMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticByteMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticByteMethodA)(jclass clazz,
                                      jmethodID methodID,
                                      jvalue* args);
-  JniResult (*CallStaticCharMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticCharMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticCharMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticCharMethodA)(jclass clazz,
                                      jmethodID methodID,
                                      jvalue* args);
-  JniResult (*CallStaticShortMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticShortMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticShortMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticShortMethodA)(jclass clazz,
                                       jmethodID methodID,
                                       jvalue* args);
-  JniResult (*CallStaticIntMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticIntMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticIntMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticIntMethodA)(jclass clazz,
                                     jmethodID methodID,
                                     jvalue* args);
-  JniResult (*CallStaticLongMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticLongMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticLongMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticLongMethodA)(jclass clazz,
                                      jmethodID methodID,
                                      jvalue* args);
-  JniResult (*CallStaticFloatMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticFloatMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticFloatMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticFloatMethodA)(jclass clazz,
                                       jmethodID methodID,
                                       jvalue* args);
-  JniResult (*CallStaticDoubleMethod)(jclass clazz, jmethodID methodID);
+  JniResult (*CallStaticDoubleMethod)(jclass clazz, jmethodID methodID, ...);
   JniResult (*CallStaticDoubleMethodV)(jclass, jmethodID, void*);
   JniResult (*CallStaticDoubleMethodA)(jclass clazz,
                                        jmethodID methodID,
                                        jvalue* args);
-  jthrowable (*CallStaticVoidMethod)(jclass clazz, jmethodID methodID);
+  jthrowable (*CallStaticVoidMethod)(jclass clazz, jmethodID methodID, ...);
   jthrowable (*CallStaticVoidMethodV)(jclass, jmethodID, void*);
   jthrowable (*CallStaticVoidMethodA)(jclass clazz,
                                       jmethodID methodID,
@@ -432,3 +445,115 @@ typedef struct GlobalJniEnvStruct {
   JniResult (*GetObjectRefType)(jobject obj);
 } GlobalJniEnvStruct;
 FFI_PLUGIN_EXPORT GlobalJniEnvStruct* GetGlobalEnv();
+FFI_PLUGIN_EXPORT JniResult globalEnv_NewObject(jclass clazz,
+                                                jmethodID methodID,
+                                                ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallObjectMethod(jobject obj,
+                                                       jmethodID methodID,
+                                                       ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallBooleanMethod(jobject obj,
+                                                        jmethodID methodID,
+                                                        ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallByteMethod(jobject obj,
+                                                     jmethodID methodID,
+                                                     ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallCharMethod(jobject obj,
+                                                     jmethodID methodID,
+                                                     ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallShortMethod(jobject obj,
+                                                      jmethodID methodID,
+                                                      ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallIntMethod(jobject obj,
+                                                    jmethodID methodID,
+                                                    ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallLongMethod(jobject obj,
+                                                     jmethodID methodID,
+                                                     ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallFloatMethod(jobject obj,
+                                                      jmethodID methodID,
+                                                      ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallDoubleMethod(jobject obj,
+                                                       jmethodID methodID,
+                                                       ...);
+FFI_PLUGIN_EXPORT jthrowable globalEnv_CallVoidMethod(jobject obj,
+                                                      jmethodID methodID,
+                                                      ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualObjectMethod(jobject obj,
+                                     jclass clazz,
+                                     jmethodID methodID,
+                                     ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualBooleanMethod(jobject obj,
+                                      jclass clazz,
+                                      jmethodID methodID,
+                                      ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualByteMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualCharMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualShortMethod(jobject obj,
+                                    jclass clazz,
+                                    jmethodID methodID,
+                                    ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualIntMethod(jobject obj,
+                                  jclass clazz,
+                                  jmethodID methodID,
+                                  ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualLongMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualFloatMethod(jobject obj,
+                                    jclass clazz,
+                                    jmethodID methodID,
+                                    ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallNonvirtualDoubleMethod(jobject obj,
+                                     jclass clazz,
+                                     jmethodID methodID,
+                                     ...);
+FFI_PLUGIN_EXPORT jthrowable
+globalEnv_CallNonvirtualVoidMethod(jobject obj,
+                                   jclass clazz,
+                                   jmethodID methodID,
+                                   ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticObjectMethod(jclass clazz,
+                                                             jmethodID methodID,
+                                                             ...);
+FFI_PLUGIN_EXPORT JniResult
+globalEnv_CallStaticBooleanMethod(jclass clazz, jmethodID methodID, ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticByteMethod(jclass clazz,
+                                                           jmethodID methodID,
+                                                           ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticCharMethod(jclass clazz,
+                                                           jmethodID methodID,
+                                                           ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticShortMethod(jclass clazz,
+                                                            jmethodID methodID,
+                                                            ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticIntMethod(jclass clazz,
+                                                          jmethodID methodID,
+                                                          ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticLongMethod(jclass clazz,
+                                                           jmethodID methodID,
+                                                           ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticFloatMethod(jclass clazz,
+                                                            jmethodID methodID,
+                                                            ...);
+FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticDoubleMethod(jclass clazz,
+                                                             jmethodID methodID,
+                                                             ...);
+FFI_PLUGIN_EXPORT jthrowable globalEnv_CallStaticVoidMethod(jclass clazz,
+                                                            jmethodID methodID,
+                                                            ...);

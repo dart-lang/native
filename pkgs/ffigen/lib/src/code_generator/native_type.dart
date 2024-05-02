@@ -66,7 +66,7 @@ class NativeType extends Type {
   String cacheKey() => _cType;
 
   @override
-  String? getDefaultValue(Writer w, String nativeLib) => _defaultValue;
+  String? getDefaultValue(Writer w) => _defaultValue;
 }
 
 class BooleanType extends NativeType {

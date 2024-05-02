@@ -13,9 +13,6 @@ classes:
   - 'com.example.notification_plugin.Notifications'
 
 output:
-  c:
-    path: 'src/'
-    library_name: notification_plugin
   dart:
     path: 'lib/notifications.dart'
     ## Output to single file instead of recreating source's file structure.

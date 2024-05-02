@@ -16,21 +16,20 @@ import 'inherited_instancetype_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late InheritedInstancetypeTestObjCLibrary lib;
-
   group('inheritedInstancetype', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib =
           File('test/native_objc_test/inherited_instancetype_test.dylib');
       verifySetupFile(dylib);
-      lib = InheritedInstancetypeTestObjCLibrary(
-          DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('inherited_instancetype');
     });
 
     test('Ordinary init method', () {
-      final ChildClass child = ChildClass.alloc(lib).init();
+      final ChildClass child = ChildClass.alloc().init();
       expect(child.field, 123);
       final ChildClass sameChild = child.getSelf();
       sameChild.field = 456;
@@ -38,7 +37,7 @@ void main() {
     });
 
     test('Custom create method', () {
-      final ChildClass child = ChildClass.create(lib);
+      final ChildClass child = ChildClass.create();
       expect(child.field, 123);
       final ChildClass sameChild = child.getSelf();
       sameChild.field = 456;
@@ -46,7 +45,7 @@ void main() {
     });
 
     test('Polymorphism', () {
-      final ChildClass child = ChildClass.alloc(lib).init();
+      final ChildClass child = ChildClass.alloc().init();
       final BaseClass base = child;
 
       // Calling base.getSelf() should still go through ChildClass.getSelf, so

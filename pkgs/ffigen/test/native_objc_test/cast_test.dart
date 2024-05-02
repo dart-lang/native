@@ -9,6 +9,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'cast_bindings.dart';
@@ -16,15 +17,16 @@ import 'util.dart';
 
 void main() {
   Castaway? testInstance;
-  late CastTestObjCLibrary lib;
 
   group('cast', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/cast_test.dylib');
       verifySetupFile(dylib);
-      lib = CastTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
-      testInstance = Castaway.new1(lib);
+      DynamicLibrary.open(dylib.absolute.path);
+      testInstance = Castaway.new1();
       generateBindingsForCoverage('cast');
     });
 
@@ -35,8 +37,8 @@ void main() {
 
     test('castFromPointer', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-          lib, Pointer<ObjCObject>.fromAddress(meAsInt));
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
       expect(fromCast, testInstance!);
     });
 
@@ -47,16 +49,16 @@ void main() {
 
     test('equality equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-          lib, Pointer<ObjCObject>.fromAddress(meAsInt));
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
       expect(fromCast, testInstance!);
     });
 
     test('equality not equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-          lib, Pointer<ObjCObject>.fromAddress(meAsInt));
-      expect(fromCast, isNot(equals(NSObject.new1(lib))));
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
+      expect(fromCast, isNot(equals(NSObject.new1())));
     });
   });
 }

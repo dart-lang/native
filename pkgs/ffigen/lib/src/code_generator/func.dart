@@ -133,7 +133,6 @@ class Func extends LookUpBinding {
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
         w,
         '$funcVarName($argString)',
-        ffiNativeConfig.enabled ? 'lib' : 'this',
         objCRetain: !objCReturnsRetained,
       );
     } else {
@@ -158,11 +157,8 @@ external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 
 ''');
       if (needsWrapper) {
-        final libArg = functionType.returnType.sameDartAndFfiDartType
-            ? ''
-            : '${w.className} lib, ';
         s.write('''
-$dartReturnType $enclosingFuncName($libArg$dartArgDeclString) => $funcImplCall;
+$dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
 
 ''');
       }

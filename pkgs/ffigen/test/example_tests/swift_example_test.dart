@@ -51,10 +51,8 @@ void main() {
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
-      expect(output, contains('class SwiftLibrary{'));
-      expect(output, contains('class NSString extends NSObject {'));
-      expect(output, contains('class SwiftClass extends NSObject {'));
-      expect(output, contains('static SwiftClass new1(SwiftLibrary _lib) {'));
+      expect(output, contains('class SwiftClass extends objc.NSObject {'));
+      expect(output, contains('static SwiftClass new1() {'));
       expect(output, contains('NSString sayHello() {'));
       expect(output, contains('int get someField {'));
       expect(output, contains('set someField(int value) {'));
@@ -63,7 +61,7 @@ void main() {
       expect(
           output,
           contains(RegExp(r'late final _class_SwiftClass.* = '
-              r'_getClass.*\("swift_module\.SwiftClass"\)')));
+              r'objc.getClass.*\("swift_module\.SwiftClass"\)')));
     });
   });
 }

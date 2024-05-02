@@ -14,21 +14,21 @@ import 'typedef_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late TypedefTestObjCLibrary lib;
-
   group('typedef', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/typedef_test.dylib');
       verifySetupFile(dylib);
-      lib = TypedefTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('typedef');
     });
 
     test('Regression test for #386', () {
       // https://github.com/dart-lang/ffigen/issues/386
       // Make sure that the typedef DartSomeClassPtr is for SomeClass.
-      final DartSomeClassPtr instance = SomeClass.new1(lib);
+      final DartSomeClassPtr instance = SomeClass.new1();
       expect(instance.pointer, isNot(nullptr));
     });
   });

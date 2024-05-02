@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: unused_local_variable
+
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
@@ -11,8 +13,9 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:test/test.dart';
 import 'package:ffi/ffi.dart';
+import 'package:test/test.dart';
+
 import '../test_utils.dart';
 import 'static_func_bindings.dart';
 import 'util.dart';
@@ -21,34 +24,24 @@ typedef IntBlock = ObjCBlock_Int32_Int32;
 
 void main() {
   late StaticFuncTestObjCLibrary lib;
-  late void Function(Pointer<Char>, Pointer<Void>) executeInternalCommand;
 
   group('static functions', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/static_func_test.dylib');
       verifySetupFile(dylib);
       lib = StaticFuncTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      executeInternalCommand = DynamicLibrary.process().lookupFunction<
-          Void Function(Pointer<Char>, Pointer<Void>),
-          void Function(
-              Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
-
       generateBindingsForCoverage('static_func');
     });
-
-    doGC() {
-      final gcNow = "gc-now".toNativeUtf8();
-      executeInternalCommand(gcNow.cast(), nullptr);
-      calloc.free(gcNow);
-    }
 
     Pointer<Int32> staticFuncOfObjectRefCountTest(Allocator alloc) {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(lib, counter);
+      final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncOfObject(obj);
@@ -70,7 +63,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(lib, counter);
+      final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncOfNullableObject(obj);
@@ -92,7 +85,7 @@ void main() {
     });
 
     Pointer<Void> staticFuncOfBlockRefCountTest() {
-      final block = IntBlock.fromFunction(lib, (int x) => 2 * x);
+      final block = IntBlock.fromFunction((int x) => 2 * x);
       expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
 
       final outputBlock = lib.staticFuncOfBlock(block);
@@ -133,7 +126,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(lib, counter);
+      final obj = StaticFuncTestObj.newWithCounter_(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncReturnsRetainedArg(obj);

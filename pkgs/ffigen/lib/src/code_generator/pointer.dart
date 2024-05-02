@@ -94,7 +94,9 @@ class ObjCObjectPointer extends PointerType {
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override
-  String getDartType(Writer w) => 'NSObject';
+  String getDartType(Writer w) => w.generateForPackageObjectiveC
+      ? 'NSObject'
+      : '${w.objcPkgPrefix}.NSObject';
 
   @override
   bool get sameDartAndCType => false;
@@ -113,10 +115,9 @@ class ObjCObjectPointer extends PointerType {
   @override
   String convertFfiDartTypeToDartType(
     Writer w,
-    String value,
-    String library, {
+    String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      ObjCInterface.generateConstructor('NSObject', value, library, objCRetain);
+      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 }

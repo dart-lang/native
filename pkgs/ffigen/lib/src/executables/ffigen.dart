@@ -17,6 +17,7 @@ final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 const compilerOpts = 'compiler-opts';
 const ignoreSourceErrors = 'ignore-source-errors';
+const format = 'format';
 const conf = 'config';
 const help = 'help';
 const verbose = 'verbose';
@@ -36,7 +37,7 @@ String errorPen(String str) {
   return '${_ansi.red}$str${_ansi.none}';
 }
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   // Parses the cmd args. This will print usage and exit if --help was passed.
   final argResult = getArgResults(args);
 
@@ -57,7 +58,7 @@ void main(List<String> args) async {
 
   // Generate file for the parsed bindings.
   final gen = File(config.output);
-  library.generateFile(gen);
+  library.generateFile(gen, format: argResult[format] as bool);
   _logger
       .info(successPen('Finished, Bindings generated in ${gen.absolute.path}'));
 
@@ -167,6 +168,12 @@ ArgResults getArgResults(List<String> args) {
     ignoreSourceErrors,
     help: 'Ignore any compiler warnings/errors in source header files',
     negatable: false,
+  );
+  parser.addFlag(
+    format,
+    help: 'Format the generated code.',
+    defaultsTo: true,
+    negatable: true,
   );
 
   ArgResults results;

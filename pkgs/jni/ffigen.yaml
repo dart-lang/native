@@ -12,12 +12,10 @@ output: 'lib/src/third_party/jni_bindings_generated.dart'
 headers:
   entry-points:
     - 'src/dartjni.h' # Exports majority of JNI functions
-    - 'src/internal.h'
     - 'src/third_party/global_jni_env.h' # Exports GlobalJniEnv type
     - 'src/jni_constants.h'
   include-directives:
     - 'src/dartjni.h'
-    - 'src/internal.h'
     - 'src/third_party/global_jni_env.h'
     - 'third_party/jni.h' # jni.h from Android NDK
     - 'src/jni_constants.h'
@@ -34,6 +32,10 @@ functions:
     - 'GetJniContextPtr'
     - 'setJniGetters'
     - 'jni_log'
+    # Exclude functions with VarArgs, jnigen will generate them based on the 
+    # exact arguments needed.
+    - 'globalEnv_NewObject'
+    - 'globalEnv_Call(Static|Nonvirtual|)[A-Z][a-z]+Method'
     # Inline functions
     # keep-sorted start
     - 'acquire_lock'

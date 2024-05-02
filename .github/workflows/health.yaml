@@ -5,7 +5,6 @@ on:
     # Remove paths after https://github.com/bmw-tech/dart_apitool/issues/177 is addressed.
     paths:
       - "pkgs/ffi/**"
-      - "pkgs/ffigen/**"
       - "pkgs/native_assets_builder/**"
       - "pkgs/native_assets_cli/**"
       - "pkgs/native_toolchain_c/**"

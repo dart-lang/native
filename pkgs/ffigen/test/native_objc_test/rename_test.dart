@@ -14,18 +14,19 @@ import 'rename_test_bindings.dart';
 import 'util.dart';
 
 void main() {
-  late RenameLibrary lib;
   group('rename_test', () {
     setUpAll(() {
       logWarnings();
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/rename_test.dylib');
       verifySetupFile(dylib);
-      lib = RenameLibrary(DynamicLibrary.open(dylib.absolute.path));
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('rename');
     });
 
     test('Renamed class', () {
-      final renamed = Renamed.new1(lib);
+      final renamed = Renamed.new1();
       renamed.property = 123;
       expect(renamed.property, 123);
     });

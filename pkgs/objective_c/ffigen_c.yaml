@@ -1,0 +1,54 @@
+# Generate bindings for the C headers.
+# Regenerate bindings with `dart run tool/generate_code.dart`.
+name: CBindings
+output: 'lib/src/c_bindings_generated.dart'
+headers:
+  entry-points:
+    - 'src/include/dart_api_dl.h'
+    - 'src/objective_c.h'
+    - 'src/objective_c_runtime_types.h'
+    - 'src/objective_c_runtime_functions.h'
+ffi-native:
+  assetId: 'objective_c.framework/objective_c'
+exclude-all-by-default: true
+generate-for-package-objective-c: true
+functions:
+  include:
+    - 'objc_.*'
+    - 'sel_registerName'
+    - '_Block_.*'
+    - 'disposeObjCBlockWithClosure'
+    - 'Dart_InitializeApiDL'
+  leaf:
+    include:
+      - '(?!objc_msgSend).*'
+  rename:
+    'sel_registerName': 'registerName'
+    'objc_getClass': 'getClass'
+    'objc_retain': 'objectRetain'
+    'objc_release': 'objectRelease'
+    'objc_msgSend': 'msgSend'
+    'objc_msgSend_fpret': 'msgSendFpret'
+    'objc_msgSend_stret': 'msgSendStret'
+    '_Block_copy': 'blockCopy'
+    '_Block_release': 'blockRelease'
+globals:
+  include:
+    - _NSConcreteGlobalBlock
+  rename:
+    '_(.*)': '$1'
+typedefs:
+  include:
+    - 'ObjC.*'
+preamble: |
+  // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+
+  // Bindings for `src/objective_c.h` and `src/objective_c_runtime.h`.
+  // Regenerate bindings with `dart run tool/generate_code.dart`.
+
+  // ignore_for_file: always_specify_types
+  // ignore_for_file: camel_case_types
+  // ignore_for_file: non_constant_identifier_names
+  // coverage:ignore-file

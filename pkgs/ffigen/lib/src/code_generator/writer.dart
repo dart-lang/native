@@ -34,6 +34,8 @@ class Writer {
 
   final String? classDocComment;
 
+  final bool generateForPackageObjectiveC;
+
   String? _ffiLibraryPrefix;
   String get ffiLibraryPrefix {
     if (_ffiLibraryPrefix != null) {
@@ -58,6 +60,19 @@ class Writer {
         orElse: () => ffiPkgImport);
     _usedImports.add(import);
     return _ffiPkgLibraryPrefix = import.prefix;
+  }
+
+  String? _objcPkgPrefix;
+  String get objcPkgPrefix {
+    if (_objcPkgPrefix != null) {
+      return _objcPkgPrefix!;
+    }
+
+    final import = _usedImports.firstWhere(
+        (element) => element.name == objcPkgImport.name,
+        orElse: () => objcPkgImport);
+    _usedImports.add(import);
+    return _objcPkgPrefix = import.prefix;
   }
 
   late String selfImportPrefix = () {
@@ -106,6 +121,7 @@ class Writer {
     Set<LibraryImport>? additionalImports,
     this.classDocComment,
     this.header,
+    required this.generateForPackageObjectiveC,
   }) {
     final globalLevelNameSet = noLookUpBindings.map((e) => e.name).toSet();
     final wrapperLevelNameSet = lookUpBindings.map((e) => e.name).toSet();
@@ -293,9 +309,8 @@ class Writer {
 
     // Write neccesary imports.
     for (final lib in _usedImports) {
-      result
-        ..write("import '${lib.importPath}' as ${lib.prefix};")
-        ..write('\n');
+      final path = lib.importPath(generateForPackageObjectiveC);
+      result.write("import '$path' as ${lib.prefix};\n");
     }
     result.write(s);
 
