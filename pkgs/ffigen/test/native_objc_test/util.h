@@ -6,7 +6,7 @@
 #define _TEST_UTIL_H_
 
 #include <mach/mach.h>
-#include <mach/vm_map.h>
+#include <mach/mach_vm.h>
 
 typedef struct {
   void* isa;
@@ -30,12 +30,19 @@ uint64_t getObjectRetainCount(ObjectRefCountExtractor* object) {
   return object->header >> 56;
 }
 
-bool isReadableMemory(void* ptr, size_t size) {
-  size_t outsize;
-  kern_return_t status = vm_read_overwrite(
-    mach_task_self(), (vm_address_t)ptr, size,
-    (vm_address_t)ptr, &outsize);
-  return status == KERN_SUCCESS;
+bool isReadableMemory(void* ptr) {
+  vm_map_t task = mach_task_self();
+  mach_vm_address_t address = (mach_vm_address_t)ptr;
+  mach_vm_size_t size = 0;
+  vm_region_basic_info_data_64_t info;
+  mach_msg_type_number_t count = VM_REGION_BASIC_INFO_COUNT_64;
+  mach_port_t object_name;
+  kern_return_t status =
+      mach_vm_region(task, &address, &size, VM_REGION_BASIC_INFO_64,
+                     (vm_region_info_t)&info, &count, &object_name);
+  if (status != KERN_SUCCESS) return false;
+  return ((mach_vm_address_t)ptr) >= address &&
+         (info.protection & VM_PROT_READ);
 }
 
 #endif  // _TEST_UTIL_H_
