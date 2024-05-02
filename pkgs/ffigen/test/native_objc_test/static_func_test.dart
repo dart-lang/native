@@ -87,11 +87,11 @@ void main() {
 
     Pointer<ObjCBlock> staticFuncOfBlockRefCountTest() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
-      expect(getBlockRetainCount(block.pointer.cast()), 1);
+      expect(blockRetainCount(block.pointer.cast()), 1);
 
       final outputBlock = lib.staticFuncOfBlock(block);
       expect(block, outputBlock);
-      expect(getBlockRetainCount(block.pointer.cast()), 2);
+      expect(blockRetainCount(block.pointer.cast()), 2);
 
       return block.pointer;
     }
@@ -99,7 +99,7 @@ void main() {
     test('Blocks passed through static functions have correct ref counts', () {
       final (rawBlock) = staticFuncOfBlockRefCountTest();
       doGC();
-      expect(getBlockRetainCount(rawBlock), 0);
+      expect(blockRetainCount(rawBlock), 0);
     });
 
     Pointer<Int32> staticFuncReturnsRetainedRefCountTest(Allocator alloc) {

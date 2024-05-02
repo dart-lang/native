@@ -48,7 +48,7 @@ external bool _isReadableMemory(Pointer<Void> ptr);
     isLeaf: true, symbol: 'getBlockRetainCount')
 external int _getBlockRetainCount(Pointer<Void> block);
 
-int getBlockRetainCount(Pointer<ObjCBlock> block) {
+int blockRetainCount(Pointer<ObjCBlock> block) {
   if (!_isReadableMemory(block.cast())) return 0;
   if (!internal_for_testing.isValidBlock(block)) return 0;
   return _getBlockRetainCount(block.cast());
@@ -58,7 +58,7 @@ int getBlockRetainCount(Pointer<ObjCBlock> block) {
     isLeaf: true, symbol: 'getObjectRetainCount')
 external int _getObjectRetainCount(Pointer<Void> object);
 
-int getObjectRetainCount(Pointer<ObjCObject> object) {
+int objectRetainCount(Pointer<ObjCObject> object) {
   if (!_isReadableMemory(object.cast())) return 0;
   final header = object.cast<Uint64>().value;
 
