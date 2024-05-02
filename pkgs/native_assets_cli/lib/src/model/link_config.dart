@@ -15,16 +15,6 @@ List<Resource>? fromIdentifiers(ResourceIdentifiers resourceIdentifiers) =>
 /// the build step, and the [treeshakingInformation] generated during the kernel
 /// compilation.
 class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
-  /// The version of [BuildConfigImpl].
-  ///
-  /// This class is used in the protocol between the Dart and Flutter SDKs
-  /// and packages through build hook invocations.
-  ///
-  /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the JSON
-  /// representation in the protocol.
-  static Version latestVersion = Version(1, 0, 0);
-
   static const resourceIdentifierKey = 'resource_identifiers';
 
   static const assetsKey = 'assets';
@@ -64,7 +54,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   })  : _resourceIdentifierUri = resourceIdentifierUri,
         super(
           hook: Hook.link,
-          version: version ?? latestVersion,
+          version: version ?? HookConfigImpl.latestVersion,
           supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
         );
 
@@ -85,7 +75,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
             : null,
         super.dryRun(
           hook: Hook.link,
-          version: version ?? latestVersion,
+          version: version ?? HookConfigImpl.latestVersion,
           supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
         );
 
@@ -128,7 +118,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       targetArchitecture:
           HookConfigImpl.parseTargetArchitecture(config, dryRun, targetOS),
       linkModePreference: HookConfigImpl.parseLinkModePreference(config),
-      version: HookConfigImpl.parseVersion(config, latestVersion),
+      version: HookConfigImpl.parseVersion(config),
       cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
       targetAndroidNdkApi:

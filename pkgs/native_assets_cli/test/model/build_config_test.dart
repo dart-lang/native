@@ -256,7 +256,7 @@ void main() async {
       'target_architecture': 'arm64',
       'target_ios_sdk': 'iphoneos',
       'target_os': 'ios',
-      'version': '${BuildConfigImpl.latestVersion}'
+      'version': '${HookConfigImpl.latestVersion}'
     };
     expect(
       jsonObject,
@@ -332,7 +332,7 @@ version: 1.0.0''';
     );
     expect(
       () => BuildConfigImpl.fromJson({
-        'version': BuildConfigImpl.latestVersion.toString(),
+        'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -350,7 +350,7 @@ version: 1.0.0''';
     );
     expect(
       () => BuildConfigImpl.fromJson({
-        'version': BuildConfigImpl.latestVersion.toString(),
+        'version': HookConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
@@ -376,7 +376,7 @@ version: 1.0.0''';
     expect(
       () => BuildConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
-        'version': BuildConfigImpl.latestVersion.toString(),
+        'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -471,7 +471,7 @@ version: 1.0.0''';
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(BuildConfigImpl.latestVersion.toString()),
+              e.message.contains(HookConfigImpl.latestVersion.toString()),
         )),
       );
     });
@@ -487,7 +487,7 @@ version: 1.0.0''';
       'target_os': 'windows',
       'target_architecture': 'arm',
       'build_mode': 'debug',
-      'version': BuildConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
       () => BuildConfigImpl.fromJson(config),
@@ -508,7 +508,7 @@ version: 1.0.0''';
       'target_architecture': 'arm64',
       'build_mode': 'debug',
       'dry_run': true,
-      'version': BuildConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
       () => BuildConfigImpl.fromJson(config),
@@ -528,7 +528,7 @@ version: 1.0.0''';
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
       'dry_run': true,
-      'version': BuildConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
     expect(
@@ -548,7 +548,7 @@ version: 1.0.0''';
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'dry_run': true,
-      'version': BuildConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
     expect(buildConfig.targetArchitecture, isNull);

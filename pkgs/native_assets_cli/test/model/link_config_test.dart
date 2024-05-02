@@ -83,6 +83,7 @@ void main() async {
       buildMode: BuildModeImpl.release,
       assets: assets,
       resourceIdentifierUri: resources,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
     final config2 = LinkConfigImpl(
@@ -95,6 +96,7 @@ void main() async {
       buildMode: BuildModeImpl.release,
       assets: [],
       resourceIdentifierUri: null,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
     expect(config1, equals(config1));
@@ -127,6 +129,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       assets: assets,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
     final config = {
@@ -154,6 +157,7 @@ void main() async {
       packageRoot: packageRootUri,
       targetOS: OSImpl.android,
       assets: [],
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
     final config = {
@@ -185,6 +189,7 @@ void main() async {
       ),
       buildMode: BuildModeImpl.release,
       assets: assets,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
     final configFile = buildConfig1.toJson();
@@ -206,6 +211,7 @@ void main() async {
       buildMode: BuildModeImpl.release,
       assets: assets,
       resourceIdentifierUri: resources,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     expect(buildConfig1.treeshakingInformation, resourceList);
   });
@@ -225,11 +231,12 @@ void main() async {
       ),
       buildMode: BuildModeImpl.release,
       assets: assets,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
     final jsonObject = buildConfig1.toJson();
     final expectedJson = {
-      'assets': AssetImpl.listToJson(assets, LinkConfigImpl.latestVersion),
+      'assets': AssetImpl.listToJson(assets, HookConfigImpl.latestVersion),
       'build_mode': 'release',
       'c_compiler': {'cc': fakeClang.toFilePath(), 'ld': fakeLd.toFilePath()},
       'out_dir': outDir.toFilePath(),
@@ -239,7 +246,7 @@ void main() async {
       'target_architecture': 'arm64',
       'target_ios_sdk': 'iphoneos',
       'target_os': 'ios',
-      'version': '${LinkConfigImpl.latestVersion}',
+      'version': '${HookConfigImpl.latestVersion}',
     };
     expect(jsonObject, equals(expectedJson));
 
@@ -259,7 +266,7 @@ void main() async {
     );
     expect(
       () => LinkConfigImpl.fromJson({
-        'version': LinkConfigImpl.latestVersion.toString(),
+        'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -277,7 +284,7 @@ void main() async {
     );
     expect(
       () => LinkConfigImpl.fromJson({
-        'version': LinkConfigImpl.latestVersion.toString(),
+        'version': HookConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
@@ -299,7 +306,7 @@ void main() async {
     expect(
       () => LinkConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
-        'version': LinkConfigImpl.latestVersion.toString(),
+        'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
@@ -330,6 +337,7 @@ void main() async {
       ),
       buildMode: BuildModeImpl.release,
       assets: assets,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     expect(config.toString(), isNotEmpty);
   });
@@ -345,6 +353,7 @@ void main() async {
       buildMode: BuildModeImpl.release,
       assets: assets,
       resourceIdentifierUri: resources,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     final configFileContents = buildConfig.toJsonString();
     final configUri = tempUri.resolve('link_config.json');
@@ -373,7 +382,7 @@ void main() async {
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(LinkConfigImpl.latestVersion.toString()),
+              e.message.contains(HookConfigImpl.latestVersion.toString()),
         )),
       );
     });
@@ -389,7 +398,7 @@ void main() async {
       'target_os': 'windows',
       'target_architecture': 'arm',
       'build_mode': 'debug',
-      'version': LinkConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
       () => LinkConfigImpl.fromJson(config),
@@ -410,7 +419,7 @@ void main() async {
       'target_architecture': 'arm64',
       'build_mode': 'debug',
       'dry_run': true,
-      'version': LinkConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     expect(
       () => LinkConfigImpl.fromJson(config),
@@ -430,7 +439,7 @@ void main() async {
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
       'dry_run': true,
-      'version': LinkConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = LinkConfigImpl.fromJson(config);
     expect(
@@ -450,7 +459,7 @@ void main() async {
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'dry_run': true,
-      'version': LinkConfigImpl.latestVersion.toString(),
+      'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = LinkConfigImpl.fromJson(config);
     expect(buildConfig.targetArchitecture, isNull);
@@ -463,6 +472,7 @@ void main() async {
       packageRoot: tempUri,
       targetOS: OSImpl.windows,
       assets: assets,
+      linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     expect(buildConfig.toJsonString(), isNotEmpty);
   });

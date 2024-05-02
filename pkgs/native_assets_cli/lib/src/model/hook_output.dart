@@ -158,7 +158,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   /// version of the Dart or Flutter SDK. When there is a need to split the
   /// versions of BuildConfig and BuildOutput, the BuildConfig should start
   /// passing the highest supported version of BuildOutput.
-  static Version latestVersion = BuildConfigImpl.latestVersion;
+  static Version latestVersion = HookConfigImpl.latestVersion;
 
   /// Writes the JSON file from [file].
   static HookOutputImpl? readFromFile({required Uri file}) {
@@ -179,7 +179,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   }
 
   @override
-  String toString() => toJsonString(BuildConfigImpl.latestVersion);
+  String toString() => toJsonString(HookConfigImpl.latestVersion);
 
   @override
   bool operator ==(Object other) {

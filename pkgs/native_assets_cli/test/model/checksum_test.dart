@@ -23,7 +23,7 @@ void main() {
         linkModePreference: LinkModePreferenceImpl.dynamic,
         supportedAssetTypes: [NativeCodeAsset.type],
         hook: Hook.build,
-        version: BuildConfigImpl.latestVersion,
+        version: HookConfigImpl.latestVersion,
       );
 
       // Using the checksum for a build folder should be stable.
@@ -41,7 +41,7 @@ void main() {
           'foo': const Metadata({'key': 'value'})
         },
         hook: Hook.build,
-        version: BuildConfigImpl.latestVersion,
+        version: HookConfigImpl.latestVersion,
       );
       printOnFailure([name1, name2].toString());
       expect(name1 != name2, true);
@@ -58,7 +58,7 @@ void main() {
           compiler: fakeClangUri,
         ),
         hook: Hook.build,
-        version: BuildConfigImpl.latestVersion,
+        version: HookConfigImpl.latestVersion,
       );
       printOnFailure([name1, name3].toString());
       expect(name1 != name3, true);
@@ -75,7 +75,7 @@ void main() {
           compiler: fakeClangUri,
         ),
         hook: Hook.link,
-        version: BuildConfigImpl.latestVersion,
+        version: HookConfigImpl.latestVersion,
       );
       printOnFailure([name1, name4].toString());
       expect(name1 != name4, true);

@@ -159,7 +159,7 @@ abstract class HookConfigImpl implements HookConfig {
     }.sortOnKey();
   }
 
-  static Version parseVersion(Config config, Version latestVersion) {
+  static Version parseVersion(Config config) {
     final version = Version.parse(config.string('version'));
     if (version.major > latestVersion.major) {
       throw FormatException(
@@ -434,7 +434,7 @@ can _only_ depend on OS.''');
     required Hook hook,
   }) {
     final input = [
-      version ?? latestVersion(hook),
+      version ?? latestVersion,
       packageName,
       targetArchitecture.toString(),
       targetOS.toString(),
@@ -463,8 +463,13 @@ can _only_ depend on OS.''');
     return sha256String.substring(0, nameLength);
   }
 
-  static Version latestVersion(Hook hook) => switch (hook) {
-        Hook.link => LinkConfigImpl.latestVersion,
-        Hook.build => BuildConfigImpl.latestVersion,
-      };
+  /// The version of [HookConfigImpl].
+  ///
+  /// This class is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through build hook invocations.
+  ///
+  /// If we ever were to make breaking changes, it would be useful to give
+  /// proper error messages rather than just fail to parse the JSON
+  /// representation in the protocol.
+  static Version latestVersion = Version(1, 3, 0);
 }

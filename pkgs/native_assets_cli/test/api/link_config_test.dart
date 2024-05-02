@@ -61,6 +61,7 @@ void main() async {
       buildMode: BuildMode.release,
       supportedAssetTypes: [NativeCodeAsset.type],
       assets: [],
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config2 = LinkConfig.build(
@@ -73,6 +74,7 @@ void main() async {
       buildMode: BuildMode.release,
       supportedAssetTypes: [NativeCodeAsset.type],
       assets: [],
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     expect(config1, equals(config1));
@@ -103,6 +105,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       assets: [],
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = {
@@ -131,6 +134,7 @@ void main() async {
       targetOS: OS.android,
       supportedAssetTypes: [NativeCodeAsset.type],
       assets: [],
+      linkModePreference: LinkModePreference.preferStatic,
     );
 
     final config = {
@@ -158,6 +162,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       assets: [],
+      linkModePreference: LinkModePreference.preferStatic,
     );
     final configFileContents = (linkConfig as LinkConfigImpl).toJsonString();
     final configUri = tempUri.resolve('config.json');

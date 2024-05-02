@@ -54,7 +54,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   })  : _dependencyMetadata = dependencyMetadata,
         super(
           hook: Hook.build,
-          version: version ?? latestVersion,
+          version: version ?? HookConfigImpl.latestVersion,
           supportedAssetTypes:
               _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
         );
@@ -69,20 +69,10 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   })  : _dependencyMetadata = null,
         super.dryRun(
           hook: Hook.build,
-          version: latestVersion,
+          version: HookConfigImpl.latestVersion,
           supportedAssetTypes:
               _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
         );
-
-  /// The version of [BuildConfigImpl].
-  ///
-  /// This class is used in the protocol between the Dart and Flutter SDKs
-  /// and packages through build hook invocations.
-  ///
-  /// If we ever were to make breaking changes, it would be useful to give
-  /// proper error messages rather than just fail to parse the JSON
-  /// representation in the protocol.
-  static Version latestVersion = Version(1, 3, 0);
 
   factory BuildConfigImpl._fromConfig(Config config) =>
       _readFieldsFromConfig(config);
@@ -118,7 +108,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
           HookConfigImpl.parseTargetArchitecture(config, dryRun, targetOS),
       linkModePreference: HookConfigImpl.parseLinkModePreference(config),
       dependencyMetadata: parseDependencyMetadata(config),
-      version: HookConfigImpl.parseVersion(config, latestVersion),
+      version: HookConfigImpl.parseVersion(config),
       cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
       targetAndroidNdkApi:

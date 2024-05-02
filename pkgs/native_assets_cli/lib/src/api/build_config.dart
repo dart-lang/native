@@ -50,7 +50,7 @@ abstract final class BuildConfig implements HookConfig {
   /// We're trying to avoid breaking changes. However, in the case that we have
   /// to, the major version mismatch between the Dart or Flutter SDK and build
   /// hook (`hook/build.dart`) will lead to a nice error message.
-  static Version get latestVersion => BuildConfigImpl.latestVersion;
+  static Version get latestVersion => HookConfigImpl.latestVersion;
 
   /// Constructs a config by parsing CLI arguments and loading the config file.
   ///

@@ -38,7 +38,8 @@ abstract class LinkConfig implements HookConfig {
   /// called in the tree-shaken Dart code. This information can be used to
   /// dispose unused [assets].
   ///
-  /// This is `null` in JIT mode, where no resources are collected.
+  /// This is `null` in JIT mode, where no resources are collected, or in a dry
+  /// run.
   Iterable<Resource>? get treeshakingInformation;
 
   /// Generate the [LinkConfig] from the input arguments to the linking script.
@@ -111,5 +112,5 @@ abstract class LinkConfig implements HookConfig {
   /// We're trying to avoid breaking changes. However, in the case that we have
   /// to, the major version mismatch between the Dart or Flutter SDK and build
   /// hook (`hook/build.dart`) will lead to a nice error message.
-  static Version get latestVersion => LinkConfigImpl.latestVersion;
+  static Version get latestVersion => HookConfigImpl.latestVersion;
 }
