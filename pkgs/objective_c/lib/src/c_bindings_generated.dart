@@ -126,6 +126,11 @@ external bool isValidBlock(
   ffi.Pointer<ObjCBlock> block,
 );
 
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
+external bool isReadableMemory(
+  ffi.Pointer<ffi.Void> ptr,
+);
+
 typedef ObjCSelector = _ObjCSelector;
 
 final class _ObjCSelector extends ffi.Opaque {}
