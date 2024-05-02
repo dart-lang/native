@@ -52,4 +52,10 @@ abstract final class LinkOutput {
         dependencies: dependencies,
         timestamp: timestamp,
       );
+
+  /// The version of [LinkOutput].
+  ///
+  /// The link output is used in the protocol between the Dart and Flutter SDKs
+  /// and packages through build hook invocations.
+  static Version get latestVersion => HookOutputImpl.latestVersion;
 }

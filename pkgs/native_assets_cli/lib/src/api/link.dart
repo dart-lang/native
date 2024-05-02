@@ -36,7 +36,7 @@ import 'link_config.dart';
 /// ```
 Future<void> link(
   List<String> arguments,
-  Future<void> Function(LinkConfig config, LinkOutput output) builder,
+  Future<void> Function(LinkConfig config, LinkOutput output) linker,
 ) async {
   final config = LinkConfig.fromArguments(arguments) as LinkConfigImpl;
 
@@ -47,6 +47,6 @@ Future<void> link(
   final linkOutput = HookOutputImpl(
     dependencies: Dependencies(builtAssetsFiles),
   );
-  await builder(config, linkOutput);
+  await linker(config, linkOutput);
   await linkOutput.writeToFile(config: config);
 }
