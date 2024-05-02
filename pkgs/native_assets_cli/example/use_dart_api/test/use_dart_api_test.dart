@@ -4,14 +4,14 @@
 
 import 'dart:ffi';
 
-import 'package:use_dart_api/use_dart_api.dart';
 import 'package:test/test.dart';
+import 'package:use_dart_api/use_dart_api.dart';
 
 void main() {
   InitDartApiDL(NativeApi.initializeApiDLData);
 
   test('use dart_api_dl.h', () {
-    const int x = 42;
+    const x = 42;
     final persistentHandle = NewPersistentHandle(x);
     HandleFromPersistent(persistentHandle);
   });
