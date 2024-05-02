@@ -64,7 +64,8 @@ int getObjectRetainCount(Pointer<ObjCObject> object) {
   final header = object.cast<Uint64>().value;
 
   print("Header: ${header.toRadixString(16)}");
-  final mask = Abi.current() == Abi.macosX64 ? 0x00007ffffffffff8 : 0x00000001fffffff8;
+  final mask =
+      Abi.current() == Abi.macosX64 ? 0x00007ffffffffff8 : 0x00000001fffffff8;
   final clazz = Pointer<ObjCObject>.fromAddress(header & mask);
   print("Class: $clazz");
 
