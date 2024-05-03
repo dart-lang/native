@@ -57,3 +57,14 @@
 - complex_link_helper/assets/data_helper_1.json
 - complex_link_helper/assets/data_helper_2.json
 - complex_link_helper/assets/data_helper_3.json
+- drop_dylib_link/pubspec.yaml
+- drop_dylib_link/lib/drop_dylib_link.dart
+- drop_dylib_link/lib/src/drop_dylib_link.dart
+- drop_dylib_link/lib/src/drop_dylib_link_bindings.dart
+- drop_dylib_link/src/native_add.h
+- drop_dylib_link/src/native_multiply.h
+- drop_dylib_link/src/native_add.c
+- drop_dylib_link/src/native_multiply.c
+- drop_dylib_link/hook/link.dart
+- drop_dylib_link/hook/build.dart
+- drop_dylib_link/bin/drop_dylib_link.dart
