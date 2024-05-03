@@ -427,8 +427,10 @@ version: 1.0.0''';
     final configUri = tempUri.resolve('config.yaml');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
-    final buildConfig2 =
-        BuildConfigImpl.fromArguments(['--config', configUri.toFilePath()]);
+    final buildConfig2 = BuildConfigImpl.fromArguments(
+      ['--config', configUri.toFilePath()],
+      environment: {}, // Don't inherit the test environment.
+    );
     expect(buildConfig2, buildConfig);
   });
 
