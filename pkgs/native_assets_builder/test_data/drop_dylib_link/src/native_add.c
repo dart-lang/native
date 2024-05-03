@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:treeshaking_native_assets/treeshaking_native_assets.dart';
+#include "native_add.h"
 
-void main(List<String> arguments) {
-  print('Hello world: ${MyMath.multiply(3, 4)}!');
+MYLIB_EXPORT int32_t add(int32_t a, int32_t b) {
+   return a + b;
 }

@@ -4,7 +4,7 @@
 
 import 'package:meta/meta.dart';
 
-import 'treeshaking_native_assets_bindings.dart' as bindings;
+import 'drop_dylib_link_bindings.dart' as bindings;
 
 class MyMath {
   @ResourceIdentifier('add')

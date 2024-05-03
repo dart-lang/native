@@ -4,13 +4,15 @@
 
 import 'dart:ffi' as ffi;
 
-@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>()
+@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(
+    assetId: 'package:drop_dylib_link/dylib_add')
 external int add(
   int a,
   int b,
 );
 
-@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>()
+@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(
+    assetId: 'package:drop_dylib_link/dylib_multiply')
 external int multiply(
   int a,
   int b,

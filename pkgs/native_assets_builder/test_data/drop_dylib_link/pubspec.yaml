@@ -1,5 +1,5 @@
-name: treeshaking_native_assets
-description: A sample on how to treeshake symbols using a build/link combo.
+name: drop_dylib_link
+description: Generate two dylibs, remove one in linking.
 version: 1.0.0
 
 publish_to: none

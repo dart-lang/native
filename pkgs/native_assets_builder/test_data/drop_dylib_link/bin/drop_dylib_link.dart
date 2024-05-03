@@ -2,4 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/treeshaking_native_assets.dart';
+import 'package:drop_dylib_link/drop_dylib_link.dart';
+
+void main(List<String> arguments) {
+  print('Hello world: ${MyMath.add(3, 4)}!');
+}
