@@ -6,7 +6,6 @@ exclude-all-by-default: true
 ffi-native:
 functions:
   include:
-    - getBlockRetainCount
     - staticFuncOfObject
     - staticFuncOfNullableObject
     - staticFuncOfBlock

@@ -36,11 +36,6 @@ external int Dart_InitializeApiDL(
   ffi.Pointer<ffi.Void> data,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
-external void disposeObjCBlockWithClosure(
-  ffi.Pointer<ObjCBlock> block,
-);
-
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "sel_registerName", isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
@@ -65,6 +60,20 @@ external void objectRelease(
   ffi.Pointer<ObjCObject> object,
 );
 
+@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "object_getClass", isLeaf: true)
+external ffi.Pointer<ObjCObject> getObjectClass(
+  ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<
+        ffi.Pointer<ffi.Pointer<ObjCObject>> Function(
+            ffi.Pointer<ffi.UnsignedInt>)>(
+    symbol: "objc_copyClassList", isLeaf: true)
+external ffi.Pointer<ffi.Pointer<ObjCObject>> copyClassList(
+  ffi.Pointer<ffi.UnsignedInt> count,
+);
+
 @ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend")
 external void msgSend();
 
@@ -74,20 +83,56 @@ external void msgSendFpret();
 @ffi.Native<ffi.Void Function()>(symbol: "objc_msgSend_stret")
 external void msgSendStret();
 
-@ffi.Native<ffi.Pointer<ffi.Void>>(symbol: "_NSConcreteGlobalBlock")
-external final ffi.Pointer<ffi.Void> NSConcreteGlobalBlock;
+@ffi.Array.multi([32])
+@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
+external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
 
-@ffi.Native<ffi.Pointer<ObjCBlock> Function(ffi.Pointer<ObjCBlock>)>(
+@ffi.Array.multi([32])
+@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteMallocBlock")
+external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
+
+@ffi.Array.multi([32])
+@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteAutoBlock")
+external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteAutoBlock;
+
+@ffi.Array.multi([32])
+@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(
+    symbol: "_NSConcreteFinalizingBlock")
+external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteFinalizingBlock;
+
+@ffi.Array.multi([32])
+@ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteGlobalBlock")
+external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteGlobalBlock;
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
     symbol: "_Block_copy", isLeaf: true)
-external ffi.Pointer<ObjCBlock> blockCopy(
-  ffi.Pointer<ObjCBlock> object,
+external ffi.Pointer<ffi.Void> blockCopy(
+  ffi.Pointer<ffi.Void> object,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     symbol: "_Block_release", isLeaf: true)
 external void blockRelease(
-  ffi.Pointer<ObjCBlock> object,
+  ffi.Pointer<ffi.Void> object,
 );
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+external void disposeObjCBlockWithClosure(
+  ffi.Pointer<ObjCBlock> block,
+);
+
+@ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
+external bool isValidBlock(
+  ffi.Pointer<ObjCBlock> block,
+);
+
+typedef ObjCSelector = _ObjCSelector;
+
+final class _ObjCSelector extends ffi.Opaque {}
+
+typedef ObjCObject = _ObjCObject;
+
+final class _ObjCObject extends ffi.Opaque {}
 
 typedef ObjCBlock = _ObjCBlock;
 
@@ -131,11 +176,3 @@ final class _ObjCBlockDesc extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> signature;
 }
-
-typedef ObjCSelector = _ObjCSelector;
-
-final class _ObjCSelector extends ffi.Opaque {}
-
-typedef ObjCObject = _ObjCObject;
-
-final class _ObjCObject extends ffi.Opaque {}
