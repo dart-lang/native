@@ -52,7 +52,7 @@ void main() {
       final intBlock = blockTester.getBlock();
       final blockTester2 = BlockTester.makeFromBlock_(intBlock);
       blockTester2.pokeBlock();
-      expect(blockTester2.call_(456), 4560);
+      expect(blockTester2.call_(456), 45601);
     });
 
     test('Block from function pointer', () {
