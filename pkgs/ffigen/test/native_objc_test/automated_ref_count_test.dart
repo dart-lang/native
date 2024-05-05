@@ -37,6 +37,15 @@ void main() {
     test('objectRetainCount edge cases', () {
       expect(objectRetainCount(nullptr), 0);
       expect(objectRetainCount(Pointer.fromAddress(0x1234)), 0);
+
+      final obj = NSObject.new1();
+      final objRefs = <NSObject>[];
+      for (int i = 1; i < 1000; ++i) {
+        final expectedCount = i < 128 ? i : 128;
+        expect(objectRetainCount(obj.pointer), expectedCount);
+        objRefs.add(
+            NSObject.castFromPointer(obj.pointer, retain: true, release: true));
+      }
     });
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>) newMethodsInner(

@@ -24,10 +24,13 @@ typedef struct {
   uint64_t header;
 } ObjectRefCountExtractor;
 
+static const uint64_t k128OrMore = 128;
+
+// Returns the ref count of the object, up to 127. For counts above this, always
+// returns k128OrMore.
 uint64_t getObjectRetainCount(ObjectRefCountExtractor* object) {
-  // The object ref count is stored in the largest byte of the object header,
-  // for counts up to 255. Higher counts do something more complicated.
-  return object->header >> 56;
+  uint64_t count = object->header >> 56;
+  return count < 0x80 ? count : k128OrMore;
 }
 
 bool isReadableMemory(void* ptr) {

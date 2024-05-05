@@ -72,8 +72,10 @@ int objectRetainCount(Pointer<ObjCObject> object) {
   // much if isValidObject crashes, since it's a best effort attempt to give a
   // nice stack trace before the real crash, but it would be a problem if
   // isValidObject broke due to a runtime update.
-  final mask =
-      Abi.current() == Abi.macosX64 ? 0x00007ffffffffff8 : 0x00000001fffffff8;
+  // These constants are the ISA_MASK macro defined in runtime/objc-private.h.
+  const maskX64 = 0x00007ffffffffff8;
+  const maskArm = 0x00000001fffffff8;
+  final mask = Abi.current() == Abi.macosX64 ? maskX64 : maskArm;
   final clazz = Pointer<ObjCObject>.fromAddress(header & mask);
 
   if (!internal_for_testing.isValidClass(clazz)) return 0;
