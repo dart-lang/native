@@ -7,9 +7,6 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
-// This test is slightly flaky.
-@Retry(3)
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -495,5 +492,5 @@ void main() {
       expect(objectRetainCount(obj1bRaw), 0);
       calloc.free(counter);
     });
-  });
+  }, retry: 3);
 }
