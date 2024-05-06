@@ -14,6 +14,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -84,21 +85,21 @@ void main() {
       });
     });
 
-    Pointer<Void> staticFuncOfBlockRefCountTest() {
+    Pointer<ObjCBlock> staticFuncOfBlockRefCountTest() {
       final block = IntBlock.fromFunction((int x) => 2 * x);
-      expect(lib.getBlockRetainCount(block.pointer.cast()), 1);
+      expect(blockRetainCount(block.pointer.cast()), 1);
 
       final outputBlock = lib.staticFuncOfBlock(block);
       expect(block, outputBlock);
-      expect(lib.getBlockRetainCount(block.pointer.cast()), 2);
+      expect(blockRetainCount(block.pointer.cast()), 2);
 
-      return block.pointer.cast();
+      return block.pointer;
     }
 
     test('Blocks passed through static functions have correct ref counts', () {
       final (rawBlock) = staticFuncOfBlockRefCountTest();
       doGC();
-      expect(lib.getBlockRetainCount(rawBlock), 0);
+      expect(blockRetainCount(rawBlock), 0);
     });
 
     Pointer<Int32> staticFuncReturnsRetainedRefCountTest(Allocator alloc) {

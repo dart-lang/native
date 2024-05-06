@@ -109,10 +109,47 @@ class ObjCObjectBase extends _ObjCFinalizable<c.ObjCObject> {
   NativeFinalizer get _finalizer => _objectFinalizer;
 
   @override
-  void _retain(Pointer<c.ObjCObject> ptr) => c.objectRetain(ptr);
+  void _retain(Pointer<c.ObjCObject> ptr) {
+    assert(_isValidObject(ptr));
+    c.objectRetain(ptr);
+  }
 
   @override
-  void _release(Pointer<c.ObjCObject> ptr) => c.objectRelease(ptr);
+  void _release(Pointer<c.ObjCObject> ptr) {
+    assert(_isValidObject(ptr));
+    c.objectRelease(ptr);
+  }
+}
+
+// Returns whether the object is valid and live. The pointer must point to
+// readable memory, or be null. May (rarely) return false positives.
+bool _isValidObject(Pointer<c.ObjCObject> ptr) {
+  if (ptr == nullptr) return false;
+  return _isValidClass(c.getObjectClass(ptr));
+}
+
+final _allClasses = <Pointer<c.ObjCObject>>{};
+
+bool _isValidClass(Pointer<c.ObjCObject> clazz) {
+  if (_allClasses.contains(clazz)) return true;
+
+  // If the class is missing from the list, it either means we haven't created
+  // the set yet, or more classes have been loaded since we created the set, or
+  // the class is actually invalid. To rule out the first two cases, rebulid the
+  // set then try again. This is expensive, but only happens if asserts are
+  // enabled, and only happens more than O(1) times if there are actually
+  // invalid objects in use, which shouldn't happen in correct code.
+  final countPtr = calloc<UnsignedInt>();
+  final classList = c.copyClassList(countPtr);
+  final count = countPtr.value;
+  calloc.free(countPtr);
+  _allClasses.clear();
+  for (int i = 0; i < count; ++i) {
+    _allClasses.add(classList[i]);
+  }
+  calloc.free(classList);
+
+  return _allClasses.contains(clazz);
 }
 
 /// Only for use by ffigen bindings.
@@ -120,18 +157,23 @@ class ObjCBlockBase extends _ObjCFinalizable<c.ObjCBlock> {
   ObjCBlockBase(super.ptr, {required super.retain, required super.release});
 
   static final _blockFinalizer = NativeFinalizer(
-      Native.addressOf<NativeFunction<Void Function(Pointer<c.ObjCBlock>)>>(
-              c.blockRelease)
-          .cast());
+      Native.addressOf<NativeFunction<Void Function(Pointer<Void>)>>(
+          c.blockRelease));
 
   @override
   NativeFinalizer get _finalizer => _blockFinalizer;
 
   @override
-  void _retain(Pointer<c.ObjCBlock> ptr) => c.blockCopy(ptr);
+  void _retain(Pointer<c.ObjCBlock> ptr) {
+    assert(c.isValidBlock(ptr));
+    c.blockCopy(ptr.cast());
+  }
 
   @override
-  void _release(Pointer<c.ObjCBlock> ptr) => c.blockRelease(ptr);
+  void _release(Pointer<c.ObjCBlock> ptr) {
+    assert(c.isValidBlock(ptr));
+    c.blockRelease(ptr.cast());
+  }
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
@@ -154,15 +196,20 @@ final _closureBlockDesc = _newBlockDesc(
 Pointer<c.ObjCBlock> _newBlock(Pointer<Void> invoke, Pointer<Void> target,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
   final b = calloc.allocate<c.ObjCBlock>(sizeOf<c.ObjCBlock>());
-  b.ref.isa = c.NSConcreteGlobalBlock;
+  b.ref.isa =
+      Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
   b.ref.target = target;
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
+  assert(c.isValidBlock(b));
   final copy = c.blockCopy(b.cast()).cast<c.ObjCBlock>();
   calloc.free(b);
+  assert(copy.ref.isa ==
+      Native.addressOf<Array<Pointer<Void>>>(c.NSConcreteMallocBlock).cast());
+  assert(c.isValidBlock(copy));
   return copy;
 }
 
@@ -206,6 +253,9 @@ Function getBlockClosure(Pointer<c.ObjCBlock> block) {
   return _blockClosureRegistry[id]!;
 }
 
-// Not exported by ../objective_c.dart, because it's only for testing.
+// Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(Pointer<c.ObjCBlock> block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
+bool isValidBlock(Pointer<c.ObjCBlock> block) => c.isValidBlock(block);
+bool isValidClass(Pointer<c.ObjCObject> clazz) => _isValidClass(clazz);
+bool isValidObject(Pointer<c.ObjCObject> object) => _isValidObject(object);

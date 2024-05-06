@@ -5,31 +5,47 @@
 #ifndef _TEST_UTIL_H_
 #define _TEST_UTIL_H_
 
+#include <mach/mach.h>
+#include <mach/mach_vm.h>
+
 typedef struct {
   void* isa;
   int flags;
   // There are other fields, but we just need the flags and isa.
 } BlockRefCountExtractor;
 
-static void* valid_block_isa = NULL;
-uint64_t getBlockRetainCount(void* block) {
-  BlockRefCountExtractor* b = (BlockRefCountExtractor*)block;
-  // HACK: The only way I can find to reliably figure out that a block has been
-  // deleted is to check the isa field (the lower bits of the flags field seem
-  // to be randomized, not just set to 0). But we also don't know the value this
-  // field has when it's constructed (copying the block changes it from
-  // _NSConcreteGlobalBlock to an internal value). So we assume that the first
-  // time this function is called, we have a valid block, and on subsequent
-  // calls we check to see if the isa field changed.
-  if (valid_block_isa == NULL) {
-    valid_block_isa = b->isa;
-  }
-  if (b->isa != valid_block_isa) {
-    return 0;
-  }
+uint64_t getBlockRetainCount(BlockRefCountExtractor* block) {
   // The ref count is stored in the lower bits of the flags field, but skips the
   // 0x1 bit.
-  return (b->flags & 0xFFFF) >> 1;
+  return (block->flags & 0xFFFF) >> 1;
+}
+
+typedef struct {
+  uint64_t header;
+} ObjectRefCountExtractor;
+
+static const uint64_t k128OrMore = 128;
+
+// Returns the ref count of the object, up to 127. For counts above this, always
+// returns k128OrMore.
+uint64_t getObjectRetainCount(ObjectRefCountExtractor* object) {
+  uint64_t count = object->header >> 56;
+  return count < 0x80 ? count : k128OrMore;
+}
+
+bool isReadableMemory(void* ptr) {
+  vm_map_t task = mach_task_self();
+  mach_vm_address_t address = (mach_vm_address_t)ptr;
+  mach_vm_size_t size = 0;
+  vm_region_basic_info_data_64_t info;
+  mach_msg_type_number_t count = VM_REGION_BASIC_INFO_COUNT_64;
+  mach_port_t object_name;
+  kern_return_t status =
+      mach_vm_region(task, &address, &size, VM_REGION_BASIC_INFO_64,
+                     (vm_region_info_t)&info, &count, &object_name);
+  if (status != KERN_SUCCESS) return false;
+  return ((mach_vm_address_t)ptr) >= address &&
+         (info.protection & VM_PROT_READ);
 }
 
 #endif  // _TEST_UTIL_H_
