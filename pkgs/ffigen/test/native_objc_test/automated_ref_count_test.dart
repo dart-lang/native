@@ -7,6 +7,9 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
+// This test is slightly flaky.
+@Retry(3)
+
 import 'dart:ffi';
 import 'dart:io';
 
