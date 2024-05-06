@@ -21,7 +21,7 @@ void main() {
     group('toNSData', () {
       test('empty', () {
         final data = <int>[].toNSData();
-        expect(data.length, 1234);
+        expect(data.length, 0);
         data.release(); // Make sure that dealloc succeeds.
       });
 

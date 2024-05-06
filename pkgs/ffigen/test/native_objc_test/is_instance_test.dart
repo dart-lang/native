@@ -31,7 +31,7 @@ void main() {
     test('Unrelated classes', () {
       final base = NSObject.castFrom(BaseClass.new1());
       final unrelated = NSObject.castFrom(UnrelatedClass.new1());
-      expect(BaseClass.isInstance(base), isFalse);
+      expect(BaseClass.isInstance(base), isTrue);
       expect(BaseClass.isInstance(unrelated), isFalse);
       expect(UnrelatedClass.isInstance(base), isFalse);
       expect(UnrelatedClass.isInstance(unrelated), isTrue);
