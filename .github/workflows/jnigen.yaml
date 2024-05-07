@@ -112,7 +112,7 @@ jobs:
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
-        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        uses: coverallsapp/github-action@v2.2.3
         with:
           flag-name: jnigen_tests
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -188,7 +188,7 @@ jobs:
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
-        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        uses: coverallsapp/github-action@v2.2.3
         with:
           flag-name: jni_tests
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -416,7 +416,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls finished
-        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        uses: coverallsapp/github-action@v2.2.3
         with:
           carryforward: "objective_c_tests,ffigen_macos,jnigen_tests,jni_tests,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows"
           github-token: ${{ secrets.github_token }}
