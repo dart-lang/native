@@ -66,7 +66,11 @@ final class C extends ffi.Opaque {}
 final class D extends ffi.Struct {
   @ffi.Int()
   external int a;
+
+  external ffi.Pointer<NoDefinitionStructInD> nds;
 }
+
+final class NoDefinitionStructInD extends ffi.Opaque {}
 
 final class UB extends ffi.Opaque {}
 
