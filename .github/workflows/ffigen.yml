@@ -85,17 +85,15 @@ jobs:
         run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart
-      - name: Run VM tests
-        run: dart test
-      - name: Collect coverage
-        run: ./tool/coverage.sh
+      - name: Run VM tests and collect coverage
+        run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
           flag-name: ffigen_macos
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-          path-to-lcov: pkgs/ffigen/lcov.info
+          path-to-lcov: pkgs/ffigen/coverage/lcov.info
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
