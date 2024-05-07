@@ -29,6 +29,8 @@
   formatting step happens. Defaults to true.
 - Delete Dart functions associated with ObjC closure blocks when the block is
   destroyed. Fixes https://github.com/dart-lang/native/issues/204
+- Reduce cursor definition not found logs when `structs/unions` ->
+  `dependency-only` is set to `opaque`.
 
 ## 11.0.0
 
