@@ -1,4 +1,4 @@
-name: add_dylib_link
+name: add_asset_link
 description: Add a dylib in the link step.
 version: 1.0.0
 

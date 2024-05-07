@@ -92,6 +92,9 @@ jobs:
       - run: dart pub get -C test_data/drop_dylib_link/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/add_asset_link/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C example/build/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' }}
 

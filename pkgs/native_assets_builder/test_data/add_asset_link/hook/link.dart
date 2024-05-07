@@ -9,7 +9,7 @@ void main(List<String> arguments) async {
     output
       ..addAsset(
         DataAsset(
-          package: 'add_dylib_link',
+          package: 'add_asset_link',
           name: 'test_text_file',
           file: config.packageRoot.resolve('assets/test.txt'),
         ),
