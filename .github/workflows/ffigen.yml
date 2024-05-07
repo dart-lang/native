@@ -70,7 +70,7 @@ jobs:
 
   # Keep in sync with ffigen_weekly.yaml:test-mac-arm64
   test-mac:
-    # needs: analyze
+    needs: analyze
     runs-on: 'macos-latest'
     defaults:
       run:
