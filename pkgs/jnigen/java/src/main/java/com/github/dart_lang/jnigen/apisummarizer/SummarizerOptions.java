@@ -67,9 +67,9 @@ public class SummarizerOptions {
         throw new ParseException("Need to specify the package or class names");
       }
     } catch (ParseException e) {
-      System.err.println(e.getMessage());
+      Main.stderr.println(e.getMessage());
       help.printHelp(
-          new PrintWriter(System.err, true),
+          new PrintWriter(Main.stderr, true),
           help.getWidth(),
           "java -jar <JAR> [-s <SOURCE_DIR=.>] "
               + "[-c <CLASSES_JAR>] <CLASS_OR_PACKAGE_NAMES>\n"

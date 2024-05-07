@@ -48,7 +48,7 @@ public class Main {
       cli.addAll(List.of(options.toolArgs.split(" ")));
     }
 
-    javaDoc.getTask(null, fileManager, System.err::println, docletClass, cli, fileObjects).call();
+    javaDoc.getTask(null, fileManager, stderr::println, docletClass, cli, fileObjects).call();
 
     return SummarizerDoclet.getClasses();
   }
@@ -57,6 +57,8 @@ public class Main {
       DocumentationTool javaDoc, List<JavaFileObject> javaFileObjects, SummarizerOptions options) {
     return runDocletWithClass(javaDoc, SummarizerDoclet.class, javaFileObjects, options);
   }
+
+  static final PrintStream stderr = new PrintStream(System.err, true, StandardCharsets.UTF_8);
 
   public static void main(String[] args) throws FileNotFoundException {
     options = SummarizerOptions.parseArgs(args);
@@ -105,7 +107,7 @@ public class Main {
     }
 
     if (!notFound.isEmpty()) {
-      System.err.println("Not found: " + notFound);
+      stderr.println("Not found: " + notFound);
       System.exit(1);
     }
 
