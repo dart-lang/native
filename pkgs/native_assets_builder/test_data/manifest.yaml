@@ -68,3 +68,8 @@
 - drop_dylib_link/hook/link.dart
 - drop_dylib_link/hook/build.dart
 - drop_dylib_link/bin/drop_dylib_link.dart
+- add_dylib_link/pubspec.yaml
+- add_dylib_link/assets/test.txt
+- add_dylib_link/README.md
+- add_dylib_link/hook/link.dart
+- add_dylib_link/bin/add_dylib_link.dart
