@@ -7,7 +7,9 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
-// This test is slightly flaky.
+// This test is slightly flaky. Some of the ref counts are occasionally lower
+// than expected, presumably due to the Dart wrapper objects being GC'd before
+// the expect call.
 @Retry(3)
 
 import 'dart:ffi';
