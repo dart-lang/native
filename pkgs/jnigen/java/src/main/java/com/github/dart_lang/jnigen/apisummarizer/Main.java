@@ -11,10 +11,8 @@ import com.github.dart_lang.jnigen.apisummarizer.util.ClassFinder;
 import com.github.dart_lang.jnigen.apisummarizer.util.InputStreamProvider;
 import com.github.dart_lang.jnigen.apisummarizer.util.JsonWriter;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import javax.tools.DocumentationTool;
 import javax.tools.JavaFileObject;
@@ -65,7 +63,7 @@ public class Main {
     OutputStream output;
 
     if (options.outputFile == null || options.outputFile.equals("-")) {
-      output = System.out;
+      output = new PrintStream(System.out, true, StandardCharsets.UTF_8);
     } else {
       output = new FileOutputStream(options.outputFile);
     }
