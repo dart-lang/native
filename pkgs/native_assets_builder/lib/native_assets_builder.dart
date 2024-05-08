@@ -3,5 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'package:native_assets_builder/src/build_runner/build_runner.dart';
+export 'package:native_assets_builder/src/model/build_result.dart';
+export 'package:native_assets_builder/src/model/dry_run_result.dart';
 export 'package:native_assets_builder/src/model/kernel_assets.dart';
+export 'package:native_assets_builder/src/model/link_result.dart';
 export 'package:native_assets_builder/src/package_layout/package_layout.dart';

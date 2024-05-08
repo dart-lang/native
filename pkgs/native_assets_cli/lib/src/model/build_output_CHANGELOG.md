@@ -1,3 +1,9 @@
+## 1.3.0  
+
+- Add key for assets to be linked.  
+  Backwards compatibility older build hooks: The key can be omitted.  
+  Backwards compatibility older SDKs: These are ignored on older SDKs.  
+
 ## 1.2.0
 
 - Changed default encoding to JSON.

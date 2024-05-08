@@ -1,3 +1,7 @@
+## 0.6.0-wip
+
+- Add support for `hook/link.dart`.
+
 ## 0.5.4
 
 - Update documentation about providing `NativeCodeAsset.file` in dry runs.

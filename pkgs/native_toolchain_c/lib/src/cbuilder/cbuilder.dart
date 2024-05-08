@@ -152,6 +152,12 @@ class CBuilder implements Builder {
   /// | Fuchsia | `c++`        |
   final String? cppLinkStdLib;
 
+  /// If the code asset should be a dynamic or static library.
+  ///
+  /// This determines whether to produce a dynamic or static library. If null,
+  /// the value is instead retrieved from the [BuildConfig].
+  final LinkModePreference? linkModePreference;
+
   CBuilder.library({
     required this.name,
     required this.assetName,
@@ -167,6 +173,7 @@ class CBuilder implements Builder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
+    this.linkModePreference,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
@@ -185,7 +192,8 @@ class CBuilder implements Builder {
   })  : _type = _CBuilderType.executable,
         assetName = null,
         installName = null,
-        pic = pie;
+        pic = pie,
+        linkModePreference = null;
 
   /// Runs the C Compiler with on this C build spec.
   ///
@@ -195,11 +203,13 @@ class CBuilder implements Builder {
     required BuildConfig buildConfig,
     required BuildOutput buildOutput,
     required Logger? logger,
+    String? linkInPackage,
   }) async {
     final outDir = buildConfig.outputDirectory;
     final packageRoot = buildConfig.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = _linkMode(buildConfig.linkModePreference);
+    final linkMode =
+        _linkMode(linkModePreference ?? buildConfig.linkModePreference);
     final libUri =
         outDir.resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
     final exeUri =
@@ -247,17 +257,20 @@ class CBuilder implements Builder {
     }
 
     if (assetName != null) {
-      buildOutput.addAssets([
-        NativeCodeAsset(
-          package: buildConfig.packageName,
-          name: assetName!,
-          file: libUri,
-          linkMode: linkMode,
-          os: buildConfig.targetOS,
-          architecture:
-              buildConfig.dryRun ? null : buildConfig.targetArchitecture,
-        )
-      ]);
+      buildOutput.addAssets(
+        [
+          NativeCodeAsset(
+            package: buildConfig.packageName,
+            name: assetName!,
+            file: libUri,
+            linkMode: linkMode,
+            os: buildConfig.targetOS,
+            architecture:
+                buildConfig.dryRun ? null : buildConfig.targetArchitecture,
+          )
+        ],
+        linkInPackage: linkInPackage,
+      );
     }
     if (!buildConfig.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)

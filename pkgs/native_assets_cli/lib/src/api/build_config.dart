@@ -2,22 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cli_config/cli_config.dart';
 import 'package:collection/collection.dart';
-import 'package:crypto/crypto.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import '../model/hook.dart';
 import '../model/metadata.dart';
-import '../model/target.dart';
 import '../utils/json.dart';
 import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build.dart';
 import 'build_mode.dart';
+import 'hook_config.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
@@ -32,53 +31,7 @@ part 'c_compiler_config.dart';
 /// be automatically run, by the Flutter and Dart SDK tools. The hook will be
 /// run with specific commandline arguments, which [BuildConfig] can parse and
 /// provide more convenient access to.
-abstract final class BuildConfig {
-  /// The directory in which all output and intermediate artifacts should be
-  /// placed.
-  Uri get outputDirectory;
-
-  /// The name of the package the native assets are built for.
-  String get packageName;
-
-  /// The root of the package the native assets are built for.
-  ///
-  /// Often a package's native assets are built because a package is a
-  /// dependency of another. For this it is convenient to know the packageRoot.
-  Uri get packageRoot;
-
-  /// The architecture being compiled for.
-  ///
-  /// Not specified (`null`) during a [dryRun].
-  Architecture? get targetArchitecture;
-
-  /// The operating system being compiled for.
-  OS get targetOS;
-
-  /// When compiling for iOS, whether to target device or simulator.
-  ///
-  /// Not available if [targetOS] is [OS.iOS]. Will throw a [StateError] if
-  /// accessed during a [dryRun].
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  IOSSdk get targetIOSSdk;
-
-  /// When compiling for Android, the minimum Android SDK API version to that
-  /// the compiled code will be compatible with.
-  ///
-  /// Required when [targetOS] equals [OS.android].
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  ///
-  /// For more information about the Android API version, refer to
-  /// [`minSdkVersion`](https://developer.android.com/ndk/guides/sdk-versions#minsdkversion)
-  /// in the Android documentation.
-  int? get targetAndroidNdkApi;
-
-  /// The preferred [LinkMode] method for [NativeCodeAsset]s.
-  LinkModePreference get linkModePreference;
-
+abstract final class BuildConfig implements HookConfig {
   /// Metadata from a direct dependency.
   ///
   /// The [packageName] of is the package name of the direct dependency.
@@ -89,33 +42,6 @@ abstract final class BuildConfig {
   /// during a [dryRun].
   Object? metadatum(String packageName, String key);
 
-  /// The configuration for invoking the C compiler.
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  CCompilerConfig get cCompiler;
-
-  /// Whether this run is a dry-run, which doesn't build anything.
-  ///
-  /// A dry-run only reports information about which assets a build would
-  /// create, but doesn't actually create files.
-  bool get dryRun;
-
-  /// The [BuildMode] that the code should be compiled in.
-  ///
-  /// Currently [BuildMode.debug] and [BuildMode.release] are the only modes.
-  ///
-  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
-  /// during a [dryRun].
-  BuildMode get buildMode;
-
-  /// The asset types that the invoker of this build supports.
-  ///
-  /// Currently known values:
-  /// * [NativeCodeAsset.type]
-  /// * [DataAsset.type]
-  Iterable<String> get supportedAssetTypes;
-
   /// The version of [BuildConfig].
   ///
   /// The build config is used in the protocol between the Dart and Flutter SDKs
@@ -124,7 +50,7 @@ abstract final class BuildConfig {
   /// We're trying to avoid breaking changes. However, in the case that we have
   /// to, the major version mismatch between the Dart or Flutter SDK and build
   /// hook (`hook/build.dart`) will lead to a nice error message.
-  static Version get latestVersion => BuildConfigImpl.latestVersion;
+  static Version get latestVersion => HookConfigImpl.latestVersion;
 
   /// Constructs a config by parsing CLI arguments and loading the config file.
   ///
@@ -177,7 +103,7 @@ abstract final class BuildConfig {
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl(
-        outDir: outputDirectory,
+        outputDirectory: outputDirectory,
         packageName: packageName,
         packageRoot: packageRoot,
         buildMode: buildMode as BuildModeImpl,
@@ -192,7 +118,7 @@ abstract final class BuildConfig {
                 for (final entry in dependencyMetadata.entries)
                   entry.key: Metadata(entry.value.cast())
               }
-            : {},
+            : null,
         supportedAssetTypes: supportedAssetTypes,
       );
 
@@ -204,7 +130,7 @@ abstract final class BuildConfig {
   ///
   /// For the documentation of the parameters, see the equally named fields.
   factory BuildConfig.dryRun({
-    required Uri outDir,
+    required Uri outputDirectory,
     required String packageName,
     required Uri packageRoot,
     required OS targetOS,
@@ -212,7 +138,7 @@ abstract final class BuildConfig {
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
-        outDir: outDir,
+        outputDirectory: outputDirectory,
         packageName: packageName,
         packageRoot: packageRoot,
         targetOS: targetOS as OSImpl,

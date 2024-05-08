@@ -68,7 +68,7 @@ void main() {
     expect(await File.fromUri(bazExeUri).exists(), true);
     final barResolver = InstallLocationResolver(
       toolName: 'bar',
-      paths: [barExeUri.toFilePath().replaceAll('\\', '/')],
+      paths: [barExeUri.toFilePath().unescape()],
     );
     final bazResolver = RelativeToolResolver(
       toolName: 'baz',
@@ -94,9 +94,9 @@ void main() {
     final bazExeUri = tempUri.resolve(bazExeName);
     await File.fromUri(barExeUri).writeAsString('dummy');
     final barResolver = InstallLocationResolver(
-        toolName: 'bar', paths: [barExeUri.toFilePath().replaceAll('\\', '/')]);
+        toolName: 'bar', paths: [barExeUri.toFilePath().unescape()]);
     final bazResolver = InstallLocationResolver(
-        toolName: 'baz', paths: [bazExeUri.toFilePath().replaceAll('\\', '/')]);
+        toolName: 'baz', paths: [bazExeUri.toFilePath().unescape()]);
     final barLogs = <String>[];
     final bazLogs = <String>[];
     await barResolver.resolve(logger: createCapturingLogger(barLogs));

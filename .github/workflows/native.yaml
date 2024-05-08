@@ -80,13 +80,34 @@ jobs:
       - run: dart pub get -C test_data/package_with_metadata/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C example/native_add_app/
+      - run: dart pub get -C test_data/simple_link/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+      
+      - run: dart pub get -C test_data/complex_link/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+      
+      - run: dart pub get -C test_data/complex_link_helper/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/drop_dylib_link/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/add_asset_link/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C example/build/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
-      - run: dart pub get -C example/native_add_library/
+      - run: dart pub get -C example/build/native_add_library/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
-      - run: dart pub get -C example/use_dart_api/
+      - run: dart pub get -C example/build/use_dart_api/
+        if: ${{ matrix.package == 'native_assets_cli' }}
+
+      - run: dart pub get -C example/link/package_with_assets/
+        if: ${{ matrix.package == 'native_assets_cli' }}
+
+      - run: dart pub get -C example/link/app_with_asset_treeshaking/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
       - run: dart analyze --fatal-infos
@@ -103,23 +124,23 @@ jobs:
         if: ${{ matrix.sdk == 'stable' }}
 
       - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/native_add_app/
+        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets run
-        working-directory: pkgs/${{ matrix.package }}/example/native_add_app/
+        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
-        working-directory: pkgs/${{ matrix.package }}/example/native_add_app/
+        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: ./native_add_app.exe
-        working-directory: pkgs/${{ matrix.package }}/example/native_add_app/bin/native_add_app/
+        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/use_dart_api/
+        working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage
