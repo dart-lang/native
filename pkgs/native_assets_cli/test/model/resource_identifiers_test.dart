@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:native_assets_cli/src/model/resource_identifiers.dart';
 import 'package:test/test.dart';
 
-import '../api/resource_data.dart';
+import 'resource_data.dart';
 
 void main() {
   test('empty resources parsing', () {

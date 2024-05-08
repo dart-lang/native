@@ -2,4 +2,4 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/treeshaking_native_assets.dart';
+export 'src/add_asset_link.dart';

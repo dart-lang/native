@@ -2,13 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/src/api/resource.dart';
 import 'package:native_assets_cli/src/model/resource_identifiers.dart';
-
-final resourceList = [
-  Resource(name: 'methodName1', metadata: 'someMetadata'),
-  Resource(name: 'methodName2', metadata: 'someOtherMetadata'),
-];
 
 const resourceFile = '''{
   "_comment": "Resources referenced by annotated resource identifiers",

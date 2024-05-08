@@ -1,5 +1,5 @@
-name: treeshaking_native_assets
-description: A sample on how to treeshake symbols using a build/link combo.
+name: add_asset_link
+description: Add a dylib in the link step.
 version: 1.0.0
 
 publish_to: none

@@ -28,4 +28,3 @@ export 'src/api/link.dart';
 export 'src/api/link_config.dart' show LinkConfig;
 export 'src/api/link_mode_preference.dart' show LinkModePreference;
 export 'src/api/os.dart' show OS;
-export 'src/api/resource.dart';

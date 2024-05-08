@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include "native_add.h"
+import 'add_asset_link_bindings.dart' as bindings;
 
-int32_t add(int32_t a, int32_t b) {
-   return a + b;
+class MyMath {
+  static int add(int a, int b) => bindings.add(a, b);
 }

@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:treeshaking_native_assets/treeshaking_native_assets.dart';
+import 'package:add_asset_link/add_asset_link.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${MyMath.multiply(3, 4)}!');
+  print('Hello world: ${MyMath.add(3, 4)}!');
 }

@@ -5,5 +5,11 @@
 import 'package:drop_dylib_link/drop_dylib_link.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${MyMath.add(3, 4)}!');
+  if (arguments.first == 'add') {
+    print('Hello world: ${MyMath.add(3, 4)}!');
+  } else if (arguments.first == 'multiply') {
+    print('Hello world: ${MyMath.multiply(3, 4)}!');
+  } else {
+    throw ArgumentError('Must pass either "add" or "multiply"');
+  }
 }

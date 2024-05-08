@@ -6,11 +6,8 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
   await link(args, (config, output) async {
-    final assetsWithResource = config.assets.whereType<DataAsset>().where(
-        (asset) =>
-            config.treeshakingInformation
-                ?.any((resource) => resource.metadata == asset.name) ??
-            true);
-    output.addAssets(assetsWithResource);
+    //TODO: Add tree shaking by reading the resources.json produced by the SDK.
+    final dataAssets = config.assets.whereType<DataAsset>();
+    output.addAssets(dataAssets);
   });
 }

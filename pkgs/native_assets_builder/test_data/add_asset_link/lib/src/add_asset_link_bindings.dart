@@ -2,12 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include <stdint.h>
+import 'dart:ffi' as ffi;
 
-#if _WIN32
-#define MYLIB_EXPORT __declspec(dllexport)
-#else
-#define MYLIB_EXPORT
-#endif
-
-MYLIB_EXPORT intptr_t multiply(intptr_t a, intptr_t b);
+@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(
+    assetId: 'package:add_asset_link/dylib_add_link')
+external int add(
+  int a,
+  int b,
+);
