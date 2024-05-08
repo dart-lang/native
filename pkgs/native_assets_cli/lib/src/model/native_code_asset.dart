@@ -49,8 +49,8 @@ abstract final class LinkModeImpl implements LinkMode {
 
   /// v1.1.0 and newer.
   factory LinkModeImpl.fromJson(Map<Object?, Object?> jsonMap) {
-    final type = as<String>(jsonMap[_typeKey]);
-    final uriString = as<String?>(jsonMap[_uriKey]);
+    final type = get<String>(jsonMap, _typeKey);
+    final uriString = get<String?>(jsonMap, _uriKey);
     final uri = uriString != null ? Uri(path: uriString) : null;
     return LinkModeImpl(type, uri);
   }
@@ -244,7 +244,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
         linkMode = StaticLinkingImpl();
       } else {
         assert(linkModeJson == DynamicLoadingImpl._typeValueV1_0_0);
-        final pathJson = as<Map<Object?, Object?>>(jsonMap[_pathKey]);
+        final pathJson = get<Map<Object?, Object?>>(jsonMap, _pathKey);
         final type =
             as<String>(pathJson[DynamicLoadingImpl._pathTypeKeyV1_0_0]);
         final uriString = as<String?>(pathJson[DynamicLoadingImpl._uriKey]);
@@ -256,7 +256,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
       linkMode = LinkModeImpl.fromJson(as<Map<Object?, Object?>>(linkModeJson));
     }
 
-    final fileString = as<String?>(jsonMap[_fileKey]);
+    final fileString = get<String?>(jsonMap, _fileKey);
     final Uri? file;
     if (fileString != null) {
       file = Uri(path: fileString);
@@ -270,7 +270,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     } else {
       file = null;
     }
-    final targetString = as<String?>(jsonMap[_targetKey]);
+    final targetString = get<String?>(jsonMap, _targetKey);
     final ArchitectureImpl? architecture;
     final OSImpl os;
     if (targetString != null) {
@@ -279,8 +279,8 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
       os = target.os;
       architecture = target.architecture;
     } else {
-      os = OSImpl.fromString(as<String>(jsonMap[_osKey]));
-      final architectureString = as<String?>(jsonMap[_architectureKey]);
+      os = OSImpl.fromString(get<String>(jsonMap, _osKey));
+      final architectureString = get<String?>(jsonMap, _architectureKey);
       if (architectureString != null) {
         architecture = ArchitectureImpl.fromString(architectureString);
       } else {
@@ -289,7 +289,7 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
     }
 
     return NativeCodeAssetImpl(
-      id: as<String>(jsonMap[_idKey]),
+      id: get<String>(jsonMap, _idKey),
       os: os,
       architecture: architecture,
       linkMode: linkMode,
@@ -363,5 +363,5 @@ final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
 
   @override
   String toString() =>
-      'NativeCodeAsset(${toJson(BuildOutputImpl.latestVersion)})';
+      'NativeCodeAsset(${toJson(HookOutputImpl.latestVersion)})';
 }

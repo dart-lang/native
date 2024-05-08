@@ -13,7 +13,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
-import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/native_toolchain/msvc.dart' as msvc;
 import 'package:native_toolchain_c/src/tool/tool_error.dart';
 import 'package:test/test.dart';
 
@@ -24,21 +24,21 @@ void main() {
     final tempUri = await tempDirForTest();
     final ar = [
       ...await appleAr.defaultResolver!.resolve(logger: logger),
-      ...await lib.defaultResolver!.resolve(logger: logger),
+      ...await msvc.lib.defaultResolver!.resolve(logger: logger),
       ...await llvmAr.defaultResolver!.resolve(logger: logger),
     ].first.uri;
     final cc = [
       ...await appleClang.defaultResolver!.resolve(logger: logger),
-      ...await cl.defaultResolver!.resolve(logger: logger),
+      ...await msvc.cl.defaultResolver!.resolve(logger: logger),
       ...await clang.defaultResolver!.resolve(logger: logger),
     ].first.uri;
     final ld = [
       ...await appleLd.defaultResolver!.resolve(logger: logger),
-      ...await link.defaultResolver!.resolve(logger: logger),
+      ...await msvc.link.defaultResolver!.resolve(logger: logger),
       ...await lld.defaultResolver!.resolve(logger: logger),
     ].first.uri;
     final envScript = [
-      ...await vcvars64.defaultResolver!.resolve(logger: logger)
+      ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger)
     ].firstOrNull?.uri;
     final buildConfig = BuildConfig.build(
       outputDirectory: tempUri,

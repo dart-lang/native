@@ -1,0 +1,22 @@
+name: use_dart_api
+description: Uses some functions from `dart_api_dl.h`.
+version: 0.1.0
+
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  logging: ^1.1.1
+  # native_assets_cli: ^0.5.0
+  native_assets_cli:
+    path: ../../../../native_assets_cli/
+  # native_toolchain_c: ^0.4.0
+  native_toolchain_c:
+    path: ../../../../native_toolchain_c/
+
+dev_dependencies:
+  ffigen: ^10.0.0
+  lints: ^3.0.0
+  test: ^1.23.1

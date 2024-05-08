@@ -18,9 +18,11 @@ import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
 import 'build_config.dart';
+import 'hook_config.dart';
 import 'os.dart';
 
-part '../model/build_output.dart';
+part '../model/hook_output.dart';
+part 'link_output.dart';
 
 /// The output of a build hook (`hook/build.dart`) invocation.
 ///
@@ -41,6 +43,16 @@ abstract final class BuildOutput {
   /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
   /// the dry run must be provided.
   Iterable<Asset> get assets;
+
+  /// The assets produced by this build which should be linked.
+  ///
+  /// Every key in the map is a package name. These assets in the values are not
+  /// bundled with the application, but are sent to the link hook of the package
+  /// specified in the key, which can decide if they are bundled or not.
+  ///
+  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
+  /// the dry run must be provided.
+  Map<String, List<Asset>> get assetsForLinking;
 
   /// The files used by this build.
   ///
@@ -77,7 +89,7 @@ abstract final class BuildOutput {
     Iterable<Uri>? dependencies,
     Map<String, Object>? metadata,
   }) =>
-      BuildOutputImpl(
+      HookOutputImpl(
         timestamp: timestamp,
         assets: assets?.cast<AssetImpl>().toList(),
         dependencies: Dependencies([...?dependencies]),
@@ -85,10 +97,19 @@ abstract final class BuildOutput {
       );
 
   /// Adds [Asset]s produced by this build or dry run.
-  void addAsset(Asset asset);
+  ///
+  /// If the [linkInPackage] argument is specified, the asset will not be
+  /// bundled during the build step, but sent as input to the link hook of the
+  /// specified package, where it can be further processed and possibly bundled.
+  void addAsset(Asset asset, {String? linkInPackage});
 
   /// Adds [Asset]s produced by this build or dry run.
-  void addAssets(Iterable<Asset> assets);
+  ///
+  /// If the [linkInPackage] argument is specified, the assets will not be
+  /// bundled during the build step, but sent as input to the link hook of the
+  /// specified package, where they can be further processed and possibly
+  /// bundled.
+  void addAssets(Iterable<Asset> assets, {String? linkInPackage});
 
   /// Adds file used by this build.
   ///
@@ -114,5 +135,5 @@ abstract final class BuildOutput {
   ///
   /// The build output is used in the protocol between the Dart and Flutter SDKs
   /// and packages through build hook invocations.
-  static Version get latestVersion => BuildOutputImpl.latestVersion;
+  static Version get latestVersion => HookOutputImpl.latestVersion;
 }

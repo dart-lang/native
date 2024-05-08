@@ -10,6 +10,7 @@ export 'src/api/architecture.dart' show Architecture;
 export 'src/api/asset.dart'
     show
         Asset,
+        DataAsset,
         DynamicLoadingBundled,
         DynamicLoadingSystem,
         LinkMode,
@@ -20,7 +21,10 @@ export 'src/api/asset.dart'
 export 'src/api/build.dart';
 export 'src/api/build_config.dart' show BuildConfig, CCompilerConfig;
 export 'src/api/build_mode.dart' show BuildMode;
-export 'src/api/build_output.dart' show BuildOutput;
+export 'src/api/build_output.dart' show BuildOutput, LinkOutput;
+export 'src/api/hook_config.dart' show HookConfig;
 export 'src/api/ios_sdk.dart' show IOSSdk;
+export 'src/api/link.dart';
+export 'src/api/link_config.dart' show LinkConfig;
 export 'src/api/link_mode_preference.dart' show LinkModePreference;
 export 'src/api/os.dart' show OS;

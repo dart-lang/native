@@ -1,6 +1,7 @@
-## 0.6.1
+## 0.7.0-wip
 
 - Fix test.
+- Add support for `hook/link.dart`.
 
 ## 0.6.0
 
