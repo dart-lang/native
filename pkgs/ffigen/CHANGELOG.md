@@ -1,4 +1,4 @@
-## 12.0.0-wip
+## 12.0.0
 
 - Global variables are now compatible with the `ffi-native` option.
 - Exposing symbol addresses of functions and globals is now compatible with the
