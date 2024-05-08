@@ -69,7 +69,11 @@
 - drop_dylib_link/hook/build.dart
 - drop_dylib_link/bin/drop_dylib_link.dart
 - add_asset_link/pubspec.yaml
-- add_asset_link/assets/test.txt
-- add_asset_link/README.md
 - add_asset_link/hook/link.dart
 - add_asset_link/bin/add_asset_link.dart
+- add_asset_link/lib/add_asset_link.dart
+- add_asset_link/lib/src/add_asset_link.dart
+- add_asset_link/lib/src/add_asset_link_bindings.dart
+- add_asset_link/src/native_add.h
+- add_asset_link/src/native_add.c
+- add_asset_link/hook/build.dart

@@ -2,8 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:add_asset_link/add_asset_link.dart';
+#include <stdint.h>
 
-void main(List<String> arguments) {
-  print('Hello world: ${MyMath.add(3, 4)}!');
-}
+#if _WIN32
+#define MYLIB_EXPORT __declspec(dllexport)
+#else
+#define MYLIB_EXPORT
+#endif
+
+MYLIB_EXPORT int32_t add(int32_t a, int32_t b);

@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:add_asset_link/add_asset_link.dart';
+import 'add_asset_link_bindings.dart' as bindings;
 
-void main(List<String> arguments) {
-  print('Hello world: ${MyMath.add(3, 4)}!');
+class MyMath {
+  static int add(int a, int b) => bindings.add(a, b);
 }

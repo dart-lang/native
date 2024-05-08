@@ -2,8 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:add_asset_link/add_asset_link.dart';
+import 'dart:ffi' as ffi;
 
-void main(List<String> arguments) {
-  print('Hello world: ${MyMath.add(3, 4)}!');
-}
+@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(
+    assetId: 'package:add_asset_link/dylib_add_link')
+external int add(
+  int a,
+  int b,
+);
