@@ -108,7 +108,6 @@ Compound? parseCompoundDeclaration(
   }
 
   // Parse the cursor definition instead, if this is a forward declaration.
-  cursor = cursorIndex.getDefinition(cursor);
   final declUsr = cursor.usr();
   final String declName;
 
@@ -126,6 +125,7 @@ Compound? parseCompoundDeclaration(
 
   if (declName.isEmpty) {
     if (ignoreFilter) {
+      cursor = cursorIndex.getDefinition(cursor);
       // This declaration is defined inside some other declaration and hence
       // must be generated.
       return Compound.fromType(
@@ -138,6 +138,7 @@ Compound? parseCompoundDeclaration(
       _logger.finest('unnamed $className declaration');
     }
   } else if (ignoreFilter || shouldIncludeDecl(declUsr, declName)) {
+    cursor = cursorIndex.getDefinition(cursor);
     _logger.fine(
         '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}');
     return Compound.fromType(
@@ -162,7 +163,6 @@ void fillCompoundMembersIfNeeded(
   /// generate these as opaque if `dependency-only` was set to opaque).
   bool pointerReference = false,
 }) {
-  cursor = cursorIndex.getDefinition(cursor);
   final compoundType = compound.compoundType;
 
   // Skip dependencies if already seen OR user has specified `dependency-only`
@@ -176,6 +176,7 @@ void fillCompoundMembersIfNeeded(
               (compoundType == CompoundType.union &&
                   config.unionDependencies == CompoundDependencies.opaque)));
   if (skipDependencies) return;
+  cursor = cursorIndex.getDefinition(cursor);
 
   final parsed = _ParsedCompound(compound);
   final String className = _compoundTypeDebugName(compoundType);
