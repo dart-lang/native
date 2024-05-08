@@ -10,7 +10,7 @@ repository: https://github.com/dart-lang/native/tree/main/pkgs/objective_c
 topics:
   - interop
   - ffi
-  - objective_c
+  - objective-c
   - codegen
 
 environment:
