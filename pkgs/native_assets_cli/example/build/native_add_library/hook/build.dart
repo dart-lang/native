@@ -17,12 +17,13 @@ void main(List<String> args) async {
       ],
       dartBuildFiles: ['hook/build.dart'],
     );
-    await cbuilder.run(
-      buildConfig: config,
-      buildOutput: output,
+    final (assets, dependencies) = await cbuilder.run(
+      hookConfig: config,
       logger: Logger('')
         ..level = Level.ALL
         ..onRecord.listen((record) => print(record.message)),
     );
+    output.addAssets(assets);
+    output.addDependencies(dependencies);
   });
 }

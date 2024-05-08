@@ -58,7 +58,6 @@ void main() {
             envScriptArgs: envScriptArgs,
           ),
         );
-        final buildOutput = BuildOutput();
         final cbuilder = CBuilder.executable(
           name: name,
           sources: [helloWorldCUri.toFilePath()],
@@ -66,8 +65,7 @@ void main() {
           dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
+          hookConfig: buildConfig,
           logger: logger,
         );
 
@@ -137,7 +135,6 @@ void main() {
                   envScriptArgs: envScriptArgs,
                 ),
               );
-        final buildOutput = BuildOutput();
 
         final cbuilder = CBuilder.library(
           sources: [addCUri.toFilePath()],
@@ -147,8 +144,7 @@ void main() {
           dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
+          hookConfig: buildConfig,
           logger: logger,
         );
 
@@ -231,7 +227,6 @@ void main() {
         envScriptArgs: envScriptArgs,
       ),
     );
-    final buildOutput = BuildOutput();
 
     final flag = switch (buildConfig.targetOS) {
       OS.windows => '/DFOO=USER_FLAG',
@@ -245,8 +240,7 @@ void main() {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      hookConfig: buildConfig,
       logger: logger,
     );
 
@@ -289,7 +283,6 @@ void main() {
         envScriptArgs: envScriptArgs,
       ),
     );
-    final buildOutput = BuildOutput();
 
     final cbuilder = CBuilder.library(
       name: name,
@@ -298,13 +291,12 @@ void main() {
       sources: [includesCUri.toFilePath()],
       dartBuildFiles: ['hook/build.dart'],
     );
-    await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+    final (_, dependencies) = await cbuilder.run(
+      hookConfig: buildConfig,
       logger: logger,
     );
 
-    expect(buildOutput.dependencies, contains(includesHUri));
+    expect(dependencies, contains(includesHUri));
 
     final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
@@ -335,7 +327,6 @@ void main() {
         envScriptArgs: envScriptArgs,
       ),
     );
-    final buildOutput = BuildOutput();
 
     final stdFlag = switch (buildConfig.targetOS) {
       OS.windows => '/std:$std',
@@ -350,8 +341,7 @@ void main() {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      hookConfig: buildConfig,
       logger: logger,
     );
 
@@ -395,7 +385,6 @@ void main() {
         envScriptArgs: envScriptArgs,
       ),
     );
-    final buildOutput = BuildOutput();
 
     final defaultStdLibLinkFlag = switch (buildConfig.targetOS) {
       OS.windows => null,
@@ -411,8 +400,7 @@ void main() {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      hookConfig: buildConfig,
       logger: logger,
     );
 
@@ -460,7 +448,6 @@ void main() {
         envScriptArgs: envScriptArgs,
       ),
     );
-    final buildOutput = BuildOutput();
     final cbuilder = CBuilder.executable(
       name: name,
       sources: [helloWorldCppUri.toFilePath()],
@@ -472,16 +459,14 @@ void main() {
     if (buildConfig.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
+          hookConfig: buildConfig,
           logger: logger,
         ),
         throwsArgumentError,
       );
     } else {
       await cbuilder.run(
-        buildConfig: buildConfig,
-        buildOutput: buildOutput,
+        hookConfig: buildConfig,
         logger: logger,
       );
 
@@ -532,7 +517,6 @@ Future<void> testDefines({
       envScriptArgs: envScriptArgs,
     ),
   );
-  final buildOutput = BuildOutput();
   final cbuilder = CBuilder.executable(
     name: name,
     sources: [definesCUri.toFilePath()],
@@ -545,8 +529,7 @@ Future<void> testDefines({
     dartBuildFiles: ['hook/build.dart'],
   );
   await cbuilder.run(
-    buildConfig: buildConfig,
-    buildOutput: buildOutput,
+    hookConfig: buildConfig,
     logger: logger,
   );
 

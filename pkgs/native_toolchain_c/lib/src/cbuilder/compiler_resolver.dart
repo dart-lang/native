@@ -20,13 +20,13 @@ import '../tool/tool_instance.dart';
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
-  final BuildConfig buildConfig;
+  final HookConfig hookConfig;
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
 
   CompilerResolver({
-    required this.buildConfig,
+    required this.hookConfig,
     required this.logger,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
@@ -47,8 +47,8 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = buildConfig.targetOS;
-    final targetArchitecture = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -58,8 +58,8 @@ class CompilerResolver {
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
-    final targetOS = buildConfig.targetOS;
-    final targetArch = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArch = hookConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArch == hostArchitecture &&
@@ -97,7 +97,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
-    final configCcUri = buildConfig.cCompiler.compiler;
+    final configCcUri = hookConfig.cCompiler.compiler;
     if (configCcUri != null) {
       assert(await File.fromUri(configCcUri).exists());
       logger?.finer('Using compiler ${configCcUri.toFilePath()} '
@@ -131,8 +131,8 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = buildConfig.targetOS;
-    final targetArchitecture = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
     final errorMessage =
         "No tools configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
@@ -142,8 +142,8 @@ class CompilerResolver {
 
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
-    final targetOS = buildConfig.targetOS;
-    final targetArchitecture = buildConfig.targetArchitecture;
+    final targetOS = hookConfig.targetOS;
+    final targetArchitecture = hookConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArchitecture == hostArchitecture &&
@@ -182,7 +182,7 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
-    final configArUri = buildConfig.cCompiler.archiver;
+    final configArUri = hookConfig.cCompiler.archiver;
     if (configArUri != null) {
       assert(await File.fromUri(configArUri).exists());
       logger?.finer('Using archiver ${configArUri.toFilePath()} '
@@ -195,7 +195,7 @@ class CompilerResolver {
   }
 
   Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = buildConfig.cCompiler.envScript;
+    final fromConfig = hookConfig.cCompiler.envScript;
     if (fromConfig != null) {
       logger?.fine('Using envScript from config: $fromConfig');
       return fromConfig;
@@ -209,7 +209,7 @@ class CompilerResolver {
   }
 
   List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = buildConfig.cCompiler.envScriptArgs;
+    final fromConfig = hookConfig.cCompiler.envScriptArgs;
     if (fromConfig != null) {
       logger?.fine('Using envScriptArgs from config: $fromConfig');
       return fromConfig;
