@@ -10,7 +10,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
     show isValidClass, isValidBlock;
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 
 import '../test_utils.dart';
 
@@ -19,13 +19,10 @@ void generateBindingsForCoverage(String testName) {
   // that the ObjC related bits of ffigen are missed by test coverage. So this
   // function just regenerates those bindings. It doesn't test anything except
   // that the generation succeeded, by asserting the file exists.
-  final config = testConfig(
-      File(path.join('test', 'native_objc_test', '${testName}_config.yaml'))
-          .readAsStringSync());
+  final path = p.join('test', 'native_objc_test', '${testName}_config.yaml');
+  final config = testConfig(File(path).readAsStringSync(), filename: path);
   final library = parse(config);
-  final file = File(
-    path.join('test', 'debug_generated', '${testName}_test.dart'),
-  );
+  final file = File(p.join('test', 'debug_generated', '${testName}_test.dart'));
   library.generateFile(file);
   assert(file.existsSync());
   file.delete();
