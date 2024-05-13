@@ -335,7 +335,7 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
     if (_isInstanceType(newMethod.returnType) &&
         !_isInstanceType(oldMethod.returnType)) {
       return newMethod;
-    } else if(!_isInstanceType(newMethod.returnType) &&
+    } else if (!_isInstanceType(newMethod.returnType) &&
         _isInstanceType(oldMethod.returnType)) {
       return oldMethod;
     }
@@ -344,8 +344,8 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
   }
 
   void addMethod(ObjCMethod method) {
-    methods[method.originalName] = _maybeReplaceMethod(
-        methods[method.originalName], method);
+    methods[method.originalName] =
+        _maybeReplaceMethod(methods[method.originalName], method);
   }
 
   @override

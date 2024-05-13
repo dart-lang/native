@@ -116,5 +116,6 @@ class ObjCObjectPointer extends PointerType {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => '${getDartType(w)}($value, retain: $objCRetain, release: true)';
+  }) =>
+      '${getDartType(w)}($value, retain: $objCRetain, release: true)';
 }
