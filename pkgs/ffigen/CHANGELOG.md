@@ -1,3 +1,8 @@
+## 12.1.0-wip
+
+- Code-gen the ObjC `id` type to `ObjCObjectBase` rather than `NSObject`, since
+  not all ObjC classes inherit from `NSObject`. Eg `NSProxy`.
+
 ## 12.0.0
 
 - Global variables are now compatible with the `ffi-native` option.
