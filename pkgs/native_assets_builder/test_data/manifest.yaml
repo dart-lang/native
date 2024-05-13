@@ -76,4 +76,3 @@
 - add_asset_link/lib/src/add_asset_link_bindings.dart
 - add_asset_link/src/native_add.h
 - add_asset_link/src/native_add.c
-- add_asset_link/hook/build.dart
