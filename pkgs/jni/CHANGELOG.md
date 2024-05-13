@@ -1,6 +1,7 @@
-## 0.9.1-wip
+## 0.9.1
 
-- Fix compilation on macOS for consumers that don't use JNI on macOS (which is still not supported) ([#1122](https://github.com/dart-lang/native/pull/1122)). 
+- Fixed compilation on macOS for consumers that don't use JNI on macOS (which is
+  still not supported) ([#1122](https://github.com/dart-lang/native/pull/1122)).
 
 ## 0.9.0
 

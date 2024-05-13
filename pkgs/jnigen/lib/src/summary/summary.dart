@@ -88,8 +88,12 @@ class SummarizerCommand {
     args.addAll(extraArgs);
     args.addAll(classes);
     log.info('execute $exec ${args.join(' ')}');
-    final proc = await Process.start(exec, args,
-        workingDirectory: workingDirectory?.toFilePath() ?? '.');
+    final proc = await Process.start(
+      exec,
+      args,
+      workingDirectory: workingDirectory?.toFilePath() ?? '.',
+      environment: {'JAVA_TOOL_OPTIONS': '-Dfile.encoding=UTF8'},
+    );
     return proc;
   }
 }
