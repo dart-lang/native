@@ -39,7 +39,7 @@ void main() {
       // Test that we keep the instancetype version of the method. Specifically,
       // LogSpamChildClass.instancetypeMethod returns LogSpamChildClass rather
       // than ObjCObjectBase.
-      LogSpamChildClass obj = LogSpamChildClass.instancetypeMethod();
+      final LogSpamChildClass obj = LogSpamChildClass.instancetypeMethod();
       expect(LogSpamChildClass.isInstance(obj), isTrue);
     });
   });
