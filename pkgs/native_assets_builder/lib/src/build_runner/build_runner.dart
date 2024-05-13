@@ -176,7 +176,7 @@ class NativeAssetsBuildRunner {
     return hookResult.withSuccess(success);
   }
 
-  Future<HookConfigImpl> _cliConfig(
+  static Future<HookConfigImpl> _cliConfig(
     Package package,
     PackageLayout packageLayout,
     Target target,
@@ -246,6 +246,44 @@ class NativeAssetsBuildRunner {
     }
   }
 
+  static Future<HookConfigImpl> _cliConfigDryRun({
+    required String packageName,
+    required Uri packageRoot,
+    required OSImpl targetOS,
+    required LinkModePreferenceImpl linkMode,
+    required Uri buildParentDir,
+    required Hook hook,
+    Iterable<AssetImpl>? assets,
+    Iterable<String>? supportedAssetTypes,
+  }) async {
+    final buildDirName = 'dry_run_${targetOS}_$linkMode';
+    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
+    final outDir = Directory.fromUri(outDirUri);
+    if (!await outDir.exists()) {
+      await outDir.create(recursive: true);
+    }
+    if (hook == Hook.link) {
+      return LinkConfigImpl.dryRun(
+        outputDirectory: outDirUri,
+        packageName: packageName,
+        packageRoot: packageRoot,
+        targetOS: targetOS,
+        assets: assets ?? [],
+        supportedAssetTypes: supportedAssetTypes,
+        linkModePreference: LinkModePreferenceImpl.preferStatic,
+      );
+    } else {
+      return BuildConfigImpl.dryRun(
+        outputDirectory: outDirUri,
+        packageName: packageName,
+        packageRoot: packageRoot,
+        targetOS: targetOS,
+        linkModePreference: linkMode,
+        supportedAssetTypes: supportedAssetTypes,
+      );
+    }
+  }
+
   /// [workingDirectory] is expected to contain `.dart_tool`.
   ///
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
@@ -261,12 +299,13 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
+    required Hook hook,
+    Iterable<AssetImpl>? assets,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final packagesWithBuild =
-        await packageLayout.packagesWithAssets(Hook.build);
+    final packagesWithHook = await packageLayout.packagesWithAssets(hook);
     final (buildPlan, _, planSuccess) = await _plannedPackages(
-      packagesWithBuild,
+      packagesWithHook,
       packageLayout,
       runPackageName,
     );
@@ -283,16 +322,18 @@ class NativeAssetsBuildRunner {
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
         supportedAssetTypes: supportedAssetTypes,
+        hook: hook,
+        assets: assets,
       );
-      final (buildOutput, packageSuccess) = await _runHookForPackage(
-        Hook.build,
+      final (hookOutput, packageSuccess) = await _runHookForPackage(
+        hook,
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
         null,
       );
-      for (final asset in buildOutput.assets) {
+      for (final asset in hookOutput.assets) {
         switch (asset) {
           case NativeCodeAssetImpl _:
             if (asset.architecture != null) {
@@ -451,30 +492,6 @@ Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
         }
       }
     }
-  }
-
-  static Future<BuildConfigImpl> _cliConfigDryRun({
-    required String packageName,
-    required Uri packageRoot,
-    required OSImpl targetOS,
-    required LinkModePreferenceImpl linkMode,
-    required Uri buildParentDir,
-    Iterable<String>? supportedAssetTypes,
-  }) async {
-    final buildDirName = 'dry_run_${targetOS}_$linkMode';
-    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
-    final outDir = Directory.fromUri(outDirUri);
-    if (!await outDir.exists()) {
-      await outDir.create(recursive: true);
-    }
-    return BuildConfigImpl.dryRun(
-      outputDirectory: outDirUri,
-      packageName: packageName,
-      packageRoot: packageRoot,
-      targetOS: targetOS,
-      linkModePreference: linkMode,
-      supportedAssetTypes: supportedAssetTypes,
-    );
   }
 
   DependencyMetadata? _metadataForPackage({
