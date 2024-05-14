@@ -1,4 +1,4 @@
-## 1.1.0
+## 1.1.0-wip
 
 - Add `DartProxy`, which is an implementation of `NSProxy` that allows
   implementing ObjC protocols from Dart.
