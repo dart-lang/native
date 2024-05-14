@@ -46,14 +46,15 @@ void _linkLib(List<String> inputs, String output) =>
 
 void main() {
   Directory.current = Platform.script.resolve('..').path;
-  final objFiles = <String>[];
-  for (final src in cFiles) objFiles.add(_buildObject(src, []));
-  for (final src in objCFiles) objFiles.add(_buildObject(src, objCFlags));
+  final objFiles = <String>[
+    for (final src in cFiles) _buildObject(src, []),
+    for (final src in objCFiles) _buildObject(src, objCFlags),
+  ];
   _linkLib(objFiles, outputFile);
 
   // Sanity check that the dylib was created correctly.
   final lib = DynamicLibrary.open(outputFile);
-  lib.lookup('disposeObjCBlockWithClosure');  // objective_c.c
-  lib.lookup('Dart_InitializeApiDL');  // dart_api_dl.c
-  lib.lookup('OBJC_CLASS_\$_DartProxy');  // proxy.m
+  lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
+  lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
+  lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
 }

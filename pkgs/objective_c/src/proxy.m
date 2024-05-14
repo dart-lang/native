@@ -10,7 +10,7 @@
 
 @interface ProxyMethod : NSObject
 @property(retain) NSMethodSignature *signature;
-@property(retain) NSObject *target;
+@property(retain) id target;
 @end
 
 @implementation ProxyMethod
@@ -35,7 +35,7 @@
   @autoreleasepool {
     ProxyMethod *m = [ProxyMethod new];
     m.signature = signature;
-    m.target = (NSObject*)block;
+    m.target = block;
     [self.methods setObject:m forKey:[NSValue valueWithPointer:sel]];
   }
 }
