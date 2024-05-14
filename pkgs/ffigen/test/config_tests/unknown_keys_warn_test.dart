@@ -16,7 +16,7 @@ void main() {
   group('unknown_keys_warn_test', () {
     setUpAll(() {
       final logArr = <String>[];
-      logWarningsToArray(logArr, Level.WARNING);
+      logToArray(logArr, Level.WARNING);
       testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Warn for unknown keys.'
