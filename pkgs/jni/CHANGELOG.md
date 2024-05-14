@@ -1,3 +1,7 @@
+## 0.9.2
+
+- Bumped `minSdk` to 21.
+
 ## 0.9.1
 
 - Fixed compilation on macOS for consumers that don't use JNI on macOS (which is
