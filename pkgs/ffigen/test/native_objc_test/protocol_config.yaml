@@ -1,0 +1,20 @@
+name: ProtocolTestObjCLibrary
+description: 'Tests implementing protocols'
+language: objc
+output: 'protocol_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - ProtocolConsumer
+    - ObjCProtocolImpl
+typedefs:
+  include:
+    - BuildStringBlock
+functions:
+  include:
+    - forceCodeGenOfBuildStringBlock
+headers:
+  entry-points:
+    - 'protocol_test.m'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

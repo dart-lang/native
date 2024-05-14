@@ -6,12 +6,14 @@ output: 'lib/src/objective_c_bindings_generated.dart'
 headers:
   entry-points:
     - 'src/foundation.h'
+    - 'src/proxy.h'
 ffi-native:
 exclude-all-by-default: true
 generate-for-package-objective-c: true
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
+    - DartProxy
     - NSArray
     - NSCharacterSet
     - NSCoder
