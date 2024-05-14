@@ -1,3 +1,9 @@
+## 0.9.1
+
+- Fixed a bug in summarizer where standard output would use the default encoding
+  of the operating system and therefore breaking the UTF-8 decoding for some
+  locales.
+
 ## 0.9.0
 
 - **Breaking Change** ([#660](https://github.com/dart-lang/native/issues/660)):
