@@ -6,7 +6,8 @@ import Foundation
 
 /// Describes a parameter accepted by any function-like entity (e.g classes & structs initializers, methods, etc.)
 struct ParameterSyntax {
-    let label: String?
-    let name: String
+    /// The outer name of the parameter. In case a parameter is positional (i.e outer name is `_` in declaration), this field will be `nil`
+    let name: String?
+    let innerName: String
     let type: TypeSyntax
 }
