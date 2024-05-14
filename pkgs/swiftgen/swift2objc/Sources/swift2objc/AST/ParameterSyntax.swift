@@ -4,6 +4,7 @@
 
 import Foundation
 
+/// Describes a parameter accepted by any function-like entity (e.g classes & structs initializers, methods, etc.)
 struct ParameterSyntax {
     let label: String?
     let name: String

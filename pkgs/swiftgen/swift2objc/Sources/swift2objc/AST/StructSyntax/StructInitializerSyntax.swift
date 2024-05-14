@@ -4,6 +4,7 @@
 
 import Foundation
 
+/// Describes a struct initializer
 struct StructInitializerSyntax {
     let accessModifier: AccessModifier;
     let parameters: [ParameterSyntax]

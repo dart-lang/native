@@ -4,6 +4,7 @@
 
 import Foundation
 
+/// Describes a struct property (i.e, a member with a getter/setter)
 struct StructPropertySyntax: StructMemberSyntax {
     let accessModifier: AccessModifier
     let name: String

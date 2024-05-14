@@ -4,6 +4,7 @@
 
 import Foundation
 
+/// Describes the shared components of a all struct members (i.e, methods, properties, and fields)
 protocol StructMemberSyntax {
     var accessModifier: AccessModifier { get }
     var name: String { get }

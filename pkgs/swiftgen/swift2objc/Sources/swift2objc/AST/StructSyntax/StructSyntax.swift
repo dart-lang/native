@@ -4,6 +4,7 @@
 
 import Foundation
 
+/// Describes a struct
 struct StructSyntax {
     let accessModifier: AccessModifier
     let name: String

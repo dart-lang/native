@@ -4,6 +4,7 @@
 
 import Foundation
 
+/// An enum of possible Swift access modifiers that controls the visibility of an entity (e.g classes, methods, properties, etc.)
 enum AccessModifier {
     case `open`
     case `public`

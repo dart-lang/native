@@ -4,6 +4,7 @@
 
 import Foundation
 
+/// Describes the signature of a struct method
 struct StructMethodSyntax: StructMemberSyntax {
     let isMutating: Bool
     let isAsync: Bool
