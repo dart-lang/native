@@ -42,13 +42,13 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
 
 /// Only for use by ffigen bindings.
 objc.NSMethodSignature? getProtocolMethodSignature(
-    Pointer<c.ObjCProtocol> protocol,
-    Pointer<c.ObjCSelector> sel,
-    bool isRequiredMethod,
-    bool isInstanceMethod) {
-  final sig = c
-      .getMethodDescription(protocol, sel, isRequiredMethod, isInstanceMethod)
-      .types;
+  Pointer<c.ObjCProtocol> protocol,
+  Pointer<c.ObjCSelector> sel, {
+  required bool isRequired,
+  required bool isInstance,
+}) {
+  final sig =
+      c.getMethodDescription(protocol, sel, isRequired, isInstance).types;
   if (sig == nullptr) {
     return null;
   }

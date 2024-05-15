@@ -27,28 +27,67 @@ void main() {
       generateBindingsForCoverage('protocol');
     });
 
-    test('ObjC implementation', () {
-      final protoImpl = ObjCProtocolImpl.new1();
-      final consumer = ProtocolConsumer.new1();
-      final result = consumer.getProtoString_(protoImpl);
-      expect(result.toString(), 'ObjCProtocolImpl: Hello from ObjC: 3.14');
+    group('ObjC implementation', () {
+      test('Basics', () {
+        final protoImpl = ObjCProtocolImpl.new1();
+        final consumer = ProtocolConsumer.new1();
+
+        final result = consumer.getProtoString_(protoImpl);
+        expect(result.toString(), 'ObjCProtocolImpl: Hello from ObjC: 3.14');
+
+        final intResult = consumer.callOptionalMethod_(protoImpl);
+        expect(intResult, 579);
+      });
+
+      test('Unimplemented method', () {
+        final protoImpl = ObjCProtocolImplMissingMethod.new1();
+        final consumer = ProtocolConsumer.new1();
+
+        final intResult = consumer.callOptionalMethod_(protoImpl);
+        expect(intResult, -999);
+      });
     });
 
-    test('Manual DartProxy implementation', () {
-      final protoImpl = DartProxy.new1();
-      final sel = registerName('buildString:withDouble:');
-      final proto = getProtocol('MyProtocol');
-      final signature = getProtocolMethodSignature(proto, sel, true, true);
+    group('Manual DartProxy implementation', () {
+      test('Basics', () {
+        final protoImpl = DartProxy.new1();
+        final consumer = ProtocolConsumer.new1();
+        final proto = getProtocol('MyProtocol');
 
-      final block = DartBuildStringBlock.fromFunction(
-          (Pointer<Void> p, NSString s, double x) {
-        return 'DartProxy: $s: $x'.toNSString();
+        final sel = registerName('buildString:withDouble:');
+        final signature = getProtocolMethodSignature(proto, sel,
+            isRequired: true, isInstance: true);
+        final block = DartBuildStringBlock.fromFunction(
+            (Pointer<Void> p, NSString s, double x) {
+          return 'DartProxy: $s: $x'.toNSString();
+        });
+        protoImpl.implementMethod_withSignature_andBlock_(
+            sel, signature!, block.pointer.cast());
+
+        final optSel = registerName('optionalMethod:');
+        final optSignature = getProtocolMethodSignature(proto, optSel,
+            isRequired: false, isInstance: true);
+        final optBlock =
+            DartOptMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
+          return s.y - s.x;
+        });
+        protoImpl.implementMethod_withSignature_andBlock_(
+            optSel, optSignature!, optBlock.pointer.cast());
+
+        final result = consumer.getProtoString_(protoImpl);
+        expect(result.toString(), "DartProxy: Hello from ObjC: 3.14");
+
+        final intResult = consumer.callOptionalMethod_(protoImpl);
+        expect(intResult, 333);
       });
-      protoImpl.implementMethod_withSignature_andBlock_(
-          sel, signature!, block.pointer.cast());
-      final consumer = ProtocolConsumer.new1();
-      final result = consumer.getProtoString_(protoImpl);
-      expect(result.toString(), "DartProxy: Hello from ObjC: 3.14");
+
+      test('Unimplemented method', () {
+        final protoImpl = DartProxy.new1();
+        final consumer = ProtocolConsumer.new1();
+
+        final intResult = consumer.callOptionalMethod_(protoImpl);
+        expect(intResult, -999);
+      });
     });
   });
 }

@@ -7,12 +7,15 @@ objc-interfaces:
   include:
     - ProtocolConsumer
     - ObjCProtocolImpl
+    - ObjCProtocolImplMissingMethod
 typedefs:
   include:
     - BuildStringBlock
+    - OptMethodBlock
 functions:
   include:
     - forceCodeGenOfBuildStringBlock
+    - forceCodeGenOfOptMethodBlock
 headers:
   entry-points:
     - 'protocol_test.m'

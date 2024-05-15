@@ -10,7 +10,7 @@
 
 @interface ProxyMethod : NSObject
 @property(retain) NSMethodSignature *signature;
-@property(retain) id target;
+@property(copy) id block;
 @end
 
 @implementation ProxyMethod
@@ -35,15 +35,21 @@
   @autoreleasepool {
     ProxyMethod *m = [ProxyMethod new];
     m.signature = signature;
-    m.target = block;
+    m.block = block;
     [self.methods setObject:m forKey:[NSValue valueWithPointer:sel]];
+  }
+}
+
+- (BOOL)respondsToSelector:(SEL)sel {
+  @autoreleasepool {
+    return [self.methods objectForKey:[NSValue valueWithPointer:sel]] != nil;
   }
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
   @autoreleasepool {
     ProxyMethod *m = [self.methods objectForKey:[NSValue valueWithPointer:sel]];
-    return m ? m.signature : nil;
+    return m != nil ? m.signature : nil;
   }
 }
 
@@ -52,8 +58,8 @@
     [invocation retainArguments];
     SEL sel = invocation.selector;
     ProxyMethod *m = [self.methods objectForKey:[NSValue valueWithPointer:sel]];
-    if (m) {
-      [invocation invokeWithTarget:m.target];
+    if (m != nil) {
+      [invocation invokeWithTarget:m.block];
     }
   }
 }

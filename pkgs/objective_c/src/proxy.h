@@ -15,6 +15,7 @@
 - (void)implementMethod:(SEL) sel
         withSignature:(NSMethodSignature *)signature
         andBlock:(void *)block;
+- (BOOL)respondsToSelector:(SEL)sel;
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
 - (void)forwardInvocation:(NSInvocation *)invocation;
 @end
