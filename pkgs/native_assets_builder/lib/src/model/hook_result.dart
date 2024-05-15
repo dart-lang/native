@@ -9,16 +9,23 @@ import '../../native_assets_builder.dart';
 
 /// The result from a [NativeAssetsBuildRunner.build] or
 /// [NativeAssetsBuildRunner.link].
-final class HookResult implements BuildResult, DryRunResult, LinkResult {
+final class HookResult
+    implements BuildResult, BuildDryRunResult, LinkResult, LinkDryRunResult {
+  /// The native assets produced by the hooks, which should be bundled.
   @override
   final List<AssetImpl> assets;
 
+  /// The assets produced by the hooks, which should be linked.
   @override
   final Map<String, List<AssetImpl>> assetsForLinking;
 
+  /// The files used by the hooks.
   @override
   final List<Uri> dependencies;
 
+  /// Whether all hooks completed without errors.
+  ///
+  /// All error messages are streamed to [NativeAssetsBuildRunner.logger].
   @override
   final bool success;
 
@@ -29,19 +36,25 @@ final class HookResult implements BuildResult, DryRunResult, LinkResult {
     required this.success,
   });
 
-  HookResult.failure()
-      : this._(
-          assets: [],
-          assetsForLinking: {},
-          dependencies: [],
-          success: false,
-        );
+  factory HookResult({
+    List<AssetImpl>? assets,
+    Map<String, List<AssetImpl>>? assetsForLinking,
+    List<Uri>? dependencies,
+    bool success = true,
+  }) =>
+      HookResult._(
+        assets: assets ?? [],
+        assetsForLinking: assetsForLinking ?? {},
+        dependencies: dependencies ?? [],
+        success: success,
+      );
 
-  void add(HookOutputImpl buildOutput) {
-    assets.addAll(buildOutput.assets);
+  factory HookResult.failure() => HookResult(success: false);
+
+  HookResult copyAdd(HookOutputImpl hookOutput, bool hookSuccess) {
     final mergedMaps = mergeMaps(
       assetsForLinking,
-      buildOutput.assetsForLinking,
+      hookOutput.assetsForLinking,
       value: (assets1, assets2) {
         final twoInOne = assets1.where((asset) => assets2.contains(asset));
         final oneInTwo = assets2.where((asset) => assets1.contains(asset));
@@ -55,12 +68,21 @@ final class HookResult implements BuildResult, DryRunResult, LinkResult {
         ];
       },
     );
-    assetsForLinking.addAll(mergedMaps);
-    dependencies.addAll(buildOutput.dependencies);
-    dependencies.sort(_uriCompare);
+    return HookResult(
+      assets: [
+        ...assets,
+        ...hookOutput.assets,
+      ],
+      assetsForLinking: mergedMaps,
+      dependencies: [
+        ...dependencies,
+        ...hookOutput.dependencies,
+      ]..sort(_uriCompare),
+      success: success && hookSuccess,
+    );
   }
 
-  HookResult withSuccess(bool success) => HookResult._(
+  HookResult withSuccess(bool success) => HookResult(
         assets: assets,
         assetsForLinking: assetsForLinking,
         dependencies: dependencies,

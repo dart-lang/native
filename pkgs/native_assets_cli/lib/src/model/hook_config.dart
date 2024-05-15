@@ -120,8 +120,6 @@ abstract class HookConfigImpl implements HookConfig {
         _targetAndroidNdkApi = null,
         _targetIOSSdk = null;
 
-  Uri get configFile => outputDirectory.resolve('../${hook.configName}');
-
   Uri get outputFile => outputDirectory.resolve(outputName);
 
   Uri? get outputFileV1_1_0 => outputNameV1_1_0 == null

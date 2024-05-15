@@ -4,17 +4,13 @@
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
-import 'build_result.dart';
-import '../build_runner/build_runner.dart';
+import '../../native_assets_builder.dart';
 
-/// Similar to a [BuildResult], but for `link.dart` hooks instead of
-/// `build.dart` hooks.
-abstract interface class LinkResult {
+/// Similar to a [LinkResult], but for the case of a dry run, where not assets
+/// are actually produced.
+abstract interface class LinkDryRunResult {
   /// The native assets produced by the hooks, which should be bundled.
   List<AssetImpl> get assets;
-
-  /// The files used by the hooks.
-  List<Uri> get dependencies;
 
   /// Whether all hooks completed without errors.
   ///

@@ -28,13 +28,13 @@ void main() async {
         dartExecutable: dartExecutable,
       );
 
-      await buildRunner.dryRun(
+      await buildRunner.buildDryRun(
         targetOS: Target.current.os,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
       );
-      await buildRunner.dryRun(
+      await buildRunner.buildDryRun(
         targetOS: Target.current.os,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,

@@ -8,12 +8,15 @@ import '../../native_assets_builder.dart';
 
 /// Similar to a [BuildResult], but for the case of a dry run, where not assets
 /// are actually produced.
-abstract interface class DryRunResult {
-  /// The native assets for all [Target]s for the dry run.
+abstract interface class BuildDryRunResult {
+  /// The native assets produced by the hooks, which should be bundled.
   List<AssetImpl> get assets;
 
-  /// Whether all builds completed without errors.
+  /// Whether all hooks completed without errors.
   ///
   /// All error messages are streamed to [NativeAssetsBuildRunner.logger].
   bool get success;
+
+  /// The native assets produced by the hooks, which should be linked.
+  Map<String, List<AssetImpl>> get assetsForLinking;
 }
