@@ -410,9 +410,12 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput =
-          HookOutputImpl.readFromFile(file: config.outputFile) ??
-              HookOutputImpl();
+      final buildOutput = HookOutputImpl.readFromFile(
+              file: config.outputFile) ??
+          (config.outputFileV1_1_0 == null
+              ? null
+              : HookOutputImpl.readFromFile(file: config.outputFileV1_1_0!)) ??
+          HookOutputImpl();
       //As a link.dart can pipe through assets from other packages.
       if (hook == Hook.build) {
         success &= validateAssetsPackage(

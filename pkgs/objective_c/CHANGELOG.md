@@ -3,6 +3,10 @@
 - Add `DartProxy`, which is an implementation of `NSProxy` that allows
   implementing ObjC protocols from Dart.
 
+## 1.0.1
+
+- Mention experimental status in readme.
+
 ## 1.0.0
 
 - Move sharable code from ffigen's generated code into this package, including
