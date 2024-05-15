@@ -12,7 +12,7 @@ typedef struct {
 
 @protocol MyProtocol<NSObject>
 
-- (NSString*)buildString:(NSString*)s withDouble:(double)x;
+- (NSString*)instanceMethod:(NSString*)s withDouble:(double)x;
 
 @optional
 - (int32_t)optionalMethod:(SomeStruct)s;
@@ -20,14 +20,22 @@ typedef struct {
 @end
 
 
+@protocol SecondaryProtocol<NSObject>
+
+- (int32_t)otherMethod:(int32_t)a b:(int32_t)b c:(int32_t)c d:(int32_t)d;
+
+@end
+
+
 @interface ProtocolConsumer : NSObject
-- (NSString*)getProtoString:(id<MyProtocol>)proto;
+- (NSString*)callInstanceMethod:(id<MyProtocol>)proto;
 - (int32_t)callOptionalMethod:(id<MyProtocol>)proto;
+- (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto;
 @end
 
 @implementation ProtocolConsumer : NSObject
-- (NSString*)getProtoString:(id<MyProtocol>)proto {
-  return [proto buildString:@"Hello from ObjC" withDouble:3.14];
+- (NSString*)callInstanceMethod:(id<MyProtocol>)proto {
+  return [proto instanceMethod:@"Hello from ObjC" withDouble:3.14];
 }
 
 - (int32_t)callOptionalMethod:(id<MyProtocol>)proto {
@@ -38,20 +46,29 @@ typedef struct {
     return -999;
   }
 }
+
+- (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto {
+  return [proto otherMethod:1 b:2 c:3 d:4];
+}
 @end
 
 
-@interface ObjCProtocolImpl : NSObject<MyProtocol>
+@interface ObjCProtocolImpl : NSObject<MyProtocol, SecondaryProtocol>
 @end
 
 @implementation ObjCProtocolImpl
-- (NSString *)buildString:(NSString *)s withDouble:(double)x {
+- (NSString *)instanceMethod:(NSString *)s withDouble:(double)x {
   return [NSString stringWithFormat:@"ObjCProtocolImpl: %@: %.2f", s, x];
 }
 
 - (int32_t)optionalMethod:(SomeStruct)s {
   return s.x + s.y;
 }
+
+- (int32_t)otherMethod:(int32_t)a b:(int32_t)b c:(int32_t)c d:(int32_t)d {
+  return a + b + c + d;
+}
+
 @end
 
 
@@ -59,14 +76,16 @@ typedef struct {
 @end
 
 @implementation ObjCProtocolImplMissingMethod
-- (NSString *)buildString:(NSString *)s withDouble:(double)x {
+- (NSString *)instanceMethod:(NSString *)s withDouble:(double)x {
   return @"ObjCProtocolImplMissingMethod";
 }
 @end
 
 
 // TODO(https://github.com/dart-lang/native/issues/1040): Delete these.
-typedef NSString* (^BuildStringBlock)(void*, NSString*, double);
-void forceCodeGenOfBuildStringBlock(BuildStringBlock block);
+typedef NSString* (^InstanceMethodBlock)(void*, NSString*, double);
+void forceCodeGenOfInstanceMethodBlock(InstanceMethodBlock block);
 typedef int32_t (^OptMethodBlock)(void*, SomeStruct);
 void forceCodeGenOfOptMethodBlock(OptMethodBlock block);
+typedef int32_t (^OtherMethodBlock)(void*, int32_t a, int32_t b, int32_t c, int32_t d);
+void forceCodeGenOfOtherMethodBlock(OtherMethodBlock block);

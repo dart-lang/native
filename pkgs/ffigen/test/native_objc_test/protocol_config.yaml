@@ -10,12 +10,14 @@ objc-interfaces:
     - ObjCProtocolImplMissingMethod
 typedefs:
   include:
-    - BuildStringBlock
+    - InstanceMethodBlock
     - OptMethodBlock
+    - OtherMethodBlock
 functions:
   include:
-    - forceCodeGenOfBuildStringBlock
+    - forceCodeGenOfInstanceMethodBlock
     - forceCodeGenOfOptMethodBlock
+    - forceCodeGenOfOtherMethodBlock
 headers:
   entry-points:
     - 'protocol_test.m'
