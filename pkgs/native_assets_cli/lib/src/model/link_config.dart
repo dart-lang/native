@@ -62,8 +62,12 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
 
   @override
   Hook get hook => Hook.link;
+
   @override
   String get outputName => 'link_output.json';
+
+  @override
+  String? get outputNameV1_1_0 => null;
 
   @override
   Map<String, Object> toJson() => {
