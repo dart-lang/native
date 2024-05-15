@@ -6,4 +6,3 @@
 - pubspec.yaml
 - src/native_add.c
 - src/native_add.h
-- test/native_add_test.dart
