@@ -5,7 +5,6 @@
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../build_runner/build_runner.dart';
-import 'build_result.dart';
 
 /// The result of executing the link hooks in dry run mode from all packages in
 /// the dependency tree of the entry point application.
