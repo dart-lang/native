@@ -45,7 +45,7 @@ jobs:
           # TODO(https://github.com/dart-lang/native/issues/1154): Use 'stable' instead of 3.3.0.
           - os: macos
             sdk: 3.3.0
-          - os: linux
+          - os: ubuntu
             sdk: 3.3.0
           - os: windows
             sdk: stable
