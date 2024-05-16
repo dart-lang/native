@@ -30,8 +30,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows]
-        sdk: [stable]
+        os: [ubuntu, macos, windows]
+        # TODO(https://github.com/dart-lang/native/issues/1154): Use 'stable' instead of 3.3.0.
+        sdk: [stable, 3.0.0, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
@@ -41,6 +42,13 @@ jobs:
             sdk: dev
           - os: windows
             sdk: dev
+          # TODO(https://github.com/dart-lang/native/issues/1154): Use 'stable' instead of 3.3.0.
+          - os: macos
+            sdk: 3.3.0
+          - os: linux
+            sdk: 3.3.0
+          - os: windows
+            sdk: stable
 
     runs-on: ${{ matrix.os }}-latest
 
@@ -53,12 +61,12 @@ jobs:
 
       - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
         with:
-          sdk: 3.3.0
+          sdk: ${{ matrix.sdk }}
 
       - uses: nttld/setup-ndk@6a7e9c5494a25c4842ca1011f710300132eacd94
         with:
           ndk-version: r26b
-        if: ${{ matrix.sdk == 'stable' && matrix.os != 'macos' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') && matrix.os != 'macos' }}
 
       - run: dart pub get
 
@@ -117,14 +125,14 @@ jobs:
         # Run on dev to ensure we're not depending on deprecated SDK things.
 
       - run: dart format --output=none --set-exit-if-changed .
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') }}
 
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
-        if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') && matrix.os == 'ubuntu' }}
 
       - run: dart test
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
@@ -148,19 +156,11 @@ jobs:
 
       - name: Install coverage
         run: dart pub global activate coverage
-        if: ${{ matrix.sdk == 'stable' }}
-
-      - name: Install mono_repo
-        run: dart pub global activate mono_repo
-        if: ${{ matrix.sdk == 'stable' }}
-
-      - name: Try something else pub global
-        run: dart pub global run mono_repo --help
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' || matrix.sdk == '3.3.0' }}
 
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' || matrix.sdk == '3.3.0' }}
 
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
@@ -168,7 +168,7 @@ jobs:
           flag-name: ${{ matrix.package }}_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' || matrix.sdk == '3.3.0' }}
 
   coverage-finished:
     needs: [build]
