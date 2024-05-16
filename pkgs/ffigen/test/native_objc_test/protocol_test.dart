@@ -113,6 +113,54 @@ void main() {
         final intResult = consumer.callOptionalMethod_(protoImpl);
         expect(intResult, -999);
       });
+
+      (DartProxy, Pointer<ObjCBlock>) blockRefCountTestInner() {
+        final proxy = DartProxy.new1();
+        final proto = getProtocol('MyProtocol');
+
+        final sel = registerName('instanceMethod:withDouble:');
+        final signature = getProtocolMethodSignature(proto, sel,
+            isRequired: true, isInstance: true);
+        final block = DartInstanceMethodBlock.fromFunction(
+            (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
+        proxy.implementMethod_withSignature_andBlock_(
+            sel, signature!, block.pointer.cast());
+
+        final proxyPtr = proxy.pointer;
+        final blockPtr = block.pointer;
+
+        // There are 2 references to the block. One owned by the Dart wrapper
+        // object, and the other owned by the proxy. The method signature is
+        // also an ObjC object, so the same is true for it.
+        doGC();
+        expect(objectRetainCount(proxyPtr), 1);
+        expect(blockRetainCount(blockPtr), 2);
+
+        return (proxy, blockPtr);
+      }
+
+      (Pointer<ObjCObject>, Pointer<ObjCBlock>) blockRefCountTest() {
+        final (proxy, blockPtr) = blockRefCountTestInner();
+        final proxyPtr = proxy.pointer;
+
+        // The Dart side block pointer has gone out of scope, but the proxy
+        // still owns a reference to it. Same for the signature.
+        doGC();
+        expect(objectRetainCount(proxyPtr), 1);
+        expect(blockRetainCount(blockPtr), 1);
+
+        return (proxyPtr, blockPtr);
+      }
+
+      test('Block ref counting', () {
+        final (proxyPtr, blockPtr) = blockRefCountTest();
+
+        // The proxy object has gone out of scope, so it should be cleaned up.
+        // So should the block and the signature.
+        doGC();
+        expect(objectRetainCount(proxyPtr), 0);
+        expect(blockRetainCount(blockPtr), 0);
+      });
     });
   });
 }

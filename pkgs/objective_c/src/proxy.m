@@ -9,58 +9,64 @@
 #import <Foundation/NSValue.h>
 
 @interface ProxyMethod : NSObject
-@property(retain) NSMethodSignature *signature;
-@property(copy) id block;
+@property(strong) NSMethodSignature *signature;
+@property(strong) id block;
+- (void)dealloc;
 @end
 
 @implementation ProxyMethod
+- (void)dealloc {
+  self.signature = nil;
+  self.block = nil;
+  [super dealloc];
+}
 @end
 
-@implementation DartProxy
-
-- (instancetype)init {
-  if (self) {
-    _methods = [NSMutableDictionary new];
-  }
-  return self;
+@implementation DartProxy {
+  NSMutableDictionary *methods;
 }
 
 + (instancetype)new {
   return [[self alloc] init];
 }
 
+- (instancetype)init {
+  if (self) {
+    methods = [NSMutableDictionary new];
+  }
+  return self;
+}
+
+- (void)dealloc {
+  [methods release];
+  [super dealloc];
+}
+
 - (void)implementMethod:(SEL) sel
         withSignature:(NSMethodSignature *)signature
         andBlock:(void *)block {
-  @autoreleasepool {
-    ProxyMethod *m = [ProxyMethod new];
-    m.signature = signature;
-    m.block = block;
-    [self.methods setObject:m forKey:[NSValue valueWithPointer:sel]];
-  }
+  ProxyMethod *m = [ProxyMethod new];
+  m.signature = signature;
+  m.block = block;
+  [methods setObject:m forKey:[NSValue valueWithPointer:sel]];
+  [m release];
 }
 
 - (BOOL)respondsToSelector:(SEL)sel {
-  @autoreleasepool {
-    return [self.methods objectForKey:[NSValue valueWithPointer:sel]] != nil;
-  }
+  return [methods objectForKey:[NSValue valueWithPointer:sel]] != nil;
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-  @autoreleasepool {
-    ProxyMethod *m = [self.methods objectForKey:[NSValue valueWithPointer:sel]];
-    return m != nil ? m.signature : nil;
-  }
+  ProxyMethod *m = [methods objectForKey:[NSValue valueWithPointer:sel]];
+  return m != nil ? m.signature : nil;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
-  @autoreleasepool {
-    [invocation retainArguments];
-    SEL sel = invocation.selector;
-    ProxyMethod *m = [self.methods objectForKey:[NSValue valueWithPointer:sel]];
-    if (m != nil) {
-      [invocation invokeWithTarget:m.block];
-    }
+  [invocation retainArguments];
+  SEL sel = invocation.selector;
+  ProxyMethod *m = [methods objectForKey:[NSValue valueWithPointer:sel]];
+  if (m != nil) {
+    [invocation invokeWithTarget:m.block];
   }
 }
 

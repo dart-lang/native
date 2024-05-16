@@ -9,9 +9,9 @@
 #import <Foundation/NSProxy.h>
 
 @interface DartProxy : NSProxy
-@property(retain) NSMutableDictionary *methods;
 + (instancetype)new;
 - (instancetype)init;
+- (void)dealloc;
 - (void)implementMethod:(SEL) sel
         withSignature:(NSMethodSignature *)signature
         andBlock:(void *)block;
