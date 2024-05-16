@@ -32,7 +32,7 @@ jobs:
       matrix:
         os: [ubuntu, macos, windows]
         # TODO(https://github.com/dart-lang/native/issues/1154): Use 'stable' instead of 3.3.0.
-        sdk: [stable, 3.0.0, dev]
+        sdk: [stable, 3.3.0, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
