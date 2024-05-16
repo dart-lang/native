@@ -150,6 +150,14 @@ jobs:
         run: dart pub global activate coverage
         if: ${{ matrix.sdk == 'stable' }}
 
+      - name: Install mono_repo
+        run: dart pub global activate mono_repo
+        if: ${{ matrix.sdk == 'stable' }}
+
+      - name: Try something else pub global
+        run: dart pub global run mono_repo --help
+        if: ${{ matrix.sdk == 'stable' }}
+
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
         if: ${{ matrix.sdk == 'stable' }}
