@@ -160,7 +160,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   /// passing the highest supported version of BuildOutput.
   static Version latestVersion = HookConfigImpl.latestVersion;
 
-  /// Reads the JSON file from [file].
+  /// Writes the JSON file from [file].
   static HookOutputImpl? readFromFile({required Uri file}) {
     final buildOutputFile = File.fromUri(file);
     if (buildOutputFile.existsSync()) {

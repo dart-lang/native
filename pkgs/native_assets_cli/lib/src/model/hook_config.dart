@@ -72,16 +72,7 @@ abstract class HookConfigImpl implements HookConfig {
   @override
   final OSImpl targetOS;
 
-  /// Output file name based on the protocol version.
-  ///
-  /// Makes newer build hooks work with older Dart SDKs.
   String get outputName;
-
-  /// Legacy output file name.
-  ///
-  /// Older build hooks output a yaml file, ignoring the newer protocol version
-  /// in the config.
-  String? get outputNameV1_1_0;
 
   HookConfigImpl({
     required this.hook,
@@ -123,10 +114,6 @@ abstract class HookConfigImpl implements HookConfig {
   Uri get configFile => outputDirectory.resolve('../${hook.configName}');
 
   Uri get outputFile => outputDirectory.resolve(outputName);
-
-  Uri? get outputFileV1_1_0 => outputNameV1_1_0 == null
-      ? null
-      : outputDirectory.resolve(outputNameV1_1_0!);
 
   // This is currently overriden by [BuildConfig], do account for older versions
   // still using a top-level build.dart.
