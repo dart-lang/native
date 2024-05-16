@@ -24,7 +24,7 @@ void main() async {
         logger: logger,
       );
 
-      final dryRunResult = await dryRun(
+      final dryRunResult = await buildDryRun(
         packageUri,
         logger,
         dartExecutable,
@@ -54,10 +54,9 @@ void main() async {
       }
 
       final dryRunDir = packageUri.resolve(
-          '.dart_tool/native_assets_builder/dry_run_${Target.current.os}_dynamic/');
+          '.dart_tool/native_assets_builder/dry_run_build_${Target.current.os}_dynamic/');
       expect(File.fromUri(dryRunDir.resolve('config.json')), exists);
       expect(File.fromUri(dryRunDir.resolve('out/build_output.json')), exists);
-      //
     });
   });
 }

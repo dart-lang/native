@@ -85,3 +85,5 @@
 - add_asset_link/src/native_add.h
 - add_asset_link/src/native_add.c
 - add_asset_link/hook/build.dart
+- no_asset_for_link/pubspec.yaml
+- no_asset_for_link/hook/link.dart

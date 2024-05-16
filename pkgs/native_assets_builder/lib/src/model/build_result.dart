@@ -4,14 +4,22 @@
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
-/// The result of a build, executing the build.dart hooks from all packages in
-/// the dependency tree of the entry point application.
+import '../build_runner/build_runner.dart';
+
+/// The result of executing build hooks from all packages in the dependency tree
+/// of the entry point application.
 abstract class BuildResult {
+  /// The files used by the hooks.
   List<Uri> get dependencies;
 
+  /// Whether all hooks completed without errors.
+  ///
+  /// All error messages are streamed to [NativeAssetsBuildRunner.logger].
   bool get success;
 
+  /// The native assets produced by the hooks, which should be bundled.
   List<AssetImpl> get assets;
 
+  /// The native assets produced by the hooks, which should be linked.
   Map<String, List<AssetImpl>> get assetsForLinking;
 }

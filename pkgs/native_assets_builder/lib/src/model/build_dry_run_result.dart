@@ -4,19 +4,19 @@
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
-import '../build_runner/build_runner.dart';
+import '../../native_assets_builder.dart';
 
-/// The result of executing the link hooks in dry run mode from all packages in
+/// The result of executing the build hooks in dry run mode from all packages in
 /// the dependency tree of the entry point application.
-abstract interface class LinkResult {
+abstract interface class BuildDryRunResult {
   /// The native assets produced by the hooks, which should be bundled.
   List<AssetImpl> get assets;
-
-  /// The files used by the hooks.
-  List<Uri> get dependencies;
 
   /// Whether all hooks completed without errors.
   ///
   /// All error messages are streamed to [NativeAssetsBuildRunner.logger].
   bool get success;
+
+  /// The native assets produced by the hooks, which should be linked.
+  Map<String, List<AssetImpl>> get assetsForLinking;
 }
