@@ -6,8 +6,8 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../../native_assets_builder.dart';
 
-/// Similar to a [BuildResult], but for the case of a dry run, where not assets
-/// are actually produced.
+/// The result of executing the build hooks in dry run mode from all packages in
+/// the dependency tree of the entry point application.
 abstract interface class BuildDryRunResult {
   /// The native assets produced by the hooks, which should be bundled.
   List<AssetImpl> get assets;
