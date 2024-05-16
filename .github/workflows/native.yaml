@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows]
-        sdk: [stable, dev]
+        sdk: [3.3.0]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
@@ -42,7 +42,7 @@ jobs:
           - os: windows
             sdk: dev
 
-    runs-on: ${{ matrix.os }}-2019
+    runs-on: ${{ matrix.os }}-latest
 
     defaults:
       run:
