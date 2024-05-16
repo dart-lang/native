@@ -1,3 +1,7 @@
+## 0.4.2
+
+- Bump `package:native_assets_cli` to 0.5.0.
+
 ## 0.4.1
 
 - Output an `Asset.file` in dry run.
