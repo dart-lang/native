@@ -36,6 +36,7 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSProgress
+    - NSProxy
     - NSSet
     - NSString
     - NSURL

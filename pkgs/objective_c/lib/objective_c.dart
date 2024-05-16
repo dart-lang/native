@@ -41,6 +41,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSNumber,
         NSObject,
         NSProgress,
+        NSProxy,
         NSSet,
         NSString,
         NSURL,

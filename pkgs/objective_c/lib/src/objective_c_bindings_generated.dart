@@ -15805,120 +15805,6 @@ final _objc_msgSend_359 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>, int)>();
 late final _sel_stringWithCapacity_ = objc.registerName("stringWithCapacity:");
 
-class DartProxy extends NSProxy {
-  DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
-      {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
-
-  /// Constructs a [DartProxy] that points to the same underlying object as [other].
-  DartProxy.castFrom(objc.ObjCObjectBase other)
-      : this._(other.pointer, retain: true, release: true);
-
-  /// Constructs a [DartProxy] that wraps the given raw object pointer.
-  DartProxy.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
-      {bool retain = false, bool release = false})
-      : this._(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [DartProxy].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_DartProxy);
-  }
-
-  NSMutableDictionary get methods {
-    final _ret = _objc_msgSend_360(this.pointer, _sel_methods);
-    return NSMutableDictionary.castFromPointer(_ret,
-        retain: true, release: true);
-  }
-
-  set methods(NSMutableDictionary value) {
-    return _objc_msgSend_361(this.pointer, _sel_setMethods_, value.pointer);
-  }
-
-  static DartProxy new1() {
-    final _ret = _objc_msgSend_2(_class_DartProxy, _sel_new);
-    return DartProxy.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  DartProxy init() {
-    final _ret = _objc_msgSend_2(this.pointer, _sel_init);
-    return DartProxy.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  void implementMethod_withSignature_andBlock_(
-      ffi.Pointer<objc.ObjCSelector> sel,
-      NSMethodSignature signature,
-      ffi.Pointer<ffi.Void> block) {
-    _objc_msgSend_362(
-        this.pointer,
-        _sel_implementMethod_withSignature_andBlock_,
-        sel,
-        signature.pointer,
-        block);
-  }
-
-  NSMethodSignature methodSignatureForSelector_(
-      ffi.Pointer<objc.ObjCSelector> sel) {
-    final _ret =
-        _objc_msgSend_15(this.pointer, _sel_methodSignatureForSelector_, sel);
-    return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  @override
-  void forwardInvocation_(NSInvocation invocation) {
-    _objc_msgSend_9(this.pointer, _sel_forwardInvocation_, invocation.pointer);
-  }
-
-  static objc.ObjCObjectBase alloc() {
-    final _ret = _objc_msgSend_2(_class_DartProxy, _sel_alloc);
-    return objc.ObjCObjectBase(_ret, retain: false, release: true);
-  }
-
-  static bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
-    return _objc_msgSend_4(
-        _class_DartProxy, _sel_respondsToSelector_, aSelector);
-  }
-}
-
-late final _class_DartProxy = objc.getClass("DartProxy");
-late final _sel_methods = objc.registerName("methods");
-final _objc_msgSend_360 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>)>>()
-    .asFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
-late final _sel_setMethods_ = objc.registerName("setMethods:");
-final _objc_msgSend_361 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>)>>()
-    .asFunction<
-        void Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
-late final _sel_implementMethod_withSignature_andBlock_ =
-    objc.registerName("implementMethod:withSignature:andBlock:");
-final _objc_msgSend_362 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<ffi.Void>)>();
-
 class NSProxy extends objc.ObjCObjectBase {
   NSProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -15960,7 +15846,7 @@ class NSProxy extends objc.ObjCObjectBase {
   NSMethodSignature? methodSignatureForSelector_(
       ffi.Pointer<objc.ObjCSelector> sel) {
     final _ret =
-        _objc_msgSend_363(this.pointer, _sel_methodSignatureForSelector_, sel);
+        _objc_msgSend_360(this.pointer, _sel_methodSignatureForSelector_, sel);
     return _ret.address == 0
         ? null
         : NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
@@ -15998,7 +15884,7 @@ class NSProxy extends objc.ObjCObjectBase {
 }
 
 late final _class_NSProxy = objc.getClass("NSProxy");
-final _objc_msgSend_363 = objc.msgSendPointer
+final _objc_msgSend_360 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
@@ -16009,3 +15895,117 @@ final _objc_msgSend_363 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_respondsToSelector_ = objc.registerName("respondsToSelector:");
+
+class DartProxy extends NSProxy {
+  DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [DartProxy] that points to the same underlying object as [other].
+  DartProxy.castFrom(objc.ObjCObjectBase other)
+      : this._(other.pointer, retain: true, release: true);
+
+  /// Constructs a [DartProxy] that wraps the given raw object pointer.
+  DartProxy.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [DartProxy].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_DartProxy);
+  }
+
+  NSMutableDictionary get methods {
+    final _ret = _objc_msgSend_361(this.pointer, _sel_methods);
+    return NSMutableDictionary.castFromPointer(_ret,
+        retain: true, release: true);
+  }
+
+  set methods(NSMutableDictionary value) {
+    return _objc_msgSend_362(this.pointer, _sel_setMethods_, value.pointer);
+  }
+
+  static DartProxy new1() {
+    final _ret = _objc_msgSend_2(_class_DartProxy, _sel_new);
+    return DartProxy.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  DartProxy init() {
+    final _ret = _objc_msgSend_2(this.pointer, _sel_init);
+    return DartProxy.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  void implementMethod_withSignature_andBlock_(
+      ffi.Pointer<objc.ObjCSelector> sel,
+      NSMethodSignature signature,
+      ffi.Pointer<ffi.Void> block) {
+    _objc_msgSend_363(
+        this.pointer,
+        _sel_implementMethod_withSignature_andBlock_,
+        sel,
+        signature.pointer,
+        block);
+  }
+
+  static bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
+    return _objc_msgSend_4(
+        _class_DartProxy, _sel_respondsToSelector_, aSelector);
+  }
+
+  NSMethodSignature methodSignatureForSelector_(
+      ffi.Pointer<objc.ObjCSelector> sel) {
+    final _ret =
+        _objc_msgSend_15(this.pointer, _sel_methodSignatureForSelector_, sel);
+    return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  @override
+  void forwardInvocation_(NSInvocation invocation) {
+    _objc_msgSend_9(this.pointer, _sel_forwardInvocation_, invocation.pointer);
+  }
+
+  static objc.ObjCObjectBase alloc() {
+    final _ret = _objc_msgSend_2(_class_DartProxy, _sel_alloc);
+    return objc.ObjCObjectBase(_ret, retain: false, release: true);
+  }
+}
+
+late final _class_DartProxy = objc.getClass("DartProxy");
+late final _sel_methods = objc.registerName("methods");
+final _objc_msgSend_361 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
+    .asFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
+late final _sel_setMethods_ = objc.registerName("setMethods:");
+final _objc_msgSend_362 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
+late final _sel_implementMethod_withSignature_andBlock_ =
+    objc.registerName("implementMethod:withSignature:andBlock:");
+final _objc_msgSend_363 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Void>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<ffi.Void>)>();
