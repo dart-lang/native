@@ -9,11 +9,11 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
-import '../model/build_result.dart';
 import '../model/build_dry_run_result.dart';
+import '../model/build_result.dart';
 import '../model/hook_result.dart';
-import '../model/link_result.dart';
 import '../model/link_dry_run_result.dart';
+import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';

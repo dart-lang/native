@@ -4,6 +4,8 @@
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
+import '../build_runner/build_runner.dart';
+
 /// The result of a build, executing the build.dart hooks from all packages in
 /// the dependency tree of the entry point application.
 abstract class BuildResult {

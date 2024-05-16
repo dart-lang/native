@@ -4,8 +4,8 @@
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
-import 'build_result.dart';
 import '../build_runner/build_runner.dart';
+import 'build_result.dart';
 
 /// Similar to a [BuildResult], but for `link.dart` hooks instead of
 /// `build.dart` hooks.
