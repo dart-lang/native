@@ -90,7 +90,7 @@ void showToast(String text) {
   final toaster = makeText.call(toasterClass, const JObjectType(), [
     Jni.getCurrentActivity(),
     Jni.getCachedApplicationContext(),
-    '😀',
+    '😀'.toJString(),
     0,
   ]);
   final show = toasterClass.instanceMethodId('show', '()V');
@@ -110,10 +110,13 @@ void main() {
       Example("Minutes of usage since reboot",
           () => (uptime() / (60 * 1000)).floor()),
       Example("Back and forth string conversion", () => backAndForth()),
-      Example(
-          "Device name",
-          () => JClass.forName("android/os/Build")
-              .staticFieldId("DEVICE", const JStringType().signature)),
+      Example("Device name", () {
+        final buildClass = JClass.forName("android/os/Build");
+        return buildClass
+            .staticFieldId("DEVICE", JString.type.signature)
+            .get(buildClass, JString.type)
+            .toDartString(releaseOriginal: true);
+      }),
       Example(
         "Package name",
         () => JObject.fromReference(Jni.getCurrentActivity()).use((activity) =>
