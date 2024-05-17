@@ -4,12 +4,12 @@
 
 import 'package:drop_dylib_link/drop_dylib_link.dart';
 
-const DEBUG = false;
+const debug = false;
 
 void main(List<String> arguments) {
-  if (!DEBUG) {
+  if (!debug) {
     print('Hello world: ${MyMath.add(3, 4)}!');
-  } else if (DEBUG) {
+  } else if (debug) {
     print('Hello world: ${MyMath.multiply(3, 4)}!');
   }
 }
