@@ -2,9 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
-import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' as cli;
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
