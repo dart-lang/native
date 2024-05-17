@@ -160,7 +160,7 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   /// passing the highest supported version of BuildOutput.
   static Version latestVersion = HookConfigImpl.latestVersion;
 
-  /// Writes the JSON file from [file].
+  /// Reads the JSON file from [file].
   static HookOutputImpl? readFromFile({required Uri file}) {
     final buildOutputFile = File.fromUri(file);
     if (buildOutputFile.existsSync()) {
@@ -225,4 +225,12 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   List<AssetImpl> _getAssetList(String? linkInPackage) => linkInPackage == null
       ? _assets
       : (_assetsForLinking[linkInPackage] ??= []);
+
+  HookOutputImpl copyWith({Iterable<AssetImpl>? assets}) => HookOutputImpl(
+        timestamp: timestamp,
+        assets: assets?.toList() ?? _assets,
+        assetsForLinking: assetsForLinking,
+        dependencies: _dependencies,
+        metadata: metadata,
+      );
 }

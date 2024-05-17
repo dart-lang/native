@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 public class JniPlugin implements FlutterPlugin, ActivityAware {
 
@@ -20,7 +19,7 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
   }
 
   @SuppressWarnings({"unused", "deprecation"})
-  public static void registerWith(Registrar registrar) {
+  public static void registerWith(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
     JniPlugin plugin = new JniPlugin();
     plugin.setup(registrar.activeContext());
   }

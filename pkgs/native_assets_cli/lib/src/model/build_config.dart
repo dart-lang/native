@@ -21,7 +21,10 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   @override
   String get outputName =>
-      version > Version(1, 1, 0) ? 'build_output.json' : 'build_output.yaml';
+      version > Version(1, 1, 0) ? 'build_output.json' : outputNameV1_1_0;
+
+  @override
+  String get outputNameV1_1_0 => 'build_output.yaml';
 
   @override
   Object? metadatum(String packageName, String key) {

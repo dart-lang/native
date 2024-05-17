@@ -6,6 +6,14 @@
 - cyclic_package_2/pubspec.yaml
 - dart_app/bin/dart_app.dart
 - dart_app/pubspec.yaml
+- native_add_v1_0_0/build.dart
+- native_add_v1_0_0/ffigen.yaml
+- native_add_v1_0_0/lib/native_add.dart
+- native_add_v1_0_0/lib/src/native_add_bindings_generated.dart
+- native_add_v1_0_0/lib/src/native_add.dart
+- native_add_v1_0_0/pubspec.yaml
+- native_add_v1_0_0/src/native_add.c
+- native_add_v1_0_0/src/native_add.h
 - native_add/ffigen.yaml
 - native_add/hook/build.dart
 - native_add/lib/native_add.dart
@@ -77,3 +85,5 @@
 - add_asset_link/src/native_add.h
 - add_asset_link/src/native_add.c
 - add_asset_link/hook/build.dart
+- no_asset_for_link/pubspec.yaml
+- no_asset_for_link/hook/link.dart
