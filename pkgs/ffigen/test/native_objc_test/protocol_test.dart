@@ -122,7 +122,7 @@ void main() {
         final proxyBuilder = DartProxyBuilder.new1();
         final consumer = ProtocolConsumer.new1();
         final proto = getProtocol('MyProtocol');
-        final completer = Completer();
+        final completer = Completer<void>();
         int count = 0;
 
         final sel = registerName('voidMethod:');
