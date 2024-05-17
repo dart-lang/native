@@ -359,7 +359,7 @@ void main() async {
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     final configFileContents = buildConfig.toJsonString();
-    final configUri = tempUri.resolve(Hook.link.configName);
+    final configUri = tempUri.resolve('config.json');
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
     final buildConfig2 =

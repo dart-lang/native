@@ -92,7 +92,7 @@ void main() async {
         final outDir = packageUri.resolve(
             '.dart_tool/native_assets_builder/bbd22a42814b177a7d6b9acbe152c23a/');
         expect(
-          File.fromUri(outDir.resolve('link_config.json')),
+          File.fromUri(outDir.resolve('config.json')),
           exists,
           reason: '${Directory.fromUri(outDir).listSync(recursive: true)}'
               ' should contain the link config',
