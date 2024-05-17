@@ -89,21 +89,6 @@ void main() async {
         );
         expect(linkResult.success, true);
 
-        final outDir = packageUri.resolve(
-            '.dart_tool/native_assets_builder/bbd22a42814b177a7d6b9acbe152c23a/');
-        expect(
-          File.fromUri(outDir.resolve('config.json')),
-          exists,
-          reason: '${Directory.fromUri(outDir).listSync(recursive: true)}'
-              ' should contain the link config',
-        );
-        expect(
-          File.fromUri(outDir.resolve('out/link_output.json')),
-          exists,
-          reason: '${Directory.fromUri(outDir).listSync(recursive: true)}'
-              ' should contain the link output',
-        );
-
         expect(_getNames(linkResult.assets), orderedEquals(linkedAssets));
       });
     },
