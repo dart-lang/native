@@ -14,7 +14,7 @@ dependencies:
     path: ../../../../native_assets_cli/
   # native_toolchain_c: ^0.4.2
   native_toolchain_c:
-  #   path: ../../../../native_toolchain_c/
+    path: ../../../../native_toolchain_c/
 
 dev_dependencies:
   ffigen: ^10.0.0
