@@ -11,6 +11,9 @@ void main(List<String> arguments) async {
           (element) => asset.id.contains(element.metadata.toString()),
         ) ??
         true));
-    output.addDependency(config.packageRoot.resolve('hook/link.dart'));
+    output.addDependencies([
+      config.packageRoot.resolve('hook/link.dart'),
+      config.packageRoot.resolve('lib/'),
+    ]);
   });
 }
