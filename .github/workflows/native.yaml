@@ -106,9 +106,6 @@ jobs:
       - run: dart pub get -C test_data/add_asset_link/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
-      - run: dart pub get -C test_data/drop_dylib_link/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
       - run: dart pub get -C example/build/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' }}
 
@@ -152,6 +149,14 @@ jobs:
       - run: ./native_add_app.exe
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+
+      - run: dart --enable-experiment=native-assets build bin/drop_dylib_link.dart
+        working-directory: pkgs/${{ matrix.package }}/test_data/drop_dylib_link/
+        if: ${{ matrix.package == 'native_assets_builder' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+
+      - run: ./drop_dylib_link.exe
+        working-directory: pkgs/${{ matrix.package }}/test_data/drop_dylib_link/bin/drop_dylib_link/
+        if: ${{ matrix.package == 'native_assets_builder' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
