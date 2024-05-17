@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+#import <dispatch/dispatch.h>
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
 
@@ -14,16 +15,21 @@ typedef struct {
 
 @protocol MyProtocol<NSObject>
 
+@required
 - (NSString*)instanceMethod:(NSString*)s withDouble:(double)x;
 
 @optional
 - (int32_t)optionalMethod:(SomeStruct)s;
+
+@optional
+- (void)voidMethod:(int32_t)x;
 
 @end
 
 
 @protocol SecondaryProtocol<NSObject>
 
+@required
 - (int32_t)otherMethod:(int32_t)a b:(int32_t)b c:(int32_t)c d:(int32_t)d;
 
 @end
@@ -33,6 +39,7 @@ typedef struct {
 - (NSString*)callInstanceMethod:(id<MyProtocol>)proto;
 - (int32_t)callOptionalMethod:(id<MyProtocol>)proto;
 - (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto;
+- (void)callMethodOnRandomThread:(id<SecondaryProtocol>)proto;
 @end
 
 @implementation ProtocolConsumer : NSObject
@@ -51,6 +58,12 @@ typedef struct {
 
 - (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto {
   return [proto otherMethod:1 b:2 c:3 d:4];
+}
+
+- (void)callMethodOnRandomThread:(id<MyProtocol>)proto {
+  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+    [proto voidMethod:123];
+  });
 }
 @end
 
@@ -89,5 +102,7 @@ typedef NSString* (^InstanceMethodBlock)(void*, NSString*, double);
 void forceCodeGenOfInstanceMethodBlock(InstanceMethodBlock block);
 typedef int32_t (^OptMethodBlock)(void*, SomeStruct);
 void forceCodeGenOfOptMethodBlock(OptMethodBlock block);
+typedef void (^VoidMethodBlock)(void*, int32_t);
+void forceCodeGenOfVoidMethodBlock(VoidMethodBlock block);
 typedef int32_t (^OtherMethodBlock)(void*, int32_t a, int32_t b, int32_t c, int32_t d);
 void forceCodeGenOfOtherMethodBlock(OtherMethodBlock block);

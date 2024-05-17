@@ -19,6 +19,7 @@ export 'src/c_bindings_generated.dart'
 export 'src/objective_c_bindings_generated.dart'
     show
         DartProxy,
+        DartProxyBuilder,
         NSArray,
         NSCharacterSet,
         NSCoder,

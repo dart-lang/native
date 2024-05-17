@@ -12,11 +12,13 @@ typedefs:
   include:
     - InstanceMethodBlock
     - OptMethodBlock
+    - VoidMethodBlock
     - OtherMethodBlock
 functions:
   include:
     - forceCodeGenOfInstanceMethodBlock
     - forceCodeGenOfOptMethodBlock
+    - forceCodeGenOfVoidMethodBlock
     - forceCodeGenOfOtherMethodBlock
 headers:
   entry-points:

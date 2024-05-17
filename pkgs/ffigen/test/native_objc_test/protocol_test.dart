@@ -5,6 +5,7 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -57,7 +58,7 @@ void main() {
 
     group('Manual DartProxy implementation', () {
       test('Method implementation', () {
-        final protoImpl = DartProxy.new1();
+        final proxyBuilder = DartProxyBuilder.new1();
         final consumer = ProtocolConsumer.new1();
         final proto = getProtocol('MyProtocol');
         final secondProto = getProtocol('SecondaryProtocol');
@@ -69,7 +70,7 @@ void main() {
             (Pointer<Void> p, NSString s, double x) {
           return 'DartProxy: $s: $x'.toNSString();
         });
-        protoImpl.implementMethod_withSignature_andBlock_(
+        proxyBuilder.implementMethod_withSignature_andBlock_(
             sel, signature!, block.pointer.cast());
 
         final optSel = registerName('optionalMethod:');
@@ -79,7 +80,7 @@ void main() {
             DartOptMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
           return s.y - s.x;
         });
-        protoImpl.implementMethod_withSignature_andBlock_(
+        proxyBuilder.implementMethod_withSignature_andBlock_(
             optSel, optSignature!, optBlock.pointer.cast());
 
         final otherSel = registerName('otherMethod:b:c:d:');
@@ -89,33 +90,63 @@ void main() {
             (Pointer<Void> p, int a, int b, int c, int d) {
           return a * b * c * d;
         });
-        protoImpl.implementMethod_withSignature_andBlock_(
+        proxyBuilder.implementMethod_withSignature_andBlock_(
             otherSel, otherSignature!, otherBlock.pointer.cast());
 
+        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+
         // Required instance method.
-        final result = consumer.callInstanceMethod_(protoImpl);
+        final result = consumer.callInstanceMethod_(proxy);
         expect(result.toString(), "DartProxy: Hello from ObjC: 3.14");
 
         // Optional instance method.
-        final intResult = consumer.callOptionalMethod_(protoImpl);
+        final intResult = consumer.callOptionalMethod_(proxy);
         expect(intResult, 333);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(protoImpl);
+        final otherIntResult = consumer.callOtherMethod_(proxy);
         expect(otherIntResult, 24);
       });
 
       test('Unimplemented method', () {
-        final protoImpl = DartProxy.new1();
+        final proxyBuilder = DartProxyBuilder.new1();
         final consumer = ProtocolConsumer.new1();
+        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
         // Optional instance method, not implemented.
-        final intResult = consumer.callOptionalMethod_(protoImpl);
+        final intResult = consumer.callOptionalMethod_(proxy);
         expect(intResult, -999);
       });
 
+      test('Threading stress test', () async {
+        final proxyBuilder = DartProxyBuilder.new1();
+        final consumer = ProtocolConsumer.new1();
+        final proto = getProtocol('MyProtocol');
+        final completer = Completer();
+        int count = 0;
+
+        final sel = registerName('voidMethod:');
+        final signature = getProtocolMethodSignature(proto, sel,
+            isRequired: false, isInstance: true);
+        final block = DartVoidMethodBlock.listener((Pointer<Void> p, int x) {
+          expect(x, 123);
+          ++count;
+          if (count == 1000) completer.complete();
+        });
+        proxyBuilder.implementMethod_withSignature_andBlock_(
+            sel, signature!, block.pointer.cast());
+
+        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+
+        for (int i = 0; i < 1000; ++i) {
+          consumer.callMethodOnRandomThread_(proxy);
+        }
+        await completer.future;
+        expect(count, 1000);
+      });
+
       (DartProxy, Pointer<ObjCBlock>) blockRefCountTestInner() {
-        final proxy = DartProxy.new1();
+        final proxyBuilder = DartProxyBuilder.new1();
         final proto = getProtocol('MyProtocol');
 
         final sel = registerName('instanceMethod:withDouble:');
@@ -123,8 +154,10 @@ void main() {
             isRequired: true, isInstance: true);
         final block = DartInstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
-        proxy.implementMethod_withSignature_andBlock_(
+        proxyBuilder.implementMethod_withSignature_andBlock_(
             sel, signature!, block.pointer.cast());
+
+        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
         final proxyPtr = proxy.pointer;
         final blockPtr = block.pointer;
