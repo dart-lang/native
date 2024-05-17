@@ -10,7 +10,7 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
 
-import '../api/resource_data.dart';
+import 'resource_data.dart';
 
 void main() async {
   late Uri tempUri;
@@ -359,7 +359,7 @@ void main() async {
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
     final configFileContents = buildConfig.toJsonString();
-    final configUri = tempUri.resolve('link_config.json');
+    final configUri = tempUri.resolve(Hook.link.configName);
     final configFile = File.fromUri(configUri);
     await configFile.writeAsString(configFileContents);
     final buildConfig2 =

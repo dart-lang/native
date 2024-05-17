@@ -364,7 +364,7 @@ class NativeAssetsBuildRunner {
   ) async {
     final configFile = config.configFile;
     final configFileContents = config.toJsonString();
-    logger.info('config.json contents: $configFileContents');
+    logger.info('${hook.configName} contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
     final buildOutputFile = File.fromUri(config.outputFile);
     if (await buildOutputFile.exists()) {

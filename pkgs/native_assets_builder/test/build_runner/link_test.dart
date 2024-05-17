@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' as cli;
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
@@ -85,6 +88,21 @@ void main() async {
           buildResult: buildResult,
         );
         expect(linkResult.success, true);
+
+        final outDir = packageUri.resolve(
+            '.dart_tool/native_assets_builder/bbd22a42814b177a7d6b9acbe152c23a/');
+        expect(
+          File.fromUri(outDir.resolve('link_config.json')),
+          exists,
+          reason: '${Directory.fromUri(outDir).listSync(recursive: true)}'
+              ' should contain the link config',
+        );
+        expect(
+          File.fromUri(outDir.resolve('out/link_output.json')),
+          exists,
+          reason: '${Directory.fromUri(outDir).listSync(recursive: true)}'
+              ' should contain the link output',
+        );
 
         expect(_getNames(linkResult.assets), orderedEquals(linkedAssets));
       });

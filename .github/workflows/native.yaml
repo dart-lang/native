@@ -89,6 +89,9 @@ jobs:
       - run: dart pub get -C test_data/complex_link_helper/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/treeshaking_native_assets/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C test_data/drop_dylib_link/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
@@ -144,6 +147,14 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+
+      - run: dart --enable-experiment=native-assets build bin/app_with_asset_treeshaking.dart
+        working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+
+      - run: ./app_with_asset_treeshaking.exe
+        working-directory: pkgs/${{ matrix.package }}/example/link/app_with_asset_treeshaking/bin/app_with_asset_treeshaking/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage

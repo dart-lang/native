@@ -6,13 +6,11 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    print('''
-Received ${config.assets.length} assets: ${config.assets.map((e) => e.id)}.
-''');
-    output.addAssets(config.assets.where((asset) => asset.id.endsWith('add')));
-    print('''
-Keeping only ${output.assets.map((e) => e.id)}.
-''');
+    output.addAssets(config.assets.where((asset) =>
+        config.treeshakingInformation?.any(
+          (element) => asset.id.contains(element.metadata.toString()),
+        ) ??
+        true));
     output.addDependency(config.packageRoot.resolve('hook/link.dart'));
   });
 }
