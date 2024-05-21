@@ -165,7 +165,9 @@ extern thread_local JNIEnv* jniEnv;
 extern JniContext* jni;
 
 /// Handling the lifetime of thread-local jniEnv.
-#ifndef _WIN32
+#ifdef _WIN32
+DWORD tlsKey;
+#else
 pthread_key_t tlsKey;
 #endif
 
@@ -176,7 +178,7 @@ static inline void detach_thread(void* data) {
   data = NULL;
 
 #ifdef _WIN32
-  TlsSetValue(TlsGetCurrentThread(), NULL);
+  TlsSetValue(tlsKey, NULL);
 #else
   pthread_setspecific(tlsKey, NULL);
 #endif
@@ -185,7 +187,8 @@ static inline void detach_thread(void* data) {
 static inline void attach_thread() {
 #ifdef _WIN32
   if (!jniEnv) {
-    TlsSetValue(TlsAlloc(), jniEnv);
+    tlsKey = TlsAlloc();
+    TlsSetValue(tlsKey, jniEnv);
   }
 #else
   if (!jniEnv) {
@@ -199,7 +202,9 @@ static inline void attach_thread() {
 }
 
 #ifdef _WIN32
-void NTAPI TlsCallback(PVOID hModule, DWORD dwReason, PVOID pvReserved) {
+static inline void NTAPI TlsCallback(PVOID hModule,
+                                     DWORD dwReason,
+                                     PVOID pvReserved) {
   if (dwReason == DLL_THREAD_DETACH) {
     if (jniEnv) {
       detach_thread(jniEnv);

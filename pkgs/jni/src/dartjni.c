@@ -771,6 +771,7 @@ Dart_FinalizableHandle newJObjectFinalizableHandle(Dart_Handle object,
       return Dart_NewFinalizableHandle_DL(object, reference, 0,
                                           finalizeWeakGlobal);
   }
+  return -1;  // Never happens.
 }
 
 FFI_PLUGIN_EXPORT
@@ -782,7 +783,7 @@ Dart_FinalizableHandle newBooleanFinalizableHandle(Dart_Handle object,
 FFI_PLUGIN_EXPORT
 void deleteFinalizableHandle(Dart_FinalizableHandle finalizableHandle,
                              Dart_Handle object) {
-  return Dart_DeleteFinalizableHandle_DL(finalizableHandle, object);
+  Dart_DeleteFinalizableHandle_DL(finalizableHandle, object);
 }
 
 jclass _c_Object = NULL;
