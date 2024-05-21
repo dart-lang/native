@@ -187,7 +187,6 @@ static inline void detach_thread(void* data) {
 static inline void attach_thread() {
 #ifdef _WIN32
   if (!jniEnv) {
-    tlsKey = TlsAlloc();
     TlsSetValue(tlsKey, jniEnv);
   }
 #else
