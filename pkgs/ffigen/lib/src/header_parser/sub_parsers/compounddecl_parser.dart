@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
@@ -15,12 +13,6 @@ import '../includer.dart';
 import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.compounddecl_parser');
-
-Pointer<
-        NativeFunction<
-            Int32 Function(
-                clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>)>>?
-    _compoundMembersVisitorPtr;
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -77,8 +69,6 @@ class _ParsedCompound {
     }
   }
 }
-
-final _stack = Stack<_ParsedCompound>();
 
 /// Parses a compound declaration.
 Compound? parseCompoundDeclaration(
@@ -184,20 +174,11 @@ void fillCompoundMembersIfNeeded(
   parsed.alignment = cursor.type().alignment();
   compound.parsedDependencies = true; // Break cycles.
 
-  _stack.push(parsed);
-  final resultCode = clang.clang_visitChildren(
-    cursor,
-    _compoundMembersVisitorPtr ??= Pointer.fromFunction(
-        _compoundMembersVisitor, exceptional_visitor_return),
-    nullptr,
-  );
-  _stack.pop();
+  cursor.visitChildren((cursor) => _compoundMembersVisitor(cursor, parsed));
 
   _logger.finest(
       'Opaque: ${parsed.isIncomplete}, HasAttr: ${parsed.hasAttr}, AlignValue: ${parsed.alignment}, MaxChildAlignValue: ${parsed.maxChildAlignment}, PackValue: ${parsed.packValue}.');
   compound.pack = parsed.packValue;
-
-  visitChildrenResultChecker(resultCode);
 
   if (parsed.unimplementedMemberType) {
     _logger.fine(
@@ -240,9 +221,8 @@ void fillCompoundMembersIfNeeded(
 /// [CXCursorKind.CXCursor_UnionDecl].
 ///
 /// Child visitor invoked on struct/union cursor.
-int _compoundMembersVisitor(clang_types.CXCursor cursor,
-    clang_types.CXCursor parent, Pointer<Void> clientData) {
-  final parsed = _stack.top;
+void _compoundMembersVisitor(
+    clang_types.CXCursor cursor, _ParsedCompound parsed) {
   try {
     switch (cursor.kind) {
       case clang_types.CXCursorKind.CXCursor_FieldDecl:
@@ -333,7 +313,6 @@ int _compoundMembersVisitor(clang_types.CXCursor cursor,
     _logger.severe(s);
     rethrow;
   }
-  return clang_types.CXChildVisitResult.CXChildVisit_Continue;
 }
 
 String _compoundTypeDebugName(CompoundType compoundType) {
