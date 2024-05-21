@@ -85,8 +85,7 @@ static inline void free_mem(void* mem) {
   CoTaskMemFree(mem);
 }
 
-#elifdef __APPLE__ || defined __LINUX__ || defined __ANDROID__ ||         \
-    defined __GNUC__
+#else
 #include <pthread.h>
 
 typedef pthread_mutex_t MutexLock;
@@ -127,11 +126,6 @@ static inline void destroy_cond(ConditionVariable* cond) {
 static inline void free_mem(void* mem) {
   free(mem);
 }
-
-#else
-
-#error "No locking/condition variable support; Possibly unsupported platform"
-
 #endif
 
 typedef struct CallbackResult {
@@ -165,39 +159,32 @@ extern thread_local JNIEnv* jniEnv;
 extern JniContext* jni;
 
 /// Handling the lifetime of thread-local jniEnv.
-#ifdef _WIN32
-extern DWORD tlsKey;
-#else
+#ifndef _WIN32
 extern pthread_key_t tlsKey;
 #endif
 
 static inline void detach_thread(void* data) {
+  jniEnv = NULL;
+
   if (*jni->jvm) {
     (*jni->jvm)->DetachCurrentThread(jni->jvm);
   }
-  data = NULL;
 
-#ifdef _WIN32
-  TlsSetValue(tlsKey, NULL);
-#else
-  pthread_setspecific(tlsKey, NULL);
+#ifndef _WIN32
+  pthread_key_delete(tlsKey);
 #endif
 }
 
 static inline void attach_thread() {
-#ifdef _WIN32
   if (!jniEnv) {
-    TlsSetValue(tlsKey, jniEnv);
+    (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
   }
-#else
+#ifndef _WIN32
   if (!jniEnv) {
     pthread_key_create(&tlsKey, detach_thread);
     pthread_setspecific(tlsKey, jniEnv);
   }
 #endif
-  if (!jniEnv) {
-    (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
-  }
 }
 
 /// Types used by JNI API to distinguish between primitive types.

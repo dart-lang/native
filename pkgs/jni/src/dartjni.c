@@ -8,9 +8,7 @@
 
 #include "dartjni.h"
 
-#ifdef _WIN32
-DWORD tlsKey;
-#else
+#if defined_POSIX
 pthread_key_t tlsKey;
 #endif
 
@@ -150,7 +148,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
     case DLL_PROCESS_ATTACH:
       // Initialize once for each new process.
       // Return FALSE to fail DLL load.
-      tlsKey = TlsAlloc();
       InitializeCriticalSection(&spawnLock);
       break;
     case DLL_THREAD_DETACH:
@@ -161,7 +158,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
     case DLL_PROCESS_DETACH:
       // Perform any necessary cleanup.
       DeleteCriticalSection(&spawnLock);
-      TlsFree(tlsKey);
       break;
   }
   return TRUE;  // Successful DLL_PROCESS_ATTACH.
