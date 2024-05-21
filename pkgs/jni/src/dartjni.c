@@ -146,12 +146,15 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
       // Return FALSE to fail DLL load.
       InitializeCriticalSection(&spawnLock);
       break;
-    case DLL_PROCESS_DETACH:
-      // Perform any necessary cleanup.
+    case DLL_THREAD_DETACH:
       if (jniEnv) {
         detach_thread(jniEnv);
       }
+      break;
+    case DLL_PROCESS_DETACH:
+      // Perform any necessary cleanup.
       DeleteCriticalSection(&spawnLock);
+      TlsFree(tlsKey);
       break;
   }
   return TRUE;  // Successful DLL_PROCESS_ATTACH.
