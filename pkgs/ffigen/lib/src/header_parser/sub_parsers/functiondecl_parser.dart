@@ -91,7 +91,7 @@ List<Func>? parseFunctionDeclaration(clang_types.CXCursor cursor) {
 
     // Look for any annotations on the function.
     final objCReturnsRetained = cursor
-        .hasCursorWithKind(clang_types.CXCursorKind.CXCursor_NSReturnsRetained);
+        .hasChildWithKind(clang_types.CXCursorKind.CXCursor_NSReturnsRetained);
 
     // Initialized with a single value with no prefix and empty var args.
     var varArgFunctions = [VarArgFunction('', [])];

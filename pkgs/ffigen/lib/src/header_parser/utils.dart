@@ -210,7 +210,7 @@ extension CXCursorExt on clang_types.CXCursor {
   }
 
   /// Returns whether there is a child with the given CXCursorKind.
-  bool hasCursorWithKind(int kind) => findChildWithKind(kind) != null;
+  bool hasChildWithKind(int kind) => findChildWithKind(kind) != null;
 
   /// Recursively print the AST, for debugging.
   void printAst([int maxDepth = 3]) => _printAst(maxDepth, 0);
