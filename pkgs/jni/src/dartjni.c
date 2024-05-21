@@ -8,6 +8,12 @@
 
 #include "dartjni.h"
 
+#ifdef _WIN32
+DWORD tlsKey;
+#else
+pthread_key_t tlsKey;
+#endif
+
 void initAllLocks(JniLocks* locks) {
   init_lock(&locks->classLoadingLock);
 }

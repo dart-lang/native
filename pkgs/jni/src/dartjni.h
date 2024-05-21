@@ -166,9 +166,9 @@ extern JniContext* jni;
 
 /// Handling the lifetime of thread-local jniEnv.
 #ifdef _WIN32
-DWORD tlsKey;
+extern DWORD tlsKey;
 #else
-pthread_key_t tlsKey;
+extern pthread_key_t tlsKey;
 #endif
 
 static inline void detach_thread(void* data) {
