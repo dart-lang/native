@@ -1,3 +1,9 @@
+## 0.9.3-wip
+
+- Added lifetime event handling for the thread-local JNI env. Now
+  `jvm.DetachNativeThread` is called when the thread detaches as recommended
+  [here](https://developer.android.com/training/articles/perf-jni#threads).
+
 ## 0.9.2
 
 - Bumped `minSdk` to 21.
