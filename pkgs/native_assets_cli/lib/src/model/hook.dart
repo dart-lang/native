@@ -7,14 +7,12 @@
 /// The `build.dart` hook runs before, and the `link.dart` hook after
 /// compilation. This enum holds static information about these hooks.
 enum Hook {
-  link('link', 'link_config'),
-  build('build', 'config');
+  link('link'),
+  build('build');
 
   final String _scriptName;
-  final String _configName;
 
   String get scriptName => '$_scriptName.dart';
-  String get configName => '$_configName.json';
 
-  const Hook(this._scriptName, this._configName);
+  const Hook(this._scriptName);
 }

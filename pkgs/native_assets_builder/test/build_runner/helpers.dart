@@ -79,6 +79,7 @@ Future<LinkResult> link(
         logger: logger,
         dartExecutable: dartExecutable,
       ).link(
+        linkModePreference: linkModePreference,
         buildMode: BuildModeImpl.release,
         target: Target.current,
         workingDirectory: packageUri,
@@ -114,7 +115,7 @@ Future<T> runWithLog<T>(
   return result;
 }
 
-Future<DryRunResult> dryRun(
+Future<BuildDryRunResult> buildDryRun(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -128,12 +129,38 @@ Future<DryRunResult> dryRun(
       final result = await NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
-      ).dryRun(
+      ).buildDryRun(
         linkModePreference: linkModePreference,
         targetOS: Target.current.os,
         workingDirectory: packageUri,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
+      );
+      return result;
+    });
+
+Future<LinkDryRunResult> linkDryRun(
+  Uri packageUri,
+  Logger logger,
+  Uri dartExecutable, {
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
+  bool includeParentEnvironment = true,
+  List<String>? capturedLogs,
+  PackageLayout? packageLayout,
+  required BuildDryRunResult buildDryRunResult,
+}) async =>
+    runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).linkDryRun(
+        linkModePreference: linkModePreference,
+        targetOS: Target.current.os,
+        workingDirectory: packageUri,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        buildDryRunResult: buildDryRunResult,
       );
       return result;
     });

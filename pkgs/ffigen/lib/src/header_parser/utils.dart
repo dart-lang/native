@@ -18,18 +18,8 @@ final _logger = Logger('ffigen.header_parser.utils');
 const exceptional_visitor_return =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
-typedef CursorVisitorCallback = Int32 Function(
+typedef _CursorVisitorCallback = Int32 Function(
     clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
-
-/// Check [resultCode] of [clang.clang_visitChildren_wrap].
-///
-/// Throws exception if resultCode is not [exceptional_visitor_return].
-void visitChildrenResultChecker(int resultCode) {
-  if (resultCode != exceptional_visitor_return) {
-    throw Exception(
-        'Exception thrown in a dart function called via C, use --verbose to see more details');
-  }
-}
 
 /// Logs the warnings/errors returned by clang for a translation unit.
 void logTuDiagnostics(
@@ -154,20 +144,73 @@ extension CXCursorExt on clang_types.CXCursor {
 
   /// Visits all the direct children of this cursor.
   ///
-  /// [callback] is called with the child cursor. If [callback] returns true or
-  /// null, the iteration will continue. Otherwise, if [callback] returns false,
-  /// the iteration will stop.
-  void visitChildren(bool? Function(clang_types.CXCursor) callback) {
-    final protocolVisitor = NativeCallable<CursorVisitorCallback>.isolateLocal(
+  /// [callback] is called with the child cursor. The iteration continues until
+  /// completion. The only way it can be interrupted is if the [callback]
+  /// throws, in which case this method also throws.
+  void visitChildren(void Function(clang_types.CXCursor child) callback) {
+    final completed = visitChildrenMayBreak((clang_types.CXCursor child) {
+      callback(child);
+      return true;
+    });
+    if (!completed) {
+      throw Exception('Exception thrown in a dart function called via C, '
+          'use --verbose to see more details');
+    }
+  }
+
+  /// Visits all the direct children of this cursor.
+  ///
+  /// [callback] is called with the child cursor. If [callback] returns true,
+  /// the iteration will continue. Otherwise, if [callback] returns false, the
+  /// iteration will stop.
+  ///
+  /// Returns whether the iteration completed.
+  bool visitChildrenMayBreak(
+          bool Function(clang_types.CXCursor child) callback) =>
+      visitChildrenMayRecurse(
+          (clang_types.CXCursor child, clang_types.CXCursor parent) =>
+              callback(child)
+                  ? clang_types.CXChildVisitResult.CXChildVisit_Continue
+                  : clang_types.CXChildVisitResult.CXChildVisit_Break);
+
+  /// Visits all the direct children of this cursor.
+  ///
+  /// [callback] is called with the child cursor and parent cursor. If
+  /// [callback] returns CXChildVisit_Continue, the iteration continues. If it
+  /// returns CXChildVisit_Break the iteration stops. If it returns
+  /// CXChildVisit_Recurse, the iteration recurses into the node.
+  ///
+  /// Returns whether the iteration completed.
+  bool visitChildrenMayRecurse(
+      int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
+          callback) {
+    final protocolVisitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
         (clang_types.CXCursor child, clang_types.CXCursor parent,
                 Pointer<Void> clientData) =>
-            callback(child) ?? true
-                ? clang_types.CXChildVisitResult.CXChildVisit_Continue
-                : clang_types.CXChildVisitResult.CXChildVisit_Break,
+            callback(child, parent),
         exceptionalReturn: exceptional_visitor_return);
-    clang.clang_visitChildren(this, protocolVisitor.nativeFunction, nullptr);
+    final result = clang.clang_visitChildren(
+        this, protocolVisitor.nativeFunction, nullptr);
     protocolVisitor.close();
+    return result == 0;
   }
+
+  /// Returns the first child with the given CXCursorKind, or null if there
+  /// isn't one.
+  clang_types.CXCursor? findChildWithKind(int kind) {
+    clang_types.CXCursor? result;
+    visitChildrenMayBreak((child) {
+      if (child.kind == kind) {
+        result = child;
+        return false;
+      }
+      return true;
+    });
+    return result;
+  }
+
+  /// Returns whether there is a child with the given CXCursorKind.
+  bool hasChildWithKind(int kind) => findChildWithKind(kind) != null;
 
   /// Recursively print the AST, for debugging.
   void printAst([int maxDepth = 3]) => _printAst(maxDepth, 0);

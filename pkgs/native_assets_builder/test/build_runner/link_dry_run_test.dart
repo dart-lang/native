@@ -26,18 +26,18 @@ void main() async {
           logger: logger,
         );
 
-        final buildResult = await build(
+        final buildResult = await buildDryRun(
           packageUri,
           logger,
           dartExecutable,
         );
         expect(buildResult.assets.length, 0);
 
-        final linkResult = await link(
+        final linkResult = await linkDryRun(
           packageUri,
           logger,
           dartExecutable,
-          buildResult: buildResult,
+          buildDryRunResult: buildResult,
         );
         expect(linkResult.assets.length, 2);
       });
@@ -66,7 +66,7 @@ void main() async {
         // First, run `pub get`, we need pub to resolve our dependencies.
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult = await build(
+        final buildResult = await buildDryRun(
           packageUri,
           logger,
           dartExecutable,
@@ -78,11 +78,11 @@ void main() async {
           orderedEquals(assetsForLinking),
         );
 
-        final linkResult = await link(
+        final linkResult = await linkDryRun(
           packageUri,
           logger,
           dartExecutable,
-          buildResult: buildResult,
+          buildDryRunResult: buildResult,
         );
         expect(linkResult.success, true);
 
@@ -90,44 +90,6 @@ void main() async {
       });
     },
   );
-
-  test('no_asset_for_link', timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('no_asset_for_link/');
-
-      // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
-
-      final buildResult = await build(
-        packageUri,
-        logger,
-        dartExecutable,
-      );
-      expect(buildResult.assets.length, 0);
-      expect(buildResult.assetsForLinking.length, 0);
-
-      final logMessages = <String>[];
-      final linkResult = await link(
-        packageUri,
-        logger,
-        dartExecutable,
-        buildResult: buildResult,
-        capturedLogs: logMessages,
-      );
-      expect(linkResult.assets.length, 0);
-      expect(
-        logMessages,
-        contains(
-          'Skipping link hooks from no_asset_for_link due to '
-          'no assets provided to link for these link hooks.',
-        ),
-      );
-    });
-  });
 }
 
 Iterable<String> _getNames(List<AssetImpl> assets) =>
