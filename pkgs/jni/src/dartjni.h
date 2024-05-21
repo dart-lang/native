@@ -12,20 +12,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if _WIN32
+#ifdef _WIN32
 #include <windows.h>
 #else
 #include <pthread.h>
 #include <unistd.h>
 #endif
 
-#if defined _WIN32
+#ifdef _WIN32
 #define FFI_PLUGIN_EXPORT __declspec(dllexport)
 #else
 #define FFI_PLUGIN_EXPORT
 #endif
 
-#if defined _WIN32
+#ifdef _WIN32
 #define thread_local __declspec(thread)
 #else
 #define thread_local __thread
@@ -43,7 +43,7 @@
 
 /// Locking functions for windows and pthread.
 
-#if defined _WIN32
+#ifdef _WIN32
 #include <windows.h>
 
 typedef CRITICAL_SECTION MutexLock;
@@ -85,7 +85,7 @@ static inline void free_mem(void* mem) {
   CoTaskMemFree(mem);
 }
 
-#elif defined __APPLE__ || defined __LINUX__ || defined __ANDROID__ ||         \
+#elifdef __APPLE__ || defined __LINUX__ || defined __ANDROID__ ||         \
     defined __GNUC__
 #include <pthread.h>
 
