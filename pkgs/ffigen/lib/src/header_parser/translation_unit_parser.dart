@@ -7,6 +7,7 @@ import 'dart:ffi';
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/macro_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/objcinterfacedecl_parser.dart';
+import 'package:ffigen/src/header_parser/sub_parsers/objcprotocoldecl_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/var_parser.dart';
 import 'package:logging/logging.dart';
 
@@ -66,6 +67,9 @@ int _rootCursorVisitor(clang_types.CXCursor cursor, clang_types.CXCursor parent,
           break;
         case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
           addToBindings(parseObjCCategoryDeclaration(cursor));
+          break;
+        case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
+          addToBindings(parseObjCProtocolDeclaration(cursor));
           break;
         case clang_types.CXCursorKind.CXCursor_MacroDefinition:
           saveMacroDefinition(cursor);

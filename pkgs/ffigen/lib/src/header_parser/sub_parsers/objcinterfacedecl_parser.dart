@@ -71,7 +71,7 @@ Type? parseObjCInterfaceDeclaration(
     usr: itfUsr,
     originalName: name,
     name: config.objcInterfaces.renameUsingConfig(name),
-    lookupName: config.objcModulePrefixer.applyPrefix(name),
+    lookupName: config.objcInterfaceModulePrefixer.applyPrefix(name),
     dartDoc: getCursorDocComment(cursor),
     builtInFunctions: objCBuiltInFunctions,
   );
@@ -135,7 +135,7 @@ int _parseInterfaceVisitor(clang_types.CXCursor cursor,
       break;
     case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
     case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-      _parseMethod(cursor);
+      _parseInterfaceMethod(cursor);
       break;
   }
   return clang_types.CXChildVisitResult.CXChildVisit_Continue;
@@ -209,7 +209,14 @@ void _parseProperty(clang_types.CXCursor cursor) {
   }
 }
 
-void _parseMethod(clang_types.CXCursor cursor) {
+void _parseInterfaceMethod(clang_types.CXCursor cursor) {
+  final method = parseMethod(cursor);
+  if (method != null) {
+    _interfaceStack.top.interface.addMethod(method);
+  }
+}
+
+ObjCMethod? parseMethod(clang_types.CXCursor cursor) {
   final methodName = cursor.spelling();
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
@@ -218,7 +225,7 @@ void _parseMethod(clang_types.CXCursor cursor) {
     _logger.warning('Method "$methodName" in instance '
         '"${_interfaceStack.top.interface.originalName}" has incomplete '
         'return type: $returnType.');
-    return;
+    return null;
   }
   final method = ObjCMethod(
     originalName: methodName,
@@ -237,11 +244,7 @@ void _parseMethod(clang_types.CXCursor cursor) {
           Pointer.fromFunction(_parseMethodVisitor, exceptional_visitor_return),
       nullptr);
   _methodStack.pop();
-  if (parsed.hasError) {
-    // Discard it.
-    return;
-  }
-  _interfaceStack.top.interface.addMethod(method);
+  return parsed.hasError ? null : method;
 }
 
 int _parseMethodVisitor(clang_types.CXCursor cursor,

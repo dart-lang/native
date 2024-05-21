@@ -20,6 +20,10 @@ functions:
     - forceCodeGenOfOptMethodBlock
     - forceCodeGenOfVoidMethodBlock
     - forceCodeGenOfOtherMethodBlock
+objc-protocols:
+  include:
+    - MyProtocol
+    - SecondaryProtocol
 headers:
   entry-points:
     - 'protocol_test.m'

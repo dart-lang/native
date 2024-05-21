@@ -93,6 +93,10 @@ class Config {
   Declaration get objcInterfaces => _objcInterfaces;
   late Declaration _objcInterfaces;
 
+  /// Declaration config for Objective C protocols.
+  Declaration get objcProtocols => _objcProtocols;
+  late Declaration _objcProtocols;
+
   /// If enabled, the default behavior of all declaration filters is to exclude
   /// everything, rather than include everything.
   bool get excludeAllByDefault => _excludeAllByDefault;
@@ -156,8 +160,12 @@ class Config {
   late StructPackingOverride _structPackingOverride;
 
   /// Module prefixes for ObjC interfaces.
-  ObjCModulePrefixer get objcModulePrefixer => _objcModulePrefixer;
-  late ObjCModulePrefixer _objcModulePrefixer;
+  ObjCModulePrefixer get objcInterfaceModulePrefixer => _objcInterfaceModulePrefixer;
+  late ObjCModulePrefixer _objcInterfaceModulePrefixer;
+
+  /// Module prefixes for ObjC protocols.
+  ObjCModulePrefixer get objcProtocolModulePrefixer => _objcProtocolModulePrefixer;
+  late ObjCModulePrefixer _objcProtocolModulePrefixer;
 
   /// Name of the wrapper class.
   String get wrapperName => _wrapperName;
@@ -526,14 +534,34 @@ class Config {
                 ..._memberRenameProperties(),
                 HeterogeneousMapEntry(
                   key: strings.objcModule,
-                  valueConfigSpec: _objcInterfaceModuleObject(),
+                  valueConfigSpec: _objcModuleObject(),
                   defaultValue: (node) => ObjCModulePrefixer({}),
                 )
               ],
               result: (node) {
                 _objcInterfaces = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>);
-                _objcModulePrefixer = (node.value as Map)[strings.objcModule]
+                _objcInterfaceModulePrefixer = (node.value as Map)[strings.objcModule]
+                    as ObjCModulePrefixer;
+              },
+            )),
+        HeterogeneousMapEntry(
+            key: strings.objcProtocols,
+            valueConfigSpec: HeterogeneousMapConfigSpec(
+              entries: [
+                ..._includeExcludeProperties(),
+                ..._renameProperties(),
+                ..._memberRenameProperties(),
+                HeterogeneousMapEntry(
+                  key: strings.objcModule,
+                  valueConfigSpec: _objcModuleObject(),
+                  defaultValue: (node) => ObjCModulePrefixer({}),
+                )
+              ],
+              result: (node) {
+                _objcProtocols = declarationConfigExtractor(
+                    node.value as Map<dynamic, dynamic>);
+                _objcProtocolModulePrefixer = (node.value as Map)[strings.objcModule]
                     as ObjCModulePrefixer;
               },
             )),
@@ -931,9 +959,9 @@ class Config {
     );
   }
 
-  MapConfigSpec _objcInterfaceModuleObject() {
+  MapConfigSpec _objcModuleObject() {
     return MapConfigSpec(
-      schemaDefName: "objcInterfaceModule",
+      schemaDefName: "objcModule",
       keyValueConfigSpecs: [
         (keyRegexp: ".*", valueConfigSpec: StringConfigSpec()),
       ],

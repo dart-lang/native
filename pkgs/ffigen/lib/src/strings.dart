@@ -72,6 +72,8 @@ const globals = 'globals';
 const macros = 'macros';
 const typedefs = 'typedefs';
 const objcInterfaces = 'objc-interfaces';
+const objcProtocols = 'objc-protocols';
+const objcModule = 'objc-module';
 
 const excludeAllByDefault = 'exclude-all-by-default';
 const generateForPackageObjectiveC = 'generate-for-package-objective-c';
@@ -91,9 +93,6 @@ const varArgFunctions = 'variadic-arguments';
 // Nested under varArg entries
 const postfix = "postfix";
 const types = "types";
-
-// Sub-fields of ObjC interfaces.
-const objcModule = 'module';
 
 const dependencyOnly = 'dependency-only';
 // Values for `compoundDependencies`.

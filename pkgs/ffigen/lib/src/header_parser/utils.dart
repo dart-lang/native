@@ -18,6 +18,9 @@ final _logger = Logger('ffigen.header_parser.utils');
 const exceptional_visitor_return =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
+typedef CursorVisitorCallback = Int32 Function(
+    clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
+
 /// Check [resultCode] of [clang.clang_visitChildren_wrap].
 ///
 /// Throws exception if resultCode is not [exceptional_visitor_return].
@@ -149,32 +152,33 @@ extension CXCursorExt on clang_types.CXCursor {
     return clang.clang_Location_isInSystemHeader(location) != 0;
   }
 
-  /// Recursively print the AST, for debugging.
-  void printAst([int maxDepth = 3]) {
-    _printAstVisitorMaxDepth = maxDepth;
-    _printAstVisitor(this, this, Pointer<Void>.fromAddress(0));
+  /// Visits all the direct children of this cursor.
+  ///
+  /// [callback] is called with the child cursor. If [callback] returns true or
+  /// null, the iteration will continue. Otherwise, if [callback] returns false,
+  /// the iteration will stop.
+  void visitChildren(bool? Function(clang_types.CXCursor) callback) {
+    final protocolVisitor = NativeCallable<CursorVisitorCallback>.isolateLocal(
+        (clang_types.CXCursor child, clang_types.CXCursor parent,
+                Pointer<Void> clientData) =>
+            callback(child) ?? true
+                ? clang_types.CXChildVisitResult.CXChildVisit_Continue
+                : clang_types.CXChildVisitResult.CXChildVisit_Break,
+        exceptionalReturn: exceptional_visitor_return);
+    clang.clang_visitChildren(this, protocolVisitor.nativeFunction, nullptr);
+    protocolVisitor.close();
   }
-}
 
-Pointer<
-        NativeFunction<
-            Int32 Function(
-                clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>)>>?
-    _printAstVisitorPtr;
-int _printAstVisitorMaxDepth = 0;
-int _printAstVisitor(clang_types.CXCursor cursor, clang_types.CXCursor parent,
-    Pointer<Void> clientData) {
-  final depth = clientData.address;
-  if (depth > _printAstVisitorMaxDepth) {
-    return clang_types.CXChildVisitResult.CXChildVisit_Break;
+  /// Recursively print the AST, for debugging.
+  void printAst([int maxDepth = 3]) => _printAst(maxDepth, 0);
+  bool _printAst(int maxDepth, int depth) {
+    if (depth > maxDepth) {
+      return false;
+    }
+    print(('  ' * depth) + completeStringRepr());
+    visitChildren((child) => child._printAst(maxDepth, depth + 1));
+    return true;
   }
-  print(('  ' * depth) + cursor.completeStringRepr());
-  clang.clang_visitChildren(
-      cursor,
-      _printAstVisitorPtr ??=
-          Pointer.fromFunction(_printAstVisitor, exceptional_visitor_return),
-      Pointer<Void>.fromAddress(depth + 1));
-  return clang_types.CXChildVisitResult.CXChildVisit_Continue;
 }
 
 const commentPrefix = '/// ';
