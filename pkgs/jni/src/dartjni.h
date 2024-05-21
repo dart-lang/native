@@ -180,7 +180,7 @@ static inline void attach_thread() {
     (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
 #ifndef _WIN32
     pthread_key_create(&tlsKey, detach_thread);
-    pthread_setspecific(tlsKey, jniEnv);
+    pthread_setspecific(tlsKey, &jniEnv);
 #endif
   }
 }
