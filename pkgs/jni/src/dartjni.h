@@ -178,13 +178,11 @@ static inline void detach_thread(void* data) {
 static inline void attach_thread() {
   if (!jniEnv) {
     (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
-  }
 #ifndef _WIN32
-  if (!jniEnv) {
     pthread_key_create(&tlsKey, detach_thread);
     pthread_setspecific(tlsKey, jniEnv);
-  }
 #endif
+  }
 }
 
 /// Types used by JNI API to distinguish between primitive types.

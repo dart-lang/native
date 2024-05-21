@@ -8,7 +8,7 @@
 
 #include "dartjni.h"
 
-#if defined_POSIX
+#ifndef _WIN32
 pthread_key_t tlsKey;
 #endif
 
