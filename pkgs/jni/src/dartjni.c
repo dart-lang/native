@@ -148,6 +148,9 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
       break;
     case DLL_PROCESS_DETACH:
       // Perform any necessary cleanup.
+      if (jniEnv) {
+        detach_thread(jniEnv);
+      }
       DeleteCriticalSection(&spawnLock);
       break;
   }
@@ -771,7 +774,7 @@ Dart_FinalizableHandle newJObjectFinalizableHandle(Dart_Handle object,
       return Dart_NewFinalizableHandle_DL(object, reference, 0,
                                           finalizeWeakGlobal);
   }
-  return -1;  // Never happens.
+  return NULL;  // Never happens.
 }
 
 FFI_PLUGIN_EXPORT

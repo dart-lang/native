@@ -201,18 +201,6 @@ static inline void attach_thread() {
   }
 }
 
-#ifdef _WIN32
-static inline void NTAPI TlsCallback(PVOID hModule,
-                                     DWORD dwReason,
-                                     PVOID pvReserved) {
-  if (dwReason == DLL_THREAD_DETACH) {
-    if (jniEnv) {
-      detach_thread(jniEnv);
-    }
-  }
-}
-#endif
-
 /// Types used by JNI API to distinguish between primitive types.
 enum JniType {
   booleanType = 0,
