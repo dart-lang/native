@@ -19,7 +19,7 @@
 #include <unistd.h>
 #endif
 
-#if _WIN32
+#if defined _WIN32
 #define FFI_PLUGIN_EXPORT __declspec(dllexport)
 #else
 #define FFI_PLUGIN_EXPORT
@@ -164,6 +164,50 @@ extern thread_local JNIEnv* jniEnv;
 
 extern JniContext* jni;
 
+/// Handling the lifetime of thread-local jniEnv.
+#ifndef _WIN32
+pthread_key_t tlsKey;
+#endif
+
+static inline void detach_thread(void* data) {
+  if (*jni->jvm) {
+    (*jni->jvm)->DetachCurrentThread(jni->jvm);
+  }
+  data = NULL;
+
+#ifdef _WIN32
+  TlsSetValue(TlsGetCurrentThread(), NULL);
+#else
+  pthread_setspecific(tlsKey, NULL);
+#endif
+}
+
+static inline void attach_thread() {
+#ifdef _WIN32
+  if (!jniEnv) {
+    TlsSetValue(TlsAlloc(), jniEnv);
+  }
+#else
+  if (!jniEnv) {
+    pthread_key_create(&tlsKey, detach_thread);
+    pthread_setspecific(tlsKey, jniEnv);
+  }
+#endif
+  if (!jniEnv) {
+    (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
+  }
+}
+
+#ifdef _WIN32
+void NTAPI TlsCallback(PVOID hModule, DWORD dwReason, PVOID pvReserved) {
+  if (dwReason == DLL_THREAD_DETACH) {
+    if (jniEnv) {
+      detach_thread(jniEnv);
+    }
+  }
+}
+#endif
+
 /// Types used by JNI API to distinguish between primitive types.
 enum JniType {
   booleanType = 0,
@@ -277,12 +321,6 @@ FFI_PLUGIN_EXPORT jobject GetApplicationContext(void);
 
 /// Returns current activity of the app on Android.
 FFI_PLUGIN_EXPORT jobject GetCurrentActivity(void);
-
-static inline void attach_thread() {
-  if (jniEnv == NULL) {
-    (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
-  }
-}
 
 /// Load class into [cls] using platform specific mechanism
 static inline void load_class_platform(jclass* cls, const char* name) {
