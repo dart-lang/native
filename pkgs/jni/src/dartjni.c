@@ -89,11 +89,11 @@ void deinit() {
     (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.exceptionClass);
     (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.printStreamClass);
     (*jniEnv)->DeleteGlobalRef(jniEnv,
-                              exceptionMethods.byteArrayOutputStreamClass);
+                               exceptionMethods.byteArrayOutputStreamClass);
   }
 }
 
-JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *jvm, void *reserved) {
+JNIEXPORT void JNICALL JNI_OnUnload(JavaVM* jvm, void* reserved) {
   deinit();
 }
 
