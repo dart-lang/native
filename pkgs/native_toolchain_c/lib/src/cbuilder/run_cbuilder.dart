@@ -19,7 +19,7 @@ import 'cbuilder.dart';
 import 'compiler_resolver.dart';
 
 class RunCBuilder {
-  final BuildConfig buildConfig;
+  final HookConfig hookConfig;
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
@@ -43,7 +43,7 @@ class RunCBuilder {
   final String? cppLinkStdLib;
 
   RunCBuilder({
-    required this.buildConfig,
+    required this.hookConfig,
     this.logger,
     this.sources = const [],
     this.includes = const [],
@@ -57,12 +57,12 @@ class RunCBuilder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
-  })  : outDir = buildConfig.outputDirectory,
+  })  : outDir = hookConfig.outputDirectory,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
             1) {
-    if (buildConfig.targetOS == OS.windows && cppLinkStdLib != null) {
+    if (hookConfig.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -72,7 +72,7 @@ class RunCBuilder {
   }
 
   late final _resolver =
-      CompilerResolver(buildConfig: buildConfig, logger: logger);
+      CompilerResolver(hookConfig: hookConfig, logger: logger);
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
@@ -122,8 +122,8 @@ class RunCBuilder {
     }
 
     final IOSSdk? targetIosSdk;
-    if (buildConfig.targetOS == OS.iOS) {
-      targetIosSdk = buildConfig.targetIOSSdk;
+    if (hookConfig.targetOS == OS.iOS) {
+      targetIosSdk = hookConfig.targetIOSSdk;
     } else {
       targetIosSdk = null;
     }
@@ -132,15 +132,15 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
-    if (buildConfig.targetOS == OS.android) {
+    if (hookConfig.targetOS == OS.android) {
       final minimumApi =
-          buildConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
-      targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, minimumApi);
+          hookConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      targetAndroidNdkApi = max(hookConfig.targetAndroidNdkApi!, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
-    final architecture = buildConfig.targetArchitecture;
+    final architecture = hookConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
@@ -190,21 +190,21 @@ class RunCBuilder {
     await runProcess(
       executable: compiler.uri,
       arguments: [
-        if (buildConfig.targetOS == OS.android) ...[
+        if (hookConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
-        if (buildConfig.targetOS == OS.macOS)
+        if (hookConfig.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
-        if (buildConfig.targetOS == OS.iOS)
+        if (hookConfig.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
-        if (buildConfig.targetOS == OS.iOS) ...[
+        if (hookConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
         ],
-        if (buildConfig.targetOS == OS.macOS) ...[
+        if (hookConfig.targetOS == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
@@ -239,7 +239,7 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[buildConfig.targetOS]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[hookConfig.targetOS]!
         ],
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)

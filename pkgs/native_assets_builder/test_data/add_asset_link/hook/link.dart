@@ -2,22 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (config, output) async {
-    final builtDylib = config.assets.first as NativeCodeAsset;
-    output
-      ..addAsset(
-        NativeCodeAsset(
-          package: 'add_asset_link',
-          name: 'dylib_add_link',
-          linkMode: builtDylib.linkMode,
-          os: builtDylib.os,
-          architecture: builtDylib.architecture,
-          file: builtDylib.file,
-        ),
-      )
-      ..addDependency(config.packageRoot.resolve('hook/link.dart'));
+    final logger = Logger('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) {
+        print('${record.level.name}: ${record.time}: ${record.message}');
+      });
+    final (assets, dependencies) = await CBuilder.library(
+      name: 'add',
+      assetName: 'dylib_add_build',
+      sources: [
+        'src/native_add.c',
+      ],
+      dartBuildFiles: ['hook/link.dart'],
+      linkModePreference: LinkModePreference.dynamic,
+    ).run(
+      hookConfig: config,
+      logger: logger,
+    );
+    output.addAssets(assets);
+    output.addDependencies(dependencies);
   });
 }

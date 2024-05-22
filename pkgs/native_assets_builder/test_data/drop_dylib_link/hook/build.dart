@@ -15,7 +15,7 @@ void main(List<String> arguments) async {
       ..onRecord.listen((record) {
         print('${record.level.name}: ${record.time}: ${record.message}');
       });
-    await CBuilder.library(
+    final (assets, dependencies) = await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',
       sources: [
@@ -24,13 +24,11 @@ void main(List<String> arguments) async {
       dartBuildFiles: ['hook/build.dart'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(
-      buildConfig: config,
-      buildOutput: output,
+      hookConfig: config,
       logger: logger,
-      linkInPackage: packageName,
     );
 
-    await CBuilder.library(
+    final (assets2, dependencies2) = await CBuilder.library(
       name: 'multiply',
       assetName: 'dylib_multiply',
       sources: [
@@ -39,10 +37,11 @@ void main(List<String> arguments) async {
       dartBuildFiles: ['hook/build.dart'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(
-      buildConfig: config,
-      buildOutput: output,
+      hookConfig: config,
       logger: logger,
-      linkInPackage: packageName,
     );
+
+    output.addAssets([...assets, ...assets2], linkInPackage: packageName);
+    output.addDependencies([...dependencies, ...dependencies2]);
   });
 }

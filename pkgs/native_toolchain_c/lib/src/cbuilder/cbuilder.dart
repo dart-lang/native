@@ -11,9 +11,8 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'run_cbuilder.dart';
 
 abstract class Builder {
-  Future<void> run({
-    required BuildConfig buildConfig,
-    required BuildOutput buildOutput,
+  Future<(List<Asset> assets, Set<Uri> dependencies)> run({
+    required HookConfig hookConfig,
     required Logger? logger,
   });
 }
@@ -199,21 +198,18 @@ class CBuilder implements Builder {
   ///
   /// Completes with an error if the build fails.
   @override
-  Future<void> run({
-    required BuildConfig buildConfig,
-    required BuildOutput buildOutput,
+  Future<(List<Asset> assets, Set<Uri> dependencies)> run({
+    required HookConfig hookConfig,
     required Logger? logger,
-    String? linkInPackage,
   }) async {
-    final outDir = buildConfig.outputDirectory;
-    final packageRoot = buildConfig.packageRoot;
+    final outDir = hookConfig.outputDirectory;
+    final packageRoot = hookConfig.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        _linkMode(linkModePreference ?? buildConfig.linkModePreference);
+        _linkMode(linkModePreference ?? hookConfig.linkModePreference);
     final libUri =
-        outDir.resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
-    final exeUri =
-        outDir.resolve(buildConfig.targetOS.executableFileName(name));
+        outDir.resolve(hookConfig.targetOS.libraryFileName(name, linkMode));
+    final exeUri = outDir.resolve(hookConfig.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -225,9 +221,9 @@ class CBuilder implements Builder {
     final dartBuildFiles = [
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
-    if (!buildConfig.dryRun) {
+    if (!hookConfig.dryRun) {
       final task = RunCBuilder(
-        buildConfig: buildConfig,
+        hookConfig: hookConfig,
         logger: logger,
         sources: sources,
         includes: includes,
@@ -244,8 +240,8 @@ class CBuilder implements Builder {
         flags: flags,
         defines: {
           ...defines,
-          if (buildModeDefine) buildConfig.buildMode.name.toUpperCase(): null,
-          if (ndebugDefine && buildConfig.buildMode != BuildMode.debug)
+          if (buildModeDefine) hookConfig.buildMode.name.toUpperCase(): null,
+          if (ndebugDefine && hookConfig.buildMode != BuildMode.debug)
             'NDEBUG': null,
         },
         pic: pic,
@@ -256,23 +252,24 @@ class CBuilder implements Builder {
       await task.run();
     }
 
+    List<NativeCodeAsset> assets;
     if (assetName != null) {
-      buildOutput.addAssets(
-        [
-          NativeCodeAsset(
-            package: buildConfig.packageName,
-            name: assetName!,
-            file: libUri,
-            linkMode: linkMode,
-            os: buildConfig.targetOS,
-            architecture:
-                buildConfig.dryRun ? null : buildConfig.targetArchitecture,
-          )
-        ],
-        linkInPackage: linkInPackage,
-      );
+      assets = [
+        NativeCodeAsset(
+          package: hookConfig.packageName,
+          name: assetName!,
+          file: libUri,
+          linkMode: linkMode,
+          os: hookConfig.targetOS,
+          architecture:
+              hookConfig.dryRun ? null : hookConfig.targetArchitecture,
+        )
+      ];
+    } else {
+      assets = [];
     }
-    if (!buildConfig.dryRun) {
+    Set<Uri> dependencies;
+    if (!hookConfig.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(
             (include) => Directory(include.toFilePath())
@@ -282,13 +279,16 @@ class CBuilder implements Builder {
           )
           .toList();
 
-      buildOutput.addDependencies({
+      dependencies = {
         // Note: We use a Set here to deduplicate the dependencies.
         ...sources,
         ...includeFiles,
         ...dartBuildFiles,
-      });
+      };
+    } else {
+      dependencies = {};
     }
+    return (assets, dependencies);
   }
 }
 

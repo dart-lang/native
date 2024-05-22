@@ -136,7 +136,6 @@ Future<Uri> buildLib(
         ? LinkModePreference.dynamic
         : LinkModePreference.static,
   );
-  final buildOutput = BuildOutput();
 
   final cbuilder = CBuilder.library(
     name: name,
@@ -145,8 +144,7 @@ Future<Uri> buildLib(
     dartBuildFiles: ['hook/build.dart'],
   );
   await cbuilder.run(
-    buildConfig: buildConfig,
-    buildOutput: buildOutput,
+    hookConfig: buildConfig,
     logger: logger,
   );
 

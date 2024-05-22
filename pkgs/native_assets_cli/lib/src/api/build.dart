@@ -28,13 +28,16 @@ import 'build_output.dart';
 ///       ],
 ///       dartBuildFiles: ['hook/build.dart'],
 ///     );
-///     await cbuilder.run(
-///       buildConfig: config,
-///       buildOutput: output,
+///     final (assets, dependencies) = await cbuilder.run(
+///       hookConfig: config,
 ///       logger: Logger('')
 ///         ..level = Level.ALL
-///         ..onRecord.listen((record) => print(record.message)),
+///         ..onRecord.listen((record) {
+///           print('${record.level.name}: ${record.time}: ${record.message}');
+///         }),
 ///     );
+///     output.addAssets(assets);
+///     output.addDependencies(dependencies);
 ///   });
 /// }
 /// ```

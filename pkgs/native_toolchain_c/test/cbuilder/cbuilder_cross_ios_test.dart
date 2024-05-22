@@ -68,7 +68,6 @@ void main() {
                   : LinkModePreference.static,
               targetIOSSdk: targetIOSSdk,
             );
-            final buildOutput = BuildOutput();
 
             final cbuilder = CBuilder.library(
               name: name,
@@ -78,8 +77,7 @@ void main() {
               dartBuildFiles: ['hook/build.dart'],
             );
             await cbuilder.run(
-              buildConfig: buildConfig,
-              buildOutput: buildOutput,
+              hookConfig: buildConfig,
               logger: logger,
             );
 

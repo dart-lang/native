@@ -43,8 +43,6 @@ void main() {
         envScriptArgs: envScriptArgs,
       ),
     );
-    final buildOutput = BuildOutput();
-
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
@@ -53,8 +51,7 @@ void main() {
     );
     expect(
       () => cbuilder.run(
-        buildConfig: buildConfig,
-        buildOutput: buildOutput,
+        hookConfig: buildConfig,
         logger: logger,
       ),
       throwsException,
