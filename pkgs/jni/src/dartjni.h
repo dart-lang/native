@@ -26,9 +26,9 @@
 #endif
 
 #ifdef _WIN32
-#define thread_local __declspec(thread)
+#define THREAD_LOCAL __declspec(thread)
 #else
-#define thread_local __thread
+#define THREAD_LOCAL __thread
 #endif
 
 #ifdef __ANDROID__
@@ -154,7 +154,7 @@ typedef struct JniContext {
 
 // jniEnv for this thread, used by inline functions in this header,
 // therefore declared as extern.
-extern thread_local JNIEnv* jniEnv;
+extern THREAD_LOCAL JNIEnv* jniEnv;
 
 extern JniContext* jni;
 
@@ -169,17 +169,12 @@ static inline void detach_thread(void* data) {
   if (*jni->jvm) {
     (*jni->jvm)->DetachCurrentThread(jni->jvm);
   }
-
-#ifndef _WIN32
-  pthread_key_delete(tlsKey);
-#endif
 }
 
 static inline void attach_thread() {
-  if (!jniEnv) {
+  if (jniEnv == NULL) {
     (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
 #ifndef _WIN32
-    pthread_key_create(&tlsKey, detach_thread);
     pthread_setspecific(tlsKey, &jniEnv);
 #endif
   }

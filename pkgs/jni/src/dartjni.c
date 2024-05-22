@@ -12,10 +12,6 @@
 pthread_key_t tlsKey;
 #endif
 
-void initAllLocks(JniLocks* locks) {
-  init_lock(&locks->classLoadingLock);
-}
-
 /// Load class through platform-specific mechanism.
 ///
 /// Currently uses application classloader on android,
@@ -48,25 +44,57 @@ JniContext jni_context = {
 };
 
 JniContext* jni = &jni_context;
-
-thread_local JNIEnv* jniEnv = NULL;
-
+THREAD_LOCAL JNIEnv* jniEnv = NULL;
 JniExceptionMethods exceptionMethods;
 
-void initExceptionHandling(JniExceptionMethods* methods) {
-  methods->objectClass = FindClass("java/lang/Object");
-  methods->exceptionClass = FindClass("java/lang/Exception");
-  methods->printStreamClass = FindClass("java/io/PrintStream");
-  methods->byteArrayOutputStreamClass =
+void init() {
+#ifndef _WIN32
+  // Init TLS keys.
+  pthread_key_create(&tlsKey, detach_thread);
+#endif
+
+  // Init locks.
+  init_lock(&jni_context.locks.classLoadingLock);
+
+  // Init exception handling classes and methods.
+  exceptionMethods.objectClass = FindClass("java/lang/Object");
+  exceptionMethods.exceptionClass = FindClass("java/lang/Exception");
+  exceptionMethods.printStreamClass = FindClass("java/io/PrintStream");
+  exceptionMethods.byteArrayOutputStreamClass =
       FindClass("java/io/ByteArrayOutputStream");
-  load_method(methods->objectClass, &methods->toStringMethod, "toString",
-              "()Ljava/lang/String;");
-  load_method(methods->exceptionClass, &methods->printStackTraceMethod,
-              "printStackTrace", "(Ljava/io/PrintStream;)V");
-  load_method(methods->byteArrayOutputStreamClass,
-              &methods->byteArrayOutputStreamCtor, "<init>", "()V");
-  load_method(methods->printStreamClass, &methods->printStreamCtor, "<init>",
+  load_method(exceptionMethods.objectClass, &exceptionMethods.toStringMethod,
+              "toString", "()Ljava/lang/String;");
+  load_method(exceptionMethods.exceptionClass,
+              &exceptionMethods.printStackTraceMethod, "printStackTrace",
+              "(Ljava/io/PrintStream;)V");
+  load_method(exceptionMethods.byteArrayOutputStreamClass,
+              &exceptionMethods.byteArrayOutputStreamCtor, "<init>", "()V");
+  load_method(exceptionMethods.printStreamClass,
+              &exceptionMethods.printStreamCtor, "<init>",
               "(Ljava/io/OutputStream;)V");
+}
+
+void deinit() {
+#ifndef _WIN32
+  // Delete TLS keys.
+  pthread_key_delete(tlsKey);
+#endif
+
+  // Destroy locks.
+  destroy_lock(&jni_context.locks.classLoadingLock);
+
+  // Delete references to exception handling classes.
+  if (jniEnv != NULL) {
+    (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.objectClass);
+    (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.exceptionClass);
+    (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.printStreamClass);
+    (*jniEnv)->DeleteGlobalRef(jniEnv,
+                              exceptionMethods.byteArrayOutputStreamClass);
+  }
+}
+
+JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *jvm, void *reserved) {
+  deinit();
 }
 
 /// Get JVM associated with current process.
@@ -112,8 +140,7 @@ Java_com_github_dart_1lang_jni_JniPlugin_initializeJni(JNIEnv* env,
   jni_context.loadClassMethod =
       (*env)->GetMethodID(env, classLoaderClass, "loadClass",
                           "(Ljava/lang/String;)Ljava/lang/Class;");
-  initAllLocks(&jni_context.locks);
-  initExceptionHandling(&exceptionMethods);
+  init();
 }
 
 JNIEXPORT void JNICALL
@@ -151,7 +178,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
       InitializeCriticalSection(&spawnLock);
       break;
     case DLL_THREAD_DETACH:
-      if (jniEnv) {
+      if (jniEnv != NULL) {
         detach_thread(jniEnv);
       }
       break;
@@ -193,8 +220,7 @@ int SpawnJvm(JavaVMInitArgs* initArgs) {
   if (flag != JNI_OK) {
     return flag;
   }
-  initAllLocks(&jni_context.locks);
-  initExceptionHandling(&exceptionMethods);
+  init();
   release_lock(&spawnLock);
 
   return JNI_OK;
