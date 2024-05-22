@@ -234,6 +234,10 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(
         BooleanType(), [ObjCMethodParam(PointerType(objCObjectType), 'clazz')]);
 
+    for (final m in methods.values) {
+      m.addDependencies(dependencies, builtInFunctions);
+    }
+
     if (superType != null) {
       superType!.addDependencies(dependencies);
       _copyMethodsFromSuperType();
@@ -301,30 +305,47 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
     return baseType is ObjCNullable && baseType.child is ObjCInstanceType;
   }
 
-  void addMethod(ObjCMethod method) {
-    final oldMethod = methods[method.originalName];
-    if (oldMethod != null) {
-      // Typically we ignore duplicate methods. However, property setters and
-      // getters are duplicated in the AST. One copy is marked with
-      // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
-      // important information, and is a plain old instanceMethod. So if the
-      // existing method is an instanceMethod, and the new one is a property,
-      // override it.
-      if (method.isProperty && !oldMethod.isProperty) {
-        // Fallthrough.
-      } else if (!method.isProperty && oldMethod.isProperty) {
-        // Don't override, but also skip the same method check below.
-        return;
-      } else {
-        // Check duplicate is the same method.
-        if (!method.sameAs(oldMethod)) {
-          _logger.severe('Duplicate methods with different signatures: '
-              '$originalName.${method.originalName}');
-        }
-        return;
-      }
+  ObjCMethod _maybeReplaceMethod(ObjCMethod? oldMethod, ObjCMethod newMethod) {
+    if (oldMethod == null) return newMethod;
+
+    // Typically we ignore duplicate methods. However, property setters and
+    // getters are duplicated in the AST. One copy is marked with
+    // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
+    // important information, and is a plain old instanceMethod. So if the
+    // existing method is an instanceMethod, and the new one is a property,
+    // override it.
+    if (newMethod.isProperty && !oldMethod.isProperty) {
+      return newMethod;
+    } else if (!newMethod.isProperty && oldMethod.isProperty) {
+      // Don't override, but also skip the same method check below.
+      return oldMethod;
     }
-    methods[method.originalName] = method;
+
+    // Check the duplicate is the same method.
+    if (!newMethod.sameAs(oldMethod)) {
+      _logger.severe('Duplicate methods with different signatures: '
+          '$originalName.${newMethod.originalName}');
+      return newMethod;
+    }
+
+    // There's a bug in some Apple APIs where an init method that should return
+    // instancetype has a duplicate definition that instead returns id. In that
+    // case, use the one that returns instancetype. Note that since instancetype
+    // is an alias of id, the sameAs check above passes.
+    if (_isInstanceType(newMethod.returnType) &&
+        !_isInstanceType(oldMethod.returnType)) {
+      return newMethod;
+    } else if (!_isInstanceType(newMethod.returnType) &&
+        _isInstanceType(oldMethod.returnType)) {
+      return oldMethod;
+    }
+
+    return newMethod;
+  }
+
+  void addMethod(ObjCMethod method) {
+    methods[method.originalName] =
+        _maybeReplaceMethod(methods[method.originalName], method);
   }
 
   @override

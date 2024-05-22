@@ -1,4 +1,10 @@
-## 12.0.0-wip
+## 13.0.0-wip
+
+- __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
+  than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
+  `NSProxy`.
+
+## 12.0.0
 
 - Global variables are now compatible with the `ffi-native` option.
 - Exposing symbol addresses of functions and globals is now compatible with the

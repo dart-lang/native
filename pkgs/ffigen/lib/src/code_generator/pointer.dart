@@ -86,7 +86,7 @@ class IncompleteArray extends PointerType {
   String cacheKey() => '${child.cacheKey()}[]';
 }
 
-/// A pointer to an NSObject.
+/// A pointer to an Objective C object.
 class ObjCObjectPointer extends PointerType {
   factory ObjCObjectPointer() => _inst;
 
@@ -94,9 +94,7 @@ class ObjCObjectPointer extends PointerType {
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override
-  String getDartType(Writer w) => w.generateForPackageObjectiveC
-      ? 'NSObject'
-      : '${w.objcPkgPrefix}.NSObject';
+  String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCObjectBase';
 
   @override
   bool get sameDartAndCType => false;
@@ -119,5 +117,5 @@ class ObjCObjectPointer extends PointerType {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+      '${getDartType(w)}($value, retain: $objCRetain, release: true)';
 }

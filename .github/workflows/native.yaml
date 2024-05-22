@@ -31,7 +31,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        sdk: [stable, dev]
+        # TODO(https://github.com/dart-lang/native/issues/1154): Use 'stable' instead of 3.3.0.
+        sdk: [stable, 3.3.0, dev]
         package: [native_assets_builder, native_assets_cli, native_toolchain_c]
         # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
         breaking-change: [false]
@@ -41,6 +42,13 @@ jobs:
             sdk: dev
           - os: windows
             sdk: dev
+          # TODO(https://github.com/dart-lang/native/issues/1154): Use 'stable' instead of 3.3.0.
+          - os: macos
+            sdk: 3.3.0
+          - os: ubuntu
+            sdk: 3.3.0
+          - os: windows
+            sdk: stable
 
     runs-on: ${{ matrix.os }}-latest
 
@@ -58,7 +66,7 @@ jobs:
       - uses: nttld/setup-ndk@6a7e9c5494a25c4842ca1011f710300132eacd94
         with:
           ndk-version: r26b
-        if: ${{ matrix.sdk == 'stable' && matrix.os != 'macos' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') && matrix.os != 'macos' }}
 
       - run: dart pub get
 
@@ -66,6 +74,9 @@ jobs:
         if: ${{ matrix.package == 'native_assets_builder' }}
 
       - run: dart pub get -C test_data/native_add/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
+      - run: dart pub get -C test_data/native_add_v1_0_0/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
       - run: dart pub get -C test_data/native_add_add_source/
@@ -114,14 +125,14 @@ jobs:
         # Run on dev to ensure we're not depending on deprecated SDK things.
 
       - run: dart format --output=none --set-exit-if-changed .
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') }}
 
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
-        if: ${{ matrix.sdk == 'stable' && matrix.os == 'ubuntu' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') && matrix.os == 'ubuntu' }}
 
       - run: dart test
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
@@ -145,11 +156,11 @@ jobs:
 
       - name: Install coverage
         run: dart pub global activate coverage
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' || matrix.sdk == '3.3.0' }}
 
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' || matrix.sdk == '3.3.0' }}
 
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
@@ -157,7 +168,7 @@ jobs:
           flag-name: ${{ matrix.package }}_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-        if: ${{ matrix.sdk == 'stable' }}
+        if: ${{ matrix.sdk == 'stable' || matrix.sdk == '3.3.0' }}
 
   coverage-finished:
     needs: [build]
@@ -166,6 +177,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
         with:
-          carryforward: "objective_c_tests,ffigen_macos,jnigen_tests,jni_tests,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows"
+          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

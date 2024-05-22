@@ -19,12 +19,6 @@ import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.macro_parser');
 
-Pointer<
-        NativeFunction<
-            Int32 Function(
-                clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>)>>?
-    _macroVariablevisitorPtr;
-
 /// Adds a macro definition to be parsed later.
 void saveMacroDefinition(clang_types.CXCursor cursor) {
   final macroUsr = cursor.usr();
@@ -48,16 +42,14 @@ void _saveMacro(String name, String usr, String originalName) {
   savedMacros[name] = Macro(usr, originalName);
 }
 
-List<Constant>? _bindings;
-
 /// Macros cannot be parsed directly, so we create a new `.hpp` file in which
 /// they are assigned to a variable after which their value can be determined
 /// by evaluating the value of the variable.
-List<Constant>? parseSavedMacros() {
-  _bindings = [];
+List<Constant> parseSavedMacros() {
+  final bindings = <Constant>[];
 
   if (savedMacros.keys.isEmpty) {
-    return _bindings;
+    return bindings;
   }
 
   // Create a file for parsing macros;
@@ -86,15 +78,7 @@ List<Constant>? parseSavedMacros() {
   } else {
     logTuDiagnostics(tu, _logger, file.path, logLevel: Level.FINEST);
     final rootCursor = clang.clang_getTranslationUnitCursor(tu);
-
-    final resultCode = clang.clang_visitChildren(
-      rootCursor,
-      _macroVariablevisitorPtr ??= Pointer.fromFunction(
-          _macroVariablevisitor, exceptional_visitor_return),
-      nullptr,
-    );
-
-    visitChildrenResultChecker(resultCode);
+    rootCursor.visitChildren((child) => _macroVariablevisitor(child, bindings));
   }
 
   clang.clang_disposeTranslationUnit(tu);
@@ -102,12 +86,12 @@ List<Constant>? parseSavedMacros() {
   // Delete the temp file created for macros.
   file.deleteSync();
 
-  return _bindings;
+  return bindings;
 }
 
 /// Child visitor invoked on translationUnitCursor for parsing macroVariables.
-int _macroVariablevisitor(clang_types.CXCursor cursor,
-    clang_types.CXCursor parent, Pointer<Void> clientData) {
+void _macroVariablevisitor(
+    clang_types.CXCursor cursor, List<Constant> bindings) {
   Constant? constant;
   try {
     if (isFromGeneratedFile(cursor) &&
@@ -156,7 +140,7 @@ int _macroVariablevisitor(clang_types.CXCursor cursor,
       clang.clang_EvalResult_dispose(e);
 
       if (constant != null) {
-        _bindings!.add(constant);
+        bindings.add(constant);
       }
     }
   } catch (e, s) {
@@ -164,7 +148,6 @@ int _macroVariablevisitor(clang_types.CXCursor cursor,
     _logger.severe(s);
     rethrow;
   }
-  return clang_types.CXChildVisitResult.CXChildVisit_Continue;
 }
 
 /// Returns true if cursor is from generated file.

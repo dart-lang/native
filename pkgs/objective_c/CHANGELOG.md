@@ -1,4 +1,8 @@
-## 0.0.1-wip
+## 1.0.1
+
+- Mention experimental status in readme.
+
+## 1.0.0
 
 - Move sharable code from ffigen's generated code into this package, including
   `ObjCObjectBase`, and `ObjCBlockBase`, as well as the core Objective C runtime
