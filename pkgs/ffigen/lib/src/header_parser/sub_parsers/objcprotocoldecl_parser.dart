@@ -1,4 +1,4 @@
-// Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -15,17 +15,55 @@ import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.objcprotocoldecl_parser');
 
-BindingType? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
-  // ObjCProtocolDecl
-  //   ObjCProtocolRef
-  //   ObjCInstanceMethodDecl
+ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
+    {bool ignoreFilter = false}) {
+  if (cursor.kind != clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl) {
+    return null;
+  }
+
+  final usr = cursor.usr();
+  final cachedProto = bindingsIndex.getSeenObjCProto(usr);
+  if (cachedProto != null) {
+    return cachedProto;
+  }
+
   final name = cursor.spelling();
 
+  if (!ignoreFilter && !shouldIncludeObjCProtocol(usr, name)) {
+    return null;
+  }
+
+  final proto = ObjCProtocol(
+    usr: usr,
+    originalName: name,
+    name: config.objcProtocols.renameUsingConfig(name),
+    lookupName: config.objcProtocolModulePrefixer.applyPrefix(name),
+    dartDoc: getCursorDocComment(cursor),
+    builtInFunctions: objCBuiltInFunctions,
+  );
+
+  // Make sure to add the proto to the index before parsing the AST, to break
+  // cycles.
+  bindingsIndex.addObjCProtoToSeen(usr, proto);
+
   cursor.visitChildren((child) {
-    if (name == "MyProtocol") {
-      print("");
-      child.printAst(5);
+    switch (child.kind) {
+      case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
+        final decl = clang.clang_getCursorDefinition(child);
+        final superProto =
+            parseObjCProtocolDeclaration(decl, ignoreFilter: true);
+        if (superProto != null) {
+          proto.superProtos.add(superProto);
+        }
+        break;
+      case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
+      case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
+        final method = parseObjCMethod(child, name);
+        if (method != null) {
+          proto.addMethod(method);
+        }
+        break;
     }
   });
-  return null;
+  return proto;
 }

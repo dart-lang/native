@@ -1187,6 +1187,23 @@ class Clang {
       _clang_Cursor_getObjCPropertySetterNamePtr
           .asFunction<CXString Function(CXCursor)>();
 
+  /// Given a cursor that represents an Objective-C method or property
+  /// declaration, return non-zero if the declaration was affected by "\@optional".
+  /// Returns zero if the cursor is not such a declaration or it is "\@required".
+  int clang_Cursor_isObjCOptional(
+    CXCursor C,
+  ) {
+    return _clang_Cursor_isObjCOptional(
+      C,
+    );
+  }
+
+  late final _clang_Cursor_isObjCOptionalPtr =
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
+          'clang_Cursor_isObjCOptional');
+  late final _clang_Cursor_isObjCOptional =
+      _clang_Cursor_isObjCOptionalPtr.asFunction<int Function(CXCursor)>();
+
   /// Given a cursor that represents a declaration, return the associated
   /// comment's source range.  The range may include multiple consecutive comments
   /// with whitespace in between.

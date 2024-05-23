@@ -122,6 +122,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
   final isReadOnly = propertyAttributes &
           clang_types.CXObjCPropertyAttrKind.CXObjCPropertyAttr_readonly >
       0;
+  final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
 
   final property = ObjCProperty(fieldName);
 
@@ -136,6 +137,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
     dartDoc: dartDoc,
     kind: ObjCMethodKind.propertyGetter,
     isClass: isClass,
+    isOptional: isOptionalMethod,
     returnType: fieldType,
   );
   itf.addMethod(getter);
@@ -150,6 +152,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
         dartDoc: dartDoc,
         kind: ObjCMethodKind.propertySetter,
         isClass: isClass,
+        isOptional: isOptionalMethod,
         returnType: NativeType(SupportedNativeType.Void));
     setter.params.add(ObjCMethodParam(fieldType, 'value'));
     itf.addMethod(setter);
@@ -157,16 +160,17 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
 }
 
 void _parseInterfaceMethod(clang_types.CXCursor cursor, ObjCInterface itf) {
-  final method = _parseMethod(cursor, itf.originalName);
+  final method = parseObjCMethod(cursor, itf.originalName);
   if (method != null) {
     itf.addMethod(method);
   }
 }
 
-ObjCMethod? _parseMethod(clang_types.CXCursor cursor, String itfName) {
+ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
   final methodName = cursor.spelling();
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
+  final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
   final returnType = clang.clang_getCursorResultType(cursor).toCodeGenType();
   if (returnType.isIncompleteCompound) {
     _logger.warning('Method "$methodName" in instance '
@@ -179,6 +183,7 @@ ObjCMethod? _parseMethod(clang_types.CXCursor cursor, String itfName) {
     dartDoc: getCursorDocComment(cursor),
     kind: ObjCMethodKind.method,
     isClass: isClassMethod,
+    isOptional: isOptionalMethod,
     returnType: returnType,
   );
   _logger.fine('       > ${isClassMethod ? 'Class' : 'Instance'} method: '
@@ -195,6 +200,9 @@ ObjCMethod? _parseMethod(clang_types.CXCursor cursor, String itfName) {
         method.returnsRetained = true;
         break;
       default:
+      // if (itfName == 'MyProtocol' || itfName == 'SuperProtocol') {
+      //   print("Unknown cursor for $itfName::$method : ${child.completeStringRepr()}");
+      // }
     }
   });
   return hasError ? null : method;

@@ -13,10 +13,14 @@ typedef struct {
   int32_t y;
 } SomeStruct;
 
-@protocol MyProtocol<NSObject>
+@protocol SuperProtocol<NSObject>
 
 @required
 - (NSString*)instanceMethod:(NSString*)s withDouble:(double)x;
+
+@end
+
+@protocol MyProtocol<SuperProtocol>
 
 @optional
 - (int32_t)optionalMethod:(SomeStruct)s;

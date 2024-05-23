@@ -280,6 +280,15 @@ Function getBlockClosure(Pointer<c.ObjCBlock> block) {
   return _blockClosureRegistry[id]!;
 }
 
+/// Only for use by ffigen bindings.
+class ObjCProtocolMethod {
+  final Pointer<c.ObjCSelector> _sel;
+  final objc.NSMethodSignature _sig;
+  final bool Function(ObjCBlockBase) _isCorrectBlockType;
+
+  ObjCProtocolMethod(this._sel, this._sig, this._isCorrectBlockType);
+}
+
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(Pointer<c.ObjCBlock> block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);

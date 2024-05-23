@@ -24,6 +24,9 @@ class ObjCBuiltInFunctions {
   static const getBlockClosure = ObjCImport('getBlockClosure');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockBase = ObjCImport('ObjCBlockBase');
+  static const protoMethod = ObjCImport('ObjCProtoMethod');
+  static const protoBuilder = ObjCImport('ObjCProtocolBuilder');
+  static const dartProxy = ObjCImport('DartProxy');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
   static const builtInInterfaces = {
@@ -60,8 +63,11 @@ class ObjCBuiltInFunctions {
     'Protocol',
   };
 
+  // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
+  // would be based on more than just the name.
   bool isBuiltInInterface(String name) =>
       !generateForPackageObjectiveC && builtInInterfaces.contains(name);
+  bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
@@ -95,6 +101,12 @@ class ObjCBuiltInFunctions {
     for (final sel in _selObjects.values) {
       sel.addDependencies(dependencies);
     }
+  }
+
+  static bool isInstanceType(Type type) {
+    if (type is ObjCInstanceType) return true;
+    final baseType = type.typealiasType;
+    return baseType is ObjCNullable && baseType.child is ObjCInstanceType;
   }
 }
 
