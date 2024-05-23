@@ -22,8 +22,8 @@ void main(List<String> arguments) async {
       dartBuildFiles: ['hook/build.dart'],
       linkModePreference: LinkModePreference.dynamic,
     ).run(
-      buildConfig: config,
-      buildOutput: output,
+      config: config,
+      output: output,
       logger: logger,
       linkInPackage: 'add_asset_link',
     );

@@ -4,6 +4,16 @@
 
 part of 'build_output.dart';
 
+/// The output of a link hook (`hook/link.dart`) invocation.
+///
+/// A package can optionally provide link hook (`hook/link.dart`). If such a
+/// hook exists, and any build hook outputs packages for linking with it, it
+/// will be automatically run, by the Flutter and Dart SDK tools. The hook is
+/// expect to produce a specific output which [LinkOutput] can produce.
+///
+/// For more information see [link].
+///
+/// Designed to be a sink. [Linker]s stream outputs to the link output.
 abstract final class LinkOutput {
   /// Start time for the link of this output.
   ///
