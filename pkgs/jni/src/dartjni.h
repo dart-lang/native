@@ -12,23 +12,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if _WIN32
+#ifdef _WIN32
 #include <windows.h>
 #else
 #include <pthread.h>
 #include <unistd.h>
 #endif
 
-#if _WIN32
+#ifdef _WIN32
 #define FFI_PLUGIN_EXPORT __declspec(dllexport)
 #else
 #define FFI_PLUGIN_EXPORT
 #endif
 
-#if defined _WIN32
-#define thread_local __declspec(thread)
+#ifdef _WIN32
+#define THREAD_LOCAL __declspec(thread)
 #else
-#define thread_local __thread
+#define THREAD_LOCAL __thread
 #endif
 
 #ifdef __ANDROID__
@@ -43,7 +43,7 @@
 
 /// Locking functions for windows and pthread.
 
-#if defined _WIN32
+#ifdef _WIN32
 #include <windows.h>
 
 typedef CRITICAL_SECTION MutexLock;
@@ -85,8 +85,7 @@ static inline void free_mem(void* mem) {
   CoTaskMemFree(mem);
 }
 
-#elif defined __APPLE__ || defined __LINUX__ || defined __ANDROID__ ||         \
-    defined __GNUC__
+#else
 #include <pthread.h>
 
 typedef pthread_mutex_t MutexLock;
@@ -127,11 +126,6 @@ static inline void destroy_cond(ConditionVariable* cond) {
 static inline void free_mem(void* mem) {
   free(mem);
 }
-
-#else
-
-#error "No locking/condition variable support; Possibly unsupported platform"
-
 #endif
 
 typedef struct CallbackResult {
@@ -160,9 +154,31 @@ typedef struct JniContext {
 
 // jniEnv for this thread, used by inline functions in this header,
 // therefore declared as extern.
-extern thread_local JNIEnv* jniEnv;
+extern THREAD_LOCAL JNIEnv* jniEnv;
 
 extern JniContext* jni;
+
+/// Handling the lifetime of thread-local jniEnv.
+#ifndef _WIN32
+extern pthread_key_t tlsKey;
+#endif
+
+static inline void detach_thread(void* data) {
+  jniEnv = NULL;
+
+  if (*jni->jvm) {
+    (*jni->jvm)->DetachCurrentThread(jni->jvm);
+  }
+}
+
+static inline void attach_thread() {
+  if (jniEnv == NULL) {
+    (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
+#ifndef _WIN32
+    pthread_setspecific(tlsKey, &jniEnv);
+#endif
+  }
+}
 
 /// Types used by JNI API to distinguish between primitive types.
 enum JniType {
@@ -277,12 +293,6 @@ FFI_PLUGIN_EXPORT jobject GetApplicationContext(void);
 
 /// Returns current activity of the app on Android.
 FFI_PLUGIN_EXPORT jobject GetCurrentActivity(void);
-
-static inline void attach_thread() {
-  if (jniEnv == NULL) {
-    (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
-  }
-}
 
 /// Load class into [cls] using platform specific mechanism
 static inline void load_class_platform(jclass* cls, const char* name) {
