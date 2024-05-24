@@ -31,7 +31,6 @@ abstract interface class Linker {
   ///
   /// Reads the config from [config], streams output to [output], and streams
   /// logs to [logger].
-  // TODO(dacoharkes): Should this be `link` instead of `run`?
   Future<void> run({
     required LinkConfig config,
     required LinkOutput output,

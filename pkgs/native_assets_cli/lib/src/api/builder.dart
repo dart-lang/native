@@ -66,7 +66,6 @@ abstract interface class Builder {
   ///
   /// Reads the config from [config], streams output to [output], and streams
   /// logs to [logger].
-  // TODO(dacoharkes): Should this be `build` instead of `run`?
   Future<void> run({
     required BuildConfig config,
     required BuildOutput output,

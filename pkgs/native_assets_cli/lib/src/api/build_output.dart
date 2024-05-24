@@ -37,7 +37,8 @@ part 'link_output.dart';
 ///
 /// For more information see [build].
 ///
-/// Designed to be a sink. [Builder]s stream outputs to the link output.
+/// Designed to be a sink. The [BuildOutput] is not intended to be read from.
+/// [Builder]s stream outputs to the link output. For more info see [Builder].
 abstract final class BuildOutput {
   /// Start time for the build of this output.
   ///

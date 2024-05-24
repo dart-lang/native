@@ -13,7 +13,8 @@ part of 'build_output.dart';
 ///
 /// For more information see [link].
 ///
-/// Designed to be a sink. [Linker]s stream outputs to the link output.
+/// Designed to be a sink. The [LinkOutput] is not designed to be read from.
+/// [Linker]s stream outputs to the link output. For more info see [Linker].
 abstract final class LinkOutput {
   /// Start time for the link of this output.
   ///
