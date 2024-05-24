@@ -151,7 +151,7 @@ List<Binding> parseToBindings(Config c) {
   bindings.addAll(unnamedEnumConstants);
 
   // Parse all saved macros.
-  bindings.addAll(parseSavedMacros()!);
+  bindings.addAll(parseSavedMacros());
 
   clangCmdArgs.dispose(cmdLen);
   clang.clang_disposeIndex(index);

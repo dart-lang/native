@@ -225,4 +225,12 @@ final class HookOutputImpl implements BuildOutput, LinkOutput {
   List<AssetImpl> _getAssetList(String? linkInPackage) => linkInPackage == null
       ? _assets
       : (_assetsForLinking[linkInPackage] ??= []);
+
+  HookOutputImpl copyWith({Iterable<AssetImpl>? assets}) => HookOutputImpl(
+        timestamp: timestamp,
+        assets: assets?.toList() ?? _assets,
+        assetsForLinking: assetsForLinking,
+        dependencies: _dependencies,
+        metadata: metadata,
+      );
 }

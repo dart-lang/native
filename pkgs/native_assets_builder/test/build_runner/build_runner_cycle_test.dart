@@ -22,7 +22,7 @@ void main() async {
       );
       {
         final logMessages = <String>[];
-        final result = await dryRun(
+        final result = await buildDryRun(
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
