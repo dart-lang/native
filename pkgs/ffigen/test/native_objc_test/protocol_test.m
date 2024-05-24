@@ -99,14 +99,3 @@ typedef struct {
   return @"ObjCProtocolImplMissingMethod";
 }
 @end
-
-
-// TODO(https://github.com/dart-lang/native/issues/1040): Delete these.
-typedef NSString* (^InstanceMethodBlock)(void*, NSString*, double);
-void forceCodeGenOfInstanceMethodBlock(InstanceMethodBlock block);
-typedef int32_t (^OptMethodBlock)(void*, SomeStruct);
-void forceCodeGenOfOptMethodBlock(OptMethodBlock block);
-typedef void (^VoidMethodBlock)(void*, int32_t);
-void forceCodeGenOfVoidMethodBlock(VoidMethodBlock block);
-typedef int32_t (^OtherMethodBlock)(void*, int32_t a, int32_t b, int32_t c, int32_t d);
-void forceCodeGenOfOtherMethodBlock(OtherMethodBlock block);

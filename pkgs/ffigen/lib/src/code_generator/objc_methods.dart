@@ -28,11 +28,11 @@ mixin ObjCMethods {
     Set<Binding> dependencies,
     ObjCBuiltInFunctions builtInFunctions, {
     bool needMsgSend = false,
-    bool needBlock = false,
+    bool needProtocolBlock = false,
   }) {
     for (final m in methods) {
       m.addDependencies(dependencies, builtInFunctions,
-          needMsgSend: needMsgSend, needBlock: needBlock);
+          needMsgSend: needMsgSend, needProtocolBlock: needProtocolBlock);
     }
   }
 
@@ -101,7 +101,7 @@ class ObjCMethod {
   bool returnsRetained = false;
   ObjCInternalGlobal? selObject;
   ObjCMsgSendFunc? msgSend;
-  ObjCBlock? block;
+  ObjCBlock? protocolBlock;
 
   ObjCMethod({
     required this.originalName,
@@ -124,7 +124,7 @@ class ObjCMethod {
     Set<Binding> dependencies,
     ObjCBuiltInFunctions builtInFunctions, {
     bool needMsgSend = false,
-    bool needBlock = false,
+    bool needProtocolBlock = false,
   }) {
     returnType.addDependencies(dependencies);
     for (final p in params) {
@@ -136,10 +136,15 @@ class ObjCMethod {
       msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params)
         ..addDependencies(dependencies);
     }
-    if (needBlock) {
-      block = ObjCBlock(
+    if (needProtocolBlock) {
+      final argTypes = [
+        // First arg of the protocol block is a void pointer that we ignore.
+        PointerType(voidType),
+        ...params.map((p) => p.type),
+      ];
+      protocolBlock = ObjCBlock(
         returnType: returnType,
-        argTypes: params.map((p) => p.type).toList(),
+        argTypes: argTypes,
       )..addDependencies(dependencies);
     }
   }

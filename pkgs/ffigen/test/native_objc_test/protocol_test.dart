@@ -16,6 +16,11 @@ import '../test_utils.dart';
 import 'protocol_bindings.dart';
 import 'util.dart';
 
+typedef InstanceMethodBlock = ObjCBlock_NSString_ffiVoid_NSString_ffiDouble;
+typedef OptionalMethodBlock = ObjCBlock_Int32_ffiVoid_SomeStruct;
+typedef VoidMethodBlock = ObjCBlock_ffiVoid_ffiVoid_Int32;
+typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
+
 void main() {
   group('protocol', () {
     setUpAll(() {
@@ -56,6 +61,71 @@ void main() {
       });
     });
 
+    group('Dart implementation using helpers', () {
+      test('Method implementation', () {
+        final consumer = ProtocolConsumer.new1();
+
+        final myProto = MyProtocol.build(
+          instanceMethod_withDouble_: InstanceMethodBlock.fromFunction(
+              (Pointer<Void> p, NSString s, double x) {
+            return 'MyProtocol: $s: $x'.toNSString();
+          }),
+          optionalMethod_:
+              OptionalMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
+            return s.y - s.x;
+          }),
+        );
+
+        // Required instance method.
+        final result = consumer.callInstanceMethod_(myProto);
+        expect(result.toString(), 'MyProtocol: Hello from ObjC: 3.14');
+
+        // Optional instance method.
+        final intResult = consumer.callOptionalMethod_(myProto);
+        expect(intResult, 333);
+      });
+
+      test('Multiple protocol implementation', () {
+        final consumer = ProtocolConsumer.new1();
+
+        final protoBuilder = ObjCProtocolBuilder();
+        protoBuilder.implementMethod(MyProtocol.instanceMethod_withDouble_,
+            InstanceMethodBlock.fromFunction(
+                (Pointer<Void> p, NSString s, double x) {
+          return 'ProtoBuilder: $s: $x'.toNSString();
+        }));
+        protoBuilder.implementMethod(SecondaryProtocol.otherMethod_b_c_d_,
+            OtherMethodBlock.fromFunction(
+                (Pointer<Void> p, int a, int b, int c, int d) {
+          return a * b * c * d;
+        }));
+        final protoImpl = protoBuilder.build();
+
+        // Required instance method.
+        final result = consumer.callInstanceMethod_(protoImpl);
+        expect(result.toString(), 'ProtoBuilder: Hello from ObjC: 3.14');
+
+        // Required instance method from secondary protocol.
+        final otherIntResult = consumer.callOtherMethod_(protoImpl);
+        expect(otherIntResult, 24);
+      });
+
+      test('Unimplemented method', () {
+        final consumer = ProtocolConsumer.new1();
+
+        final myProto = MyProtocol.build(
+          instanceMethod_withDouble_: InstanceMethodBlock.fromFunction(
+              (Pointer<Void> p, NSString s, double x) {
+            throw UnimplementedError();
+          }),
+        );
+
+        // Optional instance method, not implemented.
+        final intResult = consumer.callOptionalMethod_(myProto);
+        expect(intResult, -999);
+      });
+    });
+
     group('Manual DartProxy implementation', () {
       test('Method implementation', () {
         final proxyBuilder = DartProxyBuilder.new1();
@@ -66,7 +136,7 @@ void main() {
         final sel = registerName('instanceMethod:withDouble:');
         final signature = getProtocolMethodSignature(proto, sel,
             isRequired: true, isInstance: true);
-        final block = DartInstanceMethodBlock.fromFunction(
+        final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) {
           return 'DartProxy: $s: $x'.toNSString();
         });
@@ -77,7 +147,7 @@ void main() {
         final optSignature = getProtocolMethodSignature(proto, optSel,
             isRequired: false, isInstance: true);
         final optBlock =
-            DartOptMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
+            OptionalMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
           return s.y - s.x;
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
@@ -86,7 +156,7 @@ void main() {
         final otherSel = registerName('otherMethod:b:c:d:');
         final otherSignature = getProtocolMethodSignature(secondProto, otherSel,
             isRequired: true, isInstance: true);
-        final otherBlock = DartOtherMethodBlock.fromFunction(
+        final otherBlock = OtherMethodBlock.fromFunction(
             (Pointer<Void> p, int a, int b, int c, int d) {
           return a * b * c * d;
         });
@@ -128,7 +198,7 @@ void main() {
         final sel = registerName('voidMethod:');
         final signature = getProtocolMethodSignature(proto, sel,
             isRequired: false, isInstance: true);
-        final block = DartVoidMethodBlock.listener((Pointer<Void> p, int x) {
+        final block = VoidMethodBlock.listener((Pointer<Void> p, int x) {
           expect(x, 123);
           ++count;
           if (count == 1000) completer.complete();
@@ -152,7 +222,7 @@ void main() {
         final sel = registerName('instanceMethod:withDouble:');
         final signature = getProtocolMethodSignature(proto, sel,
             isRequired: true, isInstance: true);
-        final block = DartInstanceMethodBlock.fromFunction(
+        final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
         proxyBuilder.implementMethod_withSignature_andBlock_(
             sel, signature, block.pointer.cast());

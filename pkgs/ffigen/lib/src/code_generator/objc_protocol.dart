@@ -43,7 +43,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final methodName = method.getDartMethodName(uniqueNamer);
       final fieldName = methodName;
       final argName = methodName;
-      final blockType = method.block!.getDartType(w);
+      final blockType = method.protocolBlock!.getDartType(w);
 
       if (method.isOptional) {
         buildMethodArgs.add('$blockType? $argName');
@@ -101,7 +101,7 @@ abstract final class $name {
       superProto.addDependencies(dependencies);
     }
 
-    addMethodDependencies(dependencies, builtInFunctions, needBlock: true);
+    addMethodDependencies(dependencies, builtInFunctions, needProtocolBlock: true);
 
     for (final superProto in superProtos) {
       _copyMethodsFromSuperType(superProto);
