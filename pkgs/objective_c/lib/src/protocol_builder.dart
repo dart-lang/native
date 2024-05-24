@@ -8,12 +8,14 @@ import 'internal.dart' show ObjCBlockBase, ObjCProtocolMethod;
 
 // TODO: Docs.
 class ObjCProtocolBuilder {
-  final _builder = objc.DartProxyBuilder();
+  final _builder = objc.DartProxyBuilder.new1();
 
-  void implementMethod(ObjCProtocolMethod method, ObjCBlockBase block) {
-    assert(method._isCorrectBlockType(block));
-    _builder.implementMethod_withSignature_andBlock_(
-        method._sel, method._sig, block.pointer.cast());
+  void implementMethod(ObjCProtocolMethod method, ObjCBlockBase? block) {
+    if (block != null) {
+      assert(method.isCorrectBlockType(block));
+      _builder.implementMethod_withSignature_andBlock_(
+          method.sel, method.signature, block.pointer.cast());
+    }
   }
 
   objc.DartProxy build() => objc.DartProxy.newFromBuilder_(_builder);

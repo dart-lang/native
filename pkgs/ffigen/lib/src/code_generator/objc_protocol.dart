@@ -11,9 +11,9 @@ import 'writer.dart';
 
 class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtos = <ObjCProtocol>[];
-
   final String lookupName;
   final ObjCBuiltInFunctions builtInFunctions;
+  late final _protocolObject;
 
   ObjCProtocol({
     super.usr,
@@ -29,18 +29,58 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   BindingString toBindingString(Writer w) {
     final protoMethod = ObjCBuiltInFunctions.protoMethod.gen(w);
     final protoBuilder = ObjCBuiltInFunctions.protoBuilder.gen(w);
-    final dartProxy = ObjCBuiltInFunctions.dartProxy.gen(w);
+    final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
+    final blockBase = ObjCBuiltInFunctions.blockBase.gen(w);
+    final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
 
-    final methodArgs = 'args';
-    final methodImplementations = 'impl';
+    final buildMethodArgs = <String>[];
+    final buildMethodImplementations = StringBuffer();
+    final methodFields = StringBuffer();
+
+    final uniqueNamer = UniqueNamer({name, 'pointer'});
+
+    for (final method in methods) {
+      final methodName = method.getDartMethodName(uniqueNamer);
+      final fieldName = methodName;
+      final argName = methodName;
+      final blockType = method.block!.getDartType(w);
+
+      if (method.isOptional) {
+        buildMethodArgs.add('$blockType? $argName');
+      } else {
+        buildMethodArgs.add('required $blockType $argName');
+      }
+
+      buildMethodImplementations.write('''
+    builder.implementMethod($name.$fieldName, $argName);''');
+
+      methodFields.write('''
+    ${makeDartDoc(method.dartDoc)}
+    static final $fieldName = $protoMethod(
+      ${method.selObject!.name},
+      $getSignature(
+          ${_protocolObject.name},
+          ${method.selObject!.name},
+          isRequired: ${method.isRequired},
+          isInstance: ${method.isInstance},
+      ),
+      ($blockBase block) => block is $blockType,
+    );
+''');
+    }
 
     final mainString = '''
+${makeDartDoc(dartDoc)}
 abstract final class $name {
-  static $dartProxy build($methodArgs) {
-    $methodImplementations;
+  /// Builds an object that implements the $originalName protocol. To implement
+  /// multiple protocols, use [$protoBuilder].
+  static $objectBase build({${buildMethodArgs.join(', ')}}) {
+    final builder = $protoBuilder();
+    $buildMethodImplementations
+    return builder.build();
   }
 
-  static final someMethod = $protoMethod();
+  $methodFields
 }
 ''';
 
@@ -52,7 +92,10 @@ abstract final class $name {
   void addDependencies(Set<Binding> dependencies) {
     if (dependencies.contains(this)) return;
     dependencies.add(this);
-    print("Adding deps for $originalName : $superProtos");
+
+    _protocolObject = ObjCInternalGlobal('_proto_$originalName',
+        (Writer w) => '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
+      ..addDependencies(dependencies);
 
     for (final superProto in superProtos) {
       superProto.addDependencies(dependencies);
@@ -69,7 +112,9 @@ abstract final class $name {
     if (builtInFunctions.isNSObject(superProto.originalName)) {
       // When writing a protocol that doesn't inherit from any other protocols,
       // it's typical to have it inherit from NSObject instead. But NSObject has
-      // heaps of methods that users are very unlikely to want to implement.
+      // heaps of methods that users are very unlikely to want to implement, so
+      // ignore it. If the user really wants to implemnt them they can use the
+      // ObjCProtocolBuilder.
       return;
     }
 

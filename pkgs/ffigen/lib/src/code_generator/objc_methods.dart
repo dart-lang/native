@@ -17,6 +17,8 @@ mixin ObjCMethods {
   Iterable<ObjCMethod> get methods => _methods.values;
   ObjCMethod? getMethod(String name) => _methods[name];
 
+  String get originalName;
+
   void addMethod(ObjCMethod method) {
     _methods[method.originalName] =
         _maybeReplaceMethod(getMethod(method.originalName), method);
@@ -34,7 +36,7 @@ mixin ObjCMethods {
     }
   }
 
-  static ObjCMethod _maybeReplaceMethod(
+  ObjCMethod _maybeReplaceMethod(
       ObjCMethod? oldMethod, ObjCMethod newMethod) {
     if (oldMethod == null) return newMethod;
 
@@ -54,7 +56,7 @@ mixin ObjCMethods {
     // Check the duplicate is the same method.
     if (!newMethod.sameAs(oldMethod)) {
       _logger.severe('Duplicate methods with different signatures: '
-          '${newMethod.originalName}'); // $originalName.
+          '$originalName.${newMethod.originalName}');
       return newMethod;
     }
 
@@ -99,6 +101,7 @@ class ObjCMethod {
   bool returnsRetained = false;
   ObjCInternalGlobal? selObject;
   ObjCMsgSendFunc? msgSend;
+  ObjCBlock? block;
 
   ObjCMethod({
     required this.originalName,
@@ -114,6 +117,8 @@ class ObjCMethod {
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
       kind == ObjCMethodKind.propertySetter;
+  bool get isRequired => !isOptional;
+  bool get isInstance => !isClass;
 
   void addDependencies(
     Set<Binding> dependencies,
@@ -132,8 +137,10 @@ class ObjCMethod {
         ..addDependencies(dependencies);
     }
     if (needBlock) {
-      // TODO: Generate a block with the same signature. Make sure to dedupe
-      // (probably need to refactor _getOrCreateBlockType).
+      block = ObjCBlock(
+        returnType: returnType,
+        argTypes: params.map((p) => p.type).toList(),
+      )..addDependencies(dependencies);
     }
   }
 

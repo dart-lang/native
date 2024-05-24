@@ -41,7 +41,7 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
 }
 
 /// Only for use by ffigen bindings.
-objc.NSMethodSignature? getProtocolMethodSignature(
+objc.NSMethodSignature getProtocolMethodSignature(
   Pointer<c.ObjCProtocol> protocol,
   Pointer<c.ObjCSelector> sel, {
   required bool isRequired,
@@ -50,9 +50,14 @@ objc.NSMethodSignature? getProtocolMethodSignature(
   final sig =
       c.getMethodDescription(protocol, sel, isRequired, isInstance).types;
   if (sig == nullptr) {
-    return null;
+    throw Exception('Failed to load method of Objective-C protocol');
   }
-  return objc.NSMethodSignature.signatureWithObjCTypes_(sig);
+  final sigObj = objc.NSMethodSignature.signatureWithObjCTypes_(sig);
+  if (sigObj == null) {
+    throw Exception(
+        'Failed to construct signature for Objective-C protocol method');
+  }
+  return sigObj;
 }
 
 /// Only for use by ffigen bindings.
@@ -282,11 +287,11 @@ Function getBlockClosure(Pointer<c.ObjCBlock> block) {
 
 /// Only for use by ffigen bindings.
 class ObjCProtocolMethod {
-  final Pointer<c.ObjCSelector> _sel;
-  final objc.NSMethodSignature _sig;
-  final bool Function(ObjCBlockBase) _isCorrectBlockType;
+  final Pointer<c.ObjCSelector> sel;
+  final objc.NSMethodSignature signature;
+  final bool Function(ObjCBlockBase) isCorrectBlockType;
 
-  ObjCProtocolMethod(this._sel, this._sig, this._isCorrectBlockType);
+  ObjCProtocolMethod(this.sel, this.signature, this.isCorrectBlockType);
 }
 
 // Not exported by ../objective_c.dart, because they're only for testing.

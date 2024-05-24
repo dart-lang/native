@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/header_parser/data.dart' show bindingsIndex;
 
 import 'binding_string.dart';
 import 'writer.dart';
@@ -11,16 +12,27 @@ class ObjCBlock extends BindingType {
   final Type returnType;
   final List<Type> argTypes;
 
-  ObjCBlock({
-    required String usr,
+  factory ObjCBlock({
     required Type returnType,
     required List<Type> argTypes,
-  }) : this._(
-          usr: usr,
-          name: _getBlockName(returnType, argTypes),
-          returnType: returnType,
-          argTypes: argTypes,
-        );
+  }) {
+    final usr = _getBlockUsr(returnType, argTypes);
+
+    final oldBlock = bindingsIndex.getSeenObjCBlock(usr);
+    if (oldBlock != null) {
+      return oldBlock;
+    }
+
+    final block = ObjCBlock._(
+      usr: usr,
+      name: _getBlockName(returnType, argTypes),
+      returnType: returnType,
+      argTypes: argTypes,
+    );
+    bindingsIndex.addObjCBlockToSeen(usr, block);
+
+    return block;
+  }
 
   ObjCBlock._({
     required String super.usr,
@@ -38,6 +50,17 @@ class ObjCBlock extends BindingType {
   static String _typeName(Type type) =>
       type.toString().replaceAll(_illegalNameChar, '');
   static final _illegalNameChar = RegExp(r'[^0-9a-zA-Z]');
+
+  static String _getBlockUsr(Type returnType, List<Type> argTypes) {
+    // Create a fake USR code for the block. This code is used to dedupe blocks
+    // with the same signature.
+    final usr = StringBuffer();
+    usr.write('objcBlock: ${returnType.cacheKey()}');
+    for (final type in argTypes) {
+      usr.write(' ${type.cacheKey()}');
+    }
+    return usr.toString();
+  }
 
   @override
   BindingString toBindingString(Writer w) {

@@ -74,9 +74,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     }
 
     final s = StringBuffer();
-    if (dartDoc != null) {
-      s.write(makeDartDoc(dartDoc!));
-    }
+    s.write(makeDartDoc(dartDoc));
 
     final uniqueNamer = UniqueNamer({name, 'pointer'});
 
@@ -128,10 +126,7 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
       }
 
       // The method declaration.
-      if (m.dartDoc != null) {
-        s.write(makeDartDoc(m.dartDoc!));
-      }
-
+      s.write(makeDartDoc(m.dartDoc));
       s.write('  ');
       if (isStatic) {
         s.write('static ');

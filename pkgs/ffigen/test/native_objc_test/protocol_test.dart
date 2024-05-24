@@ -71,7 +71,7 @@ void main() {
           return 'DartProxy: $s: $x'.toNSString();
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature!, block.pointer.cast());
+            sel, signature, block.pointer.cast());
 
         final optSel = registerName('optionalMethod:');
         final optSignature = getProtocolMethodSignature(proto, optSel,
@@ -81,7 +81,7 @@ void main() {
           return s.y - s.x;
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            optSel, optSignature!, optBlock.pointer.cast());
+            optSel, optSignature, optBlock.pointer.cast());
 
         final otherSel = registerName('otherMethod:b:c:d:');
         final otherSignature = getProtocolMethodSignature(secondProto, otherSel,
@@ -91,7 +91,7 @@ void main() {
           return a * b * c * d;
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            otherSel, otherSignature!, otherBlock.pointer.cast());
+            otherSel, otherSignature, otherBlock.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
@@ -134,7 +134,7 @@ void main() {
           if (count == 1000) completer.complete();
         });
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature!, block.pointer.cast());
+            sel, signature, block.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
@@ -155,7 +155,7 @@ void main() {
         final block = DartInstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
         proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature!, block.pointer.cast());
+            sel, signature, block.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
 
