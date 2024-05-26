@@ -2,10 +2,4 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import Foundation
-
-/// Describes the componenets of a generic parameter of an entity (e.g classes, structs, methods, etc.)
-struct GenericParameterSyntax {
-    let name: String
-    let constraint: TypeSyntax
-}
+library swiftgen;
