@@ -4,6 +4,9 @@
 
 import Foundation
 
-struct TypeSyntax {
-    let name: String
+/// Describes a struct initializer
+struct StructInitializerSyntax {
+    var accessModifier: AccessModifier;
+    var parameters: [ParameterSyntax]
+    var genericParameters: [GenericParameterSyntax]
 }

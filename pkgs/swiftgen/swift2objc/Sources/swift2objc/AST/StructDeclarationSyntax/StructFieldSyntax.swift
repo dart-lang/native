@@ -6,8 +6,8 @@ import Foundation
 
 /// Describes a struct field (i.e, a field that stores an actual value, not just a getter)
 struct StructFieldSyntax: StructMemberSyntax {
-    let accessModifier: AccessModifier
-    let isConstant: Bool
-    let name: String
-    let type: TypeSyntax
+    var accessModifier: AccessModifier
+    var isConstant: Bool
+    var name: String
+    var type: TypeDeclarationSyntax
 }

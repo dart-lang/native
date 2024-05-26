@@ -6,16 +6,16 @@ import Foundation
 
 /// Describes the signature of a struct method
 struct StructMethodSyntax: StructMemberSyntax {
-    let isMutating: Bool
-    let isAsync: Bool
-    let isThrowing: Bool
+    var isMutating: Bool
+    var isAsync: Bool
+    var isThrowing: Bool
     
-    let accessModifier: AccessModifier
+    var accessModifier: AccessModifier
     
-    let name: String
-    let parameters: [ParameterSyntax]
-    let genericParameters: [GenericParameterSyntax]
-    let returnType: TypeSyntax
+    var name: String
+    var parameters: [ParameterSyntax]
+    var genericParameters: [GenericParameterSyntax]
+    var returnType: TypeDeclarationSyntax
 }
 
 

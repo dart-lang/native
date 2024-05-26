@@ -6,8 +6,8 @@ import Foundation
 
 /// Describes a struct property (i.e, a member with a getter/setter)
 struct StructPropertySyntax: StructMemberSyntax {
-    let accessModifier: AccessModifier
-    let name: String
-    let type: TypeSyntax
-    let hasGetterOnly: Bool
+    var accessModifier: AccessModifier
+    var name: String
+    var type: TypeDeclarationSyntax
+    var hasGetterOnly: Bool
 }
