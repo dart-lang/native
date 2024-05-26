@@ -630,11 +630,12 @@ import:
 <tbody>
   <tr>
     <td>
-      objc-interfaces
+      objc-interfaces<br><br>objc-protocols
     </td>
     <td>
-      Filters for interface declarations. This option works the same as other
-      declaration filters like `functions` and `structs`.
+      Filters for Objective C interface and protocol declarations. This option
+      works the same as other declaration filters like `functions` and
+      `structs`.
     </td>
     <td>
 
@@ -651,6 +652,10 @@ objc-interfaces:
   rename:
     # Removes '_' prefix from interface names.
     '_(.*)': '$1'
+objc-protocols:
+  include:
+    # Generates bindings for a specific protocol.
+    - MyProtocol
 ```
 
   </td>
@@ -658,10 +663,10 @@ objc-interfaces:
 
   <tr>
     <td>
-      objc-interfaces -> module
+      objc-interfaces -> module<br><br>objc-protocols -> module
     </td>
     <td>
-      Adds a module prefix to the class name when loading the class
+      Adds a module prefix to the interface/protocol name when loading it
       from the dylib. This is only relevent for ObjC headers that are generated
       wrappers for a Swift library. See example/swift for more information.
     </td>

@@ -3,6 +3,8 @@
 - __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
   than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
   `NSProxy`.
+- Added support for implementing ObjC protocols from Dart. Use the
+  `objc-protocols` config option to generate bindings for a protocol.
 
 ## 12.0.0
 
