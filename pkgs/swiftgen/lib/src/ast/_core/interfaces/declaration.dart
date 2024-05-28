@@ -2,12 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-abstract class Declaration {
-  String id;
-  String name;
-
-  Declaration({
-    required this.id,
-    required this.name,
-  });
+abstract interface class Declaration {
+  abstract String id;
+  abstract String name;
 }
