@@ -4,12 +4,12 @@
 
 import 'package:drop_dylib_link/drop_dylib_link.dart';
 
+const debug = false;
+
 void main(List<String> arguments) {
-  if (arguments.first == 'add') {
+  if (!debug) {
     print('Hello world: ${MyMath.add(3, 4)}!');
-  } else if (arguments.first == 'multiply') {
+  } else if (debug) {
     print('Hello world: ${MyMath.multiply(3, 4)}!');
-  } else {
-    throw ArgumentError('Must pass either "add" or "multiply"');
   }
 }
