@@ -220,6 +220,13 @@ class NativeAssetsBuildRunner {
     }
 
     if (hook == Hook.link) {
+      File? resourcesFile;
+      if (resourceIdentifiers != null) {
+        resourcesFile = File.fromUri(outDirUri.resolve('resources.json'));
+        await resourcesFile.create();
+        await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
+      }
+
       return LinkConfigImpl(
         outputDirectory: outDirUri,
         packageName: package.name,
@@ -230,7 +237,7 @@ class NativeAssetsBuildRunner {
         targetIOSSdk: targetIOSSdk,
         cCompiler: cCompilerConfig,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        resourceIdentifierUri: resourceIdentifiers,
+        resourceIdentifierUri: resourcesFile?.uri,
         assets: buildResult!.assetsForLinking[package.name] ?? [],
         supportedAssetTypes: supportedAssetTypes,
         linkModePreference: linkModePreference,
@@ -388,9 +395,6 @@ class NativeAssetsBuildRunner {
     Uri? resources,
   ) async {
     final outDir = config.outputDirectory;
-    if (!await Directory.fromUri(outDir).exists()) {
-      await Directory.fromUri(outDir).create(recursive: true);
-    }
 
     final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
     if (hookOutput != null) {

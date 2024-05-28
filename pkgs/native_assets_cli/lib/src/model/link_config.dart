@@ -18,11 +18,11 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
 
   // TODO: Placeholder for the resources.json file URL. We don't want to change
   // native_assets_builder when implementing the parsing.
-  final Uri? _resourceIdentifierUri;
+  final Uri? resourceIdentifierUri;
 
   LinkConfigImpl({
     required this.assets,
-    Uri? resourceIdentifierUri,
+    this.resourceIdentifierUri,
     required super.outputDirectory,
     required super.packageName,
     required super.packageRoot,
@@ -36,8 +36,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     required super.targetOS,
     required super.linkModePreference,
     super.dryRun,
-  })  : _resourceIdentifierUri = resourceIdentifierUri,
-        super(
+  }) : super(
           hook: Hook.link,
           version: version ?? HookConfigImpl.latestVersion,
           supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
@@ -45,7 +44,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
 
   LinkConfigImpl.dryRun({
     required this.assets,
-    Uri? resourceIdentifierUri,
+    this.resourceIdentifierUri,
     required super.outputDirectory,
     required super.packageName,
     required super.packageRoot,
@@ -53,8 +52,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     Iterable<String>? supportedAssetTypes,
     required super.linkModePreference,
     required super.targetOS,
-  })  : _resourceIdentifierUri = resourceIdentifierUri,
-        super.dryRun(
+  }) : super.dryRun(
           hook: Hook.link,
           version: version ?? HookConfigImpl.latestVersion,
           supportedAssetTypes: supportedAssetTypes ?? [NativeCodeAsset.type],
@@ -72,8 +70,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   Map<String, Object> toJson() => {
         ...hookToJson(),
-        if (_resourceIdentifierUri != null)
-          resourceIdentifierKey: _resourceIdentifierUri.toFilePath(),
+        if (resourceIdentifierUri != null)
+          resourceIdentifierKey: resourceIdentifierUri!.toFilePath(),
         assetsKey: AssetImpl.listToJson(assets, version),
       }.sortOnKey();
 
@@ -129,7 +127,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     if (other is! LinkConfigImpl) {
       return false;
     }
-    if (other._resourceIdentifierUri != _resourceIdentifierUri) {
+    if (other.resourceIdentifierUri != resourceIdentifierUri) {
       return false;
     }
     if (!const DeepCollectionEquality().equals(other.assets, assets)) {
@@ -141,7 +139,7 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
   @override
   int get hashCode => Object.hashAll([
         super.hashCode,
-        _resourceIdentifierUri,
+        resourceIdentifierUri,
         const DeepCollectionEquality().hash(assets),
       ]);
 
