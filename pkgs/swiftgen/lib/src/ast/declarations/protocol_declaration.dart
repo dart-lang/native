@@ -21,7 +21,7 @@ class ProtocolDeclaration implements CompoundDeclaration {
 
   @override
   List<ProtocolDeclaration> conformedProtocols;
-  
+
   @override
   List<GenericType> genericParams;
 
@@ -35,8 +35,7 @@ class ProtocolDeclaration implements CompoundDeclaration {
   });
 }
 
-class ProtocolPropertyDeclaration
-    implements CompoundPropertyDeclaration {
+class ProtocolPropertyDeclaration implements CompoundPropertyDeclaration {
   @override
   String id;
 
@@ -49,7 +48,6 @@ class ProtocolPropertyDeclaration
   @override
   ReferredType type;
 
-
   ProtocolPropertyDeclaration({
     required this.id,
     required this.name,
@@ -58,8 +56,7 @@ class ProtocolPropertyDeclaration
   });
 }
 
-class ProtocolMethodDeclaration
-    implements CompoundMethodDeclaration {
+class ProtocolMethodDeclaration implements CompoundMethodDeclaration {
   @override
   String id;
 

@@ -19,7 +19,7 @@ class StructDeclaration implements CompoundDeclaration {
 
   @override
   covariant List<StructMethodDeclaration> methods;
-  
+
   @override
   List<ProtocolDeclaration> conformedProtocols;
 
@@ -36,8 +36,7 @@ class StructDeclaration implements CompoundDeclaration {
   });
 }
 
-class StructPropertyDeclaration
-    implements CompoundPropertyDeclaration {
+class StructPropertyDeclaration implements CompoundPropertyDeclaration {
   @override
   String id;
 
@@ -50,7 +49,6 @@ class StructPropertyDeclaration
   @override
   ReferredType type;
 
-
   StructPropertyDeclaration({
     required this.id,
     required this.name,
@@ -59,8 +57,7 @@ class StructPropertyDeclaration
   });
 }
 
-class StructMethodDeclaration
-    implements CompoundMethodDeclaration {
+class StructMethodDeclaration implements CompoundMethodDeclaration {
   @override
   String id;
 

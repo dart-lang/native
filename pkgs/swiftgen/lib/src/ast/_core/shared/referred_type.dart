@@ -22,5 +22,10 @@ class DeclaredType extends ReferredType {
 }
 
 class GenericType extends ReferredType {
-  GenericType({required super.id});
+  String name;
+
+  GenericType({
+    required this.name,
+    required super.id,
+  });
 }
