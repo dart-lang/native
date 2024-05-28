@@ -27,6 +27,8 @@ class ObjCBuiltInFunctions {
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
   static const builtInInterfaces = {
+    'DartProxy',
+    'DartProxyBuilder',
     'NSArray',
     'NSCharacterSet',
     'NSCoder',
@@ -49,6 +51,7 @@ class ObjCBuiltInFunctions {
     'NSNumber',
     'NSObject',
     'NSProgress',
+    'NSProxy',
     'NSSet',
     'NSString',
     'NSURL',

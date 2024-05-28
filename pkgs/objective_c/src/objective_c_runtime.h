@@ -13,6 +13,7 @@
 
 typedef struct _ObjCSelector ObjCSelector;
 typedef struct _ObjCObject ObjCObject;
+typedef struct _ObjCProtocol ObjCProtocol;
 
 ObjCSelector *sel_registerName(const char *name);
 ObjCObject *objc_getClass(const char *name);
@@ -58,5 +59,15 @@ extern void *_NSConcreteWeakBlockVariable[32];
 
 void *_Block_copy(const void *object);
 void _Block_release(const void *object);
+
+typedef struct _ObjCMethodDesc {
+  ObjCSelector* name;
+  const char* types;
+} ObjCMethodDesc;
+
+ObjCProtocol* objc_getProtocol(const char* name);
+ObjCMethodDesc protocol_getMethodDescription(
+    ObjCProtocol* proto, ObjCSelector* sel, bool isRequiredMethod,
+    bool isInstanceMethod);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_

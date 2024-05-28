@@ -18,6 +18,8 @@ export 'src/c_bindings_generated.dart'
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
     show
+        DartProxy,
+        DartProxyBuilder,
         NSArray,
         NSCharacterSet,
         NSCoder,
@@ -40,6 +42,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSNumber,
         NSObject,
         NSProgress,
+        NSProxy,
         NSSet,
         NSString,
         NSURL,

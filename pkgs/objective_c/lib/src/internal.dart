@@ -8,6 +8,7 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
+import 'objective_c_bindings_generated.dart' as objc;
 
 /// Only for use by ffigen bindings.
 Pointer<c.ObjCSelector> registerName(String name) {
@@ -26,6 +27,32 @@ Pointer<c.ObjCObject> getClass(String name) {
     throw Exception('Failed to load Objective-C class: $name');
   }
   return clazz;
+}
+
+/// Only for use by ffigen bindings.
+Pointer<c.ObjCProtocol> getProtocol(String name) {
+  final cstr = name.toNativeUtf8();
+  final clazz = c.getProtocol(cstr.cast());
+  calloc.free(cstr);
+  if (clazz == nullptr) {
+    throw Exception('Failed to load Objective-C protocol: $name');
+  }
+  return clazz;
+}
+
+/// Only for use by ffigen bindings.
+objc.NSMethodSignature? getProtocolMethodSignature(
+  Pointer<c.ObjCProtocol> protocol,
+  Pointer<c.ObjCSelector> sel, {
+  required bool isRequired,
+  required bool isInstance,
+}) {
+  final sig =
+      c.getMethodDescription(protocol, sel, isRequired, isInstance).types;
+  if (sig == nullptr) {
+    return null;
+  }
+  return objc.NSMethodSignature.signatureWithObjCTypes_(sig);
 }
 
 /// Only for use by ffigen bindings.
