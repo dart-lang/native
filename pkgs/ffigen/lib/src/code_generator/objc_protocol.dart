@@ -68,15 +68,22 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 ''');
     }
 
+    final args = buildMethodArgs.join(', ');
     final mainString = '''
 ${makeDartDoc(dartDoc)}
 abstract final class $name {
   /// Builds an object that implements the $originalName protocol. To implement
-  /// multiple protocols, use [$protoBuilder].
-  static $objectBase build({${buildMethodArgs.join(', ')}}) {
+  /// multiple protocols, use [addToBuilder] or [$protoBuilder] directly.
+  static $objectBase implement({$args}) {
     final builder = $protoBuilder();
     $buildMethodImplementations
     return builder.build();
+  }
+
+  /// Adds the implementation of the $originalName protocol to an existing
+  /// [$protoBuilder].
+  static void addToBuilder($protoBuilder builder, {$args}) {
+    $buildMethodImplementations
   }
 
   $methodFields

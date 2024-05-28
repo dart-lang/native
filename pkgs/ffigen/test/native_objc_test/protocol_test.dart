@@ -65,7 +65,7 @@ void main() {
       test('Method implementation', () {
         final consumer = ProtocolConsumer.new1();
 
-        final myProto = MyProtocol.build(
+        final myProto = MyProtocol.implement(
           instanceMethod_withDouble_: InstanceMethodBlock.fromFunction(
               (Pointer<Void> p, NSString s, double x) {
             return 'MyProtocol: $s: $x'.toNSString();
@@ -86,6 +86,31 @@ void main() {
       });
 
       test('Multiple protocol implementation', () {
+        final consumer = ProtocolConsumer.new1();
+
+        final protoBuilder = ObjCProtocolBuilder();
+        MyProtocol.addToBuilder(protoBuilder, instanceMethod_withDouble_:
+            InstanceMethodBlock.fromFunction(
+                (Pointer<Void> p, NSString s, double x) {
+          return 'ProtoBuilder: $s: $x'.toNSString();
+        }));
+        SecondaryProtocol.addToBuilder(protoBuilder, otherMethod_b_c_d_:
+            OtherMethodBlock.fromFunction(
+                (Pointer<Void> p, int a, int b, int c, int d) {
+          return a * b * c * d;
+        }));
+        final protoImpl = protoBuilder.build();
+
+        // Required instance method.
+        final result = consumer.callInstanceMethod_(protoImpl);
+        expect(result.toString(), 'ProtoBuilder: Hello from ObjC: 3.14');
+
+        // Required instance method from secondary protocol.
+        final otherIntResult = consumer.callOtherMethod_(protoImpl);
+        expect(otherIntResult, 24);
+      });
+
+      test('Multiple protocol implementation using method fields', () {
         final consumer = ProtocolConsumer.new1();
 
         final protoBuilder = ObjCProtocolBuilder();
@@ -113,7 +138,7 @@ void main() {
       test('Unimplemented method', () {
         final consumer = ProtocolConsumer.new1();
 
-        final myProto = MyProtocol.build(
+        final myProto = MyProtocol.implement(
           instanceMethod_withDouble_: InstanceMethodBlock.fromFunction(
               (Pointer<Void> p, NSString s, double x) {
             throw UnimplementedError();
