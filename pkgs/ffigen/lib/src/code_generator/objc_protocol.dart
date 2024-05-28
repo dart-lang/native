@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:logging/logging.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -13,7 +12,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtos = <ObjCProtocol>[];
   final String lookupName;
   final ObjCBuiltInFunctions builtInFunctions;
-  late final _protocolObject;
+  late final ObjCInternalGlobal _protocolPointer;
 
   ObjCProtocol({
     super.usr,
@@ -59,7 +58,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     static final $fieldName = $protoMethod(
       ${method.selObject!.name},
       $getSignature(
-          ${_protocolObject.name},
+          ${_protocolPointer.name},
           ${method.selObject!.name},
           isRequired: ${method.isRequired},
           isInstance: ${method.isInstance},
@@ -93,15 +92,18 @@ abstract final class $name {
     if (dependencies.contains(this)) return;
     dependencies.add(this);
 
-    _protocolObject = ObjCInternalGlobal('_proto_$originalName',
-        (Writer w) => '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
+    _protocolPointer = ObjCInternalGlobal(
+        '_proto_$originalName',
+        (Writer w) =>
+            '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
       ..addDependencies(dependencies);
 
     for (final superProto in superProtos) {
       superProto.addDependencies(dependencies);
     }
 
-    addMethodDependencies(dependencies, builtInFunctions, needProtocolBlock: true);
+    addMethodDependencies(dependencies, builtInFunctions,
+        needProtocolBlock: true);
 
     for (final superProto in superProtos) {
       _copyMethodsFromSuperType(superProto);
@@ -113,7 +115,7 @@ abstract final class $name {
       // When writing a protocol that doesn't inherit from any other protocols,
       // it's typical to have it inherit from NSObject instead. But NSObject has
       // heaps of methods that users are very unlikely to want to implement, so
-      // ignore it. If the user really wants to implemnt them they can use the
+      // ignore it. If the user really wants to implement them they can use the
       // ObjCProtocolBuilder.
       return;
     }
@@ -121,7 +123,7 @@ abstract final class $name {
     // Protocols have very different inheritance semantics than Dart classes.
     // So copy across all the methods explicitly, rather than trying to use Dart
     // inheritance to get them implicitly.
-    for (ObjCMethod method in superProto.methods) {
+    for (final method in superProto.methods) {
       addMethod(method);
     }
   }

@@ -22,7 +22,8 @@ class ObjCBuiltInFunctions {
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
-  static const getProtocolMethodSignature = ObjCImport('getProtocolMethodSignature');
+  static const getProtocolMethodSignature =
+      ObjCImport('getProtocolMethodSignature');
   static const getProtocol = ObjCImport('getProtocol');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockBase = ObjCImport('ObjCBlockBase');

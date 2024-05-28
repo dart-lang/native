@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:logging/logging.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -33,8 +32,6 @@ const _excludedNSObjectClassMethods = {
   'superclass',
   'version',
 };
-
-final _logger = Logger('ffigen.code_generator.objc_interface');
 
 class ObjCInterface extends BindingType with ObjCMethods {
   ObjCInterface? superType;

@@ -5,9 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:logging/logging.dart';
 
-import 'binding_string.dart';
 import 'utils.dart';
-import 'writer.dart';
 
 final _logger = Logger('ffigen.code_generator.objc_methods');
 
@@ -36,8 +34,7 @@ mixin ObjCMethods {
     }
   }
 
-  ObjCMethod _maybeReplaceMethod(
-      ObjCMethod? oldMethod, ObjCMethod newMethod) {
+  ObjCMethod _maybeReplaceMethod(ObjCMethod? oldMethod, ObjCMethod newMethod) {
     if (oldMethod == null) return newMethod;
 
     // Typically we ignore duplicate methods. However, property setters and

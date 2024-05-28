@@ -2,16 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/data.dart';
 import 'package:logging/logging.dart';
 
-import 'objcinterfacedecl_parser.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../includer.dart';
 import '../utils.dart';
+import 'objcinterfacedecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.objcprotocoldecl_parser');
 
@@ -33,6 +31,9 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     return null;
   }
 
+  _logger.fine('++++ Adding ObjC protocol: '
+      'Name: $name, ${cursor.completeStringRepr()}');
+
   final proto = ObjCProtocol(
     usr: usr,
     originalName: name,
@@ -50,6 +51,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
         final decl = clang.clang_getCursorDefinition(child);
+        _logger.fine('       > Super protocol: ${decl.completeStringRepr()}');
         final superProto =
             parseObjCProtocolDeclaration(decl, ignoreFilter: true);
         if (superProto != null) {

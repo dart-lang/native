@@ -160,11 +160,13 @@ class Config {
   late StructPackingOverride _structPackingOverride;
 
   /// Module prefixes for ObjC interfaces.
-  ObjCModulePrefixer get objcInterfaceModulePrefixer => _objcInterfaceModulePrefixer;
+  ObjCModulePrefixer get objcInterfaceModulePrefixer =>
+      _objcInterfaceModulePrefixer;
   late ObjCModulePrefixer _objcInterfaceModulePrefixer;
 
   /// Module prefixes for ObjC protocols.
-  ObjCModulePrefixer get objcProtocolModulePrefixer => _objcProtocolModulePrefixer;
+  ObjCModulePrefixer get objcProtocolModulePrefixer =>
+      _objcProtocolModulePrefixer;
   late ObjCModulePrefixer _objcProtocolModulePrefixer;
 
   /// Name of the wrapper class.
@@ -541,8 +543,8 @@ class Config {
               result: (node) {
                 _objcInterfaces = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>);
-                _objcInterfaceModulePrefixer = (node.value as Map)[strings.objcModule]
-                    as ObjCModulePrefixer;
+                _objcInterfaceModulePrefixer = (node.value
+                    as Map)[strings.objcModule] as ObjCModulePrefixer;
               },
             )),
         HeterogeneousMapEntry(
@@ -561,8 +563,8 @@ class Config {
               result: (node) {
                 _objcProtocols = declarationConfigExtractor(
                     node.value as Map<dynamic, dynamic>);
-                _objcProtocolModulePrefixer = (node.value as Map)[strings.objcModule]
-                    as ObjCModulePrefixer;
+                _objcProtocolModulePrefixer = (node.value
+                    as Map)[strings.objcModule] as ObjCModulePrefixer;
               },
             )),
         HeterogeneousMapEntry(
