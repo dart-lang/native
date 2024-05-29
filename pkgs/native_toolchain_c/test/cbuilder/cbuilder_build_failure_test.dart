@@ -53,8 +53,8 @@ void main() {
     );
     expect(
       () => cbuilder.run(
-        buildConfig: buildConfig,
-        buildOutput: buildOutput,
+        config: buildConfig,
+        output: buildOutput,
         logger: logger,
       ),
       throwsException,
