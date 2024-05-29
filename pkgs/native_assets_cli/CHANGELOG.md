@@ -1,3 +1,7 @@
+## 0.6.1
+
+- Copy `resources.json` to the build directory.
+
 ## 0.6.0
 
 - Add support for `hook/link.dart`.
