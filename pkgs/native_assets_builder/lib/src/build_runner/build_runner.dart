@@ -211,8 +211,9 @@ class NativeAssetsBuildRunner {
       supportedAssetTypes: supportedAssetTypes,
       hook: hook,
     );
-    final outDirUri =
-        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/out/');
+    final buildDirUri =
+        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
+    final outDirUri = buildDirUri.resolve('out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
@@ -220,6 +221,13 @@ class NativeAssetsBuildRunner {
     }
 
     if (hook == Hook.link) {
+      File? resourcesFile;
+      if (resourceIdentifiers != null) {
+        resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
+        await resourcesFile.create();
+        await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
+      }
+
       return LinkConfigImpl(
         outputDirectory: outDirUri,
         packageName: package.name,
@@ -230,7 +238,7 @@ class NativeAssetsBuildRunner {
         targetIOSSdk: targetIOSSdk,
         cCompiler: cCompilerConfig,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        resourceIdentifierUri: resourceIdentifiers,
+        resourceIdentifierUri: resourcesFile?.uri,
         assets: buildResult!.assetsForLinking[package.name] ?? [],
         supportedAssetTypes: supportedAssetTypes,
         linkModePreference: linkModePreference,
@@ -388,9 +396,6 @@ class NativeAssetsBuildRunner {
     Uri? resources,
   ) async {
     final outDir = config.outputDirectory;
-    if (!await Directory.fromUri(outDir).exists()) {
-      await Directory.fromUri(outDir).create(recursive: true);
-    }
 
     final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
     if (hookOutput != null) {

@@ -9,6 +9,7 @@
   Link hooks are not ordered.
 - Fix test.
 - Bump `package:native_assets_cli` to 0.6.0.
+- Copy `resources.json` to the build directory.
 
 ## 0.6.0
 
