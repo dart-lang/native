@@ -221,7 +221,13 @@ class ObjCInstanceType extends Typealias {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      // objCEnclosingClass must be present, because instancetype can only
-      // occur inside a class.
-      ObjCInterface.generateConstructor(objCEnclosingClass!, value, objCRetain);
+      objCEnclosingClass == null
+          ? super.convertFfiDartTypeToDartType(
+              w,
+              value,
+              objCRetain: objCRetain,
+              objCEnclosingClass: objCEnclosingClass,
+            )
+          : ObjCInterface.generateConstructor(
+              objCEnclosingClass, value, objCRetain);
 }

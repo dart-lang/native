@@ -32,8 +32,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     final blockBase = ObjCBuiltInFunctions.blockBase.gen(w);
     final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
 
-    final buildMethodArgs = <String>[];
-    final buildMethodImplementations = StringBuffer();
+    final buildArgs = <String>[];
+    final buildImplementations = StringBuffer();
     final methodFields = StringBuffer();
 
     final uniqueNamer = UniqueNamer({name, 'pointer'});
@@ -45,12 +45,12 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final blockType = method.protocolBlock!.getDartType(w);
 
       if (method.isOptional) {
-        buildMethodArgs.add('$blockType? $argName');
+        buildArgs.add('$blockType? $argName');
       } else {
-        buildMethodArgs.add('required $blockType $argName');
+        buildArgs.add('required $blockType $argName');
       }
 
-      buildMethodImplementations.write('''
+      buildImplementations.write('''
     builder.implementMethod($name.$fieldName, $argName);''');
 
       methodFields.write('''
@@ -68,22 +68,22 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 ''');
     }
 
-    final args = buildMethodArgs.join(', ');
+    final args = buildArgs.isEmpty ? '' : '{${buildArgs.join(', ')}}';
     final mainString = '''
 ${makeDartDoc(dartDoc)}
 abstract final class $name {
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protoBuilder] directly.
-  static $objectBase implement({$args}) {
+  static $objectBase implement($args) {
     final builder = $protoBuilder();
-    $buildMethodImplementations
+    $buildImplementations
     return builder.build();
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
   /// [$protoBuilder].
-  static void addToBuilder($protoBuilder builder, {$args}) {
-    $buildMethodImplementations
+  static void addToBuilder($protoBuilder builder, $args) {
+    $buildImplementations
   }
 
   $methodFields

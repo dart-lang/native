@@ -10,6 +10,7 @@ objc-interfaces:
     - ObjCProtocolImplMissingMethod
 objc-protocols:
   include:
+    - EmptyProtocol
     - MyProtocol
     - SecondaryProtocol
 headers:

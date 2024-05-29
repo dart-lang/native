@@ -36,6 +36,12 @@ typedef struct {
 @required
 - (int32_t)otherMethod:(int32_t)a b:(int32_t)b c:(int32_t)c d:(int32_t)d;
 
+@optional
+- (nullable instancetype)returnsInstanceType;
+
+@end
+
+@protocol EmptyProtocol
 @end
 
 
