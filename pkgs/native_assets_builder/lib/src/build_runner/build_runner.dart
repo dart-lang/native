@@ -211,8 +211,9 @@ class NativeAssetsBuildRunner {
       supportedAssetTypes: supportedAssetTypes,
       hook: hook,
     );
-    final outDirUri =
-        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/out/');
+    final buildDirUri =
+        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
+    final outDirUri = buildDirUri.resolve('$buildDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
@@ -222,7 +223,7 @@ class NativeAssetsBuildRunner {
     if (hook == Hook.link) {
       File? resourcesFile;
       if (resourceIdentifiers != null) {
-        resourcesFile = File.fromUri(outDirUri.resolve('resources.json'));
+        resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
         await resourcesFile.create();
         await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
       }

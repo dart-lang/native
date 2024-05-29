@@ -37,12 +37,8 @@ Future<void> link(
   // rerun if they change.
   final builtAssetsFiles =
       config.assets.map((asset) => asset.file).whereType<Uri>().toList();
-  final resourceIdentifierUri = config.resourceIdentifierUri;
   final linkOutput = HookOutputImpl(
-    dependencies: Dependencies([
-      ...builtAssetsFiles,
-      if (resourceIdentifierUri != null) resourceIdentifierUri,
-    ]),
+    dependencies: Dependencies(builtAssetsFiles),
   );
   await linker(config, linkOutput);
   await linkOutput.writeToFile(config: config);
