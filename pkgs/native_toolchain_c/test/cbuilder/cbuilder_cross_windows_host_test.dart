@@ -74,8 +74,8 @@ void main() {
           dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
+          config: buildConfig,
+          output: buildOutput,
           logger: logger,
         );
 

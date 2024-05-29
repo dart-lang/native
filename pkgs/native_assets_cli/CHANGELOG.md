@@ -1,5 +1,6 @@
-## 0.6.1
+## 0.6.1-wip
 
+- Introduce `Builder` and `Linker` interface.
 - Copy `resources.json` to the build directory.
 
 ## 0.6.0

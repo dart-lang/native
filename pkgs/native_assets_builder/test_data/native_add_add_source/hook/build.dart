@@ -20,8 +20,8 @@ void main(List<String> arguments) async {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: config,
-      buildOutput: output,
+      config: config,
+      output: output,
       logger: Logger('')
         ..level = Level.ALL
         ..onRecord.listen((record) {

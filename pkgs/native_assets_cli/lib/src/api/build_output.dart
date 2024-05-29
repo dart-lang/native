@@ -17,8 +17,12 @@ import '../utils/json.dart';
 import '../utils/map.dart';
 import 'architecture.dart';
 import 'asset.dart';
+import 'build.dart';
 import 'build_config.dart';
+import 'builder.dart';
 import 'hook_config.dart';
+import 'link.dart';
+import 'linker.dart';
 import 'os.dart';
 
 part '../model/hook_output.dart';
@@ -30,6 +34,11 @@ part 'link_output.dart';
 /// hook exists, it will be automatically run, by the Flutter and Dart SDK
 /// tools. The hook is expect to produce a specific output which [BuildOutput]
 /// can produce.
+///
+/// For more information see [build].
+///
+/// Designed to be a sink. The [BuildOutput] is not intended to be read from.
+/// [Builder]s stream outputs to the build output. For more info see [Builder].
 abstract final class BuildOutput {
   /// Start time for the build of this output.
   ///
