@@ -213,7 +213,7 @@ class NativeAssetsBuildRunner {
     );
     final buildDirUri =
         packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
-    final outDirUri = buildDirUri.resolve('$buildDirName/out/');
+    final outDirUri = buildDirUri.resolve('out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
