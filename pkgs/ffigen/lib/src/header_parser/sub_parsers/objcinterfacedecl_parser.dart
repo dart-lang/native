@@ -81,7 +81,7 @@ bool _isClassDeclaration(clang_types.CXCursor cursor) {
   // It's a class declaration if it has no children other than ObjCClassRef.
   bool result = true;
   cursor.visitChildrenMayBreak((child) {
-    if (cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
+    if (child.kind == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
       return true;
     }
     result = false;
@@ -200,9 +200,6 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
         method.returnsRetained = true;
         break;
       default:
-      // if (itfName == 'MyProtocol' || itfName == 'SuperProtocol') {
-      //   print("Unknown cursor for $itfName::$method : ${child.completeStringRepr()}");
-      // }
     }
   });
   return hasError ? null : method;
