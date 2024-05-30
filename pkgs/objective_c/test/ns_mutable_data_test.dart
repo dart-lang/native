@@ -166,7 +166,7 @@ void main() {
           bytes[2] = 3;
 
           final data = NSMutableData.dataWithBytes_length_(bytes.cast(), 3);
-          data.addAll([-1, 256, 267]);
+          data.addAll([-1, 256, 257]);
 
           expect(data.length, 6);
           expect(data[0], 1);
