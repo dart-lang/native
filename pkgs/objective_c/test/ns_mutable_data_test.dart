@@ -103,12 +103,12 @@ void main() {
           bytes[2] = 3;
 
           final data = NSMutableData.dataWithBytes_length_(bytes.cast(), 3);
-          expect(() => data[0] = 256, throwsRangeError);
-          expect(() => data[1] = 257, throwsRangeError);
-          expect(() => data[2] = -1, throwsRangeError);
-          expect(data[0], 1);
-          expect(data[1], 2);
-          expect(data[2], 3);
+          data[0] = 256;
+          data[1] = 257;
+          data[2] = -1;
+          expect(data[0], 0);
+          expect(data[1], 1);
+          expect(data[2], 255);
         });
       });
     });
@@ -166,11 +166,14 @@ void main() {
           bytes[2] = 3;
 
           final data = NSMutableData.dataWithBytes_length_(bytes.cast(), 3);
-          expect(() => data.addAll([-1]), throwsRangeError);
-          expect(() => data.addAll([256]), throwsRangeError);
+          expect(data.length, 6);
+          data.addAll([-1, 256, 267]);
           expect(data[0], 1);
           expect(data[1], 2);
           expect(data[2], 3);
+          expect(data[3], 255);
+          expect(data[4], 0);
+          expect(data[5], 1);
         });
       });
     });
