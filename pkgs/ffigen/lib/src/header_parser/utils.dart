@@ -189,8 +189,8 @@ extension CXCursorExt on clang_types.CXCursor {
                 Pointer<Void> clientData) =>
             callback(child, parent),
         exceptionalReturn: exceptional_visitor_return);
-    final result = clang.clang_visitChildren(
-        this, visitor.nativeFunction, nullptr);
+    final result =
+        clang.clang_visitChildren(this, visitor.nativeFunction, nullptr);
     visitor.close();
     return result == 0;
   }
