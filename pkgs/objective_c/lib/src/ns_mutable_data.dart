@@ -12,12 +12,8 @@ extension NSMutableDataExtensions on NSMutableData {
   /// Return the value of [bytes] at the given index.
   ///
   /// The returned value will be in the range 0 to 255.
-  int operator [](int index) {
-    IndexError.check(index, length, indexable: this);
-    return bytes.cast<Uint8>()[index];
-  }
-
   void operator []=(int index, int value) {
+    IndexError.check(index, length, indexable: this);
     mutableBytes.cast<Uint8>()[index] = value;
   }
 
