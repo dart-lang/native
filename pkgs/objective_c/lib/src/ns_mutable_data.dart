@@ -12,16 +12,30 @@ extension NSMutableDataExtensions on NSMutableData {
   /// Return the value of [bytes] at the given index.
   ///
   /// The returned value will be in the range 0 to 255.
+  int operator [](int index) {
+    IndexError.check(index, length, indexable: this);
+    return bytes.cast<Uint8>()[index];
+  }
+
+  /// Set the value at the given index.
+  ///
+  /// The value should be in the range 0 to 255. An integer, which is not in
+  /// that range, is converted to a byte as if by `value.toUnsigned(8)`.
   void operator []=(int index, int value) {
     IndexError.check(index, length, indexable: this);
     mutableBytes.cast<Uint8>()[index] = value;
   }
 
-  void addAll(Iterable<int> l) {
-    final f = malloc<Uint8>(l.length);
+  /// Appends all objects of `iterable` to the end of this [NSMutableData].
+  ///
+  /// The elements of the `iterable` should be integers in the range 0 to 255.
+  /// Any integer, which is not in that range, is converted to a byte as if by
+  /// `value.toUnsigned(8)`.
+  void addAll(Iterable<int> iterable) {
+    final f = malloc<Uint8>(iterable.length);
     try {
-      f.asTypedList(l.length).setAll(0, l);
-      appendBytes_length_(f.cast(), l.length);
+      f.asTypedList(iterable.length).setAll(0, iterable);
+      appendBytes_length_(f.cast(), iterable.length);
     } finally {
       malloc.free(f);
     }
