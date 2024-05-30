@@ -3,6 +3,7 @@
 - Add `DartProxy`, which is an implementation of `NSProxy` that enables
   implementing ObjC protocols from Dart. Also adds `DartProxyBuilder` for
   constructing `DartProxy`.
+- Add some extensions methods for `NSMutableData`.
 
 ## 1.0.1
 
