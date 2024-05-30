@@ -4,6 +4,7 @@
 
 export 'src/internal.dart' hide blockHasRegisteredClosure;
 export 'src/ns_data.dart';
+export 'src/ns_mutable_data.dart';
 export 'src/ns_string.dart';
 export 'src/protocol_builder.dart';
 export 'src/c_bindings_generated.dart'

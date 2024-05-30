@@ -73,6 +73,7 @@ Future<LinkResult> link(
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   required BuildResult buildResult,
+  Uri? resourceIdentifiers,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -87,6 +88,7 @@ Future<LinkResult> link(
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         buildResult: buildResult,
+        resourceIdentifiers: resourceIdentifiers,
       );
 
       if (result.success) {

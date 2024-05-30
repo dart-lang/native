@@ -1,3 +1,7 @@
+## 0.7.1-wip
+
+- Nothing yet.
+
 ## 0.7.0
 
 - Add support for `hook/link.dart` including dry runs.
@@ -5,6 +9,7 @@
   Link hooks are not ordered.
 - Fix test.
 - Bump `package:native_assets_cli` to 0.6.0.
+- Copy `resources.json` to the build directory.
 
 ## 0.6.0
 
