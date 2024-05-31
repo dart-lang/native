@@ -9,6 +9,7 @@
 #import <Foundation/NSData.h>
 #import <Foundation/NSDate.h>
 #import <Foundation/NSDictionary.h>
+#import <Foundation/NSError.h>
 #import <Foundation/NSMethodSignature.h>
 #import <Foundation/NSObject.h>
 #import <Foundation/NSSet.h>

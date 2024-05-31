@@ -184,14 +184,14 @@ extension CXCursorExt on clang_types.CXCursor {
   bool visitChildrenMayRecurse(
       int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
           callback) {
-    final protocolVisitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
+    final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
         (clang_types.CXCursor child, clang_types.CXCursor parent,
                 Pointer<Void> clientData) =>
             callback(child, parent),
         exceptionalReturn: exceptional_visitor_return);
-    final result = clang.clang_visitChildren(
-        this, protocolVisitor.nativeFunction, nullptr);
-    protocolVisitor.close();
+    final result =
+        clang.clang_visitChildren(this, visitor.nativeFunction, nullptr);
+    visitor.close();
     return result == 0;
   }
 
@@ -214,13 +214,12 @@ extension CXCursorExt on clang_types.CXCursor {
 
   /// Recursively print the AST, for debugging.
   void printAst([int maxDepth = 3]) => _printAst(maxDepth, 0);
-  bool _printAst(int maxDepth, int depth) {
+  void _printAst(int maxDepth, int depth) {
     if (depth > maxDepth) {
-      return false;
+      return;
     }
     print(('  ' * depth) + completeStringRepr());
     visitChildren((child) => child._printAst(maxDepth, depth + 1));
-    return true;
   }
 }
 
