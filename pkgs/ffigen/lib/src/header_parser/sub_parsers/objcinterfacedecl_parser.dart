@@ -81,7 +81,7 @@ bool _isClassDeclaration(clang_types.CXCursor cursor) {
   // It's a class declaration if it has no children other than ObjCClassRef.
   bool result = true;
   cursor.visitChildrenMayBreak((child) {
-    if (cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
+    if (child.kind == clang_types.CXCursorKind.CXCursor_ObjCClassRef) {
       return true;
     }
     result = false;
