@@ -8,7 +8,7 @@ import '../_core/shared/parameter.dart';
 import '../_core/shared/referred_type.dart';
 import 'protocol_declaration.dart';
 
-class ClassDeclaration implements CompoundDeclaration, ObjcAnnotatable {
+class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -28,7 +28,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjcAnnotatable {
   List<GenericType> genericParams;
 
   @override
-  bool hasObjcAnnotation;
+  bool hasObjCAnnotation;
 
   ClassDeclaration? superClass;
 
@@ -39,13 +39,13 @@ class ClassDeclaration implements CompoundDeclaration, ObjcAnnotatable {
     required this.methods,
     required this.conformedProtocols,
     required this.genericParams,
-    required this.hasObjcAnnotation,
+    required this.hasObjCAnnotation,
     this.superClass,
   });
 }
 
 class ClassPropertyDeclaration
-    implements CompoundPropertyDeclaration, ObjcAnnotatable {
+    implements CompoundPropertyDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -59,19 +59,19 @@ class ClassPropertyDeclaration
   ReferredType type;
 
   @override
-  bool hasObjcAnnotation;
+  bool hasObjCAnnotation;
 
   ClassPropertyDeclaration({
     required this.id,
     required this.name,
     required this.type,
     required this.hasSetter,
-    required this.hasObjcAnnotation,
+    required this.hasObjCAnnotation,
   });
 }
 
 class ClassMethodDeclaration
-    implements CompoundMethodDeclaration, ObjcAnnotatable {
+    implements CompoundMethodDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -88,7 +88,7 @@ class ClassMethodDeclaration
   ReferredType returnType;
 
   @override
-  bool hasObjcAnnotation;
+  bool hasObjCAnnotation;
 
   ClassMethodDeclaration({
     required this.id,
@@ -96,6 +96,6 @@ class ClassMethodDeclaration
     required this.params,
     required this.genericParams,
     required this.returnType,
-    required this.hasObjcAnnotation,
+    required this.hasObjCAnnotation,
   });
 }
