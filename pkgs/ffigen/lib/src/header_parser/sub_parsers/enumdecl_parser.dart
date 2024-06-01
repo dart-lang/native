@@ -13,8 +13,9 @@ import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
-/// Parses an enum declaration.
-EnumClass? parseEnumDeclaration(
+/// Parses an enum declaration. Returns ([enumClass], [nativeType]). enumClass
+/// is null for anonymouse enums.
+(EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
   clang_types.CXCursor cursor, {
   /// Option to ignore declaration filter (Useful in case of extracting
   /// declarations when they are passed/returned by an included function.)
@@ -34,6 +35,7 @@ EnumClass? parseEnumDeclaration(
   } else {
     enumName = '';
   }
+  final nativeType = clang.clang_getEnumDeclIntegerType(cursor).toCodeGenType();
 
   if (enumName.isEmpty) {
     _logger.fine('Saving anonymous enum.');
@@ -45,6 +47,7 @@ EnumClass? parseEnumDeclaration(
       dartDoc: getCursorDocComment(cursor),
       originalName: enumName,
       name: config.enumClassDecl.renameUsingConfig(enumName),
+      nativeType: nativeType,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
       try {
@@ -77,7 +80,7 @@ EnumClass? parseEnumDeclaration(
         rethrow;
       }
     });
-    return enumClass;
+    return (enumClass, nativeType);
   }
-  return null;
+  return (null, nativeType);
 }

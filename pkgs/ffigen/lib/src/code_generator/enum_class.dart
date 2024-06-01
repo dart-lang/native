@@ -4,7 +4,7 @@
 
 import 'binding.dart';
 import 'binding_string.dart';
-import 'native_type.dart';
+import 'imports.dart';
 import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -24,8 +24,7 @@ import 'writer.dart';
 /// }
 /// ```
 class EnumClass extends BindingType {
-  static final nativeType = NativeType(SupportedNativeType.Int32);
-
+  final Type nativeType;
   final List<EnumConstant> enumConstants;
 
   EnumClass({
@@ -33,8 +32,10 @@ class EnumClass extends BindingType {
     super.originalName,
     required super.name,
     super.dartDoc,
+    Type? nativeType,
     List<EnumConstant>? enumConstants,
-  }) : enumConstants = enumConstants ?? [];
+  })  : nativeType = nativeType ?? intType,
+        enumConstants = enumConstants ?? [];
 
   @override
   BindingString toBindingString(Writer w) {
