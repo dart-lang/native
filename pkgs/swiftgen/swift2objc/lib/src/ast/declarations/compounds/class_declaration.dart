@@ -2,12 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../_core/interfaces/compund_declaration.dart';
-import '../_core/shared/parameter.dart';
-import '../_core/shared/referred_type.dart';
+import '../../_core/interfaces/compund_declaration.dart';
+import '../../_core/interfaces/objc_annotatable.dart';
+import '../../_core/shared/parameter.dart';
+import '../../_core/shared/referred_type.dart';
 import 'protocol_declaration.dart';
 
-class StructDeclaration implements CompoundDeclaration {
+class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -15,10 +16,10 @@ class StructDeclaration implements CompoundDeclaration {
   String name;
 
   @override
-  covariant List<StructPropertyDeclaration> properties;
+  covariant List<ClassPropertyDeclaration> properties;
 
   @override
-  covariant List<StructMethodDeclaration> methods;
+  covariant List<ClassMethodDeclaration> methods;
 
   @override
   List<ProtocolDeclaration> conformedProtocols;
@@ -26,17 +27,25 @@ class StructDeclaration implements CompoundDeclaration {
   @override
   List<GenericType> genericParams;
 
-  StructDeclaration({
+  @override
+  bool hasObjCAnnotation;
+
+  ClassDeclaration? superClass;
+
+  ClassDeclaration({
     required this.id,
     required this.name,
     required this.properties,
     required this.methods,
     required this.conformedProtocols,
     required this.genericParams,
+    required this.hasObjCAnnotation,
+    this.superClass,
   });
 }
 
-class StructPropertyDeclaration implements CompoundPropertyDeclaration {
+class ClassPropertyDeclaration
+    implements CompoundPropertyDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -49,15 +58,20 @@ class StructPropertyDeclaration implements CompoundPropertyDeclaration {
   @override
   ReferredType type;
 
-  StructPropertyDeclaration({
+  @override
+  bool hasObjCAnnotation;
+
+  ClassPropertyDeclaration({
     required this.id,
     required this.name,
     required this.type,
     required this.hasSetter,
+    required this.hasObjCAnnotation,
   });
 }
 
-class StructMethodDeclaration implements CompoundMethodDeclaration {
+class ClassMethodDeclaration
+    implements CompoundMethodDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -73,11 +87,15 @@ class StructMethodDeclaration implements CompoundMethodDeclaration {
   @override
   ReferredType returnType;
 
-  StructMethodDeclaration({
+  @override
+  bool hasObjCAnnotation;
+
+  ClassMethodDeclaration({
     required this.id,
     required this.name,
     required this.params,
     required this.genericParams,
     required this.returnType,
+    required this.hasObjCAnnotation,
   });
 }

@@ -1,6 +1,6 @@
 import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/shared/referred_type.dart';
-import '../protocol_declaration.dart';
+import '../compounds/protocol_declaration.dart';
 
 class AssociatedValueEnumDeclaration implements EnumDeclaration {
   @override

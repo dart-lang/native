@@ -1,7 +1,7 @@
 import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
-import '../protocol_declaration.dart';
+import '../compounds/protocol_declaration.dart';
 
 class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
   @override
