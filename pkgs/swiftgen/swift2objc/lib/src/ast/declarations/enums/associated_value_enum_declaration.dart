@@ -1,4 +1,6 @@
 import '../../_core/interfaces/enum_declaration.dart';
+import '../../_core/interfaces/paramable.dart';
+import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import '../compounds/protocol_declaration.dart';
 
@@ -27,25 +29,32 @@ class AssociatedValueEnumDeclaration implements EnumDeclaration {
   });
 }
 
-class AssociatedValueEnumCase implements EnumCase {
+class AssociatedValueEnumCase implements EnumCase, Paramable {
   @override
   String id;
 
   @override
   String name;
 
-  List<AssociatedValueParam> associatedValues;
+  @override
+  covariant List<AssociatedValueParam> params;
 
   AssociatedValueEnumCase({
     required this.id,
     required this.name,
-    required this.associatedValues,
+    required this.params,
   });
 }
 
-class AssociatedValueParam {
+class AssociatedValueParam implements Parameter {
+  @override
   String name;
+
+  @override
   ReferredType type;
+
+  @override
+  covariant Null internalName = null;
 
   AssociatedValueParam({
     required this.name,

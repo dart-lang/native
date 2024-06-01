@@ -5,8 +5,8 @@
 import 'confomingable.dart';
 import 'declaration.dart';
 import 'genericable.dart';
-import '../shared/parameter.dart';
 import '../shared/referred_type.dart';
+import 'paramable.dart';
 
 abstract interface class CompoundDeclaration
     implements Declaration, Genericable, Conformingable {
@@ -20,7 +20,6 @@ abstract interface class CompoundPropertyDeclaration implements Declaration {
 }
 
 abstract interface class CompoundMethodDeclaration
-    implements Declaration, Genericable {
-  abstract List<Parameter> params;
+    implements Declaration, Genericable, Paramable {
   abstract ReferredType returnType;
 }
