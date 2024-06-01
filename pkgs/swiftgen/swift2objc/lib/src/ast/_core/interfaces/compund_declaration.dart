@@ -2,17 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'confomingable.dart';
 import 'declaration.dart';
-import '../../declarations/protocol_declaration.dart';
 import 'genericable.dart';
 import '../shared/parameter.dart';
 import '../shared/referred_type.dart';
 
 abstract interface class CompoundDeclaration
-    implements Declaration, Genericable {
+    implements Declaration, Genericable, Conformingable {
   abstract List<CompoundPropertyDeclaration> properties;
   abstract List<CompoundMethodDeclaration> methods;
-  abstract List<ProtocolDeclaration> conformedProtocols;
 }
 
 abstract interface class CompoundPropertyDeclaration implements Declaration {
