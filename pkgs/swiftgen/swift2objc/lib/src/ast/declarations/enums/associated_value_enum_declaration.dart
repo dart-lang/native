@@ -16,7 +16,7 @@ class AssociatedValueEnumDeclaration implements EnumDeclaration {
   List<GenericType> genericParams;
 
   @override
-  List<ProtocolDeclaration> conformedProtocols;
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   AssociatedValueEnumDeclaration({
     required this.id,

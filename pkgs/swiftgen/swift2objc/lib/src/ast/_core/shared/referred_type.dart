@@ -10,8 +10,8 @@ abstract class ReferredType {
   ReferredType({required this.id});
 }
 
-class DeclaredType extends ReferredType {
-  Declaration declaration;
+class DeclaredType<T extends Declaration> extends ReferredType {
+  T declaration;
   List<ReferredType> genericParams;
 
   DeclaredType({

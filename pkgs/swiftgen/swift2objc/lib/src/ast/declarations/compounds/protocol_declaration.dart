@@ -20,7 +20,7 @@ class ProtocolDeclaration implements CompoundDeclaration {
   covariant List<ProtocolMethodDeclaration> methods;
 
   @override
-  List<ProtocolDeclaration> conformedProtocols;
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
   List<GenericType> genericParams;

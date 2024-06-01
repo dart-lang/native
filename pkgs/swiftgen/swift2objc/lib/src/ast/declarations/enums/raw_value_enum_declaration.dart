@@ -17,7 +17,7 @@ class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
   List<GenericType> genericParams;
 
   @override
-  List<ProtocolDeclaration> conformedProtocols;
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
   bool hasObjCAnnotation;

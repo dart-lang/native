@@ -22,7 +22,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   covariant List<ClassMethodDeclaration> methods;
 
   @override
-  List<ProtocolDeclaration> conformedProtocols;
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
   List<GenericType> genericParams;
@@ -30,7 +30,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   bool hasObjCAnnotation;
 
-  ClassDeclaration? superClass;
+  DeclaredType<ClassDeclaration>? superClass;
 
   ClassDeclaration({
     required this.id,

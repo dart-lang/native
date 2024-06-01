@@ -16,7 +16,7 @@ class NormalEnumDeclaration implements EnumDeclaration {
   List<GenericType> genericParams;
 
   @override
-  List<ProtocolDeclaration> conformedProtocols;
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   NormalEnumDeclaration({
     required this.id,

@@ -21,7 +21,7 @@ class StructDeclaration implements CompoundDeclaration {
   covariant List<StructMethodDeclaration> methods;
 
   @override
-  List<ProtocolDeclaration> conformedProtocols;
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
   List<GenericType> genericParams;
