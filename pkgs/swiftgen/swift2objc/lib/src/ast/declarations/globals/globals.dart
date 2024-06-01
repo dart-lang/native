@@ -1,4 +1,5 @@
 import '../../_core/interfaces/declaration.dart';
+import '../../_core/interfaces/genericable.dart';
 import '../../_core/interfaces/paramable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
@@ -13,7 +14,7 @@ class Globals {
   });
 }
 
-class GlobalFunction implements Declaration, Paramable {
+class GlobalFunction implements Declaration, Paramable, Genericable {
   @override
   String id;
 
@@ -23,14 +24,19 @@ class GlobalFunction implements Declaration, Paramable {
   @override
   List<Parameter> params;
 
-  DeclaredType returnType;
+  @override
+  List<GenericType> genericParams;
+
+  ReferredType returnType;
 
   GlobalFunction({
     required this.id,
     required this.name,
     required this.params,
+    required this.genericParams,
     required this.returnType,
   });
+  
 }
 
 class GlobalValue implements Declaration {
