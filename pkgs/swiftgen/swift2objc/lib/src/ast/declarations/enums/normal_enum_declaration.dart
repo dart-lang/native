@@ -29,7 +29,6 @@ class NormalEnumDeclaration implements EnumDeclaration {
     required this.genericParams,
     required this.conformedProtocols,
   });
-
 }
 
 class NormalEnumCase implements EnumCase {

@@ -40,7 +40,6 @@ class GlobalFunction implements Declaration, Paramable, Genericable {
     required this.genericParams,
     required this.returnType,
   });
-  
 }
 
 class GlobalValue implements Declaration {
