@@ -8,6 +8,7 @@ import '../../_core/interfaces/paramable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 
+/// A container for globally defined values (i.e variables & constants) and functions.
 class Globals {
   List<GlobalFunction> functions;
   List<GlobalValue> values;
@@ -18,6 +19,7 @@ class Globals {
   });
 }
 
+/// Describes a globally defined function.
 class GlobalFunction implements Declaration, Paramable, Genericable {
   @override
   String id;
@@ -42,6 +44,7 @@ class GlobalFunction implements Declaration, Paramable, Genericable {
   });
 }
 
+/// Describes a globally defined values (i.e variable/constant).
 class GlobalValue implements Declaration {
   @override
   String id;

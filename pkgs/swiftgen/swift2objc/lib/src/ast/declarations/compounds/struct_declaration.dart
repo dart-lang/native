@@ -7,6 +7,7 @@ import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import 'protocol_declaration.dart';
 
+/// Describes the declaration of a Swift struct.
 class StructDeclaration implements CompoundDeclaration {
   @override
   String id;
@@ -36,6 +37,7 @@ class StructDeclaration implements CompoundDeclaration {
   });
 }
 
+/// Describes the declaration of a property in a Swift struct.
 class StructPropertyDeclaration implements CompoundPropertyDeclaration {
   @override
   String id;
@@ -57,6 +59,7 @@ class StructPropertyDeclaration implements CompoundPropertyDeclaration {
   });
 }
 
+/// Describes the declaration of a method in a Swift struct.
 class StructMethodDeclaration implements CompoundMethodDeclaration {
   @override
   String id;

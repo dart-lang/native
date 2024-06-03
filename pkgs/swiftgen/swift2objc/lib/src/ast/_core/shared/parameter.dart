@@ -4,6 +4,7 @@
 
 import 'referred_type.dart';
 
+/// Describes parameters of function-like entities (e.g methods).
 class Parameter {
   String name;
   String? internalName;

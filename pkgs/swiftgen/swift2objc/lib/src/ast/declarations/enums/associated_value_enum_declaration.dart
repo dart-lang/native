@@ -8,6 +8,7 @@ import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import '../compounds/protocol_declaration.dart';
 
+/// Describes the declaration of a Swift enum with associated values.
 class AssociatedValueEnumDeclaration implements EnumDeclaration {
   @override
   String id;
@@ -33,6 +34,7 @@ class AssociatedValueEnumDeclaration implements EnumDeclaration {
   });
 }
 
+/// Describes the declaration of a Swift enum case with associated values.
 class AssociatedValueEnumCase implements EnumCase, Paramable {
   @override
   String id;
@@ -50,6 +52,7 @@ class AssociatedValueEnumCase implements EnumCase, Paramable {
   });
 }
 
+/// Describes an associated value of an Swift enum case.
 class AssociatedValueParam implements Parameter {
   @override
   String name;

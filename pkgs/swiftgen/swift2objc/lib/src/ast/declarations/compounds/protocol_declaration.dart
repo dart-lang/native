@@ -6,6 +6,7 @@ import '../../_core/interfaces/compund_declaration.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 
+/// Describes the declaration of a Swift protocol.
 class ProtocolDeclaration implements CompoundDeclaration {
   @override
   String id;
@@ -35,6 +36,7 @@ class ProtocolDeclaration implements CompoundDeclaration {
   });
 }
 
+/// Describes the declaration of a property in a Swift protocol.
 class ProtocolPropertyDeclaration implements CompoundPropertyDeclaration {
   @override
   String id;
@@ -56,6 +58,7 @@ class ProtocolPropertyDeclaration implements CompoundPropertyDeclaration {
   });
 }
 
+/// Describes the declaration of a method in a Swift protocol.
 class ProtocolMethodDeclaration implements CompoundMethodDeclaration {
   @override
   String id;

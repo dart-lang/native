@@ -6,9 +6,14 @@ import 'confomingable.dart';
 import 'declaration.dart';
 import 'genericable.dart';
 
+/// An interface for describing the declaration of a Swift enum. See `NormalEnumDeclaration`, 
+/// `AssociatedValueEnumDeclaration` and `RawValueEnumDeclaration` for concrete implementations.
 abstract interface class EnumDeclaration
     implements Declaration, Genericable, Conformingable {
   abstract List<EnumCase> cases;
 }
 
+
+/// An interface describing an enum case. See `NormalEnumCase`, `AssociatedValueEnumCase` 
+/// and `RawValueEnumCase` for concrete implementations.
 abstract interface class EnumCase implements Declaration {}

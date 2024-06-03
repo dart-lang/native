@@ -8,6 +8,7 @@ import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import 'protocol_declaration.dart';
 
+/// Describes the declaration of a Swift class.
 class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   @override
   String id;
@@ -44,6 +45,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   });
 }
 
+/// Describes the declaration of a property in a Swift class.
 class ClassPropertyDeclaration
     implements CompoundPropertyDeclaration, ObjCAnnotatable {
   @override
@@ -70,6 +72,7 @@ class ClassPropertyDeclaration
   });
 }
 
+/// Describes the declaration of a method in a Swift class.
 class ClassMethodDeclaration
     implements CompoundMethodDeclaration, ObjCAnnotatable {
   @override

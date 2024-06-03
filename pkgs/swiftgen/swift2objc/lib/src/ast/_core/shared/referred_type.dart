@@ -4,6 +4,8 @@
 
 import '../interfaces/declaration.dart';
 
+/// Describes a type regerence in declaration of Swift entities (e.g a method return type).
+/// See `DeclaredType` and `GenericType` for concrete implementation.
 abstract class ReferredType {
   String id;
 
