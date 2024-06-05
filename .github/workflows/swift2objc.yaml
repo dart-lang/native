@@ -5,12 +5,12 @@ on:
   push:
     branches: [main, stable]
     paths:
-      - '.github/workflows/swift2objc.yml'
+      - '.github/workflows/swift2objc.yaml'
       - 'pkgs/swiftgen/swift2objc/**'
   pull_request:
     branches: [main, stable]
     paths:
-      - '.github/workflows/swift2objc.yml'
+      - '.github/workflows/swift2objc.yaml'
       - 'pkgs/swiftgen/swift2objc/**'
   schedule:
     - cron: "0 0 * * 0"
