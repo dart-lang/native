@@ -24,7 +24,8 @@ void main() {
         ..sort();
       final structRenames = yaml['structs']['rename'];
       yamlStructs = yaml['structs']['include']
-          .map<String>((dynamic name) => (structRenames[name] ?? name) as String)
+          .map<String>(
+              (dynamic name) => (structRenames[name] ?? name) as String)
           .toList() as List<String>
         ..sort();
     });
@@ -69,7 +70,8 @@ void main() {
     });
 
     test('All code genned structs are included in the list', () {
-      final structNameRegExp = RegExp(r'^final class (\w+) extends ffi\.Struct');
+      final structNameRegExp =
+          RegExp(r'^final class (\w+) extends ffi\.Struct');
       final allStructNames = <String>[];
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {
