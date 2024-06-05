@@ -31,3 +31,11 @@
 'package:objective_c':
   - changed-files:
       - any-glob-to-any-file: 'pkgs/objective_c/**'
+
+'package:swiftgen':
+  - changed-files:
+      - any-glob-to-any-file: 'pkgs/swiftgen/**'
+
+'package:swift2objc':
+  - changed-files:
+      - any-glob-to-any-file: 'pkgs/swiftgen/swift2objc/**'
