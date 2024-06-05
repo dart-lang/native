@@ -34,6 +34,8 @@ abstract class Compound extends BindingType {
   bool get isStruct => compoundType == CompoundType.struct;
   bool get isUnion => compoundType == CompoundType.union;
 
+  ObjCBuiltInFunctions objCBuiltInFunctions;
+
   Compound({
     super.usr,
     super.originalName,
@@ -44,6 +46,7 @@ abstract class Compound extends BindingType {
     super.dartDoc,
     List<Member>? members,
     super.isInternal,
+    required this.objCBuiltInFunctions,
   }) : members = members ?? [];
 
   factory Compound.fromType({
@@ -55,6 +58,7 @@ abstract class Compound extends BindingType {
     int? pack,
     String? dartDoc,
     List<Member>? members,
+    required ObjCBuiltInFunctions objCBuiltInFunctions,
   }) {
     switch (type) {
       case CompoundType.struct:
@@ -66,6 +70,7 @@ abstract class Compound extends BindingType {
           pack: pack,
           dartDoc: dartDoc,
           members: members,
+          objCBuiltInFunctions: objCBuiltInFunctions,
         );
       case CompoundType.union:
         return Union(
@@ -76,6 +81,7 @@ abstract class Compound extends BindingType {
           pack: pack,
           dartDoc: dartDoc,
           members: members,
+          objCBuiltInFunctions: objCBuiltInFunctions,
         );
     }
   }
@@ -88,8 +94,16 @@ abstract class Compound extends BindingType {
     return type.getCType(w);
   }
 
+  bool get _isBuiltIn => objCBuiltInFunctions.isBuiltInInterface(originalName);
+
   @override
   BindingString toBindingString(Writer w) {
+    final bindingType =
+        isStruct ? BindingStringType.struct : BindingStringType.union;
+    if (_isBuiltIn) {
+      return BindingString(type: bindingType, string: '');
+    }
+
     final s = StringBuffer();
     final enclosingClassName = name;
     if (dartDoc != null) {
@@ -135,14 +149,12 @@ abstract class Compound extends BindingType {
     }
     s.write('}\n\n');
 
-    return BindingString(
-        type: isStruct ? BindingStringType.struct : BindingStringType.union,
-        string: s.toString());
+    return BindingString(type: bindingType, string: s.toString());
   }
 
   @override
   void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
+    if (dependencies.contains(this) || _isBuiltIn) return;
 
     dependencies.add(this);
     for (final m in members) {
@@ -154,7 +166,7 @@ abstract class Compound extends BindingType {
   bool get isIncompleteCompound => isIncomplete;
 
   @override
-  String getCType(Writer w) => name;
+  String getCType(Writer w) => _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
   bool get sameFfiDartAndCType => true;

@@ -53,7 +53,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName);
 
-  bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(name);
+  bool get _isBuiltIn => builtInFunctions.isBuiltInInterface(originalName);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -147,9 +147,6 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
         }
         s.write(paramsToString(params, isStatic: true));
       } else {
-        if (superType?.getMethod(m.originalName)?.sameAs(m) ?? false) {
-          s.write('@override\n  ');
-        }
         switch (m.kind) {
           case ObjCMethodKind.method:
             // returnType methodName(...)
@@ -225,7 +222,7 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(
         BooleanType(), [ObjCMethodParam(PointerType(objCObjectType), 'clazz')]);
 
-    addMethodDependencies(dependencies, builtInFunctions, needMsgSend: true);
+    addMethodDependencies(dependencies, needMsgSend: true);
 
     if (superType != null) {
       superType!.addDependencies(dependencies);
@@ -233,7 +230,7 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
       _fixNullabilityOfOverriddenMethods();
 
       // Add dependencies for any methods that were added.
-      addMethodDependencies(dependencies, builtInFunctions, needMsgSend: true);
+      addMethodDependencies(dependencies, needMsgSend: true);
     }
 
     builtInFunctions.addDependencies(dependencies);

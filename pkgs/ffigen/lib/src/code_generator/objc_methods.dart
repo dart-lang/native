@@ -16,15 +16,17 @@ mixin ObjCMethods {
   ObjCMethod? getMethod(String name) => _methods[name];
 
   String get originalName;
+  ObjCBuiltInFunctions get builtInFunctions;
 
   void addMethod(ObjCMethod method) {
-    _methods[method.originalName] =
-        _maybeReplaceMethod(getMethod(method.originalName), method);
+    if (_shouldIncludeMethod(method)) {
+      _methods[method.originalName] =
+          _maybeReplaceMethod(getMethod(method.originalName), method);
+    }
   }
 
   void addMethodDependencies(
-    Set<Binding> dependencies,
-    ObjCBuiltInFunctions builtInFunctions, {
+    Set<Binding> dependencies, {
     bool needMsgSend = false,
     bool needProtocolBlock = false,
   }) {
@@ -71,6 +73,26 @@ mixin ObjCMethods {
 
     return newMethod;
   }
+
+  bool _shouldIncludeMethod(ObjCMethod method) =>
+      method.childTypes.every((Type t) {
+        t = t.typealiasType.baseType;
+
+        // Ignore methods with variadic args.
+        // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
+        if (t is Struct && t.originalName == '__va_list_tag') {
+          return false;
+        }
+
+        // Ignore methods with block args or rets when we're generating in
+        // package:objective_c.
+        // TODO(https://github.com/dart-lang/native/issues/1180): Remove this.
+        if (builtInFunctions.generateForPackageObjectiveC && t is ObjCBlock) {
+          return false;
+        }
+
+        return true;
+      });
 }
 
 enum ObjCMethodKind {
@@ -179,6 +201,11 @@ class ObjCMethod {
       originalName.startsWith('new') ||
       originalName.startsWith('alloc') ||
       originalName.contains(_copyRegExp);
+
+  Iterable<Type> get childTypes sync* {
+    yield returnType;
+    for (final p in params) yield p.type;
+  }
 
   @override
   String toString() =>

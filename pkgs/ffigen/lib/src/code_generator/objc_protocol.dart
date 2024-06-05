@@ -109,12 +109,14 @@ abstract final class $name {
       superProto.addDependencies(dependencies);
     }
 
-    addMethodDependencies(dependencies, builtInFunctions,
-        needProtocolBlock: true);
+    addMethodDependencies(dependencies, needProtocolBlock: true);
 
     for (final superProto in superProtos) {
       _copyMethodsFromSuperType(superProto);
     }
+
+    // Add dependencies for any methods that were added.
+    addMethodDependencies(dependencies, needProtocolBlock: true);
   }
 
   void _copyMethodsFromSuperType(ObjCProtocol superProto) {

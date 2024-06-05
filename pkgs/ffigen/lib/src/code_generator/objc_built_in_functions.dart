@@ -51,12 +51,12 @@ class ObjCBuiltInFunctions {
     'NSMutableArray',
     'NSMutableData',
     'NSMutableDictionary',
+    'NSMutableIndexSet',
     'NSMutableSet',
     'NSMutableString',
     'NSNotification',
     'NSNumber',
     'NSObject',
-    'NSProgress',
     'NSProxy',
     'NSSet',
     'NSString',
@@ -65,11 +65,17 @@ class ObjCBuiltInFunctions {
     'NSValue',
     'Protocol',
   };
+  static const builtInCompounds = {
+    'NSRange',
+    'NSFastEnumerationState',
+  };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
   bool isBuiltInInterface(String name) =>
       !generateForPackageObjectiveC && builtInInterfaces.contains(name);
+  bool isBuiltInCompound(String name) =>
+      !generateForPackageObjectiveC && builtInCompounds.contains(name);
   bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If

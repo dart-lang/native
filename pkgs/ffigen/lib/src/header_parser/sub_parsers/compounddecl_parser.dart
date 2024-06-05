@@ -123,6 +123,7 @@ Compound? parseCompoundDeclaration(
         name: incrementalNamer.name('Unnamed$className'),
         usr: declUsr,
         dartDoc: getCursorDocComment(cursor),
+        objCBuiltInFunctions: objCBuiltInFunctions,
       );
     } else {
       _logger.finest('unnamed $className declaration');
@@ -137,6 +138,7 @@ Compound? parseCompoundDeclaration(
       originalName: declName,
       name: configDecl.renameUsingConfig(declName),
       dartDoc: getCursorDocComment(cursor),
+      objCBuiltInFunctions: objCBuiltInFunctions,
     );
   }
   return null;
