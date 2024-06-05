@@ -204,7 +204,9 @@ class ObjCMethod {
 
   Iterable<Type> get childTypes sync* {
     yield returnType;
-    for (final p in params) yield p.type;
+    for (final p in params) {
+      yield p.type;
+    }
   }
 
   @override

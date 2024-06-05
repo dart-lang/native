@@ -14,10 +14,17 @@ import 'package:yaml/yaml.dart';
 void main() {
   group('Verify interface lists', () {
     late List<String> yamlInterfaces;
+    late List<String> yamlStructs;
+
     setUpAll(() {
       final yaml = loadYaml(File('ffigen_objc.yaml').readAsStringSync());
       yamlInterfaces = yaml['objc-interfaces']['include']
           .map<String>((dynamic i) => i as String)
+          .toList() as List<String>
+        ..sort();
+      final structRenames = yaml['structs']['rename'];
+      yamlStructs = yaml['structs']['include']
+          .map<String>((dynamic name) => (structRenames[name] ?? name) as String)
           .toList() as List<String>
         ..sort();
     });
@@ -26,10 +33,21 @@ void main() {
       expect(ObjCBuiltInFunctions.builtInInterfaces, yamlInterfaces);
     });
 
+    test('ObjCBuiltInFunctions.builtInStructs', () {
+      expect(ObjCBuiltInFunctions.builtInCompounds, yamlStructs);
+    });
+
     test('package:objective_c exports all the interfaces', () {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final intf in yamlInterfaces) {
         expect(exportFile, contains(intf));
+      }
+    });
+
+    test('package:objective_c exports all the structs', () {
+      final exportFile = File('lib/objective_c.dart').readAsStringSync();
+      for (final struct in yamlStructs) {
+        expect(exportFile, contains(struct));
       }
     });
 
@@ -48,6 +66,20 @@ void main() {
       }
       allClassNames.sort();
       expect(allClassNames, yamlInterfaces);
+    });
+
+    test('All code genned structs are included in the list', () {
+      final structNameRegExp = RegExp(r'^final class (\w+) extends ffi\.Struct');
+      final allStructNames = <String>[];
+      for (final line in File('lib/src/objective_c_bindings_generated.dart')
+          .readAsLinesSync()) {
+        final match = structNameRegExp.firstMatch(line);
+        if (match != null) {
+          allStructNames.add(match[1]!);
+        }
+      }
+      allStructNames.sort();
+      expect(allStructNames, yamlStructs);
     });
   });
 }

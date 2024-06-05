@@ -37,7 +37,6 @@ objc-interfaces:
     - NSNotification
     - NSNumber
     - NSObject
-    - NSProgress
     - NSProxy
     - NSSet
     - NSString

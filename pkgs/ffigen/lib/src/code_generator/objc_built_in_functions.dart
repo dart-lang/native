@@ -66,8 +66,8 @@ class ObjCBuiltInFunctions {
     'Protocol',
   };
   static const builtInCompounds = {
-    'NSRange',
     'NSFastEnumerationState',
+    'NSRange',
   };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check

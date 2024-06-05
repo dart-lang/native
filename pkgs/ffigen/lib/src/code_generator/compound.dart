@@ -34,7 +34,7 @@ abstract class Compound extends BindingType {
   bool get isStruct => compoundType == CompoundType.struct;
   bool get isUnion => compoundType == CompoundType.union;
 
-  ObjCBuiltInFunctions objCBuiltInFunctions;
+  ObjCBuiltInFunctions? objCBuiltInFunctions;
 
   Compound({
     super.usr,
@@ -46,7 +46,7 @@ abstract class Compound extends BindingType {
     super.dartDoc,
     List<Member>? members,
     super.isInternal,
-    required this.objCBuiltInFunctions,
+    this.objCBuiltInFunctions,
   }) : members = members ?? [];
 
   factory Compound.fromType({
@@ -94,7 +94,8 @@ abstract class Compound extends BindingType {
     return type.getCType(w);
   }
 
-  bool get _isBuiltIn => objCBuiltInFunctions.isBuiltInInterface(originalName);
+  bool get _isBuiltIn =>
+      objCBuiltInFunctions?.isBuiltInInterface(originalName) ?? false;
 
   @override
   BindingString toBindingString(Writer w) {

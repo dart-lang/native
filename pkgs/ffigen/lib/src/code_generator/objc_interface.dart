@@ -38,10 +38,12 @@ class ObjCInterface extends BindingType with ObjCMethods {
   bool filled = false;
 
   final String lookupName;
-  final ObjCBuiltInFunctions builtInFunctions;
   late final ObjCInternalGlobal _classObject;
   late final ObjCInternalGlobal _isKindOfClass;
   late final ObjCMsgSendFunc _isKindOfClassMsgSend;
+
+  @override
+  final ObjCBuiltInFunctions builtInFunctions;
 
   ObjCInterface({
     super.usr,

@@ -11,8 +11,10 @@ import 'writer.dart';
 class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final superProtos = <ObjCProtocol>[];
   final String lookupName;
-  final ObjCBuiltInFunctions builtInFunctions;
   late final ObjCInternalGlobal _protocolPointer;
+
+  @override
+  final ObjCBuiltInFunctions builtInFunctions;
 
   ObjCProtocol({
     super.usr,
