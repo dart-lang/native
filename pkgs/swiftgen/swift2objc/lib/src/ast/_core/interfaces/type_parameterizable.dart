@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../declarations/compounds/protocol_declaration.dart';
 import '../shared/referred_type.dart';
 
-/// An interface to describe a Swift entity's ability to confom to protocols.
-abstract interface class Conformingable {
-  abstract List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
+/// An interface to describe a Swift entity's ability to have generic parameters.
+abstract interface class TypeParameterizable {
+  abstract List<GenericType> typeParams;
 }

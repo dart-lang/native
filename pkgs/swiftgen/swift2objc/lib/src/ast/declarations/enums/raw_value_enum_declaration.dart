@@ -19,7 +19,7 @@ class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
   covariant List<RawValueEnumCase<T>> cases;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -33,7 +33,7 @@ class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
     required this.id,
     required this.name,
     required this.cases,
-    required this.genericParams,
+    required this.typeParams,
     required this.conformedProtocols,
     required this.hasObjCAnnotation,
     required this.rawValueType,

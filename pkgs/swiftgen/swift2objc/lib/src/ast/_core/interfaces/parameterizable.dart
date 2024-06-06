@@ -5,6 +5,6 @@
 import '../shared/parameter.dart';
 
 /// An interface to describe a Swift entity's ability to have parameters (e.g functions).
-abstract interface class Paramable {
+abstract interface class Parameterizable {
   abstract List<Parameter> params;
 }
