@@ -9,6 +9,11 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
+import '../model/build_dry_run_result.dart';
+import '../model/build_result.dart';
+import '../model/hook_result.dart';
+import '../model/link_dry_run_result.dart';
+import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';
@@ -33,7 +38,7 @@ class NativeAssetsBuildRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// If provided, only native assets of all transitive dependencies of
+  /// If provided, only assets of all transitive dependencies of
   /// [runPackageName] are built.
   Future<BuildResult> build({
     required LinkModePreferenceImpl linkModePreference,
@@ -47,83 +52,212 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
-  }) async {
-    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final packagesWithNativeAssets =
-        await packageLayout.packagesWithNativeAssets;
-    final List<Package> buildPlan;
-    final PackageGraph packageGraph;
-    if (packagesWithNativeAssets.length <= 1 && runPackageName == null) {
-      buildPlan = packagesWithNativeAssets;
-      packageGraph = PackageGraph({
-        for (final p in packagesWithNativeAssets) p.name: [],
-      });
-    } else {
-      final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-        rootPackageRoot: packageLayout.rootPackageRoot,
-        packagesWithNativeAssets: packagesWithNativeAssets,
-        dartExecutable: Uri.file(Platform.resolvedExecutable),
-        logger: logger,
-      );
-      final (plan, planSuccess) = planner.plan(
-        runPackageName: runPackageName,
-      );
-      if (!planSuccess) {
-        return _BuildResultImpl(
-          assets: [],
-          dependencies: [],
-          success: false,
-        );
-      }
-      buildPlan = plan;
-      packageGraph = planner.packageGraph;
-    }
-    final assets = <AssetImpl>[];
-    final dependencies = <Uri>[];
-    final metadata = <String, Metadata>{};
-    var success = true;
-    for (final package in buildPlan) {
-      final dependencyMetadata = _metadataForPackage(
-        packageGraph: packageGraph,
-        packageName: package.name,
-        targetMetadata: metadata,
-      );
-      final config = await _cliConfig(
-        packageName: package.name,
-        packageRoot: packageLayout.packageRoot(package.name),
+  }) async =>
+      _run(
+        hook: Hook.build,
+        linkModePreference: linkModePreference,
         target: target,
+        workingDirectory: workingDirectory,
         buildMode: buildMode,
-        linkMode: linkModePreference,
-        buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
-        dependencyMetadata: dependencyMetadata,
         cCompilerConfig: cCompilerConfig,
         targetIOSSdk: targetIOSSdk,
         targetAndroidNdkApi: targetAndroidNdkApi,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
         supportedAssetTypes: supportedAssetTypes,
       );
-      final (
-        packageAssets,
-        packageDependencies,
-        packageMetadata,
-        packageSuccess,
-      ) = await _buildPackageCached(
+
+  /// [workingDirectory] is expected to contain `.dart_tool`.
+  ///
+  /// This method is invoked by launchers such as dartdev (for `dart run`) and
+  /// flutter_tools (for `flutter run` and `flutter build`).
+  ///
+  /// If provided, only assets of all transitive dependencies of
+  /// [runPackageName] are linked.
+  Future<LinkResult> link({
+    required LinkModePreferenceImpl linkModePreference,
+    required Target target,
+    required Uri workingDirectory,
+    required BuildModeImpl buildMode,
+    CCompilerConfigImpl? cCompilerConfig,
+    IOSSdkImpl? targetIOSSdk,
+    int? targetAndroidNdkApi,
+    required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
+    Uri? resourceIdentifiers,
+    String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
+    required BuildResult buildResult,
+  }) async =>
+      _run(
+        hook: Hook.link,
+        linkModePreference: linkModePreference,
+        target: target,
+        workingDirectory: workingDirectory,
+        buildMode: buildMode,
+        cCompilerConfig: cCompilerConfig,
+        targetIOSSdk: targetIOSSdk,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+        resourceIdentifiers: resourceIdentifiers,
+        supportedAssetTypes: supportedAssetTypes,
+        buildResult: buildResult,
+      );
+
+  /// The common method for running building or linking of assets.
+  Future<HookResult> _run({
+    required Hook hook,
+    required LinkModePreferenceImpl linkModePreference,
+    required Target target,
+    required Uri workingDirectory,
+    required BuildModeImpl buildMode,
+    CCompilerConfigImpl? cCompilerConfig,
+    IOSSdkImpl? targetIOSSdk,
+    int? targetAndroidNdkApi,
+    required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
+    Uri? resourceIdentifiers,
+    String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
+    BuildResult? buildResult,
+  }) async {
+    assert(hook == Hook.link || buildResult == null);
+
+    packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
+    final (buildPlan, packageGraph, planSuccess) = await _makePlan(
+      hook: hook,
+      packageLayout: packageLayout,
+      buildResult: buildResult,
+      runPackageName: runPackageName,
+    );
+    if (!planSuccess) {
+      return HookResult.failure();
+    }
+
+    var hookResult = HookResult();
+    final metadata = <String, Metadata>{};
+    for (final package in buildPlan) {
+      final DependencyMetadata? dependencyMetadata;
+      switch (hook) {
+        case Hook.build:
+          dependencyMetadata = _metadataForPackage(
+            packageGraph: packageGraph!,
+            packageName: package.name,
+            targetMetadata: metadata,
+          );
+        case Hook.link:
+          dependencyMetadata = null;
+      }
+      final config = await _cliConfig(
+        package,
+        packageLayout,
+        target,
+        buildMode,
+        linkModePreference,
+        dependencyMetadata,
+        cCompilerConfig,
+        targetIOSSdk,
+        targetAndroidNdkApi,
+        supportedAssetTypes,
+        hook,
+        resourceIdentifiers,
+        buildResult,
+      );
+
+      final (hookOutput, packageSuccess) = await _runHookForPackageCached(
+        hook,
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
+        resourceIdentifiers,
       );
-      assets.addAll(packageAssets);
-      dependencies.addAll(packageDependencies);
-      success &= packageSuccess;
-      if (packageMetadata != null) {
-        metadata[config.packageName] = packageMetadata;
-      }
+      hookResult = hookResult.copyAdd(hookOutput, packageSuccess);
+      metadata[config.packageName] = hookOutput.metadata;
     }
-    return _BuildResultImpl(
-      assets: assets,
-      dependencies: dependencies..sort(_uriCompare),
-      success: success,
+
+    return hookResult;
+  }
+
+  static Future<HookConfigImpl> _cliConfig(
+    Package package,
+    PackageLayout packageLayout,
+    Target target,
+    BuildModeImpl buildMode,
+    LinkModePreferenceImpl linkModePreference,
+    DependencyMetadata? dependencyMetadata,
+    CCompilerConfigImpl? cCompilerConfig,
+    IOSSdkImpl? targetIOSSdk,
+    int? targetAndroidNdkApi,
+    Iterable<String>? supportedAssetTypes,
+    Hook hook,
+    Uri? resourceIdentifiers,
+    BuildResult? buildResult,
+  ) async {
+    final buildDirName = HookConfigImpl.checksum(
+      packageName: package.name,
+      packageRoot: package.root,
+      targetOS: target.os,
+      targetArchitecture: target.architecture,
+      buildMode: buildMode,
+      linkModePreference: linkModePreference,
+      targetIOSSdk: targetIOSSdk,
+      cCompiler: cCompilerConfig,
+      dependencyMetadata: dependencyMetadata,
+      targetAndroidNdkApi: targetAndroidNdkApi,
+      supportedAssetTypes: supportedAssetTypes,
+      hook: hook,
     );
+    final buildDirUri =
+        packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
+    final outDirUri = buildDirUri.resolve('out/');
+    final outDir = Directory.fromUri(outDirUri);
+    if (!await outDir.exists()) {
+      // TODO(https://dartbug.com/50565): Purge old or unused folders.
+      await outDir.create(recursive: true);
+    }
+
+    if (hook == Hook.link) {
+      File? resourcesFile;
+      if (resourceIdentifiers != null) {
+        resourcesFile = File.fromUri(buildDirUri.resolve('resources.json'));
+        await resourcesFile.create();
+        await File.fromUri(resourceIdentifiers).copy(resourcesFile.path);
+      }
+
+      return LinkConfigImpl(
+        outputDirectory: outDirUri,
+        packageName: package.name,
+        packageRoot: package.root,
+        targetOS: target.os,
+        targetArchitecture: target.architecture,
+        buildMode: buildMode,
+        targetIOSSdk: targetIOSSdk,
+        cCompiler: cCompilerConfig,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+        resourceIdentifierUri: resourcesFile?.uri,
+        assets: buildResult!.assetsForLinking[package.name] ?? [],
+        supportedAssetTypes: supportedAssetTypes,
+        linkModePreference: linkModePreference,
+      );
+    } else {
+      return BuildConfigImpl(
+        outputDirectory: outDirUri,
+        packageName: package.name,
+        packageRoot: package.root,
+        targetOS: target.os,
+        targetArchitecture: target.architecture,
+        buildMode: buildMode,
+        linkModePreference: linkModePreference,
+        targetIOSSdk: targetIOSSdk,
+        cCompiler: cCompilerConfig,
+        dependencyMetadata: dependencyMetadata,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+      );
+    }
   }
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -133,7 +267,7 @@ class NativeAssetsBuildRunner {
   ///
   /// If provided, only native assets of all transitive dependencies of
   /// [runPackageName] are built.
-  Future<DryRunResult> dryRun({
+  Future<BuildDryRunResult> buildDryRun({
     required LinkModePreferenceImpl linkModePreference,
     required OSImpl targetOS,
     required Uri workingDirectory,
@@ -141,33 +275,70 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
+  }) =>
+      _runDryRun(
+        hook: Hook.build,
+        linkModePreference: linkModePreference,
+        targetOS: targetOS,
+        workingDirectory: workingDirectory,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+        supportedAssetTypes: supportedAssetTypes,
+      );
+
+  /// [workingDirectory] is expected to contain `.dart_tool`.
+  ///
+  /// This method is invoked by launchers such as dartdev (for `dart run`) and
+  /// flutter_tools (for `flutter run` and `flutter build`).
+  ///
+  /// If provided, only native assets of all transitive dependencies of
+  /// [runPackageName] are built.
+  Future<LinkDryRunResult> linkDryRun({
+    required LinkModePreferenceImpl linkModePreference,
+    required OSImpl targetOS,
+    required Uri workingDirectory,
+    required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
+    String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
+    required BuildDryRunResult buildDryRunResult,
+  }) =>
+      _runDryRun(
+        hook: Hook.link,
+        linkModePreference: linkModePreference,
+        targetOS: targetOS,
+        workingDirectory: workingDirectory,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+        supportedAssetTypes: supportedAssetTypes,
+        buildDryRunResult: buildDryRunResult,
+      );
+
+  Future<HookResult> _runDryRun({
+    required LinkModePreferenceImpl linkModePreference,
+    required OSImpl targetOS,
+    required Uri workingDirectory,
+    required bool includeParentEnvironment,
+    PackageLayout? packageLayout,
+    String? runPackageName,
+    Iterable<String>? supportedAssetTypes,
+    required Hook hook,
+    BuildDryRunResult? buildDryRunResult,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
-    final packagesWithNativeAssets =
-        await packageLayout.packagesWithNativeAssets;
-    final List<Package> buildPlan;
-    if (packagesWithNativeAssets.length <= 1 && runPackageName == null) {
-      buildPlan = packagesWithNativeAssets;
-    } else {
-      final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
-        rootPackageRoot: packageLayout.rootPackageRoot,
-        packagesWithNativeAssets: packagesWithNativeAssets,
-        dartExecutable: Uri.file(Platform.resolvedExecutable),
-        logger: logger,
-      );
-      final (plan, planSuccess) = planner.plan(
-        runPackageName: runPackageName,
-      );
-      if (!planSuccess) {
-        return _DryRunResultImpl(
-          assets: [],
-          success: false,
-        );
-      }
-      buildPlan = plan;
+    final (buildPlan, _, planSuccess) = await _makePlan(
+      hook: hook,
+      packageLayout: packageLayout,
+      buildDryRunResult: buildDryRunResult,
+      runPackageName: runPackageName,
+    );
+    if (!planSuccess) {
+      return HookResult.failure();
     }
-    final assets = <AssetImpl>[];
-    var success = true;
+
+    var hookResult = HookResult();
     for (final package in buildPlan) {
       final config = await _cliConfigDryRun(
         packageName: package.name,
@@ -176,96 +347,94 @@ class NativeAssetsBuildRunner {
         linkMode: linkModePreference,
         buildParentDir: packageLayout.dartToolNativeAssetsBuilder,
         supportedAssetTypes: supportedAssetTypes,
+        hook: hook,
+        buildDryRunResult: buildDryRunResult,
       );
-      final (packageAssets, _, _, packageSuccess) = await _buildPackage(
+      var (buildOutput, packageSuccess) = await _runHookForPackage(
+        hook,
         config,
         packageLayout.packageConfigUri,
         workingDirectory,
         includeParentEnvironment,
-        dryRun: true,
+        null,
       );
-      for (final asset in packageAssets) {
-        switch (asset) {
-          case NativeCodeAssetImpl _:
-            if (asset.architecture != null) {
-              // Backwards compatibility, if an architecture is provided use it.
-              assets.add(asset);
-            } else {
-              // Dry run does not report architecture. Dart VM branches on OS
-              // and Target when looking up assets, so populate assets for all
-              // architectures.
-              for (final architecture in asset.os.architectures) {
-                assets.add(asset.copyWith(
-                  architecture: architecture,
-                ));
-              }
-            }
-          case DataAssetImpl _:
-            assets.add(asset);
-        }
-      }
-      success &= packageSuccess;
+      buildOutput = _expandArchsNativeCodeAssets(buildOutput);
+      hookResult = hookResult.copyAdd(buildOutput, packageSuccess);
     }
-    return _DryRunResultImpl(
-      assets: assets,
-      success: success,
-    );
+    return hookResult;
   }
 
-  Future<_PackageBuildRecord> _buildPackageCached(
-    BuildConfigImpl config,
+  HookOutputImpl _expandArchsNativeCodeAssets(HookOutputImpl buildOutput) {
+    final assets = <AssetImpl>[];
+    for (final asset in buildOutput.assets) {
+      switch (asset) {
+        case NativeCodeAssetImpl _:
+          if (asset.architecture != null) {
+            // Backwards compatibility, if an architecture is provided use it.
+            assets.add(asset);
+          } else {
+            // Dry run does not report architecture. Dart VM branches on OS
+            // and Target when looking up assets, so populate assets for all
+            // architectures.
+            for (final architecture in asset.os.architectures) {
+              assets.add(asset.copyWith(architecture: architecture));
+            }
+          }
+        case DataAssetImpl _:
+          assets.add(asset);
+      }
+    }
+    return buildOutput.copyWith(assets: assets);
+  }
+
+  Future<_PackageBuildRecord> _runHookForPackageCached(
+    Hook hook,
+    HookConfigImpl config,
     Uri packageConfigUri,
     Uri workingDirectory,
     bool includeParentEnvironment,
+    Uri? resources,
   ) async {
-    final packageName = config.packageName;
     final outDir = config.outputDirectory;
-    if (!await Directory.fromUri(outDir).exists()) {
-      await Directory.fromUri(outDir).create(recursive: true);
+
+    final hookOutput = HookOutputImpl.readFromFile(file: config.outputFile);
+    if (hookOutput != null) {
+      final lastBuilt = hookOutput.timestamp.roundDownToSeconds();
+      final lastChange = await hookOutput.dependenciesModel.lastModified();
+
+      if (lastBuilt.isAfter(lastChange)) {
+        logger
+            .info('Skipping ${hook.name} for ${config.packageName} in $outDir. '
+                'Last build on $lastBuilt, last input change on $lastChange.');
+        // All build flags go into [outDir]. Therefore we do not have to check
+        // here whether the config is equal.
+        return (hookOutput, true);
+      }
     }
 
-    final buildOutput = await BuildOutputImpl.readFromFile(outDir: outDir);
-    final lastBuilt = buildOutput?.timestamp.roundDownToSeconds() ??
-        DateTime.fromMillisecondsSinceEpoch(0);
-    final dependencies = buildOutput?.dependenciesModel;
-    final lastChange = await dependencies?.lastModified() ?? DateTime.now();
-
-    if (lastBuilt.isAfter(lastChange)) {
-      logger.info('Skipping build for $packageName in $outDir. '
-          'Last build on $lastBuilt, last input change on $lastChange.');
-      // All build flags go into [outDir]. Therefore we do not have to check
-      // here whether the config is equal.
-      final assets = buildOutput!.assets;
-      final dependencies = buildOutput.dependencies;
-      final metadata = buildOutput.metadataModel;
-      return (assets, dependencies, metadata, true);
-    }
-
-    return await _buildPackage(
+    return await _runHookForPackage(
+      hook,
       config,
       packageConfigUri,
       workingDirectory,
       includeParentEnvironment,
-      dryRun: false,
+      resources,
     );
   }
 
-  Future<_PackageBuildRecord> _buildPackage(
-    BuildConfigImpl config,
+  Future<_PackageBuildRecord> _runHookForPackage(
+    Hook hook,
+    HookConfigImpl config,
     Uri packageConfigUri,
     Uri workingDirectory,
-    bool includeParentEnvironment, {
-    required bool dryRun,
-  }) async {
-    final outDir = config.outputDirectory;
-    final configFile = outDir.resolve('../config.json');
-    final buildHook = config.packageRoot.resolve('hook/').resolve('build.dart');
-    final buildHookLegacy = config.packageRoot.resolve('build.dart');
+    bool includeParentEnvironment,
+    Uri? resources,
+  ) async {
+    final configFile = config.outputDirectory.resolve('../config.json');
     final configFileContents = config.toJsonString();
     logger.info('config.json contents: $configFileContents');
     await File.fromUri(configFile).writeAsString(configFileContents);
-    final buildOutputFile =
-        File.fromUri(outDir.resolve(BuildOutputImpl.fileNameV1_1_0));
+    final buildOutputFile = File.fromUri(config.outputFile);
     if (await buildOutputFile.exists()) {
       // Ensure we'll never read outdated build results.
       await buildOutputFile.delete();
@@ -273,11 +442,9 @@ class NativeAssetsBuildRunner {
 
     final arguments = [
       '--packages=${packageConfigUri.toFilePath()}',
-      if (await File.fromUri(buildHook).exists())
-        buildHook.toFilePath()
-      else
-        buildHookLegacy.toFilePath(),
+      config.script.toFilePath(),
       '--config=${configFile.toFilePath()}',
+      if (resources != null) resources.toFilePath(),
     ];
     final result = await runProcess(
       workingDirectory: workingDirectory,
@@ -298,7 +465,7 @@ class NativeAssetsBuildRunner {
       logger.severe(
         '''
 Building native assets for package:${config.packageName} failed.
-build.dart returned with exit code: ${result.exitCode}.
+${config.script} returned with exit code: ${result.exitCode}.
 To reproduce run:
 $commandString
 stderr:
@@ -311,35 +478,32 @@ ${result.stdout}
     }
 
     try {
-      final buildOutput = await BuildOutputImpl.readFromFile(outDir: outDir);
-      final assets = buildOutput?.assets ?? [];
-      success &= validateAssetsPackage(assets, config.packageName);
-      final dependencies = buildOutput?.dependencies ?? [];
-      final metadata = dryRun ? null : buildOutput?.metadataModel;
-      return (assets, dependencies, metadata, success);
+      final buildOutput = HookOutputImpl.readFromFile(
+              file: config.outputFile) ??
+          (config.outputFileV1_1_0 == null
+              ? null
+              : HookOutputImpl.readFromFile(file: config.outputFileV1_1_0!)) ??
+          HookOutputImpl();
+      // The link.dart can pipe through assets from other packages.
+      if (hook == Hook.build) {
+        success &= validateAssetsPackage(
+          buildOutput.assets,
+          config.packageName,
+        );
+      }
+      return (buildOutput, success);
     } on FormatException catch (e) {
       logger.severe('''
 Building native assets for package:${config.packageName} failed.
-build_output.json contained a format error.
+${config.outputName} contained a format error.
+
+Contents: ${File.fromUri(config.outputFile).readAsStringSync()}.
 ${e.message}
         ''');
       success = false;
-      return (<NativeCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
-      // TODO(https://github.com/dart-lang/native/issues/109): Stop throwing
-      // type errors in native_assets_cli, release a new version of that package
-      // and then remove this.
-      // ignore: avoid_catching_errors
-    } on TypeError {
-      logger.severe('''
-Building native assets for package:${config.packageName} failed.
-build_output.json contained a format error.
-        ''');
-      success = false;
-      return (<NativeCodeAssetImpl>[], <Uri>[], const Metadata({}), false);
+      return (HookOutputImpl(), false);
     } finally {
       if (!success) {
-        final buildOutputFile =
-            File.fromUri(outDir.resolve(BuildOutputImpl.fileNameV1_1_0));
         if (await buildOutputFile.exists()) {
           await buildOutputFile.delete();
         }
@@ -347,75 +511,43 @@ build_output.json contained a format error.
     }
   }
 
-  static Future<BuildConfigImpl> _cliConfig({
-    required String packageName,
-    required Uri packageRoot,
-    required Target target,
-    IOSSdkImpl? targetIOSSdk,
-    int? targetAndroidNdkApi,
-    required BuildModeImpl buildMode,
-    required LinkModePreferenceImpl linkMode,
-    required Uri buildParentDir,
-    CCompilerConfigImpl? cCompilerConfig,
-    DependencyMetadata? dependencyMetadata,
-    Iterable<String>? supportedAssetTypes,
-  }) async {
-    final buildDirName = BuildConfigImpl.checksum(
-      packageName: packageName,
-      packageRoot: packageRoot,
-      targetOS: target.os,
-      targetArchitecture: target.architecture,
-      buildMode: buildMode,
-      linkModePreference: linkMode,
-      targetIOSSdk: targetIOSSdk,
-      cCompiler: cCompilerConfig,
-      dependencyMetadata: dependencyMetadata,
-      targetAndroidNdkApi: targetAndroidNdkApi,
-      supportedAssetTypes: supportedAssetTypes,
-    );
-    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
-    final outDir = Directory.fromUri(outDirUri);
-    if (!await outDir.exists()) {
-      // TODO(https://dartbug.com/50565): Purge old or unused folders.
-      await outDir.create(recursive: true);
-    }
-    return BuildConfigImpl(
-      outDir: outDirUri,
-      packageName: packageName,
-      packageRoot: packageRoot,
-      targetOS: target.os,
-      targetArchitecture: target.architecture,
-      buildMode: buildMode,
-      linkModePreference: linkMode,
-      targetIOSSdk: targetIOSSdk,
-      cCompiler: cCompilerConfig,
-      dependencyMetadata: dependencyMetadata,
-      targetAndroidNdkApi: targetAndroidNdkApi,
-    );
-  }
-
-  static Future<BuildConfigImpl> _cliConfigDryRun({
+  static Future<HookConfigImpl> _cliConfigDryRun({
     required String packageName,
     required Uri packageRoot,
     required OSImpl targetOS,
     required LinkModePreferenceImpl linkMode,
     required Uri buildParentDir,
+    required Hook hook,
+    BuildDryRunResult? buildDryRunResult,
     Iterable<String>? supportedAssetTypes,
   }) async {
-    final buildDirName = 'dry_run_${targetOS}_$linkMode';
-    final outDirUri = buildParentDir.resolve('$buildDirName/out/');
+    final hookDirName = 'dry_run_${hook.name}_${targetOS}_$linkMode';
+    final outDirUri = buildParentDir.resolve('$hookDirName/out/');
     final outDir = Directory.fromUri(outDirUri);
     if (!await outDir.exists()) {
       await outDir.create(recursive: true);
     }
-    return BuildConfigImpl.dryRun(
-      outDir: outDirUri,
-      packageName: packageName,
-      packageRoot: packageRoot,
-      targetOS: targetOS,
-      linkModePreference: linkMode,
-      supportedAssetTypes: supportedAssetTypes,
-    );
+    switch (hook) {
+      case Hook.build:
+        return BuildConfigImpl.dryRun(
+          outputDirectory: outDirUri,
+          packageName: packageName,
+          packageRoot: packageRoot,
+          targetOS: targetOS,
+          linkModePreference: linkMode,
+          supportedAssetTypes: supportedAssetTypes,
+        );
+      case Hook.link:
+        return LinkConfigImpl.dryRun(
+          outputDirectory: outDirUri,
+          packageName: packageName,
+          packageRoot: packageRoot,
+          targetOS: targetOS,
+          assets: buildDryRunResult!.assetsForLinking[packageName] ?? [],
+          supportedAssetTypes: supportedAssetTypes,
+          linkModePreference: linkMode,
+        );
+    }
   }
 
   DependencyMetadata? _metadataForPackage({
@@ -436,84 +568,83 @@ build_output.json contained a format error.
   bool validateAssetsPackage(Iterable<AssetImpl> assets, String packageName) {
     final invalidAssetIds = assets
         .map((a) => a.id)
-        .where((n) => !n.startsWith('package:$packageName/'))
+        .where((id) => !id.startsWith('package:$packageName/'))
         .toSet()
         .toList()
       ..sort();
-    final success = invalidAssetIds.isEmpty;
-    if (!success) {
+    if (invalidAssetIds.isNotEmpty) {
       logger.severe(
         '`package:$packageName` declares the following assets which do not '
         'start with `package:$packageName/`: ${invalidAssetIds.join(', ')}.',
       );
+      return false;
+    } else {
+      return true;
     }
-    return success;
+  }
+
+  Future<(List<Package> plan, PackageGraph? dependencyGraph, bool success)>
+      _makePlan({
+    required PackageLayout packageLayout,
+    String? runPackageName,
+    required Hook hook,
+    // TODO(dacoharkes): How to share these two? Make them extend each other?
+    BuildResult? buildResult,
+    BuildDryRunResult? buildDryRunResult,
+  }) async {
+    final packagesWithHook = await packageLayout.packagesWithAssets(hook);
+    final List<Package> buildPlan;
+    final PackageGraph? packageGraph;
+    switch (hook) {
+      case Hook.build:
+        // Build hooks are run in toplogical order.
+        if (packagesWithHook.length <= 1 && runPackageName == null) {
+          final dependencyGraph = PackageGraph({
+            for (final p in packagesWithHook) p.name: [],
+          });
+          return (packagesWithHook, dependencyGraph, true);
+        } else {
+          final planner = await NativeAssetsBuildPlanner.fromRootPackageRoot(
+            rootPackageRoot: packageLayout.rootPackageRoot,
+            packagesWithNativeAssets: packagesWithHook,
+            dartExecutable: Uri.file(Platform.resolvedExecutable),
+            logger: logger,
+          );
+          final (plan, planSuccess) = planner.plan(
+            runPackageName: runPackageName,
+          );
+          return (plan, planner.packageGraph, planSuccess);
+        }
+      case Hook.link:
+        // Link hooks are not run in any particular order.
+        // Link hooks are skipped if no assets for linking are provided.
+        buildPlan = [];
+        final skipped = <String>[];
+        final assetsForLinking = buildResult?.assetsForLinking ??
+            buildDryRunResult?.assetsForLinking;
+        for (final package in packagesWithHook) {
+          if (assetsForLinking![package.name]?.isNotEmpty ?? false) {
+            buildPlan.add(package);
+          } else {
+            skipped.add(package.name);
+          }
+        }
+        if (skipped.isNotEmpty) {
+          logger.info(
+            'Skipping link hooks from ${skipped.join(', ')}'
+            ' due to no assets provided to link for these link hooks.',
+          );
+        }
+        packageGraph = null;
+    }
+    return (buildPlan, packageGraph, true);
   }
 }
 
-typedef _PackageBuildRecord = (
-  Iterable<AssetImpl>,
-  Iterable<Uri> dependencies,
-  Metadata?,
-  bool success,
-);
-
-/// The result from a [NativeAssetsBuildRunner.dryRun].
-abstract interface class DryRunResult {
-  /// The native assets for all [Target]s for the build or dry run.
-  List<AssetImpl> get assets;
-
-  /// Whether all builds completed without errors.
-  ///
-  /// All error messages are streamed to [NativeAssetsBuildRunner.logger].
-  bool get success;
-}
-
-final class _DryRunResultImpl implements DryRunResult {
-  @override
-  final List<AssetImpl> assets;
-
-  @override
-  final bool success;
-
-  _DryRunResultImpl({
-    required this.assets,
-    required this.success,
-  });
-}
-
-/// The result from a [NativeAssetsBuildRunner.build].
-abstract class BuildResult implements DryRunResult {
-  /// All the files used for building the native assets of all packages.
-  ///
-  /// This aggregated list can be used to determine whether the
-  /// [NativeAssetsBuildRunner] needs to be invoked again. The
-  /// [NativeAssetsBuildRunner] determines per package with native assets
-  /// if it needs to run the build again.
-  List<Uri> get dependencies;
-}
-
-final class _BuildResultImpl implements BuildResult {
-  @override
-  final List<AssetImpl> assets;
-
-  @override
-  final List<Uri> dependencies;
-
-  @override
-  final bool success;
-
-  _BuildResultImpl({
-    required this.assets,
-    required this.dependencies,
-    required this.success,
-  });
-}
+typedef _PackageBuildRecord = (HookOutputImpl, bool success);
 
 extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
           millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
 }
-
-int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());

@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:cli_config/cli_config.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
 import 'package:test/test.dart';
@@ -12,10 +11,10 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() async {
+  const packageName = 'my_package';
   late Uri tempUri;
   late Uri outDirUri;
   late Uri outDir2Uri;
-  late String packageName;
   late Uri packageRootUri;
   late Uri fakeClang;
   late Uri fakeLd;
@@ -28,7 +27,6 @@ void main() async {
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();
     outDir2Uri = tempUri.resolve('out2/');
-    packageName = 'my_package';
     await Directory.fromUri(outDir2Uri).create();
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
@@ -50,7 +48,7 @@ void main() async {
 
   test('BuildConfig ==', () {
     final config1 = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -66,7 +64,7 @@ void main() async {
     );
 
     final config2 = BuildConfigImpl(
-      outDir: outDir2Uri,
+      outputDirectory: outDir2Uri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -96,7 +94,7 @@ void main() async {
 
   test('BuildConfig fromConfig', () {
     final buildConfig2 = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -106,7 +104,7 @@ void main() async {
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
-    final config = Config(fileParsed: {
+    final config = {
       'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
@@ -116,39 +114,39 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'arm64',
       'target_os': 'android',
-      'version': BuildOutputImpl.latestVersion.toString(),
-    });
+      'version': HookOutputImpl.latestVersion.toString(),
+    };
 
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(config);
     expect(fromConfig, equals(buildConfig2));
   });
 
   test('BuildConfig.dryRun', () {
     final buildConfig2 = BuildConfigImpl.dryRun(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetOS: OSImpl.android,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
     );
 
-    final config = Config(fileParsed: {
+    final config = {
       'dry_run': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_os': 'android',
-      'version': BuildOutputImpl.latestVersion.toString(),
-    });
+      'version': HookOutputImpl.latestVersion.toString(),
+    };
 
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(config);
     expect(fromConfig, equals(buildConfig2));
   });
 
   test('BuildConfig toJson fromConfig', () {
     final buildConfig1 = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -163,14 +161,13 @@ void main() async {
     );
 
     final configFile = buildConfig1.toJson();
-    final config = Config(fileParsed: configFile);
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(configFile);
     expect(fromConfig, equals(buildConfig1));
   });
 
   test('BuildConfig == dependency metadata', () {
     final buildConfig1 = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -190,7 +187,7 @@ void main() async {
     );
 
     final buildConfig2 = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -216,7 +213,7 @@ void main() async {
   test('BuildConfig toJson fromJson', () {
     final outDir = outDirUri;
     final buildConfig1 = BuildConfigImpl(
-      outDir: outDir,
+      outputDirectory: outDir,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -240,72 +237,33 @@ void main() async {
       },
     );
 
-    final yamlString = yamlEncode(buildConfig1.toJson());
-    final expectedYamlString = '''build_mode: release
-c_compiler:
-  cc: ${fakeClang.toFilePath()}
-  ld: ${fakeLd.toFilePath()}
-dependency_metadata:
-  bar:
-    key: value
-  foo:
-    a: 321
-    z:
-      - z
-      - a
-link_mode_preference: prefer-static
-out_dir: ${outDir.toFilePath()}
-package_name: $packageName
-package_root: ${tempUri.toFilePath()}
-supported_asset_types:
-  - ${NativeCodeAsset.type}
-target_architecture: arm64
-target_ios_sdk: iphoneos
-target_os: ios
-version: ${BuildConfigImpl.latestVersion}''';
-    expect(yamlString, equals(expectedYamlString));
-
-    final jsonString = buildConfig1.toJsonString();
-    final expectedJsonString = '''{
-  "build_mode": "release",
-  "c_compiler": {
-    "cc": "${fakeClang.toFilePath()}",
-    "ld": "${fakeLd.toFilePath()}"
-  },
-  "dependency_metadata": {
-    "bar": {
-      "key": "value"
-    },
-    "foo": {
-      "a": 321,
-      "z": [
-        "z",
-        "a"
-      ]
-    }
-  },
-  "link_mode_preference": "prefer-static",
-  "out_dir": "${outDir.toFilePath()}",
-  "package_name": "$packageName",
-  "package_root": "${tempUri.toFilePath()}",
-  "supported_asset_types": [
-    "${NativeCodeAsset.type}"
-  ],
-  "target_architecture": "arm64",
-  "target_ios_sdk": "iphoneos",
-  "target_os": "ios",
-  "version": "${BuildConfigImpl.latestVersion}"
-}''';
+    final jsonObject = buildConfig1.toJson();
+    final expectedJson = {
+      'build_mode': 'release',
+      'c_compiler': {'cc': fakeClang.toFilePath(), 'ld': fakeLd.toFilePath()},
+      'dependency_metadata': {
+        'bar': {'key': 'value'},
+        'foo': {
+          'a': 321,
+          'z': ['z', 'a']
+        }
+      },
+      'link_mode_preference': 'prefer-static',
+      'out_dir': outDir.toFilePath(),
+      'package_name': packageName,
+      'package_root': tempUri.toFilePath(),
+      'supported_asset_types': [NativeCodeAsset.type],
+      'target_architecture': 'arm64',
+      'target_ios_sdk': 'iphoneos',
+      'target_os': 'ios',
+      'version': '${HookConfigImpl.latestVersion}'
+    };
     expect(
-      jsonString.replaceAll('\\\\', '/'),
-      equals(expectedJsonString.replaceAll('\\', '/')),
+      jsonObject,
+      equals(expectedJson),
     );
 
-    final buildConfig2 = BuildConfigImpl.fromConfig(
-      Config.fromConfigFileContents(
-        fileContents: yamlString,
-      ),
-    );
+    final buildConfig2 = BuildConfigImpl.fromJson(jsonObject);
     expect(buildConfig2, buildConfig1);
   });
 
@@ -332,7 +290,7 @@ target_ios_sdk: iphoneos
 target_os: ios
 version: 1.0.0''';
     final buildConfig1 = BuildConfigImpl(
-      outDir: outDir,
+      outputDirectory: outDir,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -356,35 +314,32 @@ version: 1.0.0''';
       },
     );
 
-    final buildConfig2 = BuildConfigImpl.fromConfig(
-      Config.fromConfigFileContents(
-        fileContents: yamlString,
-      ),
-    );
+    final buildConfig2 = BuildConfigImpl.fromJson(
+        yamlDecode(yamlString) as Map<String, dynamic>);
     expect(buildConfig2, buildConfig1);
   });
 
   test('BuildConfig FormatExceptions', () {
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {})),
+      () => BuildConfigImpl.fromJson({}),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
             e.message.contains(
-              'No value was provided for required key: build_mode',
+              'No value was provided for required key: target_os',
             ),
       )),
     );
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {
-        'version': BuildConfigImpl.latestVersion.toString(),
+      () => BuildConfigImpl.fromJson({
+        'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
-      })),
+      }),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -394,8 +349,8 @@ version: 1.0.0''';
       )),
     );
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {
-        'version': BuildConfigImpl.latestVersion.toString(),
+      () => BuildConfigImpl.fromJson({
+        'version': HookConfigImpl.latestVersion.toString(),
         'out_dir': outDirUri.toFilePath(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
@@ -403,11 +358,12 @@ version: 1.0.0''';
         'target_os': 'android',
         'target_android_ndk_api': 30,
         'link_mode_preference': 'prefer-static',
+        'build_mode': BuildModeImpl.release.name,
         'dependency_metadata': {
           'bar': {'key': 'value'},
           'foo': <int>[],
         },
-      })),
+      }),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -418,15 +374,16 @@ version: 1.0.0''';
       )),
     );
     expect(
-      () => BuildConfigImpl.fromConfig(Config(fileParsed: {
+      () => BuildConfigImpl.fromJson({
         'out_dir': outDirUri.toFilePath(),
-        'version': BuildConfigImpl.latestVersion.toString(),
+        'version': HookConfigImpl.latestVersion.toString(),
         'package_name': packageName,
         'package_root': packageRootUri.toFilePath(),
         'target_architecture': 'arm64',
         'target_os': 'android',
         'link_mode_preference': 'prefer-static',
-      })),
+        'build_mode': BuildModeImpl.release.name,
+      }),
       throwsA(predicate(
         (e) =>
             e is FormatException &&
@@ -437,22 +394,9 @@ version: 1.0.0''';
     );
   });
 
-  test('FormatExceptions contain full stack trace of wrapped exception', () {
-    try {
-      BuildConfigImpl.fromConfig(Config(fileParsed: {
-        'out_dir': outDirUri.toFilePath(),
-        'package_root': packageRootUri.toFilePath(),
-        'target': [1, 2, 3, 4, 5],
-        'link_mode_preference': 'prefer-static',
-      }));
-    } on FormatException catch (e) {
-      expect(e.toString(), stringContainsInOrder(['Config.string']));
-    }
-  });
-
   test('BuildConfig toString', () {
     final config = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -470,7 +414,7 @@ version: 1.0.0''';
 
   test('BuildConfig fromArgs', () async {
     final buildConfig = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
       targetArchitecture: ArchitectureImpl.arm64,
@@ -490,37 +434,9 @@ version: 1.0.0''';
     expect(buildConfig2, buildConfig);
   });
 
-  test('dependency metadata via config accessor', () {
-    final buildConfig1 = BuildConfigImpl(
-      outDir: outDirUri,
-      packageName: packageName,
-      packageRoot: tempUri,
-      targetArchitecture: ArchitectureImpl.arm64,
-      targetOS: OSImpl.android,
-      targetAndroidNdkApi: 30,
-      buildMode: BuildModeImpl.release,
-      linkModePreference: LinkModePreferenceImpl.preferStatic,
-      dependencyMetadata: {
-        'bar': const Metadata({
-          'key': {'key2': 'value'},
-        }),
-      },
-    );
-    // Useful for doing `path(..., exists: true)`.
-    expect(
-      buildConfig1.config.string([
-        BuildConfigImpl.dependencyMetadataConfigKey,
-        'bar',
-        'key',
-        'key2'
-      ].join('.')),
-      'value',
-    );
-  });
-
   test('envScript', () {
     final buildConfig1 = BuildConfigImpl(
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: packageRootUri,
       targetArchitecture: ArchitectureImpl.x64,
@@ -535,87 +451,37 @@ version: 1.0.0''';
     );
 
     final configFile = buildConfig1.toJson();
-    final config = Config(fileParsed: configFile);
-    final fromConfig = BuildConfigImpl.fromConfig(config);
+    final fromConfig = BuildConfigImpl.fromJson(configFile);
     expect(fromConfig, equals(buildConfig1));
   });
 
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildConfig version $version', () {
       final outDir = outDirUri;
-      final config = Config(fileParsed: {
+      final config = {
         'link_mode_preference': 'prefer-static',
         'out_dir': outDir.toFilePath(),
         'package_root': tempUri.toFilePath(),
         'target_os': 'linux',
-        'target_architecture': 'x64',
         'version': version,
-      });
+        'package_name': packageName,
+        'dry_run': true,
+      };
       expect(
-        () => BuildConfigImpl.fromConfig(config),
+        () => BuildConfigImpl.fromJson(config),
         throwsA(predicate(
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(BuildConfigImpl.latestVersion.toString()),
+              e.message.contains(HookConfigImpl.latestVersion.toString()),
         )),
       );
     });
   }
 
-  test('checksum', () async {
-    await inTempDir((tempUri) async {
-      final nativeAddUri = tempUri.resolve('native_add/');
-      final fakeClangUri = tempUri.resolve('fake_clang');
-      await File.fromUri(fakeClangUri).create();
-
-      final name1 = BuildConfigImpl.checksum(
-        packageName: packageName,
-        packageRoot: nativeAddUri,
-        targetArchitecture: ArchitectureImpl.x64,
-        targetOS: OSImpl.linux,
-        buildMode: BuildModeImpl.release,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
-        supportedAssetTypes: [NativeCodeAsset.type],
-      );
-
-      // Using the checksum for a build folder should be stable.
-      expect(name1, '6723f3af2ba4cd70660494965ac55c2a');
-
-      // Build folder different due to metadata.
-      final name2 = BuildConfigImpl.checksum(
-        packageName: packageName,
-        packageRoot: nativeAddUri,
-        targetArchitecture: ArchitectureImpl.x64,
-        targetOS: OSImpl.linux,
-        buildMode: BuildModeImpl.release,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
-        dependencyMetadata: {
-          'foo': const Metadata({'key': 'value'})
-        },
-      );
-      printOnFailure([name1, name2].toString());
-      expect(name1 != name2, true);
-
-      // Build folder different due to cc.
-      final name3 = BuildConfigImpl.checksum(
-          packageName: packageName,
-          packageRoot: nativeAddUri,
-          targetArchitecture: ArchitectureImpl.x64,
-          targetOS: OSImpl.linux,
-          buildMode: BuildModeImpl.release,
-          linkModePreference: LinkModePreferenceImpl.dynamic,
-          cCompiler: CCompilerConfigImpl(
-            compiler: fakeClangUri,
-          ));
-      printOnFailure([name1, name3].toString());
-      expect(name1 != name3, true);
-    });
-  });
-
   test('BuildConfig invalid target os architecture combination', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
@@ -623,10 +489,10 @@ version: 1.0.0''';
       'target_os': 'windows',
       'target_architecture': 'arm',
       'build_mode': 'debug',
-      'version': BuildConfigImpl.latestVersion.toString(),
-    });
+      'version': HookConfigImpl.latestVersion.toString(),
+    };
     expect(
-      () => BuildConfigImpl.fromConfig(config),
+      () => BuildConfigImpl.fromJson(config),
       throwsA(predicate(
         (e) => e is FormatException && e.message.contains('arm'),
       )),
@@ -635,7 +501,7 @@ version: 1.0.0''';
 
   test('BuildConfig dry_run access invalid args', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
@@ -644,10 +510,10 @@ version: 1.0.0''';
       'target_architecture': 'arm64',
       'build_mode': 'debug',
       'dry_run': true,
-      'version': BuildConfigImpl.latestVersion.toString(),
-    });
+      'version': HookConfigImpl.latestVersion.toString(),
+    };
     expect(
-      () => BuildConfigImpl.fromConfig(config),
+      () => BuildConfigImpl.fromJson(config),
       throwsA(predicate(
         (e) =>
             e is FormatException && e.message.contains('In Flutter projects'),
@@ -657,16 +523,16 @@ version: 1.0.0''';
 
   test('BuildConfig dry_run access invalid args', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
       'dry_run': true,
-      'version': BuildConfigImpl.latestVersion.toString(),
-    });
-    final buildConfig = BuildConfigImpl.fromConfig(config);
+      'version': HookConfigImpl.latestVersion.toString(),
+    };
+    final buildConfig = BuildConfigImpl.fromJson(config);
     expect(
       () => buildConfig.targetAndroidNdkApi,
       throwsA(predicate(
@@ -677,23 +543,23 @@ version: 1.0.0''';
 
   test('BuildConfig dry_run target arch', () {
     final outDir = outDirUri;
-    final config = Config(fileParsed: {
+    final config = {
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
       'dry_run': true,
-      'version': BuildConfigImpl.latestVersion.toString(),
-    });
-    final buildConfig = BuildConfigImpl.fromConfig(config);
+      'version': HookConfigImpl.latestVersion.toString(),
+    };
+    final buildConfig = BuildConfigImpl.fromJson(config);
     expect(buildConfig.targetArchitecture, isNull);
   });
 
   test('BuildConfig dry_run toString', () {
     final buildConfig = BuildConfigImpl.dryRun(
       packageName: packageName,
-      outDir: outDirUri,
+      outputDirectory: outDirUri,
       packageRoot: tempUri,
       targetOS: OSImpl.windows,
       linkModePreference: LinkModePreferenceImpl.dynamic,
@@ -703,7 +569,7 @@ version: 1.0.0''';
   });
 
   test('invalid architecture', () {
-    final config = Config(fileParsed: {
+    final config = {
       'build_mode': 'release',
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
@@ -713,10 +579,10 @@ version: 1.0.0''';
       'target_android_ndk_api': 30,
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
-      'version': BuildOutputImpl.latestVersion.toString(),
-    });
+      'version': HookOutputImpl.latestVersion.toString(),
+    };
     expect(
-      () => BuildConfigImpl.fromConfig(config),
+      () => BuildConfigImpl.fromJson(config),
       throwsFormatException,
     );
   });

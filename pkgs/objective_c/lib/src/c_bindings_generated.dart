@@ -116,6 +116,25 @@ external void blockRelease(
   ffi.Pointer<ffi.Void> object,
 );
 
+@ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
+    symbol: "objc_getProtocol", isLeaf: true)
+external ffi.Pointer<ObjCProtocol> getProtocol(
+  ffi.Pointer<ffi.Char> name,
+);
+
+@ffi.Native<
+    ObjCMethodDesc Function(
+        ffi.Pointer<ObjCProtocol>,
+        ffi.Pointer<ObjCSelector>,
+        ffi.Bool,
+        ffi.Bool)>(symbol: "protocol_getMethodDescription", isLeaf: true)
+external ObjCMethodDesc getMethodDescription(
+  ffi.Pointer<ObjCProtocol> proto,
+  ffi.Pointer<ObjCSelector> sel,
+  bool isRequiredMethod,
+  bool isInstanceMethod,
+);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ObjCBlock>)>(isLeaf: true)
 external void disposeObjCBlockWithClosure(
   ffi.Pointer<ObjCBlock> block,
@@ -133,6 +152,18 @@ final class _ObjCSelector extends ffi.Opaque {}
 typedef ObjCObject = _ObjCObject;
 
 final class _ObjCObject extends ffi.Opaque {}
+
+typedef ObjCProtocol = _ObjCProtocol;
+
+final class _ObjCProtocol extends ffi.Opaque {}
+
+typedef ObjCMethodDesc = _ObjCMethodDesc;
+
+final class _ObjCMethodDesc extends ffi.Struct {
+  external ffi.Pointer<ObjCSelector> name;
+
+  external ffi.Pointer<ffi.Char> types;
+}
 
 typedef ObjCBlock = _ObjCBlock;
 

@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/src/api/build_config.dart';
-import 'package:native_assets_cli/src/api/build_output.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -21,6 +20,7 @@ void main() async {
   late Uri fakeCl;
   late Uri fakeVcVars;
   late Uri buildConfigUri;
+  late BuildConfig config1;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
@@ -40,7 +40,7 @@ void main() async {
     fakeVcVars = tempUri.resolve('vcvarsall.bat');
     await File.fromUri(fakeVcVars).create();
 
-    final config1 = BuildConfig.build(
+    config1 = BuildConfig.build(
       outputDirectory: outDirUri,
       packageName: packageName,
       packageRoot: tempUri,
@@ -65,7 +65,8 @@ void main() async {
         (config, output) async {
       output.addDependency(packageRootUri.resolve('foo'));
     });
-    final buildOutputUri = outDirUri.resolve(BuildOutputImpl.fileName);
+    final buildOutputUri =
+        outDirUri.resolve((config1 as BuildConfigImpl).outputName);
     expect(File.fromUri(buildOutputUri), exists);
   });
 }

@@ -1,4 +1,10 @@
-## 12.0.0-wip
+## 13.0.0-wip
+
+- __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
+  than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
+  `NSProxy`.
+
+## 12.0.0
 
 - Global variables are now compatible with the `ffi-native` option.
 - Exposing symbol addresses of functions and globals is now compatible with the
@@ -29,6 +35,8 @@
   formatting step happens. Defaults to true.
 - Delete Dart functions associated with ObjC closure blocks when the block is
   destroyed. Fixes https://github.com/dart-lang/native/issues/204
+- Reduce cursor definition not found logs when `structs/unions` ->
+  `dependency-only` is set to `opaque`.
 
 ## 11.0.0
 

@@ -10,14 +10,6 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 import 'run_cbuilder.dart';
 
-abstract class Builder {
-  Future<void> run({
-    required BuildConfig buildConfig,
-    required BuildOutput buildOutput,
-    required Logger? logger,
-  });
-}
-
 /// A programming language that can be selected for compilation of source files.
 ///
 /// See [CBuilder.language] for more information.
@@ -152,6 +144,12 @@ class CBuilder implements Builder {
   /// | Fuchsia | `c++`        |
   final String? cppLinkStdLib;
 
+  /// If the code asset should be a dynamic or static library.
+  ///
+  /// This determines whether to produce a dynamic or static library. If null,
+  /// the value is instead retrieved from the [BuildConfig].
+  final LinkModePreference? linkModePreference;
+
   CBuilder.library({
     required this.name,
     required this.assetName,
@@ -167,6 +165,7 @@ class CBuilder implements Builder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
+    this.linkModePreference,
   }) : _type = _CBuilderType.library;
 
   CBuilder.executable({
@@ -185,25 +184,26 @@ class CBuilder implements Builder {
   })  : _type = _CBuilderType.executable,
         assetName = null,
         installName = null,
-        pic = pie;
+        pic = pie,
+        linkModePreference = null;
 
   /// Runs the C Compiler with on this C build spec.
   ///
   /// Completes with an error if the build fails.
   @override
   Future<void> run({
-    required BuildConfig buildConfig,
-    required BuildOutput buildOutput,
+    required BuildConfig config,
+    required BuildOutput output,
     required Logger? logger,
+    String? linkInPackage,
   }) async {
-    final outDir = buildConfig.outputDirectory;
-    final packageRoot = buildConfig.packageRoot;
+    final outDir = config.outputDirectory;
+    final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode = _linkMode(buildConfig.linkModePreference);
+    final linkMode = _linkMode(linkModePreference ?? config.linkModePreference);
     final libUri =
-        outDir.resolve(buildConfig.targetOS.libraryFileName(name, linkMode));
-    final exeUri =
-        outDir.resolve(buildConfig.targetOS.executableFileName(name));
+        outDir.resolve(config.targetOS.libraryFileName(name, linkMode));
+    final exeUri = outDir.resolve(config.targetOS.executableFileName(name));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -215,9 +215,9 @@ class CBuilder implements Builder {
     final dartBuildFiles = [
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
     ];
-    if (!buildConfig.dryRun) {
+    if (!config.dryRun) {
       final task = RunCBuilder(
-        buildConfig: buildConfig,
+        buildConfig: config,
         logger: logger,
         sources: sources,
         includes: includes,
@@ -234,8 +234,8 @@ class CBuilder implements Builder {
         flags: flags,
         defines: {
           ...defines,
-          if (buildModeDefine) buildConfig.buildMode.name.toUpperCase(): null,
-          if (ndebugDefine && buildConfig.buildMode != BuildMode.debug)
+          if (buildModeDefine) config.buildMode.name.toUpperCase(): null,
+          if (ndebugDefine && config.buildMode != BuildMode.debug)
             'NDEBUG': null,
         },
         pic: pic,
@@ -247,19 +247,21 @@ class CBuilder implements Builder {
     }
 
     if (assetName != null) {
-      buildOutput.addAssets([
-        NativeCodeAsset(
-          package: buildConfig.packageName,
-          name: assetName!,
-          file: libUri,
-          linkMode: linkMode,
-          os: buildConfig.targetOS,
-          architecture:
-              buildConfig.dryRun ? null : buildConfig.targetArchitecture,
-        )
-      ]);
+      output.addAssets(
+        [
+          NativeCodeAsset(
+            package: config.packageName,
+            name: assetName!,
+            file: libUri,
+            linkMode: linkMode,
+            os: config.targetOS,
+            architecture: config.dryRun ? null : config.targetArchitecture,
+          )
+        ],
+        linkInPackage: linkInPackage,
+      );
     }
-    if (!buildConfig.dryRun) {
+    if (!config.dryRun) {
       final includeFiles = await Stream.fromIterable(includes)
           .asyncExpand(
             (include) => Directory(include.toFilePath())
@@ -269,7 +271,7 @@ class CBuilder implements Builder {
           )
           .toList();
 
-      buildOutput.addDependencies({
+      output.addDependencies({
         // Note: We use a Set here to deduplicate the dependencies.
         ...sources,
         ...includeFiles,

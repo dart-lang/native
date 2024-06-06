@@ -13,6 +13,6 @@ abstract interface class EnumDeclaration
   abstract List<EnumCase> cases;
 }
 
-/// An interface describing an enum case. See `NormalEnumCase`, `AssociatedValueEnumCase`
+/// An interface describing an enum case. See `NormalEnumCase`, `AssociatedValueEnumCase` 
 /// and `RawValueEnumCase` for concrete implementations.
 abstract interface class EnumCase implements Declaration {}

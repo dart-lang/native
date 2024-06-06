@@ -66,8 +66,8 @@ void main() {
           dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
+          config: buildConfig,
+          output: buildOutput,
           logger: logger,
         );
 
@@ -117,7 +117,7 @@ void main() {
 
         final buildConfig = dryRun
             ? BuildConfig.dryRun(
-                outDir: tempUri,
+                outputDirectory: tempUri,
                 packageName: name,
                 packageRoot: tempUri,
                 targetOS: OS.current,
@@ -147,8 +147,8 @@ void main() {
           dartBuildFiles: ['hook/build.dart'],
         );
         await cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
+          config: buildConfig,
+          output: buildOutput,
           logger: logger,
         );
 
@@ -245,8 +245,8 @@ void main() {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      config: buildConfig,
+      output: buildOutput,
       logger: logger,
     );
 
@@ -299,8 +299,8 @@ void main() {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      config: buildConfig,
+      output: buildOutput,
       logger: logger,
     );
 
@@ -350,8 +350,8 @@ void main() {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      config: buildConfig,
+      output: buildOutput,
       logger: logger,
     );
 
@@ -411,8 +411,8 @@ void main() {
       dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
-      buildConfig: buildConfig,
-      buildOutput: buildOutput,
+      config: buildConfig,
+      output: buildOutput,
       logger: logger,
     );
 
@@ -472,16 +472,16 @@ void main() {
     if (buildConfig.targetOS == OS.windows) {
       await expectLater(
         () => cbuilder.run(
-          buildConfig: buildConfig,
-          buildOutput: buildOutput,
+          config: buildConfig,
+          output: buildOutput,
           logger: logger,
         ),
         throwsArgumentError,
       );
     } else {
       await cbuilder.run(
-        buildConfig: buildConfig,
-        buildOutput: buildOutput,
+        config: buildConfig,
+        output: buildOutput,
         logger: logger,
       );
 
@@ -545,8 +545,8 @@ Future<void> testDefines({
     dartBuildFiles: ['hook/build.dart'],
   );
   await cbuilder.run(
-    buildConfig: buildConfig,
-    buildOutput: buildOutput,
+    config: buildConfig,
+    output: buildOutput,
     logger: logger,
   );
 

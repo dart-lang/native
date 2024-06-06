@@ -4,12 +4,14 @@
 *.pyc
 *.swp
 *.dylib
+*.o
 .DS_Store
 .atom/
 .buildlog/
 .history
 .svn/
 migrate_working_dir/
+coverage/
 
 # IntelliJ related
 *.iml

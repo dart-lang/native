@@ -34,7 +34,7 @@ A typical layout of a package with native code is:
   to build/bundle with the Dart/Flutter SDK. This file uses the
   protocol specified in this package.
 
-An example can be found in [example/](example/).
+Example can be found in [example/build/](example/build/).
 
 ## Usage
 

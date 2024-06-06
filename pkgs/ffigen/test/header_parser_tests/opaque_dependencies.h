@@ -20,12 +20,14 @@ BAlias *func(struct A *a);
 struct C
 {
     int a;
+    struct NoDefinitionStructInC* nds;
 };
 
 // Full (excluded, but used by value).
 struct D
 {
     int a;
+    struct NoDefinitionStructInD* nds;
 };
 
 // Full (included)

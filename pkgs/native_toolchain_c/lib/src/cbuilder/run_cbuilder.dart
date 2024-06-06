@@ -121,30 +121,79 @@ class RunCBuilder {
       archiver_ = await archiver();
     }
 
-    late final IOSSdk targetIosSdk;
+    final IOSSdk? targetIosSdk;
     if (buildConfig.targetOS == OS.iOS) {
       targetIosSdk = buildConfig.targetIOSSdk;
+    } else {
+      targetIosSdk = null;
     }
 
     // The Android Gradle plugin does not honor API level 19 and 20 when
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
-    late final int targetAndroidNdkApi;
+    final int? targetAndroidNdkApi;
     if (buildConfig.targetOS == OS.android) {
       final minimumApi =
           buildConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
       targetAndroidNdkApi = max(buildConfig.targetAndroidNdkApi!, minimumApi);
+    } else {
+      targetAndroidNdkApi = null;
     }
 
     final architecture = buildConfig.targetArchitecture;
+    final sourceFiles = sources.map((e) => e.toFilePath()).toList();
+    final objectFiles = <Uri>[];
+    if (staticLibrary != null) {
+      for (var i = 0; i < sourceFiles.length; i++) {
+        final objectFile = outDir.resolve('out$i.o');
+        await _compile(
+          compiler,
+          architecture,
+          targetAndroidNdkApi,
+          targetIosSdk,
+          [sourceFiles[i]],
+          objectFile,
+        );
+        objectFiles.add(objectFile);
+      }
+      await runProcess(
+        executable: archiver_!,
+        arguments: [
+          'rc',
+          outDir.resolveUri(staticLibrary!).toFilePath(),
+          ...objectFiles.map((objectFile) => objectFile.toFilePath()),
+        ],
+        logger: logger,
+        captureOutput: false,
+        throwOnUnexpectedExitCode: true,
+      );
+    } else {
+      await _compile(
+        compiler,
+        architecture,
+        targetAndroidNdkApi,
+        targetIosSdk,
+        sourceFiles,
+        dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
+      );
+    }
+  }
 
+  Future<void> _compile(
+    ToolInstance compiler,
+    Architecture? architecture,
+    int? targetAndroidNdkApi,
+    IOSSdk? targetIosSdk,
+    Iterable<String> sourceFiles,
+    Uri? outFile,
+  ) async {
     await runProcess(
       executable: compiler.uri,
       arguments: [
         if (buildConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
-              '$targetAndroidNdkApi',
+              '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(compiler).toFilePath()}',
         ],
         if (buildConfig.targetOS == OS.macOS)
@@ -153,7 +202,7 @@ class RunCBuilder {
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
         if (buildConfig.targetOS == OS.iOS) ...[
           '-isysroot',
-          (await iosSdk(targetIosSdk, logger: logger)).toFilePath(),
+          (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
         ],
         if (buildConfig.targetOS == OS.macOS) ...[
           '-isysroot',
@@ -196,7 +245,7 @@ class RunCBuilder {
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
         for (final include in includes) '-I${include.toFilePath()}',
-        ...sources.map((e) => e.toFilePath()),
+        ...sourceFiles,
         if (executable != null) ...[
           '-o',
           outDir.resolveUri(executable!).toFilePath(),
@@ -204,30 +253,17 @@ class RunCBuilder {
         if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
-          outDir.resolveUri(dynamicLibrary!).toFilePath(),
+          outFile!.toFilePath(),
         ] else if (staticLibrary != null) ...[
           '-c',
           '-o',
-          outDir.resolve('out.o').toFilePath(),
+          outFile!.toFilePath(),
         ],
       ],
       logger: logger,
       captureOutput: false,
       throwOnUnexpectedExitCode: true,
     );
-    if (staticLibrary != null) {
-      await runProcess(
-        executable: archiver_!,
-        arguments: [
-          'rc',
-          outDir.resolveUri(staticLibrary!).toFilePath(),
-          outDir.resolve('out.o').toFilePath(),
-        ],
-        logger: logger,
-        captureOutput: false,
-        throwOnUnexpectedExitCode: true,
-      );
-    }
   }
 
   Future<void> runCl({required ToolInstance compiler}) async {

@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: 3.19.0
@@ -54,7 +54,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: 3.19.0
@@ -76,7 +76,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: 3.19.0
@@ -85,21 +85,19 @@ jobs:
         run: flutter pub get
       - name: Build test dylib and bindings
         run: dart test/setup.dart
-      - name: Run VM tests
-        run: dart test
-      - name: Collect coverage
-        run: ./tool/coverage.sh
+      - name: Run VM tests and collect coverage
+        run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
       - name: Upload coverage
-        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
         with:
-          flag-name: ffigen_macos
+          flag-name: ffigen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
-          path-to-lcov: pkgs/ffigen/lcov.info
+          path-to-lcov: pkgs/ffigen/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
         with:
-          carryforward: "objective_c_tests,ffigen_macos,jnigen_tests,jni_tests,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows"
+          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
@@ -110,7 +108,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           flutter-version: 3.19.0
@@ -139,7 +137,7 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
       - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
         with:
           channel: "master"

@@ -16,6 +16,7 @@ functions:
     - 'objc_.*'
     - 'object_getClass'
     - 'sel_registerName'
+    - 'protocol_getMethodDescription'
     - '_Block_.*'
     - 'disposeObjCBlockWithClosure'
     - 'isValidBlock'
@@ -34,6 +35,8 @@ functions:
     'objc_msgSend_stret': 'msgSendStret'
     'object_getClass': 'getObjectClass'
     'objc_copyClassList': 'copyClassList'
+    'objc_getProtocol': 'getProtocol'
+    'protocol_getMethodDescription': 'getMethodDescription'
     '_Block_copy': 'blockCopy'
     '_Block_release': 'blockRelease'
 globals:

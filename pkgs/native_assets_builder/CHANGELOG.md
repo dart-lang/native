@@ -1,6 +1,15 @@
-## 0.6.1
+## 0.7.1-wip
 
+- Nothing yet.
+
+## 0.7.0
+
+- Add support for `hook/link.dart` including dry runs.
+  Link hooks that do not have assets for link sent to them, are not run.
+  Link hooks are not ordered.
 - Fix test.
+- Bump `package:native_assets_cli` to 0.6.0.
+- Copy `resources.json` to the build directory.
 
 ## 0.6.0
 

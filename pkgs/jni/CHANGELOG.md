@@ -1,6 +1,17 @@
-## 0.9.1-wip
+## 0.9.3-wip
 
-- Fix compilation on macOS for consumers that don't use JNI on macOS (which is still not supported) ([#1122](https://github.com/dart-lang/native/pull/1122)). 
+- Added lifetime event handling for the thread-local JNI env. Now
+  `jvm.DetachNativeThread` is called when the thread detaches as recommended
+  [here](https://developer.android.com/training/articles/perf-jni#threads).
+
+## 0.9.2
+
+- Bumped `minSdk` to 21.
+
+## 0.9.1
+
+- Fixed compilation on macOS for consumers that don't use JNI on macOS (which is
+  still not supported) ([#1122](https://github.com/dart-lang/native/pull/1122)).
 
 ## 0.9.0
 

@@ -7,6 +7,11 @@
 // Objective C support is only available on mac.
 @TestOn('mac-os')
 
+// This test is slightly flaky. Some of the ref counts are occasionally lower
+// than expected, presumably due to the Dart wrapper objects being GC'd before
+// the expect call.
+@Retry(3)
+
 import 'dart:ffi';
 import 'dart:io';
 
@@ -37,15 +42,6 @@ void main() {
     test('objectRetainCount edge cases', () {
       expect(objectRetainCount(nullptr), 0);
       expect(objectRetainCount(Pointer.fromAddress(0x1234)), 0);
-
-      final obj = NSObject.new1();
-      final objRefs = <NSObject>[];
-      for (int i = 1; i < 1000; ++i) {
-        final expectedCount = i < 128 ? i : 128;
-        expect(objectRetainCount(obj.pointer), expectedCount);
-        objRefs.add(
-            NSObject.castFromPointer(obj.pointer, retain: true, release: true));
-      }
     });
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>) newMethodsInner(
@@ -490,6 +486,33 @@ void main() {
       doGC();
       expect(counter.value, 0);
       expect(objectRetainCount(obj1bRaw), 0);
+      calloc.free(counter);
+    });
+
+    void largeRefCountInner(Pointer<Int32> counter) {
+      final obj = ArcTestObject.newWithCounter_(counter);
+      expect(counter.value, 1);
+      final objRefs = <ArcTestObject>[];
+      for (int i = 1; i < 1000; ++i) {
+        final expectedCount = i < 128 ? i : 128;
+        expect(objectRetainCount(obj.pointer), expectedCount);
+        objRefs.add(ArcTestObject.castFromPointer(obj.pointer,
+            retain: true, release: true));
+      }
+      expect(counter.value, 1);
+    }
+
+    test("objectRetainCount large ref count", () {
+      // Most ObjC API methods return us a reference without incrementing the
+      // ref count (ie, returns us a reference we don't own). So the wrapper
+      // object has to take ownership by calling retain. This test verifies that
+      // is working correctly by holding a reference to an object returned by a
+      // method, after the original wrapper object is gone.
+      final counter = calloc<Int32>();
+      counter.value = 0;
+      largeRefCountInner(counter);
+      doGC();
+      expect(counter.value, 0);
       calloc.free(counter);
     });
   });

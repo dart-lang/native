@@ -863,15 +863,6 @@ class _TypeSig extends TypeVisitor<String> {
 
   @override
   String visitPrimitiveType(PrimitiveType node) {
-    if (isFfi) {
-      // TODO(https://github.com/dart-lang/sdk/issues/55471): Once this lands in
-      // the stable, use the actual types instead.
-      if (node.name == 'float' || node.name == 'double') {
-        return '$_ffi.Double';
-      } else {
-        return '$_ffi.Int64';
-      }
-    }
     if (isFfi) return '$_ffi.${node.ffiType}';
     if (node.name == 'boolean') return 'int';
     return node.dartType;

@@ -1,3 +1,15 @@
+## 0.9.2
+
+- Fixed a bug where wrong argument types were generated for 32-bit
+  architectures. This temporarily breaks generated bindings for macOS arm64,
+  until the fix is cherry-picked on Dart stable.
+
+## 0.9.1
+
+- Fixed a bug in summarizer where standard output would use the default encoding
+  of the operating system and therefore breaking the UTF-8 decoding for some
+  locales.
+
 ## 0.9.0
 
 - **Breaking Change** ([#660](https://github.com/dart-lang/native/issues/660)):

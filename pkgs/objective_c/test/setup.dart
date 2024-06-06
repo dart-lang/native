@@ -12,16 +12,14 @@
 import 'dart:ffi';
 import 'dart:io';
 
-const inputFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
+const cFiles = ['src/objective_c.c', 'src/include/dart_api_dl.c'];
+const objCFiles = ['src/proxy.m'];
+const objCFlags = ['-x', 'objective-c', '-framework', 'Foundation'];
 const outputFile = 'test/objective_c.dylib';
 
-void _buildLib(List<String> inputs, String output) {
+void _runClang(List<String> flags, String output) {
   final args = [
-    '-shared',
-    '-fpic',
-    ...inputs,
-    '-I',
-    'src',
+    ...flags,
     '-o',
     output,
   ];
@@ -37,10 +35,26 @@ void _buildLib(List<String> inputs, String output) {
   print('Generated $output');
 }
 
+String _buildObject(String input, List<String> flags) {
+  final output = '$input.o';
+  _runClang(['-c', input, '-fpic', '-I', 'src', ...flags], output);
+  return output;
+}
+
+void _linkLib(List<String> inputs, String output) =>
+    _runClang(['-shared', '-undefined', 'dynamic_lookup', ...inputs], output);
+
 void main() {
   Directory.current = Platform.script.resolve('..').path;
-  _buildLib(inputFiles, outputFile);
+  final objFiles = <String>[
+    for (final src in cFiles) _buildObject(src, []),
+    for (final src in objCFiles) _buildObject(src, objCFlags),
+  ];
+  _linkLib(objFiles, outputFile);
 
   // Sanity check that the dylib was created correctly.
-  DynamicLibrary.open(outputFile).lookup('disposeObjCBlockWithClosure');
+  final lib = DynamicLibrary.open(outputFile);
+  lib.lookup('disposeObjCBlockWithClosure'); // objective_c.c
+  lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
+  lib.lookup('OBJC_CLASS_\$_DartProxy'); // proxy.m
 }

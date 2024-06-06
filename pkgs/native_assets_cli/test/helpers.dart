@@ -133,6 +133,10 @@ extension on Asset {
   }
 }
 
+extension UnescapePath on String {
+  String unescape() => replaceAll('\\', '/');
+}
+
 extension UriExtension on Uri {
   FileSystemEntity get fileSystemEntity {
     if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
@@ -152,4 +156,23 @@ String yamlEncode(Object yamlEncoding) {
     ),
   );
   return editor.toString();
+}
+
+dynamic yamlDecode(String yaml) {
+  final value = loadYaml(yaml);
+  return yamlToDart(value);
+}
+
+dynamic yamlToDart(dynamic value) {
+  if (value is YamlMap) {
+    final entries = <MapEntry<String, dynamic>>[];
+    for (final key in value.keys) {
+      entries.add(MapEntry(key as String, yamlToDart(value[key])));
+    }
+    return Map.fromEntries(entries);
+  } else if (value is YamlList) {
+    return List<dynamic>.from(value.map(yamlToDart));
+  } else {
+    return value;
+  }
 }

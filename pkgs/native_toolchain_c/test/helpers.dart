@@ -180,3 +180,7 @@ DynamicLibrary openDynamicLibraryForTest(String path) {
   addTearDown(library.close);
   return library;
 }
+
+extension UnescapePath on String {
+  String unescape() => replaceAll('\\', '/');
+}

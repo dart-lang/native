@@ -7,8 +7,6 @@ import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
-import '../helpers.dart';
-
 void main() {
   final fooUri = Uri.file('path/to/libfoo.so');
   final foo3Uri = Uri(path: 'libfoo3.so');
@@ -59,11 +57,13 @@ void main() {
   ];
   final dataAssets = [
     DataAssetImpl(
-      id: 'package:my_package/my_data_asset',
+      name: 'my_data_asset',
+      package: 'my_package',
       file: dataUri,
     ),
     DataAssetImpl(
-      id: 'package:my_package/my_data_asset2',
+      name: 'my_data_asset2',
+      package: 'my_package',
       file: data2Uri,
     ),
   ];
@@ -107,64 +107,80 @@ void main() {
     uri: ${blaUri.toFilePath()}
   target: windows_x64''';
 
-  final assetsYamlEncoding = '''- architecture: x64
-  file: ${fooUri.toFilePath()}
-  id: package:my_package/foo
-  link_mode:
-    type: dynamic_loading_bundle
-  os: android
-  type: native_code
-- architecture: x64
-  id: package:my_package/foo3
-  link_mode:
-    type: dynamic_loading_system
-    uri: ${foo3Uri.toFilePath()}
-  os: android
-  type: native_code
-- architecture: x64
-  id: package:my_package/foo4
-  link_mode:
-    type: dynamic_loading_executable
-  os: android
-  type: native_code
-- architecture: x64
-  id: package:my_package/foo5
-  link_mode:
-    type: dynamic_loading_process
-  os: android
-  type: native_code
-- architecture: arm64
-  file: ${barUri.toFilePath()}
-  id: package:my_package/bar
-  link_mode:
-    type: static
-  os: linux
-  type: native_code
-- architecture: x64
-  file: ${blaUri.toFilePath()}
-  id: package:my_package/bla
-  link_mode:
-    type: dynamic_loading_bundle
-  os: windows
-  type: native_code
-- id: package:my_package/my_data_asset
-  file: ${dataUri.toFilePath()}
-  type: data
-- id: package:my_package/my_data_asset2
-  file: ${data2Uri.toFilePath()}
-  type: data''';
+  final assetsJsonEncoding = [
+    {
+      'architecture': 'x64',
+      'file': fooUri.toFilePath(),
+      'id': 'package:my_package/foo',
+      'link_mode': {'type': 'dynamic_loading_bundle'},
+      'os': 'android',
+      'type': 'native_code'
+    },
+    {
+      'architecture': 'x64',
+      'id': 'package:my_package/foo3',
+      'link_mode': {
+        'type': 'dynamic_loading_system',
+        'uri': foo3Uri.toFilePath()
+      },
+      'os': 'android',
+      'type': 'native_code'
+    },
+    {
+      'architecture': 'x64',
+      'id': 'package:my_package/foo4',
+      'link_mode': {'type': 'dynamic_loading_executable'},
+      'os': 'android',
+      'type': 'native_code'
+    },
+    {
+      'architecture': 'x64',
+      'id': 'package:my_package/foo5',
+      'link_mode': {'type': 'dynamic_loading_process'},
+      'os': 'android',
+      'type': 'native_code'
+    },
+    {
+      'architecture': 'arm64',
+      'file': barUri.toFilePath(),
+      'id': 'package:my_package/bar',
+      'link_mode': {'type': 'static'},
+      'os': 'linux',
+      'type': 'native_code'
+    },
+    {
+      'architecture': 'x64',
+      'file': blaUri.toFilePath(),
+      'id': 'package:my_package/bla',
+      'link_mode': {'type': 'dynamic_loading_bundle'},
+      'os': 'windows',
+      'type': 'native_code'
+    },
+    {
+      'name': 'my_data_asset',
+      'package': 'my_package',
+      'file': Uri.file('path/to/data.txt').toFilePath(),
+      'type': 'data'
+    },
+    {
+      'name': 'my_data_asset2',
+      'package': 'my_package',
+      'file': Uri.file('path/to/data.json').toFilePath(),
+      'type': 'data'
+    }
+  ];
 
   test('asset yaml', () {
-    final yaml = yamlEncode([
-      for (final item in assets) item.toJson(BuildOutputImpl.latestVersion)
-    ]);
-    expect(yaml, assetsYamlEncoding);
-    final assets2 = AssetImpl.listFromJsonList(loadYaml(yaml) as List<Object?>);
+    final json = [
+      for (final item in assets) item.toJson(HookOutputImpl.latestVersion)
+    ];
+    expect(json, assetsJsonEncoding);
+    final assets2 = AssetImpl.listFromJson(json);
     expect(assets, assets2);
   });
 
   test('build_output protocol v1.0.0 keeps working', () {
-    final assets2 = AssetImpl.listFromJsonList(
+    final assets2 = AssetImpl.listFromJson(
         loadYaml(assetsYamlEncodingV1_0_0) as List<Object?>);
     expect(nativeCodeAssets, assets2);
   });

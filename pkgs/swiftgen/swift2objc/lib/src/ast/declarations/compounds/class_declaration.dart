@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/parameter.dart';

@@ -1,3 +1,12 @@
+## 0.6.1-wip
+
+- Introduce `Builder` and `Linker` interface.
+- Copy `resources.json` to the build directory.
+
+## 0.6.0
+
+- Add support for `hook/link.dart`.
+
 ## 0.5.4
 
 - Update documentation about providing `NativeCodeAsset.file` in dry runs.

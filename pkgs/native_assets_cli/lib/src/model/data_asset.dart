@@ -9,17 +9,25 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
   final Uri file;
 
   @override
-  final String id;
+  final String name;
+
+  @override
+  final String package;
+
+  @override
+  String get id => 'package:$package/$name';
 
   DataAssetImpl({
     required this.file,
-    required this.id,
+    required this.name,
+    required this.package,
   });
 
   factory DataAssetImpl.fromJson(Map<Object?, Object?> jsonMap) =>
       DataAssetImpl(
-        id: as<String>(jsonMap[_idKey]),
-        file: Uri(path: as<String>(jsonMap[_fileKey])),
+        name: get<String>(jsonMap, _nameKey),
+        package: get<String>(jsonMap, _packageKey),
+        file: Uri(path: get<String>(jsonMap, _fileKey)),
       );
 
   @override
@@ -27,24 +35,27 @@ final class DataAssetImpl implements DataAsset, AssetImpl {
     if (other is! DataAssetImpl) {
       return false;
     }
-    return other.id == id && other.file == file;
+    return other.package == package && other.file == file && other.name == name;
   }
 
   @override
   int get hashCode => Object.hash(
-        id,
+        package,
+        name,
         file,
       );
 
   @override
   Map<String, Object> toJson(Version version) => {
-        _idKey: id,
+        _nameKey: name,
+        _packageKey: package,
         _fileKey: file.toFilePath(),
         typeKey: DataAsset.type,
       }..sortOnKey();
 
   static const typeKey = 'type';
-  static const _idKey = 'id';
+  static const _nameKey = 'name';
+  static const _packageKey = 'package';
   static const _fileKey = 'file';
 
   @override

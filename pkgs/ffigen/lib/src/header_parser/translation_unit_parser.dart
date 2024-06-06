@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/macro_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/objcinterfacedecl_parser.dart';
@@ -19,88 +17,55 @@ import 'utils.dart';
 
 final _logger = Logger('ffigen.header_parser.translation_unit_parser');
 
-late Set<Binding> _bindings;
-
-Pointer<
-        NativeFunction<
-            Int32 Function(
-                clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>)>>?
-    _rootCursorVisitorPtr;
-
-Pointer<
-        NativeFunction<
-            Int32 Function(
-                clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>)>>?
-    _cursorDefinitionVisitorPtr;
-
 /// Parses the translation unit and returns the generated bindings.
 Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
-  _bindings = {};
-  final resultCode = clang.clang_visitChildren(
-    translationUnitCursor,
-    _rootCursorVisitorPtr ??=
-        Pointer.fromFunction(_rootCursorVisitor, exceptional_visitor_return),
-    nullptr,
-  );
+  final bindings = <Binding>{};
 
-  visitChildrenResultChecker(resultCode);
-
-  return _bindings;
-}
-
-/// Child visitor invoked on translationUnitCursor [CXCursorKind.CXCursor_TranslationUnit].
-int _rootCursorVisitor(clang_types.CXCursor cursor, clang_types.CXCursor parent,
-    Pointer<Void> clientData) {
-  try {
-    if (shouldIncludeRootCursor(cursor.sourceFileName())) {
-      _logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
-      switch (clang.clang_getCursorKind(cursor)) {
-        case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-          addAllToBindings(parseFunctionDeclaration(cursor) as List<Binding>);
-          break;
-        case clang_types.CXCursorKind.CXCursor_StructDecl:
-        case clang_types.CXCursorKind.CXCursor_UnionDecl:
-        case clang_types.CXCursorKind.CXCursor_EnumDecl:
-        case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
-          addToBindings(_getCodeGenTypeFromCursor(cursor));
-          break;
-        case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
-          addToBindings(parseObjCCategoryDeclaration(cursor));
-          break;
-        case clang_types.CXCursorKind.CXCursor_MacroDefinition:
-          saveMacroDefinition(cursor);
-          break;
-        case clang_types.CXCursorKind.CXCursor_VarDecl:
-          addToBindings(parseVarDeclaration(cursor));
-          break;
-        default:
-          _logger.finer('rootCursorVisitor: CursorKind not implemented');
+  translationUnitCursor.visitChildren((cursor) {
+    try {
+      if (shouldIncludeRootCursor(cursor.sourceFileName())) {
+        _logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
+        switch (clang.clang_getCursorKind(cursor)) {
+          case clang_types.CXCursorKind.CXCursor_FunctionDecl:
+            bindings.addAll(parseFunctionDeclaration(cursor) as List<Binding>);
+            break;
+          case clang_types.CXCursorKind.CXCursor_StructDecl:
+          case clang_types.CXCursorKind.CXCursor_UnionDecl:
+          case clang_types.CXCursorKind.CXCursor_EnumDecl:
+          case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
+            addToBindings(bindings, _getCodeGenTypeFromCursor(cursor));
+            break;
+          case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
+            addToBindings(bindings, parseObjCCategoryDeclaration(cursor));
+            break;
+          case clang_types.CXCursorKind.CXCursor_MacroDefinition:
+            saveMacroDefinition(cursor);
+            break;
+          case clang_types.CXCursorKind.CXCursor_VarDecl:
+            addToBindings(bindings, parseVarDeclaration(cursor));
+            break;
+          default:
+            _logger.finer('rootCursorVisitor: CursorKind not implemented');
+        }
+      } else {
+        _logger.finest(
+            'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}');
       }
-    } else {
-      _logger.finest(
-          'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}');
+    } catch (e, s) {
+      _logger.severe(e);
+      _logger.severe(s);
+      rethrow;
     }
-  } catch (e, s) {
-    _logger.severe(e);
-    _logger.severe(s);
-    rethrow;
-  }
-  return clang_types.CXChildVisitResult.CXChildVisit_Continue;
+  });
+
+  return bindings;
 }
 
 /// Adds to binding if unseen and not null.
-void addToBindings(Binding? b) {
+void addToBindings(Set<Binding> bindings, Binding? b) {
   if (b != null) {
     // This is a set, and hence will not have duplicates.
-    _bindings.add(b);
-  }
-}
-
-/// Adds all binding if not empty.
-void addAllToBindings(List<Binding> b) {
-  if (b.isNotEmpty) {
-    // This is a set, and hence will not have duplicates.
-    _bindings.addAll(b);
+    bindings.add(b);
   }
 }
 
@@ -111,26 +76,13 @@ BindingType? _getCodeGenTypeFromCursor(clang_types.CXCursor cursor) {
 
 /// Visits all cursors and builds a map of usr and [CXCursor].
 void buildUsrCursorDefinitionMap(clang_types.CXCursor translationUnitCursor) {
-  _bindings = {};
-  final resultCode = clang.clang_visitChildren(
-    translationUnitCursor,
-    _cursorDefinitionVisitorPtr ??= Pointer.fromFunction(
-        _definitionCursorVisitor, exceptional_visitor_return),
-    nullptr,
-  );
-
-  visitChildrenResultChecker(resultCode);
-}
-
-/// Child visitor invoked on translationUnitCursor [CXCursorKind.CXCursor_TranslationUnit].
-int _definitionCursorVisitor(clang_types.CXCursor cursor,
-    clang_types.CXCursor parent, Pointer<Void> clientData) {
-  try {
-    cursorIndex.saveDefinition(cursor);
-  } catch (e, s) {
-    _logger.severe(e);
-    _logger.severe(s);
-    rethrow;
-  }
-  return clang_types.CXChildVisitResult.CXChildVisit_Continue;
+  translationUnitCursor.visitChildren((cursor) {
+    try {
+      cursorIndex.saveDefinition(cursor);
+    } catch (e, s) {
+      _logger.severe(e);
+      _logger.severe(s);
+      rethrow;
+    }
+  });
 }

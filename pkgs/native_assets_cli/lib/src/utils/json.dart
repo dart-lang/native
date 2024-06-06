@@ -7,7 +7,19 @@ T as<T>(Object? object) {
     return object;
   }
   throw FormatException(
-    "Unexpected value '$object' in JSON. Expected a $T.",
+    "Unexpected value '$object' of type ${object.runtimeType} in JSON. Expected"
+    ' a $T.',
+  );
+}
+
+T get<T>(Map<Object?, Object?> map, String key) {
+  final object = map[key];
+  if (object is T) {
+    return object;
+  }
+  throw FormatException(
+    "Unexpected value '$object' of type ${object.runtimeType} in JSON for key "
+    '$key. Expected a $T.',
   );
 }
 

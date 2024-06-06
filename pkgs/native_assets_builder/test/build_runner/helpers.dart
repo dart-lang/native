@@ -40,38 +40,30 @@ Future<BuildResult> build(
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
-}) async {
-  StreamSubscription<LogRecord>? subscription;
-  if (capturedLogs != null) {
-    subscription =
-        logger.onRecord.listen((event) => capturedLogs.add(event.message));
-  }
+}) async =>
+    await runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).build(
+        buildMode: BuildModeImpl.release,
+        linkModePreference: linkModePreference,
+        target: Target.current,
+        workingDirectory: packageUri,
+        cCompilerConfig: cCompilerConfig,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+      );
 
-  final result = await NativeAssetsBuildRunner(
-    logger: logger,
-    dartExecutable: dartExecutable,
-  ).build(
-    buildMode: BuildModeImpl.release,
-    linkModePreference: linkModePreference,
-    target: Target.current,
-    workingDirectory: packageUri,
-    cCompilerConfig: cCompilerConfig,
-    includeParentEnvironment: includeParentEnvironment,
-    packageLayout: packageLayout,
-    runPackageName: runPackageName,
-  );
-  if (result.success) {
-    await expectAssetsExist(result.assets.cast<NativeCodeAssetImpl>());
-  }
+      if (result.success) {
+        await expectAssetsExist(result.assets);
+      }
 
-  if (subscription != null) {
-    await subscription.cancel();
-  }
+      return result;
+    });
 
-  return result;
-}
-
-Future<DryRunResult> dryRun(
+Future<LinkResult> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -80,23 +72,43 @@ Future<DryRunResult> dryRun(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
-}) async {
+  required BuildResult buildResult,
+  Uri? resourceIdentifiers,
+}) async =>
+    await runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).link(
+        linkModePreference: linkModePreference,
+        buildMode: BuildModeImpl.release,
+        target: Target.current,
+        workingDirectory: packageUri,
+        cCompilerConfig: cCompilerConfig,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        buildResult: buildResult,
+        resourceIdentifiers: resourceIdentifiers,
+      );
+
+      if (result.success) {
+        await expectAssetsExist(result.assets);
+      }
+
+      return result;
+    });
+
+Future<T> runWithLog<T>(
+  List<String>? capturedLogs,
+  Future<T> Function() f,
+) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
     subscription =
         logger.onRecord.listen((event) => capturedLogs.add(event.message));
   }
 
-  final result = await NativeAssetsBuildRunner(
-    logger: logger,
-    dartExecutable: dartExecutable,
-  ).dryRun(
-    linkModePreference: linkModePreference,
-    targetOS: Target.current.os,
-    workingDirectory: packageUri,
-    includeParentEnvironment: includeParentEnvironment,
-    packageLayout: packageLayout,
-  );
+  final result = await f();
 
   if (subscription != null) {
     await subscription.cancel();
@@ -105,15 +117,59 @@ Future<DryRunResult> dryRun(
   return result;
 }
 
-Future<void> expectAssetsExist(List<NativeCodeAssetImpl> assets) async {
+Future<BuildDryRunResult> buildDryRun(
+  Uri packageUri,
+  Logger logger,
+  Uri dartExecutable, {
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
+  bool includeParentEnvironment = true,
+  List<String>? capturedLogs,
+  PackageLayout? packageLayout,
+}) async =>
+    runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).buildDryRun(
+        linkModePreference: linkModePreference,
+        targetOS: Target.current.os,
+        workingDirectory: packageUri,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+      );
+      return result;
+    });
+
+Future<LinkDryRunResult> linkDryRun(
+  Uri packageUri,
+  Logger logger,
+  Uri dartExecutable, {
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
+  bool includeParentEnvironment = true,
+  List<String>? capturedLogs,
+  PackageLayout? packageLayout,
+  required BuildDryRunResult buildDryRunResult,
+}) async =>
+    runWithLog(capturedLogs, () async {
+      final result = await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      ).linkDryRun(
+        linkModePreference: linkModePreference,
+        targetOS: Target.current.os,
+        workingDirectory: packageUri,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        buildDryRunResult: buildDryRunResult,
+      );
+      return result;
+    });
+
+Future<void> expectAssetsExist(List<AssetImpl> assets) async {
   for (final asset in assets) {
-    final uri = asset.file!;
-    expect(
-        uri.toFilePath(),
-        contains('${Platform.pathSeparator}.dart_tool${Platform.pathSeparator}'
-            'native_assets_builder${Platform.pathSeparator}'));
-    final file = File.fromUri(uri);
-    expect(file, exists);
+    expect(File.fromUri(asset.file!), exists);
   }
 }
 

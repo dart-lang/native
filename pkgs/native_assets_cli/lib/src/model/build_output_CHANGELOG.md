@@ -1,9 +1,16 @@
+## 1.3.0  
+
+- Add key for assets to be linked.  
+  Backwards compatibility older build hooks: The key can be omitted.  
+  Backwards compatibility older SDKs: These are ignored on older SDKs.  
+
 ## 1.2.0
 
 - Changed default encoding to JSON.
   Backwards compatibility: JSON is parsable as YAML.
 - Changed filename from `build_output.yaml` to `build_output.json`.
   Backwards compatibility older SDKs: write to the old file name if an older BuildConfig was passed in.
+  Backwards compatibility: Try to read yaml file if json doesn't exist.
 
 ## 1.1.0
 

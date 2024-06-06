@@ -78,7 +78,7 @@ class Notifications extends jni.JObject {
                   ffi.VarArgs<
                       (
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int64,
+                        ffi.Int32,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
                       )>)>>("globalEnv_CallStaticVoidMethod")

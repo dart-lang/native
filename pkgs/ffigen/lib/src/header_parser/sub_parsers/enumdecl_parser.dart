@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/data.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/unnamed_enumdecl_parser.dart';
@@ -15,20 +13,6 @@ import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
-Pointer<
-        NativeFunction<
-            Int32 Function(
-                clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>)>>?
-    _enumCursorVisitorPtr;
-
-/// Holds temporary information regarding [EnumClass] while parsing.
-class _ParsedEnum {
-  EnumClass? enumClass;
-  _ParsedEnum();
-}
-
-final _stack = Stack<_ParsedEnum>();
-
 /// Parses an enum declaration.
 EnumClass? parseEnumDeclaration(
   clang_types.CXCursor cursor, {
@@ -36,8 +20,6 @@ EnumClass? parseEnumDeclaration(
   /// declarations when they are passed/returned by an included function.)
   bool ignoreFilter = false,
 }) {
-  _stack.push(_ParsedEnum());
-
   // Parse the cursor definition instead, if this is a forward declaration.
   cursor = cursorIndex.getDefinition(cursor);
 
@@ -58,68 +40,44 @@ EnumClass? parseEnumDeclaration(
     saveUnNamedEnum(cursor);
   } else if (ignoreFilter || shouldIncludeEnumClass(enumUsr, enumName)) {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
-    _stack.top.enumClass = EnumClass(
+    final enumClass = EnumClass(
       usr: enumUsr,
       dartDoc: getCursorDocComment(cursor),
       originalName: enumName,
       name: config.enumClassDecl.renameUsingConfig(enumName),
     );
-    _addEnumConstant(cursor);
+    cursor.visitChildren((clang_types.CXCursor child) {
+      try {
+        _logger.finest('  enumCursorVisitor: ${child.completeStringRepr()}');
+        switch (clang.clang_getCursorKind(child)) {
+          case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
+            enumClass.enumConstants.add(
+              EnumConstant(
+                  dartDoc: getCursorDocComment(
+                    child,
+                    nesting.length + commentPrefix.length,
+                  ),
+                  originalName: child.spelling(),
+                  name: config.enumClassDecl.renameMemberUsingConfig(
+                    enumClass.originalName,
+                    child.spelling(),
+                  ),
+                  value: clang.clang_getEnumConstantDeclValue(child)),
+            );
+            break;
+          case clang_types.CXCursorKind.CXCursor_UnexposedAttr:
+            // Ignore.
+            break;
+          default:
+            _logger.fine('invalid enum constant');
+        }
+      } catch (e, s) {
+        _logger.severe(e);
+        _logger.severe(s);
+        rethrow;
+      }
+    });
+    return enumClass;
   }
-
-  return _stack.pop().enumClass;
-}
-
-void _addEnumConstant(clang_types.CXCursor cursor) {
-  final resultCode = clang.clang_visitChildren(
-    cursor,
-    _enumCursorVisitorPtr ??=
-        Pointer.fromFunction(_enumCursorVisitor, exceptional_visitor_return),
-    nullptr,
-  );
-
-  visitChildrenResultChecker(resultCode);
-}
-
-/// Visitor for a enum cursor [clang.CXCursorKind.CXCursor_EnumDecl].
-///
-/// Invoked on every enum directly under rootCursor.
-/// Used for for extracting enum values.
-int _enumCursorVisitor(clang_types.CXCursor cursor, clang_types.CXCursor parent,
-    Pointer<Void> clientData) {
-  try {
-    _logger.finest('  enumCursorVisitor: ${cursor.completeStringRepr()}');
-    switch (clang.clang_getCursorKind(cursor)) {
-      case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
-        _addEnumConstantToEnumClass(cursor);
-        break;
-      case clang_types.CXCursorKind.CXCursor_UnexposedAttr:
-        // Ignore.
-        break;
-      default:
-        _logger.fine('invalid enum constant');
-    }
-  } catch (e, s) {
-    _logger.severe(e);
-    _logger.severe(s);
-    rethrow;
-  }
-  return clang_types.CXChildVisitResult.CXChildVisit_Continue;
-}
-
-/// Adds the parameter to func in [functiondecl_parser.dart].
-void _addEnumConstantToEnumClass(clang_types.CXCursor cursor) {
-  _stack.top.enumClass!.enumConstants.add(
-    EnumConstant(
-        dartDoc: getCursorDocComment(
-          cursor,
-          nesting.length + commentPrefix.length,
-        ),
-        originalName: cursor.spelling(),
-        name: config.enumClassDecl.renameMemberUsingConfig(
-          _stack.top.enumClass!.originalName,
-          cursor.spelling(),
-        ),
-        value: clang.clang_getEnumConstantDeclValue(cursor)),
-  );
+  return null;
 }
