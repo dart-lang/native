@@ -98,7 +98,7 @@ void main() {
         // Test for https://github.com/dart-lang/native/issues/1007
         final resultPtr = calloc<Vec4>();
         final result = resultPtr.ref;
-        testInstance.Vec41(resultPtr);  // A slightly unfortunate rename :P
+        testInstance.Vec41(resultPtr); // A slightly unfortunate rename :P
         expect(result.x, 1);
         expect(result.y, 2);
         expect(result.z, 3);
