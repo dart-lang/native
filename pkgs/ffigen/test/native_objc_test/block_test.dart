@@ -306,23 +306,35 @@ void main() {
       // One reference held by inputBlock object, another bound to the
       // outputBlock lambda.
       expect(blockRetainCount(inputBlock.pointer), 2);
+      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.pointer.cast()),
+          true);
 
       expect(blockRetainCount(blockBlock.pointer), 1);
+      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.pointer.cast()),
+          true);
       expect(blockRetainCount(outputBlock.pointer), 1);
+      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.pointer.cast()),
+          true);
       return (inputBlock.pointer, blockBlock.pointer, outputBlock.pointer);
     }
 
-    test('Calling a block block from Dart has correct ref counting', () {
+    test('Calling a block block from Dart has correct ref counting', () async {
       final (inputBlock, blockBlock, outputBlock) =
           blockBlockDartCallRefCountTest();
       doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
-      // This leaks because block functions aren't cleaned up at the moment.
-      // TODO(https://github.com/dart-lang/ffigen/issues/428): Fix this leak.
-      expect(blockRetainCount(inputBlock), 1);
-
+      expect(blockRetainCount(inputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+          false);
       expect(blockRetainCount(blockBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
+          false);
       expect(blockRetainCount(outputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
+          false);
     });
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
@@ -338,23 +350,35 @@ void main() {
       expect(outputBlock(1), 6);
       doGC();
 
-      expect(blockRetainCount(inputBlock), 2);
+      expect(blockRetainCount(inputBlock), 1);
+      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+          false);
       expect(blockRetainCount(blockBlock.pointer), 1);
+      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.pointer.cast()),
+          true);
       expect(blockRetainCount(outputBlock.pointer), 1);
+      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.pointer.cast()),
+          true);
       return (inputBlock, blockBlock.pointer, outputBlock.pointer);
     }
 
-    test('Calling a block block from ObjC has correct ref counting', () {
+    test('Calling a block block from ObjC has correct ref counting', () async {
       final (inputBlock, blockBlock, outputBlock) =
           blockBlockObjCCallRefCountTest();
       doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
-      // This leaks because block functions aren't cleaned up at the moment.
-      // TODO(https://github.com/dart-lang/ffigen/issues/428): Fix this leak.
-      expect(blockRetainCount(inputBlock), 2);
-
+      expect(blockRetainCount(inputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+          false);
       expect(blockRetainCount(blockBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
+          false);
       expect(blockRetainCount(outputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
+          false);
     });
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
@@ -453,15 +477,14 @@ void main() {
     test(
         'Objects received and returned by native blocks have correct ref counts',
         () {
-      using((Arena arena) {
+      using((Arena arena) async {
         final (inputCounter, outputCounter) =
             objectNativeBlockRefCountTest(arena);
         doGC();
+        await Future<void>.delayed(Duration.zero); // Let dispose message arrive
+        doGC();
 
-        // This leaks because block functions aren't cleaned up at the moment.
-        // TODO(https://github.com/dart-lang/ffigen/issues/428): Fix this leak.
-        expect(inputCounter.value, 1);
-
+        expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
     });

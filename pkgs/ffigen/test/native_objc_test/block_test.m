@@ -131,7 +131,10 @@ typedef IntBlock (^BlockBlock)(IntBlock);
 }
 
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED {
-  return block([DummyObject new]);
+  DummyObject* inputObject = [DummyObject new];
+  DummyObject* outputObject = block(inputObject);
+  [inputObject release]; // Release the reference held by this scope.
+  return outputObject;
 }
 
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block {
@@ -139,10 +142,13 @@ typedef IntBlock (^BlockBlock)(IntBlock);
 }
 
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult {
-  return block([^int(int x) {
+  IntBlock inputBlock = [^int(int x) {
     return mult * x;
-  } copy]);
+  } copy];
   // ^ copy this stack allocated block to the heap.
+  IntBlock outputBlock = block(inputBlock);
+  [inputBlock release]; // Release the reference held by this scope.
+  return outputBlock;
 }
 
 + (BlockBlock)newBlockBlock:(int)mult {

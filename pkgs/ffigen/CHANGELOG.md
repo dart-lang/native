@@ -17,7 +17,7 @@
 - __Breaking change__: Use `package:objective_c` in ObjC bindings.
   - ObjC packages will have a flutter dependency (until
     https://github.com/dart-lang/native/issues/1068 is fixed).
-  - Core classes such as `NSString` have been moved intpu `package:objective_c`.
+  - Core classes such as `NSString` have been moved into `package:objective_c`.
   - ObjC class methods don't need the ubiquitous `lib` argument anymore. In
     fact, ffigen won't even generate the native library class (unless it needs
     to bind top level functions without using `@Native`). It is still necessary
