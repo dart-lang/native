@@ -17,12 +17,6 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  ffi: ^2.1.0
 
 dev_dependencies:
-  ffigen: ^11.0.0
   test: ^1.21.1
-
-dependency_overrides:
-  ffigen:
-    path: ../ffigen/
