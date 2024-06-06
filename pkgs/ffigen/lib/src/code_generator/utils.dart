@@ -15,9 +15,15 @@ class UniqueNamer {
   final Set<String> _usedUpNames;
 
   /// Creates a UniqueNamer with given [usedUpNames] and Dart reserved keywords.
-  UniqueNamer(Set<String> usedUpNames)
+  ///
+  /// If [parent] is provided, also includes all the parent's names.
+  UniqueNamer(Set<String> usedUpNames, {UniqueNamer? parent})
       : assert(keywords.intersection(usedUpNames).isEmpty),
-        _usedUpNames = {...keywords, ...usedUpNames};
+        _usedUpNames = {
+          ...keywords,
+          ...usedUpNames,
+          ...(parent?._usedUpNames ?? {}),
+        };
 
   /// Creates a UniqueNamer with given [usedUpNames] only.
   UniqueNamer._raw(this._usedUpNames);

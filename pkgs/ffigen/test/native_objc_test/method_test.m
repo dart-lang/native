@@ -24,6 +24,7 @@ typedef struct {
 -(Vec4)twiddleVec4Components:(Vec4)v;
 -(float)addFloats:(float)x Y:(float) y;
 -(double)addDoubles:(double)x Y:(double) y;
+-(Vec4)Vec4;
 
 @end
 
@@ -76,6 +77,15 @@ typedef struct {
 
 -(double)addDoubles:(double)x Y:(double) y {
     return x + y;
+}
+
+-(Vec4)Vec4 {
+    Vec4 u;
+    u.x = 1;
+    u.y = 2;
+    u.z = 3;
+    u.w = 4;
+    return u;
 }
 
 @end
