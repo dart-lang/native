@@ -55,6 +55,7 @@ typedef void (^VoidBlock)();
 typedef DummyObject* (^ObjectBlock)(DummyObject*);
 typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable);
 typedef IntBlock (^BlockBlock)(IntBlock);
+typedef void (^ListenerBlock)(IntBlock);
 
 // Wrapper around a block, so that our Dart code can test creating and invoking
 // blocks in Objective C code.
@@ -68,11 +69,13 @@ typedef IntBlock (^BlockBlock)(IntBlock);
 - (void)pokeBlock;
 + (void)callOnSameThread:(VoidBlock)block;
 + (NSThread*)callOnNewThread:(VoidBlock)block;
++ (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block;
 + (float)callFloatBlock:(FloatBlock)block;
 + (double)callDoubleBlock:(DoubleBlock)block;
 + (Vec4)callVec4Block:(Vec4Block)block;
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED;
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block;
++ (void)callListener:(ListenerBlock)block;
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult;
 + (BlockBlock)newBlockBlock:(int)mult;
 @end
@@ -111,6 +114,23 @@ typedef IntBlock (^BlockBlock)(IntBlock);
 
 + (NSThread*)callOnNewThread:(VoidBlock)block {
   return [[NSThread alloc] initWithBlock: block];
+}
+
++ (void)callListener:(ListenerBlock)block {
+  // Note: This method is invoked on a background thread.
+
+  IntBlock inputBlock = [^int(int x) {
+    return 100 * x;
+  } copy];
+  // ^ copy this stack allocated block to the heap.
+  block(inputBlock);
+  [inputBlock release]; // Release the reference held by this scope.
+}
+
++ (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block {
+  return [[NSThread alloc] initWithTarget:[BlockTester class]
+                                 selector:@selector(callListener:)
+                                   object:block];
 }
 
 + (float)callFloatBlock:(FloatBlock)block {

@@ -6,6 +6,17 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - BlockTester
+typedefs:
+  include:
+    - IntBlock
+    - FloatBlock
+    - DoubleBlock
+    - Vec4Block
+    - VoidBlock
+    - ObjectBlock
+    - NullableObjectBlock
+    - BlockBlock
+    - ListenerBlock
 headers:
   entry-points:
     - 'block_test.m'
