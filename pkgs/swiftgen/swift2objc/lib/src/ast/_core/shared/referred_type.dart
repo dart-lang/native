@@ -14,12 +14,12 @@ abstract class ReferredType {
 
 class DeclaredType<T extends Declaration> extends ReferredType {
   T declaration;
-  List<ReferredType> genericParams;
+  List<ReferredType> typeParams;
 
   DeclaredType({
     required super.id,
     required this.declaration,
-    required this.genericParams,
+    required this.typeParams,
   });
 }
 

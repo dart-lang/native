@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/enum_declaration.dart';
-import '../../_core/interfaces/paramable.dart';
+import '../../_core/interfaces/parameterizable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import '../compounds/protocol_declaration.dart';
@@ -20,7 +20,7 @@ class AssociatedValueEnumDeclaration implements EnumDeclaration {
   covariant List<AssociatedValueEnumCase> cases;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -29,13 +29,13 @@ class AssociatedValueEnumDeclaration implements EnumDeclaration {
     required this.id,
     required this.name,
     required this.cases,
-    required this.genericParams,
+    required this.typeParams,
     required this.conformedProtocols,
   });
 }
 
 /// Describes the declaration of a Swift enum case with associated values.
-class AssociatedValueEnumCase implements EnumCase, Paramable {
+class AssociatedValueEnumCase implements EnumCase, Parameterizable {
   @override
   String id;
 
