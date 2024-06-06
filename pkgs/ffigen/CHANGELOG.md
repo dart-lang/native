@@ -3,6 +3,8 @@
 - __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
   than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
   `NSProxy`.
+- Rename ObjC interface methods that clash with type names. Fixes
+  https://github.com/dart-lang/native/issues/1007.
 
 ## 12.0.0
 
