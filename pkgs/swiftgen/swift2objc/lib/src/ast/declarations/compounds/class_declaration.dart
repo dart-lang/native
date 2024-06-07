@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../_core/interfaces/compund_declaration.dart';
+import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
@@ -26,7 +26,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   @override
   bool hasObjCAnnotation;
@@ -39,7 +39,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     required this.properties,
     required this.methods,
     required this.conformedProtocols,
-    required this.genericParams,
+    required this.typeParams,
     required this.hasObjCAnnotation,
     this.superClass,
   });
@@ -85,7 +85,7 @@ class ClassMethodDeclaration
   List<Parameter> params;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   @override
   ReferredType returnType;
@@ -97,7 +97,7 @@ class ClassMethodDeclaration
     required this.id,
     required this.name,
     required this.params,
-    required this.genericParams,
+    required this.typeParams,
     required this.returnType,
     required this.hasObjCAnnotation,
   });

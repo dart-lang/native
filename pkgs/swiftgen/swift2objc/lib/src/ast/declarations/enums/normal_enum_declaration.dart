@@ -18,7 +18,7 @@ class NormalEnumDeclaration implements EnumDeclaration {
   covariant List<NormalEnumCase> cases;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -27,7 +27,7 @@ class NormalEnumDeclaration implements EnumDeclaration {
     required this.id,
     required this.name,
     required this.cases,
-    required this.genericParams,
+    required this.typeParams,
     required this.conformedProtocols,
   });
 }

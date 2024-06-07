@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../_core/interfaces/compund_declaration.dart';
+import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import 'protocol_declaration.dart';
@@ -25,7 +25,7 @@ class StructDeclaration implements CompoundDeclaration {
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   StructDeclaration({
     required this.id,
@@ -33,7 +33,7 @@ class StructDeclaration implements CompoundDeclaration {
     required this.properties,
     required this.methods,
     required this.conformedProtocols,
-    required this.genericParams,
+    required this.typeParams,
   });
 }
 
@@ -71,7 +71,7 @@ class StructMethodDeclaration implements CompoundMethodDeclaration {
   List<Parameter> params;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   @override
   ReferredType returnType;
@@ -80,7 +80,7 @@ class StructMethodDeclaration implements CompoundMethodDeclaration {
     required this.id,
     required this.name,
     required this.params,
-    required this.genericParams,
+    required this.typeParams,
     required this.returnType,
   });
 }
