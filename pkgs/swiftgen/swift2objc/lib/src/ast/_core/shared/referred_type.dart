@@ -4,7 +4,7 @@
 
 import '../interfaces/declaration.dart';
 
-/// Describes a type regerence in declaration of Swift entities (e.g a method return type).
+/// Describes a type reference in declaration of Swift entities (e.g a method return type).
 /// See `DeclaredType` and `GenericType` for concrete implementation.
 abstract class ReferredType {
   String id;
@@ -12,6 +12,7 @@ abstract class ReferredType {
   ReferredType({required this.id});
 }
 
+/// Describes a reference of a user-defined type.
 class DeclaredType<T extends Declaration> extends ReferredType {
   T declaration;
   List<ReferredType> typeParams;
@@ -23,6 +24,7 @@ class DeclaredType<T extends Declaration> extends ReferredType {
   });
 }
 
+/// Describes a reference of a generic type (e.g a method return type `T` within a generic class).
 class GenericType extends ReferredType {
   String name;
 
