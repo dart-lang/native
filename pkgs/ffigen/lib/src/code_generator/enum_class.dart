@@ -29,12 +29,12 @@ import 'writer.dart';
 /// enum Fruits {
 ///   apple(0),
 ///   banana(10);
-/// 
+///
 ///   static const yellow_fruit = banana;
-/// 
+///
 ///   final int value;
 ///   const Fruit(this.value);
-/// 
+///
 ///   @override
 ///   String toString() {
 ///     if (this == banana) return "Fruits.banana, Fruits.yellow_fruit";
@@ -77,7 +77,9 @@ class EnumClass extends BindingType {
     uniqueToDuplicates.clear();
     duplicateToOriginal.clear();
     for (final ec in enumConstants) {
-      final original = uniqueMembers.firstWhereOrNull((other) => other.value == ec.value);
+      final original = uniqueMembers.firstWhereOrNull(
+        (other) => other.value == ec.value,
+      );
       if (original == null) {
         // This is a unique entry
         uniqueMembers.add(ec);
@@ -96,12 +98,8 @@ class EnumClass extends BindingType {
     required super.name,
     super.dartDoc,
     List<EnumConstant>? enumConstants,
-  }) : 
-    enumConstants = enumConstants ?? [],
-    namer = UniqueNamer({name})
-  { 
-    scanForDuplicates();
-  }
+  })  : enumConstants = enumConstants ?? [],
+        namer = UniqueNamer({name});
 
   void writeUniqueMembers(StringBuffer s) {
     s.write("$depth// ===== Unique members =====\n");
@@ -136,14 +134,17 @@ class EnumClass extends BindingType {
     for (final entry in uniqueToDuplicates.entries) {
       // [!] All enum values were given a name when their declarations were generated
       final unique = entry.key;
-      final originalName = enumNames[unique]!;      
+      final originalName = enumNames[unique]!;
       final duplicates = entry.value;
       if (duplicates.isEmpty) continue;
       final allDuplicates = [
         for (final duplicate in [unique] + duplicates)
           "$name.${enumNames[duplicate]!}",
       ].join(", ");
-      s.write('${depth * 2}if (this == $originalName) return "$allDuplicates";\n');
+      s.write(
+        '$depth$depth'
+        'if (this == $originalName) return "$allDuplicates";\n',
+      );
     }
     s.write("${depth * 2}return super.toString();\n");
     s.write("$depth}\n");
@@ -170,15 +171,15 @@ class EnumClass extends BindingType {
       writeEmptyEnum(s);
     } else {
       s.write('enum $name {\n');
-        writeUniqueMembers(s);
-        writeDuplicateMembers(s);
-        writeConstructor(s);
-        writeToStringOverride(s);
+      writeUniqueMembers(s);
+      writeDuplicateMembers(s);
+      writeConstructor(s);
+      writeToStringOverride(s);
       s.write('}\n\n');
     }
 
     return BindingString(
-      type: BindingStringType.enum_, 
+      type: BindingStringType.enum_,
       string: s.toString(),
     );
   }
@@ -186,7 +187,6 @@ class EnumClass extends BindingType {
   @override
   void addDependencies(Set<Binding> dependencies) {
     if (dependencies.contains(this)) return;
-
     dependencies.add(this);
   }
 
