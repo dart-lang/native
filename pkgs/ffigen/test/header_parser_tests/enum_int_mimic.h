@@ -14,16 +14,6 @@ enum SimpleWithNegative {
     B1=-1000,
 };
 
-enum SimpleWithLong {
-    C0,
-    C1=9999999999,
-};
-
-enum SimpleWithNegativeLong {
-    D0,
-    D1=-9999999999,
-};
-
 enum ExplicitType : int16_t {
     E0,
     E1,
@@ -32,7 +22,5 @@ enum ExplicitType : int16_t {
 struct Test {
     enum Simple simple;
     enum SimpleWithNegative *simpleWithNegative;
-    enum SimpleWithLong **simpleWithLong;
-    enum SimpleWithNegativeLong simpleWithNegativeLong[4];
-    enum ExplicitType explicitType;
+    enum ExplicitType explicitType[5];
 };

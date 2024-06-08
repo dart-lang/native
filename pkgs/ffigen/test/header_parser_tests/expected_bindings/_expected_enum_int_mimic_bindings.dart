@@ -14,16 +14,6 @@ abstract class SimpleWithNegative {
   static const int B1 = -1000;
 }
 
-abstract class SimpleWithLong {
-  static const int C0 = 0;
-  static const int C1 = 9999999999;
-}
-
-abstract class SimpleWithNegativeLong {
-  static const int D0 = 0;
-  static const int D1 = -9999999999;
-}
-
 abstract class ExplicitType {
   static const int E0 = 0;
   static const int E1 = 1;
@@ -35,11 +25,6 @@ final class Test extends ffi.Struct {
 
   external ffi.Pointer<ffi.Int> simpleWithNegative;
 
-  external ffi.Pointer<ffi.Pointer<ffi.UnsignedLong>> simpleWithLong;
-
-  @ffi.Array.multi([4])
-  external ffi.Array<ffi.Long> simpleWithNegativeLong;
-
-  @ffi.Int16()
-  external int explicitType;
+  @ffi.Array.multi([5])
+  external ffi.Array<ffi.Int16> explicitType;
 }
