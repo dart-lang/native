@@ -33,14 +33,12 @@ final class Test extends ffi.Struct {
   @ffi.UnsignedInt()
   external int simple;
 
-  @ffi.Int()
-  external int simpleWithNegative;
+  external ffi.Pointer<ffi.Int> simpleWithNegative;
 
-  @ffi.UnsignedLong()
-  external int simpleWithLong;
+  external ffi.Pointer<ffi.Pointer<ffi.UnsignedLong>> simpleWithLong;
 
-  @ffi.Long()
-  external int simpleWithNegativeLong;
+  @ffi.Array.multi([4])
+  external ffi.Array<ffi.Long> simpleWithNegativeLong;
 
   @ffi.Int16()
   external int explicitType;
