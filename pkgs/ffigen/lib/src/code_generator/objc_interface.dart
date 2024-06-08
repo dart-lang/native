@@ -79,7 +79,8 @@ class ObjCInterface extends BindingType {
       s.write(makeDartDoc(dartDoc!));
     }
 
-    final uniqueNamer = UniqueNamer({name, 'pointer'});
+    final uniqueNamer =
+        UniqueNamer({name, 'pointer'}, parent: w.topLevelUniqueNamer);
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);

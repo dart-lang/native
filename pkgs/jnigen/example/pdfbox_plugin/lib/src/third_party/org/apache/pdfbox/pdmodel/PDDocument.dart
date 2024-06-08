@@ -510,7 +510,7 @@ class PDDocument extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int64,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1883,7 +1883,7 @@ class PDDocument extends jni.JObject {
   static final _getPage = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int64,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -2089,7 +2089,7 @@ class PDDocument extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int64,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -2200,7 +2200,7 @@ class PDDocument extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Float,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
