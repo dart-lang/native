@@ -75,12 +75,6 @@ class Library {
     final noLookUpBindings =
         this.bindings.whereType<NoLookUpBinding>().toList();
 
-    if (!silenceEnumWarning &&
-        this.bindings.whereType<EnumClass>().isNotEmpty) {
-      _logger.severe(
-          "The integer type used for enums is implementation-defined. FFIgen tries to mimic the integer sizes chosen by the most common compilers for the various OS and architecture combinations. To prevent any crashes, remove the enums from your API surface. To rely on the (unsafe!) mimicking, you can silence this warning by adding silence-enum-warning: true to the FFIgen config.");
-    }
-
     _writer = Writer(
       lookUpBindings: lookupBindings,
       ffiNativeBindings: nativeBindings,
@@ -91,6 +85,7 @@ class Library {
       header: header,
       additionalImports: libraryImports,
       generateForPackageObjectiveC: generateForPackageObjectiveC,
+      silenceEnumWarning: silenceEnumWarning,
     );
   }
 
