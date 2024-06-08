@@ -22,6 +22,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   /// declarations when they are passed/returned by an included function.)
   bool ignoreFilter = false,
 }) {
+  EnumClass? enumClass;
   // Parse the cursor definition instead, if this is a forward declaration.
   cursor = cursorIndex.getDefinition(cursor);
 
@@ -48,7 +49,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
         addedConstants.where((c) => c.rawValue.startsWith("-")).isNotEmpty;
   } else if (ignoreFilter || shouldIncludeEnumClass(enumUsr, enumName)) {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
-    final enumClass = EnumClass(
+    enumClass = EnumClass(
       usr: enumUsr,
       dartDoc: getCursorDocComment(cursor),
       originalName: enumName,
@@ -61,7 +62,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
         switch (clang.clang_getCursorKind(child)) {
           case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
             final enumIntValue = clang.clang_getEnumConstantDeclValue(child);
-            enumClass.enumConstants.add(
+            enumClass!.enumConstants.add(
               EnumConstant(
                   dartDoc: getCursorDocComment(
                     child,
@@ -90,14 +91,15 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
         rethrow;
       }
     });
-    if (hasNegativeEnumConstants) {
-      // Change enum native type to signed type.
-      _logger.fine(
-          'For enum $enumUsr - using signed type for $nativeType : ${unsignedToSignedNativeIntType[nativeType]}');
-      nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;
-      enumClass.nativeType = nativeType;
-    }
-    return (enumClass, nativeType);
   }
-  return (null, nativeType);
+
+  if (hasNegativeEnumConstants) {
+    // Change enum native type to signed type.
+    _logger.fine(
+        'For enum $enumUsr - using signed type for $nativeType : ${unsignedToSignedNativeIntType[nativeType]}');
+    nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;
+    enumClass?.nativeType = nativeType;
+  }
+
+  return (enumClass, nativeType);
 }

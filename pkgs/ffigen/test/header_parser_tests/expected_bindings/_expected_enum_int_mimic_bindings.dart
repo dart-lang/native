@@ -27,4 +27,19 @@ final class Test extends ffi.Struct {
 
   @ffi.Array.multi([5])
   external ffi.Array<ffi.Int16> explicitType;
+
+  @ffi.UnsignedInt()
+  external int simpleWithAnonymousEnum;
+
+  @ffi.Int()
+  external int simpleNegativeWithAnonymousEnum;
+
+  @ffi.Int8()
+  external int explicitTypeWithAnonymousEnum;
 }
+
+const int ANONYMOUS1 = 0;
+
+const int ANONYMOUS2 = -1000;
+
+const int ANONYMOUS3 = 0;
