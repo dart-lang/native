@@ -24,7 +24,7 @@ import 'writer.dart';
 /// }
 /// ```
 class EnumClass extends BindingType {
-  final Type nativeType;
+  Type nativeType;
   final List<EnumConstant> enumConstants;
 
   EnumClass({

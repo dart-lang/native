@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/data.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/unnamed_enumdecl_parser.dart';
+import 'package:ffigen/src/header_parser/type_extractor/cxtypekindmap.dart';
 import 'package:logging/logging.dart';
 
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -35,11 +36,16 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   } else {
     enumName = '';
   }
-  final nativeType = clang.clang_getEnumDeclIntegerType(cursor).toCodeGenType();
+  var nativeType = clang.clang_getEnumDeclIntegerType(cursor).toCodeGenType();
+  // Change to unsigned type by default.
+  nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
+  bool hasNegativeEnumConstants = false;
 
   if (enumName.isEmpty) {
     _logger.fine('Saving anonymous enum.');
-    saveUnNamedEnum(cursor);
+    final addedConstants = saveUnNamedEnum(cursor);
+    hasNegativeEnumConstants =
+        addedConstants.where((c) => c.rawValue.startsWith("-")).isNotEmpty;
   } else if (ignoreFilter || shouldIncludeEnumClass(enumUsr, enumName)) {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     final enumClass = EnumClass(
@@ -54,6 +60,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
         _logger.finest('  enumCursorVisitor: ${child.completeStringRepr()}');
         switch (clang.clang_getCursorKind(child)) {
           case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
+            final enumIntValue = clang.clang_getEnumConstantDeclValue(child);
             enumClass.enumConstants.add(
               EnumConstant(
                   dartDoc: getCursorDocComment(
@@ -65,8 +72,11 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
                     enumClass.originalName,
                     child.spelling(),
                   ),
-                  value: clang.clang_getEnumConstantDeclValue(child)),
+                  value: enumIntValue),
             );
+            if (enumIntValue < 0) {
+              hasNegativeEnumConstants = true;
+            }
             break;
           case clang_types.CXCursorKind.CXCursor_UnexposedAttr:
             // Ignore.
@@ -80,6 +90,13 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
         rethrow;
       }
     });
+    if (hasNegativeEnumConstants) {
+      // Change enum native type to signed type.
+      _logger.fine(
+          'For enum $enumUsr - using signed type for $nativeType : ${unsignedToSignedNativeIntType[nativeType]}');
+      nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;
+      enumClass.nativeType = nativeType;
+    }
     return (enumClass, nativeType);
   }
   return (null, nativeType);
