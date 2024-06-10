@@ -59,9 +59,12 @@ final class BaseUnion2 extends ffi.Union {
   external int a;
 }
 
-abstract class BaseEnum {
-  static const int BASE_ENUM_1 = 0;
-  static const int BASE_ENUM_2 = 1;
+enum BaseEnum {
+  BASE_ENUM_1(0),
+  BASE_ENUM_2(1);
+
+  final int value;
+  const BaseEnum(this.value);
 }
 
 typedef BaseTypedef1 = BaseStruct1;

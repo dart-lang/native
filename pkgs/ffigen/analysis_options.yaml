@@ -15,6 +15,7 @@ analyzer:
     - example/objective_c/**
     - example/swift/**
     - test_flutter/native_objc_test/**
+    - test/native_objc_test/**
   language:
     strict-casts: true
     strict-inference: true

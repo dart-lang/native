@@ -73,6 +73,6 @@ final class _Test extends ffi.Struct {
 
 final class ArrayHelperPrefixCollisionTest extends ffi.Opaque {}
 
-abstract class _c_Test {}
+sealed class _c_Test {}
 
-abstract class init_dylib {}
+sealed class init_dylib {}

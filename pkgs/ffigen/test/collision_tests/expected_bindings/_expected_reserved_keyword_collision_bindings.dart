@@ -51,9 +51,9 @@ final class abstract2 extends ffi.Opaque {}
 
 final class if1 extends ffi.Opaque {}
 
-abstract class return1 {}
+sealed class return1 {}
 
-abstract class export1 {}
+sealed class export1 {}
 
 const int else1 = 0;
 

@@ -356,6 +356,37 @@ void main() {
       _matchLib(library, 'enumclass');
     });
 
+    test('enum_class with duplicates', () {
+      final library = Library(
+        name: 'Bindings',
+        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        bindings: [
+          EnumClass(
+            name: 'Duplicates',
+            dartDoc: 'test line 1\ntest line 2',
+            enumConstants: [
+              EnumConstant(
+                name: 'a',
+                value: 0,
+                dartDoc: "This is a unique value",
+              ),
+              EnumConstant(
+                name: 'b',
+                value: 1,
+                dartDoc: "This is an original value",
+              ),
+              EnumConstant(
+                name: 'c',
+                value: 1,
+                dartDoc: "This is a duplicate value",
+              ),
+            ],
+          ),
+        ],
+      );
+      _matchLib(library, 'enumclass_duplicates');
+    });
+
     test('Internal conflict resolution', () {
       final library = Library(
         name: 'init_dylib',

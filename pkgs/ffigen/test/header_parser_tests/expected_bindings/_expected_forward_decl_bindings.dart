@@ -44,7 +44,10 @@ final class A extends ffi.Struct {
   external int b;
 }
 
-abstract class B {
-  static const int a = 0;
-  static const int b = 1;
+enum B {
+  a(0),
+  b(1);
+
+  final int value;
+  const B(this.value);
 }
