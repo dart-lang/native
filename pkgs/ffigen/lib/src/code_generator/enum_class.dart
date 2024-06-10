@@ -192,6 +192,16 @@ class EnumClass extends BindingType {
     s.write("sealed class $name { }\n");
   }
 
+  void writeFromValue(StringBuffer s) {
+    s.write("${depth}static $name fromValue(int value) => switch (value) {\n");
+    for (final member in uniqueMembers) {
+      final memberName = enumNames[member]!;
+      s.write("$depth$depth${member.value} => $memberName,\n");
+    }
+    s.write('$depth${depth}_ => throw ArgumentError("Invalid value for $name: \$value"),\n');
+    s.write("$depth};");
+  }
+
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
@@ -207,6 +217,8 @@ class EnumClass extends BindingType {
       writeDuplicateMembers(s);
       s.write("\n");
       writeConstructor(s);
+      s.write("\n");
+      writeFromValue(s);
       s.write("\n");
       writeToStringOverride(s);
       s.write('}\n\n');
@@ -231,10 +243,13 @@ class EnumClass extends BindingType {
   String getFfiDartType(Writer w) => nativeType.getFfiDartType(w);
 
   @override
+  String getDartType(Writer w) => name;
+
+  @override
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
 
   @override
-  bool get sameDartAndCType => nativeType.sameDartAndCType;
+  bool get sameDartAndCType => false;
 
   @override
   String? getDefaultValue(Writer w) => '0';

@@ -110,6 +110,7 @@ class Func extends LookUpBinding {
     final dartType = _exposedFunctionTypealias?.getFfiDartType(w) ??
         functionType.getFfiDartType(w, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
+    final returnsEnum = functionType.returnType is EnumClass;
 
     final funcVarName = w.wrapperLevelUniqueNamer.makeUnique('_$name');
     final ffiReturnType = functionType.returnType.getFfiDartType(w);
@@ -176,12 +177,16 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
       final isLeafString = isLeaf ? 'isLeaf:true' : '';
 
       // Write enclosing function.
-      s.write('''
-$dartReturnType $enclosingFuncName($dartArgDeclString) {
-  return $funcImplCall;
-}
-
-''');
+      if (returnsEnum) {
+        final enumName = functionType.returnType.getDartType(w);
+        s.write("\n$enumName $enclosingFuncName($dartArgDeclString) {\n");
+        s.write("return $enumName.fromValue($funcImplCall);\n");
+        s.write("}\n");
+      } else {
+        s.write("\n$dartReturnType $enclosingFuncName($dartArgDeclString) {\n");
+        s.write("return $funcImplCall;\n");
+        s.write("}\n");
+      }
 
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
