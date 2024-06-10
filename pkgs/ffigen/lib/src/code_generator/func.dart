@@ -176,9 +176,9 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
       final isLeafString = isLeaf ? 'isLeaf:true' : '';
 
       // Write enclosing function.
-      s.write("\n$dartReturnType $enclosingFuncName($dartArgDeclString) {\n");
+      s.write("$dartReturnType $enclosingFuncName($dartArgDeclString) {\n");
       s.write("return $funcImplCall;\n");
-      s.write("}\n");
+      s.write("}\n\n");
 
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.

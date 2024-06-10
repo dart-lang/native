@@ -110,6 +110,12 @@ enum AnonymousEnumInTypedef {
 
   final int value;
   const AnonymousEnumInTypedef(this.value);
+
+  static AnonymousEnumInTypedef fromValue(int value) => switch (value) {
+        0 => a,
+        _ => throw ArgumentError(
+            "Invalid value for AnonymousEnumInTypedef: $value"),
+      };
 }
 
 enum _NamedEnumInTypedef {
@@ -117,6 +123,12 @@ enum _NamedEnumInTypedef {
 
   final int value;
   const _NamedEnumInTypedef(this.value);
+
+  static _NamedEnumInTypedef fromValue(int value) => switch (value) {
+        0 => b,
+        _ =>
+          throw ArgumentError("Invalid value for _NamedEnumInTypedef: $value"),
+      };
 }
 
 typedef NestingASpecifiedType = ffi.IntPtr;

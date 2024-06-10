@@ -22,11 +22,11 @@ class NativeLibrary {
 
   void func(
     ffi.Pointer<A> a,
-    int b,
+    B b,
   ) {
     return _func(
       a,
-      b,
+      b.value,
     );
   }
 
@@ -50,4 +50,10 @@ enum B {
 
   final int value;
   const B(this.value);
+
+  static B fromValue(int value) => switch (value) {
+        0 => a,
+        1 => b,
+        _ => throw ArgumentError("Invalid value for B: $value"),
+      };
 }

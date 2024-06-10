@@ -203,7 +203,7 @@ class EnumClass extends BindingType {
       '$depth${depth}_ => '
       'throw ArgumentError("Invalid value for $name: \$value"),\n',
     );
-    s.write("$depth};");
+    s.write("$depth};\n");
   }
 
   @override

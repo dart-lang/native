@@ -18,4 +18,10 @@ enum Constants {
 
   final int value;
   const Constants(this.value);
+
+  static Constants fromValue(int value) => switch (value) {
+        10 => a,
+        -1 => b,
+        _ => throw ArgumentError("Invalid value for Constants: $value"),
+      };
 }
