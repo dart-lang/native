@@ -192,6 +192,7 @@ class EnumClass extends BindingType {
     s.write("sealed class $name { }\n");
   }
 
+  /// Writes a static function that maps integers to enum values.
   void writeFromValue(StringBuffer s) {
     s.write("${depth}static $name fromValue(int value) => switch (value) {\n");
     for (final member in uniqueMembers) {
