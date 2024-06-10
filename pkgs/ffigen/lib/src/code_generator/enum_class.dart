@@ -199,7 +199,10 @@ class EnumClass extends BindingType {
       final memberName = enumNames[member]!;
       s.write("$depth$depth${member.value} => $memberName,\n");
     }
-    s.write('$depth${depth}_ => throw ArgumentError("Invalid value for $name: \$value"),\n');
+    s.write(
+      '$depth${depth}_ => '
+      'throw ArgumentError("Invalid value for $name: \$value"),\n',
+    );
     s.write("$depth};");
   }
 
@@ -260,7 +263,8 @@ class EnumClass extends BindingType {
     Writer w,
     String value, {
     required bool objCRetain,
-  }) => "$value.value";
+  }) =>
+      "$value.value";
 
   @override
   String convertFfiDartTypeToDartType(
@@ -268,7 +272,8 @@ class EnumClass extends BindingType {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => "$name.fromValue($value)";
+  }) =>
+      "$name.fromValue($value)";
 }
 
 /// Represents a single value in an enum.
