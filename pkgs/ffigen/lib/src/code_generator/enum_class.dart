@@ -250,7 +250,7 @@ class EnumClass extends BindingType {
   String getDartType(Writer w) => name;
 
   @override
-  bool get sameFfiDartAndCType => false;
+  bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
 
   @override
   bool get sameDartAndFfiDartType => false;
