@@ -61,17 +61,17 @@ class EnumClass extends BindingType {
   final Map<EnumConstant, String> enumNames = {};
 
   /// Maps all unique enum values to a list of their duplicates or aliases.
-  /// 
+  ///
   /// See [scanForDuplicates] and [writeToStringOverride].
   final Map<EnumConstant, List<EnumConstant>> uniqueToDuplicates = {};
 
   /// Maps all duplicate enum members to the member who first had that value.
-  /// 
+  ///
   /// See [scanForDuplicates] and [writeDuplicateMembers].
   final Map<EnumConstant, EnumConstant> duplicateToOriginal = {};
 
   /// A collection of all the enum members with unique values.
-  /// 
+  ///
   /// See [scanForDuplicates] and [writeUniqueMembers].
   final Set<EnumConstant> uniqueMembers = {};
 
@@ -116,7 +116,7 @@ class EnumClass extends BindingType {
   }
 
   /// Writes the enum declarations for all unique members.
-  /// 
+  ///
   /// Eg, C: `apple = 1`, Dart: `apple(1)`
   void writeUniqueMembers(StringBuffer s) {
     s.writeAll(uniqueMembers.map(formatValue), ",\n");
@@ -124,7 +124,7 @@ class EnumClass extends BindingType {
   }
 
   /// Writes alias declarations for all members with duplicate values.
-  /// 
+  ///
   /// Eg, C: `banana = 10, yellow_fruit = 10`. Dart: `static const yellow_fruit = banana`.
   void writeDuplicateMembers(StringBuffer s) {
     if (duplicateToOriginal.isEmpty) return;
@@ -145,7 +145,7 @@ class EnumClass extends BindingType {
   }
 
   /// Writes the constructor for the enum.
-  /// 
+  ///
   /// Always accepts an integer value to match the native value.
   void writeConstructor(StringBuffer s) {
     s.write("${depth}final int value;\n");
@@ -153,7 +153,7 @@ class EnumClass extends BindingType {
   }
 
   /// Overrides [Enum.toString] so all aliases are included, if any.
-  /// 
+  ///
   /// If a native enum has two members with the same value, they are functionally
   /// identical, and should be represented as such. This method overrides [toString]
   /// to include all duplicate members in the same message.
@@ -202,9 +202,12 @@ class EnumClass extends BindingType {
       writeEmptyEnum(s);
     } else {
       s.write('enum $name {\n');
-      writeUniqueMembers(s); s.write("\n");
-      writeDuplicateMembers(s); s.write("\n");
-      writeConstructor(s); s.write("\n");
+      writeUniqueMembers(s);
+      s.write("\n");
+      writeDuplicateMembers(s);
+      s.write("\n");
+      writeConstructor(s);
+      s.write("\n");
       writeToStringOverride(s);
       s.write('}\n\n');
     }
