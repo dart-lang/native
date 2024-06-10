@@ -246,13 +246,28 @@ class EnumClass extends BindingType {
   String getDartType(Writer w) => name;
 
   @override
-  bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
+  bool get sameFfiDartAndCType => false;
 
   @override
-  bool get sameDartAndCType => false;
+  bool get sameDartAndFfiDartType => false;
 
   @override
   String? getDefaultValue(Writer w) => '0';
+
+  @override
+  String convertDartTypeToFfiDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+  }) => "$value.value";
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) => "$name.fromValue($value)";
 }
 
 /// Represents a single value in an enum.
