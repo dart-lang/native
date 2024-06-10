@@ -105,12 +105,18 @@ typedef ExcludedStruct = _ExcludedStruct;
 
 final class _ExcludedStruct extends ffi.Opaque {}
 
-abstract class AnonymousEnumInTypedef {
-  static const int a = 0;
+enum AnonymousEnumInTypedef {
+  a(0);
+
+  final int value;
+  const AnonymousEnumInTypedef(this.value);
 }
 
-abstract class _NamedEnumInTypedef {
-  static const int b = 0;
+enum _NamedEnumInTypedef {
+  b(0);
+
+  final int value;
+  const _NamedEnumInTypedef(this.value);
 }
 
 typedef NestingASpecifiedType = ffi.IntPtr;
