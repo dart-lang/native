@@ -7,6 +7,9 @@
   abstract classes. Since Dart enums cannot be empty, empty native enums are
   generated as empty sealed classes. Native enum members with duplicate integer
   values are handled properly, and are equal to each other in Dart as well.
+- __Breaking change__: ffigen now emits code that uses the Dart enums in return
+  types and argument types, allowing you to use them as normal Dart enums without
+  converting to and from their integer values.
 - Rename ObjC interface methods that clash with type names. Fixes
   https://github.com/dart-lang/native/issues/1007.
 
