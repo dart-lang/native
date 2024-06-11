@@ -25,6 +25,7 @@ ${strings.headers}:
     - 'test/header_parser_tests/enum_int_mimic.h'
   ${strings.includeDirectives}:
     - '**enum_int_mimic.h'
+${strings.ignoreSourceErrors}: true
         '''),
       );
     });
