@@ -437,7 +437,10 @@ OutputConfig outputExtractor(
   value = value as Map;
   return OutputConfig(
     _normalizePath((value)[strings.bindings] as String, configFilename),
-    _normalizePath((value)[strings.objCBindings] as String, configFilename),
+    value.containsKey(strings.objCBindings)
+        ? _normalizePath(
+            (value)[strings.objCBindings] as String, configFilename)
+        : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
             value[strings.symbolFile], configFilename, packageConfig)
