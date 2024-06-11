@@ -496,7 +496,6 @@ void main() {
       final blockBlock = DartListenerBlock.listener((DartIntBlock intBlock) {
         expect(blockRetainCount(intBlock.pointer), 1);
         inputBlock = intBlock;
-        expect(blockRetainCount(intBlock.pointer), 2);
         hasRun.complete();
       });
 
@@ -508,19 +507,12 @@ void main() {
       doGC();
 
       expect(blockRetainCount(inputBlock.pointer), 1);
-      expect(
-          internal_for_testing
-              .blockHasRegisteredClosure(inputBlock.pointer.cast()),
-          false);
       expect(blockRetainCount(blockBlock.pointer), 1);
-      expect(
-          internal_for_testing
-              .blockHasRegisteredClosure(blockBlock.pointer.cast()),
-          true);
       return (inputBlock.pointer, blockBlock.pointer);
     }
 
     test('Listener block arguments are not prematurely destroyed', () async {
+      // https://github.com/dart-lang/native/issues/835
       final (inputBlock, blockBlock) =
           await listenerBlockArgumentRetentionTest();
       doGC();
@@ -528,11 +520,7 @@ void main() {
       doGC();
 
       expect(blockRetainCount(inputBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-          false);
       expect(blockRetainCount(blockBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
-          false);
     });
 
     test('Block fields have sensible values', () {

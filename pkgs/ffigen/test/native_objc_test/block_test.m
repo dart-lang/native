@@ -119,8 +119,14 @@ typedef void (^ListenerBlock)(IntBlock);
 + (void)callListener:(ListenerBlock)block {
   // Note: This method is invoked on a background thread.
 
+  // This multiplier is defined in a bound variable rather than inside the block
+  // to force the compiler to make a real lambda style block. Without this, we
+  // get a _NSConcreteGlobalBlock (essentially a static function pointer), which
+  // always has a ref count of 0, so we can't test the ref counting.
+  int mult = 100;
+
   IntBlock inputBlock = [^int(int x) {
-    return 100 * x;
+    return mult * x;
   } copy];
   // ^ copy this stack allocated block to the heap.
   block(inputBlock);

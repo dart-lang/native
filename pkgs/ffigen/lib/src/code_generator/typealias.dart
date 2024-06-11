@@ -131,6 +131,9 @@ class Typealias extends BindingType {
   String getCType(Writer w) => name;
 
   @override
+  String getNativeType(String varName) => type.getNativeType(varName);
+
+  @override
   String getFfiDartType(Writer w) {
     if (_ffiDartAliasName != null) {
       return _ffiDartAliasName!;
@@ -184,6 +187,9 @@ class Typealias extends BindingType {
       );
 
   @override
+  String? generateRetain(String value) => type.generateRetain(value);
+
+  @override
   String cacheKey() => type.cacheKey();
 
   @override
@@ -224,4 +230,7 @@ class ObjCInstanceType extends Typealias {
       // objCEnclosingClass must be present, because instancetype can only
       // occur inside a class.
       ObjCInterface.generateConstructor(objCEnclosingClass!, value, objCRetain);
+
+  @override
+  String getNativeType(String varName) => 'id $varName';
 }

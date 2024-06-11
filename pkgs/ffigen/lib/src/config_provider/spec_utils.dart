@@ -57,8 +57,8 @@ void loadImportedTypes(YamlMap fileConfig,
   for (final key in symbols.keys) {
     final usr = key as String;
     final value = symbols[usr]! as YamlMap;
-    usrTypeMappings[usr] = ImportedType(
-        libraryImport, value['name'] as String, value['name'] as String);
+    final name = value['name'] as String;
+    usrTypeMappings[usr] = ImportedType(libraryImport, name, name, name);
   }
 }
 
@@ -134,12 +134,13 @@ Map<String, ImportedType> makeImportTypeMapping(
     final lib = rawTypeMappings[key]![0];
     final cType = rawTypeMappings[key]![1];
     final dartType = rawTypeMappings[key]![2];
+    final nativeType = key;
     if (strings.predefinedLibraryImports.containsKey(lib)) {
-      typeMappings[key] =
-          ImportedType(strings.predefinedLibraryImports[lib]!, cType, dartType);
+      typeMappings[key] = ImportedType(
+          strings.predefinedLibraryImports[lib]!, cType, dartType, nativeType);
     } else if (libraryImportsMap.containsKey(lib)) {
       typeMappings[key] =
-          ImportedType(libraryImportsMap[lib]!, cType, dartType);
+          ImportedType(libraryImportsMap[lib]!, cType, dartType, nativeType);
     } else {
       throw Exception("Please declare $lib under library-imports.");
     }
@@ -201,7 +202,7 @@ Type makeTypeFromRawVarArgType(
         throw Exception('Please declare $lib in library-imports.');
       }
       final typeName = rawVarArgTypeSplit[1].replaceAll(' ', '');
-      baseType = ImportedType(libraryImport, typeName, typeName);
+      baseType = ImportedType(libraryImport, typeName, typeName, typeName);
     } else {
       throw Exception(
           'Invalid type $rawVarArgType : Expected 0 or 1 .(dot) separators.');
@@ -431,11 +432,12 @@ String llvmPathExtractor(List<String> value) {
 OutputConfig outputExtractor(
     dynamic value, String? configFilename, PackageConfig? packageConfig) {
   if (value is String) {
-    return OutputConfig(_normalizePath(value, configFilename), null);
+    return OutputConfig(_normalizePath(value, configFilename), null, null);
   }
   value = value as Map;
   return OutputConfig(
     _normalizePath((value)[strings.bindings] as String, configFilename),
+    _normalizePath((value)[strings.objCBindings] as String, configFilename),
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
             value[strings.symbolFile], configFilename, packageConfig)

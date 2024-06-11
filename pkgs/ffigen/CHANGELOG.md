@@ -3,6 +3,15 @@
 - __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
   than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
   `NSProxy`.
+- __Breaking change__: Generate a native trampoline for each listener block, to
+  fix a ref counting bug: https://github.com/dart-lang/native/issues/835.
+    - If you have listener blocks affected by this ref count bug, a .m file will
+      be generated containing the trampoline. You must compile this .m file into
+      your package. If you already have a flutter plugin or build.dart, you can
+      simply add this generated file to that build.
+    - If you don't use listener blocks, you can ignore the .m file.
+    - You can choose where the generated .m file is placed with the
+      `output.objc-bindings` config option.
 - Rename ObjC interface methods that clash with type names. Fixes
   https://github.com/dart-lang/native/issues/1007.
 

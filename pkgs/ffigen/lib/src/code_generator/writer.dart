@@ -96,9 +96,12 @@ class Writer {
   late UniqueNamer _initialTopLevelUniqueNamer, _initialWrapperLevelUniqueNamer;
 
   /// Used by [Binding]s for generating required code.
-  late UniqueNamer _topLevelUniqueNamer, _wrapperLevelUniqueNamer;
+  late UniqueNamer _topLevelUniqueNamer;
   UniqueNamer get topLevelUniqueNamer => _topLevelUniqueNamer;
+  late UniqueNamer _wrapperLevelUniqueNamer;
   UniqueNamer get wrapperLevelUniqueNamer => _wrapperLevelUniqueNamer;
+  late UniqueNamer _objCLevelUniqueNamer;
+  UniqueNamer get objCLevelUniqueNamer => _objCLevelUniqueNamer;
 
   late String _arrayHelperClassPrefix;
 
@@ -213,6 +216,7 @@ class Writer {
   void _resetUniqueNamersNamers() {
     _topLevelUniqueNamer = _initialTopLevelUniqueNamer.clone();
     _wrapperLevelUniqueNamer = _initialWrapperLevelUniqueNamer.clone();
+    _objCLevelUniqueNamer = UniqueNamer({});
   }
 
   void markImportUsed(LibraryImport import) {
@@ -318,12 +322,14 @@ class Writer {
     return result.toString();
   }
 
+  List<Binding> get _allBindings => <Binding>[
+        ...noLookUpBindings,
+        ...ffiNativeBindings,
+        ...lookUpBindings,
+      ];
+
   Map<String, dynamic> generateSymbolOutputYamlMap(String importFilePath) {
-    final bindings = <Binding>[
-      ...noLookUpBindings,
-      ...ffiNativeBindings,
-      ...lookUpBindings
-    ];
+    final bindings = _allBindings;
     if (!canGenerateSymbolOutput) {
       throw Exception(
           "Invalid state: generateSymbolOutputYamlMap() called before generate()");
@@ -362,6 +368,25 @@ class Writer {
       };
     }
     return result;
+  }
+
+  /// Writes the Objective C code needed for the bindings, if any. Returns null
+  /// if there are no bindings that need generated ObjC code.
+  String? generateObjC() {
+    final s = StringBuffer();
+    s.write('''
+#include <stdint.h>
+
+''');
+    bool empty = true;
+    for (final binding in _allBindings) {
+      final bindingString = binding.toObjCBindingString(this);
+      if (bindingString != null) {
+        empty = false;
+        s.write(bindingString.string);
+      }
+    }
+    return empty ? null : s.toString();
   }
 }
 

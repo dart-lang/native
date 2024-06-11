@@ -37,6 +37,9 @@ abstract class Binding {
   /// Note: This does not print the typedef dependencies.
   /// Must call [getTypedefDependencies] first.
   BindingString toBindingString(Writer w);
+
+  /// Returns the Objective C bindings, if any.
+  BindingString? toObjCBindingString(Writer w) => null;
 }
 
 /// Base class for bindings which look up symbols in dynamic library.

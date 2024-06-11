@@ -81,6 +81,9 @@ class EnumClass extends BindingType {
   String getFfiDartType(Writer w) => nativeType.getFfiDartType(w);
 
   @override
+  String getNativeType(String varName) => '$originalName $varName';
+
+  @override
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
 
   @override

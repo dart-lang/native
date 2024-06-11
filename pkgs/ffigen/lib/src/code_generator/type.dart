@@ -48,6 +48,15 @@ abstract class Type {
   /// as getFfiDartType. For ObjC bindings this refers to the wrapper object.
   String getDartType(Writer w) => getFfiDartType(w);
 
+  /// Returns the C/ObjC type of the Type. This is the type as it appears in
+  /// C/ObjC source code. It should not be used in Dart source code.
+  ///
+  /// This method takes a [varName] arg because some C/ObjC types embed the
+  /// variable name inside the type. Eg, to pass an ObjC block as a function
+  /// argument, the syntax is `int (^arg)(int)`, where arg is the [varName].
+  String getNativeType(String varName) =>
+      throw 'No native mapping for type: $this';
+
   /// Returns whether the FFI dart type and C type string are same.
   bool get sameFfiDartAndCType;
 
@@ -84,6 +93,10 @@ abstract class Type {
     String? objCEnclosingClass,
   }) =>
       value;
+
+  /// Returns generated ObjC code that retains a reference to the given value.
+  /// Returns null if the Type does not need to be retained.
+  String? generateRetain(String value) => null;
 
   /// Returns a human readable string representation of the Type. This is mostly
   /// just for debugging, but it may also be used for non-functional code (eg to
@@ -137,6 +150,10 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   String getDartType(Writer w) => getFfiDartType(w);
 
   @override
+  String getNativeType(String varName) =>
+      throw 'No native mapping for type: $this';
+
+  @override
   bool get sameDartAndCType => sameFfiDartAndCType;
 
   @override
@@ -158,6 +175,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     String? objCEnclosingClass,
   }) =>
       value;
+
+  @override
+  String? generateRetain(String value) => null;
 
   @override
   String toString() => originalName;
