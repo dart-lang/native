@@ -12,7 +12,7 @@ abstract class ReferredType {
   ReferredType({required this.id});
 }
 
-/// Describes a reference of a user-defined type.
+/// Describes a reference of a declared type (user-defined or built-in).
 class DeclaredType<T extends Declaration> extends ReferredType {
   T declaration;
   List<ReferredType> typeParams;
@@ -20,8 +20,8 @@ class DeclaredType<T extends Declaration> extends ReferredType {
   DeclaredType({
     required super.id,
     required this.declaration,
-    required this.typeParams,
-  });
+    List<ReferredType>? typeParams,
+  }): this.typeParams = typeParams ?? [];
 }
 
 /// Describes a reference of a generic type (e.g a method return type `T` within a generic class).
@@ -32,4 +32,9 @@ class GenericType extends ReferredType {
     required this.name,
     required super.id,
   });
+}
+
+class PlaceholderType extends ReferredType {
+  static final instance = PlaceholderType._();
+  PlaceholderType._() : super(id: "placeholder");
 }
