@@ -55,9 +55,9 @@ final class TestStruct extends ffi.Opaque {}
 
 final class TestStruct1 extends ffi.Opaque {}
 
-abstract class TestEnum {}
+sealed class TestEnum {}
 
-abstract class TestEnum1 {}
+sealed class TestEnum1 {}
 
 const int Test_Macro = 0;
 
@@ -72,7 +72,7 @@ final class testCrossDecl extends ffi.Opaque {}
 
 const int testCrossDecl2 = 0;
 
-abstract class testCrossDecl3 {}
+sealed class testCrossDecl3 {}
 
 typedef testCrossDecl4 = ffi.Void;
 typedef DarttestCrossDecl = void;
