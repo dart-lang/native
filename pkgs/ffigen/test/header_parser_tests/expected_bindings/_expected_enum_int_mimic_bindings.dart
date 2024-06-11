@@ -20,6 +20,28 @@ enum SimpleWithNegative {
   const SimpleWithNegative(this.value);
 }
 
+enum PositiveIntOverflow {
+  C0(-2147483607);
+
+  final int value;
+  const PositiveIntOverflow(this.value);
+}
+
+enum NoIntOverflow {
+  C1(-1),
+  C2(2147483689);
+
+  final int value;
+  const NoIntOverflow(this.value);
+}
+
+enum NegativeIntOverflow {
+  C3(-2147483690);
+
+  final int value;
+  const NegativeIntOverflow(this.value);
+}
+
 enum ExplicitType {
   E0(0),
   E1(1);
@@ -45,6 +67,15 @@ final class Test extends ffi.Struct {
 
   @ffi.Int8()
   external int explicitTypeWithAnonymousEnum;
+
+  @ffi.Int()
+  external int positiveIntOverflow;
+
+  @ffi.Long()
+  external int noIntOverflow;
+
+  @ffi.Long()
+  external int negativeIntOverflow;
 }
 
 const int ANONYMOUS1 = 0;
