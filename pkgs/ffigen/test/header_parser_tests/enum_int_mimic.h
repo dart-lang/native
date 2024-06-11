@@ -7,7 +7,6 @@
 
 enum Simple {
     A0,
-    A1,
 };
 
 enum SimpleWithNegative {
@@ -31,6 +30,11 @@ enum ExplicitType : int16_t {
     E1,
 };
 
+enum ExplicitTypeWithOverflow : uint16_t {
+    F0,
+    F1=INT16_MAX + 42,
+};
+
 struct Test {
     enum Simple simple;
     enum SimpleWithNegative *simpleWithNegative;
@@ -43,4 +47,5 @@ struct Test {
     enum PositiveIntOverflow positiveIntOverflow;
     enum NoIntOverflow noIntOverflow;
     enum NegativeIntOverflow negativeIntOverflow;
+    enum ExplicitTypeWithOverflow explicitTypeWithOverflow;
 };

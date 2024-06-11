@@ -5,8 +5,7 @@
 import 'dart:ffi' as ffi;
 
 enum Simple {
-  A0(0),
-  A1(1);
+  A0(0);
 
   final int value;
   const Simple(this.value);
@@ -50,6 +49,14 @@ enum ExplicitType {
   const ExplicitType(this.value);
 }
 
+enum ExplicitTypeWithOverflow {
+  F0(0),
+  F1(-32727);
+
+  final int value;
+  const ExplicitTypeWithOverflow(this.value);
+}
+
 final class Test extends ffi.Struct {
   @ffi.UnsignedInt()
   external int simple;
@@ -76,6 +83,9 @@ final class Test extends ffi.Struct {
 
   @ffi.Long()
   external int negativeIntOverflow;
+
+  @ffi.Uint16()
+  external int explicitTypeWithOverflow;
 }
 
 const int ANONYMOUS1 = 0;
