@@ -23,6 +23,9 @@
             "bindings": {
               "$ref": "#/$defs/filePath"
             },
+            "objc-bindings": {
+              "$ref": "#/$defs/filePath"
+            },
             "symbol-file": {
               "type": "object",
               "additionalProperties": false,
