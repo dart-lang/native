@@ -89,11 +89,24 @@ List<String> _getTestNames() {
 }
 
 Future<void> build(List<String> testNames) async {
+  // Swift build comes first because the generated header is consumed by ffigen.
+  print('Building Dynamic Library and Header for Swift Tests...');
+  for (final name in testNames) {
+    final swiftFile = '${name}_test.swift';
+    if (File(swiftFile).existsSync()) {
+      await _buildSwift(
+          swiftFile, '${name}_test-Swift.h', '${name}_test.dylib');
+    }
+  }
+
+  // Ffigen comes next because it may generate an ObjC file that is compiled
+  // into the dylib.
   print('Generating Bindings for Objective C Native Tests...');
   for (final name in testNames) {
     await _generateBindings('${name}_config.yaml');
   }
 
+  // Finally we build the dylib.
   print('Building Dynamic Library for Objective C Native Tests...');
   for (final name in testNames) {
     final mFile = '${name}_test.m';
@@ -103,15 +116,6 @@ Future<void> build(List<String> testNames) async {
         mFile,
         if (File(bindingMFile).existsSync()) bindingMFile,
       ], '${name}_test.dylib');
-    }
-  }
-
-  print('Building Dynamic Library and Header for Swift Tests...');
-  for (final name in testNames) {
-    final swiftFile = '${name}_test.swift';
-    if (File(swiftFile).existsSync()) {
-      await _buildSwift(
-          swiftFile, '${name}_test-Swift.h', '${name}_test.dylib');
     }
   }
 }
