@@ -581,6 +581,28 @@ language: 'objc'
   </td>
   </tr>
   <tr>
+    <td>output -> objc-bindings</td>
+    <td>
+      Choose where the generated ObjC code (if any) is placed. The default path
+      is `'${output.bindings}.m'`, so if your Dart bindings are in
+      `generated_bindings.dart`, your ObjC code will be in
+      `generated_bindings.dart.m`.
+      <br><br>
+      This ObjC file will only be generated if it's needed. If it is generated,
+      it must be compiled into your package, as part of a flutter plugin or
+      build.dart script. If your package already has some sort of native build,
+      you can simply add this generated ObjC file to that build.
+    </td>
+    <td>
+
+```yaml
+output:
+  ...
+  objc-bindings: 'generated_bindings.m'
+```
+</td>
+  </tr>
+  <tr>
     <td>output -> symbol-file</td>
     <td>Generates a symbol file yaml containing all types defined in the generated output.</td>
     <td>

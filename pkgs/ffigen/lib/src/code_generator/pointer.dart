@@ -62,7 +62,7 @@ class ConstantArray extends PointerType {
 
   @override
   String getNativeType(String varName) =>
-      '${child.getNativeType('')}[$length] $varName';
+      '${child.getNativeType('')} $varName[$length]';
 
   @override
   String toString() => '$child[$length]';
@@ -89,7 +89,7 @@ class IncompleteArray extends PointerType {
 
   @override
   String getNativeType(String varName) =>
-      '${child.getNativeType('')}[] $varName';
+      '${child.getNativeType('')} $varName[]';
 
   @override
   String toString() => '$child[]';
