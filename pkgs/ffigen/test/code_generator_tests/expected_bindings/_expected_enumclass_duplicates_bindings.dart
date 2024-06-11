@@ -10,12 +10,22 @@
 // ignore_for_file: type=lint
 /// test line 1
 /// test line 2
-enum Constants {
-  a(10),
+enum Duplicates {
+  /// This is a unique value
+  a(0),
 
-  /// negative
-  b(-1);
+  /// This is an original value
+  b(1);
+
+  /// This is a duplicate value
+  static const c = b;
 
   final int value;
-  const Constants(this.value);
+  const Duplicates(this.value);
+
+  @override
+  String toString() {
+    if (this == b) return "Duplicates.b, Duplicates.c";
+    return super.toString();
+  }
 }

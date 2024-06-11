@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/declaration.dart';
-import '../../_core/interfaces/genericable.dart';
-import '../../_core/interfaces/paramable.dart';
+import '../../_core/interfaces/type_parameterizable.dart';
+import '../../_core/interfaces/parameterizable.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 
@@ -20,7 +20,8 @@ class Globals {
 }
 
 /// Describes a globally defined function.
-class GlobalFunction implements Declaration, Paramable, Genericable {
+class GlobalFunction
+    implements Declaration, Parameterizable, TypeParameterizable {
   @override
   String id;
 
@@ -31,7 +32,7 @@ class GlobalFunction implements Declaration, Paramable, Genericable {
   List<Parameter> params;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   ReferredType returnType;
 
@@ -39,7 +40,7 @@ class GlobalFunction implements Declaration, Paramable, Genericable {
     required this.id,
     required this.name,
     required this.params,
-    required this.genericParams,
+    required this.typeParams,
     required this.returnType,
   });
 }

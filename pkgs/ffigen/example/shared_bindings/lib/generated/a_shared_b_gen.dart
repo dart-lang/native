@@ -61,9 +61,12 @@ final class A_Union1 extends ffi.Union {
   external int a;
 }
 
-abstract class A_Enum {
-  static const int A_ENUM_1 = 0;
-  static const int A_ENUM_2 = 1;
+enum A_Enum {
+  A_ENUM_1(0),
+  A_ENUM_2(1);
+
+  final int value;
+  const A_Enum(this.value);
 }
 
 const int BASE_MACRO_1 = 1;

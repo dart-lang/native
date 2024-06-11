@@ -12,6 +12,10 @@
     - If you don't use listener blocks, you can ignore the .m file.
     - You can choose where the generated .m file is placed with the
       `output.objc-bindings` config option.
+- __Breaking change__: Enums are now generated as real Dart enums, instead of
+  abstract classes. Since Dart enums cannot be empty, empty native enums are
+  generated as empty sealed classes. Native enum members with duplicate integer
+  values are handled properly, and are equal to each other in Dart as well.
 - Rename ObjC interface methods that clash with type names. Fixes
   https://github.com/dart-lang/native/issues/1007.
 

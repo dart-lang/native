@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../_core/interfaces/compund_declaration.dart';
+import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 
@@ -24,7 +24,7 @@ class ProtocolDeclaration implements CompoundDeclaration {
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   ProtocolDeclaration({
     required this.id,
@@ -32,7 +32,7 @@ class ProtocolDeclaration implements CompoundDeclaration {
     required this.properties,
     required this.methods,
     required this.conformedProtocols,
-    required this.genericParams,
+    required this.typeParams,
   });
 }
 
@@ -70,7 +70,7 @@ class ProtocolMethodDeclaration implements CompoundMethodDeclaration {
   List<Parameter> params;
 
   @override
-  List<GenericType> genericParams;
+  List<GenericType> typeParams;
 
   @override
   ReferredType returnType;
@@ -79,7 +79,7 @@ class ProtocolMethodDeclaration implements CompoundMethodDeclaration {
     required this.id,
     required this.name,
     required this.params,
-    required this.genericParams,
+    required this.typeParams,
     required this.returnType,
   });
 }

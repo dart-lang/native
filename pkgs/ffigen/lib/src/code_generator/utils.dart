@@ -18,8 +18,7 @@ class UniqueNamer {
   ///
   /// If [parent] is provided, also includes all the parent's names.
   UniqueNamer(Set<String> usedUpNames, {UniqueNamer? parent})
-      : assert(keywords.intersection(usedUpNames).isEmpty),
-        _usedUpNames = {
+      : _usedUpNames = {
           ...keywords,
           ...usedUpNames,
           ...(parent?._usedUpNames ?? {}),
