@@ -4,19 +4,28 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-abstract class Simple {
-  static const int A0 = 0;
-  static const int A1 = 1;
+enum Simple {
+  A0(0),
+  A1(1);
+
+  final int value;
+  const Simple(this.value);
 }
 
-abstract class SimpleWithNegative {
-  static const int B0 = 0;
-  static const int B1 = -1000;
+enum SimpleWithNegative {
+  B0(0),
+  B1(-1000);
+
+  final int value;
+  const SimpleWithNegative(this.value);
 }
 
-abstract class ExplicitType {
-  static const int E0 = 0;
-  static const int E1 = 1;
+enum ExplicitType {
+  E0(0),
+  E1(1);
+
+  final int value;
+  const ExplicitType(this.value);
 }
 
 final class Test extends ffi.Struct {
