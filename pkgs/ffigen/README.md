@@ -468,7 +468,6 @@ and/or via the command line -
 ```bash
 dart run ffigen --ignore-source-errors
 ```
-
   </td>
   </tr>
   <tr>
@@ -484,11 +483,6 @@ dart run ffigen --ignore-source-errors
 ```yaml
 silence-enum-warning: true
 ```
-and/or via the command line -
-```bash
-dart run ffigen --ignore-source-errors
-```
-
   </td>
   </tr>
   <tr>
