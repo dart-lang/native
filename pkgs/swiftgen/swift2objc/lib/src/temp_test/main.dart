@@ -2,8 +2,7 @@
 import '../parser/parser.dart';
 
 void main() {
-  final parser = Parser();
-  final bindings =
-      parser.parseSymbolgraph("lib/src/temp_test/symbolgraph/source.symbols.json");
-  print(bindings.declarations);
+  final parser = Parser("lib/src/temp_test/symbolgraph/source.symbols.json");
+  final bindings = parser.parse();
+  print(bindings);
 }
