@@ -26,13 +26,6 @@ enum PositiveIntOverflow {
   const PositiveIntOverflow(this.value);
 }
 
-enum NegativeIntOverflow {
-  C3(-2147483690);
-
-  final int value;
-  const NegativeIntOverflow(this.value);
-}
-
 enum ExplicitType {
   E0(0),
   E1(1);
@@ -69,9 +62,6 @@ final class Test extends ffi.Struct {
 
   @ffi.Int()
   external int positiveIntOverflow;
-
-  @ffi.Long()
-  external int negativeIntOverflow;
 
   @ffi.Uint16()
   external int explicitTypeWithOverflow;

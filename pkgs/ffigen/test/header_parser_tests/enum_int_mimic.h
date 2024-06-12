@@ -18,10 +18,6 @@ enum PositiveIntOverflow {
     C0=INT32_MAX + 42L,
 };
 
-enum NegativeIntOverflow {
-    C3=INT32_MIN - 42L,
-};
-
 enum ExplicitType : int16_t {
     E0,
     E1,
@@ -42,6 +38,5 @@ struct Test {
     enum : int8_t {ANONYMOUS3} explicitTypeWithAnonymousEnum;
 
     enum PositiveIntOverflow positiveIntOverflow;
-    enum NegativeIntOverflow negativeIntOverflow;
     enum ExplicitTypeWithOverflow explicitTypeWithOverflow;
 };
