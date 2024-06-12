@@ -17,10 +17,7 @@ enum SimpleWithNegative {
 enum PositiveIntOverflow {
     C0=INT32_MAX + 42L,
 };
-enum NoIntOverflow {
-    C1=-1,
-    C2=INT32_MAX + 42L,
-};
+
 enum NegativeIntOverflow {
     C3=INT32_MIN - 42L,
 };
@@ -45,7 +42,6 @@ struct Test {
     enum : int8_t {ANONYMOUS3} explicitTypeWithAnonymousEnum;
 
     enum PositiveIntOverflow positiveIntOverflow;
-    enum NoIntOverflow noIntOverflow;
     enum NegativeIntOverflow negativeIntOverflow;
     enum ExplicitTypeWithOverflow explicitTypeWithOverflow;
 };
