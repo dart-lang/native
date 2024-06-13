@@ -1,23 +1,16 @@
 import '_core/utils.dart';
-import 'parsers/ast_parser.dart';
-import 'parsers/relations_parser.dart';
-import 'parsers/symbolgraph_json_parser.dart';
-import 'parsers/symbolgraph_json_reader.dart';
+import 'parsers/parse_declarations_map.dart';
+import 'parsers/wire_up_relations.dart';
+import 'parsers/parse_symbols_map.dart';
 
-class Parser {
-  final String symbolgraphJsonPath;
+DeclarationsMap parseAst(String symbolgraphJsonPath) {
+  final symbolgraph = readJsonFile(symbolgraphJsonPath);
 
-  Parser(this.symbolgraphJsonPath);
+  final parsedSymbols = parseSymbolsMap(symbolgraph);
 
-  DeclarationsMap parse() {
-    final symbolgraph = SymbolgraphJsonReader(symbolgraphJsonPath).read();
+  final declarations = parseDeclarationsMap(parsedSymbols);
 
-    final parsedSymbols = SymbolgraphJsonParser(symbolgraph).parse();
+  wireUpRelations(declarations, symbolgraph);
 
-    final declarations = AstParser(parsedSymbols).parse();
-
-    RelationsParser(symbolgraph, declarations).wireUp();
-
-    return declarations;
-  }
+  return declarations;
 }

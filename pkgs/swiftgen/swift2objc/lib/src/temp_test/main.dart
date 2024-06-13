@@ -2,7 +2,6 @@
 import '../parser/parser.dart';
 
 void main() {
-  final parser = Parser("lib/src/temp_test/symbolgraph/source.symbols.json");
-  final bindings = parser.parse();
-  print(bindings);
+  final ast = parseAst("lib/src/temp_test/symbolgraph/source.symbols.json");
+  print(ast);
 }

@@ -1,9 +1,22 @@
+import 'dart:convert';
+import 'dart:io';
+
 import '../../ast/_core/interfaces/declaration.dart';
 import 'parsed_symbol.dart';
 
 typedef DeclarationsMap = Map<String, Declaration>;
 typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
 typedef JsonMap = Map<String, dynamic>;
+
+typedef ParserFunction = Declaration Function(
+  String parsedSymbolId,
+  ParsedSymbolsMap parsedSymbolsMap,
+);
+
+JsonMap readJsonFile(String jsonFilePath) {
+  final jsonStr = File(jsonFilePath).readAsStringSync();
+  return jsonDecode(jsonStr);
+}
 
 String parseSymbolId(JsonMap symbolJson) {
   return symbolJson["identifier"]["precise"];
