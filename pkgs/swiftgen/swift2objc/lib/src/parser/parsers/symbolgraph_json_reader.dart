@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../_core/type_defs.dart';
+import '../_core/utils.dart';
 
 class SymbolgraphJsonReader {
   final String symbolgraphJsonPath;

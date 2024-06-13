@@ -1,6 +1,6 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbol.dart';
-import '../_core/type_defs.dart';
+import '../_core/utils.dart';
 import 'declaration_parsers/class_parser.dart';
 import 'declaration_parsers/method_parser.dart';
 

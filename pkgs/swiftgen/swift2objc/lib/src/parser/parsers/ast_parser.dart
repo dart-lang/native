@@ -1,4 +1,4 @@
-import '../_core/type_defs.dart';
+import '../_core/utils.dart';
 import 'declaration_parser.dart';
 
 class AstParser {

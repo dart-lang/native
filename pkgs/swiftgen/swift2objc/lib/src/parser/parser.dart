@@ -1,4 +1,4 @@
-import '_core/type_defs.dart';
+import '_core/utils.dart';
 import 'parsers/ast_parser.dart';
 import 'parsers/relations_parser.dart';
 import 'parsers/symbolgraph_json_parser.dart';

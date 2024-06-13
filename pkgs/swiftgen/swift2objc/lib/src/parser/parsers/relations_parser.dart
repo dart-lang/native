@@ -1,5 +1,5 @@
 import '../../ast/declarations/compounds/class_declaration.dart';
-import '../_core/type_defs.dart';
+import '../_core/utils.dart';
 
 class RelationsParser {
   final JsonMap symbolgraphJson;

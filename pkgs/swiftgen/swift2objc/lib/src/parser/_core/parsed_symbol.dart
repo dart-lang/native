@@ -1,5 +1,5 @@
 import '../../ast/_core/interfaces/declaration.dart';
-import 'type_defs.dart';
+import 'utils.dart';
 
 class ParsedSymbol {
   JsonMap json;

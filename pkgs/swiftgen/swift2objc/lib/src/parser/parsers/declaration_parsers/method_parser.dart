@@ -1,9 +1,7 @@
 import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
-import '../../_core/utils/parse_symbol_id.dart';
-import '../../_core/type_defs.dart';
-import '../../_core/utils/parse_symbol_name.dart';
+import '../../_core/utils.dart';
 import '../declaration_parser.dart';
 
 class MethodParser extends DeclarationParser {
