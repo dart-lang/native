@@ -1,1 +1,191 @@
-{"metadata":{"formatVersion":{"major":0,"minor":6,"patch":0},"generator":"Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)"},"module":{"name":"source","platform":{"architecture":"arm64","vendor":"apple","operatingSystem":{"name":"macosx","minimumVersion":{"major":14,"minor":0}}}},"symbols":[{"kind":{"identifier":"swift.method","displayName":"Instance Method"},"identifier":{"precise":"s:6source7MyClassC8myMethod6label16param2AA0b5OtherC0CSi_SdtF","interfaceLanguage":"swift"},"pathComponents":["MyClass","myMethod(label1:param2:)"],"names":{"title":"myMethod(label1:param2:)","subHeading":[{"kind":"keyword","spelling":"func"},{"kind":"text","spelling":" "},{"kind":"identifier","spelling":"myMethod"},{"kind":"text","spelling":"("},{"kind":"externalParam","spelling":"label1"},{"kind":"text","spelling":": "},{"kind":"typeIdentifier","spelling":"Int","preciseIdentifier":"s:Si"},{"kind":"text","spelling":", "},{"kind":"externalParam","spelling":"param2"},{"kind":"text","spelling":": "},{"kind":"typeIdentifier","spelling":"Double","preciseIdentifier":"s:Sd"},{"kind":"text","spelling":") -> "},{"kind":"typeIdentifier","spelling":"MyOtherClass","preciseIdentifier":"s:6source12MyOtherClassC"}]},"functionSignature":{"parameters":[{"name":"label1","internalName":"param1","declarationFragments":[{"kind":"identifier","spelling":"param1"},{"kind":"text","spelling":": "},{"kind":"typeIdentifier","spelling":"Int","preciseIdentifier":"s:Si"}]},{"name":"param2","declarationFragments":[{"kind":"identifier","spelling":"param2"},{"kind":"text","spelling":": "},{"kind":"typeIdentifier","spelling":"Double","preciseIdentifier":"s:Sd"}]}],"returns":[{"kind":"typeIdentifier","spelling":"MyOtherClass","preciseIdentifier":"s:6source12MyOtherClassC"}]},"declarationFragments":[{"kind":"keyword","spelling":"func"},{"kind":"text","spelling":" "},{"kind":"identifier","spelling":"myMethod"},{"kind":"text","spelling":"("},{"kind":"externalParam","spelling":"label1"},{"kind":"text","spelling":" "},{"kind":"internalParam","spelling":"param1"},{"kind":"text","spelling":": "},{"kind":"typeIdentifier","spelling":"Int","preciseIdentifier":"s:Si"},{"kind":"text","spelling":", "},{"kind":"externalParam","spelling":"param2"},{"kind":"text","spelling":": "},{"kind":"typeIdentifier","spelling":"Double","preciseIdentifier":"s:Sd"},{"kind":"text","spelling":") -> "},{"kind":"typeIdentifier","spelling":"MyOtherClass","preciseIdentifier":"s:6source12MyOtherClassC"}],"accessLevel":"public","location":{"uri":"file://source.swift","position":{"line":1,"character":16}}},{"kind":{"identifier":"swift.class","displayName":"Class"},"identifier":{"precise":"s:6source7MyClassC","interfaceLanguage":"swift"},"pathComponents":["MyClass"],"names":{"title":"MyClass","navigator":[{"kind":"identifier","spelling":"MyClass"}],"subHeading":[{"kind":"keyword","spelling":"class"},{"kind":"text","spelling":" "},{"kind":"identifier","spelling":"MyClass"}]},"declarationFragments":[{"kind":"keyword","spelling":"class"},{"kind":"text","spelling":" "},{"kind":"identifier","spelling":"MyClass"}],"accessLevel":"public","location":{"uri":"file://source.swift","position":{"line":0,"character":13}}},{"kind":{"identifier":"swift.class","displayName":"Class"},"identifier":{"precise":"s:6source12MyOtherClassC","interfaceLanguage":"swift"},"pathComponents":["MyOtherClass"],"names":{"title":"MyOtherClass","navigator":[{"kind":"identifier","spelling":"MyOtherClass"}],"subHeading":[{"kind":"keyword","spelling":"class"},{"kind":"text","spelling":" "},{"kind":"identifier","spelling":"MyOtherClass"}]},"declarationFragments":[{"kind":"keyword","spelling":"class"},{"kind":"text","spelling":" "},{"kind":"identifier","spelling":"MyOtherClass"}],"accessLevel":"public","location":{"uri":"file://source.swift","position":{"line":6,"character":13}}}],"relationships":[{"kind":"memberOf","source":"s:6source7MyClassC8myMethod6label16param2AA0b5OtherC0CSi_SdtF","target":"s:6source7MyClassC"}]}
+{
+  "metadata": {
+    "formatVersion": { "major": 0, "minor": 6, "patch": 0 },
+    "generator": "Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)"
+  },
+  "module": {
+    "name": "source",
+    "platform": {
+      "architecture": "arm64",
+      "vendor": "apple",
+      "operatingSystem": {
+        "name": "macosx",
+        "minimumVersion": { "major": 14, "minor": 0 }
+      }
+    }
+  },
+  "symbols": [
+    {
+      "kind": {
+        "identifier": "swift.method",
+        "displayName": "Instance Method"
+      },
+      "identifier": {
+        "precise": "s:6source7MyClassC8myMethod6label16param2AA0b5OtherC0CSi_SdtF",
+        "interfaceLanguage": "swift"
+      },
+      "pathComponents": ["MyClass", "myMethod(label1:param2:)"],
+      "names": {
+        "title": "myMethod(label1:param2:)",
+        "subHeading": [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "myMethod" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "label1" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "param2" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Double",
+            "preciseIdentifier": "s:Sd"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "MyOtherClass",
+            "preciseIdentifier": "s:6source12MyOtherClassC"
+          }
+        ]
+      },
+      "functionSignature": {
+        "parameters": [
+          {
+            "name": "label1",
+            "internalName": "param1",
+            "declarationFragments": [
+              { "kind": "identifier", "spelling": "param1" },
+              { "kind": "text", "spelling": ": " },
+              {
+                "kind": "typeIdentifier",
+                "spelling": "Int",
+                "preciseIdentifier": "s:Si"
+              }
+            ]
+          },
+          {
+            "name": "param2",
+            "declarationFragments": [
+              { "kind": "identifier", "spelling": "param2" },
+              { "kind": "text", "spelling": ": " },
+              {
+                "kind": "typeIdentifier",
+                "spelling": "Double",
+                "preciseIdentifier": "s:Sd"
+              }
+            ]
+          }
+        ],
+        "returns": [
+          {
+            "kind": "typeIdentifier",
+            "spelling": "MyOtherClass",
+            "preciseIdentifier": "s:6source12MyOtherClassC"
+          }
+        ]
+      },
+      "declarationFragments": [
+        { "kind": "keyword", "spelling": "func" },
+        { "kind": "text", "spelling": " " },
+        { "kind": "identifier", "spelling": "myMethod" },
+        { "kind": "text", "spelling": "(" },
+        { "kind": "externalParam", "spelling": "label1" },
+        { "kind": "text", "spelling": " " },
+        { "kind": "internalParam", "spelling": "param1" },
+        { "kind": "text", "spelling": ": " },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Int",
+          "preciseIdentifier": "s:Si"
+        },
+        { "kind": "text", "spelling": ", " },
+        { "kind": "externalParam", "spelling": "param2" },
+        { "kind": "text", "spelling": ": " },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Double",
+          "preciseIdentifier": "s:Sd"
+        },
+        { "kind": "text", "spelling": ") -> " },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "MyOtherClass",
+          "preciseIdentifier": "s:6source12MyOtherClassC"
+        }
+      ],
+      "accessLevel": "public",
+      "location": {
+        "uri": "file://source.swift",
+        "position": { "line": 1, "character": 16 }
+      }
+    },
+    {
+      "kind": { "identifier": "swift.class", "displayName": "Class" },
+      "identifier": {
+        "precise": "s:6source7MyClassC",
+        "interfaceLanguage": "swift"
+      },
+      "pathComponents": ["MyClass"],
+      "names": {
+        "title": "MyClass",
+        "navigator": [{ "kind": "identifier", "spelling": "MyClass" }],
+        "subHeading": [
+          { "kind": "keyword", "spelling": "class" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "MyClass" }
+        ]
+      },
+      "declarationFragments": [
+        { "kind": "keyword", "spelling": "class" },
+        { "kind": "text", "spelling": " " },
+        { "kind": "identifier", "spelling": "MyClass" }
+      ],
+      "accessLevel": "public",
+      "location": {
+        "uri": "file://source.swift",
+        "position": { "line": 0, "character": 13 }
+      }
+    },
+    {
+      "kind": { "identifier": "swift.class", "displayName": "Class" },
+      "identifier": {
+        "precise": "s:6source12MyOtherClassC",
+        "interfaceLanguage": "swift"
+      },
+      "pathComponents": ["MyOtherClass"],
+      "names": {
+        "title": "MyOtherClass",
+        "navigator": [{ "kind": "identifier", "spelling": "MyOtherClass" }],
+        "subHeading": [
+          { "kind": "keyword", "spelling": "class" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "MyOtherClass" }
+        ]
+      },
+      "declarationFragments": [
+        { "kind": "keyword", "spelling": "class" },
+        { "kind": "text", "spelling": " " },
+        { "kind": "identifier", "spelling": "MyOtherClass" }
+      ],
+      "accessLevel": "public",
+      "location": {
+        "uri": "file://source.swift",
+        "position": { "line": 6, "character": 13 }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "kind": "memberOf",
+      "source": "s:6source7MyClassC8myMethod6label16param2AA0b5OtherC0CSi_SdtF",
+      "target": "s:6source7MyClassC"
+    }
+  ]
+}

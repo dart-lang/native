@@ -10,6 +10,8 @@ class RelationsParser {
   void wireUp() {
     final List relations = symbolgraphJson["relationships"];
     for (final relation in relations) {
+      if (relation["kind"] != "memberOf") continue;
+
       String methodId = relation["source"];
       String classId = relation["target"];
 
