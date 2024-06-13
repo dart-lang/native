@@ -21,7 +21,7 @@ class DeclaredType<T extends Declaration> extends ReferredType {
     required super.id,
     required this.declaration,
     List<ReferredType>? typeParams,
-  }): this.typeParams = typeParams ?? [];
+  }) : this.typeParams = typeParams ?? [];
 }
 
 /// Describes a reference of a generic type (e.g a method return type `T` within a generic class).
@@ -32,9 +32,4 @@ class GenericType extends ReferredType {
     required this.name,
     required super.id,
   });
-}
-
-class PlaceholderType extends ReferredType {
-  static final instance = PlaceholderType._();
-  PlaceholderType._() : super(id: "placeholder");
 }
