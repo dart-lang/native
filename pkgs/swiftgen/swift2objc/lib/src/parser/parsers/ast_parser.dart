@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../_core/utils.dart';
 import 'declaration_parser.dart';
 
@@ -10,7 +12,13 @@ class AstParser {
     final DeclarationsMap declarations = {};
 
     for (final id in parsedSymbolsMap.keys) {
-      declarations[id] = DeclarationParser(id, parsedSymbolsMap).parse();
+      try {
+        declarations[id] = DeclarationParser(id, parsedSymbolsMap).parse();
+      } on UnsupportedError catch (e) {
+        if (e.message != null) {
+          log(e.message!);
+        }
+      }
     }
 
     return declarations;
