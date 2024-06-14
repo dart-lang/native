@@ -116,7 +116,7 @@ enum A_Enum {
   static A_Enum fromValue(int value) => switch (value) {
         0 => A_ENUM_1,
         1 => A_ENUM_2,
-        _ => throw ArgumentError("Invalid value for A_Enum: $value"),
+        _ => throw ArgumentError("Unknown value for A_Enum: $value"),
       };
 }
 

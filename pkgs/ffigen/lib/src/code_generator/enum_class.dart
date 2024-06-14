@@ -204,7 +204,7 @@ class EnumClass extends BindingType {
     }
     s.write(
       '$depth${depth}_ => '
-      'throw ArgumentError("Invalid value for $name: \$value"),\n',
+      'throw ArgumentError("Unknown value for $name: \$value"),\n',
     );
     s.write("$depth};\n");
   }

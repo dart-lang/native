@@ -54,6 +54,6 @@ enum B {
   static B fromValue(int value) => switch (value) {
         0 => a,
         1 => b,
-        _ => throw ArgumentError("Invalid value for B: $value"),
+        _ => throw ArgumentError("Unknown value for B: $value"),
       };
 }
