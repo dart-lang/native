@@ -34,7 +34,7 @@ Declaration parseDeclaration(
 
   final symbolJson = parsedSymbol.json;
 
-  final String symbolType = symbolJson["kind"]["identifier"];
+  final String symbolType = symbolJson["kind"]["identifier"].get();
 
   parsedSymbol.declaration = switch (symbolType) {
     "swift.class" => parseClassDeclaration(symbolJson),

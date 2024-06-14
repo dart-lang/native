@@ -1,3 +1,4 @@
+import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/parsers/parse_declarations_map.dart';
 
 import '../../../ast/_core/shared/parameter.dart';
@@ -6,7 +7,7 @@ import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../_core/utils.dart';
 
 ClassMethodDeclaration parseMethodDeclaration(
-  JsonMap methodSymbolJson,
+  Json methodSymbolJson,
   ParsedSymbolsMap parsedSymbolsMap,
 ) {
   return ClassMethodDeclaration(
@@ -18,11 +19,12 @@ ClassMethodDeclaration parseMethodDeclaration(
 }
 
 ReferredType _parseMethodReturnType(
-  JsonMap methodSymbolJson,
+  Json methodSymbolJson,
   ParsedSymbolsMap parsedSymbolsMap,
 ) {
-  final returnTypeId =
-      methodSymbolJson["functionSignature"]["returns"][0]["preciseIdentifier"];
+  final returnTypeId = methodSymbolJson["functionSignature"]["returns"][0]
+          ["preciseIdentifier"]
+      .get();
   final returnTypeDeclaration = parseDeclaration(
     returnTypeId,
     parsedSymbolsMap,
@@ -31,16 +33,16 @@ ReferredType _parseMethodReturnType(
 }
 
 List<Parameter> _parseMethodParams(
-  JsonMap methodSymbolJson,
+  Json methodSymbolJson,
   ParsedSymbolsMap parsedSymbolsMap,
 ) {
-  final List paramList = methodSymbolJson["functionSignature"]["parameters"];
+  final paramList = methodSymbolJson["functionSignature"]["parameters"];
 
   return paramList
       .map(
         (param) => Parameter(
-          name: param["name"],
-          internalName: param["internalName"],
+          name: param["name"].get(),
+          internalName: param["internalName"].get(),
           type: _parseParamType(param, parsedSymbolsMap),
         ),
       )
@@ -48,19 +50,16 @@ List<Parameter> _parseMethodParams(
 }
 
 ReferredType _parseParamType(
-  JsonMap paramSymbolJson,
+  Json paramSymbolJson,
   ParsedSymbolsMap parsedSymbolsMap,
 ) {
-  final List fragments = paramSymbolJson["declarationFragments"];
+  final fragments = paramSymbolJson["declarationFragments"];
 
-  final paramTypeId = fragments.firstWhere(
-    (fragment) => fragment["kind"] == "typeIdentifier",
-  )["preciseIdentifier"];
+  final paramTypeId = fragments
+      .firstWhereKey("kind", "typeIdentifier")["preciseIdentifier"]
+      .get();
 
-  final paramTypeDeclaration = parseDeclaration(
-    paramTypeId,
-    parsedSymbolsMap,
-  );
+  final paramTypeDeclaration = parseDeclaration(paramTypeId, parsedSymbolsMap);
 
   return DeclaredType(id: paramTypeId, declaration: paramTypeDeclaration);
 }

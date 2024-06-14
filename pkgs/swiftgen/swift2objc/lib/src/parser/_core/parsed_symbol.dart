@@ -1,8 +1,8 @@
+import 'package:swift2objc/src/parser/_core/json.dart';
 import '../../ast/_core/interfaces/declaration.dart';
-import 'utils.dart';
 
 class ParsedSymbol {
-  JsonMap json;
+  Json json;
   Declaration? declaration;
 
   ParsedSymbol({required this.json, this.declaration});
