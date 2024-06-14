@@ -4,6 +4,6 @@
 
 /// A common interface for all Swift entities declarations.
 abstract interface class Declaration {
-  abstract String id;
-  abstract String name;
+  abstract final String id;
+  abstract final String name;
 }

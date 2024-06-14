@@ -5,17 +5,17 @@ import '../../_core/shared/referred_type.dart';
 /// Describes a built-in Swift type (e.g Int, String, etc).
 class BuiltInDeclaration implements Declaration, TypeParameterizable {
   @override
-  String id;
+  final String id;
 
   @override
-  String name;
+  final String name;
 
   @override
-  List<GenericType> typeParams;
+  final List<GenericType> typeParams;
 
-  BuiltInDeclaration({
+  const BuiltInDeclaration({
     required this.id,
     required this.name,
-    List<GenericType>? typeParams,
-  }) : this.typeParams = typeParams ?? [];
+    this.typeParams = const [],
+  });
 }
