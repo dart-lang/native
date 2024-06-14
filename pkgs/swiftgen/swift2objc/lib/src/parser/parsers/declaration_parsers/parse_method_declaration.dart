@@ -6,15 +6,14 @@ import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../_core/utils.dart';
 
 ClassMethodDeclaration parseMethodDeclaration(
-  String parsedSymbolId,
+  JsonMap methodSymbolJson,
   ParsedSymbolsMap parsedSymbolsMap,
 ) {
-  final parsedSymbol = parsedSymbolsMap[parsedSymbolId]!;
   return ClassMethodDeclaration(
-    id: parseSymbolId(parsedSymbol.json),
-    name: parseSymbolName(parsedSymbol.json),
-    returnType: _parseMehodReturnType(parsedSymbol.json, parsedSymbolsMap),
-    params: _parseMehodParams(parsedSymbol.json, parsedSymbolsMap),
+    id: parseSymbolId(methodSymbolJson),
+    name: parseSymbolName(methodSymbolJson),
+    returnType: _parseMehodReturnType(methodSymbolJson, parsedSymbolsMap),
+    params: _parseMehodParams(methodSymbolJson, parsedSymbolsMap),
   );
 }
 

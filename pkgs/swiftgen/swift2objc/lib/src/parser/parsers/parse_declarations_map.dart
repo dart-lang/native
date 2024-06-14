@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
+import 'package:swift2objc/src/parser/_core/parsed_symbol.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_class_decalartion.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_method_declaration.dart';
 
@@ -11,7 +12,10 @@ DeclarationsMap parseDeclarationsMap(ParsedSymbolsMap parsedSymbolsMap) {
 
   for (final id in parsedSymbolsMap.keys) {
     try {
-      declarations[id] = parseDeclaration(id, parsedSymbolsMap);
+      declarations[id] = parseDeclaration(
+        parsedSymbolsMap[id]!,
+        parsedSymbolsMap,
+      );
     } on UnimplementedError catch (e) {
       log("$e");
     }
@@ -21,8 +25,9 @@ DeclarationsMap parseDeclarationsMap(ParsedSymbolsMap parsedSymbolsMap) {
 }
 
 Declaration parseDeclaration(
-    String parsedSymbolId, ParsedSymbolsMap parsedSymbolsMap) {
-  final parsedSymbol = parsedSymbolsMap[parsedSymbolId]!;
+  ParsedSymbol parsedSymbol,
+  ParsedSymbolsMap parsedSymbolsMap,
+) {
   if (parsedSymbol.declaration != null) {
     return parsedSymbol.declaration!;
   }
@@ -31,15 +36,13 @@ Declaration parseDeclaration(
 
   final String symbolType = symbolJson["kind"]["identifier"];
 
-  final ParserFunction parser = switch (symbolType) {
-    "swift.class" => parseClassDeclaration,
-    "swift.method" => parseMethodDeclaration,
+  parsedSymbol.declaration = switch (symbolType) {
+    "swift.class" => parseClassDeclaration(symbolJson),
+    "swift.method" => parseMethodDeclaration(symbolJson, parsedSymbolsMap),
     _ => throw UnimplementedError(
         "Symbol of type ${symbolType} is not implemented yet.",
       ),
-  } as ParserFunction;
-
-  parsedSymbol.declaration = parser(parsedSymbolId, parsedSymbolsMap);
+  } as Declaration;
 
   return parsedSymbol.declaration!;
 }
