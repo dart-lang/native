@@ -13,9 +13,7 @@ DeclarationsMap parseDeclarationsMap(ParsedSymbolsMap parsedSymbolsMap) {
     try {
       declarations[id] = parseDeclaration(id, parsedSymbolsMap);
     } on UnimplementedError catch (e) {
-      if (e.message != null) {
-        log(e.message!);
-      }
+      log("$e");
     }
   }
 
