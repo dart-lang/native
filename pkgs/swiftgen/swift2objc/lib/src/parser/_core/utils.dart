@@ -8,11 +8,6 @@ typedef DeclarationsMap = Map<String, Declaration>;
 typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
 typedef JsonMap = Map<String, dynamic>;
 
-typedef ParserFunction = Declaration Function(
-  String parsedSymbolId,
-  ParsedSymbolsMap parsedSymbolsMap,
-);
-
 JsonMap readJsonFile(String jsonFilePath) {
   final jsonStr = File(jsonFilePath).readAsStringSync();
   return jsonDecode(jsonStr);
