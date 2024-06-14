@@ -195,6 +195,20 @@ class EnumClass extends BindingType {
     s.write("sealed class $name { }\n");
   }
 
+  /// Writes a static function that maps integers to enum values.
+  void writeFromValue(StringBuffer s) {
+    s.write("${depth}static $name fromValue(int value) => switch (value) {\n");
+    for (final member in uniqueMembers) {
+      final memberName = enumNames[member]!;
+      s.write("$depth$depth${member.value} => $memberName,\n");
+    }
+    s.write(
+      '$depth${depth}_ => '
+      'throw ArgumentError("Unknown value for $name: \$value"),\n',
+    );
+    s.write("$depth};\n");
+  }
+
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
@@ -210,6 +224,8 @@ class EnumClass extends BindingType {
       writeDuplicateMembers(s);
       s.write("\n");
       writeConstructor(s);
+      s.write("\n");
+      writeFromValue(s);
       s.write("\n");
       writeToStringOverride(s);
       s.write('}\n\n');
@@ -237,13 +253,33 @@ class EnumClass extends BindingType {
   String getFfiDartType(Writer w) => nativeType.getFfiDartType(w);
 
   @override
+  String getDartType(Writer w) => name;
+
+  @override
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
 
   @override
-  bool get sameDartAndCType => nativeType.sameDartAndCType;
+  bool get sameDartAndFfiDartType => false;
 
   @override
   String? getDefaultValue(Writer w) => '0';
+
+  @override
+  String convertDartTypeToFfiDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+  }) =>
+      "$value.value";
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) =>
+      "$name.fromValue($value)";
 }
 
 /// Represents a single value in an enum.

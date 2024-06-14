@@ -3,10 +3,11 @@
 - __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
   than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
   `NSProxy`.
-- __Breaking change__: Enums are now generated as real Dart enums, instead of
-  abstract classes. Since Dart enums cannot be empty, empty native enums are
-  generated as empty sealed classes. Native enum members with duplicate integer
-  values are handled properly, and are equal to each other in Dart as well.
+- __Breaking change__: Native enums are now generated as real Dart enums, instead
+  of abstract classes with integer constants. Native enum members with the same
+  integer values are handled properly on the Dart side, and native functions
+  that use enums in their signatures now accept the generated enums on the Dart
+  side, instead of integer values. 
 - Rename ObjC interface methods that clash with type names. Fixes
   https://github.com/dart-lang/native/issues/1007.
 - __Breaking change__: Enum integer types are implementation-defined and not

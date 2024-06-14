@@ -23,6 +23,12 @@ enum Duplicates {
   final int value;
   const Duplicates(this.value);
 
+  static Duplicates fromValue(int value) => switch (value) {
+        0 => a,
+        1 => b,
+        _ => throw ArgumentError("Unknown value for Duplicates: $value"),
+      };
+
   @override
   String toString() {
     if (this == b) return "Duplicates.b, Duplicates.c";
