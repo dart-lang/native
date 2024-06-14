@@ -36,6 +36,10 @@ class Writer {
 
   final bool generateForPackageObjectiveC;
 
+  /// Tracks where enumType.getCType is called. Reset everytime [generate] is
+  /// called.
+  bool usedEnumCType = false;
+
   String? _ffiLibraryPrefix;
   String get ffiLibraryPrefix {
     if (_ffiLibraryPrefix != null) {
@@ -110,6 +114,8 @@ class Writer {
   bool get canGenerateSymbolOutput => _canGenerateSymbolOutput;
   bool _canGenerateSymbolOutput = false;
 
+  final bool silenceEnumWarning;
+
   /// [_usedUpNames] should contain names of all the declarations which are
   /// already used. This is used to avoid name collisions.
   Writer({
@@ -122,6 +128,7 @@ class Writer {
     this.classDocComment,
     this.header,
     required this.generateForPackageObjectiveC,
+    required this.silenceEnumWarning,
   }) {
     final globalLevelNameSet = noLookUpBindings.map((e) => e.name).toSet();
     final wrapperLevelNameSet = lookUpBindings.map((e) => e.name).toSet();
@@ -230,6 +237,9 @@ class Writer {
     // Reset unique namers to initial state.
     _resetUniqueNamersNamers();
 
+    // Reset [usedEnumCType].
+    usedEnumCType = false;
+
     // Write file header (if any).
     if (header != null) {
       result.writeln(header);
@@ -313,6 +323,12 @@ class Writer {
       result.write("import '$path' as ${lib.prefix};\n");
     }
     result.write(s);
+
+    // Warn about Enum usage in API surface.
+    if (!silenceEnumWarning && usedEnumCType) {
+      _logger.severe(
+          "The integer type used for enums is implementation-defined. FFIgen tries to mimic the integer sizes chosen by the most common compilers for the various OS and architecture combinations. To prevent any crashes, remove the enums from your API surface. To rely on the (unsafe!) mimicking, you can silence this warning by adding silence-enum-warning: true to the FFIgen config.");
+    }
 
     _canGenerateSymbolOutput = true;
     return result.toString();

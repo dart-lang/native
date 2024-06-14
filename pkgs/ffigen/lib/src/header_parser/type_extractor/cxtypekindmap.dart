@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart' show SupportedNativeType;
+import 'package:collection/collection.dart';
+import 'package:ffigen/src/code_generator.dart' show SupportedNativeType, Type;
 import 'package:ffigen/src/code_generator/imports.dart';
 
 var cxTypeKindToImportedTypes = <String, ImportedType>{
@@ -21,6 +22,18 @@ var cxTypeKindToImportedTypes = <String, ImportedType>{
   'float': floatType,
   'double': doubleType,
 };
+
+Map<Type, ImportedType?> unsignedToSignedNativeIntType = Map.fromEntries(
+    cxTypeKindToImportedTypes.entries
+        .where((e) => e.key.contains('unsigned'))
+        .map((e) => MapEntry(e.value as Type,
+            cxTypeKindToImportedTypes[e.key.replaceFirst('unsigned ', '')])));
+
+Map<Type, ImportedType?> signedToUnsignedNativeIntType = Map.fromEntries(
+    cxTypeKindToImportedTypes.entries
+        .whereNot((e) => e.key.contains('unsigned'))
+        .map((e) => MapEntry(
+            e.value as Type, cxTypeKindToImportedTypes['unsigned ${e.key}'])));
 
 var suportedTypedefToSuportedNativeType = <String, SupportedNativeType>{
   'uint8_t': SupportedNativeType.Uint8,

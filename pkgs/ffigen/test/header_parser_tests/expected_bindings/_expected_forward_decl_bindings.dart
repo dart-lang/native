@@ -30,9 +30,9 @@ class NativeLibrary {
     );
   }
 
-  late final _funcPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<A>, ffi.Int32)>>(
-          'func');
+  late final _funcPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<A>, ffi.UnsignedInt)>>('func');
   late final _func = _funcPtr.asFunction<void Function(ffi.Pointer<A>, int)>();
 }
 
