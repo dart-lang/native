@@ -190,8 +190,8 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
       s.write(' {\n');
 
       // Implementation.
-      final convertReturn =
-          m.kind != ObjCMethodKind.propertySetter && !returnType.sameDartAndFfiDartType;
+      final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
+          !returnType.sameDartAndFfiDartType;
 
       if (returnType != voidType) {
         s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
