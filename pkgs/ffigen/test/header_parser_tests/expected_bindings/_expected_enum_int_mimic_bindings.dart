@@ -9,6 +9,11 @@ enum Simple {
 
   final int value;
   const Simple(this.value);
+
+  static Simple fromValue(int value) => switch (value) {
+        0 => A0,
+        _ => throw ArgumentError("Unknown value for Simple: $value"),
+      };
 }
 
 enum SimpleWithNegative {
@@ -17,6 +22,13 @@ enum SimpleWithNegative {
 
   final int value;
   const SimpleWithNegative(this.value);
+
+  static SimpleWithNegative fromValue(int value) => switch (value) {
+        0 => B0,
+        -1000 => B1,
+        _ =>
+          throw ArgumentError("Unknown value for SimpleWithNegative: $value"),
+      };
 }
 
 enum PositiveIntOverflow {
@@ -24,6 +36,12 @@ enum PositiveIntOverflow {
 
   final int value;
   const PositiveIntOverflow(this.value);
+
+  static PositiveIntOverflow fromValue(int value) => switch (value) {
+        -2147483607 => C0,
+        _ =>
+          throw ArgumentError("Unknown value for PositiveIntOverflow: $value"),
+      };
 }
 
 enum ExplicitType {
@@ -32,6 +50,12 @@ enum ExplicitType {
 
   final int value;
   const ExplicitType(this.value);
+
+  static ExplicitType fromValue(int value) => switch (value) {
+        0 => E0,
+        1 => E1,
+        _ => throw ArgumentError("Unknown value for ExplicitType: $value"),
+      };
 }
 
 enum ExplicitTypeWithOverflow {
@@ -40,6 +64,13 @@ enum ExplicitTypeWithOverflow {
 
   final int value;
   const ExplicitTypeWithOverflow(this.value);
+
+  static ExplicitTypeWithOverflow fromValue(int value) => switch (value) {
+        0 => F0,
+        -32727 => F1,
+        _ => throw ArgumentError(
+            "Unknown value for ExplicitTypeWithOverflow: $value"),
+      };
 }
 
 final class Test extends ffi.Struct {
