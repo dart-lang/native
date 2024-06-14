@@ -32,6 +32,7 @@ class Library {
     bool generateForPackageObjectiveC = false,
     StructPackingOverride? packingOverride,
     Set<LibraryImport>? libraryImports,
+    bool silenceEnumWarning = false,
   }) {
     _findBindings(bindings, sort);
 
@@ -84,6 +85,7 @@ class Library {
       header: header,
       additionalImports: libraryImports,
       generateForPackageObjectiveC: generateForPackageObjectiveC,
+      silenceEnumWarning: silenceEnumWarning,
     );
   }
 

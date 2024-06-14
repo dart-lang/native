@@ -13,7 +13,8 @@ import '../utils.dart';
 final _logger = Logger('ffigen.header_parser.unnamed_enumdecl_parser');
 
 /// Saves unnamed enums.
-void saveUnNamedEnum(clang_types.CXCursor cursor) {
+List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
+  final addedConstants = <Constant>[];
   cursor.visitChildren((child) {
     try {
       _logger
@@ -21,7 +22,7 @@ void saveUnNamedEnum(clang_types.CXCursor cursor) {
       switch (clang.clang_getCursorKind(child)) {
         case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
           if (shouldIncludeUnnamedEnumConstant(child.usr(), child.spelling())) {
-            _addUnNamedEnumConstant(child);
+            addedConstants.add(_addUnNamedEnumConstant(child));
           }
           break;
         case clang_types.CXCursorKind.CXCursor_UnexposedAttr:
@@ -36,10 +37,11 @@ void saveUnNamedEnum(clang_types.CXCursor cursor) {
       rethrow;
     }
   });
+  return addedConstants;
 }
 
 /// Adds the parameter to func in [functiondecl_parser.dart].
-void _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
+Constant _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
   _logger.fine(
       '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}');
   final constant = Constant(
@@ -53,4 +55,5 @@ void _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
   );
   bindingsIndex.addUnnamedEnumConstantToSeen(cursor.usr(), constant);
   unnamedEnumConstants.add(constant);
+  return constant;
 }

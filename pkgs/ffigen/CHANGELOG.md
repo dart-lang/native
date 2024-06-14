@@ -9,6 +9,10 @@
   values are handled properly, and are equal to each other in Dart as well.
 - Rename ObjC interface methods that clash with type names. Fixes
   https://github.com/dart-lang/native/issues/1007.
+- __Breaking change__: Enum integer types are implementation-defined and not
+  part of the ABI. Therefore FFIgen does a best-effort approach trying to mimic
+  the most common compilers for the various OS and architecture combinations.
+  To silence the warning set config `silence-enum-warning` to `true`.
 
 ## 12.0.0
 
