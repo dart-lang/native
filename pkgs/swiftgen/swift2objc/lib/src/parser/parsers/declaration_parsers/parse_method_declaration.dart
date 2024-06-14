@@ -12,12 +12,12 @@ ClassMethodDeclaration parseMethodDeclaration(
   return ClassMethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
-    returnType: _parseMehodReturnType(methodSymbolJson, parsedSymbolsMap),
-    params: _parseMehodParams(methodSymbolJson, parsedSymbolsMap),
+    returnType: _parseMethodReturnType(methodSymbolJson, parsedSymbolsMap),
+    params: _parseMethodParams(methodSymbolJson, parsedSymbolsMap),
   );
 }
 
-ReferredType _parseMehodReturnType(
+ReferredType _parseMethodReturnType(
   JsonMap methodSymbolJson,
   ParsedSymbolsMap parsedSymbolsMap,
 ) {
@@ -30,7 +30,7 @@ ReferredType _parseMehodReturnType(
   return DeclaredType(id: returnTypeId, declaration: returnTypeDeclaration);
 }
 
-List<Parameter> _parseMehodParams(
+List<Parameter> _parseMethodParams(
   JsonMap methodSymbolJson,
   ParsedSymbolsMap parsedSymbolsMap,
 ) {
