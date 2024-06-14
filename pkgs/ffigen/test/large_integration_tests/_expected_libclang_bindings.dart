@@ -6192,7 +6192,7 @@ enum CXCursor_ExceptionSpecificationKind {
         8 => CXCursor_ExceptionSpecificationKind_Unparsed,
         9 => CXCursor_ExceptionSpecificationKind_NoThrow,
         _ => throw ArgumentError(
-            "Invalid value for CXCursor_ExceptionSpecificationKind: $value"),
+            "Unknown value for CXCursor_ExceptionSpecificationKind: $value"),
       };
 }
 
@@ -6374,7 +6374,7 @@ enum CXDiagnosticDisplayOptions {
         16 => CXDiagnostic_DisplayCategoryId,
         32 => CXDiagnostic_DisplayCategoryName,
         _ => throw ArgumentError(
-            "Invalid value for CXDiagnosticDisplayOptions: $value"),
+            "Unknown value for CXDiagnosticDisplayOptions: $value"),
       };
 }
 
@@ -6463,7 +6463,7 @@ enum CXTranslationUnit_Flags {
         16384 => CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles,
         32768 => CXTranslationUnit_RetainExcludedConditionalBlocks,
         _ => throw ArgumentError(
-            "Invalid value for CXTranslationUnit_Flags: $value"),
+            "Unknown value for CXTranslationUnit_Flags: $value"),
       };
 }
 
@@ -6478,7 +6478,7 @@ enum CXSaveTranslationUnit_Flags {
   static CXSaveTranslationUnit_Flags fromValue(int value) => switch (value) {
         0 => CXSaveTranslationUnit_None,
         _ => throw ArgumentError(
-            "Invalid value for CXSaveTranslationUnit_Flags: $value"),
+            "Unknown value for CXSaveTranslationUnit_Flags: $value"),
       };
 }
 
@@ -6569,7 +6569,7 @@ enum CXTUResourceUsageKind {
         13 => CXTUResourceUsage_SourceManager_DataStructures,
         14 => CXTUResourceUsage_Preprocessor_HeaderSearch,
         _ => throw ArgumentError(
-            "Invalid value for CXTUResourceUsageKind: $value"),
+            "Unknown value for CXTUResourceUsageKind: $value"),
       };
 
   @override
@@ -8041,7 +8041,7 @@ enum CXTemplateArgumentKind {
         8 => CXTemplateArgumentKind_Pack,
         9 => CXTemplateArgumentKind_Invalid,
         _ => throw ArgumentError(
-            "Invalid value for CXTemplateArgumentKind: $value"),
+            "Unknown value for CXTemplateArgumentKind: $value"),
       };
 }
 
@@ -8069,7 +8069,7 @@ enum CXTypeNullabilityKind {
         2 => CXTypeNullability_Unspecified,
         3 => CXTypeNullability_Invalid,
         _ => throw ArgumentError(
-            "Invalid value for CXTypeNullabilityKind: $value"),
+            "Unknown value for CXTypeNullabilityKind: $value"),
       };
 }
 
@@ -8147,7 +8147,7 @@ enum CX_CXXAccessSpecifier {
         2 => CX_CXXProtected,
         3 => CX_CXXPrivate,
         _ => throw ArgumentError(
-            "Invalid value for CX_CXXAccessSpecifier: $value"),
+            "Unknown value for CX_CXXAccessSpecifier: $value"),
       };
 }
 
@@ -8280,7 +8280,7 @@ enum CXPrintingPolicyProperty {
         24 => CXPrintingPolicy_SuppressImplicitBase,
         25 => CXPrintingPolicy_FullyQualifiedName,
         _ => throw ArgumentError(
-            "Invalid value for CXPrintingPolicyProperty: $value"),
+            "Unknown value for CXPrintingPolicyProperty: $value"),
       };
 
   @override
@@ -8331,7 +8331,7 @@ enum CXObjCPropertyAttrKind {
         2048 => CXObjCPropertyAttr_unsafe_unretained,
         4096 => CXObjCPropertyAttr_class,
         _ => throw ArgumentError(
-            "Invalid value for CXObjCPropertyAttrKind: $value"),
+            "Unknown value for CXObjCPropertyAttrKind: $value"),
       };
 }
 
@@ -8358,7 +8358,7 @@ enum CXObjCDeclQualifierKind {
         16 => CXObjCDeclQualifier_Byref,
         32 => CXObjCDeclQualifier_Oneway,
         _ => throw ArgumentError(
-            "Invalid value for CXObjCDeclQualifierKind: $value"),
+            "Unknown value for CXObjCDeclQualifierKind: $value"),
       };
 }
 
@@ -8537,7 +8537,7 @@ enum CXCompletionChunkKind {
         19 => CXCompletionChunk_HorizontalSpace,
         20 => CXCompletionChunk_VerticalSpace,
         _ => throw ArgumentError(
-            "Invalid value for CXCompletionChunkKind: $value"),
+            "Unknown value for CXCompletionChunkKind: $value"),
       };
 }
 
@@ -8956,7 +8956,7 @@ enum CXIdxEntityCXXTemplateKind {
         2 => CXIdxEntity_TemplatePartialSpecialization,
         3 => CXIdxEntity_TemplateSpecialization,
         _ => throw ArgumentError(
-            "Invalid value for CXIdxEntityCXXTemplateKind: $value"),
+            "Unknown value for CXIdxEntityCXXTemplateKind: $value"),
       };
 }
 
@@ -9087,7 +9087,7 @@ enum CXIdxObjCContainerKind {
         1 => CXIdxObjCContainer_Interface,
         2 => CXIdxObjCContainer_Implementation,
         _ => throw ArgumentError(
-            "Invalid value for CXIdxObjCContainerKind: $value"),
+            "Unknown value for CXIdxObjCContainerKind: $value"),
       };
 }
 

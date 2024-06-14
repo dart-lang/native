@@ -114,7 +114,7 @@ enum AnonymousEnumInTypedef {
   static AnonymousEnumInTypedef fromValue(int value) => switch (value) {
         0 => a,
         _ => throw ArgumentError(
-            "Invalid value for AnonymousEnumInTypedef: $value"),
+            "Unknown value for AnonymousEnumInTypedef: $value"),
       };
 }
 
