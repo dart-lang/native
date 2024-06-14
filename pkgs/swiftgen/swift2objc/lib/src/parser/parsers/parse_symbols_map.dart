@@ -1,7 +1,7 @@
 import 'package:swift2objc/src/parser/_core/json.dart';
+import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 
 import '../../ast/declarations/built_in/built_in_declaration.dart';
-import '../_core/parsed_symbol.dart';
 import '../_core/utils.dart';
 
 const _builtInDeclarations = [

@@ -1,20 +1,20 @@
 import 'dart:developer';
 
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
-import 'package:swift2objc/src/parser/_core/parsed_symbol.dart';
+import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_class_decalartion.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_method_declaration.dart';
 
 import '../_core/utils.dart';
 
-DeclarationsMap parseDeclarationsMap(ParsedSymbolsMap parsedSymbolsMap) {
+DeclarationsMap parseDeclarationsMap(ParsedSymbolgraph symbolgraph) {
   final DeclarationsMap declarations = {};
 
-  for (final id in parsedSymbolsMap.keys) {
+  for (final id in symbolgraph.symbols.keys) {
     try {
       declarations[id] = parseDeclaration(
-        parsedSymbolsMap[id]!,
-        parsedSymbolsMap,
+        symbolgraph.symbols[id]!,
+        symbolgraph,
       );
     } on UnimplementedError catch (e) {
       log("$e");
@@ -26,7 +26,7 @@ DeclarationsMap parseDeclarationsMap(ParsedSymbolsMap parsedSymbolsMap) {
 
 Declaration parseDeclaration(
   ParsedSymbol parsedSymbol,
-  ParsedSymbolsMap parsedSymbolsMap,
+  ParsedSymbolgraph symbolgraph,
 ) {
   if (parsedSymbol.declaration != null) {
     return parsedSymbol.declaration!;
@@ -37,8 +37,8 @@ Declaration parseDeclaration(
   final String symbolType = symbolJson["kind"]["identifier"].get();
 
   parsedSymbol.declaration = switch (symbolType) {
-    "swift.class" => parseClassDeclaration(symbolJson),
-    "swift.method" => parseMethodDeclaration(symbolJson, parsedSymbolsMap),
+    "swift.class" => parseClassDeclaration(symbolJson, symbolgraph),
+    "swift.method" => parseMethodDeclaration(symbolJson, symbolgraph),
     _ => throw UnimplementedError(
         "Symbol of type ${symbolType} is not implemented yet.",
       ),

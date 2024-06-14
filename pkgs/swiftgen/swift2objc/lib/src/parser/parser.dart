@@ -1,16 +1,19 @@
+import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
+
 import '_core/utils.dart';
 import 'parsers/parse_declarations_map.dart';
-import 'parsers/wire_up_relations.dart';
+import 'parsers/parse_realtions_map.dart';
 import 'parsers/parse_symbols_map.dart';
 
 DeclarationsMap parseAst(String symbolgraphJsonPath) {
-  final symbolgraph = readJsonFile(symbolgraphJsonPath);
+  final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
 
-  final parsedSymbols = parseSymbolsMap(symbolgraph);
+  final symbolgraph = ParsedSymbolgraph(
+    parseSymbolsMap(symbolgraphJson),
+    parseRelationsMap(symbolgraphJson),
+  );
 
-  final declarations = parseDeclarationsMap(parsedSymbols);
-
-  wireUpRelations(declarations, symbolgraph);
+  final declarations = parseDeclarationsMap(symbolgraph);
 
   return declarations;
 }

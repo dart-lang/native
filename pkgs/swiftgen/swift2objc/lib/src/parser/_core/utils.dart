@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:swift2objc/src/parser/_core/json.dart';
+import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 
 import '../../ast/_core/interfaces/declaration.dart';
-import 'parsed_symbol.dart';
 
 typedef DeclarationsMap = Map<String, Declaration>;
 typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
-typedef JsonMap = Map<String, dynamic>;
+typedef ParsedRelationsMap = Map<String, List<ParsedRelation>>;
+
 
 Json readJsonFile(String jsonFilePath) {
   final jsonStr = File(jsonFilePath).readAsStringSync();

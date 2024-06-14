@@ -4,34 +4,34 @@ class Json extends IterableBase<Json> {
   final List<String> _pathSegments;
   final dynamic _json;
 
-  String get _path => _pathSegments.join('/');
+  String get path => _pathSegments.join('/');
 
   Json(this._json, [this._pathSegments = const []]);
 
   Json operator [](dynamic index) {
     if (index is String) {
       if (_json is! Map) {
-        throw 'Expected a map at "$_path", found a ${_json.runtimeType}';
+        throw 'Expected a map at "$path", found a ${_json.runtimeType}';
       }
       return Json(_json[index], [..._pathSegments, index]);
     }
 
     if (index is int) {
       if (_json is! List) {
-        throw 'Expected a list at "$_path", found a ${_json.runtimeType}';
+        throw 'Expected a list at "$path", found a ${_json.runtimeType}';
       }
       if (index >= _json.length) {
-        throw 'Index out of range at "$_path" (index: $index, max-length: ${_json.length})';
+        throw 'Index out of range at "$path" (index: $index, max-length: ${_json.length})';
       }
       return Json(_json[index], [..._pathSegments, "$index"]);
     }
 
-    throw 'Invalid subscript type when accessing value at path "$_path". Expected an integer index or a string key, got ${index.runtimeType}.';
+    throw 'Invalid subscript type when accessing value at path "$path". Expected an integer index or a string key, got ${index.runtimeType}.';
   }
 
   T get<T>() {
     if (_json is T) return _json;
-    throw 'Expected a $T at "$_path", found ${_json.runtimeType}';
+    throw 'Expected a $T at "$path", found ${_json.runtimeType}';
   }
 
   T? tryGet<T>() {
@@ -55,7 +55,7 @@ class Json extends IterableBase<Json> {
         }
       },
       orElse: () =>
-          throw 'No map with key "$key" and value "$value" was found at $_path',
+          throw 'No map with key "$key" and value "$value" was found at $path',
     );
   }
 }
@@ -63,7 +63,7 @@ class Json extends IterableBase<Json> {
 class _JsonIterator implements Iterator<Json> {
   final Json _json;
   final List _list;
-  var _index = 0;
+  var _index = -1;
 
   _JsonIterator(this._json) : _list = _json.get();
 
