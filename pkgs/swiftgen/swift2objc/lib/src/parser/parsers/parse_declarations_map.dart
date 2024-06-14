@@ -12,7 +12,7 @@ DeclarationsMap parseDeclarationsMap(ParsedSymbolsMap parsedSymbolsMap) {
   for (final id in parsedSymbolsMap.keys) {
     try {
       declarations[id] = parseDeclaration(id, parsedSymbolsMap);
-    } on UnsupportedError catch (e) {
+    } on UnimplementedError catch (e) {
       if (e.message != null) {
         log(e.message!);
       }
@@ -36,8 +36,8 @@ Declaration parseDeclaration(
   final ParserFunction parser = switch (symbolType) {
     "swift.class" => parseClassDeclaration,
     "swift.method" => parseMethodDeclaration,
-    _ => throw UnsupportedError(
-        "Symbol of type ${symbolType} is not supported",
+    _ => throw UnimplementedError(
+        "Symbol of type ${symbolType} is not implemented yet.",
       ),
   } as ParserFunction;
 
