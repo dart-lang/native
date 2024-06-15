@@ -10,8 +10,8 @@ import '../../_core/shared/referred_type.dart';
 
 /// A container for globally defined values (i.e variables & constants) and functions.
 class Globals {
-  List<GlobalFunction> functions;
-  List<GlobalValue> values;
+  List<GlobalFunctionDeclaration> functions;
+  List<GlobalValueDeclaration> values;
 
   Globals({
     required this.functions,
@@ -20,7 +20,7 @@ class Globals {
 }
 
 /// Describes a globally defined function.
-class GlobalFunction
+class GlobalFunctionDeclaration
     implements Declaration, Parameterizable, TypeParameterizable {
   @override
   String id;
@@ -36,7 +36,7 @@ class GlobalFunction
 
   ReferredType returnType;
 
-  GlobalFunction({
+  GlobalFunctionDeclaration({
     required this.id,
     required this.name,
     required this.params,
@@ -46,7 +46,7 @@ class GlobalFunction
 }
 
 /// Describes a globally defined values (i.e variable/constant).
-class GlobalValue implements Declaration {
+class GlobalValueDeclaration implements Declaration {
   @override
   String id;
 
@@ -57,7 +57,7 @@ class GlobalValue implements Declaration {
 
   bool isConstant;
 
-  GlobalValue({
+  GlobalValueDeclaration({
     required this.id,
     required this.name,
     required this.type,
