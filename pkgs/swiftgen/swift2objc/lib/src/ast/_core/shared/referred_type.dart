@@ -20,8 +20,8 @@ class DeclaredType<T extends Declaration> extends ReferredType {
   DeclaredType({
     required super.id,
     required this.declaration,
-    List<ReferredType>? typeParams,
-  }) : this.typeParams = typeParams ?? [];
+    this.typeParams = const [],
+  });
 }
 
 /// Describes a reference of a generic type (e.g a method return type `T` within a generic class).

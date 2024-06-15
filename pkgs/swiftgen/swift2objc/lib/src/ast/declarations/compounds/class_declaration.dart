@@ -36,16 +36,13 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   ClassDeclaration({
     required this.id,
     required this.name,
-    List<ClassPropertyDeclaration>? properties,
-    List<ClassMethodDeclaration>? methods,
-    List<DeclaredType<ProtocolDeclaration>>? conformedProtocols,
-    List<GenericType>? typeParams,
+    this.properties = const [],
+    this.methods = const [],
+    this.conformedProtocols = const [],
+    this.typeParams = const [],
     this.hasObjCAnnotation = false,
     this.superClass,
-  })  : this.properties = properties ?? [],
-        this.methods = methods ?? [],
-        this.conformedProtocols = conformedProtocols ?? [],
-        this.typeParams = typeParams ?? [];
+  });
 }
 
 /// Describes the declaration of a property in a Swift class.
@@ -101,7 +98,7 @@ class ClassMethodDeclaration
     required this.name,
     required this.returnType,
     required this.params,
-    List<GenericType>? typeParams,
+    this.typeParams = const [],
     this.hasObjCAnnotation = false,
-  }) : this.typeParams = typeParams ?? [];
+  });
 }
