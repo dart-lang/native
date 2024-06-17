@@ -31,7 +31,6 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     final protoMethod = ObjCBuiltInFunctions.protoMethod.gen(w);
     final protoBuilder = ObjCBuiltInFunctions.protoBuilder.gen(w);
     final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
-    final blockBase = ObjCBuiltInFunctions.blockBase.gen(w);
     final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
 
     final buildArgs = <String>[];
@@ -52,7 +51,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
         for (int i = 1; i < block.argTypes.length; ++i)
           Parameter(name: 'arg$i', type: block.argTypes[i]),
       ]);
-      final funcType = func.getDartType(w);
+      final funcType = func.getDartType(w, writeArgumentNames: false);
 
       if (method.isOptional) {
         buildArgs.add('$funcType? $argName');
@@ -67,7 +66,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final argsPassed = func.parameters.map((p) => p.name).join(', ');
       final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
 
-      late final listenerBuilder;
+      late final String listenerBuilder;
       if (block.hasListener) {
         listenerBuilder = '(Function func) => $blockType.listener($wrapper)';
       } else {
