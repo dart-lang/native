@@ -413,7 +413,8 @@ class $name$typeParamsDef extends $superName {
       }
       s.write('''
     } catch (e) {
-      return $_protectedExtension.newDartException(e.toString());
+      // TODO: check type of `e` and add to the exception. 
+      return $_protectedExtension.newDartException(e.toString(), null);
     }
     return jni.nullptr;
   }

@@ -7,12 +7,11 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
+import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
-import 'errors.dart';
-import 'jreference.dart';
-import 'third_party/generated_bindings.dart';
 import 'accessors.dart';
+import 'third_party/generated_bindings.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
@@ -237,9 +236,10 @@ extension ProtectedJniExtensions on Jni {
   }
 
   /// Returns a new DartException.
-  static Pointer<Void> newDartException(String message) {
+  static Pointer<Void> newDartException(String message, [JObject? cause]) {
     return Jni._bindings
-        .DartException__ctor(Jni.env.toJStringPtr(message))
+        .DartException__ctor(
+            Jni.env.toJStringPtr(message), cause?.reference.pointer ?? nullptr)
         .objectPointer;
   }
 
