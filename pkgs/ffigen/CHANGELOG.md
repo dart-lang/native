@@ -12,10 +12,15 @@
     - If you don't use listener blocks, you can ignore the .m file.
     - You can choose where the generated .m file is placed with the
       `output.objc-bindings` config option.
-- __Breaking change__: Enums are now generated as real Dart enums, instead of
-  abstract classes. Since Dart enums cannot be empty, empty native enums are
-  generated as empty sealed classes. Native enum members with duplicate integer
-  values are handled properly, and are equal to each other in Dart as well.
+- __Breaking change__: Native enums are now generated as real Dart enums, instead
+  of abstract classes with integer constants. Native enum members with the same
+  integer values are handled properly on the Dart side, and native functions
+  that use enums in their signatures now accept the generated enums on the Dart
+  side, instead of integer values.
+- __Breaking change__: Enum integer types are implementation-defined and not
+  part of the ABI. Therefore FFIgen does a best-effort approach trying to mimic
+  the most common compilers for the various OS and architecture combinations.
+  To silence the warning set config `silence-enum-warning` to `true`.
 - Rename ObjC interface methods that clash with type names. Fixes
   https://github.com/dart-lang/native/issues/1007.
 

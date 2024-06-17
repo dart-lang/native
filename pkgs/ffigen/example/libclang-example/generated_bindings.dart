@@ -884,7 +884,7 @@ class LibClang {
   /// diagnostics should be released using clang_disposeDiagnosticSet().
   CXDiagnosticSet clang_loadDiagnostics(
     ffi.Pointer<ffi.Char> file,
-    ffi.Pointer<ffi.Int32> error,
+    ffi.Pointer<ffi.UnsignedInt> error,
     ffi.Pointer<CXString> errorString,
   ) {
     return _clang_loadDiagnostics(
@@ -1051,12 +1051,12 @@ class LibClang {
           .asFunction<DartClang_defaultDiagnosticDisplayOptions>();
 
   /// Determine the severity of the given diagnostic.
-  int clang_getDiagnosticSeverity(
+  CXDiagnosticSeverity clang_getDiagnosticSeverity(
     CXDiagnostic arg0,
   ) {
-    return _clang_getDiagnosticSeverity(
+    return CXDiagnosticSeverity.fromValue(_clang_getDiagnosticSeverity(
       arg0,
-    );
+    ));
   }
 
   late final _clang_getDiagnosticSeverityPtr =
@@ -1392,16 +1392,16 @@ class LibClang {
   /// \c CXTranslationUnit.
   ///
   /// \returns Zero on success, otherwise returns an error code.
-  int clang_createTranslationUnit2(
+  CXErrorCode clang_createTranslationUnit2(
     CXIndex CIdx,
     ffi.Pointer<ffi.Char> ast_filename,
     ffi.Pointer<CXTranslationUnit> out_TU,
   ) {
-    return _clang_createTranslationUnit2(
+    return CXErrorCode.fromValue(_clang_createTranslationUnit2(
       CIdx,
       ast_filename,
       out_TU,
-    );
+    ));
   }
 
   late final _clang_createTranslationUnit2Ptr =
@@ -1503,7 +1503,7 @@ class LibClang {
   /// diagnostics produced by the compiler.
   ///
   /// \returns Zero on success, otherwise returns an error code.
-  int clang_parseTranslationUnit2(
+  CXErrorCode clang_parseTranslationUnit2(
     CXIndex CIdx,
     ffi.Pointer<ffi.Char> source_filename,
     ffi.Pointer<ffi.Pointer<ffi.Char>> command_line_args,
@@ -1513,7 +1513,7 @@ class LibClang {
     int options,
     ffi.Pointer<CXTranslationUnit> out_TU,
   ) {
-    return _clang_parseTranslationUnit2(
+    return CXErrorCode.fromValue(_clang_parseTranslationUnit2(
       CIdx,
       source_filename,
       command_line_args,
@@ -1522,7 +1522,7 @@ class LibClang {
       num_unsaved_files,
       options,
       out_TU,
-    );
+    ));
   }
 
   late final _clang_parseTranslationUnit2Ptr =
@@ -1534,7 +1534,7 @@ class LibClang {
   /// Same as clang_parseTranslationUnit2 but requires a full command line
   /// for \c command_line_args including argv[0]. This is useful if the standard
   /// library paths are relative to the binary.
-  int clang_parseTranslationUnit2FullArgv(
+  CXErrorCode clang_parseTranslationUnit2FullArgv(
     CXIndex CIdx,
     ffi.Pointer<ffi.Char> source_filename,
     ffi.Pointer<ffi.Pointer<ffi.Char>> command_line_args,
@@ -1544,7 +1544,7 @@ class LibClang {
     int options,
     ffi.Pointer<CXTranslationUnit> out_TU,
   ) {
-    return _clang_parseTranslationUnit2FullArgv(
+    return CXErrorCode.fromValue(_clang_parseTranslationUnit2FullArgv(
       CIdx,
       source_filename,
       command_line_args,
@@ -1553,7 +1553,7 @@ class LibClang {
       num_unsaved_files,
       options,
       out_TU,
-    );
+    ));
   }
 
   late final _clang_parseTranslationUnit2FullArgvPtr =
@@ -1739,10 +1739,10 @@ class LibClang {
   /// Returns the human-readable null-terminated C string that represents
   /// the name of the memory category.  This string should never be freed.
   ffi.Pointer<ffi.Char> clang_getTUResourceUsageName(
-    int kind,
+    CXTUResourceUsageKind kind,
   ) {
     return _clang_getTUResourceUsageName(
-      kind,
+      kind.value,
     );
   }
 
@@ -1928,12 +1928,12 @@ class LibClang {
       _clang_hashCursorPtr.asFunction<DartClang_hashCursor>();
 
   /// Retrieve the kind of the given cursor.
-  int clang_getCursorKind(
+  CXCursorKind clang_getCursorKind(
     CXCursor arg0,
   ) {
-    return _clang_getCursorKind(
+    return CXCursorKind.fromValue(_clang_getCursorKind(
       arg0,
-    );
+    ));
   }
 
   late final _clang_getCursorKindPtr =
@@ -1944,10 +1944,10 @@ class LibClang {
 
   /// Determine whether the given cursor kind represents a declaration.
   int clang_isDeclaration(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isDeclaration(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -1984,10 +1984,10 @@ class LibClang {
   /// other cursors. Use clang_getCursorReferenced() to determine whether a
   /// particular cursor refers to another entity.
   int clang_isReference(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isReference(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -1998,10 +1998,10 @@ class LibClang {
 
   /// Determine whether the given cursor kind represents an expression.
   int clang_isExpression(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isExpression(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -2013,10 +2013,10 @@ class LibClang {
 
   /// Determine whether the given cursor kind represents a statement.
   int clang_isStatement(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isStatement(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -2027,10 +2027,10 @@ class LibClang {
 
   /// Determine whether the given cursor kind represents an attribute.
   int clang_isAttribute(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isAttribute(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -2057,10 +2057,10 @@ class LibClang {
   /// Determine whether the given cursor kind represents an invalid
   /// cursor.
   int clang_isInvalid(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isInvalid(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -2072,10 +2072,10 @@ class LibClang {
   /// Determine whether the given cursor kind represents a translation
   /// unit.
   int clang_isTranslationUnit(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isTranslationUnit(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -2088,10 +2088,10 @@ class LibClang {
   /// Determine whether the given cursor represents a preprocessing
   /// element, such as a preprocessor directive or macro instantiation.
   int clang_isPreprocessing(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isPreprocessing(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -2104,10 +2104,10 @@ class LibClang {
   /// Determine whether the given cursor represents a currently
   /// unexposed piece of the AST (e.g., CXCursor_UnexposedStmt).
   int clang_isUnexposed(
-    int arg0,
+    CXCursorKind arg0,
   ) {
     return _clang_isUnexposed(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -2117,12 +2117,12 @@ class LibClang {
       _clang_isUnexposedPtr.asFunction<DartClang_isUnexposed>();
 
   /// Determine the linkage of the entity referred to by a given cursor.
-  int clang_getCursorLinkage(
+  CXLinkageKind clang_getCursorLinkage(
     CXCursor cursor,
   ) {
-    return _clang_getCursorLinkage(
+    return CXLinkageKind.fromValue(_clang_getCursorLinkage(
       cursor,
-    );
+    ));
   }
 
   late final _clang_getCursorLinkagePtr =
@@ -2140,12 +2140,12 @@ class LibClang {
   /// \param cursor The cursor to query.
   ///
   /// \returns The visibility of the cursor.
-  int clang_getCursorVisibility(
+  CXVisibilityKind clang_getCursorVisibility(
     CXCursor cursor,
   ) {
-    return _clang_getCursorVisibility(
+    return CXVisibilityKind.fromValue(_clang_getCursorVisibility(
       cursor,
-    );
+    ));
   }
 
   late final _clang_getCursorVisibilityPtr =
@@ -2160,12 +2160,12 @@ class LibClang {
   /// \param cursor The cursor to query.
   ///
   /// \returns The availability of the cursor.
-  int clang_getCursorAvailability(
+  CXAvailabilityKind clang_getCursorAvailability(
     CXCursor cursor,
   ) {
-    return _clang_getCursorAvailability(
+    return CXAvailabilityKind.fromValue(_clang_getCursorAvailability(
       cursor,
-    );
+    ));
   }
 
   late final _clang_getCursorAvailabilityPtr =
@@ -2252,12 +2252,12 @@ class LibClang {
           .asFunction<DartClang_disposeCXPlatformAvailability>();
 
   /// Determine the "language" of the entity referred to by a given cursor.
-  int clang_getCursorLanguage(
+  CXLanguageKind clang_getCursorLanguage(
     CXCursor cursor,
   ) {
-    return _clang_getCursorLanguage(
+    return CXLanguageKind.fromValue(_clang_getCursorLanguage(
       cursor,
-    );
+    ));
   }
 
   late final _clang_getCursorLanguagePtr =
@@ -2268,12 +2268,12 @@ class LibClang {
 
   /// Determine the "thread-local storage (TLS) kind" of the declaration
   /// referred to by a cursor.
-  int clang_getCursorTLSKind(
+  CXTLSKind clang_getCursorTLSKind(
     CXCursor cursor,
   ) {
-    return _clang_getCursorTLSKind(
+    return CXTLSKind.fromValue(_clang_getCursorTLSKind(
       cursor,
-    );
+    ));
   }
 
   late final _clang_getCursorTLSKindPtr =
@@ -2830,14 +2830,15 @@ class LibClang {
   ///
   /// For I = 0, 1, and 2, Type, Integral, and Integral will be returned,
   /// respectively.
-  int clang_Cursor_getTemplateArgumentKind(
+  CXTemplateArgumentKind clang_Cursor_getTemplateArgumentKind(
     CXCursor C,
     int I,
   ) {
-    return _clang_Cursor_getTemplateArgumentKind(
+    return CXTemplateArgumentKind.fromValue(
+        _clang_Cursor_getTemplateArgumentKind(
       C,
       I,
-    );
+    ));
   }
 
   late final _clang_Cursor_getTemplateArgumentKindPtr =
@@ -3177,10 +3178,10 @@ class LibClang {
 
   /// Retrieve the spelling of a given CXTypeKind.
   CXString clang_getTypeKindSpelling(
-    int K,
+    CXTypeKind K,
   ) {
     return _clang_getTypeKindSpelling(
-      K,
+      K.value,
     );
   }
 
@@ -3193,12 +3194,12 @@ class LibClang {
   /// Retrieve the calling convention associated with a function type.
   ///
   /// If a non-function type is passed in, CXCallingConv_Invalid is returned.
-  int clang_getFunctionTypeCallingConv(
+  CXCallingConv clang_getFunctionTypeCallingConv(
     CXType T,
   ) {
-    return _clang_getFunctionTypeCallingConv(
+    return CXCallingConv.fromValue(_clang_getFunctionTypeCallingConv(
       T,
-    );
+    ));
   }
 
   late final _clang_getFunctionTypeCallingConvPtr =
@@ -3550,12 +3551,12 @@ class LibClang {
           .asFunction<DartClang_Type_isTransparentTagTypedef>();
 
   /// Retrieve the nullability kind of a pointer type.
-  int clang_Type_getNullability(
+  CXTypeNullabilityKind clang_Type_getNullability(
     CXType T,
   ) {
-    return _clang_Type_getNullability(
+    return CXTypeNullabilityKind.fromValue(_clang_Type_getNullability(
       T,
-    );
+    ));
   }
 
   late final _clang_Type_getNullabilityPtr =
@@ -3788,12 +3789,12 @@ class LibClang {
   ///
   /// The ref-qualifier is returned for C++ functions or methods. For other types
   /// or non-C++ declarations, CXRefQualifier_None is returned.
-  int clang_Type_getCXXRefQualifier(
+  CXRefQualifierKind clang_Type_getCXXRefQualifier(
     CXType T,
   ) {
-    return _clang_Type_getCXXRefQualifier(
+    return CXRefQualifierKind.fromValue(_clang_Type_getCXXRefQualifier(
       T,
-    );
+    ));
   }
 
   late final _clang_Type_getCXXRefQualifierPtr =
@@ -3839,12 +3840,12 @@ class LibClang {
   /// If the cursor refers to a C++ declaration, its access control level within its
   /// parent scope is returned. Otherwise, if the cursor refers to a base specifier or
   /// access specifier, the specifier itself is returned.
-  int clang_getCXXAccessSpecifier(
+  CX_CXXAccessSpecifier clang_getCXXAccessSpecifier(
     CXCursor arg0,
   ) {
-    return _clang_getCXXAccessSpecifier(
+    return CX_CXXAccessSpecifier.fromValue(_clang_getCXXAccessSpecifier(
       arg0,
-    );
+    ));
   }
 
   late final _clang_getCXXAccessSpecifierPtr =
@@ -3857,12 +3858,12 @@ class LibClang {
   ///
   /// If the passed in Cursor is not a function or variable declaration,
   /// CX_SC_Invalid is returned else the storage class.
-  int clang_Cursor_getStorageClass(
+  CX_StorageClass clang_Cursor_getStorageClass(
     CXCursor arg0,
   ) {
-    return _clang_Cursor_getStorageClass(
+    return CX_StorageClass.fromValue(_clang_Cursor_getStorageClass(
       arg0,
-    );
+    ));
   }
 
   late final _clang_Cursor_getStorageClassPtr =
@@ -4148,11 +4149,11 @@ class LibClang {
   /// Get a property value for the given printing policy.
   int clang_PrintingPolicy_getProperty(
     CXPrintingPolicy Policy,
-    int Property,
+    CXPrintingPolicyProperty Property,
   ) {
     return _clang_PrintingPolicy_getProperty(
       Policy,
-      Property,
+      Property.value,
     );
   }
 
@@ -4166,12 +4167,12 @@ class LibClang {
   /// Set a property value for the given printing policy.
   void clang_PrintingPolicy_setProperty(
     CXPrintingPolicy Policy,
-    int Property,
+    CXPrintingPolicyProperty Property,
     int Value,
   ) {
     return _clang_PrintingPolicy_setProperty(
       Policy,
-      Property,
+      Property.value,
       Value,
     );
   }
@@ -5045,12 +5046,12 @@ class LibClang {
   /// \returns The cursor kind of the specializations that would be generated
   /// by instantiating the template \p C. If \p C is not a template, returns
   /// \c CXCursor_NoDeclFound.
-  int clang_getTemplateCursorKind(
+  CXCursorKind clang_getTemplateCursorKind(
     CXCursor C,
   ) {
-    return _clang_getTemplateCursorKind(
+    return CXCursorKind.fromValue(_clang_getTemplateCursorKind(
       C,
-    );
+    ));
   }
 
   late final _clang_getTemplateCursorKindPtr =
@@ -5160,12 +5161,12 @@ class LibClang {
       _clang_getTokenPtr.asFunction<DartClang_getToken>();
 
   /// Determine the kind of the given token.
-  int clang_getTokenKind(
+  CXTokenKind clang_getTokenKind(
     CXToken arg0,
   ) {
-    return _clang_getTokenKind(
+    return CXTokenKind.fromValue(_clang_getTokenKind(
       arg0,
-    );
+    ));
   }
 
   late final _clang_getTokenKindPtr =
@@ -5335,10 +5336,10 @@ class LibClang {
   ///
   /// @{
   CXString clang_getCursorKindSpelling(
-    int Kind,
+    CXCursorKind Kind,
   ) {
     return _clang_getCursorKindSpelling(
-      Kind,
+      Kind.value,
     );
   }
 
@@ -5411,14 +5412,14 @@ class LibClang {
   /// \param chunk_number the 0-based index of the chunk in the completion string.
   ///
   /// \returns the kind of the chunk at the index \c chunk_number.
-  int clang_getCompletionChunkKind(
+  CXCompletionChunkKind clang_getCompletionChunkKind(
     CXCompletionString completion_string,
     int chunk_number,
   ) {
-    return _clang_getCompletionChunkKind(
+    return CXCompletionChunkKind.fromValue(_clang_getCompletionChunkKind(
       completion_string,
       chunk_number,
-    );
+    ));
   }
 
   late final _clang_getCompletionChunkKindPtr =
@@ -5522,12 +5523,12 @@ class LibClang {
   /// \param completion_string The completion string to query.
   ///
   /// \returns The availability of the completion string.
-  int clang_getCompletionAvailability(
+  CXAvailabilityKind clang_getCompletionAvailability(
     CXCompletionString completion_string,
   ) {
-    return _clang_getCompletionAvailability(
+    return CXAvailabilityKind.fromValue(_clang_getCompletionAvailability(
       completion_string,
-    );
+    ));
   }
 
   late final _clang_getCompletionAvailabilityPtr =
@@ -5600,7 +5601,7 @@ class LibClang {
   /// the completion string represents a method in the NSObject class.
   CXString clang_getCompletionParent(
     CXCompletionString completion_string,
-    ffi.Pointer<ffi.Int32> kind,
+    ffi.Pointer<ffi.UnsignedInt> kind,
   ) {
     return _clang_getCompletionParent(
       completion_string,
@@ -5960,14 +5961,14 @@ class LibClang {
   ///
   /// \returns the container kind, or CXCursor_InvalidCode if there is not a
   /// container
-  int clang_codeCompleteGetContainerKind(
+  CXCursorKind clang_codeCompleteGetContainerKind(
     ffi.Pointer<CXCodeCompleteResults> Results,
     ffi.Pointer<ffi.UnsignedInt> IsIncomplete,
   ) {
-    return _clang_codeCompleteGetContainerKind(
+    return CXCursorKind.fromValue(_clang_codeCompleteGetContainerKind(
       Results,
       IsIncomplete,
-    );
+    ));
   }
 
   late final _clang_codeCompleteGetContainerKindPtr =
@@ -6093,12 +6094,12 @@ class LibClang {
       _clang_Cursor_EvaluatePtr.asFunction<DartClang_Cursor_Evaluate>();
 
   /// Returns the kind of the evaluated result.
-  int clang_EvalResult_getKind(
+  CXEvalResultKind clang_EvalResult_getKind(
     CXEvalResult E,
   ) {
-    return _clang_EvalResult_getKind(
+    return CXEvalResultKind.fromValue(_clang_EvalResult_getKind(
       E,
-    );
+    ));
   }
 
   late final _clang_EvalResult_getKindPtr =
@@ -6337,16 +6338,16 @@ class LibClang {
   /// a macro (and not a macro argument) the CXSourceRange will be invalid.
   ///
   /// \returns one of the CXResult enumerators.
-  int clang_findReferencesInFile(
+  CXResult clang_findReferencesInFile(
     CXCursor cursor,
     CXFile file,
     CXCursorAndRangeVisitor visitor,
   ) {
-    return _clang_findReferencesInFile(
+    return CXResult.fromValue(_clang_findReferencesInFile(
       cursor,
       file,
       visitor,
-    );
+    ));
   }
 
   late final _clang_findReferencesInFilePtr =
@@ -6365,16 +6366,16 @@ class LibClang {
   /// each directive found.
   ///
   /// \returns one of the CXResult enumerators.
-  int clang_findIncludesInFile(
+  CXResult clang_findIncludesInFile(
     CXTranslationUnit TU,
     CXFile file,
     CXCursorAndRangeVisitor visitor,
   ) {
-    return _clang_findIncludesInFile(
+    return CXResult.fromValue(_clang_findIncludesInFile(
       TU,
       file,
       visitor,
-    );
+    ));
   }
 
   late final _clang_findIncludesInFilePtr =
@@ -6384,10 +6385,10 @@ class LibClang {
       _clang_findIncludesInFilePtr.asFunction<DartClang_findIncludesInFile>();
 
   int clang_index_isEntityObjCContainerKind(
-    int arg0,
+    CXIdxEntityKind arg0,
   ) {
     return _clang_index_isEntityObjCContainerKind(
-      arg0,
+      arg0.value,
     );
   }
 
@@ -7748,6 +7749,14 @@ enum CXGlobalOptFlags {
 
   final int value;
   const CXGlobalOptFlags(this.value);
+
+  static CXGlobalOptFlags fromValue(int value) => switch (value) {
+        0 => CXGlobalOpt_None,
+        1 => CXGlobalOpt_ThreadBackgroundPriorityForIndexing,
+        2 => CXGlobalOpt_ThreadBackgroundPriorityForEditing,
+        3 => CXGlobalOpt_ThreadBackgroundPriorityForAll,
+        _ => throw ArgumentError("Unknown value for CXGlobalOptFlags: $value"),
+      };
 }
 
 typedef NativeClang_CXIndex_setGlobalOptions = ffi.Void Function(
@@ -7988,15 +7997,23 @@ enum CXLoadDiag_Error {
 
   final int value;
   const CXLoadDiag_Error(this.value);
+
+  static CXLoadDiag_Error fromValue(int value) => switch (value) {
+        0 => CXLoadDiag_None,
+        1 => CXLoadDiag_Unknown,
+        2 => CXLoadDiag_CannotLoad,
+        3 => CXLoadDiag_InvalidFile,
+        _ => throw ArgumentError("Unknown value for CXLoadDiag_Error: $value"),
+      };
 }
 
 typedef NativeClang_loadDiagnostics = CXDiagnosticSet Function(
     ffi.Pointer<ffi.Char> file,
-    ffi.Pointer<ffi.Int32> error,
+    ffi.Pointer<ffi.UnsignedInt> error,
     ffi.Pointer<CXString> errorString);
 typedef DartClang_loadDiagnostics = CXDiagnosticSet Function(
     ffi.Pointer<ffi.Char> file,
-    ffi.Pointer<ffi.Int32> error,
+    ffi.Pointer<ffi.UnsignedInt> error,
     ffi.Pointer<CXString> errorString);
 typedef NativeClang_disposeDiagnosticSet = ffi.Void Function(
     CXDiagnosticSet Diags);
@@ -8051,9 +8068,19 @@ enum CXDiagnosticSeverity {
 
   final int value;
   const CXDiagnosticSeverity(this.value);
+
+  static CXDiagnosticSeverity fromValue(int value) => switch (value) {
+        0 => CXDiagnostic_Ignored,
+        1 => CXDiagnostic_Note,
+        2 => CXDiagnostic_Warning,
+        3 => CXDiagnostic_Error,
+        4 => CXDiagnostic_Fatal,
+        _ =>
+          throw ArgumentError("Unknown value for CXDiagnosticSeverity: $value"),
+      };
 }
 
-typedef NativeClang_getDiagnosticSeverity = ffi.Int32 Function(
+typedef NativeClang_getDiagnosticSeverity = ffi.UnsignedInt Function(
     CXDiagnostic arg0);
 typedef DartClang_getDiagnosticSeverity = int Function(CXDiagnostic arg0);
 typedef NativeClang_getDiagnosticLocation = CXSourceLocation Function(
@@ -8147,10 +8174,21 @@ enum CXErrorCode {
 
   final int value;
   const CXErrorCode(this.value);
+
+  static CXErrorCode fromValue(int value) => switch (value) {
+        0 => CXError_Success,
+        1 => CXError_Failure,
+        2 => CXError_Crashed,
+        3 => CXError_InvalidArguments,
+        4 => CXError_ASTReadError,
+        _ => throw ArgumentError("Unknown value for CXErrorCode: $value"),
+      };
 }
 
-typedef NativeClang_createTranslationUnit2 = ffi.Int32 Function(CXIndex CIdx,
-    ffi.Pointer<ffi.Char> ast_filename, ffi.Pointer<CXTranslationUnit> out_TU);
+typedef NativeClang_createTranslationUnit2 = ffi.UnsignedInt Function(
+    CXIndex CIdx,
+    ffi.Pointer<ffi.Char> ast_filename,
+    ffi.Pointer<CXTranslationUnit> out_TU);
 typedef DartClang_createTranslationUnit2 = int Function(CXIndex CIdx,
     ffi.Pointer<ffi.Char> ast_filename, ffi.Pointer<CXTranslationUnit> out_TU);
 typedef NativeClang_defaultEditingTranslationUnitOptions = ffi.UnsignedInt
@@ -8172,7 +8210,7 @@ typedef DartClang_parseTranslationUnit = CXTranslationUnit Function(
     ffi.Pointer<CXUnsavedFile> unsaved_files,
     int num_unsaved_files,
     int options);
-typedef NativeClang_parseTranslationUnit2 = ffi.Int32 Function(
+typedef NativeClang_parseTranslationUnit2 = ffi.UnsignedInt Function(
     CXIndex CIdx,
     ffi.Pointer<ffi.Char> source_filename,
     ffi.Pointer<ffi.Pointer<ffi.Char>> command_line_args,
@@ -8190,7 +8228,7 @@ typedef DartClang_parseTranslationUnit2 = int Function(
     int num_unsaved_files,
     int options,
     ffi.Pointer<CXTranslationUnit> out_TU);
-typedef NativeClang_parseTranslationUnit2FullArgv = ffi.Int32 Function(
+typedef NativeClang_parseTranslationUnit2FullArgv = ffi.UnsignedInt Function(
     CXIndex CIdx,
     ffi.Pointer<ffi.Char> source_filename,
     ffi.Pointer<ffi.Pointer<ffi.Char>> command_line_args,
@@ -8263,6 +8301,25 @@ enum CXTUResourceUsageKind {
   final int value;
   const CXTUResourceUsageKind(this.value);
 
+  static CXTUResourceUsageKind fromValue(int value) => switch (value) {
+        1 => CXTUResourceUsage_AST,
+        2 => CXTUResourceUsage_Identifiers,
+        3 => CXTUResourceUsage_Selectors,
+        4 => CXTUResourceUsage_GlobalCompletionResults,
+        5 => CXTUResourceUsage_SourceManagerContentCache,
+        6 => CXTUResourceUsage_AST_SideTables,
+        7 => CXTUResourceUsage_SourceManager_Membuffer_Malloc,
+        8 => CXTUResourceUsage_SourceManager_Membuffer_MMap,
+        9 => CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc,
+        10 => CXTUResourceUsage_ExternalASTSource_Membuffer_MMap,
+        11 => CXTUResourceUsage_Preprocessor,
+        12 => CXTUResourceUsage_PreprocessingRecord,
+        13 => CXTUResourceUsage_SourceManager_DataStructures,
+        14 => CXTUResourceUsage_Preprocessor_HeaderSearch,
+        _ => throw ArgumentError(
+            "Unknown value for CXTUResourceUsageKind: $value"),
+      };
+
   @override
   String toString() {
     if (this == CXTUResourceUsage_AST)
@@ -8274,12 +8331,12 @@ enum CXTUResourceUsageKind {
 }
 
 typedef NativeClang_getTUResourceUsageName = ffi.Pointer<ffi.Char> Function(
-    ffi.Int32 kind);
+    ffi.UnsignedInt kind);
 typedef DartClang_getTUResourceUsageName = ffi.Pointer<ffi.Char> Function(
     int kind);
 
 final class CXTUResourceUsageEntry extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
   @ffi.UnsignedLong()
@@ -8337,7 +8394,7 @@ typedef DartClang_TargetInfo_getPointerWidth = int Function(CXTargetInfo Info);
 /// to the entity that resides at that location, allowing one to map from the
 /// source code into the AST.
 final class CXCursor extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
   @ffi.Int()
@@ -9135,6 +9192,252 @@ enum CXCursorKind {
   final int value;
   const CXCursorKind(this.value);
 
+  static CXCursorKind fromValue(int value) => switch (value) {
+        1 => CXCursor_UnexposedDecl,
+        2 => CXCursor_StructDecl,
+        3 => CXCursor_UnionDecl,
+        4 => CXCursor_ClassDecl,
+        5 => CXCursor_EnumDecl,
+        6 => CXCursor_FieldDecl,
+        7 => CXCursor_EnumConstantDecl,
+        8 => CXCursor_FunctionDecl,
+        9 => CXCursor_VarDecl,
+        10 => CXCursor_ParmDecl,
+        11 => CXCursor_ObjCInterfaceDecl,
+        12 => CXCursor_ObjCCategoryDecl,
+        13 => CXCursor_ObjCProtocolDecl,
+        14 => CXCursor_ObjCPropertyDecl,
+        15 => CXCursor_ObjCIvarDecl,
+        16 => CXCursor_ObjCInstanceMethodDecl,
+        17 => CXCursor_ObjCClassMethodDecl,
+        18 => CXCursor_ObjCImplementationDecl,
+        19 => CXCursor_ObjCCategoryImplDecl,
+        20 => CXCursor_TypedefDecl,
+        21 => CXCursor_CXXMethod,
+        22 => CXCursor_Namespace,
+        23 => CXCursor_LinkageSpec,
+        24 => CXCursor_Constructor,
+        25 => CXCursor_Destructor,
+        26 => CXCursor_ConversionFunction,
+        27 => CXCursor_TemplateTypeParameter,
+        28 => CXCursor_NonTypeTemplateParameter,
+        29 => CXCursor_TemplateTemplateParameter,
+        30 => CXCursor_FunctionTemplate,
+        31 => CXCursor_ClassTemplate,
+        32 => CXCursor_ClassTemplatePartialSpecialization,
+        33 => CXCursor_NamespaceAlias,
+        34 => CXCursor_UsingDirective,
+        35 => CXCursor_UsingDeclaration,
+        36 => CXCursor_TypeAliasDecl,
+        37 => CXCursor_ObjCSynthesizeDecl,
+        38 => CXCursor_ObjCDynamicDecl,
+        39 => CXCursor_CXXAccessSpecifier,
+        40 => CXCursor_FirstRef,
+        41 => CXCursor_ObjCProtocolRef,
+        42 => CXCursor_ObjCClassRef,
+        43 => CXCursor_TypeRef,
+        44 => CXCursor_CXXBaseSpecifier,
+        45 => CXCursor_TemplateRef,
+        46 => CXCursor_NamespaceRef,
+        47 => CXCursor_MemberRef,
+        48 => CXCursor_LabelRef,
+        49 => CXCursor_OverloadedDeclRef,
+        50 => CXCursor_VariableRef,
+        70 => CXCursor_FirstInvalid,
+        71 => CXCursor_NoDeclFound,
+        72 => CXCursor_NotImplemented,
+        73 => CXCursor_InvalidCode,
+        100 => CXCursor_FirstExpr,
+        101 => CXCursor_DeclRefExpr,
+        102 => CXCursor_MemberRefExpr,
+        103 => CXCursor_CallExpr,
+        104 => CXCursor_ObjCMessageExpr,
+        105 => CXCursor_BlockExpr,
+        106 => CXCursor_IntegerLiteral,
+        107 => CXCursor_FloatingLiteral,
+        108 => CXCursor_ImaginaryLiteral,
+        109 => CXCursor_StringLiteral,
+        110 => CXCursor_CharacterLiteral,
+        111 => CXCursor_ParenExpr,
+        112 => CXCursor_UnaryOperator,
+        113 => CXCursor_ArraySubscriptExpr,
+        114 => CXCursor_BinaryOperator,
+        115 => CXCursor_CompoundAssignOperator,
+        116 => CXCursor_ConditionalOperator,
+        117 => CXCursor_CStyleCastExpr,
+        118 => CXCursor_CompoundLiteralExpr,
+        119 => CXCursor_InitListExpr,
+        120 => CXCursor_AddrLabelExpr,
+        121 => CXCursor_StmtExpr,
+        122 => CXCursor_GenericSelectionExpr,
+        123 => CXCursor_GNUNullExpr,
+        124 => CXCursor_CXXStaticCastExpr,
+        125 => CXCursor_CXXDynamicCastExpr,
+        126 => CXCursor_CXXReinterpretCastExpr,
+        127 => CXCursor_CXXConstCastExpr,
+        128 => CXCursor_CXXFunctionalCastExpr,
+        129 => CXCursor_CXXTypeidExpr,
+        130 => CXCursor_CXXBoolLiteralExpr,
+        131 => CXCursor_CXXNullPtrLiteralExpr,
+        132 => CXCursor_CXXThisExpr,
+        133 => CXCursor_CXXThrowExpr,
+        134 => CXCursor_CXXNewExpr,
+        135 => CXCursor_CXXDeleteExpr,
+        136 => CXCursor_UnaryExpr,
+        137 => CXCursor_ObjCStringLiteral,
+        138 => CXCursor_ObjCEncodeExpr,
+        139 => CXCursor_ObjCSelectorExpr,
+        140 => CXCursor_ObjCProtocolExpr,
+        141 => CXCursor_ObjCBridgedCastExpr,
+        142 => CXCursor_PackExpansionExpr,
+        143 => CXCursor_SizeOfPackExpr,
+        144 => CXCursor_LambdaExpr,
+        145 => CXCursor_ObjCBoolLiteralExpr,
+        146 => CXCursor_ObjCSelfExpr,
+        147 => CXCursor_OMPArraySectionExpr,
+        148 => CXCursor_ObjCAvailabilityCheckExpr,
+        149 => CXCursor_FixedPointLiteral,
+        200 => CXCursor_FirstStmt,
+        201 => CXCursor_LabelStmt,
+        202 => CXCursor_CompoundStmt,
+        203 => CXCursor_CaseStmt,
+        204 => CXCursor_DefaultStmt,
+        205 => CXCursor_IfStmt,
+        206 => CXCursor_SwitchStmt,
+        207 => CXCursor_WhileStmt,
+        208 => CXCursor_DoStmt,
+        209 => CXCursor_ForStmt,
+        210 => CXCursor_GotoStmt,
+        211 => CXCursor_IndirectGotoStmt,
+        212 => CXCursor_ContinueStmt,
+        213 => CXCursor_BreakStmt,
+        214 => CXCursor_ReturnStmt,
+        215 => CXCursor_GCCAsmStmt,
+        216 => CXCursor_ObjCAtTryStmt,
+        217 => CXCursor_ObjCAtCatchStmt,
+        218 => CXCursor_ObjCAtFinallyStmt,
+        219 => CXCursor_ObjCAtThrowStmt,
+        220 => CXCursor_ObjCAtSynchronizedStmt,
+        221 => CXCursor_ObjCAutoreleasePoolStmt,
+        222 => CXCursor_ObjCForCollectionStmt,
+        223 => CXCursor_CXXCatchStmt,
+        224 => CXCursor_CXXTryStmt,
+        225 => CXCursor_CXXForRangeStmt,
+        226 => CXCursor_SEHTryStmt,
+        227 => CXCursor_SEHExceptStmt,
+        228 => CXCursor_SEHFinallyStmt,
+        229 => CXCursor_MSAsmStmt,
+        230 => CXCursor_NullStmt,
+        231 => CXCursor_DeclStmt,
+        232 => CXCursor_OMPParallelDirective,
+        233 => CXCursor_OMPSimdDirective,
+        234 => CXCursor_OMPForDirective,
+        235 => CXCursor_OMPSectionsDirective,
+        236 => CXCursor_OMPSectionDirective,
+        237 => CXCursor_OMPSingleDirective,
+        238 => CXCursor_OMPParallelForDirective,
+        239 => CXCursor_OMPParallelSectionsDirective,
+        240 => CXCursor_OMPTaskDirective,
+        241 => CXCursor_OMPMasterDirective,
+        242 => CXCursor_OMPCriticalDirective,
+        243 => CXCursor_OMPTaskyieldDirective,
+        244 => CXCursor_OMPBarrierDirective,
+        245 => CXCursor_OMPTaskwaitDirective,
+        246 => CXCursor_OMPFlushDirective,
+        247 => CXCursor_SEHLeaveStmt,
+        248 => CXCursor_OMPOrderedDirective,
+        249 => CXCursor_OMPAtomicDirective,
+        250 => CXCursor_OMPForSimdDirective,
+        251 => CXCursor_OMPParallelForSimdDirective,
+        252 => CXCursor_OMPTargetDirective,
+        253 => CXCursor_OMPTeamsDirective,
+        254 => CXCursor_OMPTaskgroupDirective,
+        255 => CXCursor_OMPCancellationPointDirective,
+        256 => CXCursor_OMPCancelDirective,
+        257 => CXCursor_OMPTargetDataDirective,
+        258 => CXCursor_OMPTaskLoopDirective,
+        259 => CXCursor_OMPTaskLoopSimdDirective,
+        260 => CXCursor_OMPDistributeDirective,
+        261 => CXCursor_OMPTargetEnterDataDirective,
+        262 => CXCursor_OMPTargetExitDataDirective,
+        263 => CXCursor_OMPTargetParallelDirective,
+        264 => CXCursor_OMPTargetParallelForDirective,
+        265 => CXCursor_OMPTargetUpdateDirective,
+        266 => CXCursor_OMPDistributeParallelForDirective,
+        267 => CXCursor_OMPDistributeParallelForSimdDirective,
+        268 => CXCursor_OMPDistributeSimdDirective,
+        269 => CXCursor_OMPTargetParallelForSimdDirective,
+        270 => CXCursor_OMPTargetSimdDirective,
+        271 => CXCursor_OMPTeamsDistributeDirective,
+        272 => CXCursor_OMPTeamsDistributeSimdDirective,
+        273 => CXCursor_OMPTeamsDistributeParallelForSimdDirective,
+        274 => CXCursor_OMPTeamsDistributeParallelForDirective,
+        275 => CXCursor_OMPTargetTeamsDirective,
+        276 => CXCursor_OMPTargetTeamsDistributeDirective,
+        277 => CXCursor_OMPTargetTeamsDistributeParallelForDirective,
+        278 => CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective,
+        279 => CXCursor_OMPTargetTeamsDistributeSimdDirective,
+        280 => CXCursor_BuiltinBitCastExpr,
+        281 => CXCursor_OMPMasterTaskLoopDirective,
+        282 => CXCursor_OMPParallelMasterTaskLoopDirective,
+        283 => CXCursor_OMPMasterTaskLoopSimdDirective,
+        284 => CXCursor_OMPParallelMasterTaskLoopSimdDirective,
+        285 => CXCursor_OMPParallelMasterDirective,
+        300 => CXCursor_TranslationUnit,
+        400 => CXCursor_FirstAttr,
+        401 => CXCursor_IBActionAttr,
+        402 => CXCursor_IBOutletAttr,
+        403 => CXCursor_IBOutletCollectionAttr,
+        404 => CXCursor_CXXFinalAttr,
+        405 => CXCursor_CXXOverrideAttr,
+        406 => CXCursor_AnnotateAttr,
+        407 => CXCursor_AsmLabelAttr,
+        408 => CXCursor_PackedAttr,
+        409 => CXCursor_PureAttr,
+        410 => CXCursor_ConstAttr,
+        411 => CXCursor_NoDuplicateAttr,
+        412 => CXCursor_CUDAConstantAttr,
+        413 => CXCursor_CUDADeviceAttr,
+        414 => CXCursor_CUDAGlobalAttr,
+        415 => CXCursor_CUDAHostAttr,
+        416 => CXCursor_CUDASharedAttr,
+        417 => CXCursor_VisibilityAttr,
+        418 => CXCursor_DLLExport,
+        419 => CXCursor_DLLImport,
+        420 => CXCursor_NSReturnsRetained,
+        421 => CXCursor_NSReturnsNotRetained,
+        422 => CXCursor_NSReturnsAutoreleased,
+        423 => CXCursor_NSConsumesSelf,
+        424 => CXCursor_NSConsumed,
+        425 => CXCursor_ObjCException,
+        426 => CXCursor_ObjCNSObject,
+        427 => CXCursor_ObjCIndependentClass,
+        428 => CXCursor_ObjCPreciseLifetime,
+        429 => CXCursor_ObjCReturnsInnerPointer,
+        430 => CXCursor_ObjCRequiresSuper,
+        431 => CXCursor_ObjCRootClass,
+        432 => CXCursor_ObjCSubclassingRestricted,
+        433 => CXCursor_ObjCExplicitProtocolImpl,
+        434 => CXCursor_ObjCDesignatedInitializer,
+        435 => CXCursor_ObjCRuntimeVisible,
+        436 => CXCursor_ObjCBoxable,
+        437 => CXCursor_FlagEnum,
+        438 => CXCursor_ConvergentAttr,
+        439 => CXCursor_WarnUnusedAttr,
+        440 => CXCursor_WarnUnusedResultAttr,
+        441 => CXCursor_AlignedAttr,
+        500 => CXCursor_PreprocessingDirective,
+        501 => CXCursor_MacroDefinition,
+        502 => CXCursor_MacroExpansion,
+        503 => CXCursor_InclusionDirective,
+        600 => CXCursor_ModuleImportDecl,
+        601 => CXCursor_TypeAliasTemplateDecl,
+        602 => CXCursor_StaticAssert,
+        603 => CXCursor_FriendDecl,
+        700 => CXCursor_OverloadCandidate,
+        _ => throw ArgumentError("Unknown value for CXCursorKind: $value"),
+      };
+
   @override
   String toString() {
     if (this == CXCursor_UnexposedDecl)
@@ -9190,31 +9493,38 @@ typedef NativeClang_Cursor_isNull = ffi.Int Function(CXCursor cursor);
 typedef DartClang_Cursor_isNull = int Function(CXCursor cursor);
 typedef NativeClang_hashCursor = ffi.UnsignedInt Function(CXCursor arg0);
 typedef DartClang_hashCursor = int Function(CXCursor arg0);
-typedef NativeClang_getCursorKind = ffi.Int32 Function(CXCursor arg0);
+typedef NativeClang_getCursorKind = ffi.UnsignedInt Function(CXCursor arg0);
 typedef DartClang_getCursorKind = int Function(CXCursor arg0);
-typedef NativeClang_isDeclaration = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isDeclaration = ffi.UnsignedInt Function(
+    ffi.UnsignedInt arg0);
 typedef DartClang_isDeclaration = int Function(int arg0);
 typedef NativeClang_isInvalidDeclaration = ffi.UnsignedInt Function(
     CXCursor arg0);
 typedef DartClang_isInvalidDeclaration = int Function(CXCursor arg0);
-typedef NativeClang_isReference = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isReference = ffi.UnsignedInt Function(
+    ffi.UnsignedInt arg0);
 typedef DartClang_isReference = int Function(int arg0);
-typedef NativeClang_isExpression = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isExpression = ffi.UnsignedInt Function(
+    ffi.UnsignedInt arg0);
 typedef DartClang_isExpression = int Function(int arg0);
-typedef NativeClang_isStatement = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isStatement = ffi.UnsignedInt Function(
+    ffi.UnsignedInt arg0);
 typedef DartClang_isStatement = int Function(int arg0);
-typedef NativeClang_isAttribute = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isAttribute = ffi.UnsignedInt Function(
+    ffi.UnsignedInt arg0);
 typedef DartClang_isAttribute = int Function(int arg0);
 typedef NativeClang_Cursor_hasAttrs = ffi.UnsignedInt Function(CXCursor C);
 typedef DartClang_Cursor_hasAttrs = int Function(CXCursor C);
-typedef NativeClang_isInvalid = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isInvalid = ffi.UnsignedInt Function(ffi.UnsignedInt arg0);
 typedef DartClang_isInvalid = int Function(int arg0);
 typedef NativeClang_isTranslationUnit = ffi.UnsignedInt Function(
-    ffi.Int32 arg0);
+    ffi.UnsignedInt arg0);
 typedef DartClang_isTranslationUnit = int Function(int arg0);
-typedef NativeClang_isPreprocessing = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isPreprocessing = ffi.UnsignedInt Function(
+    ffi.UnsignedInt arg0);
 typedef DartClang_isPreprocessing = int Function(int arg0);
-typedef NativeClang_isUnexposed = ffi.UnsignedInt Function(ffi.Int32 arg0);
+typedef NativeClang_isUnexposed = ffi.UnsignedInt Function(
+    ffi.UnsignedInt arg0);
 typedef DartClang_isUnexposed = int Function(int arg0);
 
 /// Describe the linkage of the entity referred to by a cursor.
@@ -9239,9 +9549,19 @@ enum CXLinkageKind {
 
   final int value;
   const CXLinkageKind(this.value);
+
+  static CXLinkageKind fromValue(int value) => switch (value) {
+        0 => CXLinkage_Invalid,
+        1 => CXLinkage_NoLinkage,
+        2 => CXLinkage_Internal,
+        3 => CXLinkage_UniqueExternal,
+        4 => CXLinkage_External,
+        _ => throw ArgumentError("Unknown value for CXLinkageKind: $value"),
+      };
 }
 
-typedef NativeClang_getCursorLinkage = ffi.Int32 Function(CXCursor cursor);
+typedef NativeClang_getCursorLinkage = ffi.UnsignedInt Function(
+    CXCursor cursor);
 typedef DartClang_getCursorLinkage = int Function(CXCursor cursor);
 
 enum CXVisibilityKind {
@@ -9260,9 +9580,18 @@ enum CXVisibilityKind {
 
   final int value;
   const CXVisibilityKind(this.value);
+
+  static CXVisibilityKind fromValue(int value) => switch (value) {
+        0 => CXVisibility_Invalid,
+        1 => CXVisibility_Hidden,
+        2 => CXVisibility_Protected,
+        3 => CXVisibility_Default,
+        _ => throw ArgumentError("Unknown value for CXVisibilityKind: $value"),
+      };
 }
 
-typedef NativeClang_getCursorVisibility = ffi.Int32 Function(CXCursor cursor);
+typedef NativeClang_getCursorVisibility = ffi.UnsignedInt Function(
+    CXCursor cursor);
 typedef DartClang_getCursorVisibility = int Function(CXCursor cursor);
 
 /// Describes the availability of a particular entity, which indicates
@@ -9285,9 +9614,19 @@ enum CXAvailabilityKind {
 
   final int value;
   const CXAvailabilityKind(this.value);
+
+  static CXAvailabilityKind fromValue(int value) => switch (value) {
+        0 => CXAvailability_Available,
+        1 => CXAvailability_Deprecated,
+        2 => CXAvailability_NotAvailable,
+        3 => CXAvailability_NotAccessible,
+        _ =>
+          throw ArgumentError("Unknown value for CXAvailabilityKind: $value"),
+      };
 }
 
-typedef NativeClang_getCursorAvailability = ffi.Int32 Function(CXCursor cursor);
+typedef NativeClang_getCursorAvailability = ffi.UnsignedInt Function(
+    CXCursor cursor);
 typedef DartClang_getCursorAvailability = int Function(CXCursor cursor);
 
 /// Describes the availability of a given entity on a particular platform, e.g.,
@@ -9349,9 +9688,18 @@ enum CXLanguageKind {
 
   final int value;
   const CXLanguageKind(this.value);
+
+  static CXLanguageKind fromValue(int value) => switch (value) {
+        0 => CXLanguage_Invalid,
+        1 => CXLanguage_C,
+        2 => CXLanguage_ObjC,
+        3 => CXLanguage_CPlusPlus,
+        _ => throw ArgumentError("Unknown value for CXLanguageKind: $value"),
+      };
 }
 
-typedef NativeClang_getCursorLanguage = ffi.Int32 Function(CXCursor cursor);
+typedef NativeClang_getCursorLanguage = ffi.UnsignedInt Function(
+    CXCursor cursor);
 typedef DartClang_getCursorLanguage = int Function(CXCursor cursor);
 
 /// Describe the "thread-local storage (TLS) kind" of the declaration
@@ -9363,9 +9711,17 @@ enum CXTLSKind {
 
   final int value;
   const CXTLSKind(this.value);
+
+  static CXTLSKind fromValue(int value) => switch (value) {
+        0 => CXTLS_None,
+        1 => CXTLS_Dynamic,
+        2 => CXTLS_Static,
+        _ => throw ArgumentError("Unknown value for CXTLSKind: $value"),
+      };
 }
 
-typedef NativeClang_getCursorTLSKind = ffi.Int32 Function(CXCursor cursor);
+typedef NativeClang_getCursorTLSKind = ffi.UnsignedInt Function(
+    CXCursor cursor);
 typedef DartClang_getCursorTLSKind = int Function(CXCursor cursor);
 typedef NativeClang_Cursor_getTranslationUnit = CXTranslationUnit Function(
     CXCursor arg0);
@@ -9548,6 +9904,126 @@ enum CXTypeKind {
   final int value;
   const CXTypeKind(this.value);
 
+  static CXTypeKind fromValue(int value) => switch (value) {
+        0 => CXType_Invalid,
+        1 => CXType_Unexposed,
+        2 => CXType_Void,
+        3 => CXType_Bool,
+        4 => CXType_Char_U,
+        5 => CXType_UChar,
+        6 => CXType_Char16,
+        7 => CXType_Char32,
+        8 => CXType_UShort,
+        9 => CXType_UInt,
+        10 => CXType_ULong,
+        11 => CXType_ULongLong,
+        12 => CXType_UInt128,
+        13 => CXType_Char_S,
+        14 => CXType_SChar,
+        15 => CXType_WChar,
+        16 => CXType_Short,
+        17 => CXType_Int,
+        18 => CXType_Long,
+        19 => CXType_LongLong,
+        20 => CXType_Int128,
+        21 => CXType_Float,
+        22 => CXType_Double,
+        23 => CXType_LongDouble,
+        24 => CXType_NullPtr,
+        25 => CXType_Overload,
+        26 => CXType_Dependent,
+        27 => CXType_ObjCId,
+        28 => CXType_ObjCClass,
+        29 => CXType_ObjCSel,
+        30 => CXType_Float128,
+        31 => CXType_Half,
+        32 => CXType_Float16,
+        33 => CXType_ShortAccum,
+        34 => CXType_Accum,
+        35 => CXType_LongAccum,
+        36 => CXType_UShortAccum,
+        37 => CXType_UAccum,
+        38 => CXType_ULongAccum,
+        100 => CXType_Complex,
+        101 => CXType_Pointer,
+        102 => CXType_BlockPointer,
+        103 => CXType_LValueReference,
+        104 => CXType_RValueReference,
+        105 => CXType_Record,
+        106 => CXType_Enum,
+        107 => CXType_Typedef,
+        108 => CXType_ObjCInterface,
+        109 => CXType_ObjCObjectPointer,
+        110 => CXType_FunctionNoProto,
+        111 => CXType_FunctionProto,
+        112 => CXType_ConstantArray,
+        113 => CXType_Vector,
+        114 => CXType_IncompleteArray,
+        115 => CXType_VariableArray,
+        116 => CXType_DependentSizedArray,
+        117 => CXType_MemberPointer,
+        118 => CXType_Auto,
+        119 => CXType_Elaborated,
+        120 => CXType_Pipe,
+        121 => CXType_OCLImage1dRO,
+        122 => CXType_OCLImage1dArrayRO,
+        123 => CXType_OCLImage1dBufferRO,
+        124 => CXType_OCLImage2dRO,
+        125 => CXType_OCLImage2dArrayRO,
+        126 => CXType_OCLImage2dDepthRO,
+        127 => CXType_OCLImage2dArrayDepthRO,
+        128 => CXType_OCLImage2dMSAARO,
+        129 => CXType_OCLImage2dArrayMSAARO,
+        130 => CXType_OCLImage2dMSAADepthRO,
+        131 => CXType_OCLImage2dArrayMSAADepthRO,
+        132 => CXType_OCLImage3dRO,
+        133 => CXType_OCLImage1dWO,
+        134 => CXType_OCLImage1dArrayWO,
+        135 => CXType_OCLImage1dBufferWO,
+        136 => CXType_OCLImage2dWO,
+        137 => CXType_OCLImage2dArrayWO,
+        138 => CXType_OCLImage2dDepthWO,
+        139 => CXType_OCLImage2dArrayDepthWO,
+        140 => CXType_OCLImage2dMSAAWO,
+        141 => CXType_OCLImage2dArrayMSAAWO,
+        142 => CXType_OCLImage2dMSAADepthWO,
+        143 => CXType_OCLImage2dArrayMSAADepthWO,
+        144 => CXType_OCLImage3dWO,
+        145 => CXType_OCLImage1dRW,
+        146 => CXType_OCLImage1dArrayRW,
+        147 => CXType_OCLImage1dBufferRW,
+        148 => CXType_OCLImage2dRW,
+        149 => CXType_OCLImage2dArrayRW,
+        150 => CXType_OCLImage2dDepthRW,
+        151 => CXType_OCLImage2dArrayDepthRW,
+        152 => CXType_OCLImage2dMSAARW,
+        153 => CXType_OCLImage2dArrayMSAARW,
+        154 => CXType_OCLImage2dMSAADepthRW,
+        155 => CXType_OCLImage2dArrayMSAADepthRW,
+        156 => CXType_OCLImage3dRW,
+        157 => CXType_OCLSampler,
+        158 => CXType_OCLEvent,
+        159 => CXType_OCLQueue,
+        160 => CXType_OCLReserveID,
+        161 => CXType_ObjCObject,
+        162 => CXType_ObjCTypeParam,
+        163 => CXType_Attributed,
+        164 => CXType_OCLIntelSubgroupAVCMcePayload,
+        165 => CXType_OCLIntelSubgroupAVCImePayload,
+        166 => CXType_OCLIntelSubgroupAVCRefPayload,
+        167 => CXType_OCLIntelSubgroupAVCSicPayload,
+        168 => CXType_OCLIntelSubgroupAVCMceResult,
+        169 => CXType_OCLIntelSubgroupAVCImeResult,
+        170 => CXType_OCLIntelSubgroupAVCRefResult,
+        171 => CXType_OCLIntelSubgroupAVCSicResult,
+        172 => CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout,
+        173 => CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout,
+        174 => CXType_OCLIntelSubgroupAVCImeSingleRefStreamin,
+        175 => CXType_OCLIntelSubgroupAVCImeDualRefStreamin,
+        176 => CXType_ExtVector,
+        _ => throw ArgumentError("Unknown value for CXTypeKind: $value"),
+      };
+
   @override
   String toString() {
     if (this == CXType_Void)
@@ -9560,7 +10036,7 @@ enum CXTypeKind {
 
 /// The type of an element in the abstract syntax tree.
 final class CXType extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
   @ffi.Array.multi([2])
@@ -9610,9 +10086,24 @@ enum CXTemplateArgumentKind {
 
   final int value;
   const CXTemplateArgumentKind(this.value);
+
+  static CXTemplateArgumentKind fromValue(int value) => switch (value) {
+        0 => CXTemplateArgumentKind_Null,
+        1 => CXTemplateArgumentKind_Type,
+        2 => CXTemplateArgumentKind_Declaration,
+        3 => CXTemplateArgumentKind_NullPtr,
+        4 => CXTemplateArgumentKind_Integral,
+        5 => CXTemplateArgumentKind_Template,
+        6 => CXTemplateArgumentKind_TemplateExpansion,
+        7 => CXTemplateArgumentKind_Expression,
+        8 => CXTemplateArgumentKind_Pack,
+        9 => CXTemplateArgumentKind_Invalid,
+        _ => throw ArgumentError(
+            "Unknown value for CXTemplateArgumentKind: $value"),
+      };
 }
 
-typedef NativeClang_Cursor_getTemplateArgumentKind = ffi.Int32 Function(
+typedef NativeClang_Cursor_getTemplateArgumentKind = ffi.UnsignedInt Function(
     CXCursor C, ffi.UnsignedInt I);
 typedef DartClang_Cursor_getTemplateArgumentKind = int Function(
     CXCursor C, int I);
@@ -9661,7 +10152,7 @@ typedef NativeClang_getDeclObjCTypeEncoding = CXString Function(CXCursor C);
 typedef DartClang_getDeclObjCTypeEncoding = CXString Function(CXCursor C);
 typedef NativeClang_Type_getObjCEncoding = CXString Function(CXType type);
 typedef DartClang_Type_getObjCEncoding = CXString Function(CXType type);
-typedef NativeClang_getTypeKindSpelling = CXString Function(ffi.Int32 K);
+typedef NativeClang_getTypeKindSpelling = CXString Function(ffi.UnsignedInt K);
 typedef DartClang_getTypeKindSpelling = CXString Function(int K);
 
 /// Describes the calling convention of a function type
@@ -9691,6 +10182,29 @@ enum CXCallingConv {
   final int value;
   const CXCallingConv(this.value);
 
+  static CXCallingConv fromValue(int value) => switch (value) {
+        0 => CXCallingConv_Default,
+        1 => CXCallingConv_C,
+        2 => CXCallingConv_X86StdCall,
+        3 => CXCallingConv_X86FastCall,
+        4 => CXCallingConv_X86ThisCall,
+        5 => CXCallingConv_X86Pascal,
+        6 => CXCallingConv_AAPCS,
+        7 => CXCallingConv_AAPCS_VFP,
+        8 => CXCallingConv_X86RegCall,
+        9 => CXCallingConv_IntelOclBicc,
+        10 => CXCallingConv_Win64,
+        11 => CXCallingConv_X86_64SysV,
+        12 => CXCallingConv_X86VectorCall,
+        13 => CXCallingConv_Swift,
+        14 => CXCallingConv_PreserveMost,
+        15 => CXCallingConv_PreserveAll,
+        16 => CXCallingConv_AArch64VectorCall,
+        100 => CXCallingConv_Invalid,
+        200 => CXCallingConv_Unexposed,
+        _ => throw ArgumentError("Unknown value for CXCallingConv: $value"),
+      };
+
   @override
   String toString() {
     if (this == CXCallingConv_Win64)
@@ -9699,7 +10213,8 @@ enum CXCallingConv {
   }
 }
 
-typedef NativeClang_getFunctionTypeCallingConv = ffi.Int32 Function(CXType T);
+typedef NativeClang_getFunctionTypeCallingConv = ffi.UnsignedInt Function(
+    CXType T);
 typedef DartClang_getFunctionTypeCallingConv = int Function(CXType T);
 typedef NativeClang_getResultType = CXType Function(CXType T);
 typedef DartClang_getResultType = CXType Function(CXType T);
@@ -9765,9 +10280,18 @@ enum CXTypeNullabilityKind {
 
   final int value;
   const CXTypeNullabilityKind(this.value);
+
+  static CXTypeNullabilityKind fromValue(int value) => switch (value) {
+        0 => CXTypeNullability_NonNull,
+        1 => CXTypeNullability_Nullable,
+        2 => CXTypeNullability_Unspecified,
+        3 => CXTypeNullability_Invalid,
+        _ => throw ArgumentError(
+            "Unknown value for CXTypeNullabilityKind: $value"),
+      };
 }
 
-typedef NativeClang_Type_getNullability = ffi.Int32 Function(CXType T);
+typedef NativeClang_Type_getNullability = ffi.UnsignedInt Function(CXType T);
 typedef DartClang_Type_getNullability = int Function(CXType T);
 typedef NativeClang_Type_getAlignOf = ffi.LongLong Function(CXType T);
 typedef DartClang_Type_getAlignOf = int Function(CXType T);
@@ -9810,9 +10334,18 @@ enum CXRefQualifierKind {
 
   final int value;
   const CXRefQualifierKind(this.value);
+
+  static CXRefQualifierKind fromValue(int value) => switch (value) {
+        0 => CXRefQualifier_None,
+        1 => CXRefQualifier_LValue,
+        2 => CXRefQualifier_RValue,
+        _ =>
+          throw ArgumentError("Unknown value for CXRefQualifierKind: $value"),
+      };
 }
 
-typedef NativeClang_Type_getCXXRefQualifier = ffi.Int32 Function(CXType T);
+typedef NativeClang_Type_getCXXRefQualifier = ffi.UnsignedInt Function(
+    CXType T);
 typedef DartClang_Type_getCXXRefQualifier = int Function(CXType T);
 typedef NativeClang_Cursor_isBitField = ffi.UnsignedInt Function(CXCursor C);
 typedef DartClang_Cursor_isBitField = int Function(CXCursor C);
@@ -9829,9 +10362,19 @@ enum CX_CXXAccessSpecifier {
 
   final int value;
   const CX_CXXAccessSpecifier(this.value);
+
+  static CX_CXXAccessSpecifier fromValue(int value) => switch (value) {
+        0 => CX_CXXInvalidAccessSpecifier,
+        1 => CX_CXXPublic,
+        2 => CX_CXXProtected,
+        3 => CX_CXXPrivate,
+        _ => throw ArgumentError(
+            "Unknown value for CX_CXXAccessSpecifier: $value"),
+      };
 }
 
-typedef NativeClang_getCXXAccessSpecifier = ffi.Int32 Function(CXCursor arg0);
+typedef NativeClang_getCXXAccessSpecifier = ffi.UnsignedInt Function(
+    CXCursor arg0);
 typedef DartClang_getCXXAccessSpecifier = int Function(CXCursor arg0);
 
 /// Represents the storage classes as declared in the source. CX_SC_Invalid
@@ -9848,9 +10391,22 @@ enum CX_StorageClass {
 
   final int value;
   const CX_StorageClass(this.value);
+
+  static CX_StorageClass fromValue(int value) => switch (value) {
+        0 => CX_SC_Invalid,
+        1 => CX_SC_None,
+        2 => CX_SC_Extern,
+        3 => CX_SC_Static,
+        4 => CX_SC_PrivateExtern,
+        5 => CX_SC_OpenCLWorkGroupLocal,
+        6 => CX_SC_Auto,
+        7 => CX_SC_Register,
+        _ => throw ArgumentError("Unknown value for CX_StorageClass: $value"),
+      };
 }
 
-typedef NativeClang_Cursor_getStorageClass = ffi.Int32 Function(CXCursor arg0);
+typedef NativeClang_Cursor_getStorageClass = ffi.UnsignedInt Function(
+    CXCursor arg0);
 typedef DartClang_Cursor_getStorageClass = int Function(CXCursor arg0);
 typedef NativeClang_getNumOverloadedDecls = ffi.UnsignedInt Function(
     CXCursor cursor);
@@ -9874,9 +10430,9 @@ typedef DartClang_getIBOutletCollectionType = CXType Function(CXCursor arg0);
 /// to direct clang_visitCursorChildren().
 typedef CXCursorVisitor
     = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
-typedef CXCursorVisitorFunction = ffi.Int32 Function(
+typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
-typedef DartCXCursorVisitorFunction = int Function(
+typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 
 /// Describes how the traversal of the children of a particular
@@ -9898,6 +10454,14 @@ enum CXChildVisitResult {
 
   final int value;
   const CXChildVisitResult(this.value);
+
+  static CXChildVisitResult fromValue(int value) => switch (value) {
+        0 => CXChildVisit_Break,
+        1 => CXChildVisit_Continue,
+        2 => CXChildVisit_Recurse,
+        _ =>
+          throw ArgumentError("Unknown value for CXChildVisitResult: $value"),
+      };
 }
 
 /// Opaque pointer representing client data that will be passed through
@@ -9983,6 +10547,37 @@ enum CXPrintingPolicyProperty {
   final int value;
   const CXPrintingPolicyProperty(this.value);
 
+  static CXPrintingPolicyProperty fromValue(int value) => switch (value) {
+        0 => CXPrintingPolicy_Indentation,
+        1 => CXPrintingPolicy_SuppressSpecifiers,
+        2 => CXPrintingPolicy_SuppressTagKeyword,
+        3 => CXPrintingPolicy_IncludeTagDefinition,
+        4 => CXPrintingPolicy_SuppressScope,
+        5 => CXPrintingPolicy_SuppressUnwrittenScope,
+        6 => CXPrintingPolicy_SuppressInitializers,
+        7 => CXPrintingPolicy_ConstantArraySizeAsWritten,
+        8 => CXPrintingPolicy_AnonymousTagLocations,
+        9 => CXPrintingPolicy_SuppressStrongLifetime,
+        10 => CXPrintingPolicy_SuppressLifetimeQualifiers,
+        11 => CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors,
+        12 => CXPrintingPolicy_Bool,
+        13 => CXPrintingPolicy_Restrict,
+        14 => CXPrintingPolicy_Alignof,
+        15 => CXPrintingPolicy_UnderscoreAlignof,
+        16 => CXPrintingPolicy_UseVoidForZeroParams,
+        17 => CXPrintingPolicy_TerseOutput,
+        18 => CXPrintingPolicy_PolishForDeclaration,
+        19 => CXPrintingPolicy_Half,
+        20 => CXPrintingPolicy_MSWChar,
+        21 => CXPrintingPolicy_IncludeNewlines,
+        22 => CXPrintingPolicy_MSVCFormatting,
+        23 => CXPrintingPolicy_ConstantsAsWritten,
+        24 => CXPrintingPolicy_SuppressImplicitBase,
+        25 => CXPrintingPolicy_FullyQualifiedName,
+        _ => throw ArgumentError(
+            "Unknown value for CXPrintingPolicyProperty: $value"),
+      };
+
   @override
   String toString() {
     if (this == CXPrintingPolicy_FullyQualifiedName)
@@ -9992,11 +10587,11 @@ enum CXPrintingPolicyProperty {
 }
 
 typedef NativeClang_PrintingPolicy_getProperty = ffi.UnsignedInt Function(
-    CXPrintingPolicy Policy, ffi.Int32 Property);
+    CXPrintingPolicy Policy, ffi.UnsignedInt Property);
 typedef DartClang_PrintingPolicy_getProperty = int Function(
     CXPrintingPolicy Policy, int Property);
 typedef NativeClang_PrintingPolicy_setProperty = ffi.Void Function(
-    CXPrintingPolicy Policy, ffi.Int32 Property, ffi.UnsignedInt Value);
+    CXPrintingPolicy Policy, ffi.UnsignedInt Property, ffi.UnsignedInt Value);
 typedef DartClang_PrintingPolicy_setProperty = void Function(
     CXPrintingPolicy Policy, int Property, int Value);
 typedef NativeClang_getCursorPrintingPolicy = CXPrintingPolicy Function(
@@ -10138,7 +10733,8 @@ typedef NativeClang_EnumDecl_isScoped = ffi.UnsignedInt Function(CXCursor C);
 typedef DartClang_EnumDecl_isScoped = int Function(CXCursor C);
 typedef NativeClang_CXXMethod_isConst = ffi.UnsignedInt Function(CXCursor C);
 typedef DartClang_CXXMethod_isConst = int Function(CXCursor C);
-typedef NativeClang_getTemplateCursorKind = ffi.Int32 Function(CXCursor C);
+typedef NativeClang_getTemplateCursorKind = ffi.UnsignedInt Function(
+    CXCursor C);
 typedef DartClang_getTemplateCursorKind = int Function(CXCursor C);
 typedef NativeClang_getSpecializedCursorTemplate = CXCursor Function(
     CXCursor C);
@@ -10180,9 +10776,18 @@ enum CXTokenKind {
 
   final int value;
   const CXTokenKind(this.value);
+
+  static CXTokenKind fromValue(int value) => switch (value) {
+        0 => CXToken_Punctuation,
+        1 => CXToken_Keyword,
+        2 => CXToken_Identifier,
+        3 => CXToken_Literal,
+        4 => CXToken_Comment,
+        _ => throw ArgumentError("Unknown value for CXTokenKind: $value"),
+      };
 }
 
-typedef NativeClang_getTokenKind = ffi.Int32 Function(CXToken arg0);
+typedef NativeClang_getTokenKind = ffi.UnsignedInt Function(CXToken arg0);
 typedef DartClang_getTokenKind = int Function(CXToken arg0);
 typedef NativeClang_getTokenSpelling = CXString Function(
     CXTranslationUnit arg0, CXToken arg1);
@@ -10217,7 +10822,8 @@ typedef NativeClang_disposeTokens = ffi.Void Function(CXTranslationUnit TU,
     ffi.Pointer<CXToken> Tokens, ffi.UnsignedInt NumTokens);
 typedef DartClang_disposeTokens = void Function(
     CXTranslationUnit TU, ffi.Pointer<CXToken> Tokens, int NumTokens);
-typedef NativeClang_getCursorKindSpelling = CXString Function(ffi.Int32 Kind);
+typedef NativeClang_getCursorKindSpelling = CXString Function(
+    ffi.UnsignedInt Kind);
 typedef DartClang_getCursorKindSpelling = CXString Function(int Kind);
 typedef NativeClang_getDefinitionSpellingAndExtent = ffi.Void Function(
     CXCursor arg0,
@@ -10258,7 +10864,7 @@ final class CXCompletionResult extends ffi.Struct {
   ///
   /// \todo In the future, we would like to provide a full cursor, to allow
   /// the client to extract additional information from declaration.
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int CursorKind;
 
   /// The code-completion string that describes how to insert this
@@ -10427,9 +11033,35 @@ enum CXCompletionChunkKind {
 
   final int value;
   const CXCompletionChunkKind(this.value);
+
+  static CXCompletionChunkKind fromValue(int value) => switch (value) {
+        0 => CXCompletionChunk_Optional,
+        1 => CXCompletionChunk_TypedText,
+        2 => CXCompletionChunk_Text,
+        3 => CXCompletionChunk_Placeholder,
+        4 => CXCompletionChunk_Informative,
+        5 => CXCompletionChunk_CurrentParameter,
+        6 => CXCompletionChunk_LeftParen,
+        7 => CXCompletionChunk_RightParen,
+        8 => CXCompletionChunk_LeftBracket,
+        9 => CXCompletionChunk_RightBracket,
+        10 => CXCompletionChunk_LeftBrace,
+        11 => CXCompletionChunk_RightBrace,
+        12 => CXCompletionChunk_LeftAngle,
+        13 => CXCompletionChunk_RightAngle,
+        14 => CXCompletionChunk_Comma,
+        15 => CXCompletionChunk_ResultType,
+        16 => CXCompletionChunk_Colon,
+        17 => CXCompletionChunk_SemiColon,
+        18 => CXCompletionChunk_Equal,
+        19 => CXCompletionChunk_HorizontalSpace,
+        20 => CXCompletionChunk_VerticalSpace,
+        _ => throw ArgumentError(
+            "Unknown value for CXCompletionChunkKind: $value"),
+      };
 }
 
-typedef NativeClang_getCompletionChunkKind = ffi.Int32 Function(
+typedef NativeClang_getCompletionChunkKind = ffi.UnsignedInt Function(
     CXCompletionString completion_string, ffi.UnsignedInt chunk_number);
 typedef DartClang_getCompletionChunkKind = int Function(
     CXCompletionString completion_string, int chunk_number);
@@ -10450,7 +11082,7 @@ typedef NativeClang_getCompletionPriority = ffi.UnsignedInt Function(
     CXCompletionString completion_string);
 typedef DartClang_getCompletionPriority = int Function(
     CXCompletionString completion_string);
-typedef NativeClang_getCompletionAvailability = ffi.Int32 Function(
+typedef NativeClang_getCompletionAvailability = ffi.UnsignedInt Function(
     CXCompletionString completion_string);
 typedef DartClang_getCompletionAvailability = int Function(
     CXCompletionString completion_string);
@@ -10463,9 +11095,9 @@ typedef NativeClang_getCompletionAnnotation = CXString Function(
 typedef DartClang_getCompletionAnnotation = CXString Function(
     CXCompletionString completion_string, int annotation_number);
 typedef NativeClang_getCompletionParent = CXString Function(
-    CXCompletionString completion_string, ffi.Pointer<ffi.Int32> kind);
+    CXCompletionString completion_string, ffi.Pointer<ffi.UnsignedInt> kind);
 typedef DartClang_getCompletionParent = CXString Function(
-    CXCompletionString completion_string, ffi.Pointer<ffi.Int32> kind);
+    CXCompletionString completion_string, ffi.Pointer<ffi.UnsignedInt> kind);
 typedef NativeClang_getCompletionBriefComment = CXString Function(
     CXCompletionString completion_string);
 typedef DartClang_getCompletionBriefComment = CXString Function(
@@ -10544,7 +11176,7 @@ typedef NativeClang_codeCompleteGetContexts = ffi.UnsignedLongLong Function(
     ffi.Pointer<CXCodeCompleteResults> Results);
 typedef DartClang_codeCompleteGetContexts = int Function(
     ffi.Pointer<CXCodeCompleteResults> Results);
-typedef NativeClang_codeCompleteGetContainerKind = ffi.Int32 Function(
+typedef NativeClang_codeCompleteGetContainerKind = ffi.UnsignedInt Function(
     ffi.Pointer<CXCodeCompleteResults> Results,
     ffi.Pointer<ffi.UnsignedInt> IsIncomplete);
 typedef DartClang_codeCompleteGetContainerKind = int Function(
@@ -10606,9 +11238,21 @@ enum CXEvalResultKind {
 
   final int value;
   const CXEvalResultKind(this.value);
+
+  static CXEvalResultKind fromValue(int value) => switch (value) {
+        1 => CXEval_Int,
+        2 => CXEval_Float,
+        3 => CXEval_ObjCStrLiteral,
+        4 => CXEval_StrLiteral,
+        5 => CXEval_CFStr,
+        6 => CXEval_Other,
+        0 => CXEval_UnExposed,
+        _ => throw ArgumentError("Unknown value for CXEvalResultKind: $value"),
+      };
 }
 
-typedef NativeClang_EvalResult_getKind = ffi.Int32 Function(CXEvalResult E);
+typedef NativeClang_EvalResult_getKind = ffi.UnsignedInt Function(
+    CXEvalResult E);
 typedef DartClang_EvalResult_getKind = int Function(CXEvalResult E);
 typedef NativeClang_EvalResult_getAsInt = ffi.Int Function(CXEvalResult E);
 typedef DartClang_EvalResult_getAsInt = int Function(CXEvalResult E);
@@ -10662,7 +11306,7 @@ final class CXCursorAndRangeVisitor extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Int32 Function(
+          ffi.UnsignedInt Function(
               ffi.Pointer<ffi.Void>, CXCursor, CXSourceRange)>> visit;
 }
 
@@ -10675,6 +11319,12 @@ enum CXVisitorResult {
 
   final int value;
   const CXVisitorResult(this.value);
+
+  static CXVisitorResult fromValue(int value) => switch (value) {
+        0 => CXVisit_Break,
+        1 => CXVisit_Continue,
+        _ => throw ArgumentError("Unknown value for CXVisitorResult: $value"),
+      };
 }
 
 enum CXResult {
@@ -10690,13 +11340,20 @@ enum CXResult {
 
   final int value;
   const CXResult(this.value);
+
+  static CXResult fromValue(int value) => switch (value) {
+        0 => CXResult_Success,
+        1 => CXResult_Invalid,
+        2 => CXResult_VisitBreak,
+        _ => throw ArgumentError("Unknown value for CXResult: $value"),
+      };
 }
 
-typedef NativeClang_findReferencesInFile = ffi.Int32 Function(
+typedef NativeClang_findReferencesInFile = ffi.UnsignedInt Function(
     CXCursor cursor, CXFile file, CXCursorAndRangeVisitor visitor);
 typedef DartClang_findReferencesInFile = int Function(
     CXCursor cursor, CXFile file, CXCursorAndRangeVisitor visitor);
-typedef NativeClang_findIncludesInFile = ffi.Int32 Function(
+typedef NativeClang_findIncludesInFile = ffi.UnsignedInt Function(
     CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor);
 typedef DartClang_findIncludesInFile = int Function(
     CXTranslationUnit TU, CXFile file, CXCursorAndRangeVisitor visitor);
@@ -10751,7 +11408,7 @@ final class CXIdxImportedASTFileInfo extends ffi.Struct {
 }
 
 final class CXIdxAttrInfo extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
   external CXCursor cursor;
@@ -10767,16 +11424,24 @@ enum CXIdxAttrKind {
 
   final int value;
   const CXIdxAttrKind(this.value);
+
+  static CXIdxAttrKind fromValue(int value) => switch (value) {
+        0 => CXIdxAttr_Unexposed,
+        1 => CXIdxAttr_IBAction,
+        2 => CXIdxAttr_IBOutlet,
+        3 => CXIdxAttr_IBOutletCollection,
+        _ => throw ArgumentError("Unknown value for CXIdxAttrKind: $value"),
+      };
 }
 
 final class CXIdxEntityInfo extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int templateKind;
 
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int lang;
 
   external ffi.Pointer<ffi.Char> name;
@@ -10822,6 +11487,37 @@ enum CXIdxEntityKind {
 
   final int value;
   const CXIdxEntityKind(this.value);
+
+  static CXIdxEntityKind fromValue(int value) => switch (value) {
+        0 => CXIdxEntity_Unexposed,
+        1 => CXIdxEntity_Typedef,
+        2 => CXIdxEntity_Function,
+        3 => CXIdxEntity_Variable,
+        4 => CXIdxEntity_Field,
+        5 => CXIdxEntity_EnumConstant,
+        6 => CXIdxEntity_ObjCClass,
+        7 => CXIdxEntity_ObjCProtocol,
+        8 => CXIdxEntity_ObjCCategory,
+        9 => CXIdxEntity_ObjCInstanceMethod,
+        10 => CXIdxEntity_ObjCClassMethod,
+        11 => CXIdxEntity_ObjCProperty,
+        12 => CXIdxEntity_ObjCIvar,
+        13 => CXIdxEntity_Enum,
+        14 => CXIdxEntity_Struct,
+        15 => CXIdxEntity_Union,
+        16 => CXIdxEntity_CXXClass,
+        17 => CXIdxEntity_CXXNamespace,
+        18 => CXIdxEntity_CXXNamespaceAlias,
+        19 => CXIdxEntity_CXXStaticVariable,
+        20 => CXIdxEntity_CXXStaticMethod,
+        21 => CXIdxEntity_CXXInstanceMethod,
+        22 => CXIdxEntity_CXXConstructor,
+        23 => CXIdxEntity_CXXDestructor,
+        24 => CXIdxEntity_CXXConversionFunction,
+        25 => CXIdxEntity_CXXTypeAlias,
+        26 => CXIdxEntity_CXXInterface,
+        _ => throw ArgumentError("Unknown value for CXIdxEntityKind: $value"),
+      };
 }
 
 /// Extra C++ template information for an entity. This can apply to:
@@ -10840,6 +11536,15 @@ enum CXIdxEntityCXXTemplateKind {
 
   final int value;
   const CXIdxEntityCXXTemplateKind(this.value);
+
+  static CXIdxEntityCXXTemplateKind fromValue(int value) => switch (value) {
+        0 => CXIdxEntity_NonTemplate,
+        1 => CXIdxEntity_Template,
+        2 => CXIdxEntity_TemplatePartialSpecialization,
+        3 => CXIdxEntity_TemplateSpecialization,
+        _ => throw ArgumentError(
+            "Unknown value for CXIdxEntityCXXTemplateKind: $value"),
+      };
 }
 
 enum CXIdxEntityLanguage {
@@ -10851,6 +11556,16 @@ enum CXIdxEntityLanguage {
 
   final int value;
   const CXIdxEntityLanguage(this.value);
+
+  static CXIdxEntityLanguage fromValue(int value) => switch (value) {
+        0 => CXIdxEntityLang_None,
+        1 => CXIdxEntityLang_C,
+        2 => CXIdxEntityLang_ObjC,
+        3 => CXIdxEntityLang_CXX,
+        4 => CXIdxEntityLang_Swift,
+        _ =>
+          throw ArgumentError("Unknown value for CXIdxEntityLanguage: $value"),
+      };
 }
 
 final class CXIdxContainerInfo extends ffi.Struct {
@@ -10908,7 +11623,7 @@ final class CXIdxDeclInfo extends ffi.Struct {
 final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
   external ffi.Pointer<CXIdxDeclInfo> declInfo;
 
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 }
 
@@ -10919,6 +11634,14 @@ enum CXIdxObjCContainerKind {
 
   final int value;
   const CXIdxObjCContainerKind(this.value);
+
+  static CXIdxObjCContainerKind fromValue(int value) => switch (value) {
+        0 => CXIdxObjCContainer_ForwardRef,
+        1 => CXIdxObjCContainer_Interface,
+        2 => CXIdxObjCContainer_Implementation,
+        _ => throw ArgumentError(
+            "Unknown value for CXIdxObjCContainerKind: $value"),
+      };
 }
 
 final class CXIdxBaseClassInfo extends ffi.Struct {
@@ -10983,7 +11706,7 @@ final class CXIdxCXXClassDeclInfo extends ffi.Struct {
 
 /// Data for IndexerCallbacks#indexEntityReference.
 final class CXIdxEntityRefInfo extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
   /// Reference cursor.
@@ -11009,7 +11732,7 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
   external ffi.Pointer<CXIdxContainerInfo> container;
 
   /// Sets of symbol roles of the reference.
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int role;
 }
 
@@ -11027,6 +11750,13 @@ enum CXIdxEntityRefKind {
 
   final int value;
   const CXIdxEntityRefKind(this.value);
+
+  static CXIdxEntityRefKind fromValue(int value) => switch (value) {
+        1 => CXIdxEntityRef_Direct,
+        2 => CXIdxEntityRef_Implicit,
+        _ =>
+          throw ArgumentError("Unknown value for CXIdxEntityRefKind: $value"),
+      };
 }
 
 /// Roles that are attributed to symbol occurrences.
@@ -11047,10 +11777,24 @@ enum CXSymbolRole {
 
   final int value;
   const CXSymbolRole(this.value);
+
+  static CXSymbolRole fromValue(int value) => switch (value) {
+        0 => CXSymbolRole_None,
+        1 => CXSymbolRole_Declaration,
+        2 => CXSymbolRole_Definition,
+        4 => CXSymbolRole_Reference,
+        8 => CXSymbolRole_Read,
+        16 => CXSymbolRole_Write,
+        32 => CXSymbolRole_Call,
+        64 => CXSymbolRole_Dynamic,
+        128 => CXSymbolRole_AddressOf,
+        256 => CXSymbolRole_Implicit,
+        _ => throw ArgumentError("Unknown value for CXSymbolRole: $value"),
+      };
 }
 
 typedef NativeClang_index_isEntityObjCContainerKind = ffi.Int Function(
-    ffi.Int32 arg0);
+    ffi.UnsignedInt arg0);
 typedef DartClang_index_isEntityObjCContainerKind = int Function(int arg0);
 typedef NativeClang_index_getObjCContainerDeclInfo
     = ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
@@ -11288,9 +12032,9 @@ typedef DartClang_indexLoc_getCXSourceLocation = CXSourceLocation Function(
 /// to direct \c clang_Type_visitFields.
 typedef CXFieldVisitor
     = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
-typedef CXFieldVisitorFunction = ffi.Int32 Function(
+typedef CXFieldVisitorFunction = ffi.UnsignedInt Function(
     CXCursor C, CXClientData client_data);
-typedef DartCXFieldVisitorFunction = int Function(
+typedef DartCXFieldVisitorFunction = CXVisitorResult Function(
     CXCursor C, CXClientData client_data);
 typedef NativeClang_Type_visitFields = ffi.UnsignedInt Function(
     CXType T, CXFieldVisitor visitor, CXClientData client_data);

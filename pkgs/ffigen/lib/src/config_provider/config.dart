@@ -179,6 +179,10 @@ class Config {
   bool get useDartHandle => _useDartHandle;
   late bool _useDartHandle;
 
+  /// Where to silence warning for enum integer type mimicking.
+  bool get silenceEnumWarning => _silenceEnumWarning;
+  late bool _silenceEnumWarning;
+
   Includer get exposeFunctionTypedefs => _exposeFunctionTypedefs;
   late Includer _exposeFunctionTypedefs;
 
@@ -691,6 +695,12 @@ class Config {
           defaultValue: (node) => FfiNativeConfig(enabled: false),
           resultOrDefault: (node) =>
               _ffiNativeConfig = (node.value) as FfiNativeConfig,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.silenceEnumWarning,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => false,
+          resultOrDefault: (node) => _silenceEnumWarning = node.value as bool,
         ),
       ],
     );

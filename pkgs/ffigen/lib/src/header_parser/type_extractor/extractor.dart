@@ -247,14 +247,13 @@ _CreateTypeFromCursorResult _createTypeFromCursor(clang_types.CXType cxtype,
       return _CreateTypeFromCursorResult(
           _extractfromRecord(cxtype, cursor, ignoreFilter, pointerReference));
     case clang_types.CXTypeKind.CXType_Enum:
-      final enumClass = parseEnumDeclaration(
+      final (enumClass, nativeType) = parseEnumDeclaration(
         cursor,
         ignoreFilter: ignoreFilter,
       );
       if (enumClass == null) {
         // Handle anonymous enum declarations within another declaration.
-        return _CreateTypeFromCursorResult(EnumClass.nativeType,
-            addToCache: false);
+        return _CreateTypeFromCursorResult(nativeType, addToCache: false);
       } else {
         return _CreateTypeFromCursorResult(enumClass);
       }

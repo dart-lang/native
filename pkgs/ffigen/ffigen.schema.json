@@ -436,6 +436,9 @@
           ]
         }
       ]
+    },
+    "silence-enum-warning": {
+      "type": "boolean"
     }
   },
   "required": [
