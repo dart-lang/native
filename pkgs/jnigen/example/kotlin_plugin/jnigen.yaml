@@ -5,6 +5,9 @@ android_sdk_config:
 summarizer:
   backend: asm
 
+enable_experiment:
+  - "interface_implementation"
+
 output:
   dart:
     path: lib/kotlin_bindings.dart
@@ -14,3 +17,6 @@ log_level: all
 
 classes:
   - 'Example'
+  - 'Divider'
+  - 'DividerUser'
+  - 'java.lang.ArithmeticException'

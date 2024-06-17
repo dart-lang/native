@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Divider;
+import 'package:jni/jni.dart';
 import 'package:kotlin_plugin/kotlin_plugin.dart';
 
 void main() {
@@ -51,6 +52,24 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print(DividerUser().useDivider(
+            Divider.implement(
+              $DividerImpl(divide: (a, b) {
+                if (b < 0) {
+                  throw ArithmeticException.new1(
+                      "No negative numbers!".toJString());
+                }
+                return a ~/ b;
+              }),
+            ),
+            10,
+            -2, // throws ArithmeticException that is caught in Kotlin code
+          ));
+        },
+        child: const Icon(Icons.add),
       ),
       body: Center(
         child: Column(
