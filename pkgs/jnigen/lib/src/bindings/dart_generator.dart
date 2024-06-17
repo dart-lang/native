@@ -413,7 +413,9 @@ class $name$typeParamsDef extends $superName {
       }
       s.write('''
     } catch (e) {
-      // TODO: check type of `e` and add to the exception. 
+      if (e is jni.JObject && jni.Jni.env.IsInstanceOf(e.reference.pointer, jThrowableClass.reference.pointer)) {
+        return $_protectedExtension.newDartException(e.toString(), e);
+      }
       return $_protectedExtension.newDartException(e.toString(), null);
     }
     return jni.nullptr;
