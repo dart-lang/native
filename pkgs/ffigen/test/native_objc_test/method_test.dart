@@ -93,6 +93,18 @@ void main() {
       test('Doubles', () {
         expect(testInstance.addDoubles_Y_(1.23, 4.56), closeTo(5.79, 1e-6));
       });
+
+      test('Method with same name as a type', () {
+        // Test for https://github.com/dart-lang/native/issues/1007
+        final resultPtr = calloc<Vec4>();
+        final result = resultPtr.ref;
+        testInstance.Vec41(resultPtr); // A slightly unfortunate rename :P
+        expect(result.x, 1);
+        expect(result.y, 2);
+        expect(result.z, 3);
+        expect(result.w, 4);
+        calloc.free(resultPtr);
+      });
     });
   });
 }

@@ -57,13 +57,13 @@ jobs:
         working-directory: pkgs/${{ matrix.package }}
 
     steps:
-      - uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
 
       - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
         with:
           sdk: ${{ matrix.sdk }}
 
-      - uses: nttld/setup-ndk@6a7e9c5494a25c4842ca1011f710300132eacd94
+      - uses: nttld/setup-ndk@afb4c9964b521afb97c864b7d40b11e6911bd410
         with:
           ndk-version: r26b
         if: ${{ (matrix.sdk == 'stable' || matrix.sdk == '3.3.0') && matrix.os != 'macos' }}
@@ -163,7 +163,7 @@ jobs:
         if: ${{ matrix.sdk == 'stable' || matrix.sdk == '3.3.0' }}
 
       - name: Upload coverage
-        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
         with:
           flag-name: ${{ matrix.package }}_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -175,7 +175,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage
-        uses: coverallsapp/github-action@3dfc5567390f6fa9267c0ee9c251e4c8c3f18949
+        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
         with:
           carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c"
           github-token: ${{ secrets.GITHUB_TOKEN }}

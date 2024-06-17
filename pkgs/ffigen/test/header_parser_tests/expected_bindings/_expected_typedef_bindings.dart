@@ -105,12 +105,30 @@ typedef ExcludedStruct = _ExcludedStruct;
 
 final class _ExcludedStruct extends ffi.Opaque {}
 
-abstract class AnonymousEnumInTypedef {
-  static const int a = 0;
+enum AnonymousEnumInTypedef {
+  a(0);
+
+  final int value;
+  const AnonymousEnumInTypedef(this.value);
+
+  static AnonymousEnumInTypedef fromValue(int value) => switch (value) {
+        0 => a,
+        _ => throw ArgumentError(
+            "Unknown value for AnonymousEnumInTypedef: $value"),
+      };
 }
 
-abstract class _NamedEnumInTypedef {
-  static const int b = 0;
+enum _NamedEnumInTypedef {
+  b(0);
+
+  final int value;
+  const _NamedEnumInTypedef(this.value);
+
+  static _NamedEnumInTypedef fromValue(int value) => switch (value) {
+        0 => b,
+        _ =>
+          throw ArgumentError("Unknown value for _NamedEnumInTypedef: $value"),
+      };
 }
 
 typedef NestingASpecifiedType = ffi.IntPtr;

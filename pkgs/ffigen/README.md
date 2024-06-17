@@ -468,7 +468,21 @@ and/or via the command line -
 ```bash
 dart run ffigen --ignore-source-errors
 ```
+  </td>
+  </tr>
+  <tr>
+    <td>silence-enum-warning</td>
+    <td>Where to silence warning for enum integer type mimicking.<br>
+    The integer type used for enums is implementation-defined, and not part of
+    the ABI. FFIgen tries to mimic the integer sizes chosen by the most common
+    compilers for the various OS and architecture combinations.<br>
+    <b>Default: false</b>
+    </td>
+    <td>
 
+```yaml
+silence-enum-warning: true
+```
   </td>
   </tr>
   <tr>

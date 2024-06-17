@@ -21,7 +21,7 @@ enum BindingStringType {
   union,
   constant,
   global,
-  enumClass,
+  enum_,
   typeDef,
   objcInterface,
   objcProtocol,

@@ -326,7 +326,7 @@ class Clang {
   }
 
   late final _clang_getDiagnosticSeverityPtr =
-      _lookup<ffi.NativeFunction<ffi.Int32 Function(CXDiagnostic)>>(
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXDiagnostic)>>(
           'clang_getDiagnosticSeverity');
   late final _clang_getDiagnosticSeverity =
       _clang_getDiagnosticSeverityPtr.asFunction<int Function(CXDiagnostic)>();
@@ -435,7 +435,7 @@ class Clang {
   }
 
   late final _clang_getCursorKindPtr =
-      _lookup<ffi.NativeFunction<ffi.Int32 Function(CXCursor)>>(
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
           'clang_getCursorKind');
   late final _clang_getCursorKind =
       _clang_getCursorKindPtr.asFunction<int Function(CXCursor)>();
@@ -528,6 +528,24 @@ class Clang {
   late final _clang_getTypedefDeclUnderlyingType =
       _clang_getTypedefDeclUnderlyingTypePtr
           .asFunction<CXType Function(CXCursor)>();
+
+  /// Retrieve the integer type of an enum declaration.
+  ///
+  /// If the cursor does not reference an enum declaration, an invalid type is
+  /// returned.
+  CXType clang_getEnumDeclIntegerType(
+    CXCursor C,
+  ) {
+    return _clang_getEnumDeclIntegerType(
+      C,
+    );
+  }
+
+  late final _clang_getEnumDeclIntegerTypePtr =
+      _lookup<ffi.NativeFunction<CXType Function(CXCursor)>>(
+          'clang_getEnumDeclIntegerType');
+  late final _clang_getEnumDeclIntegerType =
+      _clang_getEnumDeclIntegerTypePtr.asFunction<CXType Function(CXCursor)>();
 
   /// Retrieve the integer value of an enum constant declaration as a signed
   /// long long.
@@ -746,7 +764,7 @@ class Clang {
   }
 
   late final _clang_getTypeKindSpellingPtr =
-      _lookup<ffi.NativeFunction<CXString Function(ffi.Int32)>>(
+      _lookup<ffi.NativeFunction<CXString Function(ffi.UnsignedInt)>>(
           'clang_getTypeKindSpelling');
   late final _clang_getTypeKindSpelling =
       _clang_getTypeKindSpellingPtr.asFunction<CXString Function(int)>();
@@ -918,7 +936,7 @@ class Clang {
   }
 
   late final _clang_Type_getNullabilityPtr =
-      _lookup<ffi.NativeFunction<ffi.Int32 Function(CXType)>>(
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
           'clang_Type_getNullability');
   late final _clang_Type_getNullability =
       _clang_Type_getNullabilityPtr.asFunction<int Function(CXType)>();
@@ -1010,7 +1028,7 @@ class Clang {
   }
 
   late final _clang_Cursor_getStorageClassPtr =
-      _lookup<ffi.NativeFunction<ffi.Int32 Function(CXCursor)>>(
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
           'clang_Cursor_getStorageClass');
   late final _clang_Cursor_getStorageClass =
       _clang_Cursor_getStorageClassPtr.asFunction<int Function(CXCursor)>();
@@ -1271,7 +1289,7 @@ class Clang {
   }
 
   late final _clang_getCursorKindSpellingPtr =
-      _lookup<ffi.NativeFunction<CXString Function(ffi.Int32)>>(
+      _lookup<ffi.NativeFunction<CXString Function(ffi.UnsignedInt)>>(
           'clang_getCursorKindSpelling');
   late final _clang_getCursorKindSpelling =
       _clang_getCursorKindSpellingPtr.asFunction<CXString Function(int)>();
@@ -1314,7 +1332,7 @@ class Clang {
   }
 
   late final _clang_EvalResult_getKindPtr =
-      _lookup<ffi.NativeFunction<ffi.Int32 Function(CXEvalResult)>>(
+      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXEvalResult)>>(
           'clang_EvalResult_getKind');
   late final _clang_EvalResult_getKind =
       _clang_EvalResult_getKindPtr.asFunction<int Function(CXEvalResult)>();
@@ -2479,7 +2497,7 @@ abstract class CXCursorKind {
 /// to the entity that resides at that location, allowing one to map from the
 /// source code into the AST.
 final class CXCursor extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
   @ffi.Int()
@@ -2621,7 +2639,7 @@ abstract class CXTypeKind {
 
 /// The type of an element in the abstract syntax tree.
 final class CXType extends ffi.Struct {
-  @ffi.Int32()
+  @ffi.UnsignedInt()
   external int kind;
 
   @ffi.Array.multi([2])
@@ -2714,7 +2732,7 @@ abstract class CXChildVisitResult {
 /// to direct clang_visitCursorChildren().
 typedef CXCursorVisitor
     = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
-typedef CXCursorVisitorFunction = ffi.Int32 Function(
+typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 typedef DartCXCursorVisitorFunction = int Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);

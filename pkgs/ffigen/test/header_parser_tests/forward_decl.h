@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 struct A;
-enum B;
+enum B : unsigned int;
 
 void func(struct A *a, enum B b);
 
@@ -13,7 +13,7 @@ struct A
     int b;
 };
 
-enum B
+enum B : unsigned int
 {
     a,
     b

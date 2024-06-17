@@ -75,7 +75,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
     final s = StringBuffer();
     s.write(makeDartDoc(dartDoc));
 
-    final uniqueNamer = UniqueNamer({name, 'pointer'});
+    final uniqueNamer =
+        UniqueNamer({name, 'pointer'}, parent: w.topLevelUniqueNamer);
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
@@ -180,7 +181,7 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
 
       // Implementation.
       final convertReturn = m.kind != ObjCMethodKind.propertySetter &&
-          _needsConverting(returnType);
+          !returnType.sameDartAndFfiDartType;
 
       if (returnType != voidType) {
         s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
@@ -330,17 +331,6 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
     final ownershipFlags = 'retain: $objCRetain, release: true';
     return '$className.castFromPointer($value, $ownershipFlags)';
   }
-
-  // Utils for converting between the internal types passed to native code, and
-  // the external types visible to the user. For example, ObjCInterfaces are
-  // passed to native as Pointer<ObjCObject>, but the user sees the Dart wrapper
-  // class. These methods need to be kept in sync.
-  bool _needsConverting(Type type) =>
-      type is ObjCInstanceType ||
-      type.typealiasType is ObjCInterface ||
-      type.typealiasType is ObjCBlock ||
-      type.typealiasType is ObjCObjectPointer ||
-      type.typealiasType is ObjCNullable;
 
   String _getConvertedType(Type type, Writer w, String enclosingClass) {
     if (type is ObjCInstanceType) return enclosingClass;

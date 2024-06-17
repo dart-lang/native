@@ -61,9 +61,18 @@ final class A_Union1 extends ffi.Union {
   external int a;
 }
 
-abstract class A_Enum {
-  static const int A_ENUM_1 = 0;
-  static const int A_ENUM_2 = 1;
+enum A_Enum {
+  A_ENUM_1(0),
+  A_ENUM_2(1);
+
+  final int value;
+  const A_Enum(this.value);
+
+  static A_Enum fromValue(int value) => switch (value) {
+        0 => A_ENUM_1,
+        1 => A_ENUM_2,
+        _ => throw ArgumentError("Unknown value for A_Enum: $value"),
+      };
 }
 
 const int BASE_MACRO_1 = 1;

@@ -10,9 +10,18 @@
 // ignore_for_file: type=lint
 /// test line 1
 /// test line 2
-abstract class Constants {
-  static const int a = 10;
+enum Constants {
+  a(10),
 
   /// negative
-  static const int b = -1;
+  b(-1);
+
+  final int value;
+  const Constants(this.value);
+
+  static Constants fromValue(int value) => switch (value) {
+        10 => a,
+        -1 => b,
+        _ => throw ArgumentError("Unknown value for Constants: $value"),
+      };
 }

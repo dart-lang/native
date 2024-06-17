@@ -22,17 +22,17 @@ class NativeLibrary {
 
   void func(
     ffi.Pointer<A> a,
-    int b,
+    B b,
   ) {
     return _func(
       a,
-      b,
+      b.value,
     );
   }
 
-  late final _funcPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<A>, ffi.Int32)>>(
-          'func');
+  late final _funcPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<A>, ffi.UnsignedInt)>>('func');
   late final _func = _funcPtr.asFunction<void Function(ffi.Pointer<A>, int)>();
 }
 
@@ -44,7 +44,16 @@ final class A extends ffi.Struct {
   external int b;
 }
 
-abstract class B {
-  static const int a = 0;
-  static const int b = 1;
+enum B {
+  a(0),
+  b(1);
+
+  final int value;
+  const B(this.value);
+
+  static B fromValue(int value) => switch (value) {
+        0 => a,
+        1 => b,
+        _ => throw ArgumentError("Unknown value for B: $value"),
+      };
 }

@@ -190,7 +190,7 @@ extension CXCursorExt on clang_types.CXCursor {
             callback(child, parent),
         exceptionalReturn: exceptional_visitor_return);
     final result =
-        clang.clang_visitChildren(this, visitor.nativeFunction, nullptr);
+        clang.clang_visitChildren(this, visitor.nativeFunction.cast(), nullptr);
     visitor.close();
     return result == 0;
   }

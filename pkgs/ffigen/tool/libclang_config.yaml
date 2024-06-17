@@ -98,6 +98,7 @@ functions:
     - clang_Cursor_getStorageClass
     - clang_getCursorResultType
     - clang_getEnumConstantDeclValue
+    - clang_getEnumDeclIntegerType
     - clang_equalRanges
     - clang_Cursor_getCommentRange
     - clang_Cursor_getRawCommentText
