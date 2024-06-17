@@ -62,6 +62,8 @@ class ObjCBlock extends BindingType {
     return usr.toString();
   }
 
+  bool get hasListener => returnType == voidType;
+
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
@@ -71,7 +73,6 @@ class ObjCBlock extends BindingType {
       params.add(Parameter(name: 'arg$i', type: argTypes[i]));
     }
 
-    final isVoid = returnType == voidType;
     final voidPtr = PointerType(voidType).getCType(w);
     final blockPtr = PointerType(objCBlockType);
     final funcType = FunctionType(returnType: returnType, parameters: params);
@@ -171,7 +172,7 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
 ''');
 
     // Listener block constructor is only available for void blocks.
-    if (isVoid) {
+    if (hasListener) {
       s.write('''
   /// Creates a listener block from a Dart function.
   ///

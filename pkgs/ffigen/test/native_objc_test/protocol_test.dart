@@ -66,14 +66,12 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final myProto = MyProtocol.implement(
-          instanceMethod_withDouble_: InstanceMethodBlock.fromFunction(
-              (Pointer<Void> p, NSString s, double x) {
+          instanceMethod_withDouble_: (NSString s, double x) {
             return 'MyProtocol: $s: $x'.toNSString();
-          }),
-          optionalMethod_:
-              OptionalMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
+          },
+          optionalMethod_: (SomeStruct s) {
             return s.y - s.x;
-          }),
+          },
         );
 
         // Required instance method.
@@ -89,16 +87,14 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final protoBuilder = ObjCProtocolBuilder();
-        MyProtocol.addToBuilder(protoBuilder, instanceMethod_withDouble_:
-            InstanceMethodBlock.fromFunction(
-                (Pointer<Void> p, NSString s, double x) {
+        MyProtocol.addToBuilder(protoBuilder,
+            instanceMethod_withDouble_: (NSString s, double x) {
           return 'ProtoBuilder: $s: $x'.toNSString();
-        }));
-        SecondaryProtocol.addToBuilder(protoBuilder, otherMethod_b_c_d_:
-            OtherMethodBlock.fromFunction(
-                (Pointer<Void> p, int a, int b, int c, int d) {
+        });
+        SecondaryProtocol.addToBuilder(protoBuilder,
+            otherMethod_b_c_d_: (int a, int b, int c, int d) {
           return a * b * c * d;
-        }));
+        });
         final protoImpl = protoBuilder.build();
 
         // Required instance method.
@@ -115,15 +111,13 @@ void main() {
 
         final protoBuilder = ObjCProtocolBuilder();
         protoBuilder.implementMethod(MyProtocol.instanceMethod_withDouble_,
-            InstanceMethodBlock.fromFunction(
-                (Pointer<Void> p, NSString s, double x) {
+            (NSString s, double x) {
           return 'ProtoBuilder: $s: $x'.toNSString();
-        }));
+        });
         protoBuilder.implementMethod(SecondaryProtocol.otherMethod_b_c_d_,
-            OtherMethodBlock.fromFunction(
-                (Pointer<Void> p, int a, int b, int c, int d) {
+            (int a, int b, int c, int d) {
           return a * b * c * d;
-        }));
+        });
         final protoImpl = protoBuilder.build();
 
         // Required instance method.
@@ -139,10 +133,9 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final myProto = MyProtocol.implement(
-          instanceMethod_withDouble_: InstanceMethodBlock.fromFunction(
-              (Pointer<Void> p, NSString s, double x) {
+          instanceMethod_withDouble_: (NSString s, double x) {
             throw UnimplementedError();
-          }),
+          },
         );
 
         // Optional instance method, not implemented.
@@ -214,24 +207,18 @@ void main() {
       });
 
       test('Threading stress test', () async {
-        final proxyBuilder = DartProxyBuilder.new1();
         final consumer = ProtocolConsumer.new1();
-        final proto = getProtocol('MyProtocol');
         final completer = Completer<void>();
         int count = 0;
 
-        final sel = registerName('voidMethod:');
-        final signature = getProtocolMethodSignature(proto, sel,
-            isRequired: false, isInstance: true);
-        final block = VoidMethodBlock.listener((Pointer<Void> p, int x) {
+        final protoBuilder = ObjCProtocolBuilder();
+        protoBuilder.implementMethodAsListener(MyProtocol.voidMethod_, (int x) {
           expect(x, 123);
           ++count;
           if (count == 1000) completer.complete();
         });
-        proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature, block.pointer.cast());
 
-        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+        final proxy = protoBuilder.build();
 
         for (int i = 0; i < 1000; ++i) {
           consumer.callMethodOnRandomThread_(proxy);

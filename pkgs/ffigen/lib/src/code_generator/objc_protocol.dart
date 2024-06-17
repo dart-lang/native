@@ -44,20 +44,43 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final methodName = method.getDartMethodName(uniqueNamer);
       final fieldName = methodName;
       final argName = methodName;
-      final blockType = method.protocolBlock!.getDartType(w);
+      final block = method.protocolBlock!;
+      final blockType = block.getDartType(w);
+
+      // The function type omits the first arg of the block, which is unused.
+      final func = FunctionType(returnType: block.returnType, parameters: [
+        for (int i = 1; i < block.argTypes.length; ++i)
+          Parameter(name: 'arg$i', type: block.argTypes[i]),
+      ]);
+      final funcType = func.getDartType(w);
 
       if (method.isOptional) {
-        buildArgs.add('$blockType? $argName');
+        buildArgs.add('$funcType? $argName');
       } else {
-        buildArgs.add('required $blockType $argName');
+        buildArgs.add('required $funcType $argName');
+      }
+
+      final blockFirstArg = block.argTypes[0].getDartType(w);
+      final argsReceived = func.parameters
+          .map((p) => '${p.type.getDartType(w)} ${p.name}')
+          .join(', ');
+      final argsPassed = func.parameters.map((p) => p.name).join(', ');
+      final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
+
+      late final listenerBuilder;
+      if (block.hasListener) {
+        listenerBuilder = '(Function func) => $blockType.listener($wrapper)';
+      } else {
+        final msg = '${method.originalName} cannot be a listener because '
+            'it has a non-void return type';
+        listenerBuilder = "(Function func) => throw UnsupportedError('$msg')";
       }
 
       buildImplementations.write('''
     builder.implementMethod($name.$fieldName, $argName);''');
 
-      methodFields.write('''
-    ${makeDartDoc(method.dartDoc)}
-    static final $fieldName = $protoMethod(
+      methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
+      methodFields.write('''static final $fieldName = $protoMethod(
       ${method.selObject!.name},
       $getSignature(
           ${_protocolPointer.name},
@@ -65,15 +88,16 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           isRequired: ${method.isRequired},
           isInstance: ${method.isInstance},
       ),
-      ($blockBase block) => block is $blockType,
+      (Function func) => func is $funcType,
+      (Function func) => $blockType.fromFunction($wrapper),
+      $listenerBuilder,
     );
 ''');
     }
 
     final args = buildArgs.isEmpty ? '' : '{${buildArgs.join(', ')}}';
     final mainString = '''
-${makeDartDoc(dartDoc)}
-abstract final class $name {
+${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protoBuilder] directly.
   static $objectBase implement($args) {

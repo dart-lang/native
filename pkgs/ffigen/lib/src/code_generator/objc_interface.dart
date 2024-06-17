@@ -73,7 +73,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     }
 
     final s = StringBuffer();
-    s.write(makeDartDoc(dartDoc));
+    s.write(makeDartDoc(dartDoc ?? originalName));
 
     final uniqueNamer =
         UniqueNamer({name, 'pointer'}, parent: w.topLevelUniqueNamer);
@@ -84,8 +84,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     final superTypeIsInPkgObjc = superType == null;
 
     // Class declaration.
-    s.write('''
-class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
+    s.write('''class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
   $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
           ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}
@@ -126,7 +125,7 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
       }
 
       // The method declaration.
-      s.write(makeDartDoc(m.dartDoc));
+      s.write(makeDartDoc(m.dartDoc ?? m.originalName));
       s.write('  ');
       if (isStatic) {
         s.write('static ');

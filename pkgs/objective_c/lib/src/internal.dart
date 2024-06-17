@@ -289,9 +289,12 @@ Function getBlockClosure(Pointer<c.ObjCBlock> block) {
 class ObjCProtocolMethod {
   final Pointer<c.ObjCSelector> sel;
   final objc.NSMethodSignature signature;
-  final bool Function(ObjCBlockBase) isCorrectBlockType;
+  final bool Function(Function) isCorrectFunctionType;
+  final ObjCBlockBase Function(Function) createBlock;
+  final ObjCBlockBase Function(Function) createListenerBlock;
 
-  ObjCProtocolMethod(this.sel, this.signature, this.isCorrectBlockType);
+  ObjCProtocolMethod(this.sel, this.signature, this.isCorrectFunctionType,
+      this.createBlock, this.createListenerBlock);
 }
 
 // Not exported by ../objective_c.dart, because they're only for testing.
