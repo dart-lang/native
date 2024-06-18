@@ -264,7 +264,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
     while (superType_ != null) {
       for (final method in methods) {
         final superMethod = superType_.getMethod(method.originalName);
-        if (superMethod != null && !superMethod.isClassMethod && !method.isClassMethod) {
+        if (superMethod != null &&
+            !superMethod.isClassMethod &&
+            !method.isClassMethod) {
           if (superMethod.returnType.typealiasType is! ObjCNullable &&
               method.returnType.typealiasType is ObjCNullable) {
             superMethod.returnType = ObjCNullable(superMethod.returnType);

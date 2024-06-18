@@ -292,8 +292,8 @@ class ObjCProtocolMethod {
   final bool Function(Function) isCorrectFunctionType;
   final ObjCBlockBase Function(Function) createBlock;
 
-  ObjCProtocolMethod(this.sel, this.signature, this.isCorrectFunctionType,
-      this.createBlock);
+  ObjCProtocolMethod(
+      this.sel, this.signature, this.isCorrectFunctionType, this.createBlock);
 }
 
 /// Only for use by ffigen bindings.
