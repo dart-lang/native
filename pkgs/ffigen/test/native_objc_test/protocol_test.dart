@@ -153,7 +153,7 @@ void main() {
 
         final sel = registerName('instanceMethod:withDouble:');
         final signature = getProtocolMethodSignature(protocol, sel,
-            isRequired: true, isInstance: true);
+            isRequired: true, isInstanceMethod: true);
         final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) {
           return 'DartProxy: $s: $x'.toNSString();
@@ -163,7 +163,7 @@ void main() {
 
         final optSel = registerName('optionalMethod:');
         final optSignature = getProtocolMethodSignature(protocol, optSel,
-            isRequired: false, isInstance: true);
+            isRequired: false, isInstanceMethod: true);
         final optBlock =
             OptionalMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
           return s.y - s.x;
@@ -174,7 +174,7 @@ void main() {
         final otherSel = registerName('otherMethod:b:c:d:');
         final otherSignature = getProtocolMethodSignature(
             secondProtocol, otherSel,
-            isRequired: true, isInstance: true);
+            isRequired: true, isInstanceMethod: true);
         final otherBlock = OtherMethodBlock.fromFunction(
             (Pointer<Void> p, int a, int b, int c, int d) {
           return a * b * c * d;
@@ -235,7 +235,7 @@ void main() {
 
         final sel = registerName('instanceMethod:withDouble:');
         final signature = getProtocolMethodSignature(protocol, sel,
-            isRequired: true, isInstance: true);
+            isRequired: true, isInstanceMethod: true);
         final block = InstanceMethodBlock.fromFunction(
             (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
         proxyBuilder.implementMethod_withSignature_andBlock_(
