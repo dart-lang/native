@@ -18,6 +18,11 @@ class HandleType extends Type {
   @override
   String getFfiDartType(Writer w) => 'Object';
 
+  // The real native type is Dart_Handle, but that would mean importing
+  // dart_api.h into the generated native code.
+  @override
+  String getNativeType({String varName = ''}) => 'void* $varName';
+
   @override
   bool get sameFfiDartAndCType => false;
 

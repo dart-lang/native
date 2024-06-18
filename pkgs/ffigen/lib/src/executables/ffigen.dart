@@ -62,6 +62,12 @@ Future<void> main(List<String> args) async {
   _logger
       .info(successPen('Finished, Bindings generated in ${gen.absolute.path}'));
 
+  final objCGen = File(config.outputObjC);
+  if (library.generateObjCFile(objCGen)) {
+    _logger.info(successPen('Finished, Objective C bindings generated '
+        'in ${objCGen.absolute.path}'));
+  }
+
   if (config.symbolFile != null) {
     final symbolFileGen = File(config.symbolFile!.output);
     library.generateSymbolOutputFile(

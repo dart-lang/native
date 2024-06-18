@@ -37,6 +37,10 @@ class Config {
   String get output => _output;
   late String _output;
 
+  /// Output ObjC file name.
+  String get outputObjC => _outputObjC ?? '$output.m';
+  String? _outputObjC;
+
   /// Symbol file config.
   SymbolFile? get symbolFile => _symbolFile;
   late SymbolFile? _symbolFile;
@@ -259,6 +263,7 @@ class Config {
                   outputExtractor(node.value, filename, packageConfig),
               result: (node) {
                 _output = (node.value as OutputConfig).output;
+                _outputObjC = (node.value as OutputConfig).outputObjC;
                 _symbolFile = (node.value as OutputConfig).symbolFile;
               },
             )),
@@ -793,6 +798,10 @@ class Config {
           key: strings.bindings,
           valueConfigSpec: _filePathStringConfigSpec(),
           required: true,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.objCBindings,
+          valueConfigSpec: _filePathStringConfigSpec(),
         ),
         HeterogeneousMapEntry(
           key: strings.symbolFile,

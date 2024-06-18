@@ -1,11 +1,24 @@
 name: BlockTestObjCLibrary
 description: 'Tests calling Objective-C blocks.'
 language: objc
-output: 'block_bindings.dart'
+output:
+  bindings: 'block_bindings.dart'
+  objc-bindings: 'block_bindings.m'
 exclude-all-by-default: true
 objc-interfaces:
   include:
     - BlockTester
+typedefs:
+  include:
+    - IntBlock
+    - FloatBlock
+    - DoubleBlock
+    - Vec4Block
+    - VoidBlock
+    - ObjectBlock
+    - NullableObjectBlock
+    - BlockBlock
+    - ListenerBlock
 headers:
   entry-points:
     - 'block_test.m'

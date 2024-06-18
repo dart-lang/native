@@ -3,17 +3,26 @@
 - __Breaking change__: Code-gen the ObjC `id` type to `ObjCObjectBase` rather
   than `NSObject`, since not all ObjC classes inherit from `NSObject`. Eg
   `NSProxy`.
+- __Breaking change__: Generate a native trampoline for each listener block, to
+  fix a ref counting bug: https://github.com/dart-lang/native/issues/835.
+    - If you have listener blocks affected by this ref count bug, a .m file will
+      be generated containing the trampoline. You must compile this .m file into
+      your package. If you already have a flutter plugin or build.dart, you can
+      simply add this generated file to that build.
+    - If you don't use listener blocks, you can ignore the .m file.
+    - You can choose where the generated .m file is placed with the
+      `output.objc-bindings` config option.
 - __Breaking change__: Native enums are now generated as real Dart enums, instead
   of abstract classes with integer constants. Native enum members with the same
   integer values are handled properly on the Dart side, and native functions
   that use enums in their signatures now accept the generated enums on the Dart
-  side, instead of integer values. 
-- Rename ObjC interface methods that clash with type names. Fixes
-  https://github.com/dart-lang/native/issues/1007.
+  side, instead of integer values.
 - __Breaking change__: Enum integer types are implementation-defined and not
   part of the ABI. Therefore FFIgen does a best-effort approach trying to mimic
   the most common compilers for the various OS and architecture combinations.
   To silence the warning set config `silence-enum-warning` to `true`.
+- Rename ObjC interface methods that clash with type names. Fixes
+  https://github.com/dart-lang/native/issues/1007.
 
 ## 12.0.0
 
@@ -26,7 +35,7 @@
 - __Breaking change__: Use `package:objective_c` in ObjC bindings.
   - ObjC packages will have a flutter dependency (until
     https://github.com/dart-lang/native/issues/1068 is fixed).
-  - Core classes such as `NSString` have been moved intpu `package:objective_c`.
+  - Core classes such as `NSString` have been moved into `package:objective_c`.
   - ObjC class methods don't need the ubiquitous `lib` argument anymore. In
     fact, ffigen won't even generate the native library class (unless it needs
     to bind top level functions without using `@Native`). It is still necessary

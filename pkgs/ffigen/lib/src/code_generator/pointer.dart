@@ -31,6 +31,10 @@ class PointerType extends Type {
   String getCType(Writer w) =>
       '${w.ffiLibraryPrefix}.Pointer<${child.getCType(w)}>';
 
+  @override
+  String getNativeType({String varName = ''}) =>
+      '${child.getNativeType()}* $varName';
+
   // Both the C type and the FFI Dart type are 'Pointer<$cType>'.
   @override
   bool get sameFfiDartAndCType => true;
@@ -57,6 +61,10 @@ class ConstantArray extends PointerType {
   bool get isIncompleteCompound => baseArrayType.isIncompleteCompound;
 
   @override
+  String getNativeType({String varName = ''}) =>
+      '${child.getNativeType()} $varName[$length]';
+
+  @override
   String toString() => '$child[$length]';
 
   @override
@@ -80,6 +88,10 @@ class IncompleteArray extends PointerType {
   Type get baseArrayType => child.baseArrayType;
 
   @override
+  String getNativeType({String varName = ''}) =>
+      '${child.getNativeType()} $varName[]';
+
+  @override
   String toString() => '$child[]';
 
   @override
@@ -95,6 +107,9 @@ class ObjCObjectPointer extends PointerType {
 
   @override
   String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCObjectBase';
+
+  @override
+  String getNativeType({String varName = ''}) => 'id $varName';
 
   @override
   bool get sameDartAndCType => false;
@@ -118,4 +133,7 @@ class ObjCObjectPointer extends PointerType {
     String? objCEnclosingClass,
   }) =>
       '${getDartType(w)}($value, retain: $objCRetain, release: true)';
+
+  @override
+  String? generateRetain(String value) => '[$value retain]';
 }

@@ -400,9 +400,10 @@ class SymbolFile {
 
 class OutputConfig {
   final String output;
+  final String? outputObjC;
   final SymbolFile? symbolFile;
 
-  OutputConfig(this.output, this.symbolFile);
+  OutputConfig(this.output, this.outputObjC, this.symbolFile);
 }
 
 class RawVarArgFunction {

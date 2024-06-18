@@ -136,6 +136,25 @@ class Library {
     }
   }
 
+  /// Generates [file] with the Objective C code needed for the bindings, if
+  /// any.
+  ///
+  /// Returns whether bindings were generated.
+  bool generateObjCFile(File file) {
+    final bindings = writer.generateObjC();
+
+    if (bindings == null) {
+      // No ObjC code needed. If there's already a file (eg from an earlier
+      // run), delete it so it's not accidentally included in the build.
+      if (file.existsSync()) file.deleteSync();
+      return false;
+    }
+
+    if (!file.existsSync()) file.createSync(recursive: true);
+    file.writeAsStringSync(bindings);
+    return true;
+  }
+
   /// Generates [file] with symbol output yaml.
   void generateSymbolOutputFile(File file, String importPath) {
     if (!file.existsSync()) file.createSync(recursive: true);

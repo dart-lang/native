@@ -40,9 +40,10 @@ class ImportedType extends Type {
   final LibraryImport libraryImport;
   final String cType;
   final String dartType;
+  final String nativeType;
   final String? defaultValue;
 
-  ImportedType(this.libraryImport, this.cType, this.dartType,
+  ImportedType(this.libraryImport, this.cType, this.dartType, this.nativeType,
       [this.defaultValue]);
 
   @override
@@ -53,6 +54,9 @@ class ImportedType extends Type {
 
   @override
   String getFfiDartType(Writer w) => cType == dartType ? getCType(w) : dartType;
+
+  @override
+  String getNativeType({String varName = ''}) => '$nativeType $varName';
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;
@@ -93,27 +97,36 @@ final objcPkgImport = LibraryImport(
     importPathWhenImportedByPackageObjC: '../objective_c.dart');
 final self = LibraryImport('self', '');
 
-final voidType = ImportedType(ffiImport, 'Void', 'void');
+final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 
-final unsignedCharType = ImportedType(ffiImport, 'UnsignedChar', 'int', '0');
-final signedCharType = ImportedType(ffiImport, 'SignedChar', 'int', '0');
-final charType = ImportedType(ffiImport, 'Char', 'int', '0');
-final unsignedShortType = ImportedType(ffiImport, 'UnsignedShort', 'int', '0');
-final shortType = ImportedType(ffiImport, 'Short', 'int', '0');
-final unsignedIntType = ImportedType(ffiImport, 'UnsignedInt', 'int', '0');
-final intType = ImportedType(ffiImport, 'Int', 'int', '0');
-final unsignedLongType = ImportedType(ffiImport, 'UnsignedLong', 'int', '0');
-final longType = ImportedType(ffiImport, 'Long', 'int', '0');
-final unsignedLongLongType =
-    ImportedType(ffiImport, 'UnsignedLongLong', 'int', '0');
-final longLongType = ImportedType(ffiImport, 'LongLong', 'int', '0');
+final unsignedCharType =
+    ImportedType(ffiImport, 'UnsignedChar', 'int', 'unsigned char', '0');
+final signedCharType =
+    ImportedType(ffiImport, 'SignedChar', 'int', 'char', '0');
+final charType = ImportedType(ffiImport, 'Char', 'int', 'char', '0');
+final unsignedShortType =
+    ImportedType(ffiImport, 'UnsignedShort', 'int', 'unsigned short', '0');
+final shortType = ImportedType(ffiImport, 'Short', 'int', 'short', '0');
+final unsignedIntType =
+    ImportedType(ffiImport, 'UnsignedInt', 'int', 'unsigned', '0');
+final intType = ImportedType(ffiImport, 'Int', 'int', 'int', '0');
+final unsignedLongType =
+    ImportedType(ffiImport, 'UnsignedLong', 'int', 'unsigned long', '0');
+final longType = ImportedType(ffiImport, 'Long', 'int', 'long', '0');
+final unsignedLongLongType = ImportedType(
+    ffiImport, 'UnsignedLongLong', 'int', 'unsigned long long', '0');
+final longLongType =
+    ImportedType(ffiImport, 'LongLong', 'int', 'long long', '0');
 
-final floatType = ImportedType(ffiImport, 'Float', 'double', '0.0');
-final doubleType = ImportedType(ffiImport, 'Double', 'double', '0.0');
+final floatType = ImportedType(ffiImport, 'Float', 'double', 'float', '0.0');
+final doubleType = ImportedType(ffiImport, 'Double', 'double', 'double', '0.0');
 
-final sizeType = ImportedType(ffiImport, 'Size', 'int', '0');
-final wCharType = ImportedType(ffiImport, 'WChar', 'int', '0');
+final sizeType = ImportedType(ffiImport, 'Size', 'int', 'size_t', '0');
+final wCharType = ImportedType(ffiImport, 'WChar', 'int', 'wchar_t', '0');
 
-final objCObjectType = ImportedType(objcPkgImport, 'ObjCObject', 'ObjCObject');
-final objCSelType = ImportedType(objcPkgImport, 'ObjCSelector', 'ObjCSelector');
-final objCBlockType = ImportedType(objcPkgImport, 'ObjCBlock', 'ObjCBlock');
+final objCObjectType =
+    ImportedType(objcPkgImport, 'ObjCObject', 'ObjCObject', 'void');
+final objCSelType =
+    ImportedType(objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'void');
+final objCBlockType =
+    ImportedType(objcPkgImport, 'ObjCBlock', 'ObjCBlock', 'id');

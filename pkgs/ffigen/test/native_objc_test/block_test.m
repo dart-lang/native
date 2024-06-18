@@ -55,6 +55,7 @@ typedef void (^VoidBlock)();
 typedef DummyObject* (^ObjectBlock)(DummyObject*);
 typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable);
 typedef IntBlock (^BlockBlock)(IntBlock);
+typedef void (^ListenerBlock)(IntBlock);
 
 // Wrapper around a block, so that our Dart code can test creating and invoking
 // blocks in Objective C code.
@@ -68,11 +69,13 @@ typedef IntBlock (^BlockBlock)(IntBlock);
 - (void)pokeBlock;
 + (void)callOnSameThread:(VoidBlock)block;
 + (NSThread*)callOnNewThread:(VoidBlock)block;
++ (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block;
 + (float)callFloatBlock:(FloatBlock)block;
 + (double)callDoubleBlock:(DoubleBlock)block;
 + (Vec4)callVec4Block:(Vec4Block)block;
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED;
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block;
++ (void)callListener:(ListenerBlock)block;
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult;
 + (BlockBlock)newBlockBlock:(int)mult;
 @end
@@ -113,6 +116,29 @@ typedef IntBlock (^BlockBlock)(IntBlock);
   return [[NSThread alloc] initWithBlock: block];
 }
 
++ (void)callListener:(ListenerBlock)block {
+  // Note: This method is invoked on a background thread.
+
+  // This multiplier is defined in a bound variable rather than inside the block
+  // to force the compiler to make a real lambda style block. Without this, we
+  // get a _NSConcreteGlobalBlock (essentially a static function pointer), which
+  // always has a ref count of 0, so we can't test the ref counting.
+  int mult = 100;
+
+  IntBlock inputBlock = [^int(int x) {
+    return mult * x;
+  } copy];
+  // ^ copy this stack allocated block to the heap.
+  block(inputBlock);
+  [inputBlock release]; // Release the reference held by this scope.
+}
+
++ (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block {
+  return [[NSThread alloc] initWithTarget:[BlockTester class]
+                                 selector:@selector(callListener:)
+                                   object:block];
+}
+
 + (float)callFloatBlock:(FloatBlock)block {
   return block(1.23);
 }
@@ -131,7 +157,10 @@ typedef IntBlock (^BlockBlock)(IntBlock);
 }
 
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED {
-  return block([DummyObject new]);
+  DummyObject* inputObject = [DummyObject new];
+  DummyObject* outputObject = block(inputObject);
+  [inputObject release]; // Release the reference held by this scope.
+  return outputObject;
 }
 
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block {
@@ -139,10 +168,13 @@ typedef IntBlock (^BlockBlock)(IntBlock);
 }
 
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult {
-  return block([^int(int x) {
+  IntBlock inputBlock = [^int(int x) {
     return mult * x;
-  } copy]);
+  } copy];
   // ^ copy this stack allocated block to the heap.
+  IntBlock outputBlock = block(inputBlock);
+  [inputBlock release]; // Release the reference held by this scope.
+  return outputBlock;
 }
 
 + (BlockBlock)newBlockBlock:(int)mult {
