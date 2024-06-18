@@ -4,15 +4,15 @@
 
 #include<stdbool.h>
 
-typedef void (*NamedFunctionProtocol)();
+typedef void (*NamedFunctionProto)();
 
 struct Struct1
 {
-    NamedFunctionProtocol named;
+    NamedFunctionProto named;
     void (*unnamed)();
 };
 
-extern NamedFunctionProtocol func1(NamedFunctionProtocol named, void (*unnamed)(int));
+extern NamedFunctionProto func1(NamedFunctionProto named, void (*unnamed)(int));
 
 typedef struct
 {
