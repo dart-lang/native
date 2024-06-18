@@ -170,6 +170,9 @@ abstract class Compound extends BindingType {
   String getCType(Writer w) => _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
+  String getNativeType({String varName = ''}) => '$originalName $varName';
+
+  @override
   bool get sameFfiDartAndCType => true;
 }
 

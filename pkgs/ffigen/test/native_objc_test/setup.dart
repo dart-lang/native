@@ -5,18 +5,8 @@
 import 'dart:async';
 import 'dart:io';
 
-Future<void> _buildLib(String input, String output) async {
-  final args = [
-    '-shared',
-    '-fpic',
-    '-x',
-    'objective-c',
-    input,
-    '-framework',
-    'Foundation',
-    '-o',
-    output,
-  ];
+Future<void> _runClang(List<String> flags, String output) async {
+  final args = [...flags, '-o', output];
   final process = await Process.start('clang', args);
   unawaited(stdout.addStream(process.stdout));
   unawaited(stderr.addStream(process.stderr));
@@ -25,6 +15,23 @@ Future<void> _buildLib(String input, String output) async {
     throw ProcessException('clang', args, 'Build failed', result);
   }
   print('Generated file: $output');
+}
+
+Future<String> _buildObject(String input) async {
+  final output = '$input.o';
+  await _runClang(['-x', 'objective-c', '-c', input, '-fpic'], output);
+  return output;
+}
+
+Future<void> _linkLib(List<String> inputs, String output) =>
+    _runClang(['-shared', '-framework', 'Foundation', ...inputs], output);
+
+Future<void> _buildLib(List<String> inputs, String output) async {
+  final objFiles = <String>[];
+  for (final input in inputs) {
+    objFiles.add(await _buildObject(input));
+  }
+  await _linkLib(objFiles, output);
 }
 
 Future<void> _buildSwift(
@@ -82,26 +89,34 @@ List<String> _getTestNames() {
 }
 
 Future<void> build(List<String> testNames) async {
-  print('Building Dynamic Library for Objective C Native Tests...');
-  for (final name in testNames) {
-    final mFile = '${name}_test.m';
-    if (await File(mFile).exists()) {
-      await _buildLib(mFile, '${name}_test.dylib');
-    }
-  }
-
+  // Swift build comes first because the generated header is consumed by ffigen.
   print('Building Dynamic Library and Header for Swift Tests...');
   for (final name in testNames) {
     final swiftFile = '${name}_test.swift';
-    if (await File(swiftFile).exists()) {
+    if (File(swiftFile).existsSync()) {
       await _buildSwift(
           swiftFile, '${name}_test-Swift.h', '${name}_test.dylib');
     }
   }
 
+  // Ffigen comes next because it may generate an ObjC file that is compiled
+  // into the dylib.
   print('Generating Bindings for Objective C Native Tests...');
   for (final name in testNames) {
     await _generateBindings('${name}_config.yaml');
+  }
+
+  // Finally we build the dylib.
+  print('Building Dynamic Library for Objective C Native Tests...');
+  for (final name in testNames) {
+    final mFile = '${name}_test.m';
+    if (File(mFile).existsSync()) {
+      final bindingMFile = '${name}_bindings.m';
+      await _buildLib([
+        mFile,
+        if (File(bindingMFile).existsSync()) bindingMFile,
+      ], '${name}_test.dylib');
+    }
   }
 }
 
@@ -110,15 +125,17 @@ Future<void> clean(List<String> testNames) async {
   final filenames = [
     for (final name in testNames) ...[
       '${name}_bindings.dart',
+      '${name}_bindings.m',
+      '${name}_bindings.o',
       '${name}_test_bindings.dart',
+      '${name}_test.o',
       '${name}_test.dylib'
     ],
   ];
-  Future.wait(filenames.map((fileName) async {
-    final file = File(fileName);
-    final exists = await file.exists();
-    if (exists) await file.delete();
-  }));
+  for (final filename in filenames) {
+    final file = File(filename);
+    if (file.existsSync()) file.deleteSync();
+  }
 }
 
 Future<void> main(List<String> arguments) async {

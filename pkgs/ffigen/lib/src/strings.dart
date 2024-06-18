@@ -30,7 +30,8 @@ String get dynamicLibParentName => Platform.isWindows ? 'bin' : 'lib';
 const output = 'output';
 
 // Sub-keys of output.
-const bindings = "bindings";
+const bindings = 'bindings';
+const objCBindings = 'objc-bindings';
 const symbolFile = 'symbol-file';
 
 const language = 'language';

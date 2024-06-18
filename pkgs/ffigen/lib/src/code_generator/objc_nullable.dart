@@ -39,6 +39,10 @@ class ObjCNullable extends Type {
   String getDartType(Writer w) => '${child.getDartType(w)}?';
 
   @override
+  String getNativeType({String varName = ''}) =>
+      '${child.getNativeType(varName: varName)} _Nullable';
+
+  @override
   bool get sameFfiDartAndCType => child.sameFfiDartAndCType;
 
   @override
@@ -77,6 +81,9 @@ class ObjCNullable extends Type {
     );
     return '$value.address == 0 ? null : $convertedValue';
   }
+
+  @override
+  String? generateRetain(String value) => child.generateRetain(value);
 
   @override
   String toString() => '$child?';

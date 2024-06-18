@@ -294,6 +294,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
       _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
+  String getNativeType({String varName = ''}) => '$originalName* $varName';
+
+  @override
   bool get sameFfiDartAndCType => true;
 
   @override
@@ -330,6 +333,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
     final ownershipFlags = 'retain: $objCRetain, release: true';
     return '$className.castFromPointer($value, $ownershipFlags)';
   }
+
+  @override
+  String? generateRetain(String value) => '[$value retain]';
 
   String _getConvertedType(Type type, Writer w, String enclosingClass) {
     if (type is ObjCInstanceType) return enclosingClass;

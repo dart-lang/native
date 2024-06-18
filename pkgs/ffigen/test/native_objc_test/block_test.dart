@@ -21,16 +21,6 @@ import '../test_utils.dart';
 import 'block_bindings.dart';
 import 'util.dart';
 
-// The generated block names are stable but verbose, so typedef them.
-typedef IntBlock = ObjCBlock_Int32_Int32;
-typedef FloatBlock = ObjCBlock_ffiFloat_ffiFloat;
-typedef DoubleBlock = ObjCBlock_ffiDouble_ffiDouble;
-typedef Vec4Block = ObjCBlock_Vec4_Vec4;
-typedef VoidBlock = ObjCBlock_ffiVoid;
-typedef ObjectBlock = ObjCBlock_DummyObject_DummyObject;
-typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject1;
-typedef BlockBlock = ObjCBlock_Int32Int32_Int32Int32;
-
 void main() {
   group('Blocks', () {
     setUpAll(() {
@@ -57,7 +47,7 @@ void main() {
 
     test('Block from function pointer', () {
       final block =
-          IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+          DartIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
       final blockTester = BlockTester.makeFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 223);
@@ -69,7 +59,7 @@ void main() {
     }
 
     test('Block from function', () {
-      final block = IntBlock.fromFunction(makeAdder(4000));
+      final block = DartIntBlock.fromFunction(makeAdder(4000));
       final blockTester = BlockTester.makeFromBlock_(block);
       blockTester.pokeBlock();
       expect(blockTester.call_(123), 4123);
@@ -79,7 +69,7 @@ void main() {
     test('Listener block same thread', () async {
       final hasRun = Completer<void>();
       int value = 0;
-      final block = VoidBlock.listener(() {
+      final block = DartVoidBlock.listener(() {
         value = 123;
         hasRun.complete();
       });
@@ -93,7 +83,7 @@ void main() {
     test('Listener block new thread', () async {
       final hasRun = Completer<void>();
       int value = 0;
-      final block = VoidBlock.listener(() {
+      final block = DartVoidBlock.listener(() {
         value = 123;
         hasRun.complete();
       });
@@ -106,7 +96,7 @@ void main() {
     });
 
     test('Float block', () {
-      final block = FloatBlock.fromFunction((double x) {
+      final block = DartFloatBlock.fromFunction((double x) {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
@@ -114,7 +104,7 @@ void main() {
     });
 
     test('Double block', () {
-      final block = DoubleBlock.fromFunction((double x) {
+      final block = DartDoubleBlock.fromFunction((double x) {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
@@ -132,7 +122,7 @@ void main() {
 
         final tempPtr = arena<Vec4>();
         final temp = tempPtr.ref;
-        final block = Vec4Block.fromFunction((Vec4 v) {
+        final block = DartVec4Block.fromFunction((Vec4 v) {
           // Twiddle the Vec4 components.
           temp.x = v.y;
           temp.y = v.z;
@@ -159,7 +149,7 @@ void main() {
 
     test('Object block', () {
       bool isCalled = false;
-      final block = ObjectBlock.fromFunction((DummyObject x) {
+      final block = DartObjectBlock.fromFunction((DummyObject x) {
         isCalled = true;
         return x;
       });
@@ -178,7 +168,7 @@ void main() {
 
     test('Nullable object block', () {
       bool isCalled = false;
-      final block = NullableObjectBlock.fromFunction((DummyObject? x) {
+      final block = DartNullableObjectBlock.fromFunction((DummyObject? x) {
         isCalled = true;
         return x;
       });
@@ -200,13 +190,13 @@ void main() {
     });
 
     test('Block block', () {
-      final blockBlock = BlockBlock.fromFunction((IntBlock intBlock) {
-        return IntBlock.fromFunction((int x) {
+      final blockBlock = DartBlockBlock.fromFunction((DartIntBlock intBlock) {
+        return DartIntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
 
-      final intBlock = IntBlock.fromFunction((int x) {
+      final intBlock = DartIntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final result1 = blockBlock(intBlock);
@@ -219,7 +209,7 @@ void main() {
     test('Native block block', () {
       final blockBlock = BlockTester.newBlockBlock_(7);
 
-      final intBlock = IntBlock.fromFunction((int x) {
+      final intBlock = DartIntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final result1 = blockBlock(intBlock);
@@ -231,7 +221,7 @@ void main() {
 
     Pointer<ObjCBlock> funcPointerBlockRefCountTest() {
       final block =
-          IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+          DartIntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), false);
       expect(blockRetainCount(block.pointer), 1);
@@ -245,7 +235,7 @@ void main() {
     });
 
     Pointer<ObjCBlock> funcBlockRefCountTest() {
-      final block = IntBlock.fromFunction(makeAdder(4000));
+      final block = DartIntBlock.fromFunction(makeAdder(4000));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
       expect(blockRetainCount(block.pointer), 1);
@@ -262,7 +252,7 @@ void main() {
     });
 
     Pointer<ObjCBlock> blockManualRetainRefCountTest() {
-      final block = IntBlock.fromFunction(makeAdder(4000));
+      final block = DartIntBlock.fromFunction(makeAdder(4000));
       expect(
           internal_for_testing.blockHasRegisteredClosure(block.pointer), true);
       expect(blockRetainCount(block.pointer), 1);
@@ -272,7 +262,7 @@ void main() {
     }
 
     int blockManualRetainRefCountTest2(Pointer<ObjCBlock> rawBlock) {
-      final block = IntBlock.castFromPointer(rawBlock.cast(),
+      final block = DartIntBlock.castFromPointer(rawBlock.cast(),
           retain: false, release: true);
       return blockRetainCount(block.pointer);
     }
@@ -291,11 +281,11 @@ void main() {
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
         blockBlockDartCallRefCountTest() {
-      final inputBlock = IntBlock.fromFunction((int x) {
+      final inputBlock = DartIntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock = BlockBlock.fromFunction((IntBlock intBlock) {
-        return IntBlock.fromFunction((int x) {
+      final blockBlock = DartBlockBlock.fromFunction((DartIntBlock intBlock) {
+        return DartIntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
@@ -306,31 +296,49 @@ void main() {
       // One reference held by inputBlock object, another bound to the
       // outputBlock lambda.
       expect(blockRetainCount(inputBlock.pointer), 2);
+      expect(
+          internal_for_testing
+              .blockHasRegisteredClosure(inputBlock.pointer.cast()),
+          true);
 
       expect(blockRetainCount(blockBlock.pointer), 1);
+      expect(
+          internal_for_testing
+              .blockHasRegisteredClosure(blockBlock.pointer.cast()),
+          true);
       expect(blockRetainCount(outputBlock.pointer), 1);
+      expect(
+          internal_for_testing
+              .blockHasRegisteredClosure(outputBlock.pointer.cast()),
+          true);
       return (inputBlock.pointer, blockBlock.pointer, outputBlock.pointer);
     }
 
-    test('Calling a block block from Dart has correct ref counting', () {
+    test('Calling a block block from Dart has correct ref counting', () async {
       final (inputBlock, blockBlock, outputBlock) =
           blockBlockDartCallRefCountTest();
       doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
-      // This leaks because block functions aren't cleaned up at the moment.
-      // TODO(https://github.com/dart-lang/ffigen/issues/428): Fix this leak.
-      expect(blockRetainCount(inputBlock), 1);
-
+      expect(blockRetainCount(inputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+          false);
       expect(blockRetainCount(blockBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
+          false);
       expect(blockRetainCount(outputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
+          false);
     });
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
         blockBlockObjCCallRefCountTest() {
       late Pointer<ObjCBlock> inputBlock;
-      final blockBlock = BlockBlock.fromFunction((IntBlock intBlock) {
+      final blockBlock = DartBlockBlock.fromFunction((DartIntBlock intBlock) {
         inputBlock = intBlock.pointer;
-        return IntBlock.fromFunction((int x) {
+        return DartIntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
       });
@@ -338,28 +346,44 @@ void main() {
       expect(outputBlock(1), 6);
       doGC();
 
-      expect(blockRetainCount(inputBlock), 2);
+      expect(blockRetainCount(inputBlock), 1);
+      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+          false);
       expect(blockRetainCount(blockBlock.pointer), 1);
+      expect(
+          internal_for_testing
+              .blockHasRegisteredClosure(blockBlock.pointer.cast()),
+          true);
       expect(blockRetainCount(outputBlock.pointer), 1);
+      expect(
+          internal_for_testing
+              .blockHasRegisteredClosure(outputBlock.pointer.cast()),
+          true);
       return (inputBlock, blockBlock.pointer, outputBlock.pointer);
     }
 
-    test('Calling a block block from ObjC has correct ref counting', () {
+    test('Calling a block block from ObjC has correct ref counting', () async {
       final (inputBlock, blockBlock, outputBlock) =
           blockBlockObjCCallRefCountTest();
       doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
-      // This leaks because block functions aren't cleaned up at the moment.
-      // TODO(https://github.com/dart-lang/ffigen/issues/428): Fix this leak.
-      expect(blockRetainCount(inputBlock), 2);
-
+      expect(blockRetainCount(inputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+          false);
       expect(blockRetainCount(blockBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
+          false);
       expect(blockRetainCount(outputBlock), 0);
+      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
+          false);
     });
 
     (Pointer<ObjCBlock>, Pointer<ObjCBlock>, Pointer<ObjCBlock>)
         nativeBlockBlockDartCallRefCountTest() {
-      final inputBlock = IntBlock.fromFunction((int x) {
+      final inputBlock = DartIntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final blockBlock = BlockTester.newBlockBlock_(7);
@@ -410,7 +434,7 @@ void main() {
       inputCounter.value = 0;
       outputCounter.value = 0;
 
-      final block = ObjectBlock.fromFunction((DummyObject x) {
+      final block = DartObjectBlock.fromFunction((DummyObject x) {
         return DummyObject.newWithCounter_(outputCounter);
       });
 
@@ -438,7 +462,7 @@ void main() {
       inputCounter.value = 0;
       outputCounter.value = 0;
 
-      final block = ObjectBlock.fromFunction((DummyObject x) {
+      final block = DartObjectBlock.fromFunction((DummyObject x) {
         x.setCounter_(inputCounter);
         return DummyObject.newWithCounter_(outputCounter);
       });
@@ -453,21 +477,54 @@ void main() {
     test(
         'Objects received and returned by native blocks have correct ref counts',
         () {
-      using((Arena arena) {
+      using((Arena arena) async {
         final (inputCounter, outputCounter) =
             objectNativeBlockRefCountTest(arena);
         doGC();
+        await Future<void>.delayed(Duration.zero); // Let dispose message arrive
+        doGC();
 
-        // This leaks because block functions aren't cleaned up at the moment.
-        // TODO(https://github.com/dart-lang/ffigen/issues/428): Fix this leak.
-        expect(inputCounter.value, 1);
-
+        expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
     });
 
+    Future<(Pointer<ObjCBlock>, Pointer<ObjCBlock>)>
+        listenerBlockArgumentRetentionTest() async {
+      final hasRun = Completer<void>();
+      late DartIntBlock inputBlock;
+      final blockBlock = DartListenerBlock.listener((DartIntBlock intBlock) {
+        expect(blockRetainCount(intBlock.pointer), 1);
+        inputBlock = intBlock;
+        hasRun.complete();
+      });
+
+      final thread = BlockTester.callWithBlockOnNewThread_(blockBlock);
+      thread.start();
+
+      await hasRun.future;
+      expect(inputBlock(123), 12300);
+      doGC();
+
+      expect(blockRetainCount(inputBlock.pointer), 1);
+      expect(blockRetainCount(blockBlock.pointer), 1);
+      return (inputBlock.pointer, blockBlock.pointer);
+    }
+
+    test('Listener block arguments are not prematurely destroyed', () async {
+      // https://github.com/dart-lang/native/issues/835
+      final (inputBlock, blockBlock) =
+          await listenerBlockArgumentRetentionTest();
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+
+      expect(blockRetainCount(inputBlock), 0);
+      expect(blockRetainCount(blockBlock), 0);
+    });
+
     test('Block fields have sensible values', () {
-      final block = IntBlock.fromFunction(makeAdder(4000));
+      final block = DartIntBlock.fromFunction(makeAdder(4000));
       final blockPtr = block.pointer;
       expect(blockPtr.ref.isa, isNot(0));
       expect(blockPtr.ref.flags, isNot(0)); // Set by Block_copy.

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser/data.dart' show bindingsIndex;
 
 import 'binding_string.dart';
@@ -11,6 +12,7 @@ import 'writer.dart';
 class ObjCBlock extends BindingType {
   final Type returnType;
   final List<Type> argTypes;
+  Func? _wrapListenerBlock;
 
   factory ObjCBlock({
     required Type returnType,
@@ -173,6 +175,19 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
 
     // Listener block constructor is only available for void blocks.
     if (hasListener) {
+      // This snippet is the same as the convFn above, except that the args
+      // don't need to be retained because they've already been retained by
+      // _wrapListenerBlock.
+      final listenerConvertedFnArgs = params
+          .map((p) =>
+              p.type.convertFfiDartTypeToDartType(w, p.name, objCRetain: false))
+          .join(', ');
+      final listenerConvFnInvocation = returnType.convertDartTypeToFfiDartType(
+          w, 'fn($listenerConvertedFnArgs)',
+          objCRetain: true);
+      final listenerConvFn =
+          '($paramsFfiDartType) => $listenerConvFnInvocation';
+
       s.write('''
   /// Creates a listener block from a Dart function.
   ///
@@ -184,10 +199,10 @@ class $name extends ${ObjCBuiltInFunctions.blockBase.gen(w)} {
   /// Note that unlike the default behavior of NativeCallable.listener, listener
   /// blocks do not keep the isolate alive.
   $name.listener($funcDartType fn) :
-      this._($newClosureBlock(
+      this._(${_wrapListenerBlock?.name ?? ''}($newClosureBlock(
           (_dartFuncListenerTrampoline ??= $nativeCallableType.listener(
               $closureTrampoline $exceptionalReturn)..keepIsolateAlive =
-                  false).nativeFunction.cast(), $convFn));
+                  false).nativeFunction.cast(), $listenerConvFn)));
   static $nativeCallableType? _dartFuncListenerTrampoline;
 
 ''');
@@ -212,6 +227,36 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
   }
 
   @override
+  BindingString? toObjCBindingString(Writer w) {
+    if (_wrapListenerBlock == null) return null;
+
+    final argsReceived = <String>[];
+    final retains = <String>[];
+    for (int i = 0; i < argTypes.length; ++i) {
+      final t = argTypes[i];
+      final argName = 'arg$i';
+      argsReceived.add(t.getNativeType(varName: argName));
+      retains.add(t.generateRetain(argName) ?? argName);
+    }
+    final fnName = _wrapListenerBlock!.originalName;
+    final blockTypedef = w.objCLevelUniqueNamer.makeUnique('ListenerBlock');
+
+    final s = StringBuffer();
+    s.write('''
+typedef ${getNativeType(varName: blockTypedef)};
+$blockTypedef $fnName($blockTypedef block) {
+  $blockTypedef wrapper = [^void(${argsReceived.join(', ')}) {
+    block(${retains.join(', ')});
+  } copy];
+  [block release];
+  return wrapper;
+}
+''');
+    return BindingString(
+        type: BindingStringType.objcBlock, string: s.toString());
+  }
+
+  @override
   void addDependencies(Set<Binding> dependencies) {
     if (dependencies.contains(this)) return;
     dependencies.add(this);
@@ -220,6 +265,18 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
     for (final t in argTypes) {
       t.addDependencies(dependencies);
     }
+
+    if (hasListener && argTypes.any((t) => t.generateRetain('') != null)) {
+      _wrapListenerBlock = Func(
+        name: 'wrapListenerBlock_$name',
+        returnType: this,
+        parameters: [Parameter(name: 'block', type: this)],
+        objCReturnsRetained: true,
+        isLeaf: true,
+        isInternal: true,
+        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+      )..addDependencies(dependencies);
+    }
   }
 
   @override
@@ -227,6 +284,12 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
 
   @override
   String getDartType(Writer w) => name;
+
+  @override
+  String getNativeType({String varName = ''}) {
+    final args = argTypes.map<String>((t) => t.getNativeType());
+    return '${returnType.getNativeType()} (^$varName)(${args.join(', ')})';
+  }
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -253,6 +316,9 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
     String? objCEnclosingClass,
   }) =>
       ObjCInterface.generateConstructor(name, value, objCRetain);
+
+  @override
+  String? generateRetain(String value) => '[$value copy]';
 
   @override
   String toString() => '($returnType (^)(${argTypes.join(', ')}))';
