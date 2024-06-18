@@ -61,7 +61,7 @@ class NativeType extends Type {
   String getFfiDartType(Writer w) => _dartType;
 
   @override
-  String getNativeType(String varName) => '$_nativeType $varName';
+  String getNativeType({String varName = ''}) => '$_nativeType $varName';
 
   @override
   bool get sameFfiDartAndCType => _cType == _dartType;

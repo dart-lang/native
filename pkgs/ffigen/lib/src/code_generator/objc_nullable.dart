@@ -39,8 +39,8 @@ class ObjCNullable extends Type {
   String getDartType(Writer w) => '${child.getDartType(w)}?';
 
   @override
-  String getNativeType(String varName) =>
-      '${child.getNativeType(varName)} _Nullable';
+  String getNativeType({String varName = ''}) =>
+      '${child.getNativeType(varName: varName)} _Nullable';
 
   @override
   bool get sameFfiDartAndCType => child.sameFfiDartAndCType;

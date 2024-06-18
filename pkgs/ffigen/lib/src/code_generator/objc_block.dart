@@ -213,7 +213,7 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
     for (int i = 0; i < argTypes.length; ++i) {
       final t = argTypes[i];
       final argName = 'arg$i';
-      argsReceived.add(t.getNativeType(argName));
+      argsReceived.add(t.getNativeType(varName: argName));
       retains.add(t.generateRetain(argName) ?? argName);
     }
     final fnName = _wrapListenerBlock!.originalName;
@@ -221,7 +221,7 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
 
     final s = StringBuffer();
     s.write('''
-typedef ${getNativeType(blockTypedef)};
+typedef ${getNativeType(varName: blockTypedef)};
 $blockTypedef $fnName($blockTypedef block) {
   $blockTypedef wrapper = [^void(${argsReceived.join(', ')}) {
     block(${retains.join(', ')});
@@ -264,9 +264,9 @@ $blockTypedef $fnName($blockTypedef block) {
   String getDartType(Writer w) => name;
 
   @override
-  String getNativeType(String varName) {
-    final args = argTypes.map<String>((t) => t.getNativeType(''));
-    return '${returnType.getNativeType('')} (^$varName)(${args.join(', ')})';
+  String getNativeType({String varName = ''}) {
+    final args = argTypes.map<String>((t) => t.getNativeType());
+    return '${returnType.getNativeType()} (^$varName)(${args.join(', ')})';
   }
 
   @override

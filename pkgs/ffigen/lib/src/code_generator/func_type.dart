@@ -69,9 +69,9 @@ class FunctionType extends Type {
       _getTypeImpl(writeArgumentNames, (Type t) => t.getDartType(w));
 
   @override
-  String getNativeType(String varName) {
-    final arg = dartTypeParameters.map<String>((p) => p.type.getNativeType(''));
-    return '${returnType.getNativeType('')} (*$varName)(${arg.join(', ')})';
+  String getNativeType({String varName = ''}) {
+    final arg = dartTypeParameters.map<String>((p) => p.type.getNativeType());
+    return '${returnType.getNativeType()} (*$varName)(${arg.join(', ')})';
   }
 
   @override
@@ -148,7 +148,8 @@ class NativeFunc extends Type {
   String getFfiDartType(Writer w) => getCType(w);
 
   @override
-  String getNativeType(String varName) => _type.getNativeType(varName);
+  String getNativeType({String varName = ''}) =>
+      _type.getNativeType(varName: varName);
 
   @override
   bool get sameFfiDartAndCType => true;

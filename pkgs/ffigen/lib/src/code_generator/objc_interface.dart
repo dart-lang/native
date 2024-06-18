@@ -357,7 +357,7 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
       _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
-  String getNativeType(String varName) => '$originalName* $varName';
+  String getNativeType({String varName = ''}) => '$originalName* $varName';
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -399,17 +399,6 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
 
   @override
   String? generateRetain(String value) => '[$value retain]';
-
-  // Utils for converting between the internal types passed to native code, and
-  // the external types visible to the user. For example, ObjCInterfaces are
-  // passed to native as Pointer<ObjCObject>, but the user sees the Dart wrapper
-  // class. These methods need to be kept in sync.
-  bool _needsConverting(Type type) =>
-      type is ObjCInstanceType ||
-      type.typealiasType is ObjCInterface ||
-      type.typealiasType is ObjCBlock ||
-      type.typealiasType is ObjCObjectPointer ||
-      type.typealiasType is ObjCNullable;
 
   String _getConvertedType(Type type, Writer w, String enclosingClass) {
     if (type is ObjCInstanceType) return enclosingClass;

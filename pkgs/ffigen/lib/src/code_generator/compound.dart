@@ -157,7 +157,7 @@ abstract class Compound extends BindingType {
   String getCType(Writer w) => name;
 
   @override
-  String getNativeType(String varName) => '$originalName $varName';
+  String getNativeType({String varName = ''}) => '$originalName $varName';
 
   @override
   bool get sameFfiDartAndCType => true;

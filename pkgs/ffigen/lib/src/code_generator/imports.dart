@@ -56,7 +56,7 @@ class ImportedType extends Type {
   String getFfiDartType(Writer w) => cType == dartType ? getCType(w) : dartType;
 
   @override
-  String getNativeType(String varName) => '$nativeType $varName';
+  String getNativeType({String varName = ''}) => '$nativeType $varName';
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;
