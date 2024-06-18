@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
+import 'package:jni/internal_helpers_for_jnigen.dart' show jThrowableClass;
 import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
@@ -236,10 +237,16 @@ extension ProtectedJniExtensions on Jni {
   }
 
   /// Returns a new DartException.
-  static Pointer<Void> newDartException(String message, [JObject? cause]) {
+  static Pointer<Void> newDartException(Object exception) {
+    JObjectPtr? cause;
+    if (exception is JObject &&
+        Jni.env.IsInstanceOf(
+            exception.reference.pointer, jThrowableClass.reference.pointer)) {
+      cause = exception.reference.pointer;
+    }
     return Jni._bindings
         .DartException__ctor(
-            Jni.env.toJStringPtr(message), cause?.reference.pointer ?? nullptr)
+            Jni.env.toJStringPtr(exception.toString()), cause ?? nullptr)
         .objectPointer;
   }
 

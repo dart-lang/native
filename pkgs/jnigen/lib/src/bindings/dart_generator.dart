@@ -413,10 +413,7 @@ class $name$typeParamsDef extends $superName {
       }
       s.write('''
     } catch (e) {
-      if (e is jni.JObject && jni.Jni.env.IsInstanceOf(e.reference.pointer, jThrowableClass.reference.pointer)) {
-        return $_protectedExtension.newDartException(e.toString(), e);
-      }
-      return $_protectedExtension.newDartException(e.toString(), null);
+      return $_protectedExtension.newDartException(e);
     }
     return jni.nullptr;
   }
