@@ -46,33 +46,33 @@ typedef struct {
 
 
 @interface ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)proto;
-- (int32_t)callOptionalMethod:(id<MyProtocol>)proto;
-- (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto;
-- (void)callMethodOnRandomThread:(id<SecondaryProtocol>)proto;
+- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol;
+- (int32_t)callOptionalMethod:(id<MyProtocol>)protocol;
+- (int32_t)callOtherMethod:(id<SecondaryProtocol>)protocol;
+- (void)callMethodOnRandomThread:(id<SecondaryProtocol>)protocol;
 @end
 
 @implementation ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)proto {
-  return [proto instanceMethod:@"Hello from ObjC" withDouble:3.14];
+- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol {
+  return [protocol instanceMethod:@"Hello from ObjC" withDouble:3.14];
 }
 
-- (int32_t)callOptionalMethod:(id<MyProtocol>)proto {
-  if ([proto respondsToSelector:@selector(optionalMethod:)]) {
+- (int32_t)callOptionalMethod:(id<MyProtocol>)protocol {
+  if ([protocol respondsToSelector:@selector(optionalMethod:)]) {
     SomeStruct s = {123, 456};
-    return [proto optionalMethod:s];
+    return [protocol optionalMethod:s];
   } else {
     return -999;
   }
 }
 
-- (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto {
-  return [proto otherMethod:1 b:2 c:3 d:4];
+- (int32_t)callOtherMethod:(id<SecondaryProtocol>)protocol {
+  return [protocol otherMethod:1 b:2 c:3 d:4];
 }
 
-- (void)callMethodOnRandomThread:(id<MyProtocol>)proto {
+- (void)callMethodOnRandomThread:(id<MyProtocol>)protocol {
   dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-    [proto voidMethod:123];
+    [protocol voidMethod:123];
   });
 }
 @end

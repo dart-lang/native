@@ -9,7 +9,7 @@ import 'utils.dart';
 import 'writer.dart';
 
 class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
-  final superProtos = <ObjCProtocol>[];
+  final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   late final ObjCInternalGlobal _protocolPointer;
 
@@ -28,8 +28,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
-    final protoMethod = ObjCBuiltInFunctions.protoMethod.gen(w);
-    final protoBuilder = ObjCBuiltInFunctions.protoBuilder.gen(w);
+    final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
+    final protocolListenableMethod =
+        ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
+    final protocolBuilder = ObjCBuiltInFunctions.protocolBuilder.gen(w);
     final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
     final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
 
@@ -43,8 +45,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final methodName = method.getDartMethodName(uniqueNamer);
       final fieldName = methodName;
       final argName = methodName;
-      final block = method.protocolBlock!;
+      final block = method.protocolBlock;
       final blockType = block.getDartType(w);
+      final methodCtor =
+          block.hasListener ? protocolListenableMethod : protocolMethod;
 
       // The function type omits the first arg of the block, which is unused.
       final func = FunctionType(returnType: block.returnType, parameters: [
@@ -66,30 +70,26 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final argsPassed = func.parameters.map((p) => p.name).join(', ');
       final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
 
-      late final String listenerBuilder;
+      String listenerBuilder = '';
       if (block.hasListener) {
-        listenerBuilder = '(Function func) => $blockType.listener($wrapper)';
-      } else {
-        final msg = '${method.originalName} cannot be a listener because '
-            'it has a non-void return type';
-        listenerBuilder = "(Function func) => throw UnsupportedError('$msg')";
+        listenerBuilder = '(Function func) => $blockType.listener($wrapper),';
       }
 
       buildImplementations.write('''
     builder.implementMethod($name.$fieldName, $argName);''');
 
       methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
-      methodFields.write('''static final $fieldName = $protoMethod(
+      methodFields.write('''static final $fieldName = $methodCtor(
       ${method.selObject!.name},
       $getSignature(
           ${_protocolPointer.name},
           ${method.selObject!.name},
           isRequired: ${method.isRequired},
-          isInstance: ${method.isInstance},
+          isInstanceMethod: ${method.isInstanceMethod},
       ),
       (Function func) => func is $funcType,
       (Function func) => $blockType.fromFunction($wrapper),
-      $listenerBuilder,
+      $listenerBuilder
     );
 ''');
     }
@@ -98,16 +98,16 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     final mainString = '''
 ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   /// Builds an object that implements the $originalName protocol. To implement
-  /// multiple protocols, use [addToBuilder] or [$protoBuilder] directly.
+  /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
   static $objectBase implement($args) {
-    final builder = $protoBuilder();
+    final builder = $protocolBuilder();
     $buildImplementations
     return builder.build();
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
-  /// [$protoBuilder].
-  static void addToBuilder($protoBuilder builder, $args) {
+  /// [$protocolBuilder].
+  static void addToBuilder($protocolBuilder builder, $args) {
     $buildImplementations
   }
 
@@ -125,27 +125,27 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
     dependencies.add(this);
 
     _protocolPointer = ObjCInternalGlobal(
-        '_proto_$originalName',
+        '_protocol_$originalName',
         (Writer w) =>
             '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")')
       ..addDependencies(dependencies);
 
-    for (final superProto in superProtos) {
-      superProto.addDependencies(dependencies);
+    for (final superProtocol in superProtocols) {
+      superProtocol.addDependencies(dependencies);
     }
 
     addMethodDependencies(dependencies, needProtocolBlock: true);
 
-    for (final superProto in superProtos) {
-      _copyMethodsFromSuperType(superProto);
+    for (final superProtocol in superProtocols) {
+      _copyMethodsFromSuperType(superProtocol);
     }
 
     // Add dependencies for any methods that were added.
     addMethodDependencies(dependencies, needProtocolBlock: true);
   }
 
-  void _copyMethodsFromSuperType(ObjCProtocol superProto) {
-    if (builtInFunctions.isNSObject(superProto.originalName)) {
+  void _copyMethodsFromSuperType(ObjCProtocol superProtocol) {
+    if (builtInFunctions.isNSObject(superProtocol.originalName)) {
       // When writing a protocol that doesn't inherit from any other protocols,
       // it's typical to have it inherit from NSObject instead. But NSObject has
       // heaps of methods that users are very unlikely to want to implement, so
@@ -157,7 +157,7 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
     // Protocols have very different inheritance semantics than Dart classes.
     // So copy across all the methods explicitly, rather than trying to use Dart
     // inheritance to get them implicitly.
-    for (final method in superProto.methods) {
+    for (final method in superProtocol.methods) {
       addMethod(method);
     }
   }

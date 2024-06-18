@@ -115,19 +115,19 @@ class ObjCMethod {
   Type returnType;
   final List<ObjCMethodParam> params;
   final ObjCMethodKind kind;
-  final bool isClass;
+  final bool isClassMethod;
   final bool isOptional;
   bool returnsRetained = false;
   ObjCInternalGlobal? selObject;
   ObjCMsgSendFunc? msgSend;
-  ObjCBlock? protocolBlock;
+  late ObjCBlock protocolBlock;
 
   ObjCMethod({
     required this.originalName,
     this.property,
     this.dartDoc,
     required this.kind,
-    required this.isClass,
+    required this.isClassMethod,
     required this.isOptional,
     required this.returnType,
     List<ObjCMethodParam>? params_,
@@ -137,7 +137,7 @@ class ObjCMethod {
       kind == ObjCMethodKind.propertyGetter ||
       kind == ObjCMethodKind.propertySetter;
   bool get isRequired => !isOptional;
-  bool get isInstance => !isClass;
+  bool get isInstanceMethod => !isClassMethod;
 
   void addDependencies(
     Set<Binding> dependencies,
@@ -189,7 +189,7 @@ class ObjCMethod {
   bool sameAs(ObjCMethod other) {
     if (originalName != other.originalName) return false;
     if (kind != other.kind) return false;
-    if (isClass != other.isClass) return false;
+    if (isClassMethod != other.isClassMethod) return false;
     if (isOptional != other.isOptional) return false;
     // msgSend is deduped by signature, so this check covers the signature.
     return msgSend == other.msgSend;

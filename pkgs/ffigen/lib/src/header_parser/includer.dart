@@ -76,7 +76,7 @@ bool shouldIncludeObjCInterface(String usr, String name) {
 }
 
 bool shouldIncludeObjCProtocol(String usr, String name) {
-  return _shouldIncludeDecl(usr, name, bindingsIndex.isSeenObjCProto,
+  return _shouldIncludeDecl(usr, name, bindingsIndex.isSeenObjCProtocol,
       config.objcProtocols.shouldInclude);
 }
 

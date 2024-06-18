@@ -114,7 +114,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     // Methods.
     for (final m in methods) {
       final methodName = m.getDartMethodName(uniqueNamer);
-      final isStatic = m.isClass;
+      final isStatic = m.isClassMethod;
       final isStret = m.msgSend!.isStret;
 
       var returnType = m.returnType;
@@ -245,7 +245,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     //    method needs to return the subclass, not the super class.
     //    Note: instancetype is only allowed as a return type, not an arg type.
     for (final m in superType!.methods) {
-      if (m.isClass &&
+      if (m.isClassMethod &&
           !_excludedNSObjectClassMethods.contains(m.originalName)) {
         addMethod(m);
       } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
@@ -264,7 +264,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     while (superType_ != null) {
       for (final method in methods) {
         final superMethod = superType_.getMethod(method.originalName);
-        if (superMethod != null && !superMethod.isClass && !method.isClass) {
+        if (superMethod != null && !superMethod.isClassMethod && !method.isClassMethod) {
           if (superMethod.returnType.typealiasType is! ObjCNullable &&
               method.returnType.typealiasType is ObjCNullable) {
             superMethod.returnType = ObjCNullable(superMethod.returnType);

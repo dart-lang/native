@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'objective_c_bindings_generated.dart' as objc;
-import 'internal.dart' show ObjCBlockBase, ObjCProtocolMethod;
+import 'internal.dart'
+    show ObjCBlockBase, ObjCProtocolMethod, ObjCProtocolListenableMethod;
 
 /// Helper class for building Objective C objects that implement protocols.
 class ObjCProtocolBuilder {
@@ -32,9 +33,10 @@ class ObjCProtocolBuilder {
   /// The recommended way of getting the [method] object is to use ffigen to
   /// generate bindings for the protocol you want to implement. The generated
   /// bindings will include a [ObjCProtocolMethod] for each method of the
-  /// protocol.
+  /// protocol. If that method can be implemented as a listener, the [method]
+  /// object will be a [ObjCProtocolListenableMethod].
   void implementMethodAsListener(
-          ObjCProtocolMethod method, Function? function) =>
+          ObjCProtocolListenableMethod method, Function? function) =>
       _implement(method, function, method.createListenerBlock);
 
   /// Builds the object.

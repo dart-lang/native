@@ -19,6 +19,7 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 
+/// NSObject
 class NSObject extends objc.ObjCObjectBase {
   NSObject._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -38,89 +39,107 @@ class NSObject extends objc.ObjCObjectBase {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSObject);
   }
 
+  /// load
   static void load() {
     _objc_msgSend_1(_class_NSObject, _sel_load);
   }
 
+  /// initialize
   static void initialize() {
     _objc_msgSend_1(_class_NSObject, _sel_initialize);
   }
 
+  /// init
   NSObject init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSObject.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSObject new1() {
     final _ret = _objc_msgSend_2(_class_NSObject, _sel_new);
     return NSObject.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSObject allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSObject, _sel_allocWithZone_, zone);
     return NSObject.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSObject alloc() {
     final _ret = _objc_msgSend_2(_class_NSObject, _sel_alloc);
     return NSObject.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// dealloc
   void dealloc() {
     _objc_msgSend_1(this.pointer, _sel_dealloc);
   }
 
+  /// finalize
   void finalize() {
     _objc_msgSend_1(this.pointer, _sel_finalize);
   }
 
+  /// copy
   objc.ObjCObjectBase copy() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_copy);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// mutableCopy
   objc.ObjCObjectBase mutableCopy() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_mutableCopy);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// copyWithZone:
   static objc.ObjCObjectBase copyWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSObject, _sel_copyWithZone_, zone);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// mutableCopyWithZone:
   static objc.ObjCObjectBase mutableCopyWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSObject, _sel_mutableCopyWithZone_, zone);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// instancesRespondToSelector:
   static bool instancesRespondToSelector_(
       ffi.Pointer<objc.ObjCSelector> aSelector) {
     return _objc_msgSend_4(
         _class_NSObject, _sel_instancesRespondToSelector_, aSelector);
   }
 
+  /// conformsToProtocol:
   static bool conformsToProtocol_(Protocol protocol) {
     return _objc_msgSend_5(
         _class_NSObject, _sel_conformsToProtocol_, protocol.pointer);
   }
 
+  /// methodForSelector:
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> methodForSelector_(
       ffi.Pointer<objc.ObjCSelector> aSelector) {
     return _objc_msgSend_6(this.pointer, _sel_methodForSelector_, aSelector);
   }
 
+  /// instanceMethodForSelector:
   static ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
       instanceMethodForSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
     return _objc_msgSend_6(
         _class_NSObject, _sel_instanceMethodForSelector_, aSelector);
   }
 
+  /// doesNotRecognizeSelector:
   void doesNotRecognizeSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
     _objc_msgSend_7(this.pointer, _sel_doesNotRecognizeSelector_, aSelector);
   }
 
+  /// forwardingTargetForSelector:
   objc.ObjCObjectBase forwardingTargetForSelector_(
       ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _ret = _objc_msgSend_8(
@@ -128,11 +147,13 @@ class NSObject extends objc.ObjCObjectBase {
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// forwardInvocation:
   void forwardInvocation_(NSInvocation anInvocation) {
     _objc_msgSend_9(
         this.pointer, _sel_forwardInvocation_, anInvocation.pointer);
   }
 
+  /// methodSignatureForSelector:
   NSMethodSignature methodSignatureForSelector_(
       ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _ret = _objc_msgSend_15(
@@ -140,6 +161,7 @@ class NSObject extends objc.ObjCObjectBase {
     return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// instanceMethodSignatureForSelector:
   static NSMethodSignature instanceMethodSignatureForSelector_(
       ffi.Pointer<objc.ObjCSelector> aSelector) {
     final _ret = _objc_msgSend_15(
@@ -147,64 +169,78 @@ class NSObject extends objc.ObjCObjectBase {
     return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// allowsWeakReference
   bool allowsWeakReference() {
     return _objc_msgSend_13(this.pointer, _sel_allowsWeakReference);
   }
 
+  /// retainWeakReference
   bool retainWeakReference() {
     return _objc_msgSend_13(this.pointer, _sel_retainWeakReference);
   }
 
+  /// isSubclassOfClass:
   static bool isSubclassOfClass_(objc.ObjCObjectBase aClass) {
     return _objc_msgSend_0(
         _class_NSObject, _sel_isSubclassOfClass_, aClass.pointer);
   }
 
+  /// resolveClassMethod:
   static bool resolveClassMethod_(ffi.Pointer<objc.ObjCSelector> sel) {
     return _objc_msgSend_4(_class_NSObject, _sel_resolveClassMethod_, sel);
   }
 
+  /// resolveInstanceMethod:
   static bool resolveInstanceMethod_(ffi.Pointer<objc.ObjCSelector> sel) {
     return _objc_msgSend_4(_class_NSObject, _sel_resolveInstanceMethod_, sel);
   }
 
+  /// hash
   static int hash() {
     return _objc_msgSend_11(_class_NSObject, _sel_hash);
   }
 
+  /// superclass
   static objc.ObjCObjectBase superclass() {
     final _ret = _objc_msgSend_2(_class_NSObject, _sel_superclass);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// class
   static objc.ObjCObjectBase class1() {
     final _ret = _objc_msgSend_2(_class_NSObject, _sel_class);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// description
   static NSString description() {
     final _ret = _objc_msgSend_35(_class_NSObject, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// debugDescription
   static NSString debugDescription() {
     final _ret = _objc_msgSend_35(_class_NSObject, _sel_debugDescription);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// version
   static int version() {
     return _objc_msgSend_79(_class_NSObject, _sel_version);
   }
 
+  /// setVersion:
   static void setVersion_(int aVersion) {
     _objc_msgSend_247(_class_NSObject, _sel_setVersion_, aVersion);
   }
 
+  /// classForCoder
   objc.ObjCObjectBase get classForCoder {
     final _ret = _objc_msgSend_2(this.pointer, _sel_classForCoder);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// replacementObjectForCoder:
   objc.ObjCObjectBase? replacementObjectForCoder_(NSCoder coder) {
     final _ret = _objc_msgSend_17(
         this.pointer, _sel_replacementObjectForCoder_, coder.pointer);
@@ -213,6 +249,7 @@ class NSObject extends objc.ObjCObjectBase {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// awakeAfterUsingCoder:
   objc.ObjCObjectBase? awakeAfterUsingCoder_(NSCoder coder) {
     final _ret = _objc_msgSend_17(
         this.pointer, _sel_awakeAfterUsingCoder_, coder.pointer);
@@ -221,15 +258,18 @@ class NSObject extends objc.ObjCObjectBase {
         : objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// poseAsClass:
   static void poseAsClass_(objc.ObjCObjectBase aClass) {
     _objc_msgSend_172(_class_NSObject, _sel_poseAsClass_, aClass.pointer);
   }
 
+  /// autoContentAccessingProxy
   objc.ObjCObjectBase get autoContentAccessingProxy {
     final _ret = _objc_msgSend_2(this.pointer, _sel_autoContentAccessingProxy);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// attemptRecoveryFromError:optionIndex:delegate:didRecoverSelector:contextInfo:
   void
       attemptRecoveryFromError_optionIndex_delegate_didRecoverSelector_contextInfo_(
           NSError error,
@@ -247,6 +287,7 @@ class NSObject extends objc.ObjCObjectBase {
         contextInfo);
   }
 
+  /// attemptRecoveryFromError:optionIndex:
   bool attemptRecoveryFromError_optionIndex_(
       NSError error, int recoveryOptionIndex) {
     return _objc_msgSend_249(
@@ -256,21 +297,25 @@ class NSObject extends objc.ObjCObjectBase {
         recoveryOptionIndex);
   }
 
+  /// URL:resourceDataDidBecomeAvailable:
   void URL_resourceDataDidBecomeAvailable_(NSURL sender, NSData newBytes) {
     _objc_msgSend_250(this.pointer, _sel_URL_resourceDataDidBecomeAvailable_,
         sender.pointer, newBytes.pointer);
   }
 
+  /// URLResourceDidFinishLoading:
   void URLResourceDidFinishLoading_(NSURL sender) {
     _objc_msgSend_251(
         this.pointer, _sel_URLResourceDidFinishLoading_, sender.pointer);
   }
 
+  /// URLResourceDidCancelLoading:
   void URLResourceDidCancelLoading_(NSURL sender) {
     _objc_msgSend_251(
         this.pointer, _sel_URLResourceDidCancelLoading_, sender.pointer);
   }
 
+  /// URL:resourceDidFailLoadingWithReason:
   void URL_resourceDidFailLoadingWithReason_(NSURL sender, NSString reason) {
     _objc_msgSend_252(this.pointer, _sel_URL_resourceDidFailLoadingWithReason_,
         sender.pointer, reason.pointer);
@@ -333,6 +378,7 @@ final _objc_msgSend_4 = objc.msgSendPointer
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
 
+/// Protocol
 class Protocol extends objc.ObjCObjectBase {
   Protocol._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -416,6 +462,7 @@ final _objc_msgSend_8 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
 
+/// NSInvocation
 class NSInvocation extends objc.ObjCObjectBase {
   NSInvocation._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -450,6 +497,7 @@ final _objc_msgSend_9 = objc.msgSendPointer
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 
+/// NSMethodSignature
 class NSMethodSignature extends NSObject {
   NSMethodSignature._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -470,6 +518,7 @@ class NSMethodSignature extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_NSMethodSignature);
   }
 
+  /// signatureWithObjCTypes:
   static NSMethodSignature? signatureWithObjCTypes_(
       ffi.Pointer<ffi.Char> types) {
     final _ret = _objc_msgSend_10(
@@ -479,41 +528,50 @@ class NSMethodSignature extends NSObject {
         : NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberOfArguments
   int get numberOfArguments {
     return _objc_msgSend_11(this.pointer, _sel_numberOfArguments);
   }
 
+  /// getArgumentTypeAtIndex:
   ffi.Pointer<ffi.Char> getArgumentTypeAtIndex_(int idx) {
     return _objc_msgSend_12(this.pointer, _sel_getArgumentTypeAtIndex_, idx);
   }
 
+  /// frameLength
   int get frameLength {
     return _objc_msgSend_11(this.pointer, _sel_frameLength);
   }
 
+  /// isOneway
   bool isOneway() {
     return _objc_msgSend_13(this.pointer, _sel_isOneway);
   }
 
+  /// methodReturnType
   ffi.Pointer<ffi.Char> get methodReturnType {
     return _objc_msgSend_14(this.pointer, _sel_methodReturnType);
   }
 
+  /// methodReturnLength
   int get methodReturnLength {
     return _objc_msgSend_11(this.pointer, _sel_methodReturnLength);
   }
 
+  /// init
   NSMethodSignature init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSMethodSignature new1() {
     final _ret = _objc_msgSend_2(_class_NSMethodSignature, _sel_new);
     return NSMethodSignature.castFromPointer(_ret,
         retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSMethodSignature allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSMethodSignature, _sel_allocWithZone_, zone);
@@ -521,6 +579,7 @@ class NSMethodSignature extends NSObject {
         retain: false, release: true);
   }
 
+  /// alloc
   static NSMethodSignature alloc() {
     final _ret = _objc_msgSend_2(_class_NSMethodSignature, _sel_alloc);
     return NSMethodSignature.castFromPointer(_ret,
@@ -602,6 +661,7 @@ late final _sel_hash = objc.registerName("hash");
 late final _sel_superclass = objc.registerName("superclass");
 late final _sel_class = objc.registerName("class");
 
+/// NSString
 class NSString extends NSObject {
   factory NSString(String str) {
     final cstr = str.toNativeUtf16();
@@ -635,19 +695,23 @@ class NSString extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSString);
   }
 
+  /// length
   int get length {
     return _objc_msgSend_11(this.pointer, _sel_length);
   }
 
+  /// characterAtIndex:
   int characterAtIndex_(int index) {
     return _objc_msgSend_16(this.pointer, _sel_characterAtIndex_, index);
   }
 
+  /// init
   NSString init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSString? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -656,106 +720,139 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// substringFromIndex:
   NSString substringFromIndex_(int from) {
     final _ret = _objc_msgSend_18(this.pointer, _sel_substringFromIndex_, from);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// substringToIndex:
   NSString substringToIndex_(int to) {
     final _ret = _objc_msgSend_18(this.pointer, _sel_substringToIndex_, to);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// substringWithRange:
   NSString substringWithRange_(NSRange range) {
     final _ret =
         _objc_msgSend_19(this.pointer, _sel_substringWithRange_, range);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// getCharacters:range:
   void getCharacters_range_(
       ffi.Pointer<ffi.UnsignedShort> buffer, NSRange range) {
     _objc_msgSend_20(this.pointer, _sel_getCharacters_range_, buffer, range);
   }
 
-  int compare_(NSString string) {
-    return _objc_msgSend_21(this.pointer, _sel_compare_, string.pointer);
+  /// compare:
+  NSComparisonResult compare_(NSString string) {
+    final _ret = _objc_msgSend_21(this.pointer, _sel_compare_, string.pointer);
+    return NSComparisonResult.fromValue(_ret);
   }
 
-  int compare_options_(NSString string, int mask) {
-    return _objc_msgSend_22(
-        this.pointer, _sel_compare_options_, string.pointer, mask);
+  /// compare:options:
+  NSComparisonResult compare_options_(
+      NSString string, NSStringCompareOptions mask) {
+    final _ret = _objc_msgSend_22(
+        this.pointer, _sel_compare_options_, string.pointer, mask.value);
+    return NSComparisonResult.fromValue(_ret);
   }
 
-  int compare_options_range_(
-      NSString string, int mask, NSRange rangeOfReceiverToCompare) {
-    return _objc_msgSend_23(this.pointer, _sel_compare_options_range_,
-        string.pointer, mask, rangeOfReceiverToCompare);
+  /// compare:options:range:
+  NSComparisonResult compare_options_range_(NSString string,
+      NSStringCompareOptions mask, NSRange rangeOfReceiverToCompare) {
+    final _ret = _objc_msgSend_23(this.pointer, _sel_compare_options_range_,
+        string.pointer, mask.value, rangeOfReceiverToCompare);
+    return NSComparisonResult.fromValue(_ret);
   }
 
-  int compare_options_range_locale_(NSString string, int mask,
-      NSRange rangeOfReceiverToCompare, objc.ObjCObjectBase? locale) {
-    return _objc_msgSend_24(
+  /// compare:options:range:locale:
+  NSComparisonResult compare_options_range_locale_(
+      NSString string,
+      NSStringCompareOptions mask,
+      NSRange rangeOfReceiverToCompare,
+      objc.ObjCObjectBase? locale) {
+    final _ret = _objc_msgSend_24(
         this.pointer,
         _sel_compare_options_range_locale_,
         string.pointer,
-        mask,
+        mask.value,
         rangeOfReceiverToCompare,
         locale?.pointer ?? ffi.nullptr);
+    return NSComparisonResult.fromValue(_ret);
   }
 
-  int caseInsensitiveCompare_(NSString string) {
-    return _objc_msgSend_21(
+  /// caseInsensitiveCompare:
+  NSComparisonResult caseInsensitiveCompare_(NSString string) {
+    final _ret = _objc_msgSend_21(
         this.pointer, _sel_caseInsensitiveCompare_, string.pointer);
+    return NSComparisonResult.fromValue(_ret);
   }
 
-  int localizedCompare_(NSString string) {
-    return _objc_msgSend_21(
-        this.pointer, _sel_localizedCompare_, string.pointer);
+  /// localizedCompare:
+  NSComparisonResult localizedCompare_(NSString string) {
+    final _ret =
+        _objc_msgSend_21(this.pointer, _sel_localizedCompare_, string.pointer);
+    return NSComparisonResult.fromValue(_ret);
   }
 
-  int localizedCaseInsensitiveCompare_(NSString string) {
-    return _objc_msgSend_21(
+  /// localizedCaseInsensitiveCompare:
+  NSComparisonResult localizedCaseInsensitiveCompare_(NSString string) {
+    final _ret = _objc_msgSend_21(
         this.pointer, _sel_localizedCaseInsensitiveCompare_, string.pointer);
+    return NSComparisonResult.fromValue(_ret);
   }
 
-  int localizedStandardCompare_(NSString string) {
-    return _objc_msgSend_21(
+  /// localizedStandardCompare:
+  NSComparisonResult localizedStandardCompare_(NSString string) {
+    final _ret = _objc_msgSend_21(
         this.pointer, _sel_localizedStandardCompare_, string.pointer);
+    return NSComparisonResult.fromValue(_ret);
   }
 
+  /// isEqualToString:
   bool isEqualToString_(NSString aString) {
     return _objc_msgSend_25(
         this.pointer, _sel_isEqualToString_, aString.pointer);
   }
 
+  /// hasPrefix:
   bool hasPrefix_(NSString str) {
     return _objc_msgSend_25(this.pointer, _sel_hasPrefix_, str.pointer);
   }
 
+  /// hasSuffix:
   bool hasSuffix_(NSString str) {
     return _objc_msgSend_25(this.pointer, _sel_hasSuffix_, str.pointer);
   }
 
-  NSString commonPrefixWithString_options_(NSString str, int mask) {
-    final _ret = _objc_msgSend_26(
-        this.pointer, _sel_commonPrefixWithString_options_, str.pointer, mask);
+  /// commonPrefixWithString:options:
+  NSString commonPrefixWithString_options_(
+      NSString str, NSStringCompareOptions mask) {
+    final _ret = _objc_msgSend_26(this.pointer,
+        _sel_commonPrefixWithString_options_, str.pointer, mask.value);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// containsString:
   bool containsString_(NSString str) {
     return _objc_msgSend_25(this.pointer, _sel_containsString_, str.pointer);
   }
 
+  /// localizedCaseInsensitiveContainsString:
   bool localizedCaseInsensitiveContainsString_(NSString str) {
     return _objc_msgSend_25(this.pointer,
         _sel_localizedCaseInsensitiveContainsString_, str.pointer);
   }
 
+  /// localizedStandardContainsString:
   bool localizedStandardContainsString_(NSString str) {
     return _objc_msgSend_25(
         this.pointer, _sel_localizedStandardContainsString_, str.pointer);
   }
 
+  /// localizedStandardRangeOfString:
   void localizedStandardRangeOfString_(
       ffi.Pointer<NSRange> stret, NSString str) {
     objc.useMsgSendVariants
@@ -765,6 +862,7 @@ class NSString extends NSObject {
             this.pointer, _sel_localizedStandardRangeOfString_, str.pointer);
   }
 
+  /// rangeOfString:
   void rangeOfString_(ffi.Pointer<NSRange> stret, NSString searchString) {
     objc.useMsgSendVariants
         ? _objc_msgSend_27Stret(
@@ -773,37 +871,43 @@ class NSString extends NSObject {
             this.pointer, _sel_rangeOfString_, searchString.pointer);
   }
 
-  void rangeOfString_options_(
-      ffi.Pointer<NSRange> stret, NSString searchString, int mask) {
+  /// rangeOfString:options:
+  void rangeOfString_options_(ffi.Pointer<NSRange> stret, NSString searchString,
+      NSStringCompareOptions mask) {
     objc.useMsgSendVariants
         ? _objc_msgSend_28Stret(stret, this.pointer,
-            _sel_rangeOfString_options_, searchString.pointer, mask)
+            _sel_rangeOfString_options_, searchString.pointer, mask.value)
         : stret.ref = _objc_msgSend_28(this.pointer,
-            _sel_rangeOfString_options_, searchString.pointer, mask);
+            _sel_rangeOfString_options_, searchString.pointer, mask.value);
   }
 
-  void rangeOfString_options_range_(ffi.Pointer<NSRange> stret,
-      NSString searchString, int mask, NSRange rangeOfReceiverToSearch) {
+  /// rangeOfString:options:range:
+  void rangeOfString_options_range_(
+      ffi.Pointer<NSRange> stret,
+      NSString searchString,
+      NSStringCompareOptions mask,
+      NSRange rangeOfReceiverToSearch) {
     objc.useMsgSendVariants
         ? _objc_msgSend_29Stret(
             stret,
             this.pointer,
             _sel_rangeOfString_options_range_,
             searchString.pointer,
-            mask,
+            mask.value,
             rangeOfReceiverToSearch)
         : stret.ref = _objc_msgSend_29(
             this.pointer,
             _sel_rangeOfString_options_range_,
             searchString.pointer,
-            mask,
+            mask.value,
             rangeOfReceiverToSearch);
   }
 
+  /// rangeOfString:options:range:locale:
   void rangeOfString_options_range_locale_(
       ffi.Pointer<NSRange> stret,
       NSString searchString,
-      int mask,
+      NSStringCompareOptions mask,
       NSRange rangeOfReceiverToSearch,
       NSLocale? locale) {
     objc.useMsgSendVariants
@@ -812,18 +916,19 @@ class NSString extends NSObject {
             this.pointer,
             _sel_rangeOfString_options_range_locale_,
             searchString.pointer,
-            mask,
+            mask.value,
             rangeOfReceiverToSearch,
             locale?.pointer ?? ffi.nullptr)
         : stret.ref = _objc_msgSend_30(
             this.pointer,
             _sel_rangeOfString_options_range_locale_,
             searchString.pointer,
-            mask,
+            mask.value,
             rangeOfReceiverToSearch,
             locale?.pointer ?? ffi.nullptr);
   }
 
+  /// rangeOfCharacterFromSet:
   void rangeOfCharacterFromSet_(
       ffi.Pointer<NSRange> stret, NSCharacterSet searchSet) {
     objc.useMsgSendVariants
@@ -833,33 +938,46 @@ class NSString extends NSObject {
             this.pointer, _sel_rangeOfCharacterFromSet_, searchSet.pointer);
   }
 
-  void rangeOfCharacterFromSet_options_(
-      ffi.Pointer<NSRange> stret, NSCharacterSet searchSet, int mask) {
+  /// rangeOfCharacterFromSet:options:
+  void rangeOfCharacterFromSet_options_(ffi.Pointer<NSRange> stret,
+      NSCharacterSet searchSet, NSStringCompareOptions mask) {
     objc.useMsgSendVariants
-        ? _objc_msgSend_202Stret(stret, this.pointer,
-            _sel_rangeOfCharacterFromSet_options_, searchSet.pointer, mask)
-        : stret.ref = _objc_msgSend_202(this.pointer,
-            _sel_rangeOfCharacterFromSet_options_, searchSet.pointer, mask);
+        ? _objc_msgSend_202Stret(
+            stret,
+            this.pointer,
+            _sel_rangeOfCharacterFromSet_options_,
+            searchSet.pointer,
+            mask.value)
+        : stret.ref = _objc_msgSend_202(
+            this.pointer,
+            _sel_rangeOfCharacterFromSet_options_,
+            searchSet.pointer,
+            mask.value);
   }
 
-  void rangeOfCharacterFromSet_options_range_(ffi.Pointer<NSRange> stret,
-      NSCharacterSet searchSet, int mask, NSRange rangeOfReceiverToSearch) {
+  /// rangeOfCharacterFromSet:options:range:
+  void rangeOfCharacterFromSet_options_range_(
+      ffi.Pointer<NSRange> stret,
+      NSCharacterSet searchSet,
+      NSStringCompareOptions mask,
+      NSRange rangeOfReceiverToSearch) {
     objc.useMsgSendVariants
         ? _objc_msgSend_203Stret(
             stret,
             this.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
             searchSet.pointer,
-            mask,
+            mask.value,
             rangeOfReceiverToSearch)
         : stret.ref = _objc_msgSend_203(
             this.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
             searchSet.pointer,
-            mask,
+            mask.value,
             rangeOfReceiverToSearch);
   }
 
+  /// rangeOfComposedCharacterSequenceAtIndex:
   void rangeOfComposedCharacterSequenceAtIndex_(
       ffi.Pointer<NSRange> stret, int index) {
     objc.useMsgSendVariants
@@ -869,6 +987,7 @@ class NSString extends NSObject {
             this.pointer, _sel_rangeOfComposedCharacterSequenceAtIndex_, index);
   }
 
+  /// rangeOfComposedCharacterSequencesForRange:
   void rangeOfComposedCharacterSequencesForRange_(
       ffi.Pointer<NSRange> stret, NSRange range) {
     objc.useMsgSendVariants
@@ -878,95 +997,113 @@ class NSString extends NSObject {
             _sel_rangeOfComposedCharacterSequencesForRange_, range);
   }
 
+  /// stringByAppendingString:
   NSString stringByAppendingString_(NSString aString) {
     final _ret = _objc_msgSend_103(
         this.pointer, _sel_stringByAppendingString_, aString.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByAppendingFormat:
   NSString stringByAppendingFormat_(NSString format) {
     final _ret = _objc_msgSend_103(
         this.pointer, _sel_stringByAppendingFormat_, format.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// doubleValue
   double get doubleValue {
     return objc.useMsgSendVariants
         ? _objc_msgSend_83Fpret(this.pointer, _sel_doubleValue)
         : _objc_msgSend_83(this.pointer, _sel_doubleValue);
   }
 
+  /// floatValue
   double get floatValue {
     return objc.useMsgSendVariants
         ? _objc_msgSend_82Fpret(this.pointer, _sel_floatValue)
         : _objc_msgSend_82(this.pointer, _sel_floatValue);
   }
 
+  /// intValue
   int get intValue {
     return _objc_msgSend_77(this.pointer, _sel_intValue);
   }
 
+  /// integerValue
   int get integerValue {
     return _objc_msgSend_79(this.pointer, _sel_integerValue);
   }
 
+  /// longLongValue
   int get longLongValue {
     return _objc_msgSend_80(this.pointer, _sel_longLongValue);
   }
 
+  /// boolValue
   bool get boolValue {
     return _objc_msgSend_13(this.pointer, _sel_boolValue);
   }
 
+  /// uppercaseString
   NSString get uppercaseString {
     final _ret = _objc_msgSend_35(this.pointer, _sel_uppercaseString);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// lowercaseString
   NSString get lowercaseString {
     final _ret = _objc_msgSend_35(this.pointer, _sel_lowercaseString);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// capitalizedString
   NSString get capitalizedString {
     final _ret = _objc_msgSend_35(this.pointer, _sel_capitalizedString);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedUppercaseString
   NSString get localizedUppercaseString {
     final _ret = _objc_msgSend_35(this.pointer, _sel_localizedUppercaseString);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedLowercaseString
   NSString get localizedLowercaseString {
     final _ret = _objc_msgSend_35(this.pointer, _sel_localizedLowercaseString);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedCapitalizedString
   NSString get localizedCapitalizedString {
     final _ret =
         _objc_msgSend_35(this.pointer, _sel_localizedCapitalizedString);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// uppercaseStringWithLocale:
   NSString uppercaseStringWithLocale_(NSLocale? locale) {
     final _ret = _objc_msgSend_206(this.pointer,
         _sel_uppercaseStringWithLocale_, locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// lowercaseStringWithLocale:
   NSString lowercaseStringWithLocale_(NSLocale? locale) {
     final _ret = _objc_msgSend_206(this.pointer,
         _sel_lowercaseStringWithLocale_, locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// capitalizedStringWithLocale:
   NSString capitalizedStringWithLocale_(NSLocale? locale) {
     final _ret = _objc_msgSend_206(this.pointer,
         _sel_capitalizedStringWithLocale_, locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// getLineStart:end:contentsEnd:forRange:
   void getLineStart_end_contentsEnd_forRange_(
       ffi.Pointer<ffi.UnsignedLong> startPtr,
       ffi.Pointer<ffi.UnsignedLong> lineEndPtr,
@@ -976,6 +1113,7 @@ class NSString extends NSObject {
         startPtr, lineEndPtr, contentsEndPtr, range);
   }
 
+  /// lineRangeForRange:
   void lineRangeForRange_(ffi.Pointer<NSRange> stret, NSRange range) {
     objc.useMsgSendVariants
         ? _objc_msgSend_205Stret(
@@ -984,6 +1122,7 @@ class NSString extends NSObject {
             _objc_msgSend_205(this.pointer, _sel_lineRangeForRange_, range);
   }
 
+  /// getParagraphStart:end:contentsEnd:forRange:
   void getParagraphStart_end_contentsEnd_forRange_(
       ffi.Pointer<ffi.UnsignedLong> startPtr,
       ffi.Pointer<ffi.UnsignedLong> parEndPtr,
@@ -998,6 +1137,7 @@ class NSString extends NSObject {
         range);
   }
 
+  /// paragraphRangeForRange:
   void paragraphRangeForRange_(ffi.Pointer<NSRange> stret, NSRange range) {
     objc.useMsgSendVariants
         ? _objc_msgSend_205Stret(
@@ -1006,18 +1146,22 @@ class NSString extends NSObject {
             this.pointer, _sel_paragraphRangeForRange_, range);
   }
 
+  /// UTF8String
   ffi.Pointer<ffi.Char> get UTF8String {
     return _objc_msgSend_14(this.pointer, _sel_UTF8String);
   }
 
+  /// fastestEncoding
   int get fastestEncoding {
     return _objc_msgSend_11(this.pointer, _sel_fastestEncoding);
   }
 
+  /// smallestEncoding
   int get smallestEncoding {
     return _objc_msgSend_11(this.pointer, _sel_smallestEncoding);
   }
 
+  /// dataUsingEncoding:allowLossyConversion:
   NSData? dataUsingEncoding_allowLossyConversion_(int encoding, bool lossy) {
     final _ret = _objc_msgSend_208(this.pointer,
         _sel_dataUsingEncoding_allowLossyConversion_, encoding, lossy);
@@ -1026,6 +1170,7 @@ class NSString extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataUsingEncoding:
   NSData? dataUsingEncoding_(int encoding) {
     final _ret =
         _objc_msgSend_209(this.pointer, _sel_dataUsingEncoding_, encoding);
@@ -1034,27 +1179,31 @@ class NSString extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// canBeConvertedToEncoding:
   bool canBeConvertedToEncoding_(int encoding) {
     return _objc_msgSend_123(
         this.pointer, _sel_canBeConvertedToEncoding_, encoding);
   }
 
+  /// cStringUsingEncoding:
   ffi.Pointer<ffi.Char> cStringUsingEncoding_(int encoding) {
     return _objc_msgSend_12(this.pointer, _sel_cStringUsingEncoding_, encoding);
   }
 
+  /// getCString:maxLength:encoding:
   bool getCString_maxLength_encoding_(
       ffi.Pointer<ffi.Char> buffer, int maxBufferCount, int encoding) {
     return _objc_msgSend_210(this.pointer, _sel_getCString_maxLength_encoding_,
         buffer, maxBufferCount, encoding);
   }
 
+  /// getBytes:maxLength:usedLength:encoding:options:range:remainingRange:
   bool getBytes_maxLength_usedLength_encoding_options_range_remainingRange_(
       ffi.Pointer<ffi.Void> buffer,
       int maxBufferCount,
       ffi.Pointer<ffi.UnsignedLong> usedBufferCount,
       int encoding,
-      int options,
+      NSStringEncodingConversionOptions options,
       NSRange range,
       ffi.Pointer<NSRange> leftover) {
     return _objc_msgSend_211(
@@ -1064,77 +1213,90 @@ class NSString extends NSObject {
         maxBufferCount,
         usedBufferCount,
         encoding,
-        options,
+        options.value,
         range,
         leftover);
   }
 
+  /// maximumLengthOfBytesUsingEncoding:
   int maximumLengthOfBytesUsingEncoding_(int enc) {
     return _objc_msgSend_120(
         this.pointer, _sel_maximumLengthOfBytesUsingEncoding_, enc);
   }
 
+  /// lengthOfBytesUsingEncoding:
   int lengthOfBytesUsingEncoding_(int enc) {
     return _objc_msgSend_120(
         this.pointer, _sel_lengthOfBytesUsingEncoding_, enc);
   }
 
+  /// availableStringEncodings
   static ffi.Pointer<ffi.UnsignedLong> getAvailableStringEncodings() {
     return _objc_msgSend_212(_class_NSString, _sel_availableStringEncodings);
   }
 
+  /// localizedNameOfStringEncoding:
   static NSString localizedNameOfStringEncoding_(int encoding) {
     final _ret = _objc_msgSend_18(
         _class_NSString, _sel_localizedNameOfStringEncoding_, encoding);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// defaultCStringEncoding
   static int getDefaultCStringEncoding() {
     return _objc_msgSend_11(_class_NSString, _sel_defaultCStringEncoding);
   }
 
+  /// decomposedStringWithCanonicalMapping
   NSString get decomposedStringWithCanonicalMapping {
     final _ret = _objc_msgSend_35(
         this.pointer, _sel_decomposedStringWithCanonicalMapping);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// precomposedStringWithCanonicalMapping
   NSString get precomposedStringWithCanonicalMapping {
     final _ret = _objc_msgSend_35(
         this.pointer, _sel_precomposedStringWithCanonicalMapping);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// decomposedStringWithCompatibilityMapping
   NSString get decomposedStringWithCompatibilityMapping {
     final _ret = _objc_msgSend_35(
         this.pointer, _sel_decomposedStringWithCompatibilityMapping);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// precomposedStringWithCompatibilityMapping
   NSString get precomposedStringWithCompatibilityMapping {
     final _ret = _objc_msgSend_35(
         this.pointer, _sel_precomposedStringWithCompatibilityMapping);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// componentsSeparatedByString:
   NSArray componentsSeparatedByString_(NSString separator) {
     final _ret = _objc_msgSend_213(
         this.pointer, _sel_componentsSeparatedByString_, separator.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// componentsSeparatedByCharactersInSet:
   NSArray componentsSeparatedByCharactersInSet_(NSCharacterSet separator) {
     final _ret = _objc_msgSend_214(this.pointer,
         _sel_componentsSeparatedByCharactersInSet_, separator.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByTrimmingCharactersInSet:
   NSString stringByTrimmingCharactersInSet_(NSCharacterSet set) {
     final _ret = _objc_msgSend_215(
         this.pointer, _sel_stringByTrimmingCharactersInSet_, set.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByPaddingToLength:withString:startingAtIndex:
   NSString stringByPaddingToLength_withString_startingAtIndex_(
       int newLength, NSString padString, int padIndex) {
     final _ret = _objc_msgSend_216(
@@ -1146,27 +1308,34 @@ class NSString extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
-  NSString stringByFoldingWithOptions_locale_(int options, NSLocale? locale) {
+  /// stringByFoldingWithOptions:locale:
+  NSString stringByFoldingWithOptions_locale_(
+      NSStringCompareOptions options, NSLocale? locale) {
     final _ret = _objc_msgSend_217(
         this.pointer,
         _sel_stringByFoldingWithOptions_locale_,
-        options,
+        options.value,
         locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByReplacingOccurrencesOfString:withString:options:range:
   NSString stringByReplacingOccurrencesOfString_withString_options_range_(
-      NSString target, NSString replacement, int options, NSRange searchRange) {
+      NSString target,
+      NSString replacement,
+      NSStringCompareOptions options,
+      NSRange searchRange) {
     final _ret = _objc_msgSend_218(
         this.pointer,
         _sel_stringByReplacingOccurrencesOfString_withString_options_range_,
         target.pointer,
         replacement.pointer,
-        options,
+        options.value,
         searchRange);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByReplacingOccurrencesOfString:withString:
   NSString stringByReplacingOccurrencesOfString_withString_(
       NSString target, NSString replacement) {
     final _ret = _objc_msgSend_219(
@@ -1177,6 +1346,7 @@ class NSString extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByReplacingCharactersInRange:withString:
   NSString stringByReplacingCharactersInRange_withString_(
       NSRange range, NSString replacement) {
     final _ret = _objc_msgSend_220(
@@ -1187,6 +1357,7 @@ class NSString extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByApplyingTransform:reverse:
   NSString? stringByApplyingTransform_reverse_(
       NSString transform, bool reverse) {
     final _ret = _objc_msgSend_221(this.pointer,
@@ -1196,6 +1367,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// writeToURL:atomically:encoding:error:
   bool writeToURL_atomically_encoding_error_(NSURL url, bool useAuxiliaryFile,
       int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_222(
@@ -1207,6 +1379,7 @@ class NSString extends NSObject {
         error);
   }
 
+  /// writeToFile:atomically:encoding:error:
   bool writeToFile_atomically_encoding_error_(
       NSString path,
       bool useAuxiliaryFile,
@@ -1221,15 +1394,18 @@ class NSString extends NSObject {
         error);
   }
 
+  /// description
   NSString get description {
     final _ret = _objc_msgSend_35(this.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// hash
   int get hash {
     return _objc_msgSend_11(this.pointer, _sel_hash);
   }
 
+  /// initWithCharactersNoCopy:length:freeWhenDone:
   NSString initWithCharactersNoCopy_length_freeWhenDone_(
       ffi.Pointer<ffi.UnsignedShort> characters, int length, bool freeBuffer) {
     final _ret = _objc_msgSend_224(
@@ -1241,6 +1417,7 @@ class NSString extends NSObject {
     return NSString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithCharacters:length:
   NSString initWithCharacters_length_(
       ffi.Pointer<ffi.UnsignedShort> characters, int length) {
     final _ret = _objc_msgSend_225(
@@ -1248,6 +1425,7 @@ class NSString extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUTF8String:
   NSString? initWithUTF8String_(ffi.Pointer<ffi.Char> nullTerminatedCString) {
     final _ret = _objc_msgSend_226(
         this.pointer, _sel_initWithUTF8String_, nullTerminatedCString);
@@ -1256,18 +1434,21 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithString:
   NSString initWithString_(NSString aString) {
     final _ret =
         _objc_msgSend_45(this.pointer, _sel_initWithString_, aString.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithFormat:
   NSString initWithFormat_(NSString format) {
     final _ret =
         _objc_msgSend_45(this.pointer, _sel_initWithFormat_, format.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithFormat:locale:
   NSString initWithFormat_locale_(
       NSString format, objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_227(this.pointer, _sel_initWithFormat_locale_,
@@ -1275,6 +1456,7 @@ class NSString extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithValidatedFormat:validFormatSpecifiers:error:
   NSString? initWithValidatedFormat_validFormatSpecifiers_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -1290,6 +1472,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
   NSString? initWithValidatedFormat_validFormatSpecifiers_locale_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -1307,6 +1490,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithData:encoding:
   NSString? initWithData_encoding_(NSData data, int encoding) {
     final _ret = _objc_msgSend_230(
         this.pointer, _sel_initWithData_encoding_, data.pointer, encoding);
@@ -1315,6 +1499,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytes:length:encoding:
   NSString? initWithBytes_length_encoding_(
       ffi.Pointer<ffi.Void> bytes, int len, int encoding) {
     final _ret = _objc_msgSend_231(this.pointer,
@@ -1324,6 +1509,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytesNoCopy:length:encoding:freeWhenDone:
   NSString? initWithBytesNoCopy_length_encoding_freeWhenDone_(
       ffi.Pointer<ffi.Void> bytes, int len, int encoding, bool freeBuffer) {
     final _ret = _objc_msgSend_232(
@@ -1338,17 +1524,20 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// string
   static NSString string() {
     final _ret = _objc_msgSend_2(_class_NSString, _sel_string);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithString:
   static NSString stringWithString_(NSString string) {
     final _ret = _objc_msgSend_45(
         _class_NSString, _sel_stringWithString_, string.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithCharacters:length:
   static NSString stringWithCharacters_length_(
       ffi.Pointer<ffi.UnsignedShort> characters, int length) {
     final _ret = _objc_msgSend_225(
@@ -1356,6 +1545,7 @@ class NSString extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithUTF8String:
   static NSString? stringWithUTF8String_(
       ffi.Pointer<ffi.Char> nullTerminatedCString) {
     final _ret = _objc_msgSend_226(
@@ -1365,18 +1555,21 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithFormat:
   static NSString stringWithFormat_(NSString format) {
     final _ret = _objc_msgSend_45(
         _class_NSString, _sel_stringWithFormat_, format.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedStringWithFormat:
   static NSString localizedStringWithFormat_(NSString format) {
     final _ret = _objc_msgSend_45(
         _class_NSString, _sel_localizedStringWithFormat_, format.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithValidatedFormat:validFormatSpecifiers:error:
   static NSString? stringWithValidatedFormat_validFormatSpecifiers_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -1392,6 +1585,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedStringWithValidatedFormat:validFormatSpecifiers:error:
   static NSString?
       localizedStringWithValidatedFormat_validFormatSpecifiers_error_(
           NSString format,
@@ -1408,6 +1602,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCString:encoding:
   NSString? initWithCString_encoding_(
       ffi.Pointer<ffi.Char> nullTerminatedCString, int encoding) {
     final _ret = _objc_msgSend_233(this.pointer, _sel_initWithCString_encoding_,
@@ -1417,6 +1612,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithCString:encoding:
   static NSString? stringWithCString_encoding_(
       ffi.Pointer<ffi.Char> cString, int enc) {
     final _ret = _objc_msgSend_233(
@@ -1426,6 +1622,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:encoding:error:
   NSString? initWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_234(this.pointer,
@@ -1435,6 +1632,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:encoding:error:
   NSString? initWithContentsOfFile_encoding_error_(
       NSString path, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_235(this.pointer,
@@ -1444,6 +1642,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfURL:encoding:error:
   static NSString? stringWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_234(_class_NSString,
@@ -1453,6 +1652,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfFile:encoding:error:
   static NSString? stringWithContentsOfFile_encoding_error_(
       NSString path, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_235(
@@ -1466,6 +1666,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:usedEncoding:error:
   NSString? initWithContentsOfURL_usedEncoding_error_(
       NSURL url,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -1481,6 +1682,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:usedEncoding:error:
   NSString? initWithContentsOfFile_usedEncoding_error_(
       NSString path,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -1496,6 +1698,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfURL:usedEncoding:error:
   static NSString? stringWithContentsOfURL_usedEncoding_error_(
       NSURL url,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -1511,6 +1714,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfFile:usedEncoding:error:
   static NSString? stringWithContentsOfFile_usedEncoding_error_(
       NSString path,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -1526,6 +1730,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringEncodingForData:encodingOptions:convertedString:usedLossyConversion:
   static int
       stringEncodingForData_encodingOptions_convertedString_usedLossyConversion_(
           NSData data,
@@ -1541,11 +1746,13 @@ class NSString extends NSObject {
         usedLossyConversion);
   }
 
+  /// propertyList
   objc.ObjCObjectBase propertyList() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_propertyList);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// propertyListFromStringsFileFormat
   NSDictionary? propertyListFromStringsFileFormat() {
     final _ret =
         _objc_msgSend_239(this.pointer, _sel_propertyListFromStringsFileFormat);
@@ -1554,27 +1761,33 @@ class NSString extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// cString
   ffi.Pointer<ffi.Char> cString() {
     return _objc_msgSend_14(this.pointer, _sel_cString);
   }
 
+  /// lossyCString
   ffi.Pointer<ffi.Char> lossyCString() {
     return _objc_msgSend_14(this.pointer, _sel_lossyCString);
   }
 
+  /// cStringLength
   int cStringLength() {
     return _objc_msgSend_11(this.pointer, _sel_cStringLength);
   }
 
+  /// getCString:
   void getCString_(ffi.Pointer<ffi.Char> bytes) {
     _objc_msgSend_240(this.pointer, _sel_getCString_, bytes);
   }
 
+  /// getCString:maxLength:
   void getCString_maxLength_(ffi.Pointer<ffi.Char> bytes, int maxLength) {
     _objc_msgSend_241(
         this.pointer, _sel_getCString_maxLength_, bytes, maxLength);
   }
 
+  /// getCString:maxLength:range:remainingRange:
   void getCString_maxLength_range_remainingRange_(ffi.Pointer<ffi.Char> bytes,
       int maxLength, NSRange aRange, ffi.Pointer<NSRange> leftoverRange) {
     _objc_msgSend_242(
@@ -1586,16 +1799,19 @@ class NSString extends NSObject {
         leftoverRange);
   }
 
+  /// writeToFile:atomically:
   bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
     return _objc_msgSend_40(this.pointer, _sel_writeToFile_atomically_,
         path.pointer, useAuxiliaryFile);
   }
 
+  /// writeToURL:atomically:
   bool writeToURL_atomically_(NSURL url, bool atomically) {
     return _objc_msgSend_135(
         this.pointer, _sel_writeToURL_atomically_, url.pointer, atomically);
   }
 
+  /// initWithContentsOfFile:
   objc.ObjCObjectBase? initWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         this.pointer, _sel_initWithContentsOfFile_, path.pointer);
@@ -1604,6 +1820,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   objc.ObjCObjectBase? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_187(
         this.pointer, _sel_initWithContentsOfURL_, url.pointer);
@@ -1612,6 +1829,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfFile:
   static objc.ObjCObjectBase? stringWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         _class_NSString, _sel_stringWithContentsOfFile_, path.pointer);
@@ -1620,6 +1838,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfURL:
   static objc.ObjCObjectBase? stringWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_187(
         _class_NSString, _sel_stringWithContentsOfURL_, url.pointer);
@@ -1628,6 +1847,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// initWithCStringNoCopy:length:freeWhenDone:
   objc.ObjCObjectBase? initWithCStringNoCopy_length_freeWhenDone_(
       ffi.Pointer<ffi.Char> bytes, int length, bool freeBuffer) {
     final _ret = _objc_msgSend_243(
@@ -1641,6 +1861,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// initWithCString:length:
   objc.ObjCObjectBase? initWithCString_length_(
       ffi.Pointer<ffi.Char> bytes, int length) {
     final _ret = _objc_msgSend_233(
@@ -1650,6 +1871,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// initWithCString:
   objc.ObjCObjectBase? initWithCString_(ffi.Pointer<ffi.Char> bytes) {
     final _ret = _objc_msgSend_226(this.pointer, _sel_initWithCString_, bytes);
     return _ret.address == 0
@@ -1657,6 +1879,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// stringWithCString:length:
   static objc.ObjCObjectBase? stringWithCString_length_(
       ffi.Pointer<ffi.Char> bytes, int length) {
     final _ret = _objc_msgSend_233(
@@ -1666,6 +1889,7 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// stringWithCString:
   static objc.ObjCObjectBase? stringWithCString_(ffi.Pointer<ffi.Char> bytes) {
     final _ret =
         _objc_msgSend_226(_class_NSString, _sel_stringWithCString_, bytes);
@@ -1674,10 +1898,12 @@ class NSString extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// getCharacters:
   void getCharacters_(ffi.Pointer<ffi.UnsignedShort> buffer) {
     _objc_msgSend_244(this.pointer, _sel_getCharacters_, buffer);
   }
 
+  /// stringByAddingPercentEncodingWithAllowedCharacters:
   NSString? stringByAddingPercentEncodingWithAllowedCharacters_(
       NSCharacterSet allowedCharacters) {
     final _ret = _objc_msgSend_245(
@@ -1689,6 +1915,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByRemovingPercentEncoding
   NSString? get stringByRemovingPercentEncoding {
     final _ret =
         _objc_msgSend_58(this.pointer, _sel_stringByRemovingPercentEncoding);
@@ -1697,6 +1924,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByAddingPercentEscapesUsingEncoding:
   NSString? stringByAddingPercentEscapesUsingEncoding_(int enc) {
     final _ret = _objc_msgSend_246(
         this.pointer, _sel_stringByAddingPercentEscapesUsingEncoding_, enc);
@@ -1705,6 +1933,7 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringByReplacingPercentEscapesUsingEncoding:
   NSString? stringByReplacingPercentEscapesUsingEncoding_(int enc) {
     final _ret = _objc_msgSend_246(
         this.pointer, _sel_stringByReplacingPercentEscapesUsingEncoding_, enc);
@@ -1713,16 +1942,19 @@ class NSString extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSString new1() {
     final _ret = _objc_msgSend_2(_class_NSString, _sel_new);
     return NSString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSString allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSString, _sel_allocWithZone_, zone);
     return NSString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSString alloc() {
     final _ret = _objc_msgSend_2(_class_NSString, _sel_alloc);
     return NSString.castFromPointer(_ret, retain: false, release: true);
@@ -1741,6 +1973,7 @@ final _objc_msgSend_16 = objc.msgSendPointer
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
 
+/// NSCoder
 class NSCoder extends objc.ObjCObjectBase {
   NSCoder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -1818,17 +2051,28 @@ final _objc_msgSend_20 = objc.msgSendPointer
             ffi.Pointer<ffi.UnsignedShort>,
             NSRange)>();
 
-abstract class NSComparisonResult {
-  static const int NSOrderedAscending = -1;
-  static const int NSOrderedSame = 0;
-  static const int NSOrderedDescending = 1;
+enum NSComparisonResult {
+  NSOrderedAscending(-1),
+  NSOrderedSame(0),
+  NSOrderedDescending(1);
+
+  final int value;
+  const NSComparisonResult(this.value);
+
+  static NSComparisonResult fromValue(int value) => switch (value) {
+        -1 => NSOrderedAscending,
+        0 => NSOrderedSame,
+        1 => NSOrderedDescending,
+        _ =>
+          throw ArgumentError("Unknown value for NSComparisonResult: $value"),
+      };
 }
 
 late final _sel_compare_ = objc.registerName("compare:");
 final _objc_msgSend_21 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(
+            ffi.Long Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>)>>()
@@ -1836,27 +2080,44 @@ final _objc_msgSend_21 = objc.msgSendPointer
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 
-abstract class NSStringCompareOptions {
-  static const int NSCaseInsensitiveSearch = 1;
-  static const int NSLiteralSearch = 2;
-  static const int NSBackwardsSearch = 4;
-  static const int NSAnchoredSearch = 8;
-  static const int NSNumericSearch = 64;
-  static const int NSDiacriticInsensitiveSearch = 128;
-  static const int NSWidthInsensitiveSearch = 256;
-  static const int NSForcedOrderingSearch = 512;
-  static const int NSRegularExpressionSearch = 1024;
+enum NSStringCompareOptions {
+  NSCaseInsensitiveSearch(1),
+  NSLiteralSearch(2),
+  NSBackwardsSearch(4),
+  NSAnchoredSearch(8),
+  NSNumericSearch(64),
+  NSDiacriticInsensitiveSearch(128),
+  NSWidthInsensitiveSearch(256),
+  NSForcedOrderingSearch(512),
+  NSRegularExpressionSearch(1024);
+
+  final int value;
+  const NSStringCompareOptions(this.value);
+
+  static NSStringCompareOptions fromValue(int value) => switch (value) {
+        1 => NSCaseInsensitiveSearch,
+        2 => NSLiteralSearch,
+        4 => NSBackwardsSearch,
+        8 => NSAnchoredSearch,
+        64 => NSNumericSearch,
+        128 => NSDiacriticInsensitiveSearch,
+        256 => NSWidthInsensitiveSearch,
+        512 => NSForcedOrderingSearch,
+        1024 => NSRegularExpressionSearch,
+        _ => throw ArgumentError(
+            "Unknown value for NSStringCompareOptions: $value"),
+      };
 }
 
 late final _sel_compare_options_ = objc.registerName("compare:options:");
 final _objc_msgSend_22 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(
+            ffi.Long Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -1868,11 +2129,11 @@ late final _sel_compare_options_range_ =
 final _objc_msgSend_23 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(
+            ffi.Long Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         int Function(
@@ -1886,11 +2147,11 @@ late final _sel_compare_options_range_locale_ =
 final _objc_msgSend_24 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(
+            ffi.Long Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange,
                 ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
@@ -1930,7 +2191,7 @@ final _objc_msgSend_26 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -1975,7 +2236,7 @@ final _objc_msgSend_28 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -1990,7 +2251,7 @@ final _objc_msgSend_28Stret = objc.msgSendStretPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<NSRange>,
@@ -2007,7 +2268,7 @@ final _objc_msgSend_29 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         NSRange Function(
@@ -2024,7 +2285,7 @@ final _objc_msgSend_29Stret = objc.msgSendStretPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         void Function(
@@ -2035,6 +2296,7 @@ final _objc_msgSend_29Stret = objc.msgSendStretPointer
             int,
             NSRange)>();
 
+/// NSLocale
 class NSLocale extends objc.ObjCObjectBase {
   NSLocale._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -2065,7 +2327,7 @@ final _objc_msgSend_30 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange,
                 ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
@@ -2084,7 +2346,7 @@ final _objc_msgSend_30Stret = objc.msgSendStretPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange,
                 ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
@@ -2097,6 +2359,7 @@ final _objc_msgSend_30Stret = objc.msgSendStretPointer
             NSRange,
             ffi.Pointer<objc.ObjCObject>)>();
 
+/// NSCharacterSet
 class NSCharacterSet extends NSObject {
   NSCharacterSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -2117,114 +2380,133 @@ class NSCharacterSet extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_NSCharacterSet);
   }
 
+  /// controlCharacterSet
   static NSCharacterSet getControlCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_controlCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// whitespaceCharacterSet
   static NSCharacterSet getWhitespaceCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_whitespaceCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// whitespaceAndNewlineCharacterSet
   static NSCharacterSet getWhitespaceAndNewlineCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_whitespaceAndNewlineCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// decimalDigitCharacterSet
   static NSCharacterSet getDecimalDigitCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_decimalDigitCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// letterCharacterSet
   static NSCharacterSet getLetterCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_letterCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// lowercaseLetterCharacterSet
   static NSCharacterSet getLowercaseLetterCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_lowercaseLetterCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// uppercaseLetterCharacterSet
   static NSCharacterSet getUppercaseLetterCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_uppercaseLetterCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// nonBaseCharacterSet
   static NSCharacterSet getNonBaseCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_nonBaseCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// alphanumericCharacterSet
   static NSCharacterSet getAlphanumericCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_alphanumericCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// decomposableCharacterSet
   static NSCharacterSet getDecomposableCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_decomposableCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// illegalCharacterSet
   static NSCharacterSet getIllegalCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_illegalCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// punctuationCharacterSet
   static NSCharacterSet getPunctuationCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_punctuationCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// capitalizedLetterCharacterSet
   static NSCharacterSet getCapitalizedLetterCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_capitalizedLetterCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// symbolCharacterSet
   static NSCharacterSet getSymbolCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_symbolCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// newlineCharacterSet
   static NSCharacterSet getNewlineCharacterSet() {
     final _ret =
         _objc_msgSend_31(_class_NSCharacterSet, _sel_newlineCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// characterSetWithRange:
   static NSCharacterSet characterSetWithRange_(NSRange aRange) {
     final _ret = _objc_msgSend_32(
         _class_NSCharacterSet, _sel_characterSetWithRange_, aRange);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// characterSetWithCharactersInString:
   static NSCharacterSet characterSetWithCharactersInString_(NSString aString) {
     final _ret = _objc_msgSend_33(_class_NSCharacterSet,
         _sel_characterSetWithCharactersInString_, aString.pointer);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// characterSetWithBitmapRepresentation:
   static NSCharacterSet characterSetWithBitmapRepresentation_(NSData data) {
     final _ret = _objc_msgSend_194(_class_NSCharacterSet,
         _sel_characterSetWithBitmapRepresentation_, data.pointer);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// characterSetWithContentsOfFile:
   static NSCharacterSet? characterSetWithContentsOfFile_(NSString fName) {
     final _ret = _objc_msgSend_195(_class_NSCharacterSet,
         _sel_characterSetWithContentsOfFile_, fName.pointer);
@@ -2233,92 +2515,109 @@ class NSCharacterSet extends NSObject {
         : NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSCharacterSet initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_196(this.pointer, _sel_initWithCoder_, coder.pointer);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// characterIsMember:
   bool characterIsMember_(int aCharacter) {
     return _objc_msgSend_197(this.pointer, _sel_characterIsMember_, aCharacter);
   }
 
+  /// bitmapRepresentation
   NSData get bitmapRepresentation {
     final _ret = _objc_msgSend_57(this.pointer, _sel_bitmapRepresentation);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// invertedSet
   NSCharacterSet get invertedSet {
     final _ret = _objc_msgSend_31(this.pointer, _sel_invertedSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// longCharacterIsMember:
   bool longCharacterIsMember_(int theLongChar) {
     return _objc_msgSend_198(
         this.pointer, _sel_longCharacterIsMember_, theLongChar);
   }
 
+  /// isSupersetOfSet:
   bool isSupersetOfSet_(NSCharacterSet theOtherSet) {
     return _objc_msgSend_199(
         this.pointer, _sel_isSupersetOfSet_, theOtherSet.pointer);
   }
 
+  /// hasMemberInPlane:
   bool hasMemberInPlane_(int thePlane) {
     return _objc_msgSend_200(this.pointer, _sel_hasMemberInPlane_, thePlane);
   }
 
+  /// URLUserAllowedCharacterSet
   static NSCharacterSet getURLUserAllowedCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_URLUserAllowedCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLPasswordAllowedCharacterSet
   static NSCharacterSet getURLPasswordAllowedCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_URLPasswordAllowedCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLHostAllowedCharacterSet
   static NSCharacterSet getURLHostAllowedCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_URLHostAllowedCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLPathAllowedCharacterSet
   static NSCharacterSet getURLPathAllowedCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_URLPathAllowedCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLQueryAllowedCharacterSet
   static NSCharacterSet getURLQueryAllowedCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_URLQueryAllowedCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLFragmentAllowedCharacterSet
   static NSCharacterSet getURLFragmentAllowedCharacterSet() {
     final _ret = _objc_msgSend_31(
         _class_NSCharacterSet, _sel_URLFragmentAllowedCharacterSet);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSCharacterSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSCharacterSet new1() {
     final _ret = _objc_msgSend_2(_class_NSCharacterSet, _sel_new);
     return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSCharacterSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSCharacterSet, _sel_allocWithZone_, zone);
     return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSCharacterSet alloc() {
     final _ret = _objc_msgSend_2(_class_NSCharacterSet, _sel_alloc);
     return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
@@ -2381,6 +2680,7 @@ final _objc_msgSend_33 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 
+/// NSData
 class NSData extends NSObject {
   NSData._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -2400,87 +2700,106 @@ class NSData extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSData);
   }
 
+  /// length
   int get length {
     return _objc_msgSend_11(this.pointer, _sel_length);
   }
 
+  /// bytes
   ffi.Pointer<ffi.Void> get bytes {
     return _objc_msgSend_34(this.pointer, _sel_bytes);
   }
 
+  /// description
   NSString get description {
     final _ret = _objc_msgSend_35(this.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// getBytes:length:
   void getBytes_length_(ffi.Pointer<ffi.Void> buffer, int length) {
     _objc_msgSend_36(this.pointer, _sel_getBytes_length_, buffer, length);
   }
 
+  /// getBytes:range:
   void getBytes_range_(ffi.Pointer<ffi.Void> buffer, NSRange range) {
     _objc_msgSend_37(this.pointer, _sel_getBytes_range_, buffer, range);
   }
 
+  /// isEqualToData:
   bool isEqualToData_(NSData other) {
     return _objc_msgSend_38(this.pointer, _sel_isEqualToData_, other.pointer);
   }
 
+  /// subdataWithRange:
   NSData subdataWithRange_(NSRange range) {
     final _ret = _objc_msgSend_39(this.pointer, _sel_subdataWithRange_, range);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// writeToFile:atomically:
   bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
     return _objc_msgSend_40(this.pointer, _sel_writeToFile_atomically_,
         path.pointer, useAuxiliaryFile);
   }
 
+  /// writeToURL:atomically:
   bool writeToURL_atomically_(NSURL url, bool atomically) {
     return _objc_msgSend_135(
         this.pointer, _sel_writeToURL_atomically_, url.pointer, atomically);
   }
 
-  bool writeToFile_options_error_(NSString path, int writeOptionsMask,
+  /// writeToFile:options:error:
+  bool writeToFile_options_error_(
+      NSString path,
+      NSDataWritingOptions writeOptionsMask,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     return _objc_msgSend_180(this.pointer, _sel_writeToFile_options_error_,
-        path.pointer, writeOptionsMask, errorPtr);
+        path.pointer, writeOptionsMask.value, errorPtr);
   }
 
-  bool writeToURL_options_error_(NSURL url, int writeOptionsMask,
+  /// writeToURL:options:error:
+  bool writeToURL_options_error_(
+      NSURL url,
+      NSDataWritingOptions writeOptionsMask,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     return _objc_msgSend_181(this.pointer, _sel_writeToURL_options_error_,
-        url.pointer, writeOptionsMask, errorPtr);
+        url.pointer, writeOptionsMask.value, errorPtr);
   }
 
+  /// rangeOfData:options:range:
   void rangeOfData_options_range_(ffi.Pointer<NSRange> stret, NSData dataToFind,
-      int mask, NSRange searchRange) {
+      NSDataSearchOptions mask, NSRange searchRange) {
     objc.useMsgSendVariants
         ? _objc_msgSend_182Stret(
             stret,
             this.pointer,
             _sel_rangeOfData_options_range_,
             dataToFind.pointer,
-            mask,
+            mask.value,
             searchRange)
         : stret.ref = _objc_msgSend_182(
             this.pointer,
             _sel_rangeOfData_options_range_,
             dataToFind.pointer,
-            mask,
+            mask.value,
             searchRange);
   }
 
+  /// data
   static NSData data() {
     final _ret = _objc_msgSend_2(_class_NSData, _sel_data);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithBytes:length:
   static NSData dataWithBytes_length_(ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
         _class_NSData, _sel_dataWithBytes_length_, bytes, length);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithBytesNoCopy:length:
   static NSData dataWithBytesNoCopy_length_(
       ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
@@ -2488,6 +2807,7 @@ class NSData extends NSObject {
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// dataWithBytesNoCopy:length:freeWhenDone:
   static NSData dataWithBytesNoCopy_length_freeWhenDone_(
       ffi.Pointer<ffi.Void> bytes, int length, bool b) {
     final _ret = _objc_msgSend_184(_class_NSData,
@@ -2495,32 +2815,39 @@ class NSData extends NSObject {
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
-  static NSData? dataWithContentsOfFile_options_error_(NSString path,
-      int readOptionsMask, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+  /// dataWithContentsOfFile:options:error:
+  static NSData? dataWithContentsOfFile_options_error_(
+      NSString path,
+      NSDataReadingOptions readOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_185(
         _class_NSData,
         _sel_dataWithContentsOfFile_options_error_,
         path.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  static NSData? dataWithContentsOfURL_options_error_(NSURL url,
-      int readOptionsMask, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+  /// dataWithContentsOfURL:options:error:
+  static NSData? dataWithContentsOfURL_options_error_(
+      NSURL url,
+      NSDataReadingOptions readOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_186(
         _class_NSData,
         _sel_dataWithContentsOfURL_options_error_,
         url.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithContentsOfFile:
   static NSData? dataWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         _class_NSData, _sel_dataWithContentsOfFile_, path.pointer);
@@ -2529,6 +2856,7 @@ class NSData extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithContentsOfURL:
   static NSData? dataWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_187(
         _class_NSData, _sel_dataWithContentsOfURL_, url.pointer);
@@ -2537,18 +2865,21 @@ class NSData extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytes:length:
   NSData initWithBytes_length_(ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
         this.pointer, _sel_initWithBytes_length_, bytes, length);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytesNoCopy:length:
   NSData initWithBytesNoCopy_length_(ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
         this.pointer, _sel_initWithBytesNoCopy_length_, bytes, length);
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithBytesNoCopy:length:freeWhenDone:
   NSData initWithBytesNoCopy_length_freeWhenDone_(
       ffi.Pointer<ffi.Void> bytes, int length, bool b) {
     final _ret = _objc_msgSend_184(this.pointer,
@@ -2556,32 +2887,39 @@ class NSData extends NSObject {
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
-  NSData? initWithContentsOfFile_options_error_(NSString path,
-      int readOptionsMask, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+  /// initWithContentsOfFile:options:error:
+  NSData? initWithContentsOfFile_options_error_(
+      NSString path,
+      NSDataReadingOptions readOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_185(
         this.pointer,
         _sel_initWithContentsOfFile_options_error_,
         path.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  NSData? initWithContentsOfURL_options_error_(NSURL url, int readOptionsMask,
+  /// initWithContentsOfURL:options:error:
+  NSData? initWithContentsOfURL_options_error_(
+      NSURL url,
+      NSDataReadingOptions readOptionsMask,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_186(
         this.pointer,
         _sel_initWithContentsOfURL_options_error_,
         url.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:
   NSData? initWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         this.pointer, _sel_initWithContentsOfFile_, path.pointer);
@@ -2590,6 +2928,7 @@ class NSData extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   NSData? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_187(
         this.pointer, _sel_initWithContentsOfURL_, url.pointer);
@@ -2598,72 +2937,89 @@ class NSData extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithData:
   NSData initWithData_(NSData data) {
     final _ret =
         _objc_msgSend_188(this.pointer, _sel_initWithData_, data.pointer);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithData:
   static NSData dataWithData_(NSData data) {
     final _ret =
         _objc_msgSend_188(_class_NSData, _sel_dataWithData_, data.pointer);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBase64EncodedString:options:
   NSData? initWithBase64EncodedString_options_(
-      NSString base64String, int options) {
+      NSString base64String, NSDataBase64DecodingOptions options) {
     final _ret = _objc_msgSend_189(
         this.pointer,
         _sel_initWithBase64EncodedString_options_,
         base64String.pointer,
-        options);
+        options.value);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  NSString base64EncodedStringWithOptions_(int options) {
+  /// base64EncodedStringWithOptions:
+  NSString base64EncodedStringWithOptions_(
+      NSDataBase64EncodingOptions options) {
     final _ret = _objc_msgSend_190(
-        this.pointer, _sel_base64EncodedStringWithOptions_, options);
+        this.pointer, _sel_base64EncodedStringWithOptions_, options.value);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
-  NSData? initWithBase64EncodedData_options_(NSData base64Data, int options) {
-    final _ret = _objc_msgSend_191(this.pointer,
-        _sel_initWithBase64EncodedData_options_, base64Data.pointer, options);
+  /// initWithBase64EncodedData:options:
+  NSData? initWithBase64EncodedData_options_(
+      NSData base64Data, NSDataBase64DecodingOptions options) {
+    final _ret = _objc_msgSend_191(
+        this.pointer,
+        _sel_initWithBase64EncodedData_options_,
+        base64Data.pointer,
+        options.value);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  NSData base64EncodedDataWithOptions_(int options) {
+  /// base64EncodedDataWithOptions:
+  NSData base64EncodedDataWithOptions_(NSDataBase64EncodingOptions options) {
     final _ret = _objc_msgSend_192(
-        this.pointer, _sel_base64EncodedDataWithOptions_, options);
+        this.pointer, _sel_base64EncodedDataWithOptions_, options.value);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// decompressedDataUsingAlgorithm:error:
   NSData? decompressedDataUsingAlgorithm_error_(
-      int algorithm, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+      NSDataCompressionAlgorithm algorithm,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_193(this.pointer,
-        _sel_decompressedDataUsingAlgorithm_error_, algorithm, error);
+        _sel_decompressedDataUsingAlgorithm_error_, algorithm.value, error);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// compressedDataUsingAlgorithm:error:
   NSData? compressedDataUsingAlgorithm_error_(
-      int algorithm, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+      NSDataCompressionAlgorithm algorithm,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_193(this.pointer,
-        _sel_compressedDataUsingAlgorithm_error_, algorithm, error);
+        _sel_compressedDataUsingAlgorithm_error_, algorithm.value, error);
     return _ret.address == 0
         ? null
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// getBytes:
   void getBytes_(ffi.Pointer<ffi.Void> buffer) {
     _objc_msgSend_93(this.pointer, _sel_getBytes_, buffer);
   }
 
+  /// dataWithContentsOfMappedFile:
   static objc.ObjCObjectBase? dataWithContentsOfMappedFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         _class_NSData, _sel_dataWithContentsOfMappedFile_, path.pointer);
@@ -2672,6 +3028,7 @@ class NSData extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfMappedFile:
   objc.ObjCObjectBase? initWithContentsOfMappedFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         this.pointer, _sel_initWithContentsOfMappedFile_, path.pointer);
@@ -2680,6 +3037,7 @@ class NSData extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// initWithBase64Encoding:
   objc.ObjCObjectBase? initWithBase64Encoding_(NSString base64String) {
     final _ret = _objc_msgSend_52(
         this.pointer, _sel_initWithBase64Encoding_, base64String.pointer);
@@ -2688,26 +3046,31 @@ class NSData extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// base64Encoding
   NSString base64Encoding() {
     final _ret = _objc_msgSend_35(this.pointer, _sel_base64Encoding);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSData init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSData new1() {
     final _ret = _objc_msgSend_2(_class_NSData, _sel_new);
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSData allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSData, _sel_allocWithZone_, zone);
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSData alloc() {
     final _ret = _objc_msgSend_2(_class_NSData, _sel_alloc);
     return NSData.castFromPointer(_ret, retain: false, release: true);
@@ -2794,6 +3157,7 @@ final _objc_msgSend_40 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             bool)>();
 
+/// NSURL
 class NSURL extends NSObject {
   NSURL._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -2813,6 +3177,7 @@ class NSURL extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSURL);
   }
 
+  /// initWithScheme:host:path:
   NSURL? initWithScheme_host_path_(
       NSString scheme, NSString? host, NSString path) {
     final _ret = _objc_msgSend_41(this.pointer, _sel_initWithScheme_host_path_,
@@ -2822,6 +3187,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initFileURLWithPath:isDirectory:relativeToURL:
   NSURL initFileURLWithPath_isDirectory_relativeToURL_(
       NSString path, bool isDir, NSURL? baseURL) {
     final _ret = _objc_msgSend_42(
@@ -2833,6 +3199,7 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initFileURLWithPath:relativeToURL:
   NSURL initFileURLWithPath_relativeToURL_(NSString path, NSURL? baseURL) {
     final _ret = _objc_msgSend_43(
         this.pointer,
@@ -2842,18 +3209,21 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initFileURLWithPath:isDirectory:
   NSURL initFileURLWithPath_isDirectory_(NSString path, bool isDir) {
     final _ret = _objc_msgSend_44(this.pointer,
         _sel_initFileURLWithPath_isDirectory_, path.pointer, isDir);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initFileURLWithPath:
   NSURL initFileURLWithPath_(NSString path) {
     final _ret =
         _objc_msgSend_45(this.pointer, _sel_initFileURLWithPath_, path.pointer);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// fileURLWithPath:isDirectory:relativeToURL:
   static NSURL fileURLWithPath_isDirectory_relativeToURL_(
       NSString path, bool isDir, NSURL? baseURL) {
     final _ret = _objc_msgSend_46(
@@ -2865,6 +3235,7 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// fileURLWithPath:relativeToURL:
   static NSURL fileURLWithPath_relativeToURL_(NSString path, NSURL? baseURL) {
     final _ret = _objc_msgSend_47(
         _class_NSURL,
@@ -2874,18 +3245,21 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// fileURLWithPath:isDirectory:
   static NSURL fileURLWithPath_isDirectory_(NSString path, bool isDir) {
     final _ret = _objc_msgSend_48(
         _class_NSURL, _sel_fileURLWithPath_isDirectory_, path.pointer, isDir);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// fileURLWithPath:
   static NSURL fileURLWithPath_(NSString path) {
     final _ret =
         _objc_msgSend_49(_class_NSURL, _sel_fileURLWithPath_, path.pointer);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:
   NSURL initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL_(
       ffi.Pointer<ffi.Char> path, bool isDir, NSURL? baseURL) {
     final _ret = _objc_msgSend_50(
@@ -2897,6 +3271,7 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:
   static NSURL fileURLWithFileSystemRepresentation_isDirectory_relativeToURL_(
       ffi.Pointer<ffi.Char> path, bool isDir, NSURL? baseURL) {
     final _ret = _objc_msgSend_51(
@@ -2908,6 +3283,7 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithString:
   NSURL? initWithString_(NSString URLString) {
     final _ret =
         _objc_msgSend_52(this.pointer, _sel_initWithString_, URLString.pointer);
@@ -2916,6 +3292,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithString:relativeToURL:
   NSURL? initWithString_relativeToURL_(NSString URLString, NSURL? baseURL) {
     final _ret = _objc_msgSend_53(
         this.pointer,
@@ -2927,6 +3304,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLWithString:
   static NSURL? URLWithString_(NSString URLString) {
     final _ret =
         _objc_msgSend_52(_class_NSURL, _sel_URLWithString_, URLString.pointer);
@@ -2935,6 +3313,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLWithString:relativeToURL:
   static NSURL? URLWithString_relativeToURL_(
       NSString URLString, NSURL? baseURL) {
     final _ret = _objc_msgSend_53(
@@ -2947,6 +3326,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithString:encodingInvalidCharacters:
   NSURL? initWithString_encodingInvalidCharacters_(
       NSString URLString, bool encodingInvalidCharacters) {
     final _ret = _objc_msgSend_54(
@@ -2959,6 +3339,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLWithString:encodingInvalidCharacters:
   static NSURL? URLWithString_encodingInvalidCharacters_(
       NSString URLString, bool encodingInvalidCharacters) {
     final _ret = _objc_msgSend_54(
@@ -2971,6 +3352,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithDataRepresentation:relativeToURL:
   NSURL initWithDataRepresentation_relativeToURL_(NSData data, NSURL? baseURL) {
     final _ret = _objc_msgSend_55(
         this.pointer,
@@ -2980,6 +3362,7 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLWithDataRepresentation:relativeToURL:
   static NSURL URLWithDataRepresentation_relativeToURL_(
       NSData data, NSURL? baseURL) {
     final _ret = _objc_msgSend_56(
@@ -2990,6 +3373,7 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initAbsoluteURLWithDataRepresentation:relativeToURL:
   NSURL initAbsoluteURLWithDataRepresentation_relativeToURL_(
       NSData data, NSURL? baseURL) {
     final _ret = _objc_msgSend_55(
@@ -3000,6 +3384,7 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// absoluteURLWithDataRepresentation:relativeToURL:
   static NSURL absoluteURLWithDataRepresentation_relativeToURL_(
       NSData data, NSURL? baseURL) {
     final _ret = _objc_msgSend_56(
@@ -3010,11 +3395,13 @@ class NSURL extends NSObject {
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataRepresentation
   NSData get dataRepresentation {
     final _ret = _objc_msgSend_57(this.pointer, _sel_dataRepresentation);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// absoluteString
   NSString? get absoluteString {
     final _ret = _objc_msgSend_58(this.pointer, _sel_absoluteString);
     return _ret.address == 0
@@ -3022,11 +3409,13 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// relativeString
   NSString get relativeString {
     final _ret = _objc_msgSend_35(this.pointer, _sel_relativeString);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// baseURL
   NSURL? get baseURL {
     final _ret = _objc_msgSend_59(this.pointer, _sel_baseURL);
     return _ret.address == 0
@@ -3034,6 +3423,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// absoluteURL
   NSURL? get absoluteURL {
     final _ret = _objc_msgSend_59(this.pointer, _sel_absoluteURL);
     return _ret.address == 0
@@ -3041,6 +3431,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// scheme
   NSString? get scheme {
     final _ret = _objc_msgSend_58(this.pointer, _sel_scheme);
     return _ret.address == 0
@@ -3048,6 +3439,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// resourceSpecifier
   NSString? get resourceSpecifier {
     final _ret = _objc_msgSend_58(this.pointer, _sel_resourceSpecifier);
     return _ret.address == 0
@@ -3055,6 +3447,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// host
   NSString? get host {
     final _ret = _objc_msgSend_58(this.pointer, _sel_host);
     return _ret.address == 0
@@ -3062,6 +3455,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// port
   NSNumber? get port {
     final _ret = _objc_msgSend_96(this.pointer, _sel_port);
     return _ret.address == 0
@@ -3069,6 +3463,7 @@ class NSURL extends NSObject {
         : NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// user
   NSString? get user {
     final _ret = _objc_msgSend_58(this.pointer, _sel_user);
     return _ret.address == 0
@@ -3076,6 +3471,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// password
   NSString? get password {
     final _ret = _objc_msgSend_58(this.pointer, _sel_password);
     return _ret.address == 0
@@ -3083,6 +3479,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// path
   NSString? get path {
     final _ret = _objc_msgSend_58(this.pointer, _sel_path);
     return _ret.address == 0
@@ -3090,6 +3487,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// fragment
   NSString? get fragment {
     final _ret = _objc_msgSend_58(this.pointer, _sel_fragment);
     return _ret.address == 0
@@ -3097,6 +3495,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// parameterString
   NSString? get parameterString {
     final _ret = _objc_msgSend_58(this.pointer, _sel_parameterString);
     return _ret.address == 0
@@ -3104,6 +3503,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// query
   NSString? get query {
     final _ret = _objc_msgSend_58(this.pointer, _sel_query);
     return _ret.address == 0
@@ -3111,6 +3511,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// relativePath
   NSString? get relativePath {
     final _ret = _objc_msgSend_58(this.pointer, _sel_relativePath);
     return _ret.address == 0
@@ -3118,24 +3519,29 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// hasDirectoryPath
   bool get hasDirectoryPath {
     return _objc_msgSend_13(this.pointer, _sel_hasDirectoryPath);
   }
 
+  /// getFileSystemRepresentation:maxLength:
   bool getFileSystemRepresentation_maxLength_(
       ffi.Pointer<ffi.Char> buffer, int maxBufferLength) {
     return _objc_msgSend_97(this.pointer,
         _sel_getFileSystemRepresentation_maxLength_, buffer, maxBufferLength);
   }
 
+  /// fileSystemRepresentation
   ffi.Pointer<ffi.Char> get fileSystemRepresentation {
     return _objc_msgSend_14(this.pointer, _sel_fileSystemRepresentation);
   }
 
+  /// isFileURL
   bool get fileURL {
     return _objc_msgSend_13(this.pointer, _sel_isFileURL);
   }
 
+  /// standardizedURL
   NSURL? get standardizedURL {
     final _ret = _objc_msgSend_59(this.pointer, _sel_standardizedURL);
     return _ret.address == 0
@@ -3143,16 +3549,19 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// checkResourceIsReachableAndReturnError:
   bool checkResourceIsReachableAndReturnError_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_138(
         this.pointer, _sel_checkResourceIsReachableAndReturnError_, error);
   }
 
+  /// isFileReferenceURL
   bool isFileReferenceURL() {
     return _objc_msgSend_13(this.pointer, _sel_isFileReferenceURL);
   }
 
+  /// fileReferenceURL
   NSURL? fileReferenceURL() {
     final _ret = _objc_msgSend_59(this.pointer, _sel_fileReferenceURL);
     return _ret.address == 0
@@ -3160,6 +3569,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// filePathURL
   NSURL? get filePathURL {
     final _ret = _objc_msgSend_59(this.pointer, _sel_filePathURL);
     return _ret.address == 0
@@ -3167,6 +3577,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// getResourceValue:forKey:error:
   bool getResourceValue_forKey_error_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> value,
       NSString key,
@@ -3175,6 +3586,7 @@ class NSURL extends NSObject {
         value, key.pointer, error);
   }
 
+  /// resourceValuesForKeys:error:
   objc.ObjCObjectBase? resourceValuesForKeys_error_(
       NSArray keys, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_140(
@@ -3184,43 +3596,49 @@ class NSURL extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// setResourceValue:forKey:error:
   bool setResourceValue_forKey_error_(objc.ObjCObjectBase? value, NSString key,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_141(this.pointer, _sel_setResourceValue_forKey_error_,
         value?.pointer ?? ffi.nullptr, key.pointer, error);
   }
 
+  /// setResourceValues:error:
   bool setResourceValues_error_(objc.ObjCObjectBase keyedValues,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_142(this.pointer, _sel_setResourceValues_error_,
         keyedValues.pointer, error);
   }
 
+  /// removeCachedResourceValueForKey:
   void removeCachedResourceValueForKey_(NSString key) {
     _objc_msgSend_143(
         this.pointer, _sel_removeCachedResourceValueForKey_, key.pointer);
   }
 
+  /// removeAllCachedResourceValues
   void removeAllCachedResourceValues() {
     _objc_msgSend_1(this.pointer, _sel_removeAllCachedResourceValues);
   }
 
+  /// setTemporaryResourceValue:forKey:
   void setTemporaryResourceValue_forKey_(
       objc.ObjCObjectBase? value, NSString key) {
     _objc_msgSend_144(this.pointer, _sel_setTemporaryResourceValue_forKey_,
         value?.pointer ?? ffi.nullptr, key.pointer);
   }
 
+  /// bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:
   NSData?
       bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_(
-          int options,
+          NSURLBookmarkCreationOptions options,
           NSArray? keys,
           NSURL? relativeURL,
           ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_145(
         this.pointer,
         _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_,
-        options,
+        options.value,
         keys?.pointer ?? ffi.nullptr,
         relativeURL?.pointer ?? ffi.nullptr,
         error);
@@ -3229,10 +3647,11 @@ class NSURL extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:
   NSURL?
       initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_(
           NSData bookmarkData,
-          int options,
+          NSURLBookmarkResolutionOptions options,
           NSURL? relativeURL,
           ffi.Pointer<ffi.Bool> isStale,
           ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
@@ -3240,7 +3659,7 @@ class NSURL extends NSObject {
         this.pointer,
         _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
         bookmarkData.pointer,
-        options,
+        options.value,
         relativeURL?.pointer ?? ffi.nullptr,
         isStale,
         error);
@@ -3249,10 +3668,11 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:
   static NSURL?
       URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_(
           NSData bookmarkData,
-          int options,
+          NSURLBookmarkResolutionOptions options,
           NSURL? relativeURL,
           ffi.Pointer<ffi.Bool> isStale,
           ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
@@ -3260,7 +3680,7 @@ class NSURL extends NSObject {
         _class_NSURL,
         _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
         bookmarkData.pointer,
-        options,
+        options.value,
         relativeURL?.pointer ?? ffi.nullptr,
         isStale,
         error);
@@ -3269,6 +3689,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// resourceValuesForKeys:fromBookmarkData:
   static objc.ObjCObjectBase? resourceValuesForKeys_fromBookmarkData_(
       NSArray keys, NSData bookmarkData) {
     final _ret = _objc_msgSend_147(
@@ -3281,6 +3702,7 @@ class NSURL extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// writeBookmarkData:toURL:options:error:
   static bool writeBookmarkData_toURL_options_error_(
       NSData bookmarkData,
       NSURL bookmarkFileURL,
@@ -3295,6 +3717,7 @@ class NSURL extends NSObject {
         error);
   }
 
+  /// bookmarkDataWithContentsOfURL:error:
   static NSData? bookmarkDataWithContentsOfURL_error_(
       NSURL bookmarkFileURL, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_149(
@@ -3307,28 +3730,34 @@ class NSURL extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByResolvingAliasFileAtURL:options:error:
   static NSURL? URLByResolvingAliasFileAtURL_options_error_(
-      NSURL url, int options, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+      NSURL url,
+      NSURLBookmarkResolutionOptions options,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_150(
         _class_NSURL,
         _sel_URLByResolvingAliasFileAtURL_options_error_,
         url.pointer,
-        options,
+        options.value,
         error);
     return _ret.address == 0
         ? null
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// startAccessingSecurityScopedResource
   bool startAccessingSecurityScopedResource() {
     return _objc_msgSend_13(
         this.pointer, _sel_startAccessingSecurityScopedResource);
   }
 
+  /// stopAccessingSecurityScopedResource
   void stopAccessingSecurityScopedResource() {
     _objc_msgSend_1(this.pointer, _sel_stopAccessingSecurityScopedResource);
   }
 
+  /// getPromisedItemResourceValue:forKey:error:
   bool getPromisedItemResourceValue_forKey_error_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> value,
       NSString key,
@@ -3341,6 +3770,7 @@ class NSURL extends NSObject {
         error);
   }
 
+  /// promisedItemResourceValuesForKeys:error:
   NSDictionary? promisedItemResourceValuesForKeys_error_(
       NSArray keys, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_165(this.pointer,
@@ -3350,12 +3780,14 @@ class NSURL extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// checkPromisedItemIsReachableAndReturnError:
   bool checkPromisedItemIsReachableAndReturnError_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_138(
         this.pointer, _sel_checkPromisedItemIsReachableAndReturnError_, error);
   }
 
+  /// fileURLWithPathComponents:
   static NSURL? fileURLWithPathComponents_(NSArray components) {
     final _ret = _objc_msgSend_166(
         _class_NSURL, _sel_fileURLWithPathComponents_, components.pointer);
@@ -3364,6 +3796,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// pathComponents
   NSArray? get pathComponents {
     final _ret = _objc_msgSend_136(this.pointer, _sel_pathComponents);
     return _ret.address == 0
@@ -3371,6 +3804,7 @@ class NSURL extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// lastPathComponent
   NSString? get lastPathComponent {
     final _ret = _objc_msgSend_58(this.pointer, _sel_lastPathComponent);
     return _ret.address == 0
@@ -3378,6 +3812,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// pathExtension
   NSString? get pathExtension {
     final _ret = _objc_msgSend_58(this.pointer, _sel_pathExtension);
     return _ret.address == 0
@@ -3385,6 +3820,7 @@ class NSURL extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByAppendingPathComponent:
   NSURL? URLByAppendingPathComponent_(NSString pathComponent) {
     final _ret = _objc_msgSend_167(
         this.pointer, _sel_URLByAppendingPathComponent_, pathComponent.pointer);
@@ -3393,6 +3829,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByAppendingPathComponent:isDirectory:
   NSURL? URLByAppendingPathComponent_isDirectory_(
       NSString pathComponent, bool isDirectory) {
     final _ret = _objc_msgSend_168(
@@ -3405,6 +3842,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByDeletingLastPathComponent
   NSURL? get URLByDeletingLastPathComponent {
     final _ret =
         _objc_msgSend_59(this.pointer, _sel_URLByDeletingLastPathComponent);
@@ -3413,6 +3851,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByAppendingPathExtension:
   NSURL? URLByAppendingPathExtension_(NSString pathExtension) {
     final _ret = _objc_msgSend_167(
         this.pointer, _sel_URLByAppendingPathExtension_, pathExtension.pointer);
@@ -3421,6 +3860,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByDeletingPathExtension
   NSURL? get URLByDeletingPathExtension {
     final _ret =
         _objc_msgSend_59(this.pointer, _sel_URLByDeletingPathExtension);
@@ -3429,6 +3869,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByStandardizingPath
   NSURL? get URLByStandardizingPath {
     final _ret = _objc_msgSend_59(this.pointer, _sel_URLByStandardizingPath);
     return _ret.address == 0
@@ -3436,6 +3877,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// URLByResolvingSymlinksInPath
   NSURL? get URLByResolvingSymlinksInPath {
     final _ret =
         _objc_msgSend_59(this.pointer, _sel_URLByResolvingSymlinksInPath);
@@ -3444,6 +3886,7 @@ class NSURL extends NSObject {
         : NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// resourceDataUsingCache:
   NSData? resourceDataUsingCache_(bool shouldUseCache) {
     final _ret = _objc_msgSend_169(
         this.pointer, _sel_resourceDataUsingCache_, shouldUseCache);
@@ -3452,6 +3895,7 @@ class NSURL extends NSObject {
         : NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// loadResourceDataNotifyingClient:usingCache:
   void loadResourceDataNotifyingClient_usingCache_(
       objc.ObjCObjectBase client, bool shouldUseCache) {
     _objc_msgSend_170(
@@ -3461,6 +3905,7 @@ class NSURL extends NSObject {
         shouldUseCache);
   }
 
+  /// propertyForKey:
   objc.ObjCObjectBase? propertyForKey_(NSString propertyKey) {
     final _ret = _objc_msgSend_52(
         this.pointer, _sel_propertyForKey_, propertyKey.pointer);
@@ -3469,15 +3914,18 @@ class NSURL extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// setResourceData:
   bool setResourceData_(NSData data) {
     return _objc_msgSend_38(this.pointer, _sel_setResourceData_, data.pointer);
   }
 
+  /// setProperty:forKey:
   bool setProperty_forKey_(objc.ObjCObjectBase property, NSString propertyKey) {
     return _objc_msgSend_171(this.pointer, _sel_setProperty_forKey_,
         property.pointer, propertyKey.pointer);
   }
 
+  /// URLHandleUsingCache:
   NSURLHandle? URLHandleUsingCache_(bool shouldUseCache) {
     final _ret = _objc_msgSend_179(
         this.pointer, _sel_URLHandleUsingCache_, shouldUseCache);
@@ -3486,21 +3934,25 @@ class NSURL extends NSObject {
         : NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSURL init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSURL.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSURL new1() {
     final _ret = _objc_msgSend_2(_class_NSURL, _sel_new);
     return NSURL.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSURL allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSURL, _sel_allocWithZone_, zone);
     return NSURL.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSURL alloc() {
     final _ret = _objc_msgSend_2(_class_NSURL, _sel_alloc);
     return NSURL.castFromPointer(_ret, retain: false, release: true);
@@ -3804,6 +4256,7 @@ late final _sel_scheme = objc.registerName("scheme");
 late final _sel_resourceSpecifier = objc.registerName("resourceSpecifier");
 late final _sel_host = objc.registerName("host");
 
+/// NSNumber
 class NSNumber extends NSValue {
   NSNumber._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -3823,6 +4276,7 @@ class NSNumber extends NSValue {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSNumber);
   }
 
+  /// initWithCoder:
   NSNumber? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -3831,257 +4285,309 @@ class NSNumber extends NSValue {
         : NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithChar:
   NSNumber initWithChar_(int value) {
     final _ret = _objc_msgSend_60(this.pointer, _sel_initWithChar_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUnsignedChar:
   NSNumber initWithUnsignedChar_(int value) {
     final _ret =
         _objc_msgSend_61(this.pointer, _sel_initWithUnsignedChar_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithShort:
   NSNumber initWithShort_(int value) {
     final _ret = _objc_msgSend_62(this.pointer, _sel_initWithShort_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUnsignedShort:
   NSNumber initWithUnsignedShort_(int value) {
     final _ret =
         _objc_msgSend_63(this.pointer, _sel_initWithUnsignedShort_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithInt:
   NSNumber initWithInt_(int value) {
     final _ret = _objc_msgSend_64(this.pointer, _sel_initWithInt_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUnsignedInt:
   NSNumber initWithUnsignedInt_(int value) {
     final _ret =
         _objc_msgSend_65(this.pointer, _sel_initWithUnsignedInt_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithLong:
   NSNumber initWithLong_(int value) {
     final _ret = _objc_msgSend_66(this.pointer, _sel_initWithLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUnsignedLong:
   NSNumber initWithUnsignedLong_(int value) {
     final _ret =
         _objc_msgSend_67(this.pointer, _sel_initWithUnsignedLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithLongLong:
   NSNumber initWithLongLong_(int value) {
     final _ret = _objc_msgSend_68(this.pointer, _sel_initWithLongLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUnsignedLongLong:
   NSNumber initWithUnsignedLongLong_(int value) {
     final _ret =
         _objc_msgSend_69(this.pointer, _sel_initWithUnsignedLongLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithFloat:
   NSNumber initWithFloat_(double value) {
     final _ret = _objc_msgSend_70(this.pointer, _sel_initWithFloat_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithDouble:
   NSNumber initWithDouble_(double value) {
     final _ret = _objc_msgSend_71(this.pointer, _sel_initWithDouble_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBool:
   NSNumber initWithBool_(bool value) {
     final _ret = _objc_msgSend_72(this.pointer, _sel_initWithBool_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithInteger:
   NSNumber initWithInteger_(int value) {
     final _ret = _objc_msgSend_66(this.pointer, _sel_initWithInteger_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUnsignedInteger:
   NSNumber initWithUnsignedInteger_(int value) {
     final _ret =
         _objc_msgSend_67(this.pointer, _sel_initWithUnsignedInteger_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// charValue
   int get charValue {
     return _objc_msgSend_73(this.pointer, _sel_charValue);
   }
 
+  /// unsignedCharValue
   int get unsignedCharValue {
     return _objc_msgSend_74(this.pointer, _sel_unsignedCharValue);
   }
 
+  /// shortValue
   int get shortValue {
     return _objc_msgSend_75(this.pointer, _sel_shortValue);
   }
 
+  /// unsignedShortValue
   int get unsignedShortValue {
     return _objc_msgSend_76(this.pointer, _sel_unsignedShortValue);
   }
 
+  /// intValue
   int get intValue {
     return _objc_msgSend_77(this.pointer, _sel_intValue);
   }
 
+  /// unsignedIntValue
   int get unsignedIntValue {
     return _objc_msgSend_78(this.pointer, _sel_unsignedIntValue);
   }
 
+  /// longValue
   int get longValue {
     return _objc_msgSend_79(this.pointer, _sel_longValue);
   }
 
+  /// unsignedLongValue
   int get unsignedLongValue {
     return _objc_msgSend_11(this.pointer, _sel_unsignedLongValue);
   }
 
+  /// longLongValue
   int get longLongValue {
     return _objc_msgSend_80(this.pointer, _sel_longLongValue);
   }
 
+  /// unsignedLongLongValue
   int get unsignedLongLongValue {
     return _objc_msgSend_81(this.pointer, _sel_unsignedLongLongValue);
   }
 
+  /// floatValue
   double get floatValue {
     return objc.useMsgSendVariants
         ? _objc_msgSend_82Fpret(this.pointer, _sel_floatValue)
         : _objc_msgSend_82(this.pointer, _sel_floatValue);
   }
 
+  /// doubleValue
   double get doubleValue {
     return objc.useMsgSendVariants
         ? _objc_msgSend_83Fpret(this.pointer, _sel_doubleValue)
         : _objc_msgSend_83(this.pointer, _sel_doubleValue);
   }
 
+  /// boolValue
   bool get boolValue {
     return _objc_msgSend_13(this.pointer, _sel_boolValue);
   }
 
+  /// integerValue
   int get integerValue {
     return _objc_msgSend_79(this.pointer, _sel_integerValue);
   }
 
+  /// unsignedIntegerValue
   int get unsignedIntegerValue {
     return _objc_msgSend_11(this.pointer, _sel_unsignedIntegerValue);
   }
 
+  /// stringValue
   NSString get stringValue {
     final _ret = _objc_msgSend_35(this.pointer, _sel_stringValue);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
-  int compare_(NSNumber otherNumber) {
-    return _objc_msgSend_84(this.pointer, _sel_compare_, otherNumber.pointer);
+  /// compare:
+  NSComparisonResult compare_(NSNumber otherNumber) {
+    final _ret =
+        _objc_msgSend_84(this.pointer, _sel_compare_, otherNumber.pointer);
+    return NSComparisonResult.fromValue(_ret);
   }
 
+  /// isEqualToNumber:
   bool isEqualToNumber_(NSNumber number) {
     return _objc_msgSend_85(
         this.pointer, _sel_isEqualToNumber_, number.pointer);
   }
 
+  /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
         locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithChar:
   static NSNumber numberWithChar_(int value) {
     final _ret = _objc_msgSend_60(_class_NSNumber, _sel_numberWithChar_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithUnsignedChar:
   static NSNumber numberWithUnsignedChar_(int value) {
     final _ret =
         _objc_msgSend_61(_class_NSNumber, _sel_numberWithUnsignedChar_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithShort:
   static NSNumber numberWithShort_(int value) {
     final _ret =
         _objc_msgSend_62(_class_NSNumber, _sel_numberWithShort_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithUnsignedShort:
   static NSNumber numberWithUnsignedShort_(int value) {
     final _ret =
         _objc_msgSend_63(_class_NSNumber, _sel_numberWithUnsignedShort_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithInt:
   static NSNumber numberWithInt_(int value) {
     final _ret = _objc_msgSend_64(_class_NSNumber, _sel_numberWithInt_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithUnsignedInt:
   static NSNumber numberWithUnsignedInt_(int value) {
     final _ret =
         _objc_msgSend_65(_class_NSNumber, _sel_numberWithUnsignedInt_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithLong:
   static NSNumber numberWithLong_(int value) {
     final _ret = _objc_msgSend_66(_class_NSNumber, _sel_numberWithLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithUnsignedLong:
   static NSNumber numberWithUnsignedLong_(int value) {
     final _ret =
         _objc_msgSend_67(_class_NSNumber, _sel_numberWithUnsignedLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithLongLong:
   static NSNumber numberWithLongLong_(int value) {
     final _ret =
         _objc_msgSend_68(_class_NSNumber, _sel_numberWithLongLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithUnsignedLongLong:
   static NSNumber numberWithUnsignedLongLong_(int value) {
     final _ret = _objc_msgSend_69(
         _class_NSNumber, _sel_numberWithUnsignedLongLong_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithFloat:
   static NSNumber numberWithFloat_(double value) {
     final _ret =
         _objc_msgSend_70(_class_NSNumber, _sel_numberWithFloat_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithDouble:
   static NSNumber numberWithDouble_(double value) {
     final _ret =
         _objc_msgSend_71(_class_NSNumber, _sel_numberWithDouble_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithBool:
   static NSNumber numberWithBool_(bool value) {
     final _ret = _objc_msgSend_72(_class_NSNumber, _sel_numberWithBool_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithInteger:
   static NSNumber numberWithInteger_(int value) {
     final _ret =
         _objc_msgSend_66(_class_NSNumber, _sel_numberWithInteger_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// numberWithUnsignedInteger:
   static NSNumber numberWithUnsignedInteger_(int value) {
     final _ret = _objc_msgSend_67(
         _class_NSNumber, _sel_numberWithUnsignedInteger_, value);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytes:objCType:
   NSNumber initWithBytes_objCType_(
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret = _objc_msgSend_87(
@@ -4089,6 +4595,7 @@ class NSNumber extends NSValue {
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// valueWithBytes:objCType:
   static NSValue valueWithBytes_objCType_(
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret = _objc_msgSend_88(
@@ -4096,6 +4603,7 @@ class NSNumber extends NSValue {
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// value:withObjCType:
   static NSValue value_withObjCType_(
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret = _objc_msgSend_88(
@@ -4103,38 +4611,45 @@ class NSNumber extends NSValue {
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// valueWithNonretainedObject:
   static NSValue valueWithNonretainedObject_(objc.ObjCObjectBase? anObject) {
     final _ret = _objc_msgSend_89(_class_NSNumber,
         _sel_valueWithNonretainedObject_, anObject?.pointer ?? ffi.nullptr);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// valueWithPointer:
   static NSValue valueWithPointer_(ffi.Pointer<ffi.Void> pointer) {
     final _ret =
         _objc_msgSend_91(_class_NSNumber, _sel_valueWithPointer_, pointer);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// valueWithRange:
   static NSValue valueWithRange_(NSRange range) {
     final _ret = _objc_msgSend_94(_class_NSNumber, _sel_valueWithRange_, range);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSNumber init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSNumber.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSNumber new1() {
     final _ret = _objc_msgSend_2(_class_NSNumber, _sel_new);
     return NSNumber.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSNumber allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSNumber, _sel_allocWithZone_, zone);
     return NSNumber.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSNumber alloc() {
     final _ret = _objc_msgSend_2(_class_NSNumber, _sel_alloc);
     return NSNumber.castFromPointer(_ret, retain: false, release: true);
@@ -4392,7 +4907,7 @@ late final _sel_stringValue = objc.registerName("stringValue");
 final _objc_msgSend_84 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(
+            ffi.Long Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>)>>()
@@ -4444,6 +4959,7 @@ late final _sel_numberWithInteger_ = objc.registerName("numberWithInteger:");
 late final _sel_numberWithUnsignedInteger_ =
     objc.registerName("numberWithUnsignedInteger:");
 
+/// NSValue
 class NSValue extends NSObject {
   NSValue._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -4463,14 +4979,17 @@ class NSValue extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSValue);
   }
 
+  /// getValue:size:
   void getValue_size_(ffi.Pointer<ffi.Void> value, int size) {
     _objc_msgSend_36(this.pointer, _sel_getValue_size_, value, size);
   }
 
+  /// objCType
   ffi.Pointer<ffi.Char> get objCType {
     return _objc_msgSend_14(this.pointer, _sel_objCType);
   }
 
+  /// initWithBytes:objCType:
   NSValue initWithBytes_objCType_(
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret = _objc_msgSend_87(
@@ -4478,6 +4997,7 @@ class NSValue extends NSObject {
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSValue? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -4486,6 +5006,7 @@ class NSValue extends NSObject {
         : NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// valueWithBytes:objCType:
   static NSValue valueWithBytes_objCType_(
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret = _objc_msgSend_88(
@@ -4493,6 +5014,7 @@ class NSValue extends NSObject {
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// value:withObjCType:
   static NSValue value_withObjCType_(
       ffi.Pointer<ffi.Void> value, ffi.Pointer<ffi.Char> type) {
     final _ret =
@@ -4500,12 +5022,14 @@ class NSValue extends NSObject {
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// valueWithNonretainedObject:
   static NSValue valueWithNonretainedObject_(objc.ObjCObjectBase? anObject) {
     final _ret = _objc_msgSend_89(_class_NSValue,
         _sel_valueWithNonretainedObject_, anObject?.pointer ?? ffi.nullptr);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// nonretainedObjectValue
   objc.ObjCObjectBase? get nonretainedObjectValue {
     final _ret = _objc_msgSend_90(this.pointer, _sel_nonretainedObjectValue);
     return _ret.address == 0
@@ -4513,50 +5037,60 @@ class NSValue extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// valueWithPointer:
   static NSValue valueWithPointer_(ffi.Pointer<ffi.Void> pointer) {
     final _ret =
         _objc_msgSend_91(_class_NSValue, _sel_valueWithPointer_, pointer);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// pointerValue
   ffi.Pointer<ffi.Void> get pointerValue {
     return _objc_msgSend_34(this.pointer, _sel_pointerValue);
   }
 
+  /// isEqualToValue:
   bool isEqualToValue_(NSValue value) {
     return _objc_msgSend_92(this.pointer, _sel_isEqualToValue_, value.pointer);
   }
 
+  /// getValue:
   void getValue_(ffi.Pointer<ffi.Void> value) {
     _objc_msgSend_93(this.pointer, _sel_getValue_, value);
   }
 
+  /// valueWithRange:
   static NSValue valueWithRange_(NSRange range) {
     final _ret = _objc_msgSend_94(_class_NSValue, _sel_valueWithRange_, range);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// rangeValue
   void getRangeValue(ffi.Pointer<NSRange> stret) {
     objc.useMsgSendVariants
         ? _objc_msgSend_95Stret(stret, this.pointer, _sel_rangeValue)
         : stret.ref = _objc_msgSend_95(this.pointer, _sel_rangeValue);
   }
 
+  /// init
   NSValue init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSValue.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSValue new1() {
     final _ret = _objc_msgSend_2(_class_NSValue, _sel_new);
     return NSValue.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSValue allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSValue, _sel_allocWithZone_, zone);
     return NSValue.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSValue alloc() {
     final _ret = _objc_msgSend_2(_class_NSValue, _sel_alloc);
     return NSValue.castFromPointer(_ret, retain: false, release: true);
@@ -4714,6 +5248,7 @@ late final _sel_fileSystemRepresentation =
 late final _sel_isFileURL = objc.registerName("isFileURL");
 late final _sel_standardizedURL = objc.registerName("standardizedURL");
 
+/// NSError
 class NSError extends NSObject {
   NSError._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -4733,6 +5268,7 @@ class NSError extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSError);
   }
 
+  /// initWithDomain:code:userInfo:
   NSError initWithDomain_code_userInfo_(
       NSString domain, int code, objc.ObjCObjectBase? dict) {
     final _ret = _objc_msgSend_98(
@@ -4744,6 +5280,7 @@ class NSError extends NSObject {
     return NSError.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// errorWithDomain:code:userInfo:
   static NSError errorWithDomain_code_userInfo_(
       NSString domain, int code, objc.ObjCObjectBase? dict) {
     final _ret = _objc_msgSend_98(
@@ -4755,25 +5292,30 @@ class NSError extends NSObject {
     return NSError.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// domain
   NSString get domain {
     final _ret = _objc_msgSend_35(this.pointer, _sel_domain);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// code
   int get code {
     return _objc_msgSend_79(this.pointer, _sel_code);
   }
 
+  /// userInfo
   objc.ObjCObjectBase get userInfo {
     final _ret = _objc_msgSend_2(this.pointer, _sel_userInfo);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// localizedDescription
   NSString get localizedDescription {
     final _ret = _objc_msgSend_35(this.pointer, _sel_localizedDescription);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedFailureReason
   NSString? get localizedFailureReason {
     final _ret = _objc_msgSend_58(this.pointer, _sel_localizedFailureReason);
     return _ret.address == 0
@@ -4781,6 +5323,7 @@ class NSError extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedRecoverySuggestion
   NSString? get localizedRecoverySuggestion {
     final _ret =
         _objc_msgSend_58(this.pointer, _sel_localizedRecoverySuggestion);
@@ -4789,6 +5332,7 @@ class NSError extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedRecoveryOptions
   NSArray? get localizedRecoveryOptions {
     final _ret = _objc_msgSend_136(this.pointer, _sel_localizedRecoveryOptions);
     return _ret.address == 0
@@ -4796,6 +5340,7 @@ class NSError extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// recoveryAttempter
   objc.ObjCObjectBase? get recoveryAttempter {
     final _ret = _objc_msgSend_90(this.pointer, _sel_recoveryAttempter);
     return _ret.address == 0
@@ -4803,6 +5348,7 @@ class NSError extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// helpAnchor
   NSString? get helpAnchor {
     final _ret = _objc_msgSend_58(this.pointer, _sel_helpAnchor);
     return _ret.address == 0
@@ -4810,26 +5356,31 @@ class NSError extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// underlyingErrors
   NSArray get underlyingErrors {
     final _ret = _objc_msgSend_137(this.pointer, _sel_underlyingErrors);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSError init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSError.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSError new1() {
     final _ret = _objc_msgSend_2(_class_NSError, _sel_new);
     return NSError.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSError allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSError, _sel_allocWithZone_, zone);
     return NSError.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSError alloc() {
     final _ret = _objc_msgSend_2(_class_NSError, _sel_alloc);
     return NSError.castFromPointer(_ret, retain: false, release: true);
@@ -4867,6 +5418,7 @@ late final _sel_localizedFailureReason =
 late final _sel_localizedRecoverySuggestion =
     objc.registerName("localizedRecoverySuggestion");
 
+/// NSArray
 class NSArray extends NSObject {
   NSArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -4886,20 +5438,24 @@ class NSArray extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSArray);
   }
 
+  /// count
   int get count {
     return _objc_msgSend_11(this.pointer, _sel_count);
   }
 
+  /// objectAtIndex:
   objc.ObjCObjectBase objectAtIndex_(int index) {
     final _ret = _objc_msgSend_99(this.pointer, _sel_objectAtIndex_, index);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// init
   NSArray init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:count:
   NSArray initWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -4907,6 +5463,7 @@ class NSArray extends NSObject {
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSArray? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -4915,40 +5472,47 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayByAddingObject:
   NSArray arrayByAddingObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_101(
         this.pointer, _sel_arrayByAddingObject_, anObject.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayByAddingObjectsFromArray:
   NSArray arrayByAddingObjectsFromArray_(NSArray otherArray) {
     final _ret = _objc_msgSend_102(
         this.pointer, _sel_arrayByAddingObjectsFromArray_, otherArray.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// componentsJoinedByString:
   NSString componentsJoinedByString_(NSString separator) {
     final _ret = _objc_msgSend_103(
         this.pointer, _sel_componentsJoinedByString_, separator.pointer);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// containsObject:
   bool containsObject_(objc.ObjCObjectBase anObject) {
     return _objc_msgSend_0(
         this.pointer, _sel_containsObject_, anObject.pointer);
   }
 
+  /// description
   NSString get description {
     final _ret = _objc_msgSend_35(this.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
         locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// descriptionWithLocale:indent:
   NSString descriptionWithLocale_indent_(
       objc.ObjCObjectBase? locale, int level) {
     final _ret = _objc_msgSend_104(
@@ -4959,6 +5523,7 @@ class NSArray extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// firstObjectCommonWithArray:
   objc.ObjCObjectBase? firstObjectCommonWithArray_(NSArray otherArray) {
     final _ret = _objc_msgSend_105(
         this.pointer, _sel_firstObjectCommonWithArray_, otherArray.pointer);
@@ -4967,37 +5532,44 @@ class NSArray extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// getObjects:range:
   void getObjects_range_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, NSRange range) {
     _objc_msgSend_106(this.pointer, _sel_getObjects_range_, objects, range);
   }
 
+  /// indexOfObject:
   int indexOfObject_(objc.ObjCObjectBase anObject) {
     return _objc_msgSend_107(
         this.pointer, _sel_indexOfObject_, anObject.pointer);
   }
 
+  /// indexOfObject:inRange:
   int indexOfObject_inRange_(objc.ObjCObjectBase anObject, NSRange range) {
     return _objc_msgSend_108(
         this.pointer, _sel_indexOfObject_inRange_, anObject.pointer, range);
   }
 
+  /// indexOfObjectIdenticalTo:
   int indexOfObjectIdenticalTo_(objc.ObjCObjectBase anObject) {
     return _objc_msgSend_107(
         this.pointer, _sel_indexOfObjectIdenticalTo_, anObject.pointer);
   }
 
+  /// indexOfObjectIdenticalTo:inRange:
   int indexOfObjectIdenticalTo_inRange_(
       objc.ObjCObjectBase anObject, NSRange range) {
     return _objc_msgSend_108(this.pointer,
         _sel_indexOfObjectIdenticalTo_inRange_, anObject.pointer, range);
   }
 
+  /// isEqualToArray:
   bool isEqualToArray_(NSArray otherArray) {
     return _objc_msgSend_109(
         this.pointer, _sel_isEqualToArray_, otherArray.pointer);
   }
 
+  /// firstObject
   objc.ObjCObjectBase? get firstObject {
     final _ret = _objc_msgSend_90(this.pointer, _sel_firstObject);
     return _ret.address == 0
@@ -5005,6 +5577,7 @@ class NSArray extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// lastObject
   objc.ObjCObjectBase? get lastObject {
     final _ret = _objc_msgSend_90(this.pointer, _sel_lastObject);
     return _ret.address == 0
@@ -5012,21 +5585,25 @@ class NSArray extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// objectEnumerator
   NSEnumerator objectEnumerator() {
     final _ret = _objc_msgSend_110(this.pointer, _sel_objectEnumerator);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// reverseObjectEnumerator
   NSEnumerator reverseObjectEnumerator() {
     final _ret = _objc_msgSend_110(this.pointer, _sel_reverseObjectEnumerator);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// sortedArrayHint
   NSData get sortedArrayHint {
     final _ret = _objc_msgSend_57(this.pointer, _sel_sortedArrayHint);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// sortedArrayUsingFunction:context:
   NSArray sortedArrayUsingFunction_context_(
       ffi.Pointer<
               ffi.NativeFunction<
@@ -5039,6 +5616,7 @@ class NSArray extends NSObject {
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// sortedArrayUsingFunction:context:hint:
   NSArray sortedArrayUsingFunction_context_hint_(
       ffi.Pointer<
               ffi.NativeFunction<
@@ -5056,57 +5634,67 @@ class NSArray extends NSObject {
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// sortedArrayUsingSelector:
   NSArray sortedArrayUsingSelector_(ffi.Pointer<objc.ObjCSelector> comparator) {
     final _ret = _objc_msgSend_113(
         this.pointer, _sel_sortedArrayUsingSelector_, comparator);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// subarrayWithRange:
   NSArray subarrayWithRange_(NSRange range) {
     final _ret =
         _objc_msgSend_114(this.pointer, _sel_subarrayWithRange_, range);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// writeToURL:error:
   bool writeToURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_115(
         this.pointer, _sel_writeToURL_error_, url.pointer, error);
   }
 
+  /// makeObjectsPerformSelector:
   void makeObjectsPerformSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
     _objc_msgSend_7(this.pointer, _sel_makeObjectsPerformSelector_, aSelector);
   }
 
+  /// makeObjectsPerformSelector:withObject:
   void makeObjectsPerformSelector_withObject_(
       ffi.Pointer<objc.ObjCSelector> aSelector, objc.ObjCObjectBase? argument) {
     _objc_msgSend_116(this.pointer, _sel_makeObjectsPerformSelector_withObject_,
         aSelector, argument?.pointer ?? ffi.nullptr);
   }
 
+  /// objectsAtIndexes:
   NSArray objectsAtIndexes_(NSIndexSet indexes) {
     final _ret = _objc_msgSend_125(
         this.pointer, _sel_objectsAtIndexes_, indexes.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// objectAtIndexedSubscript:
   objc.ObjCObjectBase objectAtIndexedSubscript_(int idx) {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_objectAtIndexedSubscript_, idx);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// array
   static NSArray array() {
     final _ret = _objc_msgSend_2(_class_NSArray, _sel_array);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithObject:
   static NSArray arrayWithObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_126(
         _class_NSArray, _sel_arrayWithObject_, anObject.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithObjects:count:
   static NSArray arrayWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -5114,36 +5702,42 @@ class NSArray extends NSObject {
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithObjects:
   static NSArray arrayWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
         _class_NSArray, _sel_arrayWithObjects_, firstObj.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithArray:
   static NSArray arrayWithArray_(NSArray array) {
     final _ret =
         _objc_msgSend_127(_class_NSArray, _sel_arrayWithArray_, array.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:
   NSArray initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
         this.pointer, _sel_initWithObjects_, firstObj.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithArray:
   NSArray initWithArray_(NSArray array) {
     final _ret =
         _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithArray:copyItems:
   NSArray initWithArray_copyItems_(NSArray array, bool flag) {
     final _ret = _objc_msgSend_128(
         this.pointer, _sel_initWithArray_copyItems_, array.pointer, flag);
     return NSArray.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithContentsOfURL:error:
   NSArray? initWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_129(
@@ -5153,6 +5747,7 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithContentsOfURL:error:
   static NSArray? arrayWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_129(
@@ -5162,19 +5757,22 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// differenceFromArray:withOptions:
   objc.ObjCObjectBase differenceFromArray_withOptions_(
-      NSArray other, int options) {
+      NSArray other, NSOrderedCollectionDifferenceCalculationOptions options) {
     final _ret = _objc_msgSend_130(this.pointer,
-        _sel_differenceFromArray_withOptions_, other.pointer, options);
+        _sel_differenceFromArray_withOptions_, other.pointer, options.value);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// differenceFromArray:
   objc.ObjCObjectBase differenceFromArray_(NSArray other) {
     final _ret = _objc_msgSend_127(
         this.pointer, _sel_differenceFromArray_, other.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// arrayByApplyingDifference:
   NSArray? arrayByApplyingDifference_(objc.ObjCObjectBase difference) {
     final _ret = _objc_msgSend_131(
         this.pointer, _sel_arrayByApplyingDifference_, difference.pointer);
@@ -5183,10 +5781,12 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// getObjects:
   void getObjects_(ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects) {
     _objc_msgSend_132(this.pointer, _sel_getObjects_, objects);
   }
 
+  /// arrayWithContentsOfFile:
   static NSArray? arrayWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_133(
         _class_NSArray, _sel_arrayWithContentsOfFile_, path.pointer);
@@ -5195,6 +5795,7 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithContentsOfURL:
   static NSArray? arrayWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_134(
         _class_NSArray, _sel_arrayWithContentsOfURL_, url.pointer);
@@ -5203,6 +5804,7 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:
   NSArray? initWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_133(
         this.pointer, _sel_initWithContentsOfFile_, path.pointer);
@@ -5211,6 +5813,7 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   NSArray? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_134(
         this.pointer, _sel_initWithContentsOfURL_, url.pointer);
@@ -5219,26 +5822,31 @@ class NSArray extends NSObject {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// writeToFile:atomically:
   bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
     return _objc_msgSend_40(this.pointer, _sel_writeToFile_atomically_,
         path.pointer, useAuxiliaryFile);
   }
 
+  /// writeToURL:atomically:
   bool writeToURL_atomically_(NSURL url, bool atomically) {
     return _objc_msgSend_135(
         this.pointer, _sel_writeToURL_atomically_, url.pointer, atomically);
   }
 
+  /// new
   static NSArray new1() {
     final _ret = _objc_msgSend_2(_class_NSArray, _sel_new);
     return NSArray.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSArray allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSArray, _sel_allocWithZone_, zone);
     return NSArray.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSArray alloc() {
     final _ret = _objc_msgSend_2(_class_NSArray, _sel_alloc);
     return NSArray.castFromPointer(_ret, retain: false, release: true);
@@ -5397,6 +6005,7 @@ final _objc_msgSend_109 = objc.msgSendPointer
 late final _sel_firstObject = objc.registerName("firstObject");
 late final _sel_lastObject = objc.registerName("lastObject");
 
+/// NSEnumerator
 class NSEnumerator extends NSObject {
   NSEnumerator._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -5417,6 +6026,7 @@ class NSEnumerator extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_NSEnumerator);
   }
 
+  /// nextObject
   objc.ObjCObjectBase? nextObject() {
     final _ret = _objc_msgSend_90(this.pointer, _sel_nextObject);
     return _ret.address == 0
@@ -5424,27 +6034,32 @@ class NSEnumerator extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// allObjects
   objc.ObjCObjectBase get allObjects {
     final _ret = _objc_msgSend_2(this.pointer, _sel_allObjects);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// init
   NSEnumerator init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSEnumerator new1() {
     final _ret = _objc_msgSend_2(_class_NSEnumerator, _sel_new);
     return NSEnumerator.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSEnumerator allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSEnumerator, _sel_allocWithZone_, zone);
     return NSEnumerator.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSEnumerator alloc() {
     final _ret = _objc_msgSend_2(_class_NSEnumerator, _sel_alloc);
     return NSEnumerator.castFromPointer(_ret, retain: false, release: true);
@@ -5571,6 +6186,7 @@ final _objc_msgSend_116 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>)>();
 
+/// NSIndexSet
 class NSIndexSet extends NSObject {
   NSIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -5590,75 +6206,90 @@ class NSIndexSet extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSIndexSet);
   }
 
+  /// indexSet
   static NSIndexSet indexSet() {
     final _ret = _objc_msgSend_2(_class_NSIndexSet, _sel_indexSet);
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// indexSetWithIndex:
   static NSIndexSet indexSetWithIndex_(int value) {
     final _ret =
         _objc_msgSend_99(_class_NSIndexSet, _sel_indexSetWithIndex_, value);
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// indexSetWithIndexesInRange:
   static NSIndexSet indexSetWithIndexesInRange_(NSRange range) {
     final _ret = _objc_msgSend_117(
         _class_NSIndexSet, _sel_indexSetWithIndexesInRange_, range);
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithIndexesInRange:
   NSIndexSet initWithIndexesInRange_(NSRange range) {
     final _ret =
         _objc_msgSend_117(this.pointer, _sel_initWithIndexesInRange_, range);
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithIndexSet:
   NSIndexSet initWithIndexSet_(NSIndexSet indexSet) {
     final _ret = _objc_msgSend_118(
         this.pointer, _sel_initWithIndexSet_, indexSet.pointer);
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithIndex:
   NSIndexSet initWithIndex_(int value) {
     final _ret = _objc_msgSend_99(this.pointer, _sel_initWithIndex_, value);
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// isEqualToIndexSet:
   bool isEqualToIndexSet_(NSIndexSet indexSet) {
     return _objc_msgSend_119(
         this.pointer, _sel_isEqualToIndexSet_, indexSet.pointer);
   }
 
+  /// count
   int get count {
     return _objc_msgSend_11(this.pointer, _sel_count);
   }
 
+  /// firstIndex
   int get firstIndex {
     return _objc_msgSend_11(this.pointer, _sel_firstIndex);
   }
 
+  /// lastIndex
   int get lastIndex {
     return _objc_msgSend_11(this.pointer, _sel_lastIndex);
   }
 
+  /// indexGreaterThanIndex:
   int indexGreaterThanIndex_(int value) {
     return _objc_msgSend_120(this.pointer, _sel_indexGreaterThanIndex_, value);
   }
 
+  /// indexLessThanIndex:
   int indexLessThanIndex_(int value) {
     return _objc_msgSend_120(this.pointer, _sel_indexLessThanIndex_, value);
   }
 
+  /// indexGreaterThanOrEqualToIndex:
   int indexGreaterThanOrEqualToIndex_(int value) {
     return _objc_msgSend_120(
         this.pointer, _sel_indexGreaterThanOrEqualToIndex_, value);
   }
 
+  /// indexLessThanOrEqualToIndex:
   int indexLessThanOrEqualToIndex_(int value) {
     return _objc_msgSend_120(
         this.pointer, _sel_indexLessThanOrEqualToIndex_, value);
   }
 
+  /// getIndexes:maxCount:inIndexRange:
   int getIndexes_maxCount_inIndexRange_(
       ffi.Pointer<ffi.UnsignedLong> indexBuffer,
       int bufferSize,
@@ -5667,43 +6298,52 @@ class NSIndexSet extends NSObject {
         _sel_getIndexes_maxCount_inIndexRange_, indexBuffer, bufferSize, range);
   }
 
+  /// countOfIndexesInRange:
   int countOfIndexesInRange_(NSRange range) {
     return _objc_msgSend_122(this.pointer, _sel_countOfIndexesInRange_, range);
   }
 
+  /// containsIndex:
   bool containsIndex_(int value) {
     return _objc_msgSend_123(this.pointer, _sel_containsIndex_, value);
   }
 
+  /// containsIndexesInRange:
   bool containsIndexesInRange_(NSRange range) {
     return _objc_msgSend_124(this.pointer, _sel_containsIndexesInRange_, range);
   }
 
+  /// containsIndexes:
   bool containsIndexes_(NSIndexSet indexSet) {
     return _objc_msgSend_119(
         this.pointer, _sel_containsIndexes_, indexSet.pointer);
   }
 
+  /// intersectsIndexesInRange:
   bool intersectsIndexesInRange_(NSRange range) {
     return _objc_msgSend_124(
         this.pointer, _sel_intersectsIndexesInRange_, range);
   }
 
+  /// init
   NSIndexSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSIndexSet new1() {
     final _ret = _objc_msgSend_2(_class_NSIndexSet, _sel_new);
     return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSIndexSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSIndexSet, _sel_allocWithZone_, zone);
     return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSIndexSet alloc() {
     final _ret = _objc_msgSend_2(_class_NSIndexSet, _sel_alloc);
     return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
@@ -5891,12 +6531,22 @@ final _objc_msgSend_129 = objc.msgSendPointer
 late final _sel_arrayWithContentsOfURL_error_ =
     objc.registerName("arrayWithContentsOfURL:error:");
 
-abstract class NSOrderedCollectionDifferenceCalculationOptions {
-  static const int NSOrderedCollectionDifferenceCalculationOmitInsertedObjects =
-      1;
-  static const int NSOrderedCollectionDifferenceCalculationOmitRemovedObjects =
-      2;
-  static const int NSOrderedCollectionDifferenceCalculationInferMoves = 4;
+enum NSOrderedCollectionDifferenceCalculationOptions {
+  NSOrderedCollectionDifferenceCalculationOmitInsertedObjects(1),
+  NSOrderedCollectionDifferenceCalculationOmitRemovedObjects(2),
+  NSOrderedCollectionDifferenceCalculationInferMoves(4);
+
+  final int value;
+  const NSOrderedCollectionDifferenceCalculationOptions(this.value);
+
+  static NSOrderedCollectionDifferenceCalculationOptions fromValue(int value) =>
+      switch (value) {
+        1 => NSOrderedCollectionDifferenceCalculationOmitInsertedObjects,
+        2 => NSOrderedCollectionDifferenceCalculationOmitRemovedObjects,
+        4 => NSOrderedCollectionDifferenceCalculationInferMoves,
+        _ => throw ArgumentError(
+            "Unknown value for NSOrderedCollectionDifferenceCalculationOptions: $value"),
+      };
 }
 
 late final _sel_differenceFromArray_withOptions_ =
@@ -5908,7 +6558,7 @@ final _objc_msgSend_130 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -6123,14 +6773,27 @@ final _objc_msgSend_144 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>();
 
-abstract class NSURLBookmarkCreationOptions {
-  static const int NSURLBookmarkCreationPreferFileIDResolution = 256;
-  static const int NSURLBookmarkCreationMinimalBookmark = 512;
-  static const int NSURLBookmarkCreationSuitableForBookmarkFile = 1024;
-  static const int NSURLBookmarkCreationWithSecurityScope = 2048;
-  static const int NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess = 4096;
-  static const int NSURLBookmarkCreationWithoutImplicitSecurityScope =
-      536870912;
+enum NSURLBookmarkCreationOptions {
+  NSURLBookmarkCreationPreferFileIDResolution(256),
+  NSURLBookmarkCreationMinimalBookmark(512),
+  NSURLBookmarkCreationSuitableForBookmarkFile(1024),
+  NSURLBookmarkCreationWithSecurityScope(2048),
+  NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess(4096),
+  NSURLBookmarkCreationWithoutImplicitSecurityScope(536870912);
+
+  final int value;
+  const NSURLBookmarkCreationOptions(this.value);
+
+  static NSURLBookmarkCreationOptions fromValue(int value) => switch (value) {
+        256 => NSURLBookmarkCreationPreferFileIDResolution,
+        512 => NSURLBookmarkCreationMinimalBookmark,
+        1024 => NSURLBookmarkCreationSuitableForBookmarkFile,
+        2048 => NSURLBookmarkCreationWithSecurityScope,
+        4096 => NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess,
+        536870912 => NSURLBookmarkCreationWithoutImplicitSecurityScope,
+        _ => throw ArgumentError(
+            "Unknown value for NSURLBookmarkCreationOptions: $value"),
+      };
 }
 
 late final _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_ =
@@ -6142,7 +6805,7 @@ final _objc_msgSend_145 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject> Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
@@ -6155,11 +6818,23 @@ final _objc_msgSend_145 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
 
-abstract class NSURLBookmarkResolutionOptions {
-  static const int NSURLBookmarkResolutionWithoutUI = 256;
-  static const int NSURLBookmarkResolutionWithoutMounting = 512;
-  static const int NSURLBookmarkResolutionWithSecurityScope = 1024;
-  static const int NSURLBookmarkResolutionWithoutImplicitStartAccessing = 32768;
+enum NSURLBookmarkResolutionOptions {
+  NSURLBookmarkResolutionWithoutUI(256),
+  NSURLBookmarkResolutionWithoutMounting(512),
+  NSURLBookmarkResolutionWithSecurityScope(1024),
+  NSURLBookmarkResolutionWithoutImplicitStartAccessing(32768);
+
+  final int value;
+  const NSURLBookmarkResolutionOptions(this.value);
+
+  static NSURLBookmarkResolutionOptions fromValue(int value) => switch (value) {
+        256 => NSURLBookmarkResolutionWithoutUI,
+        512 => NSURLBookmarkResolutionWithoutMounting,
+        1024 => NSURLBookmarkResolutionWithSecurityScope,
+        32768 => NSURLBookmarkResolutionWithoutImplicitStartAccessing,
+        _ => throw ArgumentError(
+            "Unknown value for NSURLBookmarkResolutionOptions: $value"),
+      };
 }
 
 late final _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_ =
@@ -6172,7 +6847,7 @@ final _objc_msgSend_146 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<ffi.Bool>,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
@@ -6249,7 +6924,7 @@ final _objc_msgSend_150 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
@@ -6265,6 +6940,7 @@ late final _sel_stopAccessingSecurityScopedResource =
 late final _sel_getPromisedItemResourceValue_forKey_error_ =
     objc.registerName("getPromisedItemResourceValue:forKey:error:");
 
+/// NSDictionary
 class NSDictionary extends NSObject {
   NSDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -6285,10 +6961,12 @@ class NSDictionary extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_NSDictionary);
   }
 
+  /// count
   int get count {
     return _objc_msgSend_11(this.pointer, _sel_count);
   }
 
+  /// objectForKey:
   objc.ObjCObjectBase? objectForKey_(objc.ObjCObjectBase aKey) {
     final _ret =
         _objc_msgSend_151(this.pointer, _sel_objectForKey_, aKey.pointer);
@@ -6297,16 +6975,19 @@ class NSDictionary extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// keyEnumerator
   NSEnumerator keyEnumerator() {
     final _ret = _objc_msgSend_110(this.pointer, _sel_keyEnumerator);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSDictionary init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:forKeys:count:
   NSDictionary initWithObjects_forKeys_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
@@ -6316,6 +6997,7 @@ class NSDictionary extends NSObject {
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSDictionary? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -6324,39 +7006,46 @@ class NSDictionary extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// allKeys
   NSArray get allKeys {
     final _ret = _objc_msgSend_137(this.pointer, _sel_allKeys);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// allKeysForObject:
   NSArray allKeysForObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_101(
         this.pointer, _sel_allKeysForObject_, anObject.pointer);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// allValues
   NSArray get allValues {
     final _ret = _objc_msgSend_137(this.pointer, _sel_allValues);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// description
   NSString get description {
     final _ret = _objc_msgSend_35(this.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// descriptionInStringsFileFormat
   NSString get descriptionInStringsFileFormat {
     final _ret =
         _objc_msgSend_35(this.pointer, _sel_descriptionInStringsFileFormat);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
         locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// descriptionWithLocale:indent:
   NSString descriptionWithLocale_indent_(
       objc.ObjCObjectBase? locale, int level) {
     final _ret = _objc_msgSend_104(
@@ -6367,16 +7056,19 @@ class NSDictionary extends NSObject {
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// isEqualToDictionary:
   bool isEqualToDictionary_(NSDictionary otherDictionary) {
     return _objc_msgSend_153(
         this.pointer, _sel_isEqualToDictionary_, otherDictionary.pointer);
   }
 
+  /// objectEnumerator
   NSEnumerator objectEnumerator() {
     final _ret = _objc_msgSend_110(this.pointer, _sel_objectEnumerator);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// objectsForKeys:notFoundMarker:
   NSArray objectsForKeys_notFoundMarker_(
       NSArray keys, objc.ObjCObjectBase marker) {
     final _ret = _objc_msgSend_154(this.pointer,
@@ -6384,12 +7076,14 @@ class NSDictionary extends NSObject {
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// writeToURL:error:
   bool writeToURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     return _objc_msgSend_115(
         this.pointer, _sel_writeToURL_error_, url.pointer, error);
   }
 
+  /// keysSortedByValueUsingSelector:
   NSArray keysSortedByValueUsingSelector_(
       ffi.Pointer<objc.ObjCSelector> comparator) {
     final _ret = _objc_msgSend_113(
@@ -6397,6 +7091,7 @@ class NSDictionary extends NSObject {
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// getObjects:andKeys:count:
   void getObjects_andKeys_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
@@ -6405,6 +7100,7 @@ class NSDictionary extends NSObject {
         this.pointer, _sel_getObjects_andKeys_count_, objects, keys, count);
   }
 
+  /// objectForKeyedSubscript:
   objc.ObjCObjectBase? objectForKeyedSubscript_(objc.ObjCObjectBase key) {
     final _ret = _objc_msgSend_151(
         this.pointer, _sel_objectForKeyedSubscript_, key.pointer);
@@ -6413,11 +7109,13 @@ class NSDictionary extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// getObjects:andKeys:
   void getObjects_andKeys_(ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys) {
     _objc_msgSend_156(this.pointer, _sel_getObjects_andKeys_, objects, keys);
   }
 
+  /// dictionaryWithContentsOfFile:
   static NSDictionary? dictionaryWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_157(
         _class_NSDictionary, _sel_dictionaryWithContentsOfFile_, path.pointer);
@@ -6426,6 +7124,7 @@ class NSDictionary extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithContentsOfURL:
   static NSDictionary? dictionaryWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_158(
         _class_NSDictionary, _sel_dictionaryWithContentsOfURL_, url.pointer);
@@ -6434,6 +7133,7 @@ class NSDictionary extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:
   NSDictionary? initWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_157(
         this.pointer, _sel_initWithContentsOfFile_, path.pointer);
@@ -6442,6 +7142,7 @@ class NSDictionary extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   NSDictionary? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_158(
         this.pointer, _sel_initWithContentsOfURL_, url.pointer);
@@ -6450,21 +7151,25 @@ class NSDictionary extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// writeToFile:atomically:
   bool writeToFile_atomically_(NSString path, bool useAuxiliaryFile) {
     return _objc_msgSend_40(this.pointer, _sel_writeToFile_atomically_,
         path.pointer, useAuxiliaryFile);
   }
 
+  /// writeToURL:atomically:
   bool writeToURL_atomically_(NSURL url, bool atomically) {
     return _objc_msgSend_135(
         this.pointer, _sel_writeToURL_atomically_, url.pointer, atomically);
   }
 
+  /// dictionary
   static NSDictionary dictionary() {
     final _ret = _objc_msgSend_2(_class_NSDictionary, _sel_dictionary);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithObject:forKey:
   static NSDictionary dictionaryWithObject_forKey_(
       objc.ObjCObjectBase object, objc.ObjCObjectBase key) {
     final _ret = _objc_msgSend_159(_class_NSDictionary,
@@ -6472,6 +7177,7 @@ class NSDictionary extends NSObject {
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithObjects:forKeys:count:
   static NSDictionary dictionaryWithObjects_forKeys_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
@@ -6481,6 +7187,7 @@ class NSDictionary extends NSObject {
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithObjectsAndKeys:
   static NSDictionary dictionaryWithObjectsAndKeys_(
       objc.ObjCObjectBase firstObject) {
     final _ret = _objc_msgSend_126(_class_NSDictionary,
@@ -6488,12 +7195,14 @@ class NSDictionary extends NSObject {
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithDictionary:
   static NSDictionary dictionaryWithDictionary_(NSDictionary dict) {
     final _ret = _objc_msgSend_160(
         _class_NSDictionary, _sel_dictionaryWithDictionary_, dict.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithObjects:forKeys:
   static NSDictionary dictionaryWithObjects_forKeys_(
       NSArray objects, NSArray keys) {
     final _ret = _objc_msgSend_161(_class_NSDictionary,
@@ -6501,18 +7210,21 @@ class NSDictionary extends NSObject {
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjectsAndKeys:
   NSDictionary initWithObjectsAndKeys_(objc.ObjCObjectBase firstObject) {
     final _ret = _objc_msgSend_126(
         this.pointer, _sel_initWithObjectsAndKeys_, firstObject.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithDictionary:
   NSDictionary initWithDictionary_(NSDictionary otherDictionary) {
     final _ret = _objc_msgSend_160(
         this.pointer, _sel_initWithDictionary_, otherDictionary.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithDictionary:copyItems:
   NSDictionary initWithDictionary_copyItems_(
       NSDictionary otherDictionary, bool flag) {
     final _ret = _objc_msgSend_162(this.pointer,
@@ -6520,12 +7232,14 @@ class NSDictionary extends NSObject {
     return NSDictionary.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithObjects:forKeys:
   NSDictionary initWithObjects_forKeys_(NSArray objects, NSArray keys) {
     final _ret = _objc_msgSend_161(this.pointer, _sel_initWithObjects_forKeys_,
         objects.pointer, keys.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:error:
   NSDictionary? initWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_163(
@@ -6535,6 +7249,7 @@ class NSDictionary extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithContentsOfURL:error:
   static NSDictionary? dictionaryWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_163(_class_NSDictionary,
@@ -6544,12 +7259,14 @@ class NSDictionary extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// sharedKeySetForKeys:
   static objc.ObjCObjectBase sharedKeySetForKeys_(NSArray keys) {
     final _ret = _objc_msgSend_127(
         _class_NSDictionary, _sel_sharedKeySetForKeys_, keys.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// countByEnumeratingWithState:objects:count:
   int countByEnumeratingWithState_objects_count_(
       ffi.Pointer<NSFastEnumerationState> state,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> buffer,
@@ -6558,17 +7275,20 @@ class NSDictionary extends NSObject {
         _sel_countByEnumeratingWithState_objects_count_, state, buffer, len);
   }
 
+  /// new
   static NSDictionary new1() {
     final _ret = _objc_msgSend_2(_class_NSDictionary, _sel_new);
     return NSDictionary.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSDictionary allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSDictionary, _sel_allocWithZone_, zone);
     return NSDictionary.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSDictionary alloc() {
     final _ret = _objc_msgSend_2(_class_NSDictionary, _sel_alloc);
     return NSDictionary.castFromPointer(_ret, retain: false, release: true);
@@ -6934,6 +7654,7 @@ final _objc_msgSend_171 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>();
 
+/// NSURLHandle
 class NSURLHandle extends NSObject {
   NSURLHandle._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -6954,137 +7675,166 @@ class NSURLHandle extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_NSURLHandle);
   }
 
+  /// registerURLHandleClass:
   static void registerURLHandleClass_(objc.ObjCObjectBase anURLHandleSubclass) {
     _objc_msgSend_172(_class_NSURLHandle, _sel_registerURLHandleClass_,
         anURLHandleSubclass.pointer);
   }
 
+  /// URLHandleClassForURL:
   static objc.ObjCObjectBase URLHandleClassForURL_(NSURL anURL) {
     final _ret = _objc_msgSend_173(
         _class_NSURLHandle, _sel_URLHandleClassForURL_, anURL.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
-  int status() {
-    return _objc_msgSend_174(this.pointer, _sel_status);
+  /// status
+  NSURLHandleStatus status() {
+    final _ret = _objc_msgSend_174(this.pointer, _sel_status);
+    return NSURLHandleStatus.fromValue(_ret);
   }
 
+  /// failureReason
   NSString failureReason() {
     final _ret = _objc_msgSend_35(this.pointer, _sel_failureReason);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// addClient:
   void addClient_(objc.ObjCObjectBase client) {
     _objc_msgSend_172(this.pointer, _sel_addClient_, client.pointer);
   }
 
+  /// removeClient:
   void removeClient_(objc.ObjCObjectBase client) {
     _objc_msgSend_172(this.pointer, _sel_removeClient_, client.pointer);
   }
 
+  /// loadInBackground
   void loadInBackground() {
     _objc_msgSend_1(this.pointer, _sel_loadInBackground);
   }
 
+  /// cancelLoadInBackground
   void cancelLoadInBackground() {
     _objc_msgSend_1(this.pointer, _sel_cancelLoadInBackground);
   }
 
+  /// resourceData
   NSData resourceData() {
     final _ret = _objc_msgSend_57(this.pointer, _sel_resourceData);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// availableResourceData
   NSData availableResourceData() {
     final _ret = _objc_msgSend_57(this.pointer, _sel_availableResourceData);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// expectedResourceDataSize
   int expectedResourceDataSize() {
     return _objc_msgSend_80(this.pointer, _sel_expectedResourceDataSize);
   }
 
+  /// flushCachedData
   void flushCachedData() {
     _objc_msgSend_1(this.pointer, _sel_flushCachedData);
   }
 
+  /// backgroundLoadDidFailWithReason:
   void backgroundLoadDidFailWithReason_(NSString reason) {
     _objc_msgSend_143(
         this.pointer, _sel_backgroundLoadDidFailWithReason_, reason.pointer);
   }
 
+  /// didLoadBytes:loadComplete:
   void didLoadBytes_loadComplete_(NSData newBytes, bool yorn) {
     _objc_msgSend_175(
         this.pointer, _sel_didLoadBytes_loadComplete_, newBytes.pointer, yorn);
   }
 
+  /// canInitWithURL:
   static bool canInitWithURL_(NSURL anURL) {
     return _objc_msgSend_176(
         _class_NSURLHandle, _sel_canInitWithURL_, anURL.pointer);
   }
 
+  /// cachedHandleForURL:
   static NSURLHandle cachedHandleForURL_(NSURL anURL) {
     final _ret = _objc_msgSend_177(
         _class_NSURLHandle, _sel_cachedHandleForURL_, anURL.pointer);
     return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithURL:cached:
   objc.ObjCObjectBase initWithURL_cached_(NSURL anURL, bool willCache) {
     final _ret = _objc_msgSend_178(
         this.pointer, _sel_initWithURL_cached_, anURL.pointer, willCache);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// propertyForKey:
   objc.ObjCObjectBase propertyForKey_(NSString propertyKey) {
     final _ret = _objc_msgSend_45(
         this.pointer, _sel_propertyForKey_, propertyKey.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// propertyForKeyIfAvailable:
   objc.ObjCObjectBase propertyForKeyIfAvailable_(NSString propertyKey) {
     final _ret = _objc_msgSend_45(
         this.pointer, _sel_propertyForKeyIfAvailable_, propertyKey.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// writeProperty:forKey:
   bool writeProperty_forKey_(
       objc.ObjCObjectBase propertyValue, NSString propertyKey) {
     return _objc_msgSend_171(this.pointer, _sel_writeProperty_forKey_,
         propertyValue.pointer, propertyKey.pointer);
   }
 
+  /// writeData:
   bool writeData_(NSData data) {
     return _objc_msgSend_38(this.pointer, _sel_writeData_, data.pointer);
   }
 
+  /// loadInForeground
   NSData loadInForeground() {
     final _ret = _objc_msgSend_57(this.pointer, _sel_loadInForeground);
     return NSData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// beginLoadInBackground
   void beginLoadInBackground() {
     _objc_msgSend_1(this.pointer, _sel_beginLoadInBackground);
   }
 
+  /// endLoadInBackground
   void endLoadInBackground() {
     _objc_msgSend_1(this.pointer, _sel_endLoadInBackground);
   }
 
+  /// init
   NSURLHandle init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSURLHandle new1() {
     final _ret = _objc_msgSend_2(_class_NSURLHandle, _sel_new);
     return NSURLHandle.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSURLHandle allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSURLHandle, _sel_allocWithZone_, zone);
     return NSURLHandle.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSURLHandle alloc() {
     final _ret = _objc_msgSend_2(_class_NSURLHandle, _sel_alloc);
     return NSURLHandle.castFromPointer(_ret, retain: false, release: true);
@@ -7117,18 +7867,29 @@ final _objc_msgSend_173 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 
-abstract class NSURLHandleStatus {
-  static const int NSURLHandleNotLoaded = 0;
-  static const int NSURLHandleLoadSucceeded = 1;
-  static const int NSURLHandleLoadInProgress = 2;
-  static const int NSURLHandleLoadFailed = 3;
+enum NSURLHandleStatus {
+  NSURLHandleNotLoaded(0),
+  NSURLHandleLoadSucceeded(1),
+  NSURLHandleLoadInProgress(2),
+  NSURLHandleLoadFailed(3);
+
+  final int value;
+  const NSURLHandleStatus(this.value);
+
+  static NSURLHandleStatus fromValue(int value) => switch (value) {
+        0 => NSURLHandleNotLoaded,
+        1 => NSURLHandleLoadSucceeded,
+        2 => NSURLHandleLoadInProgress,
+        3 => NSURLHandleLoadFailed,
+        _ => throw ArgumentError("Unknown value for NSURLHandleStatus: $value"),
+      };
 }
 
 late final _sel_status = objc.registerName("status");
 final _objc_msgSend_174 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
         int Function(
@@ -7220,19 +7981,41 @@ final _objc_msgSend_179 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, bool)>();
 
-abstract class NSDataWritingOptions {
-  static const int NSDataWritingAtomic = 1;
-  static const int NSDataWritingWithoutOverwriting = 2;
-  static const int NSDataWritingFileProtectionNone = 268435456;
-  static const int NSDataWritingFileProtectionComplete = 536870912;
-  static const int NSDataWritingFileProtectionCompleteUnlessOpen = 805306368;
-  static const int
-      NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication =
-      1073741824;
-  static const int NSDataWritingFileProtectionCompleteWhenUserInactive =
-      1342177280;
-  static const int NSDataWritingFileProtectionMask = 4026531840;
-  static const int NSAtomicWrite = 1;
+enum NSDataWritingOptions {
+  NSDataWritingAtomic(1),
+  NSDataWritingWithoutOverwriting(2),
+  NSDataWritingFileProtectionNone(268435456),
+  NSDataWritingFileProtectionComplete(536870912),
+  NSDataWritingFileProtectionCompleteUnlessOpen(805306368),
+  NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication(1073741824),
+  NSDataWritingFileProtectionCompleteWhenUserInactive(1342177280),
+  NSDataWritingFileProtectionMask(4026531840);
+
+  static const NSAtomicWrite = NSDataWritingAtomic;
+
+  final int value;
+  const NSDataWritingOptions(this.value);
+
+  static NSDataWritingOptions fromValue(int value) => switch (value) {
+        1 => NSDataWritingAtomic,
+        2 => NSDataWritingWithoutOverwriting,
+        268435456 => NSDataWritingFileProtectionNone,
+        536870912 => NSDataWritingFileProtectionComplete,
+        805306368 => NSDataWritingFileProtectionCompleteUnlessOpen,
+        1073741824 =>
+          NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication,
+        1342177280 => NSDataWritingFileProtectionCompleteWhenUserInactive,
+        4026531840 => NSDataWritingFileProtectionMask,
+        _ =>
+          throw ArgumentError("Unknown value for NSDataWritingOptions: $value"),
+      };
+
+  @override
+  String toString() {
+    if (this == NSDataWritingAtomic)
+      return "NSDataWritingOptions.NSDataWritingAtomic, NSDataWritingOptions.NSAtomicWrite";
+    return super.toString();
+  }
 }
 
 late final _sel_writeToFile_options_error_ =
@@ -7244,7 +8027,7 @@ final _objc_msgSend_180 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
@@ -7262,7 +8045,7 @@ final _objc_msgSend_181 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
@@ -7272,9 +8055,19 @@ final _objc_msgSend_181 = objc.msgSendPointer
             int,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
 
-abstract class NSDataSearchOptions {
-  static const int NSDataSearchBackwards = 1;
-  static const int NSDataSearchAnchored = 2;
+enum NSDataSearchOptions {
+  NSDataSearchBackwards(1),
+  NSDataSearchAnchored(2);
+
+  final int value;
+  const NSDataSearchOptions(this.value);
+
+  static NSDataSearchOptions fromValue(int value) => switch (value) {
+        1 => NSDataSearchBackwards,
+        2 => NSDataSearchAnchored,
+        _ =>
+          throw ArgumentError("Unknown value for NSDataSearchOptions: $value"),
+      };
 }
 
 late final _sel_rangeOfData_options_range_ =
@@ -7286,7 +8079,7 @@ final _objc_msgSend_182 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         NSRange Function(
@@ -7303,7 +8096,7 @@ final _objc_msgSend_182Stret = objc.msgSendStretPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         void Function(
@@ -7348,13 +8141,34 @@ final _objc_msgSend_184 = objc.msgSendPointer
             int,
             bool)>();
 
-abstract class NSDataReadingOptions {
-  static const int NSDataReadingMappedIfSafe = 1;
-  static const int NSDataReadingUncached = 2;
-  static const int NSDataReadingMappedAlways = 8;
-  static const int NSDataReadingMapped = 1;
-  static const int NSMappedRead = 1;
-  static const int NSUncachedRead = 2;
+enum NSDataReadingOptions {
+  NSDataReadingMappedIfSafe(1),
+  NSDataReadingUncached(2),
+  NSDataReadingMappedAlways(8);
+
+  static const NSDataReadingMapped = NSDataReadingMappedIfSafe;
+  static const NSMappedRead = NSDataReadingMappedIfSafe;
+  static const NSUncachedRead = NSDataReadingUncached;
+
+  final int value;
+  const NSDataReadingOptions(this.value);
+
+  static NSDataReadingOptions fromValue(int value) => switch (value) {
+        1 => NSDataReadingMappedIfSafe,
+        2 => NSDataReadingUncached,
+        8 => NSDataReadingMappedAlways,
+        _ =>
+          throw ArgumentError("Unknown value for NSDataReadingOptions: $value"),
+      };
+
+  @override
+  String toString() {
+    if (this == NSDataReadingMappedIfSafe)
+      return "NSDataReadingOptions.NSDataReadingMappedIfSafe, NSDataReadingOptions.NSDataReadingMapped, NSDataReadingOptions.NSMappedRead";
+    if (this == NSDataReadingUncached)
+      return "NSDataReadingOptions.NSDataReadingUncached, NSDataReadingOptions.NSUncachedRead";
+    return super.toString();
+  }
 }
 
 late final _sel_dataWithContentsOfFile_options_error_ =
@@ -7366,7 +8180,7 @@ final _objc_msgSend_185 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
@@ -7384,7 +8198,7 @@ final _objc_msgSend_186 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
@@ -7430,8 +8244,17 @@ final _objc_msgSend_188 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 late final _sel_dataWithData_ = objc.registerName("dataWithData:");
 
-abstract class NSDataBase64DecodingOptions {
-  static const int NSDataBase64DecodingIgnoreUnknownCharacters = 1;
+enum NSDataBase64DecodingOptions {
+  NSDataBase64DecodingIgnoreUnknownCharacters(1);
+
+  final int value;
+  const NSDataBase64DecodingOptions(this.value);
+
+  static NSDataBase64DecodingOptions fromValue(int value) => switch (value) {
+        1 => NSDataBase64DecodingIgnoreUnknownCharacters,
+        _ => throw ArgumentError(
+            "Unknown value for NSDataBase64DecodingOptions: $value"),
+      };
 }
 
 late final _sel_initWithBase64EncodedString_options_ =
@@ -7443,7 +8266,7 @@ final _objc_msgSend_189 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7451,11 +8274,23 @@ final _objc_msgSend_189 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             int)>();
 
-abstract class NSDataBase64EncodingOptions {
-  static const int NSDataBase64Encoding64CharacterLineLength = 1;
-  static const int NSDataBase64Encoding76CharacterLineLength = 2;
-  static const int NSDataBase64EncodingEndLineWithCarriageReturn = 16;
-  static const int NSDataBase64EncodingEndLineWithLineFeed = 32;
+enum NSDataBase64EncodingOptions {
+  NSDataBase64Encoding64CharacterLineLength(1),
+  NSDataBase64Encoding76CharacterLineLength(2),
+  NSDataBase64EncodingEndLineWithCarriageReturn(16),
+  NSDataBase64EncodingEndLineWithLineFeed(32);
+
+  final int value;
+  const NSDataBase64EncodingOptions(this.value);
+
+  static NSDataBase64EncodingOptions fromValue(int value) => switch (value) {
+        1 => NSDataBase64Encoding64CharacterLineLength,
+        2 => NSDataBase64Encoding76CharacterLineLength,
+        16 => NSDataBase64EncodingEndLineWithCarriageReturn,
+        32 => NSDataBase64EncodingEndLineWithLineFeed,
+        _ => throw ArgumentError(
+            "Unknown value for NSDataBase64EncodingOptions: $value"),
+      };
 }
 
 late final _sel_base64EncodedStringWithOptions_ =
@@ -7464,7 +8299,7 @@ final _objc_msgSend_190 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -7477,7 +8312,7 @@ final _objc_msgSend_191 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         instancetype Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7490,16 +8325,28 @@ final _objc_msgSend_192 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
 
-abstract class NSDataCompressionAlgorithm {
-  static const int NSDataCompressionAlgorithmLZFSE = 0;
-  static const int NSDataCompressionAlgorithmLZ4 = 1;
-  static const int NSDataCompressionAlgorithmLZMA = 2;
-  static const int NSDataCompressionAlgorithmZlib = 3;
+enum NSDataCompressionAlgorithm {
+  NSDataCompressionAlgorithmLZFSE(0),
+  NSDataCompressionAlgorithmLZ4(1),
+  NSDataCompressionAlgorithmLZMA(2),
+  NSDataCompressionAlgorithmZlib(3);
+
+  final int value;
+  const NSDataCompressionAlgorithm(this.value);
+
+  static NSDataCompressionAlgorithm fromValue(int value) => switch (value) {
+        0 => NSDataCompressionAlgorithmLZFSE,
+        1 => NSDataCompressionAlgorithmLZ4,
+        2 => NSDataCompressionAlgorithmLZMA,
+        3 => NSDataCompressionAlgorithmZlib,
+        _ => throw ArgumentError(
+            "Unknown value for NSDataCompressionAlgorithm: $value"),
+      };
 }
 
 late final _sel_decompressedDataUsingAlgorithm_error_ =
@@ -7510,7 +8357,7 @@ final _objc_msgSend_193 = objc.msgSendPointer
             instancetype Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         instancetype Function(
@@ -7648,7 +8495,7 @@ final _objc_msgSend_202 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         NSRange Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -7663,7 +8510,7 @@ final _objc_msgSend_202Stret = objc.msgSendStretPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<NSRange>,
@@ -7680,7 +8527,7 @@ final _objc_msgSend_203 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         NSRange Function(
@@ -7697,7 +8544,7 @@ final _objc_msgSend_203Stret = objc.msgSendStretPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         void Function(
@@ -7844,9 +8691,20 @@ final _objc_msgSend_210 = objc.msgSendPointer
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int, int)>();
 
-abstract class NSStringEncodingConversionOptions {
-  static const int NSStringEncodingConversionAllowLossy = 1;
-  static const int NSStringEncodingConversionExternalRepresentation = 2;
+enum NSStringEncodingConversionOptions {
+  NSStringEncodingConversionAllowLossy(1),
+  NSStringEncodingConversionExternalRepresentation(2);
+
+  final int value;
+  const NSStringEncodingConversionOptions(this.value);
+
+  static NSStringEncodingConversionOptions fromValue(int value) =>
+      switch (value) {
+        1 => NSStringEncodingConversionAllowLossy,
+        2 => NSStringEncodingConversionExternalRepresentation,
+        _ => throw ArgumentError(
+            "Unknown value for NSStringEncodingConversionOptions: $value"),
+      };
 }
 
 late final _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_ =
@@ -7862,7 +8720,7 @@ final _objc_msgSend_211 = objc.msgSendPointer
                 ffi.UnsignedLong,
                 ffi.Pointer<ffi.UnsignedLong>,
                 ffi.UnsignedLong,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange,
                 ffi.Pointer<NSRange>)>>()
     .asFunction<
@@ -7964,7 +8822,7 @@ final _objc_msgSend_217 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject> Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
@@ -7983,7 +8841,7 @@ final _objc_msgSend_218 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(
@@ -8586,6 +9444,7 @@ final _objc_msgSend_252 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>();
 
+/// NSMutableIndexSet
 class NSMutableIndexSet extends NSIndexSet {
   NSMutableIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -8606,84 +9465,101 @@ class NSMutableIndexSet extends NSIndexSet {
         obj.pointer, _sel_isKindOfClass_, _class_NSMutableIndexSet);
   }
 
+  /// addIndexes:
   void addIndexes_(NSIndexSet indexSet) {
     _objc_msgSend_253(this.pointer, _sel_addIndexes_, indexSet.pointer);
   }
 
+  /// removeIndexes:
   void removeIndexes_(NSIndexSet indexSet) {
     _objc_msgSend_253(this.pointer, _sel_removeIndexes_, indexSet.pointer);
   }
 
+  /// removeAllIndexes
   void removeAllIndexes() {
     _objc_msgSend_1(this.pointer, _sel_removeAllIndexes);
   }
 
+  /// addIndex:
   void addIndex_(int value) {
     _objc_msgSend_254(this.pointer, _sel_addIndex_, value);
   }
 
+  /// removeIndex:
   void removeIndex_(int value) {
     _objc_msgSend_254(this.pointer, _sel_removeIndex_, value);
   }
 
+  /// addIndexesInRange:
   void addIndexesInRange_(NSRange range) {
     _objc_msgSend_255(this.pointer, _sel_addIndexesInRange_, range);
   }
 
+  /// removeIndexesInRange:
   void removeIndexesInRange_(NSRange range) {
     _objc_msgSend_255(this.pointer, _sel_removeIndexesInRange_, range);
   }
 
+  /// shiftIndexesStartingAtIndex:by:
   void shiftIndexesStartingAtIndex_by_(int index, int delta) {
     _objc_msgSend_256(
         this.pointer, _sel_shiftIndexesStartingAtIndex_by_, index, delta);
   }
 
+  /// indexSet
   static NSMutableIndexSet indexSet() {
     final _ret = _objc_msgSend_2(_class_NSMutableIndexSet, _sel_indexSet);
     return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// indexSetWithIndex:
   static NSMutableIndexSet indexSetWithIndex_(int value) {
     final _ret = _objc_msgSend_99(
         _class_NSMutableIndexSet, _sel_indexSetWithIndex_, value);
     return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// indexSetWithIndexesInRange:
   static NSMutableIndexSet indexSetWithIndexesInRange_(NSRange range) {
     final _ret = _objc_msgSend_117(
         _class_NSMutableIndexSet, _sel_indexSetWithIndexesInRange_, range);
     return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithIndexesInRange:
   NSMutableIndexSet initWithIndexesInRange_(NSRange range) {
     final _ret =
         _objc_msgSend_117(this.pointer, _sel_initWithIndexesInRange_, range);
     return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithIndexSet:
   NSMutableIndexSet initWithIndexSet_(NSIndexSet indexSet) {
     final _ret = _objc_msgSend_118(
         this.pointer, _sel_initWithIndexSet_, indexSet.pointer);
     return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithIndex:
   NSMutableIndexSet initWithIndex_(int value) {
     final _ret = _objc_msgSend_99(this.pointer, _sel_initWithIndex_, value);
     return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSMutableIndexSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableIndexSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSMutableIndexSet new1() {
     final _ret = _objc_msgSend_2(_class_NSMutableIndexSet, _sel_new);
     return NSMutableIndexSet.castFromPointer(_ret,
         retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSMutableIndexSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSMutableIndexSet, _sel_allocWithZone_, zone);
@@ -8691,6 +9567,7 @@ class NSMutableIndexSet extends NSIndexSet {
         retain: false, release: true);
   }
 
+  /// alloc
   static NSMutableIndexSet alloc() {
     final _ret = _objc_msgSend_2(_class_NSMutableIndexSet, _sel_alloc);
     return NSMutableIndexSet.castFromPointer(_ret,
@@ -8744,12 +9621,24 @@ final _objc_msgSend_256 = objc.msgSendPointer
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int, int)>();
 
-abstract class NSBinarySearchingOptions {
-  static const int NSBinarySearchingFirstEqual = 256;
-  static const int NSBinarySearchingLastEqual = 512;
-  static const int NSBinarySearchingInsertionIndex = 1024;
+enum NSBinarySearchingOptions {
+  NSBinarySearchingFirstEqual(256),
+  NSBinarySearchingLastEqual(512),
+  NSBinarySearchingInsertionIndex(1024);
+
+  final int value;
+  const NSBinarySearchingOptions(this.value);
+
+  static NSBinarySearchingOptions fromValue(int value) => switch (value) {
+        256 => NSBinarySearchingFirstEqual,
+        512 => NSBinarySearchingLastEqual,
+        1024 => NSBinarySearchingInsertionIndex,
+        _ => throw ArgumentError(
+            "Unknown value for NSBinarySearchingOptions: $value"),
+      };
 }
 
+/// NSMutableArray
 class NSMutableArray extends NSArray {
   NSMutableArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -8770,40 +9659,48 @@ class NSMutableArray extends NSArray {
         obj.pointer, _sel_isKindOfClass_, _class_NSMutableArray);
   }
 
+  /// addObject:
   void addObject_(objc.ObjCObjectBase anObject) {
     _objc_msgSend_172(this.pointer, _sel_addObject_, anObject.pointer);
   }
 
+  /// insertObject:atIndex:
   void insertObject_atIndex_(objc.ObjCObjectBase anObject, int index) {
     _objc_msgSend_257(
         this.pointer, _sel_insertObject_atIndex_, anObject.pointer, index);
   }
 
+  /// removeLastObject
   void removeLastObject() {
     _objc_msgSend_1(this.pointer, _sel_removeLastObject);
   }
 
+  /// removeObjectAtIndex:
   void removeObjectAtIndex_(int index) {
     _objc_msgSend_254(this.pointer, _sel_removeObjectAtIndex_, index);
   }
 
+  /// replaceObjectAtIndex:withObject:
   void replaceObjectAtIndex_withObject_(
       int index, objc.ObjCObjectBase anObject) {
     _objc_msgSend_258(this.pointer, _sel_replaceObjectAtIndex_withObject_,
         index, anObject.pointer);
   }
 
+  /// init
   NSMutableArray init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCapacity:
   NSMutableArray initWithCapacity_(int numItems) {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_initWithCapacity_, numItems);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSMutableArray? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -8812,55 +9709,66 @@ class NSMutableArray extends NSArray {
         : NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// addObjectsFromArray:
   void addObjectsFromArray_(NSArray otherArray) {
     _objc_msgSend_259(
         this.pointer, _sel_addObjectsFromArray_, otherArray.pointer);
   }
 
+  /// exchangeObjectAtIndex:withObjectAtIndex:
   void exchangeObjectAtIndex_withObjectAtIndex_(int idx1, int idx2) {
     _objc_msgSend_260(this.pointer,
         _sel_exchangeObjectAtIndex_withObjectAtIndex_, idx1, idx2);
   }
 
+  /// removeAllObjects
   void removeAllObjects() {
     _objc_msgSend_1(this.pointer, _sel_removeAllObjects);
   }
 
+  /// removeObject:inRange:
   void removeObject_inRange_(objc.ObjCObjectBase anObject, NSRange range) {
     _objc_msgSend_261(
         this.pointer, _sel_removeObject_inRange_, anObject.pointer, range);
   }
 
+  /// removeObject:
   void removeObject_(objc.ObjCObjectBase anObject) {
     _objc_msgSend_172(this.pointer, _sel_removeObject_, anObject.pointer);
   }
 
+  /// removeObjectIdenticalTo:inRange:
   void removeObjectIdenticalTo_inRange_(
       objc.ObjCObjectBase anObject, NSRange range) {
     _objc_msgSend_261(this.pointer, _sel_removeObjectIdenticalTo_inRange_,
         anObject.pointer, range);
   }
 
+  /// removeObjectIdenticalTo:
   void removeObjectIdenticalTo_(objc.ObjCObjectBase anObject) {
     _objc_msgSend_172(
         this.pointer, _sel_removeObjectIdenticalTo_, anObject.pointer);
   }
 
+  /// removeObjectsFromIndices:numIndices:
   void removeObjectsFromIndices_numIndices_(
       ffi.Pointer<ffi.UnsignedLong> indices, int cnt) {
     _objc_msgSend_262(
         this.pointer, _sel_removeObjectsFromIndices_numIndices_, indices, cnt);
   }
 
+  /// removeObjectsInArray:
   void removeObjectsInArray_(NSArray otherArray) {
     _objc_msgSend_259(
         this.pointer, _sel_removeObjectsInArray_, otherArray.pointer);
   }
 
+  /// removeObjectsInRange:
   void removeObjectsInRange_(NSRange range) {
     _objc_msgSend_255(this.pointer, _sel_removeObjectsInRange_, range);
   }
 
+  /// replaceObjectsInRange:withObjectsFromArray:range:
   void replaceObjectsInRange_withObjectsFromArray_range_(
       NSRange range, NSArray otherArray, NSRange otherRange) {
     _objc_msgSend_263(
@@ -8871,6 +9779,7 @@ class NSMutableArray extends NSArray {
         otherRange);
   }
 
+  /// replaceObjectsInRange:withObjectsFromArray:
   void replaceObjectsInRange_withObjectsFromArray_(
       NSRange range, NSArray otherArray) {
     _objc_msgSend_264(
@@ -8880,10 +9789,12 @@ class NSMutableArray extends NSArray {
         otherArray.pointer);
   }
 
+  /// setArray:
   void setArray_(NSArray otherArray) {
     _objc_msgSend_259(this.pointer, _sel_setArray_, otherArray.pointer);
   }
 
+  /// sortUsingFunction:context:
   void sortUsingFunction_context_(
       ffi.Pointer<
               ffi.NativeFunction<
@@ -8895,37 +9806,44 @@ class NSMutableArray extends NSArray {
         this.pointer, _sel_sortUsingFunction_context_, compare, context);
   }
 
+  /// sortUsingSelector:
   void sortUsingSelector_(ffi.Pointer<objc.ObjCSelector> comparator) {
     _objc_msgSend_7(this.pointer, _sel_sortUsingSelector_, comparator);
   }
 
+  /// insertObjects:atIndexes:
   void insertObjects_atIndexes_(NSArray objects, NSIndexSet indexes) {
     _objc_msgSend_266(this.pointer, _sel_insertObjects_atIndexes_,
         objects.pointer, indexes.pointer);
   }
 
+  /// removeObjectsAtIndexes:
   void removeObjectsAtIndexes_(NSIndexSet indexes) {
     _objc_msgSend_253(
         this.pointer, _sel_removeObjectsAtIndexes_, indexes.pointer);
   }
 
+  /// replaceObjectsAtIndexes:withObjects:
   void replaceObjectsAtIndexes_withObjects_(
       NSIndexSet indexes, NSArray objects) {
     _objc_msgSend_267(this.pointer, _sel_replaceObjectsAtIndexes_withObjects_,
         indexes.pointer, objects.pointer);
   }
 
+  /// setObject:atIndexedSubscript:
   void setObject_atIndexedSubscript_(objc.ObjCObjectBase obj, int idx) {
     _objc_msgSend_257(
         this.pointer, _sel_setObject_atIndexedSubscript_, obj.pointer, idx);
   }
 
+  /// arrayWithCapacity:
   static NSMutableArray arrayWithCapacity_(int numItems) {
     final _ret = _objc_msgSend_99(
         _class_NSMutableArray, _sel_arrayWithCapacity_, numItems);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithContentsOfFile:
   static NSArray? arrayWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_133(
         _class_NSMutableArray, _sel_arrayWithContentsOfFile_, path.pointer);
@@ -8934,6 +9852,7 @@ class NSMutableArray extends NSArray {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithContentsOfURL:
   static NSArray? arrayWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_134(
         _class_NSMutableArray, _sel_arrayWithContentsOfURL_, url.pointer);
@@ -8942,6 +9861,7 @@ class NSMutableArray extends NSArray {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:
   NSMutableArray? initWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_268(
         this.pointer, _sel_initWithContentsOfFile_, path.pointer);
@@ -8950,6 +9870,7 @@ class NSMutableArray extends NSArray {
         : NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   NSMutableArray? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_269(
         this.pointer, _sel_initWithContentsOfURL_, url.pointer);
@@ -8958,10 +9879,12 @@ class NSMutableArray extends NSArray {
         : NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// applyDifference:
   void applyDifference_(objc.ObjCObjectBase difference) {
     _objc_msgSend_172(this.pointer, _sel_applyDifference_, difference.pointer);
   }
 
+  /// initWithObjects:count:
   NSMutableArray initWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -8969,17 +9892,20 @@ class NSMutableArray extends NSArray {
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// array
   static NSMutableArray array() {
     final _ret = _objc_msgSend_2(_class_NSMutableArray, _sel_array);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithObject:
   static NSMutableArray arrayWithObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_126(
         _class_NSMutableArray, _sel_arrayWithObject_, anObject.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithObjects:count:
   static NSMutableArray arrayWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -8987,36 +9913,42 @@ class NSMutableArray extends NSArray {
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithObjects:
   static NSMutableArray arrayWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
         _class_NSMutableArray, _sel_arrayWithObjects_, firstObj.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// arrayWithArray:
   static NSMutableArray arrayWithArray_(NSArray array) {
     final _ret = _objc_msgSend_127(
         _class_NSMutableArray, _sel_arrayWithArray_, array.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:
   NSMutableArray initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
         this.pointer, _sel_initWithObjects_, firstObj.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithArray:
   NSMutableArray initWithArray_(NSArray array) {
     final _ret =
         _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
     return NSMutableArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithArray:copyItems:
   NSMutableArray initWithArray_copyItems_(NSArray array, bool flag) {
     final _ret = _objc_msgSend_128(
         this.pointer, _sel_initWithArray_copyItems_, array.pointer, flag);
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// arrayWithContentsOfURL:error:
   static NSArray? arrayWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_129(_class_NSMutableArray,
@@ -9026,17 +9958,20 @@ class NSMutableArray extends NSArray {
         : NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSMutableArray new1() {
     final _ret = _objc_msgSend_2(_class_NSMutableArray, _sel_new);
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSMutableArray allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSMutableArray, _sel_allocWithZone_, zone);
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSMutableArray alloc() {
     final _ret = _objc_msgSend_2(_class_NSMutableArray, _sel_alloc);
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
@@ -9267,6 +10202,7 @@ final _objc_msgSend_269 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 late final _sel_applyDifference_ = objc.registerName("applyDifference:");
 
+/// NSMutableData
 class NSMutableData extends NSData {
   NSMutableData._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -9287,50 +10223,61 @@ class NSMutableData extends NSData {
         obj.pointer, _sel_isKindOfClass_, _class_NSMutableData);
   }
 
+  /// mutableBytes
   ffi.Pointer<ffi.Void> get mutableBytes {
     return _objc_msgSend_34(this.pointer, _sel_mutableBytes);
   }
 
+  /// length
   int get length {
     return _objc_msgSend_11(this.pointer, _sel_length);
   }
 
+  /// setLength:
   set length(int value) {
     return _objc_msgSend_270(this.pointer, _sel_setLength_, value);
   }
 
+  /// appendBytes:length:
   void appendBytes_length_(ffi.Pointer<ffi.Void> bytes, int length) {
     _objc_msgSend_36(this.pointer, _sel_appendBytes_length_, bytes, length);
   }
 
+  /// appendData:
   void appendData_(NSData other) {
     _objc_msgSend_271(this.pointer, _sel_appendData_, other.pointer);
   }
 
+  /// increaseLengthBy:
   void increaseLengthBy_(int extraLength) {
     _objc_msgSend_254(this.pointer, _sel_increaseLengthBy_, extraLength);
   }
 
+  /// replaceBytesInRange:withBytes:
   void replaceBytesInRange_withBytes_(
       NSRange range, ffi.Pointer<ffi.Void> bytes) {
     _objc_msgSend_272(
         this.pointer, _sel_replaceBytesInRange_withBytes_, range, bytes);
   }
 
+  /// resetBytesInRange:
   void resetBytesInRange_(NSRange range) {
     _objc_msgSend_255(this.pointer, _sel_resetBytesInRange_, range);
   }
 
+  /// setData:
   void setData_(NSData data) {
     _objc_msgSend_271(this.pointer, _sel_setData_, data.pointer);
   }
 
+  /// replaceBytesInRange:withBytes:length:
   void replaceBytesInRange_withBytes_length_(NSRange range,
       ffi.Pointer<ffi.Void> replacementBytes, int replacementLength) {
     _objc_msgSend_273(this.pointer, _sel_replaceBytesInRange_withBytes_length_,
         range, replacementBytes, replacementLength);
   }
 
+  /// dataWithCapacity:
   static NSMutableData? dataWithCapacity_(int aNumItems) {
     final _ret = _objc_msgSend_274(
         _class_NSMutableData, _sel_dataWithCapacity_, aNumItems);
@@ -9339,6 +10286,7 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithLength:
   static NSMutableData? dataWithLength_(int length) {
     final _ret =
         _objc_msgSend_274(_class_NSMutableData, _sel_dataWithLength_, length);
@@ -9347,6 +10295,7 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCapacity:
   NSMutableData? initWithCapacity_(int capacity) {
     final _ret =
         _objc_msgSend_274(this.pointer, _sel_initWithCapacity_, capacity);
@@ -9355,6 +10304,7 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithLength:
   NSMutableData? initWithLength_(int length) {
     final _ret = _objc_msgSend_274(this.pointer, _sel_initWithLength_, length);
     return _ret.address == 0
@@ -9362,23 +10312,27 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  bool decompressUsingAlgorithm_error_(
-      int algorithm, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    return _objc_msgSend_275(
-        this.pointer, _sel_decompressUsingAlgorithm_error_, algorithm, error);
+  /// decompressUsingAlgorithm:error:
+  bool decompressUsingAlgorithm_error_(NSDataCompressionAlgorithm algorithm,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+    return _objc_msgSend_275(this.pointer, _sel_decompressUsingAlgorithm_error_,
+        algorithm.value, error);
   }
 
-  bool compressUsingAlgorithm_error_(
-      int algorithm, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
-    return _objc_msgSend_275(
-        this.pointer, _sel_compressUsingAlgorithm_error_, algorithm, error);
+  /// compressUsingAlgorithm:error:
+  bool compressUsingAlgorithm_error_(NSDataCompressionAlgorithm algorithm,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+    return _objc_msgSend_275(this.pointer, _sel_compressUsingAlgorithm_error_,
+        algorithm.value, error);
   }
 
+  /// data
   static NSMutableData data() {
     final _ret = _objc_msgSend_2(_class_NSMutableData, _sel_data);
     return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithBytes:length:
   static NSMutableData dataWithBytes_length_(
       ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
@@ -9386,6 +10340,7 @@ class NSMutableData extends NSData {
     return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithBytesNoCopy:length:
   static NSMutableData dataWithBytesNoCopy_length_(
       ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
@@ -9393,6 +10348,7 @@ class NSMutableData extends NSData {
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// dataWithBytesNoCopy:length:freeWhenDone:
   static NSMutableData dataWithBytesNoCopy_length_freeWhenDone_(
       ffi.Pointer<ffi.Void> bytes, int length, bool b) {
     final _ret = _objc_msgSend_184(_class_NSMutableData,
@@ -9400,32 +10356,39 @@ class NSMutableData extends NSData {
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
-  static NSMutableData? dataWithContentsOfFile_options_error_(NSString path,
-      int readOptionsMask, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+  /// dataWithContentsOfFile:options:error:
+  static NSMutableData? dataWithContentsOfFile_options_error_(
+      NSString path,
+      NSDataReadingOptions readOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_185(
         _class_NSMutableData,
         _sel_dataWithContentsOfFile_options_error_,
         path.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  static NSMutableData? dataWithContentsOfURL_options_error_(NSURL url,
-      int readOptionsMask, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+  /// dataWithContentsOfURL:options:error:
+  static NSMutableData? dataWithContentsOfURL_options_error_(
+      NSURL url,
+      NSDataReadingOptions readOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_186(
         _class_NSMutableData,
         _sel_dataWithContentsOfURL_options_error_,
         url.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithContentsOfFile:
   static NSMutableData? dataWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         _class_NSMutableData, _sel_dataWithContentsOfFile_, path.pointer);
@@ -9434,6 +10397,7 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithContentsOfURL:
   static NSMutableData? dataWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_187(
         _class_NSMutableData, _sel_dataWithContentsOfURL_, url.pointer);
@@ -9442,12 +10406,14 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytes:length:
   NSMutableData initWithBytes_length_(ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
         this.pointer, _sel_initWithBytes_length_, bytes, length);
     return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytesNoCopy:length:
   NSMutableData initWithBytesNoCopy_length_(
       ffi.Pointer<ffi.Void> bytes, int length) {
     final _ret = _objc_msgSend_183(
@@ -9455,6 +10421,7 @@ class NSMutableData extends NSData {
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithBytesNoCopy:length:freeWhenDone:
   NSMutableData initWithBytesNoCopy_length_freeWhenDone_(
       ffi.Pointer<ffi.Void> bytes, int length, bool b) {
     final _ret = _objc_msgSend_184(this.pointer,
@@ -9462,32 +10429,39 @@ class NSMutableData extends NSData {
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
-  NSMutableData? initWithContentsOfFile_options_error_(NSString path,
-      int readOptionsMask, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+  /// initWithContentsOfFile:options:error:
+  NSMutableData? initWithContentsOfFile_options_error_(
+      NSString path,
+      NSDataReadingOptions readOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_185(
         this.pointer,
         _sel_initWithContentsOfFile_options_error_,
         path.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
-  NSMutableData? initWithContentsOfURL_options_error_(NSURL url,
-      int readOptionsMask, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
+  /// initWithContentsOfURL:options:error:
+  NSMutableData? initWithContentsOfURL_options_error_(
+      NSURL url,
+      NSDataReadingOptions readOptionsMask,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> errorPtr) {
     final _ret = _objc_msgSend_186(
         this.pointer,
         _sel_initWithContentsOfURL_options_error_,
         url.pointer,
-        readOptionsMask,
+        readOptionsMask.value,
         errorPtr);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:
   NSMutableData? initWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         this.pointer, _sel_initWithContentsOfFile_, path.pointer);
@@ -9496,6 +10470,7 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   NSMutableData? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_187(
         this.pointer, _sel_initWithContentsOfURL_, url.pointer);
@@ -9504,57 +10479,69 @@ class NSMutableData extends NSData {
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithData:
   NSMutableData initWithData_(NSData data) {
     final _ret =
         _objc_msgSend_188(this.pointer, _sel_initWithData_, data.pointer);
     return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithData:
   static NSMutableData dataWithData_(NSData data) {
     final _ret = _objc_msgSend_188(
         _class_NSMutableData, _sel_dataWithData_, data.pointer);
     return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBase64EncodedString:options:
   NSMutableData? initWithBase64EncodedString_options_(
-      NSString base64String, int options) {
+      NSString base64String, NSDataBase64DecodingOptions options) {
     final _ret = _objc_msgSend_189(
         this.pointer,
         _sel_initWithBase64EncodedString_options_,
         base64String.pointer,
-        options);
+        options.value);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBase64EncodedData:options:
   NSMutableData? initWithBase64EncodedData_options_(
-      NSData base64Data, int options) {
-    final _ret = _objc_msgSend_191(this.pointer,
-        _sel_initWithBase64EncodedData_options_, base64Data.pointer, options);
+      NSData base64Data, NSDataBase64DecodingOptions options) {
+    final _ret = _objc_msgSend_191(
+        this.pointer,
+        _sel_initWithBase64EncodedData_options_,
+        base64Data.pointer,
+        options.value);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// decompressedDataUsingAlgorithm:error:
   NSMutableData? decompressedDataUsingAlgorithm_error_(
-      int algorithm, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+      NSDataCompressionAlgorithm algorithm,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_193(this.pointer,
-        _sel_decompressedDataUsingAlgorithm_error_, algorithm, error);
+        _sel_decompressedDataUsingAlgorithm_error_, algorithm.value, error);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// compressedDataUsingAlgorithm:error:
   NSMutableData? compressedDataUsingAlgorithm_error_(
-      int algorithm, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+      NSDataCompressionAlgorithm algorithm,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_193(this.pointer,
-        _sel_compressedDataUsingAlgorithm_error_, algorithm, error);
+        _sel_compressedDataUsingAlgorithm_error_, algorithm.value, error);
     return _ret.address == 0
         ? null
         : NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dataWithContentsOfMappedFile:
   static objc.ObjCObjectBase? dataWithContentsOfMappedFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         _class_NSMutableData, _sel_dataWithContentsOfMappedFile_, path.pointer);
@@ -9563,22 +10550,26 @@ class NSMutableData extends NSData {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// init
   NSMutableData init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableData.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSMutableData new1() {
     final _ret = _objc_msgSend_2(_class_NSMutableData, _sel_new);
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSMutableData allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSMutableData, _sel_allocWithZone_, zone);
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSMutableData alloc() {
     final _ret = _objc_msgSend_2(_class_NSMutableData, _sel_alloc);
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
@@ -9661,7 +10652,7 @@ final _objc_msgSend_275 = objc.msgSendPointer
             ffi.Bool Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
         bool Function(
@@ -9672,6 +10663,7 @@ final _objc_msgSend_275 = objc.msgSendPointer
 late final _sel_compressUsingAlgorithm_error_ =
     objc.registerName("compressUsingAlgorithm:error:");
 
+/// NSNotification
 class NSNotification extends NSObject {
   NSNotification._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -9692,11 +10684,13 @@ class NSNotification extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_NSNotification);
   }
 
+  /// name
   NSString get name {
     final _ret = _objc_msgSend_35(this.pointer, _sel_name);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// object
   objc.ObjCObjectBase? get object {
     final _ret = _objc_msgSend_90(this.pointer, _sel_object);
     return _ret.address == 0
@@ -9704,6 +10698,7 @@ class NSNotification extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// userInfo
   NSDictionary? get userInfo {
     final _ret = _objc_msgSend_239(this.pointer, _sel_userInfo);
     return _ret.address == 0
@@ -9711,6 +10706,7 @@ class NSNotification extends NSObject {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithName:object:userInfo:
   NSNotification initWithName_object_userInfo_(
       NSString name, objc.ObjCObjectBase? object, NSDictionary? userInfo) {
     final _ret = _objc_msgSend_276(
@@ -9722,6 +10718,7 @@ class NSNotification extends NSObject {
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSNotification? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -9730,6 +10727,7 @@ class NSNotification extends NSObject {
         : NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// notificationWithName:object:
   static NSNotification notificationWithName_object_(
       NSString aName, objc.ObjCObjectBase? anObject) {
     final _ret = _objc_msgSend_227(
@@ -9740,6 +10738,7 @@ class NSNotification extends NSObject {
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// notificationWithName:object:userInfo:
   static NSNotification notificationWithName_object_userInfo_(
       NSString aName, objc.ObjCObjectBase? anObject, NSDictionary? aUserInfo) {
     final _ret = _objc_msgSend_276(
@@ -9751,22 +10750,26 @@ class NSNotification extends NSObject {
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSNotification init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSNotification new1() {
     final _ret = _objc_msgSend_2(_class_NSNotification, _sel_new);
     return NSNotification.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSNotification allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSNotification, _sel_allocWithZone_, zone);
     return NSNotification.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSNotification alloc() {
     final _ret = _objc_msgSend_2(_class_NSNotification, _sel_alloc);
     return NSNotification.castFromPointer(_ret, retain: false, release: true);
@@ -9799,6 +10802,7 @@ late final _sel_notificationWithName_object_ =
 late final _sel_notificationWithName_object_userInfo_ =
     objc.registerName("notificationWithName:object:userInfo:");
 
+/// NSDate
 class NSDate extends NSObject {
   NSDate._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -9818,6 +10822,7 @@ class NSDate extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSDate);
   }
 
+  /// timeIntervalSinceReferenceDate
   static double getTimeIntervalSinceReferenceDate() {
     return objc.useMsgSendVariants
         ? _objc_msgSend_83Fpret(
@@ -9825,17 +10830,20 @@ class NSDate extends NSObject {
         : _objc_msgSend_83(_class_NSDate, _sel_timeIntervalSinceReferenceDate);
   }
 
+  /// init
   NSDate init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithTimeIntervalSinceReferenceDate:
   NSDate initWithTimeIntervalSinceReferenceDate_(double ti) {
     final _ret = _objc_msgSend_277(
         this.pointer, _sel_initWithTimeIntervalSinceReferenceDate_, ti);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSDate? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -9844,6 +10852,7 @@ class NSDate extends NSObject {
         : NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// timeIntervalSinceDate:
   double timeIntervalSinceDate_(NSDate anotherDate) {
     return objc.useMsgSendVariants
         ? _objc_msgSend_278Fpret(
@@ -9852,85 +10861,101 @@ class NSDate extends NSObject {
             this.pointer, _sel_timeIntervalSinceDate_, anotherDate.pointer);
   }
 
+  /// timeIntervalSinceNow
   double get timeIntervalSinceNow {
     return objc.useMsgSendVariants
         ? _objc_msgSend_83Fpret(this.pointer, _sel_timeIntervalSinceNow)
         : _objc_msgSend_83(this.pointer, _sel_timeIntervalSinceNow);
   }
 
+  /// timeIntervalSince1970
   double get timeIntervalSince1970 {
     return objc.useMsgSendVariants
         ? _objc_msgSend_83Fpret(this.pointer, _sel_timeIntervalSince1970)
         : _objc_msgSend_83(this.pointer, _sel_timeIntervalSince1970);
   }
 
+  /// addTimeInterval:
   objc.ObjCObjectBase addTimeInterval_(double seconds) {
     final _ret =
         _objc_msgSend_277(this.pointer, _sel_addTimeInterval_, seconds);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// dateByAddingTimeInterval:
   NSDate dateByAddingTimeInterval_(double ti) {
     final _ret =
         _objc_msgSend_277(this.pointer, _sel_dateByAddingTimeInterval_, ti);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// earlierDate:
   NSDate earlierDate_(NSDate anotherDate) {
     final _ret =
         _objc_msgSend_279(this.pointer, _sel_earlierDate_, anotherDate.pointer);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// laterDate:
   NSDate laterDate_(NSDate anotherDate) {
     final _ret =
         _objc_msgSend_279(this.pointer, _sel_laterDate_, anotherDate.pointer);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
-  int compare_(NSDate other) {
-    return _objc_msgSend_280(this.pointer, _sel_compare_, other.pointer);
+  /// compare:
+  NSComparisonResult compare_(NSDate other) {
+    final _ret = _objc_msgSend_280(this.pointer, _sel_compare_, other.pointer);
+    return NSComparisonResult.fromValue(_ret);
   }
 
+  /// isEqualToDate:
   bool isEqualToDate_(NSDate otherDate) {
     return _objc_msgSend_281(
         this.pointer, _sel_isEqualToDate_, otherDate.pointer);
   }
 
+  /// description
   NSString get description {
     final _ret = _objc_msgSend_35(this.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
         locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// date
   static NSDate date() {
     final _ret = _objc_msgSend_2(_class_NSDate, _sel_date);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dateWithTimeIntervalSinceNow:
   static NSDate dateWithTimeIntervalSinceNow_(double secs) {
     final _ret = _objc_msgSend_277(
         _class_NSDate, _sel_dateWithTimeIntervalSinceNow_, secs);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dateWithTimeIntervalSinceReferenceDate:
   static NSDate dateWithTimeIntervalSinceReferenceDate_(double ti) {
     final _ret = _objc_msgSend_277(
         _class_NSDate, _sel_dateWithTimeIntervalSinceReferenceDate_, ti);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dateWithTimeIntervalSince1970:
   static NSDate dateWithTimeIntervalSince1970_(double secs) {
     final _ret = _objc_msgSend_277(
         _class_NSDate, _sel_dateWithTimeIntervalSince1970_, secs);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dateWithTimeInterval:sinceDate:
   static NSDate dateWithTimeInterval_sinceDate_(
       double secsToBeAdded, NSDate date) {
     final _ret = _objc_msgSend_282(_class_NSDate,
@@ -9938,49 +10963,58 @@ class NSDate extends NSObject {
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// distantFuture
   static NSDate getDistantFuture() {
     final _ret = _objc_msgSend_283(_class_NSDate, _sel_distantFuture);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// distantPast
   static NSDate getDistantPast() {
     final _ret = _objc_msgSend_283(_class_NSDate, _sel_distantPast);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// now
   static NSDate getNow() {
     final _ret = _objc_msgSend_283(_class_NSDate, _sel_now);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithTimeIntervalSinceNow:
   NSDate initWithTimeIntervalSinceNow_(double secs) {
     final _ret = _objc_msgSend_277(
         this.pointer, _sel_initWithTimeIntervalSinceNow_, secs);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithTimeIntervalSince1970:
   NSDate initWithTimeIntervalSince1970_(double secs) {
     final _ret = _objc_msgSend_277(
         this.pointer, _sel_initWithTimeIntervalSince1970_, secs);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithTimeInterval:sinceDate:
   NSDate initWithTimeInterval_sinceDate_(double secsToBeAdded, NSDate date) {
     final _ret = _objc_msgSend_282(this.pointer,
         _sel_initWithTimeInterval_sinceDate_, secsToBeAdded, date.pointer);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSDate new1() {
     final _ret = _objc_msgSend_2(_class_NSDate, _sel_new);
     return NSDate.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSDate allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSDate, _sel_allocWithZone_, zone);
     return NSDate.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSDate alloc() {
     final _ret = _objc_msgSend_2(_class_NSDate, _sel_alloc);
     return NSDate.castFromPointer(_ret, retain: false, release: true);
@@ -10044,7 +11078,7 @@ late final _sel_laterDate_ = objc.registerName("laterDate:");
 final _objc_msgSend_280 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
-            ffi.Int32 Function(
+            ffi.Long Function(
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>)>>()
@@ -10103,6 +11137,7 @@ late final _sel_initWithTimeIntervalSince1970_ =
 late final _sel_initWithTimeInterval_sinceDate_ =
     objc.registerName("initWithTimeInterval:sinceDate:");
 
+/// NSMutableDictionary
 class NSMutableDictionary extends NSDictionary {
   NSMutableDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -10123,22 +11158,26 @@ class NSMutableDictionary extends NSDictionary {
         obj.pointer, _sel_isKindOfClass_, _class_NSMutableDictionary);
   }
 
+  /// removeObjectForKey:
   void removeObjectForKey_(objc.ObjCObjectBase aKey) {
     _objc_msgSend_172(this.pointer, _sel_removeObjectForKey_, aKey.pointer);
   }
 
+  /// setObject:forKey:
   void setObject_forKey_(
       objc.ObjCObjectBase anObject, objc.ObjCObjectBase aKey) {
     _objc_msgSend_284(
         this.pointer, _sel_setObject_forKey_, anObject.pointer, aKey.pointer);
   }
 
+  /// init
   NSMutableDictionary init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: true, release: true);
   }
 
+  /// initWithCapacity:
   NSMutableDictionary initWithCapacity_(int numItems) {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_initWithCapacity_, numItems);
@@ -10146,6 +11185,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSMutableDictionary? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -10155,31 +11195,37 @@ class NSMutableDictionary extends NSDictionary {
             retain: true, release: true);
   }
 
+  /// addEntriesFromDictionary:
   void addEntriesFromDictionary_(NSDictionary otherDictionary) {
     _objc_msgSend_285(
         this.pointer, _sel_addEntriesFromDictionary_, otherDictionary.pointer);
   }
 
+  /// removeAllObjects
   void removeAllObjects() {
     _objc_msgSend_1(this.pointer, _sel_removeAllObjects);
   }
 
+  /// removeObjectsForKeys:
   void removeObjectsForKeys_(NSArray keyArray) {
     _objc_msgSend_259(
         this.pointer, _sel_removeObjectsForKeys_, keyArray.pointer);
   }
 
+  /// setDictionary:
   void setDictionary_(NSDictionary otherDictionary) {
     _objc_msgSend_285(
         this.pointer, _sel_setDictionary_, otherDictionary.pointer);
   }
 
+  /// setObject:forKeyedSubscript:
   void setObject_forKeyedSubscript_(
       objc.ObjCObjectBase? obj, objc.ObjCObjectBase key) {
     _objc_msgSend_286(this.pointer, _sel_setObject_forKeyedSubscript_,
         obj?.pointer ?? ffi.nullptr, key.pointer);
   }
 
+  /// dictionaryWithCapacity:
   static NSMutableDictionary dictionaryWithCapacity_(int numItems) {
     final _ret = _objc_msgSend_99(
         _class_NSMutableDictionary, _sel_dictionaryWithCapacity_, numItems);
@@ -10187,6 +11233,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// dictionaryWithContentsOfFile:
   static NSDictionary? dictionaryWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_157(_class_NSMutableDictionary,
         _sel_dictionaryWithContentsOfFile_, path.pointer);
@@ -10195,6 +11242,7 @@ class NSMutableDictionary extends NSDictionary {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dictionaryWithContentsOfURL:
   static NSDictionary? dictionaryWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_158(_class_NSMutableDictionary,
         _sel_dictionaryWithContentsOfURL_, url.pointer);
@@ -10203,6 +11251,7 @@ class NSMutableDictionary extends NSDictionary {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:
   NSMutableDictionary? initWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_287(
         this.pointer, _sel_initWithContentsOfFile_, path.pointer);
@@ -10212,6 +11261,7 @@ class NSMutableDictionary extends NSDictionary {
             retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   NSMutableDictionary? initWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_288(
         this.pointer, _sel_initWithContentsOfURL_, url.pointer);
@@ -10221,6 +11271,7 @@ class NSMutableDictionary extends NSDictionary {
             retain: true, release: true);
   }
 
+  /// dictionaryWithSharedKeySet:
   static NSMutableDictionary dictionaryWithSharedKeySet_(
       objc.ObjCObjectBase keyset) {
     final _ret = _objc_msgSend_289(_class_NSMutableDictionary,
@@ -10229,6 +11280,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// initWithObjects:forKeys:count:
   NSMutableDictionary initWithObjects_forKeys_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
@@ -10239,12 +11291,14 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// dictionary
   static NSMutableDictionary dictionary() {
     final _ret = _objc_msgSend_2(_class_NSMutableDictionary, _sel_dictionary);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: true, release: true);
   }
 
+  /// dictionaryWithObject:forKey:
   static NSMutableDictionary dictionaryWithObject_forKey_(
       objc.ObjCObjectBase object, objc.ObjCObjectBase key) {
     final _ret = _objc_msgSend_159(_class_NSMutableDictionary,
@@ -10253,6 +11307,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// dictionaryWithObjects:forKeys:count:
   static NSMutableDictionary dictionaryWithObjects_forKeys_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> keys,
@@ -10263,6 +11318,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// dictionaryWithObjectsAndKeys:
   static NSMutableDictionary dictionaryWithObjectsAndKeys_(
       objc.ObjCObjectBase firstObject) {
     final _ret = _objc_msgSend_126(_class_NSMutableDictionary,
@@ -10271,6 +11327,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// dictionaryWithDictionary:
   static NSMutableDictionary dictionaryWithDictionary_(NSDictionary dict) {
     final _ret = _objc_msgSend_160(_class_NSMutableDictionary,
         _sel_dictionaryWithDictionary_, dict.pointer);
@@ -10278,6 +11335,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// dictionaryWithObjects:forKeys:
   static NSMutableDictionary dictionaryWithObjects_forKeys_(
       NSArray objects, NSArray keys) {
     final _ret = _objc_msgSend_161(_class_NSMutableDictionary,
@@ -10286,6 +11344,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// initWithObjectsAndKeys:
   NSMutableDictionary initWithObjectsAndKeys_(objc.ObjCObjectBase firstObject) {
     final _ret = _objc_msgSend_126(
         this.pointer, _sel_initWithObjectsAndKeys_, firstObject.pointer);
@@ -10293,6 +11352,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// initWithDictionary:
   NSMutableDictionary initWithDictionary_(NSDictionary otherDictionary) {
     final _ret = _objc_msgSend_160(
         this.pointer, _sel_initWithDictionary_, otherDictionary.pointer);
@@ -10300,6 +11360,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// initWithDictionary:copyItems:
   NSMutableDictionary initWithDictionary_copyItems_(
       NSDictionary otherDictionary, bool flag) {
     final _ret = _objc_msgSend_162(this.pointer,
@@ -10308,6 +11369,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: false, release: true);
   }
 
+  /// initWithObjects:forKeys:
   NSMutableDictionary initWithObjects_forKeys_(NSArray objects, NSArray keys) {
     final _ret = _objc_msgSend_161(this.pointer, _sel_initWithObjects_forKeys_,
         objects.pointer, keys.pointer);
@@ -10315,6 +11377,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: true, release: true);
   }
 
+  /// dictionaryWithContentsOfURL:error:
   static NSDictionary? dictionaryWithContentsOfURL_error_(
       NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_163(_class_NSMutableDictionary,
@@ -10324,18 +11387,21 @@ class NSMutableDictionary extends NSDictionary {
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// sharedKeySetForKeys:
   static objc.ObjCObjectBase sharedKeySetForKeys_(NSArray keys) {
     final _ret = _objc_msgSend_127(
         _class_NSMutableDictionary, _sel_sharedKeySetForKeys_, keys.pointer);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSMutableDictionary new1() {
     final _ret = _objc_msgSend_2(_class_NSMutableDictionary, _sel_new);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSMutableDictionary allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSMutableDictionary, _sel_allocWithZone_, zone);
@@ -10343,6 +11409,7 @@ class NSMutableDictionary extends NSDictionary {
         retain: false, release: true);
   }
 
+  /// alloc
   static NSMutableDictionary alloc() {
     final _ret = _objc_msgSend_2(_class_NSMutableDictionary, _sel_alloc);
     return NSMutableDictionary.castFromPointer(_ret,
@@ -10433,6 +11500,7 @@ final _objc_msgSend_289 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 
+/// NSSet
 class NSSet extends NSObject {
   NSSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -10452,10 +11520,12 @@ class NSSet extends NSObject {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSSet);
   }
 
+  /// count
   int get count {
     return _objc_msgSend_11(this.pointer, _sel_count);
   }
 
+  /// member:
   objc.ObjCObjectBase? member_(objc.ObjCObjectBase object) {
     final _ret = _objc_msgSend_151(this.pointer, _sel_member_, object.pointer);
     return _ret.address == 0
@@ -10463,16 +11533,19 @@ class NSSet extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// objectEnumerator
   NSEnumerator objectEnumerator() {
     final _ret = _objc_msgSend_110(this.pointer, _sel_objectEnumerator);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:count:
   NSSet initWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -10480,6 +11553,7 @@ class NSSet extends NSObject {
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSSet? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -10488,11 +11562,13 @@ class NSSet extends NSObject {
         : NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// allObjects
   NSArray get allObjects {
     final _ret = _objc_msgSend_137(this.pointer, _sel_allObjects);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// anyObject
   objc.ObjCObjectBase? anyObject() {
     final _ret = _objc_msgSend_90(this.pointer, _sel_anyObject);
     return _ret.address == 0
@@ -10500,76 +11576,90 @@ class NSSet extends NSObject {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// containsObject:
   bool containsObject_(objc.ObjCObjectBase anObject) {
     return _objc_msgSend_0(
         this.pointer, _sel_containsObject_, anObject.pointer);
   }
 
+  /// description
   NSString get description {
     final _ret = _objc_msgSend_35(this.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// descriptionWithLocale:
   NSString descriptionWithLocale_(objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_86(this.pointer, _sel_descriptionWithLocale_,
         locale?.pointer ?? ffi.nullptr);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// intersectsSet:
   bool intersectsSet_(NSSet otherSet) {
     return _objc_msgSend_290(
         this.pointer, _sel_intersectsSet_, otherSet.pointer);
   }
 
+  /// isEqualToSet:
   bool isEqualToSet_(NSSet otherSet) {
     return _objc_msgSend_290(
         this.pointer, _sel_isEqualToSet_, otherSet.pointer);
   }
 
+  /// isSubsetOfSet:
   bool isSubsetOfSet_(NSSet otherSet) {
     return _objc_msgSend_290(
         this.pointer, _sel_isSubsetOfSet_, otherSet.pointer);
   }
 
+  /// makeObjectsPerformSelector:
   void makeObjectsPerformSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
     _objc_msgSend_7(this.pointer, _sel_makeObjectsPerformSelector_, aSelector);
   }
 
+  /// makeObjectsPerformSelector:withObject:
   void makeObjectsPerformSelector_withObject_(
       ffi.Pointer<objc.ObjCSelector> aSelector, objc.ObjCObjectBase? argument) {
     _objc_msgSend_116(this.pointer, _sel_makeObjectsPerformSelector_withObject_,
         aSelector, argument?.pointer ?? ffi.nullptr);
   }
 
+  /// setByAddingObject:
   NSSet setByAddingObject_(objc.ObjCObjectBase anObject) {
     final _ret = _objc_msgSend_291(
         this.pointer, _sel_setByAddingObject_, anObject.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setByAddingObjectsFromSet:
   NSSet setByAddingObjectsFromSet_(NSSet other) {
     final _ret = _objc_msgSend_292(
         this.pointer, _sel_setByAddingObjectsFromSet_, other.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setByAddingObjectsFromArray:
   NSSet setByAddingObjectsFromArray_(NSArray other) {
     final _ret = _objc_msgSend_293(
         this.pointer, _sel_setByAddingObjectsFromArray_, other.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// set
   static NSSet set1() {
     final _ret = _objc_msgSend_2(_class_NSSet, _sel_set);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithObject:
   static NSSet setWithObject_(objc.ObjCObjectBase object) {
     final _ret =
         _objc_msgSend_126(_class_NSSet, _sel_setWithObject_, object.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithObjects:count:
   static NSSet setWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -10577,57 +11667,67 @@ class NSSet extends NSObject {
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithObjects:
   static NSSet setWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret =
         _objc_msgSend_126(_class_NSSet, _sel_setWithObjects_, firstObj.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithSet:
   static NSSet setWithSet_(NSSet set) {
     final _ret = _objc_msgSend_294(_class_NSSet, _sel_setWithSet_, set.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithArray:
   static NSSet setWithArray_(NSArray array) {
     final _ret =
         _objc_msgSend_127(_class_NSSet, _sel_setWithArray_, array.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:
   NSSet initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
         this.pointer, _sel_initWithObjects_, firstObj.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithSet:
   NSSet initWithSet_(NSSet set) {
     final _ret =
         _objc_msgSend_294(this.pointer, _sel_initWithSet_, set.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithSet:copyItems:
   NSSet initWithSet_copyItems_(NSSet set, bool flag) {
     final _ret = _objc_msgSend_295(
         this.pointer, _sel_initWithSet_copyItems_, set.pointer, flag);
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithArray:
   NSSet initWithArray_(NSArray array) {
     final _ret =
         _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSSet new1() {
     final _ret = _objc_msgSend_2(_class_NSSet, _sel_new);
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSSet, _sel_allocWithZone_, zone);
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSSet alloc() {
     final _ret = _objc_msgSend_2(_class_NSSet, _sel_alloc);
     return NSSet.castFromPointer(_ret, retain: false, release: true);
@@ -10720,6 +11820,7 @@ final _objc_msgSend_295 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             bool)>();
 
+/// NSMutableSet
 class NSMutableSet extends NSSet {
   NSMutableSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -10740,14 +11841,17 @@ class NSMutableSet extends NSSet {
         obj.pointer, _sel_isKindOfClass_, _class_NSMutableSet);
   }
 
+  /// addObject:
   void addObject_(objc.ObjCObjectBase object) {
     _objc_msgSend_172(this.pointer, _sel_addObject_, object.pointer);
   }
 
+  /// removeObject:
   void removeObject_(objc.ObjCObjectBase object) {
     _objc_msgSend_172(this.pointer, _sel_removeObject_, object.pointer);
   }
 
+  /// initWithCoder:
   NSMutableSet? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -10756,47 +11860,57 @@ class NSMutableSet extends NSSet {
         : NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSMutableSet init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCapacity:
   NSMutableSet initWithCapacity_(int numItems) {
     final _ret =
         _objc_msgSend_99(this.pointer, _sel_initWithCapacity_, numItems);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// addObjectsFromArray:
   void addObjectsFromArray_(NSArray array) {
     _objc_msgSend_259(this.pointer, _sel_addObjectsFromArray_, array.pointer);
   }
 
+  /// intersectSet:
   void intersectSet_(NSSet otherSet) {
     _objc_msgSend_296(this.pointer, _sel_intersectSet_, otherSet.pointer);
   }
 
+  /// minusSet:
   void minusSet_(NSSet otherSet) {
     _objc_msgSend_296(this.pointer, _sel_minusSet_, otherSet.pointer);
   }
 
+  /// removeAllObjects
   void removeAllObjects() {
     _objc_msgSend_1(this.pointer, _sel_removeAllObjects);
   }
 
+  /// unionSet:
   void unionSet_(NSSet otherSet) {
     _objc_msgSend_296(this.pointer, _sel_unionSet_, otherSet.pointer);
   }
 
+  /// setSet:
   void setSet_(NSSet otherSet) {
     _objc_msgSend_296(this.pointer, _sel_setSet_, otherSet.pointer);
   }
 
+  /// setWithCapacity:
   static NSMutableSet setWithCapacity_(int numItems) {
     final _ret =
         _objc_msgSend_99(_class_NSMutableSet, _sel_setWithCapacity_, numItems);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:count:
   NSMutableSet initWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -10804,17 +11918,20 @@ class NSMutableSet extends NSSet {
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// set
   static NSMutableSet set1() {
     final _ret = _objc_msgSend_2(_class_NSMutableSet, _sel_set);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithObject:
   static NSMutableSet setWithObject_(objc.ObjCObjectBase object) {
     final _ret = _objc_msgSend_126(
         _class_NSMutableSet, _sel_setWithObject_, object.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithObjects:count:
   static NSMutableSet setWithObjects_count_(
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, int cnt) {
     final _ret = _objc_msgSend_100(
@@ -10822,59 +11939,69 @@ class NSMutableSet extends NSSet {
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithObjects:
   static NSMutableSet setWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
         _class_NSMutableSet, _sel_setWithObjects_, firstObj.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithSet:
   static NSMutableSet setWithSet_(NSSet set) {
     final _ret =
         _objc_msgSend_294(_class_NSMutableSet, _sel_setWithSet_, set.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setWithArray:
   static NSMutableSet setWithArray_(NSArray array) {
     final _ret = _objc_msgSend_127(
         _class_NSMutableSet, _sel_setWithArray_, array.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithObjects:
   NSMutableSet initWithObjects_(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_126(
         this.pointer, _sel_initWithObjects_, firstObj.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithSet:
   NSMutableSet initWithSet_(NSSet set) {
     final _ret =
         _objc_msgSend_294(this.pointer, _sel_initWithSet_, set.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithSet:copyItems:
   NSMutableSet initWithSet_copyItems_(NSSet set, bool flag) {
     final _ret = _objc_msgSend_295(
         this.pointer, _sel_initWithSet_copyItems_, set.pointer, flag);
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithArray:
   NSMutableSet initWithArray_(NSArray array) {
     final _ret =
         _objc_msgSend_127(this.pointer, _sel_initWithArray_, array.pointer);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSMutableSet new1() {
     final _ret = _objc_msgSend_2(_class_NSMutableSet, _sel_new);
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSMutableSet allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSMutableSet, _sel_allocWithZone_, zone);
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSMutableSet alloc() {
     final _ret = _objc_msgSend_2(_class_NSMutableSet, _sel_alloc);
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
@@ -10898,6 +12025,7 @@ late final _sel_unionSet_ = objc.registerName("unionSet:");
 late final _sel_setSet_ = objc.registerName("setSet:");
 late final _sel_setWithCapacity_ = objc.registerName("setWithCapacity:");
 
+/// NSItemProvider
 class NSItemProvider extends NSObject {
   NSItemProvider._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -10918,37 +12046,44 @@ class NSItemProvider extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_NSItemProvider);
   }
 
+  /// init
   NSItemProvider init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// registeredTypeIdentifiers
   NSArray get registeredTypeIdentifiers {
     final _ret =
         _objc_msgSend_137(this.pointer, _sel_registeredTypeIdentifiers);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
-  NSArray registeredTypeIdentifiersWithFileOptions_(int fileOptions) {
+  /// registeredTypeIdentifiersWithFileOptions:
+  NSArray registeredTypeIdentifiersWithFileOptions_(
+      NSItemProviderFileOptions fileOptions) {
     final _ret = _objc_msgSend_297(this.pointer,
-        _sel_registeredTypeIdentifiersWithFileOptions_, fileOptions);
+        _sel_registeredTypeIdentifiersWithFileOptions_, fileOptions.value);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// hasItemConformingToTypeIdentifier:
   bool hasItemConformingToTypeIdentifier_(NSString typeIdentifier) {
     return _objc_msgSend_25(this.pointer,
         _sel_hasItemConformingToTypeIdentifier_, typeIdentifier.pointer);
   }
 
+  /// hasRepresentationConformingToTypeIdentifier:fileOptions:
   bool hasRepresentationConformingToTypeIdentifier_fileOptions_(
-      NSString typeIdentifier, int fileOptions) {
+      NSString typeIdentifier, NSItemProviderFileOptions fileOptions) {
     return _objc_msgSend_298(
         this.pointer,
         _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_,
         typeIdentifier.pointer,
-        fileOptions);
+        fileOptions.value);
   }
 
+  /// suggestedName
   NSString? get suggestedName {
     final _ret = _objc_msgSend_58(this.pointer, _sel_suggestedName);
     return _ret.address == 0
@@ -10956,27 +12091,33 @@ class NSItemProvider extends NSObject {
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// setSuggestedName:
   set suggestedName(NSString? value) {
     return _objc_msgSend_299(
         this.pointer, _sel_setSuggestedName_, value?.pointer ?? ffi.nullptr);
   }
 
+  /// initWithObject:
   NSItemProvider initWithObject_(objc.ObjCObjectBase object) {
     final _ret =
         _objc_msgSend_126(this.pointer, _sel_initWithObject_, object.pointer);
     return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
-  void registerObject_visibility_(objc.ObjCObjectBase object, int visibility) {
+  /// registerObject:visibility:
+  void registerObject_visibility_(objc.ObjCObjectBase object,
+      NSItemProviderRepresentationVisibility visibility) {
     _objc_msgSend_300(this.pointer, _sel_registerObject_visibility_,
-        object.pointer, visibility);
+        object.pointer, visibility.value);
   }
 
+  /// canLoadObjectOfClass:
   bool canLoadObjectOfClass_(objc.ObjCObjectBase aClass) {
     return _objc_msgSend_0(
         this.pointer, _sel_canLoadObjectOfClass_, aClass.pointer);
   }
 
+  /// initWithItem:typeIdentifier:
   NSItemProvider initWithItem_typeIdentifier_(
       objc.ObjCObjectBase? item, NSString? typeIdentifier) {
     final _ret = _objc_msgSend_301(
@@ -10987,6 +12128,7 @@ class NSItemProvider extends NSObject {
     return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:
   NSItemProvider? initWithContentsOfURL_(NSURL fileURL) {
     final _ret = _objc_msgSend_187(
         this.pointer, _sel_initWithContentsOfURL_, fileURL.pointer);
@@ -10995,17 +12137,20 @@ class NSItemProvider extends NSObject {
         : NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSItemProvider new1() {
     final _ret = _objc_msgSend_2(_class_NSItemProvider, _sel_new);
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSItemProvider allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSItemProvider, _sel_allocWithZone_, zone);
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSItemProvider alloc() {
     final _ret = _objc_msgSend_2(_class_NSItemProvider, _sel_alloc);
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
@@ -11016,8 +12161,17 @@ late final _class_NSItemProvider = objc.getClass("NSItemProvider");
 late final _sel_registeredTypeIdentifiers =
     objc.registerName("registeredTypeIdentifiers");
 
-abstract class NSItemProviderFileOptions {
-  static const int NSItemProviderFileOptionOpenInPlace = 1;
+enum NSItemProviderFileOptions {
+  NSItemProviderFileOptionOpenInPlace(1);
+
+  final int value;
+  const NSItemProviderFileOptions(this.value);
+
+  static NSItemProviderFileOptions fromValue(int value) => switch (value) {
+        1 => NSItemProviderFileOptionOpenInPlace,
+        _ => throw ArgumentError(
+            "Unknown value for NSItemProviderFileOptions: $value"),
+      };
 }
 
 late final _sel_registeredTypeIdentifiersWithFileOptions_ =
@@ -11026,7 +12180,7 @@ final _objc_msgSend_297 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Int32)>>()
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
@@ -11041,7 +12195,7 @@ final _objc_msgSend_298 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         bool Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11062,11 +12216,24 @@ final _objc_msgSend_299 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 late final _sel_initWithObject_ = objc.registerName("initWithObject:");
 
-abstract class NSItemProviderRepresentationVisibility {
-  static const int NSItemProviderRepresentationVisibilityAll = 0;
-  static const int NSItemProviderRepresentationVisibilityTeam = 1;
-  static const int NSItemProviderRepresentationVisibilityGroup = 2;
-  static const int NSItemProviderRepresentationVisibilityOwnProcess = 3;
+enum NSItemProviderRepresentationVisibility {
+  NSItemProviderRepresentationVisibilityAll(0),
+  NSItemProviderRepresentationVisibilityTeam(1),
+  NSItemProviderRepresentationVisibilityGroup(2),
+  NSItemProviderRepresentationVisibilityOwnProcess(3);
+
+  final int value;
+  const NSItemProviderRepresentationVisibility(this.value);
+
+  static NSItemProviderRepresentationVisibility fromValue(int value) =>
+      switch (value) {
+        0 => NSItemProviderRepresentationVisibilityAll,
+        1 => NSItemProviderRepresentationVisibilityTeam,
+        2 => NSItemProviderRepresentationVisibilityGroup,
+        3 => NSItemProviderRepresentationVisibilityOwnProcess,
+        _ => throw ArgumentError(
+            "Unknown value for NSItemProviderRepresentationVisibility: $value"),
+      };
 }
 
 late final _sel_registerObject_visibility_ =
@@ -11078,7 +12245,7 @@ final _objc_msgSend_300 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32)>>()
+                ffi.UnsignedLong)>>()
     .asFunction<
         void Function(
             ffi.Pointer<objc.ObjCObject>,
@@ -11104,19 +12271,38 @@ final _objc_msgSend_301 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>();
 
-abstract class NSStringEnumerationOptions {
-  static const int NSStringEnumerationByLines = 0;
-  static const int NSStringEnumerationByParagraphs = 1;
-  static const int NSStringEnumerationByComposedCharacterSequences = 2;
-  static const int NSStringEnumerationByWords = 3;
-  static const int NSStringEnumerationBySentences = 4;
-  static const int NSStringEnumerationByCaretPositions = 5;
-  static const int NSStringEnumerationByDeletionClusters = 6;
-  static const int NSStringEnumerationReverse = 256;
-  static const int NSStringEnumerationSubstringNotRequired = 512;
-  static const int NSStringEnumerationLocalized = 1024;
+enum NSStringEnumerationOptions {
+  NSStringEnumerationByLines(0),
+  NSStringEnumerationByParagraphs(1),
+  NSStringEnumerationByComposedCharacterSequences(2),
+  NSStringEnumerationByWords(3),
+  NSStringEnumerationBySentences(4),
+  NSStringEnumerationByCaretPositions(5),
+  NSStringEnumerationByDeletionClusters(6),
+  NSStringEnumerationReverse(256),
+  NSStringEnumerationSubstringNotRequired(512),
+  NSStringEnumerationLocalized(1024);
+
+  final int value;
+  const NSStringEnumerationOptions(this.value);
+
+  static NSStringEnumerationOptions fromValue(int value) => switch (value) {
+        0 => NSStringEnumerationByLines,
+        1 => NSStringEnumerationByParagraphs,
+        2 => NSStringEnumerationByComposedCharacterSequences,
+        3 => NSStringEnumerationByWords,
+        4 => NSStringEnumerationBySentences,
+        5 => NSStringEnumerationByCaretPositions,
+        6 => NSStringEnumerationByDeletionClusters,
+        256 => NSStringEnumerationReverse,
+        512 => NSStringEnumerationSubstringNotRequired,
+        1024 => NSStringEnumerationLocalized,
+        _ => throw ArgumentError(
+            "Unknown value for NSStringEnumerationOptions: $value"),
+      };
 }
 
+/// NSMutableString
 class NSMutableString extends NSString {
   NSMutableString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -11137,43 +12323,54 @@ class NSMutableString extends NSString {
         obj.pointer, _sel_isKindOfClass_, _class_NSMutableString);
   }
 
+  /// replaceCharactersInRange:withString:
   void replaceCharactersInRange_withString_(NSRange range, NSString aString) {
     _objc_msgSend_302(this.pointer, _sel_replaceCharactersInRange_withString_,
         range, aString.pointer);
   }
 
+  /// insertString:atIndex:
   void insertString_atIndex_(NSString aString, int loc) {
     _objc_msgSend_303(
         this.pointer, _sel_insertString_atIndex_, aString.pointer, loc);
   }
 
+  /// deleteCharactersInRange:
   void deleteCharactersInRange_(NSRange range) {
     _objc_msgSend_255(this.pointer, _sel_deleteCharactersInRange_, range);
   }
 
+  /// appendString:
   void appendString_(NSString aString) {
     _objc_msgSend_143(this.pointer, _sel_appendString_, aString.pointer);
   }
 
+  /// appendFormat:
   void appendFormat_(NSString format) {
     _objc_msgSend_143(this.pointer, _sel_appendFormat_, format.pointer);
   }
 
+  /// setString:
   void setString_(NSString aString) {
     _objc_msgSend_143(this.pointer, _sel_setString_, aString.pointer);
   }
 
+  /// replaceOccurrencesOfString:withString:options:range:
   int replaceOccurrencesOfString_withString_options_range_(
-      NSString target, NSString replacement, int options, NSRange searchRange) {
+      NSString target,
+      NSString replacement,
+      NSStringCompareOptions options,
+      NSRange searchRange) {
     return _objc_msgSend_304(
         this.pointer,
         _sel_replaceOccurrencesOfString_withString_options_range_,
         target.pointer,
         replacement.pointer,
-        options,
+        options.value,
         searchRange);
   }
 
+  /// applyTransform:reverse:range:updatedRange:
   bool applyTransform_reverse_range_updatedRange_(NSString transform,
       bool reverse, NSRange range, ffi.Pointer<NSRange> resultingRange) {
     return _objc_msgSend_305(
@@ -11185,23 +12382,27 @@ class NSMutableString extends NSString {
         resultingRange);
   }
 
+  /// initWithCapacity:
   NSMutableString initWithCapacity_(int capacity) {
     final _ret =
         _objc_msgSend_306(this.pointer, _sel_initWithCapacity_, capacity);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithCapacity:
   static NSMutableString stringWithCapacity_(int capacity) {
     final _ret = _objc_msgSend_306(
         _class_NSMutableString, _sel_stringWithCapacity_, capacity);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// init
   NSMutableString init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCoder:
   NSMutableString? initWithCoder_(NSCoder coder) {
     final _ret =
         _objc_msgSend_17(this.pointer, _sel_initWithCoder_, coder.pointer);
@@ -11210,22 +12411,26 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// availableStringEncodings
   static ffi.Pointer<ffi.UnsignedLong> getAvailableStringEncodings() {
     return _objc_msgSend_212(
         _class_NSMutableString, _sel_availableStringEncodings);
   }
 
+  /// localizedNameOfStringEncoding:
   static NSString localizedNameOfStringEncoding_(int encoding) {
     final _ret = _objc_msgSend_18(
         _class_NSMutableString, _sel_localizedNameOfStringEncoding_, encoding);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// defaultCStringEncoding
   static int getDefaultCStringEncoding() {
     return _objc_msgSend_11(
         _class_NSMutableString, _sel_defaultCStringEncoding);
   }
 
+  /// initWithCharactersNoCopy:length:freeWhenDone:
   NSMutableString initWithCharactersNoCopy_length_freeWhenDone_(
       ffi.Pointer<ffi.UnsignedShort> characters, int length, bool freeBuffer) {
     final _ret = _objc_msgSend_224(
@@ -11237,6 +12442,7 @@ class NSMutableString extends NSString {
     return NSMutableString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initWithCharacters:length:
   NSMutableString initWithCharacters_length_(
       ffi.Pointer<ffi.UnsignedShort> characters, int length) {
     final _ret = _objc_msgSend_225(
@@ -11244,6 +12450,7 @@ class NSMutableString extends NSString {
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithUTF8String:
   NSMutableString? initWithUTF8String_(
       ffi.Pointer<ffi.Char> nullTerminatedCString) {
     final _ret = _objc_msgSend_226(
@@ -11253,18 +12460,21 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithString:
   NSMutableString initWithString_(NSString aString) {
     final _ret =
         _objc_msgSend_45(this.pointer, _sel_initWithString_, aString.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithFormat:
   NSMutableString initWithFormat_(NSString format) {
     final _ret =
         _objc_msgSend_45(this.pointer, _sel_initWithFormat_, format.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithFormat:locale:
   NSMutableString initWithFormat_locale_(
       NSString format, objc.ObjCObjectBase? locale) {
     final _ret = _objc_msgSend_227(this.pointer, _sel_initWithFormat_locale_,
@@ -11272,6 +12482,7 @@ class NSMutableString extends NSString {
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithValidatedFormat:validFormatSpecifiers:error:
   NSMutableString? initWithValidatedFormat_validFormatSpecifiers_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -11287,6 +12498,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
   NSMutableString? initWithValidatedFormat_validFormatSpecifiers_locale_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -11304,6 +12516,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithData:encoding:
   NSMutableString? initWithData_encoding_(NSData data, int encoding) {
     final _ret = _objc_msgSend_230(
         this.pointer, _sel_initWithData_encoding_, data.pointer, encoding);
@@ -11312,6 +12525,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytes:length:encoding:
   NSMutableString? initWithBytes_length_encoding_(
       ffi.Pointer<ffi.Void> bytes, int len, int encoding) {
     final _ret = _objc_msgSend_231(this.pointer,
@@ -11321,6 +12535,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithBytesNoCopy:length:encoding:freeWhenDone:
   NSMutableString? initWithBytesNoCopy_length_encoding_freeWhenDone_(
       ffi.Pointer<ffi.Void> bytes, int len, int encoding, bool freeBuffer) {
     final _ret = _objc_msgSend_232(
@@ -11335,17 +12550,20 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// string
   static NSMutableString string() {
     final _ret = _objc_msgSend_2(_class_NSMutableString, _sel_string);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithString:
   static NSMutableString stringWithString_(NSString string) {
     final _ret = _objc_msgSend_45(
         _class_NSMutableString, _sel_stringWithString_, string.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithCharacters:length:
   static NSMutableString stringWithCharacters_length_(
       ffi.Pointer<ffi.UnsignedShort> characters, int length) {
     final _ret = _objc_msgSend_225(_class_NSMutableString,
@@ -11353,6 +12571,7 @@ class NSMutableString extends NSString {
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithUTF8String:
   static NSMutableString? stringWithUTF8String_(
       ffi.Pointer<ffi.Char> nullTerminatedCString) {
     final _ret = _objc_msgSend_226(_class_NSMutableString,
@@ -11362,18 +12581,21 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithFormat:
   static NSMutableString stringWithFormat_(NSString format) {
     final _ret = _objc_msgSend_45(
         _class_NSMutableString, _sel_stringWithFormat_, format.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedStringWithFormat:
   static NSMutableString localizedStringWithFormat_(NSString format) {
     final _ret = _objc_msgSend_45(_class_NSMutableString,
         _sel_localizedStringWithFormat_, format.pointer);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithValidatedFormat:validFormatSpecifiers:error:
   static NSMutableString?
       stringWithValidatedFormat_validFormatSpecifiers_error_(
           NSString format,
@@ -11390,6 +12612,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// localizedStringWithValidatedFormat:validFormatSpecifiers:error:
   static NSMutableString?
       localizedStringWithValidatedFormat_validFormatSpecifiers_error_(
           NSString format,
@@ -11406,6 +12629,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithCString:encoding:
   NSMutableString? initWithCString_encoding_(
       ffi.Pointer<ffi.Char> nullTerminatedCString, int encoding) {
     final _ret = _objc_msgSend_233(this.pointer, _sel_initWithCString_encoding_,
@@ -11415,6 +12639,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithCString:encoding:
   static NSMutableString? stringWithCString_encoding_(
       ffi.Pointer<ffi.Char> cString, int enc) {
     final _ret = _objc_msgSend_233(
@@ -11424,6 +12649,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:encoding:error:
   NSMutableString? initWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_234(this.pointer,
@@ -11433,6 +12659,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:encoding:error:
   NSMutableString? initWithContentsOfFile_encoding_error_(
       NSString path, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_235(this.pointer,
@@ -11442,6 +12669,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfURL:encoding:error:
   static NSMutableString? stringWithContentsOfURL_encoding_error_(
       NSURL url, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_234(_class_NSMutableString,
@@ -11451,6 +12679,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfFile:encoding:error:
   static NSMutableString? stringWithContentsOfFile_encoding_error_(
       NSString path, int enc, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     final _ret = _objc_msgSend_235(
@@ -11464,6 +12693,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfURL:usedEncoding:error:
   NSMutableString? initWithContentsOfURL_usedEncoding_error_(
       NSURL url,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -11479,6 +12709,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// initWithContentsOfFile:usedEncoding:error:
   NSMutableString? initWithContentsOfFile_usedEncoding_error_(
       NSString path,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -11494,6 +12725,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfURL:usedEncoding:error:
   static NSMutableString? stringWithContentsOfURL_usedEncoding_error_(
       NSURL url,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -11509,6 +12741,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfFile:usedEncoding:error:
   static NSMutableString? stringWithContentsOfFile_usedEncoding_error_(
       NSString path,
       ffi.Pointer<ffi.UnsignedLong> enc,
@@ -11524,6 +12757,7 @@ class NSMutableString extends NSString {
         : NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// stringEncodingForData:encodingOptions:convertedString:usedLossyConversion:
   static int
       stringEncodingForData_encodingOptions_convertedString_usedLossyConversion_(
           NSData data,
@@ -11539,6 +12773,7 @@ class NSMutableString extends NSString {
         usedLossyConversion);
   }
 
+  /// stringWithContentsOfFile:
   static objc.ObjCObjectBase? stringWithContentsOfFile_(NSString path) {
     final _ret = _objc_msgSend_52(
         _class_NSMutableString, _sel_stringWithContentsOfFile_, path.pointer);
@@ -11547,6 +12782,7 @@ class NSMutableString extends NSString {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// stringWithContentsOfURL:
   static objc.ObjCObjectBase? stringWithContentsOfURL_(NSURL url) {
     final _ret = _objc_msgSend_187(
         _class_NSMutableString, _sel_stringWithContentsOfURL_, url.pointer);
@@ -11555,6 +12791,7 @@ class NSMutableString extends NSString {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// stringWithCString:length:
   static objc.ObjCObjectBase? stringWithCString_length_(
       ffi.Pointer<ffi.Char> bytes, int length) {
     final _ret = _objc_msgSend_233(
@@ -11564,6 +12801,7 @@ class NSMutableString extends NSString {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// stringWithCString:
   static objc.ObjCObjectBase? stringWithCString_(ffi.Pointer<ffi.Char> bytes) {
     final _ret = _objc_msgSend_226(
         _class_NSMutableString, _sel_stringWithCString_, bytes);
@@ -11572,17 +12810,20 @@ class NSMutableString extends NSString {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// new
   static NSMutableString new1() {
     final _ret = _objc_msgSend_2(_class_NSMutableString, _sel_new);
     return NSMutableString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static NSMutableString allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_NSMutableString, _sel_allocWithZone_, zone);
     return NSMutableString.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static NSMutableString alloc() {
     final _ret = _objc_msgSend_2(_class_NSMutableString, _sel_alloc);
     return NSMutableString.castFromPointer(_ret, retain: false, release: true);
@@ -11637,7 +12878,7 @@ final _objc_msgSend_304 = objc.msgSendPointer
                 ffi.Pointer<objc.ObjCSelector>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>,
-                ffi.Int32,
+                ffi.UnsignedLong,
                 NSRange)>>()
     .asFunction<
         int Function(
@@ -11677,16 +12918,36 @@ final _objc_msgSend_306 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>, int)>();
 late final _sel_stringWithCapacity_ = objc.registerName("stringWithCapacity:");
 
-abstract class NSEnumerationOptions {
-  static const int NSEnumerationConcurrent = 1;
-  static const int NSEnumerationReverse = 2;
+enum NSEnumerationOptions {
+  NSEnumerationConcurrent(1),
+  NSEnumerationReverse(2);
+
+  final int value;
+  const NSEnumerationOptions(this.value);
+
+  static NSEnumerationOptions fromValue(int value) => switch (value) {
+        1 => NSEnumerationConcurrent,
+        2 => NSEnumerationReverse,
+        _ =>
+          throw ArgumentError("Unknown value for NSEnumerationOptions: $value"),
+      };
 }
 
-abstract class NSSortOptions {
-  static const int NSSortConcurrent = 1;
-  static const int NSSortStable = 16;
+enum NSSortOptions {
+  NSSortConcurrent(1),
+  NSSortStable(16);
+
+  final int value;
+  const NSSortOptions(this.value);
+
+  static NSSortOptions fromValue(int value) => switch (value) {
+        1 => NSSortConcurrent,
+        16 => NSSortStable,
+        _ => throw ArgumentError("Unknown value for NSSortOptions: $value"),
+      };
 }
 
+/// NSProxy
 class NSProxy extends objc.ObjCObjectBase {
   NSProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -11706,25 +12967,30 @@ class NSProxy extends objc.ObjCObjectBase {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_NSProxy);
   }
 
+  /// alloc
   static objc.ObjCObjectBase alloc() {
     final _ret = _objc_msgSend_2(_class_NSProxy, _sel_alloc);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// allocWithZone:
   static objc.ObjCObjectBase allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret = _objc_msgSend_3(_class_NSProxy, _sel_allocWithZone_, zone);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);
   }
 
+  /// class
   static objc.ObjCObjectBase class1() {
     final _ret = _objc_msgSend_2(_class_NSProxy, _sel_class);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// forwardInvocation:
   void forwardInvocation_(NSInvocation invocation) {
     _objc_msgSend_9(this.pointer, _sel_forwardInvocation_, invocation.pointer);
   }
 
+  /// methodSignatureForSelector:
   NSMethodSignature? methodSignatureForSelector_(
       ffi.Pointer<objc.ObjCSelector> sel) {
     final _ret =
@@ -11734,32 +13000,39 @@ class NSProxy extends objc.ObjCObjectBase {
         : NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dealloc
   void dealloc() {
     _objc_msgSend_1(this.pointer, _sel_dealloc);
   }
 
+  /// finalize
   void finalize() {
     _objc_msgSend_1(this.pointer, _sel_finalize);
   }
 
+  /// description
   NSString get description {
     final _ret = _objc_msgSend_35(this.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// debugDescription
   NSString get debugDescription {
     final _ret = _objc_msgSend_35(this.pointer, _sel_debugDescription);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// respondsToSelector:
   static bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
     return _objc_msgSend_4(_class_NSProxy, _sel_respondsToSelector_, aSelector);
   }
 
+  /// allowsWeakReference
   bool allowsWeakReference() {
     return _objc_msgSend_13(this.pointer, _sel_allowsWeakReference);
   }
 
+  /// retainWeakReference
   bool retainWeakReference() {
     return _objc_msgSend_13(this.pointer, _sel_retainWeakReference);
   }
@@ -11778,6 +13051,7 @@ final _objc_msgSend_307 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_respondsToSelector_ = objc.registerName("respondsToSelector:");
 
+/// DartProxyBuilder
 class DartProxyBuilder extends NSObject {
   DartProxyBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -11798,20 +13072,24 @@ class DartProxyBuilder extends NSObject {
         obj.pointer, _sel_isKindOfClass_, _class_DartProxyBuilder);
   }
 
+  /// new
   static DartProxyBuilder new1() {
     final _ret = _objc_msgSend_2(_class_DartProxyBuilder, _sel_new);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// init
   DartProxyBuilder init() {
     final _ret = _objc_msgSend_2(this.pointer, _sel_init);
     return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dealloc
   void dealloc() {
     _objc_msgSend_1(this.pointer, _sel_dealloc);
   }
 
+  /// implementMethod:withSignature:andBlock:
   void implementMethod_withSignature_andBlock_(
       ffi.Pointer<objc.ObjCSelector> sel,
       NSMethodSignature signature,
@@ -11824,12 +13102,14 @@ class DartProxyBuilder extends NSObject {
         block);
   }
 
+  /// allocWithZone:
   static DartProxyBuilder allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
         _objc_msgSend_3(_class_DartProxyBuilder, _sel_allocWithZone_, zone);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// alloc
   static DartProxyBuilder alloc() {
     final _ret = _objc_msgSend_2(_class_DartProxyBuilder, _sel_alloc);
     return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
@@ -11856,6 +13136,7 @@ final _objc_msgSend_308 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<ffi.Void>)>();
 
+/// DartProxy
 class DartProxy extends NSProxy {
   DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -11875,27 +13156,32 @@ class DartProxy extends NSProxy {
     return _objc_msgSend_0(obj.pointer, _sel_isKindOfClass_, _class_DartProxy);
   }
 
+  /// newFromBuilder:
   static DartProxy newFromBuilder_(DartProxyBuilder builder) {
     final _ret = _objc_msgSend_309(
         _class_DartProxy, _sel_newFromBuilder_, builder.pointer);
     return DartProxy.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// initFromBuilder:
   DartProxy initFromBuilder_(DartProxyBuilder builder) {
     final _ret =
         _objc_msgSend_309(this.pointer, _sel_initFromBuilder_, builder.pointer);
     return DartProxy.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// dealloc
   void dealloc() {
     _objc_msgSend_1(this.pointer, _sel_dealloc);
   }
 
+  /// respondsToSelector:
   static bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
     return _objc_msgSend_4(
         _class_DartProxy, _sel_respondsToSelector_, aSelector);
   }
 
+  /// methodSignatureForSelector:
   NSMethodSignature methodSignatureForSelector_(
       ffi.Pointer<objc.ObjCSelector> sel) {
     final _ret =
@@ -11903,10 +13189,12 @@ class DartProxy extends NSProxy {
     return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// forwardInvocation:
   void forwardInvocation_(NSInvocation invocation) {
     _objc_msgSend_9(this.pointer, _sel_forwardInvocation_, invocation.pointer);
   }
 
+  /// alloc
   static objc.ObjCObjectBase alloc() {
     final _ret = _objc_msgSend_2(_class_DartProxy, _sel_alloc);
     return objc.ObjCObjectBase(_ret, retain: false, release: true);

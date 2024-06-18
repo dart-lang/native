@@ -20,9 +20,9 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
   }
 
   final usr = cursor.usr();
-  final cachedProto = bindingsIndex.getSeenObjCProto(usr);
-  if (cachedProto != null) {
-    return cachedProto;
+  final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
+  if (cachedProtocol != null) {
+    return cachedProtocol;
   }
 
   final name = cursor.spelling();
@@ -34,7 +34,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
   _logger.fine('++++ Adding ObjC protocol: '
       'Name: $name, ${cursor.completeStringRepr()}');
 
-  final proto = ObjCProtocol(
+  final protocol = ObjCProtocol(
     usr: usr,
     originalName: name,
     name: config.objcProtocols.renameUsingConfig(name),
@@ -43,29 +43,29 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
     builtInFunctions: objCBuiltInFunctions,
   );
 
-  // Make sure to add the proto to the index before parsing the AST, to break
+  // Make sure to add the protocol to the index before parsing the AST, to break
   // cycles.
-  bindingsIndex.addObjCProtoToSeen(usr, proto);
+  bindingsIndex.addObjCProtocolToSeen(usr, protocol);
 
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
         final decl = clang.clang_getCursorDefinition(child);
         _logger.fine('       > Super protocol: ${decl.completeStringRepr()}');
-        final superProto =
+        final superProtocol =
             parseObjCProtocolDeclaration(decl, ignoreFilter: true);
-        if (superProto != null) {
-          proto.superProtos.add(superProto);
+        if (superProtocol != null) {
+          protocol.superProtocols.add(superProtocol);
         }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
         final method = parseObjCMethod(child, name);
         if (method != null) {
-          proto.addMethod(method);
+          protocol.addMethod(method);
         }
         break;
     }
   });
-  return proto;
+  return protocol;
 }

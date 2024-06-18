@@ -116,7 +116,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
 
   final propertyAttributes =
       clang.clang_Cursor_getObjCPropertyAttributes(cursor, 0);
-  final isClass = propertyAttributes &
+  final isClassMethod = propertyAttributes &
           clang_types.CXObjCPropertyAttrKind.CXObjCPropertyAttr_class >
       0;
   final isReadOnly = propertyAttributes &
@@ -136,7 +136,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
     property: property,
     dartDoc: dartDoc,
     kind: ObjCMethodKind.propertyGetter,
-    isClass: isClass,
+    isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: fieldType,
   );
@@ -151,7 +151,7 @@ void _parseProperty(clang_types.CXCursor cursor, ObjCInterface itf) {
         property: property,
         dartDoc: dartDoc,
         kind: ObjCMethodKind.propertySetter,
-        isClass: isClass,
+        isClassMethod: isClassMethod,
         isOptional: isOptionalMethod,
         returnType: NativeType(SupportedNativeType.Void));
     setter.params.add(ObjCMethodParam(fieldType, 'value'));
@@ -182,7 +182,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, String itfName) {
     originalName: methodName,
     dartDoc: getCursorDocComment(cursor),
     kind: ObjCMethodKind.method,
-    isClass: isClassMethod,
+    isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: returnType,
   );

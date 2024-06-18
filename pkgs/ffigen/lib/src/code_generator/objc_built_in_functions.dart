@@ -27,8 +27,10 @@ class ObjCBuiltInFunctions {
   static const getProtocol = ObjCImport('getProtocol');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockBase = ObjCImport('ObjCBlockBase');
-  static const protoMethod = ObjCImport('ObjCProtocolMethod');
-  static const protoBuilder = ObjCImport('ObjCProtocolBuilder');
+  static const protocolMethod = ObjCImport('ObjCProtocolMethod');
+  static const protocolListenableMethod =
+      ObjCImport('ObjCProtocolListenableMethod');
+  static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
   static const dartProxy = ObjCImport('DartProxy');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.

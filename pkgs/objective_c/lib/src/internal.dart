@@ -45,10 +45,10 @@ objc.NSMethodSignature getProtocolMethodSignature(
   Pointer<c.ObjCProtocol> protocol,
   Pointer<c.ObjCSelector> sel, {
   required bool isRequired,
-  required bool isInstance,
+  required bool isInstanceMethod,
 }) {
   final sig =
-      c.getMethodDescription(protocol, sel, isRequired, isInstance).types;
+      c.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
   if (sig == nullptr) {
     throw Exception('Failed to load method of Objective-C protocol');
   }
@@ -291,10 +291,17 @@ class ObjCProtocolMethod {
   final objc.NSMethodSignature signature;
   final bool Function(Function) isCorrectFunctionType;
   final ObjCBlockBase Function(Function) createBlock;
-  final ObjCBlockBase Function(Function) createListenerBlock;
 
   ObjCProtocolMethod(this.sel, this.signature, this.isCorrectFunctionType,
-      this.createBlock, this.createListenerBlock);
+      this.createBlock);
+}
+
+/// Only for use by ffigen bindings.
+class ObjCProtocolListenableMethod extends ObjCProtocolMethod {
+  final ObjCBlockBase Function(Function) createListenerBlock;
+
+  ObjCProtocolListenableMethod(super.sel, super.signature,
+      super.isCorrectFunctionType, super.createBlock, this.createListenerBlock);
 }
 
 // Not exported by ../objective_c.dart, because they're only for testing.

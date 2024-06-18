@@ -67,7 +67,7 @@ typedef struct _ObjCMethodDesc {
 
 ObjCProtocol* objc_getProtocol(const char* name);
 ObjCMethodDesc protocol_getMethodDescription(
-    ObjCProtocol* proto, ObjCSelector* sel, bool isRequiredMethod,
+    ObjCProtocol* protocol, ObjCSelector* sel, bool isRequiredMethod,
     bool isInstanceMethod);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
