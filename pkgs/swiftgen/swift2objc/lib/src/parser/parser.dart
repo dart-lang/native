@@ -11,7 +11,7 @@ import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 
 import '_core/utils.dart';
 import 'parsers/parse_declarations.dart';
-import 'parsers/parse_realtions_map.dart';
+import 'parsers/parse_relations_map.dart';
 import 'parsers/parse_symbols_map.dart';
 
 Ast parseAst(String symbolgraphJsonPath) {
