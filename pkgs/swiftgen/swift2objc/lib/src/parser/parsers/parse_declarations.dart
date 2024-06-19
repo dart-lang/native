@@ -9,17 +9,13 @@ import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_class_decalartion.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_method_declaration.dart';
 
-import '../_core/utils.dart';
+List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
+  final List<Declaration> declarations = [];
 
-DeclarationsMap parseDeclarationsMap(ParsedSymbolgraph symbolgraph) {
-  final DeclarationsMap declarations = {};
-
-  for (final id in symbolgraph.symbols.keys) {
+  for (final symbol in symbolgraph.symbols.values) {
     try {
-      declarations[id] = parseDeclaration(
-        symbolgraph.symbols[id]!,
-        symbolgraph,
-      );
+      final declaration = parseDeclaration(symbol, symbolgraph);
+      declarations.add(declaration);
     } on UnimplementedError catch (e) {
       log("$e");
     }

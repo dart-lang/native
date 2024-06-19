@@ -10,7 +10,7 @@ import 'package:swift2objc/src/ast/declarations/globals/globals.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 
 import '_core/utils.dart';
-import 'parsers/parse_declarations_map.dart';
+import 'parsers/parse_declarations.dart';
 import 'parsers/parse_realtions_map.dart';
 import 'parsers/parse_symbols_map.dart';
 
@@ -22,9 +22,8 @@ Ast parseAst(String symbolgraphJsonPath) {
     parseRelationsMap(symbolgraphJson),
   );
 
-  final declarationsMap = parseDeclarationsMap(symbolgraph);
+  final declarations = parseDeclarations(symbolgraph);
 
-  final declarations = declarationsMap.values.toList();
   return Ast(
     classes: declarations.whereType<ClassDeclaration>().toList(),
     structs: declarations.whereType<StructDeclaration>().toList(),

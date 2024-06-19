@@ -4,7 +4,7 @@
 
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
-import 'package:swift2objc/src/parser/parsers/parse_declarations_map.dart';
+import 'package:swift2objc/src/parser/parsers/parse_declarations.dart';
 
 import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../_core/utils.dart';

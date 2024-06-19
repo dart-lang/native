@@ -4,6 +4,19 @@
 
 import 'dart:collection';
 
+
+/// This is a helper class that helps with parsing Json values. It supports accessing 
+/// the json content using the subscript syntax similar to `List` and `Map` types. 
+/// Whenever you use the subscript syntax, you get back a new `Json` object containing
+/// the value at the field/index being accessed.
+/// 
+/// The main purpose of this class is to assert the existence of fields we're accessing, 
+/// and in case of an issue (e.g field does not exist), let us know exactly which field 
+/// did the issue occure at by throwing an error containing the full path to that field.
+/// 
+/// The class is also an `Iterable` so if the json is an array, you can directly iterate 
+/// over it with a `for` loop. If the json isn't an array, attempting to iterate over it
+/// will throw an error.
 class Json extends IterableBase<Json> {
   final List<String> _pathSegments;
   final dynamic _json;
@@ -12,10 +25,17 @@ class Json extends IterableBase<Json> {
 
   Json(this._json, [this._pathSegments = const []]);
 
+
+  /// The subscript syntax is intended to access a value at a field of a map or at an index
+  /// if an array, and thus, the `index` parameter here can either be an integer index (to 
+  /// access an index of an array) or a string key (to access a field of a map)
   Json operator [](dynamic index) {
     if (index is String) {
       if (_json is! Map) {
         throw 'Expected a map at "$path", found a ${_json.runtimeType}';
+      }
+      if (_json.containsKey(index)) {
+        throw 'Field "$index" not found at "$path"';
       }
       return Json(_json[index], [..._pathSegments, index]);
     }
@@ -26,6 +46,9 @@ class Json extends IterableBase<Json> {
       }
       if (index >= _json.length) {
         throw 'Index out of range at "$path" (index: $index, max-length: ${_json.length})';
+      }
+      if (index < 0) {
+        throw 'Invalid negative index at "$path" (supplied index: $index)';
       }
       return Json(_json[index], [..._pathSegments, "$index"]);
     }
