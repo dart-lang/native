@@ -34,13 +34,9 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
       json: relationJson,
     );
 
-    [sourceId, targetId].forEach((id) {
-      if (relationsMap.containsKey(id)) {
-        relationsMap[id]!.add(relation);
-      } else {
-        relationsMap[id] = [relation];
-      }
-    });
+    [sourceId, targetId].forEach(
+      (id) => (relationsMap[id] ??= []).add(relation),
+    );
   }
 
   return relationsMap;
