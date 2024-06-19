@@ -34,7 +34,7 @@ ClassDeclaration parseClassDeclaration(
   );
 
   return ClassDeclaration(
-    id: parseSymbolId(symbolJson),
+    id: classId,
     name: parseSymbolName(symbolJson),
     methods: memberDeclarations.whereType<ClassMethodDeclaration>().toList(),
     properties:
