@@ -3574,7 +3574,7 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
         return jni.JLong($r).reference.toPointer();
       }
     } catch (e) {
-      return ProtectedJniExtensions.newDartException(e.toString());
+      return ProtectedJniExtensions.newDartException(e);
     }
     return jni.nullptr;
   }
@@ -3955,7 +3955,7 @@ class MyRunnable extends jni.JObject {
         return jni.nullptr;
       }
     } catch (e) {
-      return ProtectedJniExtensions.newDartException(e.toString());
+      return ProtectedJniExtensions.newDartException(e);
     }
     return jni.nullptr;
   }
@@ -4161,6 +4161,332 @@ final class $MyRunnableRunnerType extends jni.JObjType<MyRunnableRunner> {
   }
 }
 
+/// from: com.github.dart_lang.jnigen.interfaces.StringConversionException
+class StringConversionException extends jni.JObject {
+  @override
+  late final jni.JObjType<StringConversionException> $type = type;
+
+  StringConversionException.fromReference(
+    jni.JReference reference,
+  ) : super.fromReference(reference);
+
+  static final _class = jni.JClass.forName(
+      r"com/github/dart_lang/jnigen/interfaces/StringConversionException");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $StringConversionExceptionType();
+  static final _id_new0 = _class.constructorId(
+    r"(Ljava/lang/String;)V",
+  );
+
+  static final _new0 = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(java.lang.String message)
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringConversionException(
+    jni.JString message,
+  ) {
+    return StringConversionException.fromReference(_new0(
+            _class.reference.pointer,
+            _id_new0 as jni.JMethodIDPtr,
+            message.reference.pointer)
+        .reference);
+  }
+}
+
+final class $StringConversionExceptionType
+    extends jni.JObjType<StringConversionException> {
+  const $StringConversionExceptionType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/interfaces/StringConversionException;";
+
+  @override
+  StringConversionException fromReference(jni.JReference reference) =>
+      StringConversionException.fromReference(reference);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($StringConversionExceptionType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConversionExceptionType) &&
+        other is $StringConversionExceptionType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.interfaces.StringConverter
+class StringConverter extends jni.JObject {
+  @override
+  late final jni.JObjType<StringConverter> $type = type;
+
+  StringConverter.fromReference(
+    jni.JReference reference,
+  ) : super.fromReference(reference);
+
+  static final _class = jni.JClass.forName(
+      r"com/github/dart_lang/jnigen/interfaces/StringConverter");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $StringConverterType();
+  static final _id_parseToInt = _class.instanceMethodId(
+    r"parseToInt",
+    r"(Ljava/lang/String;)I",
+  );
+
+  static final _parseToInt = ProtectedJniExtensions.lookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
+          "globalEnv_CallIntMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public abstract int parseToInt(java.lang.String s)
+  int parseToInt(
+    jni.JString s,
+  ) {
+    return _parseToInt(reference.pointer, _id_parseToInt as jni.JMethodIDPtr,
+            s.reference.pointer)
+        .integer;
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final Map<int, $StringConverterImpl> _$impls = {};
+  ReceivePort? _$p;
+
+  static jni.JObjectPtr _$invoke(
+    int port,
+    jni.JObjectPtr descriptor,
+    jni.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      $MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final ffi.Pointer<
+          ffi.NativeFunction<
+              jni.JObjectPtr Function(
+                  ffi.Uint64, jni.JObjectPtr, jni.JObjectPtr)>>
+      _$invokePointer = ffi.Pointer.fromFunction(_$invoke);
+
+  static ffi.Pointer<ffi.Void> _$invokeMethod(
+    int $p,
+    $MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r"parseToInt(Ljava/lang/String;)I") {
+        final $r = _$impls[$p]!.parseToInt(
+          $a[0].castTo(const jni.JStringType(), releaseOriginal: true),
+        );
+        return jni.JInteger($r).reference.toPointer();
+      }
+    } catch (e) {
+      return ProtectedJniExtensions.newDartException(e);
+    }
+    return jni.nullptr;
+  }
+
+  factory StringConverter.implement(
+    $StringConverterImpl $impl,
+  ) {
+    final $p = ReceivePort();
+    final $x = StringConverter.fromReference(
+      ProtectedJniExtensions.newPortProxy(
+        r"com.github.dart_lang.jnigen.interfaces.StringConverter",
+        $p,
+        _$invokePointer,
+      ),
+    ).._$p = $p;
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+    $p.listen(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = $MethodInvocation.fromMessage($m as List<dynamic>);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    return $x;
+  }
+}
+
+abstract interface class $StringConverterImpl {
+  factory $StringConverterImpl({
+    required int Function(jni.JString s) parseToInt,
+  }) = _$StringConverterImpl;
+
+  int parseToInt(jni.JString s);
+}
+
+class _$StringConverterImpl implements $StringConverterImpl {
+  _$StringConverterImpl({
+    required int Function(jni.JString s) parseToInt,
+  }) : _parseToInt = parseToInt;
+
+  final int Function(jni.JString s) _parseToInt;
+
+  int parseToInt(jni.JString s) {
+    return _parseToInt(s);
+  }
+}
+
+final class $StringConverterType extends jni.JObjType<StringConverter> {
+  const $StringConverterType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/interfaces/StringConverter;";
+
+  @override
+  StringConverter fromReference(jni.JReference reference) =>
+      StringConverter.fromReference(reference);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($StringConverterType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConverterType) &&
+        other is $StringConverterType;
+  }
+}
+
+/// from: com.github.dart_lang.jnigen.interfaces.StringConverterConsumer
+class StringConverterConsumer extends jni.JObject {
+  @override
+  late final jni.JObjType<StringConverterConsumer> $type = type;
+
+  StringConverterConsumer.fromReference(
+    jni.JReference reference,
+  ) : super.fromReference(reference);
+
+  static final _class = jni.JClass.forName(
+      r"com/github/dart_lang/jnigen/interfaces/StringConverterConsumer");
+
+  /// The type which includes information such as the signature of this class.
+  static const type = $StringConverterConsumerType();
+  static final _id_new0 = _class.constructorId(
+    r"()V",
+  );
+
+  static final _new0 = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                ffi.Pointer<ffi.Void>,
+                jni.JMethodIDPtr,
+              )>>("globalEnv_NewObject")
+      .asFunction<
+          jni.JniResult Function(
+            ffi.Pointer<ffi.Void>,
+            jni.JMethodIDPtr,
+          )>();
+
+  /// from: public void <init>()
+  /// The returned object must be released after use, by calling the [release] method.
+  factory StringConverterConsumer() {
+    return StringConverterConsumer.fromReference(
+        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_consumeOnSameThread = _class.staticMethodId(
+    r"consumeOnSameThread",
+    r"(Lcom/github/dart_lang/jnigen/interfaces/StringConverter;Ljava/lang/String;)I",
+  );
+
+  static final _consumeOnSameThread = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallStaticIntMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: static public int consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)
+  static int consumeOnSameThread(
+    StringConverter stringConverter,
+    jni.JString s,
+  ) {
+    return _consumeOnSameThread(
+            _class.reference.pointer,
+            _id_consumeOnSameThread as jni.JMethodIDPtr,
+            stringConverter.reference.pointer,
+            s.reference.pointer)
+        .integer;
+  }
+}
+
+final class $StringConverterConsumerType
+    extends jni.JObjType<StringConverterConsumer> {
+  const $StringConverterConsumerType();
+
+  @override
+  String get signature =>
+      r"Lcom/github/dart_lang/jnigen/interfaces/StringConverterConsumer;";
+
+  @override
+  StringConverterConsumer fromReference(jni.JReference reference) =>
+      StringConverterConsumer.fromReference(reference);
+
+  @override
+  jni.JObjType get superType => const jni.JObjectType();
+
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => ($StringConverterConsumerType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($StringConverterConsumerType) &&
+        other is $StringConverterConsumerType;
+  }
+}
+
 /// from: com.github.dart_lang.jnigen.annotations.JsonSerializable$Case
 class JsonSerializable_Case extends jni.JObject {
   @override
@@ -4333,7 +4659,7 @@ class JsonSerializable extends jni.JObject {
             .toPointer();
       }
     } catch (e) {
-      return ProtectedJniExtensions.newDartException(e.toString());
+      return ProtectedJniExtensions.newDartException(e);
     }
     return jni.nullptr;
   }

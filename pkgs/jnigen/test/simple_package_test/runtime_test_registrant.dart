@@ -687,6 +687,29 @@ void registerTests(String groupName, TestRunnerCallback test) {
         }
       }
     });
+
+    group('throw Java exceptions', () {
+      test('StringConverter.implement', () async {
+        final stringConverter = StringConverter.implement($StringConverterImpl(
+          parseToInt: (s) {
+            final firstChar = s.toDartString().substring(0, 1);
+            final value = int.tryParse(firstChar);
+            if (value == null || value > 5) {
+              throw StringConversionException(
+                  'Invalid first character: $firstChar'.toJString());
+            }
+
+            return value;
+          },
+        ));
+
+        final testString = '700'.toJString();
+        final result = StringConverterConsumer.consumeOnSameThread(
+            stringConverter, testString);
+        expect(result, -1);
+        stringConverter.release();
+      });
+    });
   });
 
   group('$groupName (load tests)', () {

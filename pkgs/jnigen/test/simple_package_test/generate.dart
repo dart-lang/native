@@ -36,6 +36,9 @@ var javaFiles = [
   join(javaPrefix, 'interfaces', 'MyRunnableRunner.java'),
   join(javaPrefix, 'interfaces', 'MyInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterfaceConsumer.java'),
+  join(javaPrefix, 'interfaces', 'StringConversionException.java'),
+  join(javaPrefix, 'interfaces', 'StringConverter.java'),
+  join(javaPrefix, 'interfaces', 'StringConverterConsumer.java'),
   join(javaPrefix, 'annotations', 'JsonSerializable.java'),
   join(javaPrefix, 'annotations', 'MyDataClass.java'),
 ];
