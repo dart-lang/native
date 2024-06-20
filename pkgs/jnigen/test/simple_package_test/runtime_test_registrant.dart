@@ -4,6 +4,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:test/test.dart';
 import 'package:jni/jni.dart';
@@ -689,29 +690,60 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
 
     group('throw Java exceptions', () {
-      test('StringConverter.implement', () async {
-        final stringConverter = StringConverter.implement($StringConverterImpl(
-          parseToInt: (s) {
-            final value = int.tryParse(s.toDartString());
-            if (value == null) {
-              throw StringConversionException(
-                  'Invalid integer expression: ${s.toDartString()}'
-                      .toJString());
-            }
+      for (final (threading, consume) in [
+        ('another thread', StringConverterConsumer.consumeOnAnotherThread),
+        ('the same thread', StringConverterConsumer.consumeOnSameThread),
+      ]) {
+        test('StringConverter.implement on $threading ', () async {
+          final stringConverter =
+              StringConverter.implement($StringConverterImpl(
+            parseToInt: (s) {
+              final value = int.tryParse(s.toDartString());
+              if (value == null) {
+                throw StringConversionException(
+                    'Invalid integer expression: $s'.toJString());
+              }
 
-            return value;
-          },
-        ));
+              return value;
+            },
+          ));
 
-        var result = StringConverterConsumer.consumeOnSameThread(
-            stringConverter, '700'.toJString());
-        expect(result, 700);
+          // Gets the result of a Java Future.
+          // TODO(#1213): remove this once we support Java futures.
+          Future<$T> toDartFuture<$T extends JObject>(
+              JObject future, JObjType<$T> T) {
+            return Isolate.run(() {
+              final futureClass = JClass.forName('java/util/concurrent');
+              final getMethod = futureClass.instanceMethodId(
+                  'get', '(Ljava/lang/Object;)Ljava/lang/Object;');
+              final result = getMethod(future, JObject.type, []);
+              return result.castTo(T);
+            });
+          }
 
-        result = StringConverterConsumer.consumeOnSameThread(
-            stringConverter, 'foo'.toJString());
-        expect(result, -1);
-        stringConverter.release();
-      });
+          final sevenHundredBoxed = consume(stringConverter, '700'.toJString());
+          final int sevenHundred;
+          if (sevenHundredBoxed is JInteger) {
+            sevenHundred = sevenHundredBoxed.intValue();
+          } else {
+            sevenHundred =
+                (await toDartFuture(sevenHundredBoxed, JInteger.type))
+                    .intValue();
+          }
+          expect(sevenHundred, 700);
+
+          final fooBoxed = consume(stringConverter, 'foo'.toJString());
+          final int foo;
+          if (fooBoxed is JInteger) {
+            foo = fooBoxed.intValue();
+          } else {
+            foo = (await toDartFuture(fooBoxed, JInteger.type)).intValue();
+          }
+          expect(foo, -1);
+
+          stringConverter.release();
+        });
+      }
     });
   });
 

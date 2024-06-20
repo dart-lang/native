@@ -4428,7 +4428,7 @@ class StringConverterConsumer extends jni.JObject {
 
   static final _id_consumeOnSameThread = _class.staticMethodId(
     r"consumeOnSameThread",
-    r"(Lcom/github/dart_lang/jnigen/interfaces/StringConverter;Ljava/lang/String;)I",
+    r"(Lcom/github/dart_lang/jnigen/interfaces/StringConverter;Ljava/lang/String;)Ljava/lang/Integer;",
   );
 
   static final _consumeOnSameThread = ProtectedJniExtensions.lookup<
@@ -4440,13 +4440,14 @@ class StringConverterConsumer extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticIntMethod")
+                      )>)>>("globalEnv_CallStaticObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public int consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)
-  static int consumeOnSameThread(
+  /// from: static public java.lang.Integer consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JInteger consumeOnSameThread(
     StringConverter stringConverter,
     jni.JString s,
   ) {
@@ -4455,7 +4456,40 @@ class StringConverterConsumer extends jni.JObject {
             _id_consumeOnSameThread as jni.JMethodIDPtr,
             stringConverter.reference.pointer,
             s.reference.pointer)
-        .integer;
+        .object(const jni.JIntegerType());
+  }
+
+  static final _id_consumeOnAnotherThread = _class.staticMethodId(
+    r"consumeOnAnotherThread",
+    r"(Lcom/github/dart_lang/jnigen/interfaces/StringConverter;Ljava/lang/String;)Ljava/util/concurrent/Future;",
+  );
+
+  static final _consumeOnAnotherThread = ProtectedJniExtensions.lookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  jni.JMethodIDPtr,
+                  ffi.VarArgs<
+                      (
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<ffi.Void>
+                      )>)>>("globalEnv_CallStaticObjectMethod")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: static public java.util.concurrent.Future<java.lang.Integer> consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String s)
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni.JObject consumeOnAnotherThread(
+    StringConverter stringConverter,
+    jni.JString s,
+  ) {
+    return _consumeOnAnotherThread(
+            _class.reference.pointer,
+            _id_consumeOnAnotherThread as jni.JMethodIDPtr,
+            stringConverter.reference.pointer,
+            s.reference.pointer)
+        .object(const jni.JObjectType());
   }
 }
 

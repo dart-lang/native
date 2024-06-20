@@ -4,13 +4,21 @@
 
 package com.github.dart_lang.jnigen.interfaces;
 
-public class StringConverterConsumer {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-  public static int consumeOnSameThread(StringConverter stringConverter, String s) {
+public class StringConverterConsumer {
+  public static Integer consumeOnSameThread(StringConverter stringConverter, String s) {
     try {
       return stringConverter.parseToInt(s);
     } catch (StringConversionException e) {
       return -1;
     }
+  }
+
+  public static Future<Integer> consumeOnAnotherThread(StringConverter stringConverter, String s) {
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+    return executor.submit(() -> consumeOnSameThread(stringConverter, s));
   }
 }
