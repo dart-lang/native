@@ -7,7 +7,6 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:jni/internal_helpers_for_jnigen.dart' show jThrowableClass;
 import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
@@ -221,6 +220,8 @@ typedef _SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
 
 /// Extensions for use by `jnigen` generated code.
 extension ProtectedJniExtensions on Jni {
+  static final jThrowableClass = JClass.forName('java/lang/Throwable');
+
   static Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
       String name) {
     var path = _getLibraryFileName(name);

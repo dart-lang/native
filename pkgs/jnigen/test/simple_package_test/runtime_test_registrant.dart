@@ -692,20 +692,23 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('StringConverter.implement', () async {
         final stringConverter = StringConverter.implement($StringConverterImpl(
           parseToInt: (s) {
-            final firstChar = s.toDartString().substring(0, 1);
-            final value = int.tryParse(firstChar);
-            if (value == null || value > 5) {
+            final value = int.tryParse(s.toDartString());
+            if (value == null) {
               throw StringConversionException(
-                  'Invalid first character: $firstChar'.toJString());
+                  'Invalid integer expression: ${s.toDartString()}'
+                      .toJString());
             }
 
             return value;
           },
         ));
 
-        final testString = '700'.toJString();
-        final result = StringConverterConsumer.consumeOnSameThread(
-            stringConverter, testString);
+        var result = StringConverterConsumer.consumeOnSameThread(
+            stringConverter, '700'.toJString());
+        expect(result, 700);
+
+        result = StringConverterConsumer.consumeOnSameThread(
+            stringConverter, 'foo'.toJString());
         expect(result, -1);
         stringConverter.release();
       });
