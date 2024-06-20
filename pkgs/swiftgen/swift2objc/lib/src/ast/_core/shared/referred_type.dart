@@ -12,7 +12,7 @@ abstract class ReferredType {
   ReferredType({required this.id});
 }
 
-/// Describes a reference of a user-defined type.
+/// Describes a reference of a declared type (user-defined or built-in).
 class DeclaredType<T extends Declaration> extends ReferredType {
   T declaration;
   List<ReferredType> typeParams;
@@ -20,7 +20,7 @@ class DeclaredType<T extends Declaration> extends ReferredType {
   DeclaredType({
     required super.id,
     required this.declaration,
-    required this.typeParams,
+    this.typeParams = const [],
   });
 }
 

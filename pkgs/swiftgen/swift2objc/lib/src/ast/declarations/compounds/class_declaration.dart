@@ -36,11 +36,11 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   ClassDeclaration({
     required this.id,
     required this.name,
-    required this.properties,
-    required this.methods,
-    required this.conformedProtocols,
-    required this.typeParams,
-    required this.hasObjCAnnotation,
+    this.properties = const [],
+    this.methods = const [],
+    this.conformedProtocols = const [],
+    this.typeParams = const [],
+    this.hasObjCAnnotation = false,
     this.superClass,
   });
 }
@@ -67,8 +67,8 @@ class ClassPropertyDeclaration
     required this.id,
     required this.name,
     required this.type,
-    required this.hasSetter,
-    required this.hasObjCAnnotation,
+    this.hasSetter = false,
+    this.hasObjCAnnotation = false,
   });
 }
 
@@ -96,9 +96,9 @@ class ClassMethodDeclaration
   ClassMethodDeclaration({
     required this.id,
     required this.name,
-    required this.params,
-    required this.typeParams,
     required this.returnType,
-    required this.hasObjCAnnotation,
+    required this.params,
+    this.typeParams = const [],
+    this.hasObjCAnnotation = false,
   });
 }
