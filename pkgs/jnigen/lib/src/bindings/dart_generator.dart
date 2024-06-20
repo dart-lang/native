@@ -845,17 +845,11 @@ class _JniResultGetter extends TypeVisitor<String> {
   }
 }
 
-/// Type signature for C-based bindings.
+/// Type signature for Dart and C's varargs.
 ///
-/// When `isFFi` is `true`, it generates the ffi type signature and when it's
-/// false, it generates the dart type signature.
+/// When [isFFi] is `true`, it generates the ffi type signature for vararg.
 ///
-/// For example `ffi.Int32` is an ffi type signature while `int` is a Dart one:
-/// ```dart
-/// jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int32, ffi.Int32)>>(
-///       "sum")
-///   .asFunction<jni.JniResult Function(int, int)>();
-/// ```
+/// For example `ffi.Int32` is an ffi type signature while `int` is a Dart one.
 class _TypeSig extends TypeVisitor<String> {
   final bool isFfi;
 
@@ -863,7 +857,7 @@ class _TypeSig extends TypeVisitor<String> {
 
   @override
   String visitPrimitiveType(PrimitiveType node) {
-    if (isFfi) return '$_ffi.${node.ffiType}';
+    if (isFfi) return node.ffiVarArgType;
     if (node.name == 'boolean') return 'int';
     return node.dartType;
   }

@@ -267,7 +267,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Byte',
       cType: 'int8_t',
-      ffiType: 'Int8',
+      ffiVarArgType: '\$Int32',
     ),
     'short': PrimitiveType._(
       name: 'short',
@@ -275,7 +275,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Short',
       cType: 'int16_t',
-      ffiType: 'Int16',
+      ffiVarArgType: '\$Int32',
     ),
     'char': PrimitiveType._(
       name: 'char',
@@ -283,7 +283,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Character',
       cType: 'uint16_t',
-      ffiType: 'Uint16',
+      ffiVarArgType: '\$Int32',
     ),
     'int': PrimitiveType._(
       name: 'int',
@@ -291,7 +291,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Integer',
       cType: 'int32_t',
-      ffiType: 'Int32',
+      ffiVarArgType: '\$Int32',
     ),
     'long': PrimitiveType._(
       name: 'long',
@@ -299,7 +299,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Long',
       cType: 'int64_t',
-      ffiType: 'Int64',
+      ffiVarArgType: 'ffi.Int64',
     ),
     'float': PrimitiveType._(
       name: 'float',
@@ -307,7 +307,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Float',
       cType: 'float',
-      ffiType: 'Float',
+      ffiVarArgType: 'ffi.Double',
     ),
     'double': PrimitiveType._(
       name: 'double',
@@ -315,7 +315,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Double',
       cType: 'double',
-      ffiType: 'Double',
+      ffiVarArgType: 'ffi.Double',
     ),
     'boolean': PrimitiveType._(
       name: 'boolean',
@@ -323,7 +323,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'bool',
       boxedName: 'Boolean',
       cType: 'uint8_t',
-      ffiType: 'Uint8',
+      ffiVarArgType: '\$Int32',
     ),
     'void': PrimitiveType._(
       name: 'void',
@@ -331,7 +331,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'void',
       boxedName: 'Void', // Not used.
       cType: 'void',
-      ffiType: 'Void',
+      ffiVarArgType: 'ffi.Void', // Not used.
     ),
   };
 
@@ -341,7 +341,7 @@ class PrimitiveType extends ReferredType {
     required this.dartType,
     required this.boxedName,
     required this.cType,
-    required this.ffiType,
+    required this.ffiVarArgType,
   });
 
   @override
@@ -351,7 +351,7 @@ class PrimitiveType extends ReferredType {
   final String dartType;
   final String boxedName;
   final String cType;
-  final String ffiType;
+  final String ffiVarArgType;
 
   factory PrimitiveType.fromJson(Map<String, dynamic> json) {
     return _primitives[json['name']]!;

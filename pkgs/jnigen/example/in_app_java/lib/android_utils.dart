@@ -188,7 +188,7 @@ class EmojiCompat_Config extends jni.JObject {
   static final _setReplaceAll = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -217,7 +217,7 @@ class EmojiCompat_Config extends jni.JObject {
   static final _setUseEmojiAsDefaultStyle = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -257,7 +257,7 @@ class EmojiCompat_Config extends jni.JObject {
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Uint8, ffi.Pointer<ffi.Void>)>)>>(
+                      ffi.VarArgs<($Int32, ffi.Pointer<ffi.Void>)>)>>(
           "globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
@@ -298,7 +298,7 @@ class EmojiCompat_Config extends jni.JObject {
   static final _setEmojiSpanIndicatorEnabled = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -329,7 +329,7 @@ class EmojiCompat_Config extends jni.JObject {
   static final _setEmojiSpanIndicatorColor = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -356,7 +356,7 @@ class EmojiCompat_Config extends jni.JObject {
   static final _setMetadataLoadStrategy = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -649,9 +649,9 @@ class EmojiCompat_GlyphChecker extends jni.JObject {
                   ffi.VarArgs<
                       (
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32
+                        $Int32,
+                        $Int32,
+                        $Int32
                       )>)>>("globalEnv_CallBooleanMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -1688,7 +1688,7 @@ class EmojiCompat extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallStaticVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallStaticVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1932,7 +1932,7 @@ class EmojiCompat extends jni.JObject {
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int32)>)>>(
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32)>)>>(
           "globalEnv_CallIntMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -1971,7 +1971,7 @@ class EmojiCompat extends jni.JObject {
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int32)>)>>(
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32)>)>>(
           "globalEnv_CallIntMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -2002,7 +2002,7 @@ class EmojiCompat extends jni.JObject {
                   ffi.VarArgs<
                       (
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
+                        $Int32,
                         ffi.Pointer<ffi.Void>
                       )>)>>("globalEnv_CallStaticBooleanMethod")
       .asFunction<
@@ -2055,9 +2055,9 @@ class EmojiCompat extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Uint8
+                        $Int32,
+                        $Int32,
+                        $Int32
                       )>)>>("globalEnv_CallStaticBooleanMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -2139,7 +2139,7 @@ class EmojiCompat extends jni.JObject {
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int32)>)>>(
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32)>)>>(
           "globalEnv_CallBooleanMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -2177,7 +2177,7 @@ class EmojiCompat extends jni.JObject {
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Int32)>)>>(
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32)>)>>(
           "globalEnv_CallIntMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -2247,16 +2247,12 @@ class EmojiCompat extends jni.JObject {
   );
 
   static final _process1 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
-                      (
-                        ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
-                        ffi.Int32
-                      )>)>>("globalEnv_CallObjectMethod")
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32, $Int32)>)>>(
+          "globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int, int)>();
@@ -2310,9 +2306,9 @@ class EmojiCompat extends jni.JObject {
                   ffi.VarArgs<
                       (
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32
+                        $Int32,
+                        $Int32,
+                        $Int32
                       )>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -2371,10 +2367,10 @@ class EmojiCompat extends jni.JObject {
                   ffi.VarArgs<
                       (
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32
                       )>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -2738,7 +2734,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32
+                        $Int32
                       )>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -2888,7 +2884,7 @@ class DefaultEmojiCompatConfig_DefaultEmojiCompatConfigHelper_API19
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32
+                        $Int32
                       )>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -4158,7 +4154,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   static final _new0 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32, ffi.Float)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<($Int32, ffi.Double)>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, double)>();
@@ -4185,7 +4181,7 @@ class HashMap<$K extends jni.JObject, $V extends jni.JObject>
   static final _new1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -4999,7 +4995,7 @@ class AndroidUtils extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32
+                        $Int32
                       )>)>>("globalEnv_CallStaticVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,

@@ -168,7 +168,7 @@ class JsonParser_Feature extends jni.JObject {
   static final _enabledIn = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallBooleanMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallBooleanMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -391,7 +391,7 @@ class JsonParser extends jni.JObject {
   static final _new1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1369,7 +1369,7 @@ class JsonParser extends jni.JObject {
                   jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, ffi.Uint8)>)>>(
+                      ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32)>)>>(
           "globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -1487,7 +1487,7 @@ class JsonParser extends jni.JObject {
   static final _setFeatureMask = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1514,10 +1514,9 @@ class JsonParser extends jni.JObject {
   );
 
   static final _overrideStdFeatures = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr, ffi.VarArgs<(ffi.Int32, ffi.Int32)>)>>(
-          "globalEnv_CallObjectMethod")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+                  ffi.VarArgs<($Int32, $Int32)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
@@ -1581,10 +1580,9 @@ class JsonParser extends jni.JObject {
   );
 
   static final _overrideFormatFeatures = ProtectedJniExtensions.lookup<
-              ffi.NativeFunction<
-                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr, ffi.VarArgs<(ffi.Int32, ffi.Int32)>)>>(
-          "globalEnv_CallObjectMethod")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+                  ffi.VarArgs<($Int32, $Int32)>)>>("globalEnv_CallObjectMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
@@ -1807,7 +1805,7 @@ class JsonParser extends jni.JObject {
   static final _nextIntValue = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallIntMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallIntMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -2167,7 +2165,7 @@ class JsonParser extends jni.JObject {
   static final _hasTokenId = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallBooleanMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallBooleanMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -3472,7 +3470,7 @@ class JsonParser extends jni.JObject {
   static final _getValueAsInt1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallIntMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallIntMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -3694,7 +3692,7 @@ class JsonParser extends jni.JObject {
   static final _getValueAsBoolean1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallBooleanMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallBooleanMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
