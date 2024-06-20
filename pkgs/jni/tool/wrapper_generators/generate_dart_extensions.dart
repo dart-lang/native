@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:ffigen/src/code_generator.dart';
 
 import 'ffigen_util.dart';
@@ -177,7 +176,7 @@ String getGlobalEnvExtension(
   }
   final extensionFunctions = env.members
       .map((m) => getGlobalEnvExtensionFunction(m, checkedReturnTypes[m.name]))
-      .whereNotNull()
+      .nonNulls
       .join('\n');
   return '''
 /// Wraps over Pointer<GlobalJniEnvStruct> and exposes function pointer fields
@@ -235,7 +234,7 @@ String getFunctionPointerExtension(
   final extensionFunctions = compound.members
       .map((f) => getFunctionPointerExtensionFunction(f,
           indirect: indirect, implicitThis: implicitThis))
-      .whereNotNull()
+      .nonNulls
       .join('\n');
   return '''
 /// Wraps over the function pointers in $type and exposes them as methods.
