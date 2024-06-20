@@ -5,6 +5,11 @@
   constructing `DartProxy`.
 - Add some extensions methods for `NSMutableData`.
 - Fix the `NSError` bindings so that they're not empty.
+- Add `ObjCProtocolBuilder`, which is an ergonomic wrapper around
+  `DartProxyBuilder`.
+- Add `ObjCProtocolMethod`, which contains all the information that
+  `ObjCProtocolBuilder` needs to implement a method. These objects are created
+  by the ffigen bindings for a protocol.
 
 ## 1.0.1
 

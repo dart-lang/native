@@ -333,7 +333,28 @@
           "$ref": "#/$defs/memberRename"
         },
         "module": {
-          "$ref": "#/$defs/objcInterfaceModule"
+          "$ref": "#/$defs/objcModule"
+        }
+      }
+    },
+    "objc-protocols": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "include": {
+          "$ref": "#/$defs/fullMatchOrRegexpList"
+        },
+        "exclude": {
+          "$ref": "#/$defs/fullMatchOrRegexpList"
+        },
+        "rename": {
+          "$ref": "#/$defs/rename"
+        },
+        "member-rename": {
+          "$ref": "#/$defs/memberRename"
+        },
+        "module": {
+          "$ref": "#/$defs/objcModule"
         }
       }
     },
@@ -495,7 +516,7 @@
         "opaque"
       ]
     },
-    "objcInterfaceModule": {
+    "objcModule": {
       "type": "object",
       "patternProperties": {
         ".*": {

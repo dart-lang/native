@@ -31,12 +31,12 @@ objc-interfaces:
     - NSMutableArray
     - NSMutableData
     - NSMutableDictionary
+    - NSMutableIndexSet
     - NSMutableSet
     - NSMutableString
     - NSNotification
     - NSNumber
     - NSObject
-    - NSProgress
     - NSProxy
     - NSSet
     - NSString
@@ -44,6 +44,12 @@ objc-interfaces:
     - NSURLHandle
     - NSValue
     - Protocol
+structs:
+  include:
+    - _NSRange
+    - NSFastEnumerationState
+  rename:
+    _NSRange: NSRange
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

@@ -13,10 +13,14 @@ typedef struct {
   int32_t y;
 } SomeStruct;
 
-@protocol MyProtocol<NSObject>
+@protocol SuperProtocol<NSObject>
 
 @required
 - (NSString*)instanceMethod:(NSString*)s withDouble:(double)x;
+
+@end
+
+@protocol MyProtocol<SuperProtocol>
 
 @optional
 - (int32_t)optionalMethod:(SomeStruct)s;
@@ -32,37 +36,43 @@ typedef struct {
 @required
 - (int32_t)otherMethod:(int32_t)a b:(int32_t)b c:(int32_t)c d:(int32_t)d;
 
+@optional
+- (nullable instancetype)returnsInstanceType;
+
+@end
+
+@protocol EmptyProtocol
 @end
 
 
 @interface ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)proto;
-- (int32_t)callOptionalMethod:(id<MyProtocol>)proto;
-- (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto;
-- (void)callMethodOnRandomThread:(id<SecondaryProtocol>)proto;
+- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol;
+- (int32_t)callOptionalMethod:(id<MyProtocol>)protocol;
+- (int32_t)callOtherMethod:(id<SecondaryProtocol>)protocol;
+- (void)callMethodOnRandomThread:(id<SecondaryProtocol>)protocol;
 @end
 
 @implementation ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)proto {
-  return [proto instanceMethod:@"Hello from ObjC" withDouble:3.14];
+- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol {
+  return [protocol instanceMethod:@"Hello from ObjC" withDouble:3.14];
 }
 
-- (int32_t)callOptionalMethod:(id<MyProtocol>)proto {
-  if ([proto respondsToSelector:@selector(optionalMethod:)]) {
+- (int32_t)callOptionalMethod:(id<MyProtocol>)protocol {
+  if ([protocol respondsToSelector:@selector(optionalMethod:)]) {
     SomeStruct s = {123, 456};
-    return [proto optionalMethod:s];
+    return [protocol optionalMethod:s];
   } else {
     return -999;
   }
 }
 
-- (int32_t)callOtherMethod:(id<SecondaryProtocol>)proto {
-  return [proto otherMethod:1 b:2 c:3 d:4];
+- (int32_t)callOtherMethod:(id<SecondaryProtocol>)protocol {
+  return [protocol otherMethod:1 b:2 c:3 d:4];
 }
 
-- (void)callMethodOnRandomThread:(id<MyProtocol>)proto {
+- (void)callMethodOnRandomThread:(id<MyProtocol>)protocol {
   dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-    [proto voidMethod:123];
+    [protocol voidMethod:123];
   });
 }
 @end
@@ -95,14 +105,3 @@ typedef struct {
   return @"ObjCProtocolImplMissingMethod";
 }
 @end
-
-
-// TODO(https://github.com/dart-lang/native/issues/1040): Delete these.
-typedef NSString* (^InstanceMethodBlock)(void*, NSString*, double);
-void forceCodeGenOfInstanceMethodBlock(InstanceMethodBlock block);
-typedef int32_t (^OptMethodBlock)(void*, SomeStruct);
-void forceCodeGenOfOptMethodBlock(OptMethodBlock block);
-typedef void (^VoidMethodBlock)(void*, int32_t);
-void forceCodeGenOfVoidMethodBlock(VoidMethodBlock block);
-typedef int32_t (^OtherMethodBlock)(void*, int32_t a, int32_t b, int32_t c, int32_t d);
-void forceCodeGenOfOtherMethodBlock(OtherMethodBlock block);

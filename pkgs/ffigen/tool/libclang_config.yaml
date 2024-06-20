@@ -123,6 +123,7 @@ functions:
     - clang_Cursor_getObjCPropertyAttributes
     - clang_Cursor_getObjCPropertyGetterName
     - clang_Cursor_getObjCPropertySetterName
+    - clang_Cursor_isObjCOptional
     - clang_Type_getNullability
     - clang_Type_getModifiedType
     - clang_Location_isInSystemHeader

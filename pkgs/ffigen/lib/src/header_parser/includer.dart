@@ -75,6 +75,11 @@ bool shouldIncludeObjCInterface(String usr, String name) {
       usr, name, bindingsIndex.isSeenType, config.objcInterfaces.shouldInclude);
 }
 
+bool shouldIncludeObjCProtocol(String usr, String name) {
+  return _shouldIncludeDecl(usr, name, bindingsIndex.isSeenObjCProtocol,
+      config.objcProtocols.shouldInclude);
+}
+
 /// True if a cursor should be included based on headers config, used on root
 /// declarations.
 bool shouldIncludeRootCursor(String sourceFile) {

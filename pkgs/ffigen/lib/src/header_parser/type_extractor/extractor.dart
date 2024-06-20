@@ -68,7 +68,7 @@ Type getCodeGenType(
       case clang_types.CXTypeKind.CXType_ObjCSel:
         return PointerType(objCSelType);
       case clang_types.CXTypeKind.CXType_BlockPointer:
-        return _getOrCreateBlockType(cxtype);
+        return parseObjCBlock(cxtype);
     }
   }
 
@@ -169,17 +169,6 @@ Type getCodeGenType(
         return UnimplementedType('${cxtype.kindSpelling()} not implemented');
       }
   }
-}
-
-Type _getOrCreateBlockType(clang_types.CXType cxtype) {
-  final block = parseObjCBlock(cxtype);
-  final key = block.usr;
-  final oldBlock = bindingsIndex.getSeenObjCBlock(key);
-  if (oldBlock != null) {
-    return oldBlock;
-  }
-  bindingsIndex.addObjCBlockToSeen(key, block);
-  return block;
 }
 
 class _CreateTypeFromCursorResult {

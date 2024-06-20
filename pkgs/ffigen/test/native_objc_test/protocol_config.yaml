@@ -8,18 +8,11 @@ objc-interfaces:
     - ProtocolConsumer
     - ObjCProtocolImpl
     - ObjCProtocolImplMissingMethod
-typedefs:
+objc-protocols:
   include:
-    - InstanceMethodBlock
-    - OptMethodBlock
-    - VoidMethodBlock
-    - OtherMethodBlock
-functions:
-  include:
-    - forceCodeGenOfInstanceMethodBlock
-    - forceCodeGenOfOptMethodBlock
-    - forceCodeGenOfVoidMethodBlock
-    - forceCodeGenOfOtherMethodBlock
+    - EmptyProtocol
+    - MyProtocol
+    - SecondaryProtocol
 headers:
   entry-points:
     - 'protocol_test.m'

@@ -437,6 +437,7 @@ class BindingsIndex {
   final Map<String, String> _macros = {};
   final Map<String, Global> _globals = {};
   final Map<String, ObjCBlock> _objcBlocks = {};
+  final Map<String, ObjCProtocol> _objcProtocols = {};
 
   /// Contains usr for typedefs which cannot be generated.
   final Set<String> _unsupportedTypealiases = {};
@@ -472,6 +473,10 @@ class BindingsIndex {
   bool? getSeenHeaderStatus(String source) => _headerCache[source];
   void addObjCBlockToSeen(String key, ObjCBlock t) => _objcBlocks[key] = t;
   ObjCBlock? getSeenObjCBlock(String key) => _objcBlocks[key];
+  void addObjCProtocolToSeen(String usr, ObjCProtocol t) =>
+      _objcProtocols[usr] = t;
+  ObjCProtocol? getSeenObjCProtocol(String usr) => _objcProtocols[usr];
+  bool isSeenObjCProtocol(String usr) => _objcProtocols.containsKey(usr);
 }
 
 class CursorIndex {

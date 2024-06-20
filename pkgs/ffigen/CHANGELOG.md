@@ -23,6 +23,8 @@
   To silence the warning set config `silence-enum-warning` to `true`.
 - Rename ObjC interface methods that clash with type names. Fixes
   https://github.com/dart-lang/native/issues/1007.
+- Added support for implementing ObjC protocols from Dart. Use the
+  `objc-protocols` config option to generate bindings for a protocol.
 
 ## 12.0.0
 

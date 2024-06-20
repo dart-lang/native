@@ -6,6 +6,7 @@ export 'src/internal.dart' hide blockHasRegisteredClosure;
 export 'src/ns_data.dart';
 export 'src/ns_mutable_data.dart';
 export 'src/ns_string.dart';
+export 'src/protocol_builder.dart';
 export 'src/c_bindings_generated.dart'
     show
         ObjCSelector,
@@ -37,13 +38,15 @@ export 'src/objective_c_bindings_generated.dart'
         NSMutableArray,
         NSMutableData,
         NSMutableDictionary,
+        NSMutableIndexSet,
         NSMutableSet,
         NSMutableString,
+        NSFastEnumerationState,
         NSNotification,
         NSNumber,
         NSObject,
-        NSProgress,
         NSProxy,
+        NSRange,
         NSSet,
         NSString,
         NSURL,

@@ -24,5 +24,6 @@ enum BindingStringType {
   enum_,
   typeDef,
   objcInterface,
+  objcProtocol,
   objcBlock,
 }

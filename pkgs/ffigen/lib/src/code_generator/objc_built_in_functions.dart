@@ -22,8 +22,16 @@ class ObjCBuiltInFunctions {
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
+  static const getProtocolMethodSignature =
+      ObjCImport('getProtocolMethodSignature');
+  static const getProtocol = ObjCImport('getProtocol');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const blockBase = ObjCImport('ObjCBlockBase');
+  static const protocolMethod = ObjCImport('ObjCProtocolMethod');
+  static const protocolListenableMethod =
+      ObjCImport('ObjCProtocolListenableMethod');
+  static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
+  static const dartProxy = ObjCImport('DartProxy');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
   static const builtInInterfaces = {
@@ -45,12 +53,12 @@ class ObjCBuiltInFunctions {
     'NSMutableArray',
     'NSMutableData',
     'NSMutableDictionary',
+    'NSMutableIndexSet',
     'NSMutableSet',
     'NSMutableString',
     'NSNotification',
     'NSNumber',
     'NSObject',
-    'NSProgress',
     'NSProxy',
     'NSSet',
     'NSString',
@@ -59,9 +67,18 @@ class ObjCBuiltInFunctions {
     'NSValue',
     'Protocol',
   };
+  static const builtInCompounds = {
+    'NSFastEnumerationState',
+    'NSRange',
+  };
 
+  // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
+  // would be based on more than just the name.
   bool isBuiltInInterface(String name) =>
       !generateForPackageObjectiveC && builtInInterfaces.contains(name);
+  bool isBuiltInCompound(String name) =>
+      !generateForPackageObjectiveC && builtInCompounds.contains(name);
+  bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
@@ -95,6 +112,12 @@ class ObjCBuiltInFunctions {
     for (final sel in _selObjects.values) {
       sel.addDependencies(dependencies);
     }
+  }
+
+  static bool isInstanceType(Type type) {
+    if (type is ObjCInstanceType) return true;
+    final baseType = type.typealiasType;
+    return baseType is ObjCNullable && baseType.child is ObjCInstanceType;
   }
 }
 

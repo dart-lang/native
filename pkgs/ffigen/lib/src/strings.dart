@@ -73,6 +73,7 @@ const globals = 'globals';
 const macros = 'macros';
 const typedefs = 'typedefs';
 const objcInterfaces = 'objc-interfaces';
+const objcProtocols = 'objc-protocols';
 
 const excludeAllByDefault = 'exclude-all-by-default';
 const generateForPackageObjectiveC = 'generate-for-package-objective-c';

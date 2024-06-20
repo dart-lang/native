@@ -4,7 +4,7 @@
 
 // ================== GENERATING JSON SCHEMA =====================
 //    cd to project's root, and run -
-//    dart generate_json_schema.dart
+//    dart tool/generate_json_schema.dart
 // ===============================================================
 import 'dart:convert';
 import 'dart:io';

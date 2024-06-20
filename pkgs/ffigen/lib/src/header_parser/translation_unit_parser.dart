@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/macro_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/objcinterfacedecl_parser.dart';
+import 'package:ffigen/src/header_parser/sub_parsers/objcprotocoldecl_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/var_parser.dart';
 import 'package:logging/logging.dart';
 
@@ -37,6 +38,9 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
             break;
           case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
             addToBindings(bindings, parseObjCCategoryDeclaration(cursor));
+            break;
+          case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
+            addToBindings(bindings, parseObjCProtocolDeclaration(cursor));
             break;
           case clang_types.CXCursorKind.CXCursor_MacroDefinition:
             saveMacroDefinition(cursor);

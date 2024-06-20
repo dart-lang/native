@@ -71,7 +71,8 @@ class UniqueNamer {
 /// Converts [text] to a dart doc comment(`///`).
 ///
 /// Comment is split on new lines only.
-String makeDartDoc(String text) {
+String makeDartDoc(String? text) {
+  if (text == null) return '';
   final s = StringBuffer();
   s.write('/// ');
   s.writeAll(text.split('\n'), '\n/// ');

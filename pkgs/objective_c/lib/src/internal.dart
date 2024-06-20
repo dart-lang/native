@@ -41,18 +41,23 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
 }
 
 /// Only for use by ffigen bindings.
-objc.NSMethodSignature? getProtocolMethodSignature(
+objc.NSMethodSignature getProtocolMethodSignature(
   Pointer<c.ObjCProtocol> protocol,
   Pointer<c.ObjCSelector> sel, {
   required bool isRequired,
-  required bool isInstance,
+  required bool isInstanceMethod,
 }) {
   final sig =
-      c.getMethodDescription(protocol, sel, isRequired, isInstance).types;
+      c.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
   if (sig == nullptr) {
-    return null;
+    throw Exception('Failed to load method of Objective-C protocol');
   }
-  return objc.NSMethodSignature.signatureWithObjCTypes_(sig);
+  final sigObj = objc.NSMethodSignature.signatureWithObjCTypes_(sig);
+  if (sigObj == null) {
+    throw Exception(
+        'Failed to construct signature for Objective-C protocol method');
+  }
+  return sigObj;
 }
 
 /// Only for use by ffigen bindings.
@@ -278,6 +283,25 @@ Function getBlockClosure(Pointer<c.ObjCBlock> block) {
   int id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
+}
+
+/// Only for use by ffigen bindings.
+class ObjCProtocolMethod {
+  final Pointer<c.ObjCSelector> sel;
+  final objc.NSMethodSignature signature;
+  final bool Function(Function) isCorrectFunctionType;
+  final ObjCBlockBase Function(Function) createBlock;
+
+  ObjCProtocolMethod(
+      this.sel, this.signature, this.isCorrectFunctionType, this.createBlock);
+}
+
+/// Only for use by ffigen bindings.
+class ObjCProtocolListenableMethod extends ObjCProtocolMethod {
+  final ObjCBlockBase Function(Function) createListenerBlock;
+
+  ObjCProtocolListenableMethod(super.sel, super.signature,
+      super.isCorrectFunctionType, super.createBlock, this.createListenerBlock);
 }
 
 // Not exported by ../objective_c.dart, because they're only for testing.

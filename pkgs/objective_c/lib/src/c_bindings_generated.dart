@@ -129,7 +129,7 @@ external ffi.Pointer<ObjCProtocol> getProtocol(
         ffi.Bool,
         ffi.Bool)>(symbol: "protocol_getMethodDescription", isLeaf: true)
 external ObjCMethodDesc getMethodDescription(
-  ffi.Pointer<ObjCProtocol> proto,
+  ffi.Pointer<ObjCProtocol> protocol,
   ffi.Pointer<ObjCSelector> sel,
   bool isRequiredMethod,
   bool isInstanceMethod,
