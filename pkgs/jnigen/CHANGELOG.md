@@ -2,7 +2,8 @@
 
 - Fixed a bug where wrong argument types were generated for varargs.
 - Fixed the macOS arm64 varargs issue caused by the previous release.
-
+- Support throwing Java exceptions from Dart code.
+  ([#1209](https://github.com/dart-lang/native/issues/1209))
 
 ## 0.9.2
 
