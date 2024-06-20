@@ -5,7 +5,7 @@
 package com.github.dart_lang.jnigen.interfaces;
 
 public class StringConversionException extends Exception {
-    public StringConversionException(String message) {
-        super(message);
-    }
+  public StringConversionException(String message) {
+    super(message);
+  }
 }

@@ -5,5 +5,5 @@
 package com.github.dart_lang.jnigen.interfaces;
 
 public interface StringConverter {
-    int parseToInt(String s) throws StringConversionException;  
-} 
+  int parseToInt(String s) throws StringConversionException;
+}
