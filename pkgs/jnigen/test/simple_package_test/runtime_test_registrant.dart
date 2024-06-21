@@ -713,9 +713,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
           Future<$T> toDartFuture<$T extends JObject>(
               JObject future, JObjType<$T> T) {
             return Isolate.run(() {
-              final futureClass = JClass.forName('java/util/concurrent');
-              final getMethod = futureClass.instanceMethodId(
-                  'get', '(Ljava/lang/Object;)Ljava/lang/Object;');
+              final futureClass = JClass.forName('java/util/concurrent/Future');
+              final getMethod =
+                  futureClass.instanceMethodId('get', '()Ljava/lang/Object;');
               final result = getMethod(future, JObject.type, []);
               return result.castTo(T);
             });
