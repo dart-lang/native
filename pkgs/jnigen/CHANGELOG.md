@@ -1,3 +1,9 @@
+## 0.9.3-wip
+
+- Fixed a bug where wrong argument types were generated for varargs.
+- Fixed the macOS arm64 varargs issue caused by the previous release.
+
+
 ## 0.9.2
 
 - Fixed a bug where wrong argument types were generated for 32-bit

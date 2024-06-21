@@ -400,7 +400,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -744,7 +744,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -799,7 +799,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1059,7 +1059,7 @@ class PDFTextStripper extends jni.JObject {
                   jni.JThrowablePtr Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
+                      ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
           .asFunction<
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1117,7 +1117,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1287,7 +1287,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1343,7 +1343,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1406,7 +1406,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Float,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
@@ -1463,7 +1463,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Float,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
@@ -1522,7 +1522,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Float,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
@@ -1579,7 +1579,7 @@ class PDFTextStripper extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Float,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();

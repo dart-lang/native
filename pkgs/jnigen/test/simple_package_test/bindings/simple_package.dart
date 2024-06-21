@@ -127,7 +127,7 @@ class Example_Nested extends jni.JObject {
   static final _new0 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -199,7 +199,7 @@ class Example_Nested extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -511,7 +511,7 @@ class Example extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallStaticVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallStaticVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -583,17 +583,12 @@ class Example extends jni.JObject {
   );
 
   static final _max4 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
-                      (
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32
-                      )>)>>("globalEnv_CallStaticIntMethod")
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<($Int32, $Int32, $Int32, $Int32)>)>>(
+          "globalEnv_CallStaticIntMethod")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int, int, int)>();
@@ -622,14 +617,14 @@ class Example extends jni.JObject {
                   jni.JMethodIDPtr,
                   ffi.VarArgs<
                       (
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32
                       )>)>>("globalEnv_CallStaticIntMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
@@ -684,7 +679,7 @@ class Example extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -729,7 +724,7 @@ class Example extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Uint8,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1086,7 +1081,7 @@ class Example extends jni.JObject {
                   jni.JMethodIDPtr,
                   ffi.VarArgs<
                       (
-                        ffi.Uint16,
+                        $Int32,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
@@ -1161,7 +1156,7 @@ class Example extends jni.JObject {
   static final _new1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1183,7 +1178,7 @@ class Example extends jni.JObject {
   static final _new2 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32, ffi.Uint8)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<($Int32, $Int32)>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
@@ -1204,16 +1199,12 @@ class Example extends jni.JObject {
   );
 
   static final _new3 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
-                      (
-                        ffi.Int32,
-                        ffi.Uint8,
-                        ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_NewObject")
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<($Int32, $Int32, ffi.Pointer<ffi.Void>)>)>>(
+          "globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, ffi.Pointer<ffi.Void>)>();
@@ -1245,14 +1236,14 @@ class Example extends jni.JObject {
                   jni.JMethodIDPtr,
                   ffi.VarArgs<
                       (
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32
                       )>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
@@ -1307,7 +1298,7 @@ class Example extends jni.JObject {
   static final _addInts = ProtectedJniExtensions.lookup<
               ffi.NativeFunction<
                   jni.JniResult Function(ffi.Pointer<ffi.Void>,
-                      jni.JMethodIDPtr, ffi.VarArgs<(ffi.Int32, ffi.Int32)>)>>(
+                      jni.JMethodIDPtr, ffi.VarArgs<($Int32, $Int32)>)>>(
           "globalEnv_CallStaticIntMethod")
       .asFunction<
           jni.JniResult Function(
@@ -1452,7 +1443,7 @@ class Example extends jni.JObject {
                   jni.JThrowablePtr Function(
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
-                      ffi.VarArgs<(ffi.Int32, ffi.Pointer<ffi.Void>)>)>>(
+                      ffi.VarArgs<($Int32, ffi.Pointer<ffi.Void>)>)>>(
           "globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
@@ -1478,7 +1469,7 @@ class Example extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int32,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -3487,17 +3478,12 @@ class MyInterface<$T extends jni.JObject> extends jni.JObject {
   );
 
   static final _manyPrimitives = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
-                      (
-                        ffi.Int32,
-                        ffi.Uint8,
-                        ffi.Uint16,
-                        ffi.Double
-                      )>)>>("globalEnv_CallLongMethod")
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      jni.JMethodIDPtr,
+                      ffi.VarArgs<($Int32, $Int32, $Int32, ffi.Double)>)>>(
+          "globalEnv_CallLongMethod")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
               int, int, double)>();
@@ -3762,9 +3748,9 @@ class MyInterfaceConsumer extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
-                        ffi.Uint8,
-                        ffi.Uint16,
+                        $Int32,
+                        $Int32,
+                        $Int32,
                         ffi.Double,
                         ffi.Pointer<ffi.Void>
                       )>)>>("globalEnv_CallStaticVoidMethod")
@@ -3822,9 +3808,9 @@ class MyInterfaceConsumer extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
-                        ffi.Int32,
-                        ffi.Uint8,
-                        ffi.Uint16,
+                        $Int32,
+                        $Int32,
+                        $Int32,
                         ffi.Double,
                         ffi.Pointer<ffi.Void>
                       )>)>>("globalEnv_CallStaticVoidMethod")
@@ -4626,7 +4612,7 @@ class Exceptions extends jni.JObject {
   static final _new1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Float,)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
@@ -4652,12 +4638,12 @@ class Exceptions extends jni.JObject {
                   jni.JMethodIDPtr,
                   ffi.VarArgs<
                       (
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32,
-                        ffi.Int32
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32,
+                        $Int32
                       )>)>>("globalEnv_NewObject")
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int,
