@@ -220,7 +220,7 @@ typedef _SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
 
 /// Extensions for use by `jnigen` generated code.
 extension ProtectedJniExtensions on Jni {
-  static final jThrowableClass = JClass.forName('java/lang/Throwable');
+  static final _jThrowableClass = JClass.forName('java/lang/Throwable');
 
   static Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
       String name) {
@@ -242,7 +242,7 @@ extension ProtectedJniExtensions on Jni {
     JObjectPtr? cause;
     if (exception is JObject &&
         Jni.env.IsInstanceOf(
-            exception.reference.pointer, jThrowableClass.reference.pointer)) {
+            exception.reference.pointer, _jThrowableClass.reference.pointer)) {
       cause = exception.reference.pointer;
     }
     return Jni._bindings
