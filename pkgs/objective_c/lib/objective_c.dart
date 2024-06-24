@@ -25,6 +25,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSArray,
         NSCharacterSet,
         NSCoder,
+        NSComparisonResult,
         NSData,
         NSDate,
         NSDictionary,

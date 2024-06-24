@@ -68,7 +68,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           .map((p) => '${p.type.getDartType(w)} ${p.name}')
           .join(', ');
       final argsPassed = func.parameters.map((p) => p.name).join(', ');
-      final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
+      final wrapper = '($blockFirstArg _, $argsReceived) => '
+          '(func as $funcType)($argsPassed)';
 
       String listenerBuilder = '';
       if (block.hasListener) {

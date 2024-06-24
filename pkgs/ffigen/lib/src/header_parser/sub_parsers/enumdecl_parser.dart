@@ -9,6 +9,7 @@ import 'package:ffigen/src/header_parser/type_extractor/cxtypekindmap.dart';
 import 'package:logging/logging.dart';
 
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../data.dart';
 import '../includer.dart';
 import '../utils.dart';
 
@@ -55,6 +56,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
       originalName: enumName,
       name: config.enumClassDecl.renameUsingConfig(enumName),
       nativeType: nativeType,
+      objCBuiltInFunctions: objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
       try {
