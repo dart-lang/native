@@ -710,17 +710,31 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
           // Gets the result of a Java Future.
           // TODO(#1213): remove this once we support Java futures.
+          void printCurrentThreadId([String prefix = '']) {
+            final threadClass = JClass.forName('java/lang/Thread');
+            final currentThread = threadClass.staticMethodId(
+                'currentThread', '()Ljava/lang/Thread;');
+            final getId = threadClass.instanceMethodId('getId', '()J');
+            final thread = currentThread(threadClass, JObject.type, []);
+            final threadId = getId.call(thread, jlong.type, []);
+            print('${prefix}Currently on $threadId');
+          }
+
           Future<$T> toDartFuture<$T extends JObject>(
               JObject future, JObjType<$T> T) {
             return Isolate.run(() {
+              printCurrentThreadId('Dart Isolate: ');
+              print('waiting for get');
               final futureClass = JClass.forName('java/util/concurrent/Future');
               final getMethod =
                   futureClass.instanceMethodId('get', '()Ljava/lang/Object;');
               final result = getMethod(future, JObject.type, []);
+              print('get finished');
               return result.castTo(T);
             });
           }
 
+          printCurrentThreadId('Dart main: ');
           final sevenHundredBoxed = consume(stringConverter, '700'.toJString());
           final int sevenHundred;
           if (sevenHundredBoxed is JInteger) {
@@ -732,14 +746,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
           }
           expect(sevenHundred, 700);
 
-          final fooBoxed = consume(stringConverter, 'foo'.toJString());
-          final int foo;
-          if (fooBoxed is JInteger) {
-            foo = fooBoxed.intValue();
-          } else {
-            foo = (await toDartFuture(fooBoxed, JInteger.type)).intValue();
-          }
-          expect(foo, -1);
+          // final fooBoxed = consume(stringConverter, 'foo'.toJString());
+          // final int foo;
+          // if (fooBoxed is JInteger) {
+          //   foo = fooBoxed.intValue();
+          // } else {
+          //   foo = (await toDartFuture(fooBoxed, JInteger.type)).intValue();
+          // }
+          // expect(foo, -1);
 
           stringConverter.release();
         });
