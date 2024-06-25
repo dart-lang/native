@@ -7,12 +7,11 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
+import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
-import 'errors.dart';
-import 'jreference.dart';
-import 'third_party/generated_bindings.dart';
 import 'accessors.dart';
+import 'third_party/generated_bindings.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
@@ -221,6 +220,8 @@ typedef _SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
 
 /// Extensions for use by `jnigen` generated code.
 extension ProtectedJniExtensions on Jni {
+  static final _jThrowableClass = JClass.forName('java/lang/Throwable');
+
   static Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
       String name) {
     var path = _getLibraryFileName(name);
@@ -237,9 +238,16 @@ extension ProtectedJniExtensions on Jni {
   }
 
   /// Returns a new DartException.
-  static Pointer<Void> newDartException(String message) {
+  static Pointer<Void> newDartException(Object exception) {
+    JObjectPtr? cause;
+    if (exception is JObject &&
+        Jni.env.IsInstanceOf(
+            exception.reference.pointer, _jThrowableClass.reference.pointer)) {
+      cause = exception.reference.pointer;
+    }
     return Jni._bindings
-        .DartException__ctor(Jni.env.toJStringPtr(message))
+        .DartException__ctor(
+            Jni.env.toJStringPtr(exception.toString()), cause ?? nullptr)
         .objectPointer;
   }
 

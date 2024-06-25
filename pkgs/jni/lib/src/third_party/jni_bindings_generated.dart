@@ -162,17 +162,19 @@ class JniBindings {
 
   JniResult DartException__ctor(
     JStringPtr message,
+    JThrowablePtr cause,
   ) {
     return _DartException__ctor(
       message,
+      cause,
     );
   }
 
-  late final _DartException__ctorPtr =
-      _lookup<ffi.NativeFunction<JniResult Function(JStringPtr)>>(
-          'DartException__ctor');
-  late final _DartException__ctor =
-      _DartException__ctorPtr.asFunction<JniResult Function(JStringPtr)>();
+  late final _DartException__ctorPtr = _lookup<
+          ffi.NativeFunction<JniResult Function(JStringPtr, JThrowablePtr)>>(
+      'DartException__ctor');
+  late final _DartException__ctor = _DartException__ctorPtr.asFunction<
+      JniResult Function(JStringPtr, JThrowablePtr)>();
 
   JniResult PortContinuation__ctor(
     int j,
@@ -2081,30 +2083,78 @@ final class CallbackResult extends ffi.Struct {
   external JObjectPtr object;
 }
 
-typedef MutexLock = pthread_mutex_t;
-typedef pthread_mutex_t = __darwin_pthread_mutex_t;
-typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
+typedef MutexLock = CRITICAL_SECTION;
+typedef CRITICAL_SECTION = RTL_CRITICAL_SECTION;
+typedef RTL_CRITICAL_SECTION = _RTL_CRITICAL_SECTION;
 
-final class _opaque_pthread_mutex_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
+final class _RTL_CRITICAL_SECTION extends ffi.Struct {
+  external PRTL_CRITICAL_SECTION_DEBUG DebugInfo;
 
-  @ffi.Array.multi([56])
-  external ffi.Array<ffi.Char> __opaque;
+  @LONG()
+  external int LockCount;
+
+  @LONG()
+  external int RecursionCount;
+
+  external HANDLE OwningThread;
+
+  external HANDLE LockSemaphore;
+
+  @ULONG_PTR()
+  external int SpinCount;
 }
 
-typedef ConditionVariable = pthread_cond_t;
-typedef pthread_cond_t = __darwin_pthread_cond_t;
-typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
+typedef PRTL_CRITICAL_SECTION_DEBUG = ffi.Pointer<_RTL_CRITICAL_SECTION_DEBUG>;
 
-final class _opaque_pthread_cond_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
+final class _RTL_CRITICAL_SECTION_DEBUG extends ffi.Struct {
+  @WORD()
+  external int Type;
 
-  @ffi.Array.multi([40])
-  external ffi.Array<ffi.Char> __opaque;
+  @WORD()
+  external int CreatorBackTraceIndex;
+
+  external ffi.Pointer<_RTL_CRITICAL_SECTION> CriticalSection;
+
+  external LIST_ENTRY ProcessLocksList;
+
+  @DWORD()
+  external int EntryCount;
+
+  @DWORD()
+  external int ContentionCount;
+
+  @DWORD()
+  external int Flags;
+
+  @WORD()
+  external int CreatorBackTraceIndexHigh;
+
+  @WORD()
+  external int Identifier;
 }
 
+typedef WORD = ffi.UnsignedShort;
+typedef LIST_ENTRY = _LIST_ENTRY;
+
+final class _LIST_ENTRY extends ffi.Struct {
+  external ffi.Pointer<_LIST_ENTRY> Flink;
+
+  external ffi.Pointer<_LIST_ENTRY> Blink;
+}
+
+typedef DWORD = ffi.UnsignedLong;
+typedef LONG = ffi.Long;
+typedef HANDLE = ffi.Pointer<ffi.Void>;
+typedef ULONG_PTR = ffi.UnsignedLongLong;
+typedef ConditionVariable = CONDITION_VARIABLE;
+typedef CONDITION_VARIABLE = RTL_CONDITION_VARIABLE;
+typedef RTL_CONDITION_VARIABLE = _RTL_CONDITION_VARIABLE;
+
+final class _RTL_CONDITION_VARIABLE extends ffi.Struct {
+  external PVOID Ptr;
+}
+
+typedef PVOID = ffi.Pointer<ffi.Void>;
 typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
 
 final class _Dart_FinalizableHandle extends ffi.Opaque {}
