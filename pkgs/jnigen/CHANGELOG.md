@@ -1,4 +1,4 @@
-## 0.9.3-wip
+## 0.9.3
 
 - Fixed a bug where wrong argument types were generated for varargs.
 - Fixed the macOS arm64 varargs issue caused by the previous release.
