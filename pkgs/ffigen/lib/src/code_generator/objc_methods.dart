@@ -149,10 +149,10 @@ class ObjCMethod {
     for (final p in params) {
       p.type.addDependencies(dependencies);
     }
-    selObject ??= builtInFunctions.getSelObject(originalName)
+    selObject = builtInFunctions.getSelObject(originalName)
       ..addDependencies(dependencies);
     if (needMsgSend) {
-      msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params)
+      msgSend = builtInFunctions.getMsgSendFunc(returnType, params)
         ..addDependencies(dependencies);
     }
     if (needProtocolBlock) {
