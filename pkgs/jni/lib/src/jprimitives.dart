@@ -363,7 +363,7 @@ final class jdoubleType extends JType<jdouble>
 }
 
 abstract final class jvoid extends JPrimitive {
-  static const type = jdoubleType();
+  static const type = jvoidType();
 }
 
 final class jvoidType extends JType<jvoid> with JCallable<jvoid, void> {
