@@ -10,8 +10,6 @@ import java.util.concurrent.Future;
 
 public class StringConverterConsumer {
   public static Integer consumeOnSameThread(StringConverter stringConverter, String s) {
-    long id = Thread.currentThread().getId();
-    System.out.println("J: Currently on " + id);
     try {
       return stringConverter.parseToInt(s);
     } catch (StringConversionException e) {
@@ -20,8 +18,6 @@ public class StringConverterConsumer {
   }
 
   public static Future<Integer> consumeOnAnotherThread(StringConverter stringConverter, String s) {
-    long id = Thread.currentThread().getId();
-    System.out.println("J again: Currently on " + id);
     ExecutorService executor = Executors.newSingleThreadExecutor();
     return executor.submit(() -> consumeOnSameThread(stringConverter, s));
   }
