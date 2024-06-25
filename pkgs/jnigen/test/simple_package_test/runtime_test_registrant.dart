@@ -711,14 +711,20 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // Gets the result of a Java Future.
           // TODO(#1213): remove this once we support Java futures.
           Future<$T> toDartFuture<$T extends JObject>(
-              JObject future, JObjType<$T> T) {
-            return Isolate.run(() {
+              JObject future, JObjType<$T> T) async {
+            final receivePort = ReceivePort();
+            await Isolate.spawn((sendPort) {
               final futureClass = JClass.forName('java/util/concurrent/Future');
               final getMethod =
                   futureClass.instanceMethodId('get', '()Ljava/lang/Object;');
               final result = getMethod(future, JObject.type, []);
-              return result.castTo(T);
-            });
+              // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
+              // with coverage pauses indefinitely here.
+              // https://github.com/dart-lang/coverage/issues/472
+              Isolate.current.kill();
+              sendPort.send(result.castTo(T));
+            }, receivePort.sendPort);
+            return (await receivePort.first) as $T;
           }
 
           final sevenHundredBoxed = consume(stringConverter, '700'.toJString());
