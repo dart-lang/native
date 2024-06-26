@@ -161,3 +161,100 @@ final class $SuspendFunType extends jni.JObjType<SuspendFun> {
     return other.runtimeType == ($SuspendFunType) && other is $SuspendFunType;
   }
 }
+
+final _TopLevelKtClass =
+    jni.JClass.forName(r"com/github/dart_lang/jnigen/TopLevelKt");
+
+final _id_getTopLevelField = _TopLevelKtClass.staticMethodId(
+  r"getTopLevelField",
+  r"()I",
+);
+
+final _getTopLevelField = ProtectedJniExtensions.lookup<
+        ffi.NativeFunction<
+            jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              jni.JMethodIDPtr,
+            )>>("globalEnv_CallStaticIntMethod")
+    .asFunction<
+        jni.JniResult Function(
+          ffi.Pointer<ffi.Void>,
+          jni.JMethodIDPtr,
+        )>();
+
+/// from: static public final int getTopLevelField()
+int getTopLevelField() {
+  return _getTopLevelField(_TopLevelKtClass.reference.pointer,
+          _id_getTopLevelField as jni.JMethodIDPtr)
+      .integer;
+}
+
+final _id_setTopLevelField = _TopLevelKtClass.staticMethodId(
+  r"setTopLevelField",
+  r"(I)V",
+);
+
+final _setTopLevelField = ProtectedJniExtensions.lookup<
+        ffi.NativeFunction<
+            jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+                ffi.VarArgs<($Int32,)>)>>("globalEnv_CallStaticVoidMethod")
+    .asFunction<
+        jni.JThrowablePtr Function(
+            ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
+
+/// from: static public final void setTopLevelField(int i)
+void setTopLevelField(
+  int i,
+) {
+  _setTopLevelField(_TopLevelKtClass.reference.pointer,
+          _id_setTopLevelField as jni.JMethodIDPtr, i)
+      .check();
+}
+
+final _id_topLevel = _TopLevelKtClass.staticMethodId(
+  r"topLevel",
+  r"()I",
+);
+
+final _topLevel = ProtectedJniExtensions.lookup<
+        ffi.NativeFunction<
+            jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              jni.JMethodIDPtr,
+            )>>("globalEnv_CallStaticIntMethod")
+    .asFunction<
+        jni.JniResult Function(
+          ffi.Pointer<ffi.Void>,
+          jni.JMethodIDPtr,
+        )>();
+
+/// from: static public final int topLevel()
+int topLevel() {
+  return _topLevel(
+          _TopLevelKtClass.reference.pointer, _id_topLevel as jni.JMethodIDPtr)
+      .integer;
+}
+
+final _id_topLevelSum = _TopLevelKtClass.staticMethodId(
+  r"topLevelSum",
+  r"(II)I",
+);
+
+final _topLevelSum = ProtectedJniExtensions.lookup<
+            ffi.NativeFunction<
+                jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
+                    ffi.VarArgs<($Int32, $Int32)>)>>(
+        "globalEnv_CallStaticIntMethod")
+    .asFunction<
+        jni.JniResult Function(
+            ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
+
+/// from: static public final int topLevelSum(int i, int i1)
+int topLevelSum(
+  int i,
+  int i1,
+) {
+  return _topLevelSum(_TopLevelKtClass.reference.pointer,
+          _id_topLevelSum as jni.JMethodIDPtr, i, i1)
+      .integer;
+}

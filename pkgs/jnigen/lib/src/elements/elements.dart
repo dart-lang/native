@@ -69,6 +69,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
     this.hasInstanceInit = false,
     this.values,
     this.kotlinClass,
+    this.kotlinPackage,
   });
 
   @override
@@ -76,6 +77,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
 
   final List<Annotation> annotations;
   final KotlinClass? kotlinClass;
+  final KotlinPackage? kotlinPackage;
   final JavaDocComment? javadoc;
   final DeclKind declKind;
   final String binaryName;
@@ -120,15 +122,6 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late final String typeClassName;
-
-  /// Unique name obtained by renaming conflicting names with a number.
-  ///
-  /// This is used by C bindings instead of fully qualified name to reduce
-  /// the verbosity of generated bindings.
-  ///
-  /// Populated by [Renamer].
-  @JsonKey(includeFromJson: false)
-  late final String uniqueName;
 
   /// Type parameters including the ones from its ancestors
   ///
@@ -178,6 +171,9 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
 
   @JsonKey(includeFromJson: false)
   late final isNested = parentName != null;
+
+  /// Whether the class is actually only a number of top-level Kotlin Functions.
+  bool get isTopLevel => kotlinPackage != null;
 }
 
 @JsonEnum()
@@ -649,6 +645,23 @@ class KotlinClass implements Element<KotlinClass> {
 
   @override
   R accept<R>(Visitor<KotlinClass, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinPackage implements Element<KotlinPackage> {
+  KotlinPackage({
+    this.functions = const [],
+  });
+
+  final List<KotlinFunction> functions;
+
+  factory KotlinPackage.fromJson(Map<String, dynamic> json) =>
+      _$KotlinPackageFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinPackage, R> v) {
     return v.visit(this);
   }
 }

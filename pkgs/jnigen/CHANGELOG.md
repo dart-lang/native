@@ -1,3 +1,7 @@
+## 0.10.0-wip
+
+- Added support for Kotlin's top-level functions and fields.
+
 ## 0.9.3
 
 - Fixed a bug where wrong argument types were generated for varargs.
