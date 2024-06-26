@@ -37,6 +37,7 @@ public class ClassDecl {
   public JavaDocComment javadoc;
   public List<JavaAnnotation> annotations;
   public KotlinClass kotlinClass;
+  public KotlinPackage kotlinPackage;
 
   /** In case of enum, names of enum constants */
   public List<String> values = new ArrayList<>();

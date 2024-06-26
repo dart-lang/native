@@ -20,13 +20,15 @@ class KotlinProcessor extends Visitor<Classes, void> {
 class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
   @override
   void visit(ClassDecl node) {
-    if (node.kotlinClass == null) {
+    if (node.kotlinClass == null && node.kotlinPackage == null) {
       return;
     }
     // This [ClassDecl] is actually a Kotlin class.
     // Matching methods and functions from the metadata.
     final functions = <String, KotlinFunction>{};
-    for (final function in node.kotlinClass!.functions) {
+    final kotlinFunctions =
+        (node.kotlinClass?.functions ?? node.kotlinPackage?.functions)!;
+    for (final function in kotlinFunctions) {
       final signature = function.name + function.descriptor;
       functions[signature] = function;
     }

@@ -36,7 +36,6 @@ const _typeParamPrefix = '\$';
 
 // Misc.
 const _protectedExtension = 'ProtectedJniExtensions';
-const _classRef = '_class';
 
 /// Used for C bindings.
 const _selfPointer = 'reference.pointer';
@@ -266,8 +265,39 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
   static const staticTypeGetter = 'type';
   static const instanceTypeGetter = '\$$staticTypeGetter';
 
+  void generateFieldsAndMethods(ClassDecl node, String classRef) {
+    final fieldGenerator = _FieldGenerator(config, resolver, s,
+        isTopLevel: node.isTopLevel, classRef: classRef);
+    for (final field in node.fields) {
+      field.accept(fieldGenerator);
+    }
+    final methodGenerator = _MethodGenerator(config, resolver, s,
+        isTopLevel: node.isTopLevel, classRef: classRef);
+    for (final method in node.methods) {
+      method.accept(methodGenerator);
+    }
+  }
+
+  String writeClassRef(ClassDecl node) {
+    final internalName = node.internalName;
+    final modifier = node.isTopLevel ? '' : '  static ';
+    final classRef = node.isTopLevel ? '_${node.finalName}Class' : '_class';
+    s.write('''
+${modifier}final $classRef = $_jni.JClass.forName(r"$internalName");
+
+    ''');
+    return classRef;
+  }
+
   @override
   void visit(ClassDecl node) {
+    if (node.isTopLevel) {
+      // If the class is top-level, only generate its methods and fields.
+      // Fields and Methods
+      final classRef = writeClassRef(node);
+      generateFieldsAndMethods(node, classRef);
+      return;
+    }
     // Docs.
     s.write('/// from: ${node.binaryName}\n');
     node.javadoc?.accept(_DocGenerator(s, depth: 0));
@@ -326,11 +356,7 @@ class $name$typeParamsDef extends $superName {
 
 ''');
 
-    final internalName = node.internalName;
-    s.write('''
-  static final $_classRef = $_jni.JClass.forName(r"$internalName");
-
-''');
+    final classRef = writeClassRef(node);
 
     // Static TypeClass getter.
     s.writeln(
@@ -358,14 +384,7 @@ class $name$typeParamsDef extends $superName {
     }
 
     // Fields and Methods
-    final fieldGenerator = _FieldGenerator(config, resolver, s);
-    for (final field in node.fields) {
-      field.accept(fieldGenerator);
-    }
-    final methodGenerator = _MethodGenerator(config, resolver, s);
-    for (final method in node.methods) {
-      method.accept(methodGenerator);
-    }
+    generateFieldsAndMethods(node, classRef);
 
     // Experimental: Interface implementation.
     if (node.declKind == DeclKind.interfaceKind &&
@@ -889,16 +908,26 @@ class _FieldGenerator extends Visitor<Field, void> {
   final Config config;
   final Resolver resolver;
   final StringSink s;
+  final bool isTopLevel;
+  final String classRef;
 
-  const _FieldGenerator(this.config, this.resolver, this.s);
+  const _FieldGenerator(
+    this.config,
+    this.resolver,
+    this.s, {
+    required this.isTopLevel,
+    required this.classRef,
+  });
 
-  void writeDartOnlyAccessor(Field node) {
+  String get modifier => isTopLevel ? '' : '  static ';
+
+  void writeAccessor(Field node) {
     final name = node.finalName;
     final staticOrInstance = node.isStatic ? 'static' : 'instance';
     final descriptor = node.type.descriptor;
     s.write('''
-  static final _id_$name =
-      $_classRef.${staticOrInstance}FieldId(
+${modifier}final _id_$name =
+      $classRef.${staticOrInstance}FieldId(
         r"${node.name}",
         r"$descriptor",
       );
@@ -907,14 +936,14 @@ class _FieldGenerator extends Visitor<Field, void> {
 
   String dartOnlyGetter(Field node) {
     final name = node.finalName;
-    final self = node.isStatic ? _classRef : _self;
+    final self = node.isStatic ? classRef : _self;
     final type = node.type.accept(_TypeClassGenerator(resolver)).name;
     return '_id_$name.get($self, $type)';
   }
 
   String dartOnlySetter(Field node) {
     final name = node.finalName;
-    final self = node.isStatic ? _classRef : _self;
+    final self = node.isStatic ? classRef : _self;
     final type = node.type.accept(_TypeClassGenerator(resolver)).name;
     return '_id_$name.set($self, $type, value)';
   }
@@ -936,19 +965,19 @@ class _FieldGenerator extends Visitor<Field, void> {
       final value = node.defaultValue!;
       if (value is num || value is bool) {
         writeDocs(node, writeReleaseInstructions: false);
-        s.writeln('  static const $name = $value;');
+        s.writeln('${modifier}const $name = $value;');
         return;
       }
     }
 
     // Accessors.
-    writeDartOnlyAccessor(node);
+    writeAccessor(node);
 
     // Getter docs.
     writeDocs(node, writeReleaseInstructions: true);
 
     final name = node.finalName;
-    final ifStatic = node.isStatic ? 'static ' : '';
+    final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final type = node.type.accept(_TypeGenerator(resolver));
     s.write('$ifStatic$type get $name => ');
     s.write(dartOnlyGetter(node));
@@ -994,10 +1023,20 @@ class _MethodGenerator extends Visitor<Method, void> {
   final Config config;
   final Resolver resolver;
   final StringSink s;
+  final bool isTopLevel;
+  final String classRef;
 
-  const _MethodGenerator(this.config, this.resolver, this.s);
+  const _MethodGenerator(
+    this.config,
+    this.resolver,
+    this.s, {
+    required this.isTopLevel,
+    required this.classRef,
+  });
 
-  void writeDartOnlyAccessor(Method node) {
+  String get modifier => isTopLevel ? '' : '  static ';
+
+  void writeAccessor(Method node) {
     final name = node.finalName;
     final kind = node.isCtor
         ? 'constructor'
@@ -1006,7 +1045,7 @@ class _MethodGenerator extends Visitor<Method, void> {
             : 'instanceMethod';
     final descriptor = node.descriptor;
     s.write('''
-  static final _id_$name = $_classRef.${kind}Id(
+${modifier}final _id_$name = $classRef.${kind}Id(
 ''');
     if (!node.isCtor) s.writeln('    r"${node.name}",');
     s.write('''
@@ -1018,7 +1057,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     final methodName = node.accept(const _CallMethodName());
     s.write('''
 
-  static final _$name = $_protectedExtension
+${modifier}final _$name = $_protectedExtension
     .lookup<$_ffi.NativeFunction<$ffiSig>>("$methodName")
     .asFunction<$dartSig>();
 ''');
@@ -1037,7 +1076,7 @@ class _MethodGenerator extends Visitor<Method, void> {
   String dartOnlyCtor(Method node) {
     final name = node.finalName;
     final params = [
-      '$_classRef.reference.pointer',
+      '$classRef.reference.pointer',
       '_id_$name as $_jni.JMethodIDPtr',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
@@ -1057,7 +1096,7 @@ class _MethodGenerator extends Visitor<Method, void> {
   String dartOnlyMethodCall(Method node) {
     final name = node.finalName;
     final params = [
-      node.isStatic ? '$_classRef.reference.pointer' : _selfPointer,
+      node.isStatic ? '$classRef.reference.pointer' : _selfPointer,
       '_id_$name as $_jni.JMethodIDPtr',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
@@ -1068,7 +1107,7 @@ class _MethodGenerator extends Visitor<Method, void> {
   @override
   void visit(Method node) {
     // Accessors
-    writeDartOnlyAccessor(node);
+    writeAccessor(node);
 
     // Docs
     s.write('  /// from: ');
@@ -1145,7 +1184,7 @@ class _MethodGenerator extends Visitor<Method, void> {
     final returnTypeClass = (node.asyncReturnType ?? node.returnType)
         .accept(_TypeClassGenerator(resolver))
         .name;
-    final ifStatic = node.isStatic ? 'static ' : '';
+    final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = _encloseIfNotEmpty(
       '{',

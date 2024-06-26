@@ -22,5 +22,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(helloBob.toDartString(releaseOriginal: true), "Hello $name!");
       });
     });
+
+    test('Top levels', () async {
+      await using((arena) async {
+        expect(topLevel(), 42);
+        expect(topLevelSum(10, 20), 30);
+        expect(getTopLevelField(), 42);
+        setTopLevelField(30);
+        expect(getTopLevelField(), 30);
+      });
+    });
   });
 }
