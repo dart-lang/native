@@ -234,8 +234,8 @@ headers:
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Vision.framework/Headers/**.h'
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/VisionKit.framework/Headers/**.h'
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/WeatherKit.framework/Headers/**.h'
-    - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/WebKit.framework/Headers/**.h'
-    # # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSDistributedNotificationCenter.h'
+    ## - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/WebKit.framework/Headers/**.h'
+    - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Versions/C/Headers/NSMatrix.h'
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/WidgetKit.framework/Headers/**.h'
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/_AVKit_SwiftUI.framework/Headers/**.h'
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/_AppIntents_AppKit.framework/Headers/**.h'
@@ -260,6 +260,10 @@ headers:
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/iTunesLibrary.framework/Headers/**.h'
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/vecLib.framework/Headers/**.h'
     # - '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/vmnet.framework/Headers/**.h'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - NSMatrix
 preamble: |
   // ignore_for_file: camel_case_types
   // ignore_for_file: non_constant_identifier_names

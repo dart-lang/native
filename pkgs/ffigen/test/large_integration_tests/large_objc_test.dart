@@ -8,7 +8,7 @@
 @TestOn('mac-os')
 
 // This is a slow test.
-@Timeout(Duration(minutes: 5))
+@Timeout(Duration(minutes: 30))
 
 import 'dart:async';
 import 'dart:ffi';

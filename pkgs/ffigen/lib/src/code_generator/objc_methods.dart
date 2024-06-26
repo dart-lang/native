@@ -93,6 +93,15 @@ mixin ObjCMethods {
 
         return true;
       });
+
+  void renameMethodParams(UniqueNamer parentNamer) {
+    for (final m in methods) {
+      final paramNamer = UniqueNamer({}, parent: parentNamer);
+      for (final p in m.params) {
+        p.renamedName ??= paramNamer.makeUnique(p.originalName);
+      }
+    }
+  }
 }
 
 enum ObjCMethodKind {
@@ -216,8 +225,11 @@ class ObjCMethod {
 
 class ObjCMethodParam {
   Type type;
-  final String name;
-  ObjCMethodParam(this.type, this.name);
+  final String originalName;
+  String? renamedName;
+  ObjCMethodParam(this.type, this.originalName);
+
+  String get name => renamedName ?? originalName;
 
   @override
   String toString() => '$type $name';

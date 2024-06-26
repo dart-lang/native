@@ -63,6 +63,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
       return BindingString(type: BindingStringType.objcInterface, string: '');
     }
 
+    final uniqueNamer =
+        UniqueNamer({name, 'pointer'}, parent: w.topLevelUniqueNamer);
+    renameMethodParams(uniqueNamer);
+
     String paramsToString(List<ObjCMethodParam> params,
         {required bool isStatic}) {
       final List<String> stringParams = [];
@@ -74,9 +78,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     final s = StringBuffer();
     s.write(makeDartDoc(dartDoc ?? originalName));
-
-    final uniqueNamer =
-        UniqueNamer({name, 'pointer'}, parent: w.topLevelUniqueNamer);
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
@@ -116,6 +117,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
       final methodName = m.getDartMethodName(uniqueNamer);
       final isStatic = m.isClassMethod;
       final isStret = m.msgSend!.isStret;
+
+      if (m.originalName == 'selectedCell') {
+        print('$originalName   $m  ${m.kind}');
+      }
 
       var returnType = m.returnType;
       var params = m.params;
