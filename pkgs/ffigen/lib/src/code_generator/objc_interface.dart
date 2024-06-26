@@ -63,10 +63,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
       return BindingString(type: BindingStringType.objcInterface, string: '');
     }
 
-    final uniqueNamer =
-        UniqueNamer({name, 'pointer'}, parent: w.topLevelUniqueNamer);
-    renameMethodParams(uniqueNamer);
-
     String paramsToString(List<ObjCMethodParam> params,
         {required bool isStatic}) {
       final List<String> stringParams = [];
@@ -78,6 +74,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     final s = StringBuffer();
     s.write(makeDartDoc(dartDoc ?? originalName));
+
+    final methodNamer = createMethodRenamer(w);
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
@@ -114,13 +112,9 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     // Methods.
     for (final m in methods) {
-      final methodName = m.getDartMethodName(uniqueNamer);
+      final methodName = m.getDartMethodName(methodNamer);
       final isStatic = m.isClassMethod;
       final isStret = m.msgSend!.isStret;
-
-      if (m.originalName == 'selectedCell') {
-        print('$originalName   $m  ${m.kind}');
-      }
 
       var returnType = m.returnType;
       var params = m.params;
@@ -234,7 +228,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     if (superType != null) {
       superType!.addDependencies(dependencies);
       _copyMethodsFromSuperType();
-      _fixOverriddenMethods();
+      _fixNullabilityOfOverriddenMethods();
 
       // Add dependencies for any methods that were added.
       addMethodDependencies(dependencies, needMsgSend: true);
@@ -259,45 +253,12 @@ class ObjCInterface extends BindingType with ObjCMethods {
     }
   }
 
-  // Returns whether this is in the super type chain of other.
-  bool _isSuperTypeOf(ObjCInterface other) {
-    for (ObjCInterface? t = other; t != null; t = t.superType) {
-      if (t == this) return true;
-    }
-    return false;
-  }
-
-  // If a and b are in the same type heirarchy, return the more general one.
-  // Otherwise fallback to returning a.
-  Type _generalizeType(Type a, Type b) {
-    final nullableResult = a is ObjCNullable || b is ObjCNullable;
-    if (a is ObjCNullable) a = a.child;
-    if (b is ObjCNullable) b = b.child;
-
-    // Since we're falling back to returning a anyway, the only logic that we
-    // need to implement here is to set a = b if b is more general than a.
-    if (a is ObjCInterface && b is ObjCInterface) {
-      if (b._isSuperTypeOf(a)) a = b;
-    } else if (a is ObjCInterface && b is ObjCObjectPointer) {
-      a = b;
-    }
-
-    return nullableResult ? ObjCNullable(a) : a;
-  }
-
-  void _fixOverriddenMethods() {
+  void _fixNullabilityOfOverriddenMethods() {
     // ObjC ignores nullability when deciding if an override for an inherited
     // method is valid. But in Dart it's invalid to override a method and change
     // it's return type from non-null to nullable, or its arg type from nullable
-    // to non-null.
-    // Additionally, there are inheritance bugs in the Apple APIs that are not
-    // considered fatal by the ObjC compiler, but are fatal when we translate
-    // them to Dart. Eg the addObserver:selector:name:object: method declared by
-    // NSNotificationCenter is overriden by NSDistributedNotificationCenter with
-    // a more specific argument type.
-    // To fix all these cases, we set the overriding method's arg type to the
-    // more general of the two arg types, and the overridden method's return
-    // type to the more general of the two return types.
+    // to non-null. So in these cases we have to make the non-null type
+    // nullable, to avoid Dart compile errors.
     var superType_ = superType;
     while (superType_ != null) {
       for (final method in methods) {
@@ -305,15 +266,20 @@ class ObjCInterface extends BindingType with ObjCMethods {
         if (superMethod != null &&
             !superMethod.isClassMethod &&
             !method.isClassMethod) {
-          superMethod.returnType =
-              _generalizeType(superMethod.returnType, method.returnType);
+          if (superMethod.returnType.typealiasType is! ObjCNullable &&
+              method.returnType.typealiasType is ObjCNullable) {
+            superMethod.returnType = ObjCNullable(superMethod.returnType);
+          }
           final numArgs = method.params.length < superMethod.params.length
               ? method.params.length
               : superMethod.params.length;
           for (int i = 0; i < numArgs; ++i) {
             final param = method.params[i];
             final superParam = superMethod.params[i];
-            param.type = _generalizeType(param.type, superParam.type);
+            if (superParam.type.typealiasType is ObjCNullable &&
+                param.type.typealiasType is! ObjCNullable) {
+              param.type = ObjCNullable(param.type);
+            }
           }
         }
       }
