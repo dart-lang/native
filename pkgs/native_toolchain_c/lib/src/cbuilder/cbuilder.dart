@@ -70,6 +70,20 @@ class CBuilder implements Builder {
   /// Used to output the [BuildOutput.dependencies].
   final List<String> includes;
 
+  /// Frameworks to link.
+  ///
+  /// Only effective if [language] is [Language.objectiveC].
+  ///
+  /// Defaults to `['Foundation']`.
+  ///
+  /// Not used to output the [BuildOutput.dependencies], frameworks can be
+  /// mentioned by name if they are available on the system, so the file path
+  /// is not known. If you're depending on your own frameworks add them to
+  /// [BuildOutput.dependencies] manually.
+  final List<String> frameworks;
+
+  static const List<String> _defaultFrameworks = ['Foundation'];
+
   /// The dart files involved in building this artifact.
   ///
   /// Resolved against [BuildConfig.packageRoot].
@@ -162,6 +176,7 @@ class CBuilder implements Builder {
     required this.assetName,
     this.sources = const [],
     this.includes = const [],
+    this.frameworks = _defaultFrameworks,
     required this.dartBuildFiles,
     @visibleForTesting this.installName,
     this.flags = const [],
@@ -179,6 +194,7 @@ class CBuilder implements Builder {
     required this.name,
     this.sources = const [],
     this.includes = const [],
+    this.frameworks = _defaultFrameworks,
     required this.dartBuildFiles,
     this.flags = const [],
     this.defines = const {},
@@ -228,6 +244,7 @@ class CBuilder implements Builder {
         logger: logger,
         sources: sources,
         includes: includes,
+        frameworks: frameworks,
         dynamicLibrary: _type == _CBuilderType.library &&
                 linkMode == DynamicLoadingBundled()
             ? libUri

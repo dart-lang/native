@@ -23,6 +23,7 @@ class RunCBuilder {
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
+  final List<String> frameworks;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
@@ -47,6 +48,7 @@ class RunCBuilder {
     this.logger,
     this.sources = const [],
     this.includes = const [],
+    required this.frameworks,
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
@@ -247,8 +249,10 @@ class RunCBuilder {
         for (final include in includes) '-I${include.toFilePath()}',
         ...sourceFiles,
         if (language == Language.objectiveC) ...[
-          '-framework',
-          'Foundation',
+          for (final framework in frameworks) ...[
+            '-framework',
+            framework,
+          ],
         ],
         if (executable != null) ...[
           '-o',
