@@ -12,5 +12,6 @@ NSInteger add(NSInteger a, NSInteger b) {
 #ifdef DEBUG
   printf("Adding %ld and %ld.\n", (long)a, (long)b);
 #endif
-  return a + b;
+  // Use NSNumber from Foundation to test the frameworks flags.
+  return [[NSNumber numberWithInteger:(a + b)] longValue];
 }

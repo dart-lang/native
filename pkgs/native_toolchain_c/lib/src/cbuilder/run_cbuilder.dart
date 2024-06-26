@@ -190,10 +190,6 @@ class RunCBuilder {
     await runProcess(
       executable: compiler.uri,
       arguments: [
-        if (language == Language.objectiveC) ...[
-          '-x',
-          'objective-c',
-        ],
         if (buildConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
