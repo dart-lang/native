@@ -34,52 +34,60 @@ void main() {
     Architecture.x64: '64-bit x86-64',
   };
 
-  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
-    for (final target in targets) {
-      test('CBuilder $linkMode library $target', () async {
-        final tempUri = await tempDirForTest();
-        final addCUri =
-            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
-        const name = 'add';
+  for (final language in [Language.c, Language.objectiveC]) {
+    for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
+      for (final target in targets) {
+        test('CBuilder $linkMode $language library $target', () async {
+          final tempUri = await tempDirForTest();
+          final sourceUri = switch (language) {
+            Language.c =>
+              packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
+            Language.objectiveC => packageUri
+                .resolve('test/cbuilder/testfiles/add_objective_c/src/add.m'),
+            Language() => throw UnimplementedError(),
+          };
+          const name = 'add';
 
-        final buildConfig = BuildConfig.build(
-          outputDirectory: tempUri,
-          packageName: name,
-          packageRoot: tempUri,
-          targetArchitecture: target,
-          targetOS: OS.macOS,
-          buildMode: BuildMode.release,
-          linkModePreference: linkMode == DynamicLoadingBundled()
-              ? LinkModePreference.dynamic
-              : LinkModePreference.static,
-        );
-        final buildOutput = BuildOutput();
+          final buildConfig = BuildConfig.build(
+            outputDirectory: tempUri,
+            packageName: name,
+            packageRoot: tempUri,
+            targetArchitecture: target,
+            targetOS: OS.macOS,
+            buildMode: BuildMode.release,
+            linkModePreference: linkMode == DynamicLoadingBundled()
+                ? LinkModePreference.dynamic
+                : LinkModePreference.static,
+          );
+          final buildOutput = BuildOutput();
 
-        final cbuilder = CBuilder.library(
-          name: name,
-          assetName: name,
-          sources: [addCUri.toFilePath()],
-          dartBuildFiles: ['hook/build.dart'],
-        );
-        await cbuilder.run(
-          config: buildConfig,
-          output: buildOutput,
-          logger: logger,
-        );
+          final cbuilder = CBuilder.library(
+            name: name,
+            assetName: name,
+            sources: [sourceUri.toFilePath()],
+            dartBuildFiles: ['hook/build.dart'],
+            language: language,
+          );
+          await cbuilder.run(
+            config: buildConfig,
+            output: buildOutput,
+            logger: logger,
+          );
 
-        final libUri =
-            tempUri.resolve(OS.macOS.libraryFileName(name, linkMode));
-        final result = await runProcess(
-          executable: Uri.file('objdump'),
-          arguments: ['-t', libUri.path],
-          logger: logger,
-        );
-        expect(result.exitCode, 0);
-        final machine = result.stdout
-            .split('\n')
-            .firstWhere((e) => e.contains('file format'));
-        expect(machine, contains(objdumpFileFormat[target]));
-      });
+          final libUri =
+              tempUri.resolve(OS.macOS.libraryFileName(name, linkMode));
+          final result = await runProcess(
+            executable: Uri.file('objdump'),
+            arguments: ['-t', libUri.path],
+            logger: logger,
+          );
+          expect(result.exitCode, 0);
+          final machine = result.stdout
+              .split('\n')
+              .firstWhere((e) => e.contains('file format'));
+          expect(machine, contains(objdumpFileFormat[target]));
+        });
+      }
     }
   }
 }

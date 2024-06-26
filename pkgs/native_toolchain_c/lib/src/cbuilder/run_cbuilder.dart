@@ -190,6 +190,10 @@ class RunCBuilder {
     await runProcess(
       executable: compiler.uri,
       arguments: [
+        if (language == Language.objectiveC) ...[
+          '-x',
+          'objective-c',
+        ],
         if (buildConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
@@ -246,6 +250,10 @@ class RunCBuilder {
           if (value == null) '-D$name' else '-D$name=$value',
         for (final include in includes) '-I${include.toFilePath()}',
         ...sourceFiles,
+        if (language == Language.objectiveC) ...[
+          '-framework',
+          'Foundation',
+        ],
         if (executable != null) ...[
           '-o',
           outDir.resolveUri(executable!).toFilePath(),

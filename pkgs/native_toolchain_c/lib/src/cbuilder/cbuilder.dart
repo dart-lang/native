@@ -20,10 +20,17 @@ class Language {
   const Language._(this.name);
 
   static const Language c = Language._('c');
+
   static const Language cpp = Language._('c++');
 
+  static const Language objectiveC = Language._('objective c');
+
   /// Known values for [Language].
-  static const List<Language> values = [c, cpp];
+  static const List<Language> values = [
+    c,
+    cpp,
+    objectiveC,
+  ];
 
   @override
   String toString() => name;
