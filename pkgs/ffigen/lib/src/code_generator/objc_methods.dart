@@ -221,11 +221,8 @@ class ObjCMethod {
 
 class ObjCMethodParam {
   Type type;
-  final String originalName;
-  String? renamedName;
-  ObjCMethodParam(this.type, this.originalName);
-
-  String get name => renamedName ?? originalName;
+  final String name;
+  ObjCMethodParam(this.type, this.name);
 
   @override
   String toString() => '$type $name';
