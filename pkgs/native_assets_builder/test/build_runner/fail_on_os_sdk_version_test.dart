@@ -3,10 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart'
-    show Target, IOSSdkImpl;
-import 'package:test/test.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' show OS;
+import 'package:native_assets_cli/native_assets_cli_internal.dart'
+    show IOSSdkImpl, Target;
+import 'package:test/test.dart';
 
 import '../helpers.dart';
 import 'helpers.dart';

@@ -142,9 +142,9 @@ class RunCBuilder {
       targetAndroidNdkApi = null;
     }
 
-    final int? targetIOSVersion =
+    final targetIOSVersion =
         buildConfig.targetOS == OS.iOS ? buildConfig.targetIOSVersion : null;
-    final int? targetMacOSVersion = buildConfig.targetOS == OS.macOS
+    final targetMacOSVersion = buildConfig.targetOS == OS.macOS
         ? buildConfig.targetMacOSVersion
         : null;
 
