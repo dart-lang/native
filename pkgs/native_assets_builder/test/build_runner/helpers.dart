@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:file_testing/file_testing.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
+import 'package:native_assets_builder/src/model/hook_result.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
@@ -40,6 +41,11 @@ Future<BuildResult> build(
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
+  IOSSdkImpl? targetIOSSdk,
+  int? targetIOSVersion,
+  int? targetMacOSVersion,
+  int? targetAndroidNdkApi,
+  Target? target,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -48,16 +54,23 @@ Future<BuildResult> build(
       ).build(
         buildMode: BuildModeImpl.release,
         linkModePreference: linkModePreference,
-        target: Target.current,
+        target: target ?? Target.current,
         workingDirectory: packageUri,
         cCompilerConfig: cCompilerConfig,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         runPackageName: runPackageName,
+        targetIOSSdk: targetIOSSdk,
+        targetIOSVersion: targetIOSVersion,
+        targetMacOSVersion: targetMacOSVersion,
+        targetAndroidNdkApi: targetAndroidNdkApi,
       );
 
       if (result.success) {
         await expectAssetsExist(result.assets);
+        for (final assetsForLinking in result.assetsForLinking.values) {
+          await expectAssetsExist(assetsForLinking);
+        }
       }
 
       return result;
@@ -74,6 +87,11 @@ Future<LinkResult> link(
   PackageLayout? packageLayout,
   required BuildResult buildResult,
   Uri? resourceIdentifiers,
+  IOSSdkImpl? targetIOSSdk,
+  int? targetIOSVersion,
+  int? targetMacOSVersion,
+  int? targetAndroidNdkApi,
+  Target? target,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -82,13 +100,17 @@ Future<LinkResult> link(
       ).link(
         linkModePreference: linkModePreference,
         buildMode: BuildModeImpl.release,
-        target: Target.current,
+        target: target ?? Target.current,
         workingDirectory: packageUri,
         cCompilerConfig: cCompilerConfig,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
         buildResult: buildResult,
         resourceIdentifiers: resourceIdentifiers,
+        targetIOSSdk: targetIOSSdk,
+        targetIOSVersion: targetIOSVersion,
+        targetMacOSVersion: targetMacOSVersion,
+        targetAndroidNdkApi: targetAndroidNdkApi,
       );
 
       if (result.success) {
@@ -96,6 +118,75 @@ Future<LinkResult> link(
       }
 
       return result;
+    });
+
+Future<(BuildResult, LinkResult)> buildAndLink(
+  Uri packageUri,
+  Logger logger,
+  Uri dartExecutable, {
+  LinkModePreferenceImpl linkModePreference = LinkModePreferenceImpl.dynamic,
+  CCompilerConfigImpl? cCompilerConfig,
+  bool includeParentEnvironment = true,
+  List<String>? capturedLogs,
+  PackageLayout? packageLayout,
+  String? runPackageName,
+  IOSSdkImpl? targetIOSSdk,
+  int? targetIOSVersion,
+  int? targetMacOSVersion,
+  int? targetAndroidNdkApi,
+  Target? target,
+  Uri? resourceIdentifiers,
+}) async =>
+    await runWithLog(capturedLogs, () async {
+      final buildRunner = NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+      );
+      final buildResult = await buildRunner.build(
+        buildMode: BuildModeImpl.release,
+        linkModePreference: linkModePreference,
+        target: target ?? Target.current,
+        workingDirectory: packageUri,
+        cCompilerConfig: cCompilerConfig,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        runPackageName: runPackageName,
+        targetIOSSdk: targetIOSSdk,
+        targetIOSVersion: targetIOSVersion,
+        targetMacOSVersion: targetMacOSVersion,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+      );
+
+      if (!buildResult.success) {
+        return (buildResult, HookResult());
+      }
+
+      await expectAssetsExist(buildResult.assets);
+      for (final assetsForLinking in buildResult.assetsForLinking.values) {
+        await expectAssetsExist(assetsForLinking);
+      }
+
+      final linkResult = await buildRunner.link(
+        linkModePreference: linkModePreference,
+        buildMode: BuildModeImpl.release,
+        target: target ?? Target.current,
+        workingDirectory: packageUri,
+        cCompilerConfig: cCompilerConfig,
+        includeParentEnvironment: includeParentEnvironment,
+        packageLayout: packageLayout,
+        buildResult: buildResult,
+        resourceIdentifiers: resourceIdentifiers,
+        targetIOSSdk: targetIOSSdk,
+        targetIOSVersion: targetIOSVersion,
+        targetMacOSVersion: targetMacOSVersion,
+        targetAndroidNdkApi: targetAndroidNdkApi,
+      );
+
+      if (linkResult.success) {
+        await expectAssetsExist(buildResult.assets);
+      }
+
+      return (buildResult, linkResult);
     });
 
 Future<T> runWithLog<T>(

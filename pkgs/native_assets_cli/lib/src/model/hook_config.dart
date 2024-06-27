@@ -69,6 +69,32 @@ abstract class HookConfigImpl implements HookConfig {
     return _targetIOSSdk;
   }
 
+  final int? _targetIOSVersion;
+
+  @override
+  int? get targetIOSVersion {
+    ensureNotDryRun(dryRun);
+    if (targetOS != OS.iOS) {
+      throw StateError(
+        'This field is not available in if targetOS is not OS.iOS.',
+      );
+    }
+    return _targetIOSVersion;
+  }
+
+  final int? _targetMacOSVersion;
+
+  @override
+  int? get targetMacOSVersion {
+    ensureNotDryRun(dryRun);
+    if (targetOS != OS.macOS) {
+      throw StateError(
+        'This field is not available in if targetOS is not OS.macOS.',
+      );
+    }
+    return _targetMacOSVersion;
+  }
+
   @override
   final OSImpl targetOS;
 
@@ -95,11 +121,15 @@ abstract class HookConfigImpl implements HookConfig {
     required int? targetAndroidNdkApi,
     required this.targetArchitecture,
     required IOSSdkImpl? targetIOSSdk,
+    required int? targetIOSVersion,
+    required int? targetMacOSVersion,
     required this.linkModePreference,
     required this.targetOS,
     bool? dryRun,
   })  : _targetAndroidNdkApi = targetAndroidNdkApi,
         _targetIOSSdk = targetIOSSdk,
+        _targetIOSVersion = targetIOSVersion,
+        _targetMacOSVersion = targetMacOSVersion,
         _buildMode = buildMode,
         _cCompiler = cCompiler ?? CCompilerConfigImpl(),
         dryRun = dryRun ?? false;
@@ -118,7 +148,9 @@ abstract class HookConfigImpl implements HookConfig {
         targetArchitecture = null,
         _buildMode = null,
         _targetAndroidNdkApi = null,
-        _targetIOSSdk = null;
+        _targetIOSSdk = null,
+        _targetIOSVersion = null,
+        _targetMacOSVersion = null;
 
   Uri get outputFile => outputDirectory.resolve(outputName);
 
@@ -137,6 +169,8 @@ abstract class HookConfigImpl implements HookConfig {
   static const packageRootConfigKey = 'package_root';
   static const _versionKey = 'version';
   static const targetAndroidNdkApiConfigKey = 'target_android_ndk_api';
+  static const targetIOSVersionConfigKey = 'target_ios_version';
+  static const targetMacOSVersionConfigKey = 'target_macos_version';
   static const dryRunConfigKey = 'dry_run';
   static const supportedAssetTypesKey = 'supported_asset_types';
 
@@ -162,6 +196,10 @@ abstract class HookConfigImpl implements HookConfig {
         ArchitectureImpl.configKey: targetArchitecture.toString(),
         if (targetOS == OS.iOS && targetIOSSdk != null)
           IOSSdkImpl.configKey: targetIOSSdk.toString(),
+        if (targetOS == OS.iOS && targetIOSVersion != null)
+          targetIOSVersionConfigKey: targetIOSVersion!,
+        if (targetOS == OS.macOS && targetMacOSVersion != null)
+          targetMacOSVersionConfigKey: targetMacOSVersion!,
         if (targetAndroidNdkApi != null)
           targetAndroidNdkApiConfigKey: targetAndroidNdkApi!,
         if (cCompilerJson.isNotEmpty)
@@ -230,6 +268,7 @@ abstract class HookConfigImpl implements HookConfig {
           validValues: OSImpl.values.map((e) => '$e'),
         ),
       );
+
   static ArchitectureImpl? parseTargetArchitecture(
     Config config,
     bool dryRun,
@@ -283,6 +322,36 @@ abstract class HookConfigImpl implements HookConfig {
     } else {
       return (targetOS == OSImpl.android)
           ? config.int(targetAndroidNdkApiConfigKey)
+          : null;
+    }
+  }
+
+  static int? parseTargetIosVersion(
+    Config config,
+    bool dryRun,
+    OSImpl? targetOS,
+  ) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, targetIOSVersionConfigKey);
+      return null;
+    } else {
+      return (targetOS == OSImpl.iOS)
+          ? config.optionalInt(targetIOSVersionConfigKey)
+          : null;
+    }
+  }
+
+  static int? parseTargetMacOSVersion(
+    Config config,
+    bool dryRun,
+    OSImpl? targetOS,
+  ) {
+    if (dryRun) {
+      _throwIfNotNullInDryRun<int>(config, targetMacOSVersionConfigKey);
+      return null;
+    } else {
+      return (targetOS == OSImpl.macOS)
+          ? config.optionalInt(targetMacOSVersionConfigKey)
           : null;
     }
   }

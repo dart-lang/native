@@ -2,6 +2,8 @@
 
 - Introduce `Builder` and `Linker` interface.
 - Copy `resources.json` to the build directory.
+- Introduce `HookConfig.targetIosSdk` and `HookConfig.targetMacosSdk` optional
+  values.
 
 ## 0.6.0
 
