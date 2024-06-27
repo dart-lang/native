@@ -93,6 +93,9 @@ final class DynamicLoadingBundledImpl
           DynamicLoadingImpl._uriKey: file!.toFilePath(),
         }
       };
+
+  @override
+  String toString() => _typeValue;
 }
 
 final class DynamicLoadingSystemImpl
@@ -130,6 +133,9 @@ final class DynamicLoadingSystemImpl
     }
     return uri == other.uri;
   }
+
+  @override
+  String toString() => _typeValue;
 }
 
 final class LookupInProcessImpl implements DynamicLoadingImpl, LookupInProcess {
@@ -154,6 +160,9 @@ final class LookupInProcessImpl implements DynamicLoadingImpl, LookupInProcess {
           DynamicLoadingImpl._pathTypeKeyV1_0_0: _typeValueV1_0_0,
         }
       };
+
+  @override
+  String toString() => _typeValue;
 }
 
 final class LookupInExecutableImpl
@@ -199,6 +208,9 @@ final class StaticLinkingImpl implements LinkModeImpl, StaticLinking {
   Map<String, Object> toJsonV1_0_0(Uri? file) => {
         NativeCodeAssetImpl._linkModeKey: _typeValue,
       };
+
+  @override
+  String toString() => _typeValue;
 }
 
 final class NativeCodeAssetImpl implements NativeCodeAsset, AssetImpl {
