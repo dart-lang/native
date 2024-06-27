@@ -62,6 +62,14 @@ void main() {
     assets.toString();
   });
 
+  test('toString', () {
+    StaticLinking().toString();
+    DynamicLoadingBundled().toString();
+    DynamicLoadingSystem(Uri.file('foo.so')).toString();
+    LookupInProcess().toString();
+    LookupInExecutable().toString();
+  });
+
   test('Errors', () {
     expect(
       () => NativeCodeAsset(
