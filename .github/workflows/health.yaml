@@ -14,7 +14,8 @@ jobs:
     uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
     with:
       coverage_web: false
-      checks: "version,changelog,license,do-not-submit,breaking,coverage"
+      # TODO(https://github.com/dart-lang/native/issues/1242): Add coverage back.
+      checks: "version,changelog,license,do-not-submit,breaking"
       use-flutter: true
       sdk: master
     permissions:
