@@ -1,6 +1,7 @@
 ## 0.7.1-wip
 
-- Nothing yet.
+- Use `HookConfig.targetIosSdk` and `HookConfig.targetMacosSdk` optional
+  values, and add examples to fail builds based on this.
 
 ## 0.7.0
 

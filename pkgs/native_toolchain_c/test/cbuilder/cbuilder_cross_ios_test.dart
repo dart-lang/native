@@ -160,4 +160,70 @@ void main() {
       }
     }
   }
+
+  const flutteriOSHighestBestEffort = 16;
+  const flutteriOSHighestSupported = 17;
+
+  for (final iosVersion in [
+    flutteriOSHighestBestEffort,
+    flutteriOSHighestSupported
+  ]) {
+    for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
+      test('$linkMode ios min version $iosVersion', () async {
+        const target = Architecture.arm64;
+        final tempUri = await tempDirForTest();
+        final out1Uri = tempUri.resolve('out1/');
+        await Directory.fromUri(out1Uri).create();
+        final lib1Uri = await buildLib(out1Uri, target, iosVersion, linkMode);
+
+        final otoolResult = await runProcess(
+          executable: Uri.file('otool'),
+          arguments: ['-l', lib1Uri.path],
+          logger: logger,
+        );
+        expect(otoolResult.exitCode, 0);
+        expect(otoolResult.stdout, contains('minos $iosVersion.0'));
+      });
+    }
+  }
+}
+
+Future<Uri> buildLib(
+  Uri tempUri,
+  Architecture targetArchitecture,
+  int targetIOSVersion,
+  LinkMode linkMode,
+) async {
+  final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+  const name = 'add';
+
+  final buildConfig = BuildConfig.build(
+    outputDirectory: tempUri,
+    packageName: name,
+    packageRoot: tempUri,
+    targetArchitecture: targetArchitecture,
+    targetOS: OS.iOS,
+    targetIOSSdk: IOSSdk.iPhoneOS,
+    targetIOSVersion: targetIOSVersion,
+    buildMode: BuildMode.release,
+    linkModePreference: linkMode == DynamicLoadingBundled()
+        ? LinkModePreference.dynamic
+        : LinkModePreference.static,
+  );
+  final buildOutput = BuildOutput();
+
+  final cbuilder = CBuilder.library(
+    name: name,
+    assetName: name,
+    sources: [addCUri.toFilePath()],
+    dartBuildFiles: ['hook/build.dart'],
+  );
+  await cbuilder.run(
+    config: buildConfig,
+    output: buildOutput,
+    logger: logger,
+  );
+
+  final libUri = tempUri.resolve(OS.iOS.libraryFileName(name, linkMode));
+  return libUri;
 }

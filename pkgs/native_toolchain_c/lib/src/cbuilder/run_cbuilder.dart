@@ -142,6 +142,12 @@ class RunCBuilder {
       targetAndroidNdkApi = null;
     }
 
+    final int? targetIOSVersion =
+        buildConfig.targetOS == OS.iOS ? buildConfig.targetIOSVersion : null;
+    final int? targetMacOSVersion = buildConfig.targetOS == OS.macOS
+        ? buildConfig.targetMacOSVersion
+        : null;
+
     final architecture = buildConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
@@ -153,6 +159,8 @@ class RunCBuilder {
           architecture,
           targetAndroidNdkApi,
           targetIosSdk,
+          targetIOSVersion,
+          targetMacOSVersion,
           [sourceFiles[i]],
           objectFile,
         );
@@ -175,6 +183,8 @@ class RunCBuilder {
         architecture,
         targetAndroidNdkApi,
         targetIosSdk,
+        targetIOSVersion,
+        targetMacOSVersion,
         sourceFiles,
         dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
       );
@@ -186,6 +196,8 @@ class RunCBuilder {
     Architecture? architecture,
     int? targetAndroidNdkApi,
     IOSSdk? targetIosSdk,
+    int? targetIOSVersion,
+    int? targetMacOSVersion,
     Iterable<String> sourceFiles,
     Uri? outFile,
   ) async {
@@ -202,6 +214,9 @@ class RunCBuilder {
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (buildConfig.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
+        if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
+        if (targetMacOSVersion != null)
+          '-mmacos-version-min=$targetMacOSVersion',
         if (buildConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),

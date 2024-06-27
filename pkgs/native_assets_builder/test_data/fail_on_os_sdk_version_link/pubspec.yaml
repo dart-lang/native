@@ -1,0 +1,20 @@
+name: fail_on_os_sdk_version
+description: Fails the build due to OS API levels.
+version: 0.1.0
+
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  # native_assets_cli: ^0.6.0
+  native_assets_cli:
+    path: ../../../native_assets_cli/
+  fail_on_os_sdk_version_linker:
+    path: ../fail_on_os_sdk_version_linker/
+
+dev_dependencies:
+  ffigen: ^8.0.2
+  lints: ^3.0.0
+  test: ^1.23.1

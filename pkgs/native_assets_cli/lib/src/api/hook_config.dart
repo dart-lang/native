@@ -52,12 +52,37 @@ abstract class HookConfig {
 
   /// When compiling for iOS, whether to target device or simulator.
   ///
-  /// Not available if [targetOS] is [OS.iOS]. Will throw a [StateError] if
-  /// accessed during a [dryRun].
+  /// Only available if [targetOS] is [OS.iOS]. Will throw a [StateError] if
+  /// accessed otherwise.
   ///
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
   IOSSdk? get targetIOSSdk;
+
+  /// When compiling for iOS, the lowest iOS version that the compiled code
+  /// will be compatible with.
+  ///
+  /// Only available if [targetOS] is [OS.iOS]. Will throw a [StateError] if
+  /// accessed otherwise.
+  ///
+  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
+  /// during a [dryRun].
+  ///
+  /// Corresponds to `-mios-version-min=<value>` for the Apple clang compiler.
+  int? get targetIOSVersion;
+
+  /// When compiling for MacOS, the lowest MacOS version that the compiled code
+  /// will be compatible with.
+  ///
+  /// Only available if [targetOS] is [OS.macOS]. Will throw a [StateError] if
+  /// accessed otherwise.
+  ///
+  /// Not available during a [dryRun]. Will throw a [StateError] if accessed
+  /// during a [dryRun].
+  ///
+  /// Corresponds to `-mmacosx-version-min=<value>` for the Apple clang
+  /// compiler.
+  int? get targetMacOSVersion;
 
   /// When compiling for Android, the minimum Android SDK API version to that
   /// the compiled code will be compatible with.
