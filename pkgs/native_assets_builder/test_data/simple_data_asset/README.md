@@ -1,1 +1,1 @@
-This sample adds a native library in the link step.
+This sample adds and retrieves a data asset.
