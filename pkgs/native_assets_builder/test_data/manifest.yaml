@@ -84,6 +84,11 @@
 - simple_link/hook/build.dart
 - simple_link/hook/link.dart
 - simple_link/pubspec.yaml
+- simple_data_asset/pubspec.yaml
+- simple_data_asset/asset/test_asset.txt
+- simple_data_asset/README.md
+- simple_data_asset/hook/build.dart
+- simple_data_asset/bin/simple_data_asset.dart.debug
 - some_dev_dep/bin/some_dev_dep.dart
 - some_dev_dep/pubspec.yaml
 - wrong_build_output_2/hook/build.dart
