@@ -2,6 +2,7 @@
 
 - Use `HookConfig.targetIosSdk` and `HookConfig.targetMacosSdk` optional
   values, and add examples to fail builds based on this.
+- Add data asset test project.
 
 ## 0.7.0
 
