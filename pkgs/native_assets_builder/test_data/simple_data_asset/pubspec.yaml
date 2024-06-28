@@ -1,5 +1,5 @@
 name: simple_data_asset
-description: Add a dylib in the link step.
+description: Add and retrieve a data asset.
 version: 1.0.0
 
 publish_to: none
