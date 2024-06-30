@@ -8,15 +8,9 @@ import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../_core/utils.dart';
 
-const _builtInDeclarations = [
-  BuiltInDeclaration(id: "s:SS", name: "String"),
-  BuiltInDeclaration(id: "s:Si", name: "Int"),
-  BuiltInDeclaration(id: "s:Sd", name: "Double"),
-];
-
 ParsedSymbolsMap parseSymbolsMap(Json symbolgraphJson) {
   final parsedSymbols = {
-    for (final decl in _builtInDeclarations)
+    for (final decl in BuiltInDeclarations.declarations)
       decl.id: ParsedSymbol(json: Json(null), declaration: decl)
   };
 

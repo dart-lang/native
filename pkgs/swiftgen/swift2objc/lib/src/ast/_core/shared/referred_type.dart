@@ -2,22 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:swift2objc/src/ast/_core/interfaces/objc_annotatable.dart';
+
 import '../interfaces/declaration.dart';
 
 /// Describes a type reference in declaration of Swift entities (e.g a method return type).
 /// See `DeclaredType` and `GenericType` for concrete implementation.
-abstract class ReferredType {
-  String id;
+sealed class ReferredType {
+  final String id;
+  abstract final bool isObjcRepresentable;
 
-  ReferredType({required this.id});
+  const ReferredType({required this.id});
 }
 
 /// Describes a reference of a declared type (user-defined or built-in).
 class DeclaredType<T extends Declaration> extends ReferredType {
-  T declaration;
-  List<ReferredType> typeParams;
+  final T declaration;
+  final List<ReferredType> typeParams;
 
-  DeclaredType({
+  @override
+  bool get isObjcRepresentable =>
+      declaration is ObjCAnnotatable &&
+      (declaration as ObjCAnnotatable).hasObjCAnnotation;
+
+  const DeclaredType({
     required super.id,
     required this.declaration,
     this.typeParams = const [],
@@ -26,9 +34,12 @@ class DeclaredType<T extends Declaration> extends ReferredType {
 
 /// Describes a reference of a generic type (e.g a method return type `T` within a generic class).
 class GenericType extends ReferredType {
-  String name;
+  final String name;
 
-  GenericType({
+  @override
+  bool get isObjcRepresentable => false;
+
+  const GenericType({
     required this.name,
     required super.id,
   });
