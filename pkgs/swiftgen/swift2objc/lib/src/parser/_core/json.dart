@@ -56,14 +56,6 @@ class Json extends IterableBase<Json> {
     throw 'Expected a $T at "$path", found ${_json.runtimeType}';
   }
 
-  T? tryGet<T>() {
-    if (_json is T) {
-      return _json;
-    } else {
-      return null;
-    }
-  }
-
   @override
   Iterator<Json> get iterator => _JsonIterator(this);
 
