@@ -32,9 +32,6 @@ class Json extends IterableBase<Json> {
       if (_json is! Map) {
         throw 'Expected a map at "$path", found a ${_json.runtimeType}';
       }
-      if (_json.containsKey(index)) {
-        throw 'Field "$index" not found at "$path"';
-      }
       return Json(_json[index], [..._pathSegments, index]);
     }
 
