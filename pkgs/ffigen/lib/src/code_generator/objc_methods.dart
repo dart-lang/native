@@ -96,8 +96,9 @@ mixin ObjCMethods {
         return true;
       });
 
-  UniqueNamer createMethodRenamer(Writer w) =>
-      UniqueNamer({name, 'pointer', 'toString', 'hashCode', 'runtimeType', 'noSuchMethod'}, parent: w.topLevelUniqueNamer);
+  UniqueNamer createMethodRenamer(Writer w) => UniqueNamer(
+      {name, 'pointer', 'toString', 'hashCode', 'runtimeType', 'noSuchMethod'},
+      parent: w.topLevelUniqueNamer);
 }
 
 enum ObjCMethodKind {

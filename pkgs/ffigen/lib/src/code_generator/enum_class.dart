@@ -50,7 +50,7 @@ class EnumClass extends BindingType {
   /// Generates new names for all members that don't equal [name].
   final UniqueNamer namer;
 
-  final ObjCBuiltInFunctions objCBuiltInFunctions;
+  ObjCBuiltInFunctions? objCBuiltInFunctions;
 
   EnumClass({
     super.usr,
@@ -59,7 +59,7 @@ class EnumClass extends BindingType {
     super.dartDoc,
     Type? nativeType,
     List<EnumConstant>? enumConstants,
-    required this.objCBuiltInFunctions,
+    this.objCBuiltInFunctions,
   })  : nativeType = nativeType ?? intType,
         enumConstants = enumConstants ?? [],
         namer = UniqueNamer({name});
@@ -263,7 +263,8 @@ class EnumClass extends BindingType {
   String getFfiDartType(Writer w) => nativeType.getFfiDartType(w);
 
   @override
-  String getDartType(Writer w) => _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
+  String getDartType(Writer w) =>
+      _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => '$originalName $varName';
