@@ -2,9 +2,11 @@ name: record_use
 description: >
   The serialization logic and API for the usage recording SDK feature.
 repository: https://github.com/mosuem/record_use
-version: 0.1.0
+version: 0.1.0-wip
 environment:
   sdk: ^3.4.0
+
+publish_to: none # hold off publishing while we are in experimental.
 
 dependencies:
   collection: ^1.18.0

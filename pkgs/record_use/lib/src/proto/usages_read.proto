@@ -18,7 +18,6 @@ message Usage {
   repeated Reference references = 2;
 }
 
-
 message Location {
   string uri = 1; 
   uint32 line = 2;

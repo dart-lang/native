@@ -6,7 +6,8 @@
 > your own discretion.
 
 This package provides the data classes for the usage recording feature in the
-Dart SDK.
+Dart SDK. It is the only mechanism of serializing and deserializing the recorded
+usage information.
 
 Dart objects with the `@RecordUse` annotation are being recorded at compile 
 time, providing the user with information. The information depends on the object
