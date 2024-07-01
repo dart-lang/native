@@ -27,8 +27,23 @@ void main() {
 
     test('Renamed class', () {
       final renamed = Renamed.new1();
+
       renamed.property = 123;
       expect(renamed.property, 123);
+    });
+
+    test('Method with the same name as a Dart built in method', () {
+      final renamed = Renamed.new1();
+
+      renamed.property = 123;
+      expect(renamed.toString(), "Instance of 'Renamed'");
+      expect(renamed.toString1().toString(), "123");
+    });
+
+    test('Method with the same name as a type', () {
+      final renamed = Renamed.new1();
+
+      expect(renamed.CollidingStructName1(), 456);
     });
   });
 }
