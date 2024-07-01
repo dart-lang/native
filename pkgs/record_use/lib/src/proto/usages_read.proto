@@ -1,0 +1,48 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+syntax = "proto3";
+package usages;
+
+import "usages_shared.proto";
+
+message Usages {
+  usages_shared.Metadata metadata = 1;
+  repeated Usage calls = 4;
+  repeated Usage instances = 5;
+}
+
+message Usage {
+  Definition definition = 1;
+  repeated Reference references = 2;
+}
+
+
+message Location {
+  string uri = 1; 
+  uint32 line = 2;
+  uint32 column = 3;
+}
+
+message Reference {
+  Location location = 1;
+  string loading_unit = 2;
+  oneof reference {
+    usages_shared.Arguments arguments = 3;
+    usages_shared.Fields fields = 4;
+  }
+}
+
+message Definition {
+  Identifier identifier = 1;
+  uint32 line = 2;
+  uint32 column = 3;
+  optional string loading_unit = 4; // Optional, as some loading units are null
+}
+
+message Identifier {
+  string uri = 1; 
+  optional string parent = 2;
+  string name = 3;
+}
