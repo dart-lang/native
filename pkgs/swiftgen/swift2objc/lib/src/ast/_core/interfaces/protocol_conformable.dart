@@ -7,5 +7,5 @@ import '../shared/referred_type.dart';
 
 /// An interface to describe a Swift entity's ability to confom to protocols.
 abstract interface class ProtocolConformable {
-  abstract List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
+  abstract final List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 }

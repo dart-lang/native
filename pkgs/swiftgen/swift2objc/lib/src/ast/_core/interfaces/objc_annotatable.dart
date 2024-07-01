@@ -4,5 +4,5 @@
 
 /// An interface to describe a Swift entity's ability to be annotated with `@objc`.
 abstract interface class ObjCAnnotatable {
-  abstract bool hasObjCAnnotation;
+  abstract final bool hasObjCAnnotation;
 }
