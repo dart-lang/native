@@ -72,7 +72,25 @@ class ObjCBuiltInFunctions {
     'NSRange',
   };
   static const builtInEnums = {
+    'NSBinarySearchingOptions',
     'NSComparisonResult',
+    'NSDataBase64DecodingOptions',
+    'NSDataBase64EncodingOptions',
+    'NSDataCompressionAlgorithm',
+    'NSDataReadingOptions',
+    'NSDataSearchOptions',
+    'NSDataWritingOptions',
+    'NSEnumerationOptions',
+    'NSItemProviderFileOptions',
+    'NSItemProviderRepresentationVisibility',
+    'NSOrderedCollectionDifferenceCalculationOptions',
+    'NSSortOptions',
+    'NSStringCompareOptions',
+    'NSStringEncodingConversionOptions',
+    'NSStringEnumerationOptions',
+    'NSURLBookmarkCreationOptions',
+    'NSURLBookmarkResolutionOptions',
+    'NSURLHandleStatus',
   };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check

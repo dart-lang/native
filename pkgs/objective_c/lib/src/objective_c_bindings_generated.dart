@@ -9444,6 +9444,35 @@ final _objc_msgSend_252 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>();
 
+enum NSEnumerationOptions {
+  NSEnumerationConcurrent(1),
+  NSEnumerationReverse(2);
+
+  final int value;
+  const NSEnumerationOptions(this.value);
+
+  static NSEnumerationOptions fromValue(int value) => switch (value) {
+        1 => NSEnumerationConcurrent,
+        2 => NSEnumerationReverse,
+        _ =>
+          throw ArgumentError("Unknown value for NSEnumerationOptions: $value"),
+      };
+}
+
+enum NSSortOptions {
+  NSSortConcurrent(1),
+  NSSortStable(16);
+
+  final int value;
+  const NSSortOptions(this.value);
+
+  static NSSortOptions fromValue(int value) => switch (value) {
+        1 => NSSortConcurrent,
+        16 => NSSortStable,
+        _ => throw ArgumentError("Unknown value for NSSortOptions: $value"),
+      };
+}
+
 /// NSMutableIndexSet
 class NSMutableIndexSet extends NSIndexSet {
   NSMutableIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -12025,6 +12054,39 @@ late final _sel_unionSet_ = objc.registerName("unionSet:");
 late final _sel_setSet_ = objc.registerName("setSet:");
 late final _sel_setWithCapacity_ = objc.registerName("setWithCapacity:");
 
+enum NSItemProviderRepresentationVisibility {
+  NSItemProviderRepresentationVisibilityAll(0),
+  NSItemProviderRepresentationVisibilityTeam(1),
+  NSItemProviderRepresentationVisibilityGroup(2),
+  NSItemProviderRepresentationVisibilityOwnProcess(3);
+
+  final int value;
+  const NSItemProviderRepresentationVisibility(this.value);
+
+  static NSItemProviderRepresentationVisibility fromValue(int value) =>
+      switch (value) {
+        0 => NSItemProviderRepresentationVisibilityAll,
+        1 => NSItemProviderRepresentationVisibilityTeam,
+        2 => NSItemProviderRepresentationVisibilityGroup,
+        3 => NSItemProviderRepresentationVisibilityOwnProcess,
+        _ => throw ArgumentError(
+            "Unknown value for NSItemProviderRepresentationVisibility: $value"),
+      };
+}
+
+enum NSItemProviderFileOptions {
+  NSItemProviderFileOptionOpenInPlace(1);
+
+  final int value;
+  const NSItemProviderFileOptions(this.value);
+
+  static NSItemProviderFileOptions fromValue(int value) => switch (value) {
+        1 => NSItemProviderFileOptionOpenInPlace,
+        _ => throw ArgumentError(
+            "Unknown value for NSItemProviderFileOptions: $value"),
+      };
+}
+
 /// NSItemProvider
 class NSItemProvider extends NSObject {
   NSItemProvider._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -12160,20 +12222,6 @@ class NSItemProvider extends NSObject {
 late final _class_NSItemProvider = objc.getClass("NSItemProvider");
 late final _sel_registeredTypeIdentifiers =
     objc.registerName("registeredTypeIdentifiers");
-
-enum NSItemProviderFileOptions {
-  NSItemProviderFileOptionOpenInPlace(1);
-
-  final int value;
-  const NSItemProviderFileOptions(this.value);
-
-  static NSItemProviderFileOptions fromValue(int value) => switch (value) {
-        1 => NSItemProviderFileOptionOpenInPlace,
-        _ => throw ArgumentError(
-            "Unknown value for NSItemProviderFileOptions: $value"),
-      };
-}
-
 late final _sel_registeredTypeIdentifiersWithFileOptions_ =
     objc.registerName("registeredTypeIdentifiersWithFileOptions:");
 final _objc_msgSend_297 = objc.msgSendPointer
@@ -12215,27 +12263,6 @@ final _objc_msgSend_299 = objc.msgSendPointer
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 late final _sel_initWithObject_ = objc.registerName("initWithObject:");
-
-enum NSItemProviderRepresentationVisibility {
-  NSItemProviderRepresentationVisibilityAll(0),
-  NSItemProviderRepresentationVisibilityTeam(1),
-  NSItemProviderRepresentationVisibilityGroup(2),
-  NSItemProviderRepresentationVisibilityOwnProcess(3);
-
-  final int value;
-  const NSItemProviderRepresentationVisibility(this.value);
-
-  static NSItemProviderRepresentationVisibility fromValue(int value) =>
-      switch (value) {
-        0 => NSItemProviderRepresentationVisibilityAll,
-        1 => NSItemProviderRepresentationVisibilityTeam,
-        2 => NSItemProviderRepresentationVisibilityGroup,
-        3 => NSItemProviderRepresentationVisibilityOwnProcess,
-        _ => throw ArgumentError(
-            "Unknown value for NSItemProviderRepresentationVisibility: $value"),
-      };
-}
-
 late final _sel_registerObject_visibility_ =
     objc.registerName("registerObject:visibility:");
 final _objc_msgSend_300 = objc.msgSendPointer
@@ -12917,35 +12944,6 @@ final _objc_msgSend_306 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
 late final _sel_stringWithCapacity_ = objc.registerName("stringWithCapacity:");
-
-enum NSEnumerationOptions {
-  NSEnumerationConcurrent(1),
-  NSEnumerationReverse(2);
-
-  final int value;
-  const NSEnumerationOptions(this.value);
-
-  static NSEnumerationOptions fromValue(int value) => switch (value) {
-        1 => NSEnumerationConcurrent,
-        2 => NSEnumerationReverse,
-        _ =>
-          throw ArgumentError("Unknown value for NSEnumerationOptions: $value"),
-      };
-}
-
-enum NSSortOptions {
-  NSSortConcurrent(1),
-  NSSortStable(16);
-
-  final int value;
-  const NSSortOptions(this.value);
-
-  static NSSortOptions fromValue(int value) => switch (value) {
-        1 => NSSortConcurrent,
-        16 => NSSortStable,
-        _ => throw ArgumentError("Unknown value for NSSortOptions: $value"),
-      };
-}
 
 /// NSProxy
 class NSProxy extends objc.ObjCObjectBase {

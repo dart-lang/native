@@ -52,7 +52,25 @@ structs:
     _NSRange: NSRange
 enums:
   include:
+    - NSBinarySearchingOptions
     - NSComparisonResult
+    - NSDataBase64DecodingOptions
+    - NSDataBase64EncodingOptions
+    - NSDataCompressionAlgorithm
+    - NSDataReadingOptions
+    - NSDataSearchOptions
+    - NSDataWritingOptions
+    - NSEnumerationOptions
+    - NSItemProviderFileOptions
+    - NSItemProviderRepresentationVisibility
+    - NSOrderedCollectionDifferenceCalculationOptions
+    - NSSortOptions
+    - NSStringCompareOptions
+    - NSStringEncodingConversionOptions
+    - NSStringEnumerationOptions
+    - NSURLBookmarkCreationOptions
+    - NSURLBookmarkResolutionOptions
+    - NSURLHandleStatus
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

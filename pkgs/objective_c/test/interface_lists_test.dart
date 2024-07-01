@@ -15,6 +15,7 @@ void main() {
   group('Verify interface lists', () {
     late List<String> yamlInterfaces;
     late List<String> yamlStructs;
+    late List<String> yamlEnums;
 
     setUpAll(() {
       final yaml = loadYaml(File('ffigen_objc.yaml').readAsStringSync());
@@ -28,14 +29,22 @@ void main() {
               (dynamic name) => (structRenames[name] ?? name) as String)
           .toList() as List<String>
         ..sort();
+      yamlEnums = yaml['enums']['include']
+          .map<String>((dynamic i) => i as String)
+          .toList() as List<String>
+        ..sort();
     });
 
     test('ObjCBuiltInFunctions.builtInInterfaces', () {
       expect(ObjCBuiltInFunctions.builtInInterfaces, yamlInterfaces);
     });
 
-    test('ObjCBuiltInFunctions.builtInStructs', () {
+    test('ObjCBuiltInFunctions.builtInCompounds', () {
       expect(ObjCBuiltInFunctions.builtInCompounds, yamlStructs);
+    });
+
+    test('ObjCBuiltInFunctions.builtInEnums', () {
+      expect(ObjCBuiltInFunctions.builtInEnums, yamlEnums);
     });
 
     test('package:objective_c exports all the interfaces', () {
@@ -49,6 +58,13 @@ void main() {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final struct in yamlStructs) {
         expect(exportFile, contains(struct));
+      }
+    });
+
+    test('package:objective_c exports all the enums', () {
+      final exportFile = File('lib/objective_c.dart').readAsStringSync();
+      for (final enum_ in yamlEnums) {
+        expect(exportFile, contains(enum_));
       }
     });
 
@@ -82,6 +98,20 @@ void main() {
       }
       allStructNames.sort();
       expect(allStructNames, yamlStructs);
+    });
+
+    test('All code genned enums are included in the list', () {
+      final enumNameRegExp = RegExp(r'^enum (\w+) {');
+      final allEnumNames = <String>[];
+      for (final line in File('lib/src/objective_c_bindings_generated.dart')
+          .readAsLinesSync()) {
+        final match = enumNameRegExp.firstMatch(line);
+        if (match != null) {
+          allEnumNames.add(match[1]!);
+        }
+      }
+      allEnumNames.sort();
+      expect(allEnumNames, yamlEnums);
     });
   });
 }
