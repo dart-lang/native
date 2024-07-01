@@ -16,6 +16,9 @@ objc-interfaces:
     - _Renamed
   rename:
     '_(.*)': '$1'
+structs:
+  include:
+    - CollidingStructName
 headers:
   entry-points:
     - 'rename_test.m'

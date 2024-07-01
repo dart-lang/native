@@ -75,8 +75,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     final s = StringBuffer();
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final uniqueNamer =
-        UniqueNamer({name, 'pointer'}, parent: w.topLevelUniqueNamer);
+    final methodNamer = createMethodRenamer(w);
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
@@ -113,7 +112,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     // Methods.
     for (final m in methods) {
-      final methodName = m.getDartMethodName(uniqueNamer);
+      final methodName = m.getDartMethodName(methodNamer);
       final isStatic = m.isClassMethod;
       final isStret = m.msgSend!.isStret;
 

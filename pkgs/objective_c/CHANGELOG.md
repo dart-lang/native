@@ -10,6 +10,8 @@
 - Add `ObjCProtocolMethod`, which contains all the information that
   `ObjCProtocolBuilder` needs to implement a method. These objects are created
   by the ffigen bindings for a protocol.
+- Make all of the code-genned structs and enums public so they can be reused by
+  user bindings.
 
 ## 1.0.1
 

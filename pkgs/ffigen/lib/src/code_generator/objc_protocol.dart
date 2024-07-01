@@ -39,10 +39,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     final buildImplementations = StringBuffer();
     final methodFields = StringBuffer();
 
-    final uniqueNamer = UniqueNamer({name, 'pointer'});
+    final methodNamer = createMethodRenamer(w);
 
     for (final method in methods) {
-      final methodName = method.getDartMethodName(uniqueNamer);
+      final methodName = method.getDartMethodName(methodNamer);
       final fieldName = methodName;
       final argName = methodName;
       final block = method.protocolBlock;

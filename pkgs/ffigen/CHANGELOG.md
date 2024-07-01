@@ -25,6 +25,8 @@
   https://github.com/dart-lang/native/issues/1007.
 - Added support for implementing ObjC protocols from Dart. Use the
   `objc-protocols` config option to generate bindings for a protocol.
+- Fix some bugs where ObjC interface/protocol methods could collide with Dart
+  built-in methods, or with types declared elsewhere in the generated bindings.
 
 ## 12.0.0
 

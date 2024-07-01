@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'binding.dart';
 import 'binding_string.dart';
 import 'imports.dart';
+import 'objc_built_in_functions.dart';
 import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -49,6 +50,8 @@ class EnumClass extends BindingType {
   /// Generates new names for all members that don't equal [name].
   final UniqueNamer namer;
 
+  ObjCBuiltInFunctions? objCBuiltInFunctions;
+
   EnumClass({
     super.usr,
     super.originalName,
@@ -56,6 +59,7 @@ class EnumClass extends BindingType {
     super.dartDoc,
     Type? nativeType,
     List<EnumConstant>? enumConstants,
+    this.objCBuiltInFunctions,
   })  : nativeType = nativeType ?? intType,
         enumConstants = enumConstants ?? [],
         namer = UniqueNamer({name});
@@ -209,9 +213,15 @@ class EnumClass extends BindingType {
     s.write("$depth};\n");
   }
 
+  bool get _isBuiltIn =>
+      objCBuiltInFunctions?.isBuiltInEnum(originalName) ?? false;
+
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
+    if (_isBuiltIn) {
+      return BindingString(type: BindingStringType.enum_, string: '');
+    }
     scanForDuplicates();
 
     writeDartDoc(s);
@@ -239,7 +249,7 @@ class EnumClass extends BindingType {
 
   @override
   void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
+    if (dependencies.contains(this) || _isBuiltIn) return;
     dependencies.add(this);
   }
 
@@ -253,7 +263,8 @@ class EnumClass extends BindingType {
   String getFfiDartType(Writer w) => nativeType.getFfiDartType(w);
 
   @override
-  String getDartType(Writer w) => name;
+  String getDartType(Writer w) =>
+      _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => '$originalName $varName';
@@ -282,7 +293,7 @@ class EnumClass extends BindingType {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      "$name.fromValue($value)";
+      "${getDartType(w)}.fromValue($value)";
 }
 
 /// Represents a single value in an enum.

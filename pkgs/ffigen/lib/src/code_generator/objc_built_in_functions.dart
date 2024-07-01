@@ -71,6 +71,27 @@ class ObjCBuiltInFunctions {
     'NSFastEnumerationState',
     'NSRange',
   };
+  static const builtInEnums = {
+    'NSBinarySearchingOptions',
+    'NSComparisonResult',
+    'NSDataBase64DecodingOptions',
+    'NSDataBase64EncodingOptions',
+    'NSDataCompressionAlgorithm',
+    'NSDataReadingOptions',
+    'NSDataSearchOptions',
+    'NSDataWritingOptions',
+    'NSEnumerationOptions',
+    'NSItemProviderFileOptions',
+    'NSItemProviderRepresentationVisibility',
+    'NSOrderedCollectionDifferenceCalculationOptions',
+    'NSSortOptions',
+    'NSStringCompareOptions',
+    'NSStringEncodingConversionOptions',
+    'NSStringEnumerationOptions',
+    'NSURLBookmarkCreationOptions',
+    'NSURLBookmarkResolutionOptions',
+    'NSURLHandleStatus',
+  };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
@@ -78,6 +99,8 @@ class ObjCBuiltInFunctions {
       !generateForPackageObjectiveC && builtInInterfaces.contains(name);
   bool isBuiltInCompound(String name) =>
       !generateForPackageObjectiveC && builtInCompounds.contains(name);
+  bool isBuiltInEnum(String name) =>
+      !generateForPackageObjectiveC && builtInEnums.contains(name);
   bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If

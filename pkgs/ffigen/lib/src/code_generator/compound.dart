@@ -58,7 +58,7 @@ abstract class Compound extends BindingType {
     int? pack,
     String? dartDoc,
     List<Member>? members,
-    required ObjCBuiltInFunctions objCBuiltInFunctions,
+    ObjCBuiltInFunctions? objCBuiltInFunctions,
   }) {
     switch (type) {
       case CompoundType.struct:
@@ -95,7 +95,7 @@ abstract class Compound extends BindingType {
   }
 
   bool get _isBuiltIn =>
-      objCBuiltInFunctions?.isBuiltInInterface(originalName) ?? false;
+      objCBuiltInFunctions?.isBuiltInCompound(originalName) ?? false;
 
   @override
   BindingString toBindingString(Writer w) {

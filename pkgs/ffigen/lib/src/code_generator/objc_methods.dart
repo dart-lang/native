@@ -6,6 +6,7 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:logging/logging.dart';
 
 import 'utils.dart';
+import 'writer.dart';
 
 final _logger = Logger('ffigen.code_generator.objc_methods');
 
@@ -16,6 +17,7 @@ mixin ObjCMethods {
   ObjCMethod? getMethod(String name) => _methods[name];
 
   String get originalName;
+  String get name;
   ObjCBuiltInFunctions get builtInFunctions;
 
   void addMethod(ObjCMethod method) {
@@ -93,6 +95,10 @@ mixin ObjCMethods {
 
         return true;
       });
+
+  UniqueNamer createMethodRenamer(Writer w) => UniqueNamer(
+      {name, 'pointer', 'toString', 'hashCode', 'runtimeType', 'noSuchMethod'},
+      parent: w.topLevelUniqueNamer);
 }
 
 enum ObjCMethodKind {
@@ -149,10 +155,10 @@ class ObjCMethod {
     for (final p in params) {
       p.type.addDependencies(dependencies);
     }
-    selObject ??= builtInFunctions.getSelObject(originalName)
+    selObject = builtInFunctions.getSelObject(originalName)
       ..addDependencies(dependencies);
     if (needMsgSend) {
-      msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params)
+      msgSend = builtInFunctions.getMsgSendFunc(returnType, params)
         ..addDependencies(dependencies);
     }
     if (needProtocolBlock) {
