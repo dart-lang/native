@@ -46,6 +46,10 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
       kotlinClass: json['kotlinClass'] == null
           ? null
           : KotlinClass.fromJson(json['kotlinClass'] as Map<String, dynamic>),
+      kotlinPackage: json['kotlinPackage'] == null
+          ? null
+          : KotlinPackage.fromJson(
+              json['kotlinPackage'] as Map<String, dynamic>),
     );
 
 const _$DeclKindEnumMap = {
@@ -177,6 +181,13 @@ KotlinClass _$KotlinClassFromJson(Map<String, dynamic> json) => KotlinClass(
           const [],
     );
 
+KotlinPackage _$KotlinPackageFromJson(Map<String, dynamic> json) =>
+    KotlinPackage(
+      functions: (json['functions'] as List<dynamic>?)
+              ?.map((e) => KotlinFunction.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
 KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
     KotlinFunction(
       name: json['name'] as String,

@@ -382,7 +382,7 @@ static inline JniResult to_global_ref_result(jobject ref) {
 FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data);
 
 FFI_PLUGIN_EXPORT
-JniResult DartException__ctor(jstring message);
+JniResult DartException__ctor(jstring message, jthrowable cause);
 
 FFI_PLUGIN_EXPORT
 JniResult PortContinuation__ctor(int64_t j);

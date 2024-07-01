@@ -156,13 +156,13 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     node.methodNumsAfterRenaming = {};
 
     final className = _getSimplifiedClassName(node.binaryName);
-    node.uniqueName = _renameConflict(classNameCounts, className);
 
     // When generating all the classes in a single file
     // the names need to be unique.
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
-    node.finalName = uniquifyName ? node.uniqueName : className;
+    node.finalName =
+        uniquifyName ? _renameConflict(classNameCounts, className) : className;
     // TODO(#143): $ at the beginning is a temporary fix for the name collision.
     node.typeClassName = '\$${node.finalName}Type';
     log.fine('Class ${node.binaryName} is named ${node.finalName}');

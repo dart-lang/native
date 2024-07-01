@@ -1,6 +1,9 @@
 ## 0.5.0-wip
 
 - Renamed parameters in `Builder.run`.
+- Added `Language.objectiveC`.
+- Use `HookConfig.targetIosSdk` and `HookConfig.targetMacosSdk` optional
+  values, and pass them to the clang compiler.
 
 ## 0.4.2
 

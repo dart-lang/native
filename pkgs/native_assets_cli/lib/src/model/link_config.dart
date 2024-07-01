@@ -33,6 +33,8 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
     super.targetAndroidNdkApi,
     super.targetArchitecture,
     super.targetIOSSdk,
+    super.targetIOSVersion,
+    super.targetMacOSVersion,
     required super.targetOS,
     required super.linkModePreference,
     super.dryRun,
@@ -107,6 +109,10 @@ class LinkConfigImpl extends HookConfigImpl implements LinkConfig {
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),
       targetIOSSdk: HookConfigImpl.parseTargetIOSSdk(config, dryRun, targetOS),
+      targetIOSVersion:
+          HookConfigImpl.parseTargetIosVersion(config, dryRun, targetOS),
+      targetMacOSVersion:
+          HookConfigImpl.parseTargetMacOSVersion(config, dryRun, targetOS),
       assets: parseAssets(config),
       resourceIdentifierUri: parseResourceIdentifier(config),
       dryRun: dryRun,

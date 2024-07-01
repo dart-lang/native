@@ -7,11 +7,12 @@ package com.github.dart_lang.jni;
 import java.lang.reflect.*;
 
 public class PortProxy implements InvocationHandler {
+  private static final PortCleaner cleaner = new PortCleaner();
+
   static {
     System.loadLibrary("dartjni");
   }
 
-  private static final PortCleaner cleaner = new PortCleaner();
   private final long port;
   private final long isolateId;
   private final long functionPtr;
@@ -73,22 +74,6 @@ public class PortProxy implements InvocationHandler {
     return obj;
   }
 
-  private static final class DartException extends Exception {
-    private DartException(String message) {
-      super(message);
-    }
-  }
-
-  @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws DartException {
-    Object[] result = _invoke(port, isolateId, functionPtr, proxy, getDescriptor(method), args);
-    _cleanUp((Long) result[0]);
-    if (result[1] instanceof DartException) {
-      throw (DartException) result[1];
-    }
-    return result[1];
-  }
-
   /// Returns an array with two objects:
   /// [0]: The address of the result pointer used for the clean-up.
   /// [1]: The result of the invocation.
@@ -101,4 +86,28 @@ public class PortProxy implements InvocationHandler {
       Object[] args);
 
   private static native void _cleanUp(long resultPtr);
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    Object[] result = _invoke(port, isolateId, functionPtr, proxy, getDescriptor(method), args);
+    _cleanUp((Long) result[0]);
+    if (result[1] instanceof DartException) {
+      Throwable cause = ((DartException) result[1]).cause;
+      if (cause != null) {
+        throw cause;
+      } else {
+        throw (DartException) result[1];
+      }
+    }
+    return result[1];
+  }
+
+  private static final class DartException extends Exception {
+    Throwable cause;
+
+    private DartException(String message, Throwable cause) {
+      super(message);
+      this.cause = cause;
+    }
+  }
 }

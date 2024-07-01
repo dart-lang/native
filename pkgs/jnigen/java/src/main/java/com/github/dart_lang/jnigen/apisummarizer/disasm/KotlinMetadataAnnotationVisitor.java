@@ -6,6 +6,7 @@ package com.github.dart_lang.jnigen.apisummarizer.disasm;
 
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
 import com.github.dart_lang.jnigen.apisummarizer.elements.KotlinClass;
+import com.github.dart_lang.jnigen.apisummarizer.elements.KotlinPackage;
 import java.util.ArrayList;
 import java.util.List;
 import kotlinx.metadata.jvm.KotlinClassHeader;
@@ -90,7 +91,8 @@ public class KotlinMetadataAnnotationVisitor extends AnnotationVisitor {
       decl.kotlinClass =
           KotlinClass.fromKmClass(((KotlinClassMetadata.Class) metadata).toKmClass());
     } else if (metadata instanceof KotlinClassMetadata.FileFacade) {
-      // TODO(#301): Handle file facades.
+      decl.kotlinPackage =
+          KotlinPackage.fromKmPackage(((KotlinClassMetadata.FileFacade) metadata).toKmPackage());
     } else if (metadata instanceof KotlinClassMetadata.SyntheticClass) {
       // Ignore synthetic classes such as lambdas.
     } else if (metadata instanceof KotlinClassMetadata.MultiFileClassFacade) {

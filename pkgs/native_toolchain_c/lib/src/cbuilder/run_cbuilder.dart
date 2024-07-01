@@ -23,6 +23,7 @@ class RunCBuilder {
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
+  final List<String> frameworks;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
@@ -47,6 +48,7 @@ class RunCBuilder {
     this.logger,
     this.sources = const [],
     this.includes = const [],
+    required this.frameworks,
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
@@ -140,6 +142,12 @@ class RunCBuilder {
       targetAndroidNdkApi = null;
     }
 
+    final targetIOSVersion =
+        buildConfig.targetOS == OS.iOS ? buildConfig.targetIOSVersion : null;
+    final targetMacOSVersion = buildConfig.targetOS == OS.macOS
+        ? buildConfig.targetMacOSVersion
+        : null;
+
     final architecture = buildConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
@@ -151,6 +159,8 @@ class RunCBuilder {
           architecture,
           targetAndroidNdkApi,
           targetIosSdk,
+          targetIOSVersion,
+          targetMacOSVersion,
           [sourceFiles[i]],
           objectFile,
         );
@@ -173,6 +183,8 @@ class RunCBuilder {
         architecture,
         targetAndroidNdkApi,
         targetIosSdk,
+        targetIOSVersion,
+        targetMacOSVersion,
         sourceFiles,
         dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
       );
@@ -184,6 +196,8 @@ class RunCBuilder {
     Architecture? architecture,
     int? targetAndroidNdkApi,
     IOSSdk? targetIosSdk,
+    int? targetIOSVersion,
+    int? targetMacOSVersion,
     Iterable<String> sourceFiles,
     Uri? outFile,
   ) async {
@@ -200,6 +214,9 @@ class RunCBuilder {
           '--target=${appleClangMacosTargetFlags[architecture]!}',
         if (buildConfig.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
+        if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
+        if (targetMacOSVersion != null)
+          '-mmacos-version-min=$targetMacOSVersion',
         if (buildConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
@@ -246,6 +263,12 @@ class RunCBuilder {
           if (value == null) '-D$name' else '-D$name=$value',
         for (final include in includes) '-I${include.toFilePath()}',
         ...sourceFiles,
+        if (language == Language.objectiveC) ...[
+          for (final framework in frameworks) ...[
+            '-framework',
+            framework,
+          ],
+        ],
         if (executable != null) ...[
           '-o',
           outDir.resolveUri(executable!).toFilePath(),

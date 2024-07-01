@@ -4,6 +4,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:test/test.dart';
 import 'package:jni/jni.dart';
@@ -685,6 +686,69 @@ void registerTests(String groupName, TestRunnerCallback test) {
             expect(cause.toString(), contains(exception.toString()));
           });
         }
+      }
+    });
+
+    group('throw Java exceptions', () {
+      for (final (threading, consume) in [
+        ('another thread', StringConverterConsumer.consumeOnAnotherThread),
+        ('the same thread', StringConverterConsumer.consumeOnSameThread),
+      ]) {
+        test('StringConverter.implement on $threading ', () async {
+          final stringConverter =
+              StringConverter.implement($StringConverterImpl(
+            parseToInt: (s) {
+              final value = int.tryParse(s.toDartString());
+              if (value == null) {
+                throw StringConversionException(
+                    'Invalid integer expression: $s'.toJString());
+              }
+
+              return value;
+            },
+          ));
+
+          // Gets the result of a Java Future.
+          // TODO(#1213): remove this once we support Java futures.
+          Future<$T> toDartFuture<$T extends JObject>(
+              JObject future, JObjType<$T> T) async {
+            final receivePort = ReceivePort();
+            await Isolate.spawn((sendPort) {
+              final futureClass = JClass.forName('java/util/concurrent/Future');
+              final getMethod =
+                  futureClass.instanceMethodId('get', '()Ljava/lang/Object;');
+              final result = getMethod(future, T, []);
+              // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
+              // with coverage pauses indefinitely here.
+              // https://github.com/dart-lang/coverage/issues/472
+              Isolate.current.kill();
+              sendPort.send(result);
+            }, receivePort.sendPort);
+            return (await receivePort.first) as $T;
+          }
+
+          final sevenHundredBoxed = consume(stringConverter, '700'.toJString());
+          final int sevenHundred;
+          if (sevenHundredBoxed is JInteger) {
+            sevenHundred = sevenHundredBoxed.intValue();
+          } else {
+            sevenHundred =
+                (await toDartFuture(sevenHundredBoxed, JInteger.type))
+                    .intValue();
+          }
+          expect(sevenHundred, 700);
+
+          final fooBoxed = consume(stringConverter, 'foo'.toJString());
+          final int foo;
+          if (fooBoxed is JInteger) {
+            foo = fooBoxed.intValue();
+          } else {
+            foo = (await toDartFuture(fooBoxed, JInteger.type)).intValue();
+          }
+          expect(foo, -1);
+
+          stringConverter.release();
+        });
       }
     });
   });

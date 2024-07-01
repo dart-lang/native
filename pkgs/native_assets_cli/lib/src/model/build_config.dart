@@ -50,6 +50,8 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     super.targetAndroidNdkApi,
     required super.targetArchitecture,
     super.targetIOSSdk,
+    super.targetIOSVersion,
+    super.targetMacOSVersion,
     required super.targetOS,
     required super.linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
@@ -117,6 +119,10 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
       targetAndroidNdkApi:
           HookConfigImpl.parseTargetAndroidNdkApi(config, dryRun, targetOS),
       targetIOSSdk: HookConfigImpl.parseTargetIOSSdk(config, dryRun, targetOS),
+      targetIOSVersion:
+          HookConfigImpl.parseTargetIosVersion(config, dryRun, targetOS),
+      targetMacOSVersion:
+          HookConfigImpl.parseTargetMacOSVersion(config, dryRun, targetOS),
       dryRun: dryRun,
     );
   }
