@@ -37,7 +37,7 @@ class Writer {
 
   final bool generateForPackageObjectiveC;
 
-  final List<String> entryPoints;
+  final List<String> nativeEntryPoints;
 
   /// Tracks where enumType.getCType is called. Reset everytime [generate] is
   /// called.
@@ -135,7 +135,7 @@ class Writer {
     this.header,
     required this.generateForPackageObjectiveC,
     required this.silenceEnumWarning,
-    required this.entryPoints,
+    required this.nativeEntryPoints,
   }) {
     final globalLevelNameSet = noLookUpBindings.map((e) => e.name).toSet();
     final wrapperLevelNameSet = lookUpBindings.map((e) => e.name).toSet();
@@ -403,7 +403,7 @@ class Writer {
 
 ''');
 
-    for (final entryPoint in entryPoints) {
+    for (final entryPoint in nativeEntryPoints) {
       final path = p.relative(entryPoint, from: outDir);
       s.write('#include "$path"\n');
     }

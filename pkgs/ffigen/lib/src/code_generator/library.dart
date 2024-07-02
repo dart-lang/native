@@ -33,7 +33,7 @@ class Library {
     StructPackingOverride? packingOverride,
     Set<LibraryImport>? libraryImports,
     bool silenceEnumWarning = false,
-    List<String> entryPoints = const <String>[],
+    List<String> nativeEntryPoints = const <String>[],
   }) {
     _findBindings(bindings, sort);
 
@@ -87,7 +87,7 @@ class Library {
       additionalImports: libraryImports,
       generateForPackageObjectiveC: generateForPackageObjectiveC,
       silenceEnumWarning: silenceEnumWarning,
-      entryPoints: entryPoints,
+      nativeEntryPoints: nativeEntryPoints,
     );
   }
 
