@@ -36,6 +36,11 @@ abstract class Compound extends BindingType {
 
   ObjCBuiltInFunctions? objCBuiltInFunctions;
 
+  /// The way the native type is written in C source code. This isn't always the
+  /// same as the originalName, because the type may need to be prefixed with
+  /// `struct` or `union`, depending on whether the declaration is a typedef.
+  final String nativeType;
+
   Compound({
     super.usr,
     super.originalName,
@@ -47,7 +52,9 @@ abstract class Compound extends BindingType {
     List<Member>? members,
     super.isInternal,
     this.objCBuiltInFunctions,
-  }) : members = members ?? [];
+    String? nativeType,
+  })  : members = members ?? [],
+        nativeType = nativeType ?? originalName ?? name;
 
   factory Compound.fromType({
     required CompoundType type,
@@ -59,6 +66,7 @@ abstract class Compound extends BindingType {
     String? dartDoc,
     List<Member>? members,
     ObjCBuiltInFunctions? objCBuiltInFunctions,
+    String? nativeType,
   }) {
     switch (type) {
       case CompoundType.struct:
@@ -71,6 +79,7 @@ abstract class Compound extends BindingType {
           dartDoc: dartDoc,
           members: members,
           objCBuiltInFunctions: objCBuiltInFunctions,
+          nativeType: nativeType,
         );
       case CompoundType.union:
         return Union(
@@ -82,6 +91,7 @@ abstract class Compound extends BindingType {
           dartDoc: dartDoc,
           members: members,
           objCBuiltInFunctions: objCBuiltInFunctions,
+          nativeType: nativeType,
         );
     }
   }
@@ -170,7 +180,7 @@ abstract class Compound extends BindingType {
   String getCType(Writer w) => _isBuiltIn ? '${w.objcPkgPrefix}.$name' : name;
 
   @override
-  String getNativeType({String varName = ''}) => '$originalName $varName';
+  String getNativeType({String varName = ''}) => '$nativeType $varName';
 
   @override
   bool get sameFfiDartAndCType => true;

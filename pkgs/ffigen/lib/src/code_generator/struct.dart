@@ -39,5 +39,6 @@ class Struct extends Compound {
     super.members,
     super.isInternal,
     super.objCBuiltInFunctions,
+    super.nativeType,
   }) : super(compoundType: CompoundType.struct);
 }

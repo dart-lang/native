@@ -33,6 +33,7 @@ class Library {
     StructPackingOverride? packingOverride,
     Set<LibraryImport>? libraryImports,
     bool silenceEnumWarning = false,
+    List<String> entryPoints = const <String>[],
   }) {
     _findBindings(bindings, sort);
 
@@ -86,6 +87,7 @@ class Library {
       additionalImports: libraryImports,
       generateForPackageObjectiveC: generateForPackageObjectiveC,
       silenceEnumWarning: silenceEnumWarning,
+      entryPoints: entryPoints,
     );
   }
 
@@ -141,7 +143,7 @@ class Library {
   ///
   /// Returns whether bindings were generated.
   bool generateObjCFile(File file) {
-    final bindings = writer.generateObjC();
+    final bindings = writer.generateObjC(file.path);
 
     if (bindings == null) {
       // No ObjC code needed. If there's already a file (eg from an earlier

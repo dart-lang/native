@@ -34,6 +34,7 @@ Library parse(Config c) {
     packingOverride: c.structPackingOverride,
     libraryImports: c.libraryImports.values.toSet(),
     silenceEnumWarning: c.silenceEnumWarning,
+    entryPoints: c.headers.entryPoints,
   );
 
   return library;
