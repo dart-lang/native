@@ -243,6 +243,7 @@ pointer.ref.invoke.cast<$natTrampFnType>().asFunction<$trampFuncFfiDartType>()(
 
     final s = StringBuffer();
     s.write('''
+
 typedef ${getNativeType(varName: blockTypedef)};
 $blockTypedef $fnName($blockTypedef block) {
   $blockTypedef wrapper = [^void(${argsReceived.join(', ')}) {

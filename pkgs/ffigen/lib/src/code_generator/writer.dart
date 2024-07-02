@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as p;
 
 import '../strings.dart' as strings;
 
@@ -35,6 +36,8 @@ class Writer {
   final String? classDocComment;
 
   final bool generateForPackageObjectiveC;
+
+  final List<String> entryPoints;
 
   /// Tracks where enumType.getCType is called. Reset everytime [generate] is
   /// called.
@@ -132,6 +135,7 @@ class Writer {
     this.header,
     required this.generateForPackageObjectiveC,
     required this.silenceEnumWarning,
+    required this.entryPoints,
   }) {
     final globalLevelNameSet = noLookUpBindings.map((e) => e.name).toSet();
     final wrapperLevelNameSet = lookUpBindings.map((e) => e.name).toSet();
@@ -387,13 +391,23 @@ class Writer {
   }
 
   /// Writes the Objective C code needed for the bindings, if any. Returns null
-  /// if there are no bindings that need generated ObjC code.
-  String? generateObjC() {
+  /// if there are no bindings that need generated ObjC code. This function does
+  /// not generate the output file, but the [outFilename] does affect the
+  /// generated code.
+  String? generateObjC(String outFilename) {
+    final outDir = p.dirname(outFilename);
+
     final s = StringBuffer();
     s.write('''
 #include <stdint.h>
 
 ''');
+
+    for (final entryPoint in entryPoints) {
+      final path = p.relative(entryPoint, from: outDir);
+      s.write('#include "$path"\n');
+    }
+
     bool empty = true;
     for (final binding in _allBindings) {
       final bindingString = binding.toObjCBindingString(this);

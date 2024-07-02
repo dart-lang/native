@@ -189,6 +189,69 @@ void main() {
       expect(isCalled, isTrue);
     });
 
+    test('Nullable listener block', () async {
+      final hasRun = Completer<void>();
+      final block = DartNullableListenerBlock.listener((DummyObject? x) {
+        expect(x, isNull);
+        hasRun.complete();
+      });
+
+      BlockTester.callNullableListener_(block);
+      await hasRun.future;
+    });
+
+    test('Struct listener block', () async {
+      final hasRun = Completer<void>();
+      final block = DartStructListenerBlock.listener(
+          (Vec2 vec2, Vec4 vec4, NSObject dummy) {
+        expect(vec2.x, 100);
+        expect(vec2.y, 200);
+
+        expect(vec4.x, 1.2);
+        expect(vec4.y, 3.4);
+        expect(vec4.z, 5.6);
+        expect(vec4.w, 7.8);
+
+        expect(dummy, isNotNull);
+
+        hasRun.complete();
+      });
+
+      BlockTester.callStructListener_(block);
+      await hasRun.future;
+    });
+
+    test('NSString listener block', () async {
+      final hasRun = Completer<void>();
+      final block = DartNSStringListenerBlock.listener((NSString s) {
+        expect(s.toString(), "Foo 123");
+        hasRun.complete();
+      });
+
+      BlockTester.callNSStringListener_x_(block, 123);
+      await hasRun.future;
+    });
+
+    test('No trampoline listener block', () async {
+      final hasRun = Completer<void>();
+      final block = DartNoTrampolineListenerBlock.listener(
+          (int x, Vec4 vec4, Pointer<Char> charPtr) {
+        expect(x, 123);
+
+        expect(vec4.x, 1.2);
+        expect(vec4.y, 3.4);
+        expect(vec4.z, 5.6);
+        expect(vec4.w, 7.8);
+
+        expect(charPtr.cast<Utf8>().toDartString(), "Hello World");
+
+        hasRun.complete();
+      });
+
+      BlockTester.callNoTrampolineListener_(block);
+      await hasRun.future;
+    });
+
     test('Block block', () {
       final blockBlock = DartBlockBlock.fromFunction((DartIntBlock intBlock) {
         return DartIntBlock.fromFunction((int x) {

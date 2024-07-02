@@ -3,25 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #import <Foundation/NSObject.h>
+#import <Foundation/NSString.h>
 #import <Foundation/NSThread.h>
 
+#include "block_test.h"
 #include "util.h"
 
-typedef struct {
-  double x;
-  double y;
-  double z;
-  double w;
-} Vec4;
-
-@interface DummyObject : NSObject {
-  int32_t* counter;
-}
-+ (instancetype)newWithCounter:(int32_t*) _counter;
-- (instancetype)initWithCounter:(int32_t*) _counter;
-- (void)setCounter:(int32_t*) _counter;
-- (void)dealloc;
-@end
 @implementation DummyObject
 
 + (instancetype)newWithCounter:(int32_t*) _counter {
@@ -47,40 +34,8 @@ typedef struct {
 @end
 
 
-typedef int32_t (^IntBlock)(int32_t);
-typedef float (^FloatBlock)(float);
-typedef double (^DoubleBlock)(double);
-typedef Vec4 (^Vec4Block)(Vec4);
-typedef void (^VoidBlock)();
-typedef DummyObject* (^ObjectBlock)(DummyObject*);
-typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable);
-typedef IntBlock (^BlockBlock)(IntBlock);
-typedef void (^ListenerBlock)(IntBlock);
-
-// Wrapper around a block, so that our Dart code can test creating and invoking
-// blocks in Objective C code.
-@interface BlockTester : NSObject {
-  IntBlock myBlock;
-}
-+ (BlockTester*)makeFromBlock:(IntBlock)block;
-+ (BlockTester*)makeFromMultiplier:(int32_t)mult;
-- (int32_t)call:(int32_t)x;
-- (IntBlock)getBlock;
-- (void)pokeBlock;
-+ (void)callOnSameThread:(VoidBlock)block;
-+ (NSThread*)callOnNewThread:(VoidBlock)block;
-+ (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block;
-+ (float)callFloatBlock:(FloatBlock)block;
-+ (double)callDoubleBlock:(DoubleBlock)block;
-+ (Vec4)callVec4Block:(Vec4Block)block;
-+ (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED;
-+ (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block;
-+ (void)callListener:(ListenerBlock)block;
-+ (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult;
-+ (BlockBlock)newBlockBlock:(int)mult;
-@end
-
 @implementation BlockTester
+
 + (BlockTester*)makeFromBlock:(IntBlock)block {
   BlockTester* bt = [BlockTester new];
   bt->myBlock = block;
@@ -137,6 +92,42 @@ typedef void (^ListenerBlock)(IntBlock);
   return [[NSThread alloc] initWithTarget:[BlockTester class]
                                  selector:@selector(callListener:)
                                    object:block];
+}
+
++ (void)callNullableListener:(NullableListenerBlock)block {
+  block(nil);
+}
+
++ (void)callStructListener:(StructListenerBlock)block {
+  struct Vec2 vec2;
+  vec2.x = 100;
+  vec2.y = 200;
+
+  Vec4 vec4;
+  vec4.x = 1.2;
+  vec4.y = 3.4;
+  vec4.z = 5.6;
+  vec4.w = 7.8;
+
+  // We're interested in testing how structs pass through the native
+  // trampolines, but a native trampoline will only be generated if there are
+  // ref counted objects being passed too. So pass a dummy NSObject.
+  NSObject* dummy = [NSObject new];
+
+  block(vec2, vec4, dummy);
+}
+
++ (void)callNSStringListener:(NSStringListenerBlock)block  x:(int32_t)x {
+  block([NSString stringWithFormat:@"Foo %d", x]);
+}
+
++ (void)callNoTrampolineListener:(NoTrampolineListenerBlock)block {
+  Vec4 vec4;
+  vec4.x = 1.2;
+  vec4.y = 3.4;
+  vec4.z = 5.6;
+  vec4.w = 7.8;
+  block(123, vec4, "Hello World");
 }
 
 + (float)callFloatBlock:(FloatBlock)block {

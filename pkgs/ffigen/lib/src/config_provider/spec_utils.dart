@@ -35,8 +35,9 @@ String _replaceSeparators(String path) {
 String _normalizePath(String path, String? configFilename) {
   final skipNormalization =
       (configFilename == null) || p.isAbsolute(path) || path.startsWith("**");
-  return _replaceSeparators(
-      skipNormalization ? path : p.join(p.dirname(configFilename), path));
+  return _replaceSeparators(skipNormalization
+      ? path
+      : p.absolute(p.join(p.dirname(configFilename), path)));
 }
 
 Map<String, LibraryImport> libraryImportsExtractor(
