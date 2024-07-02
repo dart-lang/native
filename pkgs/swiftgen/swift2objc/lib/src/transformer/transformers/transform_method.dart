@@ -53,7 +53,7 @@ String _generateMethodCall(
     if (transformedType is DeclaredType) {
       final typeDeclaration = transformedType.declaration;
       if (typeDeclaration is ClassDeclaration && typeDeclaration.isWrapper) {
-        methodCallArg += ".${typeDeclaration.originalInstance!.name}";
+        methodCallArg += ".${typeDeclaration.wrappedInstance!.name}";
       }
     }
 

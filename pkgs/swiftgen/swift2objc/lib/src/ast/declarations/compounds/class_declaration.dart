@@ -41,7 +41,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   bool isWrapper;
 
   /// An instance of the original entity that this class is wraping
-  ClassPropertyDeclaration? originalInstance;
+  ClassPropertyDeclaration? wrappedInstance;
 
   ClassDeclaration({
     required this.id,
@@ -53,7 +53,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.hasObjCAnnotation = false,
     this.superClass,
     this.isWrapper = false,
-    this.originalInstance,
+    this.wrappedInstance,
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
             superClass.declaration == BuiltInDeclarations.NSObject);

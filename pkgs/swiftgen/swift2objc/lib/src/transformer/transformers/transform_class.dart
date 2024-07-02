@@ -24,7 +24,7 @@ ClassDeclaration transformClass(
     hasObjCAnnotation: true,
     superClass: BuiltInDeclarations.NSObject.asDeclaredType,
     isWrapper: true,
-    originalInstance: originalClassInstance,
+    wrappedInstance: originalClassInstance,
   );
 
   transformationMap[originalClass] = transformedClass;
