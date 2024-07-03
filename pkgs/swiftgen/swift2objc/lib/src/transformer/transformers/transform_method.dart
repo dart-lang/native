@@ -8,12 +8,13 @@ import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart
 import 'package:swift2objc/src/transformer/transform.dart';
 import 'package:swift2objc/src/transformer/transformers/transform_referred_type.dart';
 
-ClassMethodDeclaration tranformMethod(
+ClassMethodDeclaration transformMethod(
   ClassMethodDeclaration originalMethod,
+  ClassPropertyDeclaration wrappedClassInstance,
   TransformationMap transformationMap,
 ) {
   final transformedParams = originalMethod.params
-      .map((param) => _tranformParamter(param, transformationMap))
+      .map((param) => _transformParamter(param, transformationMap))
       .toList();
 
   final transformedMethod = ClassMethodDeclaration(
@@ -28,7 +29,7 @@ ClassMethodDeclaration tranformMethod(
   );
 
   transformedMethod.statements = <String>[
-    _generateMethodCall(originalMethod, transformedMethod)
+    _generateMethodCall(originalMethod, wrappedClassInstance, transformedMethod)
   ];
 
   transformationMap[originalMethod] = transformedMethod;
@@ -38,6 +39,7 @@ ClassMethodDeclaration tranformMethod(
 
 String _generateMethodCall(
   ClassMethodDeclaration originalMethod,
+  ClassPropertyDeclaration wrappedClassInstance,
   ClassMethodDeclaration transformedMethod,
 ) {
   final arguments = <String>[];
@@ -60,10 +62,10 @@ String _generateMethodCall(
     arguments.add(methodCallArg);
   }
 
-  return "originalInstance.${originalMethod.name}(${arguments.join(", ")})";
+  return "${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
 }
 
-Parameter _tranformParamter(
+Parameter _transformParamter(
   Parameter originalParameter,
   TransformationMap transformationMap,
 ) {
