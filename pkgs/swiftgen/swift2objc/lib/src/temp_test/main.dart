@@ -10,7 +10,7 @@ import '../parser/parser.dart';
 const pathToSymbolgraph = "lib/src/temp_test/symbolgraph/source.symbols.json";
 
 void main() {
-  final ast = parseAst(pathToSymbolgraph);
-  final transformedDeclarations = transform(ast);
+  final declarations = parseAst(pathToSymbolgraph);
+  final transformedDeclarations = transform(declarations);
   print(transformedDeclarations);
 }
