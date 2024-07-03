@@ -18,10 +18,6 @@ DeclaredType transformReferredType(
 
   if (referredType.isObjCRepresentable) return referredType;
 
-  if (transformationMap[referredType.declaration] != null) {
-    return transformationMap[referredType.declaration]!.asDeclaredType;
-  }
-
   final transformedDeclaration = transformDeclaration(
     referredType.declaration,
     transformationMap,
@@ -29,8 +25,5 @@ DeclaredType transformReferredType(
 
   transformationMap[referredType.declaration] = transformedDeclaration;
 
-  return DeclaredType(
-    id: transformedDeclaration.id,
-    declaration: transformedDeclaration,
-  );
+  return transformedDeclaration.asDeclaredType;
 }

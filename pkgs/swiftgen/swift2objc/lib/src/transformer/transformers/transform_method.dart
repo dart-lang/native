@@ -28,14 +28,16 @@ ClassMethodDeclaration transformMethod(
     hasObjCAnnotation: true,
   );
 
-  transformedMethod.statements = <String>[
-    _generateMethodCall(originalMethod, wrappedClassInstance, transformedMethod)
-  ];
+  transformedMethod.statements = _generateMethodStatements(
+    originalMethod,
+    wrappedClassInstance,
+    transformedMethod,
+  );
 
   return transformedMethod;
 }
 
-String _generateMethodCall(
+List<String> _generateMethodStatements(
   ClassMethodDeclaration originalMethod,
   ClassPropertyDeclaration wrappedClassInstance,
   ClassMethodDeclaration transformedMethod,
@@ -60,7 +62,12 @@ String _generateMethodCall(
     arguments.add(methodCallArg);
   }
 
-  return "${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
+  final originalMethodCall =
+      "let result = ${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
+
+  final returnStmnt = "return result";
+
+  return [originalMethodCall, returnStmnt];
 }
 
 Parameter _transformParamter(
