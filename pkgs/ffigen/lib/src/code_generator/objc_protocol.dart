@@ -47,7 +47,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final argName = methodName;
       final block = method.protocolBlock;
       final blockType = block.getDartType(w);
-      final methodCtor =
+      final methodClass =
           block.hasListener ? protocolListenableMethod : protocolMethod;
 
       // The function type omits the first arg of the block, which is unused.
@@ -76,10 +76,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       }
 
       buildImplementations.write('''
-    builder.implementMethod($name.$fieldName, $argName);''');
+    $name.$fieldName.implement(builder, $argName);''');
 
       methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
-      methodFields.write('''static final $fieldName = $methodCtor(
+      methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${method.selObject!.name},
       $getSignature(
           ${_protocolPointer.name},
@@ -87,7 +87,6 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
       ),
-      (Function func) => func is $funcType,
       (Function func) => $blockType.fromFunction($wrapper),
       $listenerBuilder
     );

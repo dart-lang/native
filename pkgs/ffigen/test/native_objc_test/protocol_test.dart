@@ -110,11 +110,11 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final protocolBuilder = ObjCProtocolBuilder();
-        protocolBuilder.implementMethod(MyProtocol.instanceMethod_withDouble_,
+        MyProtocol.instanceMethod_withDouble_.implement(protocolBuilder,
             (NSString s, double x) {
           return 'ProtocolBuilder: $s: $x'.toNSString();
         });
-        protocolBuilder.implementMethod(SecondaryProtocol.otherMethod_b_c_d_,
+        SecondaryProtocol.otherMethod_b_c_d_.implement(protocolBuilder,
             (int a, int b, int c, int d) {
           return a * b * c * d;
         });
@@ -213,8 +213,7 @@ void main() {
         int count = 0;
 
         final protocolBuilder = ObjCProtocolBuilder();
-        protocolBuilder.implementMethodAsListener(MyProtocol.voidMethod_,
-            (int x) {
+        MyProtocol.voidMethod_.implementAsListener(protocolBuilder, (int x) {
           expect(x, 123);
           ++count;
           if (count == 1000) completer.complete();
