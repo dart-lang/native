@@ -177,13 +177,15 @@ void main() {
 
         final listenerCompleter = Completer<int>();
         final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.addToBuilderAsListener(protocolBuilder,
+        MyProtocol.addToBuilderAsListener(
+          protocolBuilder,
           instanceMethod_withDouble_: (NSString s, double x) {
             return 'ProtocolBuilder: $s: $x'.toNSString();
           },
           voidMethod_: (int x) {
             listenerCompleter.complete(x);
-          },);
+          },
+        );
         SecondaryProtocol.addToBuilder(protocolBuilder,
             otherMethod_b_c_d_: (int a, int b, int c, int d) {
           return a * b * c * d;
