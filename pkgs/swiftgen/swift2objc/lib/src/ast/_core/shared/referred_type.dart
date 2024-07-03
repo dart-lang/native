@@ -10,7 +10,7 @@ import '../interfaces/declaration.dart';
 /// See `DeclaredType` and `GenericType` for concrete implementation.
 sealed class ReferredType {
   final String id;
-  abstract final bool isObjcRepresentable;
+  abstract final bool isObjCRepresentable;
 
   const ReferredType({required this.id});
 }
@@ -21,7 +21,7 @@ class DeclaredType<T extends Declaration> extends ReferredType {
   final List<ReferredType> typeParams;
 
   @override
-  bool get isObjcRepresentable =>
+  bool get isObjCRepresentable =>
       declaration is ObjCAnnotatable &&
       (declaration as ObjCAnnotatable).hasObjCAnnotation;
 
@@ -37,7 +37,7 @@ class GenericType extends ReferredType {
   final String name;
 
   @override
-  bool get isObjcRepresentable => false;
+  bool get isObjCRepresentable => false;
 
   const GenericType({
     required this.name,

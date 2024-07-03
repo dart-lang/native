@@ -16,7 +16,7 @@ DeclaredType transformReferredType(
 
   referredType as DeclaredType;
 
-  if (referredType.isObjcRepresentable) return referredType;
+  if (referredType.isObjCRepresentable) return referredType;
 
   if (transformationMap[referredType.declaration] != null) {
     return transformationMap[referredType.declaration]!.asDeclaredType;
