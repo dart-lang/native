@@ -37,7 +37,7 @@ class ObjCProtocolBuilder {
 class ObjCProtocolMethod<T extends Function> {
   final Pointer<c.ObjCSelector> _sel;
   final objc.NSMethodSignature _signature;
-  final ObjCBlockBase Function(Function) _createBlock;
+  final ObjCBlockBase Function(T) _createBlock;
 
   /// Only for use by ffigen bindings.
   ObjCProtocolMethod(this._sel, this._signature, this._createBlock);
@@ -62,7 +62,7 @@ class ObjCProtocolMethod<T extends Function> {
 /// [ObjCProtocolMethod] for each method of the protocol.
 class ObjCProtocolListenableMethod<T extends Function>
     extends ObjCProtocolMethod<T> {
-  final ObjCBlockBase Function(Function) _createListenerBlock;
+  final ObjCBlockBase Function(T) _createListenerBlock;
 
   /// Only for use by ffigen bindings.
   ObjCProtocolListenableMethod(super._sel, super._signature, super._createBlock,

@@ -72,7 +72,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
       String listenerBuilder = '';
       if (block.hasListener) {
-        listenerBuilder = '(Function func) => $blockType.listener($wrapper),';
+        listenerBuilder = '($funcType func) => $blockType.listener($wrapper),';
       }
 
       buildImplementations.write('''
@@ -87,7 +87,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
       ),
-      (Function func) => $blockType.fromFunction($wrapper),
+      ($funcType func) => $blockType.fromFunction($wrapper),
       $listenerBuilder
     );
 ''');
