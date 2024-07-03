@@ -32,8 +32,6 @@ ClassMethodDeclaration transformMethod(
     _generateMethodCall(originalMethod, wrappedClassInstance, transformedMethod)
   ];
 
-  transformationMap[originalMethod] = transformedMethod;
-
   return transformedMethod;
 }
 
