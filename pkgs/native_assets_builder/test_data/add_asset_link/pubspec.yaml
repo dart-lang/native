@@ -13,9 +13,9 @@ dependencies:
   native_assets_cli: ^0.6.1
   # native_assets_cli:
   #  path: ../../../native_assets_cli/
-  # native_toolchain_c: ^0.4.2
-  native_toolchain_c:
-    path: ../../../native_toolchain_c/
+  native_toolchain_c: ^0.5.0
+  # native_toolchain_c:
+  #   path: ../../../native_toolchain_c/
 
 dev_dependencies:
   lints: ^3.0.0
