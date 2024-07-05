@@ -1,4 +1,4 @@
-## 0.5.0-wip
+## 0.5.0
 
 - Renamed parameters in `Builder.run`.
 - Added `Language.objectiveC`.
