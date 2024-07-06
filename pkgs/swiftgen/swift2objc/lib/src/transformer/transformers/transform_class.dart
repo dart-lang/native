@@ -6,18 +6,24 @@ import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/src/parser/_core/utils.dart';
+import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
 import 'package:swift2objc/src/transformer/transformers/transform_method.dart';
 
 ClassDeclaration transformClass(
   ClassDeclaration originalClass,
+  UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  final wrappedClassInstance = getWrappedInstanceProperty(originalClass);
+  final wrappedClassInstance = ClassPropertyDeclaration(
+    id: originalClass.id.addIdSuffix("wrapper").addIdSuffix("reference"),
+    name: UniqueNamer.inClass(originalClass).makeUnique("wrappedInstance"),
+    type: originalClass.asDeclaredType,
+  );
 
   final transformedClass = ClassDeclaration(
     id: originalClass.id.addIdSuffix("wrapper"),
-    name: "${originalClass.name}Wrapper",
+    name: globalNamer.makeUnique("${originalClass.name}Wrapper"),
     properties: [wrappedClassInstance],
     hasObjCAnnotation: true,
     superClass: BuiltInDeclarations.NSObject.asDeclaredType,
@@ -31,29 +37,9 @@ ClassDeclaration transformClass(
       .map((method) => transformMethod(
             method,
             wrappedClassInstance,
+            globalNamer,
             transformationMap,
           ))
       .toList();
   return transformedClass;
-}
-
-ClassPropertyDeclaration getWrappedInstanceProperty(
-  ClassDeclaration originalClass,
-) {
-  final memberNames = <String>{
-    ...originalClass.methods.map((method) => method.name),
-    ...originalClass.properties.map((property) => property.name),
-  };
-
-  var wrappedInstanceName = "wrappedInstance";
-
-  while (memberNames.contains(wrappedInstanceName)) {
-    wrappedInstanceName = "_" + wrappedInstanceName;
-  }
-
-  return ClassPropertyDeclaration(
-    id: originalClass.id.addIdSuffix("wrapper").addIdSuffix("reference"),
-    name: wrappedInstanceName,
-    type: originalClass.asDeclaredType,
-  );
 }

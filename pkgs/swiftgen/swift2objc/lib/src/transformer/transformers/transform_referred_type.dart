@@ -4,10 +4,12 @@
 
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
+import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
 
 DeclaredType transformReferredType(
   ReferredType referredType,
+  UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
   if (referredType is GenericType) {
@@ -20,6 +22,7 @@ DeclaredType transformReferredType(
 
   final transformedDeclaration = transformDeclaration(
     referredType.declaration,
+    globalNamer,
     transformationMap,
   );
 

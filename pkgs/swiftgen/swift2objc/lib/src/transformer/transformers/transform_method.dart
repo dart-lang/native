@@ -5,16 +5,18 @@
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
+import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
 import 'package:swift2objc/src/transformer/transformers/transform_referred_type.dart';
 
 ClassMethodDeclaration transformMethod(
   ClassMethodDeclaration originalMethod,
   ClassPropertyDeclaration wrappedClassInstance,
+  UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
   final transformedParams = originalMethod.params
-      .map((param) => _transformParamter(param, transformationMap))
+      .map((param) => _transformParamter(param, globalNamer, transformationMap))
       .toList();
 
   final transformedMethod = ClassMethodDeclaration(
@@ -22,6 +24,7 @@ ClassMethodDeclaration transformMethod(
     name: originalMethod.name,
     returnType: transformReferredType(
       originalMethod.returnType,
+      globalNamer,
       transformationMap,
     ),
     params: transformedParams,
@@ -72,6 +75,7 @@ List<String> _generateMethodStatements(
 
 Parameter _transformParamter(
   Parameter originalParameter,
+  UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
   return Parameter(
@@ -79,6 +83,7 @@ Parameter _transformParamter(
     internalName: originalParameter.internalName,
     type: transformReferredType(
       originalParameter.type,
+      globalNamer,
       transformationMap,
     ),
   );
