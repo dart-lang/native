@@ -391,6 +391,9 @@
     "exclude-all-by-default": {
       "type": "boolean"
     },
+    "include-unused-typedefs": {
+      "type": "boolean"
+    },
     "generate-for-package-objective-c": {
       "type": "boolean"
     },

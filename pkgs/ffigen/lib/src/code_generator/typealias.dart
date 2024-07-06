@@ -195,6 +195,19 @@ class Typealias extends BindingType {
 
   @override
   String? getDefaultValue(Writer w) => type.getDefaultValue(w);
+
+  // used to compare whether two Typealias are same symbols. Useful when trying to
+  // add the to a set.
+  @override
+  operator ==(Object other) {
+    if (other is! Typealias) return false;
+    if (identical(this, other)) return true;
+    return other.usr == usr;
+  }
+
+  // [usr] is unique for specific symbols.
+  @override
+  int get hashCode => usr.hashCode;
 }
 
 /// Objective C's instancetype.

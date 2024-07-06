@@ -85,25 +85,30 @@ class Bindings {
       _func4Ptr.asFunction<bool Function(ffi.Pointer<ffi.Bool>)>();
 }
 
+typedef NamedFunctionProto
+    = ffi.Pointer<ffi.NativeFunction<NamedFunctionProtoFunction>>;
+typedef NamedFunctionProtoFunction = ffi.Void Function();
+typedef DartNamedFunctionProtoFunction = void Function();
+
 final class Struct1 extends ffi.Struct {
   external NamedFunctionProto named;
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed;
 }
 
-typedef NamedFunctionProto
-    = ffi.Pointer<ffi.NativeFunction<NamedFunctionProtoFunction>>;
-typedef NamedFunctionProtoFunction = ffi.Void Function();
-typedef DartNamedFunctionProtoFunction = void Function();
-
 final class AnonymousStructInTypedef extends ffi.Opaque {}
+
+typedef Typeref1 = AnonymousStructInTypedef;
+typedef Typeref2 = AnonymousStructInTypedef;
 
 final class _NamedStructInTypedef extends ffi.Opaque {}
 
-typedef NTyperef1 = ExcludedStruct;
+typedef NamedStructInTypedef = _NamedStructInTypedef;
 typedef ExcludedStruct = _ExcludedStruct;
 
 final class _ExcludedStruct extends ffi.Opaque {}
+
+typedef NTyperef1 = ExcludedStruct;
 
 enum AnonymousEnumInTypedef {
   a(0);
@@ -131,12 +136,18 @@ enum _NamedEnumInTypedef {
       };
 }
 
+typedef SpecifiedTypeAsIntPtr = ffi.Char;
+typedef DartSpecifiedTypeAsIntPtr = int;
 typedef NestingASpecifiedType = ffi.IntPtr;
 typedef DartNestingASpecifiedType = int;
 
 final class Struct2 extends ffi.Opaque {}
 
+typedef Struct3 = Struct2;
+
 final class WithBoolAlias extends ffi.Struct {
   @ffi.Bool()
   external bool b;
 }
+
+typedef IncludedTypedef = ffi.Pointer<ffi.Void>;

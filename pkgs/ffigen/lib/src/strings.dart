@@ -76,6 +76,7 @@ const objcInterfaces = 'objc-interfaces';
 const objcProtocols = 'objc-protocols';
 
 const excludeAllByDefault = 'exclude-all-by-default';
+const includeUnusedTypedefs = 'include-unused-typedefs';
 const generateForPackageObjectiveC = 'generate-for-package-objective-c';
 
 // Sub-fields of Declarations.
