@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
+import 'package:swift2objc/src/ast/_core/interfaces/parameterizable.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 
 import '../../_core/interfaces/compound_declaration.dart';
@@ -43,6 +44,8 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
   /// An instance of the original entity that this class is wraping
   ClassPropertyDeclaration? wrappedInstance;
 
+  ClassInitializer? initializer;
+
   ClassDeclaration({
     required this.id,
     required this.name,
@@ -54,6 +57,7 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.superClass,
     this.isWrapper = false,
     this.wrappedInstance,
+    this.initializer,
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
             superClass.declaration == BuiltInDeclarations.NSObject);
@@ -117,5 +121,17 @@ class ClassMethodDeclaration
     this.typeParams = const [],
     this.hasObjCAnnotation = false,
     this.statements = const [],
+  });
+}
+
+class ClassInitializer implements Parameterizable {
+  @override
+  List<Parameter> params;
+
+  List<String> statements;
+
+  ClassInitializer({
+    required this.params,
+    required this.statements,
   });
 }

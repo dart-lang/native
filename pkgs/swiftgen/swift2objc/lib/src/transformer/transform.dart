@@ -26,7 +26,7 @@ List<Declaration> transform(List<Declaration> declarations) {
         )
         .map((declaration) => declaration.name)
   });
-  
+
   return declarations
       .where(
         (declaration) =>

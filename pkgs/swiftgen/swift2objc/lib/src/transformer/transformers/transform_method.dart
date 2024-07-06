@@ -35,6 +35,8 @@ ClassMethodDeclaration transformMethod(
     originalMethod,
     wrappedClassInstance,
     transformedMethod,
+    globalNamer,
+    transformationMap,
   );
 
   return transformedMethod;
@@ -44,6 +46,8 @@ List<String> _generateMethodStatements(
   ClassMethodDeclaration originalMethod,
   ClassPropertyDeclaration wrappedClassInstance,
   ClassMethodDeclaration transformedMethod,
+  UniqueNamer globalNamer,
+  TransformationMap transformationMap,
 ) {
   final arguments = <String>[];
 
@@ -65,12 +69,41 @@ List<String> _generateMethodStatements(
     arguments.add(methodCallArg);
   }
 
+  final methodReturnType = originalMethod.returnType;
+
   final originalMethodCall =
-      "let result = ${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
+      "${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
 
-  final returnStmnt = "return result";
+  if (methodReturnType.isObjCRepresentable) {
+    return ["return $originalMethodCall"];
+  }
 
-  return [originalMethodCall, returnStmnt];
+  if (methodReturnType is GenericType) {
+    throw UnimplementedError("Generic types are not implemented yet");
+  }
+
+  final transformedReturnTypeDeclaration = transformDeclaration(
+    (methodReturnType as DeclaredType).declaration,
+    globalNamer,
+    transformationMap,
+  );
+
+  if (transformedReturnTypeDeclaration is! ClassDeclaration) {
+    throw "A method call result can only be wrapped in a class";
+  }
+
+  final methodCallStmt = "let result = $originalMethodCall";
+
+  final wrapperConstructionStmt =
+      "let wrappedResult = ${transformedReturnTypeDeclaration.name}(result)";
+
+  final returnStmt = "return wrappedResult";
+
+  return [
+    methodCallStmt,
+    wrapperConstructionStmt,
+    returnStmt,
+  ];
 }
 
 Parameter _transformParamter(

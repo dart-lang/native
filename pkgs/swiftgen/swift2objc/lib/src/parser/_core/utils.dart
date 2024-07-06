@@ -25,9 +25,10 @@ extension AddIdSuffix on String {
 String parseSymbolId(Json symbolJson) {
   final idJson = symbolJson["identifier"]["precise"];
   final String id = idJson.get();
-  if (id.contains(idDelim)) {
-    throw 'Symbold id at path ${idJson.path} contains a hiphen $idDelim which is not expected';
-  }
+  assert(
+    !id.contains(idDelim),
+    'Symbold id at path ${idJson.path} contains a hiphen $idDelim which is not expected',
+  );
   return id;
 }
 

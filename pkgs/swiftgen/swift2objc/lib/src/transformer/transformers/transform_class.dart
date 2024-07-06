@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
+import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/src/parser/_core/utils.dart';
@@ -16,7 +17,7 @@ ClassDeclaration transformClass(
   TransformationMap transformationMap,
 ) {
   final wrappedClassInstance = ClassPropertyDeclaration(
-    id: originalClass.id.addIdSuffix("wrapper").addIdSuffix("reference"),
+    id: originalClass.id.addIdSuffix("wrapper-reference"),
     name: UniqueNamer.inClass(originalClass).makeUnique("wrappedInstance"),
     type: originalClass.asDeclaredType,
   );
@@ -29,6 +30,7 @@ ClassDeclaration transformClass(
     superClass: BuiltInDeclarations.NSObject.asDeclaredType,
     isWrapper: true,
     wrappedInstance: wrappedClassInstance,
+    initializer: _buildWrapperInitializer(wrappedClassInstance),
   );
 
   transformationMap[originalClass] = transformedClass;
@@ -41,5 +43,20 @@ ClassDeclaration transformClass(
             transformationMap,
           ))
       .toList();
+
   return transformedClass;
+}
+
+ClassInitializer _buildWrapperInitializer(
+    ClassPropertyDeclaration wrappedClassInstance) {
+  return ClassInitializer(
+    params: [
+      Parameter(
+        name: "_",
+        internalName: "wrappedInstance",
+        type: wrappedClassInstance.type,
+      )
+    ],
+    statements: ["this.${wrappedClassInstance.name} = wrappedInstance"],
+  );
 }

@@ -12,7 +12,7 @@ class Parameter {
 
   Parameter({
     required this.name,
-    required this.internalName,
+    this.internalName,
     required this.type,
   });
 }
