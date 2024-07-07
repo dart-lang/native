@@ -110,11 +110,11 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final protocolBuilder = ObjCProtocolBuilder();
-        protocolBuilder.implementMethod(MyProtocol.instanceMethod_withDouble_,
+        MyProtocol.instanceMethod_withDouble_.implement(protocolBuilder,
             (NSString s, double x) {
           return 'ProtocolBuilder: $s: $x'.toNSString();
         });
-        protocolBuilder.implementMethod(SecondaryProtocol.otherMethod_b_c_d_,
+        SecondaryProtocol.otherMethod_b_c_d_.implement(protocolBuilder,
             (int a, int b, int c, int d) {
           return a * b * c * d;
         });
@@ -141,6 +141,68 @@ void main() {
         // Optional instance method, not implemented.
         final intResult = consumer.callOptionalMethod_(myProtocol);
         expect(intResult, -999);
+      });
+
+      test('Method implementation as listener', () async {
+        final consumer = ProtocolConsumer.new1();
+
+        final listenerCompleter = Completer<int>();
+        final myProtocol = MyProtocol.implementAsListener(
+          instanceMethod_withDouble_: (NSString s, double x) {
+            return 'MyProtocol: $s: $x'.toNSString();
+          },
+          optionalMethod_: (SomeStruct s) {
+            return s.y - s.x;
+          },
+          voidMethod_: (int x) {
+            listenerCompleter.complete(x);
+          },
+        );
+
+        // Required instance method.
+        final result = consumer.callInstanceMethod_(myProtocol);
+        expect(result.toString(), 'MyProtocol: Hello from ObjC: 3.14');
+
+        // Optional instance method.
+        final intResult = consumer.callOptionalMethod_(myProtocol);
+        expect(intResult, 333);
+
+        // Listener method.
+        consumer.callMethodOnRandomThread_(myProtocol);
+        expect(await listenerCompleter.future, 123);
+      });
+
+      test('Multiple protocol implementation as listener', () async {
+        final consumer = ProtocolConsumer.new1();
+
+        final listenerCompleter = Completer<int>();
+        final protocolBuilder = ObjCProtocolBuilder();
+        MyProtocol.addToBuilderAsListener(
+          protocolBuilder,
+          instanceMethod_withDouble_: (NSString s, double x) {
+            return 'ProtocolBuilder: $s: $x'.toNSString();
+          },
+          voidMethod_: (int x) {
+            listenerCompleter.complete(x);
+          },
+        );
+        SecondaryProtocol.addToBuilder(protocolBuilder,
+            otherMethod_b_c_d_: (int a, int b, int c, int d) {
+          return a * b * c * d;
+        });
+        final protocolImpl = protocolBuilder.build();
+
+        // Required instance method.
+        final result = consumer.callInstanceMethod_(protocolImpl);
+        expect(result.toString(), 'ProtocolBuilder: Hello from ObjC: 3.14');
+
+        // Required instance method from secondary protocol.
+        final otherIntResult = consumer.callOtherMethod_(protocolImpl);
+        expect(otherIntResult, 24);
+
+        // Listener method.
+        consumer.callMethodOnRandomThread_(protocolImpl);
+        expect(await listenerCompleter.future, 123);
       });
     });
 
@@ -213,8 +275,7 @@ void main() {
         int count = 0;
 
         final protocolBuilder = ObjCProtocolBuilder();
-        protocolBuilder.implementMethodAsListener(MyProtocol.voidMethod_,
-            (int x) {
+        MyProtocol.voidMethod_.implementAsListener(protocolBuilder, (int x) {
           expect(x, 123);
           ++count;
           if (count == 1000) completer.complete();

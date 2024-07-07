@@ -37,17 +37,19 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
     final buildArgs = <String>[];
     final buildImplementations = StringBuffer();
+    final buildListenerImplementations = StringBuffer();
     final methodFields = StringBuffer();
 
     final methodNamer = createMethodRenamer(w);
 
+    bool anyListeners = false;
     for (final method in methods) {
       final methodName = method.getDartMethodName(methodNamer);
       final fieldName = methodName;
       final argName = methodName;
       final block = method.protocolBlock;
       final blockType = block.getDartType(w);
-      final methodCtor =
+      final methodClass =
           block.hasListener ? protocolListenableMethod : protocolMethod;
 
       // The function type omits the first arg of the block, which is unused.
@@ -71,15 +73,20 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
 
       String listenerBuilder = '';
+      String maybeImplementAsListener = 'implement';
       if (block.hasListener) {
-        listenerBuilder = '(Function func) => $blockType.listener($wrapper),';
+        listenerBuilder = '($funcType func) => $blockType.listener($wrapper),';
+        maybeImplementAsListener = 'implementAsListener';
+        anyListeners = true;
       }
 
       buildImplementations.write('''
-    builder.implementMethod($name.$fieldName, $argName);''');
+    $name.$fieldName.implement(builder, $argName);''');
+      buildListenerImplementations.write('''
+    $name.$fieldName.$maybeImplementAsListener(builder, $argName);''');
 
       methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
-      methodFields.write('''static final $fieldName = $methodCtor(
+      methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${method.selObject!.name},
       $getSignature(
           ${_protocolPointer.name},
@@ -87,16 +94,14 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
           isRequired: ${method.isRequired},
           isInstanceMethod: ${method.isInstanceMethod},
       ),
-      (Function func) => func is $funcType,
-      (Function func) => $blockType.fromFunction($wrapper),
+      ($funcType func) => $blockType.fromFunction($wrapper),
       $listenerBuilder
     );
 ''');
     }
 
     final args = buildArgs.isEmpty ? '' : '{${buildArgs.join(', ')}}';
-    final mainString = '''
-${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
+    final builders = '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
   static $objectBase implement($args) {
@@ -110,7 +115,33 @@ ${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
   static void addToBuilder($protocolBuilder builder, $args) {
     $buildImplementations
   }
+''';
 
+    String listenerBuilders = '';
+    if (anyListeners) {
+      listenerBuilders = '''
+  /// Builds an object that implements the $originalName protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
+  /// methods that can be implemented as listeners will be.
+  static $objectBase implementAsListener($args) {
+    final builder = $protocolBuilder();
+    $buildListenerImplementations
+    return builder.build();
+  }
+
+  /// Adds the implementation of the $originalName protocol to an existing
+  /// [$protocolBuilder]. All methods that can be implemented as listeners will
+  /// be.
+  static void addToBuilderAsListener($protocolBuilder builder, $args) {
+    $buildListenerImplementations
+  }
+''';
+    }
+
+    final mainString = '''
+${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
+  $builders
+  $listenerBuilders
   $methodFields
 }
 ''';
