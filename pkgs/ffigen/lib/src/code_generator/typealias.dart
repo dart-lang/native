@@ -196,8 +196,8 @@ class Typealias extends BindingType {
   @override
   String? getDefaultValue(Writer w) => type.getDefaultValue(w);
 
-  // used to compare whether two Typealias are same symbols. Useful when trying to
-  // add the to a set.
+  // Used to compare whether two Typealias are same symbols and ensure that they
+  // are unique when adding to a [Set].
   @override
   operator ==(Object other) {
     if (other is! Typealias) return false;

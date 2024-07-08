@@ -279,7 +279,7 @@ globals:
     Options -<br>
     - Include/Exclude (referred typedefs only).<br>
     - Rename typedefs.<br><br>
-    Note: Typedefs that are not referred to anywhere will not be generated.
+    Note: By default, typedefs that are not referred to anywhere will not be generated.
     </td>
     <td>
 
@@ -291,6 +291,20 @@ typedefs:
   rename:
     # Removes '_' from beginning of a typedef.
     '_(.*)': '$1'
+```
+  </td>
+  </tr>
+  <tr>
+    <td>include-unused-typedefs</td>
+    <td>
+      Also generate typedefs that are not referred to anywhere.
+      <br>
+      <b>Default: false</b>
+    </td>
+    <td>
+
+```yaml
+include-unused-typedefs: true
 ```
   </td>
   </tr>
