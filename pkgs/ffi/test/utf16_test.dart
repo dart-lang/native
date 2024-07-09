@@ -3,26 +3,25 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('toUtf16 ASCII', () {
-    final String start = 'Hello World!\n';
-    final Pointer<Uint16> converted = start.toNativeUtf16().cast();
-    final Uint16List end = converted.asTypedList(start.codeUnits.length + 1);
+    final start = 'Hello World!\n';
+    final converted = start.toNativeUtf16().cast<Uint16>();
+    final end = converted.asTypedList(start.codeUnits.length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
     calloc.free(converted);
   });
 
   test('toUtf16 emoji', () {
-    final String start = '😎';
-    final Pointer<Utf16> converted = start.toNativeUtf16().cast();
-    final int length = start.codeUnits.length;
-    final Uint16List end = converted.cast<Uint16>().asTypedList(length + 1);
+    final start = '😎';
+    final converted = start.toNativeUtf16().cast();
+    final length = start.codeUnits.length;
+    final end = converted.cast<Uint16>().asTypedList(length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
     calloc.free(converted);
@@ -68,21 +67,11 @@ void main() {
 
   test('nullptr.toDartString()', () {
     final Pointer<Utf16> utf16 = nullptr;
-    try {
-      utf16.toDartString();
-    } on UnsupportedError {
-      return;
-    }
-    fail('Expected an error.');
+    expect(utf16.toDartString, throwsUnsupportedError);
   });
 
   test('nullptr.length', () {
     final Pointer<Utf16> utf16 = nullptr;
-    try {
-      utf16.length;
-    } on UnsupportedError {
-      return;
-    }
-    fail('Expected an error.');
+    expect(() => utf16.length, throwsUnsupportedError);
   });
 }

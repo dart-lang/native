@@ -86,7 +86,7 @@ final class MallocAllocator implements Allocator {
 
   /// Returns a pointer to a native free function.
   ///
-  /// This function can be used to release memory allocated by [allocated]
+  /// This function can be used to release memory allocated by [allocate]
   /// from the native side. It can also be used as a finalization callback
   /// passed to `NativeFinalizer` constructor or `Pointer.atTypedList`
   /// method.
@@ -189,7 +189,7 @@ final class CallocAllocator implements Allocator {
 
   /// Returns a pointer to a native free function.
   ///
-  /// This function can be used to release memory allocated by [allocated]
+  /// This function can be used to release memory allocated by [allocate]
   /// from the native side. It can also be used as a finalization callback
   /// passed to `NativeFinalizer` constructor or `Pointer.atTypedList`
   /// method.

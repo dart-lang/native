@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'dart:typed_data';
 
-import 'package:ffi/ffi.dart';
+import '../ffi.dart';
 
 /// The contents of a native zero-terminated array of UTF-16 code units.
 ///
@@ -92,8 +91,8 @@ extension StringUtf16Pointer on String {
   /// Returns an [allocator]-allocated pointer to the result.
   Pointer<Utf16> toNativeUtf16({Allocator allocator = malloc}) {
     final units = codeUnits;
-    final Pointer<Uint16> result = allocator<Uint16>(units.length + 1);
-    final Uint16List nativeString = result.asTypedList(units.length + 1);
+    final result = allocator<Uint16>(units.length + 1);
+    final nativeString = result.asTypedList(units.length + 1);
     nativeString.setRange(0, units.length, units);
     nativeString[units.length] = 0;
     return result.cast();

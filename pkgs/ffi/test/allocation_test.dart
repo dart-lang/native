@@ -16,7 +16,7 @@ void main() async {
     for (var i = 0; i < testRuns; i++) {
       final allocBytes = Random().nextInt(1000);
       final mem = calloc<Uint8>(allocBytes);
-      expect(mem.asTypedList(allocBytes).where(((element) => element != 0)),
+      expect(mem.asTypedList(allocBytes).where((element) => element != 0),
           isEmpty);
       calloc.free(mem);
     }
@@ -24,11 +24,11 @@ void main() async {
 
   test('testPointerAllocateTooLarge', () {
     // Try to allocate something that doesn't fit in 64 bit address space.
-    int maxInt = 9223372036854775807; // 2^63 - 1
+    final maxInt = 9223372036854775807; // 2^63 - 1
     expect(() => calloc<Uint8>(maxInt), throwsA(isA<ArgumentError>()));
 
     // Try to allocate almost the full 64 bit address space.
-    int maxInt1_8 = 1152921504606846975; // 2^60 -1
+    final maxInt1_8 = 1152921504606846975; // 2^60 -1
     expect(() => calloc<Uint8>(maxInt1_8), throwsA(isA<ArgumentError>()));
   });
 
