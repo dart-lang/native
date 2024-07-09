@@ -88,9 +88,10 @@ List<String> _generateMethodStatements(
     transformationMap,
   );
 
-  if (transformedReturnTypeDeclaration is! ClassDeclaration) {
-    throw "A method call result can only be wrapped in a class";
-  }
+  assert(
+    transformedReturnTypeDeclaration is! ClassDeclaration,
+    "A method call result can only be wrapped in a class",
+  );
 
   final methodCallStmt = "let result = $originalMethodCall";
 
