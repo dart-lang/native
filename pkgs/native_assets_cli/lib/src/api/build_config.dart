@@ -45,10 +45,19 @@ abstract final class BuildConfig implements HookConfig {
 
   /// Whether link hooks will be run after the build hooks.
   ///
-  /// If [hasLinkPhase] is true, [BuildOutput.addAsset] can be called with
-  /// the `linkInPackage` parameter.
-  /// If [hasLinkPhase] is false, no assets should be added with the
-  /// `linkInPackage` parameter set.
+  /// If [hasLinkPhase] is true, [BuildOutput.addAsset] can be called with the
+  /// `linkInPackage` parameter. If [hasLinkPhase] is false, no assets should be
+  /// added with the `linkInPackage` parameter set.
+  ///
+  /// Link hooks are only run for release builds initiated by the following
+  /// commands:
+  /// - `flutter build` (release mode)
+  /// - `flutter run --release`
+  /// - `dart build` (release mode)
+  ///
+  /// Link hooks are not run for the following commands:
+  /// - `dart run`
+  /// - `flutter run` (debug mode)
   bool get hasLinkPhase;
 
   /// The version of [BuildConfig].
