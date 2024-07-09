@@ -1,3 +1,7 @@
+## 0.6.2-wip
+
+- Nothing yet.
+
 ## 0.6.1
 
 - Introduce `Builder` and `Linker` interface.
