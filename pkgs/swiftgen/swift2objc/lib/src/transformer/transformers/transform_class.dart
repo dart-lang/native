@@ -17,7 +17,7 @@ ClassDeclaration transformClass(
   TransformationMap transformationMap,
 ) {
   final classNamer = UniqueNamer.inClass(originalClass);
-  
+
   final wrappedClassInstance = ClassPropertyDeclaration(
     id: originalClass.id.addIdSuffix("wrapper-reference"),
     name: classNamer.makeUnique("wrappedInstance"),
