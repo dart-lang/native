@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 
 void main() async {
   test('sync', () async {
-    List<int> freed = [];
+    var freed = <int>[];
     void freeInt(int i) {
       freed.add(i);
     }
@@ -25,7 +25,7 @@ void main() async {
   test('async', () async {
     /// Calling [using] waits with releasing its resources until after
     /// [Future]s complete.
-    List<int> freed = [];
+    var freed = <int>[];
     void freeInt(int i) {
       freed.add(i);
     }
@@ -45,7 +45,7 @@ void main() async {
   test('throw', () {
     /// [using] waits with releasing its resources until after [Future]s
     /// complete.
-    List<int> freed = [];
+    var freed = <int>[];
     void freeInt(int i) {
       freed.add(i);
     }
@@ -80,7 +80,7 @@ void main() async {
 
   test('allocate throw', () {
     // Resources are freed also when abnormal control flow occurs.
-    bool didThrow = false;
+    var didThrow = false;
     final countingAllocator = CountingAllocator();
     try {
       using((Arena arena) {
@@ -105,7 +105,7 @@ void main() async {
   });
 
   test('zone', () async {
-    List<int> freed = [];
+    var freed = <int>[];
     void freeInt(int i) {
       freed.add(i);
     }
@@ -121,7 +121,7 @@ void main() async {
   test('zone async', () async {
     /// [using] waits with releasing its resources until after [Future]s
     /// complete.
-    List<int> freed = [];
+    var freed = <int>[];
     void freeInt(int i) {
       freed.add(i);
     }
@@ -142,13 +142,13 @@ void main() async {
   test('zone throw', () {
     /// [using] waits with releasing its resources until after [Future]s
     /// complete.
-    List<int> freed = [];
+    var freed = <int>[];
     void freeInt(int i) {
       freed.add(i);
     }
 
     // Resources are freed also when abnormal control flow occurs.
-    bool didThrow = false;
+    var didThrow = false;
     try {
       withZoneArena(() {
         zoneArena.using(1234, freeInt);
@@ -164,8 +164,8 @@ void main() async {
   });
 
   test('zone future error', () async {
-    bool caughtError = false;
-    bool uncaughtError = false;
+    var caughtError = false;
+    var uncaughtError = false;
 
     Future<int> asyncFunction() async {
       throw Exception('Exception 4');

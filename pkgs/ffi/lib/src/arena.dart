@@ -7,7 +7,7 @@
 import 'dart:async';
 import 'dart:ffi';
 
-import 'package:ffi/ffi.dart';
+import '../ffi.dart';
 
 /// An [Allocator] which frees all allocations at the same time.
 ///
@@ -119,12 +119,12 @@ class Arena implements Allocator {
 R using<R>(R Function(Arena) computation,
     [Allocator wrappedAllocator = calloc]) {
   final arena = Arena(wrappedAllocator);
-  bool isAsync = false;
+  var isAsync = false;
   try {
     final result = computation(arena);
     if (result is Future) {
       isAsync = true;
-      return (result.whenComplete(arena.releaseAll) as R);
+      return result.whenComplete(arena.releaseAll) as R;
     }
     return result;
   } finally {
@@ -144,15 +144,13 @@ R withZoneArena<R>(R Function() computation,
     [Allocator wrappedAllocator = calloc]) {
   final arena = Arena(wrappedAllocator);
   var arenaHolder = [arena];
-  bool isAsync = false;
+  var isAsync = false;
   try {
     return runZoned(() {
       final result = computation();
       if (result is Future) {
         isAsync = true;
-        return result.whenComplete(() {
-          arena.releaseAll();
-        }) as R;
+        return result.whenComplete(arena.releaseAll) as R;
       }
       return result;
     }, zoneValues: {#_arena: arenaHolder});

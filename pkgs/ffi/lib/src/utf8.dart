@@ -4,9 +4,8 @@
 
 import 'dart:convert';
 import 'dart:ffi';
-import 'dart:typed_data';
 
-import 'package:ffi/ffi.dart';
+import '../ffi.dart';
 
 /// The contents of a native zero-terminated array of UTF-8 code units.
 ///
@@ -80,8 +79,8 @@ extension StringUtf8Pointer on String {
   /// Returns an [allocator]-allocated pointer to the result.
   Pointer<Utf8> toNativeUtf8({Allocator allocator = malloc}) {
     final units = utf8.encode(this);
-    final Pointer<Uint8> result = allocator<Uint8>(units.length + 1);
-    final Uint8List nativeString = result.asTypedList(units.length + 1);
+    final result = allocator<Uint8>(units.length + 1);
+    final nativeString = result.asTypedList(units.length + 1);
     nativeString.setAll(0, units);
     nativeString[units.length] = 0;
     return result.cast();
