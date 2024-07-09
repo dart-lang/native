@@ -20,16 +20,17 @@ void main() {
     final start = 'Hello World!\n';
     final converted = start.toNativeUtf8().cast<Uint8>();
     final end = converted.asTypedList(start.length + 1);
-    final matcher =
-        equals([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0]);
+    final matcher = equals(
+      [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0],
+    );
     expect(end, matcher);
     calloc.free(converted);
   });
 
   test('fromUtf8 ASCII', () {
     final utf8 = _bytesFromList(
-            [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast<Utf8>();
+      [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0],
+    ).cast<Utf8>();
     final end = utf8.toDartString();
     expect(end, 'Hello World!\n');
   });
@@ -39,16 +40,17 @@ void main() {
     final converted = start.toNativeUtf8().cast<Utf8>();
     final length = converted.length;
     final end = converted.cast<Uint8>().asTypedList(length + 1);
-    final matcher =
-        equals([240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0]);
+    final matcher = equals(
+      [240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0],
+    );
     expect(end, matcher);
     calloc.free(converted);
   });
 
   test('formUtf8 emoji', () {
     final utf8 = _bytesFromList(
-            [240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0])
-        .cast<Utf8>();
+      [240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0],
+    ).cast<Utf8>();
     final end = utf8.toDartString();
     expect(end, '😎👿💬');
   });
@@ -60,39 +62,39 @@ void main() {
 
   test('fromUtf8 ASCII with length', () {
     final utf8 = _bytesFromList(
-            [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast<Utf8>();
+      [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0],
+    ).cast<Utf8>();
     final end = utf8.toDartString(length: 5);
     expect(end, 'Hello');
   });
 
   test('fromUtf8 emoji with length', () {
     final utf8 = _bytesFromList(
-            [240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0])
-        .cast<Utf8>();
+      [240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0],
+    ).cast<Utf8>();
     final end = utf8.toDartString(length: 4);
     expect(end, '😎');
   });
 
   test('fromUtf8 with zero length', () {
     final utf8 = _bytesFromList(
-            [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast<Utf8>();
+      [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0],
+    ).cast<Utf8>();
     final end = utf8.toDartString(length: 0);
     expect(end, '');
   });
 
   test('fromUtf8 with negative length', () {
     final utf8 = _bytesFromList(
-            [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast<Utf8>();
+      [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0],
+    ).cast<Utf8>();
     expect(() => utf8.toDartString(length: -1), throwsRangeError);
   });
 
   test('fromUtf8 with length and containing a zero byte', () {
     final utf8 = _bytesFromList(
-            [72, 101, 108, 108, 111, 0, 87, 111, 114, 108, 100, 33, 10])
-        .cast<Utf8>();
+      [72, 101, 108, 108, 111, 0, 87, 111, 114, 108, 100, 33, 10],
+    ).cast<Utf8>();
     final end = utf8.toDartString(length: 13);
     expect(end, 'Hello\x00World!\n');
   });
