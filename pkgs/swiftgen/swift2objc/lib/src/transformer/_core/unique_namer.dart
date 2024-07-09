@@ -21,10 +21,11 @@ class UniqueNamer {
       return name;
     }
 
-    var counter = 1;
+    var counter = 0;
     var uniqueName = name;
 
     do {
+      counter++;
       uniqueName = "$name$counter";
     } while (_usedNames.contains(uniqueName));
 
