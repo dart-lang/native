@@ -514,6 +514,7 @@ can _only_ depend on OS.''');
     Iterable<String>? supportedAssetTypes,
     Version? version,
     required Hook hook,
+    required bool? hasLinkPhase,
   }) {
     final input = [
       version ?? latestVersion,
@@ -536,6 +537,7 @@ can _only_ depend on OS.''');
         ],
       ...supportedAssetTypes ?? [NativeCodeAsset.type],
       hook.name,
+      hasLinkPhase,
     ].join('###');
     final sha256String = sha256.convert(utf8.encode(input)).toString();
     // 256 bit hashes lead to 64 hex character strings.
@@ -553,5 +555,5 @@ can _only_ depend on OS.''');
   /// If we ever were to make breaking changes, it would be useful to give
   /// proper error messages rather than just fail to parse the JSON
   /// representation in the protocol.
-  static Version latestVersion = Version(1, 3, 0);
+  static Version latestVersion = Version(1, 4, 0);
 }

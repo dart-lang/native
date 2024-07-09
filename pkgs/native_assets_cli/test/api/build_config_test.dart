@@ -61,6 +61,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       supportedAssetTypes: [NativeCodeAsset.type],
+      hasLinkPhase: false,
     );
 
     final config2 = BuildConfig.build(
@@ -73,6 +74,7 @@ void main() async {
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
       supportedAssetTypes: [NativeCodeAsset.type],
+      hasLinkPhase: false,
     );
 
     expect(config1, equals(config1));
@@ -92,6 +94,7 @@ void main() async {
     expect(config1.cCompiler != config2.cCompiler, true);
     expect(config1.linkModePreference, config2.linkModePreference);
     expect(config1.supportedAssetTypes, config2.supportedAssetTypes);
+    expect(config1.hasLinkPhase, config2.hasLinkPhase);
   });
 
   test('BuildConfig fromConfig', () {
@@ -104,11 +107,13 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
+      hasLinkPhase: false,
     );
 
     final config = {
       'build_mode': 'release',
       'dry_run': false,
+      'has_link_phase': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,
@@ -131,10 +136,12 @@ void main() async {
       targetOS: OS.android,
       linkModePreference: LinkModePreference.preferStatic,
       supportedAssetTypes: [NativeCodeAsset.type],
+      hasLinkPhase: true,
     );
 
     final config = {
       'dry_run': true,
+      'has_link_phase': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,
@@ -166,6 +173,7 @@ void main() async {
           'key': 321,
         },
       },
+      hasLinkPhase: false,
     );
 
     final buildConfig2 = BuildConfig.build(
@@ -185,6 +193,7 @@ void main() async {
           'key': 123,
         },
       },
+      hasLinkPhase: false,
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -192,6 +201,34 @@ void main() async {
     expect(buildConfig1.hashCode == buildConfig2.hashCode, false);
 
     expect(buildConfig1.metadatum('bar', 'key'), 'value');
+  });
+
+  test('BuildConfig == hasLinkConfig', () {
+    final buildConfig1 = BuildConfig.build(
+      outputDirectory: outDirUri,
+      packageName: packageName,
+      packageRoot: tempUri,
+      targetArchitecture: Architecture.x64,
+      targetOS: OS.windows,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
+      hasLinkPhase: true,
+    );
+
+    final buildConfig2 = BuildConfig.build(
+      outputDirectory: outDirUri,
+      packageName: packageName,
+      packageRoot: tempUri,
+      targetArchitecture: Architecture.x64,
+      targetOS: OS.windows,
+      buildMode: BuildMode.release,
+      linkModePreference: LinkModePreference.preferStatic,
+      hasLinkPhase: false,
+    );
+
+    expect(buildConfig1, equals(buildConfig1));
+    expect(buildConfig1.hashCode == buildConfig2.hashCode, false);
+    expect(buildConfig1, isNot(equals(buildConfig2)));
   });
 
   test('BuildConfig fromArgs', () async {
@@ -204,6 +241,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferStatic,
+      hasLinkPhase: false,
     );
     final configFileContents = (buildConfig as BuildConfigImpl).toJsonString();
     final configUri = tempUri.resolve('config.json');

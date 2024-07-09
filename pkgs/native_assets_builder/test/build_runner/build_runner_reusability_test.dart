@@ -33,12 +33,14 @@ void main() async {
         linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
+        hasLinkPhase: false,
       );
       await buildRunner.buildDryRun(
         targetOS: Target.current.os,
         linkModePreference: LinkModePreferenceImpl.dynamic,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
+        hasLinkPhase: false,
       );
       await buildRunner.build(
         buildMode: BuildModeImpl.release,
@@ -46,6 +48,7 @@ void main() async {
         target: Target.current,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
+        hasLinkPhase: false,
       );
       await buildRunner.build(
         buildMode: BuildModeImpl.release,
@@ -53,6 +56,7 @@ void main() async {
         target: Target.current,
         workingDirectory: packageUri,
         includeParentEnvironment: true,
+        hasLinkPhase: false,
       );
     });
   });

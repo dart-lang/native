@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/src/api/asset.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -61,6 +62,7 @@ void main() async {
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
+      hasLinkPhase: false,
     );
 
     final config2 = BuildConfigImpl(
@@ -72,6 +74,7 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
+      hasLinkPhase: false,
     );
 
     expect(config1, equals(config1));
@@ -90,6 +93,7 @@ void main() async {
         true);
     expect(config1.cCompiler != config2.cCompiler, true);
     expect(config1.linkModePreference, config2.linkModePreference);
+    expect(config1.hasLinkPhase, config2.hasLinkPhase);
   });
 
   test('BuildConfig fromConfig', () {
@@ -102,11 +106,13 @@ void main() async {
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
+      hasLinkPhase: false,
     );
 
     final config = {
       'build_mode': 'release',
       'dry_run': false,
+      'has_link_phase': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,
@@ -128,10 +134,12 @@ void main() async {
       packageRoot: packageRootUri,
       targetOS: OSImpl.android,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
+      hasLinkPhase: false,
     );
 
     final config = {
       'dry_run': true,
+      'has_link_phase': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'package_name': packageName,
@@ -158,6 +166,7 @@ void main() async {
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
+      hasLinkPhase: false,
     );
 
     final configFile = buildConfig1.toJson();
@@ -184,6 +193,7 @@ void main() async {
           'key': 321,
         }),
       },
+      hasLinkPhase: false,
     );
 
     final buildConfig2 = BuildConfigImpl(
@@ -203,6 +213,7 @@ void main() async {
           'key': 123,
         }),
       },
+      hasLinkPhase: false,
     );
 
     expect(buildConfig1, equals(buildConfig1));
@@ -235,6 +246,7 @@ void main() async {
           'key': 'value',
         }),
       },
+      hasLinkPhase: false,
     );
 
     final jsonObject = buildConfig1.toJson();
@@ -248,6 +260,7 @@ void main() async {
           'z': ['z', 'a']
         }
       },
+      'has_link_phase': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
@@ -312,6 +325,8 @@ version: 1.0.0''';
           'key': 'value',
         }),
       },
+      version: Version(1, 0, 0),
+      hasLinkPhase: null,
     );
 
     final buildConfig2 = BuildConfigImpl.fromJson(
@@ -408,6 +423,7 @@ version: 1.0.0''';
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
+      hasLinkPhase: false,
     );
     config.toString();
   });
@@ -422,6 +438,7 @@ version: 1.0.0''';
       targetAndroidNdkApi: 30,
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.preferStatic,
+      hasLinkPhase: false,
     );
     final configFileContents = buildConfig.toJsonString();
     final configUri = tempUri.resolve('config.yaml');
@@ -448,6 +465,7 @@ version: 1.0.0''';
       ),
       buildMode: BuildModeImpl.release,
       linkModePreference: LinkModePreferenceImpl.dynamic,
+      hasLinkPhase: false,
     );
 
     final configFile = buildConfig1.toJson();
@@ -524,12 +542,13 @@ version: 1.0.0''';
   test('BuildConfig dry_run access invalid args', () {
     final outDir = outDirUri;
     final config = {
+      'dry_run': true,
+      'has_link_phase': true,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'android',
-      'dry_run': true,
       'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
@@ -544,12 +563,13 @@ version: 1.0.0''';
   test('BuildConfig dry_run target arch', () {
     final outDir = outDirUri;
     final config = {
+      'dry_run': true,
+      'has_link_phase': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDir.toFilePath(),
       'package_name': packageName,
       'package_root': tempUri.toFilePath(),
       'target_os': 'windows',
-      'dry_run': true,
       'version': HookConfigImpl.latestVersion.toString(),
     };
     final buildConfig = BuildConfigImpl.fromJson(config);
@@ -563,6 +583,7 @@ version: 1.0.0''';
       packageRoot: tempUri,
       targetOS: OSImpl.windows,
       linkModePreference: LinkModePreferenceImpl.dynamic,
+      hasLinkPhase: false,
     );
     buildConfig.toJsonString();
     // No crash.

@@ -1,6 +1,6 @@
-## 0.6.2-wip
+## 0.7.0-wip
 
-- Nothing yet.
+- `BuildConfig` constructors now have a required `hasLinkPhase` parameter.
 
 ## 0.6.1
 

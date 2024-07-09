@@ -16,6 +16,7 @@ import 'architecture.dart';
 import 'asset.dart';
 import 'build.dart';
 import 'build_mode.dart';
+import 'build_output.dart';
 import 'hook_config.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
@@ -41,6 +42,14 @@ abstract final class BuildConfig implements HookConfig {
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
   Object? metadatum(String packageName, String key);
+
+  /// Whether link hooks will be run after the build hooks.
+  ///
+  /// If [hasLinkPhase] is true, [BuildOutput.addAsset] can be called with
+  /// the `linkInPackage` parameter.
+  /// If [hasLinkPhase] is false, no assets should be added with the
+  /// `linkInPackage` parameter set.
+  bool get hasLinkPhase;
 
   /// The version of [BuildConfig].
   ///
@@ -103,6 +112,7 @@ abstract final class BuildConfig implements HookConfig {
     required LinkModePreference linkModePreference,
     Map<String, Map<String, Object>>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
+    required bool hasLinkPhase,
   }) =>
       BuildConfigImpl(
         outputDirectory: outputDirectory,
@@ -123,6 +133,7 @@ abstract final class BuildConfig implements HookConfig {
                   entry.key: Metadata(entry.value.cast())
               }
             : null,
+        hasLinkPhase: hasLinkPhase,
         supportedAssetTypes: supportedAssetTypes,
       );
 
@@ -139,6 +150,7 @@ abstract final class BuildConfig implements HookConfig {
     required Uri packageRoot,
     required OS targetOS,
     required LinkModePreference linkModePreference,
+    required bool hasLinkPhase,
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
@@ -148,5 +160,6 @@ abstract final class BuildConfig implements HookConfig {
         targetOS: targetOS as OSImpl,
         linkModePreference: linkModePreference as LinkModePreferenceImpl,
         supportedAssetTypes: supportedAssetTypes,
+        hasLinkPhase: hasLinkPhase,
       );
 }

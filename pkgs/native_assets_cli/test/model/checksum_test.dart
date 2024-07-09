@@ -24,10 +24,11 @@ void main() {
         supportedAssetTypes: [NativeCodeAsset.type],
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
+        hasLinkPhase: true,
       );
 
       // Using the checksum for a build folder should be stable.
-      expect(name1, 'b6170f6f00000d3766b01cea7637b607');
+      expect(name1, '32727df17e2a456516a3301d9fa0a9e4');
 
       // Build folder different due to metadata.
       final name2 = HookConfigImpl.checksum(
@@ -42,6 +43,7 @@ void main() {
         },
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
+        hasLinkPhase: true,
       );
       printOnFailure([name1, name2].toString());
       expect(name1 != name2, true);
@@ -59,6 +61,7 @@ void main() {
         ),
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
+        hasLinkPhase: true,
       );
       printOnFailure([name1, name3].toString());
       expect(name1 != name3, true);
@@ -76,9 +79,26 @@ void main() {
         ),
         hook: Hook.link,
         version: HookConfigImpl.latestVersion,
+        hasLinkPhase: true,
       );
       printOnFailure([name1, name4].toString());
       expect(name1 != name4, true);
+
+      // Build folder different due to haslinkPhase.
+      final name5 = HookConfigImpl.checksum(
+        packageName: packageName,
+        packageRoot: nativeAddUri,
+        targetArchitecture: ArchitectureImpl.x64,
+        targetOS: OSImpl.linux,
+        buildMode: BuildModeImpl.release,
+        linkModePreference: LinkModePreferenceImpl.dynamic,
+        supportedAssetTypes: [NativeCodeAsset.type],
+        hook: Hook.build,
+        version: HookConfigImpl.latestVersion,
+        hasLinkPhase: false,
+      );
+      printOnFailure([name1, name5].toString());
+      expect(name1 != name5, true);
     });
   });
 }
