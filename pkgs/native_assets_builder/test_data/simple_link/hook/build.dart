@@ -17,6 +17,6 @@ void main(List<String> args) async => build(args, (config, output) async {
             package: packageName,
           ),
         ),
-        linkInPackage: 'simple_link',
+        linkInPackage: config.hasLinkPhase ? 'simple_link' : null,
       );
     });

@@ -8,6 +8,9 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (config, output) async {
+    if (!config.hasLinkPhase) {
+      throw Exception('Link hook must be run!');
+    }
     final logger = Logger('')
       ..level = Level.ALL
       ..onRecord.listen((record) {

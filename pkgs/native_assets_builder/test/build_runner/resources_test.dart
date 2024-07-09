@@ -33,6 +33,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
+          hasLinkPhase: true,
         );
 
         Iterable<String> buildFiles() => Directory.fromUri(

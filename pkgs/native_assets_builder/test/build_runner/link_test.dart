@@ -30,6 +30,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
+          hasLinkPhase: true,
         );
         expect(buildResult.assets.length, 0);
 
@@ -70,6 +71,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
+          hasLinkPhase: true,
         );
         expect(buildResult.success, true);
         expect(_getNames(buildResult.assets), orderedEquals(builtHelperAssets));
@@ -106,6 +108,7 @@ void main() async {
         packageUri,
         logger,
         dartExecutable,
+        hasLinkPhase: true,
       );
       expect(buildResult.assets.length, 0);
       expect(buildResult.assetsForLinking.length, 0);

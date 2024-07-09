@@ -12,7 +12,8 @@ void main(List<String> arguments) async {
         file: config.packageRoot.resolve('assets/data.json'),
         package: config.packageName,
       ),
-      linkInPackage: 'fail_on_os_sdk_version_linker',
+      linkInPackage:
+          config.hasLinkPhase ? 'fail_on_os_sdk_version_linker' : null,
     );
   });
 }
