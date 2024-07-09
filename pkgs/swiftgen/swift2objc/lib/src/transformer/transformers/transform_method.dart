@@ -89,7 +89,7 @@ List<String> _generateMethodStatements(
   );
 
   assert(
-    transformedReturnTypeDeclaration is! ClassDeclaration,
+    transformedReturnTypeDeclaration is ClassDeclaration,
     "A method call result can only be wrapped in a class",
   );
 
