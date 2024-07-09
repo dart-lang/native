@@ -16,8 +16,20 @@ Json readJsonFile(String jsonFilePath) {
   return Json(jsonDecode(jsonStr));
 }
 
+const idDelim = "-";
+
+extension AddIdSuffix on String {
+  String addIdSuffix(String suffix) => "$this$idDelim$suffix";
+}
+
 String parseSymbolId(Json symbolJson) {
-  return symbolJson["identifier"]["precise"].get();
+  final idJson = symbolJson["identifier"]["precise"];
+  final String id = idJson.get();
+  assert(
+    !id.contains(idDelim),
+    'Symbold id at path ${idJson.path} contains a hiphen $idDelim which is not expected',
+  );
+  return id;
 }
 
 String parseSymbolName(Json symbolJson) {
