@@ -106,6 +106,10 @@ class Config {
   bool get excludeAllByDefault => _excludeAllByDefault;
   late bool _excludeAllByDefault;
 
+  /// If enabled, unused typedefs will also be generated.
+  bool get includeUnusedTypedefs => _includeUnusedTypedefs;
+  late bool _includeUnusedTypedefs;
+
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
   /// package:objective_c (the default) or code genned like any other class.
@@ -648,6 +652,13 @@ class Config {
           valueConfigSpec: BoolConfigSpec(),
           defaultValue: (node) => false,
           resultOrDefault: (node) => _excludeAllByDefault = node.value as bool,
+        ),
+        HeterogeneousMapEntry(
+          key: strings.includeUnusedTypedefs,
+          valueConfigSpec: BoolConfigSpec(),
+          defaultValue: (node) => false,
+          resultOrDefault: (node) =>
+              _includeUnusedTypedefs = node.value as bool,
         ),
         HeterogeneousMapEntry(
           key: strings.generateForPackageObjectiveC,

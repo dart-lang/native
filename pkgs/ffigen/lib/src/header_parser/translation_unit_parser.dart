@@ -6,6 +6,7 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/macro_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/objcinterfacedecl_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/objcprotocoldecl_parser.dart';
+import 'package:ffigen/src/header_parser/sub_parsers/typedefdecl_parser.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/var_parser.dart';
 import 'package:logging/logging.dart';
 
@@ -47,6 +48,11 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
             break;
           case clang_types.CXCursorKind.CXCursor_VarDecl:
             addToBindings(bindings, parseVarDeclaration(cursor));
+            break;
+          case clang_types.CXCursorKind.CXCursor_TypedefDecl:
+            if (config.includeUnusedTypedefs) {
+              addToBindings(bindings, parseTypedefDeclaration(cursor));
+            }
             break;
           default:
             _logger.finer('rootCursorVisitor: CursorKind not implemented');

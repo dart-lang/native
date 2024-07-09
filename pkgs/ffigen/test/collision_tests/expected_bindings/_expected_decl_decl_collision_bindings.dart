@@ -65,8 +65,6 @@ const int Test_Macro1 = 0;
 
 typedef testAlias = ffi.Void;
 typedef DarttestAlias = void;
-typedef testAlias1 = ffi.Void;
-typedef DarttestAlias1 = void;
 
 final class testCrossDecl extends ffi.Opaque {}
 

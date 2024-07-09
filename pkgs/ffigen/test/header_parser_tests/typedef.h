@@ -69,3 +69,5 @@ BoolAlias func4(BoolAlias *a);
 struct WithBoolAlias{
     BoolAlias b;
 };
+
+typedef void* IncludedTypedef;

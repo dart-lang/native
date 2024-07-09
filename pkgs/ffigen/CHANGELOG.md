@@ -27,6 +27,8 @@
   `objc-protocols` config option to generate bindings for a protocol.
 - Fix some bugs where ObjC interface/protocol methods could collide with Dart
   built-in methods, or with types declared elsewhere in the generated bindings.
+- Add `include-unused-typedefs` to allow generating typedefs that are not
+  referred to anywhere, the default option is `false`.
 
 ## 12.0.0
 

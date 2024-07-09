@@ -31,6 +31,10 @@ ${strings.structs}:
   ${strings.exclude}:
     - ExcludedStruct
     - _ExcludedStruct
+${strings.includeUnusedTypedefs}: true
+${strings.typedefs}:
+  ${strings.exclude}:
+    - pStruct.*
 ${strings.typeMap}:
   ${strings.typeMapTypedefs}:
     'SpecifiedTypeAsIntPtr':
