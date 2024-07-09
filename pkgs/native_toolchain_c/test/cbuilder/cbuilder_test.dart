@@ -57,7 +57,7 @@ void main() {
             envScript: envScript,
             envScriptArgs: envScriptArgs,
           ),
-          hasLinkPhase: false,
+          linkingAvailable: false,
         );
         final buildOutput = BuildOutput();
         final cbuilder = CBuilder.executable(
@@ -123,7 +123,7 @@ void main() {
                 packageRoot: tempUri,
                 targetOS: OS.current,
                 linkModePreference: LinkModePreference.dynamic,
-                hasLinkPhase: false,
+                linkingAvailable: false,
               )
             : BuildConfig.build(
                 outputDirectory: tempUri,
@@ -138,7 +138,7 @@ void main() {
                   envScript: envScript,
                   envScriptArgs: envScriptArgs,
                 ),
-                hasLinkPhase: false,
+                linkingAvailable: false,
               );
         final buildOutput = BuildOutput();
 
@@ -233,7 +233,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final buildOutput = BuildOutput();
 
@@ -292,7 +292,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final buildOutput = BuildOutput();
 
@@ -339,7 +339,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final buildOutput = BuildOutput();
 
@@ -400,7 +400,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final buildOutput = BuildOutput();
 
@@ -466,7 +466,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final buildOutput = BuildOutput();
     final cbuilder = CBuilder.executable(
@@ -539,7 +539,7 @@ Future<void> testDefines({
       envScript: envScript,
       envScriptArgs: envScriptArgs,
     ),
-    hasLinkPhase: false,
+    linkingAvailable: false,
   );
   final buildOutput = BuildOutput();
   final cbuilder = CBuilder.executable(

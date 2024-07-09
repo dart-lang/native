@@ -514,7 +514,7 @@ can _only_ depend on OS.''');
     Iterable<String>? supportedAssetTypes,
     Version? version,
     required Hook hook,
-    required bool? hasLinkPhase,
+    required bool? linkingAvailable,
   }) {
     final input = [
       version ?? latestVersion,
@@ -537,7 +537,7 @@ can _only_ depend on OS.''');
         ],
       ...supportedAssetTypes ?? [NativeCodeAsset.type],
       hook.name,
-      hasLinkPhase,
+      linkingAvailable,
     ].join('###');
     final sha256String = sha256.convert(utf8.encode(input)).toString();
     // 256 bit hashes lead to 64 hex character strings.

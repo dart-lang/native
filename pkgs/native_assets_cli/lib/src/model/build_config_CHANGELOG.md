@@ -1,8 +1,8 @@
 ## 1.4.0
 
-- Link hooks are not always run. `BuildConfig.hasLinkPhase` communicates
+- Link hooks are not always run. `BuildConfig.linkingAvailable` communicates
   whether link hooks are run.
-  Compatibility with older SDKs: the `hasLinkPhase` is false with v1.2.0 and
+  Compatibility with older SDKs: the `linkingAvailable` is false with v1.2.0 and
   older, and true with v1.3.0.
   
 ## 1.3.0

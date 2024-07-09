@@ -35,17 +35,17 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   final Map<String, Metadata>? _dependencyMetadata;
 
   @override
-  bool get hasLinkPhase {
+  bool get linkingAvailable {
     if (version <= Version(1, 2, 0)) {
       return false;
     }
     if (version == Version(1, 3, 0)) {
       return true;
     }
-    return _hasLinkPhase as bool;
+    return _linkingAvailable as bool;
   }
 
-  final bool? _hasLinkPhase;
+  final bool? _linkingAvailable;
 
   static List<String> _supportedAssetTypesBackwardsCompatibility(
     Iterable<String>? supportedAssetTypes,
@@ -68,10 +68,10 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     required super.targetOS,
     required super.linkModePreference,
     Map<String, Metadata>? dependencyMetadata,
-    required bool? hasLinkPhase,
+    required bool? linkingAvailable,
     super.dryRun,
   })  : _dependencyMetadata = dependencyMetadata,
-        _hasLinkPhase = hasLinkPhase,
+        _linkingAvailable = linkingAvailable,
         super(
           hook: Hook.build,
           version: version ?? HookConfigImpl.latestVersion,
@@ -79,9 +79,9 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
               _supportedAssetTypesBackwardsCompatibility(supportedAssetTypes),
         ) {
     if (this.version < Version(1, 4, 0)) {
-      assert(hasLinkPhase == null);
+      assert(linkingAvailable == null);
     } else {
-      assert(hasLinkPhase != null);
+      assert(linkingAvailable != null);
     }
   }
 
@@ -91,10 +91,10 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
     required super.packageRoot,
     required super.targetOS,
     required super.linkModePreference,
-    required bool? hasLinkPhase,
+    required bool? linkingAvailable,
     Iterable<String>? supportedAssetTypes,
   })  : _dependencyMetadata = null,
-        _hasLinkPhase = hasLinkPhase,
+        _linkingAvailable = linkingAvailable,
         super.dryRun(
           hook: Hook.build,
           version: HookConfigImpl.latestVersion,
@@ -123,7 +123,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
 
   static const dependencyMetadataConfigKey = 'dependency_metadata';
 
-  static const hasLinkPhaseKey = 'has_link_phase';
+  static const linkingAvailableKey = 'linking_available';
 
   static BuildConfigImpl _readFieldsFromConfig(Config config) {
     final dryRun = HookConfigImpl.parseDryRun(config) ?? false;
@@ -138,7 +138,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
           HookConfigImpl.parseTargetArchitecture(config, dryRun, targetOS),
       linkModePreference: HookConfigImpl.parseLinkModePreference(config),
       dependencyMetadata: parseDependencyMetadata(config),
-      hasLinkPhase: parseHasLinkPhase(config),
+      linkingAvailable: parseHasLinkPhase(config),
       version: HookConfigImpl.parseVersion(config),
       cCompiler: HookConfigImpl.parseCCompiler(config, dryRun),
       supportedAssetTypes: HookConfigImpl.parseSupportedAssetTypes(config),
@@ -179,7 +179,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   }
 
   static bool? parseHasLinkPhase(Config config) =>
-      config.optionalBool(hasLinkPhaseKey);
+      config.optionalBool(linkingAvailableKey);
 
   static BuildConfigImpl fromJson(Map<String, dynamic> buildConfigJson) =>
       BuildConfigImpl._fromConfig(Config(fileParsed: buildConfigJson));
@@ -194,7 +194,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
                   MapEntry(packageName, metadata.toJson()),
             ),
         },
-        if (version >= Version(1, 4, 0)) hasLinkPhaseKey: hasLinkPhase,
+        if (version >= Version(1, 4, 0)) linkingAvailableKey: linkingAvailable,
       }.sortOnKey();
 
   @override
@@ -210,7 +210,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
             .equals(other._dependencyMetadata, _dependencyMetadata)) {
       return false;
     }
-    if (_hasLinkPhase != other._hasLinkPhase) {
+    if (_linkingAvailable != other._linkingAvailable) {
       return false;
     }
     return true;
@@ -220,7 +220,7 @@ final class BuildConfigImpl extends HookConfigImpl implements BuildConfig {
   int get hashCode => Object.hashAll([
         super.hashCode,
         linkModePreference,
-        hasLinkPhase,
+        linkingAvailable,
         if (!dryRun) ...[
           const DeepCollectionEquality().hash(_dependencyMetadata),
         ],

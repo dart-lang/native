@@ -54,7 +54,7 @@ void main() {
         linker: ld,
         envScript: envScript,
       ),
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final resolver = CompilerResolver(buildConfig: buildConfig, logger: logger);
     final compiler = await resolver.resolveCompiler();
@@ -73,7 +73,7 @@ void main() {
       targetOS: OS.windows,
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.dynamic,
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final resolver = CompilerResolver(
       buildConfig: buildConfig,

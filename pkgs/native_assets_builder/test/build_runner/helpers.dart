@@ -46,7 +46,7 @@ Future<BuildResult> build(
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
-  bool hasLinkPhase = false,
+  bool linkingAvailable = false,
 }) async =>
     await runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -65,7 +65,7 @@ Future<BuildResult> build(
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        hasLinkPhase: hasLinkPhase,
+        linkingAvailable: linkingAvailable,
       );
 
       if (result.success) {
@@ -157,7 +157,7 @@ Future<(BuildResult, LinkResult)> buildAndLink(
         targetIOSVersion: targetIOSVersion,
         targetMacOSVersion: targetMacOSVersion,
         targetAndroidNdkApi: targetAndroidNdkApi,
-        hasLinkPhase: true,
+        linkingAvailable: true,
       );
 
       if (!buildResult.success) {
@@ -220,7 +220,7 @@ Future<BuildDryRunResult> buildDryRun(
   bool includeParentEnvironment = true,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
-  required bool hasLinkPhase,
+  required bool linkingAvailable,
 }) async =>
     runWithLog(capturedLogs, () async {
       final result = await NativeAssetsBuildRunner(
@@ -232,7 +232,7 @@ Future<BuildDryRunResult> buildDryRun(
         workingDirectory: packageUri,
         includeParentEnvironment: includeParentEnvironment,
         packageLayout: packageLayout,
-        hasLinkPhase: hasLinkPhase,
+        linkingAvailable: linkingAvailable,
       );
       return result;
     });

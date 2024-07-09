@@ -21,7 +21,7 @@ void main(List<String> args) async {
     ];
     output.addAssets(
       allAssets,
-      linkInPackage: config.hasLinkPhase ? packageName : null,
+      linkInPackage: config.linkingAvailable ? packageName : null,
     );
   });
 }

@@ -1,7 +1,7 @@
 ## 0.8.0-wip
 
 - `BuildRunner.build` and `BuildRunner.buildDryRun` now have a required
-  `hasLinkPhase` parameter.
+  `linkingAvailable` parameter.
 
 ## 0.7.1
 

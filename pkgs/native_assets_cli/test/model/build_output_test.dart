@@ -213,7 +213,7 @@ version: 1.0.0''';
       targetArchitecture: ArchitectureImpl.arm64,
       targetOS: OSImpl.macOS,
       linkModePreference: LinkModePreferenceImpl.dynamic,
-      hasLinkPhase: false,
+      linkingAvailable: false,
     );
     final buildOutput = getBuildOutput();
     await buildOutput.writeToFile(config: config);
@@ -235,7 +235,7 @@ version: 1.0.0''';
       targetOS: OSImpl.macOS,
       linkModePreference: LinkModePreferenceImpl.dynamic,
       version: Version(1, 1, 0),
-      hasLinkPhase: null, // version < 1.4.0
+      linkingAvailable: null, // version < 1.4.0
     );
     final buildOutput = getBuildOutput(withLinkedAssets: false);
     await buildOutput.writeToFile(config: config);
