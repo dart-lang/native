@@ -41,6 +41,14 @@ void main() async {
           buildResult: buildResult,
         );
         expect(linkResult.assets.length, 2);
+
+        final buildNoLinkResult = await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          hasLinkPhase: false,
+        );
+        expect(buildNoLinkResult.assets.length, 4);
       });
     },
   );
