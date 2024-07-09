@@ -1,3 +1,7 @@
+## 0.7.2-wip
+
+- Nothing yet.
+
 ## 0.7.1
 
 - Use `HookConfig.targetIosSdk` and `HookConfig.targetMacosSdk` optional
