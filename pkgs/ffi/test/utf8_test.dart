@@ -18,7 +18,7 @@ Pointer<Uint8> _bytesFromList(List<int> ints) {
 void main() {
   test('toUtf8 ASCII', () {
     final start = 'Hello World!\n';
-    final converted = start.toNativeUtf8().cast() as Pointer<Uint8>;
+    final converted = start.toNativeUtf8().cast<Uint8>();
     final end = converted.asTypedList(start.length + 1);
     final matcher =
         equals([72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0]);
@@ -29,14 +29,14 @@ void main() {
   test('fromUtf8 ASCII', () {
     final utf8 = _bytesFromList(
             [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast() as Pointer<Utf8>;
+        .cast<Utf8>();
     final end = utf8.toDartString();
     expect(end, 'Hello World!\n');
   });
 
   test('toUtf8 emoji', () {
     final start = '😎👿💬';
-    final converted = start.toNativeUtf8().cast() as Pointer<Utf8>;
+    final converted = start.toNativeUtf8().cast<Utf8>();
     final length = converted.length;
     final end = converted.cast<Uint8>().asTypedList(length + 1);
     final matcher =
@@ -48,20 +48,20 @@ void main() {
   test('formUtf8 emoji', () {
     final utf8 = _bytesFromList(
             [240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0])
-        .cast() as Pointer<Utf8>;
+        .cast<Utf8>();
     final end = utf8.toDartString();
     expect(end, '😎👿💬');
   });
 
   test('fromUtf8 invalid', () {
-    final utf8 = _bytesFromList([0x80, 0x00]).cast() as Pointer<Utf8>;
+    final utf8 = _bytesFromList([0x80, 0x00]).cast<Utf8>();
     expect(utf8.toDartString, throwsA(isFormatException));
   });
 
   test('fromUtf8 ASCII with length', () {
     final utf8 = _bytesFromList(
             [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast() as Pointer<Utf8>;
+        .cast<Utf8>();
     final end = utf8.toDartString(length: 5);
     expect(end, 'Hello');
   });
@@ -69,7 +69,7 @@ void main() {
   test('fromUtf8 emoji with length', () {
     final utf8 = _bytesFromList(
             [240, 159, 152, 142, 240, 159, 145, 191, 240, 159, 146, 172, 0])
-        .cast() as Pointer<Utf8>;
+        .cast<Utf8>();
     final end = utf8.toDartString(length: 4);
     expect(end, '😎');
   });
@@ -77,7 +77,7 @@ void main() {
   test('fromUtf8 with zero length', () {
     final utf8 = _bytesFromList(
             [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast() as Pointer<Utf8>;
+        .cast<Utf8>();
     final end = utf8.toDartString(length: 0);
     expect(end, '');
   });
@@ -85,14 +85,14 @@ void main() {
   test('fromUtf8 with negative length', () {
     final utf8 = _bytesFromList(
             [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33, 10, 0])
-        .cast() as Pointer<Utf8>;
+        .cast<Utf8>();
     expect(() => utf8.toDartString(length: -1), throwsRangeError);
   });
 
   test('fromUtf8 with length and containing a zero byte', () {
     final utf8 = _bytesFromList(
-            [72, 101, 108, 108, 111, 0, 87, 111, 114, 108, 100, 33, 10]).cast()
-        as Pointer<Utf8>;
+            [72, 101, 108, 108, 111, 0, 87, 111, 114, 108, 100, 33, 10])
+        .cast<Utf8>();
     final end = utf8.toDartString(length: 13);
     expect(end, 'Hello\x00World!\n');
   });
@@ -111,7 +111,7 @@ void main() {
 
   test('nullptr.length', () {
     final Pointer<Utf8> utf8 = nullptr;
-    expect(utf8.length, throwsUnsupportedError);
+    expect(() => utf8.length, throwsUnsupportedError);
   });
 
   test('zero terminated', () {

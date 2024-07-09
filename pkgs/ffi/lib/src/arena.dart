@@ -143,7 +143,7 @@ R using<R>(R Function(Arena) computation,
 R withZoneArena<R>(R Function() computation,
     [Allocator wrappedAllocator = calloc]) {
   final arena = Arena(wrappedAllocator);
-  var arenaHolder = [arena];
+  final arenaHolder = [arena];
   var isAsync = false;
   try {
     return runZoned(() {

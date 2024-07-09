@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 void main() {
   test('toUtf16 ASCII', () {
     final start = 'Hello World!\n';
-    final converted = start.toNativeUtf16().cast() as Pointer<Uint16>;
+    final converted = start.toNativeUtf16().cast<Uint16>();
     final end = converted.asTypedList(start.codeUnits.length + 1);
     final matcher = equals(start.codeUnits.toList()..add(0));
     expect(end, matcher);
@@ -72,6 +72,6 @@ void main() {
 
   test('nullptr.length', () {
     final Pointer<Utf16> utf16 = nullptr;
-    expect(utf16.length, throwsUnsupportedError);
+    expect(() => utf16.length, throwsUnsupportedError);
   });
 }
