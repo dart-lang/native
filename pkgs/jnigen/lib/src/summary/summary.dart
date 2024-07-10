@@ -189,6 +189,6 @@ Future<Classes> getSummary(Config config) async {
   if (json == null) {
     throw SummaryParseException('Expected JSON element from summarizer.');
   }
-  final classes = Classes.fromJson(json);
+  final classes = Classes.fromJson(json as List<dynamic>);
   return classes;
 }

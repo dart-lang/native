@@ -370,7 +370,7 @@ class Config {
       try {
         final symbolsFile = File.fromUri(yamlUri);
         final content = symbolsFile.readAsStringSync();
-        yaml = loadYaml(content, sourceUrl: yamlUri);
+        yaml = loadYaml(content, sourceUrl: yamlUri) as YamlMap;
       } on UnsupportedError catch (_) {
         log.fatal('Could not reference "$import".');
       } catch (e, s) {
@@ -401,9 +401,9 @@ class Config {
             binaryName: binaryName,
           )
             ..path = '$importPath/$filePath'
-            ..finalName = decl['name']
-            ..typeClassName = decl['type_class']
-            ..superCount = decl['super_count']
+            ..finalName = decl['name'] as String
+            ..typeClassName = decl['type_class'] as String
+            ..superCount = decl['super_count'] as int
             ..allTypeParams = []
             ..parent = null;
           for (final typeParamEntry

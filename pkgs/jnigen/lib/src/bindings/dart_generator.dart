@@ -134,6 +134,7 @@ import "package:jni/jni.dart" as jni;
   // Sort alphabetically.
   static const defaultLintSuppressions = '''
 // ignore_for_file: annotate_overrides
+// ignore_for_file: argument_type_not_assignable
 // ignore_for_file: camel_case_extensions
 // ignore_for_file: camel_case_types
 // ignore_for_file: constant_identifier_names

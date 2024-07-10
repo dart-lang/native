@@ -9,7 +9,6 @@ analyzer:
     todo: ignore
   exclude: [build/**, example/**]
   language:
-    strict-casts: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     strict-inference: true
     strict-raw-types: true
 
