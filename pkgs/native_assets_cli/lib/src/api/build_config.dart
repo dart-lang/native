@@ -45,17 +45,18 @@ abstract final class BuildConfig implements HookConfig {
 
   /// Whether link hooks will be run after the build hooks.
   ///
-  /// If [linkingEnabled] is true, [BuildOutput.addAsset] can be called with
-  /// the `linkInPackage` parameter. If [linkingEnabled] is false, no assets
-  /// should be added with the `linkInPackage` parameter set.
-  ///
-  /// Link hooks are only run for release builds initiated by the following
-  /// commands:
-  /// - `flutter build` (release mode)
+  /// If [linkingEnabled] is true, [BuildOutput.addAsset] may be called with the
+  /// `linkInPackage` parameter so that assets can be linked in a link hook.
+  /// Linking is enabled in Flutter release builds and Dart AOT configurations.
+  /// These configurations are optimized for app size.
+  /// - `flutter build`
   /// - `flutter run --release`
-  /// - `dart build` (release mode)
+  /// - `dart build`
   ///
-  /// Link hooks are not run for the following commands:
+  /// If [linkingEnabled] is false, no assets should be added with the
+  /// `linkInPackage` parameter set. All assets must be ready for bundling.
+  /// Linking is disabled in Flutter debug builds and Dart JIT configurations.
+  /// These configurations are optimized for development speed.
   /// - `dart run`
   /// - `flutter run` (debug mode)
   bool get linkingEnabled;
