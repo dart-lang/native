@@ -12,11 +12,11 @@ analyzer:
 
 linter:
   rules:
-    avoid_dynamic_calls: false # TODO: Fix
-    combinators_ordering: false # TODO: Fix.
-    comment_references: false # TODO: Fix
-    directives_ordering: false # TODO: Fix
-    library_annotations: false # TODO: Fix
-    omit_local_variable_types: false # TODO: Fix
-    prefer_single_quotes: false # TODO: Fix
-    sort_pub_dependencies: false # TODO: Fix
+    avoid_dynamic_calls: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
+    combinators_ordering: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix.
+    comment_references: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
+    directives_ordering: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
+    library_annotations: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
+    omit_local_variable_types: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
+    prefer_single_quotes: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
+    sort_pub_dependencies: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
