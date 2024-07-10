@@ -89,6 +89,7 @@
 ## 0.7.2
 
 - Fixed a bug where reading non-null terminated strings would overflow.
+- Use `package:dart_flutter_team_lints`.
 
 ## 0.7.1
 

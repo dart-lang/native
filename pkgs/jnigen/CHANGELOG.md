@@ -1,6 +1,7 @@
 ## 0.10.0-wip
 
 - Added support for Kotlin's top-level functions and fields.
+- Use `package:dart_flutter_team_lints`.
 
 ## 0.9.3
 
