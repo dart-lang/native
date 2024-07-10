@@ -78,7 +78,7 @@ class SummarizerCommand {
   Future<Process> runProcess() async {
     final commandSplit = command.split(" ");
     final exec = commandSplit[0];
-    final List<String> args = commandSplit.sublist(1);
+    final args = commandSplit.sublist(1);
 
     _addPathParam(args, sourcePathsOption, sourcePaths);
     _addPathParam(args, classPathsOption, classPaths);

@@ -464,7 +464,7 @@ class Config {
   static Config parseArgs(List<String> args) {
     final prov = YamlReader.parseArgs(args);
 
-    final List<String> missingValues = [];
+    final missingValues = <String>[];
 
     T must<T>(T? Function(String) f, T ifNull, String property) {
       final res = f(property);
@@ -478,7 +478,7 @@ class Config {
     MemberFilter<T>? regexFilter<T extends ClassMember>(String property) {
       final exclusions = prov.getStringList(property);
       if (exclusions == null) return null;
-      final List<MemberFilter<T>> filters = [];
+      final filters = <MemberFilter<T>>[];
       for (var exclusion in exclusions) {
         final split = exclusion.split('#');
         if (split.length != 2) {

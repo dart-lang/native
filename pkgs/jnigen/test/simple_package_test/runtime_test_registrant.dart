@@ -756,13 +756,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
     const k4 = 4 * 1024; // This is a round number, unlike say 4000
     const k256 = 256 * 1024;
     test('Create large number of JNI references without deleting', () {
-      for (int i = 0; i < k4; i++) {
+      for (var i = 0; i < k4; i++) {
         final e = Example.new1(i);
         expect(e.getNumber(), equals(i));
       }
     });
     test('Create many JNI refs with scoped deletion', () {
-      for (int i = 0; i < k256; i++) {
+      for (var i = 0; i < k256; i++) {
         using((arena) {
           final e = Example.new1(i)..releasedBy(arena);
           expect(e.getNumber(), equals(i));
@@ -770,9 +770,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
       }
     });
     test('Create many JNI refs with scoped deletion, in batches', () {
-      for (int i = 0; i < 256; i++) {
+      for (var i = 0; i < 256; i++) {
         using((arena) {
-          for (int i = 0; i < 1024; i++) {
+          for (var i = 0; i < 1024; i++) {
             final e = Example.new1(i)..releasedBy(arena);
             expect(e.getNumber(), equals(i));
           }
@@ -780,7 +780,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       }
     });
     test('Create large number of JNI refs with manual delete', () {
-      for (int i = 0; i < k256; i++) {
+      for (var i = 0; i < k256; i++) {
         final e = Example.new1(i);
         expect(e.getNumber(), equals(i));
         e.release();
@@ -789,14 +789,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Method returning primitive type does not create references', () {
       using((arena) {
         final e = Example.new1(64)..releasedBy(arena);
-        for (int i = 0; i < k256; i++) {
+        for (var i = 0; i < k256; i++) {
           expect(e.getNumber(), equals(64));
         }
       });
     });
     test('Class references are cached', () {
       final asterisk = '*'.codeUnitAt(0);
-      for (int i = 0; i < k256; i++) {
+      for (var i = 0; i < k256; i++) {
         expect(Fields.asterisk, equals(asterisk));
       }
     });

@@ -92,7 +92,7 @@ class Resolver {
     // We always name imports with an underscore suffix, so that they can be
     // never shadowed by a parameter or local variable.
     var importedName = '${pkgName}_';
-    int suffix = 0;
+    var suffix = 0;
     while (_importedNameToClass.containsKey(importedName)) {
       suffix++;
       importedName = '$pkgName${suffix}_';
@@ -127,11 +127,11 @@ class Resolver {
     // Use relative import when the required class is included in current set
     // of bindings.
     if (inputClassNames.contains(binaryName)) {
-      int common = 0;
+      var common = 0;
       // find the common prefix path directory of current package, and directory
       // of target package
       // src.length - 1 simply corresponds to directory of the package.
-      for (int i = 0; i < src.length - 1 && i < dest.length - 1; i++) {
+      for (var i = 0; i < src.length - 1 && i < dest.length - 1; i++) {
         if (src[i] == dest[i]) {
           common++;
         } else {

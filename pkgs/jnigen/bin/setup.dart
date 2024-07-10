@@ -9,7 +9,7 @@ import 'package:jnigen/src/tools/tools.dart';
 import 'package:logging/logging.dart';
 
 void main(List<String> args) async {
-  bool force = false;
+  var force = false;
   setLoggingLevel(Level.INFO);
   if (args.isNotEmpty) {
     if (args.length != 1 || args[0] != '-f') {
