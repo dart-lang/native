@@ -781,7 +781,8 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         allTypeParams.length - node.params.length,
         List.filled(
           allTypeParams.length - node.params.length,
-          // Adding const to subexpressions if the entire expression is not const.
+          // Adding const to subexpressions if the entire expression is not
+          // const.
           '${canBeConst ? '' : 'const '}${_jObject}Type()',
         ),
       );
@@ -1354,11 +1355,13 @@ class OutsideInBuffer {
 ///
 /// For example in `JArray<JMap<$T, $T>> a`, `T` can be retreived using
 /// ```dart
-/// ((((a.$type as jni.JArrayType).elementType) as $JMapType).K) as jni.JObjType<$T>
+/// ((((a.$type as jni.JArrayType).elementType) as $JMapType).K)
+///   as jni.JObjType<$T>
 /// ```
 /// and
 /// ```dart
-/// ((((a.$type as jni.JArrayType).elementType) as $JMapType).V) as jni.JObjType<$T>
+/// ((((a.$type as jni.JArrayType).elementType) as $JMapType).V)
+///   as jni.JObjType<$T>
 /// ```
 class _ParamTypeLocator extends Visitor<Param, Map<String, List<String>>> {
   final Resolver resolver;
@@ -1593,7 +1596,8 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
     // should not be [setAsReleased].
-    return '(\$r as $_jObject).castTo(const ${_jObject}Type()).reference.toPointer()';
+    return '(\$r as $_jObject).castTo(const ${_jObject}Type())'
+        '.reference.toPointer()';
   }
 
   @override

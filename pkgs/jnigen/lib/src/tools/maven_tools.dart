@@ -40,7 +40,8 @@ class MavenTools {
     await Directory(tempTarget).delete(recursive: true);
   }
 
-  /// Create a list of [MavenDependency] objects from maven coordinates in string form.
+  /// Create a list of [MavenDependency] objects from maven coordinates in
+  /// string form.
   static List<MavenDependency> deps(List<String> depNames) =>
       depNames.map(MavenDependency.fromString).toList();
 

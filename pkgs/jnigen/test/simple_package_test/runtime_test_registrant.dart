@@ -717,8 +717,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
               final getMethod =
                   futureClass.instanceMethodId('get', '()Ljava/lang/Object;');
               final result = getMethod(future, T, []);
-              // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
-              // with coverage pauses indefinitely here.
+              // A workaround for `--pause-isolates-on-exit`. Otherwise getting
+              // test with coverage pauses indefinitely here.
               // https://github.com/dart-lang/coverage/issues/472
               Isolate.current.kill();
               sendPort.send(result);
