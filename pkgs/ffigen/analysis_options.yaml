@@ -23,9 +23,23 @@ analyzer:
 
 linter:
   rules:
-    # Enabled.
     dangling_library_doc_comments: true
     directives_ordering: true
     prefer_final_locals: true
     prefer_final_in_for_each: true
     use_super_parameters: true
+    always_declare_return_types: false # TODO: Fix
+    avoid_dynamic_calls: false # TODO: Fix
+    comment_references: false # TODO: Fix
+    constant_identifier_names: false # TODO: Fix
+    library_annotations: false # TODO: Fix
+    lines_longer_than_80_chars: false # TODO: Fix
+    omit_local_variable_types: false # TODO: Fix.
+    only_throw_errors: false # TODO: Fix
+    prefer_asserts_in_initializer_lists: false # TODO: Fix
+    prefer_const_constructors: false # TODO: Fix.
+    prefer_relative_imports: false # TODO: Fix
+    prefer_single_quotes: false # TODO: Fix.
+    type_annotate_public_apis: false # TODO: Fix
+    unnecessary_parenthesis: false # TODO: Fix
+    unreachable_from_main: false # TODO: Fix

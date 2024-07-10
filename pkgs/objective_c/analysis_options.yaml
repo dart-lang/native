@@ -12,3 +12,11 @@ analyzer:
 
 linter:
   rules:
+    avoid_dynamic_calls: false # TODO: Fix
+    combinators_ordering: false # TODO: Fix.
+    comment_references: false # TODO: Fix
+    directives_ordering: false # TODO: Fix
+    library_annotations: false # TODO: Fix
+    omit_local_variable_types: false # TODO: Fix
+    prefer_single_quotes: false # TODO: Fix
+    sort_pub_dependencies: false # TODO: Fix
