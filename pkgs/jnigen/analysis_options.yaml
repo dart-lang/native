@@ -2,15 +2,16 @@
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
 
-include: package:lints/recommended.yaml
+include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
   errors:
     todo: ignore
   exclude: [build/**, example/**]
   language:
-    strict-raw-types: true
+    # strict-casts: true
     strict-inference: true
+    strict-raw-types: true
 
 linter:
   rules:

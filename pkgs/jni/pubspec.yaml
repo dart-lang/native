@@ -27,6 +27,7 @@ dependencies:
   args: ^2.3.1
 
 dev_dependencies:
+  dart_flutter_team_lints: ^2.0.0
   ## Pin ffigen version because we are depending on internal APIs.
   ffigen: 8.0.2
   flutter_lints: ^2.0.0
