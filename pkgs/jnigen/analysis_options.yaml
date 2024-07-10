@@ -2,21 +2,34 @@
 # for details. All rights reserved. Use of this source code is governed by a
 # BSD-style license that can be found in the LICENSE file.
 
-include: package:lints/recommended.yaml
+include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
   errors:
     todo: ignore
   exclude: [build/**, example/**]
   language:
-    strict-raw-types: true
+    strict-casts: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     strict-inference: true
+    strict-raw-types: true
 
 linter:
   rules:
-    - dangling_library_doc_comments
-    - prefer_final_locals
-    - prefer_const_declarations
-    - unawaited_futures
-    - prefer_const_constructors
-    - prefer_relative_imports
+    dangling_library_doc_comments: true
+    prefer_final_locals: true
+    prefer_const_declarations: true
+    unawaited_futures: true
+    prefer_const_constructors: true
+    prefer_relative_imports: true
+    avoid_catching_errors: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    comment_references: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    directives_ordering: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    library_annotations: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    lines_longer_than_80_chars: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    omit_local_variable_types: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    only_throw_errors: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    prefer_single_quotes: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    type_annotate_public_apis: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    unnecessary_lambdas: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    unnecessary_parenthesis: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
+    unreachable_from_main: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.

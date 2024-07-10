@@ -62,7 +62,7 @@ library jni;
 
 export 'dart:ffi' show nullptr;
 
-export 'package:ffi/ffi.dart' show using, Arena;
+export 'package:ffi/ffi.dart' show Arena, using;
 
 export 'src/errors.dart';
 export 'src/jarray.dart';

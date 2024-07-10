@@ -19,19 +19,20 @@ environment:
   flutter: '>=2.11.0'
 
 dependencies:
-  collection: ^1.0.0
-  plugin_platform_interface: ^2.0.2
-  ffi: ^2.0.1
-  path: ^1.8.0
-  package_config: ^2.1.0
   args: ^2.3.1
+  collection: ^1.0.0
+  ffi: ^2.0.1
+  package_config: ^2.1.0
+  path: ^1.8.0
+  plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
+  dart_flutter_team_lints: ^2.0.0
   ## Pin ffigen version because we are depending on internal APIs.
   ffigen: 8.0.2
   flutter_lints: ^2.0.0
-  test: ^1.21.1
   logging: ^1.1.1
+  test: ^1.21.1
 
 # The following section is specific to Flutter packages.
 flutter:
