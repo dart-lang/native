@@ -5,6 +5,7 @@
 // These tests validate summary generation in various scenarios.
 // Currently, no validation of the summary content itself is done.
 
+// ignore: library_annotations
 @Tags(['summarizer_test'])
 
 import 'dart:math';
@@ -12,7 +13,6 @@ import 'dart:math';
 import 'package:jnigen/src/config/config.dart';
 import 'package:jnigen/src/elements/elements.dart';
 import 'package:jnigen/src/summary/summary.dart';
-
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 

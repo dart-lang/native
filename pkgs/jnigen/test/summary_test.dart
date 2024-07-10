@@ -4,6 +4,7 @@
 
 // These tests validate individual characteristics in summary
 // For example, the values of methods, arguments, types, generic params etc...
+// ignore: library_annotations
 @Tags(['summarizer_test'])
 
 import 'package:jnigen/src/elements/elements.dart';
