@@ -1,4 +1,4 @@
-## 0.7.0-wip
+## 0.7.0
 
 - `BuildConfig` constructors now have a required `linkingEnabled` parameter.
 
