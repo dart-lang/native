@@ -1,4 +1,4 @@
-## 0.8.0-wip
+## 0.8.0
 
 - `BuildRunner.build` and `BuildRunner.buildDryRun` now have a required
   `linkingEnabled` parameter.
