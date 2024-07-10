@@ -221,8 +221,8 @@ class CBuilder implements Builder {
     String? linkInPackage,
   }) async {
     assert(
-      config.linkingAvailable || linkInPackage == null,
-      'linkInPackage can only be provided if config.linkingAvailable is true.',
+      config.linkingEnabled || linkInPackage == null,
+      'linkInPackage can only be provided if config.linkingEnabled is true.',
     );
     final outDir = config.outputDirectory;
     final packageRoot = config.packageRoot;

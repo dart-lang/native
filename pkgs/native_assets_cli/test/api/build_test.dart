@@ -54,7 +54,7 @@ void main() async {
       ),
       buildMode: BuildMode.release,
       linkModePreference: LinkModePreference.preferDynamic,
-      linkingAvailable: false,
+      linkingEnabled: false,
     );
     final configJson = (config1 as BuildConfigImpl).toJsonString();
     buildConfigUri = tempUri.resolve('build_config.json');

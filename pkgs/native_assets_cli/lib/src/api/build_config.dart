@@ -45,8 +45,8 @@ abstract final class BuildConfig implements HookConfig {
 
   /// Whether link hooks will be run after the build hooks.
   ///
-  /// If [linkingAvailable] is true, [BuildOutput.addAsset] can be called with
-  /// the `linkInPackage` parameter. If [linkingAvailable] is false, no assets
+  /// If [linkingEnabled] is true, [BuildOutput.addAsset] can be called with
+  /// the `linkInPackage` parameter. If [linkingEnabled] is false, no assets
   /// should be added with the `linkInPackage` parameter set.
   ///
   /// Link hooks are only run for release builds initiated by the following
@@ -58,7 +58,7 @@ abstract final class BuildConfig implements HookConfig {
   /// Link hooks are not run for the following commands:
   /// - `dart run`
   /// - `flutter run` (debug mode)
-  bool get linkingAvailable;
+  bool get linkingEnabled;
 
   /// The version of [BuildConfig].
   ///
@@ -121,7 +121,7 @@ abstract final class BuildConfig implements HookConfig {
     required LinkModePreference linkModePreference,
     Map<String, Map<String, Object>>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
-    required bool linkingAvailable,
+    required bool linkingEnabled,
   }) =>
       BuildConfigImpl(
         outputDirectory: outputDirectory,
@@ -142,7 +142,7 @@ abstract final class BuildConfig implements HookConfig {
                   entry.key: Metadata(entry.value.cast())
               }
             : null,
-        linkingAvailable: linkingAvailable,
+        linkingEnabled: linkingEnabled,
         supportedAssetTypes: supportedAssetTypes,
       );
 
@@ -159,7 +159,7 @@ abstract final class BuildConfig implements HookConfig {
     required Uri packageRoot,
     required OS targetOS,
     required LinkModePreference linkModePreference,
-    required bool linkingAvailable,
+    required bool linkingEnabled,
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
@@ -169,6 +169,6 @@ abstract final class BuildConfig implements HookConfig {
         targetOS: targetOS as OSImpl,
         linkModePreference: linkModePreference as LinkModePreferenceImpl,
         supportedAssetTypes: supportedAssetTypes,
-        linkingAvailable: linkingAvailable,
+        linkingEnabled: linkingEnabled,
       );
 }

@@ -13,7 +13,7 @@ void main(List<String> arguments) async {
         package: config.packageName,
       ),
       linkInPackage:
-          config.linkingAvailable ? 'fail_on_os_sdk_version_linker' : null,
+          config.linkingEnabled ? 'fail_on_os_sdk_version_linker' : null,
     );
   });
 }

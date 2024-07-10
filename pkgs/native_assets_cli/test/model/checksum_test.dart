@@ -28,7 +28,7 @@ void main() {
         supportedAssetTypes: [NativeCodeAsset.type],
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
-        linkingAvailable: true,
+        linkingEnabled: true,
       );
 
       // Using the checksum for a build folder should be stable.
@@ -47,7 +47,7 @@ void main() {
         },
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
-        linkingAvailable: true,
+        linkingEnabled: true,
       );
       printOnFailure([name1, name2].toString());
       expect(name1 != name2, true);
@@ -65,7 +65,7 @@ void main() {
         ),
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
-        linkingAvailable: true,
+        linkingEnabled: true,
       );
       printOnFailure([name1, name3].toString());
       expect(name1 != name3, true);
@@ -83,7 +83,7 @@ void main() {
         ),
         hook: Hook.link,
         version: HookConfigImpl.latestVersion,
-        linkingAvailable: true,
+        linkingEnabled: true,
       );
       printOnFailure([name1, name4].toString());
       expect(name1 != name4, true);
@@ -99,7 +99,7 @@ void main() {
         supportedAssetTypes: [NativeCodeAsset.type],
         hook: Hook.build,
         version: HookConfigImpl.latestVersion,
-        linkingAvailable: false,
+        linkingEnabled: false,
       );
       printOnFailure([name1, name5].toString());
       expect(name1, isNot(name5));

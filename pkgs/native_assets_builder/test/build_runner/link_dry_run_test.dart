@@ -30,7 +30,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          linkingAvailable: true,
+          linkingEnabled: true,
         );
         expect(buildResult.assets.length, 0);
 
@@ -71,7 +71,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          linkingAvailable: true,
+          linkingEnabled: true,
         );
         expect(buildResult.success, true);
         expect(_getNames(buildResult.assets), orderedEquals(builtHelperAssets));

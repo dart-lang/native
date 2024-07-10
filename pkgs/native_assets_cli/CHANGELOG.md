@@ -1,6 +1,6 @@
 ## 0.7.0-wip
 
-- `BuildConfig` constructors now have a required `linkingAvailable` parameter.
+- `BuildConfig` constructors now have a required `linkingEnabled` parameter.
 
 ## 0.6.1
 

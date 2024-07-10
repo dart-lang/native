@@ -17,6 +17,6 @@ void main(List<String> args) async => build(args, (config, output) async {
             package: packageName,
           ),
         ),
-        linkInPackage: config.linkingAvailable ? 'complex_link' : null,
+        linkInPackage: config.linkingEnabled ? 'complex_link' : null,
       );
     });

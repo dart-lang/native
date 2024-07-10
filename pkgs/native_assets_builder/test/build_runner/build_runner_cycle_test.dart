@@ -26,7 +26,7 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
-          linkingAvailable: false,
+          linkingEnabled: false,
         );
         final fullLog = logMessages.join('\n');
         expect(result.success, false);

@@ -54,7 +54,7 @@ void main() {
           linkModePreference: linkMode == DynamicLoadingBundled()
               ? LinkModePreference.dynamic
               : LinkModePreference.static,
-          linkingAvailable: false,
+          linkingEnabled: false,
         );
         final buildOutput = BuildOutput();
 
