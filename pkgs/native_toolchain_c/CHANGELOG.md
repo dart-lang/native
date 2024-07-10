@@ -1,4 +1,4 @@
-## 0.5.1-wip
+## 0.5.1
 
 - Bump `package:native_assets_cli` to 0.7.0.
 
