@@ -1,3 +1,7 @@
+## 0.8.1-wip
+
+- Add more data asset test files.
+
 ## 0.8.0
 
 - `BuildRunner.build` and `BuildRunner.buildDryRun` now have a required
