@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: swiftgen
-description: "A tool for generating bindings that allow interop between Dart and Swift code."
+description: 'A tool for generating bindings that allow interop between Dart and Swift code.'
 version: 0.0.1-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/swiftgen
 
@@ -20,6 +20,7 @@ dependencies:
   ffi: ^2.1.0
 
 dev_dependencies:
+  dart_flutter_team_lints: ^2.0.0
   ffigen: ^11.0.0
   test: ^1.21.1
 

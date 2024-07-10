@@ -29,6 +29,7 @@
   built-in methods, or with types declared elsewhere in the generated bindings.
 - Add `include-unused-typedefs` to allow generating typedefs that are not
   referred to anywhere, the default option is `false`.
+- Use `package:dart_flutter_team_lints`.
 
 ## 12.0.0
 

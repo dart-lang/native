@@ -12,6 +12,7 @@
   by the ffigen bindings for a protocol.
 - Make all of the code-genned structs and enums public so they can be reused by
   user bindings.
+- Use `package:dart_flutter_team_lints`.
 
 ## 1.0.1
 
