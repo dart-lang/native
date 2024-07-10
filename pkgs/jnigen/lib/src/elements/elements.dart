@@ -6,6 +6,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 // Types to describe java API elements
 
+import '../bindings/descriptor.dart';
+import '../bindings/kotlin_processor.dart';
+import '../bindings/linker.dart';
+import '../bindings/renamer.dart';
 import '../bindings/visitor.dart';
 
 part 'elements.g.dart';

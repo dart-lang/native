@@ -310,7 +310,7 @@ class Config {
   /// need to be explicitly specified.
   List<Uri>? sourcePath;
 
-  /// class path for scanning java libraries. If [backend] is `asm`, the
+  /// class path for scanning java libraries. If `backend` is `asm`, the
   /// specified classpath is used to search for [classes], otherwise it's
   /// merely used by the doclet API to find transitively referenced classes,
   /// but not the specified classes / packages themselves.
@@ -450,7 +450,9 @@ class Config {
   Uri? _configRoot;
 
   /// Log verbosity. The possible values in decreasing order of verbosity
-  /// are verbose > debug > info > warning > error. Defaults to [LogLevel.info]
+  /// are verbose > debug > info > warning > error.
+  ///
+  /// Defaults to [Level.INFO].
   Level logLevel = Level.INFO;
 
   /// File to which JSON summary is written before binding generation.

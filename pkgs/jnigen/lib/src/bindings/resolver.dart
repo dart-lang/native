@@ -10,7 +10,7 @@ import '../logging/logging.dart';
 class Resolver {
   /// Class corresponding to currently writing file.
   ///
-  /// Is [null] when in single file mode.
+  /// Is `null` when in single file mode.
   final String? currentClass;
 
   /// Explicit import mappings.

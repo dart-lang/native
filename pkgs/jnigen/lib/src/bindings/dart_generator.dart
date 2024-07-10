@@ -867,7 +867,7 @@ class _JniResultGetter extends TypeVisitor<String> {
 
 /// Type signature for Dart and C's varargs.
 ///
-/// When [isFFi] is `true`, it generates the ffi type signature for vararg.
+/// When `isFfi` is `true`, it generates the ffi type signature for vararg.
 ///
 /// For example `ffi.Int32` is an ffi type signature while `int` is a Dart one.
 class _TypeSig extends TypeVisitor<String> {
@@ -1576,10 +1576,10 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 /// Returns null for void.
 ///
 /// Since Dart doesn't know that this global reference is still used, it might
-/// garbage collect it via [NativeFinalizer] thus making it invalid.
-/// This passes the ownership to Java using [setAsReleased].
+/// garbage collect it via `NativeFinalizer` thus making it invalid.
+/// This passes the ownership to Java using `setAsReleased`.
 ///
-/// `toPointer` detaches the object from the [NativeFinalizer] and Java
+/// `toPointer` detaches the object from the `NativeFinalizer` and Java
 /// will clean up the global reference afterwards.
 ///
 /// For example `$r.toJInteger().reference.toPointer()` when the return
