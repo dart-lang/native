@@ -1,4 +1,8 @@
-## 1.3.0  
+## 1.4.0
+
+- No changes yet, but rev version due to BuildConfig change.
+
+## 1.3.0
 
 - Add key for assets to be linked.  
   Backwards compatibility older build hooks: The key can be omitted.  

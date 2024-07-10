@@ -73,6 +73,7 @@ void main() {
                     ? LinkModePreference.dynamic
                     : LinkModePreference.static,
                 targetIOSSdk: targetIOSSdk,
+                linkingEnabled: false,
               );
               final buildOutput = BuildOutput();
 
@@ -209,6 +210,7 @@ Future<Uri> buildLib(
     linkModePreference: linkMode == DynamicLoadingBundled()
         ? LinkModePreference.dynamic
         : LinkModePreference.static,
+    linkingEnabled: false,
   );
   final buildOutput = BuildOutput();
 

@@ -28,6 +28,7 @@ void main() async {
         packageUri,
         logger,
         dartExecutable,
+        linkingEnabled: false,
       );
       final dryRunAssets = dryRunResult.assets.toList();
       final result = await build(

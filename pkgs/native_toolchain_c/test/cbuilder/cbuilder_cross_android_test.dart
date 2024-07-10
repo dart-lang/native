@@ -135,6 +135,7 @@ Future<Uri> buildLib(
     linkModePreference: linkMode == DynamicLoadingBundled()
         ? LinkModePreference.dynamic
         : LinkModePreference.static,
+    linkingEnabled: false,
   );
   final buildOutput = BuildOutput();
 

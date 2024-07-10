@@ -1,3 +1,10 @@
+## 1.4.0
+
+- Link hooks are not always run. `BuildConfig.linkingEnabled` communicates
+  whether link hooks are run.
+  Compatibility with older SDKs: the `linkingEnabled` is false with v1.2.0 and
+  older, and true with v1.3.0.
+  
 ## 1.3.0
 
 - Rev version to know whether the Dart/Flutter SDK can consume

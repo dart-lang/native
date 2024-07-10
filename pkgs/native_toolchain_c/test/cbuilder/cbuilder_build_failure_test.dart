@@ -42,6 +42,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
+      linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
 

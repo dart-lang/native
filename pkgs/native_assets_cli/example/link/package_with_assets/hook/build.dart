@@ -19,6 +19,9 @@ void main(List<String> args) async {
         file: config.packageRoot.resolve('assets/used_asset.json'),
       )
     ];
-    output.addAssets(allAssets, linkInPackage: packageName);
+    output.addAssets(
+      allAssets,
+      linkInPackage: config.linkingEnabled ? packageName : null,
+    );
   });
 }

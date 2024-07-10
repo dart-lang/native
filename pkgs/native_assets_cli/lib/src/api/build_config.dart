@@ -16,6 +16,7 @@ import 'architecture.dart';
 import 'asset.dart';
 import 'build.dart';
 import 'build_mode.dart';
+import 'build_output.dart';
 import 'hook_config.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
@@ -41,6 +42,24 @@ abstract final class BuildConfig implements HookConfig {
   /// Not available during a [dryRun]. Will throw a [StateError] if accessed
   /// during a [dryRun].
   Object? metadatum(String packageName, String key);
+
+  /// Whether link hooks will be run after the build hooks.
+  ///
+  /// If [linkingEnabled] is true, [BuildOutput.addAsset] may be called with the
+  /// `linkInPackage` parameter so that assets can be linked in a link hook.
+  /// Linking is enabled in Flutter release builds and Dart AOT configurations.
+  /// These configurations are optimized for app size.
+  /// - `flutter build`
+  /// - `flutter run --release`
+  /// - `dart build`
+  ///
+  /// If [linkingEnabled] is false, no assets should be added with the
+  /// `linkInPackage` parameter set. All assets must be ready for bundling.
+  /// Linking is disabled in Flutter debug builds and Dart JIT configurations.
+  /// These configurations are optimized for development speed.
+  /// - `dart run`
+  /// - `flutter run` (debug mode)
+  bool get linkingEnabled;
 
   /// The version of [BuildConfig].
   ///
@@ -103,6 +122,7 @@ abstract final class BuildConfig implements HookConfig {
     required LinkModePreference linkModePreference,
     Map<String, Map<String, Object>>? dependencyMetadata,
     Iterable<String>? supportedAssetTypes,
+    required bool linkingEnabled,
   }) =>
       BuildConfigImpl(
         outputDirectory: outputDirectory,
@@ -123,6 +143,7 @@ abstract final class BuildConfig implements HookConfig {
                   entry.key: Metadata(entry.value.cast())
               }
             : null,
+        linkingEnabled: linkingEnabled,
         supportedAssetTypes: supportedAssetTypes,
       );
 
@@ -139,6 +160,7 @@ abstract final class BuildConfig implements HookConfig {
     required Uri packageRoot,
     required OS targetOS,
     required LinkModePreference linkModePreference,
+    required bool linkingEnabled,
     Iterable<String>? supportedAssetTypes,
   }) =>
       BuildConfigImpl.dryRun(
@@ -148,5 +170,6 @@ abstract final class BuildConfig implements HookConfig {
         targetOS: targetOS as OSImpl,
         linkModePreference: linkModePreference as LinkModePreferenceImpl,
         supportedAssetTypes: supportedAssetTypes,
+        linkingEnabled: linkingEnabled,
       );
 }

@@ -57,6 +57,7 @@ void main() {
             envScript: envScript,
             envScriptArgs: envScriptArgs,
           ),
+          linkingEnabled: false,
         );
         final buildOutput = BuildOutput();
         final cbuilder = CBuilder.executable(
@@ -122,6 +123,7 @@ void main() {
                 packageRoot: tempUri,
                 targetOS: OS.current,
                 linkModePreference: LinkModePreference.dynamic,
+                linkingEnabled: false,
               )
             : BuildConfig.build(
                 outputDirectory: tempUri,
@@ -136,6 +138,7 @@ void main() {
                   envScript: envScript,
                   envScriptArgs: envScriptArgs,
                 ),
+                linkingEnabled: false,
               );
         final buildOutput = BuildOutput();
 
@@ -230,6 +233,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
+      linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
 
@@ -288,6 +292,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
+      linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
 
@@ -334,6 +339,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
+      linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
 
@@ -394,6 +400,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
+      linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
 
@@ -459,6 +466,7 @@ void main() {
         envScript: envScript,
         envScriptArgs: envScriptArgs,
       ),
+      linkingEnabled: false,
     );
     final buildOutput = BuildOutput();
     final cbuilder = CBuilder.executable(
@@ -531,6 +539,7 @@ Future<void> testDefines({
       envScript: envScript,
       envScriptArgs: envScriptArgs,
     ),
+    linkingEnabled: false,
   );
   final buildOutput = BuildOutput();
   final cbuilder = CBuilder.executable(

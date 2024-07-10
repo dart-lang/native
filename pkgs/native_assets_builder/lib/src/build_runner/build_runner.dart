@@ -54,6 +54,7 @@ class NativeAssetsBuildRunner {
     PackageLayout? packageLayout,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
+    required bool linkingEnabled,
   }) async =>
       _run(
         hook: Hook.build,
@@ -70,6 +71,7 @@ class NativeAssetsBuildRunner {
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         supportedAssetTypes: supportedAssetTypes,
+        linkingEnabled: linkingEnabled,
       );
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -133,8 +135,10 @@ class NativeAssetsBuildRunner {
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
     BuildResult? buildResult,
+    bool? linkingEnabled,
   }) async {
     assert(hook == Hook.link || buildResult == null);
+    assert(hook == Hook.build || linkingEnabled == null);
 
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final (buildPlan, packageGraph, planSuccess) = await _makePlan(
@@ -168,6 +172,7 @@ class NativeAssetsBuildRunner {
         buildMode,
         linkModePreference,
         dependencyMetadata,
+        linkingEnabled,
         cCompilerConfig,
         targetIOSSdk,
         targetAndroidNdkApi,
@@ -201,6 +206,7 @@ class NativeAssetsBuildRunner {
     BuildModeImpl buildMode,
     LinkModePreferenceImpl linkModePreference,
     DependencyMetadata? dependencyMetadata,
+    bool? linkingEnabled,
     CCompilerConfigImpl? cCompilerConfig,
     IOSSdkImpl? targetIOSSdk,
     int? targetAndroidNdkApi,
@@ -224,6 +230,7 @@ class NativeAssetsBuildRunner {
       targetAndroidNdkApi: targetAndroidNdkApi,
       supportedAssetTypes: supportedAssetTypes,
       hook: hook,
+      linkingEnabled: linkingEnabled,
     );
     final buildDirUri =
         packageLayout.dartToolNativeAssetsBuilder.resolve('$buildDirName/');
@@ -273,6 +280,7 @@ class NativeAssetsBuildRunner {
         targetMacOSVersion: targetMacOSVersion,
         cCompiler: cCompilerConfig,
         dependencyMetadata: dependencyMetadata,
+        linkingEnabled: linkingEnabled,
         targetAndroidNdkApi: targetAndroidNdkApi,
       );
     }
@@ -290,6 +298,7 @@ class NativeAssetsBuildRunner {
     required OSImpl targetOS,
     required Uri workingDirectory,
     required bool includeParentEnvironment,
+    required bool linkingEnabled,
     PackageLayout? packageLayout,
     String? runPackageName,
     Iterable<String>? supportedAssetTypes,
@@ -303,6 +312,7 @@ class NativeAssetsBuildRunner {
         packageLayout: packageLayout,
         runPackageName: runPackageName,
         supportedAssetTypes: supportedAssetTypes,
+        linkingEnabled: linkingEnabled,
       );
 
   /// [workingDirectory] is expected to contain `.dart_tool`.
@@ -332,6 +342,7 @@ class NativeAssetsBuildRunner {
         runPackageName: runPackageName,
         supportedAssetTypes: supportedAssetTypes,
         buildDryRunResult: buildDryRunResult,
+        linkingEnabled: null,
       );
 
   Future<HookResult> _runDryRun({
@@ -344,6 +355,7 @@ class NativeAssetsBuildRunner {
     Iterable<String>? supportedAssetTypes,
     required Hook hook,
     BuildDryRunResult? buildDryRunResult,
+    required bool? linkingEnabled,
   }) async {
     packageLayout ??= await PackageLayout.fromRootPackageRoot(workingDirectory);
     final (buildPlan, _, planSuccess) = await _makePlan(
@@ -367,6 +379,7 @@ class NativeAssetsBuildRunner {
         supportedAssetTypes: supportedAssetTypes,
         hook: hook,
         buildDryRunResult: buildDryRunResult,
+        linkingEnabled: linkingEnabled,
       );
       var (buildOutput, packageSuccess) = await _runHookForPackage(
         hook,
@@ -538,6 +551,7 @@ ${e.message}
     required Hook hook,
     BuildDryRunResult? buildDryRunResult,
     Iterable<String>? supportedAssetTypes,
+    required bool? linkingEnabled,
   }) async {
     final hookDirName = 'dry_run_${hook.name}_${targetOS}_$linkMode';
     final outDirUri = buildParentDir.resolve('$hookDirName/out/');
@@ -554,6 +568,7 @@ ${e.message}
           targetOS: targetOS,
           linkModePreference: linkMode,
           supportedAssetTypes: supportedAssetTypes,
+          linkingEnabled: linkingEnabled,
         );
       case Hook.link:
         return LinkConfigImpl.dryRun(

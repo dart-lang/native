@@ -220,6 +220,10 @@ class CBuilder implements Builder {
     required Logger? logger,
     String? linkInPackage,
   }) async {
+    assert(
+      config.linkingEnabled || linkInPackage == null,
+      'linkInPackage can only be provided if config.linkingEnabled is true.',
+    );
     final outDir = config.outputDirectory;
     final packageRoot = config.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);

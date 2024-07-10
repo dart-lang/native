@@ -15,6 +15,7 @@ void main(List<String> arguments) async {
       ..onRecord.listen((record) {
         print('${record.level.name}: ${record.time}: ${record.message}');
       });
+    final linkInPackage = config.linkingEnabled ? packageName : null;
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',
@@ -27,7 +28,7 @@ void main(List<String> arguments) async {
       config: config,
       output: output,
       logger: logger,
-      linkInPackage: packageName,
+      linkInPackage: linkInPackage,
     );
 
     await CBuilder.library(
@@ -42,7 +43,7 @@ void main(List<String> arguments) async {
       config: config,
       output: output,
       logger: logger,
-      linkInPackage: packageName,
+      linkInPackage: linkInPackage,
     );
   });
 }
