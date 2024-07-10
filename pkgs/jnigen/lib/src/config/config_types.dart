@@ -371,8 +371,6 @@ class Config {
         final symbolsFile = File.fromUri(yamlUri);
         final content = symbolsFile.readAsStringSync();
         yaml = loadYaml(content, sourceUrl: yamlUri) as YamlMap;
-      } on UnsupportedError catch (_) {
-        log.fatal('Could not reference "$import".');
       } catch (e, s) {
         log.warning(e);
         log.warning(s);
