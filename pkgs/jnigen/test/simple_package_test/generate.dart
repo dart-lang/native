@@ -4,10 +4,10 @@
 
 import 'dart:io';
 
+import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/config/experiments.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
-import 'package:jnigen/jnigen.dart';
 
 const testName = 'simple_package_test';
 final testRoot = join('test', testName);

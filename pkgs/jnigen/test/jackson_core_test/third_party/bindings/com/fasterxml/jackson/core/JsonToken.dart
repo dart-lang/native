@@ -36,8 +36,9 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import "dart:isolate" show ReceivePort;
 import "dart:ffi" as ffi;
+import "dart:isolate" show ReceivePort;
+
 import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 

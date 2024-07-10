@@ -4,9 +4,9 @@
 
 import 'dart:io';
 
+import 'package:jnigen/jnigen.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
-import 'package:jnigen/jnigen.dart';
 
 const testName = 'kotlin_test';
 const jarFile = '$testName.jar';

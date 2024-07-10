@@ -5,12 +5,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:test/test.dart';
-import 'test_util/bindings_test_setup.dart' as setup;
 
 import "jackson_core_test/runtime_test_registrant.dart" as jackson_core_test;
+import "kotlin_test/runtime_test_registrant.dart" as kotlin_test;
 import "simple_package_test/runtime_test_registrant.dart"
     as simple_package_test;
-import "kotlin_test/runtime_test_registrant.dart" as kotlin_test;
+import 'test_util/bindings_test_setup.dart' as setup;
 
 void main() {
   setUpAll(setup.bindingsTestSetup);

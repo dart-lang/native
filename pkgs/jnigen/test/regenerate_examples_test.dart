@@ -4,11 +4,10 @@
 
 import 'dart:io';
 
-import 'package:test/test.dart';
-import 'package:path/path.dart' hide equals;
-
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/tools.dart';
+import 'package:path/path.dart' hide equals;
+import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 

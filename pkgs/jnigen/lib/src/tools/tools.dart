@@ -3,5 +3,5 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'android_sdk_tools.dart';
-export 'maven_tools.dart';
 export 'build_summarizer.dart';
+export 'maven_tools.dart';

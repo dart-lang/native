@@ -5,12 +5,11 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/logging/logging.dart';
 import 'package:jnigen/src/util/find_package.dart';
+import 'package:logging/logging.dart' show Level;
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
-import 'package:logging/logging.dart' show Level;
-
-import 'package:jnigen/src/logging/logging.dart';
 
 final _currentDirectory = Directory(".");
 

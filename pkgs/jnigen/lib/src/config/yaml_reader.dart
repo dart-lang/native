@@ -5,8 +5,8 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:yaml/yaml.dart';
 import 'package:cli_config/cli_config.dart' as cli_config;
+import 'package:yaml/yaml.dart';
 
 import 'config_exception.dart';
 

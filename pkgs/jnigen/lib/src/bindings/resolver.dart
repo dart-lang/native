@@ -19,7 +19,7 @@ class Resolver {
   /// Names of all classes in input.
   final Set<String> inputClassNames;
 
-  final List<String> importStrings = [];
+  final List<String> _importStrings = [];
 
   final Set<String> _relativeImportedClasses = {};
   final Map<String, String> _importedNameToClass = {};
@@ -100,7 +100,7 @@ class Resolver {
 
     _importedNameToClass[importedName] = target;
     _classToImportedName[target] = importedName;
-    importStrings.add('import "$classImport" as $importedName;\n');
+    _importStrings.add('import "$classImport" as $importedName;\n');
     return '$importedName.';
   }
 
@@ -147,7 +147,7 @@ class Resolver {
     return null;
   }
 
-  List<String> getImportStrings() {
-    return importStrings;
+  List<String> get importStrings {
+    return _importStrings..sort();
   }
 }

@@ -6,11 +6,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:test/test.dart';
 import 'package:jni/jni.dart';
+import 'package:test/test.dart';
 
 import '../test_util/callback_types.dart';
-
 import 'bindings/simple_package.dart';
 
 const pi = 3.14159;

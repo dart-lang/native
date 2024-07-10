@@ -5,9 +5,9 @@
 import 'dart:io';
 
 import 'package:jnigen/src/config/config.dart';
-import 'package:test/test.dart';
-import 'package:path/path.dart' hide equals;
 import 'package:path/path.dart' as path show equals;
+import 'package:path/path.dart' hide equals;
+import 'package:test/test.dart';
 
 import 'jackson_core_test/generate.dart';
 import 'test_util/test_util.dart';
