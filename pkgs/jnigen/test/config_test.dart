@@ -15,7 +15,6 @@ import 'test_util/test_util.dart';
 const packageTests = 'test';
 final jacksonCoreTests = absolute(packageTests, 'jackson_core_test');
 final thirdParty = absolute(jacksonCoreTests, 'third_party');
-final lib = absolute(thirdParty, 'bindings');
 final testLib = absolute(thirdParty, 'test_', 'bindings');
 
 /// Compares 2 [Config] objects using [expect] to give useful errors when
