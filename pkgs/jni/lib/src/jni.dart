@@ -153,7 +153,7 @@ abstract final class Jni {
           (classPath.isNotEmpty ? 1 : 0);
       final optsPtr = (count != 0) ? allocator<JavaVMOption>(count) : nullptr;
       args.ref.options = optsPtr;
-      for (int i = 0; i < options.length; i++) {
+      for (var i = 0; i < options.length; i++) {
         (optsPtr + i).ref.optionString = options[i].toNativeChars(allocator);
       }
       if (dylibPath != null) {

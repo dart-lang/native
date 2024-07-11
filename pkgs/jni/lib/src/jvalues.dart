@@ -55,7 +55,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
 /// to convert to other primitive types instead.
 Pointer<JValue> toJValues(List<dynamic> args, {required Allocator allocator}) {
   final result = allocator<JValue>(args.length);
-  for (int i = 0; i < args.length; i++) {
+  for (var i = 0; i < args.length; i++) {
     final arg = args[i];
     final pos = result + i;
     _fillJValue(pos, arg);

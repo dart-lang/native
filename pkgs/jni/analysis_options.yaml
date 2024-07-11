@@ -14,7 +14,6 @@ linter:
     dangling_library_doc_comments: true
     prefer_final_locals: true
     prefer_const_declarations: true
-    omit_local_variable_types: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     only_throw_errors: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     prefer_relative_imports: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     prefer_single_quotes: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.

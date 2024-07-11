@@ -52,7 +52,7 @@ JObject newRandom() => randomClass.constructorId('(J)V').call(
 void run({required TestRunnerCallback testRunner}) {
   testRunner('Test 4K refs can be created in a row', () {
     final list = <JObject>[];
-    for (int i = 0; i < k4; i++) {
+    for (var i = 0; i < k4; i++) {
       list.add(newRandom());
     }
     for (final jobject in list) {
@@ -61,7 +61,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner('Create and release 256K references in a loop using arena', () {
-    for (int i = 0; i < k256; i++) {
+    for (var i = 0; i < k256; i++) {
       using((arena) {
         final random = newRandom()..releasedBy(arena);
         // The actual expect here does not matter. I am just being paranoid
@@ -74,7 +74,7 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('Create and release 256K references in a loop (explicit release)',
       () {
-    for (int i = 0; i < k256; i++) {
+    for (var i = 0; i < k256; i++) {
       final random = newRandom();
       expect(random.reference.pointer, isNot(nullptr));
       random.release();
@@ -82,9 +82,9 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner('Create and release 64K references, in batches of 256', () {
-    for (int i = 0; i < 64 * 4; i++) {
+    for (var i = 0; i < 64 * 4; i++) {
       using((arena) {
-        for (int i = 0; i < 256; i++) {
+        for (var i = 0; i < 256; i++) {
           final r = newRandom()..releasedBy(arena);
           expect(r.reference.pointer, isNot(nullptr));
         }
@@ -97,7 +97,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Verify a call returning primitive can be run any times', () {
     final random = newRandom();
     final nextInt = randomClass.instanceMethodId('nextInt', '()I');
-    for (int i = 0; i < k256; i++) {
+    for (var i = 0; i < k256; i++) {
       final rInt = nextInt(random, const jintType(), []);
       expect(rInt, isA<int>());
     }

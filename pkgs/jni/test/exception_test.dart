@@ -12,7 +12,7 @@ import 'test_util/test_util.dart';
 void main() {
   if (!Platform.isAndroid) {
     checkDylibIsUpToDate();
-    bool caught = false;
+    var caught = false;
     try {
       // If library does not exist, a helpful error should be thrown.
       // we can't test this directly because `test` schedules functions

@@ -102,13 +102,13 @@ void run({required TestRunnerCallback testRunner}) {
 
     final nextIntMethod = randomClass.instanceMethodId("nextInt", "(I)I");
 
-    for (int i = 0; i < 100; i++) {
-      int r = nextIntMethod(
+    for (var i = 0; i < 100; i++) {
+      var r = nextIntMethod(
         random,
         jint.type,
         [JValueInt(256 * 256)],
       );
-      int bits = 0;
+      var bits = 0;
       final jbc = bitCountMethod(
         longClass,
         jint.type,
@@ -191,7 +191,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final randomClass = JClass.forName('java/util/Random')..releasedBy(arena);
       final constructor = randomClass.constructorId('()V');
-      for (int i = 0; i < 10; i++) {
+      for (var i = 0; i < 10; i++) {
         objects
             .add(constructor(randomClass, JObject.type, [])..releasedBy(arena));
       }
