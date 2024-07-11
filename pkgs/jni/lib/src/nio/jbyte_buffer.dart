@@ -191,8 +191,8 @@ class JByteBuffer extends JBuffer {
 
   static final _getId = _class.instanceMethodId(r"get", r"()B");
 
-  /// Reads the byte at this buffer's current [position], and then increments the
-  /// [position].
+  /// Reads the byte at this buffer's current [position], and then increments
+  /// the [position].
   ///
   /// Throws:
   ///  * `BufferOverflowException` - If the buffer's current [position] is not

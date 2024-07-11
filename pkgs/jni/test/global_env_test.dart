@@ -68,8 +68,8 @@ void run({required TestRunnerCallback testRunner}) {
 
             for (var i in [1, 80, 13, 76, 11344]) {
               // if your argument is int, bool, or JObject (`Pointer<Void>`)
-              // it can be directly placed in the list. To convert into different primitive
-              // types, use JValue<Type> wrappers.
+              // it can be directly placed in the list. To convert into
+              // different primitive types, use JValue<Type> wrappers.
               final jres = env.CallStaticObjectMethodA(integerClass, hexMethod,
                   toJValues([JValueInt(i)], allocator: arena));
 

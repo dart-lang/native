@@ -1428,7 +1428,8 @@ class GlobalJniEnv {
   int GetObjectRefType(JObjectPtr obj) => _GetObjectRefType(obj).integer;
 }
 
-/// Wraps over the function pointers in JniAccessorsStruct and exposes them as methods.
+/// Wraps over the function pointers in JniAccessorsStruct and exposes them as
+/// methods.
 class JniAccessors {
   final ffi.Pointer<JniAccessorsStruct> ptr;
   JniAccessors(this.ptr);

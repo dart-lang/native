@@ -235,7 +235,8 @@ void run({required TestRunnerCallback testRunner}) {
       // On standalone target, make sure to call [setDylibDir] before accessing
       // any JNI function in a new isolate.
       //
-      // otherwise subsequent JNI calls will throw a "library not found" exception.
+      // otherwise subsequent JNI calls will throw a "library not found"
+      // exception.
       Jni.setDylibDir(dylibDir: "build/jni_libs");
       final randomClass = JClass.forName("java/util/Random");
       final random =
