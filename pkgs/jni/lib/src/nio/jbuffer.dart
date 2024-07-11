@@ -29,7 +29,7 @@ final class JBufferType extends JObjType<JBuffer> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JBufferType) && other is JBufferType;
+    return other.runtimeType == JBufferType && other is JBufferType;
   }
 }
 

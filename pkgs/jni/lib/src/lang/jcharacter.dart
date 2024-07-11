@@ -24,7 +24,7 @@ final class JCharacterType extends JObjType<JCharacter> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JCharacterType) && other is JCharacterType;
+    return other.runtimeType == JCharacterType && other is JCharacterType;
   }
 }
 

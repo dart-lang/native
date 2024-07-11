@@ -14,7 +14,5 @@ linter:
     dangling_library_doc_comments: true
     prefer_final_locals: true
     prefer_const_declarations: true
-    type_annotate_public_apis: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
-    unnecessary_parenthesis: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     unreachable_from_main: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     use_super_parameters: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
