@@ -5,9 +5,8 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:test/test.dart';
-
 import 'package:jni/jni.dart';
+import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 

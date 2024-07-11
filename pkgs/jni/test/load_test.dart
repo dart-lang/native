@@ -5,14 +5,13 @@
 @Tags(['load_test'])
 library;
 
-import 'dart:io';
 import 'dart:ffi';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:ffi/ffi.dart';
-import 'package:test/test.dart';
-
 import 'package:jni/jni.dart';
+import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
