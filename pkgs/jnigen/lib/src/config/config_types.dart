@@ -543,7 +543,7 @@ class Config {
       experiments: prov
           .getStringList(_Props.experiments)
           ?.map(
-            (e) => Experiment.fromString(e),
+            Experiment.fromString,
           )
           .toSet(),
       imports: prov.getPathList(_Props.import),

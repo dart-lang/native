@@ -55,8 +55,8 @@ Config getSummaryGenerationConfig(
     ),
     // Make a defensive copy of class list, if some test mutates the list...
     classes: summarizerClassesSpec.toList(),
-    sourcePath: sourcePath?.map((e) => Uri.file(e)).toList(),
-    classPath: classPath?.map((e) => Uri.file(e)).toList(),
+    sourcePath: sourcePath?.map(Uri.file).toList(),
+    classPath: classPath?.map(Uri.file).toList(),
     logLevel: Level.WARNING,
   );
 }

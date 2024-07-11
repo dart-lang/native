@@ -36,7 +36,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final erroneous = factory
             .createParser6('<html>'.toJString()..releasedBy(arena))
           ..releasedBy(arena);
-        expect(() => erroneous.nextToken(), throwsA(isA<JniException>()));
+        expect(erroneous.nextToken, throwsA(isA<JniException>()));
       });
     });
   });

@@ -567,9 +567,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         late final MyInterface<JInteger> myInterface;
         myInterface = MyInterface.implement(
           $MyInterfaceImpl(
-            voidCallback: (s) {
-              voidCallbackResult.complete(s);
-            },
+            voidCallback: voidCallbackResult.complete,
             stringCallback: (s) {
               return (s.toDartString(releaseOriginal: true) * 2).toJString();
             },
