@@ -112,7 +112,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('containsKey', () {
     using((arena) {
       final map = testDataMap(arena);
-      // ignore: iterable_contains_unrelated_type
+      // ignore: collection_methods_unrelated_type
       expect(map.containsKey(1), false);
       expect(map.containsKey("1".toJString()..releasedBy(arena)), true);
       expect(map.containsKey("4".toJString()..releasedBy(arena)), false);
@@ -121,7 +121,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('containsValue', () {
     using((arena) {
       final map = testDataMap(arena);
-      // ignore: iterable_contains_unrelated_type
+      // ignore: collection_methods_unrelated_type
       expect(map.containsValue(1), false);
       expect(map.containsValue("One".toJString()..releasedBy(arena)), true);
       expect(map.containsValue("Four".toJString()..releasedBy(arena)), false);

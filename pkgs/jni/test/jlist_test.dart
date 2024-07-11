@@ -91,7 +91,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('contains', () {
     using((arena) {
       final list = testDataList(arena);
-      // ignore: iterable_contains_unrelated_type
+      // ignore: collection_methods_unrelated_type
       expect(list.contains("1"), false);
       expect(list.contains("1".toJString()..releasedBy(arena)), true);
       expect(list.contains("4".toJString()..releasedBy(arena)), false);
@@ -155,7 +155,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(list.remove("3".toJString()..releasedBy(arena)), true);
       expect(list.length, 2);
       expect(list.remove("4".toJString()..releasedBy(arena)), false);
-      // ignore: list_remove_unrelated_type
+      // ignore: collection_methods_unrelated_type
       expect(list.remove(1), false);
     });
   });

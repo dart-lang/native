@@ -68,7 +68,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('contains', () {
     using((arena) {
       final set = testDataSet(arena);
-      // ignore: iterable_contains_unrelated_type
+      // ignore: collection_methods_unrelated_type
       expect(set.contains(1), false);
       expect(set.contains("1".toJString()..releasedBy(arena)), true);
       expect(set.contains("4".toJString()..releasedBy(arena)), false);
@@ -169,7 +169,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('lookup', () {
     using((arena) {
       final set = testDataSet(arena);
-      // ignore: iterable_contains_unrelated_type
+      // ignore: collection_methods_unrelated_type
       expect(set.lookup(1), null);
       expect(
         set.lookup("1".toJString())?.toDartString(releaseOriginal: true),
