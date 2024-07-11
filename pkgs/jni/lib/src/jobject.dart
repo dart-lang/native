@@ -16,7 +16,7 @@ final class JObjectType extends JObjType<JObject> {
   const JObjectType();
 
   @override
-  String get signature => "Ljava/lang/Object;";
+  String get signature => 'Ljava/lang/Object;';
 
   @override
   JObject fromReference(JReference reference) =>
@@ -97,13 +97,13 @@ class JObject {
 
   static final _class = JClass.forName('java/lang/Object');
 
-  static final _hashCodeId = _class.instanceMethodId(r"hashCode", r"()I");
+  static final _hashCodeId = _class.instanceMethodId(r'hashCode', r'()I');
 
   @override
   int get hashCode => _hashCodeId(this, const jintType(), []);
 
   static final _equalsId =
-      _class.instanceMethodId(r"equals", r"(Ljava/lang/Object;)Z");
+      _class.instanceMethodId(r'equals', r'(Ljava/lang/Object;)Z');
   @override
   bool operator ==(Object other) {
     if (other is! JObject) {
@@ -113,7 +113,7 @@ class JObject {
   }
 
   static final _toStringId =
-      _class.instanceMethodId(r"toString", r"()Ljava/lang/String;");
+      _class.instanceMethodId(r'toString', r'()Ljava/lang/String;');
   @override
   String toString() {
     return _toStringId(this, const JStringType(), [])
@@ -127,7 +127,7 @@ class JObject {
 }
 
 extension JObjectUseExtension<T extends JObject> on T {
-  /// Applies [callback] on [this] object and then delete the underlying JNI
+  /// Applies [callback] on this object and then delete the underlying JNI
   /// reference, returning the result of [callback].
   R use<R>(R Function(T) callback) {
     try {

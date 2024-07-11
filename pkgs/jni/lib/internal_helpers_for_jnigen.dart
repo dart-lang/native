@@ -10,9 +10,9 @@ import 'dart:ffi' as ffi;
 
 export 'src/accessors.dart';
 export 'src/jni.dart' show ProtectedJniExtensions;
-export 'src/types.dart' show referenceType;
 export 'src/jreference.dart';
 export 'src/method_invocation.dart';
+export 'src/types.dart' show referenceType;
 
 /// Temporary fix for the macOS arm64 varargs problem.
 ///

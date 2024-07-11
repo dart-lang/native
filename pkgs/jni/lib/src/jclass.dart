@@ -9,7 +9,7 @@ part of 'types.dart';
 /// JClasses are objects of type `java.lang.Class`.
 class JClass extends JObject {
   /// Constructs a [JClass] with the underlying [reference].
-  JClass.fromReference(JReference reference) : super.fromReference(reference);
+  JClass.fromReference(super.reference) : super.fromReference();
 
   /// Constructs a [JClass] associated with the class or interface with
   /// the given string name.
