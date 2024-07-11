@@ -6,6 +6,7 @@ import '../jobject.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
+import 'jbyte_buffer.dart';
 
 final class JBufferType extends JObjType<JBuffer> {
   const JBufferType();
@@ -79,10 +80,11 @@ class JBuffer extends JObject {
       _class.instanceMethodId(r"position", r"(I)Ljava/nio/Buffer;");
 
   /// Throws:
-  /// * [IllegalArgumentException] - If the preconditions on [newPosition] do
+  /// * `IllegalArgumentException` - If the preconditions on [newPosition] do
   ///   not hold.
-  set position(int position) {
-    _setPositionId(this, const JObjectType(), [JValueInt(position)]).release();
+  set position(int newPosition) {
+    _setPositionId(this, const JObjectType(), [JValueInt(newPosition)])
+        .release();
   }
 
   static final _limitId = _class.instanceMethodId(r"limit", r"()I");
@@ -98,7 +100,7 @@ class JBuffer extends JObject {
       _class.instanceMethodId(r"limit", r"(I)Ljava/nio/Buffer;");
 
   /// Throws:
-  /// * [IllegalArgumentException] - If the preconditions on [newLimit] do not
+  /// * `IllegalArgumentException` - If the preconditions on [newLimit] do not
   ///   hold.
   set limit(int newLimit) {
     _setLimitId(this, const JObjectType(), [JValueInt(newLimit)]).release();
@@ -121,7 +123,7 @@ class JBuffer extends JObject {
   /// Resets this buffer's [position] to the previously-marked position.
   ///
   /// Throws:
-  /// * [InvalidMarkException] - If the mark has not been set
+  /// * `InvalidMarkException` - If the mark has not been set
   void reset() {
     _resetId(this, const JObjectType(), []).release();
   }
@@ -198,9 +200,9 @@ class JBuffer extends JObject {
   /// values for this method.
   ///
   /// Throws:
-  /// * [ReadOnlyBufferException] - If this buffer is backed by an array but is
+  /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is
   ///   read-only
-  /// * [UnsupportedOperationException] - If this buffer is not backed by an
+  /// * `UnsupportedOperationException` - If this buffer is not backed by an
   ///   accessible array
   JObject get array {
     return _arrayId(this, const JObjectType(), []);
@@ -212,9 +214,9 @@ class JBuffer extends JObject {
   /// of the buffer.
   ///
   /// Throws:
-  /// * [ReadOnlyBufferException] - If this buffer is backed by an array but is
+  /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is
   ///   read-only
-  /// * [UnsupportedOperationException] - If this buffer is not backed by an
+  /// * `UnsupportedOperationException` - If this buffer is not backed by an
   ///   accessible array
   int get arrayOffset {
     return _arrayOffsetId(this, const jintType(), []);

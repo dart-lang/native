@@ -107,7 +107,7 @@ abstract final class Jni {
   }
 
   /// Same as [spawn] but if a JVM exists, returns silently instead of
-  /// throwing [JvmExistsError].
+  /// throwing [JniVmExistsError].
   ///
   /// If the options are different than that of existing VM, the existing VM's
   /// options will remain in effect.

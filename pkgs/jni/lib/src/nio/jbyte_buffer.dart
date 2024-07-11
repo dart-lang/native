@@ -107,7 +107,7 @@ class JByteBuffer extends JBuffer {
   /// Allocates a new direct byte buffer.
   ///
   /// Throws:
-  /// * [IllegalArgumentException] - If the capacity is a negative integer
+  /// * `IllegalArgumentException` - If the capacity is a negative integer
   factory JByteBuffer.allocateDirect(int capacity) {
     return _allocateDirectId(
         _class, const JByteBufferType(), [JValueInt(capacity)]);
@@ -119,7 +119,7 @@ class JByteBuffer extends JBuffer {
   /// Allocates a new byte buffer.
   ///
   /// Throws:
-  /// * [IllegalArgumentException] - If the capacity is a negative integer
+  /// * `IllegalArgumentException` - If the capacity is a negative integer
   factory JByteBuffer.allocate(int capacity) {
     return _allocateId(_class, const JByteBufferType(), [JValueInt(capacity)]);
   }
@@ -195,7 +195,7 @@ class JByteBuffer extends JBuffer {
   /// [position].
   ///
   /// Throws:
-  ///  * [BufferOverflowException] - If the buffer's current [position] is not
+  ///  * `BufferOverflowException` - If the buffer's current [position] is not
   ///    smaller than its [limit]
   int get nextByte {
     return _getId(this, const jbyteType(), []);
@@ -208,9 +208,9 @@ class JByteBuffer extends JBuffer {
   /// increments the [position].
   ///
   /// Throws:
-  /// * [BufferOverflowException] - If this buffer's current [position] is not
+  /// * `BufferOverflowException` - If this buffer's current [position] is not
   ///   smaller than its [limit]
-  /// * [ReadOnlyBufferException] - If this buffer is read-only
+  /// * `ReadOnlyBufferException` - If this buffer is read-only
   set nextByte(int b) {
     _putId(this, const JObjectType(), [JValueByte(b)]).release();
   }

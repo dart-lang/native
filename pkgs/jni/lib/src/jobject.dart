@@ -127,7 +127,7 @@ class JObject {
 }
 
 extension JObjectUseExtension<T extends JObject> on T {
-  /// Applies [callback] on [this] object and then delete the underlying JNI
+  /// Applies [callback] on this object and then delete the underlying JNI
   /// reference, returning the result of [callback].
   R use<R>(R Function(T) callback) {
     try {
