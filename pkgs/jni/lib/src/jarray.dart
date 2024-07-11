@@ -9,11 +9,11 @@ import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
-import 'package:jni/internal_helpers_for_jnigen.dart';
-import 'package:jni/src/third_party/generated_bindings.dart';
 
+import '../internal_helpers_for_jnigen.dart';
 import 'jni.dart';
 import 'jobject.dart';
+import 'third_party/generated_bindings.dart';
 import 'types.dart';
 
 final class JArrayType<E> extends JObjType<JArray<E>> {

@@ -13,11 +13,11 @@ typedef TestRunnerCallback = void
 
 final currentDir = Directory.current.uri;
 final dllSuffix =
-    Platform.isWindows ? "dll" : (Platform.isMacOS ? "dylib" : "so");
+    Platform.isWindows ? 'dll' : (Platform.isMacOS ? 'dylib' : 'so');
 final dllPrefix = Platform.isWindows ? '' : 'lib';
 final dllPath =
-    currentDir.resolve("build/jni_libs/${dllPrefix}dartjni.$dllSuffix");
-final srcPath = currentDir.resolve("src/");
+    currentDir.resolve('build/jni_libs/${dllPrefix}dartjni.$dllSuffix');
+final srcPath = currentDir.resolve('src/');
 
 /// Fail if dartjni dll is stale.
 void checkDylibIsUpToDate() {
@@ -38,5 +38,5 @@ void checkDylibIsUpToDate() {
 
 void spawnJvm() {
   Jni.spawnIfNotExists(
-      dylibDir: "build/jni_libs", jvmOptions: ["-Xmx128m", "-Xcheck:jni"]);
+      dylibDir: 'build/jni_libs', jvmOptions: ['-Xmx128m', '-Xcheck:jni']);
 }

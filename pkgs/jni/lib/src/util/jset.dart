@@ -18,7 +18,7 @@ final class JSetType<$E extends JObject> extends JObjType<JSet<$E>> {
   );
 
   @override
-  String get signature => r"Ljava/util/Set;";
+  String get signature => r'Ljava/util/Set;';
 
   @override
   JSet<$E> fromReference(JReference reference) =>
@@ -53,7 +53,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     JReference reference,
   ) : super.fromReference(reference);
 
-  static final _class = JClass.forName(r"java/util/Set");
+  static final _class = JClass.forName(r'java/util/Set');
 
   /// The type which includes information such as the signature of this class.
   static JSetType<$E> type<$E extends JObject>(
@@ -64,20 +64,20 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     );
   }
 
-  static final _hashSetClass = JClass.forName(r"java/util/HashSet");
-  static final _ctorId = _hashSetClass.constructorId(r"()V");
+  static final _hashSetClass = JClass.forName(r'java/util/HashSet');
+  static final _ctorId = _hashSetClass.constructorId(r'()V');
   JSet.hash(this.E)
       : super.fromReference(_ctorId(_hashSetClass, referenceType, []));
 
   static final _addId =
-      _class.instanceMethodId(r"add", r"(Ljava/lang/Object;)Z");
+      _class.instanceMethodId(r'add', r'(Ljava/lang/Object;)Z');
   @override
   bool add($E value) {
     return _addId(this, const jbooleanType(), [value.reference.pointer]);
   }
 
   static final _addAllId =
-      _class.instanceMethodId(r"addAll", r"(Ljava/util/Collection;)Z");
+      _class.instanceMethodId(r'addAll', r'(Ljava/util/Collection;)Z');
   @override
   void addAll(Iterable<$E> elements) {
     if (elements is JObject &&
@@ -93,14 +93,14 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     return super.addAll(elements);
   }
 
-  static final _clearId = _class.instanceMethodId(r"clear", r"()V");
+  static final _clearId = _class.instanceMethodId(r'clear', r'()V');
   @override
   void clear() {
     _clearId(this, const jvoidType(), []);
   }
 
   static final _containsId =
-      _class.instanceMethodId(r"contains", r"(Ljava/lang/Object;)Z");
+      _class.instanceMethodId(r'contains', r'(Ljava/lang/Object;)Z');
 
   @override
   bool contains(Object? element) {
@@ -111,8 +111,8 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   }
 
   static final _containsAllId =
-      _class.instanceMethodId(r"containsAll", r"(Ljava/util/Collection;)Z");
-  static final _collectionClass = JClass.forName("java/util/Collection");
+      _class.instanceMethodId(r'containsAll', r'(Ljava/util/Collection;)Z');
+  static final _collectionClass = JClass.forName('java/util/Collection');
   @override
   bool containsAll(Iterable<Object?> other) {
     if (other is JObject &&
@@ -124,7 +124,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
     return super.containsAll(other);
   }
 
-  static final _isEmptyId = _class.instanceMethodId(r"isEmpty", r"()Z");
+  static final _isEmptyId = _class.instanceMethodId(r'isEmpty', r'()Z');
   @override
   bool get isEmpty => _isEmptyId(this, const jbooleanType(), []);
 
@@ -132,16 +132,16 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   bool get isNotEmpty => !isEmpty;
 
   static final _iteratorId =
-      _class.instanceMethodId(r"iterator", r"()Ljava/util/Iterator;");
+      _class.instanceMethodId(r'iterator', r'()Ljava/util/Iterator;');
   @override
   JIterator<$E> get iterator => _iteratorId(this, JIteratorType(E), []);
 
-  static final _sizeId = _class.instanceMethodId(r"size", r"()I");
+  static final _sizeId = _class.instanceMethodId(r'size', r'()I');
   @override
   int get length => _sizeId(this, const jintType(), []);
 
   static final _removeId =
-      _class.instanceMethodId(r"remove", r"(Ljava/lang/Object;)Z");
+      _class.instanceMethodId(r'remove', r'(Ljava/lang/Object;)Z');
   @override
   bool remove(Object? value) {
     if (value is! $E) {
@@ -151,7 +151,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   }
 
   static final _removeAllId =
-      _class.instanceMethodId(r"removeAll", r"(Ljava/util/Collection;)Z");
+      _class.instanceMethodId(r'removeAll', r'(Ljava/util/Collection;)Z');
   @override
   void removeAll(Iterable<Object?> elements) {
     if (elements is JObject &&
@@ -165,7 +165,7 @@ class JSet<$E extends JObject> extends JObject with SetMixin<$E> {
   }
 
   static final _retainAllId =
-      _class.instanceMethodId(r"retainAll", r"(Ljava/util/Collection;)Z");
+      _class.instanceMethodId(r'retainAll', r'(Ljava/util/Collection;)Z');
   @override
   void retainAll(Iterable<Object?> elements) {
     if (elements is JObject &&
