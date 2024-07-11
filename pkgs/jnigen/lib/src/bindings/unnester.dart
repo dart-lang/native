@@ -13,7 +13,7 @@ class Unnester extends Visitor<Classes, void> {
   const Unnester();
 
   @override
-  void visit(node) {
+  void visit(Classes node) {
     final classProcessor = _ClassUnnester();
     for (final classDecl in node.decls.values) {
       classDecl.accept(classProcessor);
