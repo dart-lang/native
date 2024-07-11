@@ -4,8 +4,8 @@
 
 import 'dart:io';
 
-import 'package:test/test.dart';
 import 'package:jni/jni.dart';
+import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
@@ -18,10 +18,12 @@ void main() {
       // we can't test this directly because `test` schedules functions
       // asynchronously.
       Jni.spawn(dylibDir: "wrong_dir");
+      // ignore: avoid_catching_errors
     } on HelperNotFoundError catch (_) {
       // stderr.write("\n$_\n");
       spawnJvm();
       caught = true;
+      // ignore: avoid_catching_errors
     } on JniVmExistsError {
       stderr.writeln('cannot verify: HelperNotFoundError thrown');
     }
