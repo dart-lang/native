@@ -11,13 +11,13 @@ import 'logging.dart';
 
 class Paths {
   static final currentDir = Directory.current.uri;
-  static final bindingsDir = currentDir.resolve("lib/src/third_party/");
+  static final bindingsDir = currentDir.resolve('lib/src/third_party/');
   // Contains extensions for our C wrapper types.
   static final globalEnvExts =
-      bindingsDir.resolve("global_env_extensions.dart");
+      bindingsDir.resolve('global_env_extensions.dart');
   // Contains extensions for JNI's struct types.
   static final localEnvExts =
-      bindingsDir.resolve("jnienv_javavm_extensions.dart");
+      bindingsDir.resolve('jnienv_javavm_extensions.dart');
 }
 
 const writeLocalEnvExtensions = false;
@@ -44,7 +44,7 @@ String getCheckedGetter(Type returnType) {
     return 'getPointer<$child>()';
   }
   final cType = returnType.getCType(dummyWriter);
-  if (cType.endsWith("ArrayPtr")) {
+  if (cType.endsWith('ArrayPtr')) {
     return objectPointerGetter;
   }
   const mappings = {
@@ -70,7 +70,8 @@ String getCheckedGetter(Type returnType) {
   if (mappings.containsKey(cType)) {
     return mappings[cType]!;
   }
-  throw 'Unknown return type: $cType';
+  stderr.writeln('Unknown return type: $cType');
+  exit(-1);
 }
 
 String? getGlobalEnvExtensionFunction(Member field, Type? checkedReturnType) {
@@ -166,7 +167,7 @@ String getGlobalEnvExtension(
 ) {
   final env = findCompound(library, localEnvType);
   final globalEnv = findCompound(library, globalEnvType);
-  final checkedReturnTypes = {};
+  final checkedReturnTypes = <String, Type>{};
   for (var field in globalEnv.members) {
     final fieldType = field.type;
     if (fieldType is PointerType && fieldType.child is NativeFunc) {
