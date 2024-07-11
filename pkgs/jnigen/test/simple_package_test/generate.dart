@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/config/experiments.dart';
+import 'package:jnigen/src/logging/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
@@ -46,8 +47,8 @@ var javaFiles = [
 void compileJavaSources(String workingDir, List<String> files) async {
   final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
   if (procRes.exitCode != 0) {
-    throw "javac exited with ${procRes.exitCode}\n"
-        "${procRes.stderr}";
+    log.fatal("javac exited with ${procRes.exitCode}\n"
+        "${procRes.stderr}");
   }
 }
 

@@ -646,6 +646,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final runnable = MyRunnable.implement(
               $MyRunnableImpl(
                 run: () {
+                  // ignore: only_throw_errors
                   throw exception;
                 },
               ),
@@ -699,6 +700,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             parseToInt: (s) {
               final value = int.tryParse(s.toDartString());
               if (value == null) {
+                // ignore: only_throw_errors
                 throw StringConversionException(
                     'Invalid integer expression: $s'.toJString());
               }

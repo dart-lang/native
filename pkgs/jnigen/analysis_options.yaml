@@ -20,7 +20,6 @@ linter:
     unawaited_futures: true
     prefer_const_constructors: true
     prefer_relative_imports: true
-    only_throw_errors: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     prefer_single_quotes: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     type_annotate_public_apis: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
     unnecessary_lambdas: false # TODO(https://github.com/dart-lang/native/issues/1282): Fix.
