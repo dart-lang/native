@@ -166,7 +166,7 @@ String getGlobalEnvExtension(
 ) {
   final env = findCompound(library, localEnvType);
   final globalEnv = findCompound(library, globalEnvType);
-  final checkedReturnTypes = {};
+  final checkedReturnTypes = <String, Type>{};
   for (var field in globalEnv.members) {
     final fieldType = field.type;
     if (fieldType is PointerType && fieldType.child is NativeFunc) {
@@ -175,8 +175,7 @@ String getGlobalEnvExtension(
     }
   }
   final extensionFunctions = env.members
-      .map((m) =>
-          getGlobalEnvExtensionFunction(m, checkedReturnTypes[m.name] as Type?))
+      .map((m) => getGlobalEnvExtensionFunction(m, checkedReturnTypes[m.name]))
       .nonNulls
       .join('\n');
   return '''
