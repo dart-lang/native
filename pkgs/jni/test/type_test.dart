@@ -19,7 +19,7 @@ import 'test_util/test_util.dart';
 //  F
 
 class A extends JObject {
-  A.fromReference(JReference reference) : super.fromReference(reference);
+  A.fromReference(super.reference) : super.fromReference();
   @override
   JObjType<JObject> get $type => $AType();
 }
@@ -49,7 +49,7 @@ final class $AType extends JObjType<A> {
 }
 
 class B extends JObject {
-  B.fromReference(JReference reference) : super.fromReference(reference);
+  B.fromReference(super.reference) : super.fromReference();
   @override
   JObjType<JObject> get $type => $BType();
 }
@@ -79,7 +79,7 @@ final class $BType extends JObjType<B> {
 }
 
 class C extends A {
-  C.fromReference(JReference reference) : super.fromReference(reference);
+  C.fromReference(super.reference) : super.fromReference();
 
   @override
   JObjType<JObject> get $type => $CType();
@@ -110,7 +110,7 @@ final class $CType extends JObjType<C> {
 }
 
 class D extends A {
-  D.fromReference(JReference reference) : super.fromReference(reference);
+  D.fromReference(super.reference) : super.fromReference();
 
   @override
   JObjType<JObject> get $type => $DType();
@@ -141,7 +141,7 @@ final class $DType extends JObjType<D> {
 }
 
 class E extends B {
-  E.fromReference(JReference reference) : super.fromReference(reference);
+  E.fromReference(super.reference) : super.fromReference();
 
   @override
   JObjType<JObject> get $type => $EType();
@@ -172,7 +172,7 @@ final class $EType extends JObjType<E> {
 }
 
 class F extends C {
-  F.fromReference(JReference reference) : super.fromReference(reference);
+  F.fromReference(super.reference) : super.fromReference();
 
   @override
   JObjType<JObject> get $type => $FType();

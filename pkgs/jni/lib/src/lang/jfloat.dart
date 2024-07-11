@@ -37,8 +37,8 @@ class JFloat extends JNumber {
   late final JObjType<JFloat> $type = type;
 
   JFloat.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const type = JFloatType();

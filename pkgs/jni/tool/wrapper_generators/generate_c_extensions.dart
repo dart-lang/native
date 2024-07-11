@@ -245,7 +245,7 @@ String? getWrapperFunc(Member field) {
     }
     final callParams = [
       'jniEnv',
-      ...(outerFunctionType.parameters.map((param) => param.name).toList()),
+      ...outerFunctionType.parameters.map((param) => param.name).toList(),
       if (withVarArgs) 'args',
     ].join(', ');
     final resultWrapper = getResultWrapper(returnType);

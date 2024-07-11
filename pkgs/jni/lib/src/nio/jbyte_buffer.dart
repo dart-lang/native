@@ -34,7 +34,7 @@ final class JByteBufferType extends JObjType<JByteBuffer> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JByteBufferType) && other is JByteBufferType;
+    return other.runtimeType == JByteBufferType && other is JByteBufferType;
   }
 }
 
@@ -93,8 +93,8 @@ class JByteBuffer extends JBuffer {
   late final JObjType<JByteBuffer> $type = type;
 
   JByteBuffer.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   static final _class = JClass.forName(r'java/nio/ByteBuffer');
 

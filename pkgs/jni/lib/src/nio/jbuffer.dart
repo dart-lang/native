@@ -29,7 +29,7 @@ final class JBufferType extends JObjType<JBuffer> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JBufferType) && other is JBufferType;
+    return other.runtimeType == JBufferType && other is JBufferType;
   }
 }
 
@@ -50,8 +50,8 @@ class JBuffer extends JObject {
   late final JObjType<JBuffer> $type = type;
 
   JBuffer.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   static final _class = JClass.forName(r'java/nio/Buffer');
 

@@ -45,8 +45,8 @@ class JNumber extends JObject {
   late final JObjType<JNumber> $type = type;
 
   JNumber.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   static final _class = JClass.forName(r'java/lang/Number');
 
