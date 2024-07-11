@@ -50,18 +50,18 @@ void main(List<String> args) {
     stderr.writeln('${record.level.name}: ${record.message}');
   });
 
-  logger.info("Generating C wrappers");
+  logger.info('Generating C wrappers');
   final minimalConfig = ffigen.Config.fromFile(File('ffigen_exts.yaml'));
   final minimalLibrary = ffigen.parse(minimalConfig);
   generateCWrappers(minimalLibrary);
 
-  logger.info("Generating FFI bindings for package:jni");
+  logger.info('Generating FFI bindings for package:jni');
 
   final config = ffigen.Config.fromFile(File('ffigen.yaml'));
   final library = ffigen.parse(config);
   final outputFile = File(config.output);
   library.generateFile(outputFile);
 
-  logger.info("Generating Dart extensions");
+  logger.info('Generating Dart extensions');
   generateDartExtensions(library);
 }

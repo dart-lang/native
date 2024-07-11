@@ -21,9 +21,9 @@ void main() {
 void run({required TestRunnerCallback testRunner}) {
   JSet<JString> testDataSet(Arena arena) {
     return {
-      "1".toJString()..releasedBy(arena),
-      "2".toJString()..releasedBy(arena),
-      "3".toJString()..releasedBy(arena),
+      '1'.toJString()..releasedBy(arena),
+      '2'.toJString()..releasedBy(arena),
+      '3'.toJString()..releasedBy(arena),
     }.toJSet(JString.type)
       ..releasedBy(arena);
   }
@@ -37,9 +37,9 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('add', () {
     using((arena) {
       final set = testDataSet(arena);
-      set.add("1".toJString()..releasedBy(arena));
+      set.add('1'.toJString()..releasedBy(arena));
       expect(set.length, 3);
-      set.add("4".toJString()..releasedBy(arena));
+      set.add('4'.toJString()..releasedBy(arena));
       expect(set.length, 4);
     });
   });
@@ -47,12 +47,12 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final set = testDataSet(arena);
       final toAdd = testDataSet(arena);
-      toAdd.add("4".toJString()..releasedBy(arena));
+      toAdd.add('4'.toJString()..releasedBy(arena));
       set.addAll(toAdd);
       expect(set.length, 4);
       set.addAll([
-        "1".toJString()..releasedBy(arena),
-        "5".toJString()..releasedBy(arena),
+        '1'.toJString()..releasedBy(arena),
+        '5'.toJString()..releasedBy(arena),
       ]);
       expect(set.length, 5);
     });
@@ -70,8 +70,8 @@ void run({required TestRunnerCallback testRunner}) {
       final set = testDataSet(arena);
       // ignore: collection_methods_unrelated_type
       expect(set.contains(1), false);
-      expect(set.contains("1".toJString()..releasedBy(arena)), true);
-      expect(set.contains("4".toJString()..releasedBy(arena)), false);
+      expect(set.contains('1'.toJString()..releasedBy(arena)), true);
+      expect(set.contains('4'.toJString()..releasedBy(arena)), false);
     });
   });
   testRunner('containsAll', () {
@@ -80,15 +80,15 @@ void run({required TestRunnerCallback testRunner}) {
       expect(set.containsAll(set), true);
       expect(
         set.containsAll([
-          "1".toJString()..releasedBy(arena),
-          "2".toJString()..releasedBy(arena),
+          '1'.toJString()..releasedBy(arena),
+          '2'.toJString()..releasedBy(arena),
         ]),
         true,
       );
       final testSet = testDataSet(arena);
-      testSet.add("4".toJString()..releasedBy(arena));
+      testSet.add('4'.toJString()..releasedBy(arena));
       expect(set.containsAll(testSet), false);
-      expect(set.containsAll(["4".toJString()..releasedBy(arena)]), false);
+      expect(set.containsAll(['4'.toJString()..releasedBy(arena)]), false);
     });
   });
   testRunner('iterator', () {
@@ -105,7 +105,7 @@ void run({required TestRunnerCallback testRunner}) {
       dartSet.add(it.current.toDartString(releaseOriginal: true));
       expect(it.moveNext(), false);
       // So we just check if the elements have appeared in some order.
-      expect(dartSet, {"1", "2", "3"});
+      expect(dartSet, {'1', '2', '3'});
     });
   });
   testRunner('remove', () {
@@ -113,28 +113,28 @@ void run({required TestRunnerCallback testRunner}) {
       final set = testDataSet(arena);
       // ignore: collection_methods_unrelated_type
       expect(set.remove(1), false);
-      expect(set.remove("4".toJString()..releasedBy(arena)), false);
+      expect(set.remove('4'.toJString()..releasedBy(arena)), false);
       expect(set.length, 3);
-      expect(set.remove("3".toJString()..releasedBy(arena)), true);
+      expect(set.remove('3'.toJString()..releasedBy(arena)), true);
       expect(set.length, 2);
     });
   });
   testRunner('removeAll', () {
     using((arena) {
       final set = testDataSet(arena);
-      final toRemoveExclusive = {"4".toJString()..releasedBy(arena)}
+      final toRemoveExclusive = {'4'.toJString()..releasedBy(arena)}
           .toJSet(JString.type)
         ..releasedBy(arena);
       set.removeAll(toRemoveExclusive);
       expect(set.length, 3);
       final toRemoveInclusive = {
-        "1".toJString()..releasedBy(arena),
-        "4".toJString()..releasedBy(arena),
+        '1'.toJString()..releasedBy(arena),
+        '4'.toJString()..releasedBy(arena),
       }.toJSet(JString.type)
         ..releasedBy(arena);
       set.removeAll(toRemoveInclusive);
       expect(set.length, 2);
-      set.removeAll(["2".toJString()..releasedBy(arena)]);
+      set.removeAll(['2'.toJString()..releasedBy(arena)]);
       expect(set.length, 1);
     });
   });
@@ -142,9 +142,9 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final set = testDataSet(arena);
       final toRetain = {
-        "1".toJString()..releasedBy(arena),
-        "3".toJString()..releasedBy(arena),
-        "4".toJString()..releasedBy(arena),
+        '1'.toJString()..releasedBy(arena),
+        '3'.toJString()..releasedBy(arena),
+        '4'.toJString()..releasedBy(arena),
       };
       set.retainAll(set);
       expect(set.length, 3);
@@ -161,7 +161,7 @@ void run({required TestRunnerCallback testRunner}) {
       final b = testDataSet(arena);
       expect(a.hashCode, b.hashCode);
       expect(a, b);
-      b.add("4".toJString()..releasedBy(arena));
+      b.add('4'.toJString()..releasedBy(arena));
       expect(a.hashCode, isNot(b.hashCode));
       expect(a, isNot(b));
     });
@@ -172,10 +172,10 @@ void run({required TestRunnerCallback testRunner}) {
       // ignore: collection_methods_unrelated_type
       expect(set.lookup(1), null);
       expect(
-        set.lookup("1".toJString())?.toDartString(releaseOriginal: true),
-        "1",
+        set.lookup('1'.toJString())?.toDartString(releaseOriginal: true),
+        '1',
       );
-      expect(set.lookup("4".toJString()..releasedBy(arena)), null);
+      expect(set.lookup('4'.toJString()..releasedBy(arena)), null);
     });
   });
   testRunner('toSet', () {
@@ -184,7 +184,7 @@ void run({required TestRunnerCallback testRunner}) {
       final set = testDataSet(arena);
       final setCopy = set.toSet()..releasedBy(arena);
       expect(set, setCopy);
-      set.add("4".toJString()..releasedBy(arena));
+      set.add('4'.toJString()..releasedBy(arena));
       expect(set, isNot(setCopy));
     });
   });

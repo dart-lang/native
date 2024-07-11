@@ -20,9 +20,9 @@ void main() {
 void run({required TestRunnerCallback testRunner}) {
   JMap<JString, JString> testDataMap(Arena arena) {
     return {
-      "1".toJString()..releasedBy(arena): "One".toJString()..releasedBy(arena),
-      "2".toJString()..releasedBy(arena): "Two".toJString()..releasedBy(arena),
-      "3".toJString()..releasedBy(arena): "Three".toJString()
+      '1'.toJString()..releasedBy(arena): 'One'.toJString()..releasedBy(arena),
+      '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
+      '3'.toJString()..releasedBy(arena): 'Three'.toJString()
         ..releasedBy(arena),
     }.toJMap(JString.type, JString.type)
       ..releasedBy(arena);
@@ -40,12 +40,12 @@ void run({required TestRunnerCallback testRunner}) {
       // ignore: collection_methods_unrelated_type
       expect(map[1], null);
       expect(
-        map["1".toJString()..releasedBy(arena)]
+        map['1'.toJString()..releasedBy(arena)]
             ?.toDartString(releaseOriginal: true),
-        "One",
+        'One',
       );
       expect(
-        map["4".toJString()..releasedBy(arena)],
+        map['4'.toJString()..releasedBy(arena)],
         null,
       );
     });
@@ -53,20 +53,20 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('[]=', () {
     using((arena) {
       final map = testDataMap(arena);
-      map["0".toJString()..releasedBy(arena)] = "Zero".toJString()
+      map['0'.toJString()..releasedBy(arena)] = 'Zero'.toJString()
         ..releasedBy(arena);
       expect(
-        map["0".toJString()..releasedBy(arena)]
+        map['0'.toJString()..releasedBy(arena)]
             ?.toDartString(releaseOriginal: true),
-        "Zero",
+        'Zero',
       );
       expect(map.length, 4);
-      map["1".toJString()..releasedBy(arena)] = "one!".toJString()
+      map['1'.toJString()..releasedBy(arena)] = 'one!'.toJString()
         ..releasedBy(arena);
       expect(
-        map["1".toJString()..releasedBy(arena)]
+        map['1'.toJString()..releasedBy(arena)]
             ?.toDartString(releaseOriginal: true),
-        "one!",
+        'one!',
       );
       expect(map.length, 4);
     });
@@ -75,25 +75,25 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final map = testDataMap(arena);
       final toAdd = {
-        "0".toJString()..releasedBy(arena): "Zero".toJString()
+        '0'.toJString()..releasedBy(arena): 'Zero'.toJString()
           ..releasedBy(arena),
-        "1".toJString()..releasedBy(arena): "one!".toJString()
+        '1'.toJString()..releasedBy(arena): 'one!'.toJString()
           ..releasedBy(arena),
       }.toJMap(JString.type, JString.type);
       map.addAll(toAdd);
       expect(map.length, 4);
       expect(
-        map["0".toJString()..releasedBy(arena)]
+        map['0'.toJString()..releasedBy(arena)]
             ?.toDartString(releaseOriginal: true),
-        "Zero",
+        'Zero',
       );
       expect(
-        map["1".toJString()..releasedBy(arena)]
+        map['1'.toJString()..releasedBy(arena)]
             ?.toDartString(releaseOriginal: true),
-        "one!",
+        'one!',
       );
       map.addAll({
-        "4".toJString()..releasedBy(arena): "Four".toJString()
+        '4'.toJString()..releasedBy(arena): 'Four'.toJString()
           ..releasedBy(arena)
       });
       expect(map.length, 5);
@@ -114,8 +114,8 @@ void run({required TestRunnerCallback testRunner}) {
       final map = testDataMap(arena);
       // ignore: collection_methods_unrelated_type
       expect(map.containsKey(1), false);
-      expect(map.containsKey("1".toJString()..releasedBy(arena)), true);
-      expect(map.containsKey("4".toJString()..releasedBy(arena)), false);
+      expect(map.containsKey('1'.toJString()..releasedBy(arena)), true);
+      expect(map.containsKey('4'.toJString()..releasedBy(arena)), false);
     });
   });
   testRunner('containsValue', () {
@@ -123,8 +123,8 @@ void run({required TestRunnerCallback testRunner}) {
       final map = testDataMap(arena);
       // ignore: collection_methods_unrelated_type
       expect(map.containsValue(1), false);
-      expect(map.containsValue("One".toJString()..releasedBy(arena)), true);
-      expect(map.containsValue("Four".toJString()..releasedBy(arena)), false);
+      expect(map.containsValue('One'.toJString()..releasedBy(arena)), true);
+      expect(map.containsValue('Four'.toJString()..releasedBy(arena)), false);
     });
   });
   testRunner('keys', () {
@@ -135,7 +135,7 @@ void run({required TestRunnerCallback testRunner}) {
         keys
             .map((element) => element.toDartString(releaseOriginal: true))
             .toSet(),
-        {"1", "2", "3"},
+        {'1', '2', '3'},
       );
     });
   });
@@ -144,13 +144,13 @@ void run({required TestRunnerCallback testRunner}) {
       final map = testDataMap(arena);
       // ignore: collection_methods_unrelated_type
       expect(map.remove(1), null);
-      expect(map.remove("4".toJString()..releasedBy(arena)), null);
+      expect(map.remove('4'.toJString()..releasedBy(arena)), null);
       expect(map.length, 3);
       expect(
         map
-            .remove("3".toJString()..releasedBy(arena))
+            .remove('3'.toJString()..releasedBy(arena))
             ?.toDartString(releaseOriginal: true),
-        "Three",
+        'Three',
       );
       expect(map.length, 2);
     });
