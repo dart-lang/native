@@ -25,7 +25,7 @@ void testStringBackAndForth(String str) {
 }
 
 void run({required TestRunnerCallback testRunner}) {
-  group("String encoding tests", () {
+  group('String encoding tests', () {
     testRunner('Long string back-and-forth', () {
       testStringBackAndForth('1' * 8096);
     });

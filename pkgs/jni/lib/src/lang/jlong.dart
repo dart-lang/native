@@ -10,7 +10,7 @@ final class JLongType extends JObjType<JLong> {
   const JLongType();
 
   @override
-  String get signature => r"Ljava/lang/Long;";
+  String get signature => r'Ljava/lang/Long;';
 
   @override
   JLong fromReference(JReference reference) => JLong.fromReference(reference);
@@ -42,9 +42,9 @@ class JLong extends JNumber {
   /// The type which includes information such as the signature of this class.
   static const type = JLongType();
 
-  static final _class = JClass.forName(r"java/lang/Long");
+  static final _class = JClass.forName(r'java/lang/Long');
 
-  static final _ctorId = _class.constructorId(r"(J)V");
+  static final _ctorId = _class.constructorId(r'(J)V');
 
   JLong(int num) : super.fromReference(_ctorId(_class, referenceType, [num]));
 }

@@ -7,7 +7,7 @@ final class JCharacterType extends JObjType<JCharacter> {
   const JCharacterType();
 
   @override
-  String get signature => r"Ljava/lang/Character;";
+  String get signature => r'Ljava/lang/Character;';
 
   @override
   JCharacter fromReference(JReference reference) =>
@@ -40,14 +40,14 @@ class JCharacter extends JObject {
   /// The type which includes information such as the signature of this class.
   static const type = JCharacterType();
 
-  static final _class = JClass.forName(r"java/lang/Character");
+  static final _class = JClass.forName(r'java/lang/Character');
 
-  static final _ctorId = _class.constructorId(r"(C)V");
+  static final _ctorId = _class.constructorId(r'(C)V');
 
   JCharacter(int c)
       : super.fromReference(_ctorId(_class, referenceType, [JValueChar(c)]));
 
-  static final _charValueId = _class.instanceMethodId(r"charValue", r"()C");
+  static final _charValueId = _class.instanceMethodId(r'charValue', r'()C');
 
   int charValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();

@@ -43,7 +43,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
       pos.ref.b = arg.value;
       break;
     default:
-      throw UnsupportedError("cannot convert ${arg.runtimeType} to jvalue");
+      throw UnsupportedError('cannot convert ${arg.runtimeType} to jvalue');
   }
 }
 

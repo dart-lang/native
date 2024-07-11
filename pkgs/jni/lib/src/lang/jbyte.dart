@@ -11,7 +11,7 @@ final class JByteType extends JObjType<JByte> {
   const JByteType();
 
   @override
-  String get signature => r"Ljava/lang/Byte;";
+  String get signature => r'Ljava/lang/Byte;';
 
   @override
   JByte fromReference(JReference reference) => JByte.fromReference(reference);
@@ -43,9 +43,9 @@ class JByte extends JNumber {
   /// The type which includes information such as the signature of this class.
   static const type = JByteType();
 
-  static final _class = JClass.forName(r"java/lang/Byte");
+  static final _class = JClass.forName(r'java/lang/Byte');
 
-  static final _ctorId = _class.constructorId(r"(B)V");
+  static final _ctorId = _class.constructorId(r'(B)V');
   JByte(int num)
       : super.fromReference(_ctorId(_class, referenceType, [JValueByte(num)]));
 }

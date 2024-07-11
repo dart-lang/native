@@ -11,7 +11,7 @@ final class JStringType extends JObjType<JString> {
   const JStringType();
 
   @override
-  String get signature => "Ljava/lang/String;";
+  String get signature => 'Ljava/lang/String;';
 
   @override
   JString fromReference(JReference reference) =>

@@ -24,7 +24,7 @@ final executeInternalCommand = DynamicLibrary.process().lookupFunction<
     void Function(Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
 
 void doGC() {
-  final gcNow = "gc-now".toNativeUtf8();
+  final gcNow = 'gc-now'.toNativeUtf8();
   executeInternalCommand(gcNow.cast(), nullptr);
   calloc.free(gcNow);
 }

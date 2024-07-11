@@ -10,7 +10,7 @@ final class JDoubleType extends JObjType<JDouble> {
   const JDoubleType();
 
   @override
-  String get signature => r"Ljava/lang/Double;";
+  String get signature => r'Ljava/lang/Double;';
 
   @override
   JDouble fromReference(JReference reference) =>
@@ -43,9 +43,9 @@ class JDouble extends JNumber {
   /// The type which includes information such as the signature of this class.
   static const type = JDoubleType();
 
-  static final _class = JClass.forName(r"java/lang/Double");
+  static final _class = JClass.forName(r'java/lang/Double');
 
-  static final _ctorId = _class.constructorId(r"(D)V");
+  static final _ctorId = _class.constructorId(r'(D)V');
   JDouble(double num)
       : super.fromReference(_ctorId(_class, referenceType, [num]));
 }

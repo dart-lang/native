@@ -11,7 +11,7 @@ final class JShortType extends JObjType<JShort> {
   const JShortType();
 
   @override
-  String get signature => r"Ljava/lang/Short;";
+  String get signature => r'Ljava/lang/Short;';
 
   @override
   JShort fromReference(JReference reference) => JShort.fromReference(reference);
@@ -43,9 +43,9 @@ class JShort extends JNumber {
   /// The type which includes information such as the signature of this class.
   static const type = JShortType();
 
-  static final _class = JClass.forName(r"java/lang/Short");
+  static final _class = JClass.forName(r'java/lang/Short');
 
-  static final _ctorId = _class.constructorId(r"(S)V");
+  static final _ctorId = _class.constructorId(r'(S)V');
 
   JShort(int num)
       : super.fromReference(_ctorId(_class, referenceType, [JValueShort(num)]));
