@@ -30,7 +30,7 @@ void main() {
     if (!caught) {
       stderr.writeln('Expected HelperNotFoundException\n'
           'Read exception_test.dart for details.');
-      exit(-1);
+      exit(1);
     }
   }
   run(testRunner: test);

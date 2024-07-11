@@ -179,7 +179,7 @@ ResultWrapper getResultWrapper(String returnType) {
         return ResultWrapper.forJValueField(jfields[returnType]!);
       }
       stderr.writeln('Unknown type $returnType for return type');
-      exit(-1);
+      exit(1);
   }
 }
 

@@ -1,3 +1,9 @@
+## 0.10.0
+
+- Fixed an issue with `JObject.castTo` where the type checking could fail in
+  debug mode.
+- Used `package:dart_flutter_team_lints`.
+
 ## 0.9.3
 
 - Added lifetime event handling for the thread-local JNI env. Now

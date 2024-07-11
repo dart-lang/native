@@ -39,7 +39,7 @@ final class _JFinalizable implements Finalizable {
 }
 
 @pragma('vm:deeply-immutable')
-abstract final class JReference {
+abstract final class JReference implements Finalizable {
   final _JFinalizable _finalizable;
 
   JReference(this._finalizable);
