@@ -5,9 +5,8 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:package_config/package_config.dart';
-
 import 'package:jni/src/build_util/build_util.dart';
+import 'package:package_config/package_config.dart';
 
 const jniNativeBuildDirective =
     '# jni_native_build (Build with jni:setup. Do not delete this line.)';
@@ -72,11 +71,11 @@ Future<void> runCommand(
 
 class Options {
   Options(ArgResults arg)
-      : buildPath = arg[_buildPath],
-        sources = arg[_srcPath],
-        packages = arg[_packageName],
-        cmakeArgs = arg[_cmakeArgs],
-        verbose = arg[_verbose] ?? false;
+      : buildPath = arg[_buildPath] as String?,
+        sources = arg[_srcPath] as List<String>,
+        packages = arg[_packageName] as List<String>,
+        cmakeArgs = arg[_cmakeArgs] as List<String>,
+        verbose = (arg[_verbose] as bool?) ?? false;
 
   String? buildPath;
   List<String> sources;

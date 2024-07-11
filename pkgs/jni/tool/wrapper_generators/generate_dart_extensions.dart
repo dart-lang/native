@@ -175,7 +175,8 @@ String getGlobalEnvExtension(
     }
   }
   final extensionFunctions = env.members
-      .map((m) => getGlobalEnvExtensionFunction(m, checkedReturnTypes[m.name]))
+      .map((m) =>
+          getGlobalEnvExtensionFunction(m, checkedReturnTypes[m.name] as Type?))
       .nonNulls
       .join('\n');
   return '''

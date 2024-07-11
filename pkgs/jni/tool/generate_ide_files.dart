@@ -36,7 +36,7 @@ void main(List<String> arguments) {
     )
     ..addFlag('help', abbr: 'h', help: 'Show this usage information.');
   final argResults = argParser.parse(arguments);
-  if (argResults.rest.isNotEmpty || argResults['help']) {
+  if (argResults.rest.isNotEmpty || argResults['help'] as bool) {
     stderr.writeln('This script generates compile_commands.json for '
         'C source files in src/');
     stderr.writeln(argParser.usage);

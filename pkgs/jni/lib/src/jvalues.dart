@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+
 import 'package:jni/internal_helpers_for_jnigen.dart';
 
 import 'jobject.dart';
@@ -14,7 +15,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
       pos.ref.l = arg.reference.pointer;
     case JReference():
       pos.ref.l = arg.pointer;
-    case Pointer<Void>() || Pointer<Never>(): // for nullptr
+    case Pointer<Never>(): // for nullptr
       pos.ref.l = arg;
       break;
     case int():
