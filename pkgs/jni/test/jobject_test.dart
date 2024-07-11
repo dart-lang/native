@@ -135,14 +135,6 @@ void run({required TestRunnerCallback testRunner}) {
     shortClass.release();
   });
 
-  testRunner("Java char from string", () {
-    final characterClass = JCharacter.type.jClass;
-    final m = characterClass.staticMethodId("isLowerCase", "(C)Z").call(
-        characterClass, const jbooleanType(), [JValueChar.fromString('X')]);
-    expect(m, isFalse);
-    characterClass.release();
-  });
-
   testRunner("Get static field", () {
     final shortClass = JShort.type.jClass;
     final maxLong =

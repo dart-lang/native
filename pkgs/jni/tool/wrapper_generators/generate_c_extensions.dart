@@ -178,7 +178,8 @@ ResultWrapper getResultWrapper(String returnType) {
       if (jfields.containsKey(returnType)) {
         return ResultWrapper.forJValueField(jfields[returnType]!);
       }
-      throw 'Unknown type $returnType for return type';
+      stderr.writeln('Unknown type $returnType for return type');
+      exit(-1);
   }
 }
 

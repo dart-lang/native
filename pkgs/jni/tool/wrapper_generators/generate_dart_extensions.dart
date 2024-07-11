@@ -70,7 +70,8 @@ String getCheckedGetter(Type returnType) {
   if (mappings.containsKey(cType)) {
     return mappings[cType]!;
   }
-  throw 'Unknown return type: $cType';
+  stderr.writeln('Unknown return type: $cType');
+  exit(-1);
 }
 
 String? getGlobalEnvExtensionFunction(Member field, Type? checkedReturnType) {

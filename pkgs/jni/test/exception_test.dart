@@ -28,8 +28,9 @@ void main() {
       stderr.writeln('cannot verify: HelperNotFoundError thrown');
     }
     if (!caught) {
-      throw "Expected HelperNotFoundException\n"
-          "Read exception_test.dart for details.";
+      stderr.writeln("Expected HelperNotFoundException\n"
+          "Read exception_test.dart for details.");
+      exit(-1);
     }
   }
   run(testRunner: test);

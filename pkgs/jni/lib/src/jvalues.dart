@@ -96,10 +96,4 @@ final class JValueFloat {
 final class JValueChar {
   int value;
   JValueChar(this.value);
-  JValueChar.fromString(String s) : value = 0 {
-    if (s.length != 1) {
-      throw "Expected string of length 1";
-    }
-    value = s.codeUnitAt(0).toInt();
-  }
 }

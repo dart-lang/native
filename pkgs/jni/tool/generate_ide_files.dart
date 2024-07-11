@@ -21,7 +21,8 @@ void runCommand(String exec, List<String> args, String workingDirectory) {
   if (process.exitCode != 0) {
     stdout.writeln(process.stdout);
     stderr.writeln(process.stderr);
-    throw "command failed with exit code ${process.exitCode}";
+    stderr.writeln("command failed with exit code ${process.exitCode}");
+    exit(-1);
   }
 }
 
