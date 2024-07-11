@@ -22,6 +22,10 @@ void main() async {
         workingDirectory: packageUri,
         logger: logger,
       );
+      // Make sure the first compile is at least one second after the
+      // package_config.json is written, otherwise dill compilation isn't
+      // cached.
+      await Future<void>.delayed(Duration(seconds: 1));
 
       {
         final logMessages = <String>[];
@@ -37,7 +41,6 @@ void main() async {
         expect(
           result.dependencies,
           [
-            packageUri.resolve('hook/build.dart'),
             packageUri.resolve('src/native_add.c'),
           ],
         );
@@ -61,7 +64,6 @@ void main() async {
         expect(
           result.dependencies,
           [
-            packageUri.resolve('hook/build.dart'),
             packageUri.resolve('src/native_add.c'),
           ],
         );
@@ -78,6 +80,10 @@ void main() async {
         workingDirectory: packageUri,
         logger: logger,
       );
+      // Make sure the first compile is at least one second after the
+      // package_config.json is written, otherwise dill compilation isn't
+      // cached.
+      await Future<void>.delayed(Duration(seconds: 1));
 
       {
         final result = await build(packageUri, logger, dartExecutable);
@@ -107,6 +113,10 @@ void main() async {
       final packageUri = tempUri.resolve('native_add/');
 
       await runPubGet(workingDirectory: packageUri, logger: logger);
+      // Make sure the first compile is at least one second after the
+      // package_config.json is written, otherwise dill compilation isn't
+      // cached.
+      await Future<void>.delayed(Duration(seconds: 1));
 
       {
         final result = await build(packageUri, logger, dartExecutable);

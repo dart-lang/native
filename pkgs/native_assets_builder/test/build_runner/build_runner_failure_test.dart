@@ -33,7 +33,6 @@ void main() async {
         expect(
           result.dependencies,
           [
-            packageUri.resolve('hook/build.dart'),
             packageUri.resolve('src/native_add.c'),
           ],
         );
@@ -78,7 +77,6 @@ void main() async {
         expect(
           result.dependencies,
           [
-            packageUri.resolve('hook/build.dart'),
             packageUri.resolve('src/native_add.c'),
           ],
         );

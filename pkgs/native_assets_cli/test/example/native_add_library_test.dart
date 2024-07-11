@@ -82,7 +82,6 @@ void main() async {
           dependencies,
           [
             testPackageUri.resolve('src/$name.c'),
-            testPackageUri.resolve('hook/build.dart'),
           ],
         );
       }

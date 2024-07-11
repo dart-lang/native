@@ -66,7 +66,6 @@ void main() {
             name: name,
             assetName: name,
             sources: [sourceUri.toFilePath()],
-            dartBuildFiles: ['hook/build.dart'],
             language: language,
           );
           await cbuilder.run(
@@ -147,7 +146,6 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
-    dartBuildFiles: ['hook/build.dart'],
   );
   await cbuilder.run(
     config: buildConfig,

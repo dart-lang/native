@@ -54,10 +54,21 @@ void main() async {
         }
       }
 
-      final dryRunDir = packageUri.resolve(
-          '.dart_tool/native_assets_builder/dry_run_build_${Target.current.os}_dynamic/');
-      expect(File.fromUri(dryRunDir.resolve('config.json')), exists);
-      expect(File.fromUri(dryRunDir.resolve('out/build_output.json')), exists);
+      final nativeAssetsBuilderDir =
+          packageUri.resolve('.dart_tool/native_assets_builder/');
+      final buildDirs = await Directory.fromUri(nativeAssetsBuilderDir).list();
+      await for (final dir in buildDirs) {
+        if (dir is! Directory) {
+          expect(
+            File.fromUri(dir.uri.resolve('config.json')),
+            exists,
+          );
+          expect(
+            File.fromUri(dir.uri.resolve('out/build_output.json')),
+            exists,
+          );
+        }
+      }
     });
   });
 }

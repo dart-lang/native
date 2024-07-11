@@ -1,3 +1,8 @@
+## 0.7.1-wip
+
+- `BuildConfig.dependencies` and `LinkConfig.dependencies` no longer have to
+  specify Dart sources.
+
 ## 0.7.0
 
 - `BuildConfig` constructors now have a required `linkingEnabled` parameter.

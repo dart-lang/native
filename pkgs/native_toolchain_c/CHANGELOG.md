@@ -1,3 +1,9 @@
+## 0.5.2
+
+- Deprecated `CBuilder`'s constructors `dartBuildFiles`. The Dart sources are
+  automatically used for determining whether hooks need to be rerun by newer
+  Dart and Flutter SDKs.
+
 ## 0.5.1
 
 - Bump `package:native_assets_cli` to 0.7.0.

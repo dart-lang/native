@@ -1,5 +1,7 @@
 ## 0.8.1-wip
 
+- `BuildRunner` now automatically invokes build hooks again if any of the Dart
+  sources changed.
 - Add more data asset test files.
 
 ## 0.8.0

@@ -547,6 +547,33 @@ can _only_ depend on OS.''');
     return sha256String.substring(0, nameLength);
   }
 
+  static String checksumDryRun({
+    required String packageName,
+    required Uri packageRoot,
+    required OSImpl targetOS,
+    required LinkModePreferenceImpl linkModePreference,
+    Version? version,
+    Iterable<String>? supportedAssetTypes,
+    required Hook hook,
+    required bool? linkingEnabled,
+  }) {
+    final input = [
+      version ?? latestVersion,
+      packageName,
+      targetOS.toString(),
+      linkModePreference.toString(),
+      ...supportedAssetTypes ?? [NativeCodeAsset.type],
+      hook.name,
+      linkingEnabled,
+    ].join('###');
+    final sha256String = sha256.convert(utf8.encode(input)).toString();
+    // 256 bit hashes lead to 64 hex character strings.
+    // To avoid overflowing file paths limits, only use 32.
+    // Using 16 hex characters would also be unlikely to have collisions.
+    const nameLength = 32;
+    return sha256String.substring(0, nameLength);
+  }
+
   /// The version of [HookConfigImpl].
   ///
   /// This class is used in the protocol between the Dart and Flutter SDKs

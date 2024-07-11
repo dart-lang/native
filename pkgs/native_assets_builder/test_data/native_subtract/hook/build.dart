@@ -16,7 +16,6 @@ void main(List<String> arguments) async {
       sources: [
         'src/$packageName.c',
       ],
-      dartBuildFiles: ['hook/build.dart'],
     );
     await cbuilder.run(
       config: config,
