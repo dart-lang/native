@@ -4,7 +4,7 @@
 
 import 'dart:ffi';
 
-import 'package:jni/jni.dart';
+import '../jni.dart';
 
 void _check(JThrowablePtr exception) {
   if (exception != nullptr) {

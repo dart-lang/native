@@ -3,6 +3,7 @@
 - Added lifetime event handling for the thread-local JNI env. Now
   `jvm.DetachNativeThread` is called when the thread detaches as recommended
   [here](https://developer.android.com/training/articles/perf-jni#threads).
+- Removed `JValueChar.fromString` constructor.
 
 ## 0.9.2
 
