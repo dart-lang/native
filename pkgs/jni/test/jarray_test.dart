@@ -20,7 +20,7 @@ void main() {
 }
 
 void run({required TestRunnerCallback testRunner}) {
-  testRunner("Java boolean array", () {
+  testRunner('Java boolean array', () {
     using((arena) {
       final array = JArray(jboolean.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -56,7 +56,7 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
-  testRunner("Java char array", () {
+  testRunner('Java char array', () {
     using((arena) {
       final array = JArray(jchar.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -92,7 +92,7 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
-  testRunner("Java byte array", () {
+  testRunner('Java byte array', () {
     using((arena) {
       final array = JArray(jbyte.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -128,7 +128,7 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
-  testRunner("Java short array", () {
+  testRunner('Java short array', () {
     using((arena) {
       final array = JArray(jshort.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -164,7 +164,7 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
-  testRunner("Java int array", () {
+  testRunner('Java int array', () {
     using((arena) {
       final array = JArray(jint.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -200,7 +200,7 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
-  testRunner("Java long array", () {
+  testRunner('Java long array', () {
     using((arena) {
       final array = JArray(jlong.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -237,7 +237,7 @@ void run({required TestRunnerCallback testRunner}) {
     });
   });
   const epsilon = 1e-6;
-  testRunner("Java float array", () {
+  testRunner('Java float array', () {
     using((arena) {
       final array = JArray(jfloat.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -273,7 +273,7 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
-  testRunner("Java double array", () {
+  testRunner('Java double array', () {
     using((arena) {
       final array = JArray(jdouble.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -309,42 +309,42 @@ void run({required TestRunnerCallback testRunner}) {
       }, throwsRangeError);
     });
   });
-  testRunner("Java string array", () {
+  testRunner('Java string array', () {
     using((arena) {
       final array = JArray(JString.type, 3)..releasedBy(arena);
       expect(array.length, 3);
-      array[0] = "حس".toJString()..releasedBy(arena);
-      array[1] = "\$".toJString()..releasedBy(arena);
-      array[2] = "33".toJString()..releasedBy(arena);
-      expect(array[0].toDartString(releaseOriginal: true), "حس");
-      expect(array[1].toDartString(releaseOriginal: true), "\$");
-      expect(array[2].toDartString(releaseOriginal: true), "33");
+      array[0] = 'حس'.toJString()..releasedBy(arena);
+      array[1] = '\$'.toJString()..releasedBy(arena);
+      array[2] = '33'.toJString()..releasedBy(arena);
+      expect(array[0].toDartString(releaseOriginal: true), 'حس');
+      expect(array[1].toDartString(releaseOriginal: true), '\$');
+      expect(array[2].toDartString(releaseOriginal: true), '33');
       array.setRange(
         0,
         3,
         [
-          "44".toJString()..releasedBy(arena),
-          "55".toJString()..releasedBy(arena),
-          "66".toJString()..releasedBy(arena),
-          "77".toJString()..releasedBy(arena),
+          '44'.toJString()..releasedBy(arena),
+          '55'.toJString()..releasedBy(arena),
+          '66'.toJString()..releasedBy(arena),
+          '77'.toJString()..releasedBy(arena),
         ],
         1,
       );
-      expect(array[0].toDartString(releaseOriginal: true), "55");
-      expect(array[1].toDartString(releaseOriginal: true), "66");
-      expect(array[2].toDartString(releaseOriginal: true), "77");
+      expect(array[0].toDartString(releaseOriginal: true), '55');
+      expect(array[1].toDartString(releaseOriginal: true), '66');
+      expect(array[2].toDartString(releaseOriginal: true), '77');
       expect(() {
         final _ = array[-1];
       }, throwsRangeError);
       expect(() {
-        array[-1] = "44".toJString()..releasedBy(arena);
+        array[-1] = '44'.toJString()..releasedBy(arena);
       }, throwsRangeError);
       expect(() {
-        array[3] = "44".toJString()..releasedBy(arena);
+        array[3] = '44'.toJString()..releasedBy(arena);
       }, throwsRangeError);
     });
   });
-  testRunner("Java object array", () {
+  testRunner('Java object array', () {
     using((arena) {
       final array = JArray(JObject.type, 3)..releasedBy(arena);
       expect(array.length, 3);
@@ -353,7 +353,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[2].reference.pointer, nullptr);
     });
   });
-  testRunner("Java 2d array", () {
+  testRunner('Java 2d array', () {
     using((arena) {
       final array = JArray(jint.type, 3)..releasedBy(arena);
       array[0] = 1;
@@ -373,18 +373,18 @@ void run({required TestRunnerCallback testRunner}) {
       expect(twoDimArray[2][2], 4);
     });
   });
-  testRunner("JArray.filled", () {
+  testRunner('JArray.filled', () {
     using((arena) {
-      final string = "abc".toJString()..releasedBy(arena);
+      final string = 'abc'.toJString()..releasedBy(arena);
       final array = JArray.filled(3, string)..releasedBy(arena);
       expect(
         () => JArray.filled(-3, JString.fromReference(jNullReference)),
         throwsA(isA<RangeError>()),
       );
       expect(array.length, 3);
-      expect(array[0].toDartString(releaseOriginal: true), "abc");
-      expect(array[1].toDartString(releaseOriginal: true), "abc");
-      expect(array[2].toDartString(releaseOriginal: true), "abc");
+      expect(array[0].toDartString(releaseOriginal: true), 'abc');
+      expect(array[1].toDartString(releaseOriginal: true), 'abc');
+      expect(array[2].toDartString(releaseOriginal: true), 'abc');
     });
   });
   testRunner('JArray of JByte', () {

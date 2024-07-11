@@ -7,7 +7,7 @@ final class JCharacterType extends JObjType<JCharacter> {
   const JCharacterType();
 
   @override
-  String get signature => r"Ljava/lang/Character;";
+  String get signature => r'Ljava/lang/Character;';
 
   @override
   JCharacter fromReference(JReference reference) =>
@@ -24,7 +24,7 @@ final class JCharacterType extends JObjType<JCharacter> {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JCharacterType) && other is JCharacterType;
+    return other.runtimeType == JCharacterType && other is JCharacterType;
   }
 }
 
@@ -34,20 +34,20 @@ class JCharacter extends JObject {
   late final JObjType<JCharacter> $type = type;
 
   JCharacter.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const type = JCharacterType();
 
-  static final _class = JClass.forName(r"java/lang/Character");
+  static final _class = JClass.forName(r'java/lang/Character');
 
-  static final _ctorId = _class.constructorId(r"(C)V");
+  static final _ctorId = _class.constructorId(r'(C)V');
 
   JCharacter(int c)
       : super.fromReference(_ctorId(_class, referenceType, [JValueChar(c)]));
 
-  static final _charValueId = _class.instanceMethodId(r"charValue", r"()C");
+  static final _charValueId = _class.instanceMethodId(r'charValue', r'()C');
 
   int charValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();
