@@ -56,7 +56,7 @@ void main() async {
 
       final nativeAssetsBuilderDir =
           packageUri.resolve('.dart_tool/native_assets_builder/');
-      final buildDirs = await Directory.fromUri(nativeAssetsBuilderDir).list();
+      final buildDirs = Directory.fromUri(nativeAssetsBuilderDir).list();
       await for (final dir in buildDirs) {
         if (dir is! Directory) {
           expect(

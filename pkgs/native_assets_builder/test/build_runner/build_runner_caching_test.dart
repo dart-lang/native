@@ -25,7 +25,7 @@ void main() async {
       // Make sure the first compile is at least one second after the
       // package_config.json is written, otherwise dill compilation isn't
       // cached.
-      await Future<void>.delayed(Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
 
       {
         final logMessages = <String>[];
@@ -83,7 +83,7 @@ void main() async {
       // Make sure the first compile is at least one second after the
       // package_config.json is written, otherwise dill compilation isn't
       // cached.
-      await Future<void>.delayed(Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
 
       {
         final result = await build(packageUri, logger, dartExecutable);
@@ -116,7 +116,7 @@ void main() async {
       // Make sure the first compile is at least one second after the
       // package_config.json is written, otherwise dill compilation isn't
       // cached.
-      await Future<void>.delayed(Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 1));
 
       {
         final result = await build(packageUri, logger, dartExecutable);

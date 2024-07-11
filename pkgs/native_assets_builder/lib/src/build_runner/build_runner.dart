@@ -6,10 +6,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_builder/src/utils/file.dart';
-import 'package:native_assets_builder/src/utils/uri.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' as api;
+import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
 import '../model/build_dry_run_result.dart';
@@ -18,7 +16,9 @@ import '../model/hook_result.dart';
 import '../model/link_dry_run_result.dart';
 import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
+import '../utils/file.dart';
 import '../utils/run_process.dart';
+import '../utils/uri.dart';
 import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
