@@ -7,9 +7,9 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
+import '../jni.dart';
 import 'accessors.dart';
 import 'third_party/generated_bindings.dart';
 

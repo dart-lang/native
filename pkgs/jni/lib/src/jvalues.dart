@@ -4,7 +4,7 @@
 
 import 'dart:ffi';
 
-import 'package:jni/internal_helpers_for_jnigen.dart';
+import '../internal_helpers_for_jnigen.dart';
 
 import 'jobject.dart';
 import 'third_party/generated_bindings.dart';

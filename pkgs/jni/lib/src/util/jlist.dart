@@ -4,14 +4,13 @@
 
 import 'dart:collection';
 
-import 'package:jni/src/util/jset.dart';
-
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jiterator.dart';
+import 'jset.dart';
 
 final class JListType<$E extends JObject> extends JObjType<JList<$E>> {
   final JObjType<$E> E;
