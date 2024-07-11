@@ -93,8 +93,8 @@ class JByteBuffer extends JBuffer {
   late final JObjType<JByteBuffer> $type = type;
 
   JByteBuffer.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   static final _class = JClass.forName(r'java/nio/ByteBuffer');
 

@@ -15,8 +15,6 @@ import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
-const maxLongInJava = 9223372036854775807;
-
 /// Taken from
 /// https://github.com/dart-lang/ffigen/blob/master/test/native_objc_test/automated_ref_count_test.dart
 final executeInternalCommand = DynamicLibrary.process().lookupFunction<
@@ -38,7 +36,6 @@ void main() {
 }
 
 const k4 = 4 * 1024;
-const k64 = 64 * 1024;
 const k256 = 256 * 1024;
 
 const secureRandomSeedBound = 4294967296;

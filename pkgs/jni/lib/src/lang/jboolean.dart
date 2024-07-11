@@ -37,8 +37,8 @@ class JBoolean extends JObject {
   late final JObjType<JBoolean> $type = type;
 
   JBoolean.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const type = JBooleanType();
