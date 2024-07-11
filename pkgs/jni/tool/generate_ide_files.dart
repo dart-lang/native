@@ -22,7 +22,7 @@ void runCommand(String exec, List<String> args, String workingDirectory) {
     stdout.writeln(process.stdout);
     stderr.writeln(process.stderr);
     stderr.writeln('command failed with exit code ${process.exitCode}');
-    exit(-1);
+    exit(1);
   }
 }
 
