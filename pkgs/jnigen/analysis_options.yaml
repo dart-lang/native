@@ -9,6 +9,7 @@ analyzer:
     todo: ignore
   exclude: [build/**, example/**]
   language:
+    strict-casts: true
     strict-inference: true
     strict-raw-types: true
 
@@ -17,6 +18,3 @@ linter:
     dangling_library_doc_comments: true
     prefer_final_locals: true
     prefer_const_declarations: true
-    unawaited_futures: true
-    prefer_const_constructors: true
-    prefer_relative_imports: true
