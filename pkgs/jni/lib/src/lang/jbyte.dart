@@ -37,8 +37,8 @@ class JByte extends JNumber {
   late final JObjType<JByte> $type = type;
 
   JByte.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const type = JByteType();

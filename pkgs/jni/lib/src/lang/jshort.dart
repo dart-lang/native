@@ -37,8 +37,8 @@ class JShort extends JNumber {
   late final JObjType<JShort> $type = type;
 
   JShort.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const type = JShortType();
