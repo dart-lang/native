@@ -7,7 +7,7 @@
 /// a JniGenTask.
 library jnigen;
 
-export 'src/elements/elements.dart';
 export 'src/config/config.dart';
 export 'src/config/filters.dart';
+export 'src/elements/elements.dart';
 export 'src/generate_bindings.dart';

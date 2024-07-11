@@ -5,22 +5,21 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:package_config/package_config.dart';
-
 import 'package:jni/src/build_util/build_util.dart';
+import 'package:package_config/package_config.dart';
 
 const jniNativeBuildDirective =
     '# jni_native_build (Build with jni:setup. Do not delete this line.)';
 
 // When changing this constant here, also change corresponding path in
 // test/test_util.
-const _defaultRelativeBuildPath = "build/jni_libs";
+const _defaultRelativeBuildPath = 'build/jni_libs';
 
-const _buildPath = "build-path";
-const _srcPath = "add-source";
+const _buildPath = 'build-path';
+const _srcPath = 'add-source';
 const _packageName = 'add-package';
-const _verbose = "verbose";
-const _cmakeArgs = "cmake-args";
+const _verbose = 'verbose';
+const _cmakeArgs = 'cmake-args';
 
 Future<void> runCommand(
     String exec, List<String> args, String workingDir) async {
@@ -30,11 +29,11 @@ Future<void> runCommand(
     current += Platform.pathSeparator;
   }
   if (workingDir.startsWith(current)) {
-    workingDir.replaceFirst(current, "");
+    workingDir.replaceFirst(current, '');
   }
 
   final cmd = "$exec ${args.join(" ")}";
-  stderr.writeln("+ [$workingDir] $cmd");
+  stderr.writeln('+ [$workingDir] $cmd');
   int status;
   if (options.verbose) {
     final process = await Process.start(
@@ -58,8 +57,8 @@ Future<void> runCommand(
       var out = process.stdout;
       var err = process.stderr;
       if (stdout.supportsAnsiEscapes) {
-        out = "$ansiRed$out$ansiDefault";
-        err = "$ansiRed$err$ansiDefault";
+        out = '$ansiRed$out$ansiDefault';
+        err = '$ansiRed$err$ansiDefault';
       }
       stdout.writeln(out);
       stderr.writeln(err);
@@ -72,11 +71,11 @@ Future<void> runCommand(
 
 class Options {
   Options(ArgResults arg)
-      : buildPath = arg[_buildPath],
-        sources = arg[_srcPath],
-        packages = arg[_packageName],
-        cmakeArgs = arg[_cmakeArgs],
-        verbose = arg[_verbose] ?? false;
+      : buildPath = arg[_buildPath] as String?,
+        sources = arg[_srcPath] as List<String>,
+        packages = arg[_packageName] as List<String>,
+        cmakeArgs = arg[_cmakeArgs] as List<String>,
+        verbose = (arg[_verbose] as bool?) ?? false;
 
   String? buildPath;
   List<String> sources;
@@ -100,11 +99,11 @@ void verboseLog(String msg) {
 Future<String> findSources(String packageName, String subDirectory) async {
   final packageConfig = await findPackageConfig(Directory.current);
   if (packageConfig == null) {
-    throw UnsupportedError("Please run from project root.");
+    throw UnsupportedError('Please run from project root.');
   }
   final package = packageConfig[packageName];
   if (package == null) {
-    throw UnsupportedError("Cannot find package: $packageName");
+    throw UnsupportedError('Cannot find package: $packageName');
   }
   return package.root.resolve(subDirectory).toFilePath();
 }
@@ -114,12 +113,12 @@ Future<String> findSources(String packageName, String subDirectory) async {
 Future<Map<String, String>> findDependencySources() async {
   final packageConfig = await findPackageConfig(Directory.current);
   if (packageConfig == null) {
-    throw UnsupportedError("Please run the command from project root.");
+    throw UnsupportedError('Please run the command from project root.');
   }
   final sources = <String, String>{};
   for (var package in packageConfig.packages) {
-    final src = package.root.resolve("src/");
-    final cmakeLists = src.resolve("CMakeLists.txt");
+    final src = package.root.resolve('src/');
+    final cmakeLists = src.resolve('CMakeLists.txt');
     final cmakeListsFile = File.fromUri(cmakeLists);
     if (cmakeListsFile.existsSync()) {
       final firstLine = cmakeListsFile.readAsLinesSync().first;
@@ -134,13 +133,13 @@ Future<Map<String, String>> findDependencySources() async {
 /// Returns the name of file built using sources in [cDir]
 String getTargetName(Directory cDir) {
   for (final file in cDir.listSync(recursive: true)) {
-    if (file.path.endsWith(".c")) {
+    if (file.path.endsWith('.c')) {
       final cFileName = file.uri.pathSegments.last;
-      final librarySuffix = Platform.isWindows ? "dll" : "so";
+      final librarySuffix = Platform.isWindows ? 'dll' : 'so';
       return cFileName.substring(0, cFileName.length - 1) + librarySuffix;
     }
   }
-  throw Exception("Could not find a C file in ${cDir.path}");
+  throw Exception('Could not find a C file in ${cDir.path}');
 }
 
 void main(List<String> arguments) async {
@@ -161,8 +160,8 @@ void main(List<String> arguments) async {
   final rest = argResults.rest;
 
   if (rest.isNotEmpty) {
-    stderr.writeln("one or more unrecognized arguments: $rest");
-    stderr.writeln("usage: dart run jni:setup <options>");
+    stderr.writeln('one or more unrecognized arguments: $rest');
+    stderr.writeln('usage: dart run jni:setup <options>');
     stderr.writeln(parser.usage);
     exitCode = 1;
     return;
@@ -175,11 +174,11 @@ void main(List<String> arguments) async {
   }
   if (sources.isEmpty) {
     final dependencySources = await findDependencySources();
-    stderr.writeln("selecting source directories for dependencies: "
-        "${dependencySources.keys}");
+    stderr.writeln('selecting source directories for dependencies: '
+        '${dependencySources.keys}');
     sources.addAll(dependencySources.values);
   } else {
-    stderr.writeln("selecting source directories: $sources");
+    stderr.writeln('selecting source directories: $sources');
   }
   if (sources.isEmpty) {
     stderr.writeln('No source paths to build!');
@@ -187,7 +186,7 @@ void main(List<String> arguments) async {
     return;
   }
 
-  final currentDirUri = Uri.directory(".");
+  final currentDirUri = Uri.directory('.');
   final buildPath = options.buildPath ??
       currentDirUri.resolve(_defaultRelativeBuildPath).toFilePath();
   final buildDir = Directory(buildPath);
@@ -216,14 +215,14 @@ void main(List<String> arguments) async {
       return;
     }
 
-    verboseLog("srcPath: $srcPath");
-    verboseLog("buildPath: $buildPath");
+    verboseLog('srcPath: $srcPath');
+    verboseLog('buildPath: $buildPath');
 
     final targetFileUri = buildDir.uri.resolve(getTargetName(srcDir));
     final targetFile = File.fromUri(targetFileUri);
     if (!needsBuild(targetFile, srcDir)) {
-      verboseLog("Last modified of ${targetFile.path}: "
-          "${targetFile.lastModifiedSync()}.");
+      verboseLog('Last modified of ${targetFile.path}: '
+          '${targetFile.lastModifiedSync()}.');
       stderr.writeln('Target newer than source, skipping build.');
       continue;
     }
@@ -231,26 +230,26 @@ void main(List<String> arguments) async {
     // Note: creating temp dir in .dart_tool/jni instead of SystemTemp
     // because latter can fail tests on Windows CI, when system temp is on
     // separate drive or something.
-    final jniDirUri = Uri.directory(".dart_tool").resolve("jni");
+    final jniDirUri = Uri.directory('.dart_tool').resolve('jni');
     final jniDir = Directory.fromUri(jniDirUri);
     await jniDir.create(recursive: true);
-    final tempDir = await jniDir.createTemp("jni_native_build_");
+    final tempDir = await jniDir.createTemp('jni_native_build_');
     final cmakeArgs = <String>[];
     cmakeArgs.addAll(options.cmakeArgs);
     // Pass absolute path of srcDir because cmake command is run in temp dir
     cmakeArgs.add(srcDir.absolute.path);
-    await runCommand("cmake", cmakeArgs, tempDir.path);
-    await runCommand("cmake", ["--build", "."], tempDir.path);
+    await runCommand('cmake', cmakeArgs, tempDir.path);
+    await runCommand('cmake', ['--build', '.'], tempDir.path);
     final dllDirUri =
-        Platform.isWindows ? tempDir.uri.resolve("Debug") : tempDir.uri;
+        Platform.isWindows ? tempDir.uri.resolve('Debug') : tempDir.uri;
     final dllDir = Directory.fromUri(dllDirUri);
     for (var entry in dllDir.listSync()) {
       verboseLog(entry.toString());
       final dllSuffix = Platform.isWindows
-          ? "dll"
+          ? 'dll'
           : Platform.isMacOS
-              ? "dylib"
-              : "so";
+              ? 'dylib'
+              : 'so';
       if (entry.path.endsWith(dllSuffix)) {
         final dllName = entry.uri.pathSegments.last;
         final target = buildDir.uri.resolve(dllName);

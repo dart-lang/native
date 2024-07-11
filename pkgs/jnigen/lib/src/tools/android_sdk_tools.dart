@@ -196,8 +196,8 @@ task $_gradleGetSourcesTaskName(type: Copy) {
       log.info('Restoring build scripts');
       origBuild.writeAsStringSync(
         script
-            .replaceAll(_gradleGetClasspathStub, "")
-            .replaceAll(_gradleGetSourcesStub, ""),
+            .replaceAll(_gradleGetClasspathStub, '')
+            .replaceAll(_gradleGetSourcesStub, ''),
       );
       File(buildGradleOld).deleteSync();
     }
@@ -210,12 +210,12 @@ task $_gradleGetSourcesTaskName(type: Copy) {
           'again\n');
     }
     // Record both stdout and stderr of gradle.
-    log.writeSectionToFile("Gradle logs ($stubName)", procRes.stderr);
-    log.writeSectionToFile("Gradle output ($stubName)", procRes.stdout);
+    log.writeSectionToFile('Gradle logs ($stubName)', procRes.stderr);
+    log.writeSectionToFile('Gradle output ($stubName)', procRes.stdout);
     final output = procRes.stdout as String;
     if (output.isEmpty) {
       printError(procRes.stderr);
-      throw Exception("Gradle stub exited without output.");
+      throw Exception('Gradle stub exited without output.');
     }
     final paths = (procRes.stdout as String)
         .trim()

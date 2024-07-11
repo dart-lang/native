@@ -9,9 +9,9 @@ import 'package:jnigen/src/config/config_types.dart';
 import 'package:jnigen/src/summary/summary.dart';
 import 'package:test/test.dart';
 
-import 'simple_package_test/generate.dart' as simple_package_test;
-import 'kotlin_test/generate.dart' as kotlin_test;
 import 'jackson_core_test/generate.dart' as jackson_core_test;
+import 'kotlin_test/generate.dart' as kotlin_test;
+import 'simple_package_test/generate.dart' as simple_package_test;
 import 'test_util/test_util.dart';
 
 void main() {

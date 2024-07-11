@@ -5,6 +5,7 @@
 // coverage:ignore-file
 
 import 'dart:io';
+
 import 'package:logging/logging.dart';
 
 const _ansiRed = '\x1b[31m';
@@ -28,7 +29,7 @@ String _formatTime(DateTime now) {
 // Hierarchical logging is convoluted. I'm just keeping track of log level.
 var _logLevel = Level.INFO;
 
-final _logDirUri = Directory.current.uri.resolve(".dart_tool/jnigen/logs/");
+final _logDirUri = Directory.current.uri.resolve('.dart_tool/jnigen/logs/');
 
 final _logDir = () {
   final dir = Directory.fromUri(_logDirUri);
@@ -37,7 +38,7 @@ final _logDir = () {
 }();
 
 Uri _getDefaultLogFileUri() =>
-    _logDir.uri.resolve("jnigen-${_formatTime(DateTime.now())}.log");
+    _logDir.uri.resolve('jnigen-${_formatTime(DateTime.now())}.log');
 
 IOSink? _logStream;
 
@@ -82,7 +83,7 @@ Logger log = () {
       return;
     }
     var message = '(${r.loggerName}) ${r.level.name}: ${r.message}';
-    if ((r.level == Level.SHOUT || r.level == Level.SEVERE)) {
+    if (r.level == Level.SHOUT || r.level == Level.SEVERE) {
       message = _colorize(message, _ansiRed);
     } else if (r.level == Level.WARNING) {
       message = _colorize(message, _ansiYellow);
@@ -119,8 +120,8 @@ extension WriteToFile on Logger {
   }
 
   void writeSectionToFile(String? sectionName, Object? data) {
-    _logStream?.writeln("==== Begin $sectionName ====");
+    _logStream?.writeln('==== Begin $sectionName ====');
     _logStream?.writeln(data);
-    _logStream?.writeln("==== End $sectionName ====");
+    _logStream?.writeln('==== End $sectionName ====');
   }
 }

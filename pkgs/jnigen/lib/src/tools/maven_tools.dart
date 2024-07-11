@@ -11,7 +11,7 @@ import '../logging/logging.dart';
 /// This class provides some utility methods to download a sources / jars
 /// using maven along with transitive dependencies.
 class MavenTools {
-  static final currentDir = Directory(".");
+  static final currentDir = Directory('.');
 
   /// Helper method since we can't pass inheritStdio option to [Process.run].
   static Future<int> _runCmd(String exec, List<String> args,
@@ -30,8 +30,8 @@ class MavenTools {
     Directory tempDir,
   ) async {
     final pom = _getStubPom(deps);
-    final tempPom = join(tempDir.path, "temp_pom.xml");
-    final tempTarget = join(tempDir.path, "target");
+    final tempPom = join(tempDir.path, 'temp_pom.xml');
+    final tempTarget = join(tempDir.path, 'target');
     log.finer('using POM stub:\n$pom');
     await File(tempPom).writeAsString(pom);
     await Directory(tempTarget).create();
@@ -40,14 +40,15 @@ class MavenTools {
     await Directory(tempTarget).delete(recursive: true);
   }
 
-  /// Create a list of [MavenDependency] objects from maven coordinates in string form.
+  /// Create a list of [MavenDependency] objects from maven coordinates in
+  /// string form.
   static List<MavenDependency> deps(List<String> depNames) =>
       depNames.map(MavenDependency.fromString).toList();
 
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, String targetDir) async {
-    final tempDir = await currentDir.createTemp("maven_temp_");
+    final tempDir = await currentDir.createTemp('maven_temp_');
     await _runMavenCommand(
       deps,
       [
@@ -64,7 +65,7 @@ class MavenTools {
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
       List<MavenDependency> deps, String targetDir) async {
-    final tempDir = await currentDir.createTemp("maven_temp_");
+    final tempDir = await currentDir.createTemp('maven_temp_');
     await _runMavenCommand(
       deps,
       [

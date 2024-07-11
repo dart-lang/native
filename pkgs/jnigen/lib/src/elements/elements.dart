@@ -6,6 +6,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 // Types to describe java API elements
 
+import '../bindings/descriptor.dart';
+import '../bindings/kotlin_processor.dart';
+import '../bindings/linker.dart';
+import '../bindings/renamer.dart';
 import '../bindings/visitor.dart';
 
 part 'elements.g.dart';
@@ -36,7 +40,7 @@ class Classes implements Element<Classes> {
   factory Classes.fromJson(List<dynamic> json) {
     final decls = <String, ClassDecl>{};
     for (final declJson in json) {
-      final classDecl = ClassDecl.fromJson(declJson);
+      final classDecl = ClassDecl.fromJson(declJson as Map<String, dynamic>);
       decls[classDecl.binaryName] = classDecl;
     }
     return Classes(decls);
@@ -95,7 +99,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   /// as obtained by `.values()` method in Java.
   final List<String>? values;
 
-  String get internalName => binaryName.replaceAll(".", "/");
+  String get internalName => binaryName.replaceAll('.', '/');
 
   String get packageName => (binaryName.split('.')..removeLast()).join('.');
 
@@ -205,7 +209,7 @@ class TypeUsage {
   final String shorthand;
   final Kind kind;
 
-  @JsonKey(name: "type")
+  @JsonKey(name: 'type')
   final Map<String, dynamic> typeJson;
 
   /// Populated by [TypeUsage.fromJson].
@@ -406,7 +410,7 @@ class Wildcard extends ReferredType {
   TypeUsage? extendsBound, superBound;
 
   @override
-  String get name => "?";
+  String get name => '?';
 
   factory Wildcard.fromJson(Map<String, dynamic> json) =>
       _$WildcardFromJson(json);
@@ -423,7 +427,7 @@ class ArrayType extends ReferredType {
   TypeUsage type;
 
   @override
-  String get name => "[${type.name}";
+  String get name => '[${type.name}';
 
   factory ArrayType.fromJson(Map<String, dynamic> json) =>
       _$ArrayTypeFromJson(json);

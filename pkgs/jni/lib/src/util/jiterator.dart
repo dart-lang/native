@@ -14,7 +14,7 @@ final class JIteratorType<$E extends JObject> extends JObjType<JIterator<$E>> {
   );
 
   @override
-  String get signature => r"Ljava/util/Iterator;";
+  String get signature => r'Ljava/util/Iterator;';
 
   @override
   JIterator<$E> fromReference(JReference reference) =>
@@ -49,7 +49,7 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
     JReference reference,
   ) : super.fromReference(reference);
 
-  static final _class = JClass.forName(r"java/util/Iterator");
+  static final _class = JClass.forName(r'java/util/Iterator');
 
   /// The type which includes information such as the signature of this class.
   static JIteratorType<$E> type<$E extends JObject>(
@@ -65,13 +65,13 @@ class JIterator<$E extends JObject> extends JObject implements Iterator<$E> {
   @override
   $E get current => _current as $E;
 
-  static final _hasNextId = _class.instanceMethodId(r"hasNext", r"()Z");
+  static final _hasNextId = _class.instanceMethodId(r'hasNext', r'()Z');
   bool _hasNext() {
     return _hasNextId(this, const jbooleanType(), []);
   }
 
   static final _nextId =
-      _class.instanceMethodId(r"next", r"()Ljava/lang/Object;");
+      _class.instanceMethodId(r'next', r'()Ljava/lang/Object;');
   $E _next() {
     return _nextId(this, E, []);
   }

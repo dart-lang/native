@@ -5,6 +5,7 @@
 // These tests validate summary generation in various scenarios.
 // Currently, no validation of the summary content itself is done.
 
+// ignore: library_annotations
 @Tags(['summarizer_test'])
 
 import 'dart:math';
@@ -12,7 +13,6 @@ import 'dart:math';
 import 'package:jnigen/src/config/config.dart';
 import 'package:jnigen/src/elements/elements.dart';
 import 'package:jnigen/src/summary/summary.dart';
-
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
@@ -34,7 +34,7 @@ void expectSummaryHasAllClasses(Classes? classes) {
   expect(decls.entries.length, greaterThanOrEqualTo(javaFiles.length));
   final declNames = decls.keys.toSet();
   final expectedClasses =
-      javaClasses.where((name) => !name.contains("annotations.")).toList();
+      javaClasses.where((name) => !name.contains('annotations.')).toList();
   // Nested classes should be included automatically with parent class.
   // change this part if you change this behavior intentionally.
   expectedClasses.addAll(nestedClasses);
@@ -76,10 +76,10 @@ void testFailureCase(
       await getSummary(config);
     } on SummaryParseException catch (e) {
       expect(e.stderr, isNotNull);
-      expect(e.stderr!, stringContainsInOrder(["Not found", nonExistingClass]));
+      expect(e.stderr!, stringContainsInOrder(['Not found', nonExistingClass]));
       return;
     }
-    throw AssertionError("No exception was caught");
+    throw AssertionError('No exception was caught');
   });
 }
 
@@ -105,10 +105,10 @@ void testAllCases({
 
 void main() async {
   await checkLocallyBuiltDependencies();
-  final tempDir = getTempDir("jnigen_summary_tests_");
+  final tempDir = getTempDir('jnigen_summary_tests_');
 
   group('Test summary generation from compiled JAR', () {
-    final targetDir = tempDir.createTempSync("compiled_jar_test_");
+    final targetDir = tempDir.createTempSync('compiled_jar_test_');
     final jarPath = join(targetDir.absolute.path, 'classes.jar');
     setUpAll(() async {
       await compileJavaFiles(simplePackageDir, targetDir);
@@ -120,7 +120,7 @@ void main() async {
   });
 
   group('Test summary generation from source JAR', () {
-    final targetDir = tempDir.createTempSync("source_jar_test_");
+    final targetDir = tempDir.createTempSync('source_jar_test_');
     final jarPath = join(targetDir.path, 'sources.jar');
     setUpAll(() async {
       await createJar(
@@ -136,14 +136,14 @@ void main() async {
   });
 
   group('Test summary generation from compiled classes in directory', () {
-    final targetDir = tempDir.createTempSync("compiled_classes_test_");
+    final targetDir = tempDir.createTempSync('compiled_classes_test_');
     setUpAll(() => compileJavaFiles(simplePackageDir, targetDir));
     testAllCases(classPath: [targetDir.path]);
   });
 
   // Test summary generation from combination of a source and class path
   group('Test summary generation from combination', () {
-    final targetDir = tempDir.createTempSync("combination_test_");
+    final targetDir = tempDir.createTempSync('combination_test_');
     final classesJarPath = join(targetDir.path, 'classes.jar');
     final sourceFiles = javaFiles.toList();
     // Remove com/github/dart_lang/jnigen/pkg2/Example.java.

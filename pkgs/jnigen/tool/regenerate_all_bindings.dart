@@ -11,30 +11,30 @@ import 'dart:io';
 import 'command_runner.dart';
 
 const scripts = [
-  "test/jackson_core_test/generate.dart",
-  "test/simple_package_test/generate.dart",
-  "test/kotlin_test/generate.dart",
+  'test/jackson_core_test/generate.dart',
+  'test/simple_package_test/generate.dart',
+  'test/kotlin_test/generate.dart',
 ];
 
 const yamlBasedExamples = [
-  "example/in_app_java",
-  "example/pdfbox_plugin",
-  "example/notification_plugin",
-  "example/kotlin_plugin",
+  'example/in_app_java',
+  'example/pdfbox_plugin',
+  'example/notification_plugin',
+  'example/kotlin_plugin',
 ];
 
 void main() async {
   final runners = <Runner>[];
   final current = Directory.current.uri;
   for (var script in scripts) {
-    runners.add(Runner("Run generate script: $script", current)
-      ..chainCommand("dart", ["run", script]));
+    runners.add(Runner('Run generate script: $script', current)
+      ..chainCommand('dart', ['run', script]));
   }
 
   for (var yamlDir in yamlBasedExamples) {
     runners.add(
-        Runner("Regenerate bindings in $yamlDir", current.resolve(yamlDir))
-          ..chainCommand("dart", ["run", "jnigen", "--config", "jnigen.yaml"]));
+        Runner('Regenerate bindings in $yamlDir', current.resolve(yamlDir))
+          ..chainCommand('dart', ['run', 'jnigen', '--config', 'jnigen.yaml']));
   }
 
   await Future.wait(runners.map((runner) => runner.run()).toList());

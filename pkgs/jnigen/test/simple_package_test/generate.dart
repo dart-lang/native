@@ -4,10 +4,11 @@
 
 import 'dart:io';
 
+import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/config/experiments.dart';
+import 'package:jnigen/src/logging/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
-import 'package:jnigen/jnigen.dart';
 
 const testName = 'simple_package_test';
 final testRoot = join('test', testName);
@@ -20,9 +21,9 @@ const preamble = '''
 
 ''';
 
-var javaPrefix = join('com', 'github', 'dart_lang', 'jnigen');
+final javaPrefix = join('com', 'github', 'dart_lang', 'jnigen');
 
-var javaFiles = [
+final javaFiles = [
   join(javaPrefix, 'simple_package', 'Example.java'),
   join(javaPrefix, 'pkg2', 'C2.java'),
   join(javaPrefix, 'pkg2', 'Example.java'),
@@ -46,15 +47,15 @@ var javaFiles = [
 void compileJavaSources(String workingDir, List<String> files) async {
   final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
   if (procRes.exitCode != 0) {
-    throw "javac exited with ${procRes.exitCode}\n"
-        "${procRes.stderr}";
+    log.fatal('javac exited with ${procRes.exitCode}\n'
+        '${procRes.stderr}');
   }
 }
 
 Config getConfig() {
   compileJavaSources(javaPath, javaFiles);
   final dartWrappersRoot = Uri.directory(
-    join(testRoot, "bindings"),
+    join(testRoot, 'bindings'),
   );
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],

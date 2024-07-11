@@ -1,4 +1,5 @@
 import '../elements/elements.dart';
+import '../logging/logging.dart';
 import 'visitor.dart';
 
 /// Adds the type and method descriptor to all methods in all of the classes.
@@ -93,8 +94,7 @@ class TypeDescriptor extends TypeVisitor<String> {
     final typeParam = typeParams.lastWhere(
       (typeParam) => typeParam.name == node.name,
       orElse: () {
-        print('${node.name} was not found!');
-        throw 'error';
+        log.fatal('${node.name} was not found!');
       },
     );
     return typeParam.bounds.isEmpty

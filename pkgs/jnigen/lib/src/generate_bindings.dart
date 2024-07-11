@@ -2,21 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
 
 import 'bindings/dart_generator.dart';
 import 'bindings/descriptor.dart';
 import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
-import 'bindings/unnester.dart';
 import 'bindings/renamer.dart';
-import 'elements/elements.dart';
-import 'summary/summary.dart';
+import 'bindings/unnester.dart';
 import 'config/config.dart';
-import 'tools/tools.dart';
+import 'elements/elements.dart';
 import 'logging/logging.dart';
+import 'summary/summary.dart';
+import 'tools/tools.dart';
 
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);

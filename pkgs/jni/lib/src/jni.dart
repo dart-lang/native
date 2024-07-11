@@ -7,21 +7,21 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
+import '../jni.dart';
 import 'accessors.dart';
 import 'third_party/generated_bindings.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
-    return "lib$base.so";
+    return 'lib$base.so';
   } else if (Platform.isWindows) {
-    return "$base.dll";
+    return '$base.dll';
   } else if (Platform.isMacOS) {
-    return "lib$base.dylib";
+    return 'lib$base.dylib';
   } else {
-    throw UnsupportedError("cannot derive library name: unsupported platform");
+    throw UnsupportedError('cannot derive library name: unsupported platform');
   }
 }
 
@@ -29,13 +29,13 @@ String _getLibraryFileName(String base) {
 ///
 /// If path is provided, it's used to load the library.
 /// Else just the platform-specific filename is passed to DynamicLibrary.open
-DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = "dartjni"}) {
+DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
   final fileName = _getLibraryFileName(baseName);
   final libPath = (dir != null) ? join(dir, fileName) : fileName;
   try {
     final dylib = DynamicLibrary.open(libPath);
     return dylib;
-  } on Error {
+  } catch (_) {
     throw HelperNotFoundError(libPath);
   }
 }
@@ -107,7 +107,7 @@ abstract final class Jni {
   }
 
   /// Same as [spawn] but if a JVM exists, returns silently instead of
-  /// throwing [JvmExistsError].
+  /// throwing [JniVmExistsError].
   ///
   /// If the options are different than that of existing VM, the existing VM's
   /// options will remain in effect.
@@ -153,19 +153,19 @@ abstract final class Jni {
           (classPath.isNotEmpty ? 1 : 0);
       final optsPtr = (count != 0) ? allocator<JavaVMOption>(count) : nullptr;
       args.ref.options = optsPtr;
-      for (int i = 0; i < options.length; i++) {
+      for (var i = 0; i < options.length; i++) {
         (optsPtr + i).ref.optionString = options[i].toNativeChars(allocator);
       }
       if (dylibPath != null) {
         (optsPtr + count - 1 - (classPath.isNotEmpty ? 1 : 0))
                 .ref
                 .optionString =
-            "-Djava.library.path=$dylibPath".toNativeChars(allocator);
+            '-Djava.library.path=$dylibPath'.toNativeChars(allocator);
       }
       if (classPath.isNotEmpty) {
-        final classPathString = classPath.join(Platform.isWindows ? ';' : ":");
+        final classPathString = classPath.join(Platform.isWindows ? ';' : ':');
         (optsPtr + count - 1).ref.optionString =
-            "-Djava.class.path=$classPathString".toNativeChars(allocator);
+            '-Djava.class.path=$classPathString'.toNativeChars(allocator);
       }
       args.ref.nOptions = count;
     }
@@ -339,7 +339,8 @@ extension AdditionalEnvMethods on GlobalJniEnv {
         final utf = s.toNativeUtf16(allocator: arena).cast<Uint16>();
         final result = NewString(utf, s.length);
         if (utf == nullptr) {
-          throw 'Fatal: cannot convert string to Java string: $s';
+          throw JniException(
+              'Fatal: cannot convert string to Java string: $s', '');
         }
         return result;
       });
