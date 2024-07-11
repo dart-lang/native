@@ -99,7 +99,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   /// as obtained by `.values()` method in Java.
   final List<String>? values;
 
-  String get internalName => binaryName.replaceAll(".", "/");
+  String get internalName => binaryName.replaceAll('.', '/');
 
   String get packageName => (binaryName.split('.')..removeLast()).join('.');
 
@@ -209,7 +209,7 @@ class TypeUsage {
   final String shorthand;
   final Kind kind;
 
-  @JsonKey(name: "type")
+  @JsonKey(name: 'type')
   final Map<String, dynamic> typeJson;
 
   /// Populated by [TypeUsage.fromJson].
@@ -410,7 +410,7 @@ class Wildcard extends ReferredType {
   TypeUsage? extendsBound, superBound;
 
   @override
-  String get name => "?";
+  String get name => '?';
 
   factory Wildcard.fromJson(Map<String, dynamic> json) =>
       _$WildcardFromJson(json);
@@ -427,7 +427,7 @@ class ArrayType extends ReferredType {
   TypeUsage type;
 
   @override
-  String get name => "[${type.name}";
+  String get name => '[${type.name}';
 
   factory ArrayType.fromJson(Map<String, dynamic> json) =>
       _$ArrayTypeFromJson(json);

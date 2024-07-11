@@ -16,6 +16,7 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
+// ignore_for_file: prefer_double_quotes
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -24,11 +25,11 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import "dart:ffi" as ffi;
-import "dart:isolate" show ReceivePort;
+import 'dart:ffi' as ffi;
+import 'dart:isolate' show ReceivePort;
 
-import "package:jni/internal_helpers_for_jnigen.dart";
-import "package:jni/jni.dart" as jni;
+import 'package:jni/internal_helpers_for_jnigen.dart';
+import 'package:jni/jni.dart' as jni;
 
 /// from: com.github.dart_lang.jnigen.SuspendFun
 class SuspendFun extends jni.JObject {
@@ -40,12 +41,12 @@ class SuspendFun extends jni.JObject {
   ) : super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r"com/github/dart_lang/jnigen/SuspendFun");
+      jni.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFun');
 
   /// The type which includes information such as the signature of this class.
   static const type = $SuspendFunType();
   static final _id_new0 = _class.constructorId(
-    r"()V",
+    r'()V',
   );
 
   static final _new0 = ProtectedJniExtensions.lookup<
@@ -53,7 +54,7 @@ class SuspendFun extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_NewObject")
+              )>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -69,8 +70,8 @@ class SuspendFun extends jni.JObject {
   }
 
   static final _id_sayHello = _class.instanceMethodId(
-    r"sayHello",
-    r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;",
+    r'sayHello',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
   static final _sayHello = ProtectedJniExtensions.lookup<
@@ -79,7 +80,7 @@ class SuspendFun extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -96,14 +97,14 @@ class SuspendFun extends jni.JObject {
     final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const jni.JStringType().jClass.reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
-      throw "Failed";
+      throw 'Failed';
     }
     return const jni.JStringType().fromReference($o);
   }
 
   static final _id_sayHello1 = _class.instanceMethodId(
-    r"sayHello",
-    r"(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;",
+    r'sayHello',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
   static final _sayHello1 = ProtectedJniExtensions.lookup<
@@ -115,7 +116,7 @@ class SuspendFun extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallObjectMethod")
+                      )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -134,7 +135,7 @@ class SuspendFun extends jni.JObject {
     final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const jni.JStringType().jClass.reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
-      throw "Failed";
+      throw 'Failed';
     }
     return const jni.JStringType().fromReference($o);
   }
@@ -144,7 +145,7 @@ final class $SuspendFunType extends jni.JObjType<SuspendFun> {
   const $SuspendFunType();
 
   @override
-  String get signature => r"Lcom/github/dart_lang/jnigen/SuspendFun;";
+  String get signature => r'Lcom/github/dart_lang/jnigen/SuspendFun;';
 
   @override
   SuspendFun fromReference(jni.JReference reference) =>
@@ -166,11 +167,11 @@ final class $SuspendFunType extends jni.JObjType<SuspendFun> {
 }
 
 final _TopLevelKtClass =
-    jni.JClass.forName(r"com/github/dart_lang/jnigen/TopLevelKt");
+    jni.JClass.forName(r'com/github/dart_lang/jnigen/TopLevelKt');
 
 final _id_getTopLevelField = _TopLevelKtClass.staticMethodId(
-  r"getTopLevelField",
-  r"()I",
+  r'getTopLevelField',
+  r'()I',
 );
 
 final _getTopLevelField = ProtectedJniExtensions.lookup<
@@ -178,7 +179,7 @@ final _getTopLevelField = ProtectedJniExtensions.lookup<
             jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               jni.JMethodIDPtr,
-            )>>("globalEnv_CallStaticIntMethod")
+            )>>('globalEnv_CallStaticIntMethod')
     .asFunction<
         jni.JniResult Function(
           ffi.Pointer<ffi.Void>,
@@ -193,14 +194,14 @@ int getTopLevelField() {
 }
 
 final _id_setTopLevelField = _TopLevelKtClass.staticMethodId(
-  r"setTopLevelField",
-  r"(I)V",
+  r'setTopLevelField',
+  r'(I)V',
 );
 
 final _setTopLevelField = ProtectedJniExtensions.lookup<
         ffi.NativeFunction<
             jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                ffi.VarArgs<($Int32,)>)>>("globalEnv_CallStaticVoidMethod")
+                ffi.VarArgs<($Int32,)>)>>('globalEnv_CallStaticVoidMethod')
     .asFunction<
         jni.JThrowablePtr Function(
             ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -215,8 +216,8 @@ void setTopLevelField(
 }
 
 final _id_topLevel = _TopLevelKtClass.staticMethodId(
-  r"topLevel",
-  r"()I",
+  r'topLevel',
+  r'()I',
 );
 
 final _topLevel = ProtectedJniExtensions.lookup<
@@ -224,7 +225,7 @@ final _topLevel = ProtectedJniExtensions.lookup<
             jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               jni.JMethodIDPtr,
-            )>>("globalEnv_CallStaticIntMethod")
+            )>>('globalEnv_CallStaticIntMethod')
     .asFunction<
         jni.JniResult Function(
           ffi.Pointer<ffi.Void>,
@@ -239,15 +240,15 @@ int topLevel() {
 }
 
 final _id_topLevelSum = _TopLevelKtClass.staticMethodId(
-  r"topLevelSum",
-  r"(II)I",
+  r'topLevelSum',
+  r'(II)I',
 );
 
 final _topLevelSum = ProtectedJniExtensions.lookup<
             ffi.NativeFunction<
                 jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                     ffi.VarArgs<($Int32, $Int32)>)>>(
-        "globalEnv_CallStaticIntMethod")
+        'globalEnv_CallStaticIntMethod')
     .asFunction<
         jni.JniResult Function(
             ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();

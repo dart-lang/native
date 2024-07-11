@@ -29,6 +29,7 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
+// ignore_for_file: prefer_double_quotes
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -37,13 +38,13 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import "dart:ffi" as ffi;
-import "dart:isolate" show ReceivePort;
+import 'dart:ffi' as ffi;
+import 'dart:isolate' show ReceivePort;
 
-import "package:jni/internal_helpers_for_jnigen.dart";
-import "package:jni/jni.dart" as jni;
+import 'package:jni/internal_helpers_for_jnigen.dart';
+import 'package:jni/jni.dart' as jni;
 
-import "JsonToken.dart" as jsontoken_;
+import 'JsonToken.dart' as jsontoken_;
 
 /// from: com.fasterxml.jackson.core.JsonParser$Feature
 ///
@@ -57,13 +58,13 @@ class JsonParser_Feature extends jni.JObject {
   ) : super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r"com/fasterxml/jackson/core/JsonParser$Feature");
+      jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParser_FeatureType();
   static final _id_values = _class.staticMethodId(
-    r"values",
-    r"()[Lcom/fasterxml/jackson/core/JsonParser$Feature;",
+    r'values',
+    r'()[Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
   static final _values = ProtectedJniExtensions.lookup<
@@ -71,7 +72,7 @@ class JsonParser_Feature extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallStaticObjectMethod")
+              )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -86,8 +87,8 @@ class JsonParser_Feature extends jni.JObject {
   }
 
   static final _id_valueOf = _class.staticMethodId(
-    r"valueOf",
-    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;",
+    r'valueOf',
+    r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
   static final _valueOf = ProtectedJniExtensions.lookup<
@@ -96,7 +97,7 @@ class JsonParser_Feature extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallStaticObjectMethod")
+          'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -112,8 +113,8 @@ class JsonParser_Feature extends jni.JObject {
   }
 
   static final _id_collectDefaults = _class.staticMethodId(
-    r"collectDefaults",
-    r"()I",
+    r'collectDefaults',
+    r'()I',
   );
 
   static final _collectDefaults = ProtectedJniExtensions.lookup<
@@ -121,7 +122,7 @@ class JsonParser_Feature extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallStaticIntMethod")
+              )>>('globalEnv_CallStaticIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -140,8 +141,8 @@ class JsonParser_Feature extends jni.JObject {
   }
 
   static final _id_enabledByDefault = _class.instanceMethodId(
-    r"enabledByDefault",
-    r"()Z",
+    r'enabledByDefault',
+    r'()Z',
   );
 
   static final _enabledByDefault = ProtectedJniExtensions.lookup<
@@ -149,7 +150,7 @@ class JsonParser_Feature extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -164,14 +165,14 @@ class JsonParser_Feature extends jni.JObject {
   }
 
   static final _id_enabledIn = _class.instanceMethodId(
-    r"enabledIn",
-    r"(I)Z",
+    r'enabledIn',
+    r'(I)Z',
   );
 
   static final _enabledIn = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallBooleanMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -186,8 +187,8 @@ class JsonParser_Feature extends jni.JObject {
   }
 
   static final _id_getMask = _class.instanceMethodId(
-    r"getMask",
-    r"()I",
+    r'getMask',
+    r'()I',
   );
 
   static final _getMask = ProtectedJniExtensions.lookup<
@@ -195,7 +196,7 @@ class JsonParser_Feature extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -212,7 +213,7 @@ final class $JsonParser_FeatureType extends jni.JObjType<JsonParser_Feature> {
   const $JsonParser_FeatureType();
 
   @override
-  String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$Feature;";
+  String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$Feature;';
 
   @override
   JsonParser_Feature fromReference(jni.JReference reference) =>
@@ -247,13 +248,13 @@ class JsonParser_NumberType extends jni.JObject {
   ) : super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r"com/fasterxml/jackson/core/JsonParser$NumberType");
+      jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParser_NumberTypeType();
   static final _id_values = _class.staticMethodId(
-    r"values",
-    r"()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;",
+    r'values',
+    r'()[Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
   static final _values = ProtectedJniExtensions.lookup<
@@ -261,7 +262,7 @@ class JsonParser_NumberType extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallStaticObjectMethod")
+              )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -276,8 +277,8 @@ class JsonParser_NumberType extends jni.JObject {
   }
 
   static final _id_valueOf = _class.staticMethodId(
-    r"valueOf",
-    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;",
+    r'valueOf',
+    r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
   static final _valueOf = ProtectedJniExtensions.lookup<
@@ -286,7 +287,7 @@ class JsonParser_NumberType extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallStaticObjectMethod")
+          'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -307,7 +308,7 @@ final class $JsonParser_NumberTypeType
   const $JsonParser_NumberTypeType();
 
   @override
-  String get signature => r"Lcom/fasterxml/jackson/core/JsonParser$NumberType;";
+  String get signature => r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;';
 
   @override
   JsonParser_NumberType fromReference(jni.JReference reference) =>
@@ -344,13 +345,13 @@ class JsonParser extends jni.JObject {
   ) : super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r"com/fasterxml/jackson/core/JsonParser");
+      jni.JClass.forName(r'com/fasterxml/jackson/core/JsonParser');
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonParserType();
   static final _id_DEFAULT_READ_CAPABILITIES = _class.staticFieldId(
-    r"DEFAULT_READ_CAPABILITIES",
-    r"Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;",
+    r'DEFAULT_READ_CAPABILITIES',
+    r'Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;',
   );
 
   /// from: static protected final com.fasterxml.jackson.core.util.JacksonFeatureSet<com.fasterxml.jackson.core.StreamReadCapability> DEFAULT_READ_CAPABILITIES
@@ -364,7 +365,7 @@ class JsonParser extends jni.JObject {
       _id_DEFAULT_READ_CAPABILITIES.get(_class, const jni.JObjectType());
 
   static final _id_new0 = _class.constructorId(
-    r"()V",
+    r'()V',
   );
 
   static final _new0 = ProtectedJniExtensions.lookup<
@@ -372,7 +373,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_NewObject")
+              )>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -388,13 +389,13 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_new1 = _class.constructorId(
-    r"(I)V",
+    r'(I)V',
   );
 
   static final _new1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_NewObject")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -410,8 +411,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getCodec = _class.instanceMethodId(
-    r"getCodec",
-    r"()Lcom/fasterxml/jackson/core/ObjectCodec;",
+    r'getCodec',
+    r'()Lcom/fasterxml/jackson/core/ObjectCodec;',
   );
 
   static final _getCodec = ProtectedJniExtensions.lookup<
@@ -419,7 +420,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -439,8 +440,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_setCodec = _class.instanceMethodId(
-    r"setCodec",
-    r"(Lcom/fasterxml/jackson/core/ObjectCodec;)V",
+    r'setCodec',
+    r'(Lcom/fasterxml/jackson/core/ObjectCodec;)V',
   );
 
   static final _setCodec = ProtectedJniExtensions.lookup<
@@ -449,7 +450,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -469,8 +470,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getInputSource = _class.instanceMethodId(
-    r"getInputSource",
-    r"()Ljava/lang/Object;",
+    r'getInputSource',
+    r'()Ljava/lang/Object;',
   );
 
   static final _getInputSource = ProtectedJniExtensions.lookup<
@@ -478,7 +479,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -509,8 +510,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_setRequestPayloadOnError = _class.instanceMethodId(
-    r"setRequestPayloadOnError",
-    r"(Lcom/fasterxml/jackson/core/util/RequestPayload;)V",
+    r'setRequestPayloadOnError',
+    r'(Lcom/fasterxml/jackson/core/util/RequestPayload;)V',
   );
 
   static final _setRequestPayloadOnError = ProtectedJniExtensions.lookup<
@@ -519,7 +520,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -540,8 +541,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_setRequestPayloadOnError1 = _class.instanceMethodId(
-    r"setRequestPayloadOnError",
-    r"([BLjava/lang/String;)V",
+    r'setRequestPayloadOnError',
+    r'([BLjava/lang/String;)V',
   );
 
   static final _setRequestPayloadOnError1 = ProtectedJniExtensions.lookup<
@@ -553,7 +554,7 @@ class JsonParser extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallVoidMethod")
+                      )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -577,8 +578,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_setRequestPayloadOnError2 = _class.instanceMethodId(
-    r"setRequestPayloadOnError",
-    r"(Ljava/lang/String;)V",
+    r'setRequestPayloadOnError',
+    r'(Ljava/lang/String;)V',
   );
 
   static final _setRequestPayloadOnError2 = ProtectedJniExtensions.lookup<
@@ -587,7 +588,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -608,8 +609,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_setSchema = _class.instanceMethodId(
-    r"setSchema",
-    r"(Lcom/fasterxml/jackson/core/FormatSchema;)V",
+    r'setSchema',
+    r'(Lcom/fasterxml/jackson/core/FormatSchema;)V',
   );
 
   static final _setSchema = ProtectedJniExtensions.lookup<
@@ -618,7 +619,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -644,8 +645,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getSchema = _class.instanceMethodId(
-    r"getSchema",
-    r"()Lcom/fasterxml/jackson/core/FormatSchema;",
+    r'getSchema',
+    r'()Lcom/fasterxml/jackson/core/FormatSchema;',
   );
 
   static final _getSchema = ProtectedJniExtensions.lookup<
@@ -653,7 +654,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -673,8 +674,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_canUseSchema = _class.instanceMethodId(
-    r"canUseSchema",
-    r"(Lcom/fasterxml/jackson/core/FormatSchema;)Z",
+    r'canUseSchema',
+    r'(Lcom/fasterxml/jackson/core/FormatSchema;)Z',
   );
 
   static final _canUseSchema = ProtectedJniExtensions.lookup<
@@ -683,7 +684,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallBooleanMethod")
+          'globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -703,8 +704,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_requiresCustomCodec = _class.instanceMethodId(
-    r"requiresCustomCodec",
-    r"()Z",
+    r'requiresCustomCodec',
+    r'()Z',
   );
 
   static final _requiresCustomCodec = ProtectedJniExtensions.lookup<
@@ -712,7 +713,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -736,8 +737,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_canParseAsync = _class.instanceMethodId(
-    r"canParseAsync",
-    r"()Z",
+    r'canParseAsync',
+    r'()Z',
   );
 
   static final _canParseAsync = ProtectedJniExtensions.lookup<
@@ -745,7 +746,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -772,8 +773,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getNonBlockingInputFeeder = _class.instanceMethodId(
-    r"getNonBlockingInputFeeder",
-    r"()Lcom/fasterxml/jackson/core/async/NonBlockingInputFeeder;",
+    r'getNonBlockingInputFeeder',
+    r'()Lcom/fasterxml/jackson/core/async/NonBlockingInputFeeder;',
   );
 
   static final _getNonBlockingInputFeeder = ProtectedJniExtensions.lookup<
@@ -781,7 +782,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -803,8 +804,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getReadCapabilities = _class.instanceMethodId(
-    r"getReadCapabilities",
-    r"()Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;",
+    r'getReadCapabilities',
+    r'()Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;',
   );
 
   static final _getReadCapabilities = ProtectedJniExtensions.lookup<
@@ -812,7 +813,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -833,8 +834,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_version = _class.instanceMethodId(
-    r"version",
-    r"()Lcom/fasterxml/jackson/core/Version;",
+    r'version',
+    r'()Lcom/fasterxml/jackson/core/Version;',
   );
 
   static final _version = ProtectedJniExtensions.lookup<
@@ -842,7 +843,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -862,8 +863,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_close = _class.instanceMethodId(
-    r"close",
-    r"()V",
+    r'close',
+    r'()V',
   );
 
   static final _close = ProtectedJniExtensions.lookup<
@@ -871,7 +872,7 @@ class JsonParser extends jni.JObject {
               jni.JThrowablePtr Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallVoidMethod")
+              )>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
             ffi.Pointer<ffi.Void>,
@@ -899,8 +900,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_isClosed = _class.instanceMethodId(
-    r"isClosed",
-    r"()Z",
+    r'isClosed',
+    r'()Z',
   );
 
   static final _isClosed = ProtectedJniExtensions.lookup<
@@ -908,7 +909,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -930,8 +931,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getParsingContext = _class.instanceMethodId(
-    r"getParsingContext",
-    r"()Lcom/fasterxml/jackson/core/JsonStreamContext;",
+    r'getParsingContext',
+    r'()Lcom/fasterxml/jackson/core/JsonStreamContext;',
   );
 
   static final _getParsingContext = ProtectedJniExtensions.lookup<
@@ -939,7 +940,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -965,8 +966,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_currentLocation = _class.instanceMethodId(
-    r"currentLocation",
-    r"()Lcom/fasterxml/jackson/core/JsonLocation;",
+    r'currentLocation',
+    r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
   static final _currentLocation = ProtectedJniExtensions.lookup<
@@ -974,7 +975,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1003,8 +1004,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_currentTokenLocation = _class.instanceMethodId(
-    r"currentTokenLocation",
-    r"()Lcom/fasterxml/jackson/core/JsonLocation;",
+    r'currentTokenLocation',
+    r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
   static final _currentTokenLocation = ProtectedJniExtensions.lookup<
@@ -1012,7 +1013,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1041,8 +1042,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getCurrentLocation = _class.instanceMethodId(
-    r"getCurrentLocation",
-    r"()Lcom/fasterxml/jackson/core/JsonLocation;",
+    r'getCurrentLocation',
+    r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
   static final _getCurrentLocation = ProtectedJniExtensions.lookup<
@@ -1050,7 +1051,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1070,8 +1071,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getTokenLocation = _class.instanceMethodId(
-    r"getTokenLocation",
-    r"()Lcom/fasterxml/jackson/core/JsonLocation;",
+    r'getTokenLocation',
+    r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
 
   static final _getTokenLocation = ProtectedJniExtensions.lookup<
@@ -1079,7 +1080,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1099,8 +1100,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_currentValue = _class.instanceMethodId(
-    r"currentValue",
-    r"()Ljava/lang/Object;",
+    r'currentValue',
+    r'()Ljava/lang/Object;',
   );
 
   static final _currentValue = ProtectedJniExtensions.lookup<
@@ -1108,7 +1109,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1136,8 +1137,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_assignCurrentValue = _class.instanceMethodId(
-    r"assignCurrentValue",
-    r"(Ljava/lang/Object;)V",
+    r'assignCurrentValue',
+    r'(Ljava/lang/Object;)V',
   );
 
   static final _assignCurrentValue = ProtectedJniExtensions.lookup<
@@ -1146,7 +1147,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1168,8 +1169,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getCurrentValue = _class.instanceMethodId(
-    r"getCurrentValue",
-    r"()Ljava/lang/Object;",
+    r'getCurrentValue',
+    r'()Ljava/lang/Object;',
   );
 
   static final _getCurrentValue = ProtectedJniExtensions.lookup<
@@ -1177,7 +1178,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1197,8 +1198,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_setCurrentValue = _class.instanceMethodId(
-    r"setCurrentValue",
-    r"(Ljava/lang/Object;)V",
+    r'setCurrentValue',
+    r'(Ljava/lang/Object;)V',
   );
 
   static final _setCurrentValue = ProtectedJniExtensions.lookup<
@@ -1207,7 +1208,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1226,8 +1227,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_releaseBuffered = _class.instanceMethodId(
-    r"releaseBuffered",
-    r"(Ljava/io/OutputStream;)I",
+    r'releaseBuffered',
+    r'(Ljava/io/OutputStream;)I',
   );
 
   static final _releaseBuffered = ProtectedJniExtensions.lookup<
@@ -1236,7 +1237,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallIntMethod")
+          'globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1263,8 +1264,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_releaseBuffered1 = _class.instanceMethodId(
-    r"releaseBuffered",
-    r"(Ljava/io/Writer;)I",
+    r'releaseBuffered',
+    r'(Ljava/io/Writer;)I',
   );
 
   static final _releaseBuffered1 = ProtectedJniExtensions.lookup<
@@ -1273,7 +1274,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallIntMethod")
+          'globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1301,8 +1302,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_enable = _class.instanceMethodId(
-    r"enable",
-    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;",
+    r'enable',
+    r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
   static final _enable = ProtectedJniExtensions.lookup<
@@ -1311,7 +1312,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1332,8 +1333,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_disable = _class.instanceMethodId(
-    r"disable",
-    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;",
+    r'disable',
+    r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
   static final _disable = ProtectedJniExtensions.lookup<
@@ -1342,7 +1343,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1363,8 +1364,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_configure = _class.instanceMethodId(
-    r"configure",
-    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonParser;",
+    r'configure',
+    r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
   static final _configure = ProtectedJniExtensions.lookup<
@@ -1373,7 +1374,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>, $Int32)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, int)>();
@@ -1396,8 +1397,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_isEnabled = _class.instanceMethodId(
-    r"isEnabled",
-    r"(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z",
+    r'isEnabled',
+    r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z',
   );
 
   static final _isEnabled = ProtectedJniExtensions.lookup<
@@ -1406,7 +1407,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallBooleanMethod")
+          'globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1425,8 +1426,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_isEnabled1 = _class.instanceMethodId(
-    r"isEnabled",
-    r"(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z",
+    r'isEnabled',
+    r'(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z',
   );
 
   static final _isEnabled1 = ProtectedJniExtensions.lookup<
@@ -1435,7 +1436,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallBooleanMethod")
+          'globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1455,8 +1456,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getFeatureMask = _class.instanceMethodId(
-    r"getFeatureMask",
-    r"()I",
+    r'getFeatureMask',
+    r'()I',
   );
 
   static final _getFeatureMask = ProtectedJniExtensions.lookup<
@@ -1464,7 +1465,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1483,14 +1484,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_setFeatureMask = _class.instanceMethodId(
-    r"setFeatureMask",
-    r"(I)Lcom/fasterxml/jackson/core/JsonParser;",
+    r'setFeatureMask',
+    r'(I)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
   static final _setFeatureMask = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1512,14 +1513,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_overrideStdFeatures = _class.instanceMethodId(
-    r"overrideStdFeatures",
-    r"(II)Lcom/fasterxml/jackson/core/JsonParser;",
+    r'overrideStdFeatures',
+    r'(II)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
   static final _overrideStdFeatures = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32, $Int32)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32, $Int32)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
@@ -1549,8 +1550,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getFormatFeatures = _class.instanceMethodId(
-    r"getFormatFeatures",
-    r"()I",
+    r'getFormatFeatures',
+    r'()I',
   );
 
   static final _getFormatFeatures = ProtectedJniExtensions.lookup<
@@ -1558,7 +1559,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1578,14 +1579,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_overrideFormatFeatures = _class.instanceMethodId(
-    r"overrideFormatFeatures",
-    r"(II)Lcom/fasterxml/jackson/core/JsonParser;",
+    r'overrideFormatFeatures',
+    r'(II)Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
   static final _overrideFormatFeatures = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32, $Int32)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32, $Int32)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int, int)>();
@@ -1613,8 +1614,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextToken = _class.instanceMethodId(
-    r"nextToken",
-    r"()Lcom/fasterxml/jackson/core/JsonToken;",
+    r'nextToken',
+    r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
   static final _nextToken = ProtectedJniExtensions.lookup<
@@ -1622,7 +1623,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1646,8 +1647,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextValue = _class.instanceMethodId(
-    r"nextValue",
-    r"()Lcom/fasterxml/jackson/core/JsonToken;",
+    r'nextValue',
+    r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
   static final _nextValue = ProtectedJniExtensions.lookup<
@@ -1655,7 +1656,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1687,8 +1688,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextFieldName = _class.instanceMethodId(
-    r"nextFieldName",
-    r"(Lcom/fasterxml/jackson/core/SerializableString;)Z",
+    r'nextFieldName',
+    r'(Lcom/fasterxml/jackson/core/SerializableString;)Z',
   );
 
   static final _nextFieldName = ProtectedJniExtensions.lookup<
@@ -1697,7 +1698,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallBooleanMethod")
+          'globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1728,8 +1729,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextFieldName1 = _class.instanceMethodId(
-    r"nextFieldName",
-    r"()Ljava/lang/String;",
+    r'nextFieldName',
+    r'()Ljava/lang/String;',
   );
 
   static final _nextFieldName1 = ProtectedJniExtensions.lookup<
@@ -1737,7 +1738,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1762,8 +1763,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextTextValue = _class.instanceMethodId(
-    r"nextTextValue",
-    r"()Ljava/lang/String;",
+    r'nextTextValue',
+    r'()Ljava/lang/String;',
   );
 
   static final _nextTextValue = ProtectedJniExtensions.lookup<
@@ -1771,7 +1772,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1801,14 +1802,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextIntValue = _class.instanceMethodId(
-    r"nextIntValue",
-    r"(I)I",
+    r'nextIntValue',
+    r'(I)I',
   );
 
   static final _nextIntValue = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallIntMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1841,14 +1842,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextLongValue = _class.instanceMethodId(
-    r"nextLongValue",
-    r"(J)J",
+    r'nextLongValue',
+    r'(J)J',
   );
 
   static final _nextLongValue = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int64,)>)>>("globalEnv_CallLongMethod")
+                  ffi.VarArgs<(ffi.Int64,)>)>>('globalEnv_CallLongMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1881,8 +1882,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_nextBooleanValue = _class.instanceMethodId(
-    r"nextBooleanValue",
-    r"()Ljava/lang/Boolean;",
+    r'nextBooleanValue',
+    r'()Ljava/lang/Boolean;',
   );
 
   static final _nextBooleanValue = ProtectedJniExtensions.lookup<
@@ -1890,7 +1891,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1923,8 +1924,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_skipChildren = _class.instanceMethodId(
-    r"skipChildren",
-    r"()Lcom/fasterxml/jackson/core/JsonParser;",
+    r'skipChildren',
+    r'()Lcom/fasterxml/jackson/core/JsonParser;',
   );
 
   static final _skipChildren = ProtectedJniExtensions.lookup<
@@ -1932,7 +1933,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1964,8 +1965,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_finishToken = _class.instanceMethodId(
-    r"finishToken",
-    r"()V",
+    r'finishToken',
+    r'()V',
   );
 
   static final _finishToken = ProtectedJniExtensions.lookup<
@@ -1973,7 +1974,7 @@ class JsonParser extends jni.JObject {
               jni.JThrowablePtr Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallVoidMethod")
+              )>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
             ffi.Pointer<ffi.Void>,
@@ -2001,8 +2002,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_currentToken = _class.instanceMethodId(
-    r"currentToken",
-    r"()Lcom/fasterxml/jackson/core/JsonToken;",
+    r'currentToken',
+    r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
   static final _currentToken = ProtectedJniExtensions.lookup<
@@ -2010,7 +2011,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2036,8 +2037,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_currentTokenId = _class.instanceMethodId(
-    r"currentTokenId",
-    r"()I",
+    r'currentTokenId',
+    r'()I',
   );
 
   static final _currentTokenId = ProtectedJniExtensions.lookup<
@@ -2045,7 +2046,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2070,8 +2071,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getCurrentToken = _class.instanceMethodId(
-    r"getCurrentToken",
-    r"()Lcom/fasterxml/jackson/core/JsonToken;",
+    r'getCurrentToken',
+    r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
   static final _getCurrentToken = ProtectedJniExtensions.lookup<
@@ -2079,7 +2080,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2100,8 +2101,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getCurrentTokenId = _class.instanceMethodId(
-    r"getCurrentTokenId",
-    r"()I",
+    r'getCurrentTokenId',
+    r'()I',
   );
 
   static final _getCurrentTokenId = ProtectedJniExtensions.lookup<
@@ -2109,7 +2110,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2128,8 +2129,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_hasCurrentToken = _class.instanceMethodId(
-    r"hasCurrentToken",
-    r"()Z",
+    r'hasCurrentToken',
+    r'()Z',
   );
 
   static final _hasCurrentToken = ProtectedJniExtensions.lookup<
@@ -2137,7 +2138,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2161,14 +2162,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_hasTokenId = _class.instanceMethodId(
-    r"hasTokenId",
-    r"(I)Z",
+    r'hasTokenId',
+    r'(I)Z',
   );
 
   static final _hasTokenId = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallBooleanMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -2196,8 +2197,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_hasToken = _class.instanceMethodId(
-    r"hasToken",
-    r"(Lcom/fasterxml/jackson/core/JsonToken;)Z",
+    r'hasToken',
+    r'(Lcom/fasterxml/jackson/core/JsonToken;)Z',
   );
 
   static final _hasToken = ProtectedJniExtensions.lookup<
@@ -2206,7 +2207,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallBooleanMethod")
+          'globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -2234,8 +2235,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_isExpectedStartArrayToken = _class.instanceMethodId(
-    r"isExpectedStartArrayToken",
-    r"()Z",
+    r'isExpectedStartArrayToken',
+    r'()Z',
   );
 
   static final _isExpectedStartArrayToken = ProtectedJniExtensions.lookup<
@@ -2243,7 +2244,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2275,8 +2276,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_isExpectedStartObjectToken = _class.instanceMethodId(
-    r"isExpectedStartObjectToken",
-    r"()Z",
+    r'isExpectedStartObjectToken',
+    r'()Z',
   );
 
   static final _isExpectedStartObjectToken = ProtectedJniExtensions.lookup<
@@ -2284,7 +2285,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2306,8 +2307,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_isExpectedNumberIntToken = _class.instanceMethodId(
-    r"isExpectedNumberIntToken",
-    r"()Z",
+    r'isExpectedNumberIntToken',
+    r'()Z',
   );
 
   static final _isExpectedNumberIntToken = ProtectedJniExtensions.lookup<
@@ -2315,7 +2316,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2340,8 +2341,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_isNaN = _class.instanceMethodId(
-    r"isNaN",
-    r"()Z",
+    r'isNaN',
+    r'()Z',
   );
 
   static final _isNaN = ProtectedJniExtensions.lookup<
@@ -2349,7 +2350,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2375,8 +2376,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_clearCurrentToken = _class.instanceMethodId(
-    r"clearCurrentToken",
-    r"()V",
+    r'clearCurrentToken',
+    r'()V',
   );
 
   static final _clearCurrentToken = ProtectedJniExtensions.lookup<
@@ -2384,7 +2385,7 @@ class JsonParser extends jni.JObject {
               jni.JThrowablePtr Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallVoidMethod")
+              )>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
             ffi.Pointer<ffi.Void>,
@@ -2410,8 +2411,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getLastClearedToken = _class.instanceMethodId(
-    r"getLastClearedToken",
-    r"()Lcom/fasterxml/jackson/core/JsonToken;",
+    r'getLastClearedToken',
+    r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
   static final _getLastClearedToken = ProtectedJniExtensions.lookup<
@@ -2419,7 +2420,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2442,8 +2443,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_overrideCurrentName = _class.instanceMethodId(
-    r"overrideCurrentName",
-    r"(Ljava/lang/String;)V",
+    r'overrideCurrentName',
+    r'(Ljava/lang/String;)V',
   );
 
   static final _overrideCurrentName = ProtectedJniExtensions.lookup<
@@ -2452,7 +2453,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -2476,8 +2477,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getCurrentName = _class.instanceMethodId(
-    r"getCurrentName",
-    r"()Ljava/lang/String;",
+    r'getCurrentName',
+    r'()Ljava/lang/String;',
   );
 
   static final _getCurrentName = ProtectedJniExtensions.lookup<
@@ -2485,7 +2486,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2506,8 +2507,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_currentName = _class.instanceMethodId(
-    r"currentName",
-    r"()Ljava/lang/String;",
+    r'currentName',
+    r'()Ljava/lang/String;',
   );
 
   static final _currentName = ProtectedJniExtensions.lookup<
@@ -2515,7 +2516,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2540,8 +2541,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getText = _class.instanceMethodId(
-    r"getText",
-    r"()Ljava/lang/String;",
+    r'getText',
+    r'()Ljava/lang/String;',
   );
 
   static final _getText = ProtectedJniExtensions.lookup<
@@ -2549,7 +2550,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2573,8 +2574,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getText1 = _class.instanceMethodId(
-    r"getText",
-    r"(Ljava/io/Writer;)I",
+    r'getText',
+    r'(Ljava/io/Writer;)I',
   );
 
   static final _getText1 = ProtectedJniExtensions.lookup<
@@ -2583,7 +2584,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallIntMethod")
+          'globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -2614,8 +2615,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getTextCharacters = _class.instanceMethodId(
-    r"getTextCharacters",
-    r"()[C",
+    r'getTextCharacters',
+    r'()[C',
   );
 
   static final _getTextCharacters = ProtectedJniExtensions.lookup<
@@ -2623,7 +2624,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2667,8 +2668,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getTextLength = _class.instanceMethodId(
-    r"getTextLength",
-    r"()I",
+    r'getTextLength',
+    r'()I',
   );
 
   static final _getTextLength = ProtectedJniExtensions.lookup<
@@ -2676,7 +2677,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2699,8 +2700,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getTextOffset = _class.instanceMethodId(
-    r"getTextOffset",
-    r"()I",
+    r'getTextOffset',
+    r'()I',
   );
 
   static final _getTextOffset = ProtectedJniExtensions.lookup<
@@ -2708,7 +2709,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2731,8 +2732,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_hasTextCharacters = _class.instanceMethodId(
-    r"hasTextCharacters",
-    r"()Z",
+    r'hasTextCharacters',
+    r'()Z',
   );
 
   static final _hasTextCharacters = ProtectedJniExtensions.lookup<
@@ -2740,7 +2741,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2770,8 +2771,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getNumberValue = _class.instanceMethodId(
-    r"getNumberValue",
-    r"()Ljava/lang/Number;",
+    r'getNumberValue',
+    r'()Ljava/lang/Number;',
   );
 
   static final _getNumberValue = ProtectedJniExtensions.lookup<
@@ -2779,7 +2780,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2806,8 +2807,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getNumberValueExact = _class.instanceMethodId(
-    r"getNumberValueExact",
-    r"()Ljava/lang/Number;",
+    r'getNumberValueExact',
+    r'()Ljava/lang/Number;',
   );
 
   static final _getNumberValueExact = ProtectedJniExtensions.lookup<
@@ -2815,7 +2816,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2846,8 +2847,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getNumberType = _class.instanceMethodId(
-    r"getNumberType",
-    r"()Lcom/fasterxml/jackson/core/JsonParser$NumberType;",
+    r'getNumberType',
+    r'()Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
   static final _getNumberType = ProtectedJniExtensions.lookup<
@@ -2855,7 +2856,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2879,8 +2880,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getByteValue = _class.instanceMethodId(
-    r"getByteValue",
-    r"()B",
+    r'getByteValue',
+    r'()B',
   );
 
   static final _getByteValue = ProtectedJniExtensions.lookup<
@@ -2888,7 +2889,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallByteMethod")
+              )>>('globalEnv_CallByteMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2925,8 +2926,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getShortValue = _class.instanceMethodId(
-    r"getShortValue",
-    r"()S",
+    r'getShortValue',
+    r'()S',
   );
 
   static final _getShortValue = ProtectedJniExtensions.lookup<
@@ -2934,7 +2935,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallShortMethod")
+              )>>('globalEnv_CallShortMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2965,8 +2966,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getIntValue = _class.instanceMethodId(
-    r"getIntValue",
-    r"()I",
+    r'getIntValue',
+    r'()I',
   );
 
   static final _getIntValue = ProtectedJniExtensions.lookup<
@@ -2974,7 +2975,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3004,8 +3005,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getLongValue = _class.instanceMethodId(
-    r"getLongValue",
-    r"()J",
+    r'getLongValue',
+    r'()J',
   );
 
   static final _getLongValue = ProtectedJniExtensions.lookup<
@@ -3013,7 +3014,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallLongMethod")
+              )>>('globalEnv_CallLongMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3044,8 +3045,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getBigIntegerValue = _class.instanceMethodId(
-    r"getBigIntegerValue",
-    r"()Ljava/math/BigInteger;",
+    r'getBigIntegerValue',
+    r'()Ljava/math/BigInteger;',
   );
 
   static final _getBigIntegerValue = ProtectedJniExtensions.lookup<
@@ -3053,7 +3054,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3081,8 +3082,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getFloatValue = _class.instanceMethodId(
-    r"getFloatValue",
-    r"()F",
+    r'getFloatValue',
+    r'()F',
   );
 
   static final _getFloatValue = ProtectedJniExtensions.lookup<
@@ -3090,7 +3091,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallFloatMethod")
+              )>>('globalEnv_CallFloatMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3121,8 +3122,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getDoubleValue = _class.instanceMethodId(
-    r"getDoubleValue",
-    r"()D",
+    r'getDoubleValue',
+    r'()D',
   );
 
   static final _getDoubleValue = ProtectedJniExtensions.lookup<
@@ -3130,7 +3131,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallDoubleMethod")
+              )>>('globalEnv_CallDoubleMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3161,8 +3162,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getDecimalValue = _class.instanceMethodId(
-    r"getDecimalValue",
-    r"()Ljava/math/BigDecimal;",
+    r'getDecimalValue',
+    r'()Ljava/math/BigDecimal;',
   );
 
   static final _getDecimalValue = ProtectedJniExtensions.lookup<
@@ -3170,7 +3171,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3195,8 +3196,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getBooleanValue = _class.instanceMethodId(
-    r"getBooleanValue",
-    r"()Z",
+    r'getBooleanValue',
+    r'()Z',
   );
 
   static final _getBooleanValue = ProtectedJniExtensions.lookup<
@@ -3204,7 +3205,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3231,8 +3232,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getEmbeddedObject = _class.instanceMethodId(
-    r"getEmbeddedObject",
-    r"()Ljava/lang/Object;",
+    r'getEmbeddedObject',
+    r'()Ljava/lang/Object;',
   );
 
   static final _getEmbeddedObject = ProtectedJniExtensions.lookup<
@@ -3240,7 +3241,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3271,8 +3272,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getBinaryValue = _class.instanceMethodId(
-    r"getBinaryValue",
-    r"(Lcom/fasterxml/jackson/core/Base64Variant;)[B",
+    r'getBinaryValue',
+    r'(Lcom/fasterxml/jackson/core/Base64Variant;)[B',
   );
 
   static final _getBinaryValue = ProtectedJniExtensions.lookup<
@@ -3281,7 +3282,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -3318,8 +3319,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getBinaryValue1 = _class.instanceMethodId(
-    r"getBinaryValue",
-    r"()[B",
+    r'getBinaryValue',
+    r'()[B',
   );
 
   static final _getBinaryValue1 = ProtectedJniExtensions.lookup<
@@ -3327,7 +3328,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3350,8 +3351,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readBinaryValue = _class.instanceMethodId(
-    r"readBinaryValue",
-    r"(Ljava/io/OutputStream;)I",
+    r'readBinaryValue',
+    r'(Ljava/io/OutputStream;)I',
   );
 
   static final _readBinaryValue = ProtectedJniExtensions.lookup<
@@ -3360,7 +3361,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallIntMethod")
+          'globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -3387,8 +3388,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readBinaryValue1 = _class.instanceMethodId(
-    r"readBinaryValue",
-    r"(Lcom/fasterxml/jackson/core/Base64Variant;Ljava/io/OutputStream;)I",
+    r'readBinaryValue',
+    r'(Lcom/fasterxml/jackson/core/Base64Variant;Ljava/io/OutputStream;)I',
   );
 
   static final _readBinaryValue1 = ProtectedJniExtensions.lookup<
@@ -3400,7 +3401,7 @@ class JsonParser extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallIntMethod")
+                      )>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -3428,8 +3429,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsInt = _class.instanceMethodId(
-    r"getValueAsInt",
-    r"()I",
+    r'getValueAsInt',
+    r'()I',
   );
 
   static final _getValueAsInt = ProtectedJniExtensions.lookup<
@@ -3437,7 +3438,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3466,14 +3467,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsInt1 = _class.instanceMethodId(
-    r"getValueAsInt",
-    r"(I)I",
+    r'getValueAsInt',
+    r'(I)I',
   );
 
   static final _getValueAsInt1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallIntMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -3502,8 +3503,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsLong = _class.instanceMethodId(
-    r"getValueAsLong",
-    r"()J",
+    r'getValueAsLong',
+    r'()J',
   );
 
   static final _getValueAsLong = ProtectedJniExtensions.lookup<
@@ -3511,7 +3512,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallLongMethod")
+              )>>('globalEnv_CallLongMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3540,14 +3541,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsLong1 = _class.instanceMethodId(
-    r"getValueAsLong",
-    r"(J)J",
+    r'getValueAsLong',
+    r'(J)J',
   );
 
   static final _getValueAsLong1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Int64,)>)>>("globalEnv_CallLongMethod")
+                  ffi.VarArgs<(ffi.Int64,)>)>>('globalEnv_CallLongMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -3576,8 +3577,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsDouble = _class.instanceMethodId(
-    r"getValueAsDouble",
-    r"()D",
+    r'getValueAsDouble',
+    r'()D',
   );
 
   static final _getValueAsDouble = ProtectedJniExtensions.lookup<
@@ -3585,7 +3586,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallDoubleMethod")
+              )>>('globalEnv_CallDoubleMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3614,14 +3615,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsDouble1 = _class.instanceMethodId(
-    r"getValueAsDouble",
-    r"(D)D",
+    r'getValueAsDouble',
+    r'(D)D',
   );
 
   static final _getValueAsDouble1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_CallDoubleMethod")
+                  ffi.VarArgs<(ffi.Double,)>)>>('globalEnv_CallDoubleMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
@@ -3650,8 +3651,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsBoolean = _class.instanceMethodId(
-    r"getValueAsBoolean",
-    r"()Z",
+    r'getValueAsBoolean',
+    r'()Z',
   );
 
   static final _getValueAsBoolean = ProtectedJniExtensions.lookup<
@@ -3659,7 +3660,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3688,14 +3689,14 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsBoolean1 = _class.instanceMethodId(
-    r"getValueAsBoolean",
-    r"(Z)Z",
+    r'getValueAsBoolean',
+    r'(Z)Z',
   );
 
   static final _getValueAsBoolean1 = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallBooleanMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -3724,8 +3725,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsString = _class.instanceMethodId(
-    r"getValueAsString",
-    r"()Ljava/lang/String;",
+    r'getValueAsString',
+    r'()Ljava/lang/String;',
   );
 
   static final _getValueAsString = ProtectedJniExtensions.lookup<
@@ -3733,7 +3734,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3761,8 +3762,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getValueAsString1 = _class.instanceMethodId(
-    r"getValueAsString",
-    r"(Ljava/lang/String;)Ljava/lang/String;",
+    r'getValueAsString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
   );
 
   static final _getValueAsString1 = ProtectedJniExtensions.lookup<
@@ -3771,7 +3772,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -3800,8 +3801,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_canReadObjectId = _class.instanceMethodId(
-    r"canReadObjectId",
-    r"()Z",
+    r'canReadObjectId',
+    r'()Z',
   );
 
   static final _canReadObjectId = ProtectedJniExtensions.lookup<
@@ -3809,7 +3810,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3836,8 +3837,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_canReadTypeId = _class.instanceMethodId(
-    r"canReadTypeId",
-    r"()Z",
+    r'canReadTypeId',
+    r'()Z',
   );
 
   static final _canReadTypeId = ProtectedJniExtensions.lookup<
@@ -3845,7 +3846,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3872,8 +3873,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getObjectId = _class.instanceMethodId(
-    r"getObjectId",
-    r"()Ljava/lang/Object;",
+    r'getObjectId',
+    r'()Ljava/lang/Object;',
   );
 
   static final _getObjectId = ProtectedJniExtensions.lookup<
@@ -3881,7 +3882,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3910,8 +3911,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_getTypeId = _class.instanceMethodId(
-    r"getTypeId",
-    r"()Ljava/lang/Object;",
+    r'getTypeId',
+    r'()Ljava/lang/Object;',
   );
 
   static final _getTypeId = ProtectedJniExtensions.lookup<
@@ -3919,7 +3920,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -3948,8 +3949,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readValueAs = _class.instanceMethodId(
-    r"readValueAs",
-    r"(Ljava/lang/Class;)Ljava/lang/Object;",
+    r'readValueAs',
+    r'(Ljava/lang/Class;)Ljava/lang/Object;',
   );
 
   static final _readValueAs = ProtectedJniExtensions.lookup<
@@ -3958,7 +3959,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -4001,8 +4002,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readValueAs1 = _class.instanceMethodId(
-    r"readValueAs",
-    r"(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/lang/Object;",
+    r'readValueAs',
+    r'(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/lang/Object;',
   );
 
   static final _readValueAs1 = ProtectedJniExtensions.lookup<
@@ -4011,7 +4012,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -4053,8 +4054,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readValuesAs = _class.instanceMethodId(
-    r"readValuesAs",
-    r"(Ljava/lang/Class;)Ljava/util/Iterator;",
+    r'readValuesAs',
+    r'(Ljava/lang/Class;)Ljava/util/Iterator;',
   );
 
   static final _readValuesAs = ProtectedJniExtensions.lookup<
@@ -4063,7 +4064,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -4089,8 +4090,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readValuesAs1 = _class.instanceMethodId(
-    r"readValuesAs",
-    r"(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/util/Iterator;",
+    r'readValuesAs',
+    r'(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/util/Iterator;',
   );
 
   static final _readValuesAs1 = ProtectedJniExtensions.lookup<
@@ -4099,7 +4100,7 @@ class JsonParser extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -4127,8 +4128,8 @@ class JsonParser extends jni.JObject {
   }
 
   static final _id_readValueAsTree = _class.instanceMethodId(
-    r"readValueAsTree",
-    r"()Lcom/fasterxml/jackson/core/TreeNode;",
+    r'readValueAsTree',
+    r'()Lcom/fasterxml/jackson/core/TreeNode;',
   );
 
   static final _readValueAsTree = ProtectedJniExtensions.lookup<
@@ -4136,7 +4137,7 @@ class JsonParser extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -4168,7 +4169,7 @@ final class $JsonParserType extends jni.JObjType<JsonParser> {
   const $JsonParserType();
 
   @override
-  String get signature => r"Lcom/fasterxml/jackson/core/JsonParser;";
+  String get signature => r'Lcom/fasterxml/jackson/core/JsonParser;';
 
   @override
   JsonParser fromReference(jni.JReference reference) =>

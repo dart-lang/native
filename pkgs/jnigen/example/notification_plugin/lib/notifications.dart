@@ -16,6 +16,7 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
+// ignore_for_file: prefer_double_quotes
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -24,10 +25,11 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import "dart:isolate" show ReceivePort;
-import "dart:ffi" as ffi;
-import "package:jni/internal_helpers_for_jnigen.dart";
-import "package:jni/jni.dart" as jni;
+import 'dart:ffi' as ffi;
+import 'dart:isolate' show ReceivePort;
+
+import 'package:jni/internal_helpers_for_jnigen.dart';
+import 'package:jni/jni.dart' as jni;
 
 /// from: com.example.notification_plugin.Notifications
 class Notifications extends jni.JObject {
@@ -39,12 +41,12 @@ class Notifications extends jni.JObject {
   ) : super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r"com/example/notification_plugin/Notifications");
+      jni.JClass.forName(r'com/example/notification_plugin/Notifications');
 
   /// The type which includes information such as the signature of this class.
   static const type = $NotificationsType();
   static final _id_new0 = _class.constructorId(
-    r"()V",
+    r'()V',
   );
 
   static final _new0 = ProtectedJniExtensions.lookup<
@@ -52,7 +54,7 @@ class Notifications extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_NewObject")
+              )>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -68,8 +70,8 @@ class Notifications extends jni.JObject {
   }
 
   static final _id_showNotification = _class.staticMethodId(
-    r"showNotification",
-    r"(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)V",
+    r'showNotification',
+    r'(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)V',
   );
 
   static final _showNotification = ProtectedJniExtensions.lookup<
@@ -83,7 +85,7 @@ class Notifications extends jni.JObject {
                         $Int32,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticVoidMethod")
+                      )>)>>('globalEnv_CallStaticVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>,
@@ -115,7 +117,7 @@ final class $NotificationsType extends jni.JObjType<Notifications> {
   const $NotificationsType();
 
   @override
-  String get signature => r"Lcom/example/notification_plugin/Notifications;";
+  String get signature => r'Lcom/example/notification_plugin/Notifications;';
 
   @override
   Notifications fromReference(jni.JReference reference) =>

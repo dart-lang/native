@@ -15,11 +15,11 @@ import 'test_util/summary_util.dart';
 import 'test_util/test_util.dart';
 
 const jnigenPackage = 'com.github.dart_lang.jnigen';
-const simplePackage = "$jnigenPackage.simple_package";
+const simplePackage = '$jnigenPackage.simple_package';
 
 extension on Classes {
   String _getSimpleName(ClassDecl c) {
-    return c.binaryName.split(".").last;
+    return c.binaryName.split('.').last;
   }
 
   ClassDecl getClassBySimpleName(String simpleName) {
@@ -43,43 +43,43 @@ extension on ClassDecl {
 void registerCommonTests(Classes classes) {
   test('static modifier', () {
     final example = classes.getExampleClass();
-    final containsStatic = contains("static");
+    final containsStatic = contains('static');
     final notContainsStatic = isNot(containsStatic);
-    expect(example.getMethod("max4").modifiers, containsStatic);
-    expect(example.getMethod("getCodename").modifiers, notContainsStatic);
-    expect(example.getField("ON").modifiers, containsStatic);
-    expect(example.getField("codename").modifiers, notContainsStatic);
-    final nested = classes.getClassBySimpleName("Example\$Nested");
+    expect(example.getMethod('max4').modifiers, containsStatic);
+    expect(example.getMethod('getCodename').modifiers, notContainsStatic);
+    expect(example.getField('ON').modifiers, containsStatic);
+    expect(example.getField('codename').modifiers, notContainsStatic);
+    final nested = classes.getClassBySimpleName('Example\$Nested');
     expect(nested.modifiers, containsStatic);
     final nonStaticNested =
-        classes.getClassBySimpleName("Example\$NonStaticNested");
+        classes.getClassBySimpleName('Example\$NonStaticNested');
     expect(nonStaticNested.modifiers, notContainsStatic);
   });
 
   test('Public, protected and private modifiers', () {
     final example = classes.getExampleClass();
-    final hasPrivate = contains("private");
-    final hasProtected = contains("protected");
-    final hasPublic = contains("public");
+    final hasPrivate = contains('private');
+    final hasProtected = contains('protected');
+    final hasPublic = contains('public');
     final isPrivate = allOf(hasPrivate, isNot(hasProtected), isNot(hasPublic));
     final isProtected =
         allOf(isNot(hasPrivate), hasProtected, isNot(hasPublic));
     final isPublic = allOf(isNot(hasPrivate), isNot(hasProtected), hasPublic);
-    expect(example.getMethod("getNumber").modifiers, isPublic);
-    expect(example.getMethod("privateMethod").modifiers, isPrivate);
-    expect(example.getMethod("protectedMethod").modifiers, isProtected);
-    expect(example.getField("OFF").modifiers, isPublic);
-    expect(example.getField("number").modifiers, isPrivate);
-    expect(example.getField("protectedField").modifiers, isProtected);
+    expect(example.getMethod('getNumber').modifiers, isPublic);
+    expect(example.getMethod('privateMethod').modifiers, isPrivate);
+    expect(example.getMethod('protectedMethod').modifiers, isProtected);
+    expect(example.getField('OFF').modifiers, isPublic);
+    expect(example.getField('number').modifiers, isPrivate);
+    expect(example.getField('protectedField').modifiers, isProtected);
   });
 
   test('final modifier', () {
     final example = classes.getExampleClass();
     final isFinal = contains('final');
-    expect(example.getField("PI").modifiers, isFinal);
-    expect(example.getField("unusedRandom").modifiers, isFinal);
-    expect(example.getField("number").modifiers, isNot(isFinal));
-    expect(example.getMethod("finalMethod").modifiers, isFinal);
+    expect(example.getField('PI').modifiers, isFinal);
+    expect(example.getField('unusedRandom').modifiers, isFinal);
+    expect(example.getField('number').modifiers, isNot(isFinal));
+    expect(example.getMethod('finalMethod').modifiers, isFinal);
   });
 
   void assertToBeStringListType(TypeUsage listType) {
@@ -94,12 +94,12 @@ void registerCommonTests(Classes classes) {
 
   test('return types', () {
     final example = classes.getExampleClass();
-    expect(example.getMethod("getNumber").returnType.shorthand, equals("int"));
-    expect(example.getMethod("getName").returnType.shorthand,
-        equals("java.lang.String"));
-    expect(example.getMethod("getNestedInstance").returnType.name,
-        equals("$simplePackage.Example\$Nested"));
-    final listType = example.getMethod("getList").returnType;
+    expect(example.getMethod('getNumber').returnType.shorthand, equals('int'));
+    expect(example.getMethod('getName').returnType.shorthand,
+        equals('java.lang.String'));
+    expect(example.getMethod('getNestedInstance').returnType.name,
+        equals('$simplePackage.Example\$Nested'));
+    final listType = example.getMethod('getList').returnType;
     assertToBeStringListType(listType);
   });
 
@@ -251,12 +251,12 @@ void registerCommonTests(Classes classes) {
 
   test('Static final field values', () {
     final example = classes.getExampleClass();
-    expect(example.getField("ON").defaultValue, equals(1));
-    expect(example.getField("OFF").defaultValue, equals(0));
-    expect(example.getField("PI").defaultValue, closeTo(3.14159, 0.001));
+    expect(example.getField('ON').defaultValue, equals(1));
+    expect(example.getField('OFF').defaultValue, equals(0));
+    expect(example.getField('PI').defaultValue, closeTo(3.14159, 0.001));
     expect(
-        example.getField("SEMICOLON").defaultValue, equals(';'.codeUnitAt(0)));
-    expect(example.getField("SEMICOLON_STRING").defaultValue, equals(';'));
+        example.getField('SEMICOLON').defaultValue, equals(';'.codeUnitAt(0)));
+    expect(example.getField('SEMICOLON_STRING').defaultValue, equals(';'));
   });
 
   test('self referencing generic parameters', () {
@@ -280,13 +280,13 @@ void registerCommonTests(Classes classes) {
 void main() async {
   await checkLocallyBuiltDependencies();
 
-  final tempDir = getTempDir("jnigen_summary_tests_");
+  final tempDir = getTempDir('jnigen_summary_tests_');
 
   final sourceConfig =
       getSummaryGenerationConfig(sourcePath: [simplePackagePath]);
   final parsedFromSource = await getSummary(sourceConfig);
 
-  final targetDir = tempDir.createTempSync("compiled_classes_test_");
+  final targetDir = tempDir.createTempSync('compiled_classes_test_');
   await compileJavaFiles(simplePackageDir, targetDir);
   final classConfig = getSummaryGenerationConfig(classPath: [targetDir.path]);
   final parsedFromClasses = await getSummary(classConfig);
@@ -307,7 +307,7 @@ void main() async {
       expect(
           joinStrings.params.map((p) => p.name).toList(), ['values', 'delim']);
       final methodWithSeveralParams =
-          example.getMethod("methodWithSeveralParams");
+          example.getMethod('methodWithSeveralParams');
       expect(methodWithSeveralParams.params.map((p) => p.name).toList(),
           ['ch', 's', 'a', 't', 'lt', 'wm']);
     });
@@ -316,7 +316,7 @@ void main() async {
       final example = classes.getExampleClass();
       final joinStrings = example.getMethod('joinStrings');
       expect(joinStrings.javadoc?.comment,
-          contains("Joins the strings in the list using the given delimiter."));
+          contains('Joins the strings in the list using the given delimiter.'));
     });
   });
 

@@ -31,8 +31,8 @@ void compileKotlinSources(String workingDir) async {
     runInShell: true,
   );
   if (procRes.exitCode != 0) {
-    log.fatal("mvn exited with ${procRes.exitCode}\n"
-        "${procRes.stderr}");
+    log.fatal('mvn exited with ${procRes.exitCode}\n'
+        '${procRes.stderr}');
   }
 }
 

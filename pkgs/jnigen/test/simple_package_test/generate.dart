@@ -47,15 +47,15 @@ var javaFiles = [
 void compileJavaSources(String workingDir, List<String> files) async {
   final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
   if (procRes.exitCode != 0) {
-    log.fatal("javac exited with ${procRes.exitCode}\n"
-        "${procRes.stderr}");
+    log.fatal('javac exited with ${procRes.exitCode}\n'
+        '${procRes.stderr}');
   }
 }
 
 Config getConfig() {
   compileJavaSources(javaPath, javaFiles);
   final dartWrappersRoot = Uri.directory(
-    join(testRoot, "bindings"),
+    join(testRoot, 'bindings'),
   );
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],

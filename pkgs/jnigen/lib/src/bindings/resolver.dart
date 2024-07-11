@@ -100,7 +100,7 @@ class Resolver {
 
     _importedNameToClass[importedName] = target;
     _classToImportedName[target] = importedName;
-    _importStrings.add('import "$classImport" as $importedName;\n');
+    _importStrings.add("import '$classImport' as $importedName;\n");
     return '$importedName.';
   }
 

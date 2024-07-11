@@ -14,11 +14,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
       await using((arena) async {
         final suspendFun = SuspendFun()..releasedBy(arena);
         final hello = await suspendFun.sayHello();
-        expect(hello.toDartString(releaseOriginal: true), "Hello!");
-        const name = "Bob";
+        expect(hello.toDartString(releaseOriginal: true), 'Hello!');
+        const name = 'Bob';
         final helloBob =
             await suspendFun.sayHello1(name.toJString()..releasedBy(arena));
-        expect(helloBob.toDartString(releaseOriginal: true), "Hello $name!");
+        expect(helloBob.toDartString(releaseOriginal: true), 'Hello $name!');
       });
     });
 

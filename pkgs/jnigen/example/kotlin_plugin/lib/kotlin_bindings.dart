@@ -12,6 +12,7 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
+// ignore_for_file: prefer_double_quotes
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -20,11 +21,11 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import "dart:ffi" as ffi;
-import "dart:isolate" show ReceivePort;
+import 'dart:ffi' as ffi;
+import 'dart:isolate' show ReceivePort;
 
-import "package:jni/internal_helpers_for_jnigen.dart";
-import "package:jni/jni.dart" as jni;
+import 'package:jni/internal_helpers_for_jnigen.dart';
+import 'package:jni/jni.dart' as jni;
 
 /// from: Example
 class Example extends jni.JObject {
@@ -35,12 +36,12 @@ class Example extends jni.JObject {
     jni.JReference reference,
   ) : super.fromReference(reference);
 
-  static final _class = jni.JClass.forName(r"Example");
+  static final _class = jni.JClass.forName(r'Example');
 
   /// The type which includes information such as the signature of this class.
   static const type = $ExampleType();
   static final _id_new0 = _class.constructorId(
-    r"()V",
+    r'()V',
   );
 
   static final _new0 = ProtectedJniExtensions.lookup<
@@ -48,7 +49,7 @@ class Example extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_NewObject")
+              )>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -64,8 +65,8 @@ class Example extends jni.JObject {
   }
 
   static final _id_thinkBeforeAnswering = _class.instanceMethodId(
-    r"thinkBeforeAnswering",
-    r"(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;",
+    r'thinkBeforeAnswering',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
   static final _thinkBeforeAnswering = ProtectedJniExtensions.lookup<
@@ -74,7 +75,7 @@ class Example extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -91,7 +92,7 @@ class Example extends jni.JObject {
     final $o = jni.JGlobalReference(jni.JObjectPtr.fromAddress(await $p.first));
     final $k = const jni.JStringType().jClass.reference.pointer;
     if (!jni.Jni.env.IsInstanceOf($o.pointer, $k)) {
-      throw "Failed";
+      throw 'Failed';
     }
     return const jni.JStringType().fromReference($o);
   }
@@ -101,7 +102,7 @@ final class $ExampleType extends jni.JObjType<Example> {
   const $ExampleType();
 
   @override
-  String get signature => r"LExample;";
+  String get signature => r'LExample;';
 
   @override
   Example fromReference(jni.JReference reference) =>

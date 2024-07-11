@@ -45,7 +45,7 @@ Future<void> buildApiSummarizer() async {
     } else {
       printError(mvnProc.stdout);
       printError(mvnProc.stderr);
-      printError("maven exited with $exitCode");
+      printError('maven exited with $exitCode');
     }
   } finally {
     await Directory(mvnTargetDir).delete(recursive: true);

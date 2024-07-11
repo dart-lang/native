@@ -56,12 +56,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Static fields & methods - string', () {
       expect(
         Example.getName().toDartString(releaseOriginal: true),
-        isIn(["Ragnar Lothbrok", "Theseus"]),
+        isIn(['Ragnar Lothbrok', 'Theseus']),
       );
-      Example.setName("Theseus".toJString());
+      Example.setName('Theseus'.toJString());
       expect(
         Example.getName().toDartString(releaseOriginal: true),
-        equals("Theseus"),
+        equals('Theseus'),
       );
     });
 
@@ -82,13 +82,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
       final e = Example();
       expect(e.getNumber(), equals(0));
       expect(e.getIsUp(), true);
-      expect(e.getCodename().toDartString(), equals("achilles"));
+      expect(e.getCodename().toDartString(), equals('achilles'));
       e.setNumber(1);
       e.setUp(false);
-      e.setCodename("spartan".toJString());
+      e.setCodename('spartan'.toJString());
       expect(e.getIsUp(), false);
       expect(e.getNumber(), 1);
-      expect(e.getCodename().toDartString(), equals("spartan"));
+      expect(e.getCodename().toDartString(), equals('spartan'));
       e.release();
     });
 
@@ -132,15 +132,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
       final e1 = Example.new1(111);
       expect(e1.getNumber(), equals(111));
       expect(e1.getIsUp(), true);
-      expect(e1.getCodename().toDartString(), "achilles");
+      expect(e1.getCodename().toDartString(), 'achilles');
       final e2 = Example.new2(122, false);
       expect(e2.getNumber(), equals(122));
       expect(e2.getIsUp(), false);
-      expect(e2.getCodename().toDartString(), "achilles");
-      final e3 = Example.new3(133, false, "spartan".toJString());
+      expect(e2.getCodename().toDartString(), 'achilles');
+      final e3 = Example.new3(133, false, 'spartan'.toJString());
       expect(e3.getNumber(), equals(133));
       expect(e3.getIsUp(), false);
-      expect(e3.getCodename().toDartString(), "spartan");
+      expect(e3.getCodename().toDartString(), 'spartan');
     });
 
     test('Static (non-final) fields', () {
@@ -154,11 +154,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
       expect(
         Fields.name.toDartString(),
-        isIn(["Earl Haraldson", "Ragnar Lothbrok"]),
+        isIn(['Earl Haraldson', 'Ragnar Lothbrok']),
       );
 
-      Fields.name = "Ragnar Lothbrok".toJString();
-      expect(Fields.name.toDartString(), equals("Ragnar Lothbrok"));
+      Fields.name = 'Ragnar Lothbrok'.toJString();
+      expect(Fields.name.toDartString(), equals('Ragnar Lothbrok'));
 
       expect(Fields.pi, closeTo(pi, fpDelta));
     });
@@ -168,14 +168,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(f.trillion, equals(trillion));
 
       expect(f.isAchillesDead, isFalse);
-      expect(f.bestFighterInGreece.toDartString(), equals("Achilles"));
+      expect(f.bestFighterInGreece.toDartString(), equals('Achilles'));
       // "For your glory walks hand-in-hand with your doom." - Thetis.
       f.isAchillesDead = true;
       // I don't know much Greek mythology. But Troy was released in 2004,
       // and 300 was released in 2006, so it's Leonidas I.
-      f.bestFighterInGreece = "Leonidas I".toJString();
+      f.bestFighterInGreece = 'Leonidas I'.toJString();
       expect(f.isAchillesDead, isTrue);
-      expect(f.bestFighterInGreece.toDartString(), "Leonidas I");
+      expect(f.bestFighterInGreece.toDartString(), 'Leonidas I');
     });
 
     test('Fields from nested class', () {
@@ -209,7 +209,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       ex2.release();
     });
 
-    test("Check bindings for same-named classes", () {
+    test('Check bindings for same-named classes', () {
       expect(Example().whichExample(), 0);
       expect(Example1().whichExample(), 1);
     });
@@ -252,14 +252,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
         try {
           Exceptions.throwLoremIpsum();
         } on JniException catch (e) {
-          expect(e.message, stringContainsInOrder(["Lorem Ipsum"]));
+          expect(e.message, stringContainsInOrder(['Lorem Ipsum']));
           expect(
             e.toString(),
-            stringContainsInOrder(["Lorem Ipsum", "throwLoremIpsum"]),
+            stringContainsInOrder(['Lorem Ipsum', 'throwLoremIpsum']),
           );
           return;
         }
-        throw AssertionError("No exception was thrown");
+        throw AssertionError('No exception was thrown');
       });
     });
 
@@ -389,18 +389,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('nested generics', () {
         using((arena) {
           final grandParent =
-              GrandParent(T: JString.type, "!".toJString()..releasedBy(arena))
+              GrandParent(T: JString.type, '!'.toJString()..releasedBy(arena))
                 ..releasedBy(arena);
           expect(
             grandParent.value.toDartString(releaseOriginal: true),
-            "!",
+            '!',
           );
 
           final strStaticParent = GrandParent.stringStaticParent()
             ..releasedBy(arena);
           expect(
             strStaticParent.value.toDartString(releaseOriginal: true),
-            "Hello",
+            'Hello',
           );
 
           final exampleStaticParent = GrandParent.varStaticParent(
@@ -416,11 +416,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
             strParent.parentValue
                 .castTo(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
-            "!",
+            '!',
           );
           expect(
             strParent.value.toDartString(releaseOriginal: true),
-            "Hello",
+            'Hello',
           );
 
           final exampleParent = grandParent.varParent(
@@ -430,7 +430,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             exampleParent.parentValue
                 .castTo(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
-            "!",
+            '!',
           );
           expect(
             (exampleParent.value..releasedBy(arena)).getNumber(),
@@ -463,40 +463,40 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final emptyStack = MyStack(T: JString.type)..releasedBy(arena);
           expect(emptyStack.size(), 0);
           final stack = MyStack.of1(
-            "Hello".toJString()..releasedBy(arena),
+            'Hello'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
           expect(stack.$type, isA<$MyStackType<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
-            "Hello",
+            'Hello',
           );
         });
       });
       test('MyStack.of 2 strings', () {
         using((arena) {
           final stack = MyStack.of2(
-            "Hello".toJString()..releasedBy(arena),
-            "World".toJString()..releasedBy(arena),
+            'Hello'.toJString()..releasedBy(arena),
+            'World'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
           expect(stack.$type, isA<$MyStackType<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
-            "World",
+            'World',
           );
           expect(
             stack.pop().toDartString(releaseOriginal: true),
-            "Hello",
+            'Hello',
           );
         });
       });
       test('MyStack.of a string and an array', () {
         using((arena) {
-          final array = JArray.filled(1, "World".toJString()..releasedBy(arena))
+          final array = JArray.filled(1, 'World'.toJString()..releasedBy(arena))
             ..releasedBy(arena);
           final stack = MyStack.of2(
-            "Hello".toJString()..releasedBy(arena),
+            'Hello'.toJString()..releasedBy(arena),
             array,
           )..releasedBy(arena);
           expect(stack, isA<MyStack<JObject>>());
@@ -506,27 +506,27 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 .pop()
                 .castTo(JArray.type(JString.type), releaseOriginal: true)[0]
                 .toDartString(releaseOriginal: true),
-            "World",
+            'World',
           );
           expect(
             stack
                 .pop()
                 .castTo(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
-            "Hello",
+            'Hello',
           );
         });
       });
       test('MyStack.from array of string', () {
         using((arena) {
-          final array = JArray.filled(1, "Hello".toJString()..releasedBy(arena))
+          final array = JArray.filled(1, 'Hello'.toJString()..releasedBy(arena))
             ..releasedBy(arena);
           final stack = MyStack.fromArray(array)..releasedBy(arena);
           expect(stack, isA<MyStack<JString>>());
           expect(stack.$type, isA<$MyStackType<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
-            "Hello",
+            'Hello',
           );
         });
       });
@@ -534,7 +534,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final firstDimention = JArray.filled(
             1,
-            GrandParent("Hello".toJString()..releasedBy(arena))
+            GrandParent('Hello'.toJString()..releasedBy(arena))
               ..releasedBy(arena),
           )..releasedBy(arena);
           final twoDimentionalArray = JArray.filled(1, firstDimention)
@@ -546,7 +546,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(stack.$type, isA<$MyStackType<JString>>());
           expect(
             stack.pop().toDartString(releaseOriginal: true),
-            "Hello",
+            'Hello',
           );
         });
       });

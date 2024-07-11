@@ -48,7 +48,7 @@ class Command implements Step {
       printError(result.stdout);
       printError(result.stderr);
       final commandString = "$exec ${args.join(" ")}";
-      stderr.writeln("failure executing command: $commandString");
+      stderr.writeln('failure executing command: $commandString');
       throw StepFailure(commandString);
     }
   }
@@ -79,7 +79,7 @@ class Runner {
   }
 
   Future<void> run() async {
-    stderr.writeln("started: $name");
+    stderr.writeln('started: $name');
     var error = false;
     for (var step in steps) {
       try {
@@ -96,14 +96,14 @@ class Runner {
       try {
         await step.run();
       } on Exception catch (e) {
-        printError("ERROR: $e");
+        printError('ERROR: $e');
       }
     }
   }
 }
 
 Uri getRepositoryRoot() {
-  final gitCommand = Process.runSync("git", ["rev-parse", "--show-toplevel"]);
+  final gitCommand = Process.runSync('git', ['rev-parse', '--show-toplevel']);
   final output = gitCommand.stdout as String;
   return Uri.directory(output.trim());
 }

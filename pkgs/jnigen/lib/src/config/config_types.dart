@@ -72,8 +72,8 @@ class AndroidSdkConfig {
     this.androidExample,
   }) {
     if (versions != null && sdkRoot == null) {
-      throw ConfigException("No SDK Root specified for finding Android SDK "
-          "from version priority list $versions");
+      throw ConfigException('No SDK Root specified for finding Android SDK '
+          'from version priority list $versions');
     }
     if (versions == null && !addGradleDeps && !addGradleSources) {
       throw ConfigException('Neither any SDK versions nor `addGradleDeps` '
@@ -249,17 +249,17 @@ void _validateClassName(String className) {
   final parts = className.split('.');
   assert(parts.isNotEmpty);
   const nestedClassesInfo =
-      "Nested classes cannot be specified separately. Specifying the "
-      "parent class will pull the nested classes.";
+      'Nested classes cannot be specified separately. Specifying the '
+      'parent class will pull the nested classes.';
   if (parts.length > 1 && _isCapitalized(parts[parts.length - 2])) {
     // Try to detect possible nested classes specified using dot notation eg:
     // `com.package.Class.NestedClass` and emit a warning.
-    log.warning("It appears a nested class $className is specified in the "
-        "config. $nestedClassesInfo");
+    log.warning('It appears a nested class $className is specified in the '
+        'config. $nestedClassesInfo');
   }
   if (className.contains('\$')) {
     throw ConfigException(
-        "Nested class $className not allowed. $nestedClassesInfo");
+        'Nested class $className not allowed. $nestedClassesInfo');
   }
 }
 

@@ -30,6 +30,7 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
+// ignore_for_file: prefer_double_quotes
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -38,13 +39,13 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import "dart:ffi" as ffi;
-import "dart:isolate" show ReceivePort;
+import 'dart:ffi' as ffi;
+import 'dart:isolate' show ReceivePort;
 
-import "package:jni/internal_helpers_for_jnigen.dart";
-import "package:jni/jni.dart" as jni;
+import 'package:jni/internal_helpers_for_jnigen.dart';
+import 'package:jni/jni.dart' as jni;
 
-import "PDDocumentInformation.dart" as pddocumentinformation_;
+import 'PDDocumentInformation.dart' as pddocumentinformation_;
 
 /// from: org.apache.pdfbox.pdmodel.PDDocument
 ///
@@ -60,12 +61,12 @@ class PDDocument extends jni.JObject {
   ) : super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r"org/apache/pdfbox/pdmodel/PDDocument");
+      jni.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocument');
 
   /// The type which includes information such as the signature of this class.
   static const type = $PDDocumentType();
   static final _id_new0 = _class.constructorId(
-    r"()V",
+    r'()V',
   );
 
   static final _new0 = ProtectedJniExtensions.lookup<
@@ -73,7 +74,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_NewObject")
+              )>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -92,7 +93,7 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_new1 = _class.constructorId(
-    r"(Lorg/apache/pdfbox/io/MemoryUsageSetting;)V",
+    r'(Lorg/apache/pdfbox/io/MemoryUsageSetting;)V',
   );
 
   static final _new1 = ProtectedJniExtensions.lookup<
@@ -101,7 +102,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_NewObject")
+          'globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -121,7 +122,7 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_new2 = _class.constructorId(
-    r"(Lorg/apache/pdfbox/cos/COSDocument;)V",
+    r'(Lorg/apache/pdfbox/cos/COSDocument;)V',
   );
 
   static final _new2 = ProtectedJniExtensions.lookup<
@@ -130,7 +131,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_NewObject")
+          'globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -149,7 +150,7 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_new3 = _class.constructorId(
-    r"(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/RandomAccessRead;)V",
+    r'(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/RandomAccessRead;)V',
   );
 
   static final _new3 = ProtectedJniExtensions.lookup<
@@ -161,7 +162,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_NewObject")
+                      )>)>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -185,7 +186,7 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_new4 = _class.constructorId(
-    r"(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/RandomAccessRead;Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;)V",
+    r'(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/RandomAccessRead;Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;)V',
   );
 
   static final _new4 = ProtectedJniExtensions.lookup<
@@ -198,7 +199,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_NewObject")
+                      )>)>>('globalEnv_NewObject')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -229,8 +230,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_addPage = _class.instanceMethodId(
-    r"addPage",
-    r"(Lorg/apache/pdfbox/pdmodel/PDPage;)V",
+    r'addPage',
+    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
   );
 
   static final _addPage = ProtectedJniExtensions.lookup<
@@ -239,7 +240,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -258,8 +259,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_addSignature = _class.instanceMethodId(
-    r"addSignature",
-    r"(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;)V",
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;)V',
   );
 
   static final _addSignature = ProtectedJniExtensions.lookup<
@@ -268,7 +269,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -294,8 +295,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_addSignature1 = _class.instanceMethodId(
-    r"addSignature",
-    r"(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V",
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
   );
 
   static final _addSignature1 = ProtectedJniExtensions.lookup<
@@ -307,7 +308,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallVoidMethod")
+                      )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -335,8 +336,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_addSignature2 = _class.instanceMethodId(
-    r"addSignature",
-    r"(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;)V",
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;)V',
   );
 
   static final _addSignature2 = ProtectedJniExtensions.lookup<
@@ -348,7 +349,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallVoidMethod")
+                      )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -375,8 +376,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_addSignature3 = _class.instanceMethodId(
-    r"addSignature",
-    r"(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V",
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
   );
 
   static final _addSignature3 = ProtectedJniExtensions.lookup<
@@ -389,7 +390,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallVoidMethod")
+                      )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>,
@@ -428,8 +429,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_addSignatureField = _class.instanceMethodId(
-    r"addSignatureField",
-    r"(Ljava/util/List;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V",
+    r'addSignatureField',
+    r'(Ljava/util/List;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
   );
 
   static final _addSignatureField = ProtectedJniExtensions.lookup<
@@ -442,7 +443,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallVoidMethod")
+                      )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>,
@@ -476,8 +477,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_removePage = _class.instanceMethodId(
-    r"removePage",
-    r"(Lorg/apache/pdfbox/pdmodel/PDPage;)V",
+    r'removePage',
+    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
   );
 
   static final _removePage = ProtectedJniExtensions.lookup<
@@ -486,7 +487,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -504,8 +505,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_removePage1 = _class.instanceMethodId(
-    r"removePage",
-    r"(I)V",
+    r'removePage',
+    r'(I)V',
   );
 
   static final _removePage1 = ProtectedJniExtensions.lookup<
@@ -513,7 +514,7 @@ class PDDocument extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -531,8 +532,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_importPage = _class.instanceMethodId(
-    r"importPage",
-    r"(Lorg/apache/pdfbox/pdmodel/PDPage;)Lorg/apache/pdfbox/pdmodel/PDPage;",
+    r'importPage',
+    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)Lorg/apache/pdfbox/pdmodel/PDPage;',
   );
 
   static final _importPage = ProtectedJniExtensions.lookup<
@@ -541,7 +542,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallObjectMethod")
+          'globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -579,8 +580,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getDocument = _class.instanceMethodId(
-    r"getDocument",
-    r"()Lorg/apache/pdfbox/cos/COSDocument;",
+    r'getDocument',
+    r'()Lorg/apache/pdfbox/cos/COSDocument;',
   );
 
   static final _getDocument = ProtectedJniExtensions.lookup<
@@ -588,7 +589,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -606,8 +607,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getDocumentInformation = _class.instanceMethodId(
-    r"getDocumentInformation",
-    r"()Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;",
+    r'getDocumentInformation',
+    r'()Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;',
   );
 
   static final _getDocumentInformation = ProtectedJniExtensions.lookup<
@@ -615,7 +616,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -639,8 +640,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_setDocumentInformation = _class.instanceMethodId(
-    r"setDocumentInformation",
-    r"(Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;)V",
+    r'setDocumentInformation',
+    r'(Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;)V',
   );
 
   static final _setDocumentInformation = ProtectedJniExtensions.lookup<
@@ -649,7 +650,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -673,8 +674,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getDocumentCatalog = _class.instanceMethodId(
-    r"getDocumentCatalog",
-    r"()Lorg/apache/pdfbox/pdmodel/PDDocumentCatalog;",
+    r'getDocumentCatalog',
+    r'()Lorg/apache/pdfbox/pdmodel/PDDocumentCatalog;',
   );
 
   static final _getDocumentCatalog = ProtectedJniExtensions.lookup<
@@ -682,7 +683,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -701,8 +702,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_isEncrypted = _class.instanceMethodId(
-    r"isEncrypted",
-    r"()Z",
+    r'isEncrypted',
+    r'()Z',
   );
 
   static final _isEncrypted = ProtectedJniExtensions.lookup<
@@ -710,7 +711,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -727,8 +728,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getEncryption = _class.instanceMethodId(
-    r"getEncryption",
-    r"()Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;",
+    r'getEncryption',
+    r'()Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;',
   );
 
   static final _getEncryption = ProtectedJniExtensions.lookup<
@@ -736,7 +737,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -758,8 +759,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_setEncryptionDictionary = _class.instanceMethodId(
-    r"setEncryptionDictionary",
-    r"(Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;)V",
+    r'setEncryptionDictionary',
+    r'(Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;)V',
   );
 
   static final _setEncryptionDictionary = ProtectedJniExtensions.lookup<
@@ -768,7 +769,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -789,8 +790,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getLastSignatureDictionary = _class.instanceMethodId(
-    r"getLastSignatureDictionary",
-    r"()Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;",
+    r'getLastSignatureDictionary',
+    r'()Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;',
   );
 
   static final _getLastSignatureDictionary = ProtectedJniExtensions.lookup<
@@ -798,7 +799,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -819,8 +820,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getSignatureFields = _class.instanceMethodId(
-    r"getSignatureFields",
-    r"()Ljava/util/List;",
+    r'getSignatureFields',
+    r'()Ljava/util/List;',
   );
 
   static final _getSignatureFields = ProtectedJniExtensions.lookup<
@@ -828,7 +829,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -848,8 +849,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getSignatureDictionaries = _class.instanceMethodId(
-    r"getSignatureDictionaries",
-    r"()Ljava/util/List;",
+    r'getSignatureDictionaries',
+    r'()Ljava/util/List;',
   );
 
   static final _getSignatureDictionaries = ProtectedJniExtensions.lookup<
@@ -857,7 +858,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -877,8 +878,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_registerTrueTypeFontForClosing = _class.instanceMethodId(
-    r"registerTrueTypeFontForClosing",
-    r"(Lorg/apache/fontbox/ttf/TrueTypeFont;)V",
+    r'registerTrueTypeFontForClosing',
+    r'(Lorg/apache/fontbox/ttf/TrueTypeFont;)V',
   );
 
   static final _registerTrueTypeFontForClosing = ProtectedJniExtensions.lookup<
@@ -887,7 +888,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -909,8 +910,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/File;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/File;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load = ProtectedJniExtensions.lookup<
@@ -919,7 +920,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallStaticObjectMethod")
+          'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -941,8 +942,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load1 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/File;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/File;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load1 = ProtectedJniExtensions.lookup<
@@ -954,7 +955,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -978,8 +979,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load2 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/File;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/File;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load2 = ProtectedJniExtensions.lookup<
@@ -991,7 +992,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -1015,8 +1016,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load3 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/File;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/File;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load3 = ProtectedJniExtensions.lookup<
@@ -1029,7 +1030,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1063,8 +1064,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load4 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/File;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/File;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load4 = ProtectedJniExtensions.lookup<
@@ -1078,7 +1079,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1115,8 +1116,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load5 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/File;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/File;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load5 = ProtectedJniExtensions.lookup<
@@ -1131,7 +1132,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1172,8 +1173,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load6 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/InputStream;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/InputStream;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load6 = ProtectedJniExtensions.lookup<
@@ -1182,7 +1183,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallStaticObjectMethod")
+          'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1205,8 +1206,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load7 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/InputStream;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/InputStream;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load7 = ProtectedJniExtensions.lookup<
@@ -1218,7 +1219,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -1243,8 +1244,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load8 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load8 = ProtectedJniExtensions.lookup<
@@ -1256,7 +1257,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -1281,8 +1282,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load9 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load9 = ProtectedJniExtensions.lookup<
@@ -1296,7 +1297,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1334,8 +1335,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load10 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load10 = ProtectedJniExtensions.lookup<
@@ -1348,7 +1349,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1383,8 +1384,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load11 = _class.staticMethodId(
-    r"load",
-    r"(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load11 = ProtectedJniExtensions.lookup<
@@ -1399,7 +1400,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1442,8 +1443,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load12 = _class.staticMethodId(
-    r"load",
-    r"([B)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'([B)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load12 = ProtectedJniExtensions.lookup<
@@ -1452,7 +1453,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallStaticObjectMethod")
+          'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1474,8 +1475,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load13 = _class.staticMethodId(
-    r"load",
-    r"([BLjava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'([BLjava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load13 = ProtectedJniExtensions.lookup<
@@ -1487,7 +1488,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -1511,8 +1512,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load14 = _class.staticMethodId(
-    r"load",
-    r"([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load14 = ProtectedJniExtensions.lookup<
@@ -1526,7 +1527,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1564,8 +1565,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_load15 = _class.staticMethodId(
-    r"load",
-    r"([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;",
+    r'load',
+    r'([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
   static final _load15 = ProtectedJniExtensions.lookup<
@@ -1580,7 +1581,7 @@ class PDDocument extends jni.JObject {
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallStaticObjectMethod")
+                      )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
@@ -1622,8 +1623,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_save = _class.instanceMethodId(
-    r"save",
-    r"(Ljava/lang/String;)V",
+    r'save',
+    r'(Ljava/lang/String;)V',
   );
 
   static final _save = ProtectedJniExtensions.lookup<
@@ -1632,7 +1633,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1655,8 +1656,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_save1 = _class.instanceMethodId(
-    r"save",
-    r"(Ljava/io/File;)V",
+    r'save',
+    r'(Ljava/io/File;)V',
   );
 
   static final _save1 = ProtectedJniExtensions.lookup<
@@ -1665,7 +1666,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1688,8 +1689,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_save2 = _class.instanceMethodId(
-    r"save",
-    r"(Ljava/io/OutputStream;)V",
+    r'save',
+    r'(Ljava/io/OutputStream;)V',
   );
 
   static final _save2 = ProtectedJniExtensions.lookup<
@@ -1698,7 +1699,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1722,8 +1723,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_saveIncremental = _class.instanceMethodId(
-    r"saveIncremental",
-    r"(Ljava/io/OutputStream;)V",
+    r'saveIncremental',
+    r'(Ljava/io/OutputStream;)V',
   );
 
   static final _saveIncremental = ProtectedJniExtensions.lookup<
@@ -1732,7 +1733,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -1761,8 +1762,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_saveIncremental1 = _class.instanceMethodId(
-    r"saveIncremental",
-    r"(Ljava/io/OutputStream;Ljava/util/Set;)V",
+    r'saveIncremental',
+    r'(Ljava/io/OutputStream;Ljava/util/Set;)V',
   );
 
   static final _saveIncremental1 = ProtectedJniExtensions.lookup<
@@ -1774,7 +1775,7 @@ class PDDocument extends jni.JObject {
                       (
                         ffi.Pointer<ffi.Void>,
                         ffi.Pointer<ffi.Void>
-                      )>)>>("globalEnv_CallVoidMethod")
+                      )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
@@ -1812,8 +1813,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_saveIncrementalForExternalSigning = _class.instanceMethodId(
-    r"saveIncrementalForExternalSigning",
-    r"(Ljava/io/OutputStream;)Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/ExternalSigningSupport;",
+    r'saveIncrementalForExternalSigning',
+    r'(Ljava/io/OutputStream;)Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/ExternalSigningSupport;',
   );
 
   static final _saveIncrementalForExternalSigning =
@@ -1823,7 +1824,7 @@ class PDDocument extends jni.JObject {
                           ffi.Pointer<ffi.Void>,
                           jni.JMethodIDPtr,
                           ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-              "globalEnv_CallObjectMethod")
+              'globalEnv_CallObjectMethod')
           .asFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
                   ffi.Pointer<ffi.Void>)>();
@@ -1879,14 +1880,14 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getPage = _class.instanceMethodId(
-    r"getPage",
-    r"(I)Lorg/apache/pdfbox/pdmodel/PDPage;",
+    r'getPage',
+    r'(I)Lorg/apache/pdfbox/pdmodel/PDPage;',
   );
 
   static final _getPage = ProtectedJniExtensions.lookup<
           ffi.NativeFunction<
               jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallObjectMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -1910,8 +1911,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getPages = _class.instanceMethodId(
-    r"getPages",
-    r"()Lorg/apache/pdfbox/pdmodel/PDPageTree;",
+    r'getPages',
+    r'()Lorg/apache/pdfbox/pdmodel/PDPageTree;',
   );
 
   static final _getPages = ProtectedJniExtensions.lookup<
@@ -1919,7 +1920,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1937,8 +1938,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getNumberOfPages = _class.instanceMethodId(
-    r"getNumberOfPages",
-    r"()I",
+    r'getNumberOfPages',
+    r'()I',
   );
 
   static final _getNumberOfPages = ProtectedJniExtensions.lookup<
@@ -1946,7 +1947,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -1964,8 +1965,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_close = _class.instanceMethodId(
-    r"close",
-    r"()V",
+    r'close',
+    r'()V',
   );
 
   static final _close = ProtectedJniExtensions.lookup<
@@ -1973,7 +1974,7 @@ class PDDocument extends jni.JObject {
               jni.JThrowablePtr Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallVoidMethod")
+              )>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
             ffi.Pointer<ffi.Void>,
@@ -1989,8 +1990,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_protect = _class.instanceMethodId(
-    r"protect",
-    r"(Lorg/apache/pdfbox/pdmodel/encryption/ProtectionPolicy;)V",
+    r'protect',
+    r'(Lorg/apache/pdfbox/pdmodel/encryption/ProtectionPolicy;)V',
   );
 
   static final _protect = ProtectedJniExtensions.lookup<
@@ -1999,7 +2000,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -2025,8 +2026,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getCurrentAccessPermission = _class.instanceMethodId(
-    r"getCurrentAccessPermission",
-    r"()Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;",
+    r'getCurrentAccessPermission',
+    r'()Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;',
   );
 
   static final _getCurrentAccessPermission = ProtectedJniExtensions.lookup<
@@ -2034,7 +2035,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2056,8 +2057,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_isAllSecurityToBeRemoved = _class.instanceMethodId(
-    r"isAllSecurityToBeRemoved",
-    r"()Z",
+    r'isAllSecurityToBeRemoved',
+    r'()Z',
   );
 
   static final _isAllSecurityToBeRemoved = ProtectedJniExtensions.lookup<
@@ -2065,7 +2066,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2083,8 +2084,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_setAllSecurityToBeRemoved = _class.instanceMethodId(
-    r"setAllSecurityToBeRemoved",
-    r"(Z)V",
+    r'setAllSecurityToBeRemoved',
+    r'(Z)V',
   );
 
   static final _setAllSecurityToBeRemoved = ProtectedJniExtensions.lookup<
@@ -2092,7 +2093,7 @@ class PDDocument extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<($Int32,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<($Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, int)>();
@@ -2112,8 +2113,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getDocumentId = _class.instanceMethodId(
-    r"getDocumentId",
-    r"()Ljava/lang/Long;",
+    r'getDocumentId',
+    r'()Ljava/lang/Long;',
   );
 
   static final _getDocumentId = ProtectedJniExtensions.lookup<
@@ -2121,7 +2122,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2140,8 +2141,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_setDocumentId = _class.instanceMethodId(
-    r"setDocumentId",
-    r"(Ljava/lang/Long;)V",
+    r'setDocumentId',
+    r'(Ljava/lang/Long;)V',
   );
 
   static final _setDocumentId = ProtectedJniExtensions.lookup<
@@ -2150,7 +2151,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -2168,8 +2169,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getVersion = _class.instanceMethodId(
-    r"getVersion",
-    r"()F",
+    r'getVersion',
+    r'()F',
   );
 
   static final _getVersion = ProtectedJniExtensions.lookup<
@@ -2177,7 +2178,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallFloatMethod")
+              )>>('globalEnv_CallFloatMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2194,8 +2195,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_setVersion = _class.instanceMethodId(
-    r"setVersion",
-    r"(F)V",
+    r'setVersion',
+    r'(F)V',
   );
 
   static final _setVersion = ProtectedJniExtensions.lookup<
@@ -2203,7 +2204,7 @@ class PDDocument extends jni.JObject {
               jni.JThrowablePtr Function(
                   ffi.Pointer<ffi.Void>,
                   jni.JMethodIDPtr,
-                  ffi.VarArgs<(ffi.Double,)>)>>("globalEnv_CallVoidMethod")
+                  ffi.VarArgs<(ffi.Double,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(
               ffi.Pointer<ffi.Void>, jni.JMethodIDPtr, double)>();
@@ -2221,8 +2222,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_getResourceCache = _class.instanceMethodId(
-    r"getResourceCache",
-    r"()Lorg/apache/pdfbox/pdmodel/ResourceCache;",
+    r'getResourceCache',
+    r'()Lorg/apache/pdfbox/pdmodel/ResourceCache;',
   );
 
   static final _getResourceCache = ProtectedJniExtensions.lookup<
@@ -2230,7 +2231,7 @@ class PDDocument extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -2249,8 +2250,8 @@ class PDDocument extends jni.JObject {
   }
 
   static final _id_setResourceCache = _class.instanceMethodId(
-    r"setResourceCache",
-    r"(Lorg/apache/pdfbox/pdmodel/ResourceCache;)V",
+    r'setResourceCache',
+    r'(Lorg/apache/pdfbox/pdmodel/ResourceCache;)V',
   );
 
   static final _setResourceCache = ProtectedJniExtensions.lookup<
@@ -2259,7 +2260,7 @@ class PDDocument extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallVoidMethod")
+          'globalEnv_CallVoidMethod')
       .asFunction<
           jni.JThrowablePtr Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -2283,7 +2284,7 @@ final class $PDDocumentType extends jni.JObjType<PDDocument> {
   const $PDDocumentType();
 
   @override
-  String get signature => r"Lorg/apache/pdfbox/pdmodel/PDDocument;";
+  String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocument;';
 
   @override
   PDDocument fromReference(jni.JReference reference) =>

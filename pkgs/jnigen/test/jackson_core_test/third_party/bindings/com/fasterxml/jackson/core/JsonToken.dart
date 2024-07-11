@@ -29,6 +29,7 @@
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
+// ignore_for_file: prefer_double_quotes
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -37,11 +38,11 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import "dart:ffi" as ffi;
-import "dart:isolate" show ReceivePort;
+import 'dart:ffi' as ffi;
+import 'dart:isolate' show ReceivePort;
 
-import "package:jni/internal_helpers_for_jnigen.dart";
-import "package:jni/jni.dart" as jni;
+import 'package:jni/internal_helpers_for_jnigen.dart';
+import 'package:jni/jni.dart' as jni;
 
 /// from: com.fasterxml.jackson.core.JsonToken
 ///
@@ -56,13 +57,13 @@ class JsonToken extends jni.JObject {
   ) : super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r"com/fasterxml/jackson/core/JsonToken");
+      jni.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
 
   /// The type which includes information such as the signature of this class.
   static const type = $JsonTokenType();
   static final _id_values = _class.staticMethodId(
-    r"values",
-    r"()[Lcom/fasterxml/jackson/core/JsonToken;",
+    r'values',
+    r'()[Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
   static final _values = ProtectedJniExtensions.lookup<
@@ -70,7 +71,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallStaticObjectMethod")
+              )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -85,8 +86,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_valueOf = _class.staticMethodId(
-    r"valueOf",
-    r"(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonToken;",
+    r'valueOf',
+    r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonToken;',
   );
 
   static final _valueOf = ProtectedJniExtensions.lookup<
@@ -95,7 +96,7 @@ class JsonToken extends jni.JObject {
                       ffi.Pointer<ffi.Void>,
                       jni.JMethodIDPtr,
                       ffi.VarArgs<(ffi.Pointer<ffi.Void>,)>)>>(
-          "globalEnv_CallStaticObjectMethod")
+          'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni.JniResult Function(ffi.Pointer<ffi.Void>, jni.JMethodIDPtr,
               ffi.Pointer<ffi.Void>)>();
@@ -111,8 +112,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_id = _class.instanceMethodId(
-    r"id",
-    r"()I",
+    r'id',
+    r'()I',
   );
 
   static final _id = ProtectedJniExtensions.lookup<
@@ -120,7 +121,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallIntMethod")
+              )>>('globalEnv_CallIntMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -133,8 +134,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_asString = _class.instanceMethodId(
-    r"asString",
-    r"()Ljava/lang/String;",
+    r'asString',
+    r'()Ljava/lang/String;',
   );
 
   static final _asString = ProtectedJniExtensions.lookup<
@@ -142,7 +143,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -157,8 +158,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_asCharArray = _class.instanceMethodId(
-    r"asCharArray",
-    r"()[C",
+    r'asCharArray',
+    r'()[C',
   );
 
   static final _asCharArray = ProtectedJniExtensions.lookup<
@@ -166,7 +167,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -181,8 +182,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
-    r"asByteArray",
-    r"()[B",
+    r'asByteArray',
+    r'()[B',
   );
 
   static final _asByteArray = ProtectedJniExtensions.lookup<
@@ -190,7 +191,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallObjectMethod")
+              )>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -205,8 +206,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_isNumeric = _class.instanceMethodId(
-    r"isNumeric",
-    r"()Z",
+    r'isNumeric',
+    r'()Z',
   );
 
   static final _isNumeric = ProtectedJniExtensions.lookup<
@@ -214,7 +215,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -231,8 +232,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_isStructStart = _class.instanceMethodId(
-    r"isStructStart",
-    r"()Z",
+    r'isStructStart',
+    r'()Z',
   );
 
   static final _isStructStart = ProtectedJniExtensions.lookup<
@@ -240,7 +241,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -263,8 +264,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_isStructEnd = _class.instanceMethodId(
-    r"isStructEnd",
-    r"()Z",
+    r'isStructEnd',
+    r'()Z',
   );
 
   static final _isStructEnd = ProtectedJniExtensions.lookup<
@@ -272,7 +273,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -294,8 +295,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_isScalarValue = _class.instanceMethodId(
-    r"isScalarValue",
-    r"()Z",
+    r'isScalarValue',
+    r'()Z',
   );
 
   static final _isScalarValue = ProtectedJniExtensions.lookup<
@@ -303,7 +304,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -325,8 +326,8 @@ class JsonToken extends jni.JObject {
   }
 
   static final _id_isBoolean = _class.instanceMethodId(
-    r"isBoolean",
-    r"()Z",
+    r'isBoolean',
+    r'()Z',
   );
 
   static final _isBoolean = ProtectedJniExtensions.lookup<
@@ -334,7 +335,7 @@ class JsonToken extends jni.JObject {
               jni.JniResult Function(
                 ffi.Pointer<ffi.Void>,
                 jni.JMethodIDPtr,
-              )>>("globalEnv_CallBooleanMethod")
+              )>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni.JniResult Function(
             ffi.Pointer<ffi.Void>,
@@ -355,7 +356,7 @@ final class $JsonTokenType extends jni.JObjType<JsonToken> {
   const $JsonTokenType();
 
   @override
-  String get signature => r"Lcom/fasterxml/jackson/core/JsonToken;";
+  String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
 
   @override
   JsonToken fromReference(jni.JReference reference) =>

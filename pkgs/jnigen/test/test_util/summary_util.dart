@@ -69,6 +69,6 @@ void deleteTempDirWithDelay(Directory directory) {
     }
     directory.deleteSync(recursive: true);
   } on FileSystemException catch (e) {
-    log.warning("Cannot delete directory: $e");
+    log.warning('Cannot delete directory: $e');
   }
 }

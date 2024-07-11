@@ -21,50 +21,50 @@ final testLib = absolute(thirdParty, 'test_', 'bindings');
 /// Compares 2 [Config] objects using [expect] to give useful errors when
 /// two fields are not equal.
 void expectConfigsAreEqual(Config a, Config b) {
-  expect(a.classes, equals(b.classes), reason: "classes");
+  expect(a.classes, equals(b.classes), reason: 'classes');
   expect(a.outputConfig.dartConfig.path, equals(b.outputConfig.dartConfig.path),
-      reason: "dartRoot");
+      reason: 'dartRoot');
   expect(a.outputConfig.symbolsConfig?.path,
       equals(b.outputConfig.symbolsConfig?.path),
-      reason: "symbolsRoot");
-  expect(a.sourcePath, equals(b.sourcePath), reason: "sourcePath");
-  expect(a.experiments, equals(b.experiments), reason: "experiments");
-  expect(a.classPath, equals(b.classPath), reason: "classPath");
-  expect(a.preamble, equals(b.preamble), reason: "preamble");
+      reason: 'symbolsRoot');
+  expect(a.sourcePath, equals(b.sourcePath), reason: 'sourcePath');
+  expect(a.experiments, equals(b.experiments), reason: 'experiments');
+  expect(a.classPath, equals(b.classPath), reason: 'classPath');
+  expect(a.preamble, equals(b.preamble), reason: 'preamble');
   final am = a.mavenDownloads;
   final bm = b.mavenDownloads;
   if (am != null) {
     expect(bm, isNotNull);
-    expect(am.sourceDeps, bm!.sourceDeps, reason: "mavenDownloads.sourceDeps");
+    expect(am.sourceDeps, bm!.sourceDeps, reason: 'mavenDownloads.sourceDeps');
     expect(path.equals(am.sourceDir, bm.sourceDir), isTrue,
-        reason: "mavenDownloads.sourceDir");
+        reason: 'mavenDownloads.sourceDir');
     expect(am.jarOnlyDeps, bm.jarOnlyDeps,
-        reason: "mavenDownloads.jarOnlyDeps");
+        reason: 'mavenDownloads.jarOnlyDeps');
     expect(path.equals(am.jarDir, bm.jarDir), isTrue,
-        reason: "mavenDownloads.jarDir");
+        reason: 'mavenDownloads.jarDir');
   } else {
-    expect(bm, isNull, reason: "mavenDownloads");
+    expect(bm, isNull, reason: 'mavenDownloads');
   }
   final aa = a.androidSdkConfig;
   final ba = b.androidSdkConfig;
   if (aa != null) {
-    expect(ba, isNotNull, reason: "androidSdkConfig");
-    expect(aa.versions, ba!.versions, reason: "androidSdkConfig.versions");
-    expect(aa.sdkRoot, ba.sdkRoot, reason: "androidSdkConfig.sdkRoot");
+    expect(ba, isNotNull, reason: 'androidSdkConfig');
+    expect(aa.versions, ba!.versions, reason: 'androidSdkConfig.versions');
+    expect(aa.sdkRoot, ba.sdkRoot, reason: 'androidSdkConfig.sdkRoot');
   } else {
-    expect(ba, isNull, reason: "androidSdkConfig");
+    expect(ba, isNull, reason: 'androidSdkConfig');
   }
   final aso = a.summarizerOptions;
   final bso = b.summarizerOptions;
   if (aso != null) {
-    expect(bso, isNotNull, reason: "summarizerOptions");
+    expect(bso, isNotNull, reason: 'summarizerOptions');
     expect(aso.extraArgs, bso!.extraArgs,
-        reason: "summarizerOptions.extraArgs");
+        reason: 'summarizerOptions.extraArgs');
     expect(aso.workingDirectory, bso.workingDirectory,
-        reason: "summarizerOptions.workingDirectory");
-    expect(aso.backend, bso.backend, reason: "summarizerOptions.backend");
+        reason: 'summarizerOptions.workingDirectory');
+    expect(aso.backend, bso.backend, reason: 'summarizerOptions.backend');
   } else {
-    expect(bso, isNull, reason: "summarizerOptions");
+    expect(bso, isNull, reason: 'summarizerOptions');
   }
 }
 

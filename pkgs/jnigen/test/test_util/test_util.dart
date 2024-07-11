@@ -11,7 +11,7 @@ import 'package:logging/logging.dart' show Level;
 import 'package:path/path.dart' hide equals;
 import 'package:test/test.dart';
 
-final _currentDirectory = Directory(".");
+final _currentDirectory = Directory('.');
 
 // If changing these constants, grep for these values. In some places, test
 // package expects string literals.
@@ -79,21 +79,21 @@ String readFile(File file) => file.readAsStringSync().replaceAll('\r\n', '\n');
 /// Compares 2 hierarchies using `git diff --no-index`.
 void comparePaths(String path1, String path2) {
   final diffCommand = [
-    "diff",
-    "--no-index",
-    if (stderr.supportsAnsiEscapes) "--color=always",
+    'diff',
+    '--no-index',
+    if (stderr.supportsAnsiEscapes) '--color=always',
   ];
-  final diffProc = Process.runSync("git", [...diffCommand, path1, path2]);
+  final diffProc = Process.runSync('git', [...diffCommand, path1, path2]);
   if (diffProc.exitCode != 0) {
     final originalDiff = diffProc.stdout;
     log.warning(
-        "Paths $path1 and $path2 differ, Running dart format on $path1.");
+        'Paths $path1 and $path2 differ, Running dart format on $path1.');
     Process.runSync('dart', ['format', path1]);
     final fallbackDiffProc =
-        Process.runSync("git", [...diffCommand, path1, path2]);
+        Process.runSync('git', [...diffCommand, path1, path2]);
     if (fallbackDiffProc.exitCode != 0) {
       stderr.writeln(originalDiff);
-      throw Exception("Paths $path1 and $path2 differ");
+      throw Exception('Paths $path1 and $path2 differ');
     }
   }
 }
@@ -102,8 +102,8 @@ Future<void> _generateTempBindings(Config config, Directory tempDir) async {
   final singleFile =
       config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
   final tempLib = singleFile
-      ? tempDir.uri.resolve("generated.dart")
-      : tempDir.uri.resolve("lib/");
+      ? tempDir.uri.resolve('generated.dart')
+      : tempDir.uri.resolve('lib/');
   config.outputConfig.dartConfig.path = tempLib;
   config.logLevel = Level.WARNING;
   await generateJniBindings(config);
@@ -117,12 +117,12 @@ Future<void> generateAndCompareBindings(Config config) async {
   final dartReferenceBindings =
       config.outputConfig.dartConfig.path.toFilePath();
   final currentDir = Directory.current;
-  final tempDir = currentDir.createTempSync("jnigen_test_temp");
+  final tempDir = currentDir.createTempSync('jnigen_test_temp');
   final singleFile =
       config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
   final tempLib = singleFile
-      ? tempDir.uri.resolve("generated.dart")
-      : tempDir.uri.resolve("lib/");
+      ? tempDir.uri.resolve('generated.dart')
+      : tempDir.uri.resolve('lib/');
   try {
     await _generateTempBindings(config, tempDir);
     comparePaths(dartReferenceBindings, tempLib.toFilePath());
@@ -132,10 +132,10 @@ Future<void> generateAndCompareBindings(Config config) async {
 }
 
 Future<void> generateAndAnalyzeBindings(Config config) async {
-  final tempDir = Directory.current.createTempSync("jnigen_test_temp");
+  final tempDir = Directory.current.createTempSync('jnigen_test_temp');
   try {
     await _generateTempBindings(config, tempDir);
-    final analyzeResult = Process.runSync("dart", ["analyze", tempDir.path]);
+    final analyzeResult = Process.runSync('dart', ['analyze', tempDir.path]);
     if (analyzeResult.exitCode != 0) {
       stderr.write(analyzeResult.stdout);
       fail('Analyzer exited with non-zero status (${analyzeResult.exitCode})');

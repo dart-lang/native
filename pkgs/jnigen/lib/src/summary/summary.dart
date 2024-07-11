@@ -36,7 +36,7 @@ class SummaryParseException implements Exception {
 /// script before this API is used.
 class SummarizerCommand {
   SummarizerCommand({
-    this.command = "java -jar .dart_tool/jnigen/ApiSummarizer.jar",
+    this.command = 'java -jar .dart_tool/jnigen/ApiSummarizer.jar',
     List<Uri>? sourcePath,
     List<Uri>? classPath,
     this.extraArgs = const [],
@@ -76,7 +76,7 @@ class SummarizerCommand {
   }
 
   Future<Process> runProcess() async {
-    final commandSplit = command.split(" ");
+    final commandSplit = command.split(' ');
     final exec = commandSplit[0];
     final args = commandSplit.sublist(1);
 
@@ -184,7 +184,7 @@ Future<Classes> getSummary(Config config) async {
       'Cannot generate summary: $e',
     );
   } finally {
-    log.writeSectionToFile("summarizer logs", stderrBuffer.toString());
+    log.writeSectionToFile('summarizer logs', stderrBuffer.toString());
   }
   if (json == null) {
     throw SummaryParseException('Expected JSON element from summarizer.');
