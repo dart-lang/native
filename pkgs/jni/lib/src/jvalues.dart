@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
-import 'package:jni/internal_helpers_for_jnigen.dart';
+
+import '../internal_helpers_for_jnigen.dart';
 
 import 'jobject.dart';
 import 'third_party/generated_bindings.dart';
@@ -14,7 +15,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
       pos.ref.l = arg.reference.pointer;
     case JReference():
       pos.ref.l = arg.pointer;
-    case Pointer<Void>() || Pointer<Never>(): // for nullptr
+    case Pointer<Never>(): // for nullptr
       pos.ref.l = arg;
       break;
     case int():
@@ -42,7 +43,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
       pos.ref.b = arg.value;
       break;
     default:
-      throw UnsupportedError("cannot convert ${arg.runtimeType} to jvalue");
+      throw UnsupportedError('cannot convert ${arg.runtimeType} to jvalue');
   }
 }
 
@@ -54,7 +55,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
 /// to convert to other primitive types instead.
 Pointer<JValue> toJValues(List<dynamic> args, {required Allocator allocator}) {
   final result = allocator<JValue>(args.length);
-  for (int i = 0; i < args.length; i++) {
+  for (var i = 0; i < args.length; i++) {
     final arg = args[i];
     final pos = result + i;
     _fillJValue(pos, arg);
@@ -95,10 +96,4 @@ final class JValueFloat {
 final class JValueChar {
   int value;
   JValueChar(this.value);
-  JValueChar.fromString(String s) : value = 0 {
-    if (s.length != 1) {
-      throw "Expected string of length 1";
-    }
-    value = s.codeUnitAt(0).toInt();
-  }
 }

@@ -7,14 +7,13 @@
 
 import 'dart:io';
 
-import 'package:logging/logging.dart';
 import 'package:args/args.dart';
+import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:logging/logging.dart';
 
-import 'wrapper_generators/logging.dart';
 import 'wrapper_generators/generate_c_extensions.dart';
 import 'wrapper_generators/generate_dart_extensions.dart';
-
-import 'package:ffigen/ffigen.dart' as ffigen;
+import 'wrapper_generators/logging.dart';
 
 void main(List<String> args) {
   final levels = Map.fromEntries(
@@ -37,7 +36,7 @@ void main(List<String> args) {
 
   final argResults = argParser.parse(args);
 
-  if (argResults['help']) {
+  if (argResults['help'] as bool) {
     stderr.writeln('Generates FFI bindings required for package:jni');
     stderr.writeln(argParser.usage);
     exitCode = 1;
@@ -51,18 +50,18 @@ void main(List<String> args) {
     stderr.writeln('${record.level.name}: ${record.message}');
   });
 
-  logger.info("Generating C wrappers");
+  logger.info('Generating C wrappers');
   final minimalConfig = ffigen.Config.fromFile(File('ffigen_exts.yaml'));
   final minimalLibrary = ffigen.parse(minimalConfig);
   generateCWrappers(minimalLibrary);
 
-  logger.info("Generating FFI bindings for package:jni");
+  logger.info('Generating FFI bindings for package:jni');
 
   final config = ffigen.Config.fromFile(File('ffigen.yaml'));
   final library = ffigen.parse(config);
   final outputFile = File(config.output);
   library.generateFile(outputFile);
 
-  logger.info("Generating Dart extensions");
+  logger.info('Generating Dart extensions');
   generateDartExtensions(library);
 }
