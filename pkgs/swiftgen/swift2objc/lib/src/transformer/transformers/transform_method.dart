@@ -81,7 +81,7 @@ List<String> _generateMethodStatements(
 
   final originalMethodCall =
       "${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
-  
+
   if (methodReturnType == null) {
     return [originalMethodCall];
   }

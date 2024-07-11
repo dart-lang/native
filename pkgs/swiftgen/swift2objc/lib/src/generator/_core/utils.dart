@@ -8,7 +8,7 @@ String generateParameters(List<Parameter> params) {
     } else {
       labels = param.name;
     }
-    
+
     return "${labels}: ${param.type.name}";
   }).join(", ");
 }
