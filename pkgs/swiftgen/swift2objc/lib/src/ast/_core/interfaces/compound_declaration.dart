@@ -27,5 +27,5 @@ abstract interface class CompoundPropertyDeclaration implements Declaration {
 /// `StructMethodDeclaration` and `ProtocolMethodDeclaration` for concrete implementations.
 abstract interface class CompoundMethodDeclaration
     implements Declaration, TypeParameterizable, Parameterizable {
-  abstract ReferredType returnType;
+  abstract ReferredType? returnType;
 }

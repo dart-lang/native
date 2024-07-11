@@ -59,6 +59,6 @@ ClassInitializer _buildWrapperInitializer(
         type: wrappedClassInstance.type,
       )
     ],
-    statements: ["this.${wrappedClassInstance.name} = wrappedInstance"],
+    statements: ["self.${wrappedClassInstance.name} = wrappedInstance"],
   );
 }

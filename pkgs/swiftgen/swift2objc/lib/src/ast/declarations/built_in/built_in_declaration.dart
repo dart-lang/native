@@ -43,5 +43,7 @@ abstract class BuiltInDeclarations {
 
   static const Double = BuiltInDeclaration(id: "s:Sd", name: "Double");
 
-  static const declarations = [NSObject, String, Int, Double];
+  static const Void = BuiltInDeclaration(id: "s:s4Voida", name: "Void");
+
+  static const declarations = [NSObject, String, Int, Double, Void];
 }

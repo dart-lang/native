@@ -19,14 +19,22 @@ ClassMethodDeclaration transformMethod(
       .map((param) => _transformParamter(param, globalNamer, transformationMap))
       .toList();
 
+  final ReferredType? transformedReturnType;
+
+  if (originalMethod.returnType == null) {
+    transformedReturnType = null;
+  } else {
+    transformedReturnType = transformReferredType(
+      originalMethod.returnType!,
+      globalNamer,
+      transformationMap,
+    );
+  }
+
   final transformedMethod = ClassMethodDeclaration(
     id: originalMethod.id,
     name: originalMethod.name,
-    returnType: transformReferredType(
-      originalMethod.returnType,
-      globalNamer,
-      transformationMap,
-    ),
+    returnType: transformedReturnType,
     params: transformedParams,
     hasObjCAnnotation: true,
   );
@@ -73,6 +81,10 @@ List<String> _generateMethodStatements(
 
   final originalMethodCall =
       "${wrappedClassInstance.name}.${originalMethod.name}(${arguments.join(", ")})";
+  
+  if (methodReturnType == null) {
+    return [originalMethodCall];
+  }
 
   if (methodReturnType.isObjCRepresentable) {
     return ["return $originalMethodCall"];

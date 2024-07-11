@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:swift2objc/src/generator/generator.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
 
 import '../parser/parser.dart';
@@ -12,5 +13,6 @@ const pathToSymbolgraph = "lib/src/temp_test/symbolgraph/source.symbols.json";
 void main() {
   final declarations = parseAst(pathToSymbolgraph);
   final transformedDeclarations = transform(declarations);
-  print(transformedDeclarations);
+  final generatedCode = generate(transformedDeclarations);
+  print(generatedCode);
 }

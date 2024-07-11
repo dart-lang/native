@@ -106,7 +106,7 @@ class ClassMethodDeclaration
   List<GenericType> typeParams;
 
   @override
-  ReferredType returnType;
+  ReferredType? returnType;
 
   @override
   bool hasObjCAnnotation;

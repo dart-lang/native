@@ -10,13 +10,20 @@ import '../interfaces/declaration.dart';
 /// See `DeclaredType` and `GenericType` for concrete implementation.
 sealed class ReferredType {
   final String id;
+  final String name;
   abstract final bool isObjCRepresentable;
 
-  const ReferredType({required this.id});
+  const ReferredType(this.name, {required this.id});
 }
 
 /// Describes a reference of a declared type (user-defined or built-in).
-class DeclaredType<T extends Declaration> extends ReferredType {
+class DeclaredType<T extends Declaration> implements ReferredType {
+  @override
+  final String id;
+
+  @override
+  String get name => declaration.name;
+
   final T declaration;
   final List<ReferredType> typeParams;
 
@@ -26,21 +33,24 @@ class DeclaredType<T extends Declaration> extends ReferredType {
       (declaration as ObjCAnnotatable).hasObjCAnnotation;
 
   const DeclaredType({
-    required super.id,
+    required this.id,
     required this.declaration,
     this.typeParams = const [],
   });
 }
 
 /// Describes a reference of a generic type (e.g a method return type `T` within a generic class).
-class GenericType extends ReferredType {
+class GenericType implements ReferredType {
+  @override
+  final String id;
+
   final String name;
 
   @override
   bool get isObjCRepresentable => false;
 
   const GenericType({
+    required this.id,
     required this.name,
-    required super.id,
   });
 }

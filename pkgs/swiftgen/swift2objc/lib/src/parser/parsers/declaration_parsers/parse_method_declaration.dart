@@ -23,13 +23,18 @@ ClassMethodDeclaration parseMethodDeclaration(
   );
 }
 
-ReferredType _parseMethodReturnType(
+ReferredType? _parseMethodReturnType(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final String returnTypeId = methodSymbolJson["functionSignature"]["returns"]
-          [0]["preciseIdentifier"]
-      .get();
+  final returnJson = methodSymbolJson["functionSignature"]["returns"][0];
+
+  // This means there's no return type
+  if (returnJson["spelling"].get<String>() == "()") {
+    return null;
+  }
+
+  final String returnTypeId = returnJson["preciseIdentifier"].get();
 
   final returnTypeSymbol = symbolgraph.symbols[returnTypeId];
 
@@ -50,6 +55,8 @@ List<Parameter> _parseMethodParams(
   ParsedSymbolgraph symbolgraph,
 ) {
   final paramList = methodSymbolJson["functionSignature"]["parameters"];
+
+  if (!paramList.exists) return [];
 
   return paramList
       .map(
