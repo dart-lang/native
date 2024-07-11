@@ -5,10 +5,10 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
-import 'package:jni/src/third_party/generated_bindings.dart';
 
 import 'errors.dart';
 import 'jni.dart';
+import 'third_party/generated_bindings.dart';
 
 extension ProtectedJReference on JReference {
   void setAsReleased() {

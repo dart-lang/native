@@ -4,7 +4,7 @@
 
 import 'dart:ffi';
 
-import 'package:jni/internal_helpers_for_jnigen.dart';
+import '../internal_helpers_for_jnigen.dart';
 
 import 'jobject.dart';
 import 'third_party/generated_bindings.dart';
@@ -43,7 +43,7 @@ void _fillJValue(Pointer<JValue> pos, dynamic arg) {
       pos.ref.b = arg.value;
       break;
     default:
-      throw UnsupportedError("cannot convert ${arg.runtimeType} to jvalue");
+      throw UnsupportedError('cannot convert ${arg.runtimeType} to jvalue');
   }
 }
 

@@ -28,21 +28,21 @@ void run({required TestRunnerCallback testRunner}) {
   //
   // However, if binding generation using jnigen is possible, that should be
   // the first choice.
-  testRunner("Long.intValue() using JClass", () {
+  testRunner('Long.intValue() using JClass', () {
     // JClass wraps a local class reference, and
     // provides convenience functions.
-    final longClass = JClass.forName("java/lang/Long");
+    final longClass = JClass.forName('java/lang/Long');
 
     // Looks for a constructor with given signature.
     // equivalently you can lookup a method with name <init>
-    final longCtor = longClass.constructorId("(J)V");
+    final longCtor = longClass.constructorId('(J)V');
 
     // Note that the arguments are just passed as a list.
     // Allowed argument types are primitive types, JObject and its subclasses,
     // and raw JNI references (JObject). Strings will be automatically converted
     // to JNI strings.
     final long = longCtor(longClass, JObject.type, [176]);
-    final intValueMethod = longClass.instanceMethodId("intValue", "()I");
+    final intValueMethod = longClass.instanceMethodId('intValue', '()I');
     final intValue = intValueMethod(
       long,
       jint.type,
@@ -57,10 +57,10 @@ void run({required TestRunnerCallback testRunner}) {
     longClass.release();
   });
 
-  testRunner("call a static method using JClass APIs", () {
-    final integerClass = JClass.forName("java/lang/Integer");
+  testRunner('call a static method using JClass APIs', () {
+    final integerClass = JClass.forName('java/lang/Integer');
     final result =
-        integerClass.staticMethodId("toHexString", "(I)Ljava/lang/String;")(
+        integerClass.staticMethodId('toHexString', '(I)Ljava/lang/String;')(
             integerClass, JString.type, [JValueInt(31)]);
 
     // If the object is supposed to be a Java string you can call
@@ -69,16 +69,16 @@ void run({required TestRunnerCallback testRunner}) {
 
     // Dart string is a copy, original object can be released.
     result.release();
-    expect(resultString, "1f");
+    expect(resultString, '1f');
 
     // Also don't forget to release the class.
     integerClass.release();
   });
 
-  testRunner("Call method with null argument, expect exception", () {
-    final integerClass = JClass.forName("java/lang/Integer");
+  testRunner('Call method with null argument, expect exception', () {
+    final integerClass = JClass.forName('java/lang/Integer');
     expect(
-        () => integerClass.staticMethodId("parseInt", "(Ljava/lang/String;)I")(
+        () => integerClass.staticMethodId('parseInt', '(Ljava/lang/String;)I')(
             integerClass, jint.type, [nullptr]),
         throwsException);
     integerClass.release();
@@ -87,20 +87,20 @@ void run({required TestRunnerCallback testRunner}) {
   // Skip this test on Android integration test because it fails there, possibly
   // due to a CheckJNI precondition check.
   if (!Platform.isAndroid) {
-    testRunner("Try to find a non-exisiting class, expect exception", () {
-      expect(() => JClass.forName("java/lang/NotExists"), throwsException);
+    testRunner('Try to find a non-exisiting class, expect exception', () {
+      expect(() => JClass.forName('java/lang/NotExists'), throwsException);
     });
   }
 
-  testRunner("Example for using methods", () {
-    final longClass = JClass.forName("java/lang/Long");
-    final bitCountMethod = longClass.staticMethodId("bitCount", "(J)I");
+  testRunner('Example for using methods', () {
+    final longClass = JClass.forName('java/lang/Long');
+    final bitCountMethod = longClass.staticMethodId('bitCount', '(J)I');
 
-    final randomClass = JClass.forName("java/util/Random");
+    final randomClass = JClass.forName('java/util/Random');
     final random =
-        randomClass.constructorId("()V").call(randomClass, JObject.type, []);
+        randomClass.constructorId('()V').call(randomClass, JObject.type, []);
 
-    final nextIntMethod = randomClass.instanceMethodId("nextInt", "(I)I");
+    final nextIntMethod = randomClass.instanceMethodId('nextInt', '(I)I');
 
     for (var i = 0; i < 100; i++) {
       var r = nextIntMethod(
@@ -124,9 +124,9 @@ void run({required TestRunnerCallback testRunner}) {
     longClass.release();
   });
 
-  testRunner("Static method with multiple args", () {
+  testRunner('Static method with multiple args', () {
     final shortClass = JShort.type.jClass;
-    final m = shortClass.staticMethodId("compare", "(SS)I").call(
+    final m = shortClass.staticMethodId('compare', '(SS)I').call(
       shortClass,
       jint.type,
       [JValueShort(1234), JValueShort(1324)],
@@ -135,41 +135,41 @@ void run({required TestRunnerCallback testRunner}) {
     shortClass.release();
   });
 
-  testRunner("Get static field", () {
+  testRunner('Get static field', () {
     final shortClass = JShort.type.jClass;
     final maxLong =
-        shortClass.staticFieldId("MAX_VALUE", "S").get(shortClass, jshort.type);
+        shortClass.staticFieldId('MAX_VALUE', 'S').get(shortClass, jshort.type);
     expect(maxLong, 32767);
     shortClass.release();
   });
 
-  testRunner("Call static method on Long", () {
-    final longClass = JClass.forName("java/lang/Long");
+  testRunner('Call static method on Long', () {
+    final longClass = JClass.forName('java/lang/Long');
     const n = 1223334444;
     final strFromJava = longClass
-        .staticMethodId("toOctalString", "(J)Ljava/lang/String;")
+        .staticMethodId('toOctalString', '(J)Ljava/lang/String;')
         .call(longClass, JString.type, [n]);
     expect(strFromJava.toDartString(releaseOriginal: true), n.toRadixString(8));
     longClass.release();
   });
 
-  testRunner("Passing strings in arguments", () {
+  testRunner('Passing strings in arguments', () {
     final byteClass = JByte.type.jClass;
     final parseByte =
-        byteClass.staticMethodId("parseByte", "(Ljava/lang/String;)B");
-    final twelve = parseByte(byteClass, const jbyteType(), ["12".toJString()]);
+        byteClass.staticMethodId('parseByte', '(Ljava/lang/String;)B');
+    final twelve = parseByte(byteClass, const jbyteType(), ['12'.toJString()]);
     expect(twelve, 12);
     byteClass.release();
   });
 
   // You can use() method on JObject for using once and deleting.
-  testRunner("use() method", () {
-    final randomInt = JClass.forName("java/util/Random").use((randomClass) {
+  testRunner('use() method', () {
+    final randomInt = JClass.forName('java/util/Random').use((randomClass) {
       return randomClass
-          .constructorId("()V")
+          .constructorId('()V')
           .call(randomClass, JObject.type, []).use((random) {
         return randomClass
-            .instanceMethodId("nextInt", "(I)I")
+            .instanceMethodId('nextInt', '(I)I')
             .call(random, jint.type, [JValueInt(15)]);
       });
     });
@@ -193,24 +193,24 @@ void run({required TestRunnerCallback testRunner}) {
     }
   });
 
-  testRunner("enums", () {
+  testRunner('enums', () {
     // Don't forget to escape $ in nested type names
-    final proxyTypeClass = JClass.forName("java/net/Proxy\$Type");
+    final proxyTypeClass = JClass.forName('java/net/Proxy\$Type');
     final ordinal = proxyTypeClass
-        .staticFieldId("HTTP", "Ljava/net/Proxy\$Type;")
+        .staticFieldId('HTTP', 'Ljava/net/Proxy\$Type;')
         .get(proxyTypeClass, JObject.type)
         .use(
           (http) => proxyTypeClass
-              .instanceMethodId("ordinal", "()I")
+              .instanceMethodId('ordinal', '()I')
               .call(http, jint.type, []),
         );
     expect(ordinal, 1);
     proxyTypeClass.release();
   });
 
-  testRunner("casting", () {
+  testRunner('casting', () {
     using((arena) {
-      final str = "hello".toJString()..releasedBy(arena);
+      final str = 'hello'.toJString()..releasedBy(arena);
       final obj = str.castTo(JObject.type)..releasedBy(arena);
       final backToStr = obj.castTo(JString.type);
       expect(backToStr.toDartString(), str.toDartString());
@@ -221,7 +221,7 @@ void run({required TestRunnerCallback testRunner}) {
     });
   });
 
-  testRunner("Isolate", () async {
+  testRunner('Isolate', () async {
     final receivePort = ReceivePort();
     await Isolate.spawn((sendPort) {
       // On standalone target, make sure to call [setDylibDir] before accessing
@@ -229,12 +229,12 @@ void run({required TestRunnerCallback testRunner}) {
       //
       // otherwise subsequent JNI calls will throw a "library not found"
       // exception.
-      Jni.setDylibDir(dylibDir: "build/jni_libs");
-      final randomClass = JClass.forName("java/util/Random");
+      Jni.setDylibDir(dylibDir: 'build/jni_libs');
+      final randomClass = JClass.forName('java/util/Random');
       final random =
-          randomClass.constructorId("()V").call(randomClass, JObject.type, []);
+          randomClass.constructorId('()V').call(randomClass, JObject.type, []);
       final result = randomClass
-          .instanceMethodId("nextInt", "(I)I")
+          .instanceMethodId('nextInt', '(I)I')
           .call(random, jint.type, [256]);
       random.release();
       randomClass.release();
@@ -250,24 +250,24 @@ void run({required TestRunnerCallback testRunner}) {
     expect(random, lessThan(256));
   });
 
-  testRunner("Methods rethrow exceptions in Java as JniException", () {
+  testRunner('Methods rethrow exceptions in Java as JniException', () {
     expect(
       () {
         final integerClass = JInteger.type.jClass;
-        return JClass.forName("java/lang/Integer")
-            .staticMethodId("parseInt", "(Ljava/lang/String;)I")
-            .call(integerClass, jint.type, ["X".toJString()]);
+        return JClass.forName('java/lang/Integer')
+            .staticMethodId('parseInt', '(Ljava/lang/String;)I')
+            .call(integerClass, jint.type, ['X'.toJString()]);
       },
       throwsA(isA<JniException>()),
     );
   });
 
-  testRunner("Passing long integer values to JNI", () {
+  testRunner('Passing long integer values to JNI', () {
     final longClass = JLong.type.jClass;
     final maxLongStr = longClass
         .staticMethodId(
-      "toString",
-      "(J)Ljava/lang/String;",
+      'toString',
+      '(J)Ljava/lang/String;',
     )
         .call(longClass, JString.type, [maxLongInJava]);
     expect(maxLongStr.toDartString(), '$maxLongInJava');
@@ -278,7 +278,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Returning long integers from JNI', () {
     final longClass = JLong.type.jClass;
     final maxLong =
-        longClass.staticFieldId("MAX_VALUE", "J").get(longClass, jlong.type);
+        longClass.staticFieldId('MAX_VALUE', 'J').get(longClass, jlong.type);
     expect(maxLong, maxLongInJava);
   });
 

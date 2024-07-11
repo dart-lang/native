@@ -7,21 +7,21 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:jni/jni.dart';
 import 'package:path/path.dart';
 
+import '../jni.dart';
 import 'accessors.dart';
 import 'third_party/generated_bindings.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
-    return "lib$base.so";
+    return 'lib$base.so';
   } else if (Platform.isWindows) {
-    return "$base.dll";
+    return '$base.dll';
   } else if (Platform.isMacOS) {
-    return "lib$base.dylib";
+    return 'lib$base.dylib';
   } else {
-    throw UnsupportedError("cannot derive library name: unsupported platform");
+    throw UnsupportedError('cannot derive library name: unsupported platform');
   }
 }
 
@@ -29,7 +29,7 @@ String _getLibraryFileName(String base) {
 ///
 /// If path is provided, it's used to load the library.
 /// Else just the platform-specific filename is passed to DynamicLibrary.open
-DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = "dartjni"}) {
+DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
   final fileName = _getLibraryFileName(baseName);
   final libPath = (dir != null) ? join(dir, fileName) : fileName;
   try {
@@ -160,12 +160,12 @@ abstract final class Jni {
         (optsPtr + count - 1 - (classPath.isNotEmpty ? 1 : 0))
                 .ref
                 .optionString =
-            "-Djava.library.path=$dylibPath".toNativeChars(allocator);
+            '-Djava.library.path=$dylibPath'.toNativeChars(allocator);
       }
       if (classPath.isNotEmpty) {
-        final classPathString = classPath.join(Platform.isWindows ? ';' : ":");
+        final classPathString = classPath.join(Platform.isWindows ? ';' : ':');
         (optsPtr + count - 1).ref.optionString =
-            "-Djava.class.path=$classPathString".toNativeChars(allocator);
+            '-Djava.class.path=$classPathString'.toNativeChars(allocator);
       }
       args.ref.nOptions = count;
     }

@@ -11,12 +11,12 @@ import 'logging.dart';
 
 class Paths {
   static final currentDir = Directory.current.uri;
-  static final src = currentDir.resolve("src/");
-  static final thirdParty = src.resolve("third_party/");
-  static final globalJniEnvH = thirdParty.resolve("global_jni_env.h");
-  static final globalJniEnvC = thirdParty.resolve("global_jni_env.c");
-  static final bindingsDir = currentDir.resolve("lib/src/third_party/");
-  static final envExtensions = bindingsDir.resolve("env_extensions.dart");
+  static final src = currentDir.resolve('src/');
+  static final thirdParty = src.resolve('third_party/');
+  static final globalJniEnvH = thirdParty.resolve('global_jni_env.h');
+  static final globalJniEnvC = thirdParty.resolve('global_jni_env.c');
+  static final bindingsDir = currentDir.resolve('lib/src/third_party/');
+  static final envExtensions = bindingsDir.resolve('env_extensions.dart');
 }
 
 /// Name of variable used in wrappers to hold the result.
@@ -134,7 +134,7 @@ class ResultWrapper {
 }
 
 ResultWrapper getResultWrapper(String returnType) {
-  if (returnType.endsWith("*")) {
+  if (returnType.endsWith('*')) {
     return ResultWrapper.unionType('JniPointerResult', 'NULL');
   }
 
@@ -245,7 +245,7 @@ String? getWrapperFunc(Member field) {
     }
     final callParams = [
       'jniEnv',
-      ...(outerFunctionType.parameters.map((param) => param.name).toList()),
+      ...outerFunctionType.parameters.map((param) => param.name).toList(),
       if (withVarArgs) 'args',
     ].join(', ');
     final resultWrapper = getResultWrapper(returnType);

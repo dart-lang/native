@@ -11,13 +11,13 @@ import 'logging.dart';
 
 class Paths {
   static final currentDir = Directory.current.uri;
-  static final bindingsDir = currentDir.resolve("lib/src/third_party/");
+  static final bindingsDir = currentDir.resolve('lib/src/third_party/');
   // Contains extensions for our C wrapper types.
   static final globalEnvExts =
-      bindingsDir.resolve("global_env_extensions.dart");
+      bindingsDir.resolve('global_env_extensions.dart');
   // Contains extensions for JNI's struct types.
   static final localEnvExts =
-      bindingsDir.resolve("jnienv_javavm_extensions.dart");
+      bindingsDir.resolve('jnienv_javavm_extensions.dart');
 }
 
 const writeLocalEnvExtensions = false;
@@ -44,7 +44,7 @@ String getCheckedGetter(Type returnType) {
     return 'getPointer<$child>()';
   }
   final cType = returnType.getCType(dummyWriter);
-  if (cType.endsWith("ArrayPtr")) {
+  if (cType.endsWith('ArrayPtr')) {
     return objectPointerGetter;
   }
   const mappings = {

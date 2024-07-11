@@ -58,13 +58,13 @@ void run({required TestRunnerCallback testRunner}) {
             // like in original, while other extension methods
             // follow Dart naming conventions.
             final integerClass =
-                env.FindClass("java/lang/Integer".toNativeChars(arena));
+                env.FindClass('java/lang/Integer'.toNativeChars(arena));
             // Refer JNI spec on how to construct method signatures
             // Passing wrong signature leads to a segfault
             final hexMethod = env.GetStaticMethodID(
                 integerClass,
-                "toHexString".toNativeChars(arena),
-                "(I)Ljava/lang/String;".toNativeChars(arena));
+                'toHexString'.toNativeChars(arena),
+                '(I)Ljava/lang/String;'.toNativeChars(arena));
 
             for (var i in [1, 80, 13, 76, 11344]) {
               // if your argument is int, bool, or JObject (`Pointer<Void>`)
@@ -88,8 +88,8 @@ void run({required TestRunnerCallback testRunner}) {
             env.DeleteGlobalRef(integerClass);
           }));
 
-  testRunner("asJString extension method", () {
-    const str = "QWERTY QWERTY";
+  testRunner('asJString extension method', () {
+    const str = 'QWERTY QWERTY';
     // convenience method that wraps
     // converting dart string to native string,
     // instantiating java string, and freeing the native string
@@ -102,12 +102,12 @@ void run({required TestRunnerCallback testRunner}) {
       'GlobalJniEnv should catch exceptions',
       () => using((arena) {
             final integerClass =
-                env.FindClass("java/lang/Integer".toNativeChars(arena));
+                env.FindClass('java/lang/Integer'.toNativeChars(arena));
             final parseIntMethod = env.GetStaticMethodID(
                 integerClass,
-                "parseInt".toNativeChars(arena),
-                "(Ljava/lang/String;)I".toNativeChars(arena));
-            final args = toJValues(["hello".toJString()..releasedBy(arena)],
+                'parseInt'.toNativeChars(arena),
+                '(Ljava/lang/String;)I'.toNativeChars(arena));
+            final args = toJValues(['hello'.toJString()..releasedBy(arena)],
                 allocator: arena);
             expect(
                 () => env.CallStaticIntMethodA(
@@ -116,9 +116,9 @@ void run({required TestRunnerCallback testRunner}) {
           }));
 
   testRunner(
-      "Convert back & forth between Dart & Java strings (UTF-8)",
+      'Convert back & forth between Dart & Java strings (UTF-8)',
       () => using((arena) {
-            const str = "ABCD EFGH";
+            const str = 'ABCD EFGH';
             final jstr = env.NewStringUTF(str.toNativeChars(arena));
             final jchars = env.GetStringUTFChars(jstr, nullptr);
             final jlen = env.GetStringUTFLength(jstr);
@@ -129,9 +129,9 @@ void run({required TestRunnerCallback testRunner}) {
           }));
 
   testRunner(
-      "Convert back & forth between Dart & Java strings (UTF-16)",
+      'Convert back & forth between Dart & Java strings (UTF-16)',
       () => using((arena) {
-            const str = "ABCD EFGH";
+            const str = 'ABCD EFGH';
             final jstr = env.NewString(str.toNativeUtf16().cast(), str.length);
             final jchars = env.GetStringChars(jstr, nullptr);
             final jlen = env.GetStringLength(jstr);
@@ -142,21 +142,21 @@ void run({required TestRunnerCallback testRunner}) {
           }));
 
   testRunner(
-      "Print something from Java",
+      'Print something from Java',
       () => using((arena) {
             final system =
-                env.FindClass("java/lang/System".toNativeChars(arena));
+                env.FindClass('java/lang/System'.toNativeChars(arena));
             final field = env.GetStaticFieldID(
                 system,
-                "out".toNativeChars(arena),
-                "Ljava/io/PrintStream;".toNativeChars(arena));
+                'out'.toNativeChars(arena),
+                'Ljava/io/PrintStream;'.toNativeChars(arena));
             final out = env.GetStaticObjectField(system, field);
             final printStream = env.GetObjectClass(out);
             final println = env.GetMethodID(
                 printStream,
-                "println".toNativeChars(arena),
-                "(Ljava/lang/String;)V".toNativeChars(arena));
-            const str = "\nHello World from JNI!";
+                'println'.toNativeChars(arena),
+                '(Ljava/lang/String;)V'.toNativeChars(arena));
+            const str = '\nHello World from JNI!';
             final jstr = env.toJStringPtr(str);
             env.CallVoidMethodA(
                 out, println, toJValues([jstr], allocator: arena));
@@ -167,13 +167,13 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner(
       'Env create reference methods should retain their default behavior', () {
     final systemClass = using((arena) {
-      return env.FindClass("java/lang/System".toNativeChars(arena));
+      return env.FindClass('java/lang/System'.toNativeChars(arena));
     });
     final systemOut = using((arena) {
       final outField = env.GetStaticFieldID(
           systemClass,
-          "out".toNativeChars(arena),
-          "Ljava/io/PrintStream;".toNativeChars(arena));
+          'out'.toNativeChars(arena),
+          'Ljava/io/PrintStream;'.toNativeChars(arena));
       return env.GetStaticObjectField(systemClass, outField);
     });
     var refType = env.GetObjectRefType(systemOut);
@@ -195,7 +195,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('long methods return long int without loss of precision', () {
     using((arena) {
-      final longClass = env.FindClass("java/lang/Long".toNativeChars(arena));
+      final longClass = env.FindClass('java/lang/Long'.toNativeChars(arena));
       final maxField = env.GetStaticFieldID(
         longClass,
         'MAX_VALUE'.toNativeChars(arena),
@@ -210,15 +210,15 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('class <-> object methods', () {
     using((arena) {
       final systemClass =
-          env.FindClass("java/lang/System".toNativeChars(arena));
+          env.FindClass('java/lang/System'.toNativeChars(arena));
       final outField = env.GetStaticFieldID(
           systemClass,
-          "out".toNativeChars(arena),
-          "Ljava/io/PrintStream;".toNativeChars(arena));
+          'out'.toNativeChars(arena),
+          'Ljava/io/PrintStream;'.toNativeChars(arena));
       final errField = env.GetStaticFieldID(
           systemClass,
-          "err".toNativeChars(arena),
-          "Ljava/io/PrintStream;".toNativeChars(arena));
+          'err'.toNativeChars(arena),
+          'Ljava/io/PrintStream;'.toNativeChars(arena));
       final systemOut = env.GetStaticObjectField(systemClass, outField);
       final systemErr = env.GetStaticObjectField(systemClass, errField);
       final outClass = env.GetObjectClass(systemOut);
