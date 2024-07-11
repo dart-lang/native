@@ -1,1 +1,1 @@
-export "PDFTextStripper.dart";
+export 'PDFTextStripper.dart';

@@ -72,8 +72,8 @@ class AndroidSdkConfig {
     this.androidExample,
   }) {
     if (versions != null && sdkRoot == null) {
-      throw ConfigException("No SDK Root specified for finding Android SDK "
-          "from version priority list $versions");
+      throw ConfigException('No SDK Root specified for finding Android SDK '
+          'from version priority list $versions');
     }
     if (versions == null && !addGradleDeps && !addGradleSources) {
       throw ConfigException('Neither any SDK versions nor `addGradleDeps` '
@@ -249,17 +249,17 @@ void _validateClassName(String className) {
   final parts = className.split('.');
   assert(parts.isNotEmpty);
   const nestedClassesInfo =
-      "Nested classes cannot be specified separately. Specifying the "
-      "parent class will pull the nested classes.";
+      'Nested classes cannot be specified separately. Specifying the '
+      'parent class will pull the nested classes.';
   if (parts.length > 1 && _isCapitalized(parts[parts.length - 2])) {
     // Try to detect possible nested classes specified using dot notation eg:
     // `com.package.Class.NestedClass` and emit a warning.
-    log.warning("It appears a nested class $className is specified in the "
-        "config. $nestedClassesInfo");
+    log.warning('It appears a nested class $className is specified in the '
+        'config. $nestedClassesInfo');
   }
   if (className.contains('\$')) {
     throw ConfigException(
-        "Nested class $className not allowed. $nestedClassesInfo");
+        'Nested class $className not allowed. $nestedClassesInfo');
   }
 }
 
@@ -310,7 +310,7 @@ class Config {
   /// need to be explicitly specified.
   List<Uri>? sourcePath;
 
-  /// class path for scanning java libraries. If [backend] is `asm`, the
+  /// class path for scanning java libraries. If `backend` is `asm`, the
   /// specified classpath is used to search for [classes], otherwise it's
   /// merely used by the doclet API to find transitively referenced classes,
   /// but not the specified classes / packages themselves.
@@ -370,9 +370,7 @@ class Config {
       try {
         final symbolsFile = File.fromUri(yamlUri);
         final content = symbolsFile.readAsStringSync();
-        yaml = loadYaml(content, sourceUrl: yamlUri);
-      } on UnsupportedError catch (_) {
-        log.fatal('Could not reference "$import".');
+        yaml = loadYaml(content, sourceUrl: yamlUri) as YamlMap;
       } catch (e, s) {
         log.warning(e);
         log.warning(s);
@@ -401,13 +399,13 @@ class Config {
             binaryName: binaryName,
           )
             ..path = '$importPath/$filePath'
-            ..finalName = decl['name']
-            ..typeClassName = decl['type_class']
-            ..superCount = decl['super_count']
+            ..finalName = decl['name'] as String
+            ..typeClassName = decl['type_class'] as String
+            ..superCount = decl['super_count'] as int
             ..allTypeParams = []
             ..parent = null;
           for (final typeParamEntry
-              in ((decl['type_params'] as YamlMap?)?.entries) ??
+              in (decl['type_params'] as YamlMap?)?.entries ??
                   <MapEntry<dynamic, dynamic>>[]) {
             final typeParamName = typeParamEntry.key as String;
             final bounds = (typeParamEntry.value as YamlMap).entries.map((e) {
@@ -452,7 +450,9 @@ class Config {
   Uri? _configRoot;
 
   /// Log verbosity. The possible values in decreasing order of verbosity
-  /// are verbose > debug > info > warning > error. Defaults to [LogLevel.info]
+  /// are verbose > debug > info > warning > error.
+  ///
+  /// Defaults to [Level.INFO].
   Level logLevel = Level.INFO;
 
   /// File to which JSON summary is written before binding generation.
@@ -464,7 +464,7 @@ class Config {
   static Config parseArgs(List<String> args) {
     final prov = YamlReader.parseArgs(args);
 
-    final List<String> missingValues = [];
+    final missingValues = <String>[];
 
     T must<T>(T? Function(String) f, T ifNull, String property) {
       final res = f(property);
@@ -478,7 +478,7 @@ class Config {
     MemberFilter<T>? regexFilter<T extends ClassMember>(String property) {
       final exclusions = prov.getStringList(property);
       if (exclusions == null) return null;
-      final List<MemberFilter<T>> filters = [];
+      final filters = <MemberFilter<T>>[];
       for (var exclusion in exclusions) {
         final split = exclusion.split('#');
         if (split.length != 2) {
@@ -543,7 +543,7 @@ class Config {
       experiments: prov
           .getStringList(_Props.experiments)
           ?.map(
-            (e) => Experiment.fromString(e),
+            Experiment.fromString,
           )
           .toSet(),
       imports: prov.getPathList(_Props.import),

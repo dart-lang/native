@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../logging/logging.dart';
+
 class Experiment {
   static const available = [
     interfaceImplementation,
@@ -27,11 +29,11 @@ class Experiment {
   factory Experiment.fromString(String s) {
     final search = available.where((element) => element.name == s);
     if (search.isEmpty) {
-      throw 'The experiment $s is not available in this version.';
+      log.fatal('The experiment $s is not available in this version.');
     }
     final result = search.single;
     if (result.isExpired) {
-      throw 'The experiment $s can no longer be used in this version.';
+      log.fatal('The experiment $s can no longer be used in this version.');
     }
     return result;
   }

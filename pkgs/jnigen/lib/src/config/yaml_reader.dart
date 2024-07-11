@@ -5,8 +5,8 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:yaml/yaml.dart';
 import 'package:cli_config/cli_config.dart' as cli_config;
+import 'package:yaml/yaml.dart';
 
 import 'config_exception.dart';
 
@@ -40,7 +40,7 @@ class YamlReader {
     }
 
     final results = parser.parse(args);
-    if (results['help']) {
+    if (results['help'] as bool) {
       stderr.writeln(parser.usage);
       exit(1);
     }
@@ -57,8 +57,8 @@ class YamlReader {
     }
     final regex = RegExp('([a-z-_.]+)=(.+)');
     final properties = <String, String>{};
-    for (var prop in results['override']) {
-      final match = regex.matchAsPrefix(prop as String);
+    for (var prop in results['override'] as List<String>) {
+      final match = regex.matchAsPrefix(prop);
       if (match != null && match.group(0) == prop) {
         final propertyName = match.group(1);
         final propertyValue = match.group(2);
@@ -68,7 +68,7 @@ class YamlReader {
       }
     }
     final config = cli_config.Config.fromConfigFileContents(
-      commandLineDefines: results['override'],
+      commandLineDefines: results['override'] as List<String>,
       workingDirectory: Directory.current.uri,
       environment: Platform.environment,
       fileContents: configFileContents,

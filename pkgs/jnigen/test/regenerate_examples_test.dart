@@ -4,20 +4,12 @@
 
 import 'dart:io';
 
-import 'package:test/test.dart';
-import 'package:path/path.dart' hide equals;
-
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/tools.dart';
+import 'package:path/path.dart' hide equals;
+import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
-
-final inAppJava = join('example', 'in_app_java');
-final inAppJavaYaml = join(inAppJava, 'jnigen.yaml');
-final notificationPlugin = join('example', 'notification_plugin');
-final notificationPluginYaml = join(notificationPlugin, 'jnigen.yaml');
-final kotlinPlugin = join('example', 'kotlin_plugin');
-final kotlinPluginYaml = join(kotlinPlugin, 'jnigen.yaml');
 
 /// Generates bindings using jnigen config in [exampleName] and compares
 /// them to provided reference outputs.

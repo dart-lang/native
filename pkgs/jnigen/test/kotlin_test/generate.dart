@@ -4,9 +4,10 @@
 
 import 'dart:io';
 
+import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/logging/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
-import 'package:jnigen/jnigen.dart';
 
 const testName = 'kotlin_test';
 const jarFile = '$testName.jar';
@@ -30,8 +31,8 @@ void compileKotlinSources(String workingDir) async {
     runInShell: true,
   );
   if (procRes.exitCode != 0) {
-    throw "mvn exited with ${procRes.exitCode}\n"
-        "${procRes.stderr}";
+    log.fatal('mvn exited with ${procRes.exitCode}\n'
+        '${procRes.stderr}');
   }
 }
 

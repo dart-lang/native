@@ -2,11 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:test/test.dart';
 import 'package:jni/jni.dart';
+import 'package:test/test.dart';
 
 import '../test_util/callback_types.dart';
-
 import 'third_party/bindings/com/fasterxml/jackson/core/_package.dart';
 
 // This file doesn't define main, because only one JVM has to be spawned with
@@ -31,13 +30,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
         obj.release();
       }
     });
-    test("parsing invalid JSON throws JniException", () {
+    test('parsing invalid JSON throws JniException', () {
       using((arena) {
         final factory = JsonFactory()..releasedBy(arena);
         final erroneous = factory
-            .createParser6("<html>".toJString()..releasedBy(arena))
+            .createParser6('<html>'.toJString()..releasedBy(arena))
           ..releasedBy(arena);
-        expect(() => erroneous.nextToken(), throwsA(isA<JniException>()));
+        expect(erroneous.nextToken, throwsA(isA<JniException>()));
       });
     });
   });
