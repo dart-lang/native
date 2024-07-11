@@ -1,4 +1,4 @@
-## 0.10.0
+## 0.10.1
 
 - Fixed an issue with `JObject.castTo` where the type checking could fail in
   debug mode.
