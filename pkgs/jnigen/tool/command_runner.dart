@@ -71,7 +71,7 @@ class Runner {
 
   void _addCommand(List<Step> list, String exec, List<String> args,
       {Uri? workingDirectory}) {
-    list.add(Command(exec, args, (workingDirectory ?? defaultWorkingDir)));
+    list.add(Command(exec, args, workingDirectory ?? defaultWorkingDir));
   }
 
   void chainCallback(String name, Future<void> Function() callback) {

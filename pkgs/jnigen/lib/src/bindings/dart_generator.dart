@@ -148,6 +148,7 @@ import 'package:jni/jni.dart' as jni;
 // ignore_for_file: overridden_fields
 // ignore_for_file: prefer_double_quotes
 // ignore_for_file: unnecessary_cast
+// ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // ignore_for_file: unused_import
@@ -336,7 +337,7 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     final ctorTypeClassesDef = typeParams
         .map((typeParam) => 'this.$typeParam,')
         .join(_newLine(depth: 2));
-    final superClass = (node.classDecl.superclass!.type as DeclaredType);
+    final superClass = node.classDecl.superclass!.type as DeclaredType;
     final superTypeClassesCall = superClass.classDecl.isObject
         ? ''
         : superClass.params

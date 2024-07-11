@@ -5,6 +5,7 @@
 // coverage:ignore-file
 
 import 'dart:io';
+
 import 'package:logging/logging.dart';
 
 const _ansiRed = '\x1b[31m';
@@ -82,7 +83,7 @@ Logger log = () {
       return;
     }
     var message = '(${r.loggerName}) ${r.level.name}: ${r.message}';
-    if ((r.level == Level.SHOUT || r.level == Level.SEVERE)) {
+    if (r.level == Level.SHOUT || r.level == Level.SEVERE) {
       message = _colorize(message, _ansiRed);
     } else if (r.level == Level.WARNING) {
       message = _colorize(message, _ansiYellow);

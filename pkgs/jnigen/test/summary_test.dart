@@ -139,7 +139,7 @@ void registerCommonTests(Classes classes) {
 
     final listParam = method.params[4];
     expect(listParam.type.kind, equals(Kind.declared));
-    final listType = (listParam.type.type as DeclaredType);
+    final listType = listParam.type.type as DeclaredType;
     expect(listType.binaryName, equals('java.util.List'));
     expect(listType.params, hasLength(1));
     final tType = listType.params[0];
@@ -148,7 +148,7 @@ void registerCommonTests(Classes classes) {
 
     final wildcardMapParam = method.params[5];
     expect(wildcardMapParam.type.kind, equals(Kind.declared));
-    final mapType = (wildcardMapParam.type.type as DeclaredType);
+    final mapType = wildcardMapParam.type.type as DeclaredType;
     expect(mapType.binaryName, equals('java.util.Map'));
     expect(mapType.params, hasLength(2));
     final strType = mapType.params[0];

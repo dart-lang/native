@@ -405,7 +405,7 @@ class Config {
             ..allTypeParams = []
             ..parent = null;
           for (final typeParamEntry
-              in ((decl['type_params'] as YamlMap?)?.entries) ??
+              in (decl['type_params'] as YamlMap?)?.entries ??
                   <MapEntry<dynamic, dynamic>>[]) {
             final typeParamName = typeParamEntry.key as String;
             final bounds = (typeParamEntry.value as YamlMap).entries.map((e) {

@@ -50,7 +50,7 @@ Config getConfig({
         path: Uri.directory(join(rootDir, 'bindings')),
       ),
     ),
-    classes: (generateFullVersion)
+    classes: generateFullVersion
         ? ['com.fasterxml.jackson.core']
         : [
             'com.fasterxml.jackson.core.JsonFactory',
