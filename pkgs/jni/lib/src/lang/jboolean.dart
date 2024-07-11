@@ -10,7 +10,7 @@ final class JBooleanType extends JObjType<JBoolean> {
   const JBooleanType();
 
   @override
-  String get signature => r"Ljava/lang/Boolean;";
+  String get signature => r'Ljava/lang/Boolean;';
 
   @override
   JBoolean fromReference(JReference reference) =>
@@ -37,20 +37,20 @@ class JBoolean extends JObject {
   late final JObjType<JBoolean> $type = type;
 
   JBoolean.fromReference(
-    JReference reference,
-  ) : super.fromReference(reference);
+    super.reference,
+  ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const type = JBooleanType();
 
-  static final _class = JClass.forName(r"java/lang/Boolean");
+  static final _class = JClass.forName(r'java/lang/Boolean');
 
-  static final _ctorId = _class.constructorId(r"(Z)V");
+  static final _ctorId = _class.constructorId(r'(Z)V');
   JBoolean(bool boolean)
       : super.fromReference(_ctorId(_class, referenceType, [boolean ? 1 : 0]));
 
   static final _booleanValueId =
-      _class.instanceMethodId(r"booleanValue", r"()Z");
+      _class.instanceMethodId(r'booleanValue', r'()Z');
 
   bool booleanValue({bool releaseOriginal = false}) {
     reference.ensureNotNull();

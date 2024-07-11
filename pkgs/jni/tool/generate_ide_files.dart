@@ -21,14 +21,15 @@ void runCommand(String exec, List<String> args, String workingDirectory) {
   if (process.exitCode != 0) {
     stdout.writeln(process.stdout);
     stderr.writeln(process.stderr);
-    throw "command failed with exit code ${process.exitCode}";
+    stderr.writeln('command failed with exit code ${process.exitCode}');
+    exit(-1);
   }
 }
 
 void main(List<String> arguments) {
   final argParser = ArgParser()
     ..addOption(
-      "generator",
+      'generator',
       abbr: 'G',
       help: 'Generator to pass to CMake. (Either "ninja" or "make").',
       allowed: [ninjaGenerator, makefilesGenerator],
@@ -44,20 +45,20 @@ void main(List<String> arguments) {
     return;
   }
   final generator = cmakeGeneratorNames[argResults['generator']];
-  final tempDir = Directory.current.createTempSync("clangd_setup_temp_");
-  final src = Directory.current.uri.resolve("src/");
+  final tempDir = Directory.current.createTempSync('clangd_setup_temp_');
+  final src = Directory.current.uri.resolve('src/');
   try {
     runCommand(
-        "cmake",
+        'cmake',
         [
-          "-DCMAKE_EXPORT_COMPILE_COMMANDS=1",
+          '-DCMAKE_EXPORT_COMPILE_COMMANDS=1',
           src.toFilePath(),
-          "-G",
+          '-G',
           generator!,
         ],
         tempDir.path);
-    final createdFile = tempDir.uri.resolve("compile_commands.json");
-    final target = src.resolve("compile_commands.json");
+    final createdFile = tempDir.uri.resolve('compile_commands.json');
+    final target = src.resolve('compile_commands.json');
     File.fromUri(createdFile).renameSync(target.toFilePath());
   } finally {
     tempDir.deleteSync(recursive: true);
