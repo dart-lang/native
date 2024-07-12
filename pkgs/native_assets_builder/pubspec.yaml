@@ -13,9 +13,9 @@ dependencies:
   collection: ^1.18.0
   graphs: ^2.3.1
   logging: ^1.2.0
-  # native_assets_cli: ^0.7.0
-  native_assets_cli:
-    path: ../native_assets_cli/
+  native_assets_cli: ^0.7.1
+  # native_assets_cli:
+  #   path: ../native_assets_cli/
   package_config: ^2.1.0
   yaml: ^3.1.2
   yaml_edit: ^2.1.0
