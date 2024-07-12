@@ -5,9 +5,11 @@ import 'package:swift2objc/src/generator/_core/utils.dart';
 String generateClass(ClassDeclaration declaration) {
   final lines = [
     _generateClassHeader(declaration),
-    _generateClassWrappedInstance(declaration),
-    _generateClassInitializer(declaration),
-    ..._generateClassMethods(declaration),
+    [
+      _generateClassWrappedInstance(declaration),
+      _generateClassInitializer(declaration),
+      ..._generateClassMethods(declaration),
+    ].join("\n\n").indent(),
     "}",
   ].nonNulls.toList();
 
@@ -57,9 +59,9 @@ String? _generateClassInitializer(ClassDeclaration declaration) {
 
   return [
     "init(${generateParameters(initializer.params)}) {",
-    ...initializer.statements,
+    initializer.statements.join("\n").indent(),
     "}"
-  ].toList().join("\n");
+  ].join("\n");
 }
 
 List<String> _generateClassMethods(ClassDeclaration declaration) {
@@ -78,7 +80,11 @@ List<String> _generateClassMethods(ClassDeclaration declaration) {
 
       header += " {";
 
-      return [header, ...method.statements, "}"].join("\n");
+      return [
+        header,
+        method.statements.join("\n").indent(),
+        "}",
+      ].join("\n");
     },
   ).toList();
 }
