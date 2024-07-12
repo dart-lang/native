@@ -32,11 +32,13 @@ objc-interfaces:
     - NSMutableData
     - NSMutableDictionary
     - NSMutableIndexSet
+    - NSMutableOrderedSet
     - NSMutableSet
     - NSMutableString
     - NSNotification
     - NSNumber
     - NSObject
+    - NSOrderedSet
     - NSProxy
     - NSSet
     - NSString
@@ -63,6 +65,9 @@ enums:
     - NSEnumerationOptions
     - NSItemProviderFileOptions
     - NSItemProviderRepresentationVisibility
+    - NSKeyValueChange
+    - NSKeyValueObservingOptions
+    - NSKeyValueSetMutationKind
     - NSOrderedCollectionDifferenceCalculationOptions
     - NSSortOptions
     - NSStringCompareOptions
