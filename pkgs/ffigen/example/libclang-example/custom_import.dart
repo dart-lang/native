@@ -6,8 +6,8 @@ import 'dart:ffi';
 
 /// Represents a native unsigned pointer-sized integer in C.
 ///
-/// [UintPtr] is not constructible in the Dart code and serves purely as marker in
-/// type signatures.
+/// [UintPtr] is not constructible in the Dart code and serves purely as marker
+/// in type signatures.
 @AbiSpecificIntegerMapping({
   Abi.androidArm: Uint32(),
   Abi.androidArm64: Uint64(),
@@ -34,8 +34,8 @@ final class UintPtr extends AbiSpecificInteger {
 
 /// `unsigned long` in C.
 ///
-/// [UnsignedLong] is not constructible in the Dart code and serves purely as marker in
-/// type signatures.
+/// [UnsignedLong] is not constructible in the Dart code and serves purely as
+/// marker in type signatures.
 @AbiSpecificIntegerMapping({
   Abi.androidArm: Uint32(),
   Abi.androidArm64: Uint64(),

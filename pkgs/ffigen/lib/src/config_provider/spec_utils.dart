@@ -86,8 +86,8 @@ Map<String, ImportedType> symbolFileImportExtractor(
     final formatVersion = symbolFile[strings.formatVersion] as String;
     if (formatVersion.split('.')[0] !=
         strings.symbolFileFormatVersion.split('.')[0]) {
-      _logger.severe(
-          'Incompatible format versions for file $symbolFilePath: ${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).');
+      _logger.severe('Incompatible format versions for file $symbolFilePath: '
+          '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).');
       exit(1);
     }
     final uniqueNamer = UniqueNamer(libraryImports.keys
@@ -417,15 +417,15 @@ String llvmPathExtractor(List<String> value) {
       return completeDylibPath;
     }
   }
-  _logger.fine(
-      "Couldn't find dynamic library under paths specified by ${strings.llvmPath}.");
+  _logger.fine("Couldn't find dynamic library under paths specified by "
+      "${strings.llvmPath}.");
   // Extract path from default locations.
   try {
     final res = findDylibAtDefaultLocations();
     return res;
   } catch (e) {
-    _logger.severe(
-        "Couldn't find ${p.join(strings.dynamicLibParentName, strings.dylibFileName)} in specified locations.");
+    final path = p.join(strings.dynamicLibParentName, strings.dylibFileName);
+    _logger.severe("Couldn't find $path in specified locations.");
     exit(1);
   }
 }
@@ -454,16 +454,17 @@ SymbolFile symbolFileOutputExtractor(
   value = value as Map;
   var output = value[strings.output] as String;
   if (Uri.parse(output).scheme != "package") {
-    _logger.warning(
-        'Consider using a Package Uri for ${strings.symbolFile} -> ${strings.output}: $output so that external packages can use it.');
+    _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
+        '${strings.output}: $output so that external packages can use it.');
     output = _normalizePath(output, configFilename);
   } else {
     output = packageConfig!.resolve(Uri.parse(output))!.toFilePath();
   }
   final importPath = value[strings.importPath] as String;
   if (Uri.parse(importPath).scheme != "package") {
-    _logger.warning(
-        'Consider using a Package Uri for ${strings.symbolFile} -> ${strings.importPath}: $importPath so that external packages can use it.');
+    _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
+        '${strings.importPath}: $importPath so that external packages '
+        'can use it.');
   }
   return SymbolFile(importPath, output);
 }

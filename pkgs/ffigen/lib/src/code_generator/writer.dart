@@ -281,19 +281,21 @@ class Writer {
       s.write('class $_className{\n');
       // Write dylib.
       s.write('/// Holds the symbol lookup function.\n');
-      s.write(
-          'final $ffiLibraryPrefix.Pointer<T> Function<T extends $ffiLibraryPrefix.NativeType>(String symbolName) $lookupFuncIdentifier;\n');
+      s.write('final $ffiLibraryPrefix.Pointer<T> Function<T extends '
+          '$ffiLibraryPrefix.NativeType>(String symbolName) '
+          '$lookupFuncIdentifier;\n');
       s.write('\n');
       //Write doc comment for wrapper class constructor.
       s.write(makeDartDoc('The symbols are looked up in [dynamicLibrary].'));
       // Write wrapper class constructor.
-      s.write(
-          '$_className($ffiLibraryPrefix.DynamicLibrary dynamicLibrary): $lookupFuncIdentifier = dynamicLibrary.lookup;\n\n');
+      s.write('$_className($ffiLibraryPrefix.DynamicLibrary dynamicLibrary): '
+          '$lookupFuncIdentifier = dynamicLibrary.lookup;\n\n');
       //Write doc comment for wrapper class named constructor.
       s.write(makeDartDoc('The symbols are looked up with [lookup].'));
       // Write wrapper class named constructor.
-      s.write(
-          '$_className.fromLookup($ffiLibraryPrefix.Pointer<T> Function<T extends $ffiLibraryPrefix.NativeType>(String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n');
+      s.write('$_className.fromLookup($ffiLibraryPrefix.Pointer<T> '
+          'Function<T extends $ffiLibraryPrefix.NativeType>('
+          'String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n');
       for (final b in lookUpBindings) {
         s.write(b.toBindingString(this).string);
       }
@@ -332,8 +334,13 @@ class Writer {
 
     // Warn about Enum usage in API surface.
     if (!silenceEnumWarning && usedEnumCType) {
-      _logger.severe(
-          "The integer type used for enums is implementation-defined. FFIgen tries to mimic the integer sizes chosen by the most common compilers for the various OS and architecture combinations. To prevent any crashes, remove the enums from your API surface. To rely on the (unsafe!) mimicking, you can silence this warning by adding silence-enum-warning: true to the FFIgen config.");
+      _logger.severe("The integer type used for enums is "
+          "implementation-defined. FFIgen tries to mimic the integer sizes "
+          "chosen by the most common compilers for the various OS and "
+          "architecture combinations. To prevent any crashes, remove the "
+          "enums from your API surface. To rely on the (unsafe!) mimicking, "
+          "you can silence this warning by adding silence-enum-warning: true "
+          "to the FFIgen config.");
     }
 
     _canGenerateSymbolOutput = true;
@@ -349,16 +356,16 @@ class Writer {
   Map<String, dynamic> generateSymbolOutputYamlMap(String importFilePath) {
     final bindings = _allBindings;
     if (!canGenerateSymbolOutput) {
-      throw Exception(
-          "Invalid state: generateSymbolOutputYamlMap() called before generate()");
+      throw Exception("Invalid state: generateSymbolOutputYamlMap() "
+          "called before generate()");
     }
 
     // Warn for macros.
     final hasMacroBindings = bindings.any(
         (element) => element is Constant && element.usr.contains('@macro@'));
     if (hasMacroBindings) {
-      _logger.info(
-          'Removing all Macros from symbol file since they cannot be cross referenced reliably.');
+      _logger.info('Removing all Macros from symbol file since they cannot '
+          'be cross referenced reliably.');
     }
 
     // Remove internal bindings and macros.
@@ -459,8 +466,8 @@ class SymbolAddressWriter {
       // Write Library object.
       sb.write('final ${w._className} ${w._symbolAddressLibraryVarName};\n');
       // Write Constructor.
-      sb.write(
-          '${w._symbolAddressClassName}(this.${w._symbolAddressLibraryVarName});\n');
+      sb.write('${w._symbolAddressClassName}('
+          'this.${w._symbolAddressLibraryVarName});\n');
     } else {
       // Native bindings are top-level, so we don't need a field here.
       sb.write('const ${w._symbolAddressClassName}();');

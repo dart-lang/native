@@ -82,7 +82,8 @@ class EnumClass extends BindingType {
   /// See [scanForDuplicates] and [writeUniqueMembers].
   final Set<EnumConstant> uniqueMembers = {};
 
-  /// Returns a string to declare the enum member and any documentation it may have had.
+  /// Returns a string to declare the enum member and any documentation it may
+  /// have had.
   String formatValue(EnumConstant ec) {
     final buffer = StringBuffer();
     final enumValueName = namer.makeUnique(ec.name);
@@ -100,8 +101,9 @@ class EnumClass extends BindingType {
   ///
   /// Since all enum values in Dart are distinct, these duplicates do not
   /// get their own values in Dart. Rather, they are aliases of the original
-  /// value. For example, if a native enum has 2 constants with a value of 10, only
-  /// one enum value will be generated in Dart, and the other will be set equal to it.
+  /// value. For example, if a native enum has 2 constants with a value of 10,
+  /// only one enum value will be generated in Dart, and the other will be set
+  /// equal to it.
   void scanForDuplicates() {
     uniqueMembers.clear();
     uniqueToDuplicates.clear();
@@ -132,7 +134,8 @@ class EnumClass extends BindingType {
 
   /// Writes alias declarations for all members with duplicate values.
   ///
-  /// Eg, C: `banana = 10, yellow_fruit = 10`. Dart: `static const yellow_fruit = banana`.
+  /// Eg, C: `banana = 10, yellow_fruit = 10`.
+  /// Dart: `static const yellow_fruit = banana`.
   void writeDuplicateMembers(StringBuffer s) {
     if (duplicateToOriginal.isEmpty) return;
     for (final entry in duplicateToOriginal.entries) {
@@ -161,15 +164,16 @@ class EnumClass extends BindingType {
 
   /// Overrides [Enum.toString] so all aliases are included, if any.
   ///
-  /// If a native enum has two members with the same value, they are functionally
-  /// identical, and should be represented as such. This method overrides [toString]
-  /// to include all duplicate members in the same message.
+  /// If a native enum has two members with the same value, they are
+  /// functionally identical, and should be represented as such. This method
+  /// overrides [toString] to include all duplicate members in the same message.
   void writeToStringOverride(StringBuffer s) {
     if (duplicateToOriginal.isEmpty) return;
     s.write("$depth@override\n");
     s.write("${depth}String toString() {\n");
     for (final entry in uniqueToDuplicates.entries) {
-      // [!] All enum values were given a name when their declarations were generated
+      // [!] All enum values were given a name when their declarations were
+      // generated.
       final unique = entry.key;
       final originalName = enumNames[unique]!;
       final duplicates = entry.value;
@@ -194,7 +198,8 @@ class EnumClass extends BindingType {
     }
   }
 
-  /// Writes a sealed class when no members exist, because Dart enums cannot be empty.
+  /// Writes a sealed class when no members exist, because Dart enums cannot be
+  /// empty.
   void writeEmptyEnum(StringBuffer s) {
     s.write("sealed class $name { }\n");
   }

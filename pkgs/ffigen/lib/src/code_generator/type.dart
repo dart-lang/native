@@ -81,11 +81,11 @@ abstract class Type {
   /// Returns generated Dart code that converts the given value from its
   /// FfiDartType to its DartType.
   ///
-  /// [value] is the value to be converted. If [objCRetain] is true, the ObjC wrapper object
-  /// will retain (ref count increment) the wrapped object pointer. If this
-  /// conversion is occuring in the context of an ObjC class, then
-  /// [objCEnclosingClass] should be the name of the Dart wrapper class (this is
-  /// used by instancetype).
+  /// [value] is the value to be converted. If [objCRetain] is true, the ObjC
+  /// wrapper object will retain (ref count increment) the wrapped object
+  /// pointer. If this conversion is occuring in the context of an ObjC class,
+  /// then [objCEnclosingClass] should be the name of the Dart wrapper class
+  /// (this is used by instancetype).
   String convertFfiDartTypeToDartType(
     Writer w,
     String value, {

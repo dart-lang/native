@@ -89,8 +89,9 @@ extension CXCursorExt on clang_types.CXCursor {
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
-    final s =
-        '(Cursor) spelling: ${spelling()}, kind: ${kind()}, kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
+    final s = '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
+        'kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, '
+        'typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
     return s;
   }
 
@@ -343,8 +344,8 @@ extension CXTypeExt on clang_types.CXType {
 
   /// For debugging: returns [spelling] [kind] [kindSpelling].
   String completeStringRepr() {
-    final s =
-        '(Type) spelling: ${spelling()}, kind: ${kind()}, kindSpelling: ${kindSpelling()}';
+    final s = '(Type) spelling: ${spelling()}, kind: ${kind()}, '
+        'kindSpelling: ${kindSpelling()}';
     return s;
   }
 
@@ -369,7 +370,8 @@ extension CXStringExt on clang_types.CXString {
 
   /// Converts CXString to dart string and disposes CXString.
   String toStringAndDispose() {
-    // Note: clang_getCString_wrap returns a const char *, calling free will result in error.
+    // Note: clang_getCString_wrap returns a const char *, calling free will
+    // result in error.
     final s = string();
     clang.clang_disposeString(this);
     return s;
@@ -392,7 +394,8 @@ Pointer<Pointer<Utf8>> createDynamicStringArray(List<String> list) {
 }
 
 extension DynamicCStringArray on Pointer<Pointer<Utf8>> {
-  // Properly disposes a Pointer<Pointer<Utf8>, ensure that sure length is correct.
+  // Properly disposes a Pointer<Pointer<Utf8>, ensure that sure length is
+  // correct.
   void dispose(int length) {
     for (var i = 0; i < length; i++) {
       calloc.free(this[i]);
@@ -492,8 +495,8 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        _logger.warning(
-            "No definition found for declaration - ${cursor.completeStringRepr()}");
+        _logger.warning("No definition found for declaration -"
+            "${cursor.completeStringRepr()}");
         return cursor;
       }
     }
@@ -512,7 +515,8 @@ class CursorIndex {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
             _logger.finest(
-                "Missing cursor definition in current translation unit: ${cursor.completeStringRepr()}");
+                "Missing cursor definition in current translation unit: "
+                "${cursor.completeStringRepr()}");
           }
         }
     }

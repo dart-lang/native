@@ -295,7 +295,8 @@ class RegExpMemberRenamer {
 
   @override
   String toString() {
-    return 'DeclarationRegExp: $declarationRegExp, MemberRenamer: $memberRenamer';
+    return 'DeclarationRegExp: $declarationRegExp, '
+        'MemberRenamer: $memberRenamer';
   }
 }
 

@@ -216,8 +216,8 @@ class ObjCMethod {
   }
 
   @override
-  String toString() =>
-      '${isOptional ? "@optional " : ""}$returnType $originalName(${params.join(', ')})';
+  String toString() => '${isOptional ? "@optional " : ""}$returnType '
+      '$originalName(${params.join(', ')})';
 }
 
 class ObjCMethodParam {

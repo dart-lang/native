@@ -107,8 +107,8 @@ Config getConfigFromPubspec(PackageConfig? packageConfig) {
   final pubspecFile = File(pubspecName);
 
   if (!pubspecFile.existsSync()) {
-    _logger.severe(
-        'Error: $pubspecName not found, please run this tool from the root of your package.');
+    _logger.severe('Error: $pubspecName not found, please run this tool from '
+        'the root of your package.');
     exit(1);
   }
 

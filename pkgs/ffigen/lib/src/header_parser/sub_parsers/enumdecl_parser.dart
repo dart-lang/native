@@ -96,8 +96,8 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
   if (hasNegativeEnumConstants) {
     // Change enum native type to signed type.
-    _logger.fine(
-        'For enum $enumUsr - using signed type for $nativeType : ${unsignedToSignedNativeIntType[nativeType]}');
+    _logger.fine('For enum $enumUsr - using signed type for $nativeType : '
+        '${unsignedToSignedNativeIntType[nativeType]}');
     nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;
     enumClass?.nativeType = nativeType;
   }

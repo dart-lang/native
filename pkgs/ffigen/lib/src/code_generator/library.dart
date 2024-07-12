@@ -108,8 +108,8 @@ class Library {
   /// Logs a warning if generated declaration will be private.
   void _warnIfPrivateDeclaration(Binding b) {
     if (b.name.startsWith('_') && !b.isInternal) {
-      _logger.warning(
-          "Generated declaration '${b.name}' starts with '_' and therefore will be private.");
+      _logger.warning("Generated declaration '${b.name}' starts with '_' "
+          "and therefore will be private.");
     }
   }
 
@@ -120,8 +120,8 @@ class Library {
       final oldName = b.name;
       b.name = namer.makeUnique(b.name);
 
-      _logger.warning(
-          "Resolved name conflict: Declaration '$oldName' and has been renamed to '${b.name}'.");
+      _logger.warning("Resolved name conflict: Declaration '$oldName' "
+          "and has been renamed to '${b.name}'.");
     } else {
       namer.markUsed(b.name);
     }
@@ -129,7 +129,8 @@ class Library {
 
   /// Generates [file] by generating C bindings.
   ///
-  /// If format is true(default), the formatter will be called to format the generated file.
+  /// If format is true(default), the formatter will be called to format the
+  /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
     file.writeAsStringSync(generate());

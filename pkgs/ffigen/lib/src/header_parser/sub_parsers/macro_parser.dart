@@ -27,8 +27,8 @@ void saveMacroDefinition(clang_types.CXCursor cursor) {
       clang.clang_Cursor_isMacroFunctionLike(cursor) == 0 &&
       shouldIncludeMacro(macroUsr, originalMacroName)) {
     // Parse macro only if it's not builtin or function-like.
-    _logger.fine(
-        "++++ Saved Macro '$originalMacroName' for later : ${cursor.completeStringRepr()}");
+    _logger.fine("++++ Saved Macro '$originalMacroName' for later : "
+        "${cursor.completeStringRepr()}");
     final prefixedName = config.macroDecl.renameUsingConfig(originalMacroName);
     bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName);
@@ -194,8 +194,8 @@ File createFileForMacros() {
   for (final prefixedMacroName in savedMacros.keys) {
     // Write macro.
     final macroVarName = MacroVariableString.encode(prefixedMacroName);
-    sb.writeln(
-        'auto $macroVarName = ${savedMacros[prefixedMacroName]!.originalName};');
+    sb.writeln('auto $macroVarName = '
+        '${savedMacros[prefixedMacroName]!.originalName};');
     // Add to _macroVarNames.
     _macroVarNames.add(macroVarName);
   }
@@ -248,8 +248,8 @@ String _getWrittenRepresentation(String macroName, Pointer<Char> strPtr) {
   } catch (e) {
     // Handle string if it isn't Utf8. String is considered to be
     // Extended ASCII in this case.
-    _logger.warning(
-        "Couldn't decode Macro string '$macroName' as Utf8, using ASCII instead.");
+    _logger.warning("Couldn't decode Macro string '$macroName' as Utf8, using "
+        "ASCII instead.");
     sb.clear();
     final length = strPtr.cast<Utf8>().length;
     final charList = Uint8List.view(

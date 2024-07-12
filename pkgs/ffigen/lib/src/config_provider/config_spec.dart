@@ -48,8 +48,8 @@ abstract class ConfigSpec<TE extends Object?, RE extends Object?> {
 
   ConfigValue<RE> _extractNode(ConfigValue o);
 
-  /// ConfigSpec objects should call [_getJsonRefOrSchemaNode] instead to get the
-  /// child json schema.
+  /// ConfigSpec objects should call [_getJsonRefOrSchemaNode] instead to get
+  /// the child json schema.
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs);
 
   Map<String, dynamic> _getJsonRefOrSchemaNode(Map<String, dynamic> defs) {
@@ -78,8 +78,8 @@ abstract class ConfigSpec<TE extends Object?, RE extends Object?> {
     return _validateNode(ConfigValue(path: [], value: value));
   }
 
-  /// Extract ConfigSpecNode from [value]. This will call the [transform] for all
-  /// underlying ConfigSpecs if valid.
+  /// Extract ConfigSpecNode from [value]. This will call the [transform] for
+  /// all underlying ConfigSpecs if valid.
   /// Should ideally only be called if [validate] returns True. Throws
   /// [ConfigSpecExtractionError] if any validation fails.
   ConfigValue extract(dynamic value) {
@@ -87,10 +87,12 @@ abstract class ConfigSpec<TE extends Object?, RE extends Object?> {
   }
 }
 
-/// An individual value in a config for a specific [path] instantiated from a [ConfigSpec].
+/// An individual value in a config for a specific [path] instantiated from a
+/// [ConfigSpec].
 ///
-/// A config value contains both the [value] that users of the configuration would want
-/// to use, as well as the [rawValue] that was provided as input to the configuration.
+/// A config value contains both the [value] that users of the configuration
+/// would want to use, as well as the [rawValue] that was provided as input to
+/// the configuration.
 class ConfigValue<TE> {
   /// The path to this node.
   ///
@@ -147,8 +149,8 @@ class ConfigValue<TE> {
   bool checkType<T>({bool log = true}) {
     if (value is! T) {
       if (log) {
-        _logger.severe(
-            "Expected value of key '$pathString' to be of type '$T' (Got ${value.runtimeType}).");
+        _logger.severe("Expected value of key '$pathString' to be of type"
+            " '$T' (Got ${value.runtimeType}).");
       }
       return false;
     }
@@ -430,12 +432,14 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
         // No configSpec matched, running again to print logs this time.
         if (log) {
           _logger.severe(
-              "'${configSpecNode.pathString}' must match atleast one of the allowed key regex and configSpec.");
+              "'${configSpecNode.pathString}' must match atleast one of the "
+              "allowed key regex and configSpec.");
           for (final (keyRegexp: keyRegexp, valueConfigSpec: valueConfigSpec)
               in keyValueConfigSpecs) {
             if (!RegExp(keyRegexp, dotAll: true).hasMatch(key.toString())) {
               _logger.severe(
-                  "'${configSpecNode.pathString}' does not match regex - '$keyRegexp' (Input - $key)");
+                  "'${configSpecNode.pathString}' does not match regex - "
+                  "'$keyRegexp' (Input - $key)");
               continue;
             }
             if (valueConfigSpec._validateNode(configSpecNode, log: log)) {
@@ -593,8 +597,9 @@ class StringConfigSpec<RE extends Object?> extends ConfigSpec<String, RE> {
     }
     if (!(_regexp?.hasMatch(o.value as String) ?? true)) {
       if (log) {
-        _logger.severe(
-            "Expected value of key '${o.pathString}' to match pattern $pattern (Input - ${o.value}).");
+        _logger
+            .severe("Expected value of key '${o.pathString}' to match pattern "
+                "$pattern (Input - ${o.value}).");
       }
       return false;
     }
@@ -687,7 +692,8 @@ class EnumConfigSpec<CE extends Object?, RE extends Object?>
     if (!allowedValues.contains(o.value)) {
       if (log) {
         _logger.severe(
-            "'${o.pathString}' must be one of the following - $allowedValues (Got ${o.value})");
+            "'${o.pathString}' must be one of the following - $allowedValues "
+            "(Got ${o.value})");
       }
       return false;
     }
@@ -760,7 +766,8 @@ class BoolConfigSpec<RE> extends ConfigSpec<bool, RE> {
 
 /// ConfigSpec that requires atleast one underlying match.
 ///
-/// [TE] typecasts the result returned by the the first valid [childConfigSpecs].
+/// [TE] typecasts the result returned by the the first valid
+/// [childConfigSpecs].
 ///
 /// [RE] typecasts result returned by this node.
 class OneOfConfigSpec<TE extends Object?, RE extends Object?>
@@ -789,8 +796,8 @@ class OneOfConfigSpec<TE extends Object?, RE extends Object?>
     }
     // No configSpec matched, running again to print logs this time.
     if (log) {
-      _logger.severe(
-          "'${o.pathString}' must match atleast one of the allowed configSpec -");
+      _logger.severe("'${o.pathString}' must match atleast one of the allowed "
+          "configSpec -");
       for (final spec in childConfigSpecs) {
         spec._validateNode(o, log: log);
       }

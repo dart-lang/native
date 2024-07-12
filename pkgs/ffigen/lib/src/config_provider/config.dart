@@ -131,7 +131,8 @@ class Config {
   Map<String, LibraryImport> get libraryImports => _libraryImports;
   late Map<String, LibraryImport> _libraryImports;
 
-  /// Stores all the symbol file maps name to ImportedType mappings specified by user.
+  /// Stores all the symbol file maps name to ImportedType mappings specified by
+  /// user.
   Map<String, ImportedType> get usrTypeMappings => _usrTypeMappings;
   late Map<String, ImportedType> _usrTypeMappings;
 
@@ -752,7 +753,8 @@ class Config {
       return (node.value as YamlMap).keys.where((key) {
         if (strings.predefinedLibraryImports.containsKey(key)) {
           _logger.severe(
-              '${node.pathString} -> $key should not collide with any predefined imports - ${strings.predefinedLibraryImports.keys}.');
+              '${node.pathString} -> $key should not collide with any '
+              'predefined imports - ${strings.predefinedLibraryImports.keys}.');
           return true;
         }
         return false;
