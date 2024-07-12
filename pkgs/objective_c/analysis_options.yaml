@@ -9,7 +9,3 @@ analyzer:
     strict-casts: true
     strict-inference: true
     strict-raw-types: true
-
-linter:
-  rules:
-    sort_pub_dependencies: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
