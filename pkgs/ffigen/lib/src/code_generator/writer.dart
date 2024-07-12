@@ -354,14 +354,6 @@ class Writer {
       throw Exception(
           "Invalid state: generateSymbolOutputYamlMap() called before generate()");
     }
-    final result = <String, dynamic>{};
-
-    result[strings.formatVersion] = strings.symbolFileFormatVersion;
-    result[strings.files] = <String, dynamic>{};
-    result[strings.files][importFilePath] = <String, dynamic>{};
-
-    final fileConfig = result[strings.files][importFilePath];
-    fileConfig[strings.usedConfig] = <String, dynamic>{};
 
     // Warn for macros.
     final hasMacroBindings = bindings.any(
@@ -370,24 +362,33 @@ class Writer {
       _logger.info(
           'Removing all Macros from symbol file since they cannot be cross referenced reliably.');
     }
+
     // Remove internal bindings and macros.
     bindings.removeWhere((element) {
       return element.isInternal ||
           (element is Constant && element.usr.contains('@macro@'));
     });
+
     // Sort bindings alphabetically by USR.
     bindings.sort((a, b) => a.usr.compareTo(b.usr));
-    fileConfig[strings.usedConfig][strings.ffiNative] = bindings
+
+    final usesFfiNative = bindings
         .whereType<Func>()
         .any((element) => element.ffiNativeConfig.enabled);
-    fileConfig[strings.symbols] = <String, dynamic>{};
-    final symbolConfig = fileConfig[strings.symbols];
-    for (final binding in bindings) {
-      symbolConfig[binding.usr] = {
-        strings.name: binding.name,
-      };
-    }
-    return result;
+
+    return {
+      strings.formatVersion: strings.symbolFileFormatVersion,
+      strings.files: {
+        importFilePath: {
+          strings.usedConfig: {
+            strings.ffiNative: usesFfiNative,
+          },
+          strings.symbols: {
+            for (final b in bindings) b.usr: {strings.name: b.name},
+          },
+        },
+      },
+    };
   }
 
   /// Writes the Objective C code needed for the bindings, if any. Returns null

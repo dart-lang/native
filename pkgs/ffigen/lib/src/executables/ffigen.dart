@@ -115,8 +115,9 @@ Config getConfigFromPubspec(PackageConfig? packageConfig) {
   // Casting this because pubspec is expected to be a YamlMap.
 
   // Throws a [YamlException] if it's unable to parse the Yaml.
-  final bindingsConfigMap =
-      yaml.loadYaml(pubspecFile.readAsStringSync())[configKey] as yaml.YamlMap?;
+  final pubspecYaml =
+      yaml.loadYaml(pubspecFile.readAsStringSync()) as yaml.YamlMap;
+  final bindingsConfigMap = pubspecYaml[configKey] as yaml.YamlMap?;
 
   if (bindingsConfigMap == null) {
     _logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");
