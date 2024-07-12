@@ -38,7 +38,7 @@ void main() {
             name: 'noParam',
             dartDoc: 'Just a test function\nheres another line',
             returnType: NativeType(
-              SupportedNativeType.Int32,
+              SupportedNativeType.int32,
             ),
           ),
           Func(
@@ -48,18 +48,18 @@ void main() {
               Parameter(
                 name: 'a',
                 type: NativeType(
-                  SupportedNativeType.Int32,
+                  SupportedNativeType.int32,
                 ),
               ),
               Parameter(
                 name: 'b',
                 type: NativeType(
-                  SupportedNativeType.Uint8,
+                  SupportedNativeType.uint8,
                 ),
               ),
             ],
             returnType: NativeType(
-              SupportedNativeType.Char,
+              SupportedNativeType.char,
             ),
           ),
           Func(
@@ -70,7 +70,7 @@ void main() {
                 name: 'a',
                 type: PointerType(
                   NativeType(
-                    SupportedNativeType.Int32,
+                    SupportedNativeType.int32,
                   ),
                 ),
               ),
@@ -79,7 +79,7 @@ void main() {
                 type: PointerType(
                   PointerType(
                     NativeType(
-                      SupportedNativeType.Uint8,
+                      SupportedNativeType.uint8,
                     ),
                   ),
                 ),
@@ -87,7 +87,7 @@ void main() {
             ],
             returnType: PointerType(
               NativeType(
-                SupportedNativeType.Double,
+                SupportedNativeType.double,
               ),
             ),
           ),
@@ -100,12 +100,12 @@ void main() {
               Parameter(
                 name: 'a',
                 type: NativeType(
-                  SupportedNativeType.Int32,
+                  SupportedNativeType.int32,
                 ),
               ),
             ],
             returnType: NativeType(
-              SupportedNativeType.Int32,
+              SupportedNativeType.int32,
             ),
           ),
         ],
@@ -130,19 +130,19 @@ void main() {
               Member(
                 name: 'a',
                 type: NativeType(
-                  SupportedNativeType.Int32,
+                  SupportedNativeType.int32,
                 ),
               ),
               Member(
                 name: 'b',
                 type: NativeType(
-                  SupportedNativeType.Double,
+                  SupportedNativeType.double,
                 ),
               ),
               Member(
                 name: 'c',
                 type: NativeType(
-                  SupportedNativeType.Char,
+                  SupportedNativeType.char,
                 ),
               ),
             ],
@@ -154,7 +154,7 @@ void main() {
                 name: 'a',
                 type: PointerType(
                   NativeType(
-                    SupportedNativeType.Int32,
+                    SupportedNativeType.int32,
                   ),
                 ),
               ),
@@ -163,7 +163,7 @@ void main() {
                 type: PointerType(
                   PointerType(
                     NativeType(
-                      SupportedNativeType.Double,
+                      SupportedNativeType.double,
                     ),
                   ),
                 ),
@@ -171,7 +171,7 @@ void main() {
               Member(
                 name: 'c',
                 type: NativeType(
-                  SupportedNativeType.Char,
+                  SupportedNativeType.char,
                 ),
               ),
             ],
@@ -183,7 +183,7 @@ void main() {
                 name: 'a',
                 type: PointerType(
                   NativeType(
-                    SupportedNativeType.UintPtr,
+                    SupportedNativeType.uintPtr,
                   ),
                 ),
               ),
@@ -192,7 +192,7 @@ void main() {
                 type: PointerType(
                   PointerType(
                     NativeType(
-                      SupportedNativeType.IntPtr,
+                      SupportedNativeType.intPtr,
                     ),
                   ),
                 ),
@@ -212,19 +212,19 @@ void main() {
           Member(
             name: 'a',
             type: NativeType(
-              SupportedNativeType.Int32,
+              SupportedNativeType.int32,
             ),
           ),
           Member(
             name: 'b',
             type: NativeType(
-              SupportedNativeType.Double,
+              SupportedNativeType.double,
             ),
           ),
           Member(
             name: 'c',
             type: NativeType(
-              SupportedNativeType.Char,
+              SupportedNativeType.char,
             ),
           ),
         ],
@@ -271,7 +271,7 @@ void main() {
             nativeConfig: nativeConfig,
             name: 'test1',
             type: NativeType(
-              SupportedNativeType.Int32,
+              SupportedNativeType.int32,
             ),
           ),
           Global(
@@ -279,7 +279,7 @@ void main() {
             name: 'test2',
             type: PointerType(
               NativeType(
-                SupportedNativeType.Float,
+                SupportedNativeType.float,
               ),
             ),
             constant: true,
@@ -290,7 +290,7 @@ void main() {
             type: ConstantArray(
               10,
               NativeType(
-                SupportedNativeType.Float,
+                SupportedNativeType.float,
               ),
               useArrayType: nativeConfig.enabled,
             ),
@@ -395,19 +395,19 @@ void main() {
         bindings: [
           Func(
             name: 'test',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
           ),
           Func(
             name: '_test',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
           ),
           Func(
             name: '_c_test',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
           ),
           Func(
             name: '_dart_test',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
           ),
           Struct(
             name: '_Test',
@@ -417,7 +417,7 @@ void main() {
                 type: ConstantArray(
                   2,
                   NativeType(
-                    SupportedNativeType.Int8,
+                    SupportedNativeType.int8,
                   ),
                   // This flag is ignored for struct fields, which always use
                   // inline arrays.
@@ -429,7 +429,7 @@ void main() {
           Struct(name: 'ArrayHelperPrefixCollisionTest'),
           Func(
             name: 'Test',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
           ),
           EnumClass(name: '_c_Test'),
           EnumClass(name: 'init_dylib'),
@@ -449,13 +449,13 @@ void main() {
             ffiNativeConfig: nativeConfig,
             name: 'test',
             originalName: '_test',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
           ),
           Global(
             nativeConfig: nativeConfig,
             name: 'testField',
             originalName: '_testField',
-            type: NativeType(SupportedNativeType.Int16),
+            type: NativeType(SupportedNativeType.int16),
           ),
         ],
       );
@@ -491,8 +491,8 @@ void main() {
       header: licenseHeader,
       sort: true,
       bindings: [
-        Func(name: 'b', returnType: NativeType(SupportedNativeType.Void)),
-        Func(name: 'a', returnType: NativeType(SupportedNativeType.Void)),
+        Func(name: 'b', returnType: NativeType(SupportedNativeType.voidType)),
+        Func(name: 'a', returnType: NativeType(SupportedNativeType.voidType)),
         Struct(name: 'D'),
         Struct(name: 'C'),
       ],
@@ -505,22 +505,22 @@ void main() {
       header: licenseHeader,
       bindings: [
         Struct(name: 'NoPacking', pack: null, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
+          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack1', pack: 1, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
+          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack2', pack: 2, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
+          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack2', pack: 4, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
+          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack2', pack: 8, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
+          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack16', pack: 16, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.Char)),
+          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
       ],
     );
@@ -592,7 +592,7 @@ void main() {
         Func(
             name: 'WithTypealiasStruct',
             returnType: PointerType(NativeFunc(FunctionType(
-                returnType: NativeType(SupportedNativeType.Void),
+                returnType: NativeType(SupportedNativeType.voidType),
                 parameters: []))),
             parameters: [
               Parameter(

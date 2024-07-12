@@ -186,7 +186,7 @@ class HeterogeneousMapEntry {
   });
 }
 
-enum AdditionalProperties { Allow, Warn, Error }
+enum AdditionalProperties { allow, warn, error }
 
 /// ConfigSpec for a Map which has a fixed set of known keys.
 ///
@@ -207,7 +207,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
     super.customValidation,
     super.transform,
     super.result,
-    this.additionalProperties = AdditionalProperties.Warn,
+    this.additionalProperties = AdditionalProperties.warn,
   })  : requiredKeys = {
           for (final kv in entries.where((kv) => kv.required)) kv.key
         },
@@ -245,13 +245,13 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
       }
     }
 
-    if (additionalProperties != AdditionalProperties.Allow) {
+    if (additionalProperties != AdditionalProperties.allow) {
       for (final key in inputMap.keys) {
         if (!allKeys.contains(key)) {
           if (log) {
             _logger.severe("Unknown key - '${[...o.path, key].join(' -> ')}'.");
           }
-          if (additionalProperties == AdditionalProperties.Error) {
+          if (additionalProperties == AdditionalProperties.error) {
             result = false;
           }
         }
@@ -347,7 +347,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
       }
     }
 
-    if (additionalProperties == AdditionalProperties.Error) {
+    if (additionalProperties == AdditionalProperties.error) {
       for (final key in inputMap.keys) {
         if (!allKeys.contains(key)) {
           throw ConfigSpecExtractionError(
@@ -365,7 +365,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
     return {
       "type": "object",
-      if (additionalProperties != AdditionalProperties.Allow)
+      if (additionalProperties != AdditionalProperties.allow)
         "additionalProperties": false,
       if (schemaDescription != null) "description": schemaDescription!,
       if (entries.isNotEmpty)

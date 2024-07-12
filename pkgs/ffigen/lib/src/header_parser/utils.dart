@@ -15,7 +15,7 @@ import 'type_extractor/extractor.dart';
 
 final _logger = Logger('ffigen.header_parser.utils');
 
-const exceptional_visitor_return =
+const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
 typedef _CursorVisitorCallback = Int32 Function(
@@ -188,7 +188,7 @@ extension CXCursorExt on clang_types.CXCursor {
         (clang_types.CXCursor child, clang_types.CXCursor parent,
                 Pointer<Void> clientData) =>
             callback(child, parent),
-        exceptionalReturn: exceptional_visitor_return);
+        exceptionalReturn: exceptionalVisitorReturn);
     final result =
         clang.clang_visitChildren(this, visitor.nativeFunction.cast(), nullptr);
     visitor.close();

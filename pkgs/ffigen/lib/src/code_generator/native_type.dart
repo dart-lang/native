@@ -7,40 +7,40 @@ import 'package:ffigen/src/code_generator.dart';
 import 'writer.dart';
 
 enum SupportedNativeType {
-  Void,
-  Char,
-  Int8,
-  Int16,
-  Int32,
-  Int64,
-  Uint8,
-  Uint16,
-  Uint32,
-  Uint64,
-  Float,
-  Double,
-  IntPtr,
-  UintPtr,
+  voidType,
+  char,
+  int8,
+  int16,
+  int32,
+  int64,
+  uint8,
+  uint16,
+  uint32,
+  uint64,
+  float,
+  double,
+  intPtr,
+  uintPtr,
 }
 
 /// Represents a primitive native type, such as float.
 class NativeType extends Type {
   static const _primitives = <SupportedNativeType, NativeType>{
-    SupportedNativeType.Void: NativeType._('Void', 'void', 'void', null),
-    SupportedNativeType.Char: NativeType._('Uint8', 'int', 'char', '0'),
-    SupportedNativeType.Int8: NativeType._('Int8', 'int', 'int8_t', '0'),
-    SupportedNativeType.Int16: NativeType._('Int16', 'int', 'int16_t', '0'),
-    SupportedNativeType.Int32: NativeType._('Int32', 'int', 'int32_t', '0'),
-    SupportedNativeType.Int64: NativeType._('Int64', 'int', 'int64_t', '0'),
-    SupportedNativeType.Uint8: NativeType._('Uint8', 'int', 'uint8_t', '0'),
-    SupportedNativeType.Uint16: NativeType._('Uint16', 'int', 'uint16_t', '0'),
-    SupportedNativeType.Uint32: NativeType._('Uint32', 'int', 'uint32_t', '0'),
-    SupportedNativeType.Uint64: NativeType._('Uint64', 'int', 'uint64_t', '0'),
-    SupportedNativeType.Float: NativeType._('Float', 'double', 'float', '0.0'),
-    SupportedNativeType.Double:
+    SupportedNativeType.voidType: NativeType._('Void', 'void', 'void', null),
+    SupportedNativeType.char: NativeType._('Uint8', 'int', 'char', '0'),
+    SupportedNativeType.int8: NativeType._('Int8', 'int', 'int8_t', '0'),
+    SupportedNativeType.int16: NativeType._('Int16', 'int', 'int16_t', '0'),
+    SupportedNativeType.int32: NativeType._('Int32', 'int', 'int32_t', '0'),
+    SupportedNativeType.int64: NativeType._('Int64', 'int', 'int64_t', '0'),
+    SupportedNativeType.uint8: NativeType._('Uint8', 'int', 'uint8_t', '0'),
+    SupportedNativeType.uint16: NativeType._('Uint16', 'int', 'uint16_t', '0'),
+    SupportedNativeType.uint32: NativeType._('Uint32', 'int', 'uint32_t', '0'),
+    SupportedNativeType.uint64: NativeType._('Uint64', 'int', 'uint64_t', '0'),
+    SupportedNativeType.float: NativeType._('Float', 'double', 'float', '0.0'),
+    SupportedNativeType.double:
         NativeType._('Double', 'double', 'double', '0.0'),
-    SupportedNativeType.IntPtr: NativeType._('IntPtr', 'int', 'intptr_t', '0'),
-    SupportedNativeType.UintPtr:
+    SupportedNativeType.intPtr: NativeType._('IntPtr', 'int', 'intptr_t', '0'),
+    SupportedNativeType.uintPtr:
         NativeType._('UintPtr', 'int', 'uintptr_t', '0'),
   };
 

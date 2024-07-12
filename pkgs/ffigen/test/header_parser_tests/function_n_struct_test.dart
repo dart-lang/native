@@ -94,7 +94,7 @@ Library expectedLibrary() {
           Parameter(name: 's', type: PointerType(struct2)),
         ],
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
       ),
       Func(
@@ -103,7 +103,7 @@ Library expectedLibrary() {
           Parameter(name: 's', type: PointerType(struct3)),
         ],
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
       ),
       Func(
@@ -112,7 +112,7 @@ Library expectedLibrary() {
           Parameter(name: 'a', type: PointerType(intType)),
         ],
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
       ),
       Struct(name: 'Struct4'),

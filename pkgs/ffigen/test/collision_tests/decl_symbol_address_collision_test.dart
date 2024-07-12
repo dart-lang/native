@@ -22,13 +22,13 @@ void main() {
           EnumClass(name: 'Bindings'),
           Func(
             name: '_library',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
             exposeSymbolAddress: true,
             exposeFunctionTypedefs: true,
           ),
           Func(
             name: '_SymbolAddresses_1',
-            returnType: NativeType(SupportedNativeType.Void),
+            returnType: NativeType(SupportedNativeType.voidType),
             exposeSymbolAddress: true,
           ),
         ],

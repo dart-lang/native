@@ -11,11 +11,11 @@ import 'package:ffigen/src/header_parser/clang_bindings/clang_bindings.dart'
 String get dylibFileName {
   String name;
   if (Platform.isLinux) {
-    name = libclang_dylib_linux;
+    name = libclangDylibLinux;
   } else if (Platform.isMacOS) {
-    name = libclang_dylib_macos;
+    name = libclangDylibMacos;
   } else if (Platform.isWindows) {
-    name = libclang_dylib_windows;
+    name = libclangDylibWindows;
   } else {
     throw Exception('Unsupported Platform.');
   }
@@ -114,31 +114,31 @@ const Map<Object, int?> packingValuesMap = {
 };
 
 // Sizemap values.
-const SChar = 'char';
-const UChar = 'unsigned char';
-const Short = 'short';
-const UShort = 'unsigned short';
-const Int = 'int';
-const UInt = 'unsigned int';
-const Long = 'long';
-const ULong = 'unsigned long';
-const LongLong = 'long long';
-const ULongLong = 'unsigned long long';
-const Enum = 'enum';
+const sChar = 'char';
+const uChar = 'unsigned char';
+const short = 'short';
+const uShort = 'unsigned short';
+const intType = 'int';
+const uInt = 'unsigned int';
+const long = 'long';
+const uLong = 'unsigned long';
+const longLong = 'long long';
+const uLongLong = 'unsigned long long';
+const enumType = 'enum';
 
 // Used for validation and extraction of sizemap.
-const sizemap_native_mapping = <String, int>{
-  SChar: clang.CXTypeKind.CXType_SChar,
-  UChar: clang.CXTypeKind.CXType_UChar,
-  Short: clang.CXTypeKind.CXType_Short,
-  UShort: clang.CXTypeKind.CXType_UShort,
-  Int: clang.CXTypeKind.CXType_Int,
-  UInt: clang.CXTypeKind.CXType_UInt,
-  Long: clang.CXTypeKind.CXType_Long,
-  ULong: clang.CXTypeKind.CXType_ULong,
-  LongLong: clang.CXTypeKind.CXType_LongLong,
-  ULongLong: clang.CXTypeKind.CXType_ULongLong,
-  Enum: clang.CXTypeKind.CXType_Enum
+const sizemapNativeMapping = <String, int>{
+  sChar: clang.CXTypeKind.CXType_SChar,
+  uChar: clang.CXTypeKind.CXType_UChar,
+  short: clang.CXTypeKind.CXType_Short,
+  uShort: clang.CXTypeKind.CXType_UShort,
+  intType: clang.CXTypeKind.CXType_Int,
+  uInt: clang.CXTypeKind.CXType_UInt,
+  long: clang.CXTypeKind.CXType_Long,
+  uLong: clang.CXTypeKind.CXType_ULong,
+  longLong: clang.CXTypeKind.CXType_LongLong,
+  uLongLong: clang.CXTypeKind.CXType_ULongLong,
+  enumType: clang.CXTypeKind.CXType_Enum
 };
 
 // Library imports.
@@ -185,19 +185,19 @@ const lib = 'lib';
 const cType = 'c-type';
 const dartType = 'dart-type';
 
-const supportedNativeType_mappings = <String, SupportedNativeType>{
-  'Void': SupportedNativeType.Void,
-  'Uint8': SupportedNativeType.Uint8,
-  'Uint16': SupportedNativeType.Uint16,
-  'Uint32': SupportedNativeType.Uint32,
-  'Uint64': SupportedNativeType.Uint64,
-  'Int8': SupportedNativeType.Int8,
-  'Int16': SupportedNativeType.Int16,
-  'Int32': SupportedNativeType.Int32,
-  'Int64': SupportedNativeType.Int64,
-  'IntPtr': SupportedNativeType.IntPtr,
-  'Float': SupportedNativeType.Float,
-  'Double': SupportedNativeType.Double,
+const supportedNativeTypeMappings = <String, SupportedNativeType>{
+  'Void': SupportedNativeType.voidType,
+  'Uint8': SupportedNativeType.uint8,
+  'Uint16': SupportedNativeType.uint16,
+  'Uint32': SupportedNativeType.uint32,
+  'Uint64': SupportedNativeType.uint64,
+  'Int8': SupportedNativeType.int8,
+  'Int16': SupportedNativeType.int16,
+  'Int32': SupportedNativeType.int32,
+  'Int64': SupportedNativeType.int64,
+  'IntPtr': SupportedNativeType.intPtr,
+  'Float': SupportedNativeType.float,
+  'Double': SupportedNativeType.double,
 };
 
 // Boolean flags.
@@ -227,9 +227,9 @@ const description = 'description';
 const preamble = 'preamble';
 
 // Dynamic library names.
-const libclang_dylib_linux = 'libclang.so';
-const libclang_dylib_macos = 'libclang.dylib';
-const libclang_dylib_windows = 'libclang.dll';
+const libclangDylibLinux = 'libclang.so';
+const libclangDylibMacos = 'libclang.dylib';
+const libclangDylibWindows = 'libclang.dll';
 
 // Dynamic library default locations.
 const linuxDylibLocations = {

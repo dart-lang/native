@@ -169,7 +169,7 @@ Library expectedLibrary() {
         name: '${functionPrefix}func1',
         originalName: 'func1',
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
         parameters: [
           Parameter(
@@ -182,7 +182,7 @@ Library expectedLibrary() {
         name: 'func2',
         originalName: 'test_func2',
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
         parameters: [
           Parameter(
@@ -195,7 +195,7 @@ Library expectedLibrary() {
         name: 'func3',
         originalName: 'fullMatch_func3',
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
         parameters: [
           Parameter(
@@ -208,7 +208,7 @@ Library expectedLibrary() {
         name: '${functionPrefix}memberRename_func4',
         originalName: 'memberRename_func4',
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
         parameters: [
           Parameter(
@@ -229,7 +229,7 @@ Library expectedLibrary() {
         name: '${functionPrefix}typedefRenameFunc',
         originalName: 'typedefRenameFunc',
         returnType: NativeType(
-          SupportedNativeType.Void,
+          SupportedNativeType.voidType,
         ),
         parameters: [
           Parameter(

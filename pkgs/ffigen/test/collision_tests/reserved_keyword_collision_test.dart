@@ -20,7 +20,8 @@ void main() {
         Struct(name: 'if'),
         EnumClass(name: 'return'),
         EnumClass(name: 'export'),
-        Func(name: 'show', returnType: NativeType(SupportedNativeType.Void)),
+        Func(
+            name: 'show', returnType: NativeType(SupportedNativeType.voidType)),
         Func(
             name: 'implements',
             parameters: [
@@ -37,13 +38,13 @@ void main() {
                 name: 'in',
               ),
             ],
-            returnType: NativeType(SupportedNativeType.Void)),
+            returnType: NativeType(SupportedNativeType.voidType)),
         Constant(
           name: 'else',
           rawType: 'int',
           rawValue: '0',
         ),
-        Typealias(name: 'var', type: NativeType(SupportedNativeType.Void)),
+        Typealias(name: 'var', type: NativeType(SupportedNativeType.voidType)),
       ]);
       matchLibraryWithExpected(
           library, 'reserved_keyword_collision_test_output.dart', [

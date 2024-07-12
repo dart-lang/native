@@ -36,16 +36,16 @@ Map<Type, ImportedType?> signedToUnsignedNativeIntType = Map.fromEntries(
             e.value as Type, cxTypeKindToImportedTypes['unsigned ${e.key}'])));
 
 var suportedTypedefToSuportedNativeType = <String, SupportedNativeType>{
-  'uint8_t': SupportedNativeType.Uint8,
-  'uint16_t': SupportedNativeType.Uint16,
-  'uint32_t': SupportedNativeType.Uint32,
-  'uint64_t': SupportedNativeType.Uint64,
-  'int8_t': SupportedNativeType.Int8,
-  'int16_t': SupportedNativeType.Int16,
-  'int32_t': SupportedNativeType.Int32,
-  'int64_t': SupportedNativeType.Int64,
-  'intptr_t': SupportedNativeType.IntPtr,
-  'uintptr_t': SupportedNativeType.UintPtr,
+  'uint8_t': SupportedNativeType.uint8,
+  'uint16_t': SupportedNativeType.uint16,
+  'uint32_t': SupportedNativeType.uint32,
+  'uint64_t': SupportedNativeType.uint64,
+  'int8_t': SupportedNativeType.int8,
+  'int16_t': SupportedNativeType.int16,
+  'int32_t': SupportedNativeType.int32,
+  'int64_t': SupportedNativeType.int64,
+  'intptr_t': SupportedNativeType.intPtr,
+  'uintptr_t': SupportedNativeType.uintPtr,
 };
 
 var supportedTypedefToImportedType = <String, ImportedType>{

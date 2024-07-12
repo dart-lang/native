@@ -89,28 +89,28 @@ Library expectedLibrary() {
     bindings: [
       Global(type: BooleanType(), name: 'coolGlobal'),
       Global(
-        type: NativeType(SupportedNativeType.Int32),
+        type: NativeType(SupportedNativeType.int32),
         name: 'myInt',
         exposeSymbolAddress: true,
       ),
       Global(
-        type: PointerType(NativeType(SupportedNativeType.Int32)),
+        type: PointerType(NativeType(SupportedNativeType.int32)),
         name: 'aGlobalPointer0',
         exposeSymbolAddress: true,
       ),
       Global(
-        type: PointerType(NativeType(SupportedNativeType.Int32)),
+        type: PointerType(NativeType(SupportedNativeType.int32)),
         name: 'aGlobalPointer1',
         exposeSymbolAddress: true,
         constant: true,
       ),
       Global(
-        type: PointerType(NativeType(SupportedNativeType.Int32)),
+        type: PointerType(NativeType(SupportedNativeType.int32)),
         name: 'aGlobalPointer2',
         exposeSymbolAddress: true,
       ),
       Global(
-        type: PointerType(NativeType(SupportedNativeType.Int32)),
+        type: PointerType(NativeType(SupportedNativeType.int32)),
         name: 'aGlobalPointer3',
         exposeSymbolAddress: true,
         constant: true,
