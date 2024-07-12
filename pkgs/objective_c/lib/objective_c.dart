@@ -9,13 +9,13 @@ export 'src/ns_string.dart';
 export 'src/protocol_builder.dart';
 export 'src/c_bindings_generated.dart'
     show
-        ObjCSelector,
-        ObjCObject,
         ObjCBlock,
-        objectRetain,
-        objectRelease,
+        ObjCObject,
+        ObjCSelector,
         blockCopy,
-        blockRelease;
+        blockRelease,
+        objectRelease,
+        objectRetain;
 
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
