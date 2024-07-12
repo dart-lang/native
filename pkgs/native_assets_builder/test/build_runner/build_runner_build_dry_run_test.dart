@@ -54,17 +54,18 @@ void main() async {
         }
       }
 
-      final nativeAssetsBuilderDir =
+      final nativeAssetsBuilderDirectory =
           packageUri.resolve('.dart_tool/native_assets_builder/');
-      final buildDirs = Directory.fromUri(nativeAssetsBuilderDir).list();
-      await for (final dir in buildDirs) {
-        if (dir is! Directory) {
+      final buildDirectories =
+          Directory.fromUri(nativeAssetsBuilderDirectory).list();
+      await for (final directory in buildDirectories) {
+        if (directory is! Directory) {
           expect(
-            File.fromUri(dir.uri.resolve('config.json')),
+            File.fromUri(directory.uri.resolve('config.json')),
             exists,
           );
           expect(
-            File.fromUri(dir.uri.resolve('out/build_output.json')),
+            File.fromUri(directory.uri.resolve('out/build_output.json')),
             exists,
           );
         }

@@ -619,6 +619,7 @@ ${e.message}
       mustCompile = true;
       sourceLastChange = DateTime.now();
     } else {
+      // Format: `path/to/my.dill: path/to/my.dart, path/to/more.dart`
       final depFileContents = await depFile.readAsString();
       final dartSourceFiles = depFileContents
           .trim()

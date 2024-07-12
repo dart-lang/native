@@ -68,7 +68,7 @@ abstract final class BuildOutput {
   /// If any of the files in [dependencies] are modified after [timestamp], the
   /// build will be re-run.
   ///
-  /// The (transitive) Dart sources do not have to be aded to these
+  /// The (transitive) Dart sources do not have to be added to these
   /// dependencies, only non-Dart files. (Note that old Dart and Flutter SDKs
   /// do not automatically add the Dart sources. So builds get wrongly cached,
   /// try updating to the latest release.)
