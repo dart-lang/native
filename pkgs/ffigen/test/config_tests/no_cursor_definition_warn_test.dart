@@ -9,8 +9,6 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
-late Library actual, expected;
-
 void main() {
   var logString = '';
   group('no_cursor_definition_warn_test', () {

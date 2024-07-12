@@ -13,8 +13,6 @@ import 'package:json_schema/json_schema.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
-late Library actual, expected;
-
 void main() {
   group('json_schema_test', () {
     final schema = Config.getsRootConfigSpec()

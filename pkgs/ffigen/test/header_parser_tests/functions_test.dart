@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
-late Library actual, expected;
+late Library actual;
 
 void main() {
   group('functions_test', () {

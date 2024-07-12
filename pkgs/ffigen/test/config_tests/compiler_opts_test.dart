@@ -4,14 +4,11 @@
 
 import 'dart:io';
 
-import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/spec_utils.dart';
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-
-late Library actual, expected;
 
 void main() {
   group('compiler_opts_test', () {

@@ -92,8 +92,7 @@ Config getConfig(ArgResults result, PackageConfig? packageConfig) {
   // Add compiler options from command line.
   if (result.wasParsed(compilerOpts)) {
     _logger.fine('Passed compiler opts - "${result[compilerOpts]}"');
-    config.addCompilerOpts(result[compilerOpts] as String,
-        highPriority: true);
+    config.addCompilerOpts(result[compilerOpts] as String, highPriority: true);
   }
 
   if (result.wasParsed(ignoreSourceErrors)) {

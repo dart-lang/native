@@ -9,8 +9,6 @@ import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
-late Library actual, expected;
-
 void main() {
   group('packed_struct_override_test', () {
     test('Invalid Packed Config values', () {

@@ -27,4 +27,3 @@ linter:
     prefer_final_locals: true
     prefer_final_in_for_each: true
     use_super_parameters: true
-    unreachable_from_main: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
