@@ -176,7 +176,7 @@ bool _isValidClass(Pointer<c.ObjCObject> clazz) {
   final count = countPtr.value;
   calloc.free(countPtr);
   _allClasses.clear();
-  for (int i = 0; i < count; ++i) {
+  for (var i = 0; i < count; ++i) {
     _allClasses.add(classList[i]);
   }
   calloc.free(classList);
@@ -280,7 +280,7 @@ Pointer<Void> _registerBlockClosure(Function closure) {
 
 /// Only for use by ffigen bindings.
 Function getBlockClosure(Pointer<c.ObjCBlock> block) {
-  int id = block.ref.target.address;
+  var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!;
 }
