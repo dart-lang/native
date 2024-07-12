@@ -7,11 +7,11 @@ library;
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:yaml/yaml.dart';
 
+import '../code_generator.dart';
 import '../strings.dart' as strings;
 import 'config_spec.dart';
 import 'config_types.dart';

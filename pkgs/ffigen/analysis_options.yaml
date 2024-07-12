@@ -27,7 +27,6 @@ linter:
     prefer_final_locals: true
     prefer_final_in_for_each: true
     use_super_parameters: true
-    prefer_relative_imports: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     prefer_single_quotes: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix.
     type_annotate_public_apis: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix
     unnecessary_parenthesis: false # TODO(https://github.com/dart-lang/native/issues/1281): Fix

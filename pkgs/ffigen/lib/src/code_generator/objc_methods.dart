@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/src/code_generator.dart';
 import 'package:logging/logging.dart';
 
+import '../code_generator.dart';
 import 'utils.dart';
 import 'writer.dart';
 

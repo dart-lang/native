@@ -5,11 +5,11 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
+import '../code_generator.dart';
+import '../config_provider/config_types.dart';
 import 'utils.dart';
 import 'writer.dart';
 

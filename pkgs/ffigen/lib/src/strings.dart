@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser/clang_bindings/clang_bindings.dart'
-    as clang;
+import 'code_generator.dart';
+import 'header_parser/clang_bindings/clang_bindings.dart' as clang;
 
 /// Name of the dynamic library file according to current platform.
 String get dylibFileName {

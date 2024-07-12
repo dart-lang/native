@@ -4,9 +4,6 @@
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/code_generator/utils.dart';
-import 'package:ffigen/src/header_parser/type_extractor/cxtypekindmap.dart';
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
@@ -15,6 +12,9 @@ import 'package:path/path.dart' as p;
 import 'package:quiver/pattern.dart' as quiver;
 import 'package:yaml/yaml.dart';
 
+import '../code_generator.dart';
+import '../code_generator/utils.dart';
+import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';
 

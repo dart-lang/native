@@ -7,9 +7,9 @@ library;
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
+import '../code_generator.dart';
 import 'path_finder.dart';
 
 enum Language { c, objc }

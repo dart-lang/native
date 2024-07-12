@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
-import 'package:ffigen/src/code_generator.dart' show SupportedNativeType, Type;
-import 'package:ffigen/src/code_generator/imports.dart';
+import '../../code_generator.dart' show SupportedNativeType, Type;
+import '../../code_generator/imports.dart';
 
 var cxTypeKindToImportedTypes = <String, ImportedType>{
   'void': voidType,

@@ -7,10 +7,11 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:cli_util/cli_logging.dart' show Ansi;
-import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
+
+import '../../ffigen.dart';
 
 final _logger = Logger('ffigen.ffigen');
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);

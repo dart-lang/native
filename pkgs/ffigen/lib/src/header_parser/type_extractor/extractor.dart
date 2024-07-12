@@ -5,19 +5,19 @@
 /// Extracts code_gen Type from type.
 library;
 
-import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/function_type_param_parser.dart';
-import 'package:ffigen/src/header_parser/sub_parsers/typedefdecl_parser.dart';
-import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
 
+import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../sub_parsers/compounddecl_parser.dart';
 import '../sub_parsers/enumdecl_parser.dart';
+import '../sub_parsers/function_type_param_parser.dart';
 import '../sub_parsers/objc_block_parser.dart';
 import '../sub_parsers/objcinterfacedecl_parser.dart';
+import '../sub_parsers/typedefdecl_parser.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
 
