@@ -12,7 +12,6 @@ analyzer:
 
 linter:
   rules:
-    avoid_dynamic_calls: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
     combinators_ordering: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix.
     comment_references: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
     directives_ordering: false # TODO(https://github.com/dart-lang/native/issues/1280): Fix
