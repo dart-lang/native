@@ -124,9 +124,7 @@ class NativeFunc extends Type {
   // Either a FunctionType or a Typealias of a FunctionType.
   final Type _type;
 
-  NativeFunc(this._type) {
-    assert(_type is FunctionType || _type is Typealias);
-  }
+  NativeFunc(this._type) : assert(_type is FunctionType || _type is Typealias);
 
   FunctionType get type {
     if (_type is Typealias) {

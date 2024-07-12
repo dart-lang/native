@@ -11,9 +11,7 @@ import 'writer.dart';
 class ObjCNullable extends Type {
   Type child;
 
-  ObjCNullable(this.child) {
-    assert(isSupported(child));
-  }
+  ObjCNullable(this.child) : assert(isSupported(child));
 
   static bool isSupported(Type type) =>
       type is ObjCInterface ||
