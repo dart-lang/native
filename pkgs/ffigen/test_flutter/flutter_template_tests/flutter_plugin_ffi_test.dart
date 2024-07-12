@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 120))
+library;
 
 import 'dart:convert';
 import 'dart:io';
