@@ -29,7 +29,7 @@ ${strings.headers}:
 
     test('Remove deeply nested unsupported types', () {
       expect(() => actual.getBindingAsString('funcNestedUnimplemented'),
-          throwsA(TypeMatcher<NotFoundException>()));
+          throwsA(const TypeMatcher<NotFoundException>()));
     });
 
     test('Expected bindings', () {

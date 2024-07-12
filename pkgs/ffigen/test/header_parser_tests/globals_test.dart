@@ -61,11 +61,11 @@ ${strings.ignoreSourceErrors}: true
 
     test('Ignore global values', () {
       expect(() => actual.getBindingAsString('GlobalIgnore'),
-          throwsA(TypeMatcher<NotFoundException>()));
+          throwsA(const TypeMatcher<NotFoundException>()));
       expect(() => actual.getBindingAsString('longDouble'),
-          throwsA(TypeMatcher<NotFoundException>()));
+          throwsA(const TypeMatcher<NotFoundException>()));
       expect(() => actual.getBindingAsString('pointerToLongDouble'),
-          throwsA(TypeMatcher<NotFoundException>()));
+          throwsA(const TypeMatcher<NotFoundException>()));
     });
 
     test('identifies constant globals', () {

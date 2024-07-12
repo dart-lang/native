@@ -60,7 +60,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
   @override
   BindingString toBindingString(Writer w) {
     if (_isBuiltIn) {
-      return BindingString(type: BindingStringType.objcInterface, string: '');
+      return const BindingString(
+          type: BindingStringType.objcInterface, string: '');
     }
 
     String paramsToString(List<ObjCMethodParam> params,

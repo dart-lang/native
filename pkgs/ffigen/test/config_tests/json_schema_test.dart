@@ -22,7 +22,7 @@ void main() {
 
     test('Schema Changes', () {
       final actualJsonSchema =
-          JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
+          const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
         Config.getsRootConfigSpec()
             .generateJsonSchema(strings.ffigenJsonSchemaId),
       );

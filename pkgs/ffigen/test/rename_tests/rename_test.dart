@@ -268,32 +268,32 @@ Library expectedLibrary() {
       EnumClass(
         name: '${enumPrefix}Enum1',
         enumConstants: [
-          EnumConstant(name: 'a', value: 0),
-          EnumConstant(name: 'b', value: 1),
-          EnumConstant(name: 'c', value: 2),
+          const EnumConstant(name: 'a', value: 0),
+          const EnumConstant(name: 'b', value: 1),
+          const EnumConstant(name: 'c', value: 2),
         ],
       ),
       EnumClass(
         name: 'Enum2',
         enumConstants: [
-          EnumConstant(name: 'e', value: 0),
-          EnumConstant(name: 'f', value: 1),
-          EnumConstant(name: 'g', value: 2),
+          const EnumConstant(name: 'e', value: 0),
+          const EnumConstant(name: 'f', value: 1),
+          const EnumConstant(name: 'g', value: 2),
         ],
       ),
       EnumClass(
         name: 'Enum3',
         enumConstants: [
-          EnumConstant(name: 'i', value: 0),
-          EnumConstant(name: 'j', value: 1),
-          EnumConstant(name: 'k', value: 2),
+          const EnumConstant(name: 'i', value: 0),
+          const EnumConstant(name: 'j', value: 1),
+          const EnumConstant(name: 'k', value: 2),
         ],
       ),
       EnumClass(
         name: '${enumPrefix}MemberRenameEnum4',
         enumConstants: [
-          EnumConstant(name: 'underscore', value: 0),
-          EnumConstant(name: 'fullMatchSuccess', value: 1),
+          const EnumConstant(name: 'underscore', value: 0),
+          const EnumConstant(name: 'fullMatchSuccess', value: 1),
         ],
       ),
       Constant(

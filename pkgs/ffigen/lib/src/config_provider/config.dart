@@ -221,7 +221,7 @@ class Config {
     final ffigenConfigSpec = config._getRootConfigSpec();
     final result = ffigenConfigSpec.validate(map);
     if (!result) {
-      throw FormatException('Invalid configurations provided.');
+      throw const FormatException('Invalid configurations provided.');
     }
 
     ffigenConfigSpec.extract(map);
@@ -734,7 +734,7 @@ class Config {
             ],
             transform: (node) => ffiNativeExtractor(node.value),
           ),
-          defaultValue: (node) => FfiNativeConfig(enabled: false),
+          defaultValue: (node) => const FfiNativeConfig(enabled: false),
           resultOrDefault: (node) =>
               _ffiNativeConfig = (node.value) as FfiNativeConfig,
         ),

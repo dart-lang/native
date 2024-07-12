@@ -24,11 +24,11 @@ ${strings.structs}:
   ${strings.structPack}:
     ''';
       expect(() => testConfig("$baseYaml'.*': null"),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(const TypeMatcher<FormatException>()));
       expect(() => testConfig("$baseYaml'.*': 3"),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(const TypeMatcher<FormatException>()));
       expect(() => testConfig("$baseYaml'.*': 32"),
-          throwsA(TypeMatcher<FormatException>()));
+          throwsA(const TypeMatcher<FormatException>()));
     });
     test('Override values', () {
       final config = testConfig('''

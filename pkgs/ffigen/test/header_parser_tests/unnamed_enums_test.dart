@@ -45,11 +45,11 @@ ${strings.unnamedEnums}:
 
     test('Ignore unnamed enums inside typedefs', () {
       expect(() => actual.getBindingAsString('E'),
-          throwsA(TypeMatcher<NotFoundException>()));
+          throwsA(const TypeMatcher<NotFoundException>()));
       expect(() => actual.getBindingAsString('F'),
-          throwsA(TypeMatcher<NotFoundException>()));
+          throwsA(const TypeMatcher<NotFoundException>()));
       expect(() => actual.getBindingAsString('G'),
-          throwsA(TypeMatcher<NotFoundException>()));
+          throwsA(const TypeMatcher<NotFoundException>()));
     });
   });
 }

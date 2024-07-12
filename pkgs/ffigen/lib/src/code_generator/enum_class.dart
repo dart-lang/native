@@ -225,7 +225,7 @@ class EnumClass extends BindingType {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     if (_isBuiltIn) {
-      return BindingString(type: BindingStringType.enum_, string: '');
+      return const BindingString(type: BindingStringType.enum_, string: '');
     }
     scanForDuplicates();
 

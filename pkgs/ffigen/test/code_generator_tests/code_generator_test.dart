@@ -21,9 +21,12 @@ void main() {
     void withAndWithoutNative(
         String description, void Function(FfiNativeConfig) runTest) {
       group(description, () {
-        test('without Native', () => runTest(FfiNativeConfig(enabled: false)));
-        test('with Native',
-            () => runTest(FfiNativeConfig(enabled: true, assetId: 'test')));
+        test('without Native',
+            () => runTest(const FfiNativeConfig(enabled: false)));
+        test(
+            'with Native',
+            () =>
+                runTest(const FfiNativeConfig(enabled: true, assetId: 'test')));
       });
     }
 
@@ -344,11 +347,11 @@ void main() {
             name: 'Constants',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              EnumConstant(
+              const EnumConstant(
                 name: 'a',
                 value: 10,
               ),
-              EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
+              const EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
             ],
           ),
         ],
@@ -365,17 +368,17 @@ void main() {
             name: 'Duplicates',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              EnumConstant(
+              const EnumConstant(
                 name: 'a',
                 value: 0,
                 dartDoc: "This is a unique value",
               ),
-              EnumConstant(
+              const EnumConstant(
                 name: 'b',
                 value: 1,
                 dartDoc: "This is an original value",
               ),
-              EnumConstant(
+              const EnumConstant(
                 name: 'c',
                 value: 1,
                 dartDoc: "This is a duplicate value",
@@ -439,7 +442,7 @@ void main() {
     });
 
     test('Adds Native symbol on mismatch', () {
-      final nativeConfig = FfiNativeConfig(enabled: true);
+      final nativeConfig = const FfiNativeConfig(enabled: true);
       final library = Library(
         name: 'init_dylib',
         header:
