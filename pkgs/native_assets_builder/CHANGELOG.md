@@ -1,4 +1,4 @@
-## 0.8.1-wip
+## 0.8.1
 
 - `BuildRunner` now automatically invokes build hooks again if any of their Dart
   sources changed.
